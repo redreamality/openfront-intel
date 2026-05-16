@@ -8,68 +8,68 @@ const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
 ---
 
-<BaseLayout title="军事：攻防与战斗" description="OpenFront.io 攻防 mag/speed 系数、防御工事增益、大军减益、背叛惩罚公式。">
-  <PageHeader eyebrow="MECHANICS · 03" title="军事：攻防与战斗" lead="攻防本质是两个数：mag（破甲）与 speed（推进）。地形、建筑、人口规模都在这两个数上乘系数。" />
+<BaseLayout title="Military: Combat & Defense" description="OpenFront.io attack/defense mag/speed modifiers, defense post bonuses, large army penalties, betrayal debuffs.">
+  <PageHeader eyebrow="MECHANICS · 03" title="Military: Combat & Defense" lead="Combat boils down to two numbers: mag (armor penetration) and speed (advance rate). Terrain, buildings, and population all multiply these values." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>地形系数</h2>
-    <FormulaBlock label="地形 mag / speed" items={[
-      { name: '平原 Plains', expr: 'mag = 80, speed = 16.5' },
-      { name: '高地 Highland', expr: 'mag = 100, speed = 20' },
-      { name: '山地 Mountain', expr: 'mag = 120, speed = 25' },
+    <h2>Terrain Modifiers</h2>
+    <FormulaBlock label="Terrain mag / speed" items={[
+      { name: 'Plains', expr: 'mag = 80, speed = 16.5' },
+      { name: 'Highland', expr: 'mag = 100, speed = 20' },
+      { name: 'Mountain', expr: 'mag = 120, speed = 25' },
     ]} />
-    <p>mag 越大、攻方损失越多；speed 越大、推进越慢。<strong>山地最难啃，平原最好推</strong>。v24 加入了「地形操纵」机制，可一定程度改变邻接 tile 的地形从而影响攻防。</p>
+    <p>Higher mag = more attacker losses; higher speed = slower advance. <strong>Mountains are hardest to crack, plains are easiest</strong>. v24 added "terrain manipulation" allowing limited modification of adjacent tile terrain.</p>
 
-    <h2>防御工事（DefensePost）</h2>
-    <Callout type="spec" title="范围 30 tiles 内">
-      <p>mag ×5、speed ×3——一座 DefensePost 几乎能让一段平原变成山地。<strong>瓶颈位（海峡、地峡）放 1~2 座足以拖住一个对手</strong>。</p>
+    <h2>Defense Posts</h2>
+    <Callout type="spec" title="Within 30 tiles range">
+      <p>mag ×5, speed ×3—a single DefensePost can turn plains into effective mountains. <strong>1-2 posts at chokepoints (straits, isthmuses) can hold off an entire opponent</strong>.</p>
     </Callout>
 
-    <h2>大军减益（防守方人口越多越弱）</h2>
+    <h2>Large Army Penalty (Defender)</h2>
     <FormulaBlock label={def.label} items={def.items} />
-    <p>关键常量 <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>。当防守方 tiles 接近或超过该值，防御从 1.0 衰减到 0.7：</p>
+    <p>Key constant: <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>. As defender tiles approach or exceed this, defense decays from 1.0 to 0.7:</p>
     <ul>
-      <li>50k tiles：几乎无衰减。</li>
-      <li>150k tiles：衰减一半（midpoint）。</li>
-      <li>300k tiles：接近最小防御 0.7×。</li>
+      <li>50k tiles: almost no decay.</li>
+      <li>150k tiles: half decay (midpoint).</li>
+      <li>300k tiles: approaching minimum 0.7×.</li>
     </ul>
-    <p>这是 OpenFront「不会有永远赢的大国」的核心机制——领土滚大后吃不动也守不住。</p>
+    <p>This is OpenFront's core "no permanent superpower" mechanic—grow too large and you can't push or hold.</p>
 
-    <h2>攻方大规模加成</h2>
-    <p>当攻击方 tiles > 100k 时：<code>bonus = (100k / tiles)^0.7</code>。本质是给大势力加一点 <strong>边际推进力</strong>，让他们能压住小势力，但同时 maxTroops 不会爆炸增长。</p>
+    <h2>Large Army Bonus (Attacker)</h2>
+    <p>When attacker tiles > 100k: <code>bonus = (100k / tiles)^0.7</code>. Gives large powers slight <strong>marginal push advantage</strong> to pressure smaller opponents, while maxTroops doesn't explode.</p>
 
-    <h2>背叛减益</h2>
-    <Callout type="warn" title="撕毁同盟的代价">
-      <p>对盟友发起攻击 = 进入背叛者状态：</p>
+    <h2>Betrayal Debuffs</h2>
+    <Callout type="warn" title="Cost of Breaking Alliance">
+      <p>Attacking an ally = entering betrayer state:</p>
       <ul>
-        <li>防御 ×0.5（自己被打更疼）</li>
-        <li>推进速度 ×0.8</li>
-        <li>持续 300 ticks（30 秒）</li>
-        <li>触发对方 + 全图自动禁运</li>
+        <li>Defense ×0.5 (you take more damage)</li>
+        <li>Advance speed ×0.8</li>
+        <li>Lasts 300 ticks (30 seconds)</li>
+        <li>Triggers auto-embargo from target + entire map</li>
       </ul>
-      <p>因此「叛盟突袭」要么<strong>一击致命</strong>（30 秒内拿下对方核心城市），要么<strong>别开始</strong>。</p>
+      <p>Therefore "betrayal rush" must either <strong>kill in 30 seconds</strong> (capture their core cities) or <strong>don't start</strong>.</p>
     </Callout>
 
-    <h2>人口与攻击</h2>
+    <h2>Population & Attack</h2>
     <FormulaBlock label={troops.label} items={troops.items} />
-    <p>简化结论：</p>
+    <p>Simplified takeaways:</p>
     <ul>
-      <li>低人口（troops &lt; 30% maxTroops）增长极快——大胆扩张。</li>
-      <li>高人口（troops &gt; 80% maxTroops）增长几乎停滞——立刻发起攻击或新建 City 抬升 maxTroops。</li>
+      <li>Low population (troops &lt; 30% maxTroops) grows extremely fast—expand aggressively.</li>
+      <li>High population (troops &gt; 80% maxTroops) growth nearly stops—attack immediately or build City to raise maxTroops.</li>
     </ul>
 
-    <h2>战舰海战</h2>
+    <h2>Naval Combat</h2>
     <ul>
-      <li>战舰生命 1000，血量 &le; 750 自动撤回港口修补。</li>
-      <li>Shell 伤害 250，3 发即可击杀一艘满血战舰。</li>
-      <li>v24 战舰<strong>优先攻击运输船</strong>，命中后立即冷却——意味着海岸登陆部队几乎打不过一艘战舰巡逻。</li>
+      <li>Warship HP 1000, auto-retreats to port for repair at ≤750 HP.</li>
+      <li>Shell damage 250, 3 hits kill a full-health warship.</li>
+      <li>v24 warships <strong>prioritize transport ships</strong>, cooldown resets on hit—one patrolling warship can wipe an entire landing fleet.</li>
     </ul>
 
-    <h2>战斗 checklist</h2>
+    <h2>Combat Checklist</h2>
     <ul>
-      <li>📍 攻击前看地形：尽量挑平原边缘下手。</li>
-      <li>🏰 看对方 DefensePost：覆盖瓶颈时换路。</li>
-      <li>📊 看双方 tiles：你 100k vs 对方 200k，你享有攻方加成，但他防御已衰减；正面战<strong>反而对你有利</strong>。</li>
-      <li>🤝 别背刺：除非能 30 秒打死对方，背刺通常自损更大。</li>
+      <li>📍 Check terrain before attacking: target plains edges.</li>
+      <li>🏰 Check enemy DefensePosts: if covering chokepoint, find another route.</li>
+      <li>📊 Compare tiles: you 100k vs them 200k means you get attacker bonus while their defense is decayed; head-on <strong>actually favors you</strong>.</li>
+      <li>🤝 Don't betray: unless you can kill them in 30 seconds, betrayal usually hurts you more.</li>
     </ul>
   </article>
 </BaseLayout>

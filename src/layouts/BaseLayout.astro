@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
 
 export interface Props {
   title: string;
@@ -10,20 +11,26 @@ export interface Props {
   noindex?: boolean;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const htmlLang = getHtmlLang(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const alternates = getAlternateLanguages(Astro.url.pathname, base);
+
 const {
   title,
-  description = 'OpenFront.io 中文情报站：机制、数据库、地图、攻略。',
+  description = t('site.description'),
   ogImage,
   noindex = false,
 } = Astro.props;
 
-const siteName = 'OpenFront 情报站';
+const siteName = t('site.title');
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 ---
 
 <!doctype html>
-<html lang="zh-CN" class="dark">
+<html lang={htmlLang} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,14 +52,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
+    {alternates.map(({ lang: altLang, href }) => (
+      <link rel="alternate" hreflang={getHtmlLang(altLang)} href={new URL(href, Astro.site ?? Astro.url).toString()} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.find(a => a.lang === 'en')?.href ?? '/', Astro.site ?? Astro.url).toString()} />
+
     <slot name="head" />
   </head>
   <body class="flex flex-col">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-cannon-600 focus:px-3 focus:py-2 focus:text-sm focus:text-iron-950">跳到主内容</a>
-    <Header />
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-cannon-600 focus:px-3 focus:py-2 focus:text-sm focus:text-iron-950">{t('a11y.skipToMain')}</a>
+    <Header lang={lang} />
     <main id="main" class="flex-1">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

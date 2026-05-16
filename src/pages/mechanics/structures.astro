@@ -6,60 +6,60 @@ import Callout from '../../components/Callout.astro';
 import structures from '../../data/structures.json';
 ---
 
-<BaseLayout title="建筑：6 种核心结构" description="City、Port、Factory、DefensePost、SAMLauncher、MissileSilo 的造价、用途与升级。">
-  <PageHeader eyebrow="MECHANICS · 04" title="建筑：6 种核心结构" lead="OpenFront 的每一座建筑都是「投入金币换某种长期能力」的赌博，理解每种建筑的边际收益是中盘核心功课。" />
+<BaseLayout title="Structures: 6 Core Buildings" description="City, Port, Factory, DefensePost, SAMLauncher, MissileSilo costs, uses, and upgrades.">
+  <PageHeader eyebrow="MECHANICS · 04" title="Structures: 6 Core Buildings" lead="Every OpenFront building is a bet: spend gold now for long-term capability. Understanding marginal returns is core mid-game skill." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>全部 6 种建筑</h2>
+    <h2>All 6 Structures</h2>
     <UnitTable units={structures} showCategory={false} />
 
-    <h2>City — 人口工厂</h2>
+    <h2>City — Population Factory</h2>
     <ul>
-      <li>每级 +250,000 部队上限，叠加 4 级最高 +1,000,000。</li>
-      <li>v24 起<strong>不再需要先建港口</strong>，可直接放任意领土（含内陆）。</li>
-      <li>同时是火车站点，决定铁路网拓扑。</li>
+      <li>Each level +250,000 troop cap, max 4 levels = +1,000,000.</li>
+      <li>v24: <strong>no longer requires port first</strong>, can place anywhere (including inland).</li>
+      <li>Also serves as train station, defining railway network topology.</li>
     </ul>
-    <Callout type="tip" title="买城节奏">
-      <p>优先级：<strong>第 1 城 &gt; 港口 &gt; 第 2 城 &gt; 防御工事 &gt; 第 3 城 &gt; 导弹井</strong>。第 4 城开始性价比下降，转去升级旧城。</p>
+    <Callout type="tip" title="City Build Order">
+      <p>Priority: <strong>1st City &gt; Port &gt; 2nd City &gt; DefensePost &gt; 3rd City &gt; Missile Silo</strong>. 4th city onward has diminishing returns—upgrade existing cities instead.</p>
     </Callout>
 
-    <h2>Port — 海上枢纽</h2>
+    <h2>Port — Naval Hub</h2>
     <ul>
-      <li>提供贸易船、运输船、战舰生成。</li>
-      <li>等级越高，贸易船刷新概率与单船收益越高。</li>
-      <li>与 Factory 共享 <code>2^n × 125k</code> 计数；先排 Port 还是 Factory 决定第 4 座 6 位数的归属。</li>
+      <li>Enables trade ships, transport ships, warship spawning.</li>
+      <li>Higher level = better trade ship spawn rate and per-ship revenue.</li>
+      <li>Shares <code>2^n × 125k</code> cost counter with Factory; build order determines which hits 6-figure costs first.</li>
     </ul>
 
-    <h2>Factory — 火车工厂</h2>
+    <h2>Factory — Train Production</h2>
     <ul>
-      <li>生成火车并解锁铁路（最长 120 tiles）。</li>
-      <li>火车生成节奏：<code>(numFactories + 10) × 15</code> ticks。多工厂 → 更密的火车。</li>
-      <li>升级提升火车收益吞吐，但<strong>城市数量</strong>对火车经济影响更大。</li>
+      <li>Spawns trains and unlocks railways (max 120 tiles).</li>
+      <li>Train spawn rate: <code>(numFactories + 10) × 15</code> ticks. More factories = denser train traffic.</li>
+      <li>Upgrades improve train throughput, but <strong>city count</strong> matters more for train economy.</li>
     </ul>
 
-    <h2>DefensePost — 瓶颈守门员</h2>
+    <h2>DefensePost — Chokepoint Guardian</h2>
     <ul>
-      <li>30 tiles 范围内 mag ×5 / speed ×3。</li>
-      <li>成本 <code>min(250k, (n+1)×50k)</code>：第 1~4 座 50k → 100k → 150k → 200k，第 5 座起封顶 250k。</li>
-      <li>建造时长 50 ticks（5 秒），可临时填补防线。</li>
+      <li>30 tiles range: mag ×5 / speed ×3.</li>
+      <li>Cost: <code>min(250k, (n+1)×50k)</code>: posts 1-4 cost 50k → 100k → 150k → 200k, 5th+ capped at 250k.</li>
+      <li>Build time 50 ticks (5 seconds), can emergency-fill defensive gaps.</li>
     </ul>
 
-    <h2>SAM Launcher — 核盾</h2>
+    <h2>SAM Launcher — Nuclear Shield</h2>
     <ul>
-      <li>仅拦截 AtomBomb 与 HydrogenBomb，<strong>不能打 MIRV</strong>。</li>
-      <li>射程 <code>150 − 480/(level+5)</code>：默认 70 → 五级约 140，逼近上限 150。</li>
-      <li>建造时长 300 ticks（30 秒），冷却 90 ticks。</li>
-      <li>v24：AI 核弹会主动避开 SAM 覆盖区，因此首座 SAM 就有威慑作用。</li>
+      <li>Only intercepts AtomBomb and HydrogenBomb, <strong>cannot hit MIRV</strong>.</li>
+      <li>Range: <code>150 − 480/(level+5)</code>: default 70 → level 5 ≈ 140, approaching cap of 150.</li>
+      <li>Build time 300 ticks (30 seconds), cooldown 90 ticks.</li>
+      <li>v24: AI nukes actively avoid SAM coverage, so first SAM provides deterrence value.</li>
     </ul>
 
-    <h2>Missile Silo — 进攻火药库</h2>
+    <h2>Missile Silo — Offensive Arsenal</h2>
     <ul>
-      <li>核弹发射台，建造时长 100 ticks。</li>
-      <li>升级提升装填速度（缩短可连发间隔）。</li>
-      <li>多 Silo 是「同时齐射」的硬性前提。</li>
+      <li>Nuclear launch platform, build time 100 ticks.</li>
+      <li>Upgrades improve reload speed (shorter salvo intervals).</li>
+      <li>Multiple Silos required for simultaneous volleys.</li>
     </ul>
 
-    <Callout type="warn" title="建筑都可被夺取">
-      <p>领土被占领时，<strong>建筑会被新主接管</strong>（包括 SAM 与 Silo）。后期攻击对方核心城市可以一并端掉对方的核盾，是关键打击点。</p>
+    <Callout type="warn" title="Buildings Can Be Captured">
+      <p>When territory is captured, <strong>buildings transfer to new owner</strong> (including SAM and Silo). Late-game attacks on enemy core cities can strip their nuclear shield—a critical strike target.</p>
     </Callout>
   </article>
 </BaseLayout>

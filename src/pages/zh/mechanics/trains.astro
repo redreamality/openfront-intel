@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Callout from '../../../components/Callout.astro';
+---
+
+<BaseLayout title="火车与铁路" description="OpenFront.io v24 新增机制：Factory → Railroad → Train 的金币循环。">
+  <PageHeader eyebrow="MECHANICS · 08" title="火车与铁路" lead="v24 引入的实验性陆地贸易系统，单人 / 私密大厅默认可用。建好的火车网比贸易船更稳，但前期投资重。" />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <Callout type="warn" title="可用范围">
+      <p>火车与铁路目前仅在<strong>单人模式</strong>与<strong>私密大厅</strong>开放（v24 实验功能）。公共大厅默认禁用，请以你所在大厅的设置为准。</p>
+    </Callout>
+
+    <h2>组件三件套</h2>
+    <ol>
+      <li><strong>Factory</strong> — 火车的生产源，造价 <code>min(1M, 2^n × 125k)</code>。与 Port 共享计数。</li>
+      <li><strong>City</strong> — 火车停靠的「金币结算点」，v24 起不再需要 Port 前置。</li>
+      <li><strong>Railroad</strong> — 自动布线于 Factory / City 之间，最长 120 tiles，可形成环路。</li>
+    </ol>
+
+    <h2>关键数值</h2>
+    <table>
+      <thead><tr><th>项</th><th>值</th></tr></thead>
+      <tbody>
+        <tr><td>列车速度</td><td>2 tiles / tick</td></tr>
+        <tr><td>车辆间距</td><td>2 tiles</td></tr>
+        <tr><td>列车生成节奏</td><td><code>(numFactories + 10) × 15</code> ticks</td></tr>
+        <tr><td>站点最远距离</td><td>15 ~ 100 tiles</td></tr>
+        <tr><td>铁路最长</td><td>120 tiles</td></tr>
+        <tr><td>访问盟友城市收益</td><td>35,000 金币 / 站</td></tr>
+        <tr><td>访问团队城市收益</td><td>25,000 金币 / 站</td></tr>
+        <tr><td>访问自己城市收益</td><td>10,000 金币 / 站</td></tr>
+        <tr><td>距离惩罚</td><td>5,000 × max(0, citiesVisited − 9)，下限 5,000</td></tr>
+      </tbody>
+    </table>
+
+    <h2>布网思路</h2>
+    <ol>
+      <li><strong>站点选址</strong>：尽量让 5 ~ 8 座 City + Factory 形成一条 80~120 tiles 的环线。盟友城市加入环线收益翻倍。</li>
+      <li><strong>避免单点过远</strong>：单段超过 100 tiles 会无法连接；用过渡 City 切段。</li>
+      <li><strong>核心保护</strong>：火车站被攻占=金币流失，环线中段最好套 1 座 DefensePost。</li>
+    </ol>
+
+    <h2>火车 vs 贸易船 vs 基础金币</h2>
+    <Callout type="spec" title="边际收益对比（粗估）">
+      <ul>
+        <li><strong>基础金币</strong>：100 / tick 持续，1 分钟 ≈ 60,000 — 稳定但小。</li>
+        <li><strong>贸易船</strong>：一艘满载平均一次结算 30k~70k，全局 150 艘 cap 限制收益规模。</li>
+        <li><strong>火车 + 盟友环线</strong>：5 站环线、3 辆车，平均 1 分钟 ≈ 200k+ 金币，是后期最重要的爆发收入。</li>
+      </ul>
+    </Callout>
+
+    <h2>实战提示</h2>
+    <ul>
+      <li>有盟友才造铁路：单人环线收益仅 10k/站，性价比差。</li>
+      <li>v24 列车工厂会自动生成新铁路环路，规划时给铁路<strong>留出地面空间</strong>。</li>
+      <li>若被对手割断铁路，火车会原地停摆——别把铁路全部贴边境。</li>
+    </ul>
+  </article>
+</BaseLayout>

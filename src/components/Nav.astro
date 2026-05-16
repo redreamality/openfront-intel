@@ -1,14 +1,23 @@
 ---
+import { useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pathname = Astro.url.pathname;
+const langPrefix = lang === 'en' ? '' : `/${lang}`;
 
 const links = [
-  { href: `${base}/mechanics/`, label: '机制' },
-  { href: `${base}/database/`, label: '数据库' },
-  { href: `${base}/strategies/`, label: '攻略' },
-  { href: `${base}/guides/`, label: '教程' },
-  { href: `${base}/changelog/`, label: '更新' },
-  { href: `${base}/glossary/`, label: '词典' },
+  { href: `${base}${langPrefix}/mechanics/`, label: t('nav.mechanics') },
+  { href: `${base}${langPrefix}/database/`, label: t('nav.database') },
+  { href: `${base}${langPrefix}/strategies/`, label: t('nav.strategies') },
+  { href: `${base}${langPrefix}/guides/`, label: t('nav.guides') },
+  { href: `${base}${langPrefix}/changelog/`, label: t('nav.changelog') },
+  { href: `${base}${langPrefix}/glossary/`, label: t('nav.glossary') },
 ];
 
 function isActive(href: string) {

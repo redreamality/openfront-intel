@@ -8,12 +8,12 @@ import formulas from '../../data/formulas.json';
 const groups = Object.entries(formulas.groups);
 ---
 
-<BaseLayout title="公式速查" description="OpenFront.io 攻防、人口、经济、核武、同盟等核心公式速查。">
-  <PageHeader eyebrow="DATABASE / FORMULAS" title="公式速查" lead="不解释推导，只列结论。所有公式都可在 OpenFrontIO/src/core/configuration/Config.ts 找到对应实现。" />
+<BaseLayout title="Formula Reference" description="OpenFront.io combat, population, economy, nuclear, and alliance core formulas.">
+  <PageHeader eyebrow="DATABASE / FORMULAS" title="Formula Reference" lead="No derivations, just conclusions. All formulas can be found in OpenFrontIO/src/core/configuration/Config.ts." />
   <section class="container-wide py-10 space-y-6">
-    <Callout type="warn" title="阅读须知">
-      <p>公式以游戏内变量名为准（<code class="font-mono">tick</code>、<code class="font-mono">tiles</code>、<code class="font-mono">troops</code>）。</p>
-      <p>10 ticks ≈ 1 秒。常量 <code class="font-mono">DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code> 来自源码常量。</p>
+    <Callout type="warn" title="Reading Notes">
+      <p>Formulas use in-game variable names (<code class="font-mono">tick</code>, <code class="font-mono">tiles</code>, <code class="font-mono">troops</code>).</p>
+      <p>10 ticks ≈ 1 second. Constant <code class="font-mono">DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code> from source.</p>
     </Callout>
     {groups.map(([key, group]) => (
       <FormulaBlock label={group.label} items={group.items} />

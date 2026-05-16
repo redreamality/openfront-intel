@@ -1,0 +1,51 @@
+---
+import { languages, getLangFromUrl, getLocalizedPath, type Lang } from '../i18n';
+
+const currentLang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const currentPath = Astro.url.pathname.replace(base, '').replace(/^\/+/, '');
+let pathWithoutLang = currentPath;
+for (const lang of Object.keys(languages)) {
+  if (currentPath.startsWith(`${lang}/`)) {
+    pathWithoutLang = currentPath.slice(lang.length + 1);
+    break;
+  }
+}
+---
+
+<div class="relative group">
+  <button
+    type="button"
+    class="flex items-center gap-1.5 rounded border border-iron-700 bg-iron-900/50 px-2 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="uppercase">{currentLang}</span>
+    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  <div class="absolute right-0 top-full z-50 mt-1 hidden min-w-[120px] rounded border border-iron-700 bg-iron-900 py-1 shadow-lg group-hover:block">
+    {Object.entries(languages).map(([code, name]) => {
+      const href = code === 'en'
+        ? `${base}/${pathWithoutLang}`
+        : `${base}/${code}/${pathWithoutLang}`;
+      const isActive = code === currentLang;
+      return (
+        <a
+          href={href}
+          class:list={[
+            'block px-3 py-1.5 text-sm',
+            isActive
+              ? 'bg-cannon-600/20 text-cannon-400'
+              : 'text-iron-300 hover:bg-iron-800 hover:text-iron-100',
+          ]}
+          aria-current={isActive ? 'true' : undefined}
+        >
+          {name}
+        </a>
+      );
+    })}
+  </div>
+</div>

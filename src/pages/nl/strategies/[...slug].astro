@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocLayout from '../../../layouts/DocLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('strategies');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const base = import.meta.env.BASE_URL;
+
+const others = (await getCollection('strategies'))
+  .filter((p) => p.slug !== post.slug)
+  .slice(0, 4)
+  .map((p) => ({
+    href: `${base}strategies/${p.slug}/`,
+    title: p.data.title,
+    description: p.data.description,
+    date: p.data.pubDate,
+  }));
+---
+
+<DocLayout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
+  tags={post.data.tags}
+  difficulty={post.data.difficulty}
+  category={post.data.category}
+  collection="strategies"
+  headings={headings}
+  related={others}
+  eyebrow="STRATEGIES"
+>
+  <Content />
+</DocLayout>

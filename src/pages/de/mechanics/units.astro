@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import UnitTable from '../../../components/UnitTable.astro';
+import Callout from '../../../components/Callout.astro';
+import units from '../../../data/units.json';
+
+const mobile = units.filter((u) => u.category !== 'structure' && u.category !== 'nuke');
+---
+
+<BaseLayout title="单位：船、车与弹" description="OpenFront.io 运输船、战舰、贸易船、火车、炮弹、SAM 弹的角色与互动。">
+  <PageHeader eyebrow="MECHANICS · 05" title="单位：船、车与弹" lead="非建筑、非核武的可移动单位。船与火车决定地图上的「流量」，弹药决定即时火力。" />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <UnitTable units={mobile} showCategory={true} />
+
+    <h2>TransportShip — 登陆载具</h2>
+    <ul>
+      <li>免费生成，但<strong>带走的是发起者的部队</strong>，本质是把人口运到海对面。</li>
+      <li>会受战舰拦截，v24 起战舰命中运输船立即冷却，相当于一艘巡逻战舰能屠一支船队。</li>
+      <li>水核（isWaterNukes）开启时还要担心海面核爆。</li>
+    </ul>
+
+    <h2>Warship — 海上火力</h2>
+    <ul>
+      <li>HP 1000、Shell 伤害 250。一艘战舰大约能在 4~5 次接火中保留 750 HP 的安全线。</li>
+      <li>低于 750 HP 自动撤退维修——不要追残血战舰，对方很可能在港口再次满血。</li>
+      <li>价格随数量递增：<code>min(1M, (n+1)×250k)</code>，超过 3 艘后接近上限。</li>
+    </ul>
+
+    <h2>TradeShip — 经济流量</h2>
+    <ul>
+      <li>港口对之间自动往返，被夺取则归新主，被毁则消失。</li>
+      <li>全局 cap 150（v24）；港口越多，单船的「平均寿命」越短。</li>
+      <li>拒绝其他玩家贸易（手动 embargo）会让自己刷船变慢。</li>
+    </ul>
+
+    <h2>Train — v24 新机制的金币载具</h2>
+    <ul>
+      <li>由 Factory 自动生成，沿铁路在城市/工厂站点之间穿梭。</li>
+      <li>速度 2 tiles/tick，列车长度可配置（多节车厢 = 多次结算的潜在收益）。</li>
+      <li>关键：<strong>火车的金币收益按访问站点的玩家关系决定</strong>，盟友 35k / 团队 25k / 自己 10k。</li>
+    </ul>
+
+    <h2>Shell / SAMMissile — 弹药</h2>
+    <ul>
+      <li>Shell：250 伤害，可被障碍拦截。战舰 + 海岸防御工事都用它。</li>
+      <li>SAMMissile：默认速度 12 tiles/tick，提前射击窗口需要 <code>nukeReachTick − samReachTick ≥ 0</code>，超远距离弹道核弹更难拦。</li>
+    </ul>
+
+    <Callout type="tip" title="单位互动一句话">
+      <p>战舰 > 运输船；运输船 > 海岸守军；SAM > 原子弹/氢弹；MIRV > 所有 SAM；火车 ≥ 贸易船（成熟期）。</p>
+    </Callout>
+  </article>
+</BaseLayout>

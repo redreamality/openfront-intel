@@ -10,6 +10,13 @@ export default defineConfig({
   base: '/',
   trailingSlash: 'always',
   output: 'static',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'nl', 'de', 'zh'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [
     tailwind({ applyBaseStyles: true }),
     mdx(),

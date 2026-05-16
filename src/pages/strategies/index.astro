@@ -6,22 +6,22 @@ import PageHeader from '../../components/PageHeader.astro';
 const base = import.meta.env.BASE_URL;
 const all = (await getCollection('strategies', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const fmt = (d: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(d);
+const fmt = (d: Date) => new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(d);
 ---
 
-<BaseLayout title="战术攻略" description="FFA、Team、Naval、核威慑等流派的实战流派与节奏分析。">
-  <PageHeader eyebrow="STRATEGIES" title="战术攻略" lead="按模式与流派组织的实战文章，每篇都基于源码数值给出具体节奏与决策树。" />
+<BaseLayout title="Strategies" description="FFA, Team, Naval, nuclear deterrence tactics and rhythm analysis.">
+  <PageHeader eyebrow="STRATEGIES" title="Strategies" lead="Practical articles organized by mode and playstyle, each based on source code values with specific timing and decision trees." />
   <section class="container-wide py-10">
     {all.length === 0 ? (
-      <p class="text-iron-400">暂无文章，敬请期待。</p>
+      <p class="text-iron-400">No articles yet, stay tuned.</p>
     ) : (
       <ul class="space-y-4">
         {all.map((post) => (
           <li>
             <a href={`${base}strategies/${post.slug}/`} class="block card group">
               <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
-                <span class="tag-chip">{post.data.category ?? '攻略'}</span>
-                {post.data.difficulty && <span class="tag-chip">难度 · {post.data.difficulty}</span>}
+                <span class="tag-chip">{post.data.category ?? 'Strategy'}</span>
+                {post.data.difficulty && <span class="tag-chip">Difficulty · {post.data.difficulty}</span>}
                 <span class="font-mono">{fmt(post.data.pubDate)}</span>
                 {post.data.version && <span class="font-mono text-cannon-500">{post.data.version}</span>}
               </div>

@@ -1,38 +1,47 @@
 ---
+import { useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
 ---
 
 <footer class="mt-24 border-t border-iron-800 bg-iron-950/80 py-10 text-sm text-iron-400">
   <div class="container-wide grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
     <div>
-      <div class="text-iron-100 font-semibold">OpenFront 情报站</div>
-      <p class="mt-2 text-iron-400 leading-relaxed">围绕开源 RTS 游戏 OpenFront.io 整理的中文机制、数据与攻略资料库。</p>
+      <div class="text-iron-100 font-semibold">{t('footer.title')}</div>
+      <p class="mt-2 text-iron-400 leading-relaxed">{t('footer.description')}</p>
     </div>
     <div>
-      <div class="text-iron-100 font-semibold">导航</div>
+      <div class="text-iron-100 font-semibold">{t('footer.navigation')}</div>
       <ul class="mt-2 space-y-1">
-        <li><a class="nav-link" href={`${base}mechanics/`}>游戏机制</a></li>
-        <li><a class="nav-link" href={`${base}database/`}>单位数据库</a></li>
-        <li><a class="nav-link" href={`${base}strategies/`}>战术攻略</a></li>
-        <li><a class="nav-link" href={`${base}changelog/`}>更新日志</a></li>
+        <li><a class="nav-link" href={`${base}${langPrefix}mechanics/`}>{t('nav.mechanics')}</a></li>
+        <li><a class="nav-link" href={`${base}${langPrefix}database/`}>{t('nav.database')}</a></li>
+        <li><a class="nav-link" href={`${base}${langPrefix}strategies/`}>{t('nav.strategies')}</a></li>
+        <li><a class="nav-link" href={`${base}${langPrefix}changelog/`}>{t('nav.changelog')}</a></li>
       </ul>
     </div>
     <div>
-      <div class="text-iron-100 font-semibold">来源</div>
+      <div class="text-iron-100 font-semibold">{t('footer.sources')}</div>
       <ul class="mt-2 space-y-1">
-        <li><a class="nav-link" href="https://openfront.io/" rel="noopener" target="_blank">官方站点</a></li>
-        <li><a class="nav-link" href="https://github.com/openfrontio/OpenFrontIO" rel="noopener" target="_blank">GitHub 源码</a></li>
-        <li><a class="nav-link" href={`${base}about/`}>关于本站</a></li>
+        <li><a class="nav-link" href="https://openfront.io/" rel="noopener" target="_blank">{t('footer.official')}</a></li>
+        <li><a class="nav-link" href="https://github.com/openfrontio/OpenFrontIO" rel="noopener" target="_blank">{t('footer.github')}</a></li>
+        <li><a class="nav-link" href={`${base}${langPrefix}about/`}>{t('nav.about')}</a></li>
       </ul>
     </div>
     <div>
-      <div class="text-iron-100 font-semibold">声明</div>
-      <p class="mt-2 leading-relaxed">本站为社区资料站，内容基于 AGPL-3.0 源码与 CC BY-SA 资源整理，非官方。OpenFront © OpenFront and Contributors。</p>
+      <div class="text-iron-100 font-semibold">{t('footer.disclaimer')}</div>
+      <p class="mt-2 leading-relaxed">{t('footer.disclaimer.text')}</p>
     </div>
   </div>
   <div class="container-wide mt-8 flex flex-col gap-2 border-t border-iron-800 pt-4 text-xs text-iron-500 sm:flex-row sm:items-center sm:justify-between">
-    <span>© {year} OpenFront Intel · 数据采集自 OpenFrontIO v24</span>
+    <span>© {year} {t('footer.copyright')}</span>
     <span class="font-mono">made with Astro</span>
   </div>
 </footer>

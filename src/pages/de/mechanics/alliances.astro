@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Callout from '../../../components/Callout.astro';
+import FormulaBlock from '../../../components/FormulaBlock.astro';
+import formulas from '../../../data/formulas.json';
+const alliance = formulas.groups.alliance;
+---
+
+<BaseLayout title="同盟与背叛" description="OpenFront.io 同盟时长、续期机制、自动禁运、背叛减益详解。">
+  <PageHeader eyebrow="MECHANICS · 07" title="同盟与背叛" lead="同盟是中盘最重要的杠杆。理解 5 分钟时钟、续期窗口与背叛代价，是判断对手意图的关键。" />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <h2>同盟核心数据</h2>
+    <FormulaBlock label={alliance.label} items={alliance.items} />
+
+    <h2>同盟生命周期</h2>
+    <ol>
+      <li><strong>请求</strong>：任意一方点对方头像 → Request Alliance。</li>
+      <li><strong>接受</strong>：对方接受 = 同盟建立，倒计时 3000 ticks（5 分钟）。</li>
+      <li><strong>续期提示</strong>：到期前 300 ticks（30 秒）双方都收到「Extend」提示。</li>
+      <li><strong>双方同意</strong>：续期为新一段 5 分钟。</li>
+      <li><strong>只一方同意</strong>：进入「延期窗口」，对方仍有时间响应；若到期都未响应，同盟自然失效（非背叛）。</li>
+    </ol>
+
+    <h2>背叛（Betrayal）的代价</h2>
+    <Callout type="danger" title="主动撕约 = 进入 traitor 状态">
+      <ul>
+        <li>防御 ×0.5（被打加倍）</li>
+        <li>推进速度 ×0.8</li>
+        <li>持续 300 ticks（30 秒）</li>
+        <li>自动对前盟友 + 部分玩家发起禁运</li>
+        <li>UI 出现红色「Betrayed」横幅，v24 还有红色边框警告（devalnor）</li>
+      </ul>
+    </Callout>
+
+    <h2>禁运 Embargo</h2>
+    <ul>
+      <li><strong>临时禁运</strong>：因攻击行为自动触发，持续 300 ticks。</li>
+      <li><strong>永久禁运</strong>：手动设置，直到玩家本人解除。</li>
+      <li>禁运双方间贸易船不会生成；多人禁运会拖垮一方的金币产出。</li>
+      <li>Bot 没有贸易行为，禁运 Bot 没意义。</li>
+    </ul>
+
+    <h2>同盟带来的隐藏好处</h2>
+    <ul>
+      <li>火车经过盟友城市时：<strong>35k</strong>（vs 团队 25k / 自家 10k），盟友铁路网是经济跃升的最大杠杆。</li>
+      <li>盟友可以看到你的部队/建筑细节（视野共享）。</li>
+      <li>核武器误伤会自动联盟保护，但<strong>不会</strong>豁免——大型核弹照样能命中盟友领土。</li>
+    </ul>
+
+    <Callout type="tip" title="盟友选择三原则">
+      <ol>
+        <li>找<strong>有共同对手</strong>的玩家：你想打的人也是他想打的人，关系最稳。</li>
+        <li>找<strong>地理相近但不接壤</strong>的：能放贸易船与火车，又不会因为边境摩擦内讧。</li>
+        <li>避开<strong>明显比你弱的</strong>玩家：他可能在被打的瞬间断盟自保，反让你处境恶化。</li>
+      </ol>
+    </Callout>
+
+    <h2>背叛突袭的窗口</h2>
+    <p>有少数情境值得撕约：</p>
+    <ul>
+      <li>对方核盾未起，且你已有氢弹蓄势——30 秒 traitor 期内一波氢弹+地面推进端核心。</li>
+      <li>对方 maxTroops 接近上限、自己人口饱和——背叛之后 0.8× speed 反而不是大问题，你本就推进慢。</li>
+      <li>三人同盟中你掉队，留下来必死——背叛大盟友抢走第三方的领土补充。</li>
+    </ul>
+    <p>其余情况，<strong>等同盟自然到期不续</strong>比背叛更划算：没有减益、没有自动禁运，只是不再续约。</p>
+  </article>
+</BaseLayout>

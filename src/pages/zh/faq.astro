@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const faqs = [
+  {
+    q: 'OpenFront.io 是什么？',
+    a: 'OpenFront.io 是一款基于真实地理与抽象地图的在线实时策略游戏，玩家通过扩张领土、建立同盟、发射核武器在不同地图上竞争。它由 evanpelle 维护，源码以 AGPL-3.0 开源。',
+  },
+  {
+    q: '我在哪里玩？',
+    a: '官方站点 openfront.io，所有主流浏览器都能直接进入，无需下载安装。也支持移动端原生登录（v24）。',
+  },
+  {
+    q: '我没账户能玩吗？',
+    a: '能。注册账户主要用于保留战绩、皮肤与同盟历史。匿名玩家可正常加入公开大厅。',
+  },
+  {
+    q: '攻防计算到底跑在哪里？',
+    a: '游戏的核心模拟跑在每个玩家的浏览器里（Core 是确定性 TypeScript 模拟，跑在 Web Worker 内）。服务器只在每个 tick 收集 Intent 并广播 Turn——这也是为什么对局会非常流畅但偶尔会有 desync 修复。',
+  },
+  {
+    q: '为什么我刷不出贸易船？',
+    a: 'v24 起贸易船全局上限 150 艘。船越多生成概率越低，加上「拒贸怜悯计时器」让拒贸的玩家也变难刷。解决办法：升级现有 Port 而不是新建，少手动禁运。',
+  },
+  {
+    q: '我能拦住 MIRV 吗？',
+    a: '不能。MIRV 本体和分裂出的 MIRVWarhead 都对 SAM 免疫。最稳妥的应对是把 City / Silo 分散布点，并升级 City 提高人口缓冲。',
+  },
+  {
+    q: '为什么我背叛盟友后立刻挨打？',
+    a: '背叛会让你进入 traitor 状态：防御 ×0.5、速度 ×0.8、持续 30 秒。同时自动触发对前盟友的禁运。如果不能在 30 秒内完成核心打击，背叛通常自损更大。',
+  },
+  {
+    q: '城市可以升到多少级？',
+    a: 'v24 起 City / Port / SAM / Silo 都支持 4 级升级。City 每级 +250,000 部队上限，叠加 4 级最多 +1,000,000。',
+  },
+  {
+    q: '我能不能改默认设置？',
+    a: '私密大厅可调整：goldMultiplier、isPeaceTime、isNukesDisabled、isSAMsDisabled、isAlliancesDisabled、isWaterNukes、spawnImmunityDuration。公开大厅按当前模式预设。',
+  },
+  {
+    q: '本站的数据可靠吗？',
+    a: '所有数值由 scripts/extract-game-data.mjs 从 OpenFrontIO 源码（src/core/configuration/Config.ts、src/core/game/Game.ts、resources/maps）提取。本站对外的「最后更新时间」与 OpenFrontIO 版本号在数据库页底部展示。',
+  },
+];
+---
+
+<BaseLayout title="常见问题" description="OpenFront.io 与本站的常见疑问与回答。">
+  <PageHeader eyebrow="FAQ" title="常见问题" lead="按主题排列的高频提问。游戏机制类问题更详细的版本请看「机制」栏目。" />
+  <section class="container-wide py-10">
+    <dl class="space-y-6 max-w-3xl">
+      {faqs.map((f) => (
+        <div class="rounded border border-iron-800 bg-iron-900/40 px-5 py-4">
+          <dt class="text-base font-semibold text-cannon-400">Q · {f.q}</dt>
+          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">A · {f.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+</BaseLayout>
