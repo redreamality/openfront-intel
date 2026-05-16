@@ -5,12 +5,9 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 
-const SITE = process.env.SITE_URL || 'https://USER.github.io';
-const BASE = process.env.BASE_PATH ?? '/openfront-intel';
-
 export default defineConfig({
-  site: SITE,
-  base: BASE,
+  site: 'https://openfront.fyi',
+  base: '/',
   trailingSlash: 'always',
   output: 'static',
   integrations: [
@@ -20,7 +17,7 @@ export default defineConfig({
       changefreq: 'weekly',
       serialize: (item) => ({
         ...item,
-        priority: new URL(item.url).pathname === BASE + '/' ? 1.0 : 0.7,
+        priority: new URL(item.url).pathname === '/' ? 1.0 : 0.7,
       }),
     }),
     robotsTxt({
