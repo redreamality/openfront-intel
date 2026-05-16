@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: theme('colors.iron.950');
+    color: theme('colors.iron.100');
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply min-h-screen bg-iron-950 text-iron-100;
+    background-image:
+      radial-gradient(circle at 10% -10%, rgba(217, 119, 6, 0.06), transparent 40%),
+      radial-gradient(circle at 90% 0%, rgba(77, 124, 15, 0.05), transparent 40%);
+  }
+
+  ::selection {
+    @apply bg-cannon-600/40 text-iron-50;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight text-iron-50;
+  }
+}
+
+@layer components {
+  .container-prose {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .stat-chip {
+    @apply inline-flex items-center gap-1 rounded border border-iron-700 bg-iron-900 px-2 py-0.5 font-mono text-xs text-cannon-400;
+  }
+
+  .tag-chip {
+    @apply inline-flex items-center rounded-full border border-military-700/60 bg-military-900/40 px-2 py-0.5 text-[11px] uppercase tracking-wider text-military-200;
+  }
+
+  .data-table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+  .data-table thead th {
+    @apply border-b border-iron-700 bg-iron-900/60 px-3 py-2 text-xs uppercase tracking-wider text-cannon-400;
+  }
+  .data-table tbody td {
+    @apply border-b border-iron-800 px-3 py-2 align-top text-iron-200;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-iron-900/40;
+  }
+
+  .card {
+    @apply rounded-lg border border-iron-800 bg-iron-900/40 p-5 shadow-sm transition-colors hover:border-cannon-600/40 hover:bg-iron-900/70;
+  }
+
+  .nav-link {
+    @apply text-sm text-iron-300 transition-colors hover:text-cannon-400;
+  }
+  .nav-link[aria-current="page"],
+  .nav-link.active {
+    @apply text-cannon-400;
+  }
+}

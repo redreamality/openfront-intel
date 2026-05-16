@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "description": "从 OpenFrontIO v24 提取的核心公式（数值/系数为字符串展示）。"
+  },
+  "groups": {
+    "defense": {
+      "label": "防御与攻防计算",
+      "items": [
+        {
+          "name": "平原地形",
+          "expr": "mag = 80, speed = 16.5"
+        },
+        {
+          "name": "高地地形",
+          "expr": "mag = 100, speed = 20"
+        },
+        {
+          "name": "山地地形",
+          "expr": "mag = 120, speed = 25"
+        },
+        {
+          "name": "防御工事增益",
+          "expr": "范围 30 tiles 内：mag ×5, speed ×3"
+        },
+        {
+          "name": "辐射区减益",
+          "expr": "mag *= (5 - falloutRatio × 2)"
+        },
+        {
+          "name": "大军减益 sigmoid",
+          "expr": "defenseSig = 1 - sigmoid(defender.tiles, ln(2)/50000, 150000)"
+        },
+        {
+          "name": "背叛减益",
+          "expr": "防御 ×0.5, 速度 ×0.8, 持续 300 ticks (30s)"
+        },
+        {
+          "name": "攻击方大规模加成",
+          "expr": "tiles > 100k 时: bonus = (100k/tiles)^0.7"
+        }
+      ]
+    },
+    "troops": {
+      "label": "部队上限与增长",
+      "items": [
+        {
+          "name": "人口上限基础",
+          "expr": "2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(cityLevel × 250,000)"
+        },
+        {
+          "name": "人口类型乘数",
+          "expr": "Human ×1 / Bot ÷3 / Nation Easy ×0.5, Med ×0.75, Hard ×1, Imp ×1.25"
+        },
+        {
+          "name": "部队增长率",
+          "expr": "toAdd = (10 + troops^0.73 / 4) × (1 - troops / maxTroops)"
+        }
+      ]
+    },
+    "economy": {
+      "label": "经济与贸易",
+      "items": [
+        {
+          "name": "基础金币产出",
+          "expr": "玩家 100 / tick，Bot 50 / tick（乘 goldMultiplier）"
+        },
+        {
+          "name": "城市部队加成",
+          "expr": "每级 City 提供 +250,000 部队上限"
+        },
+        {
+          "name": "火车收益",
+          "expr": "baseGold (ally 35k / team 25k / self 10k) − distPenalty (5,000 × max(0, citiesVisited − 9))，下限 5,000"
+        },
+        {
+          "name": "贸易船收益",
+          "expr": "floor( (75,000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )"
+        },
+        {
+          "name": "贸易船生成",
+          "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+        },
+        {
+          "name": "贸易船上限",
+          "expr": "全局 150 艘 (v24)"
+        }
+      ]
+    },
+    "nukes": {
+      "label": "核武器与 SAM",
+      "items": [
+        {
+          "name": "原子弹冲击半径",
+          "expr": "inner 12 / outer 30 tiles"
+        },
+        {
+          "name": "氢弹冲击半径",
+          "expr": "inner 80 / outer 100 tiles"
+        },
+        {
+          "name": "MIRV 弹头",
+          "expr": "inner 12 / outer 18 tiles"
+        },
+        {
+          "name": "SAM 冷却",
+          "expr": "90 ticks (9s)"
+        },
+        {
+          "name": "SAM 射程公式",
+          "expr": "samRange(level) = 150 - 480 / (level + 5); 默认 70, 顶级 ≈ 140, 上限 150"
+        },
+        {
+          "name": "SAM 拦截目标",
+          "expr": "仅 AtomBomb / HydrogenBomb；MIRV 本体与弹头免疫"
+        },
+        {
+          "name": "提前射击窗口",
+          "expr": "tickBeforeShooting = nukeReachTick − samReachTick ≥ 0"
+        }
+      ]
+    },
+    "alliance": {
+      "label": "同盟与背叛",
+      "items": [
+        {
+          "name": "同盟时长",
+          "expr": "3000 ticks ≈ 5 分钟"
+        },
+        {
+          "name": "延期提示",
+          "expr": "到期前 300 ticks (30s) 提示双方"
+        },
+        {
+          "name": "续约规则",
+          "expr": "双方同意自动续期；仅一方同意进入延期窗口"
+        },
+        {
+          "name": "背叛立即效果",
+          "expr": "触发自动禁运；防御减益 0.5，速度减益 0.8，持续 300 ticks"
+        }
+      ]
+    },
+    "spawn": {
+      "label": "出生与初始",
+      "items": [
+        {
+          "name": "出生免疫",
+          "expr": "50 ticks（5 秒）攻击免疫"
+        },
+        {
+          "name": "随机出生阶段",
+          "expr": "单人 100 turns / 多人随机 150 turns / 多人固定 300 turns"
+        }
+      ]
+    }
+  }
+}

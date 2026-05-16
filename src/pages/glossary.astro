@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+interface Term {
+  term: string;
+  en?: string;
+  desc: string;
+}
+const sections: Array<{ key: string; label: string; terms: Term[] }> = [
+  {
+    key: 'general',
+    label: '通用术语',
+    terms: [
+      { term: 'tick', desc: '游戏时间单位，约 0.1 秒。10 tick = 1 秒。所有冷却、寿命都以 tick 计。' },
+      { term: '部队 / Troops', en: 'Troops', desc: '玩家可调度的人口，攻击与防御都会消耗。' },
+      { term: '人口上限 / MaxTroops', en: 'MaxTroops', desc: '部队增长的天花板，受 tiles 与 City 等级影响。' },
+      { term: '金币 / Gold', en: 'Gold', desc: '建造与升级的硬通货。基础产出 100/tick (Human) 或 50/tick (Bot)。' },
+      { term: '攻击比例', en: 'Attack Ratio', desc: '滑块控制的每次攻击投入部队比例。' },
+      { term: 'tile', desc: '地图最小单位格子。tiles 即占地数量。' },
+    ],
+  },
+  {
+    key: 'units',
+    label: '建筑与单位',
+    terms: [
+      { term: '城市', en: 'City', desc: '每级 +250,000 部队上限，火车站点。' },
+      { term: '港口', en: 'Port', desc: '贸易船 / 运输船 / 战舰生成基地。' },
+      { term: '工厂', en: 'Factory', desc: '火车生产源，配合铁路与城市运转。' },
+      { term: '防御工事', en: 'DefensePost', desc: '30 tiles 范围内 mag ×5 / speed ×3。' },
+      { term: 'SAM 发射器', en: 'SAM Launcher', desc: '拦截原子弹 / 氢弹，不能拦 MIRV。' },
+      { term: '导弹井', en: 'Missile Silo', desc: '核弹发射台，建造 100 ticks。' },
+      { term: '运输船', en: 'Transport Ship', desc: '登陆载具，受战舰威胁。' },
+      { term: '战舰', en: 'Warship', desc: '海上控制单位，HP 1000、Shell 250 伤害。' },
+      { term: '贸易船', en: 'Trade Ship', desc: '港口间自动往返产金，v24 全局 cap 150。' },
+      { term: '火车', en: 'Train', desc: '陆地金币载具，盟友站点 35k 收益。' },
+      { term: '原子弹', en: 'Atom Bomb', desc: '750k 金币，inner 12 / outer 30。' },
+      { term: '氢弹', en: 'Hydrogen Bomb', desc: '5M 金币，inner 80 / outer 100。' },
+      { term: 'MIRV', en: 'MIRV', desc: '25M + 15M·n，多弹头载具，SAM 不可拦。' },
+    ],
+  },
+  {
+    key: 'mechanics',
+    label: '机制术语',
+    terms: [
+      { term: 'mag', desc: '攻防计算中的破甲系数。地形决定基值，建筑乘倍数。' },
+      { term: 'speed', desc: '推进速度系数。同 mag 一样受地形与建筑影响。' },
+      { term: '出生免疫', en: 'Spawn Immunity', desc: '正式开战后 50 ticks 攻击免疫。' },
+      { term: '同盟', en: 'Alliance', desc: '3000 ticks (5min)，到期前 300 ticks 提示续期。' },
+      { term: '背叛', en: 'Betrayal', desc: '撕约 → 防御 ×0.5、速度 ×0.8、持续 300 ticks。' },
+      { term: '禁运', en: 'Embargo', desc: '阻止双方贸易船。临时（攻击触发）或永久（手动）。' },
+      { term: '辐射区', en: 'Fallout', desc: '核爆 outer 区域留下的辐射，攻方 mag 临时变弱。' },
+      { term: '水核模式', en: 'Water Nukes', desc: '允许核爆覆盖海面，使用平滑圆形伤害。' },
+      { term: '地形操纵', en: 'Terrain Manipulation', desc: 'v24 新增：影响邻接 tile 的地形系数。' },
+    ],
+  },
+  {
+    key: 'meta',
+    label: '玩家与游戏类型',
+    terms: [
+      { term: 'Human', desc: '真人玩家，部队上限 ×1.0。' },
+      { term: 'Nation', desc: '系统命名的 AI 国家，按难度乘上限。' },
+      { term: 'Bot', desc: '基础 AI，名字带数字，部队 ÷3。' },
+      { term: 'FFA', desc: 'Free For All，1 人 1 队。' },
+      { term: 'Team', desc: '2v2 ~ 8v8 团队战，5 分钟胜利条件。' },
+      { term: 'Tournament', desc: '锦标赛专用赛制图（Tourney1~4）。' },
+    ],
+  },
+];
+---
+
+<BaseLayout title="术语词典" description="OpenFront.io 中英术语对照与简明解释。">
+  <PageHeader eyebrow="GLOSSARY" title="术语词典" lead="阅读机制与攻略时不熟悉的概念，可以在这里查中英对照与一句话定义。" />
+  <section class="container-wide py-10 space-y-10">
+    {sections.map((s) => (
+      <section id={s.key}>
+        <h2 class="text-xl font-semibold text-iron-50 border-b border-iron-800 pb-2 mb-4">{s.label}</h2>
+        <dl class="grid gap-3 sm:grid-cols-2">
+          {s.terms.map((t) => (
+            <div class="rounded border border-iron-800 bg-iron-900/40 px-4 py-3">
+              <dt class="flex items-baseline gap-2">
+                <span class="font-semibold text-cannon-400">{t.term}</span>
+                {t.en && <span class="font-mono text-xs text-iron-500">{t.en}</span>}
+              </dt>
+              <dd class="mt-1 text-sm text-iron-300 leading-relaxed">{t.desc}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </section>
+</BaseLayout>

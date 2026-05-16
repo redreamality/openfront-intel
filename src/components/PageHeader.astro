@@ -1,0 +1,16 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props as Props;
+---
+
+<header class="border-b border-iron-800 bg-iron-950/60">
+  <div class="container-wide py-12 sm:py-16">
+    {eyebrow && <p class="tag-chip">{eyebrow}</p>}
+    <h1 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-iron-50">{title}</h1>
+    {lead && <p class="mt-4 max-w-2xl text-base text-iron-300 leading-relaxed">{lead}</p>}
+  </div>
+</header>

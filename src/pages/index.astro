@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+
+const pillars = [
+  {
+    href: `${base}mechanics/`,
+    title: '游戏机制',
+    desc: '10 篇系统化讲解：出生、经济、攻防、核武、同盟、火车……拆解每一条规则。',
+    accent: 'cannon',
+  },
+  {
+    href: `${base}database/`,
+    title: '数据库',
+    desc: '单位/建筑数值、攻防公式、78 张地图分类与速查表。源码即真理。',
+    accent: 'military',
+  },
+  {
+    href: `${base}strategies/`,
+    title: '战术攻略',
+    desc: 'FFA 早期扩张、Team 海控、核威慑 SAM 网络……带数字的实战流派。',
+    accent: 'cannon',
+  },
+  {
+    href: `${base}guides/`,
+    title: '新手教程',
+    desc: '半小时从开局到第一次成功扩张，含操作面板与快捷键速查。',
+    accent: 'military',
+  },
+];
+
+const highlights = [
+  { label: 'AtomBomb 成本', value: '750,000 G' },
+  { label: 'HydrogenBomb', value: '5,000,000 G' },
+  { label: 'MIRV 基础', value: '25M + 15M·n' },
+  { label: 'SAM 射程', value: '70 → 150 tiles' },
+  { label: '同盟时长', value: '3000 ticks ≈ 5 分钟' },
+  { label: '背叛防御减益', value: '×0.5 持续 300 ticks' },
+  { label: '城市部队加成', value: '+250,000 / 级' },
+  { label: '贸易船上限', value: '150 (v24)' },
+];
+---
+
+<BaseLayout title="OpenFront 情报站" description="OpenFront.io 中文机制、数据库与攻略：78 张地图、16 种单位/建筑、核武与同盟系统全解析。">
+  <section class="relative overflow-hidden border-b border-iron-800">
+    <div class="container-wide py-20 sm:py-28">
+      <p class="tag-chip">v24 · 中文资料库</p>
+      <h1 class="mt-4 max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-iron-50">
+        <span class="text-cannon-500">OpenFront</span> 情报站
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-iron-300 leading-relaxed">
+        围绕开源实时策略游戏 <a class="text-cannon-400 hover:underline" href="https://openfront.io/" target="_blank" rel="noopener">OpenFront.io</a> 整理的中文机制百科：从出生免疫到 MIRV 弹道，每条规则都有来源、数字与公式。
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={`${base}mechanics/`} class="rounded bg-cannon-600 px-4 py-2 text-sm font-semibold text-iron-950 hover:bg-cannon-500">从机制开始</a>
+        <a href={`${base}database/`} class="rounded border border-iron-700 px-4 py-2 text-sm text-iron-200 hover:border-cannon-600 hover:text-cannon-400">查数据库</a>
+        <a href={`${base}strategies/`} class="rounded border border-iron-700 px-4 py-2 text-sm text-iron-200 hover:border-military-500 hover:text-military-300">看攻略</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide py-16">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {pillars.map((p) => (
+        <a href={p.href} class="card group block">
+          <div class="text-xs uppercase tracking-widest text-iron-500">栏目</div>
+          <div class:list={["mt-1 text-lg font-semibold", p.accent === 'cannon' ? 'text-cannon-400' : 'text-military-300']}>{p.title}</div>
+          <p class="mt-3 text-sm text-iron-300 leading-relaxed">{p.desc}</p>
+          <div class="mt-4 text-xs text-iron-500 group-hover:text-cannon-400">前往 →</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-wide pb-20">
+    <h2 class="text-xl font-semibold text-iron-50">关键档速查</h2>
+    <p class="mt-1 text-sm text-iron-400">由 <code class="font-mono text-cannon-400">scripts/extract-game-data.mjs</code> 从源码同步。</p>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {highlights.map((h) => (
+        <li class="flex items-center justify-between rounded border border-iron-800 bg-iron-900/40 px-4 py-3">
+          <span class="text-sm text-iron-300">{h.label}</span>
+          <span class="font-mono text-sm text-cannon-400">{h.value}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

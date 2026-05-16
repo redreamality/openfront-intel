@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const base = import.meta.env.BASE_URL;
+const sections = [
+  { href: `${base}mechanics/basics/`, title: '入门：出生与扩张', desc: '出生免疫、阶段长度、初期决策框架。', tag: '入门' },
+  { href: `${base}mechanics/economy/`, title: '经济：金币、贸易与人口', desc: '基础金币、城市部队、贸易船、火车收益。', tag: '经济' },
+  { href: `${base}mechanics/military/`, title: '军事：攻防与战斗', desc: '地形系数、防御工事、人口减益、背叛惩罚。', tag: '战斗' },
+  { href: `${base}mechanics/structures/`, title: '建筑：6 种核心结构', desc: 'City / Port / Factory / DefensePost / SAM / Silo。', tag: '建筑' },
+  { href: `${base}mechanics/units/`, title: '单位：船、车与弹', desc: '运输船、战舰、贸易船、火车、炮弹 / SAM 弹。', tag: '单位' },
+  { href: `${base}mechanics/nukes/`, title: '核武器与 SAM', desc: 'AtomBomb / HydrogenBomb / MIRV 与 SAM 拦截网。', tag: '核战' },
+  { href: `${base}mechanics/alliances/`, title: '同盟与背叛', desc: '5 分钟同盟、自动禁运、背叛减益 0.5×0.8。', tag: '外交' },
+  { href: `${base}mechanics/trains/`, title: '火车与铁路', desc: 'v24 新机制：工厂 → 火车 → 城市贸易网。', tag: '新机制' },
+  { href: `${base}mechanics/trade/`, title: '贸易系统', desc: '贸易船 cap 150、距离收益、拒贸怜悯计时器。', tag: '经济' },
+  { href: `${base}mechanics/modes/`, title: '游戏模式速览', desc: 'FFA / Duos / Trios / Quads / Team / Tournament。', tag: '总览' },
+];
+---
+
+<BaseLayout title="游戏机制" description="OpenFront.io 全部核心机制：从出生到核战 10 个主题系统化讲解。">
+  <PageHeader eyebrow="MECHANICS" title="游戏机制" lead="按系统拆分的 10 个章节，每章数值都来自 v24 源码。建议从「入门」与「经济」开始读。" />
+  <section class="container-wide py-10">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {sections.map((s, i) => (
+        <a href={s.href} class="card group block">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-mono text-iron-500">{String(i + 1).padStart(2, '0')}</span>
+            <span class="tag-chip">{s.tag}</span>
+          </div>
+          <h2 class="mt-3 text-lg font-semibold text-cannon-400 group-hover:text-cannon-300">{s.title}</h2>
+          <p class="mt-2 text-sm text-iron-300 leading-relaxed">{s.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,276 @@
+[
+  {
+    "id": "TransportShip",
+    "name": "运输船",
+    "enName": "Transport Ship",
+    "category": "ship",
+    "role": "海上登陆载具，从港口或海岸生成。",
+    "cost": 0,
+    "costFormula": "免费（消耗发起者部队）",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "受 isWaterNukes / isPortsDisabled 影响",
+      "战舰会优先打击运输船"
+    ]
+  },
+  {
+    "id": "Warship",
+    "name": "战舰",
+    "enName": "Warship",
+    "category": "ship",
+    "role": "海上控制单位，发射 Shell 攻击敌方船只/海岸。",
+    "cost": 250000,
+    "costFormula": "min(1,000,000, (n+1) × 250,000)，n = 已有战舰数",
+    "maxHealth": 1000,
+    "damage": 250,
+    "constructionDuration": 50,
+    "upgradable": false,
+    "notes": [
+      "生命值 ≤ 750 自动撤退",
+      "v24 起优先击中运输船且击中后立即冷却"
+    ]
+  },
+  {
+    "id": "Shell",
+    "name": "炮弹",
+    "enName": "Shell",
+    "category": "projectile",
+    "role": "战舰与防御工事发射的实体炮弹。",
+    "cost": 0,
+    "costFormula": "由战舰/防御工事自动生成",
+    "maxHealth": null,
+    "damage": 250,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "命中可被障碍物拦截"
+    ]
+  },
+  {
+    "id": "SAMMissile",
+    "name": "SAM 拦截弹",
+    "enName": "SAM Missile",
+    "category": "projectile",
+    "role": "由 SAM 发射器自动发射拦截核弹。",
+    "cost": 0,
+    "costFormula": "免费，受 SAM 冷却限制",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "默认速度 12 tiles/tick",
+      "仅拦截 AtomBomb 与 HydrogenBomb，MIRV 弹头免疫"
+    ]
+  },
+  {
+    "id": "Port",
+    "name": "港口",
+    "enName": "Port",
+    "category": "structure",
+    "role": "海上枢纽：贸易船、运输船与战舰的生成基地。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)，n = 已有港口/工厂数",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 50,
+    "upgradable": true,
+    "notes": [
+      "等级越高，贸易船生成率与收益越高",
+      "可被夺取，被占领后归新主"
+    ]
+  },
+  {
+    "id": "AtomBomb",
+    "name": "原子弹",
+    "enName": "Atom Bomb",
+    "category": "nuke",
+    "role": "基础核弹：成本低、半径中。",
+    "cost": 750000,
+    "costFormula": "固定 750,000",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "爆炸 inner 12 / outer 30 tiles",
+      "可被 SAM 拦截"
+    ]
+  },
+  {
+    "id": "HydrogenBomb",
+    "name": "氢弹",
+    "enName": "Hydrogen Bomb",
+    "category": "nuke",
+    "role": "大规模杀伤核弹。",
+    "cost": 5000000,
+    "costFormula": "固定 5,000,000",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "爆炸 inner 80 / outer 100 tiles",
+      "可被 SAM 拦截"
+    ]
+  },
+  {
+    "id": "MIRV",
+    "name": "MIRV 多弹头",
+    "enName": "MIRV",
+    "category": "nuke",
+    "role": "远程多弹头载具，到达目标后分裂为多枚 MIRVWarhead。",
+    "cost": 25000000,
+    "costFormula": "25,000,000 + 15,000,000 × 已发射数",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "v24 大幅削弱：陨石坑可被快速征服",
+      "MIRV 本体不可被 SAM 拦截，弹头亦免疫"
+    ]
+  },
+  {
+    "id": "MIRVWarhead",
+    "name": "MIRV 弹头",
+    "enName": "MIRV Warhead",
+    "category": "nuke",
+    "role": "MIRV 分裂后的小型弹头。",
+    "cost": 0,
+    "costFormula": "由 MIRV 自动产生",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "爆炸 inner 12 / outer 18 tiles",
+      "SAM 无法拦截"
+    ]
+  },
+  {
+    "id": "TradeShip",
+    "name": "贸易船",
+    "enName": "Trade Ship",
+    "category": "ship",
+    "role": "在港口之间自动往返产生金币。",
+    "cost": 0,
+    "costFormula": "免费，按概率生成",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "v24 全局上限 150 艘",
+      "被敌方夺取归对方所有；被毁则消失"
+    ]
+  },
+  {
+    "id": "MissileSilo",
+    "name": "导弹井",
+    "enName": "Missile Silo",
+    "category": "structure",
+    "role": "发射核弹的基础设施。",
+    "cost": 1000000,
+    "costFormula": "固定 1,000,000",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 100,
+    "upgradable": true,
+    "notes": [
+      "升级提升装填速度",
+      "AI 核弹会避开 SAM 覆盖区"
+    ]
+  },
+  {
+    "id": "DefensePost",
+    "name": "防御工事",
+    "enName": "Defense Post",
+    "category": "structure",
+    "role": "陆地防御塔：周围 30 tiles 内显著加强防御。",
+    "cost": 50000,
+    "costFormula": "min(250,000, (n+1) × 50,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 50,
+    "upgradable": false,
+    "notes": [
+      "防御区 mag ×5，speed ×3",
+      "范围 30 tiles"
+    ]
+  },
+  {
+    "id": "SAMLauncher",
+    "name": "SAM 防空发射器",
+    "enName": "SAM Launcher",
+    "category": "structure",
+    "role": "拦截原子弹与氢弹的防空设施。",
+    "cost": 1500000,
+    "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 300,
+    "upgradable": true,
+    "notes": [
+      "冷却 90 ticks",
+      "射程随等级 70 → 150 tiles",
+      "不能拦截 MIRV"
+    ]
+  },
+  {
+    "id": "City",
+    "name": "城市",
+    "enName": "City",
+    "category": "structure",
+    "role": "提升人口上限并参与火车贸易。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 20,
+    "upgradable": true,
+    "notes": [
+      "每级 +250,000 部队上限",
+      "即使无港口也可建造（v24）",
+      "是火车站点"
+    ]
+  },
+  {
+    "id": "Factory",
+    "name": "工厂",
+    "enName": "Factory",
+    "category": "structure",
+    "role": "生成火车，搭配铁路与城市形成贸易网。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)（与港口共享 n）",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 20,
+    "upgradable": true,
+    "notes": [
+      "火车生成率 (factories+10) × 15 tick",
+      "可建造铁路环路"
+    ]
+  },
+  {
+    "id": "Train",
+    "name": "火车",
+    "enName": "Train",
+    "category": "ship",
+    "role": "陆地贸易载具：在城市与工厂间运输金币。",
+    "cost": 0,
+    "costFormula": "免费（工厂自动生成）",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": null,
+    "upgradable": false,
+    "notes": [
+      "速度 2 tiles/tick",
+      "车辆间距 2 tiles",
+      "v24 实验功能：单人/私密大厅可用"
+    ]
+  }
+]

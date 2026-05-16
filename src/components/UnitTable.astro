@@ -1,0 +1,80 @@
+---
+export interface UnitRow {
+  id: string;
+  name: string;
+  enName: string;
+  category: string;
+  role: string;
+  cost: number;
+  costFormula: string;
+  maxHealth: number | null;
+  damage: number | null;
+  constructionDuration: number | null;
+  upgradable: boolean;
+  notes?: string[];
+}
+export interface Props {
+  units: UnitRow[];
+  showCategory?: boolean;
+}
+const { units, showCategory = true } = Astro.props as Props;
+const categoryLabel: Record<string, string> = {
+  ship: '船只 / 载具',
+  projectile: '弹药',
+  nuke: '核武器',
+  structure: '建筑',
+};
+const fmtNum = (n: number | null) => (n == null ? '—' : n.toLocaleString('en-US'));
+---
+
+<div class="overflow-x-auto rounded border border-iron-800">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="min-w-[7rem]">名称</th>
+        {showCategory && <th>类别</th>}
+        <th class="min-w-[10rem]">成本 / 公式</th>
+        <th>HP</th>
+        <th>伤害</th>
+        <th>建造</th>
+        <th>升级</th>
+        <th class="min-w-[16rem]">作用 / 备注</th>
+      </tr>
+    </thead>
+    <tbody>
+      {units.map((u) => (
+        <tr id={`u-${u.id}`}>
+          <td>
+            <div class="font-semibold text-iron-50">{u.name}</div>
+            <div class="text-xs text-iron-500 font-mono">{u.enName}</div>
+          </td>
+          {showCategory && (
+            <td><span class="tag-chip">{categoryLabel[u.category] ?? u.category}</span></td>
+          )}
+          <td>
+            <div class="font-mono text-cannon-400">{u.cost > 0 ? u.cost.toLocaleString('en-US') : '免费'}</div>
+            <div class="mt-1 text-xs text-iron-400 leading-snug">{u.costFormula}</div>
+          </td>
+          <td class="font-mono text-iron-200">{fmtNum(u.maxHealth)}</td>
+          <td class="font-mono text-iron-200">{fmtNum(u.damage)}</td>
+          <td class="font-mono text-iron-200">{u.constructionDuration == null ? '—' : `${u.constructionDuration}t`}</td>
+          <td>
+            {u.upgradable ? (
+              <span class="text-military-300">✓ 可升级</span>
+            ) : (
+              <span class="text-iron-500">—</span>
+            )}
+          </td>
+          <td>
+            <div class="text-iron-200">{u.role}</div>
+            {u.notes && u.notes.length > 0 && (
+              <ul class="mt-1 list-disc pl-4 text-xs text-iron-400 space-y-0.5">
+                {u.notes.map((n) => <li>{n}</li>)}
+              </ul>
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

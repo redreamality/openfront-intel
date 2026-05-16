@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Callout from '../../components/Callout.astro';
+---
+
+<BaseLayout title="入门：出生与扩张" description="OpenFront.io 出生免疫、阶段长度、起手决策与早期扩张要点。">
+  <PageHeader eyebrow="MECHANICS · 01" title="入门：出生与扩张" lead="开局 30 秒决定中盘节奏。先理解出生阶段的规则，再谈策略。" />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <h2>出生阶段</h2>
+    <p>进入对局后，地图先经历一段「出生阶段（Spawn Phase）」。期间所有玩家可以反悔、改地点，直到阶段结束才正式开始扩张与战斗。</p>
+    <ul>
+      <li><strong>单人模式</strong>：100 个 turn（≈10 秒）</li>
+      <li><strong>多人 · 随机出生</strong>：150 turns（≈15 秒）</li>
+      <li><strong>多人 · 固定出生</strong>：300 turns（≈30 秒）</li>
+    </ul>
+    <p>OpenFront 的 1 tick ≈ 0.1 秒（10 tick / 秒），换算时间时统一用「ticks ÷ 10 = 秒数」。</p>
+
+    <h2>出生免疫</h2>
+    <Callout type="spec" title="DEFAULT_SPAWN_IMMUNITY_TICKS">
+      <p>正式开战后，每位玩家自动获得 <strong>50 ticks（5 秒）</strong>的出生免疫。这段时间任何来源的攻击都不能命中你。</p>
+    </Callout>
+    <p>这 5 秒非常宝贵——多数玩家在此期间会扩出第一圈领土，确保人口增长不被打断。Bot 与 Nation 享受相同的免疫长度，所以「卡 Bot 起步」并不可行。</p>
+
+    <h2>起手三件事</h2>
+    <ol>
+      <li><strong>选址</strong>：优先海岸线 + 内陆纵深均衡的位置。沿海带来港口+贸易船，但纯沿海容易被两个邻居夹击；纯内陆人口上限偏低、缺贸易收入。</li>
+      <li><strong>第一波扩张方向</strong>：朝资源/瓶颈带（海峡、半岛、河谷）冲。占住地理瓶颈意味着用少量防线挡多个对手。</li>
+      <li><strong>邻居评估</strong>：观察 30 秒内邻居的扩张速度。Nation 难度可以从扩张曲线粗略推断：</li>
+    </ol>
+    <Callout type="spec" title="Nation 难度与人口上限乘数">
+      <ul>
+        <li>Easy：×0.5</li>
+        <li>Medium：×0.75</li>
+        <li>Hard：×1.0（与 Human 相同）</li>
+        <li>Impossible：×1.25</li>
+        <li>Bot：÷3（基础人口上限的 1/3）</li>
+      </ul>
+    </Callout>
+
+    <h2>UI 必须先认全的几个数</h2>
+    <ul>
+      <li><strong>Troops / MaxTroops</strong> — 当前部队 / 人口上限，决定攻击与防守上限。</li>
+      <li><strong>Gold</strong> — 全部建造的硬通货，自动产出。</li>
+      <li><strong>Attack ratio 条</strong> — 拖动决定每次攻击投入比例。</li>
+      <li><strong>Build menu</strong> — 城市/港口/防御工事/SAM/导弹井/工厂的统一入口。</li>
+      <li><strong>Radial menu</strong>（v24 重做）— 在领土内右键召出，可一键放置建筑/选择攻击参数。</li>
+    </ul>
+
+    <h2>第一轮扩张的节奏感</h2>
+    <p>开局部队增长公式简化版：<code>toAdd = (10 + troops^0.73 / 4) × (1 - troops / maxTroops)</code>。这意味着：</p>
+    <ul>
+      <li>人口越接近上限，增长越慢——长时间不扩张会进入「人口饱和」浪费。</li>
+      <li>持续扩地（不断提升 maxTroops）才能让公式持续给出大增量。</li>
+    </ul>
+    <Callout type="tip" title="实战经验">
+      <p>开局前 60 秒最重要的指标是 <strong>占地速度</strong> 而不是部队结余。可以接受短时间「负余」（部队跌至 30% 以下）以抢占瓶颈，几秒内就会重新填满。</p>
+    </Callout>
+
+    <h2>常见新手错误</h2>
+    <ul>
+      <li><strong>不动脑选址</strong>：在大陆中部生成却不立刻迁移到海岸，后续无法部署港口与贸易。</li>
+      <li><strong>过早建城</strong>：开局 0 金币时投城会拖慢扩张，建议先扩到 200~300 tiles 再放第一座 City。</li>
+      <li><strong>无视免疫窗口</strong>：5 秒免疫期没有用足，错过最高密度的扩张。</li>
+    </ul>
+  </article>
+</BaseLayout>

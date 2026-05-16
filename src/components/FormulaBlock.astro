@@ -1,0 +1,23 @@
+---
+export interface FormulaItem {
+  name: string;
+  expr: string;
+}
+export interface Props {
+  label: string;
+  items: FormulaItem[];
+}
+const { label, items } = Astro.props as Props;
+---
+
+<section class="my-6 rounded border border-iron-800 bg-iron-900/40">
+  <header class="border-b border-iron-800 px-4 py-2 text-sm font-semibold text-cannon-400">{label}</header>
+  <dl class="divide-y divide-iron-800">
+    {items.map((it) => (
+      <div class="grid grid-cols-1 gap-1 px-4 py-3 sm:grid-cols-[10rem,1fr] sm:gap-4">
+        <dt class="text-sm text-iron-300">{it.name}</dt>
+        <dd class="font-mono text-sm text-military-200 break-words">{it.expr}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

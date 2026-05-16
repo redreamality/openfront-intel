@@ -1,0 +1,27 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+export interface Props {
+  headings: Heading[];
+}
+const { headings } = Astro.props as Props;
+const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
+---
+
+{filtered.length > 0 && (
+  <aside class="hidden lg:block lg:fixed lg:right-6 lg:top-24 lg:w-56 max-h-[70vh] overflow-y-auto pr-2 text-sm">
+    <div class="text-xs uppercase tracking-widest text-iron-500 mb-2">本页目录</div>
+    <nav>
+      <ul class="space-y-1.5 border-l border-iron-800 pl-3">
+        {filtered.map((h) => (
+          <li class:list={[h.depth === 3 && 'pl-3', h.depth === 4 && 'pl-6']}>
+            <a class="block text-iron-400 hover:text-cannon-400 leading-snug" href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}

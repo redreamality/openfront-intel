@@ -1,0 +1,31 @@
+---
+export interface RelatedItem {
+  href: string;
+  title: string;
+  description?: string;
+  date?: Date;
+}
+export interface Props {
+  title?: string;
+  items: RelatedItem[];
+}
+const { title = '相关内容', items } = Astro.props as Props;
+const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(d) : '');
+---
+
+{items.length > 0 && (
+  <section class="mt-16 border-t border-iron-800 pt-8">
+    <h2 class="text-lg font-semibold text-iron-50">{title}</h2>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      {items.map((it) => (
+        <li>
+          <a href={it.href} class="block rounded border border-iron-800 bg-iron-900/40 p-4 hover:border-cannon-600/60 hover:bg-iron-900/70 transition-colors">
+            <div class="text-cannon-400 font-medium">{it.title}</div>
+            {it.description && <p class="mt-1 text-sm text-iron-300 leading-relaxed">{it.description}</p>}
+            {it.date && <p class="mt-2 text-xs text-iron-500 font-mono">{fmt(it.date)}</p>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

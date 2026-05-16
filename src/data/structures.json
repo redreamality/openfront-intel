@@ -1,0 +1,106 @@
+[
+  {
+    "id": "Port",
+    "name": "港口",
+    "enName": "Port",
+    "category": "structure",
+    "role": "海上枢纽：贸易船、运输船与战舰的生成基地。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)，n = 已有港口/工厂数",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 50,
+    "upgradable": true,
+    "notes": [
+      "等级越高，贸易船生成率与收益越高",
+      "可被夺取，被占领后归新主"
+    ]
+  },
+  {
+    "id": "MissileSilo",
+    "name": "导弹井",
+    "enName": "Missile Silo",
+    "category": "structure",
+    "role": "发射核弹的基础设施。",
+    "cost": 1000000,
+    "costFormula": "固定 1,000,000",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 100,
+    "upgradable": true,
+    "notes": [
+      "升级提升装填速度",
+      "AI 核弹会避开 SAM 覆盖区"
+    ]
+  },
+  {
+    "id": "DefensePost",
+    "name": "防御工事",
+    "enName": "Defense Post",
+    "category": "structure",
+    "role": "陆地防御塔：周围 30 tiles 内显著加强防御。",
+    "cost": 50000,
+    "costFormula": "min(250,000, (n+1) × 50,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 50,
+    "upgradable": false,
+    "notes": [
+      "防御区 mag ×5，speed ×3",
+      "范围 30 tiles"
+    ]
+  },
+  {
+    "id": "SAMLauncher",
+    "name": "SAM 防空发射器",
+    "enName": "SAM Launcher",
+    "category": "structure",
+    "role": "拦截原子弹与氢弹的防空设施。",
+    "cost": 1500000,
+    "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 300,
+    "upgradable": true,
+    "notes": [
+      "冷却 90 ticks",
+      "射程随等级 70 → 150 tiles",
+      "不能拦截 MIRV"
+    ]
+  },
+  {
+    "id": "City",
+    "name": "城市",
+    "enName": "City",
+    "category": "structure",
+    "role": "提升人口上限并参与火车贸易。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 20,
+    "upgradable": true,
+    "notes": [
+      "每级 +250,000 部队上限",
+      "即使无港口也可建造（v24）",
+      "是火车站点"
+    ]
+  },
+  {
+    "id": "Factory",
+    "name": "工厂",
+    "enName": "Factory",
+    "category": "structure",
+    "role": "生成火车，搭配铁路与城市形成贸易网。",
+    "cost": 125000,
+    "costFormula": "min(1,000,000, 2^n × 125,000)（与港口共享 n）",
+    "maxHealth": null,
+    "damage": null,
+    "constructionDuration": 20,
+    "upgradable": true,
+    "notes": [
+      "火车生成率 (factories+10) × 15 tick",
+      "可建造铁路环路"
+    ]
+  }
+]

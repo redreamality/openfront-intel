@@ -1,0 +1,35 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pathname = Astro.url.pathname;
+
+const links = [
+  { href: `${base}/mechanics/`, label: '机制' },
+  { href: `${base}/database/`, label: '数据库' },
+  { href: `${base}/strategies/`, label: '攻略' },
+  { href: `${base}/guides/`, label: '教程' },
+  { href: `${base}/changelog/`, label: '更新' },
+  { href: `${base}/glossary/`, label: '词典' },
+];
+
+function isActive(href: string) {
+  const trimmed = href.replace(/\/$/, '');
+  if (trimmed === base) return pathname === base + '/' || pathname === base;
+  return pathname.startsWith(trimmed);
+}
+---
+
+<nav aria-label="主导航">
+  <ul class="flex items-center gap-3 sm:gap-5 text-sm">
+    {links.map((link) => (
+      <li>
+        <a
+          href={link.href}
+          class:list={["nav-link", isActive(link.href) ? 'active' : '']}
+          aria-current={isActive(link.href) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

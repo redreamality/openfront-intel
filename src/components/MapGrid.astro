@@ -1,0 +1,39 @@
+---
+export interface MapItem {
+  id: string;
+  name: string;
+  enName: string;
+  category: string;
+}
+export interface Props {
+  groups: Array<{
+    key: string;
+    label: string;
+    desc: string;
+    items: MapItem[];
+  }>;
+}
+const { groups } = Astro.props as Props;
+---
+
+<div class="space-y-12">
+  {groups.map((g) => (
+    <section id={`cat-${g.key.toLowerCase()}`}>
+      <header class="mb-4 flex flex-wrap items-baseline justify-between gap-3 border-b border-iron-800 pb-2">
+        <h2 class="text-xl font-semibold text-iron-50">
+          {g.label}
+          <span class="ml-2 text-sm font-normal text-iron-500">{g.items.length} 张</span>
+        </h2>
+        <p class="text-sm text-iron-400">{g.desc}</p>
+      </header>
+      <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {g.items.map((m) => (
+          <li class="rounded border border-iron-800 bg-iron-900/40 px-3 py-2 transition-colors hover:border-cannon-600/60 hover:bg-iron-900/70">
+            <div class="text-sm font-medium text-iron-50">{m.name}</div>
+            <div class="text-xs text-iron-500 font-mono">{m.enName}</div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
