@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: openfrontio/OpenFrontIO
-          path: ../OpenFrontIO-src
+          path: OpenFrontIO-src
           fetch-depth: 1
           sparse-checkout: |
             src/core
@@ -37,7 +37,7 @@ jobs:
 
       - name: Stage upstream beside site
         run: |
-          mv ../OpenFrontIO-src ../OpenFrontIO
+          mv OpenFrontIO-src ../OpenFrontIO
           ls ../OpenFrontIO
 
       - uses: pnpm/action-setup@v4
