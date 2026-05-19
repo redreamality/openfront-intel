@@ -57,6 +57,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(alternates.find(a => a.lang === 'en')?.href ?? '/', Astro.site ?? Astro.url).toString()} />
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7R6FVF17YG"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7R6FVF17YG');
+    </script>
+
     <slot name="head" />
   </head>
   <body class="flex flex-col">
