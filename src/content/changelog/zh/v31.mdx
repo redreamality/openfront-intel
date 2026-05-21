@@ -1,0 +1,58 @@
+---
+title: 'v31：Clan 系统 + 水核 + 内陆水域贸易'
+description: 完整 Clan 管理界面与统计；新增 Water Nukes 把陆地变水的玩法；港口/战舰/贸易船在任意水体均可运作。
+pubDate: 2026-05-03
+version: v31
+tags: [changelog, balance, features]
+category: 版本笔记
+---
+
+## 重大新机制
+
+- **Clan 系统**：完整的<strong>战队管理界面</strong>——可浏览、加入、踢人、ban、转让领袖；开放 / 仅邀请两种模式；按游戏模式排序的个人段位榜。Clan stats 按 clan tag 追踪（v31 不强制使用 tag，v32 起强制）。
+- **Water Nukes**：新游戏选项，<strong>核弹把陆地 tile 变成水</strong>。地图被打到后期可能彻底重塑。
+- **湖泊 / 内陆水域贸易**：港口、贸易船、战舰<strong>不再局限于海洋</strong>，任何水体都可作业。Caucasus、Great Lakes 等地图直接受益。
+- **多战舰框选**：Shift+拖动（或长按）<strong>批量框选战舰</strong>统一指挥。
+- **战舰撤退**：受伤战舰<strong>自动撤回</strong>（中心黑色十字标记）；目标优先级改为 运输 > 战舰 > 贸易。
+- **战舰港口治疗**：友方港口附近自动回血，治疗位数量随<strong>港口等级</strong>提升。
+- **房主作弊（私密房）**：可开启无限金币、无限部队、起手大补包。
+- **付费货币购买皮肤**：除 Stripe 外，也能用<strong>游戏内 Plutonium / Caps</strong>买装饰。
+- **战线兵力悬浮**：前线 tile 上方显示<strong>实时攻 / 守部队数</strong>，颜色标识哪方占优。
+- **同盟 / 背叛热键**：K 键申请结盟、L 键解盟，省一次菜单展开。
+- **声效（15 个）**：核爆、建造、结盟、消息、菜单全套 SFX。
+
+## 关键平衡变更
+
+| 项 | 旧 | 新 | 影响 |
+| --- | --- | --- | --- |
+| 战胜玩家收益 | 100% 金币 | <strong>50%</strong> | 减缓滚雪球，让大型玩家不能一战通吃 |
+| SAM 冷却 | 12 秒 | <strong>9 秒</strong> | v30 拉到 12 太慢，回调到 9 |
+| 发射井冷却 | 7.5 秒 | <strong>9 秒</strong> | 核袭节奏整体放缓 |
+| 核弹速度 | 6 tile/tick | <strong>8 tile/tick</strong> | 反应窗口又被缩短 |
+| 港口建造时长 | 2 秒 | <strong>5 秒</strong> | 海军开局更慢 |
+| 进攻方损失比例 | 偏低 | <strong>60 / 40</strong> | 攻方付出比 v30 略增 |
+| Tribes（部落） | 标准强度 | <strong>削弱</strong> | 加快前期扩张 |
+| 运输船 → 自动拒结盟 | 无 | <strong>对方发船时自动拒同盟请求</strong> | 假结盟漏洞继续修补 |
+
+## 新修饰符（公开房）
+
+**Ports Disabled**, **Nukes Disabled**, **SAMs Disabled**, **1M Starting Gold**, **Water Nukes**, **4min Peace Time**。
+
+## 地图（13 张新增 / 改）
+
+**Milky Way**（NASA 银河图，建议深色模式）, **Mare Nostrum**（地中海罗马 vs 蛮族）, **Great Lakes**（重贸易图，城市 NPC）, **Strait of Malacca**（世界最大贸易瓶颈）, **Luna**（对称月球）, **Caucasus**（黑海 / 里海双内陆水域）, **Bering Sea**（替换 Bering Strait）, **Antarctica**（七大洲集齐）, **Archipelago Sea**（芬兰-奥兰）, **Conakry**, **Baja California**, **Los Angeles**（公路当河流）, **Dyslexdria**（April Fools 回归）。Aegean 重新平衡。
+
+## Nation AI
+
+- 公开房 Nation 不再被 city 农：被打时建 DefensePost 而非 City。
+- 团队中的 Hard / Impossible Nation：自动停止与敌人贸易、不跳过强敌、优化 save-up。
+- 5M Gold HvN 中不再开局闪建。
+- 港口分布更均匀。
+
+## 玩家应当调整的策略
+
+1. **击杀人头收益减半**：吃掉一个大玩家的金币只有 50%，<strong>不要为了金币而硬啃 fortified player</strong>，让队友 / Nation 帮你消耗。
+2. **Water Nukes 局会改地形**：模式开启时，地图后期可能完全重画。提前规划<strong>高海拔安全屋</strong>。
+3. **湖泊也能玩海军**：Caucasus / Great Lakes / Nile Delta 等地图，<strong>内陆水域作战</strong>成为常规战术。
+4. **战舰回港治疗**：港口分布除了贸易收益，<strong>治疗位</strong>也成为战舰决定退场点的关键因素。多升级港口，多一处战舰避难所。
+5. **热键 K / L**：高水平局再也不用展开菜单结盟 / 解盟，<strong>盟约节奏</strong>更快。

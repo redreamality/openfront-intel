@@ -1,0 +1,55 @@
+---
+title: 'v30：三个公开房 + 贸易船上限 400'
+description: 主页分 FFA / Teams / Special 三个公开队列；贸易船全局上限从 100 提升到 400；新增 12 张地图与多种修饰符。
+pubDate: 2026-03-12
+version: v30
+tags: [changelog, balance, features]
+category: 版本笔记
+---
+
+## 重大新机制
+
+- **三个公开房队列**：主页拆分为 **FFA / Teams / Special**。Special 永远带 1–4 个修饰符，混乱程度直接拉满。
+- **大厅可见玩家与设置**：和私密房一样，<strong>公开房加入后能看到当前玩家列表和房间设置</strong>。
+- **重连**：网络抖动或不小心刷新页面不再直接掉局，<strong>支持回归同一场比赛</strong>。
+- **铁路 snapping**：原来铁轨上盖建筑会断开，现在<strong>自动拆分并连接</strong>到既有网络。
+- **进攻面板重做**：攻击比例条整合进单位显示，居中、紧凑、移动端友好。
+- **玩家信息面板上移到顶部**：移动端优化。
+- **Nation 数可配置（0–400）**：单人 / 私密房从「开 / 关 Nation」变成<strong>0–400 滑条</strong>。
+
+## 关键平衡变更
+
+| 项 | 旧 | 新 | 影响 |
+| --- | --- | --- | --- |
+| 贸易船全局上限 | ~100 | <strong>~400</strong> | v29 的寻路优化让大规模贸易变得性能可行 |
+| 火车收益曲线 | 线性 | <strong>第 5 个城市站起递减</strong> | 长铁路链超额金币被刹车 |
+| 进攻方损失 | 平衡偏防 | <strong>重新平衡（攻防比例调整）</strong> | 攻方决心进攻时不再亏太多 |
+| SAM 冷却 | 7.5 秒 | <strong>12 秒</strong> | 配合 v25/v27 的 SAM 增强，整体战术节奏拉慢 |
+| 1v1 排位地图池 | 全图随机 | <strong>40% Australia / 20% Iceland / 20% Asia / 20% Europe Classic</strong>，50% 正常 + 50% Compact | 锦标赛标准格式 |
+| World map 频率 | 普通 | <strong>大幅提高</strong> | 经典地图重新成为主流 |
+
+## 新修饰符（公开房 Special 队列）
+
+- **Crowded**：125 名玩家挤进小图，复刻 YouTuber 大乱斗。
+- **25M Starting Gold**：所有人起手 2500 万金币，2.5 分钟出生免疫准备时间。
+- **Hard Nations**：约 20% HvN 把 Nation 难度调到 Hard。
+- **Alliances Disabled**：禁止任何结盟。
+- **x2 Gold**：金币收入翻倍，节奏快进。
+- **PVP 免疫**：5M Gold 模式下增加 30 秒 PVP 免疫，防止瞬秒。
+
+## 地图（12 张新增）
+
+**Alps**（纯陆地，火车贸易）, **The Box**（绝对扁平，纯陆地）, **Hawaii**, **Traders Dream**, **Yenisei**（早期被移除，缩小 3× 后重回）, **San Francisco**, **Arctic**（北极投影，冷战 NPC）, **Nile Delta**（含苏伊士运河）, **Passage**, **Bosphorus Straits**, **Bering Strait**, **Aegean**（希腊-土耳其，城邦 NPC）。
+
+## Nation AI
+
+- 同队 Nation 自动停止与敌方贸易，不再「跳过强敌」，会为团队作战<strong>合理 save-up</strong>。
+- 5M Gold HvN 中不再开局闪建建筑，第一栋默认改为 SAM。
+- 港口位置分布更均匀。
+
+## 玩家应当调整的策略
+
+1. **贸易船 400 上限改变港口策略**：v24 时代的「港口边际收益急剧下滑」逻辑反转，<strong>多港口 + 升级</strong>重新组合成最优解。
+2. **铁路链不要太长**：第 5 个城市开始收益递减，3–5 站短链 + 多条并联比一条长链更优。
+3. **SAM 冷却拉到 12 秒**：单座 SAM 的覆盖密度下降，要么<strong>多座叠</strong>（v27 起射程叠加），要么<strong>多座点</strong>形成接力。
+4. **Special 队列适合短局放松**：FFA / Teams 仍是正规模式，Special 修饰符堆叠适合无脑乱斗。

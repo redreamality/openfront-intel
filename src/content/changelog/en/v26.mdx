@@ -1,0 +1,44 @@
+---
+title: 'v26: UI Overhaul + Nation AI Evolution'
+description: Build menu and player info panel reworked, new resource-gifting modal, rails can cross rivers, AFK teammates' territory can be taken over by their team.
+pubDate: 2025-10-14
+version: v26
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Major New Mechanics
+
+- **New Build Bar**: Replaces the old radial submenu — buttons pinned to the bottom of the screen, common buildings one click away.
+- **New player info panel**: The top-right player info card has been redesigned. Stats, diplomacy, and current troops are visible at a glance.
+- **Resource gifting modal**: Right-clicking an ally opens a standalone window where you can send a specific amount of troops / gold in one go.
+- **Rails cross rivers**: Train tracks can now span rivers, making long-distance rail networks far easier to build out.
+- **AFK takeover**: Territory you couldn't get from active teammates can now be <strong>seized directly from disconnected teammates</strong>.
+- **Delete units**: Regret a build? Right-click your own units to manually tear them down and recover part of the gold.
+
+## Key Balance Changes
+
+| Item | Old | New | Impact |
+| --- | --- | --- | --- |
+| Teammate AFK | Only you keep playing | <strong>Team can take over their territory and ships</strong> | Reduces team losses from disconnects |
+| MIRV warhead spread | Tighter | <strong>Wider outer ring scatter</strong> | More psychological pressure, harder to defend everything |
+| Port trade ship rate | High | <strong>Lowered</strong>, paired with the v25 global cap | The gold ceiling from port count is pushed down further |
+| Conspiracy traps | Ambush after betrayal → penalty | <strong>Attacking immediately after a new alliance counts as betrayal</strong> | Fixes the "fake alliance instant-snipe" exploit |
+
+## Nation AI Improvements
+
+- Nations make smarter overall decisions: caching player info, dynamically allying based on threat.
+- No more "mindless nukes": targets are evaluated for value before launch.
+- Nations on a team will actively support attacked teammates.
+
+## Maps
+
+- New **Japan** and **Montreal** maps (aotumuri / Duwibi).
+- Map asset compression: client size from 140 MB → 30 MB (lossless).
+- Fixed Strait of Gibraltar map boundary issue.
+
+## Strategies Players Should Adjust
+
+1. **Grab AFK teammates' territory**: From v26 on, idle teammates are effectively the team's reserve resource pool.
+2. **Demolish-rebuild loop**: The unit deletion refund makes early-game experimentation cheaper — you can be more aggressive about placement.
+3. **Rails string continents together**: With cross-river support, island and river-heavy maps can now also host factory networks.

@@ -1,0 +1,51 @@
+---
+title: 'v29 : Classé 1v1 + refonte du menu principal'
+description: Introduction du classé 1v1 en Elo, Hierarchical Pathfinding (jusqu'à 500× plus rapide pour les navires), modificateurs aléatoires en public et système de succès en solo.
+pubDate: 2026-01-19
+version: v29
+tags: [changelog, balance, features]
+category: Notes de version
+---
+
+## Nouvelles mécaniques majeures
+
+- **Classé 1v1 (Elo)** : un bouton violet sur la page d'accueil lance directement le matchmaking 1v1, <strong>avec rangs Elo</strong>. Première version dotée d'un véritable ladder.
+- **Refonte du menu principal** : l'interface globale est repensée, l'organisation des composants est plus claire.
+- **Hierarchical Pathfinding** : le pathfinding des navires accélère jusqu'à <strong>500 fois</strong> et gagne en précision ; les expéditions navales longue distance deviennent une tactique viable.
+- **Retour de HvN** : le mode équipe Humans vs Nations, désactivé en v27 pour cause de déséquilibre, revient en v29 — le nombre de joueurs et de Nations s'ajuste automatiquement, difficulté Hard par défaut.
+- **Succès solo** : chaque carte et chaque difficulté terminées débloquent un <strong>succès dédié</strong>, sauvegardé sur le compte.
+- **Modificateurs aléatoires en public** : les salons publics affichent 1 ou plusieurs tags violets de modificateurs (Random Spawn / Compact Map / 5M Starting Gold) pour accroître la variété.
+- **Rapport de fin de partie (End of Game Report)** : à la fin de la partie, une fenêtre récapitulative s'ouvre avec trois axes — <strong>survie, guerre, économie</strong>.
+- **Pause en lobby privé** : l'hôte peut mettre la partie en pause, pratique pour discuter, faire une capture ou gérer un imprévu.
+
+## Changements d'équilibrage clés
+
+| Élément | Avant | Après | Impact |
+| --- | --- | --- | --- |
+| Nombre de joueurs en public | En dur | <strong>Calcul dynamique selon le nombre de tiles terrestres</strong> (plafond 125) | Les grandes cartes augmentent automatiquement leur capacité |
+| Protection nucléaire alliée | Uniquement interception SAM | <strong>Une nouvelle alliance détruit instantanément les nukes en vol entre alliés</strong> | Plus moyen d'envoyer une ogive « en douce » à la seconde où l'on signe |
+| Avertissement de nuke | Simple marqueur de portée | <strong>Anneau d'alerte rouge si le tir brise une alliance</strong> | Le taux de tirs accidentels chute fortement |
+| Triche Nation | Déjà réduite de 50 % en v28 | <strong>Encore -50 %</strong> (uniquement Hard / Impossible) | Les hautes difficultés reposent davantage sur le comportement IA que sur les écarts numériques |
+| Nukes des Nations | Parfois interceptés par les SAM | <strong>Impossible évite les SAM à 100 %</strong> | Les Nations en haute difficulté ne gaspillent quasiment plus de tirs nucléaires |
+| Plafond de joueurs | Statique | <strong>Adaptatif à la masse terrestre, jusqu'à 125</strong> | Extension de capacité pour les grandes cartes |
+
+## UI / QoL
+
+- Bordure de couleur diplomatique en lobby : le pourtour du territoire se teinte en vert/rouge selon la relation.
+- Les coéquipiers en phase de spawn sont <strong>mis en évidence par pulsation</strong>, plus faciles à repérer.
+- Le clic droit sur un allié dans le menu radial permet désormais d'<strong>envoyer rapidement des troupes</strong>.
+- La carte d'info joueur affiche une nouvelle <strong>barre de pourcentage de troupes</strong>.
+- En Alternate View, vos propres rails s'illuminent en vert clair.
+- Les bâtiments en placement affichent leur <strong>coût sous le curseur</strong> (option désactivable dans les paramètres).
+- De nombreux raccourcis auparavant codés en dur sont désormais <strong>configurables</strong>.
+- Renommage des difficultés Nation : relaxed/balanced/intense/impossible deviennent easy/medium/hard/impossible.
+
+## Cartes (10 ajouts)
+
+**Two Lakes**, **Britannia** (l'original renommé Britannia (Classic)), **Amazon River** (carte fluviale 280×5536), **Surrounded**, **Strait of Hormuz**, **Lemnos** (île grecque, inspirée d'Arma3), **Sierpinski** (carte fractale party), **Didier (France)** × 2.
+
+## Stratégies que les joueurs devraient adapter
+
+1. **Classé 1v1** : la fenêtre la plus douce à chaque version, c'est celle où l'on rattrape son Elo de référence ; prendre le 1v1 au sérieux pour assurer son rang.
+2. **Retour de HvN** : premier mode HvN officiellement jouable depuis v27 ; le team play y est plus contrôlable qu'en FFA public.
+3. **Les indices UI sur les nukes réduisent les bavures** : les défaites passées dues à un alli accidentellement bombardé faute d'avertissement au survol disparaissent presque complètement à partir de v29.

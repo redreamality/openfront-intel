@@ -1,0 +1,43 @@
+---
+title: 'v25: Trains in Public Lobbies + Linearized Economy'
+description: Worker/troop allocation bar removed, all players fixed at 1000 gold/sec; Factory and Train enter public matchmaking for the first time; SAMs now lock intelligently.
+pubDate: 2025-08-21
+version: v25
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Major New Mechanics
+
+- **Worker / troop ratio bar removed**: The UI that previously required you to manually allocate between "workers" and "troops" has been cut. Everyone now gains troops on a fixed time-based rate. This lowers the barrier for new players, but also takes away a micro-optimization point from mid/high-level players.
+- **Trains enter public matchmaking**: The Factory + Train system, which was only available in private lobbies in v24, is now officially open to public games.
+- **Intelligent SAM lock**: SAMs only fire at nukes whose impact point is near their own coverage zone, avoiding wasted ammo against a sea of MIRVs.
+
+## Key Balance Changes
+
+| Item | Old | New | Impact |
+| --- | --- | --- | --- |
+| Player gold rate | Tied to population | <strong>Fixed 1000/sec</strong> (Bots 500/sec) | Pure troop-hoarding early-game strategies are weakened |
+| Port / Factory pricing | Separate curves | <strong>Shared pricing curve</strong> | Port marginal cost rises faster |
+| Trade Ship spawning | Directly tied to port count | Modulated by <strong>port count × global trade ship total</strong> | Diminishing returns on stacking ports continue |
+| Betrayal penalty | Any target | <strong>Only against non-AFK players</strong> | Grabbing AFK territory no longer costs you score |
+| Large players | No special modifier | <strong>Defense debuff</strong> | Snowballing players get gangbanged more easily |
+
+## UI / QoL
+
+- New FPS monitor overlay.
+- Teammates now automatically get distinguishing secondary colors based on the team's primary color.
+- Private lobby kick support.
+- Main menu / modal ESC-to-close support.
+- Further dark mode refinements.
+
+## Maps
+
+- New **Pluto** map (public + single-player rotation).
+- **Baikal** added to the public matchmaking pool at higher frequency.
+
+## Strategies Players Should Adjust
+
+1. **Gold rate is not population rate**: Fixed gold income nerfs the pure early-game troop-rushing expansion, you have to convert troops into gold to keep snowballing.
+2. **Port strategy continues to shift toward "upgrading"**: The shared port/factory curve means the 5th+ piece of infrastructure becomes ever more expensive — upgrading existing ports beats stacking new ones.
+3. **No more penalty for grabbing AFKs**: You can confidently harvest offline players without worrying about the betrayal penalty.

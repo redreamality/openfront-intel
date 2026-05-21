@@ -1,0 +1,43 @@
+---
+title: 'v25 : Les trains arrivent en lobby public + linéarisation économique'
+description: Suppression de la barre de répartition worker/troop, tous les joueurs fixés à 1000 pièces d'or/seconde ; les Factory et Trains entrent pour la première fois en matchmaking public ; verrouillage intelligent des SAM.
+pubDate: 2025-08-21
+version: v25
+tags: [changelog, balance, features]
+category: Notes de version
+---
+
+## Nouvelles mécaniques majeures
+
+- **Suppression de la barre de ratio worker / troop** : l'UI qui permettait auparavant de répartir manuellement entre « ouvriers » et « troupes » a été supprimée ; tous les joueurs gagnent des troupes en fonction du temps, à un rythme fixe. Cela abaisse la barrière pour les nouveaux joueurs et retire un levier de micro-optimisation aux joueurs intermédiaires et avancés.
+- **Les trains entrent en matchmaking public** : le système Factory + Train, introduit en v24 mais limité aux lobbies privés, est désormais ouvert aux salons publics.
+- **Verrouillage intelligent des SAM** : les SAM ne tirent que sur les nukes dont le point d'impact se trouve à proximité, évitant ainsi d'épuiser leurs munitions face à une vague de MIRV.
+
+## Changements d'équilibrage clés
+
+| Élément | Avant | Après | Impact |
+| --- | --- | --- | --- |
+| Vitesse de revenu en or | Liée à la population | <strong>Fixée à 1000/s</strong> (Bots à 500/s) | Les stratégies de début de partie reposant sur l'accumulation pure de troupes sont affaiblies |
+| Tarification des ports / factories | Courbes séparées | <strong>Partagent la même courbe de prix</strong> | Le coût marginal des ports augmente plus vite |
+| Génération des Trade Ships | Liée directement au nombre de ports | Ajustée par <strong>nombre de ports × total global de Trade Ships</strong> | Le rendement marginal des nombreux ports continue de décroître |
+| Pénalité de trahison | Sur n'importe quelle cible | <strong>Active uniquement contre les joueurs non-AFK</strong> | Achever un AFK ne pénalise plus le score |
+| Joueurs très étendus | Aucun ajustement particulier | <strong>Malus défensif</strong> | Les joueurs en effet boule de neige sont plus faciles à attaquer en meute |
+
+## UI / QoL
+
+- Nouvelle fenêtre flottante de monitoring FPS.
+- Les coéquipiers sont automatiquement différenciés par une couleur secondaire dérivée de la couleur d'équipe principale.
+- Les lobbies privés permettent d'expulser des joueurs.
+- Le menu principal et les pop-ups se ferment avec ÉCHAP.
+- Adaptation du mode sombre poursuivie.
+
+## Cartes
+
+- Ajout de la carte **Pluto** (rotation publique + solo).
+- **Baikal** passe à une fréquence d'apparition plus élevée dans le pool de matchmaking public.
+
+## Stratégies que les joueurs devraient adapter
+
+1. **Empiler l'or n'est plus égal à empiler la population** : l'or fixe affaiblit l'expansion fondée sur le spam de troupes en début de partie ; il faut convertir les troupes en or pour continuer à bénéficier des effets cumulatifs.
+2. **La stratégie portuaire continue de pivoter vers « améliorer »** : la courbe partagée port/factory rend chaque infrastructure à partir de la cinquième de plus en plus chère ; améliorer les ports existants reste plus rentable que d'en empiler.
+3. **Achever un AFK ne pèse plus** : il est désormais sûr de moissonner les joueurs déconnectés sans craindre le malus de trahison.

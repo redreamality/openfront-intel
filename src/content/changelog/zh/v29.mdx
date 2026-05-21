@@ -1,0 +1,51 @@
+---
+title: 'v29：排位 1v1 + 主菜单重做'
+description: 引入 Elo 1v1 排位、Hierarchical Pathfinding（500× 海军路径优化），公开房随机修饰符与单人成就系统。
+pubDate: 2026-01-19
+version: v29
+tags: [changelog, balance, features]
+category: 版本笔记
+---
+
+## 重大新机制
+
+- **排位 1v1（Elo）**：主页紫色按钮直接匹配 1v1，<strong>带 Elo 段位</strong>。第一个有正式天梯的版本。
+- **主菜单重做**：界面整体翻新，组件结构更清晰。
+- **Hierarchical Pathfinding**：船只寻路提速 <strong>最多 500 倍</strong>且更精准，长距离海军远征成为可行战术。
+- **HvN 回归**：Humans vs Nations 团队模式在 v27 因不平衡被关闭，v29 重新上线 —— 人数与 Nation 数自动匹配，默认 Hard。
+- **单人成就**：每张地图 / 每个难度通关都解锁<strong>专属成就</strong>，绑定账号保存。
+- **公开房随机修饰符**：主页公开房会带 1+ 紫色 tag 修饰符（Random Spawn / Compact Map / 5M Starting Gold），增加多样性。
+- **结算报告（End of Game Report）**：游戏结束后弹出 <strong>生存 / 战争 / 经济</strong> 三维统计窗口。
+- **私密大厅暂停**：房主可暂停游戏，方便讨论 / 截图 / 处理突发。
+
+## 关键平衡变更
+
+| 项 | 旧 | 新 | 影响 |
+| --- | --- | --- | --- |
+| 公开房人数 | 硬编码 | <strong>按陆地 tile 数动态计算</strong>（上限 125） | 大地图人数自动扩容 |
+| 同盟核保护 | 仅 SAM 拦截 | <strong>新结盟瞬间销毁盟友间在飞核弹</strong> | 杜绝盟约瞬间「偷偷送一发」 |
+| 核弹警告 | 仅射程标记 | <strong>会破坏同盟的核弹显示红色警告圈</strong> | 误操作率大幅下降 |
+| Nation 作弊 | v28 已削 50% | <strong>再砍 50%</strong>（仅 Hard / Impossible） | 高难度更靠 AI 行为而非数值差 |
+| Nation 核弹 | 偶尔被 SAM 拦 | <strong>Impossible 100% 绕开 SAM</strong> | 高难度 Nation 几乎不会无效核袭 |
+| 玩家上限 | 静态 | <strong>land 自适应，最多 125 人</strong> | 大地图扩容 |
+
+## UI / QoL
+
+- 大厅外交色边框：领土边沿染绿 / 红表示外交关系。
+- 出生阶段队友<strong>脉冲高亮</strong>，方便识别。
+- 雷达菜单右键友军可<strong>快速送兵</strong>。
+- 玩家信息卡新增<strong>部队百分比条</strong>。
+- 自家铁路在 Alternate View 高亮亮绿色。
+- 占位建筑显示<strong>光标下成本</strong>（可在选项中关闭）。
+- 大量原硬编码热键改为<strong>可配置</strong>。
+- Nation 难度命名从 relaxed/balanced/intense/impossible 改为 easy/medium/hard/impossible。
+
+## 地图（10 张新增）
+
+**Two Lakes**, **Britannia**（原图改名 Britannia (Classic)）, **Amazon River**（280×5536 长条河图）, **Surrounded**, **Strait of Hormuz**, **Lemnos**（希腊岛屿、Arma3 灵感）, **Sierpinski**（分形派对图）, **Didier (France)** × 2。
+
+## 玩家应当调整的策略
+
+1. **1v1 排位**：每个版本第一个能稳定追平 Elo 的窗口期最香，认真打 1v1 拿段位。
+2. **HvN 模式回归**：v27 之后第一次正式可玩，team play 体验比公开 FFA 更可控。
+3. **核弹 UI 提示让误炸减少**：之前因为 hover 看不到联盟破坏警告而失误炸盟友的局，v29 起几乎杜绝。

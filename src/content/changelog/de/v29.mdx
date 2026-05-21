@@ -1,0 +1,51 @@
+---
+title: 'v29: Ranked 1v1 + Hauptmenü-Überarbeitung'
+description: Einführung des Elo-1v1-Rankings, Hierarchical Pathfinding (bis zu 500× schnellere Marine-Routenfindung), Zufalls-Modifikatoren für Public Lobbys und Achievement-System im Einzelspieler.
+pubDate: 2026-01-19
+version: v29
+tags: [changelog, balance, features]
+category: Versionshinweise
+---
+
+## Wichtige neue Mechaniken
+
+- **Ranked 1v1 (Elo)**: Der violette Button auf der Startseite startet direkt ein 1v1, <strong>mit Elo-Liga</strong>. Erste Version mit offizieller Bestenliste.
+- **Hauptmenü-Überarbeitung**: Gesamte Oberfläche überholt, klarere Komponentenstruktur.
+- **Hierarchical Pathfinding**: Schiffs-Routenfindung um <strong>bis zu Faktor 500</strong> beschleunigt und genauer — Marine-Expeditionen über lange Strecken werden eine realistische Taktik.
+- **HvN kehrt zurück**: Humans vs Nations wurde in v27 wegen Imbalance abgeschaltet, ab v29 ist es zurück — Spieler- und Nationen-Zahl gleichen sich automatisch aus, Standard ist Hard.
+- **Achievements im Einzelspieler**: Jede Karte / jede Schwierigkeitsstufe schaltet beim Durchspielen <strong>eigene Achievements</strong> frei, an den Account gebunden.
+- **Zufalls-Modifikatoren in Public Lobbys**: Public-Räume auf der Startseite haben mindestens einen violetten Tag-Modifikator (Random Spawn / Compact Map / 5M Starting Gold) — mehr Abwechslung.
+- **End of Game Report**: Nach Spielende öffnet sich ein Statistik-Fenster mit den drei Dimensionen <strong>Überleben / Krieg / Wirtschaft</strong>.
+- **Pause in privaten Lobbys**: Der Host kann das Spiel pausieren — praktisch für Besprechungen / Screenshots / Notfälle.
+
+## Wichtige Balance-Änderungen
+
+| Punkt | Alt | Neu | Auswirkung |
+| --- | --- | --- | --- |
+| Public-Lobby-Spielerzahl | Hartkodiert | <strong>Dynamisch nach Land-Tile-Zahl</strong> berechnet (max. 125) | Große Karten skalieren automatisch |
+| Bündnis-Atomschutz | Nur durch SAM-Abfangen | <strong>Neues Bündnis zerstört sofort fliegende Nukes zwischen Verbündeten</strong> | Schließt den „Bündnis schließen und schnell eine Bombe schmuggeln"-Exploit |
+| Nuke-Warnung | Nur Reichweiten-Markierung | <strong>Bündnis-brechende Nukes zeigen einen roten Warnring</strong> | Versehentliche Auslösungen sinken stark |
+| Nation-Cheats | In v28 um 50 % gesenkt | <strong>Weitere 50 % weniger</strong> (nur Hard / Impossible) | Hohe Schwierigkeiten setzen auf KI-Verhalten statt Zahlenboni |
+| Nation-Nukes | Wurden manchmal von SAMs abgefangen | <strong>Impossible umgeht SAMs zu 100 %</strong> | High-Tier-Nationen führen kaum noch wirkungslose Atomschläge |
+| Spieler-Limit | Statisch | <strong>An Landgröße angepasst, max. 125</strong> | Skalierung für große Karten |
+
+## UI / QoL
+
+- Diplomatie-Farbrahmen in der Lobby: Territoriumsränder werden grün / rot je nach diplomatischer Beziehung gefärbt.
+- Während der Spawn-Phase werden Teammates <strong>pulsierend hervorgehoben</strong> zum leichteren Erkennen.
+- Im Radial-Menü kann mit Rechtsklick auf Verbündete <strong>schnell Truppen verschickt</strong> werden.
+- Spieler-Infokarte erhält eine <strong>Truppen-Prozentanzeige</strong>.
+- Eigene Schienen leuchten im Alternate View hellgrün.
+- Platzhalter-Gebäude zeigen die <strong>Kosten unter dem Cursor</strong> (in den Optionen abschaltbar).
+- Viele bisher fest verdrahtete Hotkeys sind nun <strong>konfigurierbar</strong>.
+- Nation-Schwierigkeitsnamen geändert von relaxed/balanced/intense/impossible zu easy/medium/hard/impossible.
+
+## Karten (10 neue)
+
+**Two Lakes**, **Britannia** (Original umbenannt in Britannia (Classic)), **Amazon River** (280×5536 langgezogene Flusskarte), **Surrounded**, **Strait of Hormuz**, **Lemnos** (griechische Insel, Arma3-inspiriert), **Sierpinski** (Fraktal-Partykarte), **Didier (France)** × 2.
+
+## Strategien, die Spieler anpassen sollten
+
+1. **1v1-Ranked**: Das beste Zeitfenster jeder Version ist die Phase, in der man Elo stabil aufholen kann — ernsthaft 1v1 spielen, um Liga aufzubauen.
+2. **HvN-Modus ist zurück**: Erste offiziell spielbare Version seit v27 — Teamplay fühlt sich gezielter steuerbar an als reines Public-FFA.
+3. **Nuke-UI verhindert Fehlschüsse**: Vorher wurden durch unsichtbare Bündnis-Warnungen oft Verbündete versehentlich gebombt — ab v29 quasi ausgeschlossen.

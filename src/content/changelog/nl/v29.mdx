@@ -1,0 +1,51 @@
+---
+title: 'v29: Ranked 1v1 + hoofdmenu opnieuw ontworpen'
+description: Introductie van Elo-gerangschikte 1v1, Hierarchical Pathfinding (tot 500× snellere zeevaart), willekeurige modifiers in publieke lobby''s en een singleplayer-achievementsysteem.
+pubDate: 2026-01-19
+version: v29
+tags: [changelog, balance, features]
+category: Release-notities
+---
+
+## Belangrijke nieuwe mechanieken
+
+- **Ranked 1v1 (Elo)**: De paarse knop op de homepage start direct een 1v1-match <strong>met Elo-rang</strong>. De eerste versie met een echt klassement.
+- **Hoofdmenu opnieuw ontworpen**: Visueel volledig vernieuwd, met een helderdere componentstructuur.
+- **Hierarchical Pathfinding**: Pathfinding van schepen is <strong>tot 500 keer sneller</strong> en preciezer; langeafstandsexpedities ter zee worden een levensvatbare tactiek.
+- **HvN keert terug**: Humans vs Nations was in v27 wegens balansproblemen offline gehaald; vanaf v29 weer beschikbaar — aantal mensen en aantal Nations worden automatisch op elkaar afgestemd, standaard op Hard.
+- **Singleplayer-achievements**: Elke kaart × moeilijkheidsgraad-combinatie ontgrendelt een <strong>specifieke achievement</strong>, gekoppeld aan je account.
+- **Willekeurige modifiers in publieke lobby's**: De publieke lobby op de homepage krijgt 1+ paarse modifier-tags (Random Spawn / Compact Map / 5M Starting Gold) voor extra variatie.
+- **End of Game Report**: Na afloop verschijnt een driedelig overzicht met statistieken voor <strong>overleving / oorlog / economie</strong>.
+- **Pauze in privé-lobby's**: De host kan het spel pauzeren — handig voor discussies, screenshots of urgente onderbrekingen.
+
+## Belangrijke balanswijzigingen
+
+| Item | Oud | Nieuw | Impact |
+| --- | --- | --- | --- |
+| Spelersaantal publieke lobby | Hardcoded | <strong>Dynamisch op basis van aantal land-tiles</strong> (max 125) | Grote kaarten schalen automatisch op |
+| Allianties + nukes | Alleen SAM-interceptie | <strong>Lopende nukes tussen bondgenoten vernietigen zich direct bij sluiten van alliantie</strong> | Geen "even snel een nuke sturen voor je een verbond sluit"-truc meer |
+| Nuke-waarschuwing | Alleen bereik gemarkeerd | <strong>Nukes die een verbond zouden breken krijgen een rode waarschuwingscirkel</strong> | Foutieve klikken nemen sterk af |
+| Nation-cheating | In v28 al 50% omlaag | <strong>Nog eens 50% omlaag</strong> (alleen Hard / Impossible) | Hogere moeilijkheidsgraden steunen meer op AI-gedrag dan op cijferverschillen |
+| Nation-nukes | Soms onderschept door SAM | <strong>Op Impossible 100% ontwijking van SAMs</strong> | Hoge-moeilijkheids-Nations verspillen vrijwel nooit een nuke |
+| Spelersplafond | Statisch | <strong>Land-adaptief, tot 125 spelers</strong> | Grote kaarten schalen op |
+
+## UI / QoL
+
+- Diplomatieke randkleur op het gebied: groen/rood om bondgenoten en vijanden aan te geven.
+- Tijdens spawn lichten teamgenoten <strong>met een pulse op</strong> voor snelle herkenning.
+- Rechtsklikken op een bondgenoot in het radial-menu maakt <strong>snel troops sturen</strong> mogelijk.
+- De spelerskaart krijgt een <strong>balk met troop-percentage</strong>.
+- Eigen spoorlijnen lichten in Alternate View helderdgroen op.
+- Placeholder-gebouwen tonen <strong>kosten onder de cursor</strong> (uit te schakelen in de opties).
+- Veel voorheen hardcoded hotkeys zijn nu <strong>configureerbaar</strong>.
+- Nation-moeilijkheidsnamen wijzigen van relaxed/balanced/intense/impossible naar easy/medium/hard/impossible.
+
+## Kaarten (10 nieuw)
+
+**Two Lakes**, **Britannia** (oude versie hernoemd tot Britannia (Classic)), **Amazon River** (lange smalle rivierkaart van 280×5536), **Surrounded**, **Strait of Hormuz**, **Lemnos** (Grieks eiland, geïnspireerd op Arma3), **Sierpinski** (fractale partykaart), **Didier (France)** × 2.
+
+## Strategieën die spelers moeten aanpassen
+
+1. **Ranked 1v1**: het tijdvenster waarin een nieuwe versie nog niet uitgemeten is, is het waardevolst — speel je 1v1's nu serieus om je Elo binnen te halen.
+2. **HvN keert terug**: voor het eerst sinds v27 officieel speelbaar, met een controleerbaarder teamplay-gevoel dan publieke FFA.
+3. **UI-hint maakt foutbombardementen zeldzaam**: voorheen verloren spelers wel eens bondgenoten omdat de alliantiebreuk-waarschuwing pas bij hover zichtbaar was; vanaf v29 is dat probleem vrijwel verdwenen.

@@ -1,0 +1,55 @@
+---
+title: 'v30 : Trois salons publics + plafond Trade Ship à 400'
+description: La page d'accueil propose trois files publiques (FFA / Teams / Special) ; le plafond global de Trade Ship passe de 100 à 400 ; 12 nouvelles cartes et plusieurs modificateurs.
+pubDate: 2026-03-12
+version: v30
+tags: [changelog, balance, features]
+category: Notes de version
+---
+
+## Nouvelles mécaniques majeures
+
+- **Trois files de salons publics** : la page d'accueil est scindée en **FFA / Teams / Special**. La file Special embarque toujours entre 1 et 4 modificateurs, ce qui pousse le niveau de chaos au maximum.
+- **Joueurs et paramètres visibles en lobby** : comme en lobby privé, <strong>après avoir rejoint un salon public on voit la liste des joueurs et la configuration de la partie</strong>.
+- **Reconnexion** : une coupure réseau ou un rafraîchissement involontaire de la page ne fait plus quitter la partie ; <strong>il est possible de revenir dans le même match</strong>.
+- **Snapping ferroviaire** : construire au-dessus d'un rail existant ne le coupe plus ; le rail est <strong>automatiquement scindé et connecté</strong> au réseau existant.
+- **Refonte du panneau d'attaque** : la barre de pourcentage d'attaque est intégrée à l'affichage des unités ; centré, compact, plus convivial sur mobile.
+- **Panneau d'info joueur déplacé en haut** : optimisation mobile.
+- **Nombre de Nations configurable (0–400)** : en solo et en lobby privé, la bascule « Nations on/off » devient un <strong>curseur de 0 à 400</strong>.
+
+## Changements d'équilibrage clés
+
+| Élément | Avant | Après | Impact |
+| --- | --- | --- | --- |
+| Plafond global de Trade Ship | ~100 | <strong>~400</strong> | Les optimisations de pathfinding de v29 rendent le grand commerce viable en performances |
+| Courbe de revenus train | Linéaire | <strong>Rendement décroissant à partir de la 5ᵉ gare City</strong> | Les longues chaînes ferroviaires sont freinées sur leurs gains excessifs |
+| Pertes côté attaquant | Légèrement favorable à la défense | <strong>Rééquilibrage du ratio attaque/défense</strong> | Un attaquant décidé ne perd plus autant qu'avant |
+| Cooldown SAM | 7,5 s | <strong>12 s</strong> | En combinaison avec les renforcements SAM de v25/v27, le tempo tactique global ralentit |
+| Pool de cartes du 1v1 classé | Tirage aléatoire global | <strong>40 % Australia / 20 % Iceland / 20 % Asia / 20 % Europe Classic</strong>, 50 % normal + 50 % Compact | Format standard pour les tournois |
+| Fréquence de la World map | Normale | <strong>Fortement augmentée</strong> | Les cartes classiques redeviennent dominantes |
+
+## Nouveaux modificateurs (file Special en public)
+
+- **Crowded** : 125 joueurs entassés sur une petite carte, à la manière des mêlées géantes de YouTubers.
+- **25M Starting Gold** : tous les joueurs commencent avec 25 millions d'or et 2 minutes 30 d'immunité au spawn pour préparer.
+- **Hard Nations** : environ 20 % des HvN passent les Nations en difficulté Hard.
+- **Alliances Disabled** : toute alliance est interdite.
+- **x2 Gold** : revenus d'or doublés, tempo en avance rapide.
+- **Immunité PVP** : en mode 5M Gold, ajout de 30 secondes d'immunité PVP supplémentaires pour empêcher les one-shot.
+
+## Cartes (12 ajouts)
+
+**Alps** (pure terre, idéale pour le commerce ferroviaire), **The Box** (totalement plate, pure terre), **Hawaii**, **Traders Dream**, **Yenisei** (retirée à l'époque, réduite 3× et de retour), **San Francisco**, **Arctic** (projection polaire, NPC Guerre froide), **Nile Delta** (avec le canal de Suez), **Passage**, **Bosphorus Straits**, **Bering Strait**, **Aegean** (Grèce-Turquie, NPC cités-États).
+
+## Nation AI
+
+- Les Nations d'une même équipe arrêtent automatiquement de commercer avec l'adversaire, ne « contournent » plus les ennemis forts et <strong>économisent rationnellement</strong> pour les opérations de groupe.
+- En HvN 5M Gold, plus de constructions éclair en début de partie ; le premier bâtiment passe par défaut à SAM.
+- Distribution des ports plus uniforme.
+
+## Stratégies que les joueurs devraient adapter
+
+1. **Le plafond Trade Ship à 400 change la stratégie portuaire** : la logique « rendement marginal des ports en chute libre » de l'époque v24 s'inverse ; <strong>multiplier les ports et les améliorer</strong> redevient la combinaison optimale.
+2. **Ne pas étirer les chaînes ferroviaires** : le rendement décroît dès la 5ᵉ gare ; des chaînes courtes de 3 à 5 stations en parallèle valent mieux qu'une longue ligne.
+3. **Cooldown SAM porté à 12 s** : la densité de couverture d'un seul SAM diminue ; il faut soit <strong>les empiler</strong> (portée cumulée depuis v27), soit <strong>les disperser par relais</strong>.
+4. **La file Special convient aux parties courtes pour décompresser** : FFA et Teams restent les modes sérieux, les modificateurs empilés de Special se prêtent à une mêlée sans réfléchir.

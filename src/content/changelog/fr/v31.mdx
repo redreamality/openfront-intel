@@ -1,0 +1,58 @@
+---
+title: 'v31 : Système de Clan + Water Nukes + commerce sur eaux intérieures'
+description: Interface complète de gestion de Clan et statistiques ; ajout des Water Nukes qui transforment la terre en eau ; ports, Warships et Trade Ships fonctionnent désormais sur tout plan d'eau.
+pubDate: 2026-05-03
+version: v31
+tags: [changelog, balance, features]
+category: Notes de version
+---
+
+## Nouvelles mécaniques majeures
+
+- **Système de Clan** : <strong>interface complète de gestion d'équipe</strong> — parcourir, rejoindre, expulser, bannir, transférer le leadership ; deux modes (ouvert / sur invitation) ; classement individuel par mode de jeu. Les stats de Clan sont suivies par tag de Clan (le tag n'est pas obligatoire en v31, il le deviendra en v32).
+- **Water Nukes** : nouvelle option de partie, <strong>les nukes transforment les tiles de terre en eau</strong>. En fin de partie, la carte peut être totalement remodelée.
+- **Commerce sur lacs et eaux intérieures** : les ports, Trade Ships et Warships <strong>ne sont plus limités aux océans</strong> ; tout plan d'eau est opérationnel. Les cartes type Caucasus ou Great Lakes en bénéficient directement.
+- **Sélection multiple de Warships** : Maj+glisser (ou appui long) <strong>sélectionne plusieurs Warships</strong> pour les commander d'un seul ordre.
+- **Retraite de Warship** : les Warships endommagés <strong>se replient automatiquement</strong> (marqueur croix noire au centre) ; la priorité de cible devient transport > Warship > commerce.
+- **Soin de Warship en port** : régénération automatique à proximité d'un port allié ; le nombre d'emplacements de soin augmente avec le <strong>niveau du port</strong>.
+- **Triche de l'hôte (lobby privé)** : possibilité d'activer or infini, troupes infinies, lot de départ massif.
+- **Achat de skins en monnaie payante** : en plus de Stripe, on peut acheter des cosmétiques avec le <strong>Plutonium / Caps</strong> du jeu.
+- **Survol des effectifs sur la ligne de front** : au-dessus des tiles frontalières apparaissent en temps réel <strong>les effectifs d'attaque et de défense</strong>, codés par couleur selon le camp dominant.
+- **Raccourcis alliance / trahison** : K pour demander une alliance, L pour la rompre ; un déploiement de menu en moins.
+- **Effets sonores (15)** : explosion nucléaire, construction, alliance, messages, menus — set complet de SFX.
+
+## Changements d'équilibrage clés
+
+| Élément | Avant | Après | Impact |
+| --- | --- | --- | --- |
+| Gain d'or en battant un joueur | 100 % de son or | <strong>50 %</strong> | Ralentit l'effet boule de neige, empêche les gros joueurs de tout rafler en une bataille |
+| Cooldown SAM | 12 s | <strong>9 s</strong> | Les 12 s de v30 étaient trop lents, retour à 9 s |
+| Cooldown Missile Silo | 7,5 s | <strong>9 s</strong> | Le tempo nucléaire global ralentit |
+| Vitesse des nukes | 6 tiles/tick | <strong>8 tiles/tick</strong> | La fenêtre de réaction est de nouveau réduite |
+| Durée de construction d'un port | 2 s | <strong>5 s</strong> | Le démarrage naval est plus lent |
+| Pertes côté attaquant | Plutôt faibles | <strong>60 / 40</strong> | L'attaquant paie un peu plus qu'en v30 |
+| Tribes | Force standard | <strong>Affaiblies</strong> | L'expansion de début de partie s'accélère |
+| TransportShip → refus auto d'alliance | Aucun | <strong>Lancer un transport refuse automatiquement les demandes d'alliance adverses</strong> | Continuation du colmatage des exploits de fausse alliance |
+
+## Nouveaux modificateurs (en public)
+
+**Ports Disabled**, **Nukes Disabled**, **SAMs Disabled**, **1M Starting Gold**, **Water Nukes**, **4min Peace Time**.
+
+## Cartes (13 ajouts ou refontes)
+
+**Milky Way** (carte de la galaxie par la NASA, mode sombre recommandé), **Mare Nostrum** (Méditerranée, Rome contre Barbares), **Great Lakes** (carte commerciale, NPC City), **Strait of Malacca** (le plus grand goulet commercial mondial), **Luna** (Lune symétrique), **Caucasus** (mer Noire / Caspienne, deux étendues d'eau intérieures), **Bering Sea** (remplace Bering Strait), **Antarctica** (les sept continents au complet), **Archipelago Sea** (Finlande-Åland), **Conakry**, **Baja California**, **Los Angeles** (les autoroutes en guise de rivières), **Dyslexdria** (retour Poisson d'avril). Aegean rééquilibrée.
+
+## Nation AI
+
+- Les Nations publiques ne se font plus farmer par City : sous le feu, elles construisent un DefensePost plutôt qu'une City.
+- Les Nations Hard / Impossible en équipe : arrêt automatique du commerce avec l'ennemi, plus de contournement des ennemis forts, save-up optimisé.
+- En HvN 5M Gold, plus de constructions éclair en début de partie.
+- Distribution des ports plus uniforme.
+
+## Stratégies que les joueurs devraient adapter
+
+1. **Gain de kill réduit de moitié** : avaler un gros joueur ne rapporte plus que 50 % de son or ; <strong>ne pas s'acharner sur un joueur retranché juste pour l'or</strong>, laisser les coéquipiers ou Nations l'user.
+2. **Les parties en Water Nukes redessinent le terrain** : avec ce mode actif, la carte peut être totalement réécrite en fin de partie. Prévoir à l'avance un <strong>refuge en haute altitude</strong>.
+3. **Le naval est désormais jouable sur lac** : sur Caucasus, Great Lakes, Nile Delta et autres, <strong>les opérations sur eaux intérieures</strong> deviennent une tactique standard.
+4. **Soin de Warship en port** : la distribution des ports ne sert plus seulement au commerce ; les <strong>emplacements de soin</strong> deviennent un critère décisif pour le point de retraite des Warships. Plus on améliore de ports, plus on multiplie les abris navals.
+5. **Raccourcis K / L** : en haut niveau, plus besoin de déployer le menu pour s'allier ou rompre ; le <strong>tempo des pactes</strong> s'accélère.

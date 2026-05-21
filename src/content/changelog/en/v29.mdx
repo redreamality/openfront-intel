@@ -1,0 +1,51 @@
+---
+title: 'v29: Ranked 1v1 + Main Menu Rework'
+description: Introducing Elo 1v1 ranked, Hierarchical Pathfinding (500× naval pathing optimization), public lobby random modifiers, and a single-player achievement system.
+pubDate: 2026-01-19
+version: v29
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Major New Mechanics
+
+- **Ranked 1v1 (Elo)**: The purple button on the home page matches you directly into 1v1, <strong>with Elo ranks</strong>. The first version with a formal ladder.
+- **Main menu rework**: The whole interface refreshed, with a clearer component structure.
+- **Hierarchical Pathfinding**: Ship pathfinding sped up <strong>up to 500×</strong> and more accurate — long-distance naval expeditions become a viable tactic.
+- **HvN returns**: Humans vs Nations team mode was disabled in v27 due to imbalance — it returns in v29, with player and Nation counts automatically matched, defaulting to Hard.
+- **Single-player achievements**: Each map / each difficulty completion unlocks a <strong>dedicated achievement</strong>, saved to your account.
+- **Public lobby random modifiers**: Public lobbies on the home page now carry 1+ purple tag modifiers (Random Spawn / Compact Map / 5M Starting Gold), adding variety.
+- **End of Game Report**: After a match, a window pops up with <strong>Survival / War / Economy</strong> three-dimensional stats.
+- **Private lobby pause**: The host can pause the game, convenient for discussion / screenshots / handling interruptions.
+
+## Key Balance Changes
+
+| Item | Old | New | Impact |
+| --- | --- | --- | --- |
+| Public lobby player count | Hardcoded | <strong>Dynamically computed by land tile count</strong> (max 125) | Large maps auto-scale player count |
+| Allied nuclear protection | SAM intercept only | <strong>Newly formed alliances instantly destroy any in-flight nukes between allies</strong> | Eliminates "sneak a missile in at the moment of allying" |
+| Nuke warning | Range marker only | <strong>Nukes that would break an alliance are shown with a red warning ring</strong> | Misclick rate plunges |
+| Nation cheats | Already cut 50% in v28 | <strong>Cut another 50%</strong> (Hard / Impossible only) | High difficulty leans more on AI behavior than stat advantages |
+| Nation nukes | Occasionally intercepted by SAMs | <strong>Impossible Nations 100% avoid SAMs</strong> | High-difficulty Nations rarely waste nukes |
+| Player cap | Static | <strong>Adaptive by land, up to 125</strong> | Large maps scale up |
+
+## UI / QoL
+
+- Lobby diplomacy color borders: territory edges tinted green / red to indicate diplomatic relations.
+- During the spawn phase, teammates <strong>pulse-highlight</strong> for easy identification.
+- Radial menu right-click on an ally now offers <strong>quick troop send</strong>.
+- Player info card adds a <strong>troop percentage bar</strong>.
+- Your own rails highlight bright green in Alternate View.
+- Building placeholders show <strong>cost under cursor</strong> (toggleable in options).
+- Many previously hardcoded hotkeys are now <strong>configurable</strong>.
+- Nation difficulty naming changed from relaxed/balanced/intense/impossible to easy/medium/hard/impossible.
+
+## Maps (10 new)
+
+**Two Lakes**, **Britannia** (the original renamed to Britannia (Classic)), **Amazon River** (280×5536 long-strip river map), **Surrounded**, **Strait of Hormuz**, **Lemnos** (Greek island, Arma3-inspired), **Sierpinski** (fractal party map), **Didier (France)** × 2.
+
+## Strategies Players Should Adjust
+
+1. **1v1 ranked**: The opening window of each version where you can stabilize Elo is the sweetest — grind 1v1 for rank seriously.
+2. **HvN mode returns**: First officially playable since v27, the team play experience is more controlled than public FFA.
+3. **Nuke UI prompts cut friendly fire**: Games where you accidentally nuked an ally because the hover didn't show the alliance-breaking warning are almost extinct after v29.
