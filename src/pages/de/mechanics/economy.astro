@@ -7,59 +7,59 @@ import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
 ---
 
-<BaseLayout title="经济：金币、贸易与人口" description="OpenFront.io 金币产出、贸易船、火车、城市部队加成公式。">
-  <PageHeader eyebrow="MECHANICS · 02" title="经济：金币、贸易与人口" lead="OpenFront 的经济三条腿：基础金币、贸易船、火车。哪条腿粗决定你能造哪种建筑。" />
+<BaseLayout title="Wirtschaft: Gold, Handel und Bevölkerung" description="OpenFront.io: Gold-Produktion, Handelsschiffe, Züge und Bonusformeln für City-Truppen.">
+  <PageHeader eyebrow="MECHANIK · 02" title="Wirtschaft: Gold, Handel und Bevölkerung" lead="Die Wirtschaft von OpenFront ruht auf drei Säulen: Basis-Gold, Handelsschiffe, Züge. Welche Säule dick ist, bestimmt, welche Gebäude du dir leisten kannst." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>三种金币来源</h2>
+    <h2>Drei Gold-Quellen</h2>
     <ol>
-      <li><strong>基础金币</strong>：每个 tick 自动产出。Human 100 / tick，Bot 50 / tick（再乘 <code>goldMultiplier</code>，私密大厅可调）。</li>
-      <li><strong>贸易船</strong>：两个港口之间往返，距离越远收益越高，每次到港结算一次。</li>
-      <li><strong>火车（v24）</strong>：城市之间运行火车，按访问城市的关系给金币——盟友最赚。</li>
+      <li><strong>Basis-Gold</strong>: Wird pro tick automatisch erzeugt. Human 100/tick, Bot 50/tick (multipliziert mit <code>goldMultiplier</code>, in privaten Lobbies einstellbar).</li>
+      <li><strong>Handelsschiffe</strong>: Pendeln zwischen zwei Ports; je größer die Distanz, desto höher der Ertrag. Abrechnung bei jeder Ankunft.</li>
+      <li><strong>Züge (v24)</strong>: Verkehren zwischen Städten und zahlen je nach Beziehung zur besuchten Stadt — Verbündete bringen am meisten.</li>
     </ol>
 
-    <h2>金币速查公式</h2>
+    <h2>Gold-Kurzformeln</h2>
     <FormulaBlock label={economy.label} items={economy.items} />
-    <p>常见误区：<strong>港口数量不是越多越好</strong>——贸易船全局上限 150 艘，过多港口会让单船产值下降。建议中盘 4~6 座港口配合 SAM 防核。</p>
+    <p>Häufiger Irrtum: <strong>Mehr Ports sind nicht zwangsläufig besser</strong> — der globale Cap liegt bei 150 Handelsschiffen, zu viele Ports senken den Wert pro Schiff. Empfehlung im Mid-Game: 4–6 Ports kombiniert mit SAM-Verteidigung.</p>
 
-    <h2>人口（部队上限）</h2>
-    <p>人口上限既是攻击底力也是防御缓冲：</p>
+    <h2>Bevölkerung (Truppenlimit)</h2>
+    <p>Das Bevölkerungslimit ist sowohl Angriffsbasis als auch Verteidigungspuffer:</p>
     <FormulaBlock
-      label="人口上限"
+      label="Bevölkerungslimit"
       items={[
-        { name: '基础', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City 等级 × 250,000)' },
-        { name: '类型乘数', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
+        { name: 'Basis', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City-Stufe × 250,000)' },
+        { name: 'Typmultiplikator', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
       ]}
     />
-    <Callout type="tip" title="城市投资回报">
-      <p>第 1~4 座 City 成本 125k → 250k → 500k → 1M。<strong>第 1 座几乎稳赚</strong>——250,000 部队上限的提升远远超过 125,000 金币的人口换算。</p>
-      <p>当 tiles 已经很多时（如 200k+ 的中后期），<code>0.6 × tiles^0.6 × 1000</code> 增长放缓，City 提供的固定加成性价比反而抬升。</p>
+    <Callout type="tip" title="ROI beim Stadtbau">
+      <p>Die ersten 4 Citys kosten 125k → 250k → 500k → 1M. <strong>Die erste ist fast immer profitabel</strong> — der Zuwachs von 250.000 Truppenlimit übersteigt die Bevölkerungsumrechnung von 125.000 Gold bei weitem.</p>
+      <p>Wenn man bereits sehr viele tiles besitzt (z. B. 200k+ im Late-Game), verlangsamt sich <code>0.6 × tiles^0.6 × 1000</code> und der fixe Bonus durch eine City wird relativ wertvoller.</p>
     </Callout>
 
-    <h2>贸易船经济细节</h2>
+    <h2>Details zur Handelsschiff-Wirtschaft</h2>
     <ul>
-      <li>生成是概率性的：<code>spawnRate</code> 越大代表越久才生成一次，<strong>船多了会变难刷</strong>（sigmoid 抑制）。</li>
-      <li>「拒贸怜悯」：你拒绝其它玩家的贸易船越多次，自己刷船越慢——拒贸有代价。</li>
-      <li>v24 单船上限 150 艘，配合 Port 升级补偿单船产值。</li>
+      <li>Das Spawnen ist probabilistisch: Je größer <code>spawnRate</code>, desto länger dauert das Erzeugen. <strong>Mehr Schiffe → langsamere Erneuerung</strong> (Sigmoid-Bremse).</li>
+      <li>„Embargo-Mercy": Je mehr fremde Handelsschiffe du ablehnst, desto langsamer spawnen deine eigenen — Ablehnen hat einen Preis.</li>
+      <li>v24: globaler Cap 150 Schiffe, kombiniert mit Port-Upgrades, um den Wert pro Schiff zu kompensieren.</li>
     </ul>
 
-    <h2>火车经济（v24 新）</h2>
+    <h2>Zug-Wirtschaft (v24 neu)</h2>
     <ul>
-      <li>需要 <strong>Factory + City + Railroad</strong> 三件套，至少 2 个站点才能跑火车。</li>
-      <li>每访问一个城市结算一次：<strong>盟友 35k / 团队 25k / 自家 10k</strong>。</li>
-      <li>每超过 9 站，每多访问一站惩罚 5,000 金币（下限 5,000）。</li>
-      <li>火车生成节奏：<code>(numFactories + 10) × 15</code> ticks 出一辆。</li>
+      <li>Benötigt das Trio aus <strong>Factory + City + Railroad</strong>; mindestens 2 Stationen für Zugbetrieb.</li>
+      <li>Pro besuchter Stadt: <strong>Verbündete 35k / Team 25k / Eigene 10k</strong>.</li>
+      <li>Ab der 10. Station: pro zusätzlicher Station 5.000 Gold Strafe (Untergrenze 5.000).</li>
+      <li>Zug-Spawn-Takt: <code>(numFactories + 10) × 15</code> ticks pro Zug.</li>
     </ul>
 
-    <h2>预算决策表</h2>
+    <h2>Budget-Entscheidungstabelle</h2>
     <table>
       <thead>
-        <tr><th>阶段</th><th>金币目标</th><th>优先建造</th></tr>
+        <tr><th>Phase</th><th>Gold-Ziel</th><th>Priorität beim Bau</th></tr>
       </thead>
       <tbody>
-        <tr><td>开局 (0-60s)</td><td>积累 125k</td><td>第 1 座 City + 第 1 座 Port</td></tr>
-        <tr><td>早期 (60-180s)</td><td>250k–1M</td><td>第 2 座 City，1 座 DefensePost 守瓶颈</td></tr>
-        <tr><td>中期 (3-6 分钟)</td><td>1M–5M</td><td>导弹井 + 第 1 座 SAM 起核盾</td></tr>
-        <tr><td>后期 (6 分钟+)</td><td>5M+</td><td>升级 City/Port/SAM；按需 MIRV</td></tr>
+        <tr><td>Eröffnung (0–60s)</td><td>125k ansparen</td><td>Erste City + erster Port</td></tr>
+        <tr><td>Früh (60–180s)</td><td>250k–1M</td><td>Zweite City, 1 DefensePost am Engpass</td></tr>
+        <tr><td>Mid (3–6 Min.)</td><td>1M–5M</td><td>Silo + erste SAM für Nuklearschild</td></tr>
+        <tr><td>Late (6 Min.+)</td><td>5M+</td><td>City/Port/SAM upgraden; MIRV nach Bedarf</td></tr>
       </tbody>
     </table>
   </article>

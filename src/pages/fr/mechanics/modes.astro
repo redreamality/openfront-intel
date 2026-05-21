@@ -4,44 +4,44 @@ import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
 ---
 
-<BaseLayout title="游戏模式速览" description="OpenFront.io FFA、Duos、Trios、Quads、Team、Tournament 模式差异速览。">
-  <PageHeader eyebrow="MECHANICS · 10" title="游戏模式速览" lead="不同模式的胜利条件、地图旋转与队伍大小都不一样。先选对模式再聊战术。" />
+<BaseLayout title="Aperçu des modes de jeu" description="Différences entre FFA, Duos, Trios, Quads, Team et Tournament dans OpenFront.io.">
+  <PageHeader eyebrow="MÉCANIQUES · 10" title="Aperçu des modes de jeu" lead="Les conditions de victoire, la rotation des cartes et la taille des équipes varient selon le mode. Choisissez le bon mode avant de parler tactique." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>模式列表</h2>
+    <h2>Liste des modes</h2>
     <table>
       <thead>
-        <tr><th>模式</th><th>队伍大小</th><th>典型胜利条件</th><th>玩法侧重</th></tr>
+        <tr><th>Mode</th><th>Taille d'équipe</th><th>Condition de victoire typique</th><th>Orientation de jeu</th></tr>
       </thead>
       <tbody>
-        <tr><td>FFA (Free For All)</td><td>1 人</td><td>占地 / 击败所有对手</td><td>外交、平衡、找盟友</td></tr>
-        <tr><td>Duos</td><td>2 人</td><td>团队占领 95% 地块</td><td>分工：外交 + 主攻</td></tr>
-        <tr><td>Trios</td><td>3 人</td><td>团队占领 95% 地块</td><td>多线协调，铁路网价值最高</td></tr>
-        <tr><td>Quads</td><td>4 人</td><td>团队占领 95% 地块</td><td>大陆争霸，核打击协同</td></tr>
-        <tr><td>Team</td><td>2v2~8v8</td><td>5 分钟内 95% / 时间到看占比</td><td>速度战，前期决胜</td></tr>
-        <tr><td>Tournament</td><td>1v1 / 2v2 等</td><td>赛制定胜</td><td>对称平衡图，技巧导向</td></tr>
+        <tr><td>FFA (Free For All)</td><td>1 joueur</td><td>Occupation / défaite de tous les adversaires</td><td>Diplomatie, équilibre, recherche d'alliés</td></tr>
+        <tr><td>Duos</td><td>2 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Répartition : diplomatie + attaquant principal</td></tr>
+        <tr><td>Trios</td><td>3 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Coordination multi-fronts, le réseau ferré atteint sa valeur maximale</td></tr>
+        <tr><td>Quads</td><td>4 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Hégémonie continentale, coordination des frappes nucléaires</td></tr>
+        <tr><td>Team</td><td>2v2 à 8v8</td><td>95 % en 5 minutes, sinon part du territoire à la fin</td><td>Jeu rapide, décision en début de partie</td></tr>
+        <tr><td>Tournament</td><td>1v1 / 2v2 etc.</td><td>Selon le format du tournoi</td><td>Cartes équilibrées symétriques, accent sur la maîtrise</td></tr>
       </tbody>
     </table>
-    <p>v24 起 Duos / Trios / Quads 已加入公共大厅旋转（FakeNeo）。Team 模式的部队人数会自动均衡。</p>
+    <p>Depuis v24, Duos / Trios / Quads sont entrés dans la rotation des salons publics (FakeNeo). Le nombre de troupes est automatiquement équilibré en mode Team.</p>
 
-    <h2>常见配置开关</h2>
+    <h2>Interrupteurs de configuration courants</h2>
     <ul>
-      <li><code>isAlliancesDisabled</code> — 禁用同盟，纯硬实力对抗。</li>
-      <li><code>isPortsDisabled</code> — 禁港口（陆战图常用）。</li>
-      <li><code>isNukesDisabled</code> — 关核武器，节奏更长。</li>
-      <li><code>isSAMsDisabled</code> — 关 SAM，核武器统治。</li>
-      <li><code>isPeaceTime</code> — 和平期延长，新手友好。</li>
-      <li><code>isWaterNukes</code> — 允许核爆覆盖海面（沿海玩家警惕）。</li>
-      <li><code>spawnImmunityDuration</code> — 调长出生免疫，更新手友好。</li>
-      <li><code>goldMultiplier</code> — 直接放大经济产出。</li>
+      <li><code>isAlliancesDisabled</code> — désactive les alliances, pure confrontation de puissance brute.</li>
+      <li><code>isPortsDisabled</code> — désactive les Port (courant sur cartes terrestres).</li>
+      <li><code>isNukesDisabled</code> — désactive les armes nucléaires, rythme allongé.</li>
+      <li><code>isSAMsDisabled</code> — désactive les SAM, domination du nucléaire.</li>
+      <li><code>isPeaceTime</code> — prolonge la période de paix, plus accessible aux débutants.</li>
+      <li><code>isWaterNukes</code> — autorise les explosions nucléaires sur mer (prudence pour les côtiers).</li>
+      <li><code>spawnImmunityDuration</code> — rallonge l'immunité de spawn, plus accueillant pour les débutants.</li>
+      <li><code>goldMultiplier</code> — amplifie directement la production économique.</li>
     </ul>
 
-    <h2>模式选择建议</h2>
-    <Callout type="tip" title="按熟练度推荐">
+    <h2>Recommandations de mode</h2>
+    <Callout type="tip" title="Selon le niveau de pratique">
       <ul>
-        <li><strong>第一次玩</strong>：单人 + Easy/Medium 国家，开 <code>isPeaceTime</code> 减少早期突袭。</li>
-        <li><strong>10 局以内</strong>：Duos / Trios，找熟人配合，分工成本低。</li>
-        <li><strong>对外交感兴趣</strong>：FFA，外交是核心爽点。</li>
-        <li><strong>追求速度</strong>：Team 模式，5 分钟收尾，无核纯军事。</li>
+        <li><strong>Première partie</strong> : solo + Nations Easy/Medium, activez <code>isPeaceTime</code> pour réduire les attaques précoces.</li>
+        <li><strong>Moins de 10 parties</strong> : Duos / Trios avec des connaissances, répartition des rôles facile.</li>
+        <li><strong>Intéressé par la diplomatie</strong> : FFA, la diplomatie y est le ressort central.</li>
+        <li><strong>Recherche de rapidité</strong> : mode Team, fin en 5 minutes, sans nucléaire, militaire pur.</li>
       </ul>
     </Callout>
   </article>

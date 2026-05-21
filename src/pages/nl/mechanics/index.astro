@@ -5,21 +5,21 @@ import PageHeader from '../../../components/PageHeader.astro';
 const base = import.meta.env.BASE_URL;
 const langPrefix = 'nl/';
 const sections = [
-  { href: `${base}${langPrefix}mechanics/basics/`, title: '入门：出生与扩张', desc: '出生免疫、阶段长度、初期决策框架。', tag: '入门' },
-  { href: `${base}${langPrefix}mechanics/economy/`, title: '经济：金币、贸易与人口', desc: '基础金币、城市部队、贸易船、火车收益。', tag: '经济' },
-  { href: `${base}${langPrefix}mechanics/military/`, title: '军事：攻防与战斗', desc: '地形系数、防御工事、人口减益、背叛惩罚。', tag: '战斗' },
-  { href: `${base}${langPrefix}mechanics/structures/`, title: '建筑：6 种核心结构', desc: 'City / Port / Factory / DefensePost / SAM / Silo。', tag: '建筑' },
-  { href: `${base}${langPrefix}mechanics/units/`, title: '单位：船、车与弹', desc: '运输船、战舰、贸易船、火车、炮弹 / SAM 弹。', tag: '单位' },
-  { href: `${base}${langPrefix}mechanics/nukes/`, title: '核武器与 SAM', desc: 'AtomBomb / HydrogenBomb / MIRV 与 SAM 拦截网。', tag: '核战' },
-  { href: `${base}${langPrefix}mechanics/alliances/`, title: '同盟与背叛', desc: '5 分钟同盟、自动禁运、背叛减益 0.5×0.8。', tag: '外交' },
-  { href: `${base}${langPrefix}mechanics/trains/`, title: '火车与铁路', desc: 'v24 新机制：工厂 → 火车 → 城市贸易网。', tag: '新机制' },
-  { href: `${base}${langPrefix}mechanics/trade/`, title: '贸易系统', desc: '贸易船 cap 150、距离收益、拒贸怜悯计时器。', tag: '经济' },
-  { href: `${base}${langPrefix}mechanics/modes/`, title: '游戏模式速览', desc: 'FFA / Duos / Trios / Quads / Team / Tournament。', tag: '总览' },
+  { href: `${base}${langPrefix}mechanics/basics/`, title: 'Basis: spawn en expansie', desc: 'Spawn-immuniteit, faseduur, beslissingskader voor de opening.', tag: 'Basis' },
+  { href: `${base}${langPrefix}mechanics/economy/`, title: 'Economie: goud, handel en bevolking', desc: 'Basisgoud, stadsbevolking, handelsschepen, treinopbrengsten.', tag: 'Economie' },
+  { href: `${base}${langPrefix}mechanics/military/`, title: 'Militair: aanval en verdediging', desc: 'Terreincoëfficiënten, DefensePost, grote-legerstraf, verraadboete.', tag: 'Gevecht' },
+  { href: `${base}${langPrefix}mechanics/structures/`, title: 'Gebouwen: 6 kernstructuren', desc: 'City / Port / Factory / DefensePost / SAM / Silo.', tag: 'Bouw' },
+  { href: `${base}${langPrefix}mechanics/units/`, title: 'Eenheden: schepen, voertuigen en projectielen', desc: 'Transportschip, warship, handelsschip, trein, shells / SAM-raketten.', tag: 'Eenheden' },
+  { href: `${base}${langPrefix}mechanics/nukes/`, title: 'Kernwapens en SAM', desc: 'AtomBomb / HydrogenBomb / MIRV en het SAM-onderscheppingsnet.', tag: 'Kernwapens' },
+  { href: `${base}${langPrefix}mechanics/alliances/`, title: 'Allianties en verraad', desc: 'Alliantie van 5 min, automatisch embargo, verraadstraf 0,5×0,8.', tag: 'Diplomatie' },
+  { href: `${base}${langPrefix}mechanics/trains/`, title: 'Treinen en spoor', desc: 'Nieuw in v24: factory → trein → handelsnet tussen steden.', tag: 'Nieuw' },
+  { href: `${base}${langPrefix}mechanics/trade/`, title: 'Handelssysteem', desc: 'Cap van 150 handelsschepen, opbrengstcurve op afstand, mercy-timer voor weigering.', tag: 'Economie' },
+  { href: `${base}${langPrefix}mechanics/modes/`, title: 'Overzicht van speltypes', desc: 'FFA / Duos / Trios / Quads / Team / Tournament.', tag: 'Overzicht' },
 ];
 ---
 
-<BaseLayout title="游戏机制" description="OpenFront.io 全部核心机制：从出生到核战 10 个主题系统化讲解。">
-  <PageHeader eyebrow="MECHANICS" title="游戏机制" lead="按系统拆分的 10 个章节，每章数值都来自 v24 源码。建议从「入门」与「经济」开始读。" />
+<BaseLayout title="Spelmechanieken" description="Alle kernmechanieken van OpenFront.io: 10 systematisch uitgelegde thema's van spawn tot kernoorlog.">
+  <PageHeader eyebrow="MECHANIEK" title="Spelmechanieken" lead="10 hoofdstukken, opgedeeld per systeem; alle cijfers komen uit de v24-broncode. Begin bij voorkeur bij 'Basis' en 'Economie'." />
   <section class="container-wide py-10">
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {sections.map((s, i) => (

@@ -7,62 +7,62 @@ import formulas from '../../../data/formulas.json';
 const alliance = formulas.groups.alliance;
 ---
 
-<BaseLayout title="同盟与背叛" description="OpenFront.io 同盟时长、续期机制、自动禁运、背叛减益详解。">
-  <PageHeader eyebrow="MECHANICS · 07" title="同盟与背叛" lead="同盟是中盘最重要的杠杆。理解 5 分钟时钟、续期窗口与背叛代价，是判断对手意图的关键。" />
+<BaseLayout title="Bündnisse und Verrat" description="OpenFront.io: Bündnisdauer, Verlängerung, automatisches Embargo und Verratsdebuffs im Detail.">
+  <PageHeader eyebrow="MECHANIK · 07" title="Bündnisse und Verrat" lead="Bündnisse sind der wichtigste Hebel im Mid-Game. Die 5-Minuten-Uhr, das Verlängerungsfenster und der Verratspreis sind der Schlüssel, um die Absichten des Gegners einzuschätzen." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>同盟核心数据</h2>
+    <h2>Kerndaten zu Bündnissen</h2>
     <FormulaBlock label={alliance.label} items={alliance.items} />
 
-    <h2>同盟生命周期</h2>
+    <h2>Lebenszyklus eines Bündnisses</h2>
     <ol>
-      <li><strong>请求</strong>：任意一方点对方头像 → Request Alliance。</li>
-      <li><strong>接受</strong>：对方接受 = 同盟建立，倒计时 3000 ticks（5 分钟）。</li>
-      <li><strong>续期提示</strong>：到期前 300 ticks（30 秒）双方都收到「Extend」提示。</li>
-      <li><strong>双方同意</strong>：续期为新一段 5 分钟。</li>
-      <li><strong>只一方同意</strong>：进入「延期窗口」，对方仍有时间响应；若到期都未响应，同盟自然失效（非背叛）。</li>
+      <li><strong>Anfrage</strong>: Eine Seite klickt auf das Avatar der anderen → Request Alliance.</li>
+      <li><strong>Annahme</strong>: Bei Zustimmung ist das Bündnis gegründet, Countdown 3000 ticks (5 Minuten).</li>
+      <li><strong>Verlängerungshinweis</strong>: 300 ticks (30 Sekunden) vor Ablauf erhalten beide Seiten die „Extend"-Aufforderung.</li>
+      <li><strong>Beide stimmen zu</strong>: Verlängerung um weitere 5 Minuten.</li>
+      <li><strong>Nur eine Seite stimmt zu</strong>: Es beginnt ein „Verlängerungsfenster", in dem die andere Seite noch reagieren kann. Reagiert niemand bis zum Ablauf, endet das Bündnis natürlich (kein Verrat).</li>
     </ol>
 
-    <h2>背叛（Betrayal）的代价</h2>
-    <Callout type="danger" title="主动撕约 = 进入 traitor 状态">
+    <h2>Der Preis des Verrats (Betrayal)</h2>
+    <Callout type="danger" title="Aktiver Bündnisbruch = traitor-Status">
       <ul>
-        <li>防御 ×0.5（被打加倍）</li>
-        <li>推进速度 ×0.8</li>
-        <li>持续 300 ticks（30 秒）</li>
-        <li>自动对前盟友 + 部分玩家发起禁运</li>
-        <li>UI 出现红色「Betrayed」横幅，v24 还有红色边框警告（devalnor）</li>
+        <li>Verteidigung ×0,5 (doppelter Schaden im Empfang)</li>
+        <li>Vormarschgeschwindigkeit ×0,8</li>
+        <li>Dauer 300 ticks (30 Sekunden)</li>
+        <li>Automatisches Embargo gegen ehemalige Verbündete und einige weitere Spieler</li>
+        <li>Rotes „Betrayed"-Banner im UI; v24 zusätzlich rote Rahmenwarnung (devalnor)</li>
       </ul>
     </Callout>
 
-    <h2>禁运 Embargo</h2>
+    <h2>Embargo</h2>
     <ul>
-      <li><strong>临时禁运</strong>：因攻击行为自动触发，持续 300 ticks。</li>
-      <li><strong>永久禁运</strong>：手动设置，直到玩家本人解除。</li>
-      <li>禁运双方间贸易船不会生成；多人禁运会拖垮一方的金币产出。</li>
-      <li>Bot 没有贸易行为，禁运 Bot 没意义。</li>
+      <li><strong>Temporäres Embargo</strong>: Wird durch Angriffshandlung automatisch ausgelöst, dauert 300 ticks.</li>
+      <li><strong>Permanentes Embargo</strong>: Manuell gesetzt, bis der Spieler es selbst aufhebt.</li>
+      <li>Zwischen den Embargo-Parteien spawnen keine Handelsschiffe; mehrere gleichzeitige Embargos können das Gold-Einkommen einer Seite kollabieren lassen.</li>
+      <li>Bots haben kein Handelsverhalten — ein Embargo gegen Bots ist sinnlos.</li>
     </ul>
 
-    <h2>同盟带来的隐藏好处</h2>
+    <h2>Versteckte Vorteile eines Bündnisses</h2>
     <ul>
-      <li>火车经过盟友城市时：<strong>35k</strong>（vs 团队 25k / 自家 10k），盟友铁路网是经济跃升的最大杠杆。</li>
-      <li>盟友可以看到你的部队/建筑细节（视野共享）。</li>
-      <li>核武器误伤会自动联盟保护，但<strong>不会</strong>豁免——大型核弹照样能命中盟友领土。</li>
+      <li>Wenn ein Zug verbündete Städte besucht: <strong>35k</strong> (vs. Team 25k / Eigene 10k); ein verbündetes Schienennetz ist der größte Wirtschaftshebel im Late-Game.</li>
+      <li>Verbündete sehen Details deiner Truppen/Gebäude (geteilte Sichtbarkeit).</li>
+      <li>Atomwaffen-Friendly-Fire wird durch Bündnisschutz automatisch behandelt — aber <strong>nicht</strong> komplett verhindert: Großnukes können verbündetes Territorium dennoch treffen.</li>
     </ul>
 
-    <Callout type="tip" title="盟友选择三原则">
+    <Callout type="tip" title="Drei Prinzipien der Bündnispartnerwahl">
       <ol>
-        <li>找<strong>有共同对手</strong>的玩家：你想打的人也是他想打的人，关系最稳。</li>
-        <li>找<strong>地理相近但不接壤</strong>的：能放贸易船与火车，又不会因为边境摩擦内讧。</li>
-        <li>避开<strong>明显比你弱的</strong>玩家：他可能在被打的瞬间断盟自保，反让你处境恶化。</li>
+        <li>Spieler mit <strong>gemeinsamen Gegnern</strong> finden: Wen du angreifen willst, will auch er angreifen — die stabilste Beziehung.</li>
+        <li><strong>Geografisch nah, aber nicht direkt benachbart</strong>: Handelsschiffe und Züge nutzbar, ohne dass Grenzstreitigkeiten zum Bruch führen.</li>
+        <li>Spieler vermeiden, die <strong>offensichtlich schwächer</strong> sind: Er bricht das Bündnis vielleicht im Moment des Angriffs, um sich zu retten, und verschlechtert deine Lage.</li>
       </ol>
     </Callout>
 
-    <h2>背叛突袭的窗口</h2>
-    <p>有少数情境值得撕约：</p>
+    <h2>Das Fenster für einen Verratsschlag</h2>
+    <p>Wenige Situationen rechtfertigen Vertragsbruch:</p>
     <ul>
-      <li>对方核盾未起，且你已有氢弹蓄势——30 秒 traitor 期内一波氢弹+地面推进端核心。</li>
-      <li>对方 maxTroops 接近上限、自己人口饱和——背叛之后 0.8× speed 反而不是大问题，你本就推进慢。</li>
-      <li>三人同盟中你掉队，留下来必死——背叛大盟友抢走第三方的领土补充。</li>
+      <li>Der Gegner hat noch keinen Nuklearschild und du hast HydrogenBomb-Salven vorbereitet — in den 30 Sekunden traitor-Phase eine Salve plus Bodenoffensive auf das Zentrum.</li>
+      <li>maxTroops des Gegners erreicht das Limit und deine Bevölkerung ist gesättigt — die 0,8× speed-Strafe stört nicht groß, weil du ohnehin langsam vorrückst.</li>
+      <li>Im Dreierbündnis fällst du zurück und würdest sterben — verrate den großen Verbündeten und nimm dem Dritten Territorium ab.</li>
     </ul>
-    <p>其余情况，<strong>等同盟自然到期不续</strong>比背叛更划算：没有减益、没有自动禁运，只是不再续约。</p>
+    <p>In allen anderen Fällen ist es klüger, <strong>das Bündnis natürlich auslaufen zu lassen</strong>: keine Debuffs, kein automatisches Embargo, einfach keine Verlängerung.</p>
   </article>
 </BaseLayout>

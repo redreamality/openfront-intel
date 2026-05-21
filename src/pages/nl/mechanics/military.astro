@@ -8,68 +8,68 @@ const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
 ---
 
-<BaseLayout title="军事：攻防与战斗" description="OpenFront.io 攻防 mag/speed 系数、防御工事增益、大军减益、背叛惩罚公式。">
-  <PageHeader eyebrow="MECHANICS · 03" title="军事：攻防与战斗" lead="攻防本质是两个数：mag（破甲）与 speed（推进）。地形、建筑、人口规模都在这两个数上乘系数。" />
+<BaseLayout title="Militair: aanval en verdediging" description="OpenFront.io aanval en verdediging: mag/speed-coëfficiënten, DefensePost-bonus, grote-legerstraf en verraadboete.">
+  <PageHeader eyebrow="MECHANIEK · 03" title="Militair: aanval en verdediging" lead="Aanval en verdediging draaien om twee getallen: mag (pantserdoorbreking) en speed (voortgang). Terrein, gebouwen en bevolkingsomvang vermenigvuldigen deze twee waarden." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>地形系数</h2>
-    <FormulaBlock label="地形 mag / speed" items={[
-      { name: '平原 Plains', expr: 'mag = 80, speed = 16.5' },
-      { name: '高地 Highland', expr: 'mag = 100, speed = 20' },
-      { name: '山地 Mountain', expr: 'mag = 120, speed = 25' },
+    <h2>Terreincoëfficiënten</h2>
+    <FormulaBlock label="Terrein mag / speed" items={[
+      { name: 'Vlakte Plains', expr: 'mag = 80, speed = 16.5' },
+      { name: 'Hoogland Highland', expr: 'mag = 100, speed = 20' },
+      { name: 'Berg Mountain', expr: 'mag = 120, speed = 25' },
     ]} />
-    <p>mag 越大、攻方损失越多；speed 越大、推进越慢。<strong>山地最难啃，平原最好推</strong>。v24 加入了「地形操纵」机制，可一定程度改变邻接 tile 的地形从而影响攻防。</p>
+    <p>Hoe hoger de mag, hoe meer verlies voor de aanvaller; hoe hoger de speed, hoe trager de opmars. <strong>Bergen zijn het moeilijkst, vlaktes het gemakkelijkst</strong>. v24 introduceert ook de "terreinmanipulatie"-mechaniek, waarmee je tot op zekere hoogte het terrein van aangrenzende tiles kunt aanpassen en zo de gevechtswaarden kunt beïnvloeden.</p>
 
-    <h2>防御工事（DefensePost）</h2>
-    <Callout type="spec" title="范围 30 tiles 内">
-      <p>mag ×5、speed ×3——一座 DefensePost 几乎能让一段平原变成山地。<strong>瓶颈位（海峡、地峡）放 1~2 座足以拖住一个对手</strong>。</p>
+    <h2>DefensePost</h2>
+    <Callout type="spec" title="Binnen 30 tiles">
+      <p>mag ×5, speed ×3 — één DefensePost maakt van een vlakte bijna een berg. <strong>1 à 2 stuks op een knooppunt (zeestraat, landengte) zijn voldoende om één tegenstander op te houden</strong>.</p>
     </Callout>
 
-    <h2>大军减益（防守方人口越多越弱）</h2>
+    <h2>Grote-legerstraf (hoe meer bevolking de verdediger heeft, hoe zwakker)</h2>
     <FormulaBlock label={def.label} items={def.items} />
-    <p>关键常量 <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>。当防守方 tiles 接近或超过该值，防御从 1.0 衰减到 0.7：</p>
+    <p>Belangrijke constante <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>. Wanneer de tiles van de verdediger dichtbij of boven deze waarde komen, daalt de verdediging van 1,0 naar 0,7:</p>
     <ul>
-      <li>50k tiles：几乎无衰减。</li>
-      <li>150k tiles：衰减一半（midpoint）。</li>
-      <li>300k tiles：接近最小防御 0.7×。</li>
+      <li>50k tiles: nagenoeg geen daling.</li>
+      <li>150k tiles: halverwege (midpoint).</li>
+      <li>300k tiles: nadert het minimum van 0,7×.</li>
     </ul>
-    <p>这是 OpenFront「不会有永远赢的大国」的核心机制——领土滚大后吃不动也守不住。</p>
+    <p>Dit is de kernmechaniek waarom in OpenFront "geen enkele grootmacht eeuwig wint" — wie te groot wordt, kan niet meer aanvallen noch verdedigen.</p>
 
-    <h2>攻方大规模加成</h2>
-    <p>当攻击方 tiles > 100k 时：<code>bonus = (100k / tiles)^0.7</code>。本质是给大势力加一点 <strong>边际推进力</strong>，让他们能压住小势力，但同时 maxTroops 不会爆炸增长。</p>
+    <h2>Bonus voor grote aanvallers</h2>
+    <p>Wanneer de aanvaller meer dan 100k tiles heeft: <code>bonus = (100k / tiles)^0.7</code>. Dit geeft grote spelers een lichte <strong>marginale opmarsbonus</strong>, waardoor ze kleine spelers kunnen drukken, terwijl maxTroops niet ongelimiteerd blijft groeien.</p>
 
-    <h2>背叛减益</h2>
-    <Callout type="warn" title="撕毁同盟的代价">
-      <p>对盟友发起攻击 = 进入背叛者状态：</p>
+    <h2>Verraadstraf</h2>
+    <Callout type="warn" title="Kosten van een verbroken alliantie">
+      <p>Een bondgenoot aanvallen = traitor-status:</p>
       <ul>
-        <li>防御 ×0.5（自己被打更疼）</li>
-        <li>推进速度 ×0.8</li>
-        <li>持续 300 ticks（30 秒）</li>
-        <li>触发对方 + 全图自动禁运</li>
+        <li>Verdediging ×0,5 (zelf veel kwetsbaarder)</li>
+        <li>Voortgangssnelheid ×0,8</li>
+        <li>Duurt 300 ticks (30 seconden)</li>
+        <li>Activeert een automatisch embargo van de tegenstander en de hele kaart</li>
       </ul>
-      <p>因此「叛盟突袭」要么<strong>一击致命</strong>（30 秒内拿下对方核心城市），要么<strong>别开始</strong>。</p>
+      <p>Daarom: een "verraadaanval" moet <strong>fataal zijn in één klap</strong> (binnen 30 seconden de kernsteden van de tegenstander innemen), of <strong>begin er niet aan</strong>.</p>
     </Callout>
 
-    <h2>人口与攻击</h2>
+    <h2>Bevolking en aanval</h2>
     <FormulaBlock label={troops.label} items={troops.items} />
-    <p>简化结论：</p>
+    <p>Vereenvoudigde conclusie:</p>
     <ul>
-      <li>低人口（troops &lt; 30% maxTroops）增长极快——大胆扩张。</li>
-      <li>高人口（troops &gt; 80% maxTroops）增长几乎停滞——立刻发起攻击或新建 City 抬升 maxTroops。</li>
+      <li>Lage bevolking (troops &lt; 30% maxTroops): extreem snelle groei — durf uit te breiden.</li>
+      <li>Hoge bevolking (troops &gt; 80% maxTroops): groei stagneert bijna — val onmiddellijk aan of bouw een City om maxTroops te verhogen.</li>
     </ul>
 
-    <h2>战舰海战</h2>
+    <h2>Zeegevecht met warships</h2>
     <ul>
-      <li>战舰生命 1000，血量 &le; 750 自动撤回港口修补。</li>
-      <li>Shell 伤害 250，3 发即可击杀一艘满血战舰。</li>
-      <li>v24 战舰<strong>优先攻击运输船</strong>，命中后立即冷却——意味着海岸登陆部队几乎打不过一艘战舰巡逻。</li>
+      <li>Warships hebben HP 1000; onder 750 HP keren ze automatisch terug naar de haven voor reparatie.</li>
+      <li>Shell-schade is 250; 3 voltreffers vellen één volwaardig warship.</li>
+      <li>In v24 valt het warship <strong>prioritair transportschepen aan</strong> en gaat het onmiddellijk in cooldown na een treffer — landingstroepen aan de kust zijn nauwelijks opgewassen tegen één patrouillerende warship.</li>
     </ul>
 
-    <h2>战斗 checklist</h2>
+    <h2>Checklist voor het gevecht</h2>
     <ul>
-      <li>📍 攻击前看地形：尽量挑平原边缘下手。</li>
-      <li>🏰 看对方 DefensePost：覆盖瓶颈时换路。</li>
-      <li>📊 看双方 tiles：你 100k vs 对方 200k，你享有攻方加成，但他防御已衰减；正面战<strong>反而对你有利</strong>。</li>
-      <li>🤝 别背刺：除非能 30 秒打死对方，背刺通常自损更大。</li>
+      <li>📍 Bekijk het terrein vóór de aanval: probeer aan te vallen via de rand van een vlakte.</li>
+      <li>🏰 Kijk naar de DefensePost van de tegenstander: vermijd dekkingsgebieden bij knooppunten.</li>
+      <li>📊 Vergelijk de tiles: jij 100k vs hij 200k — jij krijgt de aanvallersbonus terwijl zijn verdediging al verzwakt is; een frontaal gevecht <strong>valt zelfs in jouw voordeel uit</strong>.</li>
+      <li>🤝 Geen messteken in de rug: tenzij je je tegenstander binnen 30 seconden kunt vellen, doet verraad meestal meer kwaad aan jezelf.</li>
     </ul>
   </article>
 </BaseLayout>

@@ -8,15 +8,15 @@ import structures from '../../../data/structures.json';
 
 const base = import.meta.env.BASE_URL;
 const sections = [
-  { href: `${base}database/units/`, title: '单位数据库', desc: `全部 ${units.length} 种单位 / 载具 / 弹药，含成本公式与备注。` },
-  { href: `${base}database/structures/`, title: '建筑数据库', desc: `${structures.length} 种结构，含可升级、建造时长、解锁条件。` },
-  { href: `${base}database/formulas/`, title: '公式速查', desc: '攻防、部队上限、金币产出、SAM 射程的核心公式。' },
-  { href: `${base}database/maps/`, title: '地图列表', desc: `${maps.meta.total} 张地图按类别分组：大陆 / 区域 / 幻想 / 街机 / 锦标赛。` },
+  { href: `${base}nl/database/units/`, title: 'Eenhedendatabase', desc: `Alle ${units.length} eenheden, voertuigen en projectielen, met kostenformules en opmerkingen.` },
+  { href: `${base}nl/database/structures/`, title: 'Gebouwendatabase', desc: `${structures.length} structuren, met upgrademogelijkheden, bouwtijden en ontgrendelingsvoorwaarden.` },
+  { href: `${base}nl/database/formulas/`, title: 'Snelle formuleoverzicht', desc: 'Kernformules voor gevecht, bevolkingslimiet, goudproductie en SAM-bereik.' },
+  { href: `${base}nl/database/maps/`, title: 'Kaartenlijst', desc: `${maps.meta.total} kaarten gegroepeerd per categorie: Continentaal / Regionaal / Fantasy / Arcade / Tournament.` },
 ];
 ---
 
-<BaseLayout title="数据库" description="OpenFront.io 单位、建筑、地图与公式速查表。">
-  <PageHeader eyebrow="DATABASE" title="数据库" lead="所有数值都从游戏源码同步，可作为对局中临时查阅的随手资料。" />
+<BaseLayout title="Database" description="Snelle referentietabellen voor eenheden, gebouwen, kaarten en formules van OpenFront.io.">
+  <PageHeader eyebrow="DATABASE" title="Database" lead="Alle cijfers worden gesynchroniseerd met de broncode van het spel, zodat je ze tijdens een partij snel kunt raadplegen." />
   <section class="container-wide py-10">
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {sections.map((s) => (
@@ -26,6 +26,6 @@ const sections = [
         </a>
       ))}
     </div>
-    <p class="mt-10 text-xs text-iron-500 font-mono">数据更新：{meta.generatedAt} · 来源 {meta.source.replace(/^.*OpenFrontIO.*/, 'OpenFrontIO ' + meta.upstreamVersion)}</p>
+    <p class="mt-10 text-xs text-iron-500 font-mono">Gegevens bijgewerkt op: {meta.generatedAt} · Bron: {meta.source.replace(/^.*OpenFrontIO.*/, 'OpenFrontIO ' + meta.upstreamVersion)}</p>
   </section>
 </BaseLayout>

@@ -8,68 +8,68 @@ const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
 ---
 
-<BaseLayout title="军事：攻防与战斗" description="OpenFront.io 攻防 mag/speed 系数、防御工事增益、大军减益、背叛惩罚公式。">
-  <PageHeader eyebrow="MECHANICS · 03" title="军事：攻防与战斗" lead="攻防本质是两个数：mag（破甲）与 speed（推进）。地形、建筑、人口规模都在这两个数上乘系数。" />
+<BaseLayout title="Militär: Angriff, Verteidigung, Kampf" description="OpenFront.io: mag/speed-Koeffizienten, DefensePost-Bonus, Großarmee-Debuff und Verratsstrafe.">
+  <PageHeader eyebrow="MECHANIK · 03" title="Militär: Angriff, Verteidigung, Kampf" lead="Kampf ist im Kern eine Funktion zweier Zahlen: mag (Durchschlag) und speed (Vormarsch). Gelände, Gebäude und Bevölkerungsgröße sind Multiplikatoren auf diese Zahlen." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>地形系数</h2>
-    <FormulaBlock label="地形 mag / speed" items={[
-      { name: '平原 Plains', expr: 'mag = 80, speed = 16.5' },
-      { name: '高地 Highland', expr: 'mag = 100, speed = 20' },
-      { name: '山地 Mountain', expr: 'mag = 120, speed = 25' },
+    <h2>Geländekoeffizienten</h2>
+    <FormulaBlock label="Gelände mag / speed" items={[
+      { name: 'Ebene Plains', expr: 'mag = 80, speed = 16.5' },
+      { name: 'Hochland Highland', expr: 'mag = 100, speed = 20' },
+      { name: 'Gebirge Mountain', expr: 'mag = 120, speed = 25' },
     ]} />
-    <p>mag 越大、攻方损失越多；speed 越大、推进越慢。<strong>山地最难啃，平原最好推</strong>。v24 加入了「地形操纵」机制，可一定程度改变邻接 tile 的地形从而影响攻防。</p>
+    <p>Je höher mag, desto höher die Angreiferverluste; je höher speed, desto langsamer der Vormarsch. <strong>Gebirge ist am schwersten einzunehmen, Ebene am leichtesten</strong>. v24 hat die Geländemanipulation eingeführt, die Geländekoeffizienten benachbarter tiles in begrenztem Umfang verändern kann.</p>
 
-    <h2>防御工事（DefensePost）</h2>
-    <Callout type="spec" title="范围 30 tiles 内">
-      <p>mag ×5、speed ×3——一座 DefensePost 几乎能让一段平原变成山地。<strong>瓶颈位（海峡、地峡）放 1~2 座足以拖住一个对手</strong>。</p>
+    <h2>Verteidigungsposten (DefensePost)</h2>
+    <Callout type="spec" title="Im Radius von 30 tiles">
+      <p>mag ×5, speed ×3 — ein DefensePost verwandelt eine Ebene praktisch in Gebirge. <strong>1–2 Posten an einem Engpass (Meerenge, Landenge) halten meist einen kompletten Gegner auf</strong>.</p>
     </Callout>
 
-    <h2>大军减益（防守方人口越多越弱）</h2>
+    <h2>Großarmee-Debuff (Verteidigung schwächer bei mehr tiles)</h2>
     <FormulaBlock label={def.label} items={def.items} />
-    <p>关键常量 <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>。当防守方 tiles 接近或超过该值，防御从 1.0 衰减到 0.7：</p>
+    <p>Wichtige Konstante: <code>DEFENSE_DEBUFF_MIDPOINT = 150,000 tiles</code>. Wenn die tiles des Verteidigers diesen Wert erreichen oder überschreiten, sinkt die Verteidigung von 1,0 auf 0,7:</p>
     <ul>
-      <li>50k tiles：几乎无衰减。</li>
-      <li>150k tiles：衰减一半（midpoint）。</li>
-      <li>300k tiles：接近最小防御 0.7×。</li>
+      <li>50k tiles: nahezu keine Abnahme.</li>
+      <li>150k tiles: Halbierung der Abnahme (Midpoint).</li>
+      <li>300k tiles: nahe an der minimalen Verteidigung von 0,7×.</li>
     </ul>
-    <p>这是 OpenFront「不会有永远赢的大国」的核心机制——领土滚大后吃不动也守不住。</p>
+    <p>Das ist der Kernmechanismus, warum es in OpenFront „keine ewig dominanten Großreiche" gibt — gewaltige Territorien kann man weder angreifen noch effektiv verteidigen.</p>
 
-    <h2>攻方大规模加成</h2>
-    <p>当攻击方 tiles > 100k 时：<code>bonus = (100k / tiles)^0.7</code>。本质是给大势力加一点 <strong>边际推进力</strong>，让他们能压住小势力，但同时 maxTroops 不会爆炸增长。</p>
+    <h2>Großarmee-Bonus für Angreifer</h2>
+    <p>Wenn die Angreifer-tiles > 100k: <code>bonus = (100k / tiles)^0.7</code>. Im Kern bekommt eine Großmacht etwas <strong>marginale Vorwärtskraft</strong>, sodass sie kleine Mächte überrollen kann, ohne dass maxTroops explodiert.</p>
 
-    <h2>背叛减益</h2>
-    <Callout type="warn" title="撕毁同盟的代价">
-      <p>对盟友发起攻击 = 进入背叛者状态：</p>
+    <h2>Verratsdebuff</h2>
+    <Callout type="warn" title="Der Preis des Bündnisbruchs">
+      <p>Angriff auf einen Verbündeten = traitor-Status:</p>
       <ul>
-        <li>防御 ×0.5（自己被打更疼）</li>
-        <li>推进速度 ×0.8</li>
-        <li>持续 300 ticks（30 秒）</li>
-        <li>触发对方 + 全图自动禁运</li>
+        <li>Verteidigung ×0,5 (du wirst stärker getroffen)</li>
+        <li>Vormarsch ×0,8</li>
+        <li>Dauer 300 ticks (30 Sekunden)</li>
+        <li>Automatisches Embargo gegen den Verbündeten und die übrige Karte</li>
       </ul>
-      <p>因此「叛盟突袭」要么<strong>一击致命</strong>（30 秒内拿下对方核心城市），要么<strong>别开始</strong>。</p>
+      <p>Daher gilt für „Verrats-Überfälle": entweder <strong>One-Shot-Kill</strong> (in 30 Sekunden die Kernstadt einnehmen) oder <strong>gar nicht anfangen</strong>.</p>
     </Callout>
 
-    <h2>人口与攻击</h2>
+    <h2>Bevölkerung und Angriff</h2>
     <FormulaBlock label={troops.label} items={troops.items} />
-    <p>简化结论：</p>
+    <p>Vereinfachtes Fazit:</p>
     <ul>
-      <li>低人口（troops &lt; 30% maxTroops）增长极快——大胆扩张。</li>
-      <li>高人口（troops &gt; 80% maxTroops）增长几乎停滞——立刻发起攻击或新建 City 抬升 maxTroops。</li>
+      <li>Niedrige Bevölkerung (troops &lt; 30 % maxTroops): extrem schnelles Wachstum — mutig expandieren.</li>
+      <li>Hohe Bevölkerung (troops &gt; 80 % maxTroops): Wachstum stagniert — sofort angreifen oder neue Citys bauen, um maxTroops zu erhöhen.</li>
     </ul>
 
-    <h2>战舰海战</h2>
+    <h2>Seekampf</h2>
     <ul>
-      <li>战舰生命 1000，血量 &le; 750 自动撤回港口修补。</li>
-      <li>Shell 伤害 250，3 发即可击杀一艘满血战舰。</li>
-      <li>v24 战舰<strong>优先攻击运输船</strong>，命中后立即冷却——意味着海岸登陆部队几乎打不过一艘战舰巡逻。</li>
+      <li>Kriegsschiff-HP 1000; bei HP &le; 750 zieht es sich automatisch zur Reparatur in den Port zurück.</li>
+      <li>Shell-Schaden 250 — drei Treffer killen ein volles Kriegsschiff.</li>
+      <li>v24: Kriegsschiffe <strong>priorisieren Transportschiffe</strong> und kühlen nach Treffer sofort ab — eine Patrouille reicht praktisch, um eine Landungsflotte zu zerschlagen.</li>
     </ul>
 
-    <h2>战斗 checklist</h2>
+    <h2>Kampf-Checkliste</h2>
     <ul>
-      <li>📍 攻击前看地形：尽量挑平原边缘下手。</li>
-      <li>🏰 看对方 DefensePost：覆盖瓶颈时换路。</li>
-      <li>📊 看双方 tiles：你 100k vs 对方 200k，你享有攻方加成，但他防御已衰减；正面战<strong>反而对你有利</strong>。</li>
-      <li>🤝 别背刺：除非能 30 秒打死对方，背刺通常自损更大。</li>
+      <li>📍 Vor dem Angriff Gelände prüfen: möglichst an Ebenenränder.</li>
+      <li>🏰 DefensePost des Gegners scouten: bei Engpass-Abdeckung Route ändern.</li>
+      <li>📊 tiles vergleichen: Du 100k vs. Gegner 200k? Du erhältst Angreifer-Bonus, sein Defense-Debuff ist aktiv — direkte Konfrontation ist <strong>für dich vorteilhaft</strong>.</li>
+      <li>🤝 Kein Hinterhältchen-Spiel: außer du kannst den Gegner in 30 Sekunden ausschalten, schadet Verrat meist mehr.</li>
     </ul>
   </article>
 </BaseLayout>

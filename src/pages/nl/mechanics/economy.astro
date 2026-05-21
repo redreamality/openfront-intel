@@ -7,59 +7,59 @@ import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
 ---
 
-<BaseLayout title="经济：金币、贸易与人口" description="OpenFront.io 金币产出、贸易船、火车、城市部队加成公式。">
-  <PageHeader eyebrow="MECHANICS · 02" title="经济：金币、贸易与人口" lead="OpenFront 的经济三条腿：基础金币、贸易船、火车。哪条腿粗决定你能造哪种建筑。" />
+<BaseLayout title="Economie: goud, handel en bevolking" description="Goudproductie, handelsschepen, treinen en bevolkingsformules van de stad in OpenFront.io.">
+  <PageHeader eyebrow="MECHANIEK · 02" title="Economie: goud, handel en bevolking" lead="OpenFront staat op drie economische pijlers: basisgoud, handelsschepen en treinen. Welke pijler dik is bepaalt welke gebouwen je je kunt veroorloven." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>三种金币来源</h2>
+    <h2>Drie bronnen van goud</h2>
     <ol>
-      <li><strong>基础金币</strong>：每个 tick 自动产出。Human 100 / tick，Bot 50 / tick（再乘 <code>goldMultiplier</code>，私密大厅可调）。</li>
-      <li><strong>贸易船</strong>：两个港口之间往返，距离越远收益越高，每次到港结算一次。</li>
-      <li><strong>火车（v24）</strong>：城市之间运行火车，按访问城市的关系给金币——盟友最赚。</li>
+      <li><strong>Basisgoud</strong>: automatisch geproduceerd per tick. Human 100 / tick, Bot 50 / tick (vermenigvuldigd met <code>goldMultiplier</code>, instelbaar in private lobbies).</li>
+      <li><strong>Handelsschepen</strong>: pendelen tussen twee havens; hoe groter de afstand, hoe hoger de opbrengst, vereffend bij iedere aankomst.</li>
+      <li><strong>Treinen (v24)</strong>: rijden tussen steden, geven goud op basis van de relatie met de bezochte stad — bondgenoten leveren het meeste op.</li>
     </ol>
 
-    <h2>金币速查公式</h2>
+    <h2>Snelle goudformule</h2>
     <FormulaBlock label={economy.label} items={economy.items} />
-    <p>常见误区：<strong>港口数量不是越多越好</strong>——贸易船全局上限 150 艘，过多港口会让单船产值下降。建议中盘 4~6 座港口配合 SAM 防核。</p>
+    <p>Veelvoorkomende misvatting: <strong>meer havens zijn niet altijd beter</strong> — er is een globale limiet van 150 handelsschepen, dus te veel havens drukt de opbrengst per schip. Aanbeveling voor de mid-game: 4-6 havens, gecombineerd met SAM-bescherming tegen kernwapens.</p>
 
-    <h2>人口（部队上限）</h2>
-    <p>人口上限既是攻击底力也是防御缓冲：</p>
+    <h2>Bevolking (troops-limiet)</h2>
+    <p>De bevolkingslimiet is zowel je aanvalskracht als je defensieve buffer:</p>
     <FormulaBlock
-      label="人口上限"
+      label="Bevolkingslimiet"
       items={[
-        { name: '基础', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City 等级 × 250,000)' },
-        { name: '类型乘数', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
+        { name: 'Basis', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City-niveau × 250,000)' },
+        { name: 'Typemultiplier', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
       ]}
     />
-    <Callout type="tip" title="城市投资回报">
-      <p>第 1~4 座 City 成本 125k → 250k → 500k → 1M。<strong>第 1 座几乎稳赚</strong>——250,000 部队上限的提升远远超过 125,000 金币的人口换算。</p>
-      <p>当 tiles 已经很多时（如 200k+ 的中后期），<code>0.6 × tiles^0.6 × 1000</code> 增长放缓，City 提供的固定加成性价比反而抬升。</p>
+    <Callout type="tip" title="ROI van een stad">
+      <p>De 1e tot 4e City kosten 125k → 250k → 500k → 1M. <strong>De eerste is bijna altijd winstgevend</strong> — een verhoging van de troops-limiet met 250.000 weegt veel zwaarder dan de bevolkingswaarde van 125.000 goud.</p>
+      <p>Wanneer tiles al zeer groot zijn (zoals 200k+ in de late game), vertraagt <code>0.6 × tiles^0.6 × 1000</code>, waardoor de vaste bonus van een City juist meer waard wordt.</p>
     </Callout>
 
-    <h2>贸易船经济细节</h2>
+    <h2>Details van de handelsscheepseconomie</h2>
     <ul>
-      <li>生成是概率性的：<code>spawnRate</code> 越大代表越久才生成一次，<strong>船多了会变难刷</strong>（sigmoid 抑制）。</li>
-      <li>「拒贸怜悯」：你拒绝其它玩家的贸易船越多次，自己刷船越慢——拒贸有代价。</li>
-      <li>v24 单船上限 150 艘，配合 Port 升级补偿单船产值。</li>
+      <li>Spawnen is probabilistisch: hoe groter <code>spawnRate</code>, hoe langer het duurt om een schip te spawnen, en <strong>meer schepen maakt verdere spawn moeilijker</strong> (sigmoid-remming).</li>
+      <li>"Mercy voor handelsweigering": hoe vaker je handelsschepen van andere spelers weigert, hoe trager je zelf spawnt — handelsweigering kost dus iets.</li>
+      <li>v24-cap van 150 schepen, gecompenseerd door upgrades aan Port om de opbrengst per schip te verhogen.</li>
     </ul>
 
-    <h2>火车经济（v24 新）</h2>
+    <h2>Treineconomie (nieuw in v24)</h2>
     <ul>
-      <li>需要 <strong>Factory + City + Railroad</strong> 三件套，至少 2 个站点才能跑火车。</li>
-      <li>每访问一个城市结算一次：<strong>盟友 35k / 团队 25k / 自家 10k</strong>。</li>
-      <li>每超过 9 站，每多访问一站惩罚 5,000 金币（下限 5,000）。</li>
-      <li>火车生成节奏：<code>(numFactories + 10) × 15</code> ticks 出一辆。</li>
+      <li>Vereist een <strong>Factory + City + Railroad</strong>-trio; minstens 2 stations zijn nodig om een trein te laten rijden.</li>
+      <li>Vereffening per bezochte stad: <strong>bondgenoot 35k / team 25k / eigen 10k</strong>.</li>
+      <li>Voor elke bezochte stad boven de 9: -5.000 goud straf per extra stad (minimum 5.000).</li>
+      <li>Spawnritme van treinen: <code>(numFactories + 10) × 15</code> ticks voor één trein.</li>
     </ul>
 
-    <h2>预算决策表</h2>
+    <h2>Budgetbeslissingsmatrix</h2>
     <table>
       <thead>
-        <tr><th>阶段</th><th>金币目标</th><th>优先建造</th></tr>
+        <tr><th>Fase</th><th>Goud-doel</th><th>Prioriteit voor bouw</th></tr>
       </thead>
       <tbody>
-        <tr><td>开局 (0-60s)</td><td>积累 125k</td><td>第 1 座 City + 第 1 座 Port</td></tr>
-        <tr><td>早期 (60-180s)</td><td>250k–1M</td><td>第 2 座 City，1 座 DefensePost 守瓶颈</td></tr>
-        <tr><td>中期 (3-6 分钟)</td><td>1M–5M</td><td>导弹井 + 第 1 座 SAM 起核盾</td></tr>
-        <tr><td>后期 (6 分钟+)</td><td>5M+</td><td>升级 City/Port/SAM；按需 MIRV</td></tr>
+        <tr><td>Opening (0-60s)</td><td>125k sparen</td><td>1e City + 1e Port</td></tr>
+        <tr><td>Vroeg (60-180s)</td><td>250k-1M</td><td>2e City, 1 DefensePost bij knooppunt</td></tr>
+        <tr><td>Mid (3-6 minuten)</td><td>1M-5M</td><td>Missile Silo + 1e SAM als kernschild</td></tr>
+        <tr><td>Laat (6 minuten+)</td><td>5M+</td><td>City/Port/SAM upgraden; MIRV op vraag</td></tr>
       </tbody>
     </table>
   </article>

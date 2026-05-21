@@ -7,20 +7,20 @@ import units from '../../../data/units.json';
 
 type Unit = (typeof units)[number];
 const groups: Array<{ key: Unit['category']; label: string; desc: string }> = [
-  { key: 'structure', label: '建筑', desc: '可建造结构，部分可升级以增强属性。' },
-  { key: 'ship', label: '船只 / 载具', desc: '海陆运输与战斗单位，含火车与贸易船。' },
-  { key: 'nuke', label: '核武器', desc: '原子弹、氢弹、MIRV：成本与冲击范围。' },
-  { key: 'projectile', label: '弹药', desc: '由建筑/单位自动发射的射弹。' },
+  { key: 'structure', label: 'Gebäude', desc: 'Errichtbare Strukturen, einige sind aufrüstbar.' },
+  { key: 'ship', label: 'Schiffe / Fahrzeuge', desc: 'See- und Landtransport- sowie Kampfeinheiten inklusive Zug und Handelsschiff.' },
+  { key: 'nuke', label: 'Atomwaffen', desc: 'AtomBomb, HydrogenBomb, MIRV: Kosten und Wirkungsradius.' },
+  { key: 'projectile', label: 'Munition', desc: 'Von Gebäuden/Einheiten automatisch abgefeuerte Geschosse.' },
 ];
 ---
 
-<BaseLayout title="单位数据库" description="OpenFront.io 全 16 种单位 / 建筑 / 载具 / 弹药的数值速查。">
-  <PageHeader eyebrow="DATABASE / UNITS" title="单位数据库" lead="按类别分组，含成本公式、HP、伤害、建造时长。点击表格行内 anchor 可分享直链。" />
+<BaseLayout title="Einheiten-Datenbank" description="Schnellreferenz für alle 16 OpenFront.io-Einheiten / Gebäude / Fahrzeuge / Geschosse.">
+  <PageHeader eyebrow="DATABASE / UNITS" title="Einheiten-Datenbank" lead="Nach Kategorie gruppiert, mit Kostenformeln, HP, Schaden und Bauzeit. Anker in den Tabellenzeilen ermöglichen Direktlinks." />
   <section class="container-wide py-10 space-y-12">
-    <Callout type="spec" title="读法约定">
-      <p>成本一栏顶部是 <strong>当前单价</strong>，下方是 <strong>cost 公式</strong>（n 通常代表已建造数）。</p>
-      <p>建造时长单位为 <code>tick</code>，OpenFront.io 约 <strong>10 ticks / 秒</strong>。</p>
-      <p>「升级」标记的建筑可投入金币提升等级，等级越高效果越强（如 SAM 射程、城市部队上限）。</p>
+    <Callout type="spec" title="Lesekonventionen">
+      <p>Die Kostenspalte zeigt oben den <strong>aktuellen Stückpreis</strong>, darunter die <strong>cost-Formel</strong> (n steht meist für die bereits gebaute Anzahl).</p>
+      <p>Bauzeiten werden in <code>tick</code> angegeben; OpenFront.io läuft mit ca. <strong>10 ticks / Sekunde</strong>.</p>
+      <p>Als „Upgrade" markierte Gebäude lassen sich gegen Gold aufrüsten — höhere Stufe bedeutet stärkere Effekte (z. B. SAM-Reichweite, City-Truppenlimit).</p>
     </Callout>
 
     {groups.map((g) => {

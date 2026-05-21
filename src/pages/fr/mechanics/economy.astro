@@ -7,59 +7,59 @@ import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
 ---
 
-<BaseLayout title="经济：金币、贸易与人口" description="OpenFront.io 金币产出、贸易船、火车、城市部队加成公式。">
-  <PageHeader eyebrow="MECHANICS · 02" title="经济：金币、贸易与人口" lead="OpenFront 的经济三条腿：基础金币、贸易船、火车。哪条腿粗决定你能造哪种建筑。" />
+<BaseLayout title="Économie : or, commerce et population" description="Formules de production d'or, navires de commerce, trains et bonus de troupes des City dans OpenFront.io.">
+  <PageHeader eyebrow="MÉCANIQUES · 02" title="Économie : or, commerce et population" lead="L'économie d'OpenFront repose sur trois piliers : or de base, navires de commerce et trains. Le pilier le plus solide détermine ce que vous pouvez construire." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>三种金币来源</h2>
+    <h2>Trois sources d'or</h2>
     <ol>
-      <li><strong>基础金币</strong>：每个 tick 自动产出。Human 100 / tick，Bot 50 / tick（再乘 <code>goldMultiplier</code>，私密大厅可调）。</li>
-      <li><strong>贸易船</strong>：两个港口之间往返，距离越远收益越高，每次到港结算一次。</li>
-      <li><strong>火车（v24）</strong>：城市之间运行火车，按访问城市的关系给金币——盟友最赚。</li>
+      <li><strong>Or de base</strong> : produit automatiquement à chaque tick. Human 100 / tick, Bot 50 / tick (multiplié par <code>goldMultiplier</code>, ajustable en salon privé).</li>
+      <li><strong>Navires de commerce</strong> : va-et-vient entre deux Port, le revenu augmente avec la distance, payé à chaque arrivée à quai.</li>
+      <li><strong>Trains (v24)</strong> : trains circulant entre City, or versé selon la relation avec le propriétaire des stations visitées — les alliés rapportent le plus.</li>
     </ol>
 
-    <h2>金币速查公式</h2>
+    <h2>Formules rapides d'or</h2>
     <FormulaBlock label={economy.label} items={economy.items} />
-    <p>常见误区：<strong>港口数量不是越多越好</strong>——贸易船全局上限 150 艘，过多港口会让单船产值下降。建议中盘 4~6 座港口配合 SAM 防核。</p>
+    <p>Erreur classique : <strong>plus de Port n'est pas mieux</strong> — le cap global est de 150 navires de commerce, trop de Port fait chuter la production par navire. Visez 4 à 6 Port en mid-game, soutenus par des SAM anti-nucléaires.</p>
 
-    <h2>人口（部队上限）</h2>
-    <p>人口上限既是攻击底力也是防御缓冲：</p>
+    <h2>Population (plafond de troupes)</h2>
+    <p>Le plafond de population est à la fois votre puissance de frappe et votre tampon défensif :</p>
     <FormulaBlock
-      label="人口上限"
+      label="Plafond de population"
       items={[
-        { name: '基础', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City 等级 × 250,000)' },
-        { name: '类型乘数', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
+        { name: 'Base', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(niveau City × 250,000)' },
+        { name: 'Multiplicateur de type', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
       ]}
     />
-    <Callout type="tip" title="城市投资回报">
-      <p>第 1~4 座 City 成本 125k → 250k → 500k → 1M。<strong>第 1 座几乎稳赚</strong>——250,000 部队上限的提升远远超过 125,000 金币的人口换算。</p>
-      <p>当 tiles 已经很多时（如 200k+ 的中后期），<code>0.6 × tiles^0.6 × 1000</code> 增长放缓，City 提供的固定加成性价比反而抬升。</p>
+    <Callout type="tip" title="Retour sur investissement d'une City">
+      <p>Coûts des 1ère à 4ème City : 125k → 250k → 500k → 1M. <strong>La 1ère est quasiment toujours rentable</strong> — le +250 000 au plafond de troupes dépasse de loin la conversion en population de 125 000 d'or.</p>
+      <p>Quand les tiles sont déjà nombreux (200k+ en mid/late game), la croissance de <code>0.6 × tiles^0.6 × 1000</code> ralentit, et le bonus fixe d'une City reprend de la valeur.</p>
     </Callout>
 
-    <h2>贸易船经济细节</h2>
+    <h2>Détails économiques des navires de commerce</h2>
     <ul>
-      <li>生成是概率性的：<code>spawnRate</code> 越大代表越久才生成一次，<strong>船多了会变难刷</strong>（sigmoid 抑制）。</li>
-      <li>「拒贸怜悯」：你拒绝其它玩家的贸易船越多次，自己刷船越慢——拒贸有代价。</li>
-      <li>v24 单船上限 150 艘，配合 Port 升级补偿单船产值。</li>
+      <li>La génération est probabiliste : plus <code>spawnRate</code> est grand, plus l'intervalle est long. <strong>Plus il y a de navires, plus c'est dur d'en faire spawner d'autres</strong> (inhibition sigmoïde).</li>
+      <li>« Pitié pour refus de commerce » : plus vous refusez les navires des autres, plus les vôtres sont lents à spawn — refuser a un coût.</li>
+      <li>Cap v24 à 150 navires globaux ; amélioration des Port pour compenser le revenu par navire.</li>
     </ul>
 
-    <h2>火车经济（v24 新）</h2>
+    <h2>Économie des trains (nouveau en v24)</h2>
     <ul>
-      <li>需要 <strong>Factory + City + Railroad</strong> 三件套，至少 2 个站点才能跑火车。</li>
-      <li>每访问一个城市结算一次：<strong>盟友 35k / 团队 25k / 自家 10k</strong>。</li>
-      <li>每超过 9 站，每多访问一站惩罚 5,000 金币（下限 5,000）。</li>
-      <li>火车生成节奏：<code>(numFactories + 10) × 15</code> ticks 出一辆。</li>
+      <li>Trois ingrédients requis : <strong>Factory + City + Railroad</strong>, au moins 2 stations pour faire rouler un train.</li>
+      <li>Paiement à chaque visite de City : <strong>allié 35k / équipe 25k / chez soi 10k</strong>.</li>
+      <li>Au-delà de 9 stations, pénalité de 5 000 d'or par station supplémentaire (plancher 5 000).</li>
+      <li>Rythme de génération des trains : un toutes les <code>(numFactories + 10) × 15</code> ticks.</li>
     </ul>
 
-    <h2>预算决策表</h2>
+    <h2>Tableau des décisions budgétaires</h2>
     <table>
       <thead>
-        <tr><th>阶段</th><th>金币目标</th><th>优先建造</th></tr>
+        <tr><th>Phase</th><th>Objectif d'or</th><th>À construire en priorité</th></tr>
       </thead>
       <tbody>
-        <tr><td>开局 (0-60s)</td><td>积累 125k</td><td>第 1 座 City + 第 1 座 Port</td></tr>
-        <tr><td>早期 (60-180s)</td><td>250k–1M</td><td>第 2 座 City，1 座 DefensePost 守瓶颈</td></tr>
-        <tr><td>中期 (3-6 分钟)</td><td>1M–5M</td><td>导弹井 + 第 1 座 SAM 起核盾</td></tr>
-        <tr><td>后期 (6 分钟+)</td><td>5M+</td><td>升级 City/Port/SAM；按需 MIRV</td></tr>
+        <tr><td>Ouverture (0-60s)</td><td>Accumuler 125k</td><td>1ère City + 1er Port</td></tr>
+        <tr><td>Début (60-180s)</td><td>250k–1M</td><td>2ème City, 1 DefensePost sur le goulet</td></tr>
+        <tr><td>Mid-game (3-6 min)</td><td>1M–5M</td><td>Missile Silo + 1er SAM pour le bouclier nucléaire</td></tr>
+        <tr><td>Late-game (6 min+)</td><td>5M+</td><td>Améliorer City/Port/SAM ; MIRV selon besoin</td></tr>
       </tbody>
     </table>
   </article>

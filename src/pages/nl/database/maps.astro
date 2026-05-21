@@ -16,10 +16,10 @@ const groups = order.map((key) => {
 });
 ---
 
-<BaseLayout title="地图列表" description="OpenFront.io 全部地图按类别分组：大陆 / 区域 / 幻想 / 街机 / 锦标赛。">
-  <PageHeader eyebrow="DATABASE / MAPS" title={`地图列表 · ${maps.meta.total} 张`} lead="按官方仓库 resources/maps 目录扫描，按真实地理与玩法分组。" />
+<BaseLayout title="Kaartenlijst" description="Alle kaarten van OpenFront.io gegroepeerd per categorie: Continentaal / Regionaal / Fantasy / Arcade / Tournament.">
+  <PageHeader eyebrow="DATABASE / MAPS" title={`Kaartenlijst · ${maps.meta.total} kaarten`} lead="Gescand uit de officiële repository onder resources/maps, gegroepeerd op echte geografie en speelstijl." />
   <section class="container-wide py-10">
-    <nav aria-label="分类导航" class="mb-8 flex flex-wrap gap-2">
+    <nav aria-label="Categorienavigatie" class="mb-8 flex flex-wrap gap-2">
       {groups.map((g) => (
         <a class="rounded border border-iron-800 px-3 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400" href={`#cat-${g.key.toLowerCase()}`}>
           {g.label} · {g.items.length}

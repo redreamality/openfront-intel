@@ -4,50 +4,50 @@ import PageHeader from '../../components/PageHeader.astro';
 
 const faqs = [
   {
-    q: 'OpenFront.io 是什么？',
-    a: 'OpenFront.io 是一款基于真实地理与抽象地图的在线实时策略游戏，玩家通过扩张领土、建立同盟、发射核武器在不同地图上竞争。它由 evanpelle 维护，源码以 AGPL-3.0 开源。',
+    q: 'Was ist OpenFront.io?',
+    a: 'OpenFront.io ist ein Online-Echtzeitstrategiespiel auf Basis echter Geografie und abstrakter Karten. Spieler erweitern ihr Territorium, schließen Bündnisse und starten Atomraketen auf verschiedenen Karten. Das Spiel wird von evanpelle gepflegt; der Quellcode steht unter AGPL-3.0.',
   },
   {
-    q: '我在哪里玩？',
-    a: '官方站点 openfront.io，所有主流浏览器都能直接进入，无需下载安装。也支持移动端原生登录（v24）。',
+    q: 'Wo kann ich spielen?',
+    a: 'Auf der offiziellen Seite openfront.io — direkt in allen gängigen Browsern, ohne Download oder Installation. Seit v24 wird auch nativer Mobile-Login unterstützt.',
   },
   {
-    q: '我没账户能玩吗？',
-    a: '能。注册账户主要用于保留战绩、皮肤与同盟历史。匿名玩家可正常加入公开大厅。',
+    q: 'Kann ich ohne Account spielen?',
+    a: 'Ja. Ein Account ist hauptsächlich dafür da, Statistiken, Skins und Bündnishistorie zu speichern. Anonyme Spieler können öffentlichen Lobbies normal beitreten.',
   },
   {
-    q: '攻防计算到底跑在哪里？',
-    a: '游戏的核心模拟跑在每个玩家的浏览器里（Core 是确定性 TypeScript 模拟，跑在 Web Worker 内）。服务器只在每个 tick 收集 Intent 并广播 Turn——这也是为什么对局会非常流畅但偶尔会有 desync 修复。',
+    q: 'Wo läuft die eigentliche Kampfberechnung?',
+    a: 'Die Kernsimulation läuft im Browser jedes Spielers (Core ist eine deterministische TypeScript-Simulation in einem Web Worker). Der Server sammelt pro tick nur Intents und broadcastet die Turns — darum ist das Spiel sehr flüssig, hat aber gelegentlich Desync-Korrekturen.',
   },
   {
-    q: '为什么我刷不出贸易船？',
-    a: 'v24 起贸易船全局上限 150 艘。船越多生成概率越低，加上「拒贸怜悯计时器」让拒贸的玩家也变难刷。解决办法：升级现有 Port 而不是新建，少手动禁运。',
+    q: 'Warum bekomme ich keine Handelsschiffe?',
+    a: 'Seit v24 gilt ein globales Limit von 150 Handelsschiffen. Je mehr Schiffe unterwegs sind, desto geringer die Spawn-Wahrscheinlichkeit. Zusätzlich macht der „Embargo-Mercy-Timer" Spieler, die viel ablehnen, langsamer beim Spawnen. Lösung: Bestehende Ports upgraden statt neue bauen, und Embargos sparsam einsetzen.',
   },
   {
-    q: '我能拦住 MIRV 吗？',
-    a: '不能。MIRV 本体和分裂出的 MIRVWarhead 都对 SAM 免疫。最稳妥的应对是把 City / Silo 分散布点，并升级 City 提高人口缓冲。',
+    q: 'Kann ich eine MIRV abfangen?',
+    a: 'Nein. Sowohl die MIRV selbst als auch die abgespaltenen MIRVWarheads sind immun gegen SAM. Die sicherste Reaktion ist, City und Silo zu dezentralisieren und die City zu upgraden, um den Bevölkerungspuffer zu erhöhen.',
   },
   {
-    q: '为什么我背叛盟友后立刻挨打？',
-    a: '背叛会让你进入 traitor 状态：防御 ×0.5、速度 ×0.8、持续 30 秒。同时自动触发对前盟友的禁运。如果不能在 30 秒内完成核心打击，背叛通常自损更大。',
+    q: 'Warum werde ich nach einem Bündnisbruch sofort angegriffen?',
+    a: 'Vertragsbruch versetzt dich in den traitor-Status: Verteidigung ×0,5, Geschwindigkeit ×0,8, Dauer 30 Sekunden. Gleichzeitig wird automatisch ein Embargo gegen die ehemaligen Verbündeten ausgelöst. Wenn du in diesen 30 Sekunden keinen entscheidenden Schlag landest, schadet der Verrat meist dir selbst mehr.',
   },
   {
-    q: '城市可以升到多少级？',
-    a: 'v24 起 City / Port / SAM / Silo 都支持 4 级升级。City 每级 +250,000 部队上限，叠加 4 级最多 +1,000,000。',
+    q: 'Bis zu welcher Stufe kann man eine Stadt ausbauen?',
+    a: 'Seit v24 unterstützen City, Port, SAM und Silo jeweils 4 Stufen. Jede Stadt-Stufe gibt +250.000 Truppenlimit, gestapelt also bis zu +1.000.000.',
   },
   {
-    q: '我能不能改默认设置？',
-    a: '私密大厅可调整：goldMultiplier、isPeaceTime、isNukesDisabled、isSAMsDisabled、isAlliancesDisabled、isWaterNukes、spawnImmunityDuration。公开大厅按当前模式预设。',
+    q: 'Kann ich die Standardeinstellungen ändern?',
+    a: 'In privaten Lobbies sind einstellbar: goldMultiplier, isPeaceTime, isNukesDisabled, isSAMsDisabled, isAlliancesDisabled, isWaterNukes, spawnImmunityDuration. Öffentliche Lobbies haben modusabhängige Voreinstellungen.',
   },
   {
-    q: '本站的数据可靠吗？',
-    a: '所有数值由 scripts/extract-game-data.mjs 从 OpenFrontIO 源码（src/core/configuration/Config.ts、src/core/game/Game.ts、resources/maps）提取。本站对外的「最后更新时间」与 OpenFrontIO 版本号在数据库页底部展示。',
+    q: 'Sind die Daten auf dieser Seite zuverlässig?',
+    a: 'Alle Werte werden von scripts/extract-game-data.mjs aus dem OpenFrontIO-Quellcode (src/core/configuration/Config.ts, src/core/game/Game.ts, resources/maps) extrahiert. Die letzte Aktualisierungszeit und die OpenFrontIO-Versionsnummer werden im Datenbank-Footer angezeigt.',
   },
 ];
 ---
 
-<BaseLayout title="常见问题" description="OpenFront.io 与本站的常见疑问与回答。">
-  <PageHeader eyebrow="FAQ" title="常见问题" lead="按主题排列的高频提问。游戏机制类问题更详细的版本请看「机制」栏目。" />
+<BaseLayout title="Häufige Fragen" description="Häufige Fragen und Antworten zu OpenFront.io und dieser Seite.">
+  <PageHeader eyebrow="FAQ" title="Häufige Fragen" lead="Nach Thema geordnete häufige Fragen. Detailliertere Antworten zu Spielmechaniken findest du im Bereich «Mechaniken»." />
   <section class="container-wide py-10">
     <dl class="space-y-6 max-w-3xl">
       {faqs.map((f) => (

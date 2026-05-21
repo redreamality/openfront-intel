@@ -7,55 +7,55 @@ import formulas from '../../../data/formulas.json';
 const nukes = formulas.groups.nukes;
 ---
 
-<BaseLayout title="核武器与 SAM" description="AtomBomb、HydrogenBomb、MIRV 三种核武器与 SAM 防空网的全部数值与互动。">
-  <PageHeader eyebrow="MECHANICS · 06" title="核武器与 SAM" lead="OpenFront 的核打击是「金币堆出来的杀招」。会算冲击半径、SAM 射程与 MIRV 的玩家在 5 分钟后开始打降维。" />
+<BaseLayout title="Armes nucléaires et SAM" description="AtomBomb, HydrogenBomb, MIRV : valeurs complètes et interactions avec le bouclier SAM.">
+  <PageHeader eyebrow="MÉCANIQUES · 06" title="Armes nucléaires et SAM" lead="La frappe nucléaire dans OpenFront est « l'arme fatale qu'on paie en or ». Les joueurs qui maîtrisent rayon d'impact, portée SAM et fonctionnement du MIRV passent à un autre palier après 5 minutes." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>三种核弹的硬数据</h2>
+    <h2>Données brutes des trois nukes</h2>
     <table>
       <thead>
-        <tr><th>名称</th><th>成本</th><th>inner</th><th>outer</th><th>SAM 可拦</th></tr>
+        <tr><th>Nom</th><th>Coût</th><th>inner</th><th>outer</th><th>Interceptable par SAM</th></tr>
       </thead>
       <tbody>
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>—（由 MIRV 释放）</td><td>12</td><td>18</td><td>✗</td></tr>
-        <tr><td>MIRV（载具）</td><td>25M + 15M × 已发射数</td><td colspan="2">分裂为多枚 MIRVWarhead</td><td>✗</td></tr>
+        <tr><td>MIRVWarhead</td><td>— (libéré par MIRV)</td><td>12</td><td>18</td><td>✗</td></tr>
+        <tr><td>MIRV (vecteur)</td><td>25M + 15M × tirs déjà effectués</td><td colspan="2">se sépare en plusieurs MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
-    <Callout type="spec" title="冲击半径解读">
-      <p><strong>inner</strong> 半径内的所有 tile 100% 损毁。<strong>outer</strong> 是外圈，按 BFS 概率（约 50%）扩散，留下辐射区域。辐射区让攻方 mag 临时变弱：<code>mag *= (5 − 2 × falloutRatio)</code>。</p>
+    <Callout type="spec" title="Lecture du rayon d'impact">
+      <p>Tous les tiles à l'intérieur du rayon <strong>inner</strong> sont détruits à 100 %. L'<strong>outer</strong> est l'anneau extérieur, propagé par BFS probabiliste (environ 50 %), laissant une zone de retombées. La zone de retombées affaiblit temporairement le mag de l'attaquant : <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
 
-    <h2>水核模式（isWaterNukes）</h2>
-    <p>启用时，核爆判定改为<strong>平滑圆形</strong>而非 BFS 扩散，意味着海面也能被均匀清空——对沿海玩家是极大威胁。私密大厅默认关闭。</p>
+    <h2>Mode water nukes (isWaterNukes)</h2>
+    <p>Quand il est activé, le calcul d'explosion passe à un <strong>cercle régulier</strong> au lieu de la propagation BFS, ce qui signifie que la mer peut aussi être balayée uniformément — une menace majeure pour les côtiers. Désactivé par défaut en salon privé.</p>
 
-    <h2>SAM 防空</h2>
+    <h2>SAM antiaérien</h2>
     <FormulaBlock label={nukes.label} items={nukes.items} />
     <ul>
-      <li><strong>仅能拦原子弹 / 氢弹</strong>，MIRV 与其子弹头免疫。</li>
-      <li>射程从 70 增长到上限 150 tiles：建议至少升到 3 级（约 90~100 tiles）才能形成有效防线。</li>
-      <li>冷却 90 ticks ≈ 9 秒。两枚核弹齐射时单座 SAM 只能拦一枚——必须叠 2~3 座。</li>
-      <li>建造时长 300 ticks（30 秒），不能临时抱佛脚。</li>
+      <li><strong>Intercepte uniquement AtomBomb / HydrogenBomb</strong>, le MIRV et ses ogives en sont immunisés.</li>
+      <li>La portée croît de 70 jusqu'à 150 tiles : visez au moins niveau 3 (environ 90-100 tiles) pour avoir une ligne défensive utile.</li>
+      <li>Cooldown 90 ticks ≈ 9 secondes. Face à une salve de deux nukes, un seul SAM ne peut intercepter qu'un seul — il faut empiler 2 à 3 SAM.</li>
+      <li>Temps de construction 300 ticks (30 secondes), impossible à improviser dans l'urgence.</li>
     </ul>
 
-    <h2>核打击节奏建议</h2>
+    <h2>Rythme de frappe nucléaire conseillé</h2>
     <ol>
-      <li><strong>3 分钟前</strong>：不要造核弹，金币应优先 City/Port 经济。</li>
-      <li><strong>3~5 分钟</strong>：1 座 Missile Silo + 1 座 SAM 起威慑。</li>
-      <li><strong>5~8 分钟</strong>：积累 5M 金币准备氢弹，目标是对方 City 群或 Silo。</li>
-      <li><strong>8 分钟后</strong>：考虑 25M 成本的 MIRV，迫使对手分散 SAM 覆盖。</li>
+      <li><strong>Avant 3 minutes</strong> : ne construisez pas de nukes, votre or doit aller à City/Port en priorité.</li>
+      <li><strong>3 à 5 minutes</strong> : 1 Missile Silo + 1 SAM pour la dissuasion.</li>
+      <li><strong>5 à 8 minutes</strong> : accumulez 5M d'or pour préparer une HydrogenBomb, cible : les groupes de City ou les Silo adverses.</li>
+      <li><strong>Après 8 minutes</strong> : envisagez le MIRV à 25M, pour forcer l'adversaire à disperser sa couverture SAM.</li>
     </ol>
 
-    <Callout type="warn" title="MIRV 心理战">
-      <p>MIRV 的<strong>真正价值不在杀伤</strong>——v24 已被削弱，外环 outer 仅 18 tile，单弹头不大。但 MIRV 不可被 SAM 拦截，且分裂为多个目标，会强迫对手把贵重的 SAM 升级与 Silo 分散布点，间接削弱其单点核打击的防线。</p>
+    <Callout type="warn" title="Guerre psychologique du MIRV">
+      <p>La <strong>vraie valeur du MIRV n'est pas dans les dégâts</strong> — il a été affaibli en v24, son outer n'est que 18 tiles et une ogive seule fait peu de dégâts. Mais comme le MIRV est non-interceptable par SAM et se sépare en plusieurs cibles, il force l'adversaire à disperser ses précieuses améliorations SAM et ses Silo, ce qui affaiblit indirectement sa défense contre les frappes uniques.</p>
     </Callout>
 
-    <h2>反核要点</h2>
+    <h2>Points clés de la défense antinucléaire</h2>
     <ul>
-      <li>SAM 至少 2 座覆盖同一目标，应对齐射。</li>
-      <li>SAM 不要堆在一起——一颗氢弹外环 100 tiles 能一锅端。</li>
-      <li>Silo 优先放在 SAM 内侧，避免被对方反核拆台。</li>
-      <li>升级 City 也是「反核」：人口缓冲让你能扛一次氢弹而不崩盘。</li>
+      <li>Au moins 2 SAM couvrant la même cible, pour répondre aux salves.</li>
+      <li>Ne pas empiler les SAM côte à côte — une HydrogenBomb à outer 100 tiles peut tous les emporter.</li>
+      <li>Placez les Silo à l'intérieur du couvert SAM, pour éviter qu'une contre-frappe ne détruise votre dispositif.</li>
+      <li>Améliorer une City est aussi un acte « antinucléaire » : le tampon de population vous permet d'encaisser une HydrogenBomb sans effondrement.</li>
     </ul>
   </article>
 </BaseLayout>

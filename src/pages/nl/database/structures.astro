@@ -6,23 +6,23 @@ import Callout from '../../../components/Callout.astro';
 import structures from '../../../data/structures.json';
 ---
 
-<BaseLayout title="建筑数据库" description="City、Port、Factory、DefensePost、SAM、MissileSilo 详细参数。">
-  <PageHeader eyebrow="DATABASE / STRUCTURES" title="建筑数据库" lead="6 种结构的成本、建造时间与升级特性。多数建筑成本随数量上升。" />
+<BaseLayout title="Gebouwendatabase" description="Gedetailleerde parameters van City, Port, Factory, DefensePost, SAM en MissileSilo.">
+  <PageHeader eyebrow="DATABASE / STRUCTURES" title="Gebouwendatabase" lead="De 6 structuren met hun kosten, bouwtijden en upgrade-eigenschappen. De meeste gebouwen worden duurder naarmate hun aantal stijgt." />
   <section class="container-wide py-10 space-y-8">
-    <Callout type="tip" title="建造成本节流">
-      <p>成本公式 <code class="font-mono">min(1M, 2^n × 125k)</code> 意味着前 4 座 City/Port/Factory 价格分别为 125k → 250k → 500k → 1M，之后封顶。</p>
-      <p>港口与工厂 <strong>共享同一计数</strong>（PortBuildableGroup），先后顺序会互相影响价格。</p>
+    <Callout type="tip" title="Kosten temperen">
+      <p>De kostenformule <code class="font-mono">min(1M, 2^n × 125k)</code> betekent dat de eerste 4 City/Port/Factory respectievelijk 125k → 250k → 500k → 1M kosten en daarna afgetopt zijn.</p>
+      <p>Port en Factory <strong>delen dezelfde teller</strong> (PortBuildableGroup); de volgorde waarin je ze bouwt beïnvloedt hun prijs.</p>
     </Callout>
     <UnitTable units={structures} showCategory={false} />
 
     <section class="rounded border border-iron-800 bg-iron-900/40 p-5 text-sm leading-relaxed">
-      <h2 class="text-base font-semibold text-cannon-400">升级阶梯（4 级）</h2>
+      <h2 class="text-base font-semibold text-cannon-400">Upgradeladder (4 niveaus)</h2>
       <ul class="mt-3 space-y-2 text-iron-300">
-        <li><strong>City</strong> — 每级 <code class="font-mono">+250,000</code> 部队上限；高等级城市配合 Factory 可显著提升火车收益。</li>
-        <li><strong>Port</strong> — 等级越高，<strong>贸易船生成率与上限收益</strong>越高（v24 平衡补偿 150 全局上限）。</li>
-        <li><strong>SAM Launcher</strong> — 射程从默认 70 提升至接近 150 tiles，公式 <code class="font-mono">150 − 480/(level+5)</code>。</li>
-        <li><strong>Missile Silo</strong> — 升级降低核弹装填时间；AI 会避开 SAM 覆盖的目标。</li>
-        <li><strong>Factory</strong> — 提升火车生成率与铁路网吞吐。</li>
+        <li><strong>City</strong> — <code class="font-mono">+250,000</code> troops-limiet per niveau; een hooggewaardeerde stad met een Factory geeft een merkbare boost aan de treinopbrengsten.</li>
+        <li><strong>Port</strong> — hoe hoger het niveau, hoe hoger de <strong>spawnkans en de plafondopbrengst van handelsschepen</strong> (v24-balansing compenseert de globale cap van 150).</li>
+        <li><strong>SAM Launcher</strong> — bereik stijgt van standaard 70 naar bijna 150 tiles, volgens de formule <code class="font-mono">150 − 480/(level+5)</code>.</li>
+        <li><strong>Missile Silo</strong> — upgrades verkorten de laadtijd; AI vermijdt doelen onder SAM-dekking.</li>
+        <li><strong>Factory</strong> — verhoogt de spawnsnelheid van treinen en de doorvoer van het spoornetwerk.</li>
       </ul>
     </section>
   </section>

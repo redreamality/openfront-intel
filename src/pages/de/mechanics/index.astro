@@ -5,21 +5,21 @@ import PageHeader from '../../../components/PageHeader.astro';
 const base = import.meta.env.BASE_URL;
 const langPrefix = 'de/';
 const sections = [
-  { href: `${base}${langPrefix}mechanics/basics/`, title: '入门：出生与扩张', desc: '出生免疫、阶段长度、初期决策框架。', tag: '入门' },
-  { href: `${base}${langPrefix}mechanics/economy/`, title: '经济：金币、贸易与人口', desc: '基础金币、城市部队、贸易船、火车收益。', tag: '经济' },
-  { href: `${base}${langPrefix}mechanics/military/`, title: '军事：攻防与战斗', desc: '地形系数、防御工事、人口减益、背叛惩罚。', tag: '战斗' },
-  { href: `${base}${langPrefix}mechanics/structures/`, title: '建筑：6 种核心结构', desc: 'City / Port / Factory / DefensePost / SAM / Silo。', tag: '建筑' },
-  { href: `${base}${langPrefix}mechanics/units/`, title: '单位：船、车与弹', desc: '运输船、战舰、贸易船、火车、炮弹 / SAM 弹。', tag: '单位' },
-  { href: `${base}${langPrefix}mechanics/nukes/`, title: '核武器与 SAM', desc: 'AtomBomb / HydrogenBomb / MIRV 与 SAM 拦截网。', tag: '核战' },
-  { href: `${base}${langPrefix}mechanics/alliances/`, title: '同盟与背叛', desc: '5 分钟同盟、自动禁运、背叛减益 0.5×0.8。', tag: '外交' },
-  { href: `${base}${langPrefix}mechanics/trains/`, title: '火车与铁路', desc: 'v24 新机制：工厂 → 火车 → 城市贸易网。', tag: '新机制' },
-  { href: `${base}${langPrefix}mechanics/trade/`, title: '贸易系统', desc: '贸易船 cap 150、距离收益、拒贸怜悯计时器。', tag: '经济' },
-  { href: `${base}${langPrefix}mechanics/modes/`, title: '游戏模式速览', desc: 'FFA / Duos / Trios / Quads / Team / Tournament。', tag: '总览' },
+  { href: `${base}${langPrefix}mechanics/basics/`, title: 'Grundlagen: Spawn und Expansion', desc: 'Spawn-Immunität, Phasenlänge, frühe Entscheidungsmuster.', tag: 'Grundlagen' },
+  { href: `${base}${langPrefix}mechanics/economy/`, title: 'Wirtschaft: Gold, Handel und Bevölkerung', desc: 'Basis-Gold, City-Truppen, Handelsschiffe, Zug-Einnahmen.', tag: 'Wirtschaft' },
+  { href: `${base}${langPrefix}mechanics/military/`, title: 'Militär: Angriff, Verteidigung, Kampf', desc: 'Geländekoeffizienten, DefensePost, Bevölkerungsdebuffs, Verratsstrafe.', tag: 'Kampf' },
+  { href: `${base}${langPrefix}mechanics/structures/`, title: 'Gebäude: 6 Kernstrukturen', desc: 'City / Port / Factory / DefensePost / SAM / Silo.', tag: 'Gebäude' },
+  { href: `${base}${langPrefix}mechanics/units/`, title: 'Einheiten: Schiffe, Züge und Geschosse', desc: 'Transportschiff, Kriegsschiff, Handelsschiff, Zug, Shell/SAM-Rakete.', tag: 'Einheiten' },
+  { href: `${base}${langPrefix}mechanics/nukes/`, title: 'Atomwaffen und SAM', desc: 'AtomBomb / HydrogenBomb / MIRV und das SAM-Abwehrnetz.', tag: 'Nuklear' },
+  { href: `${base}${langPrefix}mechanics/alliances/`, title: 'Bündnisse und Verrat', desc: '5-Minuten-Bündnisse, automatisches Embargo, Verratsdebuffs 0,5×0,8.', tag: 'Diplomatie' },
+  { href: `${base}${langPrefix}mechanics/trains/`, title: 'Züge und Schienen', desc: 'Neues v24-System: Fabrik → Zug → städtisches Handelsnetz.', tag: 'Neu in v24' },
+  { href: `${base}${langPrefix}mechanics/trade/`, title: 'Handelssystem', desc: 'Handelsschiff-Cap 150, Entfernungseinkommen, Embargo-Mercy-Timer.', tag: 'Wirtschaft' },
+  { href: `${base}${langPrefix}mechanics/modes/`, title: 'Spielmodi im Überblick', desc: 'FFA / Duos / Trios / Quads / Team / Tournament.', tag: 'Übersicht' },
 ];
 ---
 
-<BaseLayout title="游戏机制" description="OpenFront.io 全部核心机制：从出生到核战 10 个主题系统化讲解。">
-  <PageHeader eyebrow="MECHANICS" title="游戏机制" lead="按系统拆分的 10 个章节，每章数值都来自 v24 源码。建议从「入门」与「经济」开始读。" />
+<BaseLayout title="Spielmechaniken" description="Alle Kernmechaniken von OpenFront.io: 10 thematische Kapitel von Spawn bis Nuklearkrieg.">
+  <PageHeader eyebrow="MECHANIK" title="Spielmechaniken" lead="Nach System gegliederte 10 Kapitel; alle Werte aus dem v24-Quellcode. Empfohlener Start: «Grundlagen» und «Wirtschaft»." />
   <section class="container-wide py-10">
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {sections.map((s, i) => (

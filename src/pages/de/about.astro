@@ -5,56 +5,56 @@ import meta from '../../data/_meta.json';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="关于本站" description="OpenFront 情报站的定位、来源与技术栈说明。">
-  <PageHeader eyebrow="ABOUT" title="关于本站" lead="一个由玩家维护的 OpenFront.io 中文资料库。" />
+<BaseLayout title="Über diese Seite" description="Ausrichtung, Quellen und Technologie-Stack des OpenFront Intel.">
+  <PageHeader eyebrow="ABOUT" title="Über diese Seite" lead="Eine von Spielern gepflegte Wissensdatenbank zu OpenFront.io." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>定位</h2>
-    <p>本站围绕开源 RTS 游戏 <a href="https://openfront.io/" target="_blank" rel="noopener">OpenFront.io</a> 整理中文资料，覆盖：</p>
+    <h2>Ausrichtung</h2>
+    <p>Diese Seite versammelt deutschsprachige Inhalte rund um das Open-Source-RTS <a href="https://openfront.io/" target="_blank" rel="noopener">OpenFront.io</a> und deckt ab:</p>
     <ul>
-      <li>核心机制系统化讲解（出生、经济、军事、核武、同盟、火车……）。</li>
-      <li>单位 / 建筑数值数据库（从源码自动同步）。</li>
-      <li>78 张地图列表与分类。</li>
-      <li>战术攻略与新手教程。</li>
-      <li>版本更新日志解读。</li>
+      <li>Systematische Erklärungen der Kernmechaniken (Spawn, Wirtschaft, Militär, Atomwaffen, Bündnisse, Eisenbahn …).</li>
+      <li>Datenbank für Einheiten- und Gebäudewerte (automatisch aus dem Quellcode synchronisiert).</li>
+      <li>Liste und Kategorisierung der 78 Karten.</li>
+      <li>Taktische Guides und Tutorials für Einsteiger.</li>
+      <li>Auswertung der Versions-Changelogs.</li>
     </ul>
-    <p>面向所有想认真打 OpenFront.io 的中文玩家——尤其是想<strong>把感觉量化成数字</strong>的玩家。</p>
+    <p>Richtet sich an alle Spielerinnen und Spieler, die OpenFront.io ernsthaft spielen wollen — insbesondere an jene, die ihr <strong>Bauchgefühl in Zahlen übersetzen</strong> möchten.</p>
 
-    <h2>数据来源</h2>
-    <p>所有数值（成本、伤害、半径、冷却、地图列表）由 <code>scripts/extract-game-data.mjs</code> 从官方仓库 <a href="https://github.com/openfrontio/OpenFrontIO" target="_blank" rel="noopener">openfrontio/OpenFrontIO</a> 读取以下文件提取：</p>
+    <h2>Datenquellen</h2>
+    <p>Alle Werte (Kosten, Schaden, Radien, Cooldowns, Kartenlisten) werden von <code>scripts/extract-game-data.mjs</code> aus dem offiziellen Repository <a href="https://github.com/openfrontio/OpenFrontIO" target="_blank" rel="noopener">openfrontio/OpenFrontIO</a> über folgende Dateien extrahiert:</p>
     <ul>
-      <li><code>src/core/configuration/Config.ts</code> — 单位成本与公式。</li>
-      <li><code>src/core/game/Game.ts</code> — UnitType 枚举与分组。</li>
-      <li><code>resources/maps/</code> — 地图目录列表。</li>
-      <li><code>resources/changelog.md</code> — 版本变更。</li>
+      <li><code>src/core/configuration/Config.ts</code> — Einheitenkosten und Formeln.</li>
+      <li><code>src/core/game/Game.ts</code> — UnitType-Enum und Gruppierungen.</li>
+      <li><code>resources/maps/</code> — Verzeichnis der Karten.</li>
+      <li><code>resources/changelog.md</code> — Versionsänderungen.</li>
     </ul>
-    <p>当前数据快照：</p>
+    <p>Aktueller Daten-Snapshot:</p>
     <ul>
-      <li><strong>OpenFrontIO 版本</strong>：{meta.upstreamVersion}</li>
-      <li><strong>最后采集时间</strong>：<code>{meta.generatedAt}</code></li>
-      <li><strong>采集模式</strong>：<code>{meta.source.includes('snapshot') ? 'embedded snapshot' : 'live source'}</code></li>
-    </ul>
-
-    <h2>技术栈</h2>
-    <ul>
-      <li><strong>Astro</strong>（v5）+ <strong>Tailwind CSS</strong>，纯静态产出。</li>
-      <li>MDX 内容集合（Content Collections）。</li>
-      <li>GitHub Pages 部署，无服务器、无追踪、无广告。</li>
+      <li><strong>OpenFrontIO-Version</strong>: {meta.upstreamVersion}</li>
+      <li><strong>Letzte Erfassung</strong>: <code>{meta.generatedAt}</code></li>
+      <li><strong>Erfassungsmodus</strong>: <code>{meta.source.includes('snapshot') ? 'embedded snapshot' : 'live source'}</code></li>
     </ul>
 
-    <h2>授权与免责</h2>
+    <h2>Technologie-Stack</h2>
     <ul>
-      <li>本站为社区资料站，非 OpenFront.io 官方。</li>
-      <li>游戏源码遵循 <a href="https://www.gnu.org/licenses/agpl-3.0" target="_blank" rel="noopener">AGPL-3.0</a>。</li>
-      <li>游戏资源遵循 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>。</li>
-      <li>本站文字内容除特别注明外，CC BY-SA 4.0 自由使用，但请注明来源。</li>
-      <li>「OpenFront」名称版权归原作者 © OpenFront and Contributors。</li>
+      <li><strong>Astro</strong> (v5) + <strong>Tailwind CSS</strong>, rein statisch ausgeliefert.</li>
+      <li>MDX Content Collections.</li>
+      <li>Hosting über GitHub Pages — kein Server, kein Tracking, keine Werbung.</li>
     </ul>
 
-    <h2>反馈</h2>
-    <p>发现错误、想补充攻略，或者发现某个数值与游戏内不符，欢迎在源仓库提 issue。</p>
+    <h2>Lizenz und Haftungsausschluss</h2>
+    <ul>
+      <li>Diese Seite ist eine Community-Ressource und nicht offiziell mit OpenFront.io verbunden.</li>
+      <li>Der Spielcode steht unter <a href="https://www.gnu.org/licenses/agpl-3.0" target="_blank" rel="noopener">AGPL-3.0</a>.</li>
+      <li>Die Spielressourcen stehen unter <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</li>
+      <li>Die Texte auf dieser Seite stehen, sofern nicht anders gekennzeichnet, ebenfalls unter CC BY-SA 4.0 — bitte mit Quellenangabe.</li>
+      <li>Der Name „OpenFront" steht im Urheberrecht © OpenFront and Contributors.</li>
+    </ul>
+
+    <h2>Feedback</h2>
+    <p>Fehler entdeckt, möchtest du einen Guide ergänzen oder stimmt ein Wert nicht mit dem Spiel überein? Gerne ein Issue im Quell-Repository eröffnen.</p>
 
     <p class="text-iron-500">
-      <a href={base}>← 返回首页</a>
+      <a href={base}>← Zurück zur Startseite</a>
     </p>
   </article>
 </BaseLayout>

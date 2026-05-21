@@ -4,49 +4,49 @@ import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
 ---
 
-<BaseLayout title="贸易系统" description="OpenFront.io 贸易船生成概率、距离收益曲线、拒贸代价与全局上限。">
-  <PageHeader eyebrow="MECHANICS · 09" title="贸易系统" lead="贸易是被动经济的命脉。掌握 sigmoid 曲线与「怜悯计时器」能让港口投资性价比最大化。" />
+<BaseLayout title="Handelssystem" description="OpenFront.io: Spawn-Wahrscheinlichkeit der Handelsschiffe, Entfernungsertragskurve, Embargo-Strafen und globaler Cap.">
+  <PageHeader eyebrow="MECHANIK · 09" title="Handelssystem" lead="Handel ist die Lebensader der passiven Wirtschaft. Wer die Sigmoid-Kurve und den «Mercy-Timer» beherrscht, holt das Maximum aus seinen Port-Investitionen heraus." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>收益曲线</h2>
-    <p>单次贸易船到港结算：</p>
+    <h2>Ertragskurve</h2>
+    <p>Abrechnung pro Handelsschiff bei Ankunft:</p>
     <pre><code>baseGold = 75,000 / (1 + exp(-0.03 × (dist − 300))) + 50 × dist
 result   = floor(baseGold × goldMultiplier)</code></pre>
     <ul>
-      <li>距离 ≤ 300 tiles：sigmoid 部分接近 0~50%，收益 5k~40k。</li>
-      <li>距离 600 tiles：sigmoid 接近饱和（~75k），加上 50×600 = 30k 线性，约 <strong>100k+</strong>。</li>
-      <li>距离 1000 tiles 以上：稳定 75k 上限 + 50k 线性 ≈ <strong>125k+ 单次</strong>。</li>
+      <li>Distanz ≤ 300 tiles: Sigmoid-Anteil bei 0–50 %, Ertrag 5k–40k.</li>
+      <li>Distanz 600 tiles: Sigmoid nahe Sättigung (~75k), zzgl. 50×600 = 30k linear → ca. <strong>100k+</strong>.</li>
+      <li>Distanz 1000 tiles und mehr: stabil 75k Obergrenze + 50k linear ≈ <strong>125k+ pro Lieferung</strong>.</li>
     </ul>
-    <Callout type="tip" title="距离套利">
-      <p>建议把港口放在大陆两端、跨海口，单船产值能比小区域翻 3 倍。</p>
+    <Callout type="tip" title="Distanz-Arbitrage">
+      <p>Ports an entgegengesetzten Enden des Kontinents oder über das Meer hinweg platzieren — der Wert pro Schiff verdreifacht sich gegenüber kleinen Regionalrouten.</p>
     </Callout>
 
-    <h2>生成概率与全局 cap</h2>
+    <h2>Spawn-Wahrscheinlichkeit und globaler Cap</h2>
     <pre><code>baseSpawnRate    = 1 − sigmoid(numShips, ln(2)/50, 200)
 rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>全局 <strong>cap 150 艘</strong>（v24 引入），逼近时刷新概率急剧下降。</li>
-      <li><code>rejections</code> 即「拒贸怜悯计时器」：你拒得越多，自己刷得越慢。</li>
-      <li>Port 每 10 ticks 检查一次概率，所以「久不刷船」是正常的。</li>
+      <li>Globaler <strong>Cap 150 Schiffe</strong> (eingeführt mit v24); je näher am Limit, desto stärker die Drosselung der Spawn-Wahrscheinlichkeit.</li>
+      <li><code>rejections</code> ist der „Embargo-Mercy-Timer": Je mehr du ablehnst, desto langsamer spawnen deine eigenen Schiffe.</li>
+      <li>Ports prüfen die Wahrscheinlichkeit alle 10 ticks; „längere Trockenperioden" sind also normal.</li>
     </ul>
 
-    <h2>禁运（Embargo）</h2>
-    <Callout type="warn" title="贸易战的两种武器">
+    <h2>Embargo</h2>
+    <Callout type="warn" title="Zwei Waffen im Handelskrieg">
       <ul>
-        <li><strong>临时禁运</strong>：发动攻击后自动 300 ticks 内禁运双方。</li>
-        <li><strong>永久禁运</strong>：手动设置（敌对玩家也可单方设置）。</li>
-        <li>多方协同禁运可以让一个金币流派的玩家「窒息」，但代价是自己也少 1 个贸易伙伴。</li>
+        <li><strong>Temporäres Embargo</strong>: Wird nach Angriff automatisch für 300 ticks aktiviert.</li>
+        <li><strong>Permanentes Embargo</strong>: Manuell gesetzt (auch unilateral durch feindliche Spieler).</li>
+        <li>Koordinierte Embargos können einen wirtschaftsfokussierten Spieler ersticken — aber sie kosten dich selbst je einen Handelspartner.</li>
       </ul>
     </Callout>
 
-    <h2>贸易战实战</h2>
+    <h2>Handelskrieg in der Praxis</h2>
     <ol>
-      <li><strong>开局选址</strong>：找跨海或跨大陆的港口位，单船收益直接是别人 3 倍。</li>
-      <li><strong>港口数量</strong>：4~6 座最佳。超过会触发 sigmoid 抑制，单船刷新越慢。</li>
-      <li><strong>升级 Port</strong>：v24 起升级是补偿 150 cap 的关键，比新建 Port 性价比更高。</li>
-      <li><strong>不要无脑拒贸</strong>：除非禁运策略需要，否则只增加自己的 rejection 计数。</li>
-      <li><strong>保护贸易船</strong>：用战舰沿航线巡逻，对方敌意时立刻拉回港口。</li>
+      <li><strong>Eröffnungs-Wahl</strong>: Port-Plätze über Meer oder Kontinent hinweg — der Wert pro Schiff ist direkt das Dreifache.</li>
+      <li><strong>Anzahl der Ports</strong>: 4–6 sind optimal. Mehr triggert die Sigmoid-Bremse, jedes Schiff spawnt langsamer.</li>
+      <li><strong>Ports upgraden</strong>: Seit v24 ist Upgraden die Schlüssel-Kompensation für den 150er-Cap, lohnender als neue Ports zu bauen.</li>
+      <li><strong>Nicht blind ablehnen</strong>: Außer es ist Teil einer Embargo-Strategie — sonst zählst du nur deinen eigenen rejections-Counter hoch.</li>
+      <li><strong>Handelsschiffe schützen</strong>: Mit Kriegsschiffen die Route patrouillieren, bei feindlichem Verhalten zurück in den Port ziehen.</li>
     </ol>
   </article>
 </BaseLayout>

@@ -8,47 +8,47 @@ import units from '../../../data/units.json';
 const mobile = units.filter((u) => u.category !== 'structure' && u.category !== 'nuke');
 ---
 
-<BaseLayout title="单位：船、车与弹" description="OpenFront.io 运输船、战舰、贸易船、火车、炮弹、SAM 弹的角色与互动。">
-  <PageHeader eyebrow="MECHANICS · 05" title="单位：船、车与弹" lead="非建筑、非核武的可移动单位。船与火车决定地图上的「流量」，弹药决定即时火力。" />
+<BaseLayout title="Eenheden: schepen, voertuigen en projectielen" description="OpenFront.io transportschepen, warships, handelsschepen, treinen, shells en SAM-raketten: rol en onderlinge interacties.">
+  <PageHeader eyebrow="MECHANIEK · 05" title="Eenheden: schepen, voertuigen en projectielen" lead="Verplaatsbare eenheden die geen gebouw en geen kernwapen zijn. Schepen en treinen bepalen de 'stromen' op de kaart, munitie bepaalt het directe vuurvermogen." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
     <UnitTable units={mobile} showCategory={true} />
 
-    <h2>TransportShip — 登陆载具</h2>
+    <h2>TransportShip — landingsvoertuig</h2>
     <ul>
-      <li>免费生成，但<strong>带走的是发起者的部队</strong>，本质是把人口运到海对面。</li>
-      <li>会受战舰拦截，v24 起战舰命中运输船立即冷却，相当于一艘巡逻战舰能屠一支船队。</li>
-      <li>水核（isWaterNukes）开启时还要担心海面核爆。</li>
+      <li>Gratis te spawnen, maar <strong>neemt de troepen van de afzender mee</strong>; in essentie verplaats je je bevolking over zee.</li>
+      <li>Onderschept door warships: sinds v24 gaat een warship onmiddellijk in cooldown na een treffer op een transportschip, dus één patrouillerend warship kan een hele vloot afslachten.</li>
+      <li>Met watercore (isWaterNukes) actief is er ook risico op een kernexplosie op zee.</li>
     </ul>
 
-    <h2>Warship — 海上火力</h2>
+    <h2>Warship — vuurkracht op zee</h2>
     <ul>
-      <li>HP 1000、Shell 伤害 250。一艘战舰大约能在 4~5 次接火中保留 750 HP 的安全线。</li>
-      <li>低于 750 HP 自动撤退维修——不要追残血战舰，对方很可能在港口再次满血。</li>
-      <li>价格随数量递增：<code>min(1M, (n+1)×250k)</code>，超过 3 艘后接近上限。</li>
+      <li>HP 1000, Shell-schade 250. Eén warship blijft veilig boven 750 HP gedurende ongeveer 4 à 5 vuurwisselingen.</li>
+      <li>Onder 750 HP keert het automatisch terug om te repareren — jaag geen warship op laag leven, het kan in de haven snel weer voltallig zijn.</li>
+      <li>Kosten stijgen met aantal: <code>min(1M, (n+1)×250k)</code>; vanaf 3 schepen wordt het plafond bereikt.</li>
     </ul>
 
-    <h2>TradeShip — 经济流量</h2>
+    <h2>TradeShip — economische stroom</h2>
     <ul>
-      <li>港口对之间自动往返，被夺取则归新主，被毁则消失。</li>
-      <li>全局 cap 150（v24）；港口越多，单船的「平均寿命」越短。</li>
-      <li>拒绝其他玩家贸易（手动 embargo）会让自己刷船变慢。</li>
+      <li>Pendelt automatisch tussen havenparen; bij verovering gaat het naar de nieuwe eigenaar, bij vernietiging verdwijnt het.</li>
+      <li>Globale cap 150 (v24); hoe meer havens, hoe korter de "gemiddelde levensduur" van één schip.</li>
+      <li>Handelsschepen van anderen weigeren (handmatig embargo) vertraagt ook je eigen spawn.</li>
     </ul>
 
-    <h2>Train — v24 新机制的金币载具</h2>
+    <h2>Train — het goudvoertuig van v24</h2>
     <ul>
-      <li>由 Factory 自动生成，沿铁路在城市/工厂站点之间穿梭。</li>
-      <li>速度 2 tiles/tick，列车长度可配置（多节车厢 = 多次结算的潜在收益）。</li>
-      <li>关键：<strong>火车的金币收益按访问站点的玩家关系决定</strong>，盟友 35k / 团队 25k / 自己 10k。</li>
+      <li>Automatisch gespawnd door een Factory; rijdt over het spoor tussen stations (City/Factory).</li>
+      <li>Snelheid 2 tiles/tick; treinlengte is configureerbaar (meer wagons = meer potentiële opbrengstrekeningen).</li>
+      <li>Belangrijk: <strong>de goudopbrengst van de trein hangt af van de relatie met de bezochte stad</strong> — bondgenoot 35k / team 25k / eigen 10k.</li>
     </ul>
 
-    <h2>Shell / SAMMissile — 弹药</h2>
+    <h2>Shell / SAMMissile — munitie</h2>
     <ul>
-      <li>Shell：250 伤害，可被障碍拦截。战舰 + 海岸防御工事都用它。</li>
-      <li>SAMMissile：默认速度 12 tiles/tick，提前射击窗口需要 <code>nukeReachTick − samReachTick ≥ 0</code>，超远距离弹道核弹更难拦。</li>
+      <li>Shell: 250 schade, kan onderschept worden door obstakels. Wordt gebruikt door warships en DefensePosts aan de kust.</li>
+      <li>SAMMissile: standaardsnelheid 12 tiles/tick; het schietvenster vooraan vereist <code>nukeReachTick − samReachTick ≥ 0</code>, dus zeer langeafstandsraketten zijn moeilijker te onderscheppen.</li>
     </ul>
 
-    <Callout type="tip" title="单位互动一句话">
-      <p>战舰 > 运输船；运输船 > 海岸守军；SAM > 原子弹/氢弹；MIRV > 所有 SAM；火车 ≥ 贸易船（成熟期）。</p>
+    <Callout type="tip" title="Eenheidsinteracties in één zin">
+      <p>Warship > transportschip; transportschip > kustverdediging; SAM > AtomBomb/HydrogenBomb; MIRV > alle SAM's; trein ≥ handelsschip (in volle wasdom).</p>
     </Callout>
   </article>
 </BaseLayout>

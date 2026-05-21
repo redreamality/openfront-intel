@@ -8,47 +8,47 @@ import units from '../../../data/units.json';
 const mobile = units.filter((u) => u.category !== 'structure' && u.category !== 'nuke');
 ---
 
-<BaseLayout title="单位：船、车与弹" description="OpenFront.io 运输船、战舰、贸易船、火车、炮弹、SAM 弹的角色与互动。">
-  <PageHeader eyebrow="MECHANICS · 05" title="单位：船、车与弹" lead="非建筑、非核武的可移动单位。船与火车决定地图上的「流量」，弹药决定即时火力。" />
+<BaseLayout title="Unités : navires, trains et munitions" description="Rôles et interactions des navires de transport, warships, navires de commerce, trains, obus et missiles SAM dans OpenFront.io.">
+  <PageHeader eyebrow="MÉCANIQUES · 05" title="Unités : navires, trains et munitions" lead="Les unités mobiles non-bâtiments et non-nucléaires. Navires et trains déterminent les « flux » sur la carte, les munitions définissent la puissance de feu instantanée." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
     <UnitTable units={mobile} showCategory={true} />
 
-    <h2>TransportShip — 登陆载具</h2>
+    <h2>TransportShip — véhicule de débarquement</h2>
     <ul>
-      <li>免费生成，但<strong>带走的是发起者的部队</strong>，本质是把人口运到海对面。</li>
-      <li>会受战舰拦截，v24 起战舰命中运输船立即冷却，相当于一艘巡逻战舰能屠一支船队。</li>
-      <li>水核（isWaterNukes）开启时还要担心海面核爆。</li>
+      <li>Gratuit à générer, mais <strong>il emporte les troupes du propriétaire</strong>, c'est essentiellement un convoyeur de population à travers la mer.</li>
+      <li>Vulnérable aux warships ; en v24, un warship qui touche un transport voit son cooldown remis à zéro — un seul warship en patrouille suffit à massacrer une flotte de débarquement.</li>
+      <li>Avec water nukes (isWaterNukes) activé, il faut aussi craindre les explosions nucléaires en mer.</li>
     </ul>
 
-    <h2>Warship — 海上火力</h2>
+    <h2>Warship — puissance de feu maritime</h2>
     <ul>
-      <li>HP 1000、Shell 伤害 250。一艘战舰大约能在 4~5 次接火中保留 750 HP 的安全线。</li>
-      <li>低于 750 HP 自动撤退维修——不要追残血战舰，对方很可能在港口再次满血。</li>
-      <li>价格随数量递增：<code>min(1M, (n+1)×250k)</code>，超过 3 艘后接近上限。</li>
+      <li>HP 1000, dégâts Shell 250. Un warship reste au-dessus de sa limite de sécurité de 750 HP pendant environ 4 à 5 échanges.</li>
+      <li>Sous 750 HP, repli automatique au port pour réparation — ne poursuivez pas un warship blessé, il sera probablement plein PV à son retour.</li>
+      <li>Prix croissant avec la quantité : <code>min(1M, (n+1)×250k)</code>, plafonné à partir de 3 navires.</li>
     </ul>
 
-    <h2>TradeShip — 经济流量</h2>
+    <h2>TradeShip — flux économique</h2>
     <ul>
-      <li>港口对之间自动往返，被夺取则归新主，被毁则消失。</li>
-      <li>全局 cap 150（v24）；港口越多，单船的「平均寿命」越短。</li>
-      <li>拒绝其他玩家贸易（手动 embargo）会让自己刷船变慢。</li>
+      <li>Va-et-vient automatique entre paires de Port ; capturé si territoire pris, détruit sinon.</li>
+      <li>Cap global 150 (v24) ; plus il y a de Port, plus la « durée de vie moyenne » d'un navire baisse.</li>
+      <li>Refuser le commerce d'autres joueurs (embargo manuel) ralentit votre propre spawn.</li>
     </ul>
 
-    <h2>Train — v24 新机制的金币载具</h2>
+    <h2>Train — porteur d'or de la mécanique v24</h2>
     <ul>
-      <li>由 Factory 自动生成，沿铁路在城市/工厂站点之间穿梭。</li>
-      <li>速度 2 tiles/tick，列车长度可配置（多节车厢 = 多次结算的潜在收益）。</li>
-      <li>关键：<strong>火车的金币收益按访问站点的玩家关系决定</strong>，盟友 35k / 团队 25k / 自己 10k。</li>
+      <li>Généré automatiquement par les Factory, circule le long des rails entre City / Factory.</li>
+      <li>Vitesse 2 tiles/tick, longueur configurable (plus de wagons = potentiel de paiement supplémentaire).</li>
+      <li>Clé : <strong>le revenu d'un train dépend de la relation avec le propriétaire des stations visitées</strong>, allié 35k / équipe 25k / soi-même 10k.</li>
     </ul>
 
-    <h2>Shell / SAMMissile — 弹药</h2>
+    <h2>Shell / SAMMissile — munitions</h2>
     <ul>
-      <li>Shell：250 伤害，可被障碍拦截。战舰 + 海岸防御工事都用它。</li>
-      <li>SAMMissile：默认速度 12 tiles/tick，提前射击窗口需要 <code>nukeReachTick − samReachTick ≥ 0</code>，超远距离弹道核弹更难拦。</li>
+      <li>Shell : 250 dégâts, peut être bloqué par obstacle. Utilisé par les warships et la défense côtière.</li>
+      <li>SAMMissile : vitesse par défaut 12 tiles/tick, la fenêtre de tir préventif demande <code>nukeReachTick − samReachTick ≥ 0</code>, les nukes à très longue portée sont plus difficiles à intercepter.</li>
     </ul>
 
-    <Callout type="tip" title="单位互动一句话">
-      <p>战舰 > 运输船；运输船 > 海岸守军；SAM > 原子弹/氢弹；MIRV > 所有 SAM；火车 ≥ 贸易船（成熟期）。</p>
+    <Callout type="tip" title="Interactions résumées en une ligne">
+      <p>Warship &gt; TransportShip ; TransportShip &gt; défenseur côtier ; SAM &gt; AtomBomb/HydrogenBomb ; MIRV &gt; tous les SAM ; Train ≥ TradeShip (en maturité).</p>
     </Callout>
   </article>
 </BaseLayout>
