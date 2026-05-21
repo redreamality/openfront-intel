@@ -2,26 +2,29 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import { byLang, stripLangPrefix } from '../../../i18n';
 
+const LANG = 'de';
 const base = import.meta.env.BASE_URL;
 const all = (await getCollection('guides', ({ data }) => !data.draft))
+  .filter(byLang(LANG))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const fmt = (d: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(d);
+const fmt = (d: Date) => new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' }).format(d);
 ---
 
-<BaseLayout title="教程" description="OpenFront.io 新手到进阶教程，操作面板、快捷键与第一局复盘。">
-  <PageHeader eyebrow="GUIDES" title="教程" lead="从打开游戏到第一次成功扩张，一步一步走。" />
+<BaseLayout title="Anleitungen" description="OpenFront.io Tutorials vom Anfänger bis Fortgeschrittenen, Bedienfeld, Tastenkürzel und Analyse der ersten Partie.">
+  <PageHeader eyebrow="GUIDES" title="Anleitungen" lead="Schritt für Schritt vom Öffnen des Spiels bis zu deiner ersten erfolgreichen Expansion." />
   <section class="container-wide py-10">
     {all.length === 0 ? (
-      <p class="text-iron-400">暂无教程。</p>
+      <p class="text-iron-400">Noch keine Anleitungen.</p>
     ) : (
       <ul class="space-y-4">
         {all.map((post) => (
           <li>
-            <a href={`${base}guides/${post.slug}/`} class="block card group">
+            <a href={`${base}de/guides/${stripLangPrefix(post.slug)}/`} class="block card group">
               <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
-                <span class="tag-chip">{post.data.category ?? '教程'}</span>
-                {post.data.difficulty && <span class="tag-chip">难度 · {post.data.difficulty}</span>}
+                <span class="tag-chip">{post.data.category ?? 'Anleitung'}</span>
+                {post.data.difficulty && <span class="tag-chip">Schwierigkeit · {post.data.difficulty}</span>}
                 <span class="font-mono">{fmt(post.data.pubDate)}</span>
               </div>
               <h2 class="mt-2 text-lg font-semibold text-cannon-400 group-hover:text-cannon-300">{post.data.title}</h2>

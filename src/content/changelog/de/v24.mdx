@@ -1,0 +1,65 @@
+---
+title: 'v24 Vollständiges Changelog (Züge, Fabriken, ausbaubare Gebäude)'
+description: Zusammengestellt aus der offiziellen resources/changelog.md, mit Fokus auf die Balance-Anpassungen und neuen Mechaniken mit dem größten Einfluss auf das Gameplay.
+pubDate: 2026-05-12
+version: v24
+tags: [changelog, balance, features]
+category: Versionshinweise
+---
+
+## Wichtige neue Mechaniken
+
+- **Zugsystem**: Factory → Train → fährt auf Schienen zwischen City / Factory und schüttet Gold abhängig von der Beziehung der besuchten Stationen aus (Verbündete 35k / Team 25k / selbst 10k). Aktuell nur in <strong>Einzelspieler / privaten Lobbys</strong> verfügbar.
+- **Ausbaubare Gebäude**: City / Port / SAM / Silo unterstützen alle 4 Ausbaustufen (Factory gleichzeitig eingeführt).
+- **Mehrstufiges Radial-Menü**: Das Bau-Menü per Rechtsklick wurde in eine dynamische, mehrstufige Struktur überarbeitet.
+- **Flares-System**: Dient zur Kommunikation von Absichten (Markierungen, Warnungen).
+- **Hash routing**: URL-Routing auf Hashes umgestellt, um Deep Links zu erleichtern.
+- **GitHub-Releases-Synchronisation**: Der In-Game-Button „What's New" verlinkt direkt auf die offiziellen Releases.
+
+## Wichtige Balance-Änderungen
+
+| Punkt | Alt | Neu | Auswirkung |
+| --- | --- | --- | --- |
+| Trade-Ship-Gesamtlimit | Unbegrenzt | <strong>150</strong> | Sinkender Grenznutzen pro Port; Port-<strong>Upgrades</strong> werden wichtiger |
+| MIRV | Stark | Äußerer Ring <strong>geschwächt</strong>, schnell zurückerobert werden | Psychologische Kriegsführung > physischer Schaden |
+| Warship-Zielpriorität | Warships | <strong>Transports priorisiert</strong>, sofortige Abklingzeit bei Treffer | Ein einzelnes Warship kann eine Seelandung komplett unterbinden |
+| Rabatte | Mehrfach wiederverwendbar | <strong>Einmalig</strong> | Knausrige Bauwirtschaft im Early Game |
+| KI-Nukes | Beliebiges Ziel | <strong>Weichen SAMs aktiv aus</strong> | Schon ein SAM bietet Abschreckung |
+
+## Verbesserungen im Kampf-Erlebnis
+
+- Optimierte Rendering-Leistung des Territoriums.
+- SAMs erfassen nur Nukes in der Nähe bedrohter Gebiete (vermeidet sinnlose Schüsse).
+- Nuke-Geschwindigkeit 4 → 6, kürzeres Reaktionsfenster für Gegner.
+- Nation-Stadtbau-Limit korrigiert (tryout33).
+- Automatischer Ausgleich der Teamgröße.
+- MIRV-Sprengkopf-Abfangstatistiken werden jetzt gezählt.
+- Geländemanipulations-Mechanik (beeinflusst mag/speed).
+- Roter „verraten"-Rahmenhinweis (devalnor).
+- Hotkeys für Angriffe und Transportschiffe (Engla).
+
+## UI / QoL
+
+- Bestenliste überarbeitet, Performance optimiert.
+- Modals / Warnungen unterstützen Übersetzung und Dark Mode.
+- Eigene Flaggen und Muster (Schwert, Schädel, weißes Kaninchen, Ziege, Strahlung, Cursor, QR usw.).
+- Obere Leiste neu gestaltet (Diessel).
+- Neue Gebäude-Icons / Bau / HP / Nachlade-Balken-Stile.
+- Globale Neuverteilung der Farben, um Verwechslungen zwischen Spielern mit gleicher Farbe zu vermeiden (Ble4Ch).
+
+## Backend / Technik
+
+- Stats-Endpoint öffentlich zugänglich gemacht.
+- CORS Origin hinzugefügt.
+- Native mobile Login-Unterstützung.
+- Caching für Discord-Nutzer und -Gilden.
+- Verbesserte Session-Fehlerbehandlung.
+- CC-BY-SA-Lizenzangabe für Ressourcen.
+
+## Strategien, die Spieler anpassen sollten
+
+1. **Port-Strategie verschiebt sich zu „Upgrade statt Neubau"** — das 150er-Cap lässt den Grenznutzen ab dem 5. Port drastisch sinken.
+2. **Seelandungen erfordern zuerst freie See** — ein einzelnes Warship kann eine Transportflotte massakrieren, also schicke 2-3 Warships vor, um die Route zu räumen.
+3. **Baue dein erstes SAM früher** — die KI weicht nun SAM-Abdeckung aus, was die Abschreckungskosten stark senkt.
+4. **Behandle MIRV als psychologisches Mittel** — gib die 25M Gold aus, um den Aufbau des Gegners zu stören, statt Kills in den äußeren 18 Tiles zu erwarten.
+5. **Verbündeten-Schienen = Wirtschaftssprung** — in einer 3er-Allianz können 2 Factorys + geteilte verbundene Citys die Einnahmen explodieren lassen.

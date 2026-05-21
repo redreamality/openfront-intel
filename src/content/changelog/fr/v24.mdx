@@ -1,0 +1,65 @@
+---
+title: 'Changelog complet v24 (Trains, Usines, Bâtiments améliorables)'
+description: Synthèse du resources/changelog.md officiel, en se concentrant sur les changements d'équilibrage et les nouvelles mécaniques ayant le plus d'impact sur le gameplay.
+pubDate: 2026-05-12
+version: v24
+tags: [changelog, balance, features]
+category: Notes de version
+---
+
+## Nouvelles mécaniques majeures
+
+- **Système de Train** : Factory → Train → circule sur les rails entre City / Factory, distribuant de l'or selon la relation des gares visitées (alliés 35k / équipe 25k / soi-même 10k). Actuellement disponible uniquement en <strong>solo / lobbies privés</strong>.
+- **Bâtiments améliorables** : City / Port / SAM / Silo prennent en charge 4 niveaux d'amélioration (Factory introduite en même temps).
+- **Menu radial multi-niveaux** : Le menu de construction par clic droit a été retravaillé en une structure dynamique multi-niveaux.
+- **Système de Flares** : Utilisé pour communiquer des intentions (marqueurs, avertissements).
+- **Hash routing** : Le routage des URL a été refondu avec des hashes pour faciliter les liens profonds.
+- **Synchronisation GitHub Releases** : Le bouton « What's New » en jeu pointe directement vers les releases officielles.
+
+## Changements d'équilibrage clés
+
+| Élément | Avant | Après | Impact |
+| --- | --- | --- | --- |
+| Plafond global de Trade Ship | Illimité | <strong>150</strong> | Rendement décroissant du nombre de ports ; les <strong>améliorations</strong> de port deviennent importantes |
+| MIRV | Puissant | Anneau externe <strong>affaibli</strong>, récupérable rapidement | Guerre psychologique > dégâts physiques |
+| Priorité de cible des Warships | Warships | <strong>Transports prioritaires</strong>, recharge instantanée à l'impact | Un seul warship peut bloquer un débarquement |
+| Réductions | Réutilisables plusieurs fois | <strong>Usage unique</strong> | Économie de construction radine en début de partie |
+| Nukes IA | N'importe quelle cible | <strong>Évitent activement les SAM</strong> | Un seul SAM offre une dissuasion |
+
+## Améliorations de l'expérience de combat
+
+- Performance du rendu de territoire optimisée.
+- Les SAM ne ciblent que les nukes près des zones menacées (évitant les tirs inutiles).
+- Vitesse des nukes 4 → 6, réduisant la fenêtre de réaction adverse.
+- Plafond de construction de villes des Nations corrigé (tryout33).
+- Équilibrage automatique de la taille des équipes.
+- Statistiques d'interception des têtes MIRV désormais comptabilisées.
+- Mécanique de manipulation du terrain (affecte mag/speed).
+- Indicateur de bordure rouge « trahi » (devalnor).
+- Raccourcis pour les attaques et les transports (Engla).
+
+## UI / QoL
+
+- Classement retravaillé, performance optimisée.
+- Les modales / alertes supportent la traduction et le mode sombre.
+- Drapeaux et motifs personnalisés (épée, crâne, lapin blanc, chèvre, radiation, curseur, QR, etc.).
+- Barre supérieure redessinée (Diessel).
+- Nouveaux styles d'icônes de bâtiments / construction / HP / barres de rechargement.
+- Réassignation globale des couleurs pour éviter la confusion entre joueurs (Ble4Ch).
+
+## Backend / Technique
+
+- Endpoint Stats ouvert publiquement.
+- Ajout de CORS Origin.
+- Support de connexion native sur mobile.
+- Cache des utilisateurs et guildes Discord.
+- Amélioration de la gestion d'erreurs de session.
+- Attribution de licence des ressources en CC BY-SA.
+
+## Stratégies que les joueurs devraient adapter
+
+1. **La stratégie portuaire passe à « améliorer plutôt que construire »** — le cap de 150 fait chuter brutalement le rendement marginal du 5e port et au-delà.
+2. **Les débarquements maritimes nécessitent de nettoyer les mers d'abord** — un seul warship peut massacrer une flotte de transports ; envoyez 2-3 warships pour dégager la route avant de débarquer.
+3. **Construisez votre premier SAM plus tôt** — l'IA évite désormais la couverture SAM, réduisant drastiquement le coût de dissuasion.
+4. **Traitez le MIRV comme une arme psychologique** — dépensez 25M d'or pour perturber le déploiement adverse plutôt que d'espérer des kills sur les 18 tuiles externes.
+5. **Rails alliés = bond économique** — dans une alliance à 3 joueurs, construire 2 Factory + partager les City connectées peut faire exploser les revenus.

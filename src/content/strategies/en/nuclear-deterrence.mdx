@@ -1,0 +1,72 @@
+---
+title: Nuclear Deterrence and SAM Networks
+description: From the first Silo to MIRV — nuclear strike timing, SAM placement, and anti-nuke strategy.
+pubDate: 2026-05-12
+tags: [nukes, SAM, deterrence]
+category: Mid-Late Game
+difficulty: Intermediate
+version: v24
+---
+
+## The Three-Phase Nuclear Tempo
+
+Nuclear warfare in OpenFront breaks down into three distinct phases:
+
+### Phase 1 · Deterrence Setup (3-5 minutes)
+
+- **Goal**: Let your opponent know you can retaliate.
+- **Build**: 1 Missile Silo (1M) + 1 SAM (1.5M).
+- **Effect**: A single SAM covers 70 tiles, already enough to protect your core cities. Bot Nukes actively avoid SAM coverage, meaning <strong>just building a SAM creates deterrence</strong>.
+
+### Phase 2 · Live Strikes (5-8 minutes)
+
+- **Goal**: Stockpile 5M Gold + 1 Hydrogen Bomb to crater the enemy core.
+- **Build**: Upgrade 2-3 SAMs to level 3+, add a second Silo.
+- **Target priority**:
+  1. Enemy City clusters (drains their troop cap).
+  2. Enemy Silos and SAMs (cripples their retaliation).
+  3. Enemy trade Ports (cuts their economy).
+
+### Phase 3 · MIRV Coordination (8+ minutes)
+
+- **Goal**: Use MIRV to force the opponent to scatter their defenses.
+- **Build**: Stockpile 25M Gold, fire your first MIRV; +15M for each subsequent launch.
+- **Key point**: v24 nerfed MIRV damage, so its <strong>value is psychological pressure</strong> — SAMs can't intercept MIRVs, forcing opponents to spread out expensive SAMs and actually weakening point defense.
+
+## SAM Placement Formula
+
+Each SAM covers a circular disc:
+
+```
+samRange(level) = 150 − 480 / (level + 5)
+level 1: 70  · level 2: ~81 · level 3: ~90
+level 4: ~96 · level 5: ~140
+```
+
+**Two or more SAMs covering the same target** are required to survive a volley (90-tick cooldown). But don't bunch them up — a single Hydrogen Bomb's outer ring of 100 tiles will wipe them all out.
+
+## Anti-Nuke Checklist
+
+- [ ] At least 2 SAMs covering every core City
+- [ ] SAM spacing > 80 tiles
+- [ ] Silos tucked inside the SAM perimeter
+- [ ] Cities upgraded to level 2+ (population buffer)
+- [ ] Never rely on a single point of defense — back up multiple cores
+
+## Classic Mistakes
+
+- **Hoarding a stack of Atom Bombs as your main weapon** — at 750k each, the per-hit damage is limited and a single level 3 SAM intercepts the whole salvo. Hydrogen Bombs (5M) are the real nuclear strike.
+- **Treating MIRV as a finisher** — post-v24 MIRV warheads only cover an 18-tile outer ring, far less damage than a Hydrogen Bomb. Use it as a psychological warfare tool.
+- **Naked Silos with no SAM cover** — your Silo will be the enemy's first Hydrogen Bomb target, and your retaliation capability drops to zero instantly.
+
+## Decision Tree
+
+```
+Do you have 5M Gold?
+├─ No → Keep growing economy (City + Port + upgrades), don't build nukes
+└─ Yes → Does the opponent have SAMs?
+    ├─ No → Hydrogen Bomb their City cluster directly
+    └─ Yes → Are their SAMs < 3?
+        ├─ Yes → Volley 2-3 Atom Bombs to saturate the SAM zone
+        └─ No → Stockpile to 25M Gold and launch MIRV
+```

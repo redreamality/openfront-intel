@@ -1,0 +1,72 @@
+---
+title: Dissuasion nucléaire et réseaux SAM
+description: Du premier Silo au MIRV — rythme des frappes nucléaires, placement des SAM et stratégie anti-nucléaire.
+pubDate: 2026-05-12
+tags: [nukes, SAM, deterrence]
+category: Milieu-Fin de partie
+difficulty: Intermédiaire
+version: v24
+---
+
+## Le rythme nucléaire en trois phases
+
+La guerre nucléaire dans OpenFront se décompose en trois phases distinctes :
+
+### Phase 1 · Mise en place de la dissuasion (3-5 minutes)
+
+- **Objectif** : faire savoir à l'adversaire que vous pouvez riposter.
+- **Construction** : 1 Missile Silo (1M) + 1 SAM (1,5M).
+- **Effet** : un seul SAM couvre 70 tiles, ce qui suffit déjà à protéger vos villes principales. Les Nukes des Bots évitent activement les zones couvertes par les SAM, ce qui signifie que <strong>la simple construction d'un SAM crée une dissuasion</strong>.
+
+### Phase 2 · Frappes réelles (5-8 minutes)
+
+- **Objectif** : accumuler 5M de Gold + 1 Hydrogen Bomb pour pulvériser le cœur ennemi.
+- **Construction** : améliorer 2-3 SAM au niveau 3 ou plus, ajouter un deuxième Silo.
+- **Priorité des cibles** :
+  1. Les grappes de City ennemies (épuise leur plafond de troupes).
+  2. Les Silos et SAM ennemis (paralyse leur riposte).
+  3. Les Ports commerciaux ennemis (coupe leur économie).
+
+### Phase 3 · Coordination MIRV (8 minutes ou plus)
+
+- **Objectif** : utiliser le MIRV pour forcer l'adversaire à disperser ses défenses.
+- **Construction** : accumuler 25M de Gold, tirer votre premier MIRV ; +15M pour chaque lancement suivant.
+- **Point clé** : la v24 a affaibli les dégâts du MIRV, sa <strong>valeur est donc la pression psychologique</strong> — les SAM ne peuvent pas intercepter les MIRV, ce qui force l'adversaire à disperser ses coûteux SAM et affaiblit en réalité la défense ponctuelle.
+
+## Formule de placement des SAM
+
+Chaque SAM couvre un disque circulaire :
+
+```
+samRange(level) = 150 − 480 / (level + 5)
+level 1: 70  · level 2: ~81 · level 3: ~90
+level 4: ~96 · level 5: ~140
+```
+
+**Il faut deux SAM ou plus couvrant la même cible** pour résister à une salve (90 ticks de recharge). Mais ne les regroupez pas — une seule Hydrogen Bomb dont l'anneau extérieur fait 100 tiles peut tous les détruire.
+
+## Checklist anti-nucléaire
+
+- [ ] Au moins 2 SAM couvrant chaque City principale
+- [ ] Espacement des SAM > 80 tiles
+- [ ] Silos placés à l'intérieur du périmètre SAM
+- [ ] Cities améliorées au niveau 2 ou plus (tampon de population)
+- [ ] Ne jamais dépendre d'un point de défense unique — multipliez les sauvegardes de cœurs
+
+## Erreurs classiques
+
+- **Stocker une pile d'Atom Bomb comme arme principale** — à 750k pièce, les dégâts par coup sont limités et un seul SAM niveau 3 intercepte toute la salve. Les Hydrogen Bomb (5M) sont la vraie frappe nucléaire.
+- **Considérer le MIRV comme arme ultime** — après la v24, l'ogive MIRV ne couvre qu'un anneau extérieur de 18 tiles, bien moins de dégâts qu'une Hydrogen Bomb. Utilisez-le comme outil de guerre psychologique.
+- **Silos nus sans couverture SAM** — votre Silo sera la cible prioritaire de la première Hydrogen Bomb adverse et votre capacité de riposte tombera immédiatement à zéro.
+
+## Arbre de décision
+
+```
+Avez-vous 5M de Gold ?
+├─ Non → Continuez à développer l'économie (City + Port + améliorations), ne construisez pas de nuke
+└─ Oui → L'adversaire a-t-il des SAM ?
+    ├─ Non → Hydrogen Bomb directement sur sa grappe de City
+    └─ Oui → A-t-il moins de 3 SAM ?
+        ├─ Oui → Salve de 2-3 Atom Bombs pour saturer la zone SAM
+        └─ Non → Accumulez jusqu'à 25M de Gold et lancez un MIRV
+```

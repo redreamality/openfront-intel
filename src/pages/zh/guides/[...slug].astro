@@ -1,11 +1,14 @@
 ---
 import { getCollection, render } from 'astro:content';
 import DocLayout from '../../../layouts/DocLayout.astro';
+import { byLang, stripLangPrefix } from '../../../i18n';
+
+const LANG = 'zh';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('guides');
+  const posts = (await getCollection('guides')).filter((p) => p.slug.startsWith('zh/'));
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.slug.replace(/^zh\//, '') },
     props: { post },
   }));
 }
@@ -15,10 +18,11 @@ const { Content, headings } = await render(post);
 const base = import.meta.env.BASE_URL;
 
 const others = (await getCollection('guides'))
+  .filter(byLang(LANG))
   .filter((p) => p.slug !== post.slug)
   .slice(0, 4)
   .map((p) => ({
-    href: `${base}guides/${p.slug}/`,
+    href: `${base}zh/guides/${stripLangPrefix(p.slug)}/`,
     title: p.data.title,
     description: p.data.description,
     date: p.data.pubDate,

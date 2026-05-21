@@ -1,0 +1,72 @@
+---
+title: Nucleaire afschrikking en SAM-netwerken
+description: Van de eerste Silo tot MIRV — tempo van nucleaire aanvallen, SAM-plaatsing en anti-nucleaire strategie.
+pubDate: 2026-05-12
+tags: [nukes, SAM, deterrence]
+category: Midden-eindspel
+difficulty: Gevorderd
+version: v24
+---
+
+## Het driefasige nucleaire tempo
+
+Nucleaire oorlogvoering in OpenFront valt uiteen in drie duidelijke fasen:
+
+### Fase 1 · Afschrikking opzetten (3-5 minuten)
+
+- **Doel**: laat je tegenstander weten dat je kunt terugslaan.
+- **Bouwen**: 1 Missile Silo (1M) + 1 SAM (1,5M).
+- **Effect**: één enkele SAM bestrijkt 70 tiles, al genoeg om je kernsteden te beschermen. Bot Nukes vermijden actief SAM-dekking, wat betekent dat <strong>het bouwen van een SAM alleen al afschrikking creëert</strong>.
+
+### Fase 2 · Echte aanvallen (5-8 minuten)
+
+- **Doel**: 5M Gold + 1 Hydrogen Bomb verzamelen om de kern van de tegenstander te vernietigen.
+- **Bouwen**: 2-3 SAM's upgraden naar niveau 3+, een tweede Silo toevoegen.
+- **Doelprioriteit**:
+  1. Vijandelijke City-clusters (verlaagt hun troepenplafond).
+  2. Vijandelijke Silos en SAM's (verlamt hun vergelding).
+  3. Vijandelijke handels-Ports (snijdt hun economie af).
+
+### Fase 3 · MIRV-coördinatie (8+ minuten)
+
+- **Doel**: gebruik MIRV om de tegenstander te dwingen zijn verdediging te verspreiden.
+- **Bouwen**: 25M Gold verzamelen, je eerste MIRV afvuren; +15M voor elke volgende lancering.
+- **Belangrijkste punt**: v24 verzwakte de MIRV-schade, dus de <strong>waarde ligt in psychologische druk</strong> — SAM's kunnen MIRV's niet onderscheppen, waardoor tegenstanders gedwongen worden dure SAM's te spreiden, wat de puntverdediging juist verzwakt.
+
+## SAM-plaatsingsformule
+
+Elke SAM dekt een cirkelvormige schijf:
+
+```
+samRange(level) = 150 − 480 / (level + 5)
+level 1: 70  · level 2: ~81 · level 3: ~90
+level 4: ~96 · level 5: ~140
+```
+
+**Twee of meer SAM's die hetzelfde doel dekken** zijn nodig om een salvo te overleven (90-tick cooldown). Maar groepeer ze niet — één enkele Hydrogen Bomb met een buitenring van 100 tiles vaagt ze allemaal weg.
+
+## Anti-nucleaire checklist
+
+- [ ] Minstens 2 SAM's dekken elke kern-City
+- [ ] SAM-afstand > 80 tiles
+- [ ] Silos binnen de SAM-perimeter geplaatst
+- [ ] Cities geüpgraded naar niveau 2+ (bevolkingsbuffer)
+- [ ] Vertrouw nooit op één enkel verdedigingspunt — back-up meerdere kernen
+
+## Klassieke fouten
+
+- **Een stapel Atom Bombs opslaan als hoofdwapen** — voor 750k per stuk is de schade per inslag beperkt en één enkele niveau 3 SAM onderschept de hele salvo. Hydrogen Bombs (5M) zijn de echte nucleaire aanval.
+- **MIRV als ultiem wapen behandelen** — na v24 dekt een MIRV-kernkop slechts een buitenring van 18 tiles, veel minder schade dan een Hydrogen Bomb. Gebruik het als psychologisch oorlogswapen.
+- **Naakte Silos zonder SAM-dekking** — je Silo wordt het eerste doelwit van de Hydrogen Bomb van je tegenstander, en je vergeldingscapaciteit zakt onmiddellijk naar nul.
+
+## Beslisboom
+
+```
+Heb je 5M Gold?
+├─ Nee → Blijf de economie laten groeien (City + Port + upgrades), bouw geen nukes
+└─ Ja → Heeft de tegenstander SAM's?
+    ├─ Nee → Hydrogen Bomb hun City-cluster direct
+    └─ Ja → Heeft hij minder dan 3 SAM's?
+        ├─ Ja → Salvo van 2-3 Atom Bombs om de SAM-zone te verzadigen
+        └─ Nee → Verzamel tot 25M Gold en lanceer een MIRV
+```

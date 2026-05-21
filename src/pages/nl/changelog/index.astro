@@ -2,20 +2,23 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import { byLang, stripLangPrefix } from '../../../i18n';
 
+const LANG = 'nl';
 const base = import.meta.env.BASE_URL;
 const entries = (await getCollection('changelog'))
+  .filter(byLang(LANG))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const fmt = (d: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(d);
+const fmt = (d: Date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium' }).format(d);
 ---
 
-<BaseLayout title="更新日志" description="OpenFront.io 各版本更新与重要平衡改动梳理。">
-  <PageHeader eyebrow="CHANGELOG" title="更新日志" lead="按版本归档，重点列出会影响玩法决策的平衡变更。" />
+<BaseLayout title="Wijzigingslog" description="OpenFront.io versie-updates en balanswijzigingen per versie.">
+  <PageHeader eyebrow="CHANGELOG" title="Wijzigingslog" lead="Per versie georganiseerd, met de nadruk op balanswijzigingen die gameplay-beslissingen beïnvloeden." />
   <section class="container-wide py-10">
     <ul class="space-y-4">
       {entries.map((post) => (
         <li>
-          <a href={`${base}changelog/${post.slug}/`} class="block card group">
+          <a href={`${base}nl/changelog/${stripLangPrefix(post.slug)}/`} class="block card group">
             <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
               <span class="tag-chip">{post.data.version}</span>
               <span class="font-mono">{fmt(post.data.pubDate)}</span>

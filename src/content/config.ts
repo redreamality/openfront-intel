@@ -7,7 +7,7 @@ const docSchema = z.object({
   updatedDate: z.coerce.date().optional(),
   tags: z.array(z.string()).optional(),
   category: z.string().optional(),
-  difficulty: z.enum(['入门', '进阶', '高玩']).optional(),
+  difficulty: z.string().optional(),
   version: z.string().optional(),
   draft: z.boolean().optional(),
 });

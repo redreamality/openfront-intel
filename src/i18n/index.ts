@@ -39,6 +39,14 @@ export function getAlternateLanguages(currentPath: string, base: string): Array<
   }));
 }
 
+export function stripLangPrefix(slug: string): string {
+  return slug.replace(/^(en|fr|nl|de|zh)\//, '');
+}
+
+export function byLang(lang: Lang) {
+  return (entry: { slug: string }) => entry.slug.startsWith(`${lang}/`);
+}
+
 export function getHtmlLang(lang: Lang): string {
   const htmlLangMap: Record<Lang, string> = {
     en: 'en',
