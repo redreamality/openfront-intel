@@ -1,4 +1,6 @@
 ---
+import { getLangFromUrl, useTranslations, getIntlLocale } from '../i18n';
+
 export interface RelatedItem {
   href: string;
   title: string;
@@ -9,13 +11,16 @@ export interface Props {
   title?: string;
   items: RelatedItem[];
 }
-const { title = '相关内容', items } = Astro.props as Props;
-const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(d) : '');
+const { title, items } = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const heading = title ?? t('related.title');
+const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 'medium' }).format(d) : '');
 ---
 
 {items.length > 0 && (
   <section class="mt-16 border-t border-iron-800 pt-8">
-    <h2 class="text-lg font-semibold text-iron-50">{title}</h2>
+    <h2 class="text-lg font-semibold text-iron-50">{heading}</h2>
     <ul class="mt-4 grid gap-4 sm:grid-cols-2">
       {items.map((it) => (
         <li>

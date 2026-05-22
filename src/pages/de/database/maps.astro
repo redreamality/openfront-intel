@@ -3,14 +3,17 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import MapGrid from '../../../components/MapGrid.astro';
 import maps from '../../../data/maps.json';
+import { getLangFromUrl, pickI18n } from '../../../i18n';
 
+const lang = getLangFromUrl(Astro.url);
 const order = ['Continental', 'Regional', 'Fantasy', 'Arcade', 'Tournament'] as const;
 const groups = order.map((key) => {
   const cat = maps.meta.categories[key];
+  const catT = pickI18n(cat, lang);
   return {
     key,
-    label: cat.label,
-    desc: cat.desc,
+    label: catT.label ?? key,
+    desc: catT.desc ?? '',
     items: maps.list.filter((m) => m.category === key),
   };
 });

@@ -1,106 +1,354 @@
 [
   {
     "id": "Port",
-    "name": "港口",
     "enName": "Port",
     "category": "structure",
-    "role": "海上枢纽：贸易船、运输船与战舰的生成基地。",
     "cost": 125000,
-    "costFormula": "min(1,000,000, 2^n × 125,000)，n = 已有港口/工厂数",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 50,
     "upgradable": true,
-    "notes": [
-      "等级越高，贸易船生成率与收益越高",
-      "可被夺取，被占领后归新主"
-    ]
+    "i18n": {
+      "en": {
+        "name": "Port",
+        "role": "Naval hub: spawn base for trade ships, transports, and warships.",
+        "costFormula": "min(1,000,000, 2^n × 125,000), n = existing ports/factories",
+        "notes": [
+          "Higher level = better trade ship spawn rate and revenue",
+          "Can be captured; ownership transfers to the new occupier"
+        ]
+      },
+      "zh": {
+        "name": "港口",
+        "role": "海上枢纽：贸易船、运输船与战舰的生成基地。",
+        "costFormula": "min(1,000,000, 2^n × 125,000),n = 已有港口/工厂数",
+        "notes": [
+          "等级越高,贸易船生成率与收益越高",
+          "可被夺取,被占领后归新主"
+        ]
+      },
+      "fr": {
+        "name": "Port",
+        "role": "Hub naval : base de génération des navires de commerce, transports et navires de guerre.",
+        "costFormula": "min(1 000 000, 2^n × 125 000), n = ports/usines déjà construits",
+        "notes": [
+          "Plus le niveau est élevé, meilleurs sont le taux d'apparition et les revenus des navires de commerce",
+          "Peut être capturé ; la propriété passe au nouvel occupant"
+        ]
+      },
+      "de": {
+        "name": "Hafen",
+        "role": "Seehub: Spawn-Basis für Handelsschiffe, Transporter und Kriegsschiffe.",
+        "costFormula": "min(1.000.000, 2^n × 125.000), n = vorhandene Häfen/Fabriken",
+        "notes": [
+          "Höheres Level = bessere Spawn-Rate und Einnahmen von Handelsschiffen",
+          "Kann erobert werden; Eigentum geht an den neuen Besetzer"
+        ]
+      },
+      "nl": {
+        "name": "Haven",
+        "role": "Maritieme hub: spawn-basis voor handelsschepen, transporten en oorlogsschepen.",
+        "costFormula": "min(1.000.000, 2^n × 125.000), n = bestaande havens/fabrieken",
+        "notes": [
+          "Hoger niveau = betere spawn-rate en inkomsten van handelsschepen",
+          "Kan worden veroverd; eigendom gaat naar de nieuwe bezetter"
+        ]
+      }
+    }
   },
   {
     "id": "MissileSilo",
-    "name": "导弹井",
     "enName": "Missile Silo",
     "category": "structure",
-    "role": "发射核弹的基础设施。",
     "cost": 1000000,
-    "costFormula": "固定 1,000,000",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 100,
     "upgradable": true,
-    "notes": [
-      "升级提升装填速度",
-      "AI 核弹会避开 SAM 覆盖区"
-    ]
+    "i18n": {
+      "en": {
+        "name": "Missile Silo",
+        "role": "Core infrastructure for launching nuclear weapons.",
+        "costFormula": "Fixed 1,000,000",
+        "notes": [
+          "Upgrades reduce reload time",
+          "AI nukes avoid SAM-covered targets"
+        ]
+      },
+      "zh": {
+        "name": "导弹井",
+        "role": "发射核弹的基础设施。",
+        "costFormula": "固定 1,000,000",
+        "notes": [
+          "升级提升装填速度",
+          "AI 核弹会避开 SAM 覆盖区"
+        ]
+      },
+      "fr": {
+        "name": "Silo à missiles",
+        "role": "Infrastructure de base pour lancer des armes nucléaires.",
+        "costFormula": "Fixe 1 000 000",
+        "notes": [
+          "Les améliorations réduisent le temps de rechargement",
+          "Les nukes de l'IA évitent les zones couvertes par les SAM"
+        ]
+      },
+      "de": {
+        "name": "Raketensilo",
+        "role": "Kerninfrastruktur zum Starten von Atomwaffen.",
+        "costFormula": "Fest 1.000.000",
+        "notes": [
+          "Upgrades reduzieren die Nachladezeit",
+          "KI-Atomwaffen meiden SAM-abgedeckte Ziele"
+        ]
+      },
+      "nl": {
+        "name": "Raketsilo",
+        "role": "Kerninfrastructuur voor het lanceren van kernwapens.",
+        "costFormula": "Vast 1.000.000",
+        "notes": [
+          "Upgrades verkorten de herlaadtijd",
+          "AI-nukes vermijden door SAM gedekte doelen"
+        ]
+      }
+    }
   },
   {
     "id": "DefensePost",
-    "name": "防御工事",
     "enName": "Defense Post",
     "category": "structure",
-    "role": "陆地防御塔：周围 30 tiles 内显著加强防御。",
     "cost": 50000,
-    "costFormula": "min(250,000, (n+1) × 50,000)",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 50,
     "upgradable": false,
-    "notes": [
-      "防御区 mag ×5，speed ×3",
-      "范围 30 tiles"
-    ]
+    "i18n": {
+      "en": {
+        "name": "Defense Post",
+        "role": "Land defense tower: significantly boosts defense within 30 tiles.",
+        "costFormula": "min(250,000, (n+1) × 50,000)",
+        "notes": [
+          "Defense zone mag ×5, speed ×3",
+          "Range 30 tiles"
+        ]
+      },
+      "zh": {
+        "name": "防御工事",
+        "role": "陆地防御塔：周围 30 tiles 内显著加强防御。",
+        "costFormula": "min(250,000, (n+1) × 50,000)",
+        "notes": [
+          "防御区 mag ×5,speed ×3",
+          "范围 30 tiles"
+        ]
+      },
+      "fr": {
+        "name": "Poste de défense",
+        "role": "Tour de défense terrestre : renforce significativement la défense dans un rayon de 30 tiles.",
+        "costFormula": "min(250 000, (n+1) × 50 000)",
+        "notes": [
+          "Zone de défense mag ×5, speed ×3",
+          "Portée 30 tiles"
+        ]
+      },
+      "de": {
+        "name": "Verteidigungsposten",
+        "role": "Landverteidigungsturm: erhöht die Verteidigung innerhalb von 30 Tiles signifikant.",
+        "costFormula": "min(250.000, (n+1) × 50.000)",
+        "notes": [
+          "Verteidigungszone mag ×5, speed ×3",
+          "Reichweite 30 Tiles"
+        ]
+      },
+      "nl": {
+        "name": "Verdedigingspost",
+        "role": "Landverdedigingstoren: verhoogt verdediging significant binnen 30 tiles.",
+        "costFormula": "min(250.000, (n+1) × 50.000)",
+        "notes": [
+          "Verdedigingszone mag ×5, speed ×3",
+          "Bereik 30 tiles"
+        ]
+      }
+    }
   },
   {
     "id": "SAMLauncher",
-    "name": "SAM 防空发射器",
     "enName": "SAM Launcher",
     "category": "structure",
-    "role": "拦截原子弹与氢弹的防空设施。",
     "cost": 1500000,
-    "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 300,
     "upgradable": true,
-    "notes": [
-      "冷却 90 ticks",
-      "射程随等级 70 → 150 tiles",
-      "不能拦截 MIRV"
-    ]
+    "i18n": {
+      "en": {
+        "name": "SAM Launcher",
+        "role": "Anti-air installation intercepting atom and hydrogen bombs.",
+        "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
+        "notes": [
+          "Cooldown 90 ticks",
+          "Range scales 70 → 150 tiles by level",
+          "Cannot intercept MIRV"
+        ]
+      },
+      "zh": {
+        "name": "SAM 防空发射器",
+        "role": "拦截原子弹与氢弹的防空设施。",
+        "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
+        "notes": [
+          "冷却 90 ticks",
+          "射程随等级 70 → 150 tiles",
+          "不能拦截 MIRV"
+        ]
+      },
+      "fr": {
+        "name": "Lanceur SAM",
+        "role": "Installation anti-aérienne interceptant bombes atomiques et à hydrogène.",
+        "costFormula": "min(3 000 000, (n+1) × 1 500 000)",
+        "notes": [
+          "Cooldown 90 ticks",
+          "Portée 70 → 150 tiles selon le niveau",
+          "Ne peut pas intercepter les MIRV"
+        ]
+      },
+      "de": {
+        "name": "SAM-Werfer",
+        "role": "Flugabwehranlage, die Atom- und Wasserstoffbomben abfängt.",
+        "costFormula": "min(3.000.000, (n+1) × 1.500.000)",
+        "notes": [
+          "Abklingzeit 90 Ticks",
+          "Reichweite skaliert 70 → 150 Tiles je Level",
+          "Kann MIRV nicht abfangen"
+        ]
+      },
+      "nl": {
+        "name": "SAM-lanceerinstallatie",
+        "role": "Luchtafweerinstallatie die atoom- en waterstofbommen onderschept.",
+        "costFormula": "min(3.000.000, (n+1) × 1.500.000)",
+        "notes": [
+          "Cooldown 90 ticks",
+          "Bereik schaalt 70 → 150 tiles per niveau",
+          "Kan MIRV niet onderscheppen"
+        ]
+      }
+    }
   },
   {
     "id": "City",
-    "name": "城市",
     "enName": "City",
     "category": "structure",
-    "role": "提升人口上限并参与火车贸易。",
     "cost": 125000,
-    "costFormula": "min(1,000,000, 2^n × 125,000)",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 20,
     "upgradable": true,
-    "notes": [
-      "每级 +250,000 部队上限",
-      "即使无港口也可建造（v24）",
-      "是火车站点"
-    ]
+    "i18n": {
+      "en": {
+        "name": "City",
+        "role": "Raises population cap and participates in train trade.",
+        "costFormula": "min(1,000,000, 2^n × 125,000)",
+        "notes": [
+          "+250,000 troop cap per level",
+          "Buildable even without a port (v24)",
+          "Acts as a train station"
+        ]
+      },
+      "zh": {
+        "name": "城市",
+        "role": "提升人口上限并参与火车贸易。",
+        "costFormula": "min(1,000,000, 2^n × 125,000)",
+        "notes": [
+          "每级 +250,000 部队上限",
+          "即使无港口也可建造(v24)",
+          "是火车站点"
+        ]
+      },
+      "fr": {
+        "name": "Ville",
+        "role": "Augmente la limite de population et participe au commerce ferroviaire.",
+        "costFormula": "min(1 000 000, 2^n × 125 000)",
+        "notes": [
+          "+250 000 cap de troupes par niveau",
+          "Constructible même sans port (v24)",
+          "Sert de gare ferroviaire"
+        ]
+      },
+      "de": {
+        "name": "Stadt",
+        "role": "Erhöht das Bevölkerungslimit und nimmt am Zughandel teil.",
+        "costFormula": "min(1.000.000, 2^n × 125.000)",
+        "notes": [
+          "+250.000 Truppenlimit pro Level",
+          "Auch ohne Hafen baubar (v24)",
+          "Dient als Bahnhof"
+        ]
+      },
+      "nl": {
+        "name": "Stad",
+        "role": "Verhoogt het bevolkingsplafond en neemt deel aan treinhandel.",
+        "costFormula": "min(1.000.000, 2^n × 125.000)",
+        "notes": [
+          "+250.000 troepenlimiet per niveau",
+          "Bouwbaar zelfs zonder haven (v24)",
+          "Functioneert als treinstation"
+        ]
+      }
+    }
   },
   {
     "id": "Factory",
-    "name": "工厂",
     "enName": "Factory",
     "category": "structure",
-    "role": "生成火车，搭配铁路与城市形成贸易网。",
     "cost": 125000,
-    "costFormula": "min(1,000,000, 2^n × 125,000)（与港口共享 n）",
     "maxHealth": null,
     "damage": null,
     "constructionDuration": 20,
     "upgradable": true,
-    "notes": [
-      "火车生成率 (factories+10) × 15 tick",
-      "可建造铁路环路"
-    ]
+    "i18n": {
+      "en": {
+        "name": "Factory",
+        "role": "Spawns trains; combines with railways and cities to form a trade network.",
+        "costFormula": "min(1,000,000, 2^n × 125,000) (shares n with Port)",
+        "notes": [
+          "Train spawn rate (factories+10) × 15 ticks",
+          "Builds railway loops"
+        ]
+      },
+      "zh": {
+        "name": "工厂",
+        "role": "生成火车,搭配铁路与城市形成贸易网。",
+        "costFormula": "min(1,000,000, 2^n × 125,000)(与港口共享 n)",
+        "notes": [
+          "火车生成率 (factories+10) × 15 tick",
+          "可建造铁路环路"
+        ]
+      },
+      "fr": {
+        "name": "Usine",
+        "role": "Génère des trains ; combinée aux rails et aux villes forme un réseau commercial.",
+        "costFormula": "min(1 000 000, 2^n × 125 000) (partage n avec Port)",
+        "notes": [
+          "Taux d'apparition des trains (usines+10) × 15 ticks",
+          "Construit des boucles ferroviaires"
+        ]
+      },
+      "de": {
+        "name": "Fabrik",
+        "role": "Erzeugt Züge; bildet mit Bahnstrecken und Städten ein Handelsnetz.",
+        "costFormula": "min(1.000.000, 2^n × 125.000) (teilt n mit Hafen)",
+        "notes": [
+          "Zug-Spawn-Rate (Fabriken+10) × 15 Ticks",
+          "Baut Eisenbahnschleifen"
+        ]
+      },
+      "nl": {
+        "name": "Fabriek",
+        "role": "Genereert treinen; combineert met spoorwegen en steden tot een handelsnetwerk.",
+        "costFormula": "min(1.000.000, 2^n × 125.000) (deelt n met Haven)",
+        "notes": [
+          "Trein-spawn-rate (fabrieken+10) × 15 ticks",
+          "Bouwt spoorwegcircuits"
+        ]
+      }
+    }
   }
 ]

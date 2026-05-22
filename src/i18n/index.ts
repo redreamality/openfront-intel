@@ -57,3 +57,33 @@ export function getHtmlLang(lang: Lang): string {
   };
   return htmlLangMap[lang];
 }
+
+export function getIntlLocale(lang: Lang): string {
+  const intlMap: Record<Lang, string> = {
+    en: 'en-US',
+    fr: 'fr-FR',
+    nl: 'nl-NL',
+    de: 'de-DE',
+    zh: 'zh-CN',
+  };
+  return intlMap[lang];
+}
+
+export interface I18nBundle {
+  name?: string;
+  role?: string;
+  costFormula?: string;
+  notes?: string[];
+  label?: string;
+  desc?: string;
+  expr?: string;
+  [key: string]: unknown;
+}
+
+export function pickI18n<T extends I18nBundle = I18nBundle>(
+  entry: { i18n?: Partial<Record<Lang, T>> } | undefined,
+  lang: Lang
+): T {
+  if (!entry?.i18n) return {} as T;
+  return (entry.i18n[lang] ?? entry.i18n[defaultLang] ?? ({} as T)) as T;
+}

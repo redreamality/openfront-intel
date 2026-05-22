@@ -1,15 +1,19 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n';
+
 export interface Props {
   type?: 'info' | 'tip' | 'warn' | 'danger' | 'spec';
   title?: string;
 }
 const { type = 'info', title } = Astro.props as Props;
-const styles: Record<string, { border: string; bg: string; icon: string; label: string }> = {
-  info: { border: 'border-iron-700', bg: 'bg-iron-900/60', icon: 'ℹ', label: '说明' },
-  tip: { border: 'border-military-700', bg: 'bg-military-900/30', icon: '✦', label: '小贴士' },
-  warn: { border: 'border-cannon-700', bg: 'bg-cannon-900/20', icon: '⚠', label: '注意' },
-  danger: { border: 'border-alert-700', bg: 'bg-alert-700/15', icon: '✕', label: '风险' },
-  spec: { border: 'border-iron-600', bg: 'bg-iron-900', icon: '⌖', label: '数据' },
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const styles: Record<string, { border: string; bg: string; icon: string; labelKey: 'callout.info' | 'callout.tip' | 'callout.warn' | 'callout.danger' | 'callout.spec' }> = {
+  info: { border: 'border-iron-700', bg: 'bg-iron-900/60', icon: 'ℹ', labelKey: 'callout.info' },
+  tip: { border: 'border-military-700', bg: 'bg-military-900/30', icon: '✦', labelKey: 'callout.tip' },
+  warn: { border: 'border-cannon-700', bg: 'bg-cannon-900/20', icon: '⚠', labelKey: 'callout.warn' },
+  danger: { border: 'border-alert-700', bg: 'bg-alert-700/15', icon: '✕', labelKey: 'callout.danger' },
+  spec: { border: 'border-iron-600', bg: 'bg-iron-900', icon: '⌖', labelKey: 'callout.spec' },
 };
 const s = styles[type];
 ---
@@ -17,7 +21,7 @@ const s = styles[type];
 <div class:list={["my-6 rounded border px-4 py-3 text-sm leading-relaxed", s.border, s.bg]}>
   <div class="flex items-center gap-2 text-iron-100">
     <span class="font-mono text-cannon-400">{s.icon}</span>
-    <span class="font-semibold">{title ?? s.label}</span>
+    <span class="font-semibold">{title ?? t(s.labelKey)}</span>
   </div>
   <div class="mt-2 text-iron-300">
     <slot />

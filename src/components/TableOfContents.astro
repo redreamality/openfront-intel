@@ -1,4 +1,6 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n';
+
 export interface Heading {
   depth: number;
   slug: string;
@@ -9,11 +11,13 @@ export interface Props {
 }
 const { headings } = Astro.props as Props;
 const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 {filtered.length > 0 && (
   <aside class="hidden lg:block lg:fixed lg:right-6 lg:top-24 lg:w-56 max-h-[70vh] overflow-y-auto pr-2 text-sm">
-    <div class="text-xs uppercase tracking-widest text-iron-500 mb-2">本页目录</div>
+    <div class="text-xs uppercase tracking-widest text-iron-500 mb-2">{t('toc.title')}</div>
     <nav>
       <ul class="space-y-1.5 border-l border-iron-800 pl-3">
         {filtered.map((h) => (
