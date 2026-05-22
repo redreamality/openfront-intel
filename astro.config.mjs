@@ -22,6 +22,17 @@ export default defineConfig({
     mdx(),
     sitemap({
       changefreq: 'weekly',
+      lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en',
+          fr: 'fr',
+          nl: 'nl',
+          de: 'de',
+          zh: 'zh',
+        },
+      },
       serialize: (item) => ({
         ...item,
         priority: new URL(item.url).pathname === '/' ? 1.0 : 0.7,
