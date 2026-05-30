@@ -1,0 +1,111 @@
+---
+title: Fondamentaux de l'économie — Pourquoi vous perdez la course à l'argent
+description: Postes de défense, ordre de construction, navires de commerce vs trains — les 5 premières minutes qui décident si vous bâtissez plus vite que l'IA ou si vous prenez un nuke.
+pubDate: 2026-05-23
+tags: [economy, opening, beginner, trade]
+category: Début de partie
+difficulty: Débutant
+version: v24
+---
+
+## Le changement d'état d'esprit
+
+OpenFront ne se gagne pas en conquérant le plus de territoire — il se gagne par **celui dont la courbe économique est la plus raide**. Si votre ouverture ressemble à « combattre un bot → prendre du terrain → combattre un bot », l'IA accumule discrètement de l'or et vous verrez une Atom Bomb frapper votre capitale aux alentours de la 5ᵉ minute.
+
+Remplacez votre objectif d'*expansion* par celui d'*infrastructure*. La suite de cette page contient l'ordre de construction, les calculs et les pièges.
+
+## Pourquoi « contenir l'ennemi à 20% PV » est une perte
+
+La défense frontale est nettement négative sans bâtiments :
+
+- Le `mag` du terrain n'est que 80 / 100 / 120 (Plaine / Hauteurs / Montagne)
+- Un **Defense Post** multiplie `mag ×5` et `speed ×3` dans un rayon de 30 tiles
+- Sans Defense Post sur la frontière, échanger 18% contre 20% signifie que vous avez tous les deux perdu du terrain — l'IA récupère plus vite car elle ne paie pas le coût des bâtiments
+
+À 50 000 d'or, le Defense Post est le **bâtiment au meilleur ROI du jeu**. Posez-en 2-3 sur votre front avant tout le reste.
+
+## L'horloge nucléaire de l'IA
+
+Pourquoi quelqu'un avait « déjà » des nukes alors que vous veniez à peine de capturer une Factory :
+
+```
+Or de base :    Joueur 100/tick, Bot 50/tick, Easy Nation × 0,5
+Missile Silo :  1 000 000 d'or (construction 100 ticks)
+Atom Bomb :     750 000 d'or (fixe)
+```
+
+Une IA Easy atteint 1,75M d'or en environ 5-7 minutes réelles. **5 minutes est la deadline de la dissuasion.** Ratez-la et vous mangez des bombes avant d'avoir commencé un SAM.
+
+## Ordre de construction standard (5 premières minutes)
+
+| Temps | Action | Coût | Pourquoi |
+|---|---|---|---|
+| 0:00-1:00 | Attraper un small bot, sprinter vers la côte | — | Les tiles font grandir votre cap de population |
+| 1:00-2:00 | 2-3 Defense Posts en frontière + 1 Port + 1 Factory | 150k + 125k + 125k | Verrouiller le front, ouvrir deux flux de revenu |
+| 2:00-4:00 | Améliorer City / Port / Factory au niveau 2 | 250k chacun | Chaque niveau double la production |
+| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1,5M | Même sans Atom Bomb, **le SAM seul est une dissuasion** — les nukes bots contournent son disque de 70 tiles |
+
+## Pourquoi vos navires de commerce se sont fait éliminer
+
+Trois facteurs s'additionnent :
+
+1. **Les navires de commerce font la navette entre Ports.** Avec un seul Port, ils naviguent vers les Ports *des autres joueurs*, y compris des IA avec qui vous n'êtes pas en guerre.
+2. **Routes en eau hostile = routes mortes.** Depuis v24, **les Warships ciblent en priorité les Transport et Trade ships** et refroidissent immédiatement après un tir — un seul Warship hostile entre vous et le Port de destination détruit tout le flux.
+3. **Les Ports enclavés perdent de l'argent.** Un Port enfoui dans votre territoire force les navires à détourner par plus d'eaux disputées.
+
+```
+Revenu par navire de commerce :
+floor( (75 000 / (1 + e^(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier )
+```
+
+Distance < 300 ne paie que le minimum (~50 × dist). Les longues routes paient plus mais meurent plus — voilà le tradeoff.
+
+## L'économie ferroviaire : la monnaie plus sûre
+
+En v24, **le solo et les salons privés ont des Trains.** Les Factories les génèrent, ils circulent sur des rails entre vos Cities et Factories, et **les Warships ne peuvent pas les toucher.**
+
+```
+Revenu par livraison de train :
+allié = 35 000  ·  équipe = 25 000  ·  soi = 10 000
+− 5 000 × max(0, citiesVisited − 9)
+plancher 5 000
+
+Taux d'apparition : (factories + 10) × 15 ticks
+```
+
+Les boucles internes ne payent que 10k par trajet, mais vous contrôlez 100% de la ligne. **3 Factories en boucle sur 5 Cities = un flux de revenu qu'aucun ennemi ne peut intercepter.**
+
+## Antisèche des priorités
+
+| Priorité | Achat | Coût | Pourquoi |
+|---|---|---|---|
+| ★★★ | 3-4 Defense Posts en frontière | 50k chacun | Mag ×5, seule façon que la défense frontale rentabilise |
+| ★★★ | 1 Port + 1 Factory dans le cœur | 125k chacun (n partagé) | Deux flux de revenu parallèles |
+| ★★ | Améliorer Port / Factory / City au L2-L3 | 250k → 500k → 1M | Chaque niveau double la production |
+| ★★ | 1 Missile Silo + 1 SAM avant 5:00 | 1M + 1,5M | Les nukes bots contournent les SAM — assurance |
+| ★ | Plus de Factories pour la boucle ferroviaire | jusqu'à 1M chacun | Revenu immunisé contre les Warships |
+
+## Erreurs classiques
+
+- **Construire un 2ᵉ Port avant une Factory.** Le coût du Port suit `n = ports + factories`, donc 2 Ports coûtent autant qu'un Port + une Factory — mais la Factory vous donne des Trains qui ne coulent pas.
+- **Port nu sur une pointe côtière.** Joli pour les routes commerciales, mais le premier Warship qui passe en fait une perte de 125k. Posez un Defense Post à côté des Ports côtiers.
+- **Attendre « assez d'or » avant un SAM.** Le SAM est la *condition préalable* pour accumuler de l'or en sécurité. Les nukes bots ciblent les tiles centrales non protégées.
+- **Spammer des Atom Bombs.** À 750k chacune, un SAM niveau 3 balaie toute la salve. La vraie arme nucléaire est la Hydrogen Bomb (5M).
+
+## Arbre de décision
+
+```
+Votre frontière est-elle tenue par ≥ 2 Defense Posts ?
+├─ Non → Construisez-les d'abord. Rien d'autre ne compte.
+└─ Oui → Avez-vous un Port ET une Factory ?
+    ├─ Non → Construisez celui qui manque (125k)
+    └─ Oui → Plus de 4:00 ?
+        ├─ Non → Améliorez les bâtiments au L2
+        └─ Oui → Avez-vous placé un SAM ?
+            ├─ Non → Silo + SAM immédiatement, même sans Atom Bomb
+            └─ Oui → Accumulez 5M d'or → Hydrogen Bomb
+```
+
+## Résumé en une phrase
+
+**Avant la 5ᵉ minute, vous jouez un jeu économique. Après la 5ᵉ minute, vous jouez un jeu nucléaire. Si vous sautez la première phase, vous ne jouez pas la seconde.**

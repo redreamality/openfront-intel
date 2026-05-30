@@ -1,0 +1,111 @@
+---
+title: Economie-fundamenten — Waarom je de geldrace verliest
+description: Verdedigingsposten, bouwvolgorde, handelsschepen vs treinen — de eerste 5 minuten die bepalen of je sneller bouwt dan de AI of een nuke incasseert.
+pubDate: 2026-05-23
+tags: [economy, opening, beginner, trade]
+category: Vroege fase
+difficulty: Beginner
+version: v24
+---
+
+## De mentaliteitsomslag
+
+OpenFront wordt niet gewonnen door wie het meeste verovert — het wordt gewonnen door **wiens economiecurve het steilst is**. Als je opening leest als "bot bestrijden → terrein pakken → bot bestrijden", stapelt de AI in stilte Gold op en zie je rond minuut 5 een Atom Bomb op je hoofdstad inslaan.
+
+Wissel je doel van *expansie* naar *infrastructuur*. De rest van deze pagina is de bouwvolgorde, de wiskunde en de valkuilen.
+
+## Waarom "de vijand op 20% HP houden" een verlies is
+
+Frontale verdediging is netto-negatief zonder gebouwen:
+
+- Terrein-`mag` is slechts 80 / 100 / 120 (Vlakte / Hoogland / Berg)
+- Een **Defense Post** vermenigvuldigt `mag ×5` en `speed ×3` binnen 30 tiles
+- Zonder Defense Post aan je grens betekent 18% inruilen tegen 20% dat jullie allebei terrein verloren — de AI vult sneller aan, want hij betaalt niet de kosten van het verlies
+
+Met 50.000 Gold is de Defense Post het **gebouw met de hoogste ROI van het spel**. Plaats er 2-3 op je frontlinie voordat je iets anders doet.
+
+## De nuke-klok van de AI
+
+Waarom iemand "al" nukes had terwijl jij nog maar net een Factory had veroverd:
+
+```
+Basis-Gold:    Speler 100/tick, Bot 50/tick, Easy Nation × 0,5
+Missile Silo:  1.000.000 Gold (100 ticks bouwtijd)
+Atom Bomb:     750.000 Gold (vast)
+```
+
+Een Easy AI bereikt 1,75M Gold in ongeveer 5-7 echte minuten. **5 minuten is de afschrikkings-deadline.** Mis je hem, dan eet je bommen voordat je een SAM hebt aangelegd.
+
+## Standaard bouwvolgorde (eerste 5 minuten)
+
+| Tijd | Actie | Kosten | Waarom |
+|---|---|---|---|
+| 0:00-1:00 | Pak een small bot, sprint naar de kust | — | Tiles verhogen je bevolkingsplafond |
+| 1:00-2:00 | 2-3 Defense Posts aan de grens + 1 Port + 1 Factory | 150k + 125k + 125k | Front op slot, twee inkomstenstromen openen |
+| 2:00-4:00 | City / Port / Factory upgraden naar niveau 2 | 250k elk | Elk niveau verdubbelt de output |
+| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1,5M | Zelfs zonder Atom Bomb is **de SAM alleen al afschrikking** — bot-nukes wijken uit voor zijn 70-tile schijf |
+
+## Waarom je handelsschepen werden weggevaagd
+
+Drie factoren stapelen:
+
+1. **Handelsschepen pendelen tussen Ports.** Met maar één Port varen ze naar de Ports van *andere spelers*, inclusief AI waarmee je niet in oorlog bent.
+2. **Routes door vijandelijk water = dode routes.** Sinds v24 **richten Warships zich prioritair op Transport en Trade ships** en koelen direct na een treffer af — één enkel vijandelijk Warship tussen jou en de doel-Port doodt de hele stroom.
+3. **Binnenland-Ports verliezen geld.** Een Port diep in je gebied dwingt schepen om te varen door meer betwist water.
+
+```
+Inkomsten per handelsschip:
+floor( (75.000 / (1 + e^(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier )
+```
+
+Afstand < 300 verdient alleen het minimum (~50 × dist). Lange routes betalen meer maar sterven sneller — dat is de tradeoff.
+
+## Trein-economie: het veiligere geld
+
+In v24 hebben **singleplayer en privélobbies Treinen.** Factories genereren ze, ze rijden via rails tussen je Cities en Factories, en **Warships kunnen ze niet raken.**
+
+```
+Trein-inkomsten per levering:
+bondgenoot = 35.000  ·  team = 25.000  ·  zelf = 10.000
+− 5.000 × max(0, citiesVisited − 9)
+minimum 5.000
+
+Spawn-rate: (factories + 10) × 15 ticks
+```
+
+Eigen lussen leveren maar 10k per rit, maar je hebt 100% controle over de lijn. **3 Factories in lus door 5 Cities = een inkomstenstroom die geen vijand kan onderscheppen.**
+
+## Prioriteitenspiekbriefje
+
+| Prioriteit | Koop | Kosten | Waarom |
+|---|---|---|---|
+| ★★★ | 3-4 Defense Posts aan de grens | 50k elk | Mag ×5, enige manier waarop frontale verdediging quitte speelt |
+| ★★★ | 1 Port + 1 Factory in je kern | 125k elk (n gedeeld) | Twee parallelle inkomstenstromen |
+| ★★ | Port / Factory / City upgraden naar L2-L3 | 250k → 500k → 1M | Elk niveau verdubbelt de output |
+| ★★ | 1 Missile Silo + 1 SAM vóór 5:00 | 1M + 1,5M | Bot-nukes wijken uit voor SAMs — verzekering |
+| ★ | Meer Factories voor trein-lussen | tot 1M elk | Inkomsten immuun voor Warships |
+
+## Klassieke fouten
+
+- **Een tweede Port bouwen vóór een Factory.** Port-kosten schalen via `n = ports + factories`, dus 2 Ports kosten evenveel als een Port + een Factory — maar de Factory geeft je Treinen die niet kunnen zinken.
+- **Naakte Port op een kustpunt.** Mooi voor handelsroutes, maar het eerste passerende Warship maakt er een verlies van 125k van. Plaats een Defense Post naast kust-Ports.
+- **Wachten op "genoeg Gold" voor een SAM.** De SAM is de *voorwaarde* om veilig Gold op te bouwen. Bot-nukes richten zich op onbeschermde kern-tiles.
+- **Atom Bombs spammen.** Voor 750k per stuk veegt één niveau 3 SAM de hele salvo weg. Het echte kernwapen is de Hydrogen Bomb (5M).
+
+## Beslisboom
+
+```
+Wordt je grens gedekt door ≥ 2 Defense Posts?
+├─ Nee → Bouw die eerst. Niets anders is belangrijk.
+└─ Ja → Heb je zowel een Port als een Factory?
+    ├─ Nee → Bouw de ontbrekende (125k)
+    └─ Ja → Voorbij 4:00?
+        ├─ Nee → Gebouwen upgraden naar L2
+        └─ Ja → Heb je een SAM geplaatst?
+            ├─ Nee → Direct Silo + SAM, ook zonder Atom Bomb
+            └─ Ja → Verzamel tot 5M Gold → Hydrogen Bomb
+```
+
+## Eénregelige samenvatting
+
+**Vóór minuut 5 speel je een economisch spel. Na minuut 5 een nucleair spel. Sla je de eerste fase over, dan kom je niet aan de tweede toe.**

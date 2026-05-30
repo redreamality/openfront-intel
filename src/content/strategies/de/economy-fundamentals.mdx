@@ -1,0 +1,111 @@
+---
+title: Wirtschaftsgrundlagen — Warum du das Geldrennen verlierst
+description: Verteidigungsposten, Bauorder, Handelsschiffe vs Züge — die ersten 5 Minuten, die entscheiden, ob du die KI überbaust oder genukt wirst.
+pubDate: 2026-05-23
+tags: [economy, opening, beginner, trade]
+category: Frühphase
+difficulty: Einsteiger
+version: v24
+---
+
+## Der Mentalitätswechsel
+
+OpenFront gewinnt nicht, wer am meisten erobert — es gewinnt, **wessen Wirtschaftskurve am steilsten ist**. Wenn deine Eröffnung „Bot bekämpfen → Boden gewinnen → Bot bekämpfen" lautet, häuft die KI in aller Ruhe Gold an und du bekommst rund um Minute 5 eine Atom Bomb auf deine Hauptstadt.
+
+Wechsle dein Ziel von *Expansion* zu *Infrastruktur*. Der Rest dieser Seite ist die Bauorder, die Mathematik und die Fallstricke.
+
+## Warum „den Gegner bei 20% HP halten" ein Verlust ist
+
+Frontale Verteidigung ist ohne Gebäude netto-negativ:
+
+- Gelände-`mag` liegt nur bei 80 / 100 / 120 (Flachland / Hochland / Bergland)
+- Ein **Defense Post** multipliziert `mag ×5` und `speed ×3` im Umkreis von 30 Tiles
+- Ohne Defense Post an deiner Grenze bedeutet 18% gegen 20% tauschen, dass beide Boden verloren — die KI füllt schneller auf, weil sie die Kosten des Verlusts nicht zahlt
+
+Bei 50 000 Gold ist der Defense Post das **Gebäude mit dem höchsten ROI im Spiel**. Setze 2-3 an deine Front, bevor du irgendetwas anderes machst.
+
+## Die Atomuhr der KI
+
+Warum jemand „schon" Nukes hatte, als du gerade eine Factory erobert hattest:
+
+```
+Basis-Gold:     Spieler 100/Tick, Bot 50/Tick, Easy Nation × 0,5
+Missile Silo:   1 000 000 Gold (100 Ticks Bauzeit)
+Atom Bomb:      750 000 Gold (fest)
+```
+
+Eine Easy-KI erreicht 1,75M Gold in etwa 5-7 realen Minuten. **5 Minuten ist die Abschreckungs-Deadline.** Verpasse sie und du frisst Bomben, bevor du einen SAM angelegt hast.
+
+## Standard-Bauorder (erste 5 Minuten)
+
+| Zeit | Aktion | Kosten | Warum |
+|---|---|---|---|
+| 0:00-1:00 | Einen Small Bot greifen, zur Küste sprinten | — | Tiles erhöhen dein Bevölkerungslimit |
+| 1:00-2:00 | 2-3 Defense Posts an der Grenze + 1 Port + 1 Factory | 150k + 125k + 125k | Front sperren, zwei Einnahmequellen öffnen |
+| 2:00-4:00 | City / Port / Factory auf Stufe 2 aufrüsten | je 250k | Jede Stufe verdoppelt die Produktion |
+| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1,5M | Selbst ohne Atom Bomb ist **der SAM allein eine Abschreckung** — Bot-Nukes umfahren seinen 70-Tile-Disc |
+
+## Warum deine Handelsschiffe vernichtet wurden
+
+Drei Dinge wirken zusammen:
+
+1. **Handelsschiffe pendeln zwischen Ports.** Mit nur einem Port segeln sie zu *anderen Spielern*, einschließlich KIs, mit denen du nicht im Krieg bist.
+2. **Routen durch feindliches Wasser = tote Routen.** Seit v24 **priorisieren Warships Transport- und Trade-Schiffe** und kühlen nach einem Treffer sofort ab — ein einziges feindliches Warship zwischen dir und dem Ziel-Port tötet den gesamten Strom.
+3. **Binnen-Ports verlieren Geld.** Ein Port tief im Inland zwingt Schiffe, durch mehr umkämpftes Wasser zu fahren.
+
+```
+Handelsschiff-Einnahme:
+floor( (75 000 / (1 + e^(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier )
+```
+
+Distanz < 300 zahlt nur den Mindestbetrag (~50 × dist). Lange Routen zahlen mehr, sterben aber öfter — das ist der Tradeoff.
+
+## Zug-Wirtschaft: das sicherere Geld
+
+In v24 gibt es **im Einzelspieler und in privaten Lobbys Züge.** Factories erzeugen sie, sie pendeln auf Schienen zwischen deinen Cities und Factories, und **Warships können sie nicht treffen.**
+
+```
+Zug-Einnahme pro Lieferung:
+Verbündeter = 35 000  ·  Team = 25 000  ·  selbst = 10 000
+− 5 000 × max(0, citiesVisited − 9)
+Mindestens 5 000
+
+Spawn-Rate: (factories + 10) × 15 Ticks
+```
+
+Eigene Schleifen zahlen pro Trip nur 10k, aber du kontrollierst 100% der Linie. **3 Factories als Schleife über 5 Cities = ein Einkommensstrom, den kein Feind abfangen kann.**
+
+## Prioritäten-Spickzettel
+
+| Priorität | Kaufen | Kosten | Warum |
+|---|---|---|---|
+| ★★★ | 3-4 Defense Posts an der Grenze | je 50k | Mag ×5, einziger Weg, dass Frontalverteidigung sich rechnet |
+| ★★★ | 1 Port + 1 Factory im Kern | je 125k (n geteilt) | Zwei parallele Einnahmequellen |
+| ★★ | Port / Factory / City auf L2-L3 aufrüsten | 250k → 500k → 1M | Jede Stufe verdoppelt die Produktion |
+| ★★ | 1 Missile Silo + 1 SAM bis 5:00 | 1M + 1,5M | Bot-Nukes umfahren SAMs — Versicherung |
+| ★ | Mehr Factories für Zug-Schleifen | je bis zu 1M | Einnahmen immun gegen Warships |
+
+## Klassische Fehler
+
+- **Einen zweiten Port vor einer Factory bauen.** Port-Kosten skalieren über `n = ports + factories`, also kosten 2 Ports so viel wie ein Port + eine Factory — aber die Factory gibt dir Züge, die nicht versenkt werden können.
+- **Nackter Port an einer Küstenspitze.** Hübsch für Handelsrouten, aber das erste Warship macht ihn zum 125k-Verlust. Stelle einen Defense Post neben Küsten-Ports.
+- **Auf „genug Gold" warten, bevor man einen SAM baut.** Der SAM ist die *Voraussetzung*, um sicher Gold anzuhäufen. Bot-Nukes zielen auf ungeschützte Kern-Tiles.
+- **Atom Bombs spammen.** Bei 750k pro Stück fängt ein SAM auf Stufe 3 die ganze Salve ab. Die echte Atomwaffe ist die Hydrogen Bomb (5M).
+
+## Entscheidungsbaum
+
+```
+Wird deine Grenze von ≥ 2 Defense Posts gehalten?
+├─ Nein → Baue sie zuerst. Nichts anderes zählt.
+└─ Ja → Hast du Port UND Factory?
+    ├─ Nein → Baue das, was fehlt (125k)
+    └─ Ja → Schon nach 4:00?
+        ├─ Nein → Gebäude auf L2 aufrüsten
+        └─ Ja → Hast du einen SAM gesetzt?
+            ├─ Nein → Sofort Silo + SAM, auch ohne Atom Bomb
+            └─ Ja → Bis 5M Gold sparen → Hydrogen Bomb
+```
+
+## Die Ein-Satz-Zusammenfassung
+
+**Vor Minute 5 spielst du ein Wirtschaftsspiel. Nach Minute 5 ein Atomspiel. Überspringst du die erste Phase, spielst du die zweite nicht.**

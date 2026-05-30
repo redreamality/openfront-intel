@@ -1,0 +1,111 @@
+---
+title: Economy Fundamentals — Why You're Losing the Money Race
+description: Defense Posts, build order, trade ships vs trains — the first 5 minutes that decide whether you out-build the AI or get nuked.
+pubDate: 2026-05-23
+tags: [economy, opening, beginner, trade]
+category: Early Game
+difficulty: Beginner
+version: v24
+---
+
+## The Mindset Shift
+
+OpenFront isn't won by who conquers the most — it's won by **whose economy curve is steepest**. If your opening reads "fight bot → take ground → fight bot", the AI is quietly stacking Gold and you'll see an Atom Bomb hit your capital around the 5-minute mark.
+
+Switch your goal from *expansion* to *infrastructure*. The rest of this page is the build order, the math, and the traps.
+
+## Why "Holding the Enemy at 20% HP" Is a Loss
+
+Frontal defense is net-negative without buildings:
+
+- Terrain `mag` is only 80/100/120 (Plains/Highland/Mountain)
+- A **Defense Post** multiplies `mag ×5` and `speed ×3` within 30 tiles
+- Without a Defense Post on your border, trading 18% to deal 20% means you both lost ground — the AI just refills faster because it isn't paying for the loss
+
+At 50,000 Gold, the Defense Post is the **highest ROI building in the game**. Drop 2-3 on your front line before anything else.
+
+## The AI Nuke Clock
+
+Why someone "already" had nukes when you'd barely captured a Factory:
+
+```
+Base gold:      Player 100/tick, Bot 50/tick, Easy Nation × 0.5
+Missile Silo:   1,000,000 Gold (100 ticks build)
+Atom Bomb:      750,000 Gold (fixed)
+```
+
+An Easy AI hits 1.75M Gold in roughly 5-7 real minutes. **5 minutes is the deterrence deadline.** Miss it and you're eating bombs before you've broken ground on a SAM.
+
+## Standard Build Order (First 5 Minutes)
+
+| Time | Action | Cost | Why |
+|---|---|---|---|
+| 0:00-1:00 | Grab a small bot, sprint for coastline | — | Tiles compound your population cap |
+| 1:00-2:00 | 2-3 Defense Posts on border + 1 Port + 1 Factory | 150k + 125k + 125k | Lock the front, start two trade streams |
+| 2:00-4:00 | Upgrade City / Port / Factory to level 2 | 250k each | Each level doubles output |
+| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1.5M | Even with no Atom Bomb, the SAM **alone is deterrence** — bot nukes route around its 70-tile disc |
+
+## Why Your Trade Ships Got Wiped
+
+Three things compound:
+
+1. **Trade ships shuttle between Ports.** With only one Port, they sail to *other players'* Ports, including AI you're not at war with.
+2. **Routes through hostile water = dead routes.** Since v24, **Warships prioritize Transport and Trade ships** and cool down immediately on hit — a single hostile Warship between you and the destination Port kills the entire stream.
+3. **Inland Ports lose money.** A Port buried in your interior forces ships to detour through more contested water.
+
+```
+Trade ship revenue:
+floor( (75,000 / (1 + e^(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )
+```
+
+Distance < 300 only earns the floor (~50 × dist). Long routes pay more but die more — that's the tradeoff.
+
+## Train Economy: The Safer Money
+
+In v24, **single-player and private lobbies have Trains.** Factories spawn them, they shuttle along rails between your Cities and Factories, and **Warships cannot touch them.**
+
+```
+Train revenue per delivery:
+ally = 35,000  ·  team = 25,000  ·  self = 10,000
+− 5,000 × max(0, citiesVisited − 9)
+floor 5,000
+
+Spawn rate: (factories + 10) × 15 ticks
+```
+
+Self-loops only pay 10k each, but you control 100% of the line. **Three Factories looped through five Cities = an income stream no enemy can intercept.**
+
+## Priority Cheat Sheet
+
+| Priority | Buy | Cost | Why |
+|---|---|---|---|
+| ★★★ | 3-4 Defense Posts on the border | 50k each | Mag ×5, the only way frontal defense breaks even |
+| ★★★ | 1 Port + 1 Factory in your core | 125k each (n shared) | Two parallel income streams |
+| ★★ | Upgrade Port / Factory / City to L2-L3 | 250k → 500k → 1M | Each level doubles output |
+| ★★ | 1 Missile Silo + 1 SAM by 5:00 | 1M + 1.5M | Bot nukes detour around SAMs — buying insurance |
+| ★ | More Factories for train looping | up to 1M each | Income immune to Warships |
+
+## Classic Mistakes
+
+- **Building a second Port before a Factory.** Port costs scale on `n = ports + factories`, so two Ports cost the same as a Port + Factory — but the Factory gives you Trains, which can't be sunk.
+- **Naked Port on a coastline tip.** Pretty for trade routes, but the first Warship that sails by makes it a 125k loss. Build a Defense Post adjacent to coastal Ports.
+- **Waiting for "enough Gold" before a SAM.** The SAM is the *prerequisite* for building Gold safely. Bot nukes target unprotected core tiles.
+- **Spamming Atom Bombs.** At 750k each, a level 3 SAM swats the whole salvo. The real nuclear weapon is the Hydrogen Bomb (5M).
+
+## Decision Tree
+
+```
+Is your border held by ≥ 2 Defense Posts?
+├─ No → Build them first. Nothing else matters.
+└─ Yes → Do you have a Port AND a Factory?
+    ├─ No → Build whichever is missing (125k)
+    └─ Yes → Is it past 4:00?
+        ├─ No → Upgrade buildings to L2
+        └─ Yes → Have you placed a SAM?
+            ├─ No → Silo + SAM immediately, even without an Atom Bomb
+            └─ Yes → Stockpile to 5M Gold → Hydrogen Bomb
+```
+
+## The One-Line Summary
+
+**Before minute 5, you are an economy game. After minute 5, you are a nuclear game. If you skip the first phase, you don't get to play the second.**
