@@ -489,9 +489,9 @@ const FORMULAS_SNAPSHOT = {
 
 const MAP_CATEGORIES = {
   Continental: ['africa', 'asia', 'australia', 'europe', 'europeclassic', 'giantworldmap', 'northamerica', 'oceania', 'southamerica', 'world'],
-  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caucasus', 'conakry', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fourislands', 'gatewaytotheatlantic', 'greatlakes', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'iceland', 'italia', 'japan', 'lemnos', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'montreal', 'newyorkcity', 'niledelta', 'passage', 'sanfrancisco', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'thestraits', 'tradersdream', 'twolakes', 'yenisei'],
+  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caucasus', 'conakry', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fourislands', 'gatewaytotheatlantic', 'greatlakes', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'iceland', 'italia', 'japan', 'lemnos', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'montreal', 'newyorkcity', 'niledelta', 'passage', 'sanfrancisco', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'thestraits', 'tradersdream', 'twolakes', 'yenisei', 'balkans', 'caribbean', 'danishstraits', 'indiansubcontinent', 'korea', 'northwestpassage', 'venice', 'yellowsea'],
   Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'surrounded'],
-  Arcade: ['sierpinski', 'thebox'],
+  Arcade: ['sierpinski', 'thebox', 'labyrinth', 'onion'],
   Tournament: ['tourney1', 'tourney2', 'tourney3', 'tourney4'],
 };
 
@@ -534,6 +534,18 @@ const CATEGORY_I18N = {
 };
 
 const MAP_I18N = {
+  // --- 新增地图 (upstream 990eba6...main，2026-05) ---
+  balkans: { enName: 'Balkans', en: 'Balkans', zh: '巴尔干', fr: 'Balkans', de: 'Balkan', nl: 'Balkan' },
+  caribbean: { enName: 'Caribbean', en: 'Caribbean', zh: '加勒比海', fr: 'Caraïbes', de: 'Karibik', nl: 'Caraïben' },
+  danishstraits: { enName: 'Danish Straits', en: 'Danish Straits', zh: '丹麦海峡', fr: 'Détroits danois', de: 'Dänische Meerengen', nl: 'Deense Zeestraten' },
+  indiansubcontinent: { enName: 'Indian Subcontinent', en: 'Indian Subcontinent', zh: '印度次大陆', fr: 'Sous-continent indien', de: 'Indischer Subkontinent', nl: 'Indisch subcontinent' },
+  korea: { enName: 'Korea', en: 'Korea', zh: '朝鲜半岛', fr: 'Corée', de: 'Korea', nl: 'Korea' },
+  labyrinth: { enName: 'Labyrinth', en: 'Labyrinth', zh: '迷宫', fr: 'Labyrinthe', de: 'Labyrinth', nl: 'Labyrint' },
+  northwestpassage: { enName: 'Northwest Passage', en: 'Northwest Passage', zh: '西北航道', fr: 'Passage du Nord-Ouest', de: 'Nordwestpassage', nl: 'Noordwestelijke Doorvaart' },
+  onion: { enName: 'Onion', en: 'Onion', zh: '洋葱', fr: 'Oignon', de: 'Zwiebel', nl: 'Ui' },
+  venice: { enName: 'Venice', en: 'Venice', zh: '威尼斯', fr: 'Venise', de: 'Venedig', nl: 'Venetië' },
+  yellowsea: { enName: 'Yellow Sea', en: 'Yellow Sea', zh: '黄海', fr: 'Mer Jaune', de: 'Gelbes Meer', nl: 'Gele Zee' },
+  // --- 既有地图 ---
   africa: { enName: 'Africa', en: 'Africa', zh: '非洲', fr: 'Afrique', de: 'Afrika', nl: 'Afrika' },
   asia: { enName: 'Asia', en: 'Asia', zh: '亚洲', fr: 'Asie', de: 'Asien', nl: 'Azië' },
   australia: { enName: 'Australia', en: 'Australia', zh: '澳大利亚', fr: 'Australie', de: 'Australien', nl: 'Australië' },
