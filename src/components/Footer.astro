@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Lang } from '../i18n';
+import meta from '../data/_meta.json';
 
 interface Props {
   lang: Lang;
@@ -10,6 +11,8 @@ const t = useTranslations(lang);
 const year = new Date().getFullYear();
 const base = import.meta.env.BASE_URL;
 const langPrefix = lang === 'en' ? '' : `${lang}/`;
+// 版本号随 _meta.json 自动更新（由 `pnpm extract` 从上游 OpenFrontIO 抽取），不要写死。
+const copyright = t('footer.copyright').replace('{version}', meta.upstreamVersion);
 ---
 
 <footer class="mt-24 border-t border-iron-800 bg-iron-950/80 py-10 text-sm text-iron-400">
@@ -40,8 +43,7 @@ const langPrefix = lang === 'en' ? '' : `${lang}/`;
       <p class="mt-2 leading-relaxed">{t('footer.disclaimer.text')}</p>
     </div>
   </div>
-  <div class="container-wide mt-8 flex flex-col gap-2 border-t border-iron-800 pt-4 text-xs text-iron-500 sm:flex-row sm:items-center sm:justify-between">
-    <span>© {year} {t('footer.copyright')}</span>
-    <span class="font-mono">made with Astro</span>
+  <div class="container-wide mt-8 border-t border-iron-800 pt-4 text-xs text-iron-500">
+    <span>© {year} {copyright}</span>
   </div>
 </footer>
