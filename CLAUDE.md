@@ -27,6 +27,8 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **不要用 `astro dev` 起 webServer 做 e2e**：本机 `astro dev` 会命中 Vite 的 `Cannot split a chunk that has already been edited ("import.meta")` 报错，dev server 起不来导致超时。`playwright.config.ts` 已改为 `pnpm build && pnpm preview`，对生产 dist 跑测试，可稳定绕开。
 - **测试里读 JSON 不要用 `import x from '*.json'`**：Playwright 的 Node ESM loader 会报 `needs an import attribute of "type: json"`。改用 `JSON.parse(readFileSync(new URL('../src/data/_meta.json', import.meta.url),'utf8'))`。
 - **`@playwright/test` 版本要锁死匹配本机缓存浏览器**：本机 `%LOCALAPPDATA%\ms-playwright` 缓存最高到 `chromium(_headless_shell)-1208`（= Playwright **1.57**）。用 `^1.57.0` 会被解析成 1.60，要更高版本的浏览器(1223)从而报 “Executable doesn't exist / run playwright install”。devDependency 固定为精确 `1.57.0`，避免触发浏览器下载。
+- **e2e 里 `page.goto` 必须用 `{ waitUntil: 'domcontentloaded' }`，不要等默认的 `'load'`**：`BaseLayout.astro` 内联了 `googletagmanager.com/gtag/js` 异步分析脚本；本机外网受限时它迟迟不返回，`'load'` 事件可能 30s 内不触发，导致**每个** `page.goto` 都超时（连无关的 footer 测试一起挂）。要断言的内容都是服务端渲染的静态 HTML，`domcontentloaded` 已足够。
+- **多语种页面的断言文案要按语种参数化**：zh 页用「原子弹/氢弹」而非 "Atom Bomb/Hydrogen Bomb"，把 atom/hydrogen 等术语放进每个 case 对象里，别对所有语种硬编码英文。
 - playwright 产物已 gitignore：`test-results/`、`playwright-report/`、`.playwright/`。
 
 ## 数据更新 / 离线 extract（避坑规则）

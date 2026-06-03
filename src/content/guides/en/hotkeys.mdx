@@ -1,33 +1,109 @@
 ---
 title: Hotkeys Cheat Sheet
-description: A quick reference for every OpenFront.io hotkey, the Radial menu, and the attack / ship keybinds.
+description: Every OpenFront.io default hotkey, mouse action, and build-number key — including the repeat-build trick that lets a rival fire nukes back-to-back without any external tool.
 pubDate: 2026-05-12
+updatedDate: 2026-06-03
 tags: [hotkeys, ui]
 category: Tutorial
 difficulty: Beginner
 version: v24
 ---
 
-> v24 introduced attack hotkeys (Engla) and ship hotkeys — the few most-used keys are worth committing to muscle memory.
+> Everything below is the **default** layout. Since v24 every key can be remapped in **Settings → Keybindings**, and a few can be unbound entirely. On macOS, read `Ctrl` as `Cmd`.
+
+## "How is my opponent nuking me so fast?"
+
+This is the question almost every new player eventually asks. There is **no external tool or autoclicker required** — it is two built-in mechanics:
+
+1. **Build-number keys arm a structure instantly.** Press `8` and your cursor is already holding an Atom Bomb — no radial menu, no clicking through tiers. Left-click a target to launch.
+2. **Nukes stay armed after firing.** When you place an Atom Bomb (`8`) or Hydrogen Bomb (`9`), the build "ghost" stays on your cursor, so you just keep left-clicking to drop bomb after bomb on different targets. Press `Esc` or right-click to stop.
+
+So the "hold Shift and click to repeat" you remember from other RTS games is not the exact binding here — but for nukes the equivalent is even simpler: **tap `8` once, then click, click, click.** Every other building clears the ghost after one placement, so you re-tap the number for each one.
+
+## Build & unit hotkeys
+
+Press the number, then left-click where you want it. This skips the radial menu completely and is how fast players spam buildings (and bombs) in the late game.
+
+| Key | Builds |
+| --- | --- |
+| `1` | City |
+| `2` | Factory |
+| `3` | Port |
+| `4` | Defense Post |
+| `5` | Missile Silo |
+| `6` | SAM Launcher |
+| `7` | Warship |
+| `8` | Atom Bomb — **stays armed for repeat fire** |
+| `9` | Hydrogen Bomb — **stays armed for repeat fire** |
+| `0` | MIRV |
+
+- `Enter` — build the armed unit under the cursor (instead of clicking).
+- `Esc` — cancel the build preview.
+- `U` — flip the launch arc direction (up / down) of an armed Atom or Hydrogen bomb.
+
+## Mouse
+
+Default scheme. You can flip the buttons in **Settings → "Left click opens menu"**.
+
+| Action | Result |
+| --- | --- |
+| Left-click enemy / unowned border | Attack, or auto-send a transport across water |
+| Left-click your land with a build armed | Place that building |
+| Right-click | Open the Radial / build menu |
+| `Ctrl` + left-click | Open the Build menu at that spot |
+| `Alt` + left-click | Open the emote menu |
+| `Shift` + drag | Box-select multiple warships |
+| Drag the Attack Ratio slider | Adjust the share of Troops sent per attack |
+| Mouse wheel | Zoom |
+| Middle-click drag | Pan the view |
 
 ## Keyboard
 
+### View & camera
+
 | Key | Action |
 | --- | --- |
-| Right click (your own territory) | Open the Radial menu |
-| Right click (enemy / unowned) | Launch an attack or transport directly |
-| Drag the Attack Ratio slider | Adjust the share of Troops sent per attack |
-| `A` | Attack mode (towards the cursor) |
-| `B` | Open the Build menu |
-| `T` | Open the transport ship interface |
-| `Esc` | Cancel the current menu |
-| `Space` | Pause (single-player / private lobby) |
+| `Space` | Alternate view (terrain / countries) |
+| `M` | Toggle the coordinate-grid overlay |
+| `C` | Center the camera on your nation |
+| `Q` / `E` | Zoom out / in |
+| `+` / `-` | Zoom (fallback) |
+| `W` `A` `S` `D` | Pan the camera |
+| `P` | Pause / resume |
+| `,` / `.` | Game speed down / up (single-player) |
 
-> The actual bindings follow what is shown in Settings → Keybindings in-game; since v24 some keys can be customised.
+### Combat
+
+| Key | Action |
+| --- | --- |
+| `T` / `Y` | Decrease / increase the attack ratio |
+| `B` | Launch a boat (naval) attack toward the target |
+| `G` | Launch a ground attack toward the target |
+| `Shift` + `R` | Retaliate against the player who last attacked you |
+| `F` | Select all of your warships |
+| `Shift` + drag | Select multiple warships |
+| `U` | Flip the arc direction of an armed nuke |
+
+### Diplomacy
+
+| Key | Action |
+| --- | --- |
+| `K` | Request an alliance with the hovered player |
+| `L` | Break an alliance |
+
+### Misc
+
+| Key | Action |
+| --- | --- |
+| `Esc` | Close the menu / cancel a build preview |
+| `Enter` | Build the unit under the cursor |
+| `Alt` + `R` | Reset graphics |
+
+> These are the v24 in-game defaults (Settings → Keybindings). If a key behaves differently for you, check whether it has been rebound.
 
 ## Radial menu (reworked in v24)
 
-Triggered by right-clicking your own land, the layout is:
+Right-click your own land to open it. It is now multi-level: the core buildings sit on the ring, with SAM, Factory, warship, and upgrade options on the secondary level.
 
 ```
        Build City
@@ -37,28 +113,20 @@ Triggered by right-clicking your own land, the layout is:
        Missile Silo
 ```
 
-v24 turned it into a multi-level menu: beyond the six core buildings, the secondary menu exposes SAM, Factory, and upgrade options.
+The radial menu is great while you learn the icons — but once you know what you want, the **build-number keys above are far faster**.
 
 ## Action combos
 
-- **Quick nuke salvo**: `B → Atom Bomb → Click Target`, then click each enemy target in sequence.
-- **Coastal defense**: `Build → Port → Build → DefensePost`, placing the DefensePost tight against the inside of the Port.
-- **Alliance**: click the opponent's avatar → `Request Alliance`.
-
-## View & navigation
-
-| Key | Action |
-| --- | --- |
-| Mouse wheel | Zoom |
-| Middle-click drag | Pan the view |
-| `+ / -` | Zoom (fallback) |
-| Double-click a player avatar | Lock the camera onto their core |
+- **Nuke salvo**: `8` → click each target in turn (the Atom Bomb stays armed). Switch to `9` for hydrogen bombs.
+- **Coastal defense**: `3` (Port) → place it, then `4` (Defense Post) → tuck it tight against the inside of the Port.
+- **Snap economy**: `1` (City) → click open ground; the ghost clears, so tap `1` again for the next one.
+- **Alliance**: hover the rival and press `K`, or click their avatar → Request Alliance.
 
 ## Combat rhythm
 
 Skilled players' mouse work rotates through three areas:
 
-1. **The middle of your own land** — building and upgrading.
+1. **The middle of your own land** — building and upgrading (mostly number keys now).
 2. **The border** — attacks and transports.
 3. **The minimap / player list** — watching rivals' expansion curves.
 
