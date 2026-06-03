@@ -1,0 +1,90 @@
+---
+import { getLangFromUrl, useTranslations, type Lang } from '../i18n';
+
+export interface Props {
+  /** 当前页标题，作为面包屑末段（不带链接）的默认文案。 */
+  title: string;
+  /** 可选短标签，覆盖末段文案（标题过长时用）。 */
+  label?: string;
+}
+
+const { title, label } = Astro.props as Props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+// astro.config.mjs 里 base 为 '/'，去掉尾斜杠后通常是空串。
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const langPrefix = lang === 'en' ? '' : `/${lang}`;
+
+// 顶层板块段名 → 现有 i18n 键，译名复用导航，不重复维护。
+type TKey = Parameters<typeof t>[0];
+const SEGMENT_KEYS: Record<string, TKey> = {
+  mechanics: 'nav.mechanics',
+  database: 'nav.database',
+  strategies: 'nav.strategies',
+  guides: 'nav.guides',
+  changelog: 'nav.changelog',
+  glossary: 'nav.glossary',
+  about: 'nav.about',
+  faq: 'nav.faq',
+};
+
+// 从 pathname 剥掉 base 与语言前缀，切成路径段。
+let path = Astro.url.pathname.replace(/\/+$/, '');
+if (base && path.startsWith(base)) path = path.slice(base.length);
+if (lang !== 'en' && (path === `/${lang}` || path.startsWith(`/${lang}/`))) {
+  path = path.slice(lang.length + 1);
+}
+const segments = path.split('/').filter(Boolean);
+
+type Crumb = { name: string; href: string | null };
+
+const crumbs: Crumb[] = [
+  { name: t('breadcrumb.home'), href: lang === 'en' ? `${base}/` : `${base}/${lang}/` },
+];
+
+segments.forEach((seg, i) => {
+  const isLast = i === segments.length - 1;
+  if (isLast) {
+    crumbs.push({ name: label || title, href: null });
+  } else {
+    const key = SEGMENT_KEYS[seg];
+    crumbs.push({ name: key ? t(key) : seg, href: `${base}${langPrefix}/${seg}/` });
+  }
+});
+
+// schema.org BreadcrumbList：用站点绝对 URL，吃 Google 富媒体路径。
+const site = (Astro.site?.toString() ?? '').replace(/\/$/, '');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    ...(c.href ? { item: `${site}${c.href}` } : {}),
+  })),
+};
+
+const show = segments.length > 0;
+---
+
+{show && (
+  <Fragment>
+    <nav aria-label={t('breadcrumb.aria')} class="container-wide pt-6">
+      <ol class="flex flex-wrap items-center gap-1.5 text-xs text-iron-400">
+        {crumbs.map((c, i) => (
+          <li class="flex items-center gap-1.5">
+            {i > 0 && <span class="text-iron-600" aria-hidden="true">/</span>}
+            {c.href ? (
+              <a href={c.href} class="transition-colors hover:text-cannon-400">{c.name}</a>
+            ) : (
+              <span class="text-iron-200" aria-current="page">{c.name}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+)}

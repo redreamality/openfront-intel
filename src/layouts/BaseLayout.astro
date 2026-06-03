@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
 
 export interface Props {
@@ -9,6 +10,10 @@ export interface Props {
   description?: string;
   ogImage?: string;
   noindex?: boolean;
+  /** 关闭面包屑（首页/404 等无层级页面）。 */
+  breadcrumb?: boolean;
+  /** 覆盖面包屑末段文案（标题过长时用）。 */
+  breadcrumbLabel?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -22,6 +27,8 @@ const {
   description = t('site.description'),
   ogImage,
   noindex = false,
+  breadcrumb = true,
+  breadcrumbLabel,
 } = Astro.props;
 
 const siteName = t('site.title');
@@ -72,6 +79,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-cannon-600 focus:px-3 focus:py-2 focus:text-sm focus:text-iron-950">{t('a11y.skipToMain')}</a>
     <Header lang={lang} />
     <main id="main" class="flex-1">
+      {breadcrumb && <Breadcrumb title={title} label={breadcrumbLabel} />}
       <slot />
     </main>
     <Footer lang={lang} />
