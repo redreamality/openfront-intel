@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const guideHref = `${base}/zh/guides/hotkeys/`;
+
+interface Row { keys: string[]; action: string }
+interface Group { id: string; label: string; note?: string; rows: Row[] }
+
+const groups: Group[] = [
+  {
+    id: 'build',
+    label: '建造 / 单位数字键',
+    note: '按数字，再左键点自己的领土即可放置 —— 完全跳过环形菜单。',
+    rows: [
+      { keys: ['1'], action: '建造城市 City' },
+      { keys: ['2'], action: '建造工厂 Factory' },
+      { keys: ['3'], action: '建造港口 Port' },
+      { keys: ['4'], action: '建造防御工事 Defense Post' },
+      { keys: ['5'], action: '建造导弹井 Missile Silo' },
+      { keys: ['6'], action: '建造 SAM 发射器' },
+      { keys: ['7'], action: '建造战舰 Warship' },
+      { keys: ['8'], action: '原子弹 —— 发射后仍挂在光标上，可连点连发' },
+      { keys: ['9'], action: '氢弹 —— 发射后仍挂在光标上，可连点连发' },
+      { keys: ['0'], action: 'MIRV 多弹头' },
+      { keys: ['Enter'], action: '在光标处建造已装填的单位' },
+      { keys: ['U'], action: '翻转已装填核弹的发射弧线（向上 / 向下）' },
+      { keys: ['Esc'], action: '取消建造预览' },
+    ],
+  },
+  {
+    id: 'mouse',
+    label: '鼠标操作',
+    note: '默认方案。可在 设置 →「左键打开菜单」中互换左右键。',
+    rows: [
+      { keys: ['左键'], action: '攻击敌方 / 无主边界，或跨水域自动发运输船' },
+      { keys: ['左键'], action: '在自己领土放下已装填的建筑' },
+      { keys: ['右键'], action: '打开环形 / 建造菜单' },
+      { keys: ['Ctrl', '左键'], action: '在该点打开建造菜单' },
+      { keys: ['Alt', '左键'], action: '打开表情菜单' },
+      { keys: ['Shift', '拖拽'], action: '框选多艘战舰' },
+      { keys: ['滚轮'], action: '缩放' },
+      { keys: ['中键拖拽'], action: '平移视角' },
+    ],
+  },
+  {
+    id: 'camera',
+    label: '视角 / 镜头',
+    rows: [
+      { keys: ['Space'], action: '切换视图（地形 / 国家）' },
+      { keys: ['M'], action: '开关坐标网格叠加层' },
+      { keys: ['C'], action: '镜头居中到自己的国家' },
+      { keys: ['Q'], action: '缩小' },
+      { keys: ['E'], action: '放大' },
+      { keys: ['+', '-'], action: '缩放（备用键）' },
+      { keys: ['W', 'A', 'S', 'D'], action: '平移镜头' },
+      { keys: ['P'], action: '暂停 / 继续' },
+      { keys: [',', '.'], action: '游戏减速 / 加速（单人）' },
+    ],
+  },
+  {
+    id: 'combat',
+    label: '战斗',
+    rows: [
+      { keys: ['T'], action: '降低攻击比例' },
+      { keys: ['Y'], action: '提高攻击比例' },
+      { keys: ['B'], action: '向目标发起海上（船）攻击' },
+      { keys: ['G'], action: '向目标发起地面攻击' },
+      { keys: ['Shift', 'R'], action: '反击最近一次攻击你的玩家' },
+      { keys: ['F'], action: '选中你所有的战舰' },
+      { keys: ['Shift', '拖拽'], action: '框选多艘战舰' },
+    ],
+  },
+  {
+    id: 'diplomacy',
+    label: '外交',
+    rows: [
+      { keys: ['K'], action: '向悬停的玩家请求结盟' },
+      { keys: ['L'], action: '解除同盟' },
+    ],
+  },
+  {
+    id: 'misc',
+    label: '杂项',
+    rows: [
+      { keys: ['Esc'], action: '关闭菜单 / 取消建造预览' },
+      { keys: ['Enter'], action: '在光标处建造单位' },
+      { keys: ['Alt', 'R'], action: '重置图形' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="OpenFront 快捷键"
+  description="OpenFront.io 快捷键大全：所有默认键盘快捷键、鼠标操作与建造热键，一页速查，对应 v24 版本。"
+>
+  <PageHeader
+    eyebrow="SHORTCUTS"
+    title="OpenFront 快捷键"
+    lead="OpenFront.io 全部默认键盘快捷键、鼠标操作与建造热键，按用途分组方便速查，对应 v24。自 v24 起每个键都可在 设置 → 键位绑定 中重映射（部分可解绑）。macOS 上把 Ctrl 看作 Cmd。"
+  />
+
+  <section class="container-wide py-10 space-y-10">
+    <a
+      href={guideHref}
+      class="block rounded border border-cannon-700/50 bg-cannon-950/30 px-4 py-3 text-sm text-iron-200 transition-colors hover:border-cannon-500"
+    >
+      <span class="font-semibold text-cannon-300">刚上手？</span>
+      最快见效的是建造数字键 —— 按 <kbd class="kbd">8</kbd> 再左键点目标即可发射原子弹，且它会一直挂在光标上，可以连点不同目标连发。想了解这些键背后的打法（核弹连发、连招、战斗节奏），请读深入的
+      <span class="underline decoration-dotted">热键教程 →</span>
+    </a>
+
+    {groups.map((g) => (
+      <section id={g.id}>
+        <h2 class="text-xl font-semibold text-iron-50 border-b border-iron-800 pb-2 mb-1">{g.label}</h2>
+        {g.note && <p class="text-sm text-iron-400 mb-3">{g.note}</p>}
+        <table class="w-full text-sm">
+          <tbody>
+            {g.rows.map((r) => (
+              <tr class="border-b border-iron-800/70">
+                <td class="py-2 pr-4 w-44 align-top whitespace-nowrap">
+                  {r.keys.map((k, i) => (
+                    <>
+                      {i > 0 && <span class="mx-1 text-iron-600">+</span>}
+                      <kbd class="kbd">{k}</kbd>
+                    </>
+                  ))}
+                </td>
+                <td class="py-2 text-iron-300 align-top">{r.action}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    ))}
+
+    <p class="text-xs text-iron-500">
+      以上为 v24 游戏内默认键位（设置 → 键位绑定）。若某个键行为不同，请检查是否已被重映射。
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .kbd {
+    display: inline-block;
+    min-width: 1.4rem;
+    text-align: center;
+    border: 1px solid rgb(63 63 70 / 0.9);
+    border-bottom-width: 2px;
+    border-radius: 0.25rem;
+    background: rgb(24 24 27 / 0.9);
+    padding: 0.05rem 0.4rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    color: rgb(228 228 231);
+    line-height: 1.4;
+  }
+</style>

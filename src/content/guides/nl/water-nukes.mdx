@@ -1,0 +1,57 @@
+---
+title: Wat zijn Water Nukes in OpenFront?
+description: Water Nukes is de v31-speloptie waarbij nukes vernietigd land permanent in water veranderen. Hier lees je precies wat er verandert — de kratervorm, het terrein, en of je de grond terugkrijgt.
+pubDate: 2026-06-03
+tags: [nukes, mechanics, water-nukes]
+category: Tutorial
+difficulty: Gevorderd
+version: v31
+---
+
+**Kort antwoord:** *Water Nukes* is een optionele spelmodus, toegevoegd in **v31**, waarbij een kernaanval het gebied niet alleen wegvaagt — hij **verandert de vernietigde land-tiles permanent in water**. De krater loopt vol, schepen kunnen erdoorheen varen, en de kaart zelf wordt voor de rest van de partij hertekend.
+
+De modus staat **standaard uit**. Je zet hem aan bij het maken van een lobby; in openbare spellen verschijnt dan een **Water Nukes**-badge zodat iedereen de regels kent vóór het spawnen.
+
+## Waar zet je het aan
+
+- **Singleplayer / host-lobby:** een **Water Nukes**-schakelaar in het spelopties-paneel, naast opties als *Nukes Disabled*, *SAMs Disabled* en *1M Starting Gold*.
+- **Openbare spellen:** zelf omzetten kan niet, maar de lobbykaart draagt een **Water Nukes**-badge wanneer de modus actief is.
+
+## Normale nuke vs. Water Nuke
+
+Elke nuke ontneemt de tiles in de inslag hun eigenaar en doodt troepen in beide modi gelijk. Het verschil is **wat de vernietigde grond wordt**:
+
+| | Normale nuke | Water Nuke |
+| --- | --- | --- |
+| Vernietigd land | Blijft land, achtergelaten als **fallout** (besmet) | **Wordt water**, permanent |
+| Fallout | Blijft hangen, trekt dan weg | Gewist — water-tiles dragen geen fallout |
+| Grond heroveren | Er weer overheen lopen als de straling weg is | Het land is **weg**; je hebt boten/havens nodig |
+| Kraterrand | Rafelig (willekeurige buitenring) | **Glad, afgerond** |
+
+Die gladde rand is opzettelijk. Water Nukes genereren de grens uit 16 hoekmonsters die daarna gemiddeld worden, zodat de krater zacht golft in plaats van een stekelige "bloem" van verspreide losse land-pixels achter te laten die je anders één voor één per boot zou moeten heroveren.
+
+## De regels die mensen verrassen
+
+- **Alleen *eigenaarloos* land wordt water.** De nuke ontneemt eerst alle tiles in de inslag hun eigendom en zet het nu lege land daarna in de conversie-wachtrij. De conversie is **gebundeld** — ze treedt een tick of twee later in werking, niet meteen.
+- **Heroveren kan een tile redden.** Omdat de conversie bij uitvoering controleert *"is dit nog eigenaarloos land?"*, blijft een tile land als jij (of iemand) er vóór die tijd op uitbreidt. Snel heruitbreiden is een echte tegenzet tegen permanent landverlies.
+- **Het terrein wordt echt herschreven.** Zodra tiles water worden, herberekent OpenFront de kustlijn, oceaan-tiles, oevers, de minimap en de **maritieme pathfinding-graaf** — het nieuwe water is dus echte, bevaarbare zee, geen decoratief gat.
+- **De ontploffingsgrootte verandert niet.** Water Nukes maken nukes niet groter. Een atoombom is nog steeds inner 12 / outer 30, een waterstofbom inner 80 / outer 100, en een MIRV verspreidt nog steeds meerdere koppen. SAM onderschept nog steeds atoom- en waterstofbommen; MIRV blijft niet te onderscheppen. Exacte cijfers in de [database](/nl/database/), patchcontext in de [v31-release-notes](/nl/changelog/v31/).
+
+## Waarom het zo sterk is: handel op binnenwateren
+
+v31 leverde Water Nukes **samen** met een tweede verandering: havens, Warships en trade ships zijn **niet langer beperkt tot oceanen** — elk wateroppervlak telt, inclusief meren en binnenzeeën. Combineer beide en een Water Nuke ontzegt niet alleen land, hij kan een **gloednieuwe waterweg scheppen**: hak een kanaal in het binnenland van de vijand, zet een haven op het verse water, en laat Warships of handelsroutes varen waar een minuut eerder vaste grond lag.
+
+## Hoe je het speelt
+
+- **Plan vroeg een schuilplaats op hoogte.** In een lange Water-Nukes-partij kan de kaart compleet hertekend worden. Houd je kerneconomie op terrein dat niet als eerste wordt weggesneden.
+- **Gebruik nukes om te doorsnijden, niet alleen om te doden.** Een goed geplaatste krater kan een landbrug doorknippen, een hoofdstad isoleren of een zeebaan openen voor je vloot. Denk aan de *vorm* van het gat, niet alleen aan de troepen die je doodt.
+- **Houd landdiepte bij verdediging.** Rijg niet je hele natie langs een dunne kust — één salvo kan de kustruggengraat wissen en je gebouwen op eilandjes laten stranden.
+- **Breid snel her uit na een treffer.** Troepen vóór de conversie terug op een verse krater duwen is de enige manier om die grond als land te behouden.
+
+## Snelle FAQ
+
+- **Staat Water Nukes standaard aan?** Nee — het is een opt-in lobby-optie.
+- **Beïnvloedt het elke nuke?** Ja — atoom-, waterstof- en MIRV-koppen veranderen in deze modus allemaal land in water.
+- **Krijg ik mijn land terug?** Alleen door een krater te heroveren vóór de conversie. Eenmaal water is het *land* weg; het water zelf kun je nog gebruiken met boten, havens en (sinds v31) binnenhandel.
+
+Voor de toetsen om die nukes achter elkaar af te vuren, zie het [sneltoetsen-overzicht](/nl/shortcuts/).

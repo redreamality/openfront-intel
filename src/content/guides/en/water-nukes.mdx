@@ -1,0 +1,57 @@
+---
+title: What Are Water Nukes in OpenFront?
+description: Water Nukes is the v31 game option that makes nukes permanently turn destroyed land into water. Here is exactly what changes — the blast shape, the terrain, and how (or whether) you can take the ground back.
+pubDate: 2026-06-03
+tags: [nukes, mechanics, water-nukes]
+category: Tutorial
+difficulty: Intermediate
+version: v31
+---
+
+**Short answer:** *Water Nukes* is an optional game mode, added in **v31**, where a nuclear strike doesn't just wipe the territory — it **permanently converts the destroyed land tiles into water**. The crater fills in, ships can sail through it, and the map itself is redrawn for the rest of the match.
+
+It is **off by default**. You opt in when creating a lobby, and in public games it shows up as a **Water Nukes** modifier badge so everyone knows the rules before they spawn.
+
+## Where to turn it on
+
+- **Single-player / Host lobby:** a **Water Nukes** toggle in the game-options panel, next to options like *Nukes Disabled*, *SAMs Disabled*, and *1M Starting Gold*.
+- **Public games:** you can't toggle it yourself, but the lobby card carries a **Water Nukes** badge when the mode is active.
+
+## Normal nuke vs. Water Nuke
+
+Every nuke removes the owner from the tiles in its blast and kills troops the same way in both modes. The difference is **what the destroyed ground becomes**:
+
+| | Normal nuke | Water Nuke |
+| --- | --- | --- |
+| Destroyed land | Stays land, left as **fallout** (irradiated) | **Turned into water**, permanently |
+| Fallout | Lingers, then clears | Cleared — water tiles can't hold fallout |
+| Reclaiming ground | Walk back over it once radiation fades | The land is **gone**; you need boats/ports |
+| Blast edge | Ragged (random outer ring) | **Smooth, rounded** crater |
+
+That smooth edge is deliberate. Water Nukes generate the boundary from 16 angular samples that are then averaged, so the crater undulates gently instead of leaving a spiky "flower" of scattered single land pixels you'd otherwise have to boat out and recapture one by one.
+
+## The rules that catch people out
+
+- **Only *unowned* land turns to water.** The nuke first strips ownership from every tile in the blast, then queues the now-empty land for conversion. The conversion is **batched** — it flushes a tick or two later, not instantly.
+- **Re-conquering can save a tile.** Because conversion checks *"is this still unowned land?"* at flush time, if you (or anyone) re-expand onto a fresh crater before it flushes, that tile stays land. Fast re-expansion is a real counter to losing ground permanently.
+- **The terrain is genuinely rewritten.** Once tiles flip to water, OpenFront recomputes the coastline, ocean tiles, shoreline edges, the minimap, and the **naval pathfinding graph** — so the new water is real, navigable sea, not just a cosmetic hole.
+- **Blast size is unchanged.** Water Nukes don't make nukes bigger. An Atom Bomb is still inner 12 / outer 30, a Hydrogen Bomb inner 80 / outer 100, and a MIRV still scatters multiple warheads. SAM still intercepts atom and hydrogen bombs; MIRV still can't be intercepted. See the [database](/database/) for exact numbers and the [v31 release notes](/changelog/v31/) for the patch context.
+
+## Why it's so strong: inland-water trading
+
+v31 shipped Water Nukes **alongside** a second change: ports, Warships, and trade ships are **no longer restricted to oceans** — any body of water works, including lakes and inland seas. Put the two together and a Water Nuke doesn't just deny land, it can **create a brand-new waterway**: carve a channel into an enemy's interior, drop a Port on the fresh water, and run Warships or trade routes where there was solid ground a minute ago.
+
+## How to play it
+
+- **Plan a high-ground safehouse early.** In a long Water Nukes game the map can be redrawn entirely. Keep your core economy on terrain that won't be the first thing carved away.
+- **Use nukes to sever, not just to kill.** A well-placed crater can cut a land bridge, isolate a capital, or open a sea lane for your navy. Think about the *shape* of the hole, not only the troops it removes.
+- **Keep inland depth on defense.** Don't string your whole nation along a thin coast — a single salvo can erase a coastal spine and leave your buildings stranded on islands.
+- **Re-expand fast after you're hit.** Rushing troops back onto a fresh crater before it converts is the only way to keep that ground as land.
+
+## Quick FAQ
+
+- **Is Water Nukes on by default?** No — it's an opt-in lobby option.
+- **Does it affect every nuke?** Yes — Atom, Hydrogen, and MIRV warheads all convert land in this mode.
+- **Can I get my land back?** Only by re-conquering a crater before it converts. After it's water, the *land* is gone; you can still use the water itself with boats, ports, and (in v31) inland trade.
+
+For the keys to fire those nukes back-to-back, see the [shortcuts cheat sheet](/shortcuts/).

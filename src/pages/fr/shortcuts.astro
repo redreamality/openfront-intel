@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const guideHref = `${base}/fr/guides/hotkeys/`;
+
+interface Row { keys: string[]; action: string }
+interface Group { id: string; label: string; note?: string; rows: Row[] }
+
+const groups: Group[] = [
+  {
+    id: 'build',
+    label: 'Touches chiffrées (bâtiments & unités)',
+    note: 'Tapez le chiffre, puis clic gauche sur votre territoire pour placer — cela évite complètement le menu radial.',
+    rows: [
+      { keys: ['1'], action: 'Construire une Ville (City)' },
+      { keys: ['2'], action: 'Construire une Usine (Factory)' },
+      { keys: ['3'], action: 'Construire un Port' },
+      { keys: ['4'], action: 'Construire un Poste de défense (Defense Post)' },
+      { keys: ['5'], action: 'Construire un Silo à missiles (Missile Silo)' },
+      { keys: ['6'], action: 'Construire un Lanceur SAM' },
+      { keys: ['7'], action: 'Construire un Navire de guerre (Warship)' },
+      { keys: ['8'], action: 'Bombe atomique — reste armée pour tirer en rafale' },
+      { keys: ['9'], action: 'Bombe à hydrogène — reste armée pour tirer en rafale' },
+      { keys: ['0'], action: 'MIRV' },
+      { keys: ['Enter'], action: 'Construire l\'unité armée sous le curseur' },
+      { keys: ['U'], action: 'Inverser l\'arc de tir d\'une nuke armée (haut / bas)' },
+      { keys: ['Esc'], action: 'Annuler l\'aperçu de construction' },
+    ],
+  },
+  {
+    id: 'mouse',
+    label: 'Commandes souris',
+    note: 'Schéma par défaut. On peut échanger les boutons dans Paramètres → « Le clic gauche ouvre le menu ».',
+    rows: [
+      { keys: ['Clic gauche'], action: 'Attaquer un ennemi / une frontière libre, ou envoyer un transport sur l\'eau' },
+      { keys: ['Clic gauche'], action: 'Placer le bâtiment armé sur votre territoire' },
+      { keys: ['Clic droit'], action: 'Ouvrir le menu radial / de construction' },
+      { keys: ['Ctrl', 'Clic gauche'], action: 'Ouvrir le menu de construction à cet endroit' },
+      { keys: ['Alt', 'Clic gauche'], action: 'Ouvrir le menu d\'émotes' },
+      { keys: ['Shift', 'Glisser'], action: 'Sélectionner plusieurs navires (cadre)' },
+      { keys: ['Molette'], action: 'Zoom' },
+      { keys: ['Glisser-milieu'], action: 'Déplacer la vue' },
+    ],
+  },
+  {
+    id: 'camera',
+    label: 'Vue & caméra',
+    rows: [
+      { keys: ['Space'], action: 'Vue alternative (terrain / pays)' },
+      { keys: ['M'], action: 'Afficher/masquer la grille de coordonnées' },
+      { keys: ['C'], action: 'Centrer la caméra sur votre nation' },
+      { keys: ['Q'], action: 'Dézoomer' },
+      { keys: ['E'], action: 'Zoomer' },
+      { keys: ['+', '-'], action: 'Zoom (secours)' },
+      { keys: ['W', 'A', 'S', 'D'], action: 'Déplacer la caméra' },
+      { keys: ['P'], action: 'Pause / reprendre' },
+      { keys: [',', '.'], action: 'Vitesse du jeu — / + (solo)' },
+    ],
+  },
+  {
+    id: 'combat',
+    label: 'Combat',
+    rows: [
+      { keys: ['T'], action: 'Baisser le ratio d\'attaque' },
+      { keys: ['Y'], action: 'Augmenter le ratio d\'attaque' },
+      { keys: ['B'], action: 'Lancer une attaque navale (bateau) vers la cible' },
+      { keys: ['G'], action: 'Lancer une attaque terrestre vers la cible' },
+      { keys: ['Shift', 'R'], action: 'Riposter contre le dernier joueur qui vous a attaqué' },
+      { keys: ['F'], action: 'Sélectionner tous vos navires de guerre' },
+      { keys: ['Shift', 'Glisser'], action: 'Sélectionner plusieurs navires de guerre' },
+    ],
+  },
+  {
+    id: 'diplomacy',
+    label: 'Diplomatie',
+    rows: [
+      { keys: ['K'], action: 'Demander une alliance au joueur survolé' },
+      { keys: ['L'], action: 'Rompre une alliance' },
+    ],
+  },
+  {
+    id: 'misc',
+    label: 'Divers',
+    rows: [
+      { keys: ['Esc'], action: 'Fermer le menu / annuler l\'aperçu de construction' },
+      { keys: ['Enter'], action: 'Construire l\'unité sous le curseur' },
+      { keys: ['Alt', 'R'], action: 'Réinitialiser les graphismes' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Raccourcis OpenFront"
+  description="L'aide-mémoire complet des raccourcis OpenFront.io : tous les raccourcis clavier par défaut, commandes souris et touches de construction sur une page, à jour pour la v24."
+>
+  <PageHeader
+    eyebrow="SHORTCUTS"
+    title="Raccourcis OpenFront"
+    lead="Tous les raccourcis clavier par défaut, commandes souris et touches de construction d'OpenFront.io, groupés par usage pour une consultation rapide. À jour pour la v24 — depuis la v24, chaque touche est remappable dans Paramètres → Raccourcis. Sur macOS, lisez Ctrl comme Cmd."
+  />
+
+  <section class="container-wide py-10 space-y-10">
+    <a
+      href={guideHref}
+      class="block rounded border border-cannon-700/50 bg-cannon-950/30 px-4 py-3 text-sm text-iron-200 transition-colors hover:border-cannon-500"
+    >
+      <span class="font-semibold text-cannon-300">Vous débutez ?</span>
+      Le gain le plus rapide, ce sont les touches chiffrées : tapez <kbd class="kbd">8</kbd> puis clic gauche pour lancer une bombe atomique, qui reste armée pour enchaîner les cibles. Pour la stratégie derrière ces touches (salves de nukes, combos, rythme de combat), lisez le
+      <span class="underline decoration-dotted">guide des raccourcis détaillé →</span>
+    </a>
+
+    {groups.map((g) => (
+      <section id={g.id}>
+        <h2 class="text-xl font-semibold text-iron-50 border-b border-iron-800 pb-2 mb-1">{g.label}</h2>
+        {g.note && <p class="text-sm text-iron-400 mb-3">{g.note}</p>}
+        <table class="w-full text-sm">
+          <tbody>
+            {g.rows.map((r) => (
+              <tr class="border-b border-iron-800/70">
+                <td class="py-2 pr-4 w-44 align-top whitespace-nowrap">
+                  {r.keys.map((k, i) => (
+                    <>
+                      {i > 0 && <span class="mx-1 text-iron-600">+</span>}
+                      <kbd class="kbd">{k}</kbd>
+                    </>
+                  ))}
+                </td>
+                <td class="py-2 text-iron-300 align-top">{r.action}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    ))}
+
+    <p class="text-xs text-iron-500">
+      Ce sont les valeurs par défaut de la v24 (Paramètres → Raccourcis). Si une touche se comporte différemment, vérifiez si elle a été remappée.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .kbd {
+    display: inline-block;
+    min-width: 1.4rem;
+    text-align: center;
+    border: 1px solid rgb(63 63 70 / 0.9);
+    border-bottom-width: 2px;
+    border-radius: 0.25rem;
+    background: rgb(24 24 27 / 0.9);
+    padding: 0.05rem 0.4rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    color: rgb(228 228 231);
+    line-height: 1.4;
+  }
+</style>

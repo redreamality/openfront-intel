@@ -1,0 +1,57 @@
+---
+title: Was sind Water Nukes in OpenFront?
+description: Water Nukes ist die v31-Spieloption, bei der Nukes zerstörtes Land dauerhaft in Wasser verwandeln. Hier steht, was sich genau ändert — die Kraterform, das Gelände und ob du den Boden zurückbekommst.
+pubDate: 2026-06-03
+tags: [nukes, mechanics, water-nukes]
+category: Tutorial
+difficulty: Fortgeschritten
+version: v31
+---
+
+**Kurz gesagt:** *Water Nukes* ist ein optionaler Spielmodus aus **v31**, bei dem ein Atomschlag nicht nur das Gebiet auslöscht, sondern die zerstörten Land-Tiles **dauerhaft in Wasser verwandelt**. Der Krater läuft voll, Schiffe können hindurchfahren, und die Karte selbst wird für den Rest der Partie neu gezeichnet.
+
+Der Modus ist **standardmäßig aus**. Du aktivierst ihn beim Erstellen einer Lobby; in öffentlichen Spielen erscheint dann ein **Water Nukes**-Abzeichen, damit alle die Regeln vor dem Spawn kennen.
+
+## Wo man es einschaltet
+
+- **Einzelspieler / Host-Lobby:** ein **Water Nukes**-Schalter im Spieloptionen-Panel, neben Optionen wie *Nukes Disabled*, *SAMs Disabled* und *1M Starting Gold*.
+- **Öffentliche Spiele:** selbst umschalten geht nicht, aber die Lobby-Karte trägt bei aktivem Modus ein **Water Nukes**-Abzeichen.
+
+## Normale Nuke vs. Water Nuke
+
+Jede Nuke entzieht den Tiles im Einschlag den Besitzer und tötet Truppen in beiden Modi gleich. Der Unterschied ist, **was aus dem zerstörten Boden wird**:
+
+| | Normale Nuke | Water Nuke |
+| --- | --- | --- |
+| Zerstörtes Land | Bleibt Land, als **Fallout** (verstrahlt) | **Wird Wasser**, dauerhaft |
+| Fallout | Bleibt, verschwindet dann | Entfernt — Wasser-Tiles tragen keinen Fallout |
+| Land zurückholen | Nach Abklingen einfach zurücklaufen | Das Land ist **weg**; du brauchst Boote/Häfen |
+| Kraterrand | Zackig (zufälliger Außenring) | **Glatt, gerundet** |
+
+Der glatte Rand ist Absicht. Water Nukes erzeugen die Grenze aus 16 Winkel-Stichproben, die dann gemittelt werden, sodass der Krater sanft wellt statt eine stachelige „Blume" verstreuter einzelner Land-Pixel zu hinterlassen, die du sonst einzeln per Boot zurückerobern müsstest.
+
+## Die Regeln, die viele übersehen
+
+- **Nur *herrenloses* Land wird zu Wasser.** Die Nuke entzieht zuerst allen Tiles im Einschlag den Besitz und stellt das nun leere Land dann in die Umwandlungs-Warteschlange. Die Umwandlung ist **gebündelt** — sie greift ein bis zwei Ticks später, nicht sofort.
+- **Neu erobern kann ein Tile retten.** Da die Umwandlung beim Ausführen prüft *„ist das noch herrenloses Land?"*, bleibt ein Tile Land, wenn du (oder irgendwer) vorher auf den frischen Krater expandierst. Schnelles Nach-Expandieren ist ein echtes Gegenmittel gegen dauerhaften Landverlust.
+- **Das Gelände wird wirklich umgeschrieben.** Sobald Tiles zu Wasser werden, berechnet OpenFront Küstenlinie, Ozean-Tiles, Ufer, Minimap und den **See-Pfadfindungsgraphen** neu — das neue Wasser ist also echtes, befahrbares Meer, kein kosmetisches Loch.
+- **Die Sprenggröße bleibt gleich.** Water Nukes machen Nukes nicht größer. Eine Atombombe ist weiterhin inner 12 / outer 30, eine Wasserstoffbombe inner 80 / outer 100, und eine MIRV streut weiterhin mehrere Sprengköpfe. SAM fängt weiterhin Atom- und Wasserstoffbomben ab; MIRV bleibt nicht abfangbar. Genaue Werte in der [Datenbank](/de/database/), der Patch-Kontext in den [v31-Release-Notes](/de/changelog/v31/).
+
+## Warum es so stark ist: Handel auf Binnenwasser
+
+v31 brachte Water Nukes **zusammen** mit einer zweiten Änderung: Häfen, Warships und Trade Ships sind **nicht mehr auf Ozeane beschränkt** — jedes Gewässer zählt, auch Seen und Binnenmeere. Kombiniert man beides, verweigert eine Water Nuke nicht nur Land, sondern kann eine **ganz neue Wasserstraße schaffen**: einen Kanal ins Landesinnere des Gegners schlagen, einen Hafen aufs frische Wasser setzen und dort Warships oder Handelsrouten fahren, wo vor einer Minute noch fester Boden war.
+
+## So spielt man es
+
+- **Plane früh einen Rückzugsort auf Höhe.** In einer langen Water-Nukes-Partie kann die Karte komplett neu gezeichnet werden. Halte deine Kernwirtschaft auf Gelände, das nicht als Erstes weggeschnitten wird.
+- **Nutze Nukes zum Durchtrennen, nicht nur zum Töten.** Ein gut gesetzter Krater kann eine Landbrücke kappen, eine Hauptstadt isolieren oder eine Seegasse für deine Flotte öffnen. Denk an die *Form* des Lochs, nicht nur an die Truppen.
+- **Halte in der Verteidigung Landtiefe.** Reihe nicht deine ganze Nation an eine dünne Küste — eine Salve kann das Küstenrückgrat löschen und deine Gebäude auf Inseln stranden lassen.
+- **Expandiere nach einem Treffer schnell nach.** Truppen vor der Umwandlung zurück auf den frischen Krater zu schieben, ist der einzige Weg, diesen Boden als Land zu behalten.
+
+## Kurz-FAQ
+
+- **Ist Water Nukes standardmäßig an?** Nein — es ist eine optionale Lobby-Einstellung.
+- **Betrifft es jede Nuke?** Ja — Atom-, Wasserstoff- und MIRV-Sprengköpfe verwandeln in diesem Modus alle Land.
+- **Bekomme ich mein Land zurück?** Nur, indem du einen Krater vor der Umwandlung neu eroberst. Ist er Wasser, ist das *Land* weg; das Wasser selbst kannst du weiter nutzen — mit Booten, Häfen und (ab v31) Binnenhandel.
+
+Die Tasten, um diese Nukes am Stück abzufeuern, findest du im [Tastenkürzel-Spickzettel](/de/shortcuts/).

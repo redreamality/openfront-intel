@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const guideHref = `${base}/guides/hotkeys/`;
+
+interface Row { keys: string[]; action: string }
+interface Group { id: string; label: string; note?: string; rows: Row[] }
+
+const groups: Group[] = [
+  {
+    id: 'build',
+    label: 'Build & unit number keys',
+    note: 'Tap the number, then left-click your land to place it — this skips the radial menu entirely.',
+    rows: [
+      { keys: ['1'], action: 'Build City' },
+      { keys: ['2'], action: 'Build Factory' },
+      { keys: ['3'], action: 'Build Port' },
+      { keys: ['4'], action: 'Build Defense Post' },
+      { keys: ['5'], action: 'Build Missile Silo' },
+      { keys: ['6'], action: 'Build SAM Launcher' },
+      { keys: ['7'], action: 'Build Warship' },
+      { keys: ['8'], action: 'Atom Bomb — stays armed for repeat fire' },
+      { keys: ['9'], action: 'Hydrogen Bomb — stays armed for repeat fire' },
+      { keys: ['0'], action: 'MIRV' },
+      { keys: ['Enter'], action: 'Build the armed unit under the cursor' },
+      { keys: ['U'], action: 'Flip the launch arc (up / down) of an armed nuke' },
+      { keys: ['Esc'], action: 'Cancel the build preview' },
+    ],
+  },
+  {
+    id: 'mouse',
+    label: 'Mouse controls',
+    note: 'Default scheme. You can swap buttons in Settings → "Left click opens menu".',
+    rows: [
+      { keys: ['Left-click'], action: 'Attack an enemy / unowned border, or send a transport across water' },
+      { keys: ['Left-click'], action: 'Place the armed building on your land' },
+      { keys: ['Right-click'], action: 'Open the radial / build menu' },
+      { keys: ['Ctrl', 'Left-click'], action: 'Open the Build menu at that spot' },
+      { keys: ['Alt', 'Left-click'], action: 'Open the emote menu' },
+      { keys: ['Shift', 'Drag'], action: 'Box-select multiple warships' },
+      { keys: ['Wheel'], action: 'Zoom in / out' },
+      { keys: ['Middle-drag'], action: 'Pan the view' },
+    ],
+  },
+  {
+    id: 'camera',
+    label: 'View & camera',
+    rows: [
+      { keys: ['Space'], action: 'Alternate view (terrain / countries)' },
+      { keys: ['M'], action: 'Toggle the coordinate-grid overlay' },
+      { keys: ['C'], action: 'Center the camera on your nation' },
+      { keys: ['Q'], action: 'Zoom out' },
+      { keys: ['E'], action: 'Zoom in' },
+      { keys: ['+', '-'], action: 'Zoom (fallback)' },
+      { keys: ['W', 'A', 'S', 'D'], action: 'Pan the camera' },
+      { keys: ['P'], action: 'Pause / resume' },
+      { keys: [',', '.'], action: 'Game speed down / up (single-player)' },
+    ],
+  },
+  {
+    id: 'combat',
+    label: 'Combat',
+    rows: [
+      { keys: ['T'], action: 'Decrease the attack ratio' },
+      { keys: ['Y'], action: 'Increase the attack ratio' },
+      { keys: ['B'], action: 'Launch a boat (naval) attack toward the target' },
+      { keys: ['G'], action: 'Launch a ground attack toward the target' },
+      { keys: ['Shift', 'R'], action: 'Retaliate against the player who last attacked you' },
+      { keys: ['F'], action: 'Select all of your warships' },
+      { keys: ['Shift', 'Drag'], action: 'Select multiple warships' },
+    ],
+  },
+  {
+    id: 'diplomacy',
+    label: 'Diplomacy',
+    rows: [
+      { keys: ['K'], action: 'Request an alliance with the hovered player' },
+      { keys: ['L'], action: 'Break an alliance' },
+    ],
+  },
+  {
+    id: 'misc',
+    label: 'Misc',
+    rows: [
+      { keys: ['Esc'], action: 'Close the menu / cancel a build preview' },
+      { keys: ['Enter'], action: 'Build the unit under the cursor' },
+      { keys: ['Alt', 'R'], action: 'Reset graphics' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="OpenFront Shortcuts"
+  description="The complete OpenFront.io shortcuts cheat sheet: every default keyboard shortcut, mouse control, and build hotkey in one printable reference, current for v24."
+>
+  <PageHeader
+    eyebrow="SHORTCUTS"
+    title="OpenFront Shortcuts"
+    lead="Every default keyboard shortcut, mouse control, and build hotkey in OpenFront.io, grouped for fast lookup. Current for v24 — since v24 every key can be remapped (and a few unbound) in Settings → Keybindings. On macOS, read Ctrl as Cmd."
+  />
+
+  <section class="container-wide py-10 space-y-10">
+    <a
+      href={guideHref}
+      class="block rounded border border-cannon-700/50 bg-cannon-950/30 px-4 py-3 text-sm text-iron-200 transition-colors hover:border-cannon-500"
+    >
+      <span class="font-semibold text-cannon-300">New here?</span>
+      The fastest win is the build number keys — tap <kbd class="kbd">8</kbd> then left-click to fire an Atom Bomb, and it stays armed so you can keep clicking targets. For the strategy behind these keys (nuke salvos, combos, combat rhythm), read the in-depth
+      <span class="underline decoration-dotted">Hotkeys guide →</span>
+    </a>
+
+    {groups.map((g) => (
+      <section id={g.id}>
+        <h2 class="text-xl font-semibold text-iron-50 border-b border-iron-800 pb-2 mb-1">{g.label}</h2>
+        {g.note && <p class="text-sm text-iron-400 mb-3">{g.note}</p>}
+        <table class="w-full text-sm">
+          <tbody>
+            {g.rows.map((r) => (
+              <tr class="border-b border-iron-800/70">
+                <td class="py-2 pr-4 w-44 align-top whitespace-nowrap">
+                  {r.keys.map((k, i) => (
+                    <>
+                      {i > 0 && <span class="mx-1 text-iron-600">+</span>}
+                      <kbd class="kbd">{k}</kbd>
+                    </>
+                  ))}
+                </td>
+                <td class="py-2 text-iron-300 align-top">{r.action}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    ))}
+
+    <p class="text-xs text-iron-500">
+      These are the v24 in-game defaults (Settings → Keybindings). If a key behaves differently for you, check whether it has been rebound.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .kbd {
+    display: inline-block;
+    min-width: 1.4rem;
+    text-align: center;
+    border: 1px solid rgb(63 63 70 / 0.9);
+    border-bottom-width: 2px;
+    border-radius: 0.25rem;
+    background: rgb(24 24 27 / 0.9);
+    padding: 0.05rem 0.4rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    color: rgb(228 228 231);
+    line-height: 1.4;
+  }
+</style>

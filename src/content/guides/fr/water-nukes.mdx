@@ -1,0 +1,57 @@
+---
+title: Que sont les Water Nukes dans OpenFront ?
+description: Les Water Nukes sont l'option de partie de la v31 qui fait que les nukes transforment définitivement la terre détruite en eau. Voici précisément ce qui change — la forme du cratère, le terrain, et si vous pouvez reprendre le sol.
+pubDate: 2026-06-03
+tags: [nukes, mechanics, water-nukes]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v31
+---
+
+**Réponse courte :** les *Water Nukes* sont un mode de jeu optionnel, ajouté en **v31**, où une frappe nucléaire ne se contente pas d'effacer le territoire — elle **transforme définitivement les tiles de terre détruits en eau**. Le cratère se remplit, les navires peuvent le traverser, et la carte elle-même est redessinée pour le reste de la partie.
+
+Le mode est **désactivé par défaut**. On l'active en créant un salon ; dans les parties publiques, un badge **Water Nukes** apparaît pour que chacun connaisse les règles avant d'apparaître.
+
+## Où l'activer
+
+- **Solo / salon d'hôte :** un interrupteur **Water Nukes** dans le panneau d'options, à côté d'options comme *Nukes Disabled*, *SAMs Disabled* et *1M Starting Gold*.
+- **Parties publiques :** vous ne pouvez pas l'activer vous-même, mais la carte du salon porte un badge **Water Nukes** quand le mode est actif.
+
+## Nuke normale vs. Water Nuke
+
+Toute nuke retire le propriétaire des tiles touchés et tue les troupes de la même façon dans les deux modes. La différence, c'est **ce que devient le sol détruit** :
+
+| | Nuke normale | Water Nuke |
+| --- | --- | --- |
+| Terre détruite | Reste de la terre, laissée en **fallout** (irradiée) | **Transformée en eau**, définitivement |
+| Fallout | Persiste, puis se dissipe | Effacé — les tiles d'eau ne portent pas de fallout |
+| Reprendre le sol | Y remarcher une fois l'irradiation passée | La terre a **disparu** ; il faut des bateaux/ports |
+| Bord du cratère | Irrégulier (anneau extérieur aléatoire) | **Lisse, arrondi** |
+
+Ce bord lisse est voulu. Les Water Nukes génèrent la frontière à partir de 16 échantillons angulaires ensuite moyennés, si bien que le cratère ondule doucement au lieu de laisser une « fleur » hérissée de pixels de terre isolés qu'il faudrait sinon reprendre un par un en bateau.
+
+## Les règles qui piègent
+
+- **Seule la terre *sans propriétaire* devient de l'eau.** La nuke retire d'abord la propriété de tous les tiles touchés, puis met la terre désormais vide en file d'attente de conversion. La conversion est **groupée** — elle s'applique un ou deux ticks plus tard, pas instantanément.
+- **Reconquérir peut sauver un tile.** Comme la conversion vérifie au moment de s'appliquer *« est-ce encore de la terre sans propriétaire ? »*, si vous (ou quelqu'un) vous étendez sur un cratère frais avant, ce tile reste de la terre. Se réétendre vite est une vraie parade à la perte définitive de terrain.
+- **Le terrain est réellement réécrit.** Une fois les tiles passés en eau, OpenFront recalcule le littoral, les tiles d'océan, les rivages, la minicarte et le **graphe de pathfinding naval** — la nouvelle eau est donc une vraie mer navigable, pas un trou décoratif.
+- **La taille d'explosion ne change pas.** Les Water Nukes n'agrandissent pas les nukes. Une bombe atomique reste inner 12 / outer 30, une bombe à hydrogène inner 80 / outer 100, et un MIRV disperse toujours plusieurs ogives. Le SAM intercepte toujours les bombes atomiques et à hydrogène ; le MIRV reste inarrêtable. Chiffres exacts dans la [base de données](/fr/database/), contexte du patch dans les [notes de version v31](/fr/changelog/v31/).
+
+## Pourquoi c'est si fort : le commerce sur eaux intérieures
+
+La v31 a livré les Water Nukes **en même temps** qu'un second changement : ports, Warships et trade ships ne sont **plus réservés aux océans** — tout plan d'eau fonctionne, y compris lacs et mers intérieures. Combinez les deux et une Water Nuke ne fait pas que refuser du terrain, elle peut **créer une toute nouvelle voie d'eau** : creuser un chenal dans l'intérieur ennemi, poser un port sur l'eau fraîche, et faire passer des Warships ou des routes commerciales là où il y avait du sol ferme une minute plus tôt.
+
+## Comment y jouer
+
+- **Prévoyez tôt un refuge en hauteur.** Dans une longue partie Water Nukes, la carte peut être entièrement redessinée. Gardez votre économie centrale sur un terrain qui ne sera pas le premier rogné.
+- **Servez-vous des nukes pour trancher, pas seulement pour tuer.** Un cratère bien placé peut couper un pont terrestre, isoler une capitale ou ouvrir un couloir maritime pour votre flotte. Pensez à la *forme* du trou, pas seulement aux troupes éliminées.
+- **Gardez de la profondeur intérieure en défense.** N'alignez pas toute votre nation sur une côte fine — une seule salve peut effacer l'épine côtière et laisser vos bâtiments échoués en îlots.
+- **Réétendez-vous vite après un coup.** Renvoyer des troupes sur un cratère frais avant sa conversion est le seul moyen de garder ce sol en terre.
+
+## FAQ rapide
+
+- **Les Water Nukes sont-elles activées par défaut ?** Non — c'est une option de salon à activer.
+- **Affecte-t-elle toutes les nukes ?** Oui — ogives atomiques, à hydrogène et MIRV convertissent toutes la terre dans ce mode.
+- **Puis-je récupérer ma terre ?** Seulement en reconquérant un cratère avant sa conversion. Une fois en eau, la *terre* a disparu ; vous pouvez toujours exploiter l'eau elle-même avec bateaux, ports et (depuis la v31) commerce intérieur.
+
+Pour les touches qui enchaînent ces nukes, voyez l'[aide-mémoire des raccourcis](/fr/shortcuts/).
