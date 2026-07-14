@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from './PageHeader.astro';
+import {
+  legalDocuments,
+  legalPagePaths,
+  type LegalLang,
+  type LegalPageKey,
+} from '../data/legal';
+
+export interface Props {
+  lang: LegalLang;
+  page: LegalPageKey;
+}
+
+const { lang, page } = Astro.props;
+const document = legalDocuments[lang][page];
+const base = import.meta.env.BASE_URL;
+const languageRoot = lang === 'en' ? base : `${base}${lang}/`;
+const relatedPages = (Object.keys(legalPagePaths) as LegalPageKey[])
+  .filter((key) => key !== page)
+  .map((key) => ({
+    href: `${languageRoot}${legalPagePaths[key]}/`,
+    title: legalDocuments[lang][key].title,
+    description: legalDocuments[lang][key].description,
+  }));
+---
+
+<BaseLayout
+  title={document.title}
+  description={document.description}
+  breadcrumbLabel={document.title}
+>
+  <PageHeader
+    eyebrow={document.eyebrow}
+    title={document.title}
+    lead={document.lead}
+  />
+
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <p class="not-prose mb-10 border-l-2 border-cannon-600 pl-3 text-sm text-iron-400">
+      <span>{document.updatedLabel}:</span>{' '}
+      <time datetime="2026-07-13">{document.updatedDate}</time>
+    </p>
+
+    {document.sections.map((section, index) => (
+      <section aria-labelledby={`legal-section-${index}`}>
+        <h2 id={`legal-section-${index}`}>{section.heading}</h2>
+
+        {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+
+        {section.bullets && (
+          <ul>
+            {section.bullets.map((bullet) => <li>{bullet}</li>)}
+          </ul>
+        )}
+
+        {section.links && (
+          <ul class="not-prose my-6 grid list-none gap-3 p-0 sm:grid-cols-2">
+            {section.links.map((link) => (
+              <li class="m-0">
+                <a
+                  class="card block h-full no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cannon-500"
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="font-semibold text-cannon-400">{link.label} ↗</span>
+                  {link.description && (
+                    <span class="mt-1 block text-sm leading-relaxed text-iron-400">
+                      {link.description}
+                    </span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))}
+
+    <nav class="not-prose mt-12 border-t border-iron-800 pt-8" aria-label={document.relatedHeading}>
+      <h2 class="text-xl">{document.relatedHeading}</h2>
+      <ul class="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
+        {relatedPages.map((related) => (
+          <li>
+            <a
+              href={related.href}
+              class="card block h-full no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cannon-500"
+            >
+              <span class="font-semibold text-cannon-400">{related.title}</span>
+              <span class="mt-1 block text-sm leading-relaxed text-iron-400">
+                {related.description}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <p class="mt-10 text-iron-500">
+      <a href={languageRoot}>← {document.backHome}</a>
+    </p>
+  </article>
+</BaseLayout>

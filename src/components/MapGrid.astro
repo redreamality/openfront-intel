@@ -19,9 +19,129 @@ export interface Props {
 const { groups } = Astro.props as Props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const guideCopy = {
+  en: {
+    title: 'How to use this map index',
+    intro: 'The source directory confirms that a map exists; the categories and play-pattern notes below are editorial aids. They do not replace checking the current lobby preview.',
+    lenses: ['Scale: larger maps reward economy and logistics before contact.', 'Water topology: enclosed seas and straits increase the value of ports and naval control.', 'Symmetry: tournament and abstract layouts usually reduce geographic spawn variance.'],
+    flowTitle: 'A three-pass map check',
+    flow: [
+      ['Contact distance', 'Use scale and playable land to estimate whether the economy matures before first contact.'],
+      ['Water routes', 'Trace connected seas, straits, and islands to decide whether ports are optional or central.'],
+      ['Spawn fairness', 'Check symmetry and lobby size before comparing openings or repeating a test.'],
+    ],
+    advice: {
+      Continental: 'Best for long-form matches: plan multiple fronts, delayed contact, and a larger trade network.',
+      Regional: 'Read chokepoints first. Straits, peninsulas, lakes, and mountain corridors can decide the opening.',
+      Fantasy: 'Do not assume Earth-like topology. Inspect water connectivity and playable corridors before choosing a build.',
+      Arcade: 'Treat the geometry as a rules puzzle: symmetry and narrow lanes matter more than geographic familiarity.',
+      Tournament: 'Designed for competitive balance; use these maps when comparing openings or testing repeatable strategies.',
+    },
+  },
+  fr: {
+    title: 'Comment utiliser cet index',
+    intro: 'Le répertoire source confirme l’existence d’une carte ; les catégories et conseils sont une aide éditoriale. Vérifiez toujours l’aperçu du lobby actuel.',
+    lenses: ['Échelle : les grandes cartes favorisent économie et logistique.', 'Réseau maritime : mers fermées et détroits valorisent ports et contrôle naval.', 'Symétrie : les cartes de tournoi et abstraites réduisent souvent l’écart entre spawns.'],
+    flowTitle: 'Vérification de carte en trois passes',
+    flow: [
+      ['Distance de contact', 'Utilisez l’échelle et la terre jouable pour estimer si l’économie mûrit avant le premier contact.'],
+      ['Routes maritimes', 'Suivez mers connectées, détroits et îles pour décider si les ports sont secondaires ou centraux.'],
+      ['Équité des spawns', 'Vérifiez symétrie et taille du lobby avant de comparer des ouvertures ou répéter un test.'],
+    ],
+    advice: {
+      Continental: 'Pour les parties longues : prévoyez plusieurs fronts, un contact tardif et un grand réseau commercial.',
+      Regional: 'Lisez d’abord les points de passage : détroits, péninsules, lacs et corridors structurent l’ouverture.',
+      Fantasy: 'Ne supposez pas une topologie terrestre ; inspectez les eaux et couloirs jouables avant le build.',
+      Arcade: 'Traitez la géométrie comme un puzzle : symétrie et voies étroites priment sur la géographie.',
+      Tournament: 'Pensées pour l’équilibre compétitif, idéales pour comparer des ouvertures reproductibles.',
+    },
+  },
+  nl: {
+    title: 'Zo gebruikt u deze kaartindex',
+    intro: 'De bronmap bevestigt dat een kaart bestaat; categorieën en speelpatronen zijn redactionele hulpmiddelen. Controleer altijd de actuele lobbypreview.',
+    lenses: ['Schaal: grotere kaarten belonen economie en logistiek vóór contact.', 'Waterstructuur: binnenzeeën en zeestraten maken havens en zeemacht belangrijker.', 'Symmetrie: toernooi- en abstracte kaarten beperken vaak spawnverschillen.'],
+    flowTitle: 'Kaartcontrole in drie stappen',
+    flow: [
+      ['Contactafstand', 'Gebruik schaal en speelbaar land om te schatten of de economie vóór het eerste contact kan groeien.'],
+      ['Waterroutes', 'Volg verbonden zeeën, zeestraten en eilanden om te bepalen of havens optioneel of centraal zijn.'],
+      ['Spawn-gelijkheid', 'Controleer symmetrie en lobbygrootte voordat u openingen vergelijkt of een test herhaalt.'],
+    ],
+    advice: {
+      Continental: 'Voor lange partijen: plan meerdere fronten, later contact en een groter handelsnetwerk.',
+      Regional: 'Lees eerst de knelpunten; zeestraten, schiereilanden, meren en corridors bepalen de opening.',
+      Fantasy: 'Ga niet uit van aardse topologie; inspecteer waterverbindingen en corridors vóór uw build.',
+      Arcade: 'Zie de geometrie als een puzzel: symmetrie en smalle banen zijn belangrijker dan herkenning.',
+      Tournament: 'Ontworpen voor competitieve balans en geschikt voor herhaalbare openingstests.',
+    },
+  },
+  de: {
+    title: 'So nutzt du diesen Kartenindex',
+    intro: 'Das Quellverzeichnis bestätigt die Existenz einer Karte; Kategorien und Spielmuster sind redaktionelle Hilfen. Prüfe immer die aktuelle Lobby-Vorschau.',
+    lenses: ['Maßstab: große Karten belohnen Wirtschaft und Logistik vor dem Erstkontakt.', 'Wasserstruktur: Binnenmeere und Meerengen erhöhen den Wert von Häfen und Seemacht.', 'Symmetrie: Turnier- und abstrakte Karten verringern oft geografische Spawn-Unterschiede.'],
+    flowTitle: 'Kartenprüfung in drei Schritten',
+    flow: [
+      ['Kontaktentfernung', 'Mit Maßstab und spielbarer Landfläche abschätzen, ob die Wirtschaft vor dem Erstkontakt reift.'],
+      ['Wasserwege', 'Verbundene Meere, Meerengen und Inseln verfolgen, um die Bedeutung von Häfen zu bestimmen.'],
+      ['Spawn-Fairness', 'Vor Eröffnungsvergleichen oder Wiederholungstests Symmetrie und Lobbygröße prüfen.'],
+    ],
+    advice: {
+      Continental: 'Für lange Partien: mehrere Fronten, später Kontakt und ein großes Handelsnetz einplanen.',
+      Regional: 'Zuerst Engstellen lesen; Meerengen, Halbinseln, Seen und Korridore prägen die Eröffnung.',
+      Fantasy: 'Keine erdähnliche Topologie voraussetzen; Wasserwege und Korridore vor dem Build prüfen.',
+      Arcade: 'Die Geometrie ist ein Regelrätsel: Symmetrie und enge Bahnen zählen mehr als Bekanntheit.',
+      Tournament: 'Für Wettbewerbsbalance entworfen und gut für reproduzierbare Eröffnungstests.',
+    },
+  },
+  zh: {
+    title: '如何使用这份地图索引',
+    intro: '源码目录只能确认地图存在；下方分类与玩法提示属于本站编辑分析，不能替代当前大厅中的地图预览。',
+    lenses: ['规模：地图越大，接敌前的经济、交通和多线调度越重要。', '水域拓扑：内海、湖泊与海峡会显著提高港口和海权价值。', '对称性：锦标赛与抽象地图通常能减少出生地理差异。'],
+    flowTitle: '三步选图检查',
+    flow: [
+      ['接敌距离', '根据规模与可用陆地估算首次接触前，经济是否有时间成型。'],
+      ['水路连通', '追踪相连海域、海峡与岛屿，判断港口是可选项还是核心设施。'],
+      ['出生公平', '比较开局或重复测试前，先核对对称性与大厅人数。'],
+    ],
+    advice: {
+      Continental: '适合长局：提前规划多条战线、较晚接敌与更大的贸易网络。',
+      Regional: '先读咽喉点；海峡、半岛、湖泊和山谷通道往往直接决定开局。',
+      Fantasy: '不要套用现实地理直觉；选构筑前先检查水域连通性和可行通道。',
+      Arcade: '把几何形状当作规则谜题：对称性和窄路通常比地名熟悉度更重要。',
+      Tournament: '强调竞技平衡，适合比较开局路线和复现实战测试。',
+    },
+  },
+} as const;
+const guide = guideCopy[lang];
 ---
 
 <div class="space-y-12">
+  <section class="rounded-lg border border-iron-700 bg-iron-900/50 p-5">
+    <h2 class="text-lg font-semibold text-iron-50">{guide.title}</h2>
+    <p class="mt-2 text-sm leading-relaxed text-iron-300">{guide.intro}</p>
+    <ul class="mt-4 grid gap-3 text-sm text-iron-300 md:grid-cols-3">
+      {guide.lenses.map((lens) => <li class="rounded border border-iron-800 bg-iron-950/50 p-3">{lens}</li>)}
+    </ul>
+    <div class="mt-6 border-t border-iron-800 pt-5" data-map-reading-flow>
+      <h3 class="text-base font-semibold text-iron-100">{guide.flowTitle}</h3>
+      <ol class="mt-3 grid gap-3 md:grid-cols-3">
+        {guide.flow.map(([label, description], index) => (
+          <li class="relative rounded border border-cannon-700/50 bg-cannon-950/20 p-4">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cannon-600 font-mono text-xs font-bold text-iron-950">
+                {index + 1}
+              </span>
+              <h4 class="text-sm font-semibold text-cannon-300">{label}</h4>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-iron-300">{description}</p>
+            {index < guide.flow.length - 1 && (
+              <span class="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 text-lg text-cannon-500 md:block" aria-hidden="true">→</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
   {groups.map((g) => (
     <section id={`cat-${g.key.toLowerCase()}`}>
       <header class="mb-4 flex flex-wrap items-baseline justify-between gap-3 border-b border-iron-800 pb-2">
@@ -31,6 +151,7 @@ const t = useTranslations(lang);
         </h2>
         <p class="text-sm text-iron-400">{g.desc}</p>
       </header>
+      <p class="mb-4 max-w-4xl text-sm leading-relaxed text-iron-300">{guide.advice[g.key as keyof typeof guide.advice]}</p>
       <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {g.items.map((m) => {
           const mt = pickI18n(m, lang);

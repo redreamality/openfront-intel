@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import meta from '../data/_meta.json';
+import maps from '../data/maps.json';
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -13,7 +14,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li>Systematic core mechanics guides (spawn, economy, military, nukes, alliances, trains...).</li>
       <li>Unit / structure database (auto-synced from source code).</li>
-      <li>78 maps listed and categorized.</li>
+      <li>{maps.meta.total} maps listed and categorized.</li>
       <li>Strategy guides and beginner tutorials.</li>
       <li>Version changelog analysis.</li>
     </ul>
@@ -38,7 +39,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li><strong>Astro</strong> (v5) + <strong>Tailwind CSS</strong>, pure static output.</li>
       <li>MDX Content Collections.</li>
-      <li>GitHub Pages deployment, no server, no tracking, no ads.</li>
+      <li>GitHub Pages deployment with consent-based Google Analytics; no advertising is currently served.</li>
     </ul>
 
     <h2>License & Disclaimer</h2>
@@ -51,7 +52,7 @@ const base = import.meta.env.BASE_URL;
     </ul>
 
     <h2>Feedback</h2>
-    <p>Found an error, want to contribute a guide, or noticed a value mismatch? Open an issue on the source repo.</p>
+    <p>Found an error, want to contribute a guide, or noticed a value mismatch? <a href="https://github.com/redreamality/openfront-intel/issues" target="_blank" rel="noopener">Open an issue in the site repository</a>. See the <a href={`${base}editorial-policy/`}>editorial policy</a> for our sourcing and correction process.</p>
 
     <p class="text-iron-500">
       <a href={base}>← Back to Home</a>

@@ -3,6 +3,8 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import ProvenancePanel from '../components/ProvenancePanel.astro';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
 
 export interface Props {
@@ -34,6 +36,21 @@ const {
 const siteName = t('site.title');
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const pathSegments = Astro.url.pathname.replace(base, '').split('/').filter(Boolean);
+if (pathSegments[0] && pathSegments[0] in languages) pathSegments.shift();
+const contentSection = pathSegments[0];
+const provenanceSources = contentSection === 'database'
+  ? [
+      { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
+      { label: 'Game.ts', path: 'src/core/game/Game.ts' },
+      { label: 'Map resources', path: 'resources/maps' },
+    ]
+  : contentSection === 'mechanics'
+    ? [
+        { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
+        { label: 'Game source', path: 'src/core/game' },
+      ]
+    : [];
 ---
 
 <!doctype html>
@@ -64,13 +81,53 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(alternates.find(a => a.lang === 'en')?.href ?? '/', Astro.site ?? Astro.url).toString()} />
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7R6FVF17YG"></script>
+    <!-- Google Analytics is loaded only after explicit consent. -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7R6FVF17YG');
+      (() => {
+        const STORAGE_KEY = 'openfront-intel-consent-v1';
+        const GA_ID = 'G-7R6FVF17YG';
+
+        const loadAnalytics = () => {
+          if (document.querySelector('script[data-openfront-analytics]')) return;
+          window[`ga-disable-${GA_ID}`] = false;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+          window.gtag('consent', 'default', {
+            analytics_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+          });
+          window.gtag('js', new Date());
+          window.gtag('config', GA_ID, { anonymize_ip: true });
+
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+          script.dataset.openfrontAnalytics = 'true';
+          document.head.appendChild(script);
+        };
+
+        const disableAnalytics = () => {
+          window[`ga-disable-${GA_ID}`] = true;
+          window.gtag?.('consent', 'update', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+          });
+          document.querySelectorAll('script[data-openfront-analytics]').forEach((script) => script.remove());
+        };
+
+        try {
+          if (window.localStorage.getItem(STORAGE_KEY) === 'analytics') loadAnalytics();
+        } catch {
+          // Analytics remains disabled when storage is unavailable.
+        }
+
+        window.addEventListener('openfront:analytics-consent', loadAnalytics);
+        window.addEventListener('openfront:analytics-consent-revoked', disableAnalytics);
+      })();
     </script>
 
     <slot name="head" />
@@ -81,7 +138,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <main id="main" class="flex-1">
       {breadcrumb && <Breadcrumb title={title} label={breadcrumbLabel} />}
       <slot />
+      {(contentSection === 'database' || contentSection === 'mechanics') && (
+        <div class="container-wide pb-4">
+          <ProvenancePanel
+            kind={contentSection === 'database' ? 'data' : 'mechanics'}
+            sources={provenanceSources}
+          />
+        </div>
+      )}
     </main>
     <Footer lang={lang} />
+    <ConsentBanner lang={lang} />
   </body>
 </html>

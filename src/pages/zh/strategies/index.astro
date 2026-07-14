@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import CollectionIntro from '../../../components/CollectionIntro.astro';
 import { byLang, stripLangPrefix } from '../../../i18n';
 
 const LANG = 'zh';
@@ -14,6 +15,7 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' 
 
 <BaseLayout title="战术攻略" description="FFA、Team、Naval、核威慑等流派的实战流派与节奏分析。">
   <PageHeader eyebrow="STRATEGIES" title="战术攻略" lead="按模式与流派组织的实战文章，每篇都基于源码数值给出具体节奏与决策树。" />
+  <CollectionIntro kind="strategy" />
   <section class="container-wide py-10">
     {all.length === 0 ? (
       <p class="text-iron-400">暂无文章，敬请期待。</p>

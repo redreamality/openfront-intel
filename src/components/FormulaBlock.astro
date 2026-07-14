@@ -2,7 +2,7 @@
 import { getLangFromUrl, pickI18n, type I18nBundle, type Lang } from '../i18n';
 
 type StringOrI18n = string | { i18n?: Partial<Record<Lang, I18nBundle>> };
-type ItemInput = { name: string; expr: string } | { i18n?: Partial<Record<Lang, I18nBundle>> };
+type ItemInput = { name: string; expr: string } | { i18n: Partial<Record<Lang, I18nBundle>> };
 
 export interface Props {
   label: StringOrI18n;

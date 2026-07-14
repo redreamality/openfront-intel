@@ -1,0 +1,135 @@
+---
+import meta from '../data/_meta.json';
+import { getLangFromUrl, type Lang } from '../i18n';
+
+interface SourceLink {
+  label: string;
+  path?: string;
+  href?: string;
+}
+
+interface Props {
+  kind?: 'data' | 'mechanics' | 'guide' | 'strategy' | 'changelog';
+  version?: string;
+  sources?: SourceLink[];
+  compact?: boolean;
+}
+
+const {
+  kind = 'data',
+  version,
+  sources = [],
+  compact = false,
+} = Astro.props;
+const lang = getLangFromUrl(Astro.url) as Lang;
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+const commit = 'upstreamCommit' in meta && typeof meta.upstreamCommit === 'string'
+  ? meta.upstreamCommit
+  : null;
+const commitBase = commit
+  ? `https://github.com/openfrontio/OpenFrontIO/blob/${commit}`
+  : 'https://github.com/openfrontio/OpenFrontIO/blob/main';
+
+const copy = {
+  en: {
+    title: 'Source, version, and editorial scope',
+    snapshot: `Structured tables are generated from the recorded upstream checkout when available. The editorial validation scope and embedded fallback remain ${meta.upstreamVersion}; a newer checkout or release note does not mean every analysis has been revalidated against the live game.`,
+    interpretation: 'Strategy and tutorial recommendations are editorial interpretation built on the cited data; they are not copied game documentation.',
+    changelog: `This page summarizes and interprets the official ${version ?? ''} release. Check the primary release before relying on an exact change.`,
+    generated: 'Extraction generated',
+    commit: 'Extraction checkout commit',
+    methodology: 'Editorial and correction policy',
+    source: 'Primary source',
+  },
+  fr: {
+    title: 'Sources, version et portée éditoriale',
+    snapshot: `Les tableaux sont générés depuis le checkout amont enregistré lorsqu’il est disponible. La portée de validation éditoriale et le fallback intégré restent ${meta.upstreamVersion} ; un checkout ou une note plus récente ne signifie pas que chaque analyse a été revérifiée en ligne.`,
+    interpretation: 'Les recommandations sont une interprétation éditoriale fondée sur les données citées, et non une copie de la documentation du jeu.',
+    changelog: `Cette page résume et interprète la version officielle ${version ?? ''}. Consultez la publication primaire pour confirmer un changement précis.`,
+    generated: 'Extraction générée',
+    commit: 'Commit du checkout d’extraction',
+    methodology: 'Politique éditoriale et corrections',
+    source: 'Source primaire',
+  },
+  nl: {
+    title: 'Bronnen, versie en redactionele reikwijdte',
+    snapshot: `Gestructureerde tabellen worden waar mogelijk uit de vastgelegde upstream-checkout gegenereerd. De redactionele validatiescope en ingebouwde fallback blijven ${meta.upstreamVersion}; een nieuwere checkout of release note betekent niet dat elke analyse opnieuw live is gecontroleerd.`,
+    interpretation: 'Strategie- en tutorialadvies is redactionele interpretatie op basis van de genoemde data, geen gekopieerde speldocumentatie.',
+    changelog: `Deze pagina vat de officiële release ${version ?? ''} samen en interpreteert die. Controleer de primaire release voor een exacte wijziging.`,
+    generated: 'Extractie gegenereerd',
+    commit: 'Checkout-commit voor extractie',
+    methodology: 'Redactioneel en correctiebeleid',
+    source: 'Primaire bron',
+  },
+  de: {
+    title: 'Quellen, Version und redaktioneller Umfang',
+    snapshot: `Strukturierte Tabellen werden nach Möglichkeit aus dem protokollierten Upstream-Checkout erzeugt. Redaktioneller Prüfstand und eingebauter Fallback bleiben ${meta.upstreamVersion}; ein neuerer Checkout oder Release-Hinweis bedeutet nicht, dass jede Analyse live neu geprüft wurde.`,
+    interpretation: 'Strategie- und Tutorial-Empfehlungen sind redaktionelle Auslegung der genannten Daten und keine kopierte Spieldokumentation.',
+    changelog: `Diese Seite fasst das offizielle Release ${version ?? ''} zusammen und ordnet es ein. Für exakte Änderungen gilt die Primärquelle.`,
+    generated: 'Extraktion erzeugt',
+    commit: 'Checkout-Commit der Extraktion',
+    methodology: 'Redaktions- und Korrekturrichtlinie',
+    source: 'Primärquelle',
+  },
+  zh: {
+    title: '来源、版本与编辑范围',
+    snapshot: `结构化表格会优先从所记录的上游 checkout 生成。编辑验证范围与内置回退快照仍为 ${meta.upstreamVersion}；较新的 checkout 或版本笔记不代表所有分析已经按线上最新版复核。`,
+    interpretation: '攻略与教程是在所列数据基础上的编辑分析，并非复制游戏文档；策略判断与源码事实会尽量分开表述。',
+    changelog: `本页整理并解读官方 ${version ?? ''} Release。依赖精确改动时，请以权威 Release 正文为准。`,
+    generated: '提取生成时间',
+    commit: '提取所用 checkout 提交',
+    methodology: '编辑与勘误政策',
+    source: '权威来源',
+  },
+} as const;
+
+const t = copy[lang];
+const statement = kind === 'changelog'
+  ? t.changelog
+  : kind === 'guide' || kind === 'strategy'
+    ? `${t.snapshot} ${t.interpretation}`
+    : t.snapshot;
+const generatedAt = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang, {
+  dateStyle: 'medium',
+}).format(new Date(meta.generatedAt));
+const releaseTag = version && /^v\d+$/.test(version)
+  ? version.replace(/^v(\d+)$/, 'v0.$1.0')
+  : version;
+const releaseHref = kind === 'changelog' && version
+  ? `https://github.com/openfrontio/OpenFrontIO/releases/tag/${releaseTag}`
+  : null;
+---
+
+<aside class:list={[
+  'not-prose rounded-lg border border-iron-700 bg-iron-900/60',
+  compact ? 'my-6 p-4' : 'my-10 p-5 sm:p-6',
+]} data-provenance-panel>
+  <h2 class="text-base font-semibold text-iron-50">{t.title}</h2>
+  <p class="mt-2 text-sm leading-relaxed text-iron-300">{statement}</p>
+
+  <dl class="mt-4 grid gap-2 text-xs text-iron-400 sm:grid-cols-2">
+    <div>
+      <dt class="font-semibold text-iron-300">{t.generated}</dt>
+      <dd class="mt-0.5"><time datetime={meta.generatedAt}>{generatedAt}</time></dd>
+    </div>
+    {commit && (
+      <div>
+        <dt class="font-semibold text-iron-300">{t.commit}</dt>
+        <dd class="mt-0.5 font-mono"><a href={`https://github.com/openfrontio/OpenFrontIO/commit/${commit}`} target="_blank" rel="noopener">{commit.slice(0, 12)} ↗</a></dd>
+      </div>
+    )}
+  </dl>
+
+  <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+    {releaseHref && <li><a href={releaseHref} target="_blank" rel="noopener">{t.source}: GitHub Release ↗</a></li>}
+    {sources.map((source) => (
+      <li>
+        <a href={source.href ?? `${commitBase}/${source.path}`} target="_blank" rel="noopener">
+          {source.label} ↗
+        </a>
+      </li>
+    ))}
+    <li><a href={`${base}${langPrefix}editorial-policy/`}>{t.methodology} →</a></li>
+  </ul>
+</aside>

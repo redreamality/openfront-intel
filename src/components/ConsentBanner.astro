@@ -1,0 +1,129 @@
+---
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+
+const copy = {
+  en: {
+    title: 'Your privacy choices',
+    body: 'We use optional Google Analytics only after you agree. It helps us understand which guides are useful. Essential site features work without analytics.',
+    accept: 'Allow analytics',
+    reject: 'Essential only',
+    privacy: 'Read privacy policy',
+  },
+  fr: {
+    title: 'Vos choix de confidentialité',
+    body: 'Nous utilisons Google Analytics uniquement après votre accord afin de comprendre quels guides sont utiles. Les fonctions essentielles marchent sans statistiques.',
+    accept: 'Autoriser les statistiques',
+    reject: 'Essentiel uniquement',
+    privacy: 'Lire la politique de confidentialité',
+  },
+  nl: {
+    title: 'Uw privacykeuzes',
+    body: 'We gebruiken optionele Google Analytics pas nadat u toestemming geeft. Zo zien we welke gidsen nuttig zijn. Essentiële functies werken zonder analytics.',
+    accept: 'Analytics toestaan',
+    reject: 'Alleen essentieel',
+    privacy: 'Privacybeleid lezen',
+  },
+  de: {
+    title: 'Ihre Datenschutzauswahl',
+    body: 'Wir verwenden optionale Google Analytics erst nach Ihrer Zustimmung, um hilfreiche Inhalte zu erkennen. Wesentliche Funktionen laufen ohne Analytics.',
+    accept: 'Analytics erlauben',
+    reject: 'Nur erforderlich',
+    privacy: 'Datenschutzerklärung lesen',
+  },
+  zh: {
+    title: '隐私选项',
+    body: '只有在您同意后，我们才会启用可选的 Google Analytics，用于了解哪些资料更有帮助。拒绝统计不会影响网站核心功能。',
+    accept: '允许统计',
+    reject: '仅必要功能',
+    privacy: '查看隐私政策',
+  },
+} as const;
+
+const t = copy[lang];
+---
+
+<aside
+  data-consent-banner
+  data-testid="consent-banner"
+  class="fixed inset-x-3 bottom-3 z-[80] hidden max-w-2xl rounded-xl border border-iron-700 bg-iron-950/95 p-5 shadow-2xl backdrop-blur sm:left-auto sm:right-5 sm:w-[38rem]"
+  aria-labelledby="consent-title"
+  aria-live="polite"
+>
+  <h2 id="consent-title" class="text-base font-semibold text-iron-50">{t.title}</h2>
+  <p class="mt-2 text-sm leading-relaxed text-iron-300">{t.body}</p>
+  <div class="mt-4 flex flex-wrap items-center gap-2">
+    <button
+      type="button"
+      data-consent="accept"
+      class="rounded bg-cannon-600 px-3 py-2 text-sm font-semibold text-iron-950 hover:bg-cannon-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cannon-400"
+    >
+      {t.accept}
+    </button>
+    <button
+      type="button"
+      data-consent="reject"
+      class="rounded border border-iron-700 px-3 py-2 text-sm text-iron-200 hover:border-iron-500 hover:text-iron-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cannon-400"
+    >
+      {t.reject}
+    </button>
+    <a class="ml-auto text-xs text-cannon-400 hover:underline" href={`${base}${langPrefix}privacy/`}>
+      {t.privacy}
+    </a>
+  </div>
+</aside>
+
+<script is:inline>
+  (() => {
+    const STORAGE_KEY = 'openfront-intel-consent-v1';
+    const banner = document.querySelector('[data-consent-banner]');
+    if (!(banner instanceof HTMLElement)) return;
+
+    const getConsent = () => {
+      try {
+        return window.localStorage.getItem(STORAGE_KEY);
+      } catch {
+        return null;
+      }
+    };
+
+    const setConsent = (value) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, value);
+      } catch {
+        // The choice still applies for the current page even if storage is unavailable.
+      }
+    };
+
+    const open = () => {
+      banner.classList.remove('hidden');
+    };
+
+    const close = () => {
+      banner.classList.add('hidden');
+    };
+
+    banner.querySelector('[data-consent="accept"]')?.addEventListener('click', () => {
+      setConsent('analytics');
+      close();
+      window.dispatchEvent(new CustomEvent('openfront:analytics-consent'));
+    });
+
+    banner.querySelector('[data-consent="reject"]')?.addEventListener('click', () => {
+      setConsent('essential');
+      close();
+      window.dispatchEvent(new CustomEvent('openfront:analytics-consent-revoked'));
+    });
+
+    window.addEventListener('openfront:manage-consent', open);
+
+    if (getConsent() === null) open();
+  })();
+</script>

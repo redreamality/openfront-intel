@@ -1,0 +1,39 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+const copy = {
+  en: {
+    title: 'A reliable reading order',
+    steps: [
+      ['1 · Establish the model', 'Read Basics and Economy first: ticks, troop cap, growth, and gold are inputs to almost every later decision.'],
+      ['2 · Trace cause and effect', 'Continue with Military, Structures, and Units. Separate exact source values from rounded timing estimates and tactical judgment.'],
+      ['3 · Test a scenario', 'Use Nukes, Alliances, Trade, and Trains to work through a concrete match state, then verify version-sensitive behavior in the current client.'],
+    ],
+  },
+  fr: { title: 'Un ordre de lecture fiable', steps: [['1 · Poser le modèle', 'Commencez par Bases et Économie : ticks, plafond de troupes, croissance et or alimentent les autres décisions.'], ['2 · Suivre les effets', 'Poursuivez avec Militaire, Structures et Unités en séparant valeurs exactes, estimations et jugement tactique.'], ['3 · Tester un scénario', 'Appliquez Nucléaire, Alliances, Commerce et Trains à une situation précise, puis vérifiez les comportements sensibles à la version.']] },
+  nl: { title: 'Een betrouwbare leesvolgorde', steps: [['1 · Bouw het model', 'Begin met Basis en Economie: ticks, troepenlimiet, groei en goud voeden bijna elke latere beslissing.'], ['2 · Volg oorzaak en gevolg', 'Lees daarna Militair, Structuren en Eenheden en scheid bronwaarden van schattingen en tactisch oordeel.'], ['3 · Test een scenario', 'Pas Nukes, Allianties, Handel en Treinen toe op een concrete positie en controleer versiegevoelig gedrag in de client.']] },
+  de: { title: 'Eine verlässliche Lesereihenfolge', steps: [['1 · Modell aufbauen', 'Mit Grundlagen und Wirtschaft beginnen: Ticks, Truppenlimit, Wachstum und Gold bestimmen fast jede spätere Entscheidung.'], ['2 · Ursache und Wirkung verfolgen', 'Danach Militär, Gebäude und Einheiten lesen und Quellwerte von Schätzungen und taktischer Wertung trennen.'], ['3 · Szenario testen', 'Atomwaffen, Allianzen, Handel und Züge auf eine konkrete Lage anwenden und versionsabhängiges Verhalten im Client prüfen.']] },
+  zh: {
+    title: '建议的可靠阅读顺序',
+    steps: [
+      ['1 · 先建立模型', '从入门和经济开始：tick、人口上限、增长和金币是后续几乎所有判断的输入。'],
+      ['2 · 再追踪因果', '继续阅读军事、建筑和单位，明确区分源码精确值、近似时间换算与本站战术判断。'],
+      ['3 · 最后验证场景', '用核武、同盟、贸易和火车章节推演一组具体局面，并在当前客户端复核版本敏感行为。'],
+    ],
+  },
+} as const;
+const t = copy[lang];
+---
+
+<section class="container-wide pb-6 pt-10" aria-labelledby="mechanics-reading-order">
+  <h2 id="mechanics-reading-order" class="text-xl font-semibold text-iron-50">{t.title}</h2>
+  <div class="mt-5 grid gap-4 md:grid-cols-3">
+    {t.steps.map(([title, description]) => (
+      <section class="rounded-lg border border-iron-800 bg-iron-900/40 p-5">
+        <h3 class="text-sm font-semibold text-cannon-400">{title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-iron-300">{description}</p>
+      </section>
+    ))}
+  </div>
+</section>

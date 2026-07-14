@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import CollectionIntro from '../../../components/CollectionIntro.astro';
 import { byLang, stripLangPrefix } from '../../../i18n';
 
 const LANG = 'de';
@@ -14,6 +15,7 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' 
 
 <BaseLayout title="Strategien" description="FFA, Team, Naval, nukleare Abschreckungstaktiken und Rhythmusanalyse.">
   <PageHeader eyebrow="STRATEGIES" title="Strategien" lead="Praktische Artikel organisiert nach Modus und Spielstil, jeder basierend auf Quellcodewerten mit konkretem Timing und Entscheidungsbäumen." />
+  <CollectionIntro kind="strategy" />
   <section class="container-wide py-10">
     {all.length === 0 ? (
       <p class="text-iron-400">Noch keine Artikel, bleib dran.</p>

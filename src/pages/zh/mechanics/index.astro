@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import MechanicsGuide from '../../../components/MechanicsGuide.astro';
 
 const base = import.meta.env.BASE_URL;
 const langPrefix = 'zh/';
@@ -19,7 +20,7 @@ const sections = [
 ---
 
 <BaseLayout title="游戏机制" description="OpenFront.io 全部核心机制：从出生到核战 10 个主题系统化讲解。">
-  <PageHeader eyebrow="MECHANICS" title="游戏机制" lead="按系统拆分的 10 个章节，每章数值都来自 v24 源码。建议从「入门」与「经济」开始读。" />
+  <PageHeader eyebrow="MECHANICS" title="游戏机制" lead="按系统拆分的 10 个章节。数值示例适用于 v24 数据快照，并附来源路径；线上新版本可能已有变化。建议从「入门」与「经济」开始读。" />
   <section class="container-wide py-10">
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {sections.map((s, i) => (
@@ -34,4 +35,5 @@ const sections = [
       ))}
     </div>
   </section>
+  <MechanicsGuide />
 </BaseLayout>

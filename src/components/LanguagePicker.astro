@@ -1,47 +1,70 @@
 ---
-import { languages, getLangFromUrl, getLocalizedPath, type Lang } from '../i18n';
+import { languages, getLangFromUrl, type Lang } from '../i18n';
 
 const currentLang = getLangFromUrl(Astro.url);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const currentPath = Astro.url.pathname.replace(base, '').replace(/^\/+/, '');
-let pathWithoutLang = currentPath;
-for (const lang of Object.keys(languages)) {
-  if (currentPath.startsWith(`${lang}/`)) {
-    pathWithoutLang = currentPath.slice(lang.length + 1);
-    break;
-  }
+const languageLabels: Record<Lang, string> = {
+  en: 'Choose language',
+  fr: 'Choisir la langue',
+  nl: 'Taal kiezen',
+  de: 'Sprache wählen',
+  zh: '选择语言',
+};
+
+const pathnameWithoutBase = base && Astro.url.pathname.startsWith(`${base}/`)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+const pathParts = pathnameWithoutBase.replace(/^\/+/, '').split('/');
+
+if (pathParts[0] in languages) {
+  pathParts.shift();
+}
+
+const pathWithoutLang = pathParts.join('/');
+
+function getLanguageHref(lang: Lang) {
+  const langPrefix = lang === 'en' ? '' : `/${lang}`;
+  const contentPath = pathWithoutLang ? `/${pathWithoutLang}` : '/';
+  return `${base}${langPrefix}${contentPath}${Astro.url.search}`;
 }
 ---
 
-<div class="relative group">
+<div class="relative" data-language-picker>
   <button
     type="button"
-    class="flex items-center gap-1.5 rounded border border-iron-700 bg-iron-900/50 px-2 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400"
-    aria-haspopup="true"
+    data-language-toggle
+    class="flex h-10 items-center gap-1.5 rounded border border-iron-700 bg-iron-900/60 px-3 text-xs text-iron-300 transition-colors hover:border-cannon-600 hover:text-cannon-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cannon-500 focus-visible:ring-offset-2 focus-visible:ring-offset-iron-950"
+    aria-label={languageLabels[currentLang]}
+    aria-controls="language-menu"
     aria-expanded="false"
   >
     <span class="uppercase">{currentLang}</span>
-    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg data-language-chevron class="h-3 w-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
   </button>
-  <div class="absolute right-0 top-full z-50 mt-1 hidden min-w-[120px] rounded border border-iron-700 bg-iron-900 py-1 shadow-lg group-hover:block">
+  <div
+    id="language-menu"
+    data-language-menu
+    hidden
+    class="absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded border border-iron-700 bg-iron-900 py-1 shadow-xl"
+  >
     {Object.entries(languages).map(([code, name]) => {
-      const href = code === 'en'
-        ? `${base}/${pathWithoutLang}`
-        : `${base}/${code}/${pathWithoutLang}`;
       const isActive = code === currentLang;
       return (
         <a
-          href={href}
+          href={getLanguageHref(code as Lang)}
+          data-language-option
+          lang={code}
+          hreflang={code}
           class:list={[
-            'block px-3 py-1.5 text-sm',
+            'block px-3 py-2.5 text-sm outline-none transition-colors focus:bg-iron-800 focus:text-iron-50',
             isActive
               ? 'bg-cannon-600/20 text-cannon-400'
               : 'text-iron-300 hover:bg-iron-800 hover:text-iron-100',
           ]}
-          aria-current={isActive ? 'true' : undefined}
+          aria-current={isActive ? 'page' : undefined}
         >
           {name}
         </a>
@@ -49,3 +72,95 @@ for (const lang of Object.keys(languages)) {
     })}
   </div>
 </div>
+
+<script>
+  const picker = document.querySelector<HTMLElement>('[data-language-picker]');
+
+  if (picker && picker.dataset.languagePickerReady !== 'true') {
+    picker.dataset.languagePickerReady = 'true';
+
+    const toggle = picker.querySelector<HTMLButtonElement>('[data-language-toggle]');
+    const menu = picker.querySelector<HTMLElement>('[data-language-menu]');
+    const chevron = picker.querySelector<SVGElement>('[data-language-chevron]');
+
+    if (toggle && menu) {
+      const items = Array.from(menu.querySelectorAll<HTMLAnchorElement>('[data-language-option]'));
+      const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+      for (const item of items) {
+        item.addEventListener('click', () => {
+          const destination = new URL(item.href);
+          destination.search = window.location.search;
+          destination.hash = window.location.hash;
+          item.href = destination.toString();
+        });
+      }
+
+      const setOpen = (open: boolean, focusIndex?: number) => {
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.hidden = !open;
+        chevron?.classList.toggle('rotate-180', open);
+
+        if (open && focusIndex !== undefined) items[focusIndex]?.focus();
+      };
+
+      const closeAndFocusToggle = () => {
+        setOpen(false);
+        toggle.focus();
+      };
+
+      const openAndAnnounce = (focusIndex?: number) => {
+        setOpen(true, focusIndex);
+        window.dispatchEvent(new CustomEvent('site-menu-open', { detail: { source: 'language' } }));
+      };
+
+      toggle.addEventListener('click', () => {
+        if (isOpen()) setOpen(false);
+        else openAndAnnounce();
+      });
+
+      toggle.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          openAndAnnounce(event.key === 'ArrowDown' ? 0 : items.length - 1);
+        } else if (event.key === 'Escape' && isOpen()) {
+          event.preventDefault();
+          closeAndFocusToggle();
+        }
+      });
+
+      menu.addEventListener('keydown', (event) => {
+        const currentIndex = items.indexOf(document.activeElement as HTMLAnchorElement);
+        let nextIndex: number | undefined;
+
+        if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % items.length;
+        if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + items.length) % items.length;
+        if (event.key === 'Home') nextIndex = 0;
+        if (event.key === 'End') nextIndex = items.length - 1;
+
+        if (nextIndex !== undefined) {
+          event.preventDefault();
+          items[nextIndex]?.focus();
+        } else if (event.key === 'Escape') {
+          event.preventDefault();
+          closeAndFocusToggle();
+        }
+      });
+
+      picker.addEventListener('focusout', () => {
+        setTimeout(() => {
+          if (!picker.contains(document.activeElement)) setOpen(false);
+        }, 0);
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (isOpen() && !picker.contains(event.target as Node)) setOpen(false);
+      });
+
+      window.addEventListener('site-menu-open', (event) => {
+        const source = (event as CustomEvent<{ source?: string }>).detail?.source;
+        if (source !== 'language' && isOpen()) setOpen(false);
+      });
+    }
+  }
+</script>

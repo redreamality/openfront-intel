@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import meta from '../../data/_meta.json';
+import maps from '../../data/maps.json';
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -13,7 +14,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li>Explication systématique des mécaniques de base (spawn, économie, militaire, armes nucléaires, alliances, trains, etc.).</li>
       <li>Base de données numérique des unités / structures (synchronisée automatiquement depuis le code source).</li>
-      <li>Liste et catégories des 78 cartes.</li>
+      <li>Liste et catégories des {maps.meta.total} cartes.</li>
       <li>Stratégies tactiques et tutoriels pour débutants.</li>
       <li>Lecture des journaux de mise à jour.</li>
     </ul>
@@ -38,7 +39,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li><strong>Astro</strong> (v5) + <strong>Tailwind CSS</strong>, sortie statique pure.</li>
       <li>Collections de contenu MDX (Content Collections).</li>
-      <li>Déploiement GitHub Pages, sans serveur, sans tracking, sans publicité.</li>
+      <li>Déploiement statique via GitHub Pages ; Google Analytics n'est activé qu'après consentement et aucune publicité n'est actuellement diffusée.</li>
     </ul>
 
     <h2>Licences et avertissements</h2>
@@ -51,7 +52,7 @@ const base = import.meta.env.BASE_URL;
     </ul>
 
     <h2>Retours</h2>
-    <p>Si vous trouvez une erreur, voulez compléter un guide, ou constatez qu'une valeur ne correspond pas au jeu, n'hésitez pas à ouvrir une issue sur le dépôt source.</p>
+    <p>Si vous trouvez une erreur ou souhaitez contribuer, <a href="https://github.com/redreamality/openfront-intel/issues" target="_blank" rel="noopener">ouvrez un ticket dans le dépôt du site</a>. Consultez aussi notre <a href={`${base}fr/editorial-policy/`}>politique éditoriale</a>.</p>
 
     <p class="text-iron-500">
       <a href={`${base}fr/`}>← Retour à l'accueil</a>

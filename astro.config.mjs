@@ -22,7 +22,6 @@ export default defineConfig({
     mdx(),
     sitemap({
       changefreq: 'weekly',
-      lastmod: new Date(),
       i18n: {
         defaultLocale: 'en',
         locales: {

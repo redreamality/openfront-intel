@@ -1,11 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProvenancePanel from '../../components/ProvenancePanel.astro';
 import { useTranslations } from '../../i18n';
+import meta from '../../data/_meta.json';
+import maps from '../../data/maps.json';
 
 const lang = 'nl';
 const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL;
 const langPrefix = `${lang}/`;
+const tagline = t('site.tagline').replace('{version}', meta.upstreamVersion);
+const databaseDescription = t('home.pillar.database.desc').replace('{count}', String(maps.meta.total));
 
 const pillars = [
   {
@@ -17,7 +22,7 @@ const pillars = [
   {
     href: `${base}${langPrefix}database/`,
     title: t('home.pillar.database.title'),
-    desc: t('home.pillar.database.desc'),
+    desc: databaseDescription,
     accent: 'military',
   },
   {
@@ -42,14 +47,14 @@ const highlights = [
   { label: t('stats.allianceDuration'), value: '3000 ticks ≈ 5 min' },
   { label: t('stats.betrayalPenalty'), value: '×0.5 gedurende 300 ticks' },
   { label: t('stats.cityBonus'), value: '+250.000 / niveau' },
-  { label: t('stats.tradeShipCap'), value: '150 (v24)' },
+  { label: t('stats.tradeShipCap'), value: `150 (${meta.upstreamVersion})` },
 ];
 ---
 
 <BaseLayout title={t('site.title')} description={t('site.description')}>
   <section class="relative overflow-hidden border-b border-iron-800">
     <div class="container-wide py-20 sm:py-28">
-      <p class="tag-chip">{t('site.tagline')}</p>
+      <p class="tag-chip">{tagline}</p>
       <h1 class="mt-4 max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-iron-50">
         <span class="text-cannon-500">OpenFront</span> {t('home.hero.title')}
       </h1>
@@ -88,5 +93,13 @@ const highlights = [
         </li>
       ))}
     </ul>
+    <ProvenancePanel
+      compact
+      kind="data"
+      sources={[
+        { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
+        { label: 'Game.ts', path: 'src/core/game/Game.ts' },
+      ]}
+    />
   </section>
 </BaseLayout>

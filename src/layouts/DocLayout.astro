@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import RelatedContent from '../components/RelatedContent.astro';
+import ProvenancePanel from '../components/ProvenancePanel.astro';
 import { getLangFromUrl, useTranslations, getIntlLocale } from '../i18n';
 
 export interface Props {
@@ -16,6 +17,7 @@ export interface Props {
   headings?: Array<{ depth: number; slug: string; text: string }>;
   related?: Array<{ href: string; title: string; description?: string; date?: Date }>;
   eyebrow?: string;
+  version?: string;
 }
 const {
   title,
@@ -29,14 +31,44 @@ const {
   headings = [],
   related = [],
   eyebrow,
+  version,
 } = Astro.props as Props;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 'medium' }).format(d) : '');
+const authorCopy = {
+  en: 'Reviewed by OpenFront Intel editors',
+  fr: 'Relu par la rédaction OpenFront Intel',
+  nl: 'Beoordeeld door de OpenFront Intel-redactie',
+  de: 'Geprüft von der OpenFront-Intel-Redaktion',
+  zh: '由 OpenFront Intel 编辑组核验',
+} as const;
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate?.toISOString(),
+  dateModified: (updatedDate ?? pubDate)?.toISOString(),
+  inLanguage: getIntlLocale(lang),
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(),
+  author: {
+    '@type': 'Organization',
+    name: 'OpenFront Intel',
+    url: new URL(`${base}${langPrefix}editorial-policy/`, Astro.site ?? Astro.url).toString(),
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'OpenFront Intel',
+  },
+};
 ---
 
 <BaseLayout title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <article class="container-wide pt-12 pb-20 lg:pr-64">
     <header class="border-b border-iron-800 pb-6 mb-8">
       {eyebrow && <p class="tag-chip">{eyebrow}</p>}
@@ -47,6 +79,7 @@ const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { da
         {difficulty && <span class="tag-chip">{t('doc.difficulty')} · {difficulty}</span>}
         {pubDate && <span class="font-mono">{t('doc.pubDate')} {fmt(pubDate)}</span>}
         {updatedDate && <span class="font-mono">{t('doc.updatedDate')} {fmt(updatedDate)}</span>}
+        <a class="text-cannon-400 hover:underline" href={`${base}${langPrefix}editorial-policy/`}>{authorCopy[lang]}</a>
         {tags.length > 0 && tags.map((tag) => <span class="text-iron-500">#{tag}</span>)}
       </div>
     </header>
@@ -54,6 +87,11 @@ const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { da
     <div class="prose prose-invert max-w-none prose-headings:scroll-mt-20 prose-h2:border-b prose-h2:border-iron-800 prose-h2:pb-1 prose-h2:text-iron-50 prose-h3:text-iron-100 prose-a:text-cannon-400 prose-code:text-military-300 prose-pre:bg-iron-950 prose-pre:border prose-pre:border-iron-800">
       <slot />
     </div>
+
+    <ProvenancePanel
+      kind={collection === 'changelog' ? 'changelog' : collection === 'strategies' ? 'strategy' : 'guide'}
+      version={version}
+    />
 
     <RelatedContent items={related} />
   </article>

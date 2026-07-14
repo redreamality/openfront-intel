@@ -1,0 +1,141 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+interface Props {
+  kind: 'guide' | 'strategy';
+}
+
+const { kind } = Astro.props;
+const lang = getLangFromUrl(Astro.url) as Lang;
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+
+const copy = {
+  en: {
+    policy: 'Read the full editorial and correction policy',
+    guide: {
+      title: 'How these guides are produced',
+      lead: 'Each guide is a reproducible path through the public game interface, with version-sensitive claims tied to the data snapshot or a cited upstream source.',
+      items: [
+        ['Steps', 'Actions are ordered so readers can follow them in the client without hidden setup.'],
+        ['Evidence', 'Observed behavior and exact source-backed values are kept separate from editorial explanation.'],
+        ['Corrections', 'The client can change after the documented snapshot; reported mismatches are checked and corrected.'],
+      ],
+    },
+    strategy: {
+      title: 'How to read these strategies',
+      lead: 'Strategy articles combine source-backed facts with editorial reasoning. They are scenario analyses, not universal build orders.',
+      items: [
+        ['Facts', 'Costs, caps, timings, and rules should trace to the versioned snapshot or a cited release.'],
+        ['Inference', 'The article explains how those facts are expected to shape a match state.'],
+        ['Advice', 'Recommendations are situational and should be tested against the current client and lobby settings.'],
+      ],
+    },
+  },
+  zh: {
+    policy: '查看完整编辑与勘误政策',
+    guide: {
+      title: '这些教程如何编写',
+      lead: '每篇教程都按公开游戏界面整理成可复现步骤；涉及版本的判断会对应数据快照或明确引用的上游来源。',
+      items: [
+        ['步骤', '操作按实际执行顺序排列，读者无需隐藏前置条件即可在客户端跟做。'],
+        ['证据', '游戏内观察与源码精确值会和编辑解释分开表述。'],
+        ['勘误', '客户端可能在快照之后变化；收到不一致反馈后会重新核验并修正。'],
+      ],
+    },
+    strategy: {
+      title: '如何阅读这些策略',
+      lead: '策略文章把可核验事实与编辑推理组合起来，用于分析具体局面，而不是承诺一套永远正确的固定流程。',
+      items: [
+        ['事实', '成本、上限、时间与规则应能追溯到版本快照或所引 Release。'],
+        ['推断', '文章会说明这些事实为何可能改变某个对局状态。'],
+        ['建议', '结论受地图、模式和大厅设置影响，应在当前客户端中复核。'],
+      ],
+    },
+  },
+  fr: {
+    policy: 'Lire la politique éditoriale et de correction complète',
+    guide: {
+      title: 'Comment ces tutoriels sont produits',
+      lead: 'Chaque tutoriel suit un parcours reproductible dans l’interface publique du jeu ; les affirmations sensibles à la version renvoient au snapshot ou à une source amont citée.',
+      items: [
+        ['Étapes', 'Les actions suivent l’ordre réel afin d’être reproduites sans configuration cachée.'],
+        ['Preuves', 'Les observations et valeurs exactes sont séparées de l’explication éditoriale.'],
+        ['Corrections', 'Le client peut évoluer après le snapshot ; les écarts signalés sont revérifiés et corrigés.'],
+      ],
+    },
+    strategy: {
+      title: 'Comment lire ces stratégies',
+      lead: 'Les articles combinent faits vérifiables et raisonnement éditorial. Ce sont des analyses de situation, pas des ordres de construction universels.',
+      items: [
+        ['Faits', 'Coûts, limites, timings et règles doivent renvoyer au snapshot ou à une Release citée.'],
+        ['Inférence', 'L’article expose comment ces faits devraient influencer une situation de partie.'],
+        ['Conseil', 'Les recommandations dépendent du contexte et doivent être testées dans le client actuel.'],
+      ],
+    },
+  },
+  de: {
+    policy: 'Vollständige Redaktions- und Korrekturrichtlinie lesen',
+    guide: {
+      title: 'Wie diese Anleitungen entstehen',
+      lead: 'Jede Anleitung beschreibt einen reproduzierbaren Weg durch die öffentliche Spieloberfläche; versionsabhängige Aussagen verweisen auf den Datenstand oder eine genannte Upstream-Quelle.',
+      items: [
+        ['Schritte', 'Aktionen stehen in tatsächlicher Reihenfolge und benötigen keine versteckten Voraussetzungen.'],
+        ['Belege', 'Beobachtetes Verhalten und exakte Quellwerte bleiben von redaktioneller Erklärung getrennt.'],
+        ['Korrekturen', 'Der Client kann sich nach dem Datenstand ändern; gemeldete Abweichungen werden geprüft.'],
+      ],
+    },
+    strategy: {
+      title: 'So liest du diese Strategien',
+      lead: 'Strategieartikel verbinden belegte Fakten mit redaktioneller Schlussfolgerung. Sie analysieren Situationen und sind keine universellen Build-Orders.',
+      items: [
+        ['Fakten', 'Kosten, Limits, Zeiten und Regeln sollen auf den Datenstand oder ein genanntes Release zurückführen.'],
+        ['Folgerung', 'Der Artikel erklärt, wie diese Fakten eine Spielsituation voraussichtlich verändern.'],
+        ['Empfehlung', 'Ratschläge sind situationsabhängig und im aktuellen Client zu prüfen.'],
+      ],
+    },
+  },
+  nl: {
+    policy: 'Lees het volledige redactionele en correctiebeleid',
+    guide: {
+      title: 'Hoe deze gidsen tot stand komen',
+      lead: 'Elke gids volgt een reproduceerbaar pad door de openbare spelinterface; versiegevoelige uitspraken verwijzen naar de datasnapshot of een genoemde upstreambron.',
+      items: [
+        ['Stappen', 'Handelingen staan in echte volgorde en vereisen geen verborgen voorbereiding.'],
+        ['Bewijs', 'Waargenomen gedrag en exacte bronwaarden blijven gescheiden van redactionele uitleg.'],
+        ['Correcties', 'De client kan na de snapshot veranderen; gemelde afwijkingen worden opnieuw gecontroleerd.'],
+      ],
+    },
+    strategy: {
+      title: 'Hoe je deze strategieën leest',
+      lead: 'Strategieartikelen combineren controleerbare feiten met redactionele redenering. Het zijn scenarioanalyses, geen universele build-orders.',
+      items: [
+        ['Feiten', 'Kosten, limieten, timings en regels moeten teruggaan op de snapshot of een genoemde release.'],
+        ['Afleiding', 'Het artikel legt uit hoe die feiten een wedstrijdsituatie waarschijnlijk beïnvloeden.'],
+        ['Advies', 'Aanbevelingen zijn situationeel en moeten in de huidige client worden getoetst.'],
+      ],
+    },
+  },
+} as const;
+
+const t = copy[lang];
+const content = t[kind];
+---
+
+<section class="container-wide pt-10" data-collection-intro>
+  <div class="rounded-lg border border-iron-700 bg-iron-900/60 p-5 sm:p-6">
+    <h2 class="text-xl font-semibold text-iron-50">{content.title}</h2>
+    <p class="mt-2 max-w-4xl text-sm leading-relaxed text-iron-300">{content.lead}</p>
+    <dl class="mt-5 grid gap-4 md:grid-cols-3">
+      {content.items.map(([label, description]) => (
+        <div class="border-l-2 border-cannon-600 pl-3">
+          <dt class="text-xs font-semibold uppercase tracking-wide text-cannon-400">{label}</dt>
+          <dd class="mt-1 text-sm leading-relaxed text-iron-300">{description}</dd>
+        </div>
+      ))}
+    </dl>
+    <a class="mt-5 inline-flex text-xs font-semibold text-cannon-400 hover:text-cannon-300" href={`${base}${langPrefix}editorial-policy/`}>
+      {t.policy} →
+    </a>
+  </div>
+</section>

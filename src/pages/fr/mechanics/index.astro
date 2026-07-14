@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import MechanicsGuide from '../../../components/MechanicsGuide.astro';
 
 const base = import.meta.env.BASE_URL;
 const langPrefix = 'fr/';
@@ -19,7 +20,7 @@ const sections = [
 ---
 
 <BaseLayout title="Mécaniques du jeu" description="Toutes les mécaniques de base d'OpenFront.io : du spawn à la guerre nucléaire, 10 thèmes expliqués systématiquement.">
-  <PageHeader eyebrow="MÉCANIQUES" title="Mécaniques du jeu" lead="10 chapitres organisés par système, dont chaque valeur numérique provient du code source v24. Conseil : commencez par « Les bases » et « Économie »." />
+  <PageHeader eyebrow="MÉCANIQUES" title="Mécaniques du jeu" lead="10 chapitres organisés par système. Les exemples numériques sont limités à l’instantané v24 et aux chemins source cités ; les versions plus récentes peuvent différer. Commencez par « Les bases » et « Économie »." />
   <section class="container-wide py-10">
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {sections.map((s, i) => (
@@ -34,4 +35,5 @@ const sections = [
       ))}
     </div>
   </section>
+  <MechanicsGuide />
 </BaseLayout>

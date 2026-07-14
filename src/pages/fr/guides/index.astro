@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import CollectionIntro from '../../../components/CollectionIntro.astro';
 import { byLang, stripLangPrefix } from '../../../i18n';
 
 const LANG = 'fr';
@@ -14,6 +15,7 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('fr-FR', { dateStyle: 'medium' 
 
 <BaseLayout title="Tutoriels" description="Tutoriels OpenFront.io du débutant à l'avancé, panneau de commande, raccourcis clavier et analyse de la première partie.">
   <PageHeader eyebrow="GUIDES" title="Tutoriels" lead="De l'ouverture du jeu à votre première expansion réussie, étape par étape." />
+  <CollectionIntro kind="guide" />
   <section class="container-wide py-10">
     {all.length === 0 ? (
       <p class="text-iron-400">Aucun tutoriel pour le moment.</p>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import DatabaseGuide from '../../components/DatabaseGuide.astro';
 import meta from '../../data/_meta.json';
 import maps from '../../data/maps.json';
 import units from '../../data/units.json';
@@ -28,4 +29,5 @@ const sections = [
     </div>
     <p class="mt-10 text-xs text-iron-500 font-mono">Data updated: {meta.generatedAt} · Source {meta.source.replace(/^.*OpenFrontIO.*/, 'OpenFrontIO ' + meta.upstreamVersion)}</p>
   </section>
+  <DatabaseGuide />
 </BaseLayout>

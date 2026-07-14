@@ -16,6 +16,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, statSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -25,10 +26,29 @@ const SOURCE_DIR = resolve(ROOT, '..', 'OpenFrontIO');
 mkdirSync(OUT_DIR, { recursive: true });
 
 const HAS_SOURCE = existsSync(SOURCE_DIR);
+const SNAPSHOT_VERSION = 'v24';
+
+function readUpstreamCommit() {
+  if (!HAS_SOURCE) return null;
+  try {
+    return execFileSync('git', ['-C', SOURCE_DIR, 'rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
 const meta = {
   generatedAt: new Date().toISOString(),
   source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v24',
-  upstreamVersion: 'v24',
+  // The structured fallback model and editorial notes were validated against
+  // v24. A newer checkout does not automatically make every snapshot field a
+  // newer-version claim, so keep the version explicit and record the commit
+  // separately for reproducibility.
+  upstreamVersion: SNAPSHOT_VERSION,
+  upstreamCommit: readUpstreamCommit(),
 };
 
 // ---------------------------------------------------------------------------

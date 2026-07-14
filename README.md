@@ -3,9 +3,10 @@
 围绕开源 RTS 游戏 [OpenFront.io](https://openfront.io/) 整理的中文情报与攻略站。
 
 - **机制 10 篇** — 出生、经济、军事、建筑、单位、核武、同盟、火车、贸易、模式。
-- **数据库 4 页** — 单位 / 建筑 / 公式 / 78 张地图。
-- **战术攻略 3 篇 + 教程 2 篇** — FFA / Team / 核威慑 / 新手第一局 / 快捷键。
-- **更新日志** — v24 完整变更解读。
+- **数据库 4 页** — 单位 / 建筑 / 公式 / 地图分类与分析（数量由 extract 自动同步）。
+- **战术攻略 4 篇 + 教程 3 篇（每种语言）** — FFA / Team / 海战 / 核威慑 / 新手第一局 / 快捷键 / 水上核弹。
+- **版本笔记** — v24–v31 官方 Release 的整理与解读。
+- **发布者透明度** — 五语隐私政策、联系页与编辑政策，Analytics 仅在访客明确同意后加载。
 
 ## 技术栈
 
@@ -24,7 +25,7 @@ cd openfront-intel
 
 # 2. 装依赖与启动开发服务器
 pnpm install
-pnpm dev   # 浏览器打开 http://localhost:4321/openfront-intel/
+pnpm dev   # 浏览器打开 http://localhost:4321/
 
 # 3. 构建生产版本
 pnpm build
@@ -60,7 +61,7 @@ pnpm build              # 验证构建
    git push -u origin main
    ```
 4. Actions 自动跑 `.github/workflows/deploy.yml`：拉取 OpenFrontIO 源码 → 装包 → 构建 → 发布到 Pages。
-5. 访问 `https://<your-username>.github.io/openfront-intel/`。
+5. 项目页部署时访问 `https://<your-username>.github.io/openfront-intel/`；本仓库当前使用根路径自定义域名 `https://openfront.fyi/`。
 
 ### 自定义域名
 

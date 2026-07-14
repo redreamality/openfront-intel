@@ -11,18 +11,123 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL;
 const homeHref = lang === 'en' ? base : `${base}${lang}/`;
+
+const navigationLabels: Record<Lang, { open: string; close: string }> = {
+  en: { open: 'Open navigation', close: 'Close navigation' },
+  fr: { open: 'Ouvrir la navigation', close: 'Fermer la navigation' },
+  nl: { open: 'Navigatie openen', close: 'Navigatie sluiten' },
+  de: { open: 'Navigation öffnen', close: 'Navigation schließen' },
+  zh: { open: '打开导航', close: '关闭导航' },
+};
+
+const navigationLabel = navigationLabels[lang];
 ---
 
-<header class="sticky top-0 z-40 border-b border-iron-800 bg-iron-950/85 backdrop-blur supports-[backdrop-filter]:bg-iron-950/70">
-  <div class="container-wide flex h-14 items-center justify-between gap-6">
-    <a href={homeHref} class="flex items-center gap-2 text-sm font-semibold tracking-wide text-iron-50">
+<header
+  data-site-header
+  class="sticky top-0 z-40 border-b border-iron-800 bg-iron-950/95 backdrop-blur supports-[backdrop-filter]:bg-iron-950/85"
+>
+  <div class="container-wide flex min-h-14 items-center justify-between gap-3 py-2">
+    <a href={homeHref} class="flex min-w-0 items-center gap-2 text-sm font-semibold tracking-wide text-iron-50">
       <span class="inline-flex h-7 w-7 items-center justify-center rounded border border-cannon-600/60 bg-iron-900 text-cannon-400 font-mono">⌖</span>
       <span class="hidden sm:inline">{t('site.title')}</span>
       <span class="sm:hidden">OF Intel</span>
     </a>
-    <div class="flex items-center gap-4">
-      <Nav lang={lang} />
+    <div class="flex shrink-0 items-center gap-2 lg:gap-4">
+      <button
+        type="button"
+        data-mobile-navigation-toggle
+        data-open-label={navigationLabel.open}
+        data-close-label={navigationLabel.close}
+        class="inline-flex h-10 w-10 items-center justify-center rounded border border-iron-700 bg-iron-900/60 text-iron-200 transition-colors hover:border-cannon-600 hover:text-cannon-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cannon-500 focus-visible:ring-offset-2 focus-visible:ring-offset-iron-950 lg:hidden"
+        aria-controls="mobile-navigation"
+        aria-expanded="false"
+        aria-label={navigationLabel.open}
+      >
+        <svg data-navigation-open-icon class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg data-navigation-close-icon class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div
+        id="mobile-navigation"
+        data-mobile-navigation
+        data-desktop-navigation
+        data-open="false"
+        class="site-navigation"
+      >
+        <div class="container-wide py-3 lg:mx-0 lg:w-auto lg:max-w-none lg:px-0 lg:py-0">
+          <Nav lang={lang} />
+        </div>
+      </div>
       <LanguagePicker />
     </div>
   </div>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+
+  if (header && header.dataset.navigationReady !== 'true') {
+    header.dataset.navigationReady = 'true';
+
+    const toggle = header.querySelector<HTMLButtonElement>('[data-mobile-navigation-toggle]');
+    const menu = header.querySelector<HTMLElement>('[data-mobile-navigation]');
+    const openIcon = toggle?.querySelector<SVGElement>('[data-navigation-open-icon]');
+    const closeIcon = toggle?.querySelector<SVGElement>('[data-navigation-close-icon]');
+
+    if (toggle && menu) {
+      const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+      const setOpen = (open: boolean, restoreFocus = false) => {
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute(
+          'aria-label',
+          open ? toggle.dataset.closeLabel ?? '' : toggle.dataset.openLabel ?? '',
+        );
+        menu.dataset.open = String(open);
+        openIcon?.classList.toggle('hidden', open);
+        closeIcon?.classList.toggle('hidden', !open);
+
+        if (restoreFocus) toggle.focus();
+      };
+
+      toggle.addEventListener('click', () => {
+        const open = !isOpen();
+        setOpen(open);
+
+        if (open) {
+          window.dispatchEvent(new CustomEvent('site-menu-open', { detail: { source: 'navigation' } }));
+        }
+      });
+
+      menu.addEventListener('click', (event) => {
+        if ((event.target as Element).closest('a')) setOpen(false);
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        const target = event.target as Node;
+        if (isOpen() && !menu.contains(target) && !toggle.contains(target)) setOpen(false);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isOpen()) {
+          event.preventDefault();
+          setOpen(false, true);
+        }
+      });
+
+      window.addEventListener('site-menu-open', (event) => {
+        const source = (event as CustomEvent<{ source?: string }>).detail?.source;
+        if (source !== 'navigation' && isOpen()) setOpen(false);
+      });
+
+      const desktopQuery = window.matchMedia('(min-width: 1024px)');
+      desktopQuery.addEventListener('change', ({ matches }) => {
+        if (matches) setOpen(false);
+      });
+    }
+  }
+</script>

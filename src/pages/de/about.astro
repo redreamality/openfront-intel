@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import meta from '../../data/_meta.json';
+import maps from '../../data/maps.json';
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -13,7 +14,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li>Systematische Erklärungen der Kernmechaniken (Spawn, Wirtschaft, Militär, Atomwaffen, Bündnisse, Eisenbahn …).</li>
       <li>Datenbank für Einheiten- und Gebäudewerte (automatisch aus dem Quellcode synchronisiert).</li>
-      <li>Liste und Kategorisierung der 78 Karten.</li>
+      <li>Liste und Kategorisierung der {maps.meta.total} Karten.</li>
       <li>Taktische Guides und Tutorials für Einsteiger.</li>
       <li>Auswertung der Versions-Changelogs.</li>
     </ul>
@@ -38,7 +39,7 @@ const base = import.meta.env.BASE_URL;
     <ul>
       <li><strong>Astro</strong> (v5) + <strong>Tailwind CSS</strong>, rein statisch ausgeliefert.</li>
       <li>MDX Content Collections.</li>
-      <li>Hosting über GitHub Pages — kein Server, kein Tracking, keine Werbung.</li>
+      <li>Statisches Hosting über GitHub Pages; Google Analytics wird nur nach Einwilligung aktiviert, derzeit wird keine Werbung ausgeliefert.</li>
     </ul>
 
     <h2>Lizenz und Haftungsausschluss</h2>
@@ -51,10 +52,10 @@ const base = import.meta.env.BASE_URL;
     </ul>
 
     <h2>Feedback</h2>
-    <p>Fehler entdeckt, möchtest du einen Guide ergänzen oder stimmt ein Wert nicht mit dem Spiel überein? Gerne ein Issue im Quell-Repository eröffnen.</p>
+    <p>Fehler entdeckt oder möchtest du beitragen? <a href="https://github.com/redreamality/openfront-intel/issues" target="_blank" rel="noopener">Eröffne ein Issue im Website-Repository</a>. Quellen- und Korrekturregeln stehen in der <a href={`${base}de/editorial-policy/`}>Redaktionsrichtlinie</a>.</p>
 
     <p class="text-iron-500">
-      <a href={base}>← Zurück zur Startseite</a>
+      <a href={`${base}de/`}>← Zurück zur Startseite</a>
     </p>
   </article>
 </BaseLayout>

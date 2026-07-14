@@ -1,0 +1,74 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+const copy = {
+  en: {
+    title: 'What this database is for',
+    intro: 'Use the database to answer a specific match question, not as an unversioned dump of game files. Every number has a scope: snapshot version, unit, formula assumptions, and source path.',
+    cards: [
+      ['Compare a purchase', 'Start with Units or Structures, compare current cost formulas and build time, then check the relevant mechanics page for tactical consequences.'],
+      ['Audit a calculation', 'Use Formulas to identify variables and units. Recalculate with your current troop, level, or build count instead of treating an example as a universal result.'],
+      ['Choose a map', 'Use Maps to narrow by scale and topology. Confirm the current lobby preview because map availability and geometry can change after the stored snapshot.'],
+    ],
+    warning: 'Snapshot values can lag behind the live game. A newer changelog article does not silently update an older data row; version differences are called out rather than blended together.',
+  },
+  fr: {
+    title: 'À quoi sert cette base',
+    intro: 'Utilisez-la pour répondre à une question précise de partie, pas comme une copie sans version des fichiers du jeu. Chaque valeur possède un périmètre : version, unité, hypothèses et chemin source.',
+    cards: [
+      ['Comparer un achat', 'Commencez par Unités ou Structures, comparez formule de coût et construction, puis consultez la mécanique associée.'],
+      ['Vérifier un calcul', 'Repérez variables et unités dans Formules, puis recalculez avec vos troupes, niveau ou nombre de constructions.'],
+      ['Choisir une carte', 'Filtrez par échelle et topologie, puis confirmez dans l’aperçu du lobby actuel.'],
+    ],
+    warning: 'Les valeurs peuvent être en retard sur le jeu en ligne. Un changelog plus récent ne met pas silencieusement à jour une ligne ancienne.',
+  },
+  nl: {
+    title: 'Waarvoor deze database dient',
+    intro: 'Gebruik de database voor een concrete wedstrijdvraag, niet als een versie-loze kopie van spelbestanden. Elk getal heeft een snapshotversie, eenheid, aannames en bronpad.',
+    cards: [
+      ['Een aankoop vergelijken', 'Vergelijk bij Units of Structures de kostenformule en bouwtijd en lees daarna de relevante mechanica.'],
+      ['Een berekening controleren', 'Zoek variabelen en eenheden in Formulas en reken met uw eigen troepen, niveau of bouwaantal.'],
+      ['Een kaart kiezen', 'Filter op schaal en topologie en bevestig daarna de actuele lobbypreview.'],
+    ],
+    warning: 'Snapshotwaarden kunnen achterlopen op het live spel. Een nieuwer changelog werkt een oudere datarij niet stilzwijgend bij.',
+  },
+  de: {
+    title: 'Wofür diese Datenbank gedacht ist',
+    intro: 'Nutze sie für eine konkrete Spielfrage, nicht als versionslose Kopie von Spieldateien. Jede Zahl hat Datenstand, Einheit, Annahmen und Quellpfad.',
+    cards: [
+      ['Einen Kauf vergleichen', 'Vergleiche bei Einheiten oder Gebäuden Kostenformel und Bauzeit und lies danach die passende Mechanik.'],
+      ['Eine Rechnung prüfen', 'Bestimme in Formeln Variablen und Einheiten und rechne mit eigenen Truppen-, Level- oder Bauwerten.'],
+      ['Eine Karte wählen', 'Grenze nach Maßstab und Topologie ein und prüfe anschließend die aktuelle Lobby-Vorschau.'],
+    ],
+    warning: 'Datenstände können dem Live-Spiel hinterherlaufen. Ein neuerer Changelog aktualisiert eine ältere Datenzeile nicht stillschweigend.',
+  },
+  zh: {
+    title: '这套数据库适合解决什么问题',
+    intro: '请把数据库当作回答具体对局问题的工具，而不是没有版本的游戏文件搬运。每个数值都有适用快照、单位、计算假设和源码范围。',
+    cards: [
+      ['比较一次购买', '先在单位或建筑页比较当前成本公式和建造时间，再到对应机制页判断这笔投入会牺牲什么节奏。'],
+      ['复核一次计算', '在公式页确认变量与单位，再代入自己的部队、等级或已建数量；示例结果不是所有局面的固定答案。'],
+      ['选择一张地图', '按规模和水域拓扑缩小范围，再核对当前大厅预览，因为地图可用性和几何可能晚于本站快照。'],
+    ],
+    warning: '快照数值可能落后于线上游戏。站内出现更新版本笔记，并不会静默覆盖旧数据行；版本差异必须明确标注。',
+  },
+} as const;
+const t = copy[lang];
+---
+
+<section class="container-wide pb-4 pt-10" aria-labelledby="database-use-title">
+  <div class="rounded-lg border border-iron-800 bg-iron-900/40 p-5 sm:p-6">
+    <h2 id="database-use-title" class="text-xl font-semibold text-iron-50">{t.title}</h2>
+    <p class="mt-2 max-w-4xl text-sm leading-relaxed text-iron-300">{t.intro}</p>
+    <div class="mt-5 grid gap-4 md:grid-cols-3">
+      {t.cards.map(([title, description]) => (
+        <section class="rounded border border-iron-800 bg-iron-950/40 p-4">
+          <h3 class="text-sm font-semibold text-cannon-400">{title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-iron-300">{description}</p>
+        </section>
+      ))}
+    </div>
+    <p class="mt-5 border-l-2 border-cannon-600 pl-3 text-sm leading-relaxed text-iron-400">{t.warning}</p>
+  </div>
+</section>

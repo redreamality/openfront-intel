@@ -9,16 +9,21 @@ const meta = JSON.parse(
 ) as { upstreamVersion: string };
 
 const cases = [
-  { lang: 'en', path: '/', label: `Data from OpenFrontIO ${meta.upstreamVersion}` },
-  { lang: 'zh', path: '/zh/', label: `数据采集自 OpenFrontIO ${meta.upstreamVersion}` },
+  { lang: 'en', path: '/', label: `OpenFrontIO data snapshot ${meta.upstreamVersion}` },
+  { lang: 'zh', path: '/zh/', label: `OpenFrontIO 数据快照 ${meta.upstreamVersion}` },
 ];
 
 for (const c of cases) {
   test(`footer[${c.lang}] 显示实时上游版本且无 Astro 署名`, async ({ page }) => {
-    await page.goto(c.path);
+    await page.goto(c.path, { waitUntil: 'domcontentloaded' });
     const footer = page.locator('footer');
     await expect(footer).toContainText(c.label);
     await expect(footer).toContainText(`© ${new Date().getFullYear()}`);
     await expect(footer).not.toContainText('made with Astro');
+    await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '隐私政策' : 'Privacy' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '本站源码与问题反馈' : 'Site source & issues' })).toHaveAttribute(
+      'href',
+      'https://github.com/redreamality/openfront-intel',
+    );
   });
 }

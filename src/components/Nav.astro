@@ -29,12 +29,16 @@ function isActive(href: string) {
 ---
 
 <nav aria-label={t('nav.aria')}>
-  <ul class="flex items-center gap-3 sm:gap-5 text-sm">
+  <ul class="grid grid-cols-1 gap-1 text-sm sm:grid-cols-2 lg:flex lg:items-center lg:gap-5">
     {links.map((link) => (
       <li>
         <a
           href={link.href}
-          class:list={["nav-link", isActive(link.href) ? 'active' : '']}
+          class:list={[
+            'nav-link',
+            'nav-link-responsive',
+            isActive(link.href) ? 'active' : '',
+          ]}
           aria-current={isActive(link.href) ? 'page' : undefined}
         >
           {link.label}
