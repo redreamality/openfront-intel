@@ -6,7 +6,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 
 - node 包管理用 `pnpm`。
 - 游戏数据(`src/data/*.json`)由 `pnpm extract`(= `scripts/extract-game-data.mjs`，prebuild 阶段自动跑)从本地 `OpenFrontIO` clone 抽取，**不要手改**。
-- 推送默认私有仓库。
+- 仅在首次创建仓库时默认设为 private；向已有仓库 push 时不得改变其现有 visibility，除非用户明确要求。
 
 ## Footer 版本号必须随时更新（禁止写死）
 
