@@ -63,3 +63,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **来源面板必须区分“提取 checkout”与“编辑验证范围”**：`_meta.upstreamCommit` 记录本次 extract 使用的源码 checkout，`_meta.upstreamVersion` 仍表示编辑验证范围/内置 fallback 版本；不得暗示该 commit 就是 vXX 对应 tag。源码链接可以指向 checkout，但文案必须明确两者含义。
 - **补攻略视觉内容时不得伪造游戏截图**：优先用真实可核验截图；没有真实素材时，可基于现有数据和编辑规则制作 HTML/CSS 代码原生解释图，并为五语页面增加内容完整性 e2e。
 - **最终回归的 prebuild 会反复刷新 `_meta.json.generatedAt`**：若数据、`upstreamVersion`、`upstreamCommit` 与配置值都没变化，最终 amend 前应移除仅时间戳变化的噪声；不要手改生成 JSON，使用针对该文件的已知基线恢复，并确认首次有效 extract 的 commit/版本元数据仍保留。
+- **不要为普通 push 改变已有 GitHub 仓库的 visibility**：Public→Private→Public 切换会删除 GitHub Pages 站点配置，表现为自定义域名返回 GitHub Pages 404、仓库 `has_pages=false`、`GET /repos/{owner}/{repo}/pages` 返回 404，且 `configure-pages` 报 “Get Pages site failed”。恢复步骤是用 Pages API 以 `build_type=workflow` 重建站点、重新绑定 `openfront.fyi`、触发部署；workflow 的 `actions/configure-pages` 保持 `enablement: true`，并保留 `public/CNAME` 防止域名配置再次漂移。
