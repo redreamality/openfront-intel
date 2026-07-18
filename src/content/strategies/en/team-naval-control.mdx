@@ -2,70 +2,367 @@
 title: 'Team Mode: Naval Control Playstyle'
 description: At the 5-minute Team mode pace, Ports, Warships and Trade form a symbiotic sea-power playstyle.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [team, naval, ports]
 category: Team
 difficulty: Intermediate
 version: v24
 ---
 
-## Why the Naval Control Playstyle
+## Direct Answer
 
-Team mode's win condition is 95% territory in 5 minutes — **there is no time for a long-game nuclear war**. The core idea of the naval control playstyle:
+Naval control in Team mode is a support job with three outputs: keep friendly transport routes usable, deny enemy transports, and turn secure Ports into economy or launch points.
 
-- Use Ports to build a **trade-Gold spike** (4-5 Ports spawning Trade Ships simultaneously over a short window).
-- Use Warships to lock down the sea and **block enemy landings** on your core mainland.
-- Let your teammates focus on the ground push while you handle sea control and the economy.
+Do not measure success by Warship count. A fleet is valuable only when it protects a route, blocks a landing, screens a Port, or lets a teammate cross water.
 
-## Phase Execution
+Team mode lists a 95% territory objective with a five-minute or time-based result. Sea control must therefore convert into territory quickly instead of becoming a separate naval mini-game.
 
-### 0-60s · Claim the Coast
+Build the smallest fleet that controls the decisive water. Send the saved Gold into the Port, Defense Post, City, SAM, or teammate action that converts control into score.
 
-- Pick a spawn with the longest possible coastline.
-- Aim for 2 Ports within the first 60 seconds.
-- Spread out from your teammate — he ground-pushes, you hug the coast.
+## Prerequisite Mechanics
 
-### 60-180s · First Warship Wave
+### Team mode pressure
 
-- The 3rd Warship costs 250k × 3 = ~1.5M Gold (with scaling included).
-- Place 1 DefensePost along the coastline to deter enemy landings.
-- Start applying a <strong>permanent Embargo</strong> on every non-allied enemy player this phase.
+The mode overview describes Team as 2v2 through 8v8, with 95% in five minutes or a time-based percentage result. Early land control remains the scoreboard.
 
-### 180-300s · Sea Control and Synergy
+Your role is not to replace the ground push. It is to remove a water obstacle, protect a flank, or create a landing window that lets the team gain land faster.
 
-- Upgrade Ports to level 2-3 (the v24 cap-150 compensation matters here).
-- Form an Alliance with your teammate so his Trade Ships pass through your allied cities (35k/stop).
-- Your Ports give the whole team a landing window — teammate Transports launch from your Ports more safely.
+### Ports
 
-## Key Numbers
+A first Port costs 125,000 Gold if no Port or Factory already uses the shared counter. The formula is `min(1,000,000, 2^n × 125,000)`.
 
-| Item | Value | Meaning |
-| --- | --- | --- |
-| Warship auto-retreat | HP ≤ 750 | Don't chase low-HP ships |
-| Shell damage | 250 | 3-4 shells kill a full-HP Warship |
-| Warship priority | Transport > Warship | A single patrolling Warship butchers a landing fleet |
-| Port cap return | Upgrade > New build | Especially pronounced since v24 |
+Port and Factory share `n`. The sequence for those combined builds is 125,000, 250,000, 500,000, then 1,000,000 per new build once the cap is reached.
 
-## Weak Points of Naval Control
+Ports spawn trade ships, transports, and warships. Higher Port levels improve trade ship spawn rate and revenue.
 
-- **Isolated Ports** — a Port placed on an enclave gets one-shot by an enemy Transport landing; confirm land connectivity before building.
-- **Warships too far out** — once a Warship is more than 200 tiles from a Port, the round-trip repair time costs you sea control.
-- **Nuke + landing pincer** — a single hydrogen bomb on a coastal city collapses the whole line; field at least 1 SAM covering your Port cluster.
+Ports can be captured. A Port on a thin enclave can become enemy infrastructure if the supporting land falls.
 
-## Role Split Template With Teammates
+### Warships
 
-| Role | Task | Build Focus |
-| --- | --- | --- |
-| You (naval control) | Ports + Warships + Trade | Port × 4-6, Warship × 3-5 |
-| Teammate A (ground push) | Territory + DefensePost | City × 3-4, DefensePost × 2 |
-| Teammate B (nuclear, optional) | Silo + SAM | Silo × 2, SAM × 3 |
+A Warship starts at 250,000 Gold. Its formula is `min(1,000,000, (n+1) × 250,000)`, where `n` is the number of existing Warships.
 
-## Map Recommendations
+The listed sequence is 250,000, 500,000, 750,000, then 1,000,000. Construction duration is 50 ticks.
 
-Maps that suit this playstyle (at least two coastlines plus a strait choke point):
+A Warship has 1,000 listed health and fires 250-damage Shells. It automatically retreats at 750 health or lower.
 
-- Britannia / Italia / Mediterranean
-- Strait of Gibraltar / Strait of Malacca
-- Two Lakes / Between Two Seas
-- Bosphorus Straits
+Since v24, Warships prioritize Transport Ships and cool down immediately on a hit. That makes a correctly placed patrol especially valuable against a landing route.
 
-Avoid purely inland maps (central Africa, inland Asia).
+### Transport Ships
+
+Transport Ships have no Gold cost, but they consume the initiating player's troops. Losing a transport is therefore a troop and tempo loss even when no purchase appears in the ledger.
+
+Warships prioritize them. Do not launch a visible stream through an enemy patrol and call the losses free.
+
+### Trade Ships
+
+Trade revenue follows a distance curve: `floor((75,000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier)`.
+
+Longer routes pay more per arrival, but safety and travel time still matter. Revenue that never reaches a Port is not income.
+
+The generated economy data lists a global cap of 150 trade ships for v24. More Ports do not create infinite ships, and spawn probability changes as the ship count rises.
+
+Embargoed pairs do not spawn trade ships between each other. A coordinated trade plan needs diplomatic access as well as water.
+
+### Coastal Defense Posts
+
+A first Defense Post costs 50,000 Gold. Its 30-tile area multiplies defense magnitude by five and speed by three.
+
+It protects land, not the whole sea. Place it so a landing must fight through the zone before it can capture the Port or cut the coast.
+
+### SAM coverage
+
+If nukes are enabled, a first SAM costs 1,500,000 and needs 300 ticks to construct. It intercepts Atom and Hydrogen Bombs, not MIRV.
+
+Naval concentration can create a tempting coastal target. Add nuclear defense only when the lobby and enemy economy make that threat relevant.
+
+## Decision Framework
+
+### Step 1: find the decisive water
+
+Identify the one sea, strait, lake, or channel that changes team movement. If controlling it does not protect land or enable a landing, it may not deserve a fleet.
+
+Mark three points: the friendly Port, the enemy approach, and the landing coast. Your first Warship should serve one of those points, not wander between all three.
+
+### Step 2: choose the mission
+
+Use **escort** when friendly transports must cross. Use **interdiction** when enemy transports share a predictable lane. Use **Port defense** when the enemy can reach your naval production.
+
+Use **trade protection** only when trade already contributes enough to fund the role. A fleet built to protect hypothetical future ships delays the current territory race.
+
+### Step 3: set a fleet ceiling
+
+Price the next Warship before ordering it. The first three cost 250,000, 500,000, and 750,000, for 1,500,000 total.
+
+Ask whether the next ship controls another lane or only stacks on the first. Stop when another structure or teammate purchase creates more territory.
+
+### Step 4: secure the Port's land
+
+Keep the Port connected to the core and place a Defense Post across the likely capture route. The Port is both production and a capture risk.
+
+If the support land cannot be held, delay the upgrade or build another route. Upgrading exposed infrastructure increases the value handed to an attacker.
+
+### Step 5: agree on the conversion play
+
+Tell teammates what naval control enables: “cross this channel,” “push this coast,” or “their transports cannot land here.”
+
+Without that sentence, the fleet may win water while the team loses the timed territory objective.
+
+## Timeline and Step-by-Step Execution
+
+### During the spawn phase
+
+Choose coast only when it touches decisive water and still leaves a usable land route. A long shoreline with no team objective is not automatically a naval spawn.
+
+Check teammate positions before locking in. Avoid stacking every team member on the same coast while leaving the inland front empty.
+
+### 0:00–0:05: claim shape under immunity
+
+Use the default five-second immunity to connect the future Port area to the core and widen the land behind it.
+
+Do not spend the window tracing a decorative shoreline. Secure the land route that keeps the Port from becoming an isolated enclave.
+
+### 0:05–0:30: confirm the lane
+
+Watch enemy expansion and teammate direction. Decide whether the water will carry friendly transports, enemy transports, or neither.
+
+If neither team needs the lane, pivot to ground growth. Declining the naval role early is better than funding an irrelevant fleet.
+
+### 0:30–1:00: establish the first hub
+
+Build the first Port after the supporting coast is secure and the mission is clear. Its base cost is 125,000 when the shared Port/Factory counter is zero.
+
+Keep enough troops and Gold for the land around it. A Port does not defend its own territory.
+
+If an enemy route is already forming, queue the first Warship when 250,000 creates immediate control. If no route exists, let the Port support transport or trade first.
+
+### 1:00–2:00: patrol the objective
+
+Place the Warship where it can see the likely transport path and still return toward a Port after auto-retreat. Do not chase an enemy vessel away from the route you were assigned to protect.
+
+Add a Defense Post if a landing can capture the Port from one predictable edge. Its 30-tile zone should cover the land path, not open water.
+
+Call the first landing window. A teammate should move while the enemy patrol is absent, retreating, or occupied.
+
+### 2:00–3:00: decide whether to scale
+
+Price the second and third Warships at 500,000 and 750,000. Add them only for another lane, stronger escort, or enough overlap to hold the objective.
+
+Compare a second Port with a Factory because they share the same cost counter. Team train visits list 25,000 base revenue, while sea trade follows distance and risk.
+
+Upgrade a Port when the original site is secure and its output will be used. Do not upgrade merely because the fleet is nearby.
+
+### 3:00–5:00: convert control into territory
+
+Shift Warships toward the coast where the team will land or where the enemy must cross. The final minutes reward control that changes the territory percentage.
+
+Keep one patrol on the route if enemy transports remain possible. Send surplus Gold into the structure or teammate plan that completes the push.
+
+If nukes are enabled and coastal assets have become dense, check SAM coverage before the enemy can turn one strike into both naval and economic loss.
+
+## Number Scenarios
+
+### Scenario 1: fleet cost ladder
+
+The first Warship costs 250,000, the second 500,000, and the third 750,000. Three ships therefore cost 1,500,000 total.
+
+The fourth costs 1,000,000, taking the four-ship total to 2,500,000. Later ships stay at the 1,000,000 per-build cap.
+
+If the fourth ship only joins an already controlled lane, compare its 1,000,000 cost with a City, Port upgrade, SAM fund, or teammate need.
+
+### Scenario 2: Port and Factory ladder
+
+Across the shared counter, four new Ports or Factories cost 125,000, 250,000, 500,000, and 1,000,000. The combined total is 1,875,000.
+
+Four Ports and a mixed Port/Factory set reach the same counter. The mixed set opens train infrastructure, while the Port-heavy set emphasizes sea production and trade.
+
+Choose by route value and lobby options, not by treating every Port as an independent 125,000 purchase.
+
+### Scenario 3: listed Warship exchange
+
+A Warship lists 1,000 health and a Shell lists 250 damage. Four direct 250-damage hits equal the listed health on paper.
+
+Actual movement differs because the ship auto-retreats once health reaches 750 or lower. After the first listed-damage hit, it may already begin leaving the fight.
+
+This is why route positioning matters more than expecting two stationary ships to trade until one disappears.
+
+### Scenario 4: trade distance at 1× multiplier
+
+Using the extracted formula, distance 100 yields about 5,185 Gold per arrival. Distance 300 yields 52,500, distance 600 about 104,990, and distance 1,000 about 124,999.
+
+The long route pays more per completed arrival. It also spends longer exposed to Warships and may cross more contested water.
+
+Protect the route that produces completed trips, not the route with the largest theoretical number.
+
+### Scenario 5: Port defense budget
+
+A first Port plus first Defense Post costs 175,000 before a Warship. Add the first Warship and the package costs 425,000.
+
+That package creates a hub, one 30-tile defensive zone, and one naval unit. It does not guarantee safety against a larger fleet, a second landing lane, or nuclear attack.
+
+### Scenario 6: transport opportunity cost
+
+A Transport Ship is listed as free in Gold, but it consumes the initiator's troops. Losing several transports can drain the force needed to hold the land already captured.
+
+Escort timing should therefore consider both the landing target and the troops left behind.
+
+## Opponent Counterplay
+
+### They build their own Warship screen
+
+Do not fight everywhere. Pull the contest toward the lane your team needs, add a ship only when the cost changes control, and ask ground teammates to pressure the enemy Port's land.
+
+Capturing production can be more decisive than trading shells in open water.
+
+### They route around the patrol
+
+Warship priority matters only when the ship is near the transport path. Move the patrol to the crossing, narrow channel, or destination coast instead of guarding empty sea.
+
+Use teammate sight and calls to update the route. A fixed patrol can become irrelevant after one landing direction changes.
+
+### They attack the Port over land
+
+Keep the Port connected, put the defensive zone on the capture path, and retain troops behind the coast. Naval units cannot replace control of the tile holding their hub.
+
+### They embargo trade
+
+Embargo blocks trade ships between that pair and can reduce the value of a Port-heavy economy. Keep base income and any available Factory or train route relevant.
+
+Do not answer every embargo with another Port. The shared cost counter rises while the pool of useful partners shrinks.
+
+### They refuse to use the water
+
+If the enemy stays inland and no landing matters, your mission has ended. Stop scaling the fleet and move the budget into the ground objective.
+
+### They use nuclear pressure
+
+A Hydrogen Bomb has listed 80/100 radii and can threaten a dense coastal cluster. SAM can intercept it, but the first launcher costs 1,500,000 and takes 30 seconds to build.
+
+Spread Ports and Cities when possible, preserve another production route, and build SAM early enough if the threat is credible.
+
+### They launch many transports
+
+Warships prioritize Transport Ships, which favors a patrol on the approach. Keep the ship on the lane and avoid being lured away by a less important target.
+
+If one patrol cannot cover two crossings, ask whether a second ship or a ground defender is the cheaper answer.
+
+## Failure Modes
+
+### Building a navy without a mission
+
+“We have coast” is not a mission. Name the route, landing, Port, or transport wave the fleet will affect before buying the first ship.
+
+### Chasing a retreating Warship
+
+Ships auto-retreat at 750 health or lower. Chasing can pull your patrol away from the transport lane while the damaged ship returns toward repair.
+
+### Leaving the Port on an enclave
+
+Ports transfer with captured territory. Build enough connected land behind the coast that one landing does not immediately take the hub.
+
+### Overbuilding Ports
+
+Port and Factory costs share a doubling counter, and trade ships have a global cap. More hull access is not automatically more completed revenue.
+
+### Sending transports through a patrol
+
+Transport Ships consume troops, and Warships prioritize them. Wait for escort, another route, or a teammate action that occupies the patrol.
+
+### Ignoring the timed territory score
+
+A fleet can dominate open water while teammates lose land. Reposition toward the coast that changes territory, or stop spending on the sea.
+
+### Concentrating every asset
+
+One coastal cluster is easy to defend conventionally but can become a high-value nuclear target. Preserve another core or production route.
+
+### Keeping the plan private
+
+Teammates cannot exploit a landing window they do not know exists. State the crossing, time, and target before the fleet moves.
+
+## Mode and Map Adjustments
+
+### Ports disabled
+
+The naval control role does not exist in its normal form. Shift to ground defense, Cities, team movement, and the map's land chokepoints.
+
+### Nukes disabled
+
+Dense coastal infrastructure loses one major threat. Gold that would fund SAM coverage can stay in ships, ground defense, or the final territory push.
+
+### SAMs disabled
+
+Do not answer nuclear risk with a launcher the lobby forbids. Space critical assets and avoid making one coastal blast decide the entire role.
+
+### Water Nukes enabled
+
+Destroyed land can become water, and the v31 guide notes that inland water can support Ports, Warships, and trade. Recheck routes after every terrain-changing strike.
+
+Use [the Water Nukes guide](/guides/water-nukes/) for the option's conversion timing and recovery rules.
+
+### Strait maps
+
+Strait of Gibraltar, Strait of Malacca, Bosphorus Straits, and The Straits appear in the Regional map set. A narrow crossing can give one patrol a clear mission.
+
+Do not assume the map name proves your spawn controls the crossing. Inspect the actual team positions and navigable water.
+
+### Lake and inland-water maps
+
+Two Lakes, Great Lakes, and Between Two Seas are listed maps. Decide whether the water connects the fronts or merely divides your own expansion.
+
+### Island-heavy maps
+
+On Hawaii or Japan, transport protection can matter more often because water separates land. Keep enough troops on owned land before loading another crossing.
+
+### Continental and fantasy maps
+
+On Europe or Pangaea, a naval role may cover only one flank of a much larger land war. Scale the fleet to that flank instead of the whole map.
+
+Use the [map database](/database/maps/) to confirm map names and categories, then let the live topology define the mission.
+
+## FAQ
+
+### How many Warships should a team build?
+
+There is no fixed count. Build enough to control the decisive route, then stop when the next ship adds no new escort, interdiction, or Port defense value.
+
+### What do the first three Warships cost?
+
+They cost 250,000, 500,000, and 750,000, for 1,500,000 total. The fourth costs 1,000,000.
+
+### Do Warships prioritize transports?
+
+Yes. The extracted v24 unit notes say Warships prioritize Transport Ships and cool down immediately on a hit.
+
+### Is a Transport Ship really free?
+
+It has no Gold cost, but it consumes the sender's troops. A failed landing still costs combat power and time.
+
+### Should I build several Ports immediately?
+
+Only when each hub has a secure site and useful route. Port and Factory share a doubling cost counter, and exposed Ports can be captured.
+
+### Where should a coastal Defense Post go?
+
+Place its 30-tile zone over the land path an enemy must cross to capture the Port. It does not need to cover empty water.
+
+### Is longer-distance trade always better?
+
+It pays more per completed arrival under the formula, but longer exposure can lower completion. Compare realized trips, not only theoretical revenue.
+
+### When should I abandon naval control?
+
+Pivot when the enemy no longer uses the water, the relevant Port is lost, or another purchase converts more territory before the timer.
+
+### What should I tell teammates?
+
+Name the route, window, and objective: “cross here now,” “their transports are blocked,” or “push this Port while their fleet is away.”
+
+## Next Reading
+
+Read [unit mechanics](/mechanics/units/) for Warship, Transport, Shell, and Trade Ship interactions.
+
+Use [trade mechanics](/mechanics/trade/) for the distance curve, global cap, spawn behavior, and embargo effects.
+
+Check [structures](/mechanics/structures/) for current Port, Defense Post, City, SAM, and Silo roles.
+
+Then review [FFA opening](/strategies/ffa-opening/) for spawn shape or [nuclear deterrence](/strategies/nuclear-deterrence/) when a coastal cluster needs strategic defense.

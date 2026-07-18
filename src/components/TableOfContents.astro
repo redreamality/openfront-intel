@@ -16,16 +16,131 @@ const t = useTranslations(lang);
 ---
 
 {filtered.length > 0 && (
-  <aside class="hidden lg:block lg:fixed lg:right-6 lg:top-24 lg:w-56 max-h-[70vh] overflow-y-auto pr-2 text-sm">
-    <div class="text-xs uppercase tracking-widest text-iron-500 mb-2">{t('toc.title')}</div>
-    <nav>
-      <ul class="space-y-1.5 border-l border-iron-800 pl-3">
+  <aside
+    data-article-toc
+    data-open="false"
+    class="container-wide relative z-20 pt-6 text-sm lg:fixed lg:right-6 lg:top-24 lg:w-56 lg:max-w-none lg:p-0"
+  >
+    <div class="rounded-lg border border-iron-800 bg-iron-950/95 shadow-lg backdrop-blur lg:max-h-[70vh] lg:overflow-y-auto lg:border-0 lg:bg-transparent lg:pr-2 lg:shadow-none">
+      <button
+        type="button"
+        data-toc-toggle
+        class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left font-medium text-iron-200 hover:text-cannon-400 lg:hidden"
+        aria-expanded="false"
+        aria-controls="article-toc-nav"
+      >
+        <span>{t('toc.title')}</span>
+        <span data-toc-chevron aria-hidden="true" class="transition-transform">⌄</span>
+      </button>
+      <div class="mb-2 hidden text-xs uppercase tracking-widest text-iron-500 lg:block">{t('toc.title')}</div>
+      <nav id="article-toc-nav" data-toc-nav aria-label={t('toc.title')}>
+        <ul class="space-y-1.5 border-t border-iron-800 px-4 py-3 lg:border-l lg:border-t-0 lg:px-0 lg:py-0 lg:pl-3">
         {filtered.map((h) => (
           <li class:list={[h.depth === 3 && 'pl-3', h.depth === 4 && 'pl-6']}>
-            <a class="block text-iron-400 hover:text-cannon-400 leading-snug" href={`#${h.slug}`}>{h.text}</a>
+            <a
+              data-toc-link
+              class="block leading-snug text-iron-400 transition-colors hover:text-cannon-400 aria-[current=location]:font-medium aria-[current=location]:text-cannon-400"
+              href={`#${h.slug}`}
+            >{h.text}</a>
           </li>
         ))}
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    </div>
   </aside>
 )}
+
+<script is:inline>
+  (() => {
+    const init = () => {
+      const toc = document.querySelector('[data-article-toc]');
+      if (!(toc instanceof HTMLElement)) return;
+    const toggle = toc.querySelector('[data-toc-toggle]');
+    const nav = toc.querySelector('[data-toc-nav]');
+    const chevron = toc.querySelector('[data-toc-chevron]');
+    const links = [...toc.querySelectorAll('[data-toc-link]')];
+    if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    let mobileOpen = false;
+    const sync = () => {
+      const open = desktop.matches || mobileOpen;
+      toc.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      chevron?.classList.toggle('rotate-180', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      mobileOpen = !mobileOpen;
+      sync();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || desktop.matches || !mobileOpen) return;
+      mobileOpen = false;
+      sync();
+      toggle.focus();
+    });
+    links.forEach((link) => link.addEventListener('click', () => {
+      if (!desktop.matches) {
+        mobileOpen = false;
+        sync();
+      }
+    }));
+    desktop.addEventListener('change', sync);
+    sync();
+
+    const headings = links
+      .map((link) => {
+        const hash = link instanceof HTMLAnchorElement ? link.hash.slice(1) : '';
+        return hash ? document.getElementById(decodeURIComponent(hash)) : null;
+      })
+      .filter((heading) => heading instanceof HTMLElement);
+    const byId = new Map(links.map((link) => [
+      link instanceof HTMLAnchorElement ? decodeURIComponent(link.hash.slice(1)) : '',
+      link,
+    ]));
+    const setActive = (id) => {
+      links.forEach((link) => link.removeAttribute('aria-current'));
+      byId.get(id)?.setAttribute('aria-current', 'location');
+    };
+    const activateHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      if (!id || !byId.has(id)) return false;
+      setActive(id);
+      return true;
+    };
+    if (!activateHash() && headings[0]) setActive(headings[0].id);
+    window.addEventListener('hashchange', activateHash);
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]?.target instanceof HTMLElement) setActive(visible[0].target.id);
+    }, { rootMargin: '-18% 0px -68% 0px', threshold: [0, 1] });
+      headings.forEach((heading) => observer.observe(heading));
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  [data-article-toc] [data-toc-nav] {
+    display: none;
+  }
+
+  [data-article-toc][data-open='true'] [data-toc-nav] {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    [data-article-toc] [data-toc-nav] {
+      display: block;
+    }
+  }
+</style>

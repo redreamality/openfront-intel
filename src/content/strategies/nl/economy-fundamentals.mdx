@@ -1,111 +1,377 @@
 ---
 title: Economie-fundamenten — Waarom je de geldrace verliest
-description: Verdedigingsposten, bouwvolgorde, handelsschepen vs treinen — de eerste 5 minuten die bepalen of je sneller bouwt dan de AI of een nuke incasseert.
+description: Verdedigingsposten, bouwvolgorde, handelsschepen en treinen voor een opening die groei en overleving in balans houdt.
 pubDate: 2026-05-23
+updatedDate: 2026-07-16
 tags: [economy, opening, beginner, trade]
 category: Vroege fase
 difficulty: Beginner
 version: v24
 ---
 
-## De mentaliteitsomslag
+## Direct antwoord: stop met de economierace verliezen
 
-OpenFront wordt niet gewonnen door wie het meeste verovert — het wordt gewonnen door **wiens economiecurve het steilst is**. Als je opening leest als "bot bestrijden → terrein pakken → bot bestrijden", stapelt de AI in stilte Gold op en zie je rond minuut 5 een Atom Bomb op je hoofdstad inslaan.
+Behandel niet ieder beschikbaar Gold als aanvalsgeld. Stabiliseer de gevaarlijke grens, verhoog troepencapaciteit en koop daarna een inkomstenroute die bij lobby en kaart past.
 
-Wissel je doel van *expansie* naar *infrastructuur*. De rest van deze pagina is de bouwvolgorde, de wiskunde en de valkuilen.
+De goede opening is geen vaste build order. Het is een reeks vragen: houdt de grens, remt de cap groei, is de kust veilig, zijn treinen actief en zijn nukes toegestaan?
 
-## Waarom "de vijand op 20% HP houden" een verlies is
+Een Verdedigingspost maakt één front goedkoper. Een Stad voegt 250.000 cap per niveau toe. Havens maken zeehandel; Fabrieken maken treinen in ondersteunde lobby's.
 
-Frontale verdediging is netto-negatief zonder gebouwen:
+De eerste Haven of Fabriek kost 125.000. Ze delen de teller, dus de tweede kost 250.000, de derde 500.000 en latere bouw bereikt 1.000.000.
 
-- Terrein-`mag` is slechts 80 / 100 / 120 (Vlakte / Hoogland / Berg)
-- Een **Defense Post** vermenigvuldigt `mag ×5` en `speed ×3` binnen 30 tiles
-- Zonder Defense Post aan je grens betekent 18% inruilen tegen 20% dat jullie allebei terrein verloren — de AI vult sneller aan, want hij betaalt niet de kosten van het verlies
+Kopieer niet blind “Silo plus SAM exact op minuut vijf”. Kerntiming hangt af van inkomen, handel, land, moeilijkheid en lobbyvermenigvuldigers.
 
-Met 50.000 Gold is de Defense Post het **gebouw met de hoogste ROI van het spel**. Plaats er 2-3 op je frontlinie voordat je iets anders doet.
+Gebruik minuut vijf als controlemoment. Zijn nukes actief en kunnen rivalen ze betalen, dan worden Silo en een beschermde kern urgent. Zijn ze uit, besteed elders.
 
-## De nuke-klok van de AI
+## De vier middelen achter een sterke economie
 
-Waarom iemand "al" nukes had terwijl jij nog maar net een Factory had veroverd:
+Gold is zichtbaar, maar vier verbonden middelen bepalen succes: Gold-stroom, troepencapaciteit, veilig land en aandacht.
 
-```
-Basis-Gold:    Speler 100/tick, Bot 50/tick, Easy Nation × 0,5
-Missile Silo:  1.000.000 Gold (100 ticks bouwtijd)
-Atom Bomb:     750.000 Gold (vast)
-```
+De **Gold-stroom** betaalt structuren, upgrades, oorlogsschepen en kernwapens. Basisinkomen is betrouwbaar maar klein naast een werkend handelsnetwerk.
 
-Een Easy AI bereikt 1,75M Gold in ongeveer 5-7 echte minuten. **5 minuten is de afschrikkings-deadline.** Mis je hem, dan eet je bommen voordat je een SAM hebt aangelegd.
+De **troepencapaciteit** bepaalt hoeveel militaire kracht je bewaart. Ieder Stad-niveau voegt 250.000 toe boven op de landformule.
 
-## Standaard bouwvolgorde (eerste 5 minuten)
+**Veilig land** geeft structuren en routes ruimte. Een goedkoop gebouw dat wordt veroverd is niet goedkoop; het wordt waarde voor de tegenstander.
 
-| Tijd | Actie | Kosten | Waarom |
-|---|---|---|---|
-| 0:00-1:00 | Pak een small bot, sprint naar de kust | — | Tiles verhogen je bevolkingsplafond |
-| 1:00-2:00 | 2-3 Defense Posts aan de grens + 1 Port + 1 Factory | 150k + 125k + 125k | Front op slot, twee inkomstenstromen openen |
-| 2:00-4:00 | City / Port / Factory upgraden naar niveau 2 | 250k elk | Elk niveau verdubbelt de output |
-| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1,5M | Zelfs zonder Atom Bomb is **de SAM alleen al afschrikking** — bot-nukes wijken uit voor zijn 70-tile schijf |
+**Aandacht** wordt vaak vergeten. Iedere blootgestelde Haven, spoorlijn en grens vraagt bewaking. Een klein beschermd netwerk verslaat vaak een groter netwerk dat je niet kunt volgen.
 
-## Waarom je handelsschepen werden weggevaagd
+De beste opening zet Gold om in een systeem dat meer opties maakt zonder te veel zwakke punten te openen.
 
-Drie factoren stapelen:
+## Kerngegevens
 
-1. **Handelsschepen pendelen tussen Ports.** Met maar één Port varen ze naar de Ports van *andere spelers*, inclusief AI waarmee je niet in oorlog bent.
-2. **Routes door vijandelijk water = dode routes.** Sinds v24 **richten Warships zich prioritair op Transport en Trade ships** en koelen direct na een treffer af — één enkel vijandelijk Warship tussen jou en de doel-Port doodt de hele stroom.
-3. **Binnenland-Ports verliezen geld.** Een Port diep in je gebied dwingt schepen om te varen door meer betwist water.
+| Onderdeel | Basis- of eerste kosten | Economische rol | Belangrijkste beperking |
+| --- | ---: | --- | --- |
+| Stad | 125.000 | +250.000 cap per niveau; treinstation | Beschermen tegen verovering |
+| Haven | 125.000 bij `n = 0` | Handelsschepen en zeevaart | Teller gedeeld met Fabriek |
+| Fabriek | 125.000 bij `n = 0` | Treinen en spoorlijnen | Treinen zijn modusafhankelijk |
+| Verdedigingspost | 50.000 eerste | Verlaagt kosten van een front | Prijs stijgt met aantal |
+| Raketsilo | 1.000.000 | Maakt kernlanceringen mogelijk | Offensief, geen inkomen |
+| SAM-lanceerinstallatie | 1.500.000 eerste | Beschermt tegen Atoom en Waterstof | Bouwtijd 300 ticks |
 
-```
-Inkomsten per handelsschip:
-floor( (75.000 / (1 + e^(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier )
-```
+De Haven- en Fabriekformule is `min(1.000.000, 2^n × 125.000)`, waarbij `n` beide bestaande soorten samen telt.
 
-Afstand < 300 verdient alleen het minimum (~50 × dist). Lange routes betalen meer maar sterven sneller — dat is de tradeoff.
+De gedeelde teller wordt vaak gemist. Een Haven gevolgd door een Fabriek kost 125.000 plus 250.000, niet tweemaal 125.000.
 
-## Trein-economie: het veiligere geld
+Posten volgen `min(250.000, (n+1) × 50.000)`. De reeks is 50.000, 100.000, 150.000, 200.000 en daarna steeds 250.000.
 
-In v24 hebben **singleplayer en privélobbies Treinen.** Factories genereren ze, ze rijden via rails tussen je Cities en Factories, en **Warships kunnen ze niet raken.**
+## Waarom verdediging een economische investering is
 
-```
-Trein-inkomsten per levering:
-bondgenoot = 35.000  ·  team = 25.000  ·  zelf = 10.000
-− 5.000 × max(0, citiesVisited − 9)
-minimum 5.000
+Terrein heeft `mag` 80 op vlakte, 100 op hoogland en 120 op bergen. Een Post vermenigvuldigt `mag ×5` en `speed ×3` binnen 30 tiles.
 
-Spawn-rate: (factories + 10) × 15 ticks
-```
+Dat voegt geen Gold toe. Het verlaagt de troepen, aandacht en vervanging die nodig zijn om dezelfde grens te houden.
 
-Eigen lussen leveren maar 10k per rit, maar je hebt 100% controle over de lijn. **3 Factories in lus door 5 Cities = een inkomstenstroom die geen vijand kan onderscheppen.**
+Plaats een Post waar de zone een echte route dekt. Een goedkoop gebouw diep in de kern is economisch nutteloos als het betwiste front buiten bereik blijft.
 
-## Prioriteitenspiekbriefje
+Dek niet iedere grens tegelijk. De vijfde Post kost vijfmaal de eerste. Bescherm knelpunten die anders herhaalde verliezen veroorzaken.
 
-| Prioriteit | Koop | Kosten | Waarom |
-|---|---|---|---|
-| ★★★ | 3-4 Defense Posts aan de grens | 50k elk | Mag ×5, enige manier waarop frontale verdediging quitte speelt |
-| ★★★ | 1 Port + 1 Factory in je kern | 125k elk (n gedeeld) | Twee parallelle inkomstenstromen |
-| ★★ | Port / Factory / City upgraden naar L2-L3 | 250k → 500k → 1M | Elk niveau verdubbelt de output |
-| ★★ | 1 Missile Silo + 1 SAM vóór 5:00 | 1M + 1,5M | Bot-nukes wijken uit voor SAMs — verzekering |
-| ★ | Meer Factories voor trein-lussen | tot 1M elk | Inkomsten immuun voor Warships |
+Een blootgesteld economisch gebouw loopt ook veroveringsrisico. Een Post helpt alleen wanneer zijn zone de waarschijnlijke aanval op Haven of spoor bereikt.
 
-## Klassieke fouten
+## Gold-inkomen en populatiewiskunde
 
-- **Een tweede Port bouwen vóór een Factory.** Port-kosten schalen via `n = ports + factories`, dus 2 Ports kosten evenveel als een Port + een Factory — maar de Factory geeft je Treinen die niet kunnen zinken.
-- **Naakte Port op een kustpunt.** Mooi voor handelsroutes, maar het eerste passerende Warship maakt er een verlies van 125k van. Plaats een Defense Post naast kust-Ports.
-- **Wachten op "genoeg Gold" voor een SAM.** De SAM is de *voorwaarde* om veilig Gold op te bouwen. Bot-nukes richten zich op onbeschermde kern-tiles.
-- **Atom Bombs spammen.** Voor 750k per stuk veegt één niveau 3 SAM de hele salvo weg. Het echte kernwapen is de Hydrogen Bomb (5M).
+Menselijke spelers ontvangen 100 Gold per tick. Bots krijgen 50 per tick, vermenigvuldigd met de Gold-instelling van de lobby.
 
-## Beslisboom
+Bij de 10 ticks per seconde uit de tijdreferenties is het menselijke basisinkomen ongeveer 60.000 per minuut vóór handel.
 
-```
-Wordt je grens gedekt door ≥ 2 Defense Posts?
-├─ Nee → Bouw die eerst. Niets anders is belangrijk.
-└─ Ja → Heb je zowel een Port als een Factory?
-    ├─ Nee → Bouw de ontbrekende (125k)
-    └─ Ja → Voorbij 4:00?
-        ├─ Nee → Gebouwen upgraden naar L2
-        └─ Ja → Heb je een SAM geplaatst?
-            ├─ Nee → Direct Silo + SAM, ook zonder Atom Bomb
-            └─ Ja → Verzamel tot 5M Gold → Hydrogen Bomb
+Die basis kan niet ieder vroeg idee betalen. Eén Stad kost zonder ander inkomen of startkapitaal iets meer dan twee minuten basisinkomen.
+
+De populatiecap is niet simpelweg evenredig met land. De formule combineert afnemende opbrengst van tiles met `Stad-niveau × 250.000`.
+
+Troepengroei vertraagt ook wanneer huidige troepen de cap naderen. Een Stad herstelt groeiruimte als de cap, en niet Gold, expansie beperkt.
+
+Lees Gold en populatie samen. Een rijke speler met lage cap kan de kracht niet opslaan; een hoge cap zonder inkomen kan de structuren niet beschermen.
+
+## Kies de juiste inkomstenmotor
+
+### Gebruik Havens bij een waardevolle, verdedigbare route
+
+Handelsschepen betalen Gold bij aankomst. Opbrengst stijgt met afstand via een sigmoïde plus een lineaire afstandsterm.
+
+De formule is:
+
+```text
+floor((75.000 / (1 + exp(-0,03 × (afstand - 300)))
+      + 50 × afstand) × goldMultiplier)
 ```
 
-## Eénregelige samenvatting
+Lange routes betalen meer per aankomst, maar stellen schepen bloot aan meer water en tegenstanders. Afstand helpt alleen als de reis wordt voltooid.
 
-**Vóór minuut 5 speel je een economisch spel. Na minuut 5 een nucleair spel. Sla je de eerste fase over, dan kom je niet aan de tweede toe.**
+Handelsschepen hebben sinds v24 een wereldwijde cap van 150. Dicht bij die cap garanderen extra Havens geen evenredige vlootgroei.
+
+Gebruik een Haven bij een geldige kust of binnenwater, een route die de moeite waard is en genoeg controle om de stroom levend te houden.
+
+### Gebruik Fabrieken wanneer treinen beschikbaar zijn
+
+Treinen zijn gedocumenteerd voor singleplayer en privélobby's. Een Fabriek, Steden en spoorverbindingen vormen een handelsnetwerk over land.
+
+Een bezoek betaalt 35.000 bij een bondgenoot, 25.000 bij een teamgenoot of 10.000 bij je eigen Stad vóór de straf voor lange routes.
+
+Na negen bezoeken trekt de formule 5.000 per extra bezoek af, met 5.000 als bodem. Meer haltes zijn niet automatisch beter.
+
+Oorlogsschepen kunnen treinen niet zinken, maar stations en rails hangen van veilig land af. Leid ze door de kern, niet langs het actieve front.
+
+Gebruik een Fabriek als de modus treinen ondersteunt, nuttige Steden verbonden kunnen worden en de gedeelde teller nog een redelijke investering geeft.
+
+### Gebruik Steden wanneer capaciteit knelt
+
+Een Stad is geen directe Gold-bron zoals een aankomend schip. De vaste capverhoging maakt militaire en groeiruimte.
+
+Steden zijn ook stations. In een treinlobby kan één Stad dus zowel populatie als spoorhandel ondersteunen.
+
+Bouw of upgrade wanneer troepen de cap naderen, de volgende aanval meer reserve vraagt of het spoor een beschermd station nodig heeft.
+
+### Gebruik verdediging wanneer inkomen via gevechten weglekt
+
+Volgt ieder Gold-gain door verliezen, veroverde gebouwen of onderbroken routes, dan heb je een veiligheidsprobleem en geen inkomensprobleem.
+
+Betaal de Post, het schip, de SAM of de positie die het lek stopt. Een kleiner beschermd netwerk kan groeien; een groter blootgesteld netwerk reset steeds.
+
+## Flexibel openingsplan
+
+De tijden zijn controlemomenten, geen garanties. Start-Gold, kaartgrootte, buren, modus en multipliers verschuiven iedere aankoop.
+
+### Stap 1: claim een compacte bruikbare basis
+
+Breid genoeg uit voor een kern, één verdedigbaar front en een kust- of spoorplan. Maak geen dunne corridor alleen om alle functies tegelijk aan te raken.
+
+Vergelijk huidige troepen met maximum. Is er nog groeiruimte, koop dan niet alleen omdat een knop betaalbaar wordt.
+
+### Stap 2: vind de dure grens
+
+Zoek het front dat waarschijnlijk troepen verbruikt. Terrein, vijandelijke richting en knelpunten tellen meer dan gelijkmatige spreiding.
+
+Plaats de eerste Post alleen als zijn zone van 30 tiles de route raakt. De eerste 50.000 heeft veel hefboom op de juiste plek.
+
+### Stap 3: koop het eerste capaciteitsknooppunt
+
+Een eerste Stad kost 125.000 en voegt 250.000 cap per niveau toe. Plaats hem waar een plotselinge aanval hem niet direct verovert.
+
+Beperkt de cap nog niets, stel de Stad dan kort uit voor kritieke verdediging of toegang. Weet altijd welk probleem de aankoop oplost.
+
+### Stap 4: kies eerst Haven of Fabriek
+
+Kies de Haven bij een veilige kust en goede routes. Kies de Fabriek als treinen actief zijn en de landkern betrouwbaarder is dan de zee.
+
+Onthoud de gedeelde teller. Het tweede knooppunt kost 250.000 en de derde Haven- of Fabriekaankoop kost 500.000.
+
+### Stap 5: bescherm de route vóór uitbreiding
+
+Bekijk waar schepen varen of rails moeten lopen. Bescherm het kwetsbare deel voordat je een extra inkomensknooppunt koopt.
+
+Op zee kan dat een betere Haven of zeemacht betekenen. Houd op land stations en verbindingen weg van grenzen die gemakkelijk worden afgesneden.
+
+### Stap 6: controleer nucleaire blootstelling
+
+Zijn nukes actief, bekijk dan rivaliserende infrastructuur en de dichtheid van je kern. Een Silo kost 1.000.000 en de eerste SAM 1.500.000.
+
+Een SAM vraagt 300 ticks, ongeveer 30 seconden. Wachten tot het projectiel al onderweg is, is te laat.
+
+Zijn nukes uit, koop dan niet uit gewoonte Silo of SAM. Verplaats het pakket van 2.500.000 naar capaciteit, handel, zeemacht of gewone verdediging.
+
+### Stap 7: meet vóór je upgradet of toevoegt
+
+Voeg een Stad toe als populatieruimte knelt. Vergroot handel als routes werken en beschermd zijn.
+
+Voeg verdediging toe als verlies of verovering het netwerk bedreigt. Spaar wanneer de volgende nuttige mogelijkheid een grote vaste prijs heeft.
+
+Koop niet van alles één. Twee samenhangende beschermde systemen zijn sterker dan vijf losse structuren zonder gedeeld doel.
+
+## Economie-audit op minuut vijf
+
+Stel op minuut vijf zes vragen. De klok is een analysemoment, geen bewijs dat iedere tegenstander al een nuke kan lanceren.
+
+1. Dekt een nuttige Post het hoofdfront?
+2. Naderen huidige troepen de maximumcap?
+3. Voltooit de eerste handelsroute echt reizen?
+4. Zijn treinen actief en is het spoor beschermd?
+5. Zijn nukes actief en heeft iemand een Silo?
+6. Welke ene aankoop verwijdert de huidige bottleneck?
+
+Kun je de laatste vraag niet beantwoorden, houd Gold dan even vast. Een reserve bewaart meer opties dan een blootgesteld gebouw zonder plan.
+
+## Cijfervoorbeelden
+
+### Kostenreeks van Haven en Fabriek
+
+Zonder Haven of Fabriek kost de eerste 125.000. Het tweede gedeelde knooppunt kost 250.000 en het derde 500.000.
+
+Een Haven, Fabriek en tweede Haven kosten samen 875.000. De eerste twee omdraaien verandert het totaal niet door de gedeelde teller.
+
+De volgorde blijft strategisch. De eerste 125.000 opent zeehandel of treinen, dus kies wat de kaart nu kan ondersteunen.
+
+### Kostenreeks van Verdedigingsposten
+
+De eerste vier kosten 50.000, 100.000, 150.000 en 200.000. Samen is dat 500.000.
+
+De vijfde kost 250.000 en brengt het totaal op 750.000. Iedere latere Post kost onder de cap ook 250.000.
+
+Twee goed geplaatste Posten kunnen goedkoop zijn, terwijl iedere rustige grens bedekken snel duur wordt.
+
+### Voorbeelden van handelsafstand
+
+Bij afstand 100 en multiplier 1 geeft de formule ongeveer 5.185 Gold per aankomst. Bij 300 is dat 52.500.
+
+Bij 600 is het ongeveer 104.991 en bij 1.000 ongeveer 125.000.
+
+De lange route betaalt veel meer, maar biedt ook veel meer water waarin vijandelijke oorlogsschepen of onderbrekingen tellen.
+
+### Voorbeelden van treinbezoeken
+
+Vijf bezoeken aan eigen Steden betalen `5 × 10.000`, dus 50.000 vóór routebeperkingen. Vijf bezoeken aan bondgenoten betalen `5 × 35.000`, dus 175.000.
+
+Relatie en netwerkontwerp tellen. Een lange lus met eigen haltes kan minder verdienen dan een kortere beschermde bondgenotenlus.
+
+Pas boven negen bezoeken de straf van 5.000 per extra bezoek toe. Verleng een route niet alleen om de kaart voller te maken.
+
+### Nucleaire opportunity cost
+
+Eén Silo en de eerste SAM kosten 2.500.000 vóór het wapen. Met een Atoombom is het totaal 3.250.000.
+
+Met Waterstof wordt dat 7.500.000. Dat Gold kan niet tegelijk Steden, Havens, Fabrieken, schepen of extra Posten betalen.
+
+Nucleaire paraatheid is dus een economische tak. Kies haar wanneer dreiging of aanval de vertraging van andere groeisystemen rechtvaardigt.
+
+## Veelgemaakte fouten
+
+### Op iedere grens vechten
+
+Herhaalde frontale aanvallen verbruiken troepen en aandacht terwijl beschermde systemen van de tegenstander blijven werken.
+
+Kies het front met het beste terrein of doel. Maak andere routes met Posten duur voor de vijand.
+
+### Twee Havens kopen zonder de eerste route te controleren
+
+Het tweede Haven- of Fabriekknooppunt kost 250.000. Sterven de schepen van de eerste al, dan lost een tweede investering de oorzaak niet op.
+
+Controleer route, vijandelijk water en bestemming. Bescherming of een Fabriek kan de betere tweede aankoop zijn.
+
+### Aannemen dat de eerste Fabriek altijd 125.000 kost
+
+Dat geldt alleen als er nog geen Haven of Fabriek bestaat. Na één gedeeld knooppunt kost de volgende 250.000.
+
+Budgetteer met de formule en niet alleen met de basisprijs op één databaseregel.
+
+### Treinen bouwen in een verkeerde lobby
+
+De v24-referentie beperkt treinen tot singleplayer en privélobby's. Controleer beschikbaarheid vóór je de opening rond een Fabriek bouwt.
+
+De Fabriek gebruikt wel de gedeelde teller als het treinplan niet werkt zoals verwacht.
+
+### De langste zeeroute kiezen zonder controle
+
+Afstand verhoogt Gold per aankomst, niet de overlevingskans. Een winstgevende formule compenseert geen route die voortdurend schepen verliest.
+
+Verkort de route, bescherm haar of verplaats de volgende investering naar veiliger land.
+
+### Ieder gebouw in één kern stoppen
+
+Compacte infrastructuur is conventioneel eenvoudig te verdedigen maar vormt één groot kerndoel. Waterstof heeft outer 100.
+
+Spreid functies zodat één inslag niet de hele economie verwijdert, terwijl ieder knooppunt binnen verdedigbaar land blijft.
+
+### Sparen voor een wapen terwijl het front instort
+
+Gespaard Gold bewaart opties zolang de staat overleeft. Als een Post van 50.000 de kern redt, kan niet uitgeven het hele spaarplan vernietigen.
+
+Koop de kleinste ingreep die de economie in leven houdt en begin daarna opnieuw met sparen.
+
+### Een SAM als inkomen behandelen
+
+SAM beschermt waarde maar genereert geen Gold. Bouw hem wanneer kernblootstelling de kern bedreigt, niet omdat een klok een bekend getal bereikt.
+
+In een lobby zonder nukes heeft hetzelfde Gold geen antinucleair rendement en hoort het elders.
+
+### Cap verhogen zonder hem te gebruiken
+
+Ieder Stad-niveau voegt 250.000 toe, maar ongebruikte ruimte is niet automatisch voordeel. Koop capaciteit wanneer groei of leger haar nodig heeft.
+
+Blijven huidige troepen ver onder de cap, dan kan routeveiligheid of Gold-productie de echte bottleneck zijn.
+
+## Tegenmaatregelen en aanpassingen
+
+### Wanneer de zee vijandig wordt
+
+Voeg geen blootgestelde Havens meer toe. Bescherm de nuttige route met zeemacht, kies een veiliger positie of stap over op Fabrieken als treinen beschikbaar zijn.
+
+Behoud een Haven die nog winstgevende reizen voltooit. De aanpassing gaat over het volgende Gold, niet over het wissen van iedere eerdere keuze.
+
+### Wanneer er geen bruikbare kust is
+
+Bouw een compacte kern van Steden en verdediging. Gebruik in treinmodi een Fabriek en beschermd landnetwerk in plaats van een zwakke kustcorridor.
+
+Zijn treinen uit, accepteer dan dat basisinkomen en land belangrijker blijven tot een veilige kust of veroverde Haven beschikbaar komt.
+
+### Wanneer een tegenstander rusht
+
+Stel het volgende inkomensknooppunt uit. Plaats de goedkoopste effectieve verdediging, verlaag onnodige aanvallen en bescherm bestaande structuren.
+
+Hervat het routeplan zodra het front stabiel is. Een onderbroken opening herstelt; een veroverde kern veel moeilijker.
+
+### Wanneer een tegenstander voor nukes spaart
+
+Spreid belangrijke gebouwen, start SAM vóór het projectiel verschijnt en zet niet alle capaciteit en handel in één doelgebied.
+
+SAM onderschept Atoom en Waterstof, niet MIRV. Economische veerkracht vraagt meer dan één beschermd punt.
+
+### Wanneer nukes zijn uitgeschakeld
+
+Verwijder Silo-, SAM- en wapenkosten uit het plan. Het vrije Gold kan naar Steden, gewone verdediging, handel, treinen of zeemacht.
+
+Volg geen nucleaire build order in een lobby die de hele tak verwijdert.
+
+### Wanneer handelsschepen de wereldcap naderen
+
+Bij de v24-cap van 150 krijgen extra Havens steeds minder nieuwe schepen. Verbeter waarde en veiligheid van bestaande routes vóór een nieuw knooppunt.
+
+De cap is wereldwijd, dus schepen van anderen tellen mee. Een stille lokale Haven bewijst niet dat onbeperkte spawning mogelijk is.
+
+## FAQ
+
+### Wat bouw ik als eerste?
+
+Bouw wat de huidige bottleneck verwijdert. Een Stad is sterk als cap knelt; een eerste Post is sterk als één grens de opening leegtrekt.
+
+### Moet het eerste handelsknooppunt een Haven of Fabriek zijn?
+
+Kies Haven voor een veilige waardevolle waterroute. Kies Fabriek als treinen actief zijn en een beschermd Stad-netwerk betrouwbaarder is.
+
+### Waarom kost mijn Fabriek 250.000?
+
+Havens en Fabrieken delen dezelfde teller. Bestaat er al één, dan gebruikt de volgende `n = 1` en kost hij 250.000.
+
+### Hoeveel Verdedigingsposten moet ik bouwen?
+
+Bouw genoeg voor echte routes, niet een vast aantal. De prijs stijgt van 50.000 naar 250.000, dus plaatsingskwaliteit is belangrijker dan volledige dekking.
+
+### Zijn lange handelsroutes altijd beter?
+
+Ze betalen meer per geslaagde aankomst, maar stellen schepen langer bloot. Opbrengst telt alleen als genoeg reizen worden voltooid.
+
+### Zijn treinen veiliger dan handelsschepen?
+
+Oorlogsschepen kunnen ze niet zinken, maar stations en rails hangen af van gecontroleerd land. Treinen zijn ook beperkt tot gedocumenteerde modi.
+
+### Wanneer bouw ik een SAM?
+
+Bouw hem als nukes actief zijn en de dreiging 1.500.000 Gold plus 300 ticks bouwtijd rechtvaardigt.
+
+### Is minuut vijf een harde kerndeadline?
+
+Nee. Het is een nuttig auditmoment. Timing hangt af van startmiddelen, handel, land, multipliers, tegenstanders en lobbyregels.
+
+### Moet ik sparen of meteen uitgeven?
+
+Spaar als geen aankoop duidelijk een bottleneck verwijdert. Geef uit als een kleine ingreep de economie beschermt, een route opent of bruikbare capaciteit toevoegt.
+
+### Waarom ben ik rijk maar zwak?
+
+Je troepencap kan laag zijn, structuren blootgesteld of aandacht over te veel routes verdeeld. Gold is slechts één deel van de economie.
+
+## Verder lezen
+
+- Controleer formules in de [economiereferentie](/nl/mechanics/economy/).
+- Vergelijk [handel en ship spawning](/nl/mechanics/trade/).
+- Bouw veilig landverkeer met de [treinengids](/nl/mechanics/trains/).
+- Bekijk [kosten en rollen van structuren](/nl/database/structures/).
+- Leer [gevechts- en verdedigingswiskunde](/nl/mechanics/military/).
+- Plan de volgende fase met [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/).
+- Oefen de opening met de [eerste-partijgids](/nl/guides/first-match/).

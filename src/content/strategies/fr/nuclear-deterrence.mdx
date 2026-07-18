@@ -1,72 +1,358 @@
 ---
 title: Dissuasion nucléaire et réseaux SAM
-description: Du premier Silo au MIRV — rythme des frappes nucléaires, placement des SAM et stratégie anti-nucléaire.
+description: Du premier Silo au MIRV — timing des frappes, placement des SAM et stratégie de défense nucléaire.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [nukes, SAM, deterrence]
 category: Milieu-Fin de partie
 difficulty: Intermédiaire
 version: v24
 ---
 
-## Le rythme nucléaire en trois phases
+## Réponse directe
 
-La guerre nucléaire dans OpenFront se décompose en trois phases distinctes :
+La dissuasion nucléaire consiste à préserver une riposte crédible tout en rendant la première frappe ennemie coûteuse ou incertaine. Il faut de l'or, un Silo, une capacité protégée et une couverture SAM adaptée.
 
-### Phase 1 · Mise en place de la dissuasion (3-5 minutes)
+Un SAM apporte un avertissement et une première couverture, pas une sécurité totale. Son cooldown de 90 ticks limite le débit, tandis que le MIRV et ses ogives sont immunisés.
 
-- **Objectif** : faire savoir à l'adversaire que vous pouvez riposter.
-- **Construction** : 1 Missile Silo (1M) + 1 SAM (1,5M).
-- **Effet** : un seul SAM couvre 70 tiles, ce qui suffit déjà à protéger vos villes principales. Les Nukes des Bots évitent activement les zones couvertes par les SAM, ce qui signifie que <strong>la simple construction d'un SAM crée une dissuasion</strong>.
+Choisissez l'arme selon la mission. Atom est moins chère et plus petite. Hydrogen couvre une zone bien plus large. Le MIRV contourne les SAM, mais coûte beaucoup plus et utilise de petites ogives.
 
-### Phase 2 · Frappes réelles (5-8 minutes)
+Ne tirez pas uniquement parce qu'une arme est disponible. Une frappe doit retirer de la capacité, ouvrir une attaque, nier une route ou imposer une dépense défensive utile.
 
-- **Objectif** : accumuler 5M de Gold + 1 Hydrogen Bomb pour pulvériser le cœur ennemi.
-- **Construction** : améliorer 2-3 SAM au niveau 3 ou plus, ajouter un deuxième Silo.
-- **Priorité des cibles** :
-  1. Les grappes de City ennemies (épuise leur plafond de troupes).
-  2. Les Silos et SAM ennemis (paralyse leur riposte).
-  3. Les Ports commerciaux ennemis (coupe leur économie).
+## Mécaniques préalables
 
-### Phase 3 · Coordination MIRV (8 minutes ou plus)
+### Silo à missiles
 
-- **Objectif** : utiliser le MIRV pour forcer l'adversaire à disperser ses défenses.
-- **Construction** : accumuler 25M de Gold, tirer votre premier MIRV ; +15M pour chaque lancement suivant.
-- **Point clé** : la v24 a affaibli les dégâts du MIRV, sa <strong>valeur est donc la pression psychologique</strong> — les SAM ne peuvent pas intercepter les MIRV, ce qui force l'adversaire à disperser ses coûteux SAM et affaiblit en réalité la défense ponctuelle.
+Le premier Silo coûte 1 000 000 d'or et demande 100 ticks de construction. Il sert de plateforme de lancement pour les armes nucléaires.
 
-## Formule de placement des SAM
+Les améliorations réduisent le rechargement. Plusieurs Silos augmentent la capacité, mais chaque Silo exposé peut aussi être capturé avec son territoire.
 
-Chaque SAM couvre un disque circulaire :
+Un Silo sans arme financée reste un signal. Sans protection, or ou cœur survivable, il ne constitue pas encore une dissuasion fiable.
 
-```
-samRange(level) = 150 − 480 / (level + 5)
-level 1: 70  · level 2: ~81 · level 3: ~90
-level 4: ~96 · level 5: ~140
-```
+### Bombe atomique
 
-**Il faut deux SAM ou plus couvrant la même cible** pour résister à une salve (90 ticks de recharge). Mais ne les regroupez pas — une seule Hydrogen Bomb dont l'anneau extérieur fait 100 tiles peut tous les détruire.
+Une bombe atomique coûte 750 000 d'or. Ses rayons indiqués sont de 12 tiles pour la zone inner et de 30 pour la zone outer.
 
-## Checklist anti-nucléaire
+Les SAM peuvent l'intercepter. Son faible prix rend les tirs répétés accessibles plus tôt, mais ils restent soumis au cooldown et à la couverture.
 
-- [ ] Au moins 2 SAM couvrant chaque City principale
-- [ ] Espacement des SAM > 80 tiles
-- [ ] Silos placés à l'intérieur du périmètre SAM
-- [ ] Cities améliorées au niveau 2 ou plus (tampon de population)
-- [ ] Ne jamais dépendre d'un point de défense unique — multipliez les sauvegardes de cœurs
+### Bombe à hydrogène
 
-## Erreurs classiques
+Une bombe à hydrogène coûte 5 000 000. Son rayon inner vaut 80 tiles et son rayon outer 100.
 
-- **Stocker une pile d'Atom Bomb comme arme principale** — à 750k pièce, les dégâts par coup sont limités et un seul SAM niveau 3 intercepte toute la salve. Les Hydrogen Bomb (5M) sont la vraie frappe nucléaire.
-- **Considérer le MIRV comme arme ultime** — après la v24, l'ogive MIRV ne couvre qu'un anneau extérieur de 18 tiles, bien moins de dégâts qu'une Hydrogen Bomb. Utilisez-le comme outil de guerre psychologique.
-- **Silos nus sans couverture SAM** — votre Silo sera la cible prioritaire de la première Hydrogen Bomb adverse et votre capacité de riposte tombera immédiatement à zéro.
+Elle peut aussi être interceptée. Sa grande zone rend l'espacement des actifs et la couverture plus importants que face à Atom.
 
-## Arbre de décision
+### MIRV
 
-```
-Avez-vous 5M de Gold ?
-├─ Non → Continuez à développer l'économie (City + Port + améliorations), ne construisez pas de nuke
-└─ Oui → L'adversaire a-t-il des SAM ?
-    ├─ Non → Hydrogen Bomb directement sur sa grappe de City
-    └─ Oui → A-t-il moins de 3 SAM ?
-        ├─ Oui → Salve de 2-3 Atom Bombs pour saturer la zone SAM
-        └─ Non → Accumulez jusqu'à 25M de Gold et lancez un MIRV
-```
+Le premier MIRV coûte 25 000 000. La formule ajoute 15 000 000 par lancement antérieur ; le deuxième coûte donc 40 000 000.
+
+Le véhicule se divise en plusieurs ogives MIRV. Chaque ogive possède des rayons inner et outer de 12 et 18 tiles.
+
+Ni le véhicule ni ses ogives ne peuvent être interceptés par un SAM. Les notes générées rappellent aussi le nerf v24 : les cratères MIRV se reconquièrent rapidement.
+
+L'immunité ne garantit pas la victoire. Le prix, les petites ogives, la dispersion des cibles et la capacité de reprise du défenseur comptent toujours.
+
+### Lanceur SAM
+
+Le premier SAM coûte 1 500 000. La formule est `min(3 000 000, (n+1) × 1 500 000)`, si bien que les suivants atteignent un plafond de 3 000 000.
+
+La construction prend 300 ticks, environ 30 secondes. Un SAM inachevé ne peut pas résoudre un projectile déjà en approche.
+
+Le cooldown est de 90 ticks, soit environ neuf secondes. Un seul lanceur ne fournit pas des interceptions illimitées contre des tirs rapprochés.
+
+La portée suit `150 - 480 / (level + 5)`. Les cinq premiers niveaux donnent 70, environ 81, 90, environ 97 et 102 tiles, puis progressent vers 150.
+
+L'interception exige aussi une fenêtre positive : `nukeReachTick - samReachTick >= 0`. La cible doit être couverte et le missile doit atteindre la trajectoire à temps.
+
+### Les Villes comme profondeur stratégique
+
+Chaque niveau de Ville ajoute 250 000 au cap. Ce tampon n'intercepte rien, mais laisse davantage de capacité pour défendre et récupérer après les pertes.
+
+Villes, Silos, SAM et Ports changent de propriétaire avec la terre. La défense nucléaire inclut donc le terrain autour du réseau.
+
+## Cadre de décision
+
+### Étape 1 : définir ce qui doit survivre
+
+Listez les actifs dont la perte détruirait le plan : Silos, Villes avancées, Ports clés, Usines, connexion terrestre étroite ou unique voie d'expansion.
+
+Ne couvrez pas du terrain vide parce qu'il semble central. Placez la défense autour des actifs et routes qui préservent la riposte ou la récupération.
+
+### Étape 2 : identifier les armes possibles
+
+Si l'adversaire possède un Silo mais peu d'or, Atom est la menace moins chère. À 5 000 000, Hydrogen devient possible. À 25 000 000, le premier MIRV devient possible.
+
+L'or n'est pas toujours visible ou exact. Utilisez ces seuils comme capacités possibles, pas comme preuve de possession.
+
+### Étape 3 : séparer couverture et redondance
+
+La couverture demande si la cible se trouve dans la portée SAM. La redondance demande si un autre SAM terminé peut engager pendant le cooldown du premier.
+
+Deux cercles qui se chevauchent améliorent la défense contre une salve. S'ils tiennent dans une seule outer 100 d'Hydrogen, une frappe réussie peut menacer tout le réseau.
+
+Écartez les lanceurs tout en gardant le recouvrement sur la cible importante. Aucun espacement unique ne convient à toutes les cartes et niveaux.
+
+### Étape 4 : préserver un budget de riposte
+
+Le premier Silo plus le premier SAM coûtent 2 500 000 avant l'arme. Ajouter Atom porte l'ensemble à 3 250 000.
+
+Une capacité Hydrogen protégée exige au moins 7 500 000 pour un Silo, un SAM et la bombe, avant améliorations ou redondance.
+
+Ne videz pas le trésor dans l'arme visible si cela empêche le SAM, la Ville ou la défense terrestre qui maintient le lanceur en vie.
+
+### Étape 5 : choisir la mission de frappe
+
+Utilisez une petite frappe pour un petit objectif. Utilisez une grande explosion si la densité le justifie. Utilisez le MIRV si contourner les SAM mérite son prix croissant.
+
+Avant le tir, formulez le suivi en une phrase. Si vous ne pouvez pas expliquer ce qui change après l'impact, gardez l'arme comme levier.
+
+## Chronologie et exécution pas à pas
+
+### Avant les dépenses nucléaires
+
+Sécurisez assez de territoire et d'économie pour financer l'ensemble, pas un seul élément. Vérifiez les modificateurs avant de réserver de l'or pour des systèmes désactivés.
+
+Gardez les bâtiments critiques loin du bord. Un réseau capturable par une poussée terrestre ordinaire n'est pas une solution nucléaire.
+
+### Mise en place de la dissuasion
+
+Construisez le Silo dans le cœur défendu. Lancez le premier SAM assez tôt pour terminer ses 300 ticks avant la fenêtre de menace prévue.
+
+Placez-le en imaginant un cercle autour des actifs à sauver. La portée de 70 tiles du premier niveau sert de base.
+
+N'affichez pas un trésor vide en surconstruisant. Gardez assez d'or pour l'arme prévue ou une autre réponse défensive.
+
+### Premier bouclier terminé
+
+Quand le SAM termine, vérifiez quelles Villes, Silos et routes sont réellement couverts. L'icône seule ne prouve pas que tout le cœur l'est.
+
+Contrôlez la géométrie d'approche. La formule de pré-tir signifie que le temps de portée compte autant que le cercle nominal.
+
+Si des IA sont présentes, les notes de structures indiquent que leurs nukes évitent les cibles sous SAM. Cela ne change ni le ciblage humain ni l'immunité MIRV.
+
+### Phase de redondance
+
+Ajoutez un second SAM si le premier protège un actif qui ne survivrait pas à un trou de cooldown. Le deuxième coûte 3 000 000 selon la formule.
+
+Décalez sa position afin que les deux couvrent le cœur sans placer tous les SAM et Silos dans une seule zone compacte.
+
+Améliorez la portée seulement si le cercle ajouté couvre un actif ou une trajectoire réelle. Une portée sans objectif est une décoration coûteuse.
+
+### Préparation de la frappe
+
+Vérifiez la cible, les cercles SAM ennemis, le suivi terrestre et votre risque de riposte. Gardez l'arme si l'impact ne change aucune de ces conditions.
+
+Pour Atom ou Hydrogen, supposez qu'une cible couverte peut être interceptée. Pour MIRV, supposez l'impact possible, mais pas un refus territorial permanent.
+
+### Lancement et exploitation
+
+Tirez lorsque troupes, alliés ou navires peuvent exploiter l'ouverture. Un cratère sans suivi peut redevenir une zone neutre reprise par l'ennemi.
+
+Après le tir, observez rechargement, constructions ennemies, cooldowns et or. Ne répétez pas automatiquement la même cible si la géométrie a changé.
+
+### Récupération après une frappe reçue
+
+Reconstruisez la capacité visée. Si un SAM tombe, restaurez la couverture. Si une Ville tombe, remplacez le cap. Si une route s'ouvre, sécurisez la terre exposée.
+
+En mode Water Nukes, le timing de réexpansion compte aussi. Consultez le guide dédié pour la conversion de terre neutre en eau.
+
+## Scénarios chiffrés
+
+### Scénario 1 : dissuasion visible minimale
+
+Un premier Silo coûte 1 000 000 et un premier SAM 1 500 000, soit 2 500 000 au total. Leurs constructions durent 100 et 300 ticks.
+
+Ajouter Atom coûte 750 000 et porte l'ensemble à 3 250 000. Vous obtenez une plateforme, une arme et une couche de défense contre les nukes interceptables.
+
+Cela n'ajoute ni redondance de salve ni défense MIRV. La valeur dépend du placement, de l'état de préparation et de la survie possible des actifs.
+
+### Scénario 2 : coût de SAM superposés
+
+Le premier SAM coûte 1 500 000. Le deuxième coûte 3 000 000 ; deux lanceurs totalisent donc 4 500 000 avant améliorations.
+
+Le troisième coûte aussi 3 000 000 grâce au plafond. Trois lanceurs non améliorés coûtent 7 500 000.
+
+Ce budget augmente le débit d'interception uniquement là où les cercles et fenêtres de pré-tir couvrent la trajectoire.
+
+### Scénario 3 : portée par niveau
+
+Selon la formule, les niveaux un à cinq donnent 70, environ 81, 90, environ 97 et 102 tiles.
+
+Le gain diminue à l'approche de 150. Améliorez pour faire entrer un actif ou une route dans la couverture, pas parce que le niveau semble faible.
+
+### Scénario 4 : deux Atom contre une Hydrogen
+
+Deux Atom coûtent 1 500 000 et possèdent chacune des rayons 12/30. Une Hydrogen coûte 5 000 000 et possède 80/100.
+
+La paire moins chère offre deux tirs et deux cibles possibles. Hydrogen offre une explosion unique bien plus large. Les SAM peuvent intercepter les deux types.
+
+Le choix dépend de la densité, de la couverture, du timing de cooldown et de l'objectif. Le prix seul ne rend pas les armes interchangeables.
+
+### Scénario 5 : escalade MIRV
+
+Le premier MIRV coûte 25 000 000. Après un tir, le suivant coûte 40 000 000. Acheter les deux consomme 65 000 000 avant Silo ou défense.
+
+Cette escalade impose la sélection. Le MIRV contourne les SAM, mais ses ogives ne font que 12/18 et les cratères v24 se reprennent vite.
+
+### Scénario 6 : tampon d'une Ville
+
+Un niveau de Ville ajoute 250 000 au cap. Deux niveaux ajoutent 500 000 et quatre niveaux 1 000 000.
+
+Cela ne réduit pas l'explosion. La position dispose seulement de plus de capacité avant et après la frappe, tant que la Ville reste contrôlée.
+
+## Contre-jeu adverse
+
+### Saturation des SAM
+
+Un ennemi peut rapprocher plusieurs armes interceptables. Un seul SAM a 90 ticks de cooldown ; sans second lanceur prêt, un tir ultérieur peut passer.
+
+Superposez des lanceurs terminés sur les actifs critiques, sans former un groupe qu'une Hydrogen réussie menace entièrement.
+
+### Contournement MIRV
+
+Les SAM ne peuvent intercepter ni le véhicule ni les ogives. Répondez par l'espacement, plusieurs cœurs récupérables, des forces terrestres et une économie de reconstruction.
+
+N'améliorez pas sans fin un SAM comme si la portée résolvait l'immunité. La réponse au MIRV est la résilience, pas un cercle plus grand.
+
+### Dispersion des cibles
+
+Un adversaire peut séparer Villes, Silos, Ports et SAM afin qu'une explosion touche moins de valeur. Cela réduit le rendement d'Hydrogen.
+
+Choisissez un objectif plus étroit, coordonnez plusieurs fronts ou gardez l'arme comme levier au lieu de forcer un mauvais tir.
+
+### Capture terrestre
+
+Les bâtiments changent de propriétaire avec la terre. Une attaque terrestre peut retirer un Silo ou SAM sans gagner le duel d'interception.
+
+Protégez le bord et gardez des troupes. Une défense nucléaire qui ignore la capture ordinaire possède une faille qu'aucun lanceur ne couvre.
+
+### Refus économique
+
+L'ennemi peut attaquer Ports, rails ou territoire pour vous garder sous le prochain seuil. Un plan MIRV à 25 000 000 est fragile s'il dépend d'un seul revenu exposé.
+
+Mélangez les revenus, protégez l'infrastructure et adoptez une option moins chère si le budget original n'est plus réaliste.
+
+### Reconquête du cratère
+
+La note v24 indique que les cratères MIRV se reprennent rapidement. Sans troupes prêtes, le défenseur peut restaurer le contrôle.
+
+Coordonnez le tir avec l'unité ou le mouvement de frontière qui profite de l'impact.
+
+## Échecs fréquents
+
+### Silo sans protection
+
+Un Silo hors couverture SAM et près d'une frontière faible offre une cible aux frappes comme aux attaques terrestres. Placez la capacité dans le système défendu.
+
+### Confiance excessive dans un SAM
+
+Un lanceur apporte une vraie couverture, surtout contre les IA, mais conserve un cooldown et ne touche pas le MIRV. C'est une première couche, pas un bouclier complet.
+
+### Quartier nucléaire compact
+
+Regrouper chaque Ville, Silo et SAM simplifie la défense jusqu'à ce qu'une grande explosion les atteigne tous. Préservez le recouvrement sans créer un point unique.
+
+### Construction SAM à la dernière seconde
+
+La construction dure 300 ticks. Commencer après l'avertissement peut laisser le lanceur inachevé à l'arrivée de l'arme.
+
+### Spam aveugle d'Atom
+
+Plusieurs Atom créent plusieurs tirs, mais les projectiles couverts peuvent être interceptés. Comptez lanceurs, cooldowns, trajectoires et valeur de chaque cible.
+
+### MIRV considéré comme victoire automatique
+
+L'immunité garantit l'absence d'interception SAM, pas le contrôle permanent. Petites ogives, prix, dispersion et reconquête limitent le résultat.
+
+### Dépenser jusqu'à zéro
+
+Une arme qui vide le trésor peut laisser sans réponse à la contre-attaque. Gardez un budget après frappe pour troupes, couverture ou reconstruction.
+
+### Aucun suivi
+
+Les dégâts ne sont pas un gain stratégique. Sans mouvement terrestre, naval ou allié, le défenseur peut reconstruire ou reprendre.
+
+## Ajustements selon le mode et la carte
+
+### Nukes désactivées
+
+Ne bâtissez pas un plan autour d'armes absentes. Réorientez la même analyse d'or vers Villes, Postes, commerce, trains ou mer.
+
+### SAM désactivés
+
+Atom et Hydrogen perdent leur intercepteur normal. Répartissez les actifs, maintenez plusieurs cœurs et évitez une cible dense qui mérite tout le budget ennemi.
+
+### Water Nukes activé
+
+La terre détruite et neutre peut devenir de l'eau. Les rayons restent identiques, mais la carte peut gagner une eau permanente et de nouvelles routes navales.
+
+Lisez le [guide Water Nukes](/fr/guides/water-nukes/) avant d'appliquer un plan de récupération normal.
+
+### FFA
+
+La dissuasion inclut la diplomatie. Une riposte visible peut décourager un voisin tandis qu'un autre front reste actif, mais l'alliance conserve sa durée et ses règles de trahison.
+
+### Modes Team
+
+Répartissez les rôles et annoncez les cibles. Un joueur finance les lancements, les autres assurent le suivi, mais un arsenal central devient un objectif clair.
+
+### Cartes régionales serrées
+
+Une outer 100 d'Hydrogen couvre une grande part d'un cœur compact. Si l'espacement est limité, un second cœur ou une autre route prend davantage de valeur.
+
+### Grandes cartes continentales
+
+Un cercle SAM peut ne couvrir qu'un groupe. Construisez des zones autour des vrais actifs au lieu d'essayer de peindre tout le territoire.
+
+Utilisez la [base des cartes](/fr/database/maps/) pour confirmer la catégorie, puis jugez distances et topologie dans la partie réelle.
+
+## FAQ
+
+### Quelle est la dissuasion nucléaire la moins chère ?
+
+Un premier Silo plus un premier SAM coûte 2 500 000 avant l'arme. Ajouter Atom porte l'ensemble à 3 250 000.
+
+### Combien coûte un MIRV dans OpenFront ?
+
+Le premier MIRV coûte 25 000 000 Gold. Chaque lancement antérieur ajoute 15 000 000 : le deuxième coûte 40 000 000 et le troisième 55 000 000.
+
+### Un SAM peut-il arrêter toutes les nukes ?
+
+Non. Il intercepte seulement Atom et Hydrogen, possède 90 ticks de cooldown et ne peut toucher ni le MIRV ni ses ogives.
+
+### Quelle est la portée du premier SAM ?
+
+La formule donne 70 tiles au niveau un, environ 81 au niveau deux, 90 au niveau trois, puis continue vers 150.
+
+### Faut-il regrouper deux SAM pour le recouvrement ?
+
+Recouvrez les actifs critiques, mais écartez les lanceurs afin qu'une grande explosion ne menace pas tout le réseau. La distance dépend de la carte et des niveaux.
+
+### Atom ou Hydrogen ?
+
+Choisissez Atom pour une petite mission moins chère ou plusieurs tirs. Choisissez Hydrogen si la zone 80/100 crée assez de valeur pour justifier 5 000 000.
+
+### Le SAM arrête-t-il le MIRV ?
+
+Non. Le véhicule MIRV et ses ogives sont immunisés à l'interception SAM.
+
+### Le MIRV est-il toujours meilleur qu'Hydrogen ?
+
+Non. Il contourne les SAM, mais coûte 25 000 000 au départ, augmente ensuite, utilise de petites ogives et laisse des cratères vite récupérables.
+
+### Où faut-il viser ?
+
+Visez l'actif ou la route dont la perte permet un suivi concret. Villes, capacité de lancement, commerce et connexions étroites peuvent compter ; inspectez d'abord la couverture.
+
+### Quand faut-il lancer ?
+
+Tirez lorsque l'impact change contrôle, capacité, revenu ou dépenses défensives. Sans suivi, garder la dissuasion peut valoir davantage.
+
+## Lecture suivante
+
+Consultez les [mécaniques nucléaires et SAM](/fr/mechanics/nukes/) pour les formules et tableaux.
+
+Utilisez la [base des structures](/fr/database/structures/) et la [base des unités](/fr/database/units/) pour les coûts, temps et notes extraits.
+
+Lisez les [fondamentaux économiques](/fr/strategies/economy-fundamentals/) avant de viser les seuils de 5 000 000 ou 25 000 000.
+
+Revoyez les [raccourcis](/fr/shortcuts/) pour les commandes, puis revenez à l'[ouverture FFA](/fr/strategies/ffa-opening/) ou au [contrôle naval](/fr/strategies/team-naval-control/).

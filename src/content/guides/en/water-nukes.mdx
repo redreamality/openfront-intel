@@ -1,57 +1,322 @@
 ---
 title: What Are Water Nukes in OpenFront?
-description: Water Nukes is the v31 game option that makes nukes permanently turn destroyed land into water. Here is exactly what changes — the blast shape, the terrain, and how (or whether) you can take the ground back.
+description: Water Nukes in OpenFront is a v31 option that permanently turns destroyed land into water. Learn the blast result, terrain conversion, counters, and whether you can reclaim the ground.
 pubDate: 2026-06-03
+updatedDate: 2026-07-16
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
 version: v31
 ---
 
-**Short answer:** *Water Nukes* is an optional game mode, added in **v31**, where a nuclear strike doesn't just wipe the territory — it **permanently converts the destroyed land tiles into water**. The crater fills in, ships can sail through it, and the map itself is redrawn for the rest of the match.
+## Direct answer: what are Water Nukes in OpenFront?
 
-It is **off by default**. You opt in when creating a lobby, and in public games it shows up as a **Water Nukes** modifier badge so everyone knows the rules before they spawn.
+**Water Nukes in OpenFront** is an optional v31 game mode in which nuclear strikes permanently convert destroyed land tiles into water. The crater becomes part of the map instead of remaining land covered by fallout.
 
-## Where to turn it on
+The new water is functional terrain. Coastlines, ocean tiles, shoreline edges, the minimap, and naval pathfinding are recalculated, so ships can use water created during the match.
 
-- **Single-player / Host lobby:** a **Water Nukes** toggle in the game-options panel, next to options like *Nukes Disabled*, *SAMs Disabled*, and *1M Starting Gold*.
-- **Public games:** you can't toggle it yourself, but the lobby card carries a **Water Nukes** badge when the mode is active.
+The mode is off by default. A host can enable it in the game-options panel. Public games that use it display a **Water Nukes** modifier badge before players spawn.
 
-## Normal nuke vs. Water Nuke
+The most important defensive answer is speed. Conversion is batched after the strike. If a tile is re-conquered before the conversion check and is no longer unowned land, it can remain land.
 
-Every nuke removes the owner from the tiles in its blast and kills troops the same way in both modes. The difference is **what the destroyed ground becomes**:
+After a tile becomes water, ordinary land expansion cannot restore it. You can still exploit the new water with Ports, transports, Warships, and trade ships where the current rules allow them.
 
-| | Normal nuke | Water Nuke |
+## Concepts and prerequisites
+
+Water Nukes changes terrain, not the basic price or documented blast radius of a weapon. An Atom Bomb still has inner 12 and outer 30 reach. A Hydrogen Bomb still has inner 80 and outer 100 reach.
+
+Atom and Hydrogen Bombs are still valid SAM targets. MIRV carriers and their warheads remain immune to SAM interception. The modifier does not turn every weapon into an unblockable strike.
+
+The v31 release paired Water Nukes with inland-water trading. Ports, Warships, and trade ships can work on any body of water, rather than only on ocean water.
+
+Those two changes create the strategic twist. A strike can remove territory, cut a land bridge, and also create a new naval route through land that previously blocked ships.
+
+You need a lobby with nukes enabled and Water Nukes active. If nukes are disabled, the terrain-conversion rule has no weapon to apply to.
+
+You also need the normal nuclear infrastructure and Gold. The option changes the outcome of a successful strike; it does not waive the Missile Silo or weapon cost.
+
+## How terrain conversion resolves
+
+The strike first removes ownership from affected land. The game then queues eligible empty land for conversion rather than changing every tile at the first instant of impact.
+
+At the later flush, the game checks whether each queued tile is still unowned land. Tiles that still meet that condition become water. Tiles reclaimed before that check can stay land.
+
+The conversion also clears fallout on tiles that become water, because water does not retain land fallout. This is different from a normal crater that stays land and can be walked back over after radiation fades.
+
+Water Nuke edges are smoother than normal ragged fallout. The documented implementation uses sampled and averaged angles to avoid scattered single land pixels around the new shoreline.
+
+That shape matters tactically. A smoother crater is more likely to behave like a coherent water feature, while a normal blast leaves irregular land that can be recovered through land expansion.
+
+## Normal nuke versus Water Nuke
+
+| Question | Normal nuke | Water Nukes mode |
 | --- | --- | --- |
-| Destroyed land | Stays land, left as **fallout** (irradiated) | **Turned into water**, permanently |
-| Fallout | Lingers, then clears | Cleared — water tiles can't hold fallout |
-| Reclaiming ground | Walk back over it once radiation fades | The land is **gone**; you need boats/ports |
-| Blast edge | Ragged (random outer ring) | **Smooth, rounded** crater |
+| What is left behind? | Land with fallout | Water on converted tiles |
+| Can land troops reclaim it later? | Yes, after conditions permit | Only before conversion; not after it is water |
+| Does fallout remain? | Yes, then clears | Converted water cannot hold it |
+| What does the edge look like? | Ragged outer spread | Smoothed crater boundary |
+| Can ships use the result? | No new water is created | Yes, if the crater connects into usable water |
+| Does weapon radius increase? | No | No |
+| Does SAM behavior change? | No | No |
 
-That smooth edge is deliberate. Water Nukes generate the boundary from 16 angular samples that are then averaged, so the crater undulates gently instead of leaving a spiky "flower" of scattered single land pixels you'd otherwise have to boat out and recapture one by one.
+Do not read “permanent” as “the match can never use that area again.” It means the land does not return. The resulting water may become a transport route, naval battlefield, Port location, or trade path.
 
-## The rules that catch people out
+## Weapon and defense data
 
-- **Only *unowned* land turns to water.** The nuke first strips ownership from every tile in the blast, then queues the now-empty land for conversion. The conversion is **batched** — it flushes a tick or two later, not instantly.
-- **Re-conquering can save a tile.** Because conversion checks *"is this still unowned land?"* at flush time, if you (or anyone) re-expand onto a fresh crater before it flushes, that tile stays land. Fast re-expansion is a real counter to losing ground permanently.
-- **The terrain is genuinely rewritten.** Once tiles flip to water, OpenFront recomputes the coastline, ocean tiles, shoreline edges, the minimap, and the **naval pathfinding graph** — so the new water is real, navigable sea, not just a cosmetic hole.
-- **Blast size is unchanged.** Water Nukes don't make nukes bigger. An Atom Bomb is still inner 12 / outer 30, a Hydrogen Bomb inner 80 / outer 100, and a MIRV still scatters multiple warheads. SAM still intercepts atom and hydrogen bombs; MIRV still can't be intercepted. See the [database](/database/) for exact numbers and the [v31 release notes](/changelog/v31/) for the patch context.
+| Item | Cost | Documented reach | SAM interaction |
+| --- | ---: | --- | --- |
+| Atom Bomb | 750,000 | Inner 12 / outer 30 tiles | Interceptable |
+| Hydrogen Bomb | 5,000,000 | Inner 80 / outer 100 tiles | Interceptable |
+| MIRV | 25M + 15M per prior launch | Splits into MIRV warheads | Carrier and warheads immune |
+| MIRV warhead | Included with MIRV | Inner 12 / outer 18 tiles | Immune |
+| SAM Launcher | First costs 1,500,000 | Starts at 70 tiles, scales upward | 90-tick cooldown |
 
-## Why it's so strong: inland-water trading
+An Atom Bomb is the cheaper terrain-editing attempt, but its footprint is far smaller than a Hydrogen Bomb. A Hydrogen strike can reshape a broad front, yet it concentrates 5,000,000 Gold into one interceptable projectile.
 
-v31 shipped Water Nukes **alongside** a second change: ports, Warships, and trade ships are **no longer restricted to oceans** — any body of water works, including lakes and inland seas. Put the two together and a Water Nuke doesn't just deny land, it can **create a brand-new waterway**: carve a channel into an enemy's interior, drop a Port on the fresh water, and run Warships or trade routes where there was solid ground a minute ago.
+A MIRV can create several smaller affected areas and ignores SAM interception. Its starting cost is five times a Hydrogen Bomb, and every prior MIRV launch adds another 15,000,000 Gold.
 
-## How to play it
+The correct choice depends on shape, not only damage. Decide whether you need a small breach, a wide cut, several scattered craters, or simply troop destruction.
 
-- **Plan a high-ground safehouse early.** In a long Water Nukes game the map can be redrawn entirely. Keep your core economy on terrain that won't be the first thing carved away.
-- **Use nukes to sever, not just to kill.** A well-placed crater can cut a land bridge, isolate a capital, or open a sea lane for your navy. Think about the *shape* of the hole, not only the troops it removes.
-- **Keep inland depth on defense.** Don't string your whole nation along a thin coast — a single salvo can erase a coastal spine and leave your buildings stranded on islands.
-- **Re-expand fast after you're hit.** Rushing troops back onto a fresh crater before it converts is the only way to keep that ground as land.
+## Decide what the strike is meant to change
 
-## Quick FAQ
+Before launching, name the result in one sentence. “Remove this army” is a normal nuclear objective. “Cut this corridor” or “connect this waterway” is a Water Nukes objective.
 
-- **Is Water Nukes on by default?** No — it's an opt-in lobby option.
-- **Does it affect every nuke?** Yes — Atom, Hydrogen, and MIRV warheads all convert land in this mode.
-- **Can I get my land back?** Only by re-conquering a crater before it converts. After it's water, the *land* is gone; you can still use the water itself with boats, ports, and (in v31) inland trade.
+### Cut a land bridge
 
-For the keys to fire those nukes back-to-back, see the [shortcuts cheat sheet](/shortcuts/).
+Target the narrowest part of the bridge, not the largest troop cluster nearby. A successful conversion can separate two land areas and force future movement onto transports or another route.
+
+Check the outer reach against both shores. A crater that stops short may remove troops without creating the separation you planned.
+
+### Open an inland naval lane
+
+Look for land between an existing lake, sea, or crater and the interior target. The new water matters most when it joins a body of water that your naval units can already reach.
+
+A sealed crater can still deny land, but it is not automatically a useful route. The strategic value rises when the strike creates connected water rather than an isolated pond.
+
+### Break a coastal spine
+
+Thin coastal territory is vulnerable because one converted band can separate inland buildings from the remaining land network. Aim for the connective terrain, not merely the visible coastline.
+
+Expect the defender to re-expand during the conversion window. A follow-up ground attack can matter as much as the projectile because ownership at the flush decides which tiles survive as land.
+
+### Create long-term denial
+
+If the opponent relies on one compact core, a large converted crater can remove future land capacity and change approach routes for the rest of the match.
+
+Do not spend 5,000,000 Gold on permanent denial if the target has little strategic value. Terrain conversion is strongest when the lost shape matters after the immediate troop damage.
+
+### Use a crater defensively
+
+A Water Nuke can also remove an approach into your own position. This sacrifices land to create distance, a channel, or a new coastline that is easier to watch with naval units.
+
+The trade is irreversible after conversion. Confirm that you are not deleting the only land route your own reinforcements need.
+
+## Step-by-step attacking plan
+
+### Step 1: confirm the modifier
+
+Check the lobby card or game options for **Water Nukes**. Do not base a plan on permanent terrain change in a normal nuke match.
+
+Also check for **Nukes Disabled** and **SAMs Disabled**. These modifiers change whether the weapon is available and whether Atom or Hydrogen strikes can be intercepted.
+
+### Step 2: trace the desired shoreline
+
+Identify the land you want gone and the water you want connected. Use the documented outer reach as a planning boundary, not a promise that every tile inside it becomes identical terrain.
+
+For an Atom Bomb, think in terms of outer reach 30. For a Hydrogen Bomb, think in terms of outer reach 100. The Hydrogen footprint is more suitable for broad cuts but costs far more.
+
+### Step 3: inspect SAM coverage
+
+Atom and Hydrogen Bombs can be intercepted. A default SAM begins with 70-tile range and has a 90-tick cooldown.
+
+If the target is covered, choose another line, remove the defense through ordinary play, coordinate multiple threats, or accept the risk. Do not assume Water Nukes bypasses the interceptor.
+
+### Step 4: prepare the exploitation force
+
+Have the next action ready before the launch. That may be a land push to stop re-conquest, a transport route, Warships for the new water, or a Port plan once a valid shoreline exists.
+
+A crater without follow-through gives the defender time to adapt. The best strikes pair terrain change with a unit or economic plan that benefits from the new map.
+
+### Step 5: launch and watch ownership
+
+After impact, watch the fresh crater rather than immediately scanning elsewhere. The conversion check cares about whether tiles remain unowned.
+
+Pressure the surrounding border if your goal is permanent water. If the defender reclaims the queued tiles quickly, part of the planned channel can remain land.
+
+### Step 6: reassess the map
+
+Once conversion completes, treat the crater as real terrain. Check the new coast, navigable connection, nearby Ports, and routes on the minimap.
+
+Do not keep following the pre-strike plan if the actual shoreline differs. Water Nukes changes the board, so the next decision should use the new board.
+
+## Step-by-step defensive plan
+
+### Step 1: recognize the match before expanding
+
+Read the modifier badge at the lobby. In Water Nukes mode, a one-tile-thick corridor is more than a temporary weakness because a strike can erase the connection itself.
+
+Favor depth around Cities, Silos, SAMs, and Ports. Avoid placing every critical structure along one narrow coastal band.
+
+### Step 2: build nuclear defense early enough
+
+A SAM Launcher takes 300 ticks, documented as about 30 seconds. It cannot be added after the projectile is already close and expected to provide instant protection.
+
+Cover critical connectors as well as buildings. A land bridge may be the strategic target even when no City sits on it.
+
+### Step 3: keep re-expansion capacity nearby
+
+The conversion window creates the only direct way to save queued terrain as land. Keep enough troops and a connected border to push back into fresh unowned tiles.
+
+This is not guaranteed recovery. It is a race against the batched check, and pressure from the attacker can prevent the reclaim.
+
+### Step 4: prepare a naval fallback
+
+If the land is converted, switch from recovery to adaptation. Ports, Warships, trade ships, and transports can turn the new water into a route rather than leaving it as pure loss.
+
+The v31 inland-water rule applies to any body of water. A crater can therefore become part of your own naval economy or defense if you retain access to its shore.
+
+### Step 5: decentralize what remains
+
+Do not rebuild every function beside the new crater. A second strike can extend the water. Spread important structures across separate land masses and overlapping defensive zones.
+
+## Numeric examples
+
+### One Hydrogen Bomb versus several Atom Bombs
+
+Six Atom Bombs cost 4,500,000 Gold, which is 500,000 less than one Hydrogen Bomb. They create several smaller outer reaches of 30 rather than one Hydrogen outer reach of 100.
+
+That does not make six Atoms a direct substitute. Each launch can be intercepted, the shapes can leave land between them, and the repeat-fire sequence needs several valid targets.
+
+Choose the Hydrogen Bomb when one broad cut is the objective. Choose Atoms when several smaller edits are useful and the lower cost per attempt matters.
+
+### The cost of the first protected nuclear package
+
+One Missile Silo costs 1,000,000 Gold. The first SAM Launcher costs 1,500,000. Adding one Atom Bomb brings the package to 3,250,000 before upgrades or other structures.
+
+Replacing the Atom with a Hydrogen Bomb brings the same package to 7,500,000. Water conversion is powerful, but the economy must survive long enough to fund it.
+
+### Range interaction
+
+A default SAM starts at 70-tile range. That exceeds an Atom Bomb's documented outer blast reach of 30, but interception depends on projectile paths, timing, and whether the threatened area is covered.
+
+A Hydrogen Bomb has outer reach 100. One successful strike can affect a much wider area than an Atom, which is why spreading critical structures matters even behind SAM coverage.
+
+### MIRV escalation
+
+The first MIRV costs 25,000,000 Gold. The second costs 40,000,000 because one prior launch adds 15,000,000. The third costs 55,000,000.
+
+Its immunity to SAMs is strategically important, but the escalating price means each use needs a map-changing objective rather than a vague desire to create more water.
+
+## Common failure modes
+
+### Assuming every blast creates permanent water
+
+Permanent conversion only applies when the Water Nukes modifier is active. Normal matches leave land and fallout instead.
+
+Check the lobby before building a strategy around a future channel. The same target can produce a very different post-strike map under normal rules.
+
+### Targeting the army instead of the connector
+
+The largest troop cluster may not sit on the most important terrain. A smaller strike on a narrow bridge can change movement for the rest of the match.
+
+Separate the immediate damage question from the permanent-shape question. Water Nukes rewards targets that score well on both.
+
+### Forgetting the conversion delay
+
+Freshly emptied tiles are not automatically safe permanent water. A defender can reclaim eligible land before the batched conversion check.
+
+Watch the crater and maintain pressure. If you look away after impact, the channel can close before it ever becomes water.
+
+### Creating an isolated pond
+
+New water is navigable, but a sealed crater may not connect to the fleet you already own. It can deny land without creating a practical route.
+
+Trace connectivity before firing. If naval access is the goal, the planned crater must meet usable water or create a shoreline you can exploit.
+
+### Opening a route for the opponent
+
+The new water is not exclusive to the attacker. A defender with better Ports or nearby Warships may gain more from the channel than you do.
+
+Prepare naval control before changing the terrain. Otherwise the strike can finance or mobilize the player it was meant to weaken.
+
+### Clustering every defense
+
+One compact defensive core is easy to understand and easy to target. A Hydrogen Bomb has outer reach 100, so wide effects can catch several nearby structures.
+
+Use overlapping coverage without placing every SAM, Silo, City, and Port in one small area.
+
+### Treating SAMs as complete protection
+
+SAMs intercept Atom and Hydrogen Bombs, then face a 90-tick cooldown. MIRV carriers and warheads are immune.
+
+Defense also needs terrain depth, re-expansion troops, separated infrastructure, and a plan for naval use after conversion.
+
+## Counters and adjustments
+
+If the attacker uses cheap Atom strikes, prioritize the land connectors that each 30-tile outer reach could sever. Protecting every border equally wastes attention.
+
+If the attacker is saving for Hydrogen Bombs, spread high-value structures beyond one broad target area. Keep more than one usable land and economic core.
+
+If MIRV becomes the threat, do not expect more SAMs to solve it. Preserve troop depth, distribute infrastructure, and prepare to operate across several smaller craters.
+
+If a crater becomes water, contest it as a naval zone. Friendly Ports can support ship activity, while Warships can deny transports and trade on the new route.
+
+If your own strike fails to complete a channel, reassess rather than firing blindly at the same center. Identify which reclaimed or untouched land still blocks connectivity.
+
+If Water Nukes is off, return to normal nuclear priorities. Fallout recovery, troop destruction, SAM coverage, and infrastructure targets matter more than permanent shoreline planning.
+
+## FAQ
+
+### Is Water Nukes enabled by default?
+
+No. It is an opt-in game option. Public lobbies show a **Water Nukes** badge when the modifier is active.
+
+### Does it make nukes larger?
+
+No. The documented Atom, Hydrogen, and MIRV-warhead reaches do not increase. The difference is what eligible destroyed land becomes.
+
+### Which weapons convert land?
+
+The mode applies to Atom, Hydrogen, and MIRV warhead effects. Their prices, shapes, and SAM interactions remain different.
+
+### Can SAMs stop a Water Nuke?
+
+SAMs can intercept Atom and Hydrogen Bombs. They cannot intercept the MIRV carrier or MIRV warheads.
+
+### Can I save land after impact?
+
+You can sometimes re-conquer queued empty land before the batched conversion check. Once the tile has become water, normal land expansion does not turn it back.
+
+### Does the water disappear when fallout clears?
+
+No. Converted water is the new terrain for the rest of the match. Fallout is cleared from water tiles rather than restoring the old land.
+
+### Can ships use a crater?
+
+Yes, when the new water forms a navigable body or connection. v31 allows Ports, Warships, and trade ships to work on inland water as well as oceans.
+
+### Can I build a Port on the new shore?
+
+The terrain is recalculated as real water and shoreline. A Port still needs a valid placement and land you control, so inspect the final coast after conversion.
+
+### Is an Atom Bomb or Hydrogen Bomb better for making a channel?
+
+Use the Atom for smaller, cheaper edits and the Hydrogen for one broad cut. The best choice depends on the width of the land, SAM risk, and the value of the resulting connection.
+
+### Why did some land survive inside the crater?
+
+The strike shape is not a promise that every tile resolves identically. Re-conquest before the conversion flush can also preserve queued tiles as land.
+
+### Does Water Nukes make coastal play impossible?
+
+No. It makes thin coastal layouts riskier, but the new water can also support Ports, ships, transports, and trade. Depth and adaptation matter more than avoiding every coast.
+
+## Next reading
+
+- Review exact weapon values in the [units database](/database/units/).
+- Check Silo and SAM costs in the [structures database](/database/structures/).
+- Learn the full [nuclear weapons and SAM system](/mechanics/nukes/).
+- Read the official site summary in the [v31 release notes](/changelog/v31/).
+- Use the [hotkeys guide](/guides/hotkeys/) for repeat-fire controls.
+- Plan layered defense with [nuclear deterrence and SAM networks](/strategies/nuclear-deterrence/).
+- Adapt the new waterways with the [team naval control guide](/strategies/team-naval-control/).

@@ -1,61 +1,334 @@
 ---
 title: Apparition et expansion précoce en FFA
-description: Choix du site d'apparition, évaluation des menaces voisines et tempo de la première vague d'expansion en mode FFA d'OpenFront.
+description: Choix du site d'apparition, évaluation des voisins et rythme de la première expansion en mode FFA d'OpenFront.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [FFA, opening, expansion]
 category: FFA
 difficulty: Débutant
 version: v24
 ---
 
-## Les trois principes du choix d'apparition
+## Réponse directe
 
-En FFA, votre choix d'apparition décide du sort de vos 3 premières minutes. Priorisez :
+L'ouverture FFA la plus sûre reste flexible : une sortie terrestre, une côte utile et une frontière que vous pouvez raccourcir. Profitez des cinq secondes d'immunité, puis dépensez seulement pour un problème visible.
 
-1. **Équilibre entre littoral et profondeur intérieure** — les côtes permettent d'installer Ports, navires marchands et navires de guerre, mais une apparition purement côtière finit prise en tenaille.
-2. **Trouver un goulot d'étranglement** — péninsules, isthmes et détroits (Britannia, Italia, Bosphorus, etc.) permettent à un seul DefensePost de bloquer tout un adversaire.
-3. **S'éloigner des Nations puissantes** — les Nations en difficulté Hard/Impossible ont un plafond de Troops ×1.0 à ×1.25 et s'étendent à la vitesse d'un joueur humain, capables de raser la moitié de votre territoire en quelques secondes après l'apparition.
+Ne jugez pas un spawn à sa taille. Une large position avec quatre voisins exposés peut être plus difficile qu'une petite péninsule dotée d'une entrée terrestre et d'une Ville protégée.
 
-## Le tempo des 60 premières secondes
+Le premier objectif n'est pas d'éliminer un joueur. Sortez de l'ouverture avec un cap croissant, une route défendable, un accès économique et assez de liberté pour éviter deux fronts.
 
-| Temps | Action | Objectif |
-| --- | --- | --- |
-| 0-5s | Profiter de l'immunité d'apparition | Expansion à pleine puissance, Attack Ratio à 60-70 % |
-| 5-20s | Saisir le goulot | Foncer en priorité sur les entrées de détroits et péninsules |
-| 20-40s | Construire la 1re City (125k) | MaxTroops +250k |
-| 40-60s | Construire le 1er Port | Débloquer les navires marchands |
+Considérez chaque timing comme un plan par défaut. Les options du salon, l'échelle de la carte, la densité des spawns et les choix adverses peuvent déplacer chaque achat.
 
-Si vous n'avez toujours pas « au moins un goulot d'étranglement » à la 60e seconde, vous serez très probablement éliminé dans les 3 minutes.
+## Mécaniques préalables
 
-## Évaluation des menaces voisines
+### Connaître les horloges d'apparition
 
-Classez les joueurs visibles en trois catégories :
+La phase d'apparition précède l'expansion et le combat normaux. La référence générée indique 100 tours en solo, 150 en multijoueur aléatoire et 300 en multijoueur fixe.
 
-- **Joueurs humains** — lisez les noms et les couleurs, et observez attentivement la direction de leur première expansion. S'ils s'étendent vers vous, **envoyez immédiatement une demande d'alliance**.
-- **Nations** — nommées par le système (« France », « Japan », etc.), avec des courbes d'expansion régulières. Easy/Medium peuvent être ignorées ; en Hard/Impossible, il faut stabiliser la frontière en moins de 90 secondes.
-- **Bots** — noms contenant des chiffres, Troops ÷3, expansion lente. Ce sont vos « engrais » du début de partie, mais depuis la v24 leur comportement s'est affiné — ne baissez pas la garde.
+À environ dix ticks par seconde, cela représente 10, 15 et 30 secondes. Comparez les positions au lieu de choisir immédiatement la première côte aperçue.
 
-## Qui choisir comme premier allié
+Après le départ, l'immunité par défaut dure 50 ticks, soit cinq secondes. Les attaques ne vous touchent pas, mais tous les joueurs, Bots et Nations ont la même protection.
 
-Une alliance FFA dure 5 minutes, soit « la moitié de la partie sans encaisser de coups ». Critères de choix :
+### Comprendre l'intérêt de l'expansion
 
-- **Le voisin du voisin** — quand vous attaquez celui du milieu, il vous aide ; quand il attaque celui du milieu, vous l'aidez.
-- **Pas de conflit de ressources** — vous prenez la terre, il prend la mer ; vous allez à l'est, il va à l'ouest.
-- **Éviter les trop forts** — en 5 minutes l'autre peut doubler de taille, et une trahison ultérieure ne rapporte que des pertes.
+Le cap de base augmente avec les tiles, tandis que chaque niveau de Ville ajoute 250 000. La formule est non linéaire : la terre reste utile, mais chaque tile supplémentaire apporte moins que la précédente.
 
-## Pièges critiques
+La croissance contient le facteur `1 - troops / maxTroops`. À 30 % du cap, il vaut 0,70. À 80 %, il ne vaut plus que 0,20. Rester près du maximum gaspille une grande part de la croissance.
 
-- **Construire une City trop tôt** : claquer 125k de Gold à 0 Gold ralentit l'expansion. Atteignez d'abord au moins ~300 tiles.
-- **Détour côtier** : un transport longeant 30 tiles de côte se fait intercepter à 100 % par les navires de guerre. Pas de débarquement transmaritime avant la 3e minute.
-- **Saturation sans attaque** : continuer à stocker quand Troops > 80 % MaxTroops est du gaspillage pur. Soit vous étendez, soit vous attaquez.
+Le ratio d'attaque fixe la part des troupes envoyée. Le guide de première partie propose 60–70 % comme repère débutant, pas comme optimum universel.
 
-## Transition vers le milieu de partie
+Baissez-le quand un voisin peut contre-attaquer ou lorsque plusieurs petites prises sont nécessaires. Montez-le seulement si la cible et la route justifient l'exposition.
 
-À la 3e minute, vous devriez avoir :
+### Calculer correctement les premières structures
 
-- Au moins 1 goulot d'étranglement géographique tenu
-- 1-2 Cities + 1 Port
-- 1 allié stable
-- MaxTroops ≥ 600 000
+Une première Ville coûte 125 000 et ajoute 250 000 de cap. Son coût suit `min(1 000 000, 2^n × 125 000)`, et chaque niveau ajoute encore 250 000.
 
-Une fois ces conditions remplies, passez directement à [Armes nucléaires et SAM](../../mechanics/nukes/) et à [Stratégie de dissuasion nucléaire](../../strategies/nuclear-deterrence/) pour préparer votre arsenal du seuil des 5 minutes.
+Un Poste de défense commence à 50 000. Sa séquence suit `min(250 000, (n+1) × 50 000)`. Sa zone de 30 tiles multiplie la défense par cinq et la vitesse par trois.
+
+Un premier Port coûte 125 000 si aucun Port ni Usine n'utilise le compteur partagé. Le suivant coûte 250 000, puis 500 000, avant d'atteindre le plafond par construction.
+
+Les Ports activent commerce, transports et navires de guerre. Ils sont capturables : une pose côtière bon marché devient coûteuse si l'ennemi peut prendre la terre autour.
+
+### Lire les types de joueurs sans deviner leurs noms
+
+Le multiplicateur du cap humain vaut ×1. Les Bots utilisent un tiers. Les Nations valent ×0,5 en Easy, ×0,75 en Medium, ×1 en Hard et ×1,25 en Impossible.
+
+Ces valeurs décrivent la capacité, pas l'intention. Observez direction d'expansion, renforts, constructions et diplomatie avant de déclarer un voisin inoffensif.
+
+### Respecter l'horloge des alliances
+
+Une alliance acceptée dure 3 000 ticks, soit environ cinq minutes. Les deux joueurs reçoivent un avertissement 300 ticks, ou 30 secondes, avant l'expiration.
+
+Un accord mutuel renouvelle le pacte. L'expiration naturelle évite la pénalité, tandis qu'une rupture déclenche embargo, défense ×0,5 et vitesse ×0,8 pendant 300 ticks.
+
+Une alliance donne donc du temps pour résoudre un autre problème ; elle n'offre pas une sécurité permanente. Préparez une frontière qui tient après cinq minutes.
+
+## Cadre de décision
+
+### Étape 1 : tester le spawn
+
+Posez cinq questions avant de confirmer :
+
+1. Puis-je sortir par terre sans traverser un autre spawn ?
+2. Puis-je atteindre l'eau si les Ports sont actifs ?
+3. Existe-t-il une frontière courte, un col ou un bord de détroit ?
+4. Y a-t-il une zone intérieure pour une Ville sûre ?
+5. Puis-je changer de direction si le voisin vient vers moi ?
+
+La position n'a pas besoin de tout. Refusez-la lorsqu'un manque crée une perte forcée, comme aucune sortie terrestre dans une ouverture sans transport.
+
+### Étape 2 : choisir une voie principale et une échappatoire
+
+La voie principale reçoit la plupart des troupes. Elle mène vers la terre libre, une frontière courte ou une position qui empêche un rival de vous enfermer.
+
+La voie d'échappement reste ouverte par de petites prises. Elle évite d'engager toutes les attaques dans un seul corridor contesté.
+
+N'ouvrez pas trois fronts égaux. Chaque nouveau bord devient un autre test de troupes, d'attention et de budget de Postes.
+
+### Étape 3 : dépenser selon le goulot actuel
+
+Construisez une Ville si le cap bloque et si l'emplacement est sûr. Construisez un Poste si une frontière précise est sous pression. Construisez un Port si l'eau crée une vraie route.
+
+Si aucune phrase n'est vraie, gardez l'or liquide. Un achat par habitude peut retarder la structure qui répondra à la prochaine menace.
+
+### Étape 4 : classer les voisins par comportement
+
+Classez chaque voisin : expansion opposée, parallèle ou dirigée vers vous. Réévaluez après chaque changement majeur, car l'intention évolue lorsqu'un autre front se ferme.
+
+Un voisin qui s'éloigne peut commercer ou s'allier. Un voisin parallèle exige une limite. Un voisin qui approche exige troupes, front plus court, diplomatie ou Poste.
+
+### Étape 5 : décider si l'alliance réduit le risque
+
+Le meilleur allié retire souvent un front et partage un ennemi sans viser votre corridor immédiat. La géographie compte davantage que la promesse.
+
+N'acceptez pas uniquement parce qu'une demande apparaît. Si le pacte pousse les deux joueurs dans votre seule voie, il peut vous bloquer pendant que l'autre grandit ailleurs.
+
+## Chronologie et exécution pas à pas
+
+### Pendant la phase d'apparition
+
+Balayez la carte une fois, puis comparez deux ou trois candidats. Vérifiez les sorties terrestres, la côte, la longueur du front, puis la densité des spawns proches.
+
+Choisissez une solution de secours avant l'urgence. Elle évite un clic paniqué au dernier moment dans un centre déjà surchargé.
+
+### 0:00–0:05 : utiliser l'immunité pour la forme
+
+Réglez un ratio praticable et prenez le premier anneau vers la voie principale. Servez-vous de la protection pour élargir et relier l'intérieur, pas pour attaquer un rival protégé.
+
+Prenez d'abord les tiles qui décident l'accès futur. La terre ouverte restera disponible ; un col ou une connexion au rivage peut disparaître.
+
+### 0:05–0:30 : identifier la première frontière
+
+Regardez les couleurs qui approchent. Si un joueur vient vers vous, raccourcissez le bord partagé au lieu de courir parallèlement tile par tile.
+
+Gardez assez de troupes pour changer de direction. Les engagements maximum gagnent de la terre vide, mais peuvent laisser la nouvelle frontière trop faible.
+
+Ne posez pas de bâtiment en première ligne. Les structures sont transférées avec la terre capturée ; placez l'infrastructure derrière la zone que vous comptez tenir.
+
+### 0:30–1:00 : résoudre le premier goulot
+
+Si le cap limite déjà la croissance, préparez la première Ville. Si un front étroit devient actif, le premier Poste peut résoudre davantage.
+
+Si la côte est sûre et les Ports actifs, réservez une tile côtière soutenue par la terre. Il n'est pas nécessaire de bâtir dès que vous touchez l'eau.
+
+Demandez une alliance seulement si elle change la carte. Le résultat utile est un front actif en moins, pas l'icône du pacte.
+
+### 1:00–2:00 : transformer la forme en stabilité
+
+Placez la Ville dans l'intérieur protégé. Posez le Poste là où sa zone de 30 tiles couvre le passage imposé à l'attaquant, pas le plus grand vide.
+
+Construisez le premier Port seulement si la route fonctionne et si la terre peut tenir. Si l'eau est déjà ennemie, gardez l'or pour la défense ou la croissance intérieure.
+
+Conservez une voie d'expansion. Une coquille totalement fortifiée, sans nouvelle terre, donne bientôt l'initiative aux adversaires.
+
+### 2:00–3:00 : préparer la transition
+
+Revérifiez saturation des troupes, or, alliances et structures exposées. Décidez si le prochain achat augmente le cap, sécurise un bord, lance le commerce ou prépare la défense nucléaire.
+
+Si une alliance a commencé tôt, notez maintenant sa future fenêtre d'avertissement. Ne découvrez pas l'expiration lorsque les troupes sont engagées ailleurs.
+
+### 3:00–5:00 : cesser d'appeler cela l'ouverture
+
+Jugez alors la position par ses systèmes, pas une liste rigide. Il faut un cœur défendable, une voie de croissance active et une économie capable de financer la menace suivante.
+
+Si les nukes sont actives, lisez les temps du Silo et du SAM au lieu de croire que les frontières restent le seul danger. Un SAM demande 300 ticks, soit 30 secondes.
+
+## Scénarios chiffrés
+
+### Scénario 1 : une Ville contre deux Postes précoces
+
+Une première Ville coûte 125 000 et ajoute 250 000 de cap. Les deux premiers Postes coûtent 50 000 et 100 000, soit 150 000 au total.
+
+La Ville répond mieux à un problème de cap. Les deux Postes répondent mieux si deux zones de 30 tiles empêchent une perte territoriale immédiate.
+
+Ce n'est pas un ordre universel. Les 25 000 de différence ne doivent pas décider entre deux bâtiments qui remplissent des missions différentes.
+
+### Scénario 2 : la saturation change l'action suivante
+
+À 30 % du maximum, la formule garde 70 % de son terme avant cap. À 80 %, elle n'en garde que 20 %.
+
+À 400 000 sur un cap de 500 000, une attente est moins productive qu'à 150 000. Dépensez les troupes sur une prise justifiée ou augmentez le cap.
+
+### Scénario 3 : la difficulté d'une Nation change l'urgence
+
+Avec un cap non modifié de 600 000, Easy donne 300 000, Medium 450 000, Hard 600 000 et Impossible 750 000.
+
+Un Bot utilise un tiers, soit 200 000 dans cette comparaison. Ces valeurs ne prédisent pas la tactique, mais expliquent des plafonds différents.
+
+### Scénario 4 : coût d'opportunité Port et Usine
+
+Sans Port ni Usine, le premier coûte 125 000. Le second sur le compteur partagé coûte 250 000 et le troisième 500 000.
+
+Deux Ports rendent l'Usine suivante plus chère. Port plus Usine atteint le même compteur tout en ouvrant commerce maritime et infrastructure ferroviaire.
+
+Le bon mélange dépend du salon et de la carte. Comptez les deux types avant d'estimer le prix suivant.
+
+### Scénario 5 : timing d'une alliance
+
+Une alliance acceptée à 1:20 atteint normalement ses cinq minutes vers 6:20. L'avertissement de 30 secondes arrive vers 5:50 avec le timing habituel.
+
+Utilisez-le pour retirer les troupes, renouveler ou laisser expirer. Rompre plus tôt ajoute 30 secondes de pénalité et un embargo automatique.
+
+## Contre-jeu adverse
+
+### Ils courent vers le même passage
+
+N'alimentez pas une course symétrique par habitude. Prenez le bord le plus court, gardez une autre voie et comparez le coût d'un Poste ou de la diplomatie avec celui des attaques continues.
+
+### Ils construisent d'abord un Poste
+
+Sa zone de 30 tiles possède de grands multiplicateurs défensifs. Contournez-la si possible, pressez un autre bord ou attendez une meilleure position économique.
+
+Attaquer seulement parce que vous êtes arrivé le premier transforme votre avance en pertes contre un modificateur connu.
+
+### Ils proposent une alliance pour vous figer
+
+Vérifiez où chacun pourra encore grandir. S'ils gardent une terre libre tandis que votre seule voie passe par eux, le pacte les avantage davantage.
+
+Vous pouvez refuser, accepter puis rediriger, ou sécuriser d'abord une autre voie. L'horloge de l'alliance ne crée aucune terre.
+
+### Ils imposent un embargo à votre Port
+
+Les paires sous embargo ne génèrent pas de navires entre elles. Gardez pertinents le revenu de base, la croissance terrestre et les trains disponibles.
+
+### Ils menacent d'un débarquement précoce
+
+Les navires de guerre priorisent les transports. Un Port protégé et une patrouille locale peuvent changer la route, mais un Port isolé reste capturable avec sa terre.
+
+Gardez l'infrastructure côtière reliée au cœur. Ne laissez pas une bande décorative devenir l'unique soutien du Port.
+
+### Ils préparent une pression nucléaire
+
+Repérez Silos et couverture SAM avant de dépenser tout l'or sur la frontière. Le premier Silo coûte 1 000 000 ; le premier SAM 1 500 000 et demande 30 secondes.
+
+La réponse est la préparation, pas la panique. Répartissez les actifs, gardez de l'or et lisez le cadre nucléaire avant le premier tir.
+
+## Échecs fréquents
+
+### Choisir une côte sans profondeur
+
+La mer est utile, mais une bande fine donne à chaque débarquement ou poussée accès au même cœur. Choisissez côte et intérieur défendable, pas la côte comme but unique.
+
+### Choisir l'intérieur sans plan
+
+Un spawn intérieur fonctionne si les Ports sont désactivés ou si la route terrestre est exceptionnelle. Il est faible si vous ignorez la mer sans gagner un front plus court.
+
+### Construire selon un chronomètre mémorisé
+
+« Ville à 40 secondes » n'est pas une mécanique. La construction doit répondre au cap, à la défense, à l'accès ou à la menace. Un bon bâtiment tardif vaut mieux qu'un bâtiment exposé à l'heure.
+
+### S'étendre dans toutes les directions
+
+Plus de périmètre ne signifie pas plus d'opportunités. Trois corridors inachevés donnent trois frontières faibles et réduisent la valeur d'un Poste de 30 tiles.
+
+### Rester près du maximum de troupes
+
+Le facteur de cap pousse la croissance vers zéro quand les troupes approchent du maximum. Attaquez avec raison ou augmentez le cap.
+
+### Traiter un Bot comme de la terre gratuite
+
+Les Bots ont un multiplicateur plus faible, mais consomment temps et troupes. Les attaquer pendant qu'un humain ferme votre échappatoire peut être un mauvais échange.
+
+### Faire confiance à une alliance sans plan d'expiration
+
+Le pacte dure environ cinq minutes et peut finir naturellement. Si votre Ville, Port ou Silo se trouve juste derrière la frontière alliée, préparez l'après-pacte.
+
+### Poser de la valeur capturable sur le bord
+
+Ports, Villes, SAM et Silos changent de propriétaire avec la terre. Laissez assez d'espace autour des structures pour réagir avant la capture.
+
+## Ajustements selon le mode et la carte
+
+### Ports désactivés
+
+Retirez la côte de la liste. Favorisez sorties terrestres, fronts courts, sécurité des Villes et routes qui soutiennent la croissance en tiles.
+
+### Alliances désactivées
+
+Chaque frontière doit tenir sans pause diplomatique de cinq minutes. La densité des spawns et le nombre de voisins exposés deviennent plus importants.
+
+### Peace Time activé
+
+Utilisez la préparation supplémentaire pour améliorer forme et infrastructure. Peace Time ne change pas la valeur à long terme d'une mauvaise frontière.
+
+### Nukes ou SAM désactivés
+
+Sans nukes, davantage d'or de milieu de partie reste dans le cap, la défense et l'économie. Sans SAM, espacez les actifs car Atom et Hydrogen perdent leur intercepteur normal.
+
+### Cartes continentales
+
+La base classe Europe comme Continental. Les longues routes terrestres offrent davantage d'échappatoires et de profondeur, mais peuvent aussi créer plus de voisins.
+
+### Cartes régionales et détroits
+
+Italia, Bosphorus Straits, Strait of Gibraltar et Strait of Malacca figurent dans Regional. Vérifiez le vrai col terrestre et l'eau avant de choisir un côté.
+
+### Cartes fantasy et arcade
+
+Pangaea, Surrounded et The Box ne récompensent pas les suppositions de géographie réelle. Lisez d'abord la topologie, puis appliquez les tests de sortie, front, côte et intérieur.
+
+Utilisez la [base des cartes](/fr/database/maps/) pour confirmer noms et catégories, mais laissez la disposition réelle du salon décider.
+
+## FAQ
+
+### Quel est le meilleur spawn FFA ?
+
+Il n'existe pas de coordonnée fixe. Cherchez une sortie terrestre, une côte facultative, une frontière courte, une zone intérieure et une seconde voie si la première devient contestée.
+
+### Faut-il toujours régler le ratio à 60–70 % ?
+
+Non. C'est un repère débutant. Baissez-le pour les petites prises répétées ou le risque défensif ; augmentez-le seulement pour un engagement utile.
+
+### Le premier bâtiment doit-il toujours être une Ville ?
+
+Non. Une Ville résout le cap, un Poste résout une frontière, un Port résout l'accès à la mer. Construisez ce qui retire la contrainte active.
+
+### Quand construire le premier Port ?
+
+Après avoir atteint une eau sûre et confirmé une route. Il coûte 125 000 si aucun Port ou Usine n'existe, mais le risque de capture et le compteur partagé comptent aussi.
+
+### Les Bots sont-ils de bonnes premières cibles ?
+
+Ils utilisent un tiers du cap de base, ce qui peut faciliter leur dépassement. Ils ne sont pas gratuits si l'attaque vous expose à un voisin plus fort.
+
+### Quand demander une alliance ?
+
+Quand elle retire un front, crée un plan contre un ennemi commun ou soutient le commerce sans bloquer votre seule voie. N'oubliez pas les cinq minutes et l'avertissement.
+
+### Que faut-il avoir à la troisième minute ?
+
+Jugez les résultats : cœur défendable, voie d'expansion active, structures clés protégées et budget prévu pour la prochaine menace.
+
+### Comment savoir que l'ouverture est terminée ?
+
+Elle se termine quand l'expansion n'est plus l'unique décision. Dès que diplomatie, commerce, mer ou préparation nucléaire peuvent décider la position, passez au milieu de partie.
+
+## Lecture suivante
+
+Commencez par les [mécaniques d'apparition et d'expansion](/fr/mechanics/basics/) pour les horloges et la formule de croissance.
+
+Utilisez les [fondamentaux économiques](/fr/strategies/economy-fundamentals/) pour transformer la position en or et capacité.
+
+Lisez [alliances et trahison](/fr/mechanics/alliances/) avant de dépendre d'un pacte de cinq minutes.
+
+Passez ensuite à la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) si les nukes sont actives, ou au [contrôle naval](/fr/strategies/team-naval-control/) pour un rôle maritime.

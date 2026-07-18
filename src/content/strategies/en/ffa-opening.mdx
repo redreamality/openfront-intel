@@ -2,60 +2,333 @@
 title: FFA Spawn and Early Expansion
 description: Spawn site selection, neighbor threat assessment, and first-wave expansion tempo in OpenFront FFA mode.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [FFA, opening, expansion]
 category: FFA
 difficulty: Beginner
 version: v24
 ---
 
-## Three Principles of Spawn Selection
+## Direct Answer
 
-Your spawn choice in FFA decides the fate of your first 3 minutes. Prioritize:
+The safest FFA opening is a flexible one: spawn with a land exit, useful coast, and a border you can shorten. Use the five-second immunity to claim space, then spend only when a building solves a visible problem.
 
-1. **Balance of coastline and inland depth** — coastlines let you build Ports, trade ships, and warships, but a pure-coastal spawn gets pincered.
-2. **Find a chokepoint** — peninsulas, isthmuses, and straits (such as Britannia, Italia, Bosphorus) let one DefensePost wall off an entire opponent.
-3. **Stay away from strong Nations** — Hard/Impossible Nations have Troops cap ×1.0–×1.25 and expand at human speed, capable of wiping half your territory within seconds of spawn.
+Do not judge a spawn by size alone. A wide position with four exposed neighbors can be harder to hold than a smaller peninsula with one land entrance and room for a protected City.
 
-## The First 60 Seconds
+Your first goal is not to eliminate a player. It is to leave the opening with a growing troop cap, one defensible route, access to an economy, and enough freedom to avoid a two-front war.
 
-| Time | Action | Goal |
-| --- | --- | --- |
-| 0-5s | Enjoy spawn immunity | Expand at full power, pull Attack Ratio to 60-70% |
-| 5-20s | Seize the chokepoint | Rush strait or peninsula entrances first |
-| 20-40s | Build first City (125k) | MaxTroops +250k |
-| 40-60s | Build first Port | Unlock trade ships |
+Treat every timing in this guide as a default plan. Lobby options, map scale, spawn density, and opponent choices can move a build earlier or later.
 
-If you still don't hold "at least one chokepoint" by the 60-second mark, you will most likely be knocked out within 3 minutes.
+## Prerequisite Mechanics
 
-## Neighbor Threat Assessment
+### Know the spawn clocks
 
-Sort the players in your view into three categories:
+The spawn phase happens before normal expansion and combat. The generated formula reference lists 100 turns for single player, 150 for multiplayer random spawn, and 300 for multiplayer fixed spawn.
 
-- **Human players** — read names and colors, and watch their first expansion direction closely. If they expand toward you, **send an alliance request immediately**.
-- **Nations** — system-named (e.g. "France", "Japan") with regular expansion curves. Easy/Medium can be ignored; Hard/Impossible require you to lock down the border within 90 seconds.
-- **Bots** — names contain digits, Troops ÷3, slow expansion. They are your early "fertilizer", but since v24 Bot behavior has gotten smarter, so don't get complacent.
+At roughly ten ticks per second, those phases are about 10, 15, and 30 seconds. Use that time to compare positions instead of committing to the first coast you notice.
 
-## Who Should Your First Ally Be
+After the match starts, default spawn immunity lasts 50 ticks, or five seconds. Attacks cannot hit you during that window, but every other player, Bot, and Nation receives the same protection.
 
-An FFA alliance lasts 5 minutes — that's "no incoming damage for half the game". Allies-picking principles:
+### Understand why expansion matters
 
-- **The neighbor one player away** — when you attack the one in between, they help you; when they attack the one in between, you help them.
-- **No resource overlap** — you take land, they take sea; you go east, they go west.
-- **Avoid the too-strong** — in 5 minutes the other side may balloon to twice your size, and a later backstab is pure loss.
+Base troop cap grows with tiles, while each City level adds a fixed 250,000. The cap formula is nonlinear, so new land remains useful even though each extra tile adds less than the previous one.
 
-## Critical Pitfalls
+Troop growth includes the factor `1 - troops / maxTroops`. At 30% of cap, that factor is 0.70. At 80%, it is only 0.20. Sitting near cap wastes much of your potential growth.
 
-- **Building a City too early**: dumping 125k Gold at 0 Gold slows expansion. Reach at least ~300 tiles first.
-- **Detouring along the coast**: a transport ship traveling 30 tiles across coast gets 100% intercepted by warships. Don't try cross-sea landings before the 3-minute mark.
-- **Saturation without attacking**: stockpiling once Troops > 80% MaxTroops is pure waste. Either expand more land or start a war.
+The Attack Ratio sets how much of your current force goes into an attack. The existing beginner route uses 60–70% as a first-match default, not as a universal optimum.
 
-## Bridging into Mid-Game
+Lower the ratio when a neighbor can counterattack or when you must make several small claims. Raise it only when the target and the route justify exposing more troops.
 
-At the 3-minute mark you should have:
+### Price the first structures correctly
 
-- At least 1 geographic chokepoint held
-- 1-2 Cities + 1 Port
-- 1 stable ally
-- MaxTroops ≥ 600,000
+A first City costs 125,000 Gold and adds 250,000 troop cap. City cost scales as `min(1,000,000, 2^n × 125,000)`, while every City level adds another 250,000 cap.
 
-Once those are checked, head straight to [Nukes and SAMs](../../mechanics/nukes/) and [Nuclear Deterrence Strategy](../../strategies/nuclear-deterrence/) to stockpile your arsenal for the 5-minute mark.
+A Defense Post starts at 50,000 Gold. Its sequence is `min(250,000, (n+1) × 50,000)`, and its 30-tile zone multiplies defense magnitude by five and speed by three.
+
+A first Port costs 125,000 Gold when no Port or Factory already uses the shared counter. The next Port or Factory costs 250,000, then 500,000, before the per-build cost reaches its cap.
+
+Ports enable trade ships, transports, and warships. They can also be captured, so a cheap coastal placement is not cheap if an opponent can take the surrounding land.
+
+### Read player types without guessing from names
+
+Human troop-cap multiplier is ×1. Bots use one third of the base cap. Nations use ×0.5 on Easy, ×0.75 on Medium, ×1 on Hard, and ×1.25 on Impossible.
+
+These multipliers describe capacity, not intent. Watch expansion direction, border reinforcement, construction, and diplomacy before deciding that a neighbor is harmless.
+
+### Respect the alliance clock
+
+An accepted alliance lasts 3,000 ticks, about five minutes. Both parties receive a warning 300 ticks, or 30 seconds, before expiry.
+
+Mutual consent renews the alliance. Natural expiry avoids the betrayal penalty, while breaking it triggers an automatic embargo plus defense ×0.5 and speed ×0.8 for 300 ticks.
+
+An alliance is therefore time to solve another problem, not permanent safety. Build a border that still works when the five-minute clock ends.
+
+## Decision Framework
+
+### Step 1: Test the spawn
+
+Ask five questions before locking in:
+
+1. Can I expand through at least one land route without crossing another spawn?
+2. Can I reach water if Ports are enabled?
+3. Is there a narrow border, peninsula neck, strait edge, or other short front?
+4. Is there interior space for a City away from immediate capture?
+5. Can I change direction if the nearest player expands toward me?
+
+A position does not need every advantage. Reject it when one missing feature creates a forced loss, such as no land exit on a no-transport opening or no safe interior behind an exposed coast.
+
+### Step 2: Choose one primary lane and one escape lane
+
+The primary lane is where most early troops go. It should lead toward open land, a short border, or a position that prevents an opponent from sealing you in.
+
+The escape lane is a second route you keep available with smaller claims. It protects you from committing every attack into a contested corridor.
+
+Do not open three equal fronts. Each new edge creates another place where your troop count, attention, and Defense Post budget can be tested.
+
+### Step 3: Match spending to the current bottleneck
+
+Build a City when troop cap is the constraint and its site is secure. Build a Defense Post when a specific border is under pressure. Build a Port when its water access creates a real trade or naval route.
+
+If none of those statements is true, keep Gold liquid. A structure bought from habit can delay the structure that answers the next threat.
+
+### Step 4: Classify neighbors by behavior
+
+Mark a neighbor as expanding away, expanding parallel, or expanding toward you. Recheck after every major border change because intent can change when another front closes.
+
+An expanding-away neighbor is a trade or alliance candidate. A parallel neighbor needs a boundary. An expanding-toward-you neighbor requires troops, a shorter front, diplomacy, or a Defense Post.
+
+### Step 5: Decide whether an alliance reduces risk
+
+The best ally usually removes a front and shares an enemy without competing for the same immediate corridor. Geography matters more than a promise.
+
+Avoid accepting merely because a request appears. If the alliance directs both players into your only expansion lane, it can freeze you while the ally grows elsewhere.
+
+## Timeline and Step-by-Step Execution
+
+### During the spawn phase
+
+Scan the whole map once, then compare two or three candidates. Check land exits first, coast second, front length third, and nearby spawn density last.
+
+Pick a fallback before the timer becomes urgent. A good fallback prevents a late panic click into a crowded center.
+
+### 0:00–0:05: use immunity for shape
+
+Set a workable Attack Ratio and claim the first ring toward your primary lane. Use the protected window to create width and connect the interior, not to attack a protected opponent.
+
+Take the tiles that decide future access first. Ordinary open land remains available later; a neck or shoreline connection may not.
+
+### 0:05–0:30: identify the first border
+
+Watch which colors approach your route. If a player turns toward you, shorten the shared edge instead of racing along it tile for tile.
+
+Keep enough troops to change direction. Repeated maximum commits can win empty land while leaving the new border too weak to hold.
+
+Do not place a building on the leading edge. Buildings transfer when their territory is captured, so early infrastructure belongs behind the area you expect to defend.
+
+### 0:30–1:00: solve the first bottleneck
+
+If troop cap is already restricting growth, prepare the first City. If a narrow front is becoming active, a first Defense Post may solve more than the City.
+
+If the coast is secure and Ports are enabled, reserve a coastal tile with good land support. You do not need to build the Port the moment you touch water.
+
+Send an alliance request only when it changes the map. The useful result is one fewer active front, not the alliance icon itself.
+
+### 1:00–2:00: convert shape into stability
+
+Move the City into protected interior space. Put a Defense Post where its 30-tile area covers the route an attacker must cross, rather than where it covers the most empty land.
+
+Build the first Port only if the route can operate and the land around it can be held. If the water is already controlled by an enemy, keep the Gold for defense or inland growth.
+
+Keep one route open for expansion. A fully fortified shell with no new land raises safety briefly but gives opponents the initiative.
+
+### 2:00–3:00: prepare the transition
+
+Recheck troop saturation, Gold, alliances, and exposed structures. Decide whether the next purchase expands cap, secures a border, starts trade, or prepares nuclear defense.
+
+If an alliance began near the opening, note its future warning window now. Do not discover the five-minute expiry while your troops are committed elsewhere.
+
+### 3:00–5:00: stop calling it the opening
+
+By this point, judge the position by systems rather than a rigid checklist. You want a defendable core, a live growth route, and an economy that can fund the next threat.
+
+If nukes are enabled, begin reading Silo and SAM construction times instead of assuming early borders remain the only danger. A SAM takes 300 ticks, or 30 seconds, to build.
+
+## Number Scenarios
+
+### Scenario 1: one City versus two early posts
+
+A first City is 125,000 Gold and adds 250,000 troop cap. The first two Defense Posts cost 50,000 and 100,000, for 150,000 total.
+
+The City is the better answer to a cap problem. The two posts are the better answer when two separate 30-tile defensive zones prevent immediate territorial loss.
+
+This is not a universal build order. It shows why 25,000 Gold of price difference should not decide between two structures with different jobs.
+
+### Scenario 2: troop saturation changes the next move
+
+At 30% of max troops, the growth formula keeps 70% of its pre-cap term. At 80%, it keeps only 20%.
+
+If you are at 400,000 of a 500,000 cap, another idle interval is less productive than at 150,000 of that cap. Spend troops on a justified claim or raise the cap with land or a City.
+
+### Scenario 3: Nation difficulty changes border urgency
+
+Suppose the unmodified cap for a position is 600,000. Easy applies 0.5 for 300,000, Medium gives 450,000, Hard gives 600,000, and Impossible gives 750,000.
+
+A Bot would use one third, or 200,000 in the same simplified comparison. These values do not predict tactics, but they explain why equal-looking neighbors can have different ceilings.
+
+### Scenario 4: Port and Factory opportunity cost
+
+With no Port or Factory, the first one costs 125,000. The second structure using that shared counter costs 250,000, and the third costs 500,000.
+
+Buying two Ports makes a later Factory more expensive. Buying Port plus Factory reaches the same counter while opening both sea trade and train infrastructure.
+
+The right mix still depends on lobby options and map access. The point is to count both structure types before assuming the next price.
+
+### Scenario 5: alliance timing
+
+An alliance accepted at 1:20 reaches its normal five-minute duration near 6:20. The 30-second warning should arrive near 5:50 under normal tick timing.
+
+Use that warning to pull troops back, renew mutually, or let the pact expire. Breaking early adds a 30-second betrayal debuff and an automatic embargo.
+
+## Opponent Counterplay
+
+### They race the same chokepoint
+
+Do not keep feeding troops into a symmetric race by habit. Claim the shortest defensible edge, preserve an alternate lane, and decide whether a post or diplomacy costs less than continued attacks.
+
+### They build a Defense Post first
+
+Its 30-tile zone carries large defensive multipliers. Move around the zone when possible, pressure the builder's other edge, or wait for a stronger economic position.
+
+Attacking simply because you arrived first converts your opening advantage into losses against a known modifier.
+
+### They offer an alliance to freeze you
+
+Check where both players can expand after acceptance. If they retain open land while your only route runs through them, the pact may benefit them more.
+
+You can decline, accept and redirect, or accept only after securing another lane. The alliance clock does not create territory for you.
+
+### They embargo your Port economy
+
+Embargoed pairs do not spawn trade ships between each other. Keep base income, land growth, and any available train route relevant so one diplomatic action cannot stop every purchase.
+
+### They threaten an early naval landing
+
+Warships prioritize Transport Ships. A protected Port and local naval screen can change the route, but an isolated Port can be captured with its surrounding territory.
+
+Keep coastal infrastructure connected to the core. Do not let a decorative coastal strip become the only support for your Port.
+
+### They prepare nuclear pressure
+
+Look for Missile Silos and SAM coverage before spending all Gold on border pushes. The first Silo costs 1,000,000, while the first SAM costs 1,500,000 and needs 30 seconds to construct.
+
+Your counter is preparation, not panic. Spread critical assets, preserve Gold, and read the full nuclear framework before the first launch.
+
+## Failure Modes
+
+### Picking coast with no inland depth
+
+Sea access is useful, but a thin coastal strip gives every landing or land push access to the same core. Choose coast plus a defensible interior, not coast as an end in itself.
+
+### Picking inland with no plan
+
+An inland spawn can work when Ports are disabled or the land route is exceptional. It is weaker when you ignore enabled trade and naval systems without gaining a shorter front.
+
+### Building from a memorized timer
+
+“City at 40 seconds” is not a mechanic. Construction should answer cap, defense, access, or threat. A delayed correct building is better than an on-time exposed one.
+
+### Expanding in every direction
+
+More perimeter is not always more opportunity. Three unfinished corridors create three weak borders and make a single 30-tile Defense Post less useful.
+
+### Staying near max troops
+
+The cap factor drives growth toward zero as troops approach max troops. Use justified attacks or increase max troops instead of treating a full bar as automatic strength.
+
+### Treating a Bot as free land
+
+Bots have a lower cap multiplier, but they still consume time and troops. Attacking one while a human closes your escape lane can be a losing exchange.
+
+### Trusting an alliance without an expiry plan
+
+The agreement lasts about five minutes and can end naturally. If your City, Port, or Silo sits directly behind the allied border, prepare a post-expiry defense.
+
+### Placing captured value on the edge
+
+Ports, Cities, SAMs, and Silos can transfer with captured territory. Leave enough land around critical structures to react before the building changes hands.
+
+## Mode and Map Adjustments
+
+### Ports disabled
+
+Remove coast access from the spawn checklist. Favor land exits, short fronts, City safety, and any route that supports sustained tile growth.
+
+### Alliances disabled
+
+Every border must work without a five-minute diplomatic pause. Spawn density and the number of exposed neighbors become more important.
+
+### Peace Time enabled
+
+Use the extra preparation window to improve shape and infrastructure. Do not assume Peace Time changes the long-term value of a bad border.
+
+### Nukes disabled or SAMs disabled
+
+With nukes disabled, more mid-game Gold can stay in troop cap, defense, and economy. With SAMs disabled, critical-asset spacing matters because atom and hydrogen bombs lose their normal interceptor.
+
+### Continental maps
+
+The map database classifies maps such as Europe as Continental. Longer land routes make fallback lanes and inland depth more available, but they can also create more neighbors.
+
+### Strait and regional maps
+
+Italia, Bosphorus Straits, Strait of Gibraltar, and Strait of Malacca appear in the Regional set. On these maps, inspect the actual land neck and water access before choosing a side.
+
+### Fantasy and arcade maps
+
+Pangaea, Surrounded, and The Box do not reward assumptions imported from real geography. Read the rendered topology first, then apply the same exit, front, coast, and interior tests.
+
+Use the [map database](/database/maps/) to confirm names and categories, but let the live lobby layout decide the spawn.
+
+## FAQ
+
+### What is the best OpenFront FFA spawn?
+
+There is no fixed coordinate. Prefer a position with a usable land exit, optional coast, a short defensible border, interior building space, and a second route if the primary lane becomes contested.
+
+### Should I always set Attack Ratio to 60–70%?
+
+No. It is a beginner default from the first-match guide. Lower it for repeated small claims or defensive risk, and raise it only when a larger commit has a clear purpose.
+
+### Should my first building always be a City?
+
+No. A City solves troop cap. A Defense Post solves a pressured border. A Port solves sea access. Build the structure that removes the active constraint.
+
+### How early should I build a Port?
+
+Build after reaching secure water and confirming a useful route. The first cost is 125,000 if no Port or Factory exists, but capture risk and the shared cost counter matter.
+
+### Are Bots safe first targets?
+
+Bots use one third of the base population cap, which can make them easier to outgrow. They are not free if the attack exposes you to a stronger neighbor.
+
+### When should I request an alliance?
+
+Request one when it removes a front, creates a common-enemy plan, or supports trade without blocking your only growth lane. Remember the five-minute duration and 30-second warning.
+
+### What should I have by minute three?
+
+Use outcomes, not a rigid item list: a defendable core, a live expansion route, protected key structures, and a budget plan for the next threat.
+
+### How do I know the opening is over?
+
+The opening ends when expansion is no longer the only decision. Once diplomacy, trade, naval control, or nuclear preparation can decide the position, switch to a mid-game plan.
+
+## Next Reading
+
+Start with [spawn and expansion mechanics](/mechanics/basics/) for the clocks and growth formula.
+
+Use [economy fundamentals](/strategies/economy-fundamentals/) to turn the position into Gold and troop cap.
+
+Read [alliances and betrayal](/mechanics/alliances/) before relying on a five-minute pact.
+
+Then move to [nuclear deterrence](/strategies/nuclear-deterrence/) if nukes are enabled, or [team naval control](/strategies/team-naval-control/) when you need a focused sea role.

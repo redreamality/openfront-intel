@@ -2,71 +2,357 @@
 title: Nucleaire afschrikking en SAM-netwerken
 description: Van de eerste Silo tot MIRV — tempo van nucleaire aanvallen, SAM-plaatsing en anti-nucleaire strategie.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [nukes, SAM, deterrence]
 category: Midden-eindspel
 difficulty: Gevorderd
 version: v24
 ---
 
-## Het driefasige nucleaire tempo
+## Direct antwoord
 
-Nucleaire oorlogvoering in OpenFront valt uiteen in drie duidelijke fasen:
+Nucleaire afschrikking betekent een geloofwaardige vergelding bewaren en de eerste aanval van de vijand duur of onzeker maken. Je hebt Gold, een Silo, beschermde lanceercapaciteit en passende SAM-dekking nodig.
 
-### Fase 1 · Afschrikking opzetten (3-5 minuten)
+Eén SAM is waarschuwing en basisdekking, geen volledige veiligheid. Zijn cooldown van 90 ticks beperkt de doorvoer, terwijl MIRV-dragers en kernkoppen immuun zijn voor SAM-onderschepping.
 
-- **Doel**: laat je tegenstander weten dat je kunt terugslaan.
-- **Bouwen**: 1 Missile Silo (1M) + 1 SAM (1,5M).
-- **Effect**: één enkele SAM bestrijkt 70 tiles, al genoeg om je kernsteden te beschermen. Bot Nukes vermijden actief SAM-dekking, wat betekent dat <strong>het bouwen van een SAM alleen al afschrikking creëert</strong>.
+Kies een wapen op missie. Atoombommen zijn goedkoper en kleiner. Waterstofbommen bestrijken veel meer terrein. MIRV omzeilt SAM, maar kost veel meer en gebruikt kleinere losse kernkoppen.
 
-### Fase 2 · Echte aanvallen (5-8 minuten)
+Lanceer niet alleen omdat een wapen klaarstaat. Een aanval moet capaciteit verwijderen, een grondaanval openen, een route ontzeggen of defensieve uitgaven afdwingen die jouw positie helpen.
 
-- **Doel**: 5M Gold + 1 Hydrogen Bomb verzamelen om de kern van de tegenstander te vernietigen.
-- **Bouwen**: 2-3 SAM's upgraden naar niveau 3+, een tweede Silo toevoegen.
-- **Doelprioriteit**:
-  1. Vijandelijke City-clusters (verlaagt hun troepenplafond).
-  2. Vijandelijke Silos en SAM's (verlamt hun vergelding).
-  3. Vijandelijke handels-Ports (snijdt hun economie af).
+## Vereiste mechanismen
 
-### Fase 3 · MIRV-coördinatie (8+ minuten)
+### Raketsilo
 
-- **Doel**: gebruik MIRV om de tegenstander te dwingen zijn verdediging te verspreiden.
-- **Bouwen**: 25M Gold verzamelen, je eerste MIRV afvuren; +15M voor elke volgende lancering.
-- **Belangrijkste punt**: v24 verzwakte de MIRV-schade, dus de <strong>waarde ligt in psychologische druk</strong> — SAM's kunnen MIRV's niet onderscheppen, waardoor tegenstanders gedwongen worden dure SAM's te spreiden, wat de puntverdediging juist verzwakt.
+De eerste Raketsilo kost vast 1.000.000 Gold en heeft 100 ticks bouwtijd. Het is het lanceerplatform voor kernwapens.
 
-## SAM-plaatsingsformule
+Silo-upgrades verkorten de herlaadtijd. Meerdere Silo's geven meer lanceercapaciteit, maar elke blootgestelde Silo kan met haar gebied worden veroverd.
 
-Elke SAM dekt een cirkelvormige schijf:
+Een Silo zonder betaald wapen is nog een signaal. Zonder bescherming, Gold of een overlevende kern vormt hij geen betrouwbare afschrikking.
 
-```
-samRange(level) = 150 − 480 / (level + 5)
-level 1: 70  · level 2: ~81 · level 3: ~90
-level 4: ~96 · level 5: ~140
-```
+### Atoombom
 
-**Twee of meer SAM's die hetzelfde doel dekken** zijn nodig om een salvo te overleven (90-tick cooldown). Maar groepeer ze niet — één enkele Hydrogen Bomb met een buitenring van 100 tiles vaagt ze allemaal weg.
+Een Atoombom kost 750.000 Gold. De opgegeven stralen zijn 12 tiles binnen en 30 buiten.
 
-## Anti-nucleaire checklist
+SAM-lanceerders kunnen haar onderscheppen. De lagere prijs maakt eerder meerdere lanceringen mogelijk, maar herhaling blijft onderworpen aan cooldown en dekking.
 
-- [ ] Minstens 2 SAM's dekken elke kern-City
-- [ ] SAM-afstand > 80 tiles
-- [ ] Silos binnen de SAM-perimeter geplaatst
-- [ ] Cities geüpgraded naar niveau 2+ (bevolkingsbuffer)
-- [ ] Vertrouw nooit op één enkel verdedigingspunt — back-up meerdere kernen
+### Waterstofbom
 
-## Klassieke fouten
+Een Waterstofbom kost 5.000.000 Gold. Haar binnenstraal is 80 tiles en haar buitenstraal 100.
 
-- **Een stapel Atom Bombs opslaan als hoofdwapen** — voor 750k per stuk is de schade per inslag beperkt en één enkele niveau 3 SAM onderschept de hele salvo. Hydrogen Bombs (5M) zijn de echte nucleaire aanval.
-- **MIRV als ultiem wapen behandelen** — na v24 dekt een MIRV-kernkop slechts een buitenring van 18 tiles, veel minder schade dan een Hydrogen Bomb. Gebruik het als psychologisch oorlogswapen.
-- **Naakte Silos zonder SAM-dekking** — je Silo wordt het eerste doelwit van de Hydrogen Bomb van je tegenstander, en je vergeldingscapaciteit zakt onmiddellijk naar nul.
+Ook zij kan door SAM worden onderschept. De grotere oppervlakte maakt spreiding en overlappende dekking belangrijker dan tegen een Atoombom.
 
-## Beslisboom
+### MIRV
 
-```
-Heb je 5M Gold?
-├─ Nee → Blijf de economie laten groeien (City + Port + upgrades), bouw geen nukes
-└─ Ja → Heeft de tegenstander SAM's?
-    ├─ Nee → Hydrogen Bomb hun City-cluster direct
-    └─ Ja → Heeft hij minder dan 3 SAM's?
-        ├─ Ja → Salvo van 2-3 Atom Bombs om de SAM-zone te verzadigen
-        └─ Nee → Verzamel tot 25M Gold en lanceer een MIRV
-```
+De eerste MIRV kost 25.000.000 Gold. De formule telt 15.000.000 op per eerdere MIRV-lancering, waardoor de tweede 40.000.000 kost.
+
+De drager splitst in meerdere MIRV-kernkoppen. Elke kernkop heeft binnen- en buitenstralen van 12 en 18 tiles.
+
+Noch de MIRV-drager noch de kernkoppen kunnen door SAM worden onderschept. De gegenereerde notities vermelden ook de v24-nerf: MIRV-kraters zijn snel te heroveren.
+
+SAM-immuniteit maakt MIRV geen automatische finisher. Prijs, kleinere kernkopstraal, spreiding en de herovering door de verdediger blijven tellen.
+
+### SAM-lanceerder
+
+De eerste SAM kost 1.500.000 Gold. De formule is `min(3.000.000, (n+1) × 1.500.000)`, zodat latere SAM's een bouwplafond van 3.000.000 bereiken.
+
+De bouw duurt 300 ticks, ongeveer 30 seconden. Een onvoltooide SAM lost geen aanval op die al aankomt.
+
+De cooldown bedraagt 90 ticks, ongeveer negen seconden. Eén lanceerder kan geen onbeperkte reeks kort na elkaar gelanceerde Atoom- of Waterstofbommen stoppen.
+
+Bereik volgt `150 - 480 / (level + 5)`. De eerste niveaus zijn 70, ongeveer 81, 90, ongeveer 97 en 102 tiles. Hogere niveaus naderen de limiet van 150.
+
+Onderschepping vereist ook een niet-negatief voorvuurvenster: `nukeReachTick - samReachTick >= 0`. Kaartdekking is nodig, maar de raket moet het pad op tijd bereiken.
+
+### Steden als strategische diepte
+
+Elk Stadsniveau voegt 250.000 troepenlimiet toe. Die buffer onderschept geen wapen, maar kan meer capaciteit laten voor verdediging en herstel na verliezen.
+
+Steden, Silo's, SAM's en Havens kunnen met veroverd gebied van eigenaar wisselen. Nucleaire verdediging omvat dus ook het land rond het netwerk.
+
+## Besliskader
+
+### Stap 1: Bepaal wat moet overleven
+
+Noem de bezittingen waarvan verlies je plan beëindigt: Silo's, Steden op hoog niveau, sleutel-Havens, Fabrieken, een smalle landverbinding of je enige veilige expansieroute.
+
+Dek geen leeg terrein alleen omdat het centraal ligt. Richt SAM-zones op gebouwen en routes die vergelding of herstel in stand houden.
+
+### Stap 2: Bepaal het inkomende wapenset
+
+Heeft de vijand een Silo maar weinig Gold, dan zijn Atoombommen de goedkopere dreiging. Bij 5.000.000 wordt Waterstof mogelijk, bij 25.000.000 de eerste MIRV.
+
+Gold is niet altijd exact zichtbaar. Gebruik deze bedragen als capaciteitsdrempel, niet als bewijs dat het wapen bestaat.
+
+### Stap 3: Scheid dekking van redundantie
+
+Dekking vraagt of een doel binnen SAM-bereik ligt. Redundantie vraagt of een tweede voltooide SAM kan reageren terwijl de eerste afkoelt.
+
+Twee overlappende SAM-cirkels kunnen een kern beter tegen salvo's beschermen. Liggen beide lanceerders binnen één buitenstraal van 100 tiles, dan bedreigt één treffer het hele netwerk.
+
+Spreid de lanceerders en behoud overlap op het belangrijke doel. Er is geen universele afstand voor elke kaartvorm en elk niveau.
+
+### Stap 4: Bewaar een vergeldingsbudget
+
+De eerste Silo plus eerste SAM kost 2.500.000 Gold vóór een wapen. Een Atoombom brengt het pakket op 3.250.000.
+
+Een beschermde Waterstofcapaciteit kost minstens 7.500.000 voor eerste Silo, eerste SAM en bom, nog zonder upgrades of redundantie.
+
+Geef niet alles uit aan het zichtbare wapen als daardoor SAM, Stad of grondverdediging ontbreekt die het lanceerplatform laat overleven.
+
+### Stap 5: Kies een aanvalsmissie
+
+Gebruik een kleine aanval voor een klein doel. Gebruik een grote straal als de doeldichtheid het waard is. Gebruik MIRV als het omzeilen van SAM de stijgende prijs rechtvaardigt.
+
+Formuleer vóór lancering de vervolgzet in één zin. Kun je niet uitleggen wat erna verandert, bewaar het wapen dan als drukmiddel of investeer anders.
+
+## Tijdlijn en stapsgewijze uitvoering
+
+### Vóór nucleaire uitgaven
+
+Zorg voor genoeg land en economie voor het pakket, niet slechts één onderdeel. Controleer of kernwapens of SAM's uitgeschakeld zijn voordat je voor onbeschikbare systemen spaart.
+
+Houd sleutelgebouwen weg van de grens. Een nucleair netwerk dat een gewone grondaanval kan veroveren is geen nucleaire oplossing.
+
+### Afschrikking opbouwen
+
+Bouw de Silo waar hij in de verdedigde kern blijft. Start de eerste SAM vroeg genoeg om zijn 300 ticks bouwtijd vóór het verwachte dreigingsvenster af te ronden.
+
+Teken denkbeeldig een cirkel rond de bezittingen die moeten overleven. De 70 tiles van niveau één zijn het uitgangspunt.
+
+Toon geen lege schatkist door overbouw. Houd genoeg Gold voor het geplande wapen of een extra defensieve reactie.
+
+### Eerste voltooide schild
+
+Controleer na voltooiing welke Steden, Silo's en routes werkelijk binnen bereik liggen. Een SAM-pictogram bewijst niet dat de hele kern gedekt is.
+
+Bekijk de aanvlieggeometrie. De voorvuurformule betekent dat onderschepping afhangt van aankomsttijd én de nominale cirkel.
+
+Bij AI-tegenstanders zeggen bestaande gebouwennotities dat AI-kernwapens SAM-doelen mijden. Dat voegt afschrikking toe, maar verandert menselijke doelen of MIRV-immuniteit niet.
+
+### Redundantiefase
+
+Voeg een tweede SAM toe als de eerste iets beschermt dat geen cooldown-gat mag verdragen. De tweede lanceerder kost volgens de formule 3.000.000.
+
+Plaats hem versprongen, zodat beide de kern dekken zonder elke lanceerder en Silo in hetzelfde compacte explosiegebied te zetten.
+
+Upgrade bereik alleen als de grotere cirkel een echte bezitting of aanvliegroute omvat. Bereik zonder doel is dure decoratie.
+
+### Aanval voorbereiden
+
+Controleer doel, vijandelijke SAM-cirkels, grondopvolging en je eigen vergeldingsrisico. Lanceer niet als de inslag die omstandigheden niet verandert.
+
+Ga bij Atoom of Waterstof uit van onderschepping op gedekte doelen. Neem bij MIRV aan dat inslag mogelijk is, maar niet dat gebied permanent ontzegd blijft.
+
+### Lancering en vervolg
+
+Lanceer wanneer troepen, bondgenoten of marine de opening kunnen benutten. Een krater zonder vervolg kan neutraal terrein worden dat de verdediger terugpakt.
+
+Bekijk na de lancering herladen, vijandelijke bouw, SAM-cooldowns en je Gold. Herhaal niet automatisch hetzelfde doel als de eerste aanval de geometrie heeft veranderd.
+
+### Herstel na een inkomende aanval
+
+Herbouw de capaciteit die de aanval wilde verwijderen. Herstel gevallen SAM-dekking, verloren Stadscapaciteit of de verdediging van een geopende route.
+
+In Water-Nukes-modus telt ook snelle herexpansie, omdat onbezet vernietigd land water kan worden. Gebruik de speciale gids voor dat gedrag.
+
+## Cijferscenario's
+
+### Scenario 1: Minimaal zichtbare afschrikking
+
+Eén eerste Silo kost 1.000.000 en één eerste SAM 1.500.000, samen 2.500.000. Hun opgegeven bouwtijden zijn 100 en 300 ticks.
+
+Een Atoombom kost nog 750.000 en brengt het pakket op 3.250.000. Het geeft lanceercapaciteit, één wapen en één laag bescherming tegen onderschepbare nukes.
+
+Het geeft geen salvoredundantie of MIRV-afweer. De waarde hangt af van plaatsing, paraatheid en overlevingskans.
+
+### Scenario 2: Kosten van overlappende SAM's
+
+De eerste SAM kost 1.500.000. De tweede kost 3.000.000, dus twee lanceerders kosten 4.500.000 vóór upgrades.
+
+Een derde kost ook 3.000.000 door het plafond. Drie niet-geüpgradede lanceerders kosten daarom 7.500.000.
+
+Dat budget koopt meer onderscheppingsdoorvoer, maar alleen waar cirkels en voorvuurvensters het inkomende pad dekken.
+
+### Scenario 3: Bereik per niveau
+
+Volgens de gegenereerde formule zijn niveaus één tot vijf 70, ongeveer 81, 90, ongeveer 97 en 102 tiles.
+
+De winst per niveau daalt richting 150. Upgrade omdat een specifiek gebouw of pad dekking krijgt, niet omdat het niveau laag lijkt.
+
+### Scenario 4: Twee Atoombommen tegenover één Waterstofbom
+
+Twee Atoombommen kosten 1.500.000 en hebben elk 12/30 binnen/buiten. Eén Waterstofbom kost 5.000.000 en heeft 80/100.
+
+Het goedkopere paar geeft twee lanceringen en twee mogelijke doelen. Waterstof geeft één veel groter gebied. SAM's kunnen beide wapentypes onderscheppen.
+
+De beste keuze hangt af van doeldichtheid, dekking, cooldown-timing en missie. Prijs maakt de wapens niet uitwisselbaar.
+
+### Scenario 5: MIRV-escalatie
+
+De eerste MIRV kost 25.000.000. Na één lancering kost de volgende 40.000.000. Beide samen verbruiken 65.000.000 vóór Silo of verdediging.
+
+Die stijging beloont selectief gebruik. MIRV omzeilt SAM, maar de kernkoppen zijn 12/18 en v24-kraters kunnen snel worden heroverd.
+
+### Scenario 6: Stadsbuffer
+
+Eén Stadsniveau geeft 250.000 troepenlimiet. Twee niveaus geven 500.000 en vier 1.000.000.
+
+Dat verkleint de explosie niet. Het geeft de positie meer capaciteit vóór en na een treffer, zolang de Stad onder jouw controle blijft.
+
+## Tegenspel van tegenstanders
+
+### SAM-verzadiging
+
+Een vijand kan meerdere onderschepbare wapens kort na elkaar timen. Eén SAM heeft 90 ticks cooldown, dus dekking zonder tweede gereedstaande lanceerder kan een latere aanval openlaten.
+
+Reageer met overlappende voltooide lanceerders op sleutelgebieden, zonder een cluster te maken dat één Waterstofbom volledig kan bedreigen.
+
+### MIRV-omzeiling
+
+SAM's kunnen drager noch kernkoppen onderscheppen. Reageer met spreiding, meerdere herstelbare kernen, bewaarde grondtroepen en genoeg economie voor wederopbouw.
+
+Blijf niet één SAM upgraden alsof bereik immuniteit oplost. Het antwoord op MIRV is veerkracht en herstel, geen grotere onderscheppingscirkel.
+
+### Doelspreiding
+
+Een tegenstander kan Steden, Silo's, Havens en SAM's scheiden zodat één explosie minder waarde raakt. Dat verlaagt het rendement van een Waterstofbom.
+
+Kies een smaller doel, coördineer meerdere fronten of bewaar het wapen als drukmiddel in plaats van een lage-waardeaanval te forceren.
+
+### Grondverovering
+
+Gebouwen wisselen met veroverd gebied van eigenaar. Een landaanval kan een Silo of SAM verwijderen zonder de onderscheppingsstrijd te winnen.
+
+Bescherm de omliggende grens en houd troepen beschikbaar. Nucleaire verdediging zonder gewone veroveringsafweer heeft een gat dat geen lanceerder dekt.
+
+### Economische ontzegging
+
+Vijanden kunnen Havens, spoorlijnen of land aanvallen om je onder de volgende wapendrempel te houden. Een MIRV-plan van 25.000.000 is kwetsbaar met één open inkomstenbron.
+
+Reageer met gemengd inkomen, beschermde infrastructuur en een goedkoper alternatief zodra het oorspronkelijke budget niet meer realistisch is.
+
+### De krater heroveren
+
+De v24-notitie zegt dat MIRV-kraters snel te veroveren zijn. Zonder troepen voor vervolg kan de verdediger de controle herstellen.
+
+Coördineer de lancering met de eenheid of grenszet die van de inslag profiteert.
+
+## Faalpatronen
+
+### Onbeschermde Silo
+
+Een Silo buiten SAM-dekking en dicht bij een zwakke grens biedt zichtbare waarde voor nucleaire en landaanvallen. Houd lanceercapaciteit in het verdedigde systeem.
+
+### Vertrouwen in één SAM
+
+Eén lanceerder geeft echte dekking, vooral tegen AI-doelen. Hij heeft nog cooldown en raakt geen MIRV. Zie hem als eerste laag, niet als volledig schild.
+
+### Compact nucleair district
+
+Elke Stad, Silo en SAM clusteren maakt verdediging eenvoudig tot een grote explosie ze samen bereikt. Bewaar overlap zonder één faalpunt.
+
+### SAM op het laatste moment
+
+De bouw duurt 300 ticks. Starten na een waarschuwing kan de lanceerder onvoltooid laten wanneer het wapen arriveert.
+
+### Blind Atoombommen spammen
+
+Meerdere Atoombommen maken meerdere lanceringen, maar gedekte schoten kunnen worden onderschept. Tel vijandelijke lanceerders, cooldowns, paden en doelwaarde.
+
+### MIRV als automatische overwinning
+
+SAM-immuniteit garandeert geen permanente controle. Kleine kernkopstralen, hoge prijs, spreiding en heroverbare kraters beperken het resultaat.
+
+### Tot nul uitgeven
+
+Een wapen dat de schatkist leegt kan geen antwoord op vergelding overlaten. Bewaar budget voor troepen, dekking of vervangende infrastructuur.
+
+### Geen vervolg
+
+Schade is niet hetzelfde als strategische winst. Zonder land-, marine- of bondgenotenactie kan de verdediger herbouwen of heruitbreiden.
+
+## Aanpassingen aan modus en kaart
+
+### Kernwapens uitgeschakeld
+
+Bouw geen nucleair plan rond onbeschikbare wapens. Stuur hetzelfde Gold-denken naar Steden, Posten, handel, treinen of zeebeheersing.
+
+### SAM's uitgeschakeld
+
+Atoom- en Waterstofbommen verliezen hun normale onderschepper. Spreid gebouwen, bewaar meerdere kernen en bied geen dicht doel voor het hele vijandelijke budget.
+
+### Water Nukes ingeschakeld
+
+Vernietigd onbezet land kan na de inslag water worden. Explosiegroottes blijven gelijk, maar de kaart kan permanent water en nieuwe marineroutes krijgen.
+
+Lees de [Water-Nukes-gids](/nl/guides/water-nukes/) voordat je een normaal herstelplan gebruikt.
+
+### FFA
+
+Afschrikking omvat diplomatie. Een zichtbare vergelding remt één buur terwijl een ander front openblijft, maar allianties behouden hun duur en verraadregels.
+
+### Teammodi
+
+Verdeel rollen en benoem doelen. Eén speler betaalt lanceercapaciteit en teamgenoten leveren grondvervolg. Een centraal arsenaal wordt ook een duidelijk vijandelijk doel.
+
+### Krappe regionale kaarten
+
+De buitenstraal van 100 tiles van Waterstof dekt meer van een compacte kern. Als spreiding moeilijk is, wordt een tweede kern of extra route waardevoller.
+
+### Grote continentale kaarten
+
+Eén SAM-cirkel dekt mogelijk maar één cluster. Bouw zones rond echte bezittingen in plaats van het hele gebied te willen bedekken.
+
+Gebruik de [kaartendatabase](/nl/database/maps/) voor de kaartset en beoordeel afstand en topologie daarna in de partij.
+
+## FAQ
+
+### Wat is de goedkoopste nucleaire afschrikking?
+
+Eerste Silo plus eerste SAM kost 2.500.000 Gold vóór een wapen. Met een Atoombom wordt het pakket 3.250.000.
+
+### Hoeveel kost een MIRV in OpenFront?
+
+De eerste MIRV kost 25.000.000 Gold. Elke eerdere MIRV-lancering voegt 15.000.000 toe: de tweede kost 40.000.000 en de derde 55.000.000.
+
+### Kan één SAM elke nuke stoppen?
+
+Nee. Hij onderschept alleen Atoom- en Waterstofbommen, heeft 90 ticks cooldown en kan MIRV-dragers of kernkoppen niet raken.
+
+### Welk bereik heeft de eerste SAM?
+
+De formule geeft 70 tiles op niveau één. Niveau twee is ongeveer 81, niveau drie 90 en latere niveaus naderen 150.
+
+### Moet ik twee SAM's voor overlap clusteren?
+
+Laat dekking overlappen op sleutelgebouwen, maar scheid lanceerders zodat één grote explosie niet het hele netwerk bedreigt. Exacte afstand hangt van kaart en niveau af.
+
+### Atoombom of Waterstofbom?
+
+Kies Atoom voor een goedkopere kleine missie of meerdere lanceringen. Kies Waterstof als 80/100 gebied de prijs van 5.000.000 waard is.
+
+### Stopt SAM een MIRV?
+
+Nee. Zowel MIRV-drager als kernkoppen zijn immuun voor SAM-onderschepping.
+
+### Is MIRV altijd beter dan Waterstof?
+
+Nee. Ze omzeilt SAM, maar de eerste kost 25.000.000, latere worden duurder, elke kernkop is kleiner en v24-kraters worden snel heroverd.
+
+### Waar moet ik op richten?
+
+Richt op gebouw of route waarvan verlies een concrete vervolgzet opent. Dichte Steden, lanceercapaciteit, handel en smalle verbindingen tellen, maar controleer dekking.
+
+### Wanneer moet ik lanceren?
+
+Lanceer als de inslag controle, capaciteit, inkomen of defensieve uitgaven verandert. Zonder vervolg kan voortdurende afschrikking meer waard zijn.
+
+## Verder lezen
+
+Bekijk [kernwapen- en SAM-mechanieken](/nl/mechanics/nukes/) voor tabel en formules.
+
+Gebruik de [gebouwendatabase](/nl/database/structures/) en [eenhedendatabase](/nl/database/units/) voor kosten, bouwtijden en wapennotities.
+
+Lees [economische basisprincipes](/nl/strategies/economy-fundamentals/) vóór je 5.000.000 of 25.000.000 vastlegt.
+
+Bekijk [sneltoetsen](/nl/shortcuts/) voor normale lanceerbesturing en keer terug naar [FFA-opening](/nl/strategies/ffa-opening/) of [team-zeebeheersing](/nl/strategies/team-naval-control/).

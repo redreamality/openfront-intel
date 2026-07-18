@@ -1,71 +1,368 @@
 ---
 title: 'Mode Team : style contrôle naval'
-description: Au rythme de 5 minutes du mode Team, Ports, Warships et commerce forment un style de puissance maritime symbiotique.
+description: Ports, navires de guerre, transports et commerce forment un rôle maritime qui doit convertir la mer en territoire pour l'équipe.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [team, naval, ports]
 category: Team
 difficulty: Intermédiaire
 version: v24
 ---
 
-## Pourquoi le style contrôle naval
+## Réponse directe
 
-La condition de victoire du mode Team, c'est 95 % du territoire en 5 minutes — **il n'y a pas le temps pour une guerre nucléaire longue**. L'idée centrale du style contrôle naval :
+Le contrôle naval en Team est un rôle de soutien avec trois résultats : garder les transports alliés utilisables, bloquer les transports ennemis et transformer les Ports sûrs en économie ou départs.
 
-- Utiliser les Ports pour créer un **pic de Gold via le commerce** (4 à 5 Ports qui sortent des Trade Ships en même temps sur une courte fenêtre).
-- Utiliser les Warships pour verrouiller la mer et **empêcher les débarquements adverses** sur ton continent principal.
-- Laisser tes coéquipiers se concentrer sur la poussée terrestre pendant que tu gères le contrôle maritime et l'économie.
+Ne mesurez pas la réussite au nombre de navires. Une flotte a de la valeur seulement si elle protège une route, bloque un débarquement, couvre un Port ou permet à un allié de traverser.
 
-## Exécution par phase
+Le mode Team vise 95 % du territoire en cinq minutes ou un résultat au pourcentage à la fin. La maîtrise de la mer doit donc devenir rapidement du territoire.
 
-### 0-60 s · Sécuriser la côte
+Construisez la plus petite flotte qui contrôle l'eau décisive. Placez l'or économisé dans le Port, Poste, Ville, SAM ou action alliée qui convertit ce contrôle en score.
 
-- Choisis un spawn avec la plus longue côte possible.
-- Vise 2 Ports dans les 60 premières secondes.
-- Écarte-toi de ton coéquipier — lui pousse au sol, toi tu colles à la côte.
+## Mécaniques préalables
 
-### 60-180 s · Première vague de Warships
+### Pression du mode Team
 
-- Le 3ᵉ Warship coûte 250k × 3 = ~1,5M de Gold (scaling inclus).
-- Place 1 DefensePost le long de la côte pour dissuader les débarquements.
-- À partir de cette phase, applique un <strong>Embargo permanent</strong> sur tous les joueurs ennemis non alliés.
+La présentation décrit des équipes de 2v2 à 8v8, avec 95 % en cinq minutes ou un résultat final au pourcentage. La terre reste le tableau de score.
 
-### 180-300 s · Contrôle de la mer et synergie
+Votre rôle ne remplace pas la poussée terrestre. Il retire un obstacle, protège un flanc ou crée une fenêtre de débarquement pour accélérer la prise de terre.
 
-- Améliore les Ports au niveau 2-3 (la compensation cap 150 de la v24 est clé ici).
-- Forme une Alliance avec ton coéquipier pour que ses Trade Ships passent par tes villes alliées (35k / arrêt).
-- Tes Ports ouvrent une fenêtre de débarquement pour toute l'équipe — les Transports de ton coéquipier partent de tes Ports en sécurité.
+### Ports
 
-## Chiffres clés
+Un premier Port coûte 125 000 si aucun Port ni Usine n'utilise le compteur partagé. La formule est `min(1 000 000, 2^n × 125 000)`.
 
-| Item | Valeur | Signification |
-| --- | --- | --- |
-| Retraite auto du Warship | HP ≤ 750 | Ne poursuis pas un bateau à faible HP |
-| Dégâts d'obus | 250 | 3-4 obus tuent un Warship plein HP |
-| Priorité Warship | Transport > Warship | Un seul Warship en patrouille massacre une flotte de débarquement |
-| Retour sur cap des Ports | Upgrade > Nouvelle construction | Particulièrement marqué depuis la v24 |
+Port et Usine partagent `n`. La séquence combinée est 125 000, 250 000, 500 000, puis 1 000 000 par nouvelle construction après le plafond.
 
-## Points faibles du contrôle naval
+Les Ports génèrent commerce, transports et navires de guerre. Les niveaux supérieurs améliorent l'apparition et le revenu des navires marchands.
 
-- **Ports isolés** — un Port posé sur une enclave se fait one-shot par un Transport ennemi ; vérifie la continuité terrestre avant de construire.
-- **Warships trop loin** — dès qu'un Warship dépasse 200 tiles depuis un Port, le temps d'aller-retour pour réparer te coûte le contrôle de la mer.
-- **Tenaille nuke + débarquement** — une seule bombe H sur une ville côtière fait s'effondrer toute la ligne ; prévois au moins 1 SAM couvrant ton cluster de Ports.
+Ils peuvent être capturés. Un Port sur une enclave étroite devient une infrastructure ennemie si la terre de soutien tombe.
 
-## Modèle de répartition avec les coéquipiers
+### Navires de guerre
 
-| Rôle | Mission | Constructions prioritaires |
-| --- | --- | --- |
-| Toi (contrôle naval) | Ports + Warships + commerce | Port × 4-6, Warship × 3-5 |
-| Coéquipier A (poussée terrestre) | Territoire + DefensePost | City × 3-4, DefensePost × 2 |
-| Coéquipier B (nucléaire, optionnel) | Silo + SAM | Silo × 2, SAM × 3 |
+Le premier coûte 250 000. Sa formule est `min(1 000 000, (n+1) × 250 000)`, où `n` compte les navires existants.
 
-## Recommandations de cartes
+La séquence est 250 000, 500 000, 750 000, puis 1 000 000. La construction dure 50 ticks.
 
-Cartes adaptées à ce style (au moins deux côtes + un goulot de détroit) :
+Un navire possède 1 000 points de vie et tire des obus de 250 dégâts. Il se replie automatiquement à 750 points de vie ou moins.
 
-- Britannia / Italia / Mediterranean
-- Strait of Gibraltar / Strait of Malacca
-- Two Lakes / Between Two Seas
-- Bosphorus Straits
+Depuis la v24, il priorise les transports et refroidit immédiatement après un coup. Une patrouille bien placée devient particulièrement forte sur une route de débarquement.
 
-Évite les cartes purement continentales (Afrique centrale, Asie intérieure).
+### Navires de transport
+
+Ils n'ont aucun coût en or, mais consomment les troupes de l'initiateur. Perdre un transport coûte donc force et tempo, même si aucun achat n'apparaît.
+
+Les navires de guerre les priorisent. N'envoyez pas un flux visible à travers une patrouille en qualifiant les pertes de gratuites.
+
+### Navires de commerce
+
+Le revenu suit `floor((75 000 / (1 + exp(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier)`.
+
+Les longues routes paient plus par arrivée, mais la sécurité et le temps comptent. Un revenu qui n'atteint jamais le Port n'est pas un revenu.
+
+Les données v24 indiquent un plafond mondial de 150 navires. Plus de Ports ne crée pas une flotte infinie, et la probabilité change avec le nombre total.
+
+Les paires sous embargo ne génèrent pas de commerce. Un plan coordonné exige donc un accès diplomatique autant qu'un accès à l'eau.
+
+### Postes de défense côtiers
+
+Le premier coûte 50 000. Sa zone de 30 tiles multiplie la défense par cinq et la vitesse par trois.
+
+Il protège la terre, pas toute la mer. Placez-le pour qu'un débarquement traverse la zone avant de capturer le Port ou de couper la côte.
+
+### Couverture SAM
+
+Si les nukes sont actives, le premier SAM coûte 1 500 000 et demande 300 ticks. Il intercepte Atom et Hydrogen, pas le MIRV.
+
+Une concentration navale peut devenir une cible côtière rentable. Ajoutez la défense nucléaire seulement si le salon et l'économie ennemie rendent la menace crédible.
+
+## Cadre de décision
+
+### Étape 1 : trouver l'eau décisive
+
+Identifiez la mer, le détroit, le lac ou le chenal qui change les mouvements de l'équipe. S'il ne protège aucune terre et ne permet aucun débarquement, il ne mérite peut-être pas de flotte.
+
+Marquez trois points : le Port allié, l'approche ennemie et la côte de débarquement. Le premier navire doit servir l'un de ces points, pas errer entre les trois.
+
+### Étape 2 : choisir la mission
+
+Utilisez l'**escorte** si les transports alliés doivent traverser. Utilisez l'**interdiction** si les transports ennemis partagent une voie prévisible. Utilisez la **défense du Port** si la production est menacée.
+
+Protégez le commerce seulement s'il finance déjà le rôle. Une flotte construite pour des navires futurs hypothétiques retarde la course territoriale actuelle.
+
+### Étape 3 : fixer un plafond de flotte
+
+Calculez le prochain navire avant de le commander. Les trois premiers coûtent 250 000, 500 000 et 750 000, soit 1 500 000 au total.
+
+Demandez si le prochain contrôle une autre voie ou s'empile sur la première. Arrêtez quand une structure ou dépense alliée crée davantage de territoire.
+
+### Étape 4 : sécuriser la terre du Port
+
+Gardez le Port relié au cœur et posez un Poste sur la route de capture probable. Le Port est à la fois une production et un risque de transfert.
+
+Si la terre ne tient pas, retardez l'amélioration ou ouvrez une autre route. Améliorer une structure exposée augmente la valeur offerte à l'attaquant.
+
+### Étape 5 : convenir de la conversion
+
+Dites ce que la mer rend possible : « traversez ici », « poussez cette côte » ou « leurs transports ne peuvent pas débarquer ».
+
+Sans cette phrase, la flotte peut gagner l'eau pendant que l'équipe perd l'objectif territorial chronométré.
+
+## Chronologie et exécution pas à pas
+
+### Pendant la phase d'apparition
+
+Choisissez la côte seulement si elle touche une eau décisive et laisse une route terrestre utile. Un long rivage sans objectif d'équipe n'est pas automatiquement un bon spawn naval.
+
+Vérifiez les positions alliées. N'empilez pas toute l'équipe sur la même côte en laissant le front intérieur vide.
+
+### 0:00–0:05 : prendre la bonne forme
+
+Utilisez les cinq secondes d'immunité pour relier la future zone du Port au cœur et élargir la terre derrière.
+
+Ne gaspillez pas cette fenêtre à dessiner un rivage décoratif. Sécurisez la route terrestre qui empêche le Port de devenir une enclave.
+
+### 0:05–0:30 : confirmer la voie
+
+Observez l'expansion ennemie et la direction alliée. Décidez si l'eau portera des transports amis, ennemis ou aucun des deux.
+
+Si personne n'en a besoin, passez à la croissance terrestre. Refuser le rôle tôt vaut mieux que financer une flotte inutile.
+
+### 0:30–1:00 : établir le premier hub
+
+Construisez le premier Port après avoir sécurisé la côte et défini la mission. Son prix est 125 000 si le compteur Port/Usine vaut zéro.
+
+Gardez troupes et or pour la terre autour. Un Port ne défend pas son propre territoire.
+
+Si une route ennemie se forme, lancez le premier navire lorsque 250 000 crée un contrôle immédiat. Sinon, laissez le Port servir transports ou commerce.
+
+### 1:00–2:00 : patrouiller l'objectif
+
+Placez le navire près du trajet probable et assez proche d'un Port pour revenir après son repli. Ne poursuivez pas un ennemi loin de la route assignée.
+
+Ajoutez un Poste si un débarquement peut capturer le Port par un bord prévisible. Sa zone de 30 tiles doit couvrir la terre, pas l'eau vide.
+
+Annoncez la première fenêtre de débarquement. Un allié doit bouger lorsque la patrouille ennemie est absente, en repli ou occupée.
+
+### 2:00–3:00 : décider de l'échelle
+
+Le deuxième et le troisième navire coûtent 500 000 et 750 000. Ajoutez-les pour une autre voie, une escorte renforcée ou le maintien de l'objectif.
+
+Comparez un second Port avec une Usine, car ils partagent le compteur. Les visites Team paient 25 000, tandis que le commerce maritime dépend de la distance et du risque.
+
+Améliorez un Port si le site est sûr et si sa production sera utilisée. Ne le faites pas uniquement parce que la flotte se trouve à côté.
+
+### 3:00–5:00 : convertir la mer en territoire
+
+Déplacez les navires vers la côte où l'équipe débarquera ou que l'ennemi doit traverser. Les dernières minutes récompensent le contrôle qui change le pourcentage.
+
+Gardez une patrouille si des transports ennemis restent possibles. Envoyez l'or superflu vers la structure ou le plan allié qui termine la poussée.
+
+Si les nukes sont actives et les actifs côtiers denses, vérifiez les SAM avant qu'une frappe ne supprime à la fois la flotte et l'économie.
+
+## Scénarios chiffrés
+
+### Scénario 1 : échelle de coût de la flotte
+
+Le premier navire coûte 250 000, le deuxième 500 000 et le troisième 750 000. Trois navires coûtent donc 1 500 000 au total.
+
+Le quatrième coûte 1 000 000 et porte le total à 2 500 000. Les suivants restent au plafond de 1 000 000 par construction.
+
+Si le quatrième rejoint seulement une voie déjà contrôlée, comparez ce million avec une Ville, un Port, un fonds SAM ou un besoin allié.
+
+### Scénario 2 : échelle Port et Usine
+
+Sur le compteur partagé, quatre nouveaux Ports ou Usines coûtent 125 000, 250 000, 500 000 et 1 000 000, soit 1 875 000.
+
+Quatre Ports et un mélange atteignent le même compteur. Le mélange ouvre le rail, tandis que le choix maritime privilégie production et commerce.
+
+Choisissez selon les routes et les options, pas en traitant chaque Port comme un achat indépendant à 125 000.
+
+### Scénario 3 : échange théorique de navires
+
+Un navire possède 1 000 points de vie et un obus 250 dégâts. Sur le papier, quatre impacts directs égalent la vie indiquée.
+
+Le mouvement réel diffère : le navire se replie à 750 ou moins. Après le premier impact de 250, il peut déjà commencer à quitter le combat.
+
+La position sur la route compte donc davantage qu'un duel immobile jusqu'à la disparition d'un navire.
+
+### Scénario 4 : distance commerciale à multiplicateur 1
+
+La formule donne environ 5 185 d'or à distance 100, 52 500 à 300, 104 990 à 600 et 124 999 à 1 000.
+
+La longue route paie davantage par arrivée, mais reste plus longtemps exposée aux navires et peut traverser plusieurs eaux contestées.
+
+Protégez la route qui termine des trajets, pas celle qui affiche le plus grand nombre théorique.
+
+### Scénario 5 : budget de défense d'un Port
+
+Un premier Port plus un premier Poste coûte 175 000 avant le navire. Avec le premier navire, l'ensemble coûte 425 000.
+
+Ce budget crée un hub, une zone terrestre de 30 tiles et une unité navale. Il ne garantit rien contre une flotte supérieure, une seconde voie ou une nuke.
+
+### Scénario 6 : coût d'opportunité du transport
+
+Un transport est gratuit en or, mais consomme les troupes de l'initiateur. Plusieurs pertes peuvent vider la force nécessaire pour tenir la terre déjà acquise.
+
+Le timing d'escorte doit considérer la cible du débarquement et les troupes laissées derrière.
+
+## Contre-jeu adverse
+
+### Ils construisent leur propre écran naval
+
+Ne combattez pas partout. Ramenez le duel vers la voie nécessaire, ajoutez un navire seulement si son coût change le contrôle et demandez une pression terrestre sur le Port ennemi.
+
+Capturer la production peut être plus décisif que d'échanger des obus en pleine mer.
+
+### Ils contournent la patrouille
+
+La priorité des navires ne compte que près du trajet. Déplacez la patrouille vers la traversée, le chenal ou la côte de destination au lieu de garder une mer vide.
+
+Utilisez la vision et les appels alliés. Une patrouille fixe devient inutile dès que la direction du débarquement change.
+
+### Ils attaquent le Port par terre
+
+Gardez-le relié, placez la zone défensive sur le chemin de capture et conservez des troupes derrière la côte. La flotte ne remplace pas le contrôle de la tile du hub.
+
+### Ils imposent un embargo
+
+L'embargo bloque le commerce entre la paire et réduit la valeur d'une économie de Ports. Gardez pertinents le revenu de base et les Usines ou trains disponibles.
+
+Ne répondez pas à chaque embargo par un autre Port. Le compteur partagé augmente tandis que le nombre de partenaires utiles diminue.
+
+### Ils refusent d'utiliser l'eau
+
+Si l'ennemi reste à l'intérieur et qu'aucun débarquement ne compte, la mission est terminée. Arrêtez d'agrandir la flotte et transférez le budget vers le sol.
+
+### Ils utilisent la pression nucléaire
+
+Hydrogen possède des rayons 80/100 et menace un groupe côtier dense. Un SAM peut l'intercepter, mais coûte 1 500 000 et demande 30 secondes.
+
+Écartez Ports et Villes, préservez une autre production et commencez le SAM assez tôt si la menace devient crédible.
+
+### Ils lancent de nombreux transports
+
+Les navires priorisent les transports, ce qui favorise une patrouille sur l'approche. Gardez-la sur la voie et ne vous laissez pas attirer par une cible secondaire.
+
+Si une patrouille ne couvre pas deux traversées, comparez le prix d'un second navire avec celui d'un défenseur terrestre.
+
+## Échecs fréquents
+
+### Construire une flotte sans mission
+
+« Nous avons une côte » n'est pas une mission. Nommez la route, le débarquement, le Port ou la vague que la flotte affectera avant le premier achat.
+
+### Poursuivre un navire en repli
+
+Les navires se replient à 750 points de vie ou moins. La poursuite peut éloigner votre patrouille de la route pendant que l'ennemi retourne se réparer.
+
+### Laisser le Port sur une enclave
+
+Les Ports changent de propriétaire avec la terre. Construisez assez de terrain relié derrière la côte pour qu'un seul débarquement ne prenne pas le hub.
+
+### Surconstruire des Ports
+
+Ports et Usines partagent un compteur doublant, et le commerce possède un plafond mondial. Plus de coques possibles ne signifie pas plus d'arrivées rentables.
+
+### Envoyer les transports dans une patrouille
+
+Les transports consomment des troupes et sont prioritaires pour les navires. Attendez l'escorte, une autre route ou une action alliée qui occupe la patrouille.
+
+### Ignorer le score territorial chronométré
+
+Une flotte peut dominer la mer pendant que les alliés perdent la terre. Repositionnez-la vers la côte décisive ou cessez les dépenses navales.
+
+### Concentrer tous les actifs
+
+Un groupe côtier est simple à défendre conventionnellement, mais devient une cible nucléaire rentable. Préservez un autre cœur ou une seconde production.
+
+### Garder le plan secret
+
+Les alliés ne peuvent pas exploiter une fenêtre qu'ils ignorent. Annoncez la traversée, le timing et la cible avant le mouvement.
+
+## Ajustements selon le mode et la carte
+
+### Ports désactivés
+
+Le rôle naval normal n'existe plus. Passez à la défense terrestre, aux Villes, aux mouvements d'équipe et aux passages de la carte.
+
+### Nukes désactivées
+
+Les groupes côtiers perdent une grande menace. L'or prévu pour les SAM peut rester dans les navires, la défense terrestre ou la poussée finale.
+
+### SAM désactivés
+
+Ne répondez pas au risque avec un lanceur interdit. Espacez les actifs critiques et évitez qu'une seule explosion décide tout le rôle.
+
+### Water Nukes activé
+
+La terre détruite peut devenir de l'eau, et la v31 permet commerce et navires sur les eaux intérieures. Revérifiez les routes après chaque frappe qui change le terrain.
+
+Consultez le [guide Water Nukes](/fr/guides/water-nukes/) pour le timing de conversion et les règles de récupération.
+
+### Cartes de détroits
+
+Strait of Gibraltar, Strait of Malacca, Bosphorus Straits et The Straits figurent dans Regional. Une traversée étroite donne une mission claire à une patrouille.
+
+Le nom ne prouve pas que votre spawn contrôle le passage. Inspectez les positions d'équipe et l'eau réellement navigable.
+
+### Lacs et eaux intérieures
+
+Two Lakes, Great Lakes et Between Two Seas sont répertoriées. Décidez si l'eau relie les fronts ou coupe seulement votre propre expansion.
+
+### Cartes riches en îles
+
+Sur Hawaii ou Japan, la protection des transports compte davantage. Gardez assez de troupes sur la terre possédée avant de charger une nouvelle traversée.
+
+### Cartes continentales et fantasy
+
+Sur Europe ou Pangaea, le rôle naval peut ne couvrir qu'un flanc d'une grande guerre terrestre. Dimensionnez la flotte pour ce flanc, pas toute la carte.
+
+Utilisez la [base des cartes](/fr/database/maps/) pour les noms et catégories, puis laissez la topologie réelle définir la mission.
+
+## FAQ
+
+### Combien de navires une équipe doit-elle construire ?
+
+Il n'existe pas de nombre fixe. Construisez assez pour contrôler la route décisive, puis arrêtez lorsque le suivant n'ajoute ni escorte, ni interdiction, ni défense.
+
+### Combien coûtent les trois premiers navires ?
+
+Ils coûtent 250 000, 500 000 et 750 000, soit 1 500 000 au total. Le quatrième coûte 1 000 000.
+
+### Les navires priorisent-ils les transports ?
+
+Oui. Les notes v24 extraites indiquent qu'ils ciblent d'abord les transports et refroidissent immédiatement après un impact.
+
+### Un transport est-il vraiment gratuit ?
+
+Il ne coûte pas d'or, mais consomme les troupes de l'expéditeur. Un débarquement raté coûte donc puissance et temps.
+
+### Faut-il construire plusieurs Ports immédiatement ?
+
+Seulement si chaque hub possède un site sûr et une route utile. Port et Usine partagent le compteur, et les Ports exposés peuvent être capturés.
+
+### Où placer un Poste côtier ?
+
+Placez sa zone de 30 tiles sur la route terrestre que l'ennemi doit traverser pour prendre le Port. Il n'a pas besoin de couvrir l'eau vide.
+
+### Une longue route commerciale est-elle toujours meilleure ?
+
+Elle paie plus par arrivée, mais l'exposition réduit parfois les trajets terminés. Comparez les revenus réels, pas seulement la valeur théorique.
+
+### Quand abandonner le contrôle naval ?
+
+Changez de rôle si l'ennemi n'utilise plus l'eau, si le Port pertinent est perdu ou si un autre achat convertit davantage de territoire avant la fin.
+
+### Que faut-il dire aux coéquipiers ?
+
+Nommez la route, la fenêtre et l'objectif : « traversez ici », « leurs transports sont bloqués » ou « poussez ce Port pendant l'absence de leur flotte ».
+
+## Lecture suivante
+
+Lisez les [mécaniques des unités](/fr/mechanics/units/) pour les interactions entre navires, transports, obus et commerce.
+
+Utilisez les [mécaniques du commerce](/fr/mechanics/trade/) pour la distance, le plafond mondial, l'apparition et les embargos.
+
+Consultez les [structures](/fr/mechanics/structures/) pour les rôles actuels des Ports, Postes, Villes, SAM et Silos.
+
+Relisez ensuite l'[ouverture FFA](/fr/strategies/ffa-opening/) pour la forme du spawn ou la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) pour défendre un groupe côtier.

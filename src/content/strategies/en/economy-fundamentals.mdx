@@ -2,110 +2,376 @@
 title: Economy Fundamentals — Why You're Losing the Money Race
 description: Defense Posts, build order, trade ships vs trains — the first 5 minutes that decide whether you out-build the AI or get nuked.
 pubDate: 2026-05-23
+updatedDate: 2026-07-16
 tags: [economy, opening, beginner, trade]
 category: Early Game
 difficulty: Beginner
 version: v24
 ---
 
-## The Mindset Shift
+## Direct answer: how to stop losing the economy race
 
-OpenFront isn't won by who conquers the most — it's won by **whose economy curve is steepest**. If your opening reads "fight bot → take ground → fight bot", the AI is quietly stacking Gold and you'll see an Atom Bomb hit your capital around the 5-minute mark.
+Stop treating every available Gold balance as attack money. Stabilize the dangerous border, raise troop capacity, then buy an income route that matches the lobby and map.
 
-Switch your goal from *expansion* to *infrastructure*. The rest of this page is the build order, the math, and the traps.
+The practical opening is not one rigid build order. It is a sequence of checks: Can the border hold? Is troop cap limiting growth? Is the coast safe enough for trade? Are trains available? Are nukes enabled?
 
-## Why "Holding the Enemy at 20% HP" Is a Loss
+A Defense Post can make one border far cheaper to hold. A City adds 250,000 troop cap per level. Ports create sea trade, while Factories enable train trade in supported lobbies.
 
-Frontal defense is net-negative without buildings:
+The first Port or Factory costs 125,000 Gold. They share the same cost counter, so the second costs 250,000, the third 500,000, and later builds reach the 1,000,000 cap.
 
-- Terrain `mag` is only 80/100/120 (Plains/Highland/Mountain)
-- A **Defense Post** multiplies `mag ×5` and `speed ×3` within 30 tiles
-- Without a Defense Post on your border, trading 18% to deal 20% means you both lost ground — the AI just refills faster because it isn't paying for the loss
+Do not copy the old “Silo plus SAM by exactly minute five” rule without reading the match. Nuclear timing depends on income, trade, territory, difficulty, and lobby multipliers.
 
-At 50,000 Gold, the Defense Post is the **highest ROI building in the game**. Drop 2-3 on your front line before anything else.
+Use minute five as a review point, not a universal detonation clock. If nukes are enabled and rivals can fund them, a Missile Silo and protected core become urgent. If nukes are disabled, spend elsewhere.
 
-## The AI Nuke Clock
+## The four resources behind a strong economy
 
-Why someone "already" had nukes when you'd barely captured a Factory:
+Gold is the visible currency, but four linked resources decide whether your economy works: Gold flow, troop capacity, safe territory, and attention.
 
-```
-Base gold:      Player 100/tick, Bot 50/tick, Easy Nation × 0.5
-Missile Silo:   1,000,000 Gold (100 ticks build)
-Atom Bomb:      750,000 Gold (fixed)
-```
+**Gold flow** pays for structures, upgrades, Warships, and nuclear weapons. Base income is reliable but small compared with a working trade network.
 
-An Easy AI hits 1.75M Gold in roughly 5-7 real minutes. **5 minutes is the deterrence deadline.** Miss it and you're eating bombs before you've broken ground on a SAM.
+**Troop capacity** determines how much military strength you can store. Each City level adds a fixed 250,000 to the cap, on top of the territory-based population formula.
 
-## Standard Build Order (First 5 Minutes)
+**Safe territory** gives structures somewhere to exist and routes somewhere to run. A cheap building captured at the border is not cheap; it becomes value for the opponent.
 
-| Time | Action | Cost | Why |
-|---|---|---|---|
-| 0:00-1:00 | Grab a small bot, sprint for coastline | — | Tiles compound your population cap |
-| 1:00-2:00 | 2-3 Defense Posts on border + 1 Port + 1 Factory | 150k + 125k + 125k | Lock the front, start two trade streams |
-| 2:00-4:00 | Upgrade City / Port / Factory to level 2 | 250k each | Each level doubles output |
-| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1.5M | Even with no Atom Bomb, the SAM **alone is deterrence** — bot nukes route around its 70-tile disc |
+**Attention** is the resource beginners ignore. Every exposed Port, railway, and border demands monitoring. A simpler protected economy often outperforms a larger network you cannot defend.
 
-## Why Your Trade Ships Got Wiped
+The best opening converts Gold into a system that produces more options without creating too many weak points.
 
-Three things compound:
+## Core data you should know
 
-1. **Trade ships shuttle between Ports.** With only one Port, they sail to *other players'* Ports, including AI you're not at war with.
-2. **Routes through hostile water = dead routes.** Since v24, **Warships prioritize Transport and Trade ships** and cool down immediately on hit — a single hostile Warship between you and the destination Port kills the entire stream.
-3. **Inland Ports lose money.** A Port buried in your interior forces ships to detour through more contested water.
+| Item | Base or first cost | Economic role | Key constraint |
+| --- | ---: | --- | --- |
+| City | 125,000 | Adds 250,000 troop cap per level; train station | Must be protected from capture |
+| Port | 125,000 at shared `n = 0` | Spawns trade ships and supports naval movement | Shares cost counter with Factory |
+| Factory | 125,000 at shared `n = 0` | Spawns trains and supports rail networks | Trains are mode-dependent |
+| Defense Post | 50,000 first | Reduces the cost of holding a front | Cost scales with posts already built |
+| Missile Silo | 1,000,000 | Enables nuclear launches | Offensive investment, not income |
+| SAM Launcher | 1,500,000 first | Protects against Atom and Hydrogen Bombs | 300-tick construction time |
 
-```
-Trade ship revenue:
-floor( (75,000 / (1 + e^(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )
-```
+The Port and Factory formula is `min(1,000,000, 2^n × 125,000)`, where `n` counts existing Ports and Factories together.
 
-Distance < 300 only earns the floor (~50 × dist). Long routes pay more but die more — that's the tradeoff.
+This shared counter is easy to miss. A Port followed by a Factory costs 125,000 plus 250,000, not 125,000 plus 125,000.
 
-## Train Economy: The Safer Money
+Defense Posts follow `min(250,000, (n+1) × 50,000)`. The sequence is 50,000, 100,000, 150,000, 200,000, then 250,000 for each later post.
 
-In v24, **single-player and private lobbies have Trains.** Factories spawn them, they shuttle along rails between your Cities and Factories, and **Warships cannot touch them.**
+## Why defense is an economic investment
 
-```
-Train revenue per delivery:
-ally = 35,000  ·  team = 25,000  ·  self = 10,000
-− 5,000 × max(0, citiesVisited − 9)
-floor 5,000
+Terrain has documented `mag` values of 80 on plains, 100 on highland, and 120 on mountains. A Defense Post multiplies `mag ×5` and `speed ×3` within 30 tiles.
 
-Spawn rate: (factories + 10) × 15 ticks
-```
+That bonus does not directly add Gold. It reduces the troops, attention, and replacement spending needed to hold the same border.
 
-Self-loops only pay 10k each, but you control 100% of the line. **Three Factories looped through five Cities = an income stream no enemy can intercept.**
+Place a post where its 30-tile zone covers a real approach. A cheap post in the interior can be economically useless if the contested edge remains outside its range.
 
-## Priority Cheat Sheet
+Do not blanket every border at once. The scaling cost means the fifth post is five times the price of the first. Protect the chokepoints that would otherwise force repeated troop losses.
 
-| Priority | Buy | Cost | Why |
-|---|---|---|---|
-| ★★★ | 3-4 Defense Posts on the border | 50k each | Mag ×5, the only way frontal defense breaks even |
-| ★★★ | 1 Port + 1 Factory in your core | 125k each (n shared) | Two parallel income streams |
-| ★★ | Upgrade Port / Factory / City to L2-L3 | 250k → 500k → 1M | Each level doubles output |
-| ★★ | 1 Missile Silo + 1 SAM by 5:00 | 1M + 1.5M | Bot nukes detour around SAMs — buying insurance |
-| ★ | More Factories for train looping | up to 1M each | Income immune to Warships |
+An exposed economic building also creates capture risk. A Defense Post beside a vulnerable coastal or rail node can protect the investment, but only if its zone reaches the likely attack path.
 
-## Classic Mistakes
+## Gold income and population math
 
-- **Building a second Port before a Factory.** Port costs scale on `n = ports + factories`, so two Ports cost the same as a Port + Factory — but the Factory gives you Trains, which can't be sunk.
-- **Naked Port on a coastline tip.** Pretty for trade routes, but the first Warship that sails by makes it a 125k loss. Build a Defense Post adjacent to coastal Ports.
-- **Waiting for "enough Gold" before a SAM.** The SAM is the *prerequisite* for building Gold safely. Bot nukes target unprotected core tiles.
-- **Spamming Atom Bombs.** At 750k each, a level 3 SAM swats the whole salvo. The real nuclear weapon is the Hydrogen Bomb (5M).
+Human players receive a documented base 100 Gold per tick. Bots receive 50 per tick, with the lobby's Gold multiplier applied.
 
-## Decision Tree
+At the 10-tick-per-second cadence used by the site's timing references, base human income is about 60,000 Gold per minute before trade and other effects.
 
-```
-Is your border held by ≥ 2 Defense Posts?
-├─ No → Build them first. Nothing else matters.
-└─ Yes → Do you have a Port AND a Factory?
-    ├─ No → Build whichever is missing (125k)
-    └─ Yes → Is it past 4:00?
-        ├─ No → Upgrade buildings to L2
-        └─ Yes → Have you placed a SAM?
-            ├─ No → Silo + SAM immediately, even without an Atom Bomb
-            └─ Yes → Stockpile to 5M Gold → Hydrogen Bomb
+That baseline cannot fund every early idea. One City costs a little over two minutes of base income by itself if no other Gold source or starting balance is involved.
+
+Population cap is not simply proportional to land. The formula combines a diminishing territory term with `City level × 250,000` bonuses.
+
+Troop growth also slows as current troops approach the cap. A City can restore growth headroom when the existing cap, rather than Gold, is limiting expansion.
+
+This is why Gold and population must be read together. A rich player with a low cap cannot field the stored force, while a large cap without income cannot fund the structures that protect it.
+
+## Choose the right income engine
+
+### Use Ports when the route is valuable and defensible
+
+Trade ships settle Gold when they arrive at Ports. Their revenue rises with distance through a sigmoid plus a linear distance term.
+
+The formula is:
+
+```text
+floor((75,000 / (1 + exp(-0.03 × (distance - 300)))
+      + 50 × distance) × goldMultiplier)
 ```
 
-## The One-Line Summary
+Long routes pay more per arrival, but they expose ships to more water and more opponents. Distance is useful only when the route survives.
 
-**Before minute 5, you are an economy game. After minute 5, you are a nuclear game. If you skip the first phase, you don't get to play the second.**
+Trade ships also face a global cap of 150 from v24. As the match approaches that cap, adding more Ports does not guarantee a proportional number of new ships.
+
+Use a Port when you have a valid coast or inland water, a route worth sailing, and enough control to keep the stream alive.
+
+### Use Factories when trains are available and the land network is safer
+
+Trains are documented for single-player and private lobbies. A Factory, Cities, and railway connections form a land trade network.
+
+A train visit pays 35,000 Gold at an allied City, 25,000 at a teammate City, or 10,000 at your own City before the long-route visit penalty.
+
+After nine City visits, the formula subtracts 5,000 for each additional visit, with a 5,000 floor. More stops are not automatically better.
+
+Trains cannot be sunk by Warships, but their stations and rails still depend on safe land. Route them through the core rather than along the active border.
+
+Use a Factory when the mode supports trains, you can connect useful Cities, and the shared Port/Factory cost still makes the investment reasonable.
+
+### Use Cities when capacity is the bottleneck
+
+A City is not a direct Gold generator in the same way as a Port arrival. Its fixed troop-cap increase creates military and growth capacity.
+
+Cities also serve as train stations, so a City can support both population and rail income in a train-enabled lobby.
+
+Build or upgrade a City when troop growth is pressing against the cap, when the next attack needs a larger reserve, or when the rail network needs a protected station.
+
+### Use defense when income is leaking through combat
+
+If every Gold gain is followed by troop losses, captured buildings, or interrupted routes, the economy has a security problem rather than an income problem.
+
+Spend on the Defense Post, Warship, SAM, or position that stops the leak. A protected smaller network can compound; an exposed larger network repeatedly resets.
+
+## A flexible opening plan
+
+The times below are review windows, not guarantees. Starting Gold, map size, neighbors, mode, and multipliers can move every purchase earlier or later.
+
+### Step 1: claim a compact, useful base
+
+Expand enough to create room for a core, one defensible front, and a coast or rail plan. Do not stretch a thin corridor merely to touch every feature at once.
+
+Watch current troops versus maximum troops. If growth still has room, avoid spending only because a button became affordable.
+
+### Step 2: identify the expensive border
+
+Find the border most likely to consume troops. Terrain, enemy direction, and chokepoints matter more than equal spacing.
+
+Place the first Defense Post only if its 30-tile zone reaches that approach. The 50,000-Gold first post has excellent defensive leverage when correctly located.
+
+### Step 3: buy the first capacity node
+
+A first City costs 125,000 and adds 250,000 troop cap per level. Put it inside territory that a sudden push cannot capture.
+
+If the current cap is not limiting anything, you can delay it briefly for a critical defense or route. The key is to know what problem the purchase solves.
+
+### Step 4: choose Port or Factory first
+
+Pick the Port first when the coast is safe and routes are promising. Pick the Factory first when trains are available and the land core is more reliable than the sea.
+
+Remember the shared counter. Whichever you build second costs 250,000. The third Port-or-Factory purchase costs 500,000.
+
+### Step 5: protect the route before scaling it
+
+Watch where trade ships travel or where rails must pass. Add protection to the vulnerable route rather than immediately buying another income node.
+
+For sea trade, that may mean safer Port placement or naval control. For rail trade, keep stations and connections away from borders that can be cut.
+
+### Step 6: review nuclear exposure
+
+If nukes are enabled, inspect rival infrastructure and your own core density. A Missile Silo costs 1,000,000 and the first SAM costs 1,500,000.
+
+A SAM takes 300 ticks, about 30 seconds, to build. Waiting until a projectile is already incoming is too late.
+
+If nukes are disabled, do not buy a Silo or SAM out of habit. Redirect the 2,500,000-Gold package toward capacity, trade, naval control, or conventional defense.
+
+### Step 7: upgrade or add only after measuring the bottleneck
+
+Add another City when population headroom is the constraint. Add or upgrade trade infrastructure when routes are working and protected.
+
+Add defense when losses or capture risk threaten the network. Stockpile when the next meaningful capability has a large fixed cost.
+
+Avoid buying one of everything. A coherent plan with two protected systems is stronger than five disconnected structures with no shared purpose.
+
+## A minute-five economy audit
+
+At the five-minute mark, pause mentally and answer six questions. The clock is a review prompt, not proof that every opponent can already launch a nuke.
+
+1. Is the main border inside useful Defense Post coverage?
+2. Are current troops approaching maximum troops?
+3. Is the first trade route actually completing trips?
+4. Are trains enabled, and is the rail network protected?
+5. Are nukes enabled, and has anyone invested in a Silo?
+6. What single purchase removes the current bottleneck?
+
+If you cannot answer the last question, keep Gold briefly instead of spending randomly. A short reserve preserves more options than an exposed structure bought without a plan.
+
+## Numeric examples
+
+### Port and Factory cost sequence
+
+Suppose you own no Ports or Factories. The first of either type costs 125,000 Gold. The second combined node costs 250,000, and the third costs 500,000.
+
+A Port, then a Factory, then another Port therefore costs 875,000 in total. Reversing the first two choices gives the same total because both use the shared counter.
+
+The order still matters strategically. Your first 125,000 unlocks either sea trade or train production, so spend it on the system the map can support now.
+
+### Defense Post cost sequence
+
+The first four Defense Posts cost 50,000, 100,000, 150,000, and 200,000. Together they cost 500,000.
+
+The fifth costs 250,000, bringing the total to 750,000. Every later post also costs 250,000 under the documented cap.
+
+This is why two well-placed posts can be a bargain while covering every quiet border becomes expensive.
+
+### Trade distance examples
+
+At distance 100 and a Gold multiplier of 1, the formula returns about 5,185 Gold per arrival. At distance 300, it returns 52,500.
+
+At distance 600, the result is about 104,991. At distance 1,000, it is about 125,000.
+
+The 1,000-distance route pays far more per arrival than the 100-distance route. It also has much more water in which a hostile Warship or route disruption can matter.
+
+### Train visit examples
+
+Five self-owned City visits pay 5 × 10,000, or 50,000 Gold, before timing and route constraints. Five allied visits pay 5 × 35,000, or 175,000.
+
+The difference explains why relationship and network design matter. A longer loop of only self-owned stops can earn less than a shorter protected allied loop.
+
+Once the visit count passes nine, apply the 5,000-per-extra-visit penalty. Do not extend a route only to make the map look more connected.
+
+### Nuclear opportunity cost
+
+One Missile Silo plus the first SAM costs 2,500,000 Gold before buying a weapon. Add an Atom Bomb and the total reaches 3,250,000.
+
+Add a Hydrogen Bomb instead and the package reaches 7,500,000. That Gold cannot simultaneously buy Cities, Ports, Factories, Warships, or extra Defense Posts.
+
+Nuclear readiness is therefore an economic branch. Take it when the threat or strike value justifies delaying other compounding systems.
+
+## Common failure modes
+
+### Fighting every border at once
+
+Repeated frontal attacks consume troops and attention while the opponent's protected systems keep working. Choose the border with the best terrain or strategic payoff.
+
+Use Defense Posts to make other approaches expensive for the enemy. The economy improves when fewer fronts demand continuous replacement troops.
+
+### Buying two Ports before checking the first route
+
+The second Port-or-Factory node costs 250,000 because of the shared counter. If the first Port's ships are already dying, doubling down adds cost without fixing survival.
+
+Inspect the route, hostile water, and destination network first. Protection or a Factory may be the better second purchase.
+
+### Assuming the first Factory also costs 125,000
+
+It costs 125,000 only when no Port or Factory already exists. After one shared node, the next costs 250,000.
+
+Budget from the formula rather than from the base value shown on a single database row.
+
+### Building trains in a lobby that does not support them
+
+The site's v24 reference limits trains to single-player and private lobbies. Confirm availability before making a Factory the center of the opening.
+
+A Factory still spends the shared Port/Factory slot even when the train plan cannot run as expected.
+
+### Choosing the longest sea route without naval control
+
+Longer distance raises revenue per arrival, not the probability that the ship survives. A profitable formula does not compensate for a route that repeatedly loses ships.
+
+Shorten the route, protect it, or move investment toward the safer land network.
+
+### Hiding every building in one core
+
+Compact infrastructure is easy to defend conventionally but creates one high-value nuclear target. A Hydrogen Bomb has documented outer reach 100.
+
+Spread critical functions enough that one strike cannot remove the entire economy, while keeping each node inside a defensible territory network.
+
+### Hoarding for a weapon while the border collapses
+
+Saved Gold preserves options only while the state can survive. If a 50,000-Gold Defense Post prevents a core capture, refusing to spend can destroy the larger stockpile plan.
+
+Buy the smallest intervention that keeps the economy intact, then resume saving.
+
+### Treating a SAM as income
+
+A SAM protects value; it does not generate Gold. Build it when nuclear exposure threatens the core, not merely because a timer reached a familiar number.
+
+In a nukes-disabled lobby, the same Gold has no anti-nuclear return and should be redirected.
+
+### Expanding troop cap without using it
+
+Each City level adds 250,000 cap, but unused headroom is not automatically an advantage. Build capacity when growth or the planned army needs it.
+
+If current troops remain far below the cap, route security or Gold generation may be the actual bottleneck.
+
+## Counters and adjustments
+
+### When the sea becomes hostile
+
+Stop adding exposed Ports. Protect the useful route with naval control, choose a safer Port location, or switch marginal investment to Factories when trains are available.
+
+Keep the working Port if it still settles profitable trips. The adjustment is about the next Gold, not deleting every earlier decision.
+
+### When you have no useful coast
+
+Prioritize a compact City-and-defense core. In train-enabled modes, use a Factory and protected land network instead of forcing a weak coastal corridor.
+
+If trains are unavailable, accept that base income and territorial play matter more until a safe coast or captured Port becomes available.
+
+### When an opponent rushes you
+
+Delay the next income node. Put the cheapest effective defense on the threatened approach, lower unnecessary attack spending, and protect existing structures.
+
+Once the front stabilizes, restart the route plan. An interrupted opening is recoverable; a captured core is much harder to repair.
+
+### When an opponent saves for nukes
+
+Spread important buildings, begin SAM construction before the projectile appears, and avoid putting all capacity and trade in one target area.
+
+Remember that SAMs intercept Atom and Hydrogen Bombs, not MIRV. Economic resilience still requires more than one defended point.
+
+### When nukes are disabled
+
+Remove Silo, SAM, and weapon costs from the plan. The saved Gold can deepen City capacity, conventional defense, trade, trains, or naval control.
+
+Do not follow a nuclear-era build order in a lobby whose rules remove the entire branch.
+
+### When trade ships approach the global cap
+
+More Ports face diminishing access to new ships as the match nears the v24 cap of 150. Improve the value and safety of existing routes before adding another node.
+
+The cap is global, so other players' ships affect the same environment. A quiet local Port does not prove that the match has room for unlimited spawning.
+
+## FAQ
+
+### What should I build first?
+
+Build the item that removes the current bottleneck. A first City is strong when troop cap matters; a first Defense Post is strong when one border is draining the opening.
+
+### Should the first trade node be a Port or Factory?
+
+Choose a Port for a safe valuable water route. Choose a Factory when trains are enabled and a protected City network is more reliable.
+
+### Why did my Factory cost 250,000 instead of 125,000?
+
+Ports and Factories share the same cost counter. If one already exists, the next shared node uses `n = 1` and costs 250,000.
+
+### How many Defense Posts should I build?
+
+Build enough to cover real approaches, not a fixed count. Their cost rises from 50,000 to a 250,000 cap, so placement quality matters more than blanket coverage.
+
+### Are long trade routes always better?
+
+They pay more per successful arrival, but they expose ships to longer paths. Revenue is only useful when the route completes often enough to justify the risk.
+
+### Are trains safer than trade ships?
+
+Warships cannot sink trains, but rail stations and routes still depend on controlled land. Trains are also limited to the modes documented by the v24 reference.
+
+### When should I build a SAM?
+
+Build it when nukes are enabled and the threat to valuable territory justifies 1,500,000 Gold plus a 300-tick construction time.
+
+### Is minute five a hard nuke deadline?
+
+No. It is a useful audit point. Actual timing depends on starting resources, trade, territory, multipliers, opponents, and lobby rules.
+
+### Should I save Gold or spend it immediately?
+
+Save when no purchase clearly removes a bottleneck. Spend when a small intervention protects the economy, unlocks a working route, or adds capacity you can use.
+
+### Why am I rich but still weak?
+
+You may be capped on troops, exposed to capture, or splitting attention across too many routes. Gold is one part of the economy, not the whole system.
+
+## Next reading
+
+- Check formulas in the [economy mechanics reference](/mechanics/economy/).
+- Compare [trade revenue and ship spawning](/mechanics/trade/).
+- Build safer land routes with the [trains and railways guide](/mechanics/trains/).
+- Review exact [structure costs and roles](/database/structures/).
+- Learn [combat and Defense Post math](/mechanics/military/).
+- Plan the next phase with [nuclear deterrence and SAM networks](/strategies/nuclear-deterrence/).
+- Practice the full opening in the [first-match guide](/guides/first-match/).

@@ -1,57 +1,322 @@
 ---
 title: Wat zijn Water Nukes in OpenFront?
-description: Water Nukes is de v31-speloptie waarbij nukes vernietigd land permanent in water veranderen. Hier lees je precies wat er verandert — de kratervorm, het terrein, en of je de grond terugkrijgt.
+description: De v31-optie verandert vernietigd land permanent in water. Lees hoe kraters, terrein, herstel en tactische keuzes precies werken.
 pubDate: 2026-06-03
+updatedDate: 2026-07-16
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Gevorderd
 version: v31
 ---
 
-**Kort antwoord:** *Water Nukes* is een optionele spelmodus, toegevoegd in **v31**, waarbij een kernaanval het gebied niet alleen wegvaagt — hij **verandert de vernietigde land-tiles permanent in water**. De krater loopt vol, schepen kunnen erdoorheen varen, en de kaart zelf wordt voor de rest van de partij hertekend.
+## Direct antwoord: wat Water Nukes doen
 
-De modus staat **standaard uit**. Je zet hem aan bij het maken van een lobby; in openbare spellen verschijnt dan een **Water Nukes**-badge zodat iedereen de regels kent vóór het spawnen.
+**Water Nukes** is een optionele v31-modus waarin kernwapens vernietigd land permanent in water veranderen. De krater wordt onderdeel van de kaart in plaats van bestraald land te blijven.
 
-## Waar zet je het aan
+Het nieuwe water is echt terrein. Kustlijnen, oceaantiles, oevers, minimap en maritieme pathfinding worden herberekend, zodat schepen tijdens de partij door het gemaakte water varen.
 
-- **Singleplayer / host-lobby:** een **Water Nukes**-schakelaar in het spelopties-paneel, naast opties als *Nukes Disabled*, *SAMs Disabled* en *1M Starting Gold*.
-- **Openbare spellen:** zelf omzetten kan niet, maar de lobbykaart draagt een **Water Nukes**-badge wanneer de modus actief is.
+De modus staat standaard uit. Een host activeert hem in de spelopties. Openbare partijen tonen vóór het spawnen een **Water Nukes**-badge.
 
-## Normale nuke vs. Water Nuke
+De belangrijkste verdediging is snelheid. Conversie gebeurt gebundeld na de inslag. Een tile die vóór de controle wordt heroverd, kan land blijven als hij niet meer eigenaarloos is.
 
-Elke nuke ontneemt de tiles in de inslag hun eigenaar en doodt troepen in beide modi gelijk. Het verschil is **wat de vernietigde grond wordt**:
+Na de omzetting kan normale landexpansie het water niet herstellen. Je kunt het wel benutten met Havens, transportschepen, oorlogsschepen en handel.
 
-| | Normale nuke | Water Nuke |
+## Begrippen en voorwaarden
+
+Water Nukes verandert het terrein, niet de prijs of het gedocumenteerde bereik. Een Atoombom blijft inner 12 en outer 30; een Waterstofbom blijft inner 80 en outer 100.
+
+Atoom- en Waterstofbommen blijven doelen voor SAM. De MIRV-drager en zijn koppen blijven immuun. De modifier maakt niet ieder wapen ononderschepbaar.
+
+v31 koppelde Water Nukes aan handel op binnenwater. Havens, oorlogsschepen en handelsschepen werken op ieder wateroppervlak, niet alleen op oceanen.
+
+De combinatie vormt de strategische draai. Een inslag kan grond verwijderen, een landbrug doorsnijden en tegelijk een vaarroute openen door voormalig land.
+
+Je hebt een lobby nodig waarin nukes en Water Nukes actief zijn. Met **Nukes Disabled** bestaat er geen wapen om de conversieregel toe te passen.
+
+Ook de normale kerninfrastructuur en Gold blijven nodig. De optie verandert het resultaat van een geslaagde aanval, niet de Silo- of wapenkosten.
+
+## Zo wordt het terrein omgezet
+
+De inslag verwijdert eerst het eigendom van getroffen landtiles. Daarna zet het spel geschikt leeg land in een conversiewachtrij in plaats van alles onmiddellijk te wijzigen.
+
+Bij de latere verwerking controleert het spel of elke tile nog eigenaarloos land is. Zo ja, dan wordt hij water. Is hij op tijd heroverd, dan kan hij land blijven.
+
+Conversie verwijdert ook fallout van tiles die water worden, omdat water geen landstraling vasthoudt. Een normale krater blijft land en kan later worden teruggenomen.
+
+Water-Nuke-randen zijn gladder dan gewone fallout. De gedocumenteerde uitvoering neemt hoekmonsters en middelt ze om losse landpixels langs de kust te voorkomen.
+
+Die vorm telt. Een gladde krater gedraagt zich eerder als één samenhangend waterlichaam, terwijl een normale explosie onregelmatig heroverbaar land achterlaat.
+
+## Normale nuke tegenover Water Nuke
+
+| Vraag | Normale nuke | Water Nukes-modus |
 | --- | --- | --- |
-| Vernietigd land | Blijft land, achtergelaten als **fallout** (besmet) | **Wordt water**, permanent |
-| Fallout | Blijft hangen, trekt dan weg | Gewist — water-tiles dragen geen fallout |
-| Grond heroveren | Er weer overheen lopen als de straling weg is | Het land is **weg**; je hebt boten/havens nodig |
-| Kraterrand | Rafelig (willekeurige buitenring) | **Glad, afgerond** |
+| Wat blijft achter? | Land met fallout | Water op omgezette tiles |
+| Kunnen landtroepen het terugnemen? | Ja, wanneer de omstandigheden dat toelaten | Alleen vóór conversie |
+| Blijft fallout? | Ja, en verdwijnt later | Omgezet water houdt geen fallout |
+| Hoe ziet de rand eruit? | Rafelige buitenste verspreiding | Gladde kraterrand |
+| Kunnen schepen het resultaat gebruiken? | Er ontstaat geen nieuw water | Ja, als het bevaarbaar verbonden is |
+| Wordt het bereik groter? | Nee | Nee |
+| Verandert SAM? | Nee | Nee |
 
-Die gladde rand is opzettelijk. Water Nukes genereren de grens uit 16 hoekmonsters die daarna gemiddeld worden, zodat de krater zacht golft in plaats van een stekelige "bloem" van verspreide losse land-pixels achter te laten die je anders één voor één per boot zou moeten heroveren.
+“Permanent” betekent niet dat het gebied onbruikbaar wordt. Het land keert niet terug, maar het water kan een transportroute, zeegevecht, Haven of handelsbaan worden.
 
-## De regels die mensen verrassen
+## Wapen- en verdedigingsdata
 
-- **Alleen *eigenaarloos* land wordt water.** De nuke ontneemt eerst alle tiles in de inslag hun eigendom en zet het nu lege land daarna in de conversie-wachtrij. De conversie is **gebundeld** — ze treedt een tick of twee later in werking, niet meteen.
-- **Heroveren kan een tile redden.** Omdat de conversie bij uitvoering controleert *"is dit nog eigenaarloos land?"*, blijft een tile land als jij (of iemand) er vóór die tijd op uitbreidt. Snel heruitbreiden is een echte tegenzet tegen permanent landverlies.
-- **Het terrein wordt echt herschreven.** Zodra tiles water worden, herberekent OpenFront de kustlijn, oceaan-tiles, oevers, de minimap en de **maritieme pathfinding-graaf** — het nieuwe water is dus echte, bevaarbare zee, geen decoratief gat.
-- **De ontploffingsgrootte verandert niet.** Water Nukes maken nukes niet groter. Een atoombom is nog steeds inner 12 / outer 30, een waterstofbom inner 80 / outer 100, en een MIRV verspreidt nog steeds meerdere koppen. SAM onderschept nog steeds atoom- en waterstofbommen; MIRV blijft niet te onderscheppen. Exacte cijfers in de [database](/nl/database/), patchcontext in de [v31-release-notes](/nl/changelog/v31/).
+| Onderdeel | Kosten | Gedocumenteerd bereik | SAM-interactie |
+| --- | ---: | --- | --- |
+| Atoombom | 750.000 | Inner 12 / outer 30 tiles | Onderschepbaar |
+| Waterstofbom | 5.000.000 | Inner 80 / outer 100 tiles | Onderschepbaar |
+| MIRV | 25M + 15M per eerdere lancering | Splitst in koppen | Drager en koppen immuun |
+| MIRV-kop | Inbegrepen | Inner 12 / outer 18 tiles | Immuun |
+| SAM-lanceerinstallatie | Eerste 1.500.000 | Begint op 70 tiles | Cooldown 90 ticks |
 
-## Waarom het zo sterk is: handel op binnenwateren
+Een Atoombom is de goedkopere terreinaanpassing, maar de voetafdruk is veel kleiner. Waterstof vormt een breed front om, maar stopt 5.000.000 Gold in één onderschepbaar projectiel.
 
-v31 leverde Water Nukes **samen** met een tweede verandering: havens, Warships en trade ships zijn **niet langer beperkt tot oceanen** — elk wateroppervlak telt, inclusief meren en binnenzeeën. Combineer beide en een Water Nuke ontzegt niet alleen land, hij kan een **gloednieuwe waterweg scheppen**: hak een kanaal in het binnenland van de vijand, zet een haven op het verse water, en laat Warships of handelsroutes varen waar een minuut eerder vaste grond lag.
+Een MIRV maakt meerdere kleinere zones en negeert SAM. De startprijs is vijf Waterstofbommen en iedere eerdere MIRV voegt 15.000.000 toe.
 
-## Hoe je het speelt
+De juiste keuze draait om vorm, niet alleen schade. Bepaal of je een kleine opening, brede snede, meerdere kraters of alleen troepenvernietiging nodig hebt.
 
-- **Plan vroeg een schuilplaats op hoogte.** In een lange Water-Nukes-partij kan de kaart compleet hertekend worden. Houd je kerneconomie op terrein dat niet als eerste wordt weggesneden.
-- **Gebruik nukes om te doorsnijden, niet alleen om te doden.** Een goed geplaatste krater kan een landbrug doorknippen, een hoofdstad isoleren of een zeebaan openen voor je vloot. Denk aan de *vorm* van het gat, niet alleen aan de troepen die je doodt.
-- **Houd landdiepte bij verdediging.** Rijg niet je hele natie langs een dunne kust — één salvo kan de kustruggengraat wissen en je gebouwen op eilandjes laten stranden.
-- **Breid snel her uit na een treffer.** Troepen vóór de conversie terug op een verse krater duwen is de enige manier om die grond als land te behouden.
+## Bepaal wat de inslag moet veranderen
 
-## Snelle FAQ
+Formuleer vóór de lancering het resultaat in één zin. “Dit leger verwijderen” is een normaal kerndoel. “Deze corridor doorsnijden” of “deze wateren verbinden” is een Water-Nukes-doel.
 
-- **Staat Water Nukes standaard aan?** Nee — het is een opt-in lobby-optie.
-- **Beïnvloedt het elke nuke?** Ja — atoom-, waterstof- en MIRV-koppen veranderen in deze modus allemaal land in water.
-- **Krijg ik mijn land terug?** Alleen door een krater te heroveren vóór de conversie. Eenmaal water is het *land* weg; het water zelf kun je nog gebruiken met boten, havens en (sinds v31) binnenhandel.
+### Een landbrug doorsnijden
 
-Voor de toetsen om die nukes achter elkaar af te vuren, zie het [sneltoetsen-overzicht](/nl/shortcuts/).
+Richt op het smalste deel, niet op de grootste troepengroep ernaast. Een geslaagde omzetting kan landmassa's scheiden en transport of een omweg afdwingen.
+
+Vergelijk het outer-bereik met beide oevers. Een krater die te vroeg stopt, doodt misschien troepen zonder de geplande scheiding te maken.
+
+### Een binnenlandse vaarroute openen
+
+Zoek land tussen een bestaand meer, zee of eerdere krater en het doel. Nieuw water is het meest waardevol wanneer je vloot het vanuit bestaand water kan bereiken.
+
+Een gesloten krater kan land ontzeggen, maar is niet automatisch een route. De waarde stijgt wanneer hij verbonden water maakt in plaats van een geïsoleerde vijver.
+
+### Een smalle kustzone breken
+
+Een dun kustgebied is kwetsbaar: één omgezette strook kan binnenlandse gebouwen van het overige land scheiden. Richt op de verbinding, niet alleen op de zichtbare kust.
+
+Verwacht snelle heruitbreiding. De vervolggrondaanval is even belangrijk als het projectiel, omdat eigendom tijdens de controle bepaalt welke tiles land blijven.
+
+### Langdurige ontzegging maken
+
+Steunt een tegenstander op één compacte kern, dan kan een grote krater landcapaciteit wegnemen en routes voor de rest van de partij veranderen.
+
+Geef geen 5.000.000 uit aan permanente ontzegging zonder strategische waarde. Conversie is sterk als de verloren vorm ook na de directe schade belangrijk blijft.
+
+### Een krater defensief gebruiken
+
+Een Water Nuke kan ook een route naar je eigen positie verwijderen. Je offert land voor afstand, een kanaal of een kust die eenvoudiger met schepen te bewaken is.
+
+Na conversie is de ruil onomkeerbaar. Controleer dat je niet je enige landroute voor eigen versterkingen wist.
+
+## Aanvalsplan stap voor stap
+
+### Stap 1: bevestig de modifier
+
+Controleer de lobbykaart of opties op **Water Nukes**. Baseer geen permanent terreinplan op een normale kernpartij.
+
+Controleer ook **Nukes Disabled** en **SAMs Disabled**. Die regels bepalen of het wapen bestaat en of Atoom of Waterstof onderschept kan worden.
+
+### Stap 2: teken de gewenste kustlijn
+
+Bepaal welk land moet verdwijnen en welk water moet verbinden. Gebruik outer als planningsgrens, niet als garantie dat iedere tile exact hetzelfde resultaat krijgt.
+
+Denk bij Atoom aan outer 30 en bij Waterstof aan outer 100. Waterstof is geschikt voor brede sneden, maar kost veel meer.
+
+### Stap 3: inspecteer SAM-dekking
+
+Atoom en Waterstof zijn onderschepbaar. Een standaard-SAM begint met 70 tiles bereik en heeft 90 ticks cooldown.
+
+Is het doel gedekt, kies dan een andere lijn, verwijder de verdediging, combineer dreigingen of accepteer het risico. Water Nukes omzeilt de interceptor niet.
+
+### Stap 4: bereid de exploitatie voor
+
+Zorg vóór de lancering dat de volgende actie klaarstaat: gronddruk tegen herovering, transportschepen, een vloot voor het nieuwe water of een Havenplan.
+
+Zonder vervolg past de verdediger zich aan. De beste aanvallen koppelen terreinverandering aan een militair of economisch plan.
+
+### Stap 5: lanceer en volg eigendom
+
+Bekijk na de inslag de verse krater. De conversiecontrole hangt af van de vraag of tiles eigenaarloos blijven.
+
+Houd druk op de rand als je permanent water wilt. Snelle herovering kan een deel van het kanaal als land behouden.
+
+### Stap 6: beoordeel de kaart opnieuw
+
+Behandel de krater na conversie als echt terrein. Controleer kust, vaarverbinding, nabijgelegen Havens en routes op de minimap.
+
+Volg niet blind het oude plan. Water Nukes verandert het bord; de volgende beslissing moet het nieuwe bord gebruiken.
+
+## Verdedigingsplan stap voor stap
+
+### Stap 1: herken de modus vóór expansie
+
+Lees de lobbybadge. In Water Nukes is een corridor van één tile meer dan een tijdelijke zwakte, omdat een inslag de verbinding zelf kan verwijderen.
+
+Houd diepte rond Steden, Silo's, SAM en Havens. Zet niet iedere kritieke structuur op één smalle kuststrook.
+
+### Stap 2: bouw verdediging op tijd
+
+Een SAM vraagt 300 ticks, ongeveer 30 seconden. Hij kan niet pas worden begonnen als het projectiel al dichtbij is en toch direct bescherming geven.
+
+Dek ook kritieke verbindingen. Een landbrug kan het echte doel zijn, zelfs zonder Stad erop.
+
+### Stap 3: bewaar heruitbreidingskracht
+
+Het conversievenster is de enige directe kans om land te redden. Houd genoeg troepen en een verbonden grens om verse neutrale tiles terug te nemen.
+
+Herstel is niet gegarandeerd. Het is een race tegen de gebundelde verwerking en vijandelijke druk kan herovering stoppen.
+
+### Stap 4: bereid een maritieme terugval voor
+
+Wordt het land water, schakel dan van herstel naar aanpassing. Havens, schepen, handel en transport kunnen het verlies in een nieuwe route veranderen.
+
+De v31-regel geldt voor ieder waterlichaam. Een krater kan dus je eigen economie of vloot steunen als je toegang tot de oever behoudt.
+
+### Stap 5: decentraliseer wat overblijft
+
+Bouw niet alle functies naast de nieuwe krater opnieuw. Een tweede inslag kan het water verlengen. Spreid belangrijke structuren over meerdere landmassa's en zones.
+
+## Cijfervoorbeelden
+
+### Eén Waterstofbom tegenover meerdere Atoombommen
+
+Zes Atoombommen kosten 4.500.000 Gold, 500.000 minder dan één Waterstofbom. Ze maken meerdere kleinere outer-30-zones in plaats van één outer 100.
+
+Dat maakt ze niet gelijkwaardig. Iedere lancering kan worden onderschept, de vormen kunnen land overlaten en de reeks vereist meerdere geldige doelen.
+
+Kies Waterstof voor één brede snede. Kies Atoom voor kleinere aanpassingen wanneer de kosten per poging belangrijk zijn.
+
+### Kosten van het eerste beschermde kernpakket
+
+Een Silo kost 1.000.000 en de eerste SAM 1.500.000. Met één Atoombom komt het pakket op 3.250.000 vóór upgrades.
+
+Met een Waterstofbom komt hetzelfde pakket op 7.500.000. Conversie is krachtig, maar de economie moet lang genoeg overleven om haar te betalen.
+
+### Interactie van bereik
+
+Een standaard-SAM begint op 70 tiles. Dat is meer dan outer 30 van Atoom, maar onderschepping hangt af van pad, timing en echte dekking.
+
+Waterstof heeft outer 100. Eén geslaagde inslag kan een veel groter gebied raken, daarom blijft spreiding achter SAM belangrijk.
+
+### MIRV-escalatie
+
+De eerste MIRV kost 25.000.000. De tweede kost 40.000.000 en de derde 55.000.000 door de opslag van 15.000.000 per eerdere lancering.
+
+Immuniteit is waardevol, maar de oplopende prijs vraagt een duidelijk kaartdoel in plaats van alleen meer water willen maken.
+
+## Veelgemaakte fouten
+
+### Denken dat iedere explosie water maakt
+
+Permanente conversie geldt alleen met de modifier. Een normale partij laat land en fallout achter.
+
+Controleer de lobby vóór je een kanaalstrategie bouwt. Hetzelfde doel levert onder normale regels een heel andere kaart op.
+
+### Het leger raken in plaats van de verbinding
+
+De grootste troepengroep staat niet altijd op het belangrijkste terrein. Een kleinere inslag op een smalle brug kan alle toekomstige beweging veranderen.
+
+Scheid directe schade van permanente vorm. Water Nukes beloont doelen die op beide punten goed scoren.
+
+### De conversievertraging vergeten
+
+Verse lege tiles zijn nog geen permanent water. De verdediger kan land vóór de gebundelde verwerking heroveren.
+
+Blijf naar de krater kijken en houd druk. Kijk je weg, dan kan het kanaal sluiten voordat het ooit water wordt.
+
+### Een geïsoleerde vijver maken
+
+Nieuw water is bevaarbaar, maar een gesloten krater kan onbereikbaar blijven voor je vloot. Hij ontzegt land zonder een praktische route te maken.
+
+Teken de verbinding vooraf. Voor een vaarroute moet de krater bruikbaar water raken of een oever maken die je kunt benutten.
+
+### Een route voor de tegenstander openen
+
+Het water is niet exclusief voor de aanvaller. Een verdediger met betere Havens of schepen kan meer van het kanaal profiteren.
+
+Bereid zeemacht voor vóór je het terrein wijzigt. Anders kan de inslag juist de speler mobiliseren of verrijken die je wilde verzwakken.
+
+### Alle verdediging clusteren
+
+Een compacte kern is eenvoudig te begrijpen en te richten. Waterstof heeft outer 100 en kan meerdere nabije structuren raken.
+
+Laat dekking overlappen zonder alle SAM, Silo's, Steden en Havens in één klein gebied te plaatsen.
+
+### SAM als volledige bescherming zien
+
+SAM onderschept Atoom en Waterstof en krijgt daarna 90 ticks cooldown. MIRV en zijn koppen zijn immuun.
+
+Verdediging vraagt ook diepte, heroveringstroepen, verspreide infrastructuur en een plan voor het water na conversie.
+
+## Tegenmaatregelen en aanpassingen
+
+Gebruikt de aanvaller goedkope Atoombommen, bescherm dan eerst verbindingen die outer 30 kan doorsnijden. Iedere grens gelijk verdedigen verspilt middelen.
+
+Spaart de aanvaller voor Waterstof, spreid dan waardevolle structuren buiten één breed doelgebied en houd meer dan één kern bruikbaar.
+
+Wordt MIRV de dreiging, verwacht dan niet dat meer SAM het oplost. Bewaar landdiepte, verspreid infrastructuur en bereid je voor op meerdere kleinere kraters.
+
+Wordt een krater water, betwist hem dan als zeegebied. Eigen Havens ondersteunen schepen en oorlogsschepen kunnen transports en handel blokkeren.
+
+Voltooit je inslag het kanaal niet, evalueer dan vóór een herhaling. Zoek welk heroverd of onaangeroerd land de verbinding nog blokkeert.
+
+Staat Water Nukes uit, keer dan terug naar normale prioriteiten: fallout, troepenschade, SAM-dekking en infrastructuurdoelen.
+
+## FAQ
+
+### Staat Water Nukes standaard aan?
+
+Nee. Het is een optionele lobbyinstelling. Openbare partijen tonen een **Water Nukes**-badge wanneer de modifier actief is.
+
+### Maakt de modus nukes groter?
+
+Nee. De bereiken van Atoom, Waterstof en MIRV-koppen veranderen niet. Alleen het resultaat op geschikt vernietigd land verschilt.
+
+### Welke wapens zetten land om?
+
+De modus geldt voor Atoom, Waterstof en MIRV-koppen. Hun prijzen, vormen en SAM-interacties blijven verschillend.
+
+### Kan SAM een Water Nuke stoppen?
+
+SAM kan Atoom- en Waterstofbommen onderscheppen. De MIRV-drager en koppen zijn niet onderschepbaar.
+
+### Kan ik land na de inslag redden?
+
+Soms kun je leeg land vóór de gebundelde controle heroveren. Zodra een tile water is, zet normale landexpansie hem niet terug.
+
+### Verdwijnt het water als fallout wegtrekt?
+
+Nee. Omgezet water blijft voor de rest van de partij. Fallout wordt van watertiles verwijderd zonder het oude land te herstellen.
+
+### Kunnen schepen een krater gebruiken?
+
+Ja, als het water een bevaarbaar lichaam of verbinding vormt. v31 staat Havens, oorlogsschepen en handel toe op binnenwater en oceaan.
+
+### Kan ik een Haven op de nieuwe oever bouwen?
+
+Het terrein wordt een echte kust. Een Haven vereist nog steeds een geldige positie en gecontroleerd land, dus inspecteer de uiteindelijke oever.
+
+### Atoom of Waterstof voor een kanaal?
+
+Gebruik Atoom voor kleine goedkopere wijzigingen en Waterstof voor één brede snede. De keuze hangt af van breedte, SAM-risico en routewaarde.
+
+### Waarom bleef er land over?
+
+De vorm garandeert niet hetzelfde resultaat op iedere tile. Herovering vóór de verwerking kan ook tiles als land bewaren.
+
+### Maakt Water Nukes kustspel onmogelijk?
+
+Nee. Dunne kusten worden riskanter, maar nieuw water ondersteunt ook Havens, schepen, transport en handel. Diepte en aanpassing zijn belangrijker.
+
+## Verder lezen
+
+- Controleer waarden in de [eenhedendatabase](/nl/database/units/).
+- Bekijk kosten in de [structurendatabase](/nl/database/structures/).
+- Lees het systeem van [kernwapens en SAM](/nl/mechanics/nukes/).
+- Bekijk de [v31-release-notes](/nl/changelog/v31/).
+- Gebruik de [sneltoetsengids](/nl/guides/hotkeys/) voor herhaald vuren.
+- Plan verdediging met [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/).
+- Benut nieuwe routes met [teamcontrole op zee](/nl/strategies/team-naval-control/).

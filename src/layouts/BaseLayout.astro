@@ -5,7 +5,9 @@ import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
+import { getSeoTitle } from '../i18n/seo';
 
 export interface Props {
   title: string;
@@ -34,11 +36,13 @@ const {
 } = Astro.props;
 
 const siteName = t('site.title');
-const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 const pathSegments = Astro.url.pathname.replace(base, '').split('/').filter(Boolean);
 if (pathSegments[0] && pathSegments[0] in languages) pathSegments.shift();
 const contentSection = pathSegments[0];
+const fullTitle = getSeoTitle(lang, Astro.url.pathname, title);
+const readingSections = new Set(['mechanics', 'database', 'guides', 'strategies', 'changelog']);
+const isReadingPage = contentSection !== undefined && readingSections.has(contentSection) && pathSegments.length > 1;
 const provenanceSources = contentSection === 'database'
   ? [
       { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
@@ -133,6 +137,7 @@ const provenanceSources = contentSection === 'database'
     <slot name="head" />
   </head>
   <body class="flex flex-col">
+    {isReadingPage && <ReadingProgress />}
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-cannon-600 focus:px-3 focus:py-2 focus:text-sm focus:text-iron-950">{t('a11y.skipToMain')}</a>
     <Header lang={lang} />
     <main id="main" class="flex-1">

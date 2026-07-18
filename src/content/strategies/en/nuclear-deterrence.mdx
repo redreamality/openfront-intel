@@ -2,71 +2,357 @@
 title: Nuclear Deterrence and SAM Networks
 description: From the first Silo to MIRV — nuclear strike timing, SAM placement, and anti-nuke strategy.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [nukes, SAM, deterrence]
 category: Mid-Late Game
 difficulty: Intermediate
 version: v24
 ---
 
-## The Three-Phase Nuclear Tempo
+## Direct Answer
 
-Nuclear warfare in OpenFront breaks down into three distinct phases:
+Nuclear deterrence means preserving a credible reply while making an enemy's first strike expensive or unreliable. In OpenFront, that requires Gold, a Silo, protected launch capacity, and SAM coverage that matches the assets at risk.
 
-### Phase 1 · Deterrence Setup (3-5 minutes)
+One SAM is warning and basic coverage, not complete safety. Its 90-tick cooldown creates a throughput limit, while MIRV carriers and warheads are immune to SAM interception.
 
-- **Goal**: Let your opponent know you can retaliate.
-- **Build**: 1 Missile Silo (1M) + 1 SAM (1.5M).
-- **Effect**: A single SAM covers 70 tiles, already enough to protect your core cities. Bot Nukes actively avoid SAM coverage, meaning <strong>just building a SAM creates deterrence</strong>.
+Choose a weapon by mission. Atom Bombs are cheaper and smaller. Hydrogen Bombs cover a much larger area. MIRVs bypass SAMs but cost far more and use smaller individual warheads.
 
-### Phase 2 · Live Strikes (5-8 minutes)
+Do not launch only because a weapon is available. A strike should remove capacity, open a ground attack, deny a route, or force a defensive expense that improves your position.
 
-- **Goal**: Stockpile 5M Gold + 1 Hydrogen Bomb to crater the enemy core.
-- **Build**: Upgrade 2-3 SAMs to level 3+, add a second Silo.
-- **Target priority**:
-  1. Enemy City clusters (drains their troop cap).
-  2. Enemy Silos and SAMs (cripples their retaliation).
-  3. Enemy trade Ports (cuts their economy).
+## Prerequisite Mechanics
 
-### Phase 3 · MIRV Coordination (8+ minutes)
+### Missile Silo
 
-- **Goal**: Use MIRV to force the opponent to scatter their defenses.
-- **Build**: Stockpile 25M Gold, fire your first MIRV; +15M for each subsequent launch.
-- **Key point**: v24 nerfed MIRV damage, so its <strong>value is psychological pressure</strong> — SAMs can't intercept MIRVs, forcing opponents to spread out expensive SAMs and actually weakening point defense.
+The first Missile Silo costs a fixed 1,000,000 Gold and takes 100 ticks to construct. It is the launch platform for nuclear weapons.
 
-## SAM Placement Formula
+Silo upgrades reduce reload time. Multiple Silos can support more launch capacity, but every exposed Silo is also a point an opponent can capture with its territory.
 
-Each SAM covers a circular disc:
+A Silo without a funded weapon is still a signal. A Silo without protection, Gold, or a survivable core is not yet a reliable deterrent.
 
-```
-samRange(level) = 150 − 480 / (level + 5)
-level 1: 70  · level 2: ~81 · level 3: ~90
-level 4: ~96 · level 5: ~140
-```
+### Atom Bomb
 
-**Two or more SAMs covering the same target** are required to survive a volley (90-tick cooldown). But don't bunch them up — a single Hydrogen Bomb's outer ring of 100 tiles will wipe them all out.
+An Atom Bomb costs 750,000 Gold. Its listed blast radii are 12 tiles for the inner area and 30 for the outer area.
 
-## Anti-Nuke Checklist
+SAM Launchers can intercept it. Its lower cost makes repeated launches affordable sooner, but repeated shots still meet SAM cooldown and coverage rules.
 
-- [ ] At least 2 SAMs covering every core City
-- [ ] SAM spacing > 80 tiles
-- [ ] Silos tucked inside the SAM perimeter
-- [ ] Cities upgraded to level 2+ (population buffer)
-- [ ] Never rely on a single point of defense — back up multiple cores
+### Hydrogen Bomb
 
-## Classic Mistakes
+A Hydrogen Bomb costs 5,000,000 Gold. Its listed inner radius is 80 tiles and its outer radius is 100.
 
-- **Hoarding a stack of Atom Bombs as your main weapon** — at 750k each, the per-hit damage is limited and a single level 3 SAM intercepts the whole salvo. Hydrogen Bombs (5M) are the real nuclear strike.
-- **Treating MIRV as a finisher** — post-v24 MIRV warheads only cover an 18-tile outer ring, far less damage than a Hydrogen Bomb. Use it as a psychological warfare tool.
-- **Naked Silos with no SAM cover** — your Silo will be the enemy's first Hydrogen Bomb target, and your retaliation capability drops to zero instantly.
+It can also be intercepted by SAM. The larger area makes asset spacing and interception coverage more important than against an Atom Bomb.
 
-## Decision Tree
+### MIRV
 
-```
-Do you have 5M Gold?
-├─ No → Keep growing economy (City + Port + upgrades), don't build nukes
-└─ Yes → Does the opponent have SAMs?
-    ├─ No → Hydrogen Bomb their City cluster directly
-    └─ Yes → Are their SAMs < 3?
-        ├─ Yes → Volley 2-3 Atom Bombs to saturate the SAM zone
-        └─ No → Stockpile to 25M Gold and launch MIRV
-```
+The first MIRV costs 25,000,000 Gold. The formula adds 15,000,000 for each prior MIRV launch, so the second costs 40,000,000.
+
+The carrier splits into multiple MIRV warheads. Each warhead lists inner and outer radii of 12 and 18 tiles.
+
+Neither the MIRV body nor its warheads can be intercepted by SAM. The generated notes also record the v24 nerf: MIRV craters can be conquered quickly.
+
+Immunity to SAM does not make a MIRV an automatic finisher. Its price, smaller warhead radius, target spread, and the defender's ability to reclaim ground still matter.
+
+### SAM Launcher
+
+The first SAM costs 1,500,000 Gold. The cost formula is `min(3,000,000, (n+1) × 1,500,000)`, so later SAMs reach a 3,000,000 per-build cap.
+
+Construction takes 300 ticks, or about 30 seconds. A SAM cannot solve a launch that is already arriving if construction has not finished.
+
+Cooldown is 90 ticks, about nine seconds. A single launcher cannot provide unlimited interception against closely timed Atom or Hydrogen Bombs.
+
+Range follows `150 - 480 / (level + 5)`. The first levels are 70, about 81, 90, about 97, and 102 tiles. Higher levels continue toward the 150-tile limit.
+
+Interception also needs a nonnegative pre-fire window: `nukeReachTick - samReachTick >= 0`. Coverage on the map is necessary, but the missile must still reach the path in time.
+
+### Cities as strategic depth
+
+Each City level adds 250,000 troop cap. That fixed buffer does not intercept a weapon, yet it can leave more capacity for defense and recovery after losses.
+
+Cities, Silos, SAMs, and Ports can transfer when their territory is captured. Nuclear defense therefore includes the land around the network, not just the launchers.
+
+## Decision Framework
+
+### Step 1: define what must survive
+
+List the assets whose loss would end your plan: launch Silos, high-level Cities, key Ports, factories, a narrow ground connection, or the only safe expansion lane.
+
+Do not cover empty territory because it looks central. Place coverage around the assets and routes that preserve retaliation or recovery.
+
+### Step 2: identify the incoming weapon set
+
+If the opponent owns a Silo but has limited Gold, Atom Bombs are the cheaper threat. At 5,000,000 Gold, a Hydrogen Bomb becomes possible. At 25,000,000, the first MIRV becomes possible.
+
+Gold is not always visible or exact, so use these as capability thresholds, not proof that a weapon exists.
+
+### Step 3: separate coverage from redundancy
+
+Coverage asks whether a target lies within SAM range. Redundancy asks whether another completed SAM can engage while the first is cooling down.
+
+Two SAM circles that overlap a core can improve salvo defense. If both launchers also fit inside one 100-tile Hydrogen outer radius, one successful strike may threaten the whole network.
+
+Spread the launchers while preserving overlap on the important target. There is no single spacing number that works for every map geometry and SAM level.
+
+### Step 4: preserve a retaliation budget
+
+The first Silo plus first SAM costs 2,500,000 Gold before buying a weapon. Adding an Atom Bomb raises that package to 3,250,000.
+
+A protected Hydrogen capability needs at least 7,500,000 for one first Silo, one first SAM, and the bomb, before upgrades or redundancy.
+
+Do not spend the entire treasury on the visible weapon if doing so prevents the SAM, City, or ground defense that keeps the launcher alive.
+
+### Step 5: choose a strike mission
+
+Use a small strike for a small objective. Use a large blast when the target density justifies the cost. Use a MIRV when bypassing SAM matters enough to justify its escalating price.
+
+Before launch, state the follow-up in one sentence. If you cannot explain what changes after impact, keep the weapon as leverage or choose another investment.
+
+## Timeline and Step-by-Step Execution
+
+### Before nuclear spending
+
+Secure enough territory and economy to fund the package, not just one component. Check whether nukes or SAMs are disabled before reserving Gold for unavailable systems.
+
+Keep critical buildings separated from the border. A nuclear network that can be captured by a normal land push is not a nuclear solution.
+
+### Deterrence setup
+
+Build the Silo where it can remain inside the defended core. Start the first SAM early enough to finish its 300-tick construction before the expected threat window.
+
+Place the SAM by drawing an imagined circle around the assets that must survive. The first-level 70-tile range is the planning baseline.
+
+Do not advertise an empty treasury through overbuilding. Keep enough Gold to buy the intended weapon or to react with another defensive structure.
+
+### First completed shield
+
+When the SAM finishes, confirm which Cities, Silos, and routes are actually inside range. A launcher icon is not proof that the whole core is covered.
+
+Check the approach geometry. The pre-fire formula means interception depends on reach time as well as the target sitting inside a nominal circle.
+
+If AI opponents are present, existing structure notes say AI nukes avoid SAM-covered targets. That adds deterrence value, but it does not change human targeting or MIRV immunity.
+
+### Redundancy phase
+
+Add a second SAM when the first protects something that cannot survive a cooldown gap. The second launcher costs 3,000,000 under the listed scaling formula.
+
+Offset the second position so both can cover the core without placing every launcher and Silo in one compact blast area.
+
+Upgrade range only when the added circle covers a real asset or intercept path. Range purchased without a coverage purpose is expensive decoration.
+
+### Strike preparation
+
+Verify the target, enemy SAM circles, likely ground follow-up, and your own retaliation risk. Keep the weapon unlaunched if the impact would not change those conditions.
+
+For Atom or Hydrogen Bombs, assume covered targets may be intercepted. For MIRV, assume impact can occur but do not assume the resulting territory stays denied.
+
+### Launch and follow-through
+
+Launch when troops, allies, or naval units can exploit the new opening. A crater without follow-up can become neutral space that the opponent recovers.
+
+After launch, watch Silo reload, enemy construction, SAM cooldowns, and your Gold. Do not repeat the same target automatically if the first strike changed the geometry.
+
+### Recovery after an incoming strike
+
+Rebuild the capability that the strike was meant to remove. If a SAM fell, restore coverage. If a City fell, replace troop cap. If a route opened, secure the exposed land.
+
+In Water Nukes mode, re-expansion timing also matters because unowned destroyed land can convert to water. Use the dedicated guide for that option's exact behavior.
+
+## Number Scenarios
+
+### Scenario 1: minimum visible deterrent
+
+One first Silo costs 1,000,000 and one first SAM costs 1,500,000, for 2,500,000 total. Their listed construction times are 100 and 300 ticks.
+
+Adding one Atom Bomb costs another 750,000, bringing the package to 3,250,000. This creates launch capacity, one weapon, and one layer of interceptable-nuke defense.
+
+It does not create salvo redundancy or MIRV defense. The value depends on placement, readiness, and whether the opponent believes the assets can survive.
+
+### Scenario 2: overlapping SAM cost
+
+The first SAM costs 1,500,000. The second costs 3,000,000, so two launchers total 4,500,000 before upgrades.
+
+A third also costs 3,000,000 because the formula caps there. Three unupgraded launchers therefore cost 7,500,000.
+
+That budget buys more interception throughput, but only where the circles and pre-fire windows cover the incoming path.
+
+### Scenario 3: range by level
+
+Using the generated formula, levels one through five are 70, about 81, 90, about 97, and 102 tiles.
+
+The gain per level shrinks as range approaches 150. Upgrade because a specific asset or route enters coverage, not because the level number looks low.
+
+### Scenario 4: two Atom Bombs versus one Hydrogen Bomb
+
+Two Atom Bombs cost 1,500,000 and each has 12/30 inner/outer radii. One Hydrogen Bomb costs 5,000,000 and has 80/100 radii.
+
+The cheaper pair offers two launch events and two possible targets. The Hydrogen Bomb offers a far larger single blast. SAMs can intercept either weapon type.
+
+The better choice depends on target density, coverage, cooldown timing, and the objective. Cost alone does not make the weapons interchangeable.
+
+### Scenario 5: MIRV escalation
+
+The first MIRV costs 25,000,000. After one launch, the next costs 40,000,000. Buying both would consume 65,000,000 before Silo or defense costs.
+
+That escalation rewards selective use. MIRV bypasses SAM, but its listed warheads are 12/18 and its v24 craters can be reclaimed quickly.
+
+### Scenario 6: City buffer
+
+One City level adds 250,000 troop cap. Two levels add 500,000, and four levels add 1,000,000.
+
+This does not reduce blast size. It gives the broader position more capacity to field troops before and after a strike, provided the City itself remains controlled.
+
+## Opponent Counterplay
+
+### SAM saturation
+
+An enemy can time multiple interceptable weapons close together. A single SAM has a 90-tick cooldown, so coverage without another ready launcher can leave a later shot unanswered.
+
+Counter by overlapping completed launchers on critical assets, while avoiding a cluster that one successful Hydrogen Bomb can threaten.
+
+### MIRV bypass
+
+SAMs cannot intercept the carrier or warheads. Counter with asset spacing, multiple recoverable cores, preserved ground forces, and enough economy to rebuild.
+
+Do not keep upgrading one SAM as if range solves immunity. The MIRV answer is resilience and recovery, not a larger intercept circle.
+
+### Target dispersion
+
+An opponent can separate Cities, Silos, Ports, and SAMs so one blast hits fewer valuable assets. That reduces the return on a Hydrogen Bomb.
+
+Counter by choosing a narrower objective, coordinating several fronts, or keeping the weapon as leverage instead of forcing a low-value shot.
+
+### Ground capture
+
+Buildings transfer with captured territory. A land attack can remove a Silo or SAM without winning the interception contest.
+
+Protect the surrounding border and keep troops available. Nuclear defense that ignores ordinary capture has a hole no launcher can cover.
+
+### Economic denial
+
+Opponents may attack Ports, rail routes, or territory to keep you below the next weapon threshold. A 25,000,000 MIRV plan is fragile if it depends on one exposed income stream.
+
+Counter with mixed income, protected infrastructure, and a lower-cost option when the original budget is no longer realistic.
+
+### Reclaiming the crater
+
+The v24 MIRV note says craters can be conquered quickly. Any strike without troops ready to exploit the opening may give the defender time to restore control.
+
+Coordinate the launch with the unit or border move that benefits from the impact.
+
+## Failure Modes
+
+### Naked Silo
+
+A Silo outside SAM coverage and near a weak border offers visible value to both nuclear and land attacks. Put launch capacity inside the defended system.
+
+### One-SAM confidence
+
+One launcher adds real coverage, especially against AI targeting, but it still has a cooldown and cannot touch MIRV. Label it a first layer, not a complete shield.
+
+### Compact nuclear district
+
+Clustering every City, Silo, and SAM simplifies defense until a large blast reaches all of them. Preserve overlap without creating one point of failure.
+
+### Last-second SAM construction
+
+Build time is 300 ticks. Starting after the warning appears may leave the launcher unfinished when the weapon arrives.
+
+### Blind Atom spam
+
+Several Atom Bombs can create multiple launch events, but covered shots may be intercepted. Count enemy launchers, cooldowns, paths, and the value of each target.
+
+### MIRV as automatic victory
+
+SAM immunity guarantees no SAM interception, not permanent control. Smaller warhead radii, high cost, spread, and reclaimable craters limit the result.
+
+### Spending to zero
+
+A weapon that empties the treasury can leave no answer to a counterattack. Keep a post-strike budget for troops, coverage, or replacement infrastructure.
+
+### No follow-up
+
+Damage is not the same as strategic gain. If no land, naval, or allied move uses the opening, the defender may rebuild or re-expand.
+
+## Mode and Map Adjustments
+
+### Nukes disabled
+
+Do not build a nuclear plan around unavailable weapons. Redirect the same Gold analysis toward Cities, Posts, trade, trains, or naval control.
+
+### SAMs disabled
+
+Atom and Hydrogen Bombs lose their normal interceptor. Spread assets, maintain multiple cores, and avoid making one dense target worth the enemy's entire budget.
+
+### Water Nukes enabled
+
+Destroyed unowned land can convert to water after the strike. The blast sizes stay the same, but the map may gain permanent water and new naval routes.
+
+Read [the Water Nukes guide](/guides/water-nukes/) before using a normal-mode recovery plan.
+
+### FFA
+
+Deterrence includes diplomacy. A visible reply can discourage one neighbor while another front remains active, but an alliance still has a five-minute duration and betrayal rules.
+
+### Team modes
+
+Split roles and call targets. One player can fund launch capacity while teammates provide ground follow-up, but a centralized arsenal also becomes a clear enemy objective.
+
+### Tight regional maps
+
+A 100-tile Hydrogen outer radius covers more of a compact core. Spacing may be constrained, so preserving a second core or another route becomes more valuable.
+
+### Large continental maps
+
+One SAM circle may cover only one cluster. Build zones around real assets instead of trying to paint the whole territory with coverage.
+
+Use the [map database](/database/maps/) to confirm the map set, then judge distance and topology in the live match.
+
+## FAQ
+
+### What is the cheapest nuclear deterrent?
+
+A first Silo plus first SAM costs 2,500,000 Gold before a weapon. Adding an Atom Bomb raises the listed package to 3,250,000.
+
+### How much does a MIRV cost in OpenFront?
+
+The first MIRV costs 25,000,000 Gold. Each prior MIRV launch adds 15,000,000, so the second costs 40,000,000 and the third costs 55,000,000.
+
+### Can one SAM stop every nuke?
+
+No. It intercepts Atom and Hydrogen Bombs only, has a 90-tick cooldown, and cannot intercept MIRV carriers or warheads.
+
+### What range does a first SAM have?
+
+The range formula gives 70 tiles at level one. Level two is about 81, level three is 90, and later levels continue toward 150.
+
+### Should I cluster two SAMs for overlap?
+
+Overlap critical assets, but separate launchers enough that one successful large blast does not threaten the entire network. Exact spacing depends on map geometry and levels.
+
+### Atom Bomb or Hydrogen Bomb?
+
+Choose Atom for a cheaper, smaller mission or multiple launch events. Choose Hydrogen when the 80/100 blast area creates enough value to justify 5,000,000 Gold.
+
+### Does SAM stop MIRV?
+
+No. Both the MIRV carrier and its warheads are immune to SAM interception.
+
+### Is a MIRV always better than a Hydrogen Bomb?
+
+No. It bypasses SAM, but the first costs 25,000,000, later launches escalate, each warhead is smaller, and v24 craters can be reclaimed quickly.
+
+### Where should I target?
+
+Target the asset or route whose loss enables a concrete follow-up. Dense Cities, launch capacity, trade infrastructure, and narrow connections can matter, but inspect coverage first.
+
+### When should I launch?
+
+Launch when the impact changes control, capacity, income, or defensive spending. If no follow-up exists, continued deterrence may be worth more.
+
+## Next Reading
+
+Check [nuclear and SAM mechanics](/mechanics/nukes/) for the reference table and formulas.
+
+Use the [structures database](/database/structures/) and [units database](/database/units/) for current extracted costs, build times, and weapon notes.
+
+Read [economy fundamentals](/strategies/economy-fundamentals/) before committing to the 5,000,000 or 25,000,000 thresholds.
+
+Review [hotkeys](/shortcuts/) for the normal in-game launch controls, then return to [FFA opening](/strategies/ffa-opening/) or [team naval control](/strategies/team-naval-control/) for mode-specific follow-up.

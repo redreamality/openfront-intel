@@ -1,0 +1,52 @@
+<div
+  data-reading-progress
+  data-progress="0"
+  class="pointer-events-none fixed inset-x-0 top-0 z-[70] h-1 bg-transparent"
+  aria-hidden="true"
+>
+  <div
+    data-reading-progress-bar
+    class="h-full origin-left scale-x-0 bg-gradient-to-r from-cannon-600 via-cannon-400 to-military-400 motion-reduce:transition-none"
+  ></div>
+</div>
+
+<script is:inline>
+  (() => {
+    const init = () => {
+      const root = document.querySelector('[data-reading-progress]');
+      const bar = root?.querySelector('[data-reading-progress-bar]');
+      const article = document.querySelector('main article') ?? document.querySelector('main');
+      if (!(root instanceof HTMLElement) || !(bar instanceof HTMLElement) || !(article instanceof HTMLElement)) {
+        root?.remove();
+        return;
+      }
+
+      let scheduled = false;
+      const update = () => {
+        scheduled = false;
+        const articleTop = article.getBoundingClientRect().top + window.scrollY;
+        const distance = Math.max(article.offsetHeight - window.innerHeight, 1);
+        const progress = Math.min(1, Math.max(0, (window.scrollY - articleTop) / distance));
+        const percentage = Math.round(progress * 100);
+        bar.style.transform = `scaleX(${progress})`;
+        root.dataset.progress = String(percentage);
+      };
+
+      const requestUpdate = () => {
+        if (scheduled) return;
+        scheduled = true;
+        window.requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate, { passive: true });
+      update();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>
