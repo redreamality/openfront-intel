@@ -37,6 +37,8 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 ## 数据更新 / 离线 extract（避坑规则）
 
 - 本环境到 github.com:443 的 **git 传输不稳定**：`git fetch/pull` 常报 `Connection was reset` 或 `Failed to connect ... port 443`（有时挂起），但 `gh` API 与有时的 `git push` 仍可用。需要看上游 diff 时优先走 `gh api repos/openfrontio/OpenFrontIO/compare/<base>...main`，不要依赖 `git pull`。git 命令一律加 `-c http.lowSpeedLimit=1000 -c http.lowSpeedTime=25` 快速失败，避免无限挂起。
+- **PR 合并前 `git fetch origin` 若以 `Recv failure: Connection was reset` 失败，使用 GitHub API 核对基线**：通过 `gh api repos/<owner>/<repo>/branches/main --jq .commit.sha` 取得远端 main SHA，并与本地 `origin/main`/PR base SHA 比较；只有 SHA 一致或 GitHub 明确判定 PR 可合并时才继续。不要把一次 fetch 失败等同于远端没有更新。
+- **`git push` 报 `Recv failure: Connection was reset` 后先核对远端 ref，再决定是否重试**：用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch> --jq .object.sha` 与本地 `HEAD` 比较，避免服务端其实已接收时重复操作；远端仍是旧 SHA 才使用相同低速超时参数重试一次，连续失败则停止并报告网络阻塞。
 - **`pnpm extract` 的地图来自目录名，不是目录内容**：`readMapDirs()` 只对 `OpenFrontIO/resources/maps/` 做 `readdirSync` + `isDirectory()` 过滤，地图的名称/分类全部来自本脚本的 `MAP_I18N`/`MAP_CATEGORIES`。因此当 `git pull` 不通、又要把新地图录进 `maps.json` 时，可在 clone 里 `mkdir` 对应的**空目录**作为占位 —— 产出的 `maps.json` 与真实 pull **逐字节相同**，且 git 恢复后 pull 会用真实内容覆盖（可逆）。
 - 光在 `MAP_CATEGORIES` 里加 id **不够**：clone 目录里若没有该地图目录，`readMapDirs()` 不会列出它（除非 `!HAS_SOURCE` 走 fallback）。必须保证目录存在（真实或空占位）。
 - 用 bash 写临时文件给 node 读时，**不要用 `/tmp`**：MSYS 的 `/tmp` 与 node 的 `C:\tmp` 不是同一路径，会 ENOENT。改用一条 node 管道（`... | node -e`）或写到项目内相对路径。
@@ -86,3 +88,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **不要把大型 `git diff` 直接管道到 `Select-Object -First`**：下游达到条数后会提前关闭管道，使仍在输出的 `git diff` 遇到 broken pipe 并返回退出码 1，即使已经显示了所需内容。先把 diff 捕获到变量或文件，再对捕获结果做 `Select-String`/截断，避免制造伪失败。
 - **完整 Playwright 套件若只在 `browserContext.newPage` 建页阶段超时，且没有进入页面断言，先按资源争用处理**：用 `--workers=1 --grep <用例>` 单线程复跑失败用例；目标用例通过后再重跑完整套件。不要把 fixture 建页超时误判为对应页面内容回归，也不能仅凭定向通过就跳过最终全套回归。
 - **Windows 下给 Playwright CLI 传测试文件过滤器时也使用正斜杠**：`e2e\\content-integrity.spec.ts` 会作为正则处理，反斜杠可能转义后续字符并导致 `No tests found`。统一传 `e2e/content-integrity.spec.ts`，即使当前 shell 是 PowerShell。
+- **命令工具名称必须以当前会话实际暴露的能力为准**：部分运行时只有 `shell_command`，调用不存在的 `exec_command` 会在命令执行前报 `TypeError: tools.exec_command is not a function`。先检查工具声明，并在本会话统一使用已暴露的命令接口，不要沿用上一轮的工具名假设。
+- **`gh` 同时登录多个账号时，读操作成功不代表当前账号有仓库写权限**：对另一个账号名下仓库调用 Git Data/Contents 写 API 可能返回伪装的 404。写入前先看 `gh auth status` 的 Active account；需要临时使用仓库所有者凭据时，在单条命令内用 `$env:GH_TOKEN = gh auth token --user <owner>`，不要输出 token，也不要无故永久切换全局 active account。
+- **PowerShell 下不要把 `ConvertTo-Json` 的结果直接管道给 `gh api --input -`**：旧版 PowerShell 的原生命令管道编码可能让 GitHub 返回 `Problems parsing JSON`。优先用 `gh api -f/-F` 构造字段，文件内容用 `-F 'field=@path'` 交给 CLI 读取；确需输入文件时必须显式生成 UTF-8 无 BOM。
+- **Git Data API 的 `tree` 数组不要用未经验证的 `gh api -f 'tree[0][…]'` 拼装**：当前 `gh` 版本会生成 GitHub 判定为 `Invalid tree info` 的请求。需要创建 tree/commit 时，用 Node `spawnSync` 向 `gh api --input -` 传 UTF-8 `JSON.stringify` 结果，并校验返回 tree/commit SHA 后再更新 ref。
