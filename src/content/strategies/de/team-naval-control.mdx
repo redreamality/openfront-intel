@@ -2,70 +2,367 @@
 title: 'Team-Modus: Naval-Control-Stil'
 description: Im 5-Minuten-Takt des Team-Modus bilden Ports, Warships und Handel einen symbiotischen Seemacht-Stil.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [team, naval, ports]
 category: Team
 difficulty: Fortgeschritten
 version: v24
 ---
 
-## Warum der Naval-Control-Stil
+## Direkte Antwort
 
-Die Siegbedingung im Team-Modus sind 95 % Gebiet in 5 Minuten — **es ist keine Zeit für einen langen Atomkrieg**. Die Kernidee des Naval-Control-Stils:
+Seekontrolle im Team-Modus ist eine Unterstützerrolle mit drei Ergebnissen: freundliche Transportwege offen halten, gegnerische Transporte sperren und sichere Ports in Wirtschaft oder Startpunkte verwandeln.
 
-- Ports nutzen, um einen **Gold-Peak über Handel** zu bauen (4 bis 5 Ports, die in kurzer Zeit gleichzeitig Trade Ships spawnen).
-- Warships nutzen, um die See abzuriegeln und **gegnerische Landungen** auf deinem Kernkontinent zu verhindern.
-- Deine Teamkollegen kümmern sich um den Land-Push, du übernimmst Seekontrolle und Wirtschaft.
+Miss Erfolg nicht an der Zahl der Kriegsschiffe. Eine Flotte zählt nur, wenn sie eine Route schützt, eine Landung verhindert, einen Port abschirmt oder einem Teamkollegen die Überfahrt ermöglicht.
 
-## Phasen-Ausführung
+Der Team-Modus nennt 95 % Gebiet mit Fünf-Minuten- oder zeitbasierter Wertung. Seekontrolle muss daher schnell zu Territorium werden, statt ein eigenes Marine-Minispiel zu bilden.
 
-### 0-60 s · Küste sichern
+Baue die kleinste Flotte, die das entscheidende Wasser hält. Stecke gespartes Gold in Port, Defense Post, City, SAM oder Teamaktion, die Kontrolle in Punkte umsetzt.
 
-- Wähle einen Spawn mit der längstmöglichen Küstenlinie.
-- Ziel: 2 Ports innerhalb der ersten 60 Sekunden.
-- Halte Abstand zu deinem Teamkollegen — er pusht über Land, du klebst an der Küste.
+## Erforderliche Mechaniken
 
-### 60-180 s · Erste Warship-Welle
+### Zeitdruck im Team-Modus
 
-- Das 3. Warship kostet 250k × 3 = ~1,5M Gold (Scaling eingerechnet).
-- Setze 1 DefensePost entlang der Küste, um Landungen abzuschrecken.
-- Ab dieser Phase ein <strong>dauerhaftes Embargo</strong> gegen alle nicht-verbündeten Gegner verhängen.
+Die Modusübersicht beschreibt Team als 2v2 bis 8v8 mit 95 % in fünf Minuten oder zeitbasierter Prozentwertung. Frühe Landkontrolle bleibt die Anzeigetafel.
 
-### 180-300 s · Seekontrolle und Synergie
+Deine Rolle ersetzt den Bodenangriff nicht. Sie entfernt ein Wasserhindernis, schützt eine Flanke oder schafft ein Landungsfenster, damit das Team schneller Land gewinnt.
 
-- Ports auf Level 2-3 ausbauen (die v24-Kompensation cap 150 ist hier entscheidend).
-- Eine Alliance mit deinem Teamkollegen schließen, damit seine Trade Ships durch deine verbündeten Städte laufen (35k / Stopp).
-- Deine Ports öffnen ein Landungsfenster für das ganze Team — die Transports deines Teamkollegen starten sicherer von deinen Ports.
+### Ports
 
-## Schlüsselzahlen
+Ein erster Port kostet 125.000 Gold, wenn kein Port oder keine Factory bereits den gemeinsamen Zähler nutzt. Die Formel lautet `min(1.000.000, 2^n × 125.000)`.
 
-| Punkt | Wert | Bedeutung |
-| --- | --- | --- |
-| Warship Auto-Rückzug | HP ≤ 750 | Keine angeschlagenen Schiffe verfolgen |
-| Shell-Schaden | 250 | 3-4 Shells töten ein Warship mit voller HP |
-| Warship-Priorität | Transport > Warship | Ein einzelnes patrouillierendes Warship zerlegt eine ganze Landungsflotte |
-| Port-Cap-Rendite | Upgrade > Neubau | Seit v24 besonders ausgeprägt |
+Port und Factory teilen `n`. Die Folge ihrer gemeinsamen Neubauten lautet 125.000, 250.000, 500.000 und danach 1.000.000 pro Bau, sobald das Limit erreicht ist.
 
-## Schwachstellen der Naval Control
+Ports erzeugen Handelsschiffe, Transportschiffe und Kriegsschiffe. Höhere Port-Stufen verbessern Spawnrate und Einnahmen der Handelsschiffe.
 
-- **Isolierte Ports** — ein Port in einer Enklave wird von einem gegnerischen Transport sofort ausgeschaltet; vor dem Bau Landverbindung prüfen.
-- **Warships zu weit weg** — sobald ein Warship über 200 Tiles vom Port entfernt ist, kostet dich die Reparatur-Hin-und-Rückfahrt die Seekontrolle.
-- **Nuke- und Landungs-Zange** — eine einzige Wasserstoffbombe auf eine Küstenstadt bringt die ganze Linie zum Einsturz; mindestens 1 SAM, das deinen Port-Cluster abdeckt.
+Ports können erobert werden. Ein Port auf einer dünnen Enklave wird gegnerische Infrastruktur, wenn sein Stützland fällt.
 
-## Rollenaufteilung mit Teamkollegen
+### Kriegsschiffe
 
-| Rolle | Aufgabe | Bau-Fokus |
-| --- | --- | --- |
-| Du (Naval Control) | Ports + Warships + Handel | Port × 4-6, Warship × 3-5 |
-| Teamkollege A (Land-Push) | Gebiet + DefensePost | City × 3-4, DefensePost × 2 |
-| Teamkollege B (Nuklear, optional) | Silo + SAM | Silo × 2, SAM × 3 |
+Ein Kriegsschiff beginnt bei 250.000 Gold. Seine Formel lautet `min(1.000.000, (n+1) × 250.000)`, wobei `n` die vorhandenen Kriegsschiffe zählt.
 
-## Karten-Empfehlungen
+Die Preisfolge ist 250.000, 500.000, 750.000 und danach 1.000.000. Die Bauzeit beträgt 50 Ticks.
 
-Karten, die zu diesem Stil passen (mindestens zwei Küstenlinien + Meerengen-Flaschenhals):
+Ein Kriegsschiff hat 1.000 angegebene HP und feuert Shells mit 250 Schaden. Bei 750 HP oder weniger zieht es sich automatisch zurück.
 
-- Britannia / Italia / Mediterranean
-- Strait of Gibraltar / Strait of Malacca
-- Two Lakes / Between Two Seas
-- Bosphorus Straits
+Seit v24 priorisieren Kriegsschiffe Transportschiffe und kühlen nach einem Treffer sofort ab. Eine richtig gesetzte Patrouille wird dadurch besonders stark gegen Landungswege.
 
-Reine Binnenkarten vermeiden (Zentralafrika, Asiens Binnenland).
+### Transportschiffe
+
+Transportschiffe kosten kein Gold, verbrauchen aber Truppen des startenden Spielers. Ein verlorener Transport kostet daher Armee und Tempo, obwohl kein Kauf im Budget erscheint.
+
+Kriegsschiffe priorisieren sie. Schicke keinen sichtbaren Strom durch eine feindliche Patrouille und nenne die Verluste kostenlos.
+
+### Handelsschiffe
+
+Handelsertrag folgt der Distanzkurve `floor((75.000 / (1 + exp(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier)`.
+
+Längere Routen zahlen mehr pro Ankunft, doch Sicherheit und Fahrzeit bleiben wichtig. Einkommen, das nie einen Port erreicht, ist kein Einkommen.
+
+Die generierten Wirtschaftsdaten nennen für v24 einen globalen Cap von 150 Handelsschiffen. Mehr Ports erzeugen keine unendlichen Schiffe; die Spawnchance ändert sich mit der Zahl.
+
+Zwischen embargoierten Parteien entstehen keine Handelsschiffe. Ein gemeinsamer Handelsplan braucht diplomatischen Zugang ebenso wie Wasser.
+
+### Defense Posts an der Küste
+
+Der erste Defense Post kostet 50.000 Gold. Seine 30-Tile-Zone multipliziert Verteidigungsstärke mit fünf und Tempo mit drei.
+
+Er schützt Land, nicht das ganze Meer. Stelle ihn so, dass eine Landung durch die Zone kämpfen muss, bevor sie Port oder Küstenverbindung erobert.
+
+### SAM-Abdeckung
+
+Sind Nukes aktiv, kostet der erste SAM 1.500.000 und benötigt 300 Ticks Bauzeit. Er fängt Atom- und Wasserstoffbomben ab, keine MIRV.
+
+Marineballung kann ein attraktives Küstenziel schaffen. Füge Nuklearabwehr nur hinzu, wenn Lobby und gegnerische Wirtschaft diese Gefahr glaubwürdig machen.
+
+## Entscheidungsrahmen
+
+### Schritt 1: Das entscheidende Wasser finden
+
+Bestimme das Meer, die Meerenge, den See oder Kanal, der Teambewegung verändert. Schützt Kontrolle kein Land und ermöglicht keine Landung, verdient die Fläche vielleicht keine Flotte.
+
+Markiere drei Punkte: freundlicher Port, gegnerischer Anmarsch und Landungsküste. Das erste Kriegsschiff soll einen davon bedienen, nicht ziellos zwischen allen pendeln.
+
+### Schritt 2: Den Auftrag wählen
+
+Nutze **Eskorte**, wenn freundliche Transporte queren müssen. Nutze **Abriegelung** bei vorhersehbarer Feindroute. Nutze **Portverteidigung**, wenn der Gegner deine Produktion erreichen kann.
+
+Nutze **Handelsschutz** erst, wenn Handel die Rolle wirklich finanziert. Eine Flotte für hypothetische spätere Schiffe verzögert das aktuelle Gebietsrennen.
+
+### Schritt 3: Eine Flottenobergrenze setzen
+
+Berechne das nächste Kriegsschiff vor der Bestellung. Die ersten drei kosten 250.000, 500.000 und 750.000, zusammen 1.500.000.
+
+Frage, ob das nächste Schiff eine weitere Route kontrolliert oder nur die erste stapelt. Stoppe, sobald ein anderes Gebäude oder ein Teamkauf mehr Gebiet schafft.
+
+### Schritt 4: Das Land des Ports sichern
+
+Halte den Port mit dem Kern verbunden und setze einen Defense Post auf den wahrscheinlichen Eroberungsweg. Der Port ist Produktion und Eroberungsrisiko zugleich.
+
+Kann das Stützland nicht gehalten werden, verzögere Upgrade oder baue eine andere Route. Offene Infrastruktur aufzuwerten erhöht nur den Wert für den Angreifer.
+
+### Schritt 5: Den Umsetzungszug vereinbaren
+
+Sage dem Team, was die Seekontrolle ermöglicht: „Überquert diesen Kanal“, „Drückt diese Küste“ oder „Ihre Transporte landen hier nicht“.
+
+Ohne diesen Satz kann die Flotte das Wasser gewinnen, während das Team das zeitlich begrenzte Gebietsziel verliert.
+
+## Zeitplan und schrittweise Ausführung
+
+### Während der Spawnphase
+
+Wähle Küste nur, wenn sie entscheidendes Wasser berührt und einen brauchbaren Landweg lässt. Eine lange Küstenlinie ohne Teamziel ist nicht automatisch ein Marine-Spawn.
+
+Prüfe Teampositionen vor der Festlegung. Stapelt nicht alle Spieler an derselben Küste und lasst die Binnenfront leer.
+
+### 0:00–0:05: Unter Immunität Form sichern
+
+Nutze die normalen fünf Sekunden, um den künftigen Portbereich mit dem Kern zu verbinden und das Land dahinter zu verbreitern.
+
+Verfolge nicht nur eine hübsche Küstenlinie. Sichere den Landweg, der verhindert, dass der Port eine isolierte Enklave wird.
+
+### 0:05–0:30: Die Route bestätigen
+
+Beobachte gegnerische Expansion und Teamrichtung. Entscheide, ob das Wasser freundliche Transporte, gegnerische Transporte oder keine von beiden tragen wird.
+
+Braucht kein Team die Route, wechsle zu Landwachstum. Eine frühe Absage an die Marinerolle ist besser als eine nutzlose Flotte.
+
+### 0:30–1:00: Den ersten Knoten errichten
+
+Baue den ersten Port, sobald die Küste sicher und der Auftrag klar ist. Sein Basispreis beträgt 125.000, wenn der gemeinsame Port-Factory-Zähler null ist.
+
+Halte genug Truppen und Gold für das Land um ihn zurück. Ein Port verteidigt sein eigenes Territorium nicht.
+
+Entsteht bereits eine Feindroute, baue das erste Kriegsschiff, wenn 250.000 sofort Kontrolle schaffen. Ohne Route kann der Port zunächst Transport oder Handel dienen.
+
+### 1:00–2:00: Das Ziel patrouillieren
+
+Stelle das Kriegsschiff an den erwarteten Transportweg und nahe genug zum Port für den Rückzug. Jage kein Feindschiff weg von der Route, die du schützen sollst.
+
+Füge einen Defense Post hinzu, wenn eine Landung den Port von einer klaren Kante erobern kann. Seine 30-Tile-Zone gehört auf den Landweg, nicht ins offene Wasser.
+
+Rufe das erste Landungsfenster aus. Ein Teamkollege soll ziehen, während die Feindpatrouille fehlt, zurückweicht oder gebunden ist.
+
+### 2:00–3:00: Skalierung entscheiden
+
+Bewerte das zweite und dritte Kriegsschiff mit 500.000 und 750.000. Füge sie nur für weitere Route, stärkere Eskorte oder genug Überlappung am Ziel hinzu.
+
+Vergleiche einen zweiten Port mit einer Factory, weil beide denselben Zähler teilen. Team-Zugbesuche nennen 25.000 Basisgold, Seehandel folgt Distanz und Risiko.
+
+Werte einen Port auf, wenn sein Standort sicher ist und die Leistung genutzt wird. Upgrade nicht nur, weil die Flotte danebenliegt.
+
+### 3:00–5:00: Kontrolle in Gebiet umwandeln
+
+Verschiebe Kriegsschiffe zur geplanten Landung oder zum gegnerischen Übergang. Die Schlussminuten belohnen Kontrolle, die den Gebietsanteil verändert.
+
+Halte eine Patrouille auf der Route, solange feindliche Transporte möglich bleiben. Stecke überschüssiges Gold in Gebäude oder Teamplan, die den Push beenden.
+
+Sind Nukes aktiv und Küstenanlagen dicht geworden, prüfe SAM-Abdeckung, bevor ein Schlag Marine und Wirtschaft gemeinsam trifft.
+
+## Zahlenszenarien
+
+### Szenario 1: Kostenleiter der Flotte
+
+Das erste Kriegsschiff kostet 250.000, das zweite 500.000 und das dritte 750.000. Drei Schiffe kosten insgesamt 1.500.000.
+
+Das vierte kostet 1.000.000 und erhöht die Summe auf 2.500.000. Spätere Schiffe bleiben beim Limit von 1.000.000 pro Bau.
+
+Schließt sich das vierte nur einer bereits kontrollierten Route an, vergleiche seine Million mit City, Port-Upgrade, SAM-Fonds oder Team-Bedarf.
+
+### Szenario 2: Kostenleiter von Port und Factory
+
+Über den gemeinsamen Zähler kosten vier neue Ports oder Factories 125.000, 250.000, 500.000 und 1.000.000. Zusammen sind das 1.875.000.
+
+Vier Ports und eine gemischte Folge erreichen denselben Zähler. Die Mischung öffnet Zuginfrastruktur, die Portfolge betont Marineproduktion und Handel.
+
+Wähle nach Routenwert und Lobbyoptionen. Behandle nicht jeden Port als unabhängigen Kauf für 125.000.
+
+### Szenario 3: Angegebener Kriegsschiff-Tausch
+
+Ein Kriegsschiff besitzt 1.000 HP, eine Shell 250 Schaden. Vier direkte Treffer mit 250 entsprechen rechnerisch den angegebenen HP.
+
+Die echte Bewegung weicht ab, weil das Schiff bei 750 HP oder weniger automatisch zurückweicht. Schon nach dem ersten angegebenen Treffer kann der Rückzug beginnen.
+
+Darum zählt Routenposition mehr als die Erwartung, dass zwei stehende Schiffe bis zum Untergang tauschen.
+
+### Szenario 4: Handelsdistanz bei Multiplikator 1×
+
+Nach der extrahierten Formel ergeben 100 Distanz etwa 5.185 Gold pro Ankunft. 300 ergeben 52.500, 600 etwa 104.990 und 1.000 etwa 124.999.
+
+Die lange Route zahlt mehr pro erfolgreicher Ankunft. Sie bleibt aber länger Kriegsschiffen ausgesetzt und quert womöglich mehr umkämpftes Wasser.
+
+Schütze die Route mit abgeschlossenen Fahrten, nicht nur die mit dem größten theoretischen Wert.
+
+### Szenario 5: Budget für Portverteidigung
+
+Erster Port plus erster Defense Post kosten 175.000 vor einem Kriegsschiff. Mit dem ersten Kriegsschiff kostet das Paket 425.000.
+
+Das Paket schafft Knoten, eine 30-Tile-Verteidigungszone und eine Marineeinheit. Es garantiert keinen Schutz gegen größere Flotte, zweite Route oder Nuklearangriff.
+
+### Szenario 6: Opportunitätskosten von Transporten
+
+Ein Transportschiff kostet laut Daten kein Gold, verbraucht aber Truppen des Starters. Mehrere verlorene Transporte schwächen die Armee, die vorhandenes Land halten soll.
+
+Eskorten-Timing muss deshalb sowohl das Landungsziel als auch die zurückbleibenden Truppen berücksichtigen.
+
+## Gegenmaßnahmen der Gegner
+
+### Sie bauen einen eigenen Kriegsschirm
+
+Kämpfe nicht überall. Ziehe den Streit zur Route, die dein Team braucht, füge nur bei Kontrollgewinn ein Schiff hinzu und lass Bodenspieler das Land des Feindports drücken.
+
+Produktion zu erobern kann entscheidender sein als Shell-Tausch auf offenem Wasser.
+
+### Sie umgehen die Patrouille
+
+Kriegsschiff-Priorität zählt nur nahe der Transportroute. Verlege die Patrouille an Übergang, engen Kanal oder Zielküste, statt leeres Meer zu bewachen.
+
+Nutze Sicht und Meldungen des Teams. Eine starre Patrouille wird nutzlos, sobald sich die Landungsrichtung ändert.
+
+### Sie greifen den Port über Land an
+
+Halte den Port verbunden, setze die Verteidigungszone auf den Eroberungsweg und behalte Truppen hinter der Küste. Marine ersetzt nicht die Kontrolle des Port-Tiles.
+
+### Sie embargoieren den Handel
+
+Embargo blockiert Handelsschiffe zwischen dem Paar und kann eine Port-Wirtschaft entwerten. Halte Basisgold und verfügbare Factory- oder Zugrouten relevant.
+
+Antworte nicht auf jedes Embargo mit einem weiteren Port. Der gemeinsame Kostenzähler steigt, während die Zahl brauchbarer Partner sinkt.
+
+### Sie meiden das Wasser
+
+Bleibt der Gegner im Binnenland und zählt keine Landung, ist der Auftrag beendet. Stoppe den Flottenausbau und verlagere das Budget ins Bodenziel.
+
+### Sie nutzen nuklearen Druck
+
+Eine Wasserstoffbombe hat 80/100 Radien und bedroht einen dichten Küstencluster. SAM kann sie abfangen, kostet zuerst 1.500.000 und braucht 30 Sekunden Bauzeit.
+
+Verteile Ports und Citys, bewahre eine zweite Produktionsroute und baue SAM früh genug, wenn die Gefahr glaubwürdig ist.
+
+### Sie starten viele Transporte
+
+Kriegsschiffe priorisieren Transportschiffe. Das begünstigt eine Patrouille auf dem Anmarsch. Bleibe auf der Route und lass dich nicht von einem unwichtigen Ziel weglocken.
+
+Kann eine Patrouille zwei Übergänge nicht decken, vergleiche ein zweites Schiff mit einem Bodenverteidiger.
+
+## Fehlermuster
+
+### Eine Flotte ohne Auftrag bauen
+
+„Wir haben Küste“ ist kein Auftrag. Benenne Route, Landung, Port oder Transportwelle, die die Flotte beeinflusst, bevor du das erste Schiff kaufst.
+
+### Ein zurückweichendes Kriegsschiff jagen
+
+Schiffe ziehen sich bei 750 HP oder weniger automatisch zurück. Eine Jagd kann deine Patrouille von der Route wegführen, während der Gegner zur Reparatur fährt.
+
+### Den Port auf einer Enklave lassen
+
+Ports wechseln mit erobertem Land den Besitzer. Baue genug verbundenes Hinterland, damit eine Landung den Knoten nicht sofort übernimmt.
+
+### Zu viele Ports bauen
+
+Port und Factory teilen den Verdopplungszähler, Handelsschiffe haben einen globalen Cap. Mehr Rümpfe bedeuten nicht automatisch mehr abgeschlossene Einnahmen.
+
+### Transporte durch eine Patrouille schicken
+
+Transportschiffe verbrauchen Truppen und werden von Kriegsschiffen priorisiert. Warte auf Eskorte, eine andere Route oder eine Teamaktion, die die Patrouille bindet.
+
+### Die zeitliche Gebietswertung ignorieren
+
+Eine Flotte kann offenes Wasser beherrschen, während das Team Land verliert. Verlege sie zur wertenden Küste oder stoppe Marineausgaben.
+
+### Alle Anlagen bündeln
+
+Ein Küstencluster ist konventionell leicht zu schützen, kann aber ein wertvolles Nuklearziel werden. Bewahre einen weiteren Kern oder Produktionsweg.
+
+### Den Plan nicht kommunizieren
+
+Teamkollegen können ein unbekanntes Landungsfenster nicht nutzen. Nenne Übergang, Zeitpunkt und Ziel, bevor die Flotte zieht.
+
+## Anpassungen an Modus und Karte
+
+### Ports deaktiviert
+
+Die normale Seekontrollrolle existiert nicht. Wechsle zu Bodenverteidigung, Citys, Teambewegung und Landengpässen der Karte.
+
+### Nukes deaktiviert
+
+Dichte Küsteninfrastruktur verliert eine große Gefahr. Gold für SAM-Abdeckung kann in Schiffe, Bodenverteidigung oder den letzten Gebietspush fließen.
+
+### SAMs deaktiviert
+
+Antworte nicht mit einem verbotenen Werfer auf Nuklearrisiko. Verteile Schlüsselanlagen und lass nicht eine Küstenexplosion die ganze Rolle entscheiden.
+
+### Water Nukes aktiviert
+
+Zerstörtes Land kann Wasser werden. Der v31-Guide sagt, dass Binnenwasser Ports, Kriegsschiffe und Handel tragen kann. Prüfe Routen nach jedem landschaftsändernden Schlag neu.
+
+Nutze den [Water-Nukes-Guide](/de/guides/water-nukes/) für Umwandlungszeit und Rückeroberung.
+
+### Meerengenkarten
+
+Strait of Gibraltar, Strait of Malacca, Bosphorus Straits und The Straits stehen im Regional-Set. Ein enger Übergang kann einer Patrouille einen klaren Auftrag geben.
+
+Der Kartenname beweist nicht, dass dein Spawn die Meerenge kontrolliert. Prüfe Teampositionen und befahrbares Wasser.
+
+### Seen und Binnenwasser
+
+Two Lakes, Great Lakes und Between Two Seas sind gelistete Karten. Entscheide, ob das Wasser die Fronten verbindet oder nur deine eigene Expansion trennt.
+
+### Inselreiche Karten
+
+Auf Hawaii oder Japan kann Transportschutz häufiger zählen, weil Wasser Land trennt. Lass genug Truppen auf eigenem Boden, bevor du die nächste Überfahrt belädst.
+
+### Kontinentale und Fantasy-Karten
+
+Auf Europe oder Pangaea deckt eine Flotte womöglich nur eine Flanke eines großen Landkriegs. Skaliere sie für diese Flanke, nicht für die ganze Karte.
+
+Nutze die [Kartendatenbank](/de/database/maps/) für Namen und Kategorien. Der Live-Verlauf definiert anschließend den Auftrag.
+
+## FAQ
+
+### Wie viele Kriegsschiffe sollte ein Team bauen?
+
+Es gibt keine feste Zahl. Baue genug für die entscheidende Route und stoppe, wenn das nächste Schiff keine neue Eskorte, Abriegelung oder Portverteidigung bringt.
+
+### Was kosten die ersten drei Kriegsschiffe?
+
+Sie kosten 250.000, 500.000 und 750.000, zusammen 1.500.000. Das vierte kostet 1.000.000.
+
+### Priorisieren Kriegsschiffe Transporte?
+
+Ja. Die extrahierten v24-Hinweise sagen, dass Kriegsschiffe Transportschiffe priorisieren und nach einem Treffer sofort abkühlen.
+
+### Ist ein Transportschiff wirklich kostenlos?
+
+Es kostet kein Gold, verbraucht aber Truppen des Senders. Eine gescheiterte Landung kostet weiter Kampfkraft und Zeit.
+
+### Soll ich sofort mehrere Ports bauen?
+
+Nur wenn jeder Knoten sicher liegt und eine brauchbare Route hat. Port und Factory teilen einen Verdopplungszähler, offene Ports können erobert werden.
+
+### Wohin gehört ein Defense Post an der Küste?
+
+Lege seine 30-Tile-Zone über den Landweg, den der Gegner zum Port nehmen muss. Leeres Wasser muss er nicht abdecken.
+
+### Ist Handel über große Distanz immer besser?
+
+Er zahlt laut Formel mehr pro Ankunft, aber längere Gefahr senkt womöglich die Erfolgsquote. Vergleiche echte Fahrten, nicht nur theoretischen Ertrag.
+
+### Wann sollte ich Seekontrolle aufgeben?
+
+Wechsle, wenn der Gegner das Wasser nicht mehr nutzt, der relevante Port verloren ist oder ein anderer Kauf vor Ablauf mehr Gebiet erzeugt.
+
+### Was soll ich dem Team sagen?
+
+Nenne Route, Fenster und Ziel: „Jetzt hier queren“, „Ihre Transporte sind blockiert“ oder „Drückt den Port, solange die Flotte weg ist“.
+
+## Als Nächstes lesen
+
+Lies [Einheitenmechaniken](/de/mechanics/units/) für Kriegsschiffe, Transporte, Shells und Handelsschiffe.
+
+Nutze [Handelsmechaniken](/de/mechanics/trade/) für Distanzkurve, globalen Cap, Spawnverhalten und Embargo.
+
+Prüfe [Gebäude](/de/mechanics/structures/) für Rollen von Port, Defense Post, City, SAM und Silo.
+
+Lies danach die [FFA-Eröffnung](/de/strategies/ffa-opening/) für Spawnform oder [nukleare Abschreckung](/de/strategies/nuclear-deterrence/), wenn ein Küstencluster strategischen Schutz braucht.

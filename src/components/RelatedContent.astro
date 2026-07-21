@@ -16,13 +16,35 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const heading = title ?? t('related.title');
 const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 'medium' }).format(d) : '');
+const [next, ...more] = items;
+const continueCopy = {
+  en: 'Continue reading',
+  fr: 'Continuer la lecture',
+  nl: 'Verder lezen',
+  de: 'Weiterlesen',
+  zh: '继续阅读',
+} as const;
 ---
 
 {items.length > 0 && (
   <section class="mt-16 border-t border-iron-800 pt-8">
     <h2 class="text-lg font-semibold text-iron-50">{heading}</h2>
-    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
-      {items.map((it) => (
+    {next && (
+      <a
+        data-continue-reading
+        href={next.href}
+        class="group mt-4 flex flex-col justify-between gap-4 rounded-lg border border-cannon-700/60 bg-gradient-to-br from-cannon-950/40 to-iron-900/60 p-5 transition-colors hover:border-cannon-500 sm:flex-row sm:items-center"
+      >
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-widest text-cannon-500">{continueCopy[lang]}</div>
+          <div class="mt-1 text-lg font-semibold text-iron-50 group-hover:text-cannon-300">{next.title}</div>
+          {next.description && <p class="mt-1 max-w-2xl text-sm leading-relaxed text-iron-300">{next.description}</p>}
+        </div>
+        <span class="shrink-0 text-2xl text-cannon-400 transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+    )}
+    {more.length > 0 && <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      {more.map((it) => (
         <li>
           <a href={it.href} class="block rounded border border-iron-800 bg-iron-900/40 p-4 hover:border-cannon-600/60 hover:bg-iron-900/70 transition-colors">
             <div class="text-cannon-400 font-medium">{it.title}</div>
@@ -31,6 +53,6 @@ const fmt = (d?: Date) => (d ? new Intl.DateTimeFormat(getIntlLocale(lang), { da
           </a>
         </li>
       ))}
-    </ul>
+    </ul>}
   </section>
 )}

@@ -24,6 +24,16 @@
   h1, h2, h3, h4 {
     @apply font-semibold tracking-tight text-iron-50;
   }
+
+  main article :is(h2, h3, h4) {
+    scroll-margin-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
 
 @layer components {

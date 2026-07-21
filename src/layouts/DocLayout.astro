@@ -69,6 +69,7 @@ const articleJsonLd = {
 
 <BaseLayout title={title} description={description}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <TableOfContents headings={headings} />
   <article class="container-wide pt-12 pb-20 lg:pr-64">
     <header class="border-b border-iron-800 pb-6 mb-8">
       {eyebrow && <p class="tag-chip">{eyebrow}</p>}
@@ -95,5 +96,4 @@ const articleJsonLd = {
 
     <RelatedContent items={related} />
   </article>
-  <TableOfContents headings={headings} />
 </BaseLayout>

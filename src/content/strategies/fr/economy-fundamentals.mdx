@@ -1,111 +1,377 @@
 ---
 title: Fondamentaux de l'économie — Pourquoi vous perdez la course à l'argent
-description: Postes de défense, ordre de construction, navires de commerce vs trains — les 5 premières minutes qui décident si vous bâtissez plus vite que l'IA ou si vous prenez un nuke.
+description: "Postes de défense, ordre de construction, navires de commerce et trains : apprenez à investir les premières minutes sans sacrifier votre survie."
 pubDate: 2026-05-23
+updatedDate: 2026-07-16
 tags: [economy, opening, beginner, trade]
 category: Début de partie
 difficulty: Débutant
 version: v24
 ---
 
-## Le changement d'état d'esprit
+## Réponse directe : ne plus perdre la course économique
 
-OpenFront ne se gagne pas en conquérant le plus de territoire — il se gagne par **celui dont la courbe économique est la plus raide**. Si votre ouverture ressemble à « combattre un bot → prendre du terrain → combattre un bot », l'IA accumule discrètement de l'or et vous verrez une Atom Bomb frapper votre capitale aux alentours de la 5ᵉ minute.
+Ne considérez plus tout l'or disponible comme un budget d'attaque. Stabilisez la frontière dangereuse, augmentez la capacité de troupes, puis financez une source de revenu adaptée au salon.
 
-Remplacez votre objectif d'*expansion* par celui d'*infrastructure*. La suite de cette page contient l'ordre de construction, les calculs et les pièges.
+La bonne ouverture n'est pas un ordre rigide. C'est une suite de contrôles : la frontière tient-elle, le cap bloque-t-il la croissance, la côte est-elle sûre, les trains sont-ils actifs, les nukes sont-elles permises ?
 
-## Pourquoi « contenir l'ennemi à 20% PV » est une perte
+Un Poste de défense réduit le coût d'un front. Une Ville ajoute 250 000 de capacité par niveau. Les Ports créent le commerce maritime ; les Usines activent les trains dans les modes compatibles.
 
-La défense frontale est nettement négative sans bâtiments :
+Le premier Port ou la première Usine coûte 125 000. Ils partagent le même compteur : le deuxième nœud coûte 250 000, le troisième 500 000, puis le prix atteint 1 000 000.
 
-- Le `mag` du terrain n'est que 80 / 100 / 120 (Plaine / Hauteurs / Montagne)
-- Un **Defense Post** multiplie `mag ×5` et `speed ×3` dans un rayon de 30 tiles
-- Sans Defense Post sur la frontière, échanger 18% contre 20% signifie que vous avez tous les deux perdu du terrain — l'IA récupère plus vite car elle ne paie pas le coût des bâtiments
+Ne copiez pas la règle « Silo plus SAM à exactement cinq minutes » sans lire la partie. Le timing nucléaire dépend du revenu, du commerce, du territoire, de la difficulté et des multiplicateurs.
 
-À 50 000 d'or, le Defense Post est le **bâtiment au meilleur ROI du jeu**. Posez-en 2-3 sur votre front avant tout le reste.
+Utilisez la cinquième minute comme point de contrôle, pas comme horloge universelle. Si les nukes sont actives et finançables, le Silo et le cœur protégé deviennent urgents.
 
-## L'horloge nucléaire de l'IA
+## Les quatre ressources d'une économie solide
 
-Pourquoi quelqu'un avait « déjà » des nukes alors que vous veniez à peine de capturer une Factory :
+L'or est visible, mais quatre ressources liées déterminent la réussite : flux d'or, capacité de troupes, territoire sûr et attention.
 
-```
-Or de base :    Joueur 100/tick, Bot 50/tick, Easy Nation × 0,5
-Missile Silo :  1 000 000 d'or (construction 100 ticks)
-Atom Bomb :     750 000 d'or (fixe)
-```
+Le **flux d'or** finance structures, améliorations, navires et armes nucléaires. Le revenu de base est fiable, mais faible face à un réseau commercial fonctionnel.
 
-Une IA Easy atteint 1,75M d'or en environ 5-7 minutes réelles. **5 minutes est la deadline de la dissuasion.** Ratez-la et vous mangez des bombes avant d'avoir commencé un SAM.
+La **capacité de troupes** fixe la force militaire stockable. Chaque niveau de Ville ajoute 250 000 au cap, en plus de la formule liée au territoire.
 
-## Ordre de construction standard (5 premières minutes)
+Le **territoire sûr** accueille les structures et les routes. Un bâtiment bon marché capturé n'est plus bon marché : il devient de la valeur pour l'adversaire.
 
-| Temps | Action | Coût | Pourquoi |
-|---|---|---|---|
-| 0:00-1:00 | Attraper un small bot, sprinter vers la côte | — | Les tiles font grandir votre cap de population |
-| 1:00-2:00 | 2-3 Defense Posts en frontière + 1 Port + 1 Factory | 150k + 125k + 125k | Verrouiller le front, ouvrir deux flux de revenu |
-| 2:00-4:00 | Améliorer City / Port / Factory au niveau 2 | 250k chacun | Chaque niveau double la production |
-| 4:00-5:00 | 1 Missile Silo + 1 SAM | 1M + 1,5M | Même sans Atom Bomb, **le SAM seul est une dissuasion** — les nukes bots contournent son disque de 70 tiles |
+L'**attention** est souvent oubliée. Chaque Port exposé, rail et frontière demande une surveillance. Un petit réseau protégé bat souvent un grand réseau impossible à suivre.
 
-## Pourquoi vos navires de commerce se sont fait éliminer
+La meilleure ouverture transforme l'or en système qui produit davantage d'options sans multiplier les points faibles.
 
-Trois facteurs s'additionnent :
+## Données essentielles
 
-1. **Les navires de commerce font la navette entre Ports.** Avec un seul Port, ils naviguent vers les Ports *des autres joueurs*, y compris des IA avec qui vous n'êtes pas en guerre.
-2. **Routes en eau hostile = routes mortes.** Depuis v24, **les Warships ciblent en priorité les Transport et Trade ships** et refroidissent immédiatement après un tir — un seul Warship hostile entre vous et le Port de destination détruit tout le flux.
-3. **Les Ports enclavés perdent de l'argent.** Un Port enfoui dans votre territoire force les navires à détourner par plus d'eaux disputées.
+| Élément | Coût de base ou premier | Rôle économique | Contrainte principale |
+| --- | ---: | --- | --- |
+| Ville | 125 000 | +250 000 de cap par niveau ; gare | À protéger de la capture |
+| Port | 125 000 avec `n = 0` | Navires de commerce et mouvement naval | Compteur partagé avec Usine |
+| Usine | 125 000 avec `n = 0` | Trains et réseau ferroviaire | Trains selon le mode |
+| Poste de défense | 50 000 le premier | Réduit le coût de tenue d'un front | Prix croissant selon le nombre |
+| Silo à missiles | 1 000 000 | Permet les lancements nucléaires | Investissement offensif |
+| Lanceur SAM | 1 500 000 le premier | Protège contre Atom et Hydrogen | Construction de 300 ticks |
 
-```
-Revenu par navire de commerce :
-floor( (75 000 / (1 + e^(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier )
-```
+La formule des Ports et Usines est `min(1 000 000, 2^n × 125 000)`, où `n` compte ensemble les Ports et Usines déjà possédés.
 
-Distance < 300 ne paie que le minimum (~50 × dist). Les longues routes paient plus mais meurent plus — voilà le tradeoff.
+Ce compteur partagé est facile à manquer. Un Port suivi d'une Usine coûte 125 000 puis 250 000, et non deux fois 125 000.
 
-## L'économie ferroviaire : la monnaie plus sûre
+Les Postes suivent `min(250 000, (n+1) × 50 000)`. La séquence est 50 000, 100 000, 150 000, 200 000, puis 250 000 pour chaque Poste suivant.
 
-En v24, **le solo et les salons privés ont des Trains.** Les Factories les génèrent, ils circulent sur des rails entre vos Cities et Factories, et **les Warships ne peuvent pas les toucher.**
+## Pourquoi la défense est un investissement économique
 
-```
-Revenu par livraison de train :
-allié = 35 000  ·  équipe = 25 000  ·  soi = 10 000
-− 5 000 × max(0, citiesVisited − 9)
-plancher 5 000
+Le terrain possède un `mag` documenté de 80 en plaine, 100 sur les hauteurs et 120 en montagne. Un Poste multiplie `mag ×5` et `speed ×3` dans un rayon de 30 tiles.
 
-Taux d'apparition : (factories + 10) × 15 ticks
-```
+Le bonus n'ajoute pas directement d'or. Il réduit les troupes, l'attention et les remplacements nécessaires pour tenir la même frontière.
 
-Les boucles internes ne payent que 10k par trajet, mais vous contrôlez 100% de la ligne. **3 Factories en boucle sur 5 Cities = un flux de revenu qu'aucun ennemi ne peut intercepter.**
+Posez le Poste là où sa zone couvre une vraie approche. Un bâtiment peu coûteux dans l'intérieur est inutile si la frontière disputée reste hors de portée.
 
-## Antisèche des priorités
+Ne couvrez pas toutes les frontières immédiatement. Le cinquième Poste coûte cinq fois le premier. Protégez les passages qui entraîneraient sinon des pertes répétées.
 
-| Priorité | Achat | Coût | Pourquoi |
-|---|---|---|---|
-| ★★★ | 3-4 Defense Posts en frontière | 50k chacun | Mag ×5, seule façon que la défense frontale rentabilise |
-| ★★★ | 1 Port + 1 Factory dans le cœur | 125k chacun (n partagé) | Deux flux de revenu parallèles |
-| ★★ | Améliorer Port / Factory / City au L2-L3 | 250k → 500k → 1M | Chaque niveau double la production |
-| ★★ | 1 Missile Silo + 1 SAM avant 5:00 | 1M + 1,5M | Les nukes bots contournent les SAM — assurance |
-| ★ | Plus de Factories pour la boucle ferroviaire | jusqu'à 1M chacun | Revenu immunisé contre les Warships |
+Une structure économique exposée risque aussi la capture. Un Poste près d'un Port ou rail vulnérable protège l'investissement uniquement si sa zone atteint l'attaque probable.
 
-## Erreurs classiques
+## Revenu d'or et calcul de population
 
-- **Construire un 2ᵉ Port avant une Factory.** Le coût du Port suit `n = ports + factories`, donc 2 Ports coûtent autant qu'un Port + une Factory — mais la Factory vous donne des Trains qui ne coulent pas.
-- **Port nu sur une pointe côtière.** Joli pour les routes commerciales, mais le premier Warship qui passe en fait une perte de 125k. Posez un Defense Post à côté des Ports côtiers.
-- **Attendre « assez d'or » avant un SAM.** Le SAM est la *condition préalable* pour accumuler de l'or en sécurité. Les nukes bots ciblent les tiles centrales non protégées.
-- **Spammer des Atom Bombs.** À 750k chacune, un SAM niveau 3 balaie toute la salve. La vraie arme nucléaire est la Hydrogen Bomb (5M).
+Les humains reçoivent 100 d'or par tick. Les Bots en reçoivent 50, multipliés par le réglage d'or du salon.
 
-## Arbre de décision
+Avec la cadence de 10 ticks par seconde utilisée par les références temporelles du site, le revenu humain de base vaut environ 60 000 par minute avant le commerce.
 
-```
-Votre frontière est-elle tenue par ≥ 2 Defense Posts ?
-├─ Non → Construisez-les d'abord. Rien d'autre ne compte.
-└─ Oui → Avez-vous un Port ET une Factory ?
-    ├─ Non → Construisez celui qui manque (125k)
-    └─ Oui → Plus de 4:00 ?
-        ├─ Non → Améliorez les bâtiments au L2
-        └─ Oui → Avez-vous placé un SAM ?
-            ├─ Non → Silo + SAM immédiatement, même sans Atom Bomb
-            └─ Oui → Accumulez 5M d'or → Hydrogen Bomb
+Cette base ne finance pas toutes les idées. Une Ville coûte un peu plus de deux minutes de revenu de base si aucune autre source ou réserve initiale n'intervient.
+
+Le cap de population n'est pas proportionnel à la terre. La formule combine un terme territorial à rendement décroissant et les bonus `niveau de Ville × 250 000`.
+
+La croissance ralentit aussi lorsque les troupes approchent du maximum. Une Ville redonne de la marge si le cap, et non l'or, bloque l'expansion.
+
+Il faut donc lire or et population ensemble. Un joueur riche avec un cap faible ne peut pas stocker sa force ; un grand cap sans revenu ne protège pas les structures.
+
+## Choisir la bonne source de revenu
+
+### Utiliser les Ports si la route est rentable et défendable
+
+Les navires de commerce versent de l'or à leur arrivée aux Ports. Le revenu augmente avec la distance grâce à une sigmoïde et un terme linéaire.
+
+La formule est :
+
+```text
+floor((75 000 / (1 + exp(-0,03 × (distance - 300)))
+      + 50 × distance) × goldMultiplier)
 ```
 
-## Résumé en une phrase
+Les longues routes paient plus par arrivée, mais traversent davantage d'eau et d'adversaires. La distance n'est utile que si le trajet survit.
 
-**Avant la 5ᵉ minute, vous jouez un jeu économique. Après la 5ᵉ minute, vous jouez un jeu nucléaire. Si vous sautez la première phase, vous ne jouez pas la seconde.**
+Les navires partagent aussi un plafond mondial de 150 depuis la v24. À l'approche du plafond, ajouter des Ports ne garantit plus une hausse proportionnelle des navires.
+
+Choisissez un Port si vous avez une côte ou eau intérieure valide, une route intéressante et assez de contrôle pour maintenir le flux.
+
+### Utiliser les Usines quand les trains sont actifs
+
+Les trains sont documentés en solo et dans les salons privés. Une Usine, des Villes et des rails forment un réseau commercial terrestre.
+
+Une visite verse 35 000 d'or dans une Ville alliée, 25 000 chez un coéquipier ou 10 000 dans votre propre Ville avant la pénalité des longues boucles.
+
+Après neuf visites de Villes, la formule retire 5 000 pour chaque visite supplémentaire, avec un plancher de 5 000. Plus d'arrêts n'est pas toujours mieux.
+
+Les navires de guerre ne peuvent pas couler les trains, mais les gares et rails dépendent d'une terre sûre. Faites passer le réseau dans le cœur, pas sur la frontière active.
+
+Choisissez une Usine si le mode permet les trains, si des Villes utiles peuvent être reliées et si le compteur partagé rend encore l'achat raisonnable.
+
+### Utiliser les Villes quand le cap bloque
+
+Une Ville ne produit pas directement de l'or comme l'arrivée d'un navire. Son bonus fixe crée de la capacité militaire et de la marge de croissance.
+
+Elle sert aussi de gare. Dans un salon avec trains, une Ville peut donc soutenir à la fois population et commerce ferroviaire.
+
+Construisez ou améliorez une Ville si les troupes approchent du cap, si la prochaine attaque exige une réserve ou si le rail a besoin d'une gare protégée.
+
+### Utiliser la défense quand le revenu fuit par le combat
+
+Si chaque gain d'or est suivi de pertes, de captures ou de routes coupées, le problème est la sécurité et non le revenu brut.
+
+Financez le Poste, navire, SAM ou position qui arrête la fuite. Un petit réseau protégé peut croître ; un grand réseau exposé recommence sans cesse.
+
+## Plan d'ouverture flexible
+
+Les temps sont des fenêtres de contrôle, pas des garanties. Or initial, taille de carte, voisins, mode et multiplicateurs déplacent chaque achat.
+
+### Étape 1 : prendre une base compacte et utile
+
+Étendez-vous assez pour créer un cœur, un front défendable et un projet côtier ou ferroviaire. Ne formez pas un corridor fin pour toucher toutes les fonctions à la fois.
+
+Comparez les troupes actuelles au maximum. Si la croissance a encore de la marge, n'achetez pas uniquement parce qu'un bouton devient disponible.
+
+### Étape 2 : identifier la frontière coûteuse
+
+Repérez la frontière qui risque de consommer les troupes. Terrain, direction ennemie et passages comptent plus qu'un espacement égal.
+
+Posez le premier Poste seulement si sa zone de 30 tiles atteint l'approche. À 50 000, il offre un excellent levier lorsqu'il est bien placé.
+
+### Étape 3 : acheter le premier nœud de capacité
+
+Une première Ville coûte 125 000 et ajoute 250 000 de cap par niveau. Placez-la dans une zone qu'une poussée soudaine ne peut pas capturer.
+
+Si le cap actuel ne limite rien, retardez-la brièvement pour une défense ou route critique. Sachez toujours quel problème l'achat résout.
+
+### Étape 4 : choisir d'abord Port ou Usine
+
+Prenez le Port si la côte est sûre et les routes prometteuses. Prenez l'Usine si les trains existent et que le cœur terrestre est plus fiable que la mer.
+
+Rappelez-vous le compteur partagé. Le second choix coûte 250 000, puis le troisième achat de type Port ou Usine coûte 500 000.
+
+### Étape 5 : protéger la route avant de l'agrandir
+
+Observez le trajet des navires ou la future voie ferrée. Protégez le point vulnérable avant d'acheter un autre nœud de revenu.
+
+En mer, cela signifie un meilleur emplacement ou du contrôle naval. Sur rail, gardez gares et connexions loin des frontières faciles à couper.
+
+### Étape 6 : contrôler l'exposition nucléaire
+
+Si les nukes sont actives, inspectez l'infrastructure rivale et la densité de votre cœur. Un Silo coûte 1 000 000 et le premier SAM 1 500 000.
+
+Un SAM demande 300 ticks, soit environ 30 secondes. Attendre qu'un projectile soit déjà en vol est trop tard.
+
+Si les nukes sont désactivées, n'achetez pas Silo ou SAM par habitude. Réorientez les 2 500 000 vers la capacité, le commerce ou la défense conventionnelle.
+
+### Étape 7 : mesurer avant d'améliorer ou d'ajouter
+
+Ajoutez une Ville si le cap est la contrainte. Développez le commerce si les routes fonctionnent et sont protégées.
+
+Ajoutez de la défense si les pertes ou captures menacent le réseau. Économisez si la prochaine capacité utile possède un grand coût fixe.
+
+Évitez d'acheter un exemplaire de tout. Deux systèmes protégés et cohérents sont plus forts que cinq structures sans but commun.
+
+## Audit économique de la cinquième minute
+
+À cinq minutes, posez-vous six questions. L'horloge est un rappel d'analyse, pas la preuve que chaque adversaire peut déjà lancer une nuke.
+
+1. Le front principal est-il couvert par un Poste utile ?
+2. Les troupes actuelles approchent-elles du maximum ?
+3. La première route commerciale termine-t-elle ses trajets ?
+4. Les trains sont-ils actifs et le rail est-il protégé ?
+5. Les nukes sont-elles actives et un rival a-t-il un Silo ?
+6. Quel achat unique retire le goulot actuel ?
+
+Si vous ne pouvez pas répondre à la dernière question, gardez l'or un moment. Une petite réserve offre plus d'options qu'une structure exposée sans plan.
+
+## Exemples chiffrés
+
+### Séquence de coût Port et Usine
+
+Sans Port ni Usine, le premier bâtiment de l'un ou l'autre type coûte 125 000. Le deuxième nœud partagé coûte 250 000 et le troisième 500 000.
+
+Un Port, puis une Usine, puis un autre Port coûtent donc 875 000 au total. Inverser les deux premiers choix ne change pas le total, car ils partagent le compteur.
+
+L'ordre reste stratégique. Les premiers 125 000 débloquent soit la mer, soit les trains : choisissez le système que la carte peut soutenir maintenant.
+
+### Séquence de coût des Postes
+
+Les quatre premiers Postes coûtent 50 000, 100 000, 150 000 et 200 000, soit 500 000 au total.
+
+Le cinquième coûte 250 000 et porte le total à 750 000. Chaque Poste ultérieur coûte aussi 250 000 grâce au plafond documenté.
+
+Deux Postes bien placés peuvent être une affaire, tandis que couvrir chaque frontière calme devient vite cher.
+
+### Exemples de distance commerciale
+
+À une distance de 100 avec multiplicateur 1, la formule verse environ 5 185 d'or par arrivée. À 300, elle verse 52 500.
+
+À 600, le résultat approche 104 991. À 1 000, il est d'environ 125 000.
+
+La route de distance 1 000 paie beaucoup plus que celle de 100, mais offre aussi bien plus d'eau aux navires ennemis et aux interruptions.
+
+### Exemples de visites ferroviaires
+
+Cinq visites de vos propres Villes paient `5 × 10 000`, soit 50 000 avant les contraintes de trajet. Cinq visites alliées paient `5 × 35 000`, soit 175 000.
+
+La relation et le dessin du réseau comptent donc beaucoup. Une longue boucle interne peut gagner moins qu'une boucle alliée plus courte et protégée.
+
+Au-delà de neuf visites, appliquez la pénalité de 5 000 par visite supplémentaire. N'allongez pas une ligne uniquement pour remplir la carte.
+
+### Coût d'opportunité nucléaire
+
+Un Silo et le premier SAM coûtent 2 500 000 avant l'achat d'une arme. Ajoutez Atom et le total atteint 3 250 000.
+
+Ajoutez plutôt Hydrogen et l'ensemble atteint 7 500 000. Cet or ne peut pas acheter en même temps Villes, Ports, Usines, navires ou Postes.
+
+La préparation nucléaire est une branche économique. Prenez-la lorsque la menace ou la frappe justifie de retarder les systèmes qui produisent de la croissance.
+
+## Erreurs fréquentes
+
+### Combattre sur toutes les frontières
+
+Les attaques frontales répétées consomment troupes et attention pendant que les systèmes protégés de l'adversaire continuent de fonctionner.
+
+Choisissez le front avec le meilleur terrain ou objectif. Utilisez les Postes pour rendre les autres approches coûteuses à l'ennemi.
+
+### Acheter deux Ports sans contrôler la première route
+
+Le deuxième nœud Port ou Usine coûte 250 000. Si les navires du premier Port meurent déjà, doubler l'investissement ne corrige pas le problème.
+
+Inspectez le trajet, l'eau hostile et les destinations. Une protection ou une Usine peut être un meilleur second achat.
+
+### Supposer que la première Usine coûte toujours 125 000
+
+Elle ne coûte 125 000 que si aucun Port ni Usine n'existe. Après un premier nœud partagé, le suivant coûte 250 000.
+
+Préparez le budget avec la formule plutôt qu'avec le prix de base affiché sur une seule ligne de la base de données.
+
+### Construire des trains dans un mode incompatible
+
+La référence v24 limite les trains au solo et aux salons privés. Vérifiez leur disponibilité avant de centrer l'ouverture sur une Usine.
+
+L'Usine utilise tout de même le compteur partagé même si le plan ferroviaire ne peut pas fonctionner comme prévu.
+
+### Choisir la route maritime la plus longue sans contrôle naval
+
+La distance augmente le revenu par arrivée, pas la probabilité de survie. Une bonne formule ne compense pas une route dont les navires disparaissent sans cesse.
+
+Raccourcissez le trajet, protégez-le ou placez le prochain investissement sur un réseau terrestre plus sûr.
+
+### Cacher tous les bâtiments dans un seul cœur
+
+Une infrastructure compacte se défend bien de manière classique, mais crée une cible nucléaire unique. Hydrogen possède une portée outer de 100.
+
+Répartissez les fonctions afin qu'une frappe ne supprime pas toute l'économie, tout en gardant chaque nœud dans un territoire défendable.
+
+### Économiser pour une arme pendant l'effondrement du front
+
+L'or conservé offre des options tant que l'État survit. Si un Poste à 50 000 empêche la capture du cœur, refuser de dépenser peut détruire tout le plan.
+
+Achetez la plus petite intervention qui maintient l'économie, puis recommencez à économiser.
+
+### Traiter un SAM comme une source de revenu
+
+Un SAM protège la valeur, mais ne génère pas d'or. Construisez-le quand l'exposition nucléaire menace le cœur, pas parce qu'un chronomètre a atteint un chiffre familier.
+
+Dans un salon sans nukes, le même or n'a aucun rendement antinucléaire et doit être réorienté.
+
+### Augmenter le cap sans l'utiliser
+
+Chaque niveau de Ville ajoute 250 000, mais une marge inutilisée n'est pas automatiquement utile. Achetez la capacité quand la croissance ou l'armée prévue en a besoin.
+
+Si les troupes restent loin du cap, la sécurité des routes ou le revenu brut est peut-être le vrai goulot.
+
+## Contres et ajustements
+
+### Quand la mer devient hostile
+
+N'ajoutez plus de Ports exposés. Protégez la route utile par le contrôle naval, choisissez un meilleur emplacement ou passez aux Usines lorsque les trains sont disponibles.
+
+Conservez le Port qui termine encore des trajets rentables. L'ajustement concerne le prochain or investi, pas la suppression de toutes les décisions passées.
+
+### Quand aucune côte n'est utile
+
+Privilégiez un cœur compact de Villes et de défense. Dans les modes ferroviaires, utilisez une Usine et un réseau terrestre protégé au lieu de forcer un corridor côtier.
+
+Si les trains sont absents, acceptez que le revenu de base et le territoire dominent jusqu'à l'accès à une côte sûre ou à un Port capturé.
+
+### Quand un adversaire vous rush
+
+Retardez le prochain nœud de revenu. Placez la défense la moins chère et efficace, réduisez les attaques inutiles et protégez les structures existantes.
+
+Une fois le front stabilisé, reprenez le plan commercial. Une ouverture interrompue se récupère ; un cœur capturé est bien plus difficile à réparer.
+
+### Quand un adversaire économise pour les nukes
+
+Répartissez les bâtiments importants, commencez le SAM avant l'arrivée du projectile et évitez de réunir toute la capacité et le commerce dans une même cible.
+
+Les SAM interceptent Atom et Hydrogen, pas le MIRV. La résilience économique exige donc plus d'un point défendu.
+
+### Quand les nukes sont désactivées
+
+Retirez du plan les coûts du Silo, du SAM et des armes. L'or libéré approfondit les Villes, la défense conventionnelle, le commerce, les trains ou le contrôle naval.
+
+Ne suivez pas un ordre de construction nucléaire dans un salon qui supprime toute cette branche.
+
+### Quand les navires approchent du plafond mondial
+
+À l'approche du plafond v24 de 150, les Ports supplémentaires obtiennent de moins en moins de nouveaux navires. Améliorez la valeur et la sécurité des routes existantes.
+
+Le plafond est mondial : les navires des autres joueurs comptent aussi. Un Port local calme ne prouve pas que la partie peut générer une flotte illimitée.
+
+## FAQ
+
+### Que construire en premier ?
+
+Construisez ce qui retire le goulot actuel. Une Ville est forte si le cap compte ; un premier Poste est fort si une frontière épuise déjà l'ouverture.
+
+### Le premier nœud doit-il être un Port ou une Usine ?
+
+Choisissez le Port pour une route aquatique sûre et rentable. Choisissez l'Usine si les trains sont actifs et que le réseau de Villes est plus fiable.
+
+### Pourquoi mon Usine coûte-t-elle 250 000 ?
+
+Ports et Usines partagent le même compteur. Si l'un existe déjà, le nœud suivant utilise `n = 1` et coûte 250 000.
+
+### Combien de Postes de défense faut-il ?
+
+Construisez-en assez pour couvrir les vraies approches, pas un nombre fixe. Le prix monte de 50 000 à 250 000 ; la qualité du placement est donc essentielle.
+
+### Les longues routes commerciales sont-elles toujours meilleures ?
+
+Elles paient plus par arrivée réussie, mais exposent les navires sur une plus grande distance. Le revenu n'a de valeur que si assez de trajets se terminent.
+
+### Les trains sont-ils plus sûrs que les navires ?
+
+Les Warships ne peuvent pas les couler, mais les gares et rails exigent une terre contrôlée. Les trains restent aussi limités aux modes documentés par la v24.
+
+### Quand construire un SAM ?
+
+Construisez-le si les nukes sont actives et si la menace justifie 1 500 000 d'or plus 300 ticks de construction.
+
+### La cinquième minute est-elle une deadline nucléaire ?
+
+Non. C'est un bon point d'audit. Le vrai timing dépend de l'or initial, du commerce, du territoire, des multiplicateurs, des rivaux et du salon.
+
+### Faut-il économiser ou dépenser immédiatement ?
+
+Économisez si aucun achat ne retire clairement un goulot. Dépensez si une petite intervention protège l'économie, active une route ou ajoute une capacité utilisable.
+
+### Pourquoi suis-je riche mais faible ?
+
+Le cap peut être trop bas, les structures exposées ou l'attention divisée entre trop de routes. L'or n'est qu'une partie de l'économie.
+
+## Lecture suivante
+
+- Vérifiez les formules dans la [référence économique](/fr/mechanics/economy/).
+- Comparez le [revenu et l'apparition des navires](/fr/mechanics/trade/).
+- Construisez des lignes sûres avec le [guide des trains](/fr/mechanics/trains/).
+- Consultez les [coûts et rôles des structures](/fr/database/structures/).
+- Apprenez les [calculs de combat et de défense](/fr/mechanics/military/).
+- Préparez la suite avec la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/).
+- Répétez l'ouverture avec le [guide de première partie](/fr/guides/first-match/).

@@ -37,6 +37,8 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 ## 数据更新 / 离线 extract（避坑规则）
 
 - 本环境到 github.com:443 的 **git 传输不稳定**：`git fetch/pull` 常报 `Connection was reset` 或 `Failed to connect ... port 443`（有时挂起），但 `gh` API 与有时的 `git push` 仍可用。需要看上游 diff 时优先走 `gh api repos/openfrontio/OpenFrontIO/compare/<base>...main`，不要依赖 `git pull`。git 命令一律加 `-c http.lowSpeedLimit=1000 -c http.lowSpeedTime=25` 快速失败，避免无限挂起。
+- **PR 合并前 `git fetch origin` 若以 `Recv failure: Connection was reset` 失败，使用 GitHub API 核对基线**：通过 `gh api repos/<owner>/<repo>/branches/main --jq .commit.sha` 取得远端 main SHA，并与本地 `origin/main`/PR base SHA 比较；只有 SHA 一致或 GitHub 明确判定 PR 可合并时才继续。不要把一次 fetch 失败等同于远端没有更新。
+- **`git push` 报 `Recv failure: Connection was reset` 后先核对远端 ref，再决定是否重试**：用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch> --jq .object.sha` 与本地 `HEAD` 比较，避免服务端其实已接收时重复操作；远端仍是旧 SHA 才使用相同低速超时参数重试一次，连续失败则停止并报告网络阻塞。
 - **`pnpm extract` 的地图来自目录名，不是目录内容**：`readMapDirs()` 只对 `OpenFrontIO/resources/maps/` 做 `readdirSync` + `isDirectory()` 过滤，地图的名称/分类全部来自本脚本的 `MAP_I18N`/`MAP_CATEGORIES`。因此当 `git pull` 不通、又要把新地图录进 `maps.json` 时，可在 clone 里 `mkdir` 对应的**空目录**作为占位 —— 产出的 `maps.json` 与真实 pull **逐字节相同**，且 git 恢复后 pull 会用真实内容覆盖（可逆）。
 - 光在 `MAP_CATEGORIES` 里加 id **不够**：clone 目录里若没有该地图目录，`readMapDirs()` 不会列出它（除非 `!HAS_SOURCE` 走 fallback）。必须保证目录存在（真实或空占位）。
 - 用 bash 写临时文件给 node 读时，**不要用 `/tmp`**：MSYS 的 `/tmp` 与 node 的 `C:\tmp` 不是同一路径，会 ENOENT。改用一条 node 管道（`... | node -e`）或写到项目内相对路径。
@@ -64,3 +66,29 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **补攻略视觉内容时不得伪造游戏截图**：优先用真实可核验截图；没有真实素材时，可基于现有数据和编辑规则制作 HTML/CSS 代码原生解释图，并为五语页面增加内容完整性 e2e。
 - **最终回归的 prebuild 会反复刷新 `_meta.json.generatedAt`**：若数据、`upstreamVersion`、`upstreamCommit` 与配置值都没变化，最终 amend 前应移除仅时间戳变化的噪声；不要手改生成 JSON，使用针对该文件的已知基线恢复，并确认首次有效 extract 的 commit/版本元数据仍保留。
 - **不要为普通 push 改变已有 GitHub 仓库的 visibility**：Public→Private→Public 切换会删除 GitHub Pages 站点配置，表现为自定义域名返回 GitHub Pages 404、仓库 `has_pages=false`、`GET /repos/{owner}/{repo}/pages` 返回 404，且 `configure-pages` 报 “Get Pages site failed”。恢复步骤是用 Pages API 以 `build_type=workflow` 重建站点、重新绑定 `openfront.fyi`、触发部署；workflow 的 `actions/configure-pages` 保持 `enablement: true`，并保留 `public/CNAME` 防止域名配置再次漂移。
+- **PowerShell 外层双引号中不要直接嵌入含 `|` 的复杂 `rg` 正则**：转义稍有偏差时，`|` 会被 PowerShell 当成管道并把后半段当命令执行。优先把正则放进单引号，或先赋给变量再作为参数传给 `rg`。
+- **`pnpm <script> -- --flag` 可能把独立的 `--` 原样传给 Node 脚本**：自有 CLI 的参数解析应容忍独立 `--`；验证时也可用 `pnpm run <script> --flag`，不要假设分隔符一定会被 pnpm 吃掉。
+- **Astro 内联脚本若渲染在目标 DOM 之前，不能立即 `querySelector` 后据此自删或绑定行为**：组件放在 `<main>`/`<article>` 前时，脚本会先执行并把“尚未解析”误判为“不存在”。统一在 `DOMContentLoaded` 后初始化，或把脚本移到目标 DOM 之后；对应 e2e 必须覆盖组件实际出现和交互绑定。
+- **PowerShell 变量名不区分大小写，`$home` 会与只读自动变量 `$HOME` 冲突**：HTTP 首页响应等临时变量不要命名为 `home`；使用 `$homeResponse`、`$rootPage` 等明确名称，避免 `Cannot overwrite variable HOME`。
+- **不要在 PowerShell 单引号命令字符串里再直接嵌入含单引号的复杂正则/源码**：内层引号会提前结束字符串并造成解析失败。优先把正则赋给双引号变量、使用 here-string，或拆成更简单的多步命令；跨工具传递时先验证最终参数文本。
+- **多语 SEO title 的长度保护不能直接回退到原始 H1，或把点击利益点一起丢掉**：长标题先去掉破折号/冒号后的副标题，再重新套用对应栏目模板；e2e 同时断言本地化利益短语和最大长度，避免“长度合格但搜索意图退化”。
+- **核验机制数据前先用 `rg --files src/data` 确认可用生成文件**：项目不存在 `src/data/mechanics.json`；机制数值分布在 `formulas.json`、`structures.json`、`units.json`，机制解释则位于对应页面与上游源码。不要根据文件名猜测路径。
+- **MDX frontmatter 的纯文本值只要包含冒号加空格，就必须用引号包裹**：例如法语 `description: "... trains : ..."`；否则 YAML 会把冒号后的内容解析成嵌套映射，`astro check` 报 `bad indentation of a mapping entry`。
+- **PowerShell 双引号插值中变量后紧跟冒号时必须用 `${name}:`**：写成 `$line:` 会被解析为作用域变量并报 `Variable reference is not valid`。日志位置、行号等字符串统一使用 `${line}:$value` 或格式化运算符 `-f`。
+- **`rg` 使用 lookahead/lookbehind 等环视正则时必须显式加 `--pcre2`**：默认 Rust regex 引擎不支持 `(?=...)`、`(?!...)`、`(?<=...)`、`(?<!...)`，会报 regex parse error。简单搜索优先不用环视，需要时再切换 PCRE2。
+- **法语机制正文是 Astro 页面，不在 `src/content/mechanics/fr/`**：检索术语前先用 `rg --files src | Select-String mechanics` 确认布局；当前路径是 `src/pages/fr/mechanics/`，不要把 content collection 与页面目录混淆。
+- **本环境访问 `support.google.com` 可能在浏览器和 `curl.exe` 两条链路同时超时**：做 AdSense/Publisher 政策审计时先使用短超时探测；若重复超时，不要循环重试，明确记录无法在线刷新官方正文，并使用项目内最近一次注明日期的官方来源快照，提醒申请前在可访问网络中复核。
+- **长时间 `exec_command` 返回 `session_id` 时，外层工具调用结束不代表命令完成**：必须用 `write_stdin` 持续轮询到返回 `exit_code`，再检查 `dist` 等产物；不要因为首个输出块只到 `astro build` 就误判失败，也不要在前一个构建未结束时重复启动构建。
+- **临时 Node 调试代码不能用 `eval()` 执行静态 `import`**：`eval` 不支持模块级静态导入；改用 `await import()`，并从项目实际安装的 `@playwright/test` 导入浏览器能力，不要假设存在可直接导入的顶层 `playwright` 包。
+- **Windows PowerShell 5 所用 .NET 可能没有 `[System.IO.Path]::GetRelativePath()`**：做 `dist` 审计时先解析根目录绝对路径，再对文件绝对路径安全调用 `Substring($root.Length)`；不要依赖较新 .NET API，否则循环会逐文件报 `MethodNotFound` 且仍可能以退出码 0 结束。
+- **Playwright webServer 不要复用本机通用 `localhost:4321`**：IPv4 与 IPv6 可能各被不同项目监听，测试会在错误页面、正确页面和 `ERR_CONNECTION_REFUSED` 之间漂移。使用项目专用的 `127.0.0.1` 端口（默认 4327，可用 `PLAYWRIGHT_PORT` 覆盖），并令 `reuseExistingServer: false`，确保每次测试启动自己的生产预览。
+- **重写核心文章标题后要同步检查既有内容 e2e 的精确文案**：旧测试可能仍锁定扩写前的问句，导致正文事实正确但回归失败。对必须存在的概念优先断言稳定的语义短语或本地化正则，并在五语改稿完成后统一运行全套 e2e。
+- **`gsc-cli` 通过 Windows 用户代理访问 Google API 时，虚拟环境必须安装 `PySocks`**：`googleapiclient` 底层 `httplib2` 在缺少该包时会静默忽略代理并直连，最终报 `WinError 10060`。用 `uv pip install --python .venv/Scripts/python.exe PySocks` 安装；桥接脚本应从 `urllib.request.getproxies()` 读取系统代理并把 `localhost` 规范为 `127.0.0.1`。
+- **GSC 经本地代理偶尔会报 `SSL: UNEXPECTED_EOF_WHILE_READING`**：把它视为瞬时代理断流，只重试一次，并验证命令退出码及输出确实以 JSON 数组开头；不要让 PowerShell 后续管道把 CLI 的错误文本掩盖成退出码 0。
+- **不要把大型 `git diff` 直接管道到 `Select-Object -First`**：下游达到条数后会提前关闭管道，使仍在输出的 `git diff` 遇到 broken pipe 并返回退出码 1，即使已经显示了所需内容。先把 diff 捕获到变量或文件，再对捕获结果做 `Select-String`/截断，避免制造伪失败。
+- **完整 Playwright 套件若只在 `browserContext.newPage` 建页阶段超时，且没有进入页面断言，先按资源争用处理**：用 `--workers=1 --grep <用例>` 单线程复跑失败用例；目标用例通过后再重跑完整套件。不要把 fixture 建页超时误判为对应页面内容回归，也不能仅凭定向通过就跳过最终全套回归。
+- **Windows 下给 Playwright CLI 传测试文件过滤器时也使用正斜杠**：`e2e\\content-integrity.spec.ts` 会作为正则处理，反斜杠可能转义后续字符并导致 `No tests found`。统一传 `e2e/content-integrity.spec.ts`，即使当前 shell 是 PowerShell。
+- **命令工具名称必须以当前会话实际暴露的能力为准**：部分运行时只有 `shell_command`，调用不存在的 `exec_command` 会在命令执行前报 `TypeError: tools.exec_command is not a function`。先检查工具声明，并在本会话统一使用已暴露的命令接口，不要沿用上一轮的工具名假设。
+- **`gh` 同时登录多个账号时，读操作成功不代表当前账号有仓库写权限**：对另一个账号名下仓库调用 Git Data/Contents 写 API 可能返回伪装的 404。写入前先看 `gh auth status` 的 Active account；需要临时使用仓库所有者凭据时，在单条命令内用 `$env:GH_TOKEN = gh auth token --user <owner>`，不要输出 token，也不要无故永久切换全局 active account。
+- **PowerShell 下不要把 `ConvertTo-Json` 的结果直接管道给 `gh api --input -`**：旧版 PowerShell 的原生命令管道编码可能让 GitHub 返回 `Problems parsing JSON`。优先用 `gh api -f/-F` 构造字段，文件内容用 `-F 'field=@path'` 交给 CLI 读取；确需输入文件时必须显式生成 UTF-8 无 BOM。
+- **Git Data API 的 `tree` 数组不要用未经验证的 `gh api -f 'tree[0][…]'` 拼装**：当前 `gh` 版本会生成 GitHub 判定为 `Invalid tree info` 的请求。需要创建 tree/commit 时，用 Node `spawnSync` 向 `gh api --input -` 传 UTF-8 `JSON.stringify` 结果，并校验返回 tree/commit SHA 后再更新 ref。

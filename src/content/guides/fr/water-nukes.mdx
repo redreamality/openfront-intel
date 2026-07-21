@@ -1,57 +1,322 @@
 ---
 title: Que sont les Water Nukes dans OpenFront ?
-description: Les Water Nukes sont l'option de partie de la v31 qui fait que les nukes transforment définitivement la terre détruite en eau. Voici précisément ce qui change — la forme du cratère, le terrain, et si vous pouvez reprendre le sol.
+description: L'option v31 transforme définitivement la terre détruite par les nukes en eau. Forme du cratère, terrain, récupération et tactiques expliqués en détail.
 pubDate: 2026-06-03
+updatedDate: 2026-07-16
 tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v31
 ---
 
-**Réponse courte :** les *Water Nukes* sont un mode de jeu optionnel, ajouté en **v31**, où une frappe nucléaire ne se contente pas d'effacer le territoire — elle **transforme définitivement les tiles de terre détruits en eau**. Le cratère se remplit, les navires peuvent le traverser, et la carte elle-même est redessinée pour le reste de la partie.
+## Réponse directe : l'effet des Water Nukes
 
-Le mode est **désactivé par défaut**. On l'active en créant un salon ; dans les parties publiques, un badge **Water Nukes** apparaît pour que chacun connaisse les règles avant d'apparaître.
+**Water Nukes** est un mode optionnel de la v31 où les frappes nucléaires transforment définitivement la terre détruite en eau. Le cratère devient une partie de la carte au lieu de rester un sol irradié.
 
-## Où l'activer
+Cette eau est un vrai terrain. Le littoral, les tiles d'océan, les bords, la minicarte et le pathfinding naval sont recalculés. Les navires peuvent donc utiliser l'eau créée pendant la partie.
 
-- **Solo / salon d'hôte :** un interrupteur **Water Nukes** dans le panneau d'options, à côté d'options comme *Nukes Disabled*, *SAMs Disabled* et *1M Starting Gold*.
-- **Parties publiques :** vous ne pouvez pas l'activer vous-même, mais la carte du salon porte un badge **Water Nukes** quand le mode est actif.
+Le mode est désactivé par défaut. L'hôte peut l'activer dans les options. Les parties publiques concernées affichent un badge **Water Nukes** avant l'apparition des joueurs.
 
-## Nuke normale vs. Water Nuke
+La réponse défensive la plus importante est la vitesse. La conversion est groupée après l'impact. Une tile reconquise avant la vérification peut rester de la terre si elle n'est plus neutre.
 
-Toute nuke retire le propriétaire des tiles touchés et tue les troupes de la même façon dans les deux modes. La différence, c'est **ce que devient le sol détruit** :
+Après la transformation en eau, l'expansion terrestre normale ne peut pas la restaurer. Vous pouvez toutefois exploiter ce nouvel espace avec Ports, transports, navires de guerre et commerce.
 
-| | Nuke normale | Water Nuke |
+## Concepts et prérequis
+
+Water Nukes change le terrain, pas le prix ni le rayon documenté des armes. Une bombe atomique conserve inner 12 et outer 30. Une bombe à hydrogène conserve inner 80 et outer 100.
+
+Atom et Hydrogen restent des cibles valides pour les SAM. Le véhicule MIRV et ses ogives restent immunisés. Le modificateur ne rend pas toutes les frappes impossibles à intercepter.
+
+La v31 a associé Water Nukes au commerce sur eaux intérieures. Ports, navires de guerre et navires de commerce fonctionnent sur tout plan d'eau, pas seulement sur l'océan.
+
+La combinaison crée l'enjeu stratégique. Une frappe peut supprimer du territoire, couper un pont terrestre et ouvrir une route navale dans une zone auparavant bloquée par la terre.
+
+Il faut un salon où les nukes et Water Nukes sont actifs. Avec **Nukes Disabled**, aucune arme ne peut appliquer la règle de conversion.
+
+Il faut aussi l'infrastructure nucléaire et l'or habituels. L'option modifie le résultat d'une frappe réussie ; elle ne supprime ni le Silo ni le coût de l'arme.
+
+## Résolution de la conversion du terrain
+
+La frappe retire d'abord la propriété des tiles terrestres touchées. Le jeu place ensuite la terre vide admissible dans une file de conversion au lieu de tout modifier immédiatement.
+
+Lors de l'application groupée, le jeu vérifie si chaque tile est encore une terre neutre. Celles qui le sont deviennent de l'eau. Celles reprises avant ce contrôle peuvent rester terrestres.
+
+La conversion efface aussi le fallout sur les tiles devenues aquatiques, car l'eau ne conserve pas l'irradiation terrestre. Un cratère normal reste au contraire récupérable après la radiation.
+
+Les bords sont plus lisses qu'un fallout normal. L'implémentation documentée échantillonne et moyenne des angles pour éviter des pixels terrestres isolés le long du nouveau rivage.
+
+La forme compte. Un cratère lisse devient plus facilement un plan d'eau cohérent, tandis qu'une explosion normale laisse une terre irrégulière récupérable par expansion.
+
+## Nuke normale contre Water Nuke
+
+| Question | Nuke normale | Mode Water Nukes |
 | --- | --- | --- |
-| Terre détruite | Reste de la terre, laissée en **fallout** (irradiée) | **Transformée en eau**, définitivement |
-| Fallout | Persiste, puis se dissipe | Effacé — les tiles d'eau ne portent pas de fallout |
-| Reprendre le sol | Y remarcher une fois l'irradiation passée | La terre a **disparu** ; il faut des bateaux/ports |
-| Bord du cratère | Irrégulier (anneau extérieur aléatoire) | **Lisse, arrondi** |
+| Que reste-t-il ? | Terre avec fallout | Eau sur les tiles converties |
+| Les troupes peuvent-elles reprendre ? | Oui, quand les conditions le permettent | Seulement avant la conversion |
+| Le fallout reste-t-il ? | Oui, puis disparaît | L'eau convertie ne le conserve pas |
+| Quelle forme a le bord ? | Dispersion extérieure irrégulière | Bord de cratère lissé |
+| Les navires utilisent-ils le résultat ? | Aucune nouvelle eau | Oui, si le cratère crée un plan navigable |
+| Le rayon augmente-t-il ? | Non | Non |
+| Le comportement des SAM change-t-il ? | Non | Non |
 
-Ce bord lisse est voulu. Les Water Nukes génèrent la frontière à partir de 16 échantillons angulaires ensuite moyennés, si bien que le cratère ondule doucement au lieu de laisser une « fleur » hérissée de pixels de terre isolés qu'il faudrait sinon reprendre un par un en bateau.
+« Permanent » ne signifie pas que la zone devient inutilisable. La terre ne revient pas, mais l'eau peut devenir une route de transport, un théâtre naval, un emplacement de Port ou une voie commerciale.
 
-## Les règles qui piègent
+## Données des armes et de la défense
 
-- **Seule la terre *sans propriétaire* devient de l'eau.** La nuke retire d'abord la propriété de tous les tiles touchés, puis met la terre désormais vide en file d'attente de conversion. La conversion est **groupée** — elle s'applique un ou deux ticks plus tard, pas instantanément.
-- **Reconquérir peut sauver un tile.** Comme la conversion vérifie au moment de s'appliquer *« est-ce encore de la terre sans propriétaire ? »*, si vous (ou quelqu'un) vous étendez sur un cratère frais avant, ce tile reste de la terre. Se réétendre vite est une vraie parade à la perte définitive de terrain.
-- **Le terrain est réellement réécrit.** Une fois les tiles passés en eau, OpenFront recalcule le littoral, les tiles d'océan, les rivages, la minicarte et le **graphe de pathfinding naval** — la nouvelle eau est donc une vraie mer navigable, pas un trou décoratif.
-- **La taille d'explosion ne change pas.** Les Water Nukes n'agrandissent pas les nukes. Une bombe atomique reste inner 12 / outer 30, une bombe à hydrogène inner 80 / outer 100, et un MIRV disperse toujours plusieurs ogives. Le SAM intercepte toujours les bombes atomiques et à hydrogène ; le MIRV reste inarrêtable. Chiffres exacts dans la [base de données](/fr/database/), contexte du patch dans les [notes de version v31](/fr/changelog/v31/).
+| Élément | Coût | Portée documentée | Interaction SAM |
+| --- | ---: | --- | --- |
+| Bombe atomique | 750 000 | Inner 12 / outer 30 tiles | Interceptable |
+| Bombe à hydrogène | 5 000 000 | Inner 80 / outer 100 tiles | Interceptable |
+| MIRV | 25M + 15M par tir antérieur | Se divise en ogives | Véhicule et ogives immunisés |
+| Ogive MIRV | Incluse avec le MIRV | Inner 12 / outer 18 tiles | Immunisée |
+| Lanceur SAM | Premier à 1 500 000 | Débute à 70 tiles | Cooldown de 90 ticks |
 
-## Pourquoi c'est si fort : le commerce sur eaux intérieures
+Atom est la tentative de modification la moins chère, mais son empreinte est bien plus petite. Hydrogen remodèle un large front, mais concentre 5 000 000 d'or dans un projectile interceptable.
 
-La v31 a livré les Water Nukes **en même temps** qu'un second changement : ports, Warships et trade ships ne sont **plus réservés aux océans** — tout plan d'eau fonctionne, y compris lacs et mers intérieures. Combinez les deux et une Water Nuke ne fait pas que refuser du terrain, elle peut **créer une toute nouvelle voie d'eau** : creuser un chenal dans l'intérieur ennemi, poser un port sur l'eau fraîche, et faire passer des Warships ou des routes commerciales là où il y avait du sol ferme une minute plus tôt.
+Un MIRV crée plusieurs zones plus petites et ignore les SAM. Son prix de départ vaut cinq bombes à hydrogène, puis chaque lancement antérieur ajoute 15 000 000 d'or.
 
-## Comment y jouer
+Le choix dépend de la forme, pas seulement des dégâts. Décidez s'il faut une petite brèche, une coupure large, plusieurs cratères ou simplement détruire des troupes.
 
-- **Prévoyez tôt un refuge en hauteur.** Dans une longue partie Water Nukes, la carte peut être entièrement redessinée. Gardez votre économie centrale sur un terrain qui ne sera pas le premier rogné.
-- **Servez-vous des nukes pour trancher, pas seulement pour tuer.** Un cratère bien placé peut couper un pont terrestre, isoler une capitale ou ouvrir un couloir maritime pour votre flotte. Pensez à la *forme* du trou, pas seulement aux troupes éliminées.
-- **Gardez de la profondeur intérieure en défense.** N'alignez pas toute votre nation sur une côte fine — une seule salve peut effacer l'épine côtière et laisser vos bâtiments échoués en îlots.
-- **Réétendez-vous vite après un coup.** Renvoyer des troupes sur un cratère frais avant sa conversion est le seul moyen de garder ce sol en terre.
+## Définir ce que la frappe doit changer
 
-## FAQ rapide
+Avant le tir, formulez le résultat en une phrase. « Supprimer cette armée » est un objectif nucléaire normal. « Couper ce corridor » ou « relier ces eaux » est un objectif Water Nukes.
 
-- **Les Water Nukes sont-elles activées par défaut ?** Non — c'est une option de salon à activer.
-- **Affecte-t-elle toutes les nukes ?** Oui — ogives atomiques, à hydrogène et MIRV convertissent toutes la terre dans ce mode.
-- **Puis-je récupérer ma terre ?** Seulement en reconquérant un cratère avant sa conversion. Une fois en eau, la *terre* a disparu ; vous pouvez toujours exploiter l'eau elle-même avec bateaux, ports et (depuis la v31) commerce intérieur.
+### Couper un pont terrestre
 
-Pour les touches qui enchaînent ces nukes, voyez l'[aide-mémoire des raccourcis](/fr/shortcuts/).
+Visez la partie la plus étroite, pas le plus gros groupe de troupes à proximité. Une conversion réussie peut séparer deux terres et imposer transports ou détour.
+
+Comparez la portée extérieure aux deux rives. Un cratère qui s'arrête trop tôt peut tuer des troupes sans créer la séparation prévue.
+
+### Ouvrir une voie navale intérieure
+
+Cherchez la terre entre un lac, une mer ou un ancien cratère et la cible intérieure. La nouvelle eau vaut davantage lorsqu'elle rejoint un plan déjà accessible à votre flotte.
+
+Un cratère fermé peut nier du terrain, mais ne devient pas automatiquement une route. Sa valeur augmente lorsqu'il crée une eau connectée plutôt qu'un étang isolé.
+
+### Briser une épine côtière
+
+Un territoire côtier fin est vulnérable : une bande convertie peut séparer les bâtiments intérieurs du reste du réseau terrestre. Visez la connexion, pas seulement le rivage visible.
+
+Attendez-vous à une réexpansion pendant la fenêtre. Une attaque terrestre de suivi compte autant que le projectile, car la propriété au moment du contrôle décide quelles tiles restent terrestres.
+
+### Créer un refus durable
+
+Si l'adversaire dépend d'un cœur compact, un grand cratère peut supprimer de la capacité terrestre et changer les routes d'approche jusqu'à la fin.
+
+Ne dépensez pas 5 000 000 pour un refus permanent sans valeur stratégique. La conversion est forte quand la forme perdue reste importante après les dégâts immédiats.
+
+### Utiliser un cratère en défense
+
+Une Water Nuke peut supprimer une approche vers votre propre position. Vous sacrifiez de la terre pour créer une distance, un chenal ou une côte plus facile à surveiller.
+
+L'échange devient irréversible après conversion. Vérifiez que vous ne supprimez pas la seule route terrestre nécessaire à vos renforts.
+
+## Plan d'attaque étape par étape
+
+### Étape 1 : confirmer le modificateur
+
+Cherchez **Water Nukes** sur la carte du salon ou dans les options. Ne planifiez pas une modification permanente dans une partie nucléaire normale.
+
+Vérifiez aussi **Nukes Disabled** et **SAMs Disabled**. Ces règles déterminent si l'arme existe et si Atom ou Hydrogen peuvent être interceptées.
+
+### Étape 2 : tracer le futur littoral
+
+Repérez la terre à supprimer et l'eau à connecter. Utilisez la portée extérieure comme limite de planification, sans supposer que chaque tile intérieure aura exactement le même résultat.
+
+Pour Atom, raisonnez avec outer 30. Pour Hydrogen, utilisez outer 100. La seconde convient aux larges coupures, mais coûte beaucoup plus.
+
+### Étape 3 : inspecter la couverture SAM
+
+Atom et Hydrogen peuvent être interceptées. Un SAM par défaut commence avec 70 tiles de portée et un cooldown de 90 ticks.
+
+Si la cible est couverte, choisissez une autre ligne, retirez la défense, coordonnez plusieurs menaces ou acceptez le risque. Water Nukes ne contourne pas l'intercepteur.
+
+### Étape 4 : préparer l'exploitation
+
+Préparez l'action suivante avant le tir : poussée terrestre contre la reconquête, transports, navires pour la nouvelle eau ou projet de Port sur le futur rivage.
+
+Sans suivi, le défenseur peut s'adapter. Les meilleures frappes associent la transformation à un plan militaire ou économique qui profite de la nouvelle carte.
+
+### Étape 5 : lancer et suivre la propriété
+
+Après l'impact, observez le cratère frais. La vérification de conversion dépend du maintien des tiles dans l'état neutre.
+
+Maintenez la pression sur le bord si vous voulez de l'eau permanente. Une reconquête rapide peut laisser une partie du chenal en terre.
+
+### Étape 6 : réévaluer la carte
+
+Après conversion, traitez le cratère comme un vrai terrain. Vérifiez le littoral, la connexion navigable, les Ports proches et les routes sur la minicarte.
+
+N'appliquez pas aveuglément le plan prévu avant la frappe. Water Nukes change le plateau ; la décision suivante doit utiliser le nouveau plateau.
+
+## Plan de défense étape par étape
+
+### Étape 1 : reconnaître le mode avant l'expansion
+
+Lisez le badge du salon. En mode Water Nukes, un corridor d'une seule tile est plus qu'une faiblesse temporaire, car une frappe peut effacer la connexion elle-même.
+
+Gardez de la profondeur autour des Villes, Silos, SAM et Ports. N'alignez pas toutes les structures critiques sur une bande côtière étroite.
+
+### Étape 2 : construire la défense à temps
+
+Un SAM demande 300 ticks, soit environ 30 secondes. Il ne peut pas être ajouté quand le projectile est déjà proche et fournir une protection immédiate.
+
+Couvrez aussi les connexions critiques. Un pont terrestre peut être la vraie cible même sans Ville placée dessus.
+
+### Étape 3 : garder une capacité de réexpansion
+
+La fenêtre de conversion est le seul moyen direct de sauver une terre en attente. Gardez assez de troupes et une frontière connectée pour revenir sur les tiles neutres.
+
+La récupération n'est pas garantie. C'est une course contre le traitement groupé, et la pression ennemie peut empêcher la reprise.
+
+### Étape 4 : préparer un repli naval
+
+Si la terre devient de l'eau, passez de la récupération à l'adaptation. Ports, navires, commerce et transports peuvent convertir la perte en nouvelle route.
+
+La règle v31 s'applique à tout plan d'eau. Un cratère peut donc soutenir votre économie ou défense navale si vous conservez l'accès à sa rive.
+
+### Étape 5 : décentraliser le reste
+
+Ne reconstruisez pas toutes les fonctions au bord du nouveau cratère. Une seconde frappe peut prolonger l'eau. Répartissez les structures sur plusieurs terres et zones défensives.
+
+## Exemples chiffrés
+
+### Une Hydrogen contre plusieurs Atom
+
+Six bombes atomiques coûtent 4 500 000 d'or, soit 500 000 de moins qu'une bombe à hydrogène. Elles produisent plusieurs petites portées outer 30 au lieu d'une outer 100.
+
+Cela n'en fait pas un substitut direct. Chaque tir peut être intercepté, les formes peuvent laisser de la terre entre elles et la séquence exige plusieurs cibles valides.
+
+Choisissez Hydrogen pour une large coupure unique. Choisissez Atom pour plusieurs petites modifications lorsque le coût par tentative compte.
+
+### Coût du premier ensemble nucléaire protégé
+
+Un Silo coûte 1 000 000 et le premier SAM 1 500 000. Ajouter une bombe atomique porte l'ensemble à 3 250 000 avant toute amélioration.
+
+Remplacer Atom par Hydrogen porte le total à 7 500 000. La conversion est puissante, mais l'économie doit survivre assez longtemps pour la financer.
+
+### Interaction des portées
+
+Un SAM par défaut commence à 70 tiles. C'est plus que l'outer 30 d'Atom, mais l'interception dépend du trajet, du timing et de la couverture réelle de la zone menacée.
+
+Hydrogen possède outer 100. Une frappe réussie peut toucher une zone bien plus large, ce qui justifie de répartir les structures même derrière des SAM.
+
+### Escalade du MIRV
+
+Le premier MIRV coûte 25 000 000. Le deuxième coûte 40 000 000, car un tir antérieur ajoute 15 000 000. Le troisième coûte 55 000 000.
+
+Son immunité est importante, mais ce prix croissant exige un objectif de carte précis plutôt qu'une simple envie de créer davantage d'eau.
+
+## Erreurs fréquentes
+
+### Croire que chaque explosion crée de l'eau
+
+La conversion permanente n'existe que si le modificateur est actif. Une partie normale laisse de la terre et du fallout.
+
+Vérifiez le salon avant de bâtir une stratégie de chenal. La même cible produit une carte très différente sous les règles normales.
+
+### Viser l'armée au lieu de la connexion
+
+Le plus gros groupe de troupes n'occupe pas forcément le terrain le plus important. Une petite frappe sur un pont étroit peut modifier tous les déplacements futurs.
+
+Séparez la question des dégâts immédiats de celle de la forme permanente. Water Nukes récompense les cibles bonnes sur les deux axes.
+
+### Oublier le délai de conversion
+
+Les tiles fraîchement vidées ne sont pas encore une eau permanente. Le défenseur peut reprendre la terre avant le traitement groupé.
+
+Surveillez le cratère et maintenez la pression. Si vous regardez ailleurs, le chenal peut se refermer avant d'exister.
+
+### Créer un étang isolé
+
+La nouvelle eau est navigable, mais un cratère fermé peut rester inaccessible à votre flotte. Il nie de la terre sans former une route pratique.
+
+Tracez la connexion avant le tir. Pour obtenir un passage naval, le cratère doit rejoindre une eau utilisable ou créer un rivage exploitable.
+
+### Ouvrir une route à l'adversaire
+
+La nouvelle eau n'appartient pas à l'attaquant. Un défenseur doté de meilleurs Ports ou navires peut profiter davantage du chenal.
+
+Préparez le contrôle naval avant de modifier le terrain. Sinon, la frappe peut mobiliser ou enrichir le joueur qu'elle devait affaiblir.
+
+### Regrouper toutes les défenses
+
+Un cœur compact est facile à comprendre et à viser. Hydrogen possède outer 100 et peut toucher plusieurs structures voisines.
+
+Superposez les couvertures sans placer tous les SAM, Silos, Villes et Ports dans une seule petite zone.
+
+### Considérer les SAM comme une protection totale
+
+Les SAM interceptent Atom et Hydrogen, puis subissent 90 ticks de cooldown. Le MIRV et ses ogives restent immunisés.
+
+La défense exige aussi de la profondeur, des troupes pour reprendre, des structures séparées et un plan naval après conversion.
+
+## Contres et ajustements
+
+Si l'attaquant utilise des Atom bon marché, protégez d'abord les connexions qu'une outer 30 peut couper. Défendre chaque frontière de la même façon disperse les moyens.
+
+S'il économise pour Hydrogen, espacez les structures de grande valeur au-delà d'une seule zone cible. Gardez plusieurs cœurs terrestres et économiques utilisables.
+
+Si le MIRV devient la menace, davantage de SAM ne résoudra pas le problème. Préservez la profondeur, distribuez l'infrastructure et préparez-vous à plusieurs cratères.
+
+Quand un cratère devient de l'eau, contestez-le comme zone navale. Des Ports alliés soutiennent vos navires, tandis que les Warships peuvent bloquer transports et commerce.
+
+Si votre frappe ne termine pas le chenal, réévaluez avant de tirer au même centre. Repérez la terre reprise ou intacte qui bloque encore la connexion.
+
+Si Water Nukes est désactivé, revenez aux priorités normales : récupération du fallout, destruction de troupes, couverture SAM et cibles d'infrastructure.
+
+## FAQ
+
+### Water Nukes est-il activé par défaut ?
+
+Non. C'est une option volontaire. Les salons publics actifs affichent un badge **Water Nukes**.
+
+### Le mode agrandit-il les nukes ?
+
+Non. Les portées documentées d'Atom, Hydrogen et des ogives MIRV ne changent pas. La différence concerne le résultat sur la terre admissible.
+
+### Quelles armes convertissent la terre ?
+
+Le mode s'applique aux effets d'Atom, Hydrogen et des ogives MIRV. Leurs prix, formes et interactions SAM restent différents.
+
+### Les SAM peuvent-ils arrêter une Water Nuke ?
+
+Ils peuvent intercepter Atom et Hydrogen. Ils ne peuvent intercepter ni le véhicule MIRV ni ses ogives.
+
+### Puis-je sauver la terre après l'impact ?
+
+Vous pouvez parfois reprendre une terre vide avant le contrôle groupé. Une fois la tile devenue aquatique, l'expansion terrestre ne la restaure plus.
+
+### L'eau disparaît-elle avec le fallout ?
+
+Non. L'eau convertie reste le nouveau terrain jusqu'à la fin. Le fallout est retiré des tiles aquatiques au lieu de rendre l'ancienne terre.
+
+### Les navires peuvent-ils utiliser un cratère ?
+
+Oui, si l'eau forme un plan ou une connexion navigable. La v31 autorise Ports, navires de guerre et commerce sur les eaux intérieures comme sur l'océan.
+
+### Puis-je construire un Port sur la nouvelle rive ?
+
+Le terrain devient un vrai rivage. Le Port exige toujours une pose valide et une terre contrôlée ; inspectez donc la côte finale après conversion.
+
+### Atom ou Hydrogen pour créer un chenal ?
+
+Utilisez Atom pour de petites modifications moins chères et Hydrogen pour une large coupure. Le choix dépend de la largeur, des SAM et de la valeur de la connexion.
+
+### Pourquoi de la terre a-t-elle survécu ?
+
+La forme ne garantit pas un résultat identique sur chaque tile. Une reconquête avant le traitement peut aussi préserver des tiles en terre.
+
+### Le mode rend-il les côtes injouables ?
+
+Non. Les bandes côtières fines deviennent plus risquées, mais la nouvelle eau soutient aussi Ports, navires, transports et commerce. La profondeur reste la clé.
+
+## Lecture suivante
+
+- Vérifiez les valeurs dans la [base des unités](/fr/database/units/).
+- Consultez les coûts dans la [base des structures](/fr/database/structures/).
+- Étudiez le système des [armes nucléaires et SAM](/fr/mechanics/nukes/).
+- Relisez le résumé officiel dans les [notes v31](/fr/changelog/v31/).
+- Utilisez le [guide des raccourcis](/fr/guides/hotkeys/) pour les tirs répétés.
+- Planifiez la défense avec la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/).
+- Exploitez les voies d'eau avec le [contrôle naval en équipe](/fr/strategies/team-naval-control/).

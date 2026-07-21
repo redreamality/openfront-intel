@@ -2,29 +2,42 @@
 title: Hotkeys Cheat Sheet
 description: Every OpenFront.io default hotkey, mouse action, and build-number key — including the repeat-build trick that lets a rival fire nukes back-to-back without any external tool.
 pubDate: 2026-05-12
-updatedDate: 2026-06-03
+updatedDate: 2026-07-16
 tags: [hotkeys, ui]
 category: Tutorial
 difficulty: Beginner
 version: v24
 ---
 
-> Everything below is the **default** layout. Since v24 every key can be remapped in **Settings → Keybindings**, and a few can be unbound entirely. On macOS, read `Ctrl` as `Cmd`.
+## Direct answer: the fastest OpenFront controls
 
-## "How is my opponent nuking me so fast?"
+Press a number to arm a building or unit, then left-click its destination. The number row skips the radial menu, which is why experienced players can build or launch far faster than someone browsing icons.
 
-This is the question almost every new player eventually asks. There is **no external tool or autoclicker required** — it is two built-in mechanics:
+For repeated nuclear launches, press `8` once for an Atom Bomb or `9` once for a Hydrogen Bomb. The nuke stays armed after a launch, so you can keep left-clicking targets until you cancel.
 
-1. **Build-number keys arm a structure instantly.** Press `8` and your cursor is already holding an Atom Bomb — no radial menu, no clicking through tiers. Left-click a target to launch.
-2. **Nukes stay armed after firing.** When you place an Atom Bomb (`8`) or Hydrogen Bomb (`9`), the build "ghost" stays on your cursor, so you just keep left-clicking to drop bomb after bomb on different targets. Press `Esc` or right-click to stop.
+No autoclicker or external tool is required. Press `Esc` or right-click when you want to clear the armed nuke. Other buildings normally clear after one placement, so press their number again before the next build.
 
-So the "hold Shift and click to repeat" you remember from other RTS games is not the exact binding here — but for nukes the equivalent is even simpler: **tap `8` once, then click, click, click.** Every other building clears the ghost after one placement, so you re-tap the number for each one.
+These are the default controls documented by the site's v24 reference. Since v24, keybindings can be remapped in **Settings → Keybindings**, and some actions can be left unbound.
 
-## Build & unit hotkeys
+On macOS, read `Ctrl` as `Cmd`. If a key on this page does nothing, check the in-game keybinding screen before assuming the action has been removed.
 
-Press the number, then left-click where you want it. This skips the radial menu completely and is how fast players spam buildings (and bombs) in the late game.
+## Concepts to understand before memorizing keys
 
-| Key | Builds |
+OpenFront controls are context-sensitive. A left-click can attack a border, send a transport across water, or place an armed structure. The result depends on what is under the pointer and what you armed first.
+
+An **armed build** is the preview attached to your cursor after choosing a structure or weapon. Number keys create that state immediately. `Esc` cancels it, while `Enter` confirms the armed item under the cursor.
+
+The **radial menu** is the visual right-click build menu. It is useful while learning icons or checking upgrade options. Number keys are better once you already know which item you need.
+
+The **attack ratio** is the share of troops committed to an attack. `T` lowers it and `Y` raises it. Those keys change the same decision represented by the on-screen slider.
+
+Camera keys do not spend resources or issue attacks. Use them to keep your pointer near the active front while still checking your core, coast, and trade routes.
+
+## Build and unit number keys
+
+Press the number, move the cursor to a valid location or target, then left-click. The number row is the highest-value group to learn because it removes repeated menu navigation.
+
+| Key | Arms |
 | --- | --- |
 | `1` | City |
 | `2` | Factory |
@@ -33,101 +46,276 @@ Press the number, then left-click where you want it. This skips the radial menu 
 | `5` | Missile Silo |
 | `6` | SAM Launcher |
 | `7` | Warship |
-| `8` | Atom Bomb — **stays armed for repeat fire** |
-| `9` | Hydrogen Bomb — **stays armed for repeat fire** |
+| `8` | Atom Bomb — stays armed after launch |
+| `9` | Hydrogen Bomb — stays armed after launch |
 | `0` | MIRV |
 
-- `Enter` — build the armed unit under the cursor (instead of clicking).
-- `Esc` — cancel the build preview.
-- `U` — flip the launch arc direction (up / down) of an armed Atom or Hydrogen bomb.
+`Enter` confirms the armed item under the cursor. `Esc` cancels the preview. When an Atom or Hydrogen Bomb is armed, `U` flips its launch arc between the two available directions.
 
-## Mouse
+The keys do not bypass game rules. You still need enough Gold, the required infrastructure, a valid placement or target, and any lobby option that enables the item.
 
-Default scheme. You can flip the buttons in **Settings → "Left click opens menu"**.
+## Mouse controls
 
-| Action | Result |
+The table uses the default mouse scheme. You can reverse the menu behavior with **Settings → Left click opens menu**, so verify that option if your clicks feel opposite to this guide.
+
+| Input | Default result |
 | --- | --- |
-| Left-click enemy / unowned border | Attack, or auto-send a transport across water |
-| Left-click your land with a build armed | Place that building |
-| Right-click | Open the Radial / build menu |
+| Left-click enemy or unowned border | Attack, or send a transport across water |
+| Left-click your land with a build armed | Place the armed building |
+| Right-click | Open the radial or build menu |
 | `Ctrl` + left-click | Open the Build menu at that spot |
 | `Alt` + left-click | Open the emote menu |
-| `Shift` + drag | Box-select multiple warships |
-| Drag the Attack Ratio slider | Adjust the share of Troops sent per attack |
+| `Shift` + drag | Box-select multiple Warships |
 | Mouse wheel | Zoom |
 | Middle-click drag | Pan the view |
 
-## Keyboard
+Do not confuse `Shift` + drag with repeat construction. The documented repeat behavior belongs to armed nukes. Cities, Ports, Factories, and defensive structures must be armed again after placement.
 
-### View & camera
+## View and camera keys
 
 | Key | Action |
 | --- | --- |
-| `Space` | Alternate view (terrain / countries) |
+| `Space` | Alternate terrain and country views |
 | `M` | Toggle the coordinate-grid overlay |
 | `C` | Center the camera on your nation |
 | `Q` / `E` | Zoom out / in |
-| `+` / `-` | Zoom (fallback) |
+| `+` / `-` | Fallback zoom controls |
 | `W` `A` `S` `D` | Pan the camera |
-| `P` | Pause / resume |
-| `,` / `.` | Game speed down / up (single-player) |
+| `P` | Pause or resume |
+| `,` / `.` | Reduce or increase game speed in single-player |
 
-### Combat
+Use `C` as a recovery key. If a long pan or zoom leaves you unsure where your territory is, one press returns attention to your nation without hunting across the map.
+
+`Space` is a reading tool rather than a cosmetic toggle. Alternate views can make either terrain or political ownership easier to inspect before you commit troops.
+
+## Combat, diplomacy, and utility keys
 
 | Key | Action |
 | --- | --- |
 | `T` / `Y` | Decrease / increase the attack ratio |
-| `B` | Launch a boat (naval) attack toward the target |
+| `B` | Launch a boat attack toward the target |
 | `G` | Launch a ground attack toward the target |
 | `Shift` + `R` | Retaliate against the player who last attacked you |
-| `F` | Select all of your warships |
-| `Shift` + drag | Select multiple warships |
-| `U` | Flip the arc direction of an armed nuke |
-
-### Diplomacy
-
-| Key | Action |
-| --- | --- |
+| `F` | Select all of your Warships |
+| `Shift` + drag | Select multiple Warships |
+| `U` | Flip the arc of an armed Atom or Hydrogen Bomb |
 | `K` | Request an alliance with the hovered player |
 | `L` | Break an alliance |
-
-### Misc
-
-| Key | Action |
-| --- | --- |
-| `Esc` | Close the menu / cancel a build preview |
-| `Enter` | Build the unit under the cursor |
 | `Alt` + `R` | Reset graphics |
+| `Esc` | Close a menu or cancel a build preview |
 
-> These are the v24 in-game defaults (Settings → Keybindings). If a key behaves differently for you, check whether it has been rebound.
+`K` and `L` were highlighted in the v31 release notes as faster alliance controls. They matter most when a diplomatic choice must happen without opening another menu over the battlefield.
 
-## Radial menu (reworked in v24)
+Treat `Shift` + `R` with care. It targets the player who last attacked you, which is fast but less deliberate than choosing a border after checking the whole strategic picture.
 
-Right-click your own land to open it. It is now multi-level: the core buildings sit on the ring, with SAM, Factory, warship, and upgrade options on the secondary level.
+## Decide between a hotkey and the radial menu
 
-```
-       Build City
-            |
-    Port -- ⊕ -- Defense
-            |
-       Missile Silo
-```
+Use a number key when the decision is already made. If you know you need a Defense Post, pressing `4` is faster and leaves more attention for troop counts, borders, and incoming projectiles.
 
-The radial menu is great while you learn the icons — but once you know what you want, the **build-number keys above are far faster**.
+Use the radial menu when you are still deciding. It exposes the available build choices and secondary levels, which makes it safer for unfamiliar upgrades or a control layout you recently remapped.
 
-## Action combos
+Use the dedicated [shortcuts reference](/shortcuts/) when you need a compact lookup. Keep this guide for the reasoning, drills, and failure recovery behind those controls.
 
-- **Nuke salvo**: `8` → click each target in turn (the Atom Bomb stays armed). Switch to `9` for hydrogen bombs.
-- **Coastal defense**: `3` (Port) → place it, then `4` (Defense Post) → tuck it tight against the inside of the Port.
-- **Snap economy**: `1` (City) → click open ground; the ghost clears, so tap `1` again for the next one.
-- **Alliance**: hover the rival and press `K`, or click their avatar → Request Alliance.
+| Situation | Best control path | Reason |
+| --- | --- | --- |
+| One familiar structure | Number key, then click | Fewest actions |
+| Several Atom or Hydrogen targets | `8` or `9`, then repeated clicks | Nuke remains armed |
+| Unfamiliar upgrade | Radial menu | Visual confirmation |
+| Lost camera | `C` | Returns to your nation |
+| Fine attack-ratio change | Slider | More visual precision |
+| Fast attack-ratio change | `T` or `Y` | Keeps pointer on the front |
+| Several Warships | `F` or `Shift` + drag | Group control |
 
-## Combat rhythm
+## A ten-minute practice routine
 
-Skilled players' mouse work rotates through three areas:
+Practice in single-player so `P`, `,`, and `.` are available. The goal is not to win. The goal is to remove the pause between recognizing a need and issuing the matching command.
 
-1. **The middle of your own land** — building and upgrading (mostly number keys now).
-2. **The border** — attacks and transports.
-3. **The minimap / player list** — watching rivals' expansion curves.
+### Step 1: verify the default layout
 
-Whatever your play style, the core rule is <strong>don't leave the battlefield view</strong> — OpenFront moves fast, and 10 seconds away can be enough for a City to change hands.
+Open **Settings → Keybindings** before the match. Compare the number row, camera keys, and attack-ratio keys with this page. Reset or note any custom binding that would make the drill misleading.
+
+Also check the mouse setting. A reversed menu button changes the feel of every build exercise, even when the keyboard bindings are correct.
+
+### Step 2: learn camera recovery
+
+Pan away with `W`, `A`, `S`, and `D`, zoom with `Q` and `E`, then press `C`. Repeat until centering the nation becomes automatic.
+
+Toggle `Space` while looking at a border. The exercise teaches you to change the information layer without moving the cursor away from the contested area.
+
+### Step 3: build without the radial menu
+
+Arm a City with `1`, place it, then press `Esc`. Repeat the sequence with `2` through `6` only when the item is available and affordable.
+
+After each placement, notice whether a preview remains. Normal structures clear after one placement. That visual difference is what prevents an accidental second build.
+
+### Step 4: rehearse border control
+
+Place the pointer over a safe border. Tap `T` and `Y` while watching the attack-ratio control, then issue one deliberate ground attack with `G` or the normal border click.
+
+Do not mash the ratio keys. The purpose is to pair each direction with its effect, then return to a known commitment level before the next attack.
+
+### Step 5: rehearse naval selection
+
+If Warships are available, use `F` to select all of them. Then clear the selection and use `Shift` + drag to select only a local group.
+
+The two commands solve different problems. `F` is a global response; box selection preserves ships that should remain near another Port or coastline.
+
+### Step 6: rehearse a nuclear launch safely
+
+In a lobby where nukes are enabled, build the required infrastructure and save enough Gold. Press `8`, choose a valid target, click once, and verify that the Atom Bomb remains armed.
+
+Move to a second target without pressing `8` again. Then press `Esc` and confirm that another click no longer launches the armed bomb.
+
+Repeat with `U` before launch so you recognize the arc flip. Do this as a control drill, not as proof that one arc is always strategically superior.
+
+## Practical action sequences
+
+The sequences below are memory patterns, not universal build orders. Check your Gold, terrain, lobby modifiers, and threats before spending.
+
+### Fast border reinforcement
+
+1. Press `C` if the camera is displaced.
+2. Move to the threatened border.
+3. Press `4` to arm a Defense Post.
+4. Place it where its 30-tile zone covers the relevant approach.
+5. Press `Esc` if any preview remains.
+
+A Defense Post starts at 50,000 Gold and gives `mag ×5` and `speed ×3` inside its documented range. The shortcut saves menu time, but placement still determines whether the bonus reaches the fight.
+
+### Economy check without losing the front
+
+1. Keep the pointer near the border.
+2. Press `C` to inspect the core.
+3. Use `1`, `2`, or `3` for the planned City, Factory, or Port.
+4. Return to the front with camera keys.
+5. Adjust the attack ratio with `T` or `Y` only if the situation changed.
+
+This rhythm separates the economic decision from the mechanical execution. Decide the building first, then use the key to spend less attention placing it.
+
+### Nuke salvo and clean cancellation
+
+1. Confirm that the lobby allows nukes.
+2. Confirm the weapon, Gold, and target.
+3. Press `8` for Atom or `9` for Hydrogen.
+4. Click each intended target once.
+5. Press `Esc` immediately after the last launch.
+
+The final cancellation matters. An armed weapon can turn a later click into an expensive mistake, especially while you are trying to pan, inspect, or switch back to ground control.
+
+### Coastal response
+
+1. Press `F` if every Warship must respond.
+2. Use `Shift` + drag if only one fleet should move.
+3. Pan with the middle mouse button or camera keys.
+4. Keep the remaining fleet near the coast it still protects.
+
+The v31 notes added multi-Warship selection and retreat behavior. Selection speed helps only when you avoid stripping every other lane of naval coverage.
+
+## Numeric examples: speed is not the same as value
+
+The shortcut is free, but the action is not. A City has a base cost of 125,000 Gold and adds 250,000 troop cap per level. Pressing `1` quickly does not make an unnecessary City a good purchase.
+
+An Atom Bomb costs 750,000 Gold. A Hydrogen Bomb costs 5,000,000. A MIRV begins at 25,000,000 and adds 15,000,000 for each launch already fired.
+
+That means one accidental `9` launch spends as much as six Atom Bombs plus 500,000 Gold. Always finish a repeat-fire sequence with `Esc`.
+
+A Missile Silo costs 1,000,000 Gold, while the first SAM Launcher costs 1,500,000. The `5` and `6` keys accelerate placement; they do not remove the 2,500,000-Gold infrastructure decision.
+
+The first Defense Post costs 50,000 Gold. Its cost scales with the number already built, up to 250,000. Fast access through `4` is most valuable when you have already identified the correct chokepoint.
+
+## Common failure modes
+
+### “I pressed the number and nothing happened”
+
+First check **Settings → Keybindings**. The binding may have been changed or unbound. Then check Gold, required infrastructure, lobby modifiers, and whether the cursor is over a valid location.
+
+Do not keep pressing the key without diagnosing the state. Repeated input can become a surprise purchase or launch as soon as the missing condition changes.
+
+### “The next click launched another nuke”
+
+Atom and Hydrogen Bombs remain armed after firing. This is intended repeat-fire behavior. Press `Esc` or right-click as soon as the planned salvo ends.
+
+Build the cancellation into your muscle memory: weapon key, targets, `Esc`. Treat the last input as part of the launch sequence rather than optional cleanup.
+
+### “Shift-click did not repeat my building”
+
+The default reference does not document `Shift` as a general repeat-build modifier. `Shift` + drag selects Warships. Re-arm normal structures with their number key for each placement.
+
+### “My click attacked instead of opening a menu”
+
+Check the **Left click opens menu** setting and the tile under the pointer. The default action changes with tile ownership, water access, and whether a build is armed.
+
+Press `Esc` before troubleshooting. Clearing the armed state removes one source of ambiguity from the next click.
+
+### “Select all moved ships I wanted to keep home”
+
+`F` selects the whole Warship force. Use `Shift` + drag when you need a regional fleet. Global selection is fast, but it can create an unguarded coast elsewhere.
+
+### “Retaliate targeted the wrong strategic problem”
+
+`Shift` + `R` answers the last attacker, not necessarily the most dangerous opponent. Use it only after confirming that immediate retaliation matches your larger plan.
+
+### “I won the input race but lost the economy”
+
+Hotkeys reduce execution time; they do not improve the decision itself. A fast low-value build still spends Gold and attention that could have gone to defense, trade, or troop capacity.
+
+Use the [economy fundamentals guide](/strategies/economy-fundamentals/) to decide what to buy. Return here to make that decision faster.
+
+## How to adjust against fast opponents
+
+If a rival fires several nukes quickly, assume repeat-armed number keys before assuming automation. Atom and Hydrogen Bombs can be intercepted by SAMs; MIRV carriers and warheads cannot.
+
+Use overlapping SAM coverage for valuable cores, but do not cluster every launcher in one blast area. The [nuclear deterrence guide](/strategies/nuclear-deterrence/) covers the defensive tradeoff.
+
+If an opponent builds rapidly along one border, slow your own input down for one second. Check terrain, Defense Post coverage, and attack ratio before copying their tempo.
+
+If your custom bindings cause conflicts, keep the most frequent actions close together. Preserve a clear cancel key, camera recovery key, attack-ratio pair, and the build numbers you actually use.
+
+When a lobby disables nukes, the `8`, `9`, and `0` decisions disappear. Reallocate your attention toward camera control, Defense Posts, Cities, Ports, Factories, and Warships.
+
+## FAQ
+
+### How do players fire nukes so quickly?
+
+They can press `8` or `9` once, then click several targets. Atom and Hydrogen Bombs remain armed after each launch. No external repeat tool is required.
+
+### How do I stop repeat firing?
+
+Press `Esc` or right-click after the last intended target. Verify that the armed preview is gone before returning to normal clicks.
+
+### Does `Shift` repeat every building?
+
+No. The documented `Shift` mouse action is box-selecting multiple Warships. Re-arm ordinary buildings with their number key after each placement.
+
+### Can I remap all these keys?
+
+The v24 reference says every key can be remapped in **Settings → Keybindings**, and some actions can be unbound. Your local settings take precedence over this default list.
+
+### What does `U` do?
+
+It flips the launch arc direction of an armed Atom or Hydrogen Bomb. It does not change the documented blast radius or make the weapon immune to SAM interception.
+
+### What is the quickest way to center the map?
+
+Press `C` to center the camera on your nation. Use it after a long pan, a distant naval check, or a nuclear target scan.
+
+### Should I use `F` or box selection for Warships?
+
+Use `F` when the whole fleet should respond. Use `Shift` + drag when another coast, Port, or waterway still needs its local ships.
+
+### Are pause and speed controls available in multiplayer?
+
+The default reference lists `,` and `.` as single-player speed controls. Do not plan a multiplayer response around pausing or changing the match speed.
+
+### Why does left-click behave differently on different tiles?
+
+The input is contextual. It can attack, launch a transport, or place an armed build depending on the pointer location and current armed state.
+
+## Next reading
+
+- Keep the compact [OpenFront shortcuts table](/shortcuts/) open for quick lookup.
+- Learn costs and roles in the [structures database](/database/structures/).
+- Compare weapon costs and blast sizes in the [units database](/database/units/).
+- Study [nuclear weapons and SAM mechanics](/mechanics/nukes/).
+- Practice spending decisions with [economy fundamentals](/strategies/economy-fundamentals/).
+- Review the control changes recorded in the [v31 release notes](/changelog/v31/).

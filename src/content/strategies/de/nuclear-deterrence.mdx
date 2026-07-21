@@ -2,71 +2,357 @@
 title: Nukleare Abschreckung und SAM-Netzwerke
 description: Vom ersten Silo bis zum MIRV — Timing nuklearer Schläge, SAM-Platzierung und Anti-Nuklear-Strategie.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [nukes, SAM, deterrence]
 category: Mittel-Endspiel
 difficulty: Fortgeschritten
 version: v24
 ---
 
-## Das dreiphasige Nukleartempo
+## Direkte Antwort
 
-Nuklearkriegsführung in OpenFront lässt sich in drei deutliche Phasen unterteilen:
+Nukleare Abschreckung heißt, einen glaubwürdigen Gegenschlag zu bewahren und den ersten Schlag des Gegners teuer oder unsicher zu machen. Dafür brauchst du Gold, Silo, geschützte Startfähigkeit und passende SAM-Abdeckung.
 
-### Phase 1 · Abschreckung aufbauen (3-5 Minuten)
+Ein SAM ist Warnung und Grundschutz, keine vollständige Sicherheit. Sein Cooldown von 90 Ticks begrenzt den Durchsatz, während MIRV-Träger und Sprengköpfe gegen SAM-Abfang immun sind.
 
-- **Ziel**: dem Gegner zeigen, dass du zurückschlagen kannst.
-- **Bauen**: 1 Missile Silo (1M) + 1 SAM (1,5M).
-- **Wirkung**: ein einziger SAM deckt 70 Tiles ab, genug um deine Kern-Cities zu schützen. Bot-Nukes meiden aktiv die SAM-Abdeckung, was bedeutet, dass <strong>allein der Bau eines SAM bereits Abschreckung erzeugt</strong>.
+Wähle die Waffe nach Auftrag. Atombomben sind billiger und kleiner. Wasserstoffbomben decken viel mehr Fläche. MIRVs umgehen SAMs, kosten aber deutlich mehr und besitzen kleinere einzelne Sprengköpfe.
 
-### Phase 2 · Scharfe Schläge (5-8 Minuten)
+Starte nicht nur, weil eine Waffe bereitsteht. Ein Schlag sollte Kapazität entfernen, einen Bodenangriff öffnen, eine Route sperren oder eine defensive Ausgabe erzwingen, die deine Lage verbessert.
 
-- **Ziel**: 5M Gold + 1 Hydrogen Bomb anhäufen, um den Kern des Gegners zu zertrümmern.
-- **Bauen**: 2-3 SAMs auf Stufe 3+ aufwerten, einen zweiten Silo errichten.
-- **Zielprioritäten**:
-  1. Gegnerische City-Cluster (reduziert deren Truppenlimit).
-  2. Gegnerische Silos und SAMs (lähmt die Vergeltungsfähigkeit).
-  3. Gegnerische Handels-Ports (schneidet die Wirtschaft ab).
+## Erforderliche Mechaniken
 
-### Phase 3 · MIRV-Koordination (über 8 Minuten)
+### Raketensilo
 
-- **Ziel**: mit MIRV den Gegner zwingen, seine Verteidigung zu verteilen.
-- **Bauen**: 25M Gold anhäufen, ersten MIRV abfeuern; +15M für jeden weiteren Start.
-- **Schlüsselpunkt**: v24 hat den MIRV-Schaden abgeschwächt, sein <strong>Wert liegt im psychologischen Druck</strong> — SAMs können MIRVs nicht abfangen, was den Gegner zwingt, teure SAMs zu verteilen, wodurch die Punktverteidigung sogar geschwächt wird.
+Das erste Raketensilo kostet fest 1.000.000 Gold und benötigt 100 Ticks Bauzeit. Es ist die Startplattform für Atomwaffen.
 
-## SAM-Platzierungsformel
+Silo-Upgrades verkürzen die Nachladezeit. Mehrere Silos erhöhen die Startkapazität, doch jedes offene Silo kann mit seinem Territorium erobert werden.
 
-Jeder SAM deckt eine kreisförmige Scheibe ab:
+Ein Silo ohne finanzierte Waffe bleibt ein Signal. Ohne Schutz, Gold oder überlebensfähigen Kern ist es noch keine verlässliche Abschreckung.
 
-```
-samRange(level) = 150 − 480 / (level + 5)
-level 1: 70  · level 2: ~81 · level 3: ~90
-level 4: ~96 · level 5: ~140
-```
+### Atombombe
 
-**Zwei oder mehr SAMs, die dasselbe Ziel abdecken**, werden benötigt, um eine Salve zu überstehen (90 Ticks Cooldown). Aber ballere sie nicht zusammen — eine einzige Hydrogen Bomb mit einem Außenring von 100 Tiles kann sie alle auslöschen.
+Eine Atombombe kostet 750.000 Gold. Ihre angegebenen Radien betragen 12 Tiles innen und 30 Tiles außen.
 
-## Anti-Nuklear-Checkliste
+SAM-Werfer können sie abfangen. Der niedrigere Preis erlaubt früher mehrere Starts, doch auch Wiederholungen treffen auf Cooldown und Abdeckungsregeln der SAMs.
 
-- [ ] Mindestens 2 SAMs decken jede Kern-City ab
-- [ ] SAM-Abstand > 80 Tiles
-- [ ] Silos eng innerhalb des SAM-Perimeters
-- [ ] Cities auf Stufe 2+ aufgewertet (Bevölkerungspuffer)
-- [ ] Verlasse dich nie auf einen einzelnen Verteidigungspunkt — mehrere Kerne als Backup
+### Wasserstoffbombe
 
-## Klassische Fehler
+Eine Wasserstoffbombe kostet 5.000.000 Gold. Ihr innerer Radius beträgt 80 Tiles, der äußere 100.
 
-- **Einen Stapel Atom Bombs als Hauptwaffe horten** — bei 750k pro Stück ist der Schaden pro Treffer begrenzt und ein einziger SAM auf Stufe 3 fängt die ganze Salve ab. Hydrogen Bombs (5M) sind der echte Nuklearschlag.
-- **MIRV als Killerwaffe betrachten** — nach v24 deckt der MIRV-Sprengkopf nur einen Außenring von 18 Tiles ab, weit weniger Schaden als eine Hydrogen Bomb. Setze ihn als psychologisches Kampfmittel ein.
-- **Nackte Silos ohne SAM-Abdeckung** — dein Silo wird das erste Ziel der gegnerischen Hydrogen Bomb sein und deine Vergeltungsfähigkeit fällt sofort auf null.
+Auch sie ist durch SAM abfangbar. Die größere Fläche macht Abstand und überlappende Abdeckung noch wichtiger als gegen eine Atombombe.
 
-## Entscheidungsbaum
+### MIRV
 
-```
-Hast du 5M Gold?
-├─ Nein → Wirtschaft weiter ausbauen (City + Port + Upgrades), keine Nukes bauen
-└─ Ja → Hat der Gegner SAMs?
-    ├─ Nein → Hydrogen Bomb direkt auf seinen City-Cluster
-    └─ Ja → Hat er weniger als 3 SAMs?
-        ├─ Ja → Salve von 2-3 Atom Bombs zur Sättigung der SAM-Zone
-        └─ Nein → Bis 25M Gold sparen und MIRV starten
-```
+Die erste MIRV kostet 25.000.000 Gold. Die Formel addiert 15.000.000 pro früherem MIRV-Start, deshalb kostet die zweite 40.000.000.
+
+Der Träger spaltet sich in mehrere MIRV-Sprengköpfe. Jeder Sprengkopf hat angegebene Innen- und Außenradien von 12 und 18 Tiles.
+
+Weder MIRV-Träger noch Sprengköpfe können durch SAM abgefangen werden. Die generierten Hinweise nennen außerdem den v24-Nerf: MIRV-Krater lassen sich schnell zurückerobern.
+
+SAM-Immunität macht die MIRV nicht zum automatischen Finisher. Preis, kleinerer Sprengkopfradius, Zielstreuung und schnelle Rückeroberung bleiben relevant.
+
+### SAM-Werfer
+
+Der erste SAM kostet 1.500.000 Gold. Die Kostenformel lautet `min(3.000.000, (n+1) × 1.500.000)`, sodass spätere SAMs ein Limit von 3.000.000 pro Bau erreichen.
+
+Der Bau dauert 300 Ticks oder etwa 30 Sekunden. Ein unfertiger SAM löst keinen bereits anfliegenden Angriff.
+
+Der Cooldown beträgt 90 Ticks, also ungefähr neun Sekunden. Ein einzelner Werfer kann keine unbegrenzte Folge eng getakteter Atom- oder Wasserstoffbomben abfangen.
+
+Die Reichweite folgt `150 - 480 / (level + 5)`. Die ersten Stufen ergeben 70, etwa 81, 90, etwa 97 und 102 Tiles. Höhere Stufen nähern sich dem Limit von 150.
+
+Das Abfangen braucht zudem ein nicht negatives Vorfeuerfenster: `nukeReachTick - samReachTick >= 0`. Kartenabdeckung reicht nicht, wenn die Rakete den Flugweg nicht rechtzeitig erreicht.
+
+### Citys als strategische Tiefe
+
+Jede City-Stufe fügt 250.000 Truppenlimit hinzu. Der feste Puffer fängt keine Waffe ab, kann aber mehr Kapazität für Verteidigung und Erholung nach Verlusten lassen.
+
+Citys, Silos, SAMs und Ports können mit erobertem Land den Besitzer wechseln. Nuklearverteidigung umfasst daher auch das Territorium um das Netzwerk.
+
+## Entscheidungsrahmen
+
+### Schritt 1: Festlegen, was überleben muss
+
+Liste Anlagen auf, deren Verlust deinen Plan beendet: Silos, hochstufige Citys, Schlüssel-Ports, Factories, eine schmale Landverbindung oder die einzige sichere Expansionsroute.
+
+Decke nicht leeres Gebiet ab, nur weil es zentral aussieht. Richte SAM-Zonen auf Anlagen und Wege aus, die Gegenschlag oder Erholung bewahren.
+
+### Schritt 2: Das gegnerische Waffenset bestimmen
+
+Besitzt der Gegner ein Silo, aber wenig Gold, sind Atombomben die billigere Gefahr. Bei 5.000.000 wird die Wasserstoffbombe möglich, bei 25.000.000 die erste MIRV.
+
+Gold ist nicht immer exakt sichtbar. Nutze diese Summen als Fähigkeitsschwellen, nicht als Beweis für eine vorhandene Waffe.
+
+### Schritt 3: Abdeckung von Redundanz trennen
+
+Abdeckung fragt, ob ein Ziel in SAM-Reichweite liegt. Redundanz fragt, ob ein weiterer fertiger SAM feuern kann, während der erste abkühlt.
+
+Zwei überlappende SAM-Kreise verbessern den Schutz eines Kerns gegen Salven. Liegen beide Werfer in einem äußeren 100-Tile-Radius, kann ein erfolgreicher Treffer das ganze Netz bedrohen.
+
+Verteile die Werfer und bewahre trotzdem Überlappung am wichtigen Ziel. Es gibt keinen universellen Abstand für jede Kartenform und SAM-Stufe.
+
+### Schritt 4: Budget für Vergeltung bewahren
+
+Das erste Silo plus erster SAM kostet 2.500.000 Gold, noch ohne Waffe. Eine Atombombe erhöht das Paket auf 3.250.000.
+
+Eine geschützte Wasserstofffähigkeit braucht mindestens 7.500.000 für erstes Silo, ersten SAM und Bombe, noch ohne Upgrades oder Redundanz.
+
+Leere die Kasse nicht für die sichtbare Waffe, wenn dadurch SAM, City oder Bodenverteidigung fehlen, die den Startplatz am Leben halten.
+
+### Schritt 5: Einen Schlagauftrag wählen
+
+Nutze einen kleinen Schlag für ein kleines Ziel. Nutze große Fläche bei genügend Zieldichte. Nutze MIRV, wenn das Umgehen von SAM den steigenden Preis rechtfertigt.
+
+Formuliere vor dem Start den Folgezug in einem Satz. Kannst du nicht erklären, was sich nach dem Einschlag ändert, behalte die Waffe als Druckmittel oder investiere anders.
+
+## Zeitplan und schrittweise Ausführung
+
+### Vor nuklearen Ausgaben
+
+Sichere genug Land und Wirtschaft für das Paket, nicht nur für einen Teil. Prüfe vor dem Sparen, ob Nukes oder SAMs in der Lobby deaktiviert sind.
+
+Halte Schlüsselgebäude von der Grenze entfernt. Ein Nuklearnetz, das ein normaler Bodenangriff erobern kann, ist keine nukleare Lösung.
+
+### Abschreckung aufbauen
+
+Baue das Silo dort, wo es im verteidigten Kern bleibt. Starte den ersten SAM früh genug, damit seine 300 Ticks Bauzeit vor dem erwarteten Gefahrenfenster enden.
+
+Lege gedanklich einen Kreis um die Anlagen, die überleben müssen. Die 70 Tiles der ersten Stufe sind der Ausgangspunkt der Planung.
+
+Zeige keine leere Kasse durch Überbau. Halte genug Gold für die geplante Waffe oder eine weitere defensive Reaktion zurück.
+
+### Erster fertiger Schild
+
+Prüfe nach Fertigstellung, welche Citys, Silos und Wege wirklich in Reichweite liegen. Ein SAM-Symbol beweist nicht die Abdeckung des ganzen Kerns.
+
+Beachte die Fluggeometrie. Die Vorfeuerformel zeigt, dass Abfangen von Erreichungszeit und nominalem Kreis abhängt.
+
+Bei KI-Gegnern sagen bestehende Gebäudehinweise, dass KI-Nukes SAM-Ziele meiden. Das verstärkt Abschreckung, ändert aber weder menschliche Ziele noch MIRV-Immunität.
+
+### Redundanzphase
+
+Füge einen zweiten SAM hinzu, wenn der erste etwas schützt, das keine Cooldown-Lücke überstehen darf. Der zweite Werfer kostet nach der Formel 3.000.000.
+
+Versetze ihn so, dass beide den Kern decken, ohne jeden Werfer und jedes Silo in denselben kompakten Sprengbereich zu stellen.
+
+Kaufe Reichweite nur, wenn der größere Kreis eine echte Anlage oder Flugroute einschließt. Reichweite ohne Zweck ist teure Dekoration.
+
+### Schlag vorbereiten
+
+Prüfe Ziel, gegnerische SAM-Kreise, Bodenfolge und eigenes Gegenschlagrisiko. Starte nicht, wenn der Einschlag diese Bedingungen nicht verändert.
+
+Bei Atom- und Wasserstoffbomben musst du auf gedeckten Zielen mit Abfang rechnen. Bei MIRV ist Einschlag möglich, aber dauerhafte Gebietsverweigerung nicht garantiert.
+
+### Start und Folgeaktion
+
+Starte, wenn Truppen, Verbündete oder Marine die Öffnung nutzen können. Ein Krater ohne Folgezug kann neutraler Raum werden, den der Gegner zurücknimmt.
+
+Beobachte danach Silo-Nachladen, gegnerische Bauten, SAM-Cooldowns und dein Gold. Wiederhole das Ziel nicht automatisch, wenn der erste Schlag die Geometrie verändert hat.
+
+### Erholung nach einem Einschlag
+
+Baue genau die Fähigkeit neu, die der Schlag entfernen sollte. Ersetze gefallene SAM-Abdeckung, verlorenes City-Cap oder die Verteidigung einer geöffneten Route.
+
+Im Water-Nukes-Modus zählt auch schnelle Rückexpansion, weil zerstörtes herrenloses Land zu Wasser werden kann. Nutze dafür den eigenen Guide.
+
+## Zahlenszenarien
+
+### Szenario 1: Kleinste sichtbare Abschreckung
+
+Ein erstes Silo kostet 1.000.000, ein erster SAM 1.500.000, zusammen 2.500.000. Die angegebenen Bauzeiten sind 100 und 300 Ticks.
+
+Eine Atombombe kostet weitere 750.000 und erhöht das Paket auf 3.250.000. Es enthält Startfähigkeit, eine Waffe und eine Schicht Schutz gegen abfangbare Nukes.
+
+Es bietet keine Salvenredundanz und keinen MIRV-Schutz. Der Wert hängt von Platzierung, Bereitschaft und Überlebensfähigkeit ab.
+
+### Szenario 2: Kosten überlappender SAMs
+
+Der erste SAM kostet 1.500.000, der zweite 3.000.000. Zwei Werfer kosten daher 4.500.000 vor Upgrades.
+
+Ein dritter kostet ebenfalls 3.000.000, weil die Formel dort deckelt. Drei nicht aufgewertete Werfer kosten insgesamt 7.500.000.
+
+Das Budget kauft mehr Abfangdurchsatz, aber nur dort, wo Kreise und Vorfeuerfenster den ankommenden Weg decken.
+
+### Szenario 3: Reichweite nach Stufe
+
+Nach der generierten Formel ergeben Stufen eins bis fünf 70, etwa 81, 90, etwa 97 und 102 Tiles.
+
+Der Gewinn pro Stufe sinkt auf dem Weg zu 150. Werte auf, wenn eine konkrete Anlage oder Route in den Kreis kommt, nicht weil die Stufenzahl klein aussieht.
+
+### Szenario 4: Zwei Atombomben gegen eine Wasserstoffbombe
+
+Zwei Atombomben kosten 1.500.000 und haben jeweils 12/30 Tiles innen/außen. Eine Wasserstoffbombe kostet 5.000.000 und hat 80/100.
+
+Das billigere Paar bietet zwei Starts und zwei mögliche Ziele. Die Wasserstoffbombe bietet eine viel größere Einzelfläche. SAMs können beide Typen abfangen.
+
+Die bessere Wahl hängt von Zieldichte, Abdeckung, Cooldown-Timing und Auftrag ab. Der Preis macht die Waffen nicht austauschbar.
+
+### Szenario 5: MIRV-Preisanstieg
+
+Die erste MIRV kostet 25.000.000. Nach einem Start kostet die nächste 40.000.000. Beide zusammen verbrauchen 65.000.000, noch ohne Silo oder Verteidigung.
+
+Der Anstieg belohnt gezielten Einsatz. MIRV umgeht SAM, doch ihre Sprengköpfe haben 12/18 und ihre v24-Krater lassen sich schnell zurücknehmen.
+
+### Szenario 6: City-Puffer
+
+Eine City-Stufe fügt 250.000 Truppenlimit hinzu. Zwei Stufen geben 500.000, vier Stufen 1.000.000.
+
+Das verkleinert keinen Sprengradius. Es gibt der Position mehr Kapazität vor und nach einem Treffer, sofern die City unter deiner Kontrolle bleibt.
+
+## Gegenmaßnahmen der Gegner
+
+### SAM-Sättigung
+
+Ein Gegner kann mehrere abfangbare Waffen eng takten. Ein einzelner SAM hat 90 Ticks Cooldown. Abdeckung ohne zweiten bereiten Werfer kann einen späteren Schuss offenlassen.
+
+Kontere mit überlappenden fertigen Werfern auf Kernanlagen, ohne einen Cluster zu bauen, den eine erfolgreiche Wasserstoffbombe komplett bedroht.
+
+### MIRV-Umgehung
+
+SAMs können weder Träger noch Sprengköpfe abfangen. Kontere mit Abstand, mehreren wiederherstellbaren Kernen, erhaltenen Bodentruppen und genug Wirtschaft für Wiederaufbau.
+
+Werte nicht einen SAM weiter auf, als würde mehr Reichweite Immunität lösen. Die MIRV-Antwort lautet Widerstandsfähigkeit und Erholung, nicht größerer Abfangkreis.
+
+### Verteilte Ziele
+
+Ein Gegner kann Citys, Silos, Ports und SAMs trennen, damit eine Explosion weniger Wert trifft. Das senkt die Rendite einer Wasserstoffbombe.
+
+Wähle dann ein engeres Ziel, koordiniere mehrere Fronten oder behalte die Waffe als Druckmittel, statt einen schwachen Schuss zu erzwingen.
+
+### Eroberung am Boden
+
+Gebäude wechseln mit erobertem Territorium den Besitzer. Ein Landangriff kann Silo oder SAM entfernen, ohne den Abfangkampf zu gewinnen.
+
+Schütze die umliegende Grenze und halte Truppen bereit. Nuklearverteidigung ohne normalen Eroberungsschutz hat ein Loch, das kein Werfer deckt.
+
+### Wirtschaftliche Verweigerung
+
+Gegner können Ports, Bahnlinien oder Land angreifen, damit du die nächste Waffenschwelle nicht erreichst. Ein 25-Millionen-MIRV-Plan ist fragil, wenn er von einer offenen Einnahmequelle abhängt.
+
+Kontere mit gemischtem Einkommen, geschützter Infrastruktur und einer billigeren Option, sobald das alte Budget unrealistisch wird.
+
+### Den Krater zurückerobern
+
+Der v24-Hinweis sagt, dass MIRV-Krater schnell erobert werden können. Ohne bereite Truppen kann der Verteidiger Kontrolle wiederherstellen.
+
+Koordiniere den Start mit der Einheit oder Grenzbewegung, die vom Einschlag profitiert.
+
+## Fehlermuster
+
+### Ungeschütztes Silo
+
+Ein Silo außerhalb der SAM-Abdeckung und nahe einer schwachen Grenze bietet sichtbaren Wert für Nuklear- und Landangriffe. Halte die Startfähigkeit im verteidigten System.
+
+### Vertrauen in einen SAM
+
+Ein Werfer schafft echte Abdeckung, besonders gegen KI-Ziele. Er besitzt trotzdem Cooldown und trifft keine MIRV. Bezeichne ihn als erste Schicht, nicht als ganzen Schild.
+
+### Kompaktes Nuklearviertel
+
+Alle Citys, Silos und SAMs zu bündeln vereinfacht die Abwehr, bis eine große Explosion sie gemeinsam erreicht. Bewahre Überlappung ohne Einzelpunktversagen.
+
+### SAM in letzter Sekunde
+
+Der Bau dauert 300 Ticks. Ein Start nach sichtbarer Warnung kann den Werfer unfertig lassen, wenn die Waffe eintrifft.
+
+### Blindes Atombomben-Spam
+
+Mehrere Atombomben erzeugen mehrere Starts, doch gedeckte Schüsse können abgefangen werden. Zähle gegnerische Werfer, Cooldowns, Wege und Zielwert.
+
+### MIRV als automatischer Sieg
+
+SAM-Immunität garantiert nur fehlendes Abfangen, nicht dauerhafte Kontrolle. Kleine Sprengkopfradien, hoher Preis, Streuung und eroberbare Krater begrenzen das Ergebnis.
+
+### Bis null ausgeben
+
+Eine Waffe, die die Kasse leert, lässt womöglich keine Antwort auf den Gegenschlag. Halte ein Budget für Truppen, Abdeckung oder Ersatzbauten.
+
+### Kein Folgezug
+
+Schaden ist nicht gleich strategischer Gewinn. Ohne Land-, Marine- oder Verbündetenaktion kann der Verteidiger wiederaufbauen oder zurückexpandieren.
+
+## Anpassungen an Modus und Karte
+
+### Nukes deaktiviert
+
+Baue keinen Atomplan um gesperrte Waffen. Lenke dasselbe Golddenken auf Citys, Posts, Handel, Züge oder Seekontrolle.
+
+### SAMs deaktiviert
+
+Atom- und Wasserstoffbomben verlieren ihren normalen Abfangjäger. Verteile Anlagen, bewahre mehrere Kerne und biete kein dichtes Ziel für das ganze gegnerische Budget.
+
+### Water Nukes aktiviert
+
+Zerstörtes herrenloses Land kann nach dem Einschlag zu Wasser werden. Die Sprenggrößen bleiben gleich, doch neue dauerhafte Wasserwege können entstehen.
+
+Lies den [Water-Nukes-Guide](/de/guides/water-nukes/), bevor du den normalen Wiederaufbauplan nutzt.
+
+### FFA
+
+Abschreckung umfasst Diplomatie. Ein sichtbarer Gegenschlag kann einen Nachbarn bremsen, während eine andere Front offen bleibt. Allianzen behalten dennoch Dauer und Verratsregeln.
+
+### Team-Modi
+
+Teilt Rollen und nennt Ziele. Ein Spieler finanziert Startfähigkeit, andere liefern Bodenfolge. Ein zentrales Arsenal wird aber auch zum klaren Feindziel.
+
+### Enge regionale Karten
+
+Der äußere 100-Tile-Radius einer Wasserstoffbombe deckt mehr von einem kompakten Kern ab. Wenn Abstand fehlt, wird ein zweiter Kern oder eine weitere Route wichtiger.
+
+### Große Kontinentalkarten
+
+Ein SAM-Kreis deckt womöglich nur einen Cluster. Baue Zonen um echte Anlagen, statt das ganze Territorium einfärben zu wollen.
+
+Nutze die [Kartendatenbank](/de/database/maps/) für das Kartenset und bewerte Distanz und Topologie anschließend in der Partie.
+
+## FAQ
+
+### Was ist die billigste nukleare Abschreckung?
+
+Erstes Silo plus erster SAM kosten 2.500.000 Gold vor einer Waffe. Mit einer Atombombe steigt das Paket auf 3.250.000.
+
+### Wie viel kostet ein MIRV in OpenFront?
+
+Das erste MIRV kostet 25.000.000 Gold. Jeder frühere MIRV-Start erhöht den Preis um 15.000.000: Das zweite kostet 40.000.000, das dritte 55.000.000.
+
+### Kann ein SAM jede Nuke stoppen?
+
+Nein. Er fängt nur Atom- und Wasserstoffbomben ab, hat 90 Ticks Cooldown und kann weder MIRV-Träger noch Sprengköpfe treffen.
+
+### Welche Reichweite hat der erste SAM?
+
+Die Formel ergibt 70 Tiles auf Stufe eins. Stufe zwei liegt bei etwa 81, Stufe drei bei 90. Spätere Stufen nähern sich 150.
+
+### Soll ich zwei SAMs für Überlappung bündeln?
+
+Überlappe Kernanlagen, aber trenne Werfer so, dass eine große Explosion nicht das ganze Netz bedroht. Der genaue Abstand hängt von Karte und Stufen ab.
+
+### Atombombe oder Wasserstoffbombe?
+
+Wähle Atom für einen billigeren kleinen Auftrag oder mehrere Starts. Wähle Wasserstoff, wenn die Fläche 80/100 den Preis von 5.000.000 rechtfertigt.
+
+### Stoppt SAM eine MIRV?
+
+Nein. Sowohl MIRV-Träger als auch Sprengköpfe sind immun gegen SAM-Abfang.
+
+### Ist MIRV immer besser als eine Wasserstoffbombe?
+
+Nein. Sie umgeht SAM, doch die erste kostet 25.000.000, spätere werden teurer, jeder Sprengkopf ist kleiner und v24-Krater lassen sich schnell zurückerobern.
+
+### Wohin sollte ich zielen?
+
+Ziele auf Anlage oder Route, deren Verlust einen konkreten Folgezug ermöglicht. Dichte Citys, Startfähigkeit, Handel und schmale Verbindungen zählen, aber prüfe zuerst die Abdeckung.
+
+### Wann sollte ich starten?
+
+Starte, wenn der Einschlag Kontrolle, Kapazität, Einkommen oder defensive Ausgaben verändert. Ohne Folgezug kann fortgesetzte Abschreckung wertvoller sein.
+
+## Als Nächstes lesen
+
+Prüfe [Atomwaffen- und SAM-Mechaniken](/de/mechanics/nukes/) für Referenztabelle und Formeln.
+
+Nutze die [Gebäudedatenbank](/de/database/structures/) und [Einheitendatenbank](/de/database/units/) für extrahierte Kosten, Bauzeiten und Waffenhinweise.
+
+Lies [Wirtschaftsgrundlagen](/de/strategies/economy-fundamentals/), bevor du dich auf 5.000.000 oder 25.000.000 festlegst.
+
+Prüfe die [Shortcuts](/de/shortcuts/) für normale Startsteuerung. Kehre danach zur [FFA-Eröffnung](/de/strategies/ffa-opening/) oder [Team-Seekontrolle](/de/strategies/team-naval-control/) zurück.

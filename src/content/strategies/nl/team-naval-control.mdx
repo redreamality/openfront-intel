@@ -1,71 +1,368 @@
 ---
 title: 'Team-modus: Naval Control-stijl'
-description: In het 5-minuten tempo van de Team-modus vormen Ports, Warships en handel samen een symbiotische zeemachtstijl.
+description: In het 5-minuten tempo van de Team-modus vormen Havens, Oorlogsschepen en handel samen een symbiotische zeemachtstijl.
 pubDate: 2026-05-12
+updatedDate: 2026-07-16
 tags: [team, naval, ports]
 category: Team
 difficulty: Gevorderd
 version: v24
 ---
 
-## Waarom de Naval Control-stijl
+## Direct antwoord
 
-De winconditie van de Team-modus is 95% gebied binnen 5 minuten — **er is geen tijd voor een lange kernoorlog**. De kerngedachte van de Naval Control-stijl:
+Zeebeheersing in Team-modus is een ondersteunende rol met drie resultaten: vriendelijke transportroutes openhouden, vijandelijke transporten blokkeren en veilige Havens omzetten in economie of startpunten.
 
-- Gebruik Ports om een **Gold-piek via handel** te bouwen (4 tot 5 Ports die in korte tijd tegelijk Trade Ships spawnen).
-- Gebruik Warships om de zee te vergrendelen en **vijandelijke landingen** op je kerncontinent te blokkeren.
-- Laat je teamgenoten zich richten op de grondoffensief terwijl jij de zeebeheersing en economie voor je rekening neemt.
+Meet succes niet aan het aantal Oorlogsschepen. Een vloot telt alleen als ze een route beschermt, landing stopt, Haven afschermt of een teamgenoot over water laat oversteken.
 
-## Fase-uitvoering
+Team-modus noemt een doel van 95% gebied met vijf minuten of tijdgebaseerde uitslag. Zeebeheersing moet dus snel gebied opleveren en geen los marineminispel worden.
 
-### 0-60 s · Pak de kust
+Bouw de kleinste vloot die het beslissende water beheerst. Steek het bespaarde Gold in Haven, Verdedigingspost, Stad, SAM of teamactie die controle omzet in score.
 
-- Kies een spawn met de langst mogelijke kustlijn.
-- Mik op 2 Ports binnen de eerste 60 seconden.
-- Houd afstand van je teamgenoot — hij pusht over land, jij blijft langs de kust.
+## Vereiste mechanismen
 
-### 60-180 s · Eerste Warship-golf
+### Druk van Team-modus
 
-- De 3e Warship kost 250k × 3 = ~1,5M Gold (scaling meegerekend).
-- Plaats 1 DefensePost langs de kust om vijandelijke landingen af te schrikken.
-- Vanaf deze fase pas je een <strong>permanent Embargo</strong> toe op alle niet-geallieerde vijandelijke spelers.
+Het modusoverzicht beschrijft Team als 2v2 tot 8v8, met 95% in vijf minuten of een tijdgebaseerd percentage. Vroege landcontrole blijft het scorebord.
 
-### 180-300 s · Zeebeheersing en synergie
+Je rol vervangt de grondaanval niet. Ze verwijdert een waterhindernis, beschermt een flank of opent een landing zodat het team sneller land wint.
 
-- Upgrade Ports naar level 2-3 (de v24 cap-150 compensatie is hier de sleutel).
-- Sluit een Alliance met je teamgenoot zodat zijn Trade Ships via jouw geallieerde steden lopen (35k / stop).
-- Jouw Ports openen een landingsraam voor het hele team — de Transports van je teamgenoot vertrekken veiliger vanuit jouw Ports.
+### Havens
 
-## Belangrijke getallen
+Een eerste Haven kost 125.000 Gold als nog geen Haven of Fabriek de gedeelde teller gebruikt. De formule is `min(1.000.000, 2^n × 125.000)`.
 
-| Item | Waarde | Betekenis |
-| --- | --- | --- |
-| Warship auto-terugtrekken | HP ≤ 750 | Achtervolg geen schepen met lage HP |
-| Shell-schade | 250 | 3-4 shells doden een Warship op volle HP |
-| Warship-prioriteit | Transport > Warship | Eén patrouillerende Warship slacht een hele landingsvloot af |
-| Port cap-rendement | Upgrade > Nieuwbouw | Sinds v24 extra uitgesproken |
+Haven en Fabriek delen `n`. De reeks voor gezamenlijke nieuwe gebouwen is 125.000, 250.000, 500.000 en daarna 1.000.000 per bouw zodra het plafond is bereikt.
 
-## Zwakke punten van Naval Control
+Havens spawnen handelsschepen, transportschepen en oorlogsschepen. Hogere niveaus verbeteren spawnkans en opbrengst van handelsschepen.
 
-- **Geïsoleerde Ports** — een Port op een enclave wordt door een vijandelijke Transport-landing one-shot; bevestig eerst de landverbinding voor je bouwt.
-- **Warships te ver weg** — zodra een Warship meer dan 200 tiles van een Port verwijderd is, kost de reparatie-retourtijd je de zeebeheersing.
-- **Nuke + landing in een tang** — één H-bom op een kuststad laat de hele linie instorten; zet minstens 1 SAM in die je Port-cluster dekt.
+Havens kunnen worden veroverd. Een Haven op een dunne enclave wordt vijandelijke infrastructuur wanneer het ondersteunende land valt.
 
-## Rolverdeling met teamgenoten
+### Oorlogsschepen
 
-| Rol | Taak | Bouwfocus |
-| --- | --- | --- |
-| Jij (naval control) | Ports + Warships + handel | Port × 4-6, Warship × 3-5 |
-| Teamgenoot A (grondoffensief) | Gebied + DefensePost | City × 3-4, DefensePost × 2 |
-| Teamgenoot B (nucleair, optioneel) | Silo + SAM | Silo × 2, SAM × 3 |
+Een Oorlogsschip begint bij 250.000 Gold. De formule is `min(1.000.000, (n+1) × 250.000)`, waarbij `n` bestaande Oorlogsschepen telt.
 
-## Kaartaanbevelingen
+De reeks is 250.000, 500.000, 750.000 en daarna 1.000.000. De bouwduur is 50 ticks.
 
-Kaarten die bij deze stijl passen (minstens twee kustlijnen + een zeestraat-flessenhals):
+Een Oorlogsschip heeft 1.000 opgegeven HP en vuurt Shells van 250 schade. Bij 750 HP of minder trekt het automatisch terug.
 
-- Britannia / Italia / Mediterranean
-- Strait of Gibraltar / Strait of Malacca
-- Two Lakes / Between Two Seas
-- Bosphorus Straits
+Sinds v24 prioriteren Oorlogsschepen Transportschepen en koelen ze direct na een treffer af. Daardoor is een juist geplaatste patrouille bijzonder sterk tegen landingsroutes.
 
-Vermijd puur landinwaartse kaarten (centraal Afrika, binnenland Azië).
+### Transportschepen
+
+Transportschepen kosten geen Gold, maar verbruiken troepen van de startende speler. Een verloren transport kost dus leger en tempo, ook zonder aankoop in het budget.
+
+Oorlogsschepen prioriteren ze. Stuur geen zichtbare stroom door een vijandelijke patrouille en noem het verlies gratis.
+
+### Handelsschepen
+
+Handelsopbrengst volgt `floor((75.000 / (1 + exp(-0,03 × (dist - 300))) + 50 × dist) × goldMultiplier)`.
+
+Langere routes betalen meer per aankomst, maar veiligheid en reistijd blijven tellen. Opbrengst die nooit een Haven bereikt is geen inkomen.
+
+De gegenereerde economie noemt voor v24 een globale limiet van 150 handelsschepen. Meer Havens maken geen oneindige schepen en de spawnkans verandert met het aantal.
+
+Tussen embargo-partijen spawnen geen handelsschepen. Een gecoördineerd handelsplan heeft diplomatieke toegang én water nodig.
+
+### Verdedigingsposten aan de kust
+
+De eerste Verdedigingspost kost 50.000 Gold. Zijn zone van 30 tiles vermenigvuldigt verdedigingskracht met vijf en snelheid met drie.
+
+Hij beschermt land, niet de hele zee. Zet hem zo dat een landing door de zone moet vechten vóór ze Haven of kustverbinding verovert.
+
+### SAM-dekking
+
+Zijn kernwapens actief, dan kost de eerste SAM 1.500.000 en duurt de bouw 300 ticks. Hij onderschept Atoom- en Waterstofbommen, geen MIRV.
+
+Marineconcentratie kan een aantrekkelijk kustdoel maken. Voeg nucleaire afweer alleen toe als lobby en vijandelijke economie de dreiging geloofwaardig maken.
+
+## Besliskader
+
+### Stap 1: Vind het beslissende water
+
+Bepaal welke zee, zeestraat, meer of kanaal teambeweging verandert. Als controle geen land beschermt of landing opent, verdient het water misschien geen vloot.
+
+Markeer drie punten: vriendelijke Haven, vijandelijke nadering en landingskust. Je eerste Oorlogsschip moet één daarvan dienen, niet tussen alle drie dwalen.
+
+### Stap 2: Kies de missie
+
+Gebruik **escorte** wanneer vriendelijke transporten moeten oversteken. Gebruik **interdictie** bij een voorspelbare vijandelijke route. Gebruik **Havenverdediging** als productie bereikbaar is.
+
+Gebruik **handelsbescherming** pas als handel de rol al kan betalen. Een vloot voor hypothetische latere schepen vertraagt de huidige gebiedsrace.
+
+### Stap 3: Stel een vlootplafond
+
+Prijs het volgende Oorlogsschip vóór bestelling. De eerste drie kosten 250.000, 500.000 en 750.000, samen 1.500.000.
+
+Vraag of het volgende schip een nieuwe route beheerst of alleen op de eerste stapelt. Stop wanneer een ander gebouw of teamaankoop meer gebied maakt.
+
+### Stap 4: Beveilig het land van de Haven
+
+Houd de Haven verbonden met de kern en zet een Post op de waarschijnlijke veroveringsroute. De Haven is productie én veroveringsrisico.
+
+Kan het ondersteunende land niet worden gehouden, stel upgrade uit of bouw een andere route. Blootgestelde infrastructuur upgraden verhoogt de buit voor de aanvaller.
+
+### Stap 5: Spreek de omzettingsactie af
+
+Vertel wat zeebeheersing mogelijk maakt: “steek dit kanaal over”, “druk deze kust” of “hun transporten kunnen hier niet landen”.
+
+Zonder die zin kan de vloot het water winnen terwijl het team het tijdgebonden gebiedsdoel verliest.
+
+## Tijdlijn en stapsgewijze uitvoering
+
+### Tijdens de spawnfase
+
+Kies kust alleen als ze beslissend water raakt en een bruikbare landroute overlaat. Een lange kust zonder teamdoel is niet automatisch een marinespawn.
+
+Controleer teamposities vóór je vastlegt. Stapel niet alle spelers aan dezelfde kust terwijl het binnenfront leeg blijft.
+
+### 0:00–0:05: Pak vorm onder immuniteit
+
+Gebruik de standaard vijf seconden om het toekomstige Havengebied met de kern te verbinden en het land erachter te verbreden.
+
+Teken geen decoratieve kustlijn. Beveilig de landroute die voorkomt dat de Haven een geïsoleerde enclave wordt.
+
+### 0:05–0:30: Bevestig de route
+
+Bekijk vijandelijke expansie en teamrichting. Bepaal of het water vriendelijke transporten, vijandelijke transporten of geen van beide zal dragen.
+
+Heeft geen team de route nodig, schakel dan over naar landgroei. Vroeg afzien van de marinerol is beter dan een irrelevante vloot financieren.
+
+### 0:30–1:00: Vestig het eerste knooppunt
+
+Bouw de eerste Haven zodra de kust veilig en de missie duidelijk is. De basisprijs is 125.000 wanneer de gedeelde Haven-Fabriekteller nul is.
+
+Houd genoeg troepen en Gold voor het land rond de Haven. Ze verdedigt haar eigen gebied niet.
+
+Vormt zich al een vijandelijke route, bouw dan het eerste Oorlogsschip als 250.000 meteen controle geeft. Zonder route kan de Haven eerst transport of handel dienen.
+
+### 1:00–2:00: Patrouilleer het doel
+
+Plaats het Oorlogsschip bij het verwachte transportpad en dicht genoeg bij een Haven voor terugtocht. Jaag geen vijand weg van de route die je moet beschermen.
+
+Voeg een Verdedigingspost toe als één landingskant de Haven kan veroveren. Zijn 30-tile-zone hoort op het landpad, niet op open water.
+
+Roep het eerste landingsvenster af. Een teamgenoot moet bewegen terwijl de vijandelijke patrouille weg, terugtrekkend of bezet is.
+
+### 2:00–3:00: Beslis over schaal
+
+Prijs het tweede en derde Oorlogsschip op 500.000 en 750.000. Voeg ze alleen toe voor een extra route, sterkere escorte of genoeg overlap om het doel te houden.
+
+Vergelijk een tweede Haven met een Fabriek, want ze delen dezelfde teller. Teamtreinbezoeken geven 25.000 basisopbrengst, zeehandel volgt afstand en risico.
+
+Upgrade een Haven als de plek veilig is en de output wordt gebruikt. Upgrade niet alleen omdat de vloot ernaast ligt.
+
+### 3:00–5:00: Zet controle om in gebied
+
+Verplaats Oorlogsschepen naar de geplande landing of de vijandelijke oversteek. De slotminuten belonen controle die het gebiedspercentage verandert.
+
+Houd een patrouille op de route zolang vijandelijke transporten mogelijk zijn. Steek overtollig Gold in gebouw of teamplan dat de push voltooit.
+
+Zijn kernwapens actief en staan kustgebouwen dicht bij elkaar, controleer SAM-dekking voordat één aanval marine en economie tegelijk raakt.
+
+## Cijferscenario's
+
+### Scenario 1: Kostenladder van de vloot
+
+Het eerste Oorlogsschip kost 250.000, het tweede 500.000 en het derde 750.000. Drie schepen kosten samen 1.500.000.
+
+Het vierde kost 1.000.000 en brengt het totaal op 2.500.000. Latere schepen blijven op het plafond van 1.000.000 per bouw.
+
+Voegt het vierde zich alleen bij een reeds beheerste route, vergelijk die miljoen dan met Stad, Havenupgrade, SAM-fonds of teambehoefte.
+
+### Scenario 2: Kostenladder van Haven en Fabriek
+
+Over de gedeelde teller kosten vier nieuwe Havens of Fabrieken 125.000, 250.000, 500.000 en 1.000.000. Samen is dat 1.875.000.
+
+Vier Havens en een gemengde reeks bereiken dezelfde teller. De mix opent treinen, de Havenreeks benadrukt marineproductie en handel.
+
+Kies op routewaarde en lobbyopties. Behandel niet elke Haven als een losse aankoop van 125.000.
+
+### Scenario 3: Opgegeven uitwisseling van Oorlogsschepen
+
+Een Oorlogsschip heeft 1.000 HP en een Shell 250 schade. Vier directe treffers van 250 zijn op papier gelijk aan de opgegeven HP.
+
+Werkelijke beweging verschilt, want het schip trekt bij 750 HP of minder automatisch terug. Na de eerste opgegeven treffer kan de terugtocht al starten.
+
+Daarom telt routepositie meer dan verwachten dat twee stilstaande schepen tot vernietiging blijven ruilen.
+
+### Scenario 4: Handelsafstand bij multiplier 1×
+
+Met de formule levert afstand 100 circa 5.185 Gold per aankomst. Afstand 300 geeft 52.500, 600 ongeveer 104.990 en 1.000 ongeveer 124.999.
+
+De lange route betaalt meer per voltooide aankomst. Ze blijft langer blootgesteld aan Oorlogsschepen en kan meer betwist water kruisen.
+
+Bescherm de route die reizen voltooit, niet alleen de route met het hoogste theoretische getal.
+
+### Scenario 5: Budget voor Havenverdediging
+
+Een eerste Haven plus eerste Verdedigingspost kost 175.000 vóór een Oorlogsschip. Voeg het eerste schip toe en het pakket kost 425.000.
+
+Dat pakket maakt een knooppunt, één verdedigingszone van 30 tiles en één marine-eenheid. Het garandeert niets tegen grotere vloot, tweede route of kernwapen.
+
+### Scenario 6: Opportuniteitskosten van transporten
+
+Een Transportschip staat als gratis in Gold, maar verbruikt troepen van de afzender. Meerdere verloren transporten verzwakken het leger dat bestaand land moet houden.
+
+Escorte-timing moet daarom zowel het landingsdoel als de achterblijvende troepen meenemen.
+
+## Tegenspel van tegenstanders
+
+### Ze bouwen een eigen oorlogsscherm
+
+Vecht niet overal. Trek het conflict naar de route die je team nodig heeft, voeg alleen een schip toe als het controle verandert en laat landspelers de vijandelijke Haven drukken.
+
+Productie veroveren kan beslissender zijn dan Shells ruilen op open water.
+
+### Ze varen om de patrouille heen
+
+Prioriteit van Oorlogsschepen telt alleen nabij het transportpad. Verplaats de patrouille naar oversteek, smal kanaal of doelkust in plaats van leeg water te bewaken.
+
+Gebruik zicht en meldingen van teamgenoten. Een vaste patrouille wordt irrelevant zodra de landingsrichting verandert.
+
+### Ze vallen de Haven over land aan
+
+Houd de Haven verbonden, zet de verdedigingszone op het veroveringspad en bewaar troepen achter de kust. Marine vervangt geen controle over de Haventile.
+
+### Ze embargoën handel
+
+Embargo blokkeert handelsschepen tussen het paar en kan een Havenzware economie ontwaarden. Houd basisinkomen en een beschikbare Fabriek- of treinroute relevant.
+
+Beantwoord niet elk embargo met nog een Haven. De gedeelde kostenteller stijgt terwijl het aantal bruikbare partners daalt.
+
+### Ze gebruiken het water niet
+
+Blijft de vijand in het binnenland en telt geen landing, dan is je missie voorbij. Stop vlootgroei en verplaats het budget naar het landdoel.
+
+### Ze gebruiken nucleaire druk
+
+Een Waterstofbom heeft 80/100 stralen en bedreigt een dicht kustcluster. SAM kan haar onderscheppen, maar de eerste kost 1.500.000 en heeft 30 seconden bouwtijd.
+
+Spreid Havens en Steden, bewaar een tweede productieroute en bouw SAM vroeg genoeg als de dreiging geloofwaardig is.
+
+### Ze lanceren veel transporten
+
+Oorlogsschepen prioriteren Transportschepen, wat een patrouille op de nadering helpt. Blijf op de route en laat je niet wegtrekken door een minder belangrijk doel.
+
+Kan één patrouille twee oversteken niet dekken, vergelijk dan een tweede schip met een grondverdediger.
+
+## Faalpatronen
+
+### Een vloot zonder missie bouwen
+
+“We hebben kust” is geen missie. Benoem route, landing, Haven of transportgolf die de vloot beïnvloedt vóór je het eerste schip koopt.
+
+### Een terugtrekkend Oorlogsschip achtervolgen
+
+Schepen trekken bij 750 HP of minder automatisch terug. Achtervolgen kan je patrouille van de route halen terwijl het beschadigde schip naar reparatie gaat.
+
+### De Haven op een enclave laten
+
+Havens wisselen met veroverd land van eigenaar. Bouw genoeg verbonden achterland zodat één landing het knooppunt niet direct overneemt.
+
+### Te veel Havens bouwen
+
+Haven en Fabriek delen de verdubbelende teller en handelsschepen hebben een globale limiet. Meer toegang tot rompen betekent niet automatisch meer opbrengst.
+
+### Transporten door een patrouille sturen
+
+Transportschepen gebruiken troepen en worden geprioriteerd door Oorlogsschepen. Wacht op escorte, andere route of teamactie die de patrouille bezighoudt.
+
+### De tijdgebonden gebiedsscore negeren
+
+Een vloot kan open water domineren terwijl het team land verliest. Verplaats haar naar de kust die score verandert of stop marine-uitgaven.
+
+### Elk sleutelgebouw clusteren
+
+Eén kustcluster is conventioneel makkelijk te beschermen, maar wordt een nucleair doel. Bewaar een andere kern of productieroute.
+
+### Het plan niet delen
+
+Teamgenoten kunnen geen onbekend landingsvenster gebruiken. Noem oversteek, tijd en doel voordat de vloot beweegt.
+
+## Aanpassingen aan modus en kaart
+
+### Havens uitgeschakeld
+
+De normale rol voor zeebeheersing bestaat niet. Schakel over naar grondverdediging, Steden, teambeweging en landflessenhalzen.
+
+### Kernwapens uitgeschakeld
+
+Dichte kustinfrastructuur verliest één grote dreiging. Gold voor SAM-dekking kan naar schepen, grondverdediging of de laatste gebiedspush.
+
+### SAM's uitgeschakeld
+
+Beantwoord nucleair risico niet met een verboden lanceerder. Spreid sleutelgebouwen en laat niet één kustexplosie de hele rol beslissen.
+
+### Water Nukes ingeschakeld
+
+Vernietigd land kan water worden. De v31-gids zegt dat binnenwater Havens, Oorlogsschepen en handel kan dragen. Controleer routes na elke kaartveranderende aanval.
+
+Gebruik de [Water-Nukes-gids](/nl/guides/water-nukes/) voor omzettingstiming en herstelregels.
+
+### Zeestraatkaarten
+
+Strait of Gibraltar, Strait of Malacca, Bosphorus Straits en The Straits staan in de Regional-set. Een smalle oversteek geeft één patrouille een duidelijke missie.
+
+Neem niet aan dat de kaartnaam bewijst dat jouw spawn de oversteek beheerst. Bekijk teamposities en bevaarbaar water.
+
+### Meren en binnenwater
+
+Two Lakes, Great Lakes en Between Two Seas zijn genoemde kaarten. Bepaal of het water fronten verbindt of alleen je eigen expansie verdeelt.
+
+### Eilandrijke kaarten
+
+Op Hawaii of Japan telt transportbescherming vaker omdat water land scheidt. Laat genoeg troepen op eigen land vóór je de volgende oversteek laadt.
+
+### Continentale en fantasykaarten
+
+Op Europe of Pangaea dekt een marinerol mogelijk maar één flank van een grotere landoorlog. Schaal de vloot voor die flank, niet voor de hele kaart.
+
+Gebruik de [kaartendatabase](/nl/database/maps/) voor namen en categorieën en laat de live topologie de missie bepalen.
+
+## FAQ
+
+### Hoeveel Oorlogsschepen moet een team bouwen?
+
+Er is geen vast aantal. Bouw genoeg voor de beslissende route en stop wanneer het volgende schip geen nieuwe escorte, interdictie of Havenverdediging toevoegt.
+
+### Wat kosten de eerste drie Oorlogsschepen?
+
+Ze kosten 250.000, 500.000 en 750.000, samen 1.500.000. Het vierde kost 1.000.000.
+
+### Prioriteren Oorlogsschepen transporten?
+
+Ja. De v24-notities zeggen dat Oorlogsschepen Transportschepen prioriteren en direct na een treffer afkoelen.
+
+### Is een Transportschip echt gratis?
+
+Het kost geen Gold, maar verbruikt troepen van de afzender. Een mislukte landing kost nog steeds gevechtskracht en tijd.
+
+### Moet ik direct meerdere Havens bouwen?
+
+Alleen als elk knooppunt veilig ligt en een nuttige route heeft. Haven en Fabriek delen een verdubbelende teller en open Havens kunnen worden veroverd.
+
+### Waar hoort een Verdedigingspost aan de kust?
+
+Plaats zijn zone van 30 tiles over het landpad dat een vijand naar de Haven moet nemen. Leeg water hoeft hij niet te dekken.
+
+### Is handel over lange afstand altijd beter?
+
+De formule betaalt meer per aankomst, maar langer gevaar kan de voltooiing verlagen. Vergelijk gerealiseerde reizen, niet alleen theoretische opbrengst.
+
+### Wanneer moet ik zeebeheersing opgeven?
+
+Schakel om als de vijand water niet meer gebruikt, de relevante Haven verloren is of een andere aankoop vóór de timer meer gebied oplevert.
+
+### Wat moet ik mijn team vertellen?
+
+Noem route, venster en doel: “steek hier nu over”, “hun transporten zijn geblokkeerd” of “druk deze Haven terwijl hun vloot weg is”.
+
+## Verder lezen
+
+Lees [eenhedenmechanieken](/nl/mechanics/units/) voor Oorlogsschepen, Transporten, Shells en Handelsschepen.
+
+Gebruik [handelsmechanieken](/nl/mechanics/trade/) voor afstandscurve, globale limiet, spawn en embargo.
+
+Bekijk [gebouwen](/nl/mechanics/structures/) voor rollen van Haven, Verdedigingspost, Stad, SAM en Silo.
+
+Lees daarna de [FFA-opening](/nl/strategies/ffa-opening/) voor spawnvorm of [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) als een kustcluster strategische bescherming nodig heeft.

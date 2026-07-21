@@ -11,7 +11,7 @@ const cases = [
     atom: 'Atom Bomb',
     hydrogen: 'Hydrogen Bomb',
     // 头部问答标题里的关键短语
-    repeatHeading: /nuking me so fast/i,
+    repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
   },
   {
@@ -19,7 +19,7 @@ const cases = [
     path: '/zh/guides/hotkeys/',
     atom: '原子弹',
     hydrogen: '氢弹',
-    repeatHeading: /核弹为什么发得这么快/,
+    repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
   },
 ];
