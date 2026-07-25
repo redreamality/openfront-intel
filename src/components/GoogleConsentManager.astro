@@ -1,0 +1,48 @@
+---
+import { ADSENSE_PUBLISHER_ID, getGoogleCmpScriptUrl } from '../config/adsense';
+
+interface Props {
+  enabled: boolean;
+}
+
+const { enabled } = Astro.props;
+const officialScriptSrc = getGoogleCmpScriptUrl();
+// 仅供 e2e 注入无网络 stub；生产部署不要设置该变量。
+const scriptSrc = import.meta.env.PUBLIC_GOOGLE_CMP_SCRIPT_SRC || officialScriptSrc;
+---
+
+{enabled && (
+  <>
+    <script
+      is:inline
+      async
+      src={scriptSrc}
+      data-google-cmp
+      data-publisher-id={ADSENSE_PUBLISHER_ID}
+      data-official-src={officialScriptSrc}
+    ></script>
+    <script is:inline>
+      (() => {
+        const frameName = 'googlefcPresent';
+
+        const signalGooglefcPresent = () => {
+          if (window.frames[frameName]) return;
+          if (!document.body) {
+            window.setTimeout(signalGooglefcPresent, 0);
+            return;
+          }
+
+          const iframe = document.createElement('iframe');
+          iframe.name = frameName;
+          iframe.hidden = true;
+          iframe.tabIndex = -1;
+          iframe.setAttribute('aria-hidden', 'true');
+          iframe.dataset.googleCmpMarker = 'true';
+          document.body.appendChild(iframe);
+        };
+
+        signalGooglefcPresent();
+      })();
+    </script>
+  </>
+)}

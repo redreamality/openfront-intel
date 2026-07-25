@@ -63,6 +63,16 @@ pnpm build              # 验证构建
 4. Actions 自动跑 `.github/workflows/deploy.yml`：拉取 OpenFrontIO 源码 → 装包 → 构建 → 发布到 Pages。
 5. 项目页部署时访问 `https://<your-username>.github.io/openfront-intel/`；本仓库当前使用根路径自定义域名 `https://openfront.fyi/`。
 
+### AdSense 与认证 CMP
+
+站点已包含 Google Funding Choices 的加载能力，但默认关闭。启用前必须先在 AdSense 的 **Privacy & messaging** 中为 `openfront.fyi` 创建并发布适用的同意消息，随后在 GitHub 仓库的 Actions variables 中设置：
+
+```text
+PUBLIC_GOOGLE_CMP_ENABLED=true
+```
+
+workflow 会在生产构建时读取该变量。未发布消息时不要开启，否则站点可能加载一个没有可用配置的 CMP。现有站内横幅只管理可选 Google Analytics；Funding Choices 负责法律要求地区的广告同意。`PUBLIC_GOOGLE_CMP_SCRIPT_SRC` 仅用于 e2e 的无网络 stub，生产环境不得设置。
+
 ### 自定义域名
 
 如需绑定独立域名：

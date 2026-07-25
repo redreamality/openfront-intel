@@ -11,7 +11,7 @@ export const zhLegalDocuments: LegalDocuments = {
     eyebrow: '隐私',
     lead: '用清晰的语言说明这个静态社区网站会处理哪些信息，以及为什么处理。',
     updatedLabel: '最后更新',
-    updatedDate: '2026 年 7 月 13 日',
+    updatedDate: '2026 年 7 月 25 日',
     relatedHeading: '相关信息',
     backHome: '返回首页',
     sections: [
@@ -37,13 +37,18 @@ export const zhLegalDocuments: LegalDocuments = {
         heading: 'Cookie、网站分析与未来广告',
         paragraphs: [
           '同意统计后，Google Analytics 可能使用 _ga 等 Cookie。选择“仅必要功能”时，Analytics 代码不会加载。您可以随时从页脚重新打开 Cookie 设置、修改选择或清除站点存储；任何选择都不影响阅读内容。',
-          '截至上方所示日期，本站仅提供可选的 Google Analytics，尚未展示 Google AdSense 广告。如果未来启用 AdSense，Google 及其广告合作伙伴可能使用 Cookie、本地存储、设备标识符、由 IP 推断的信息和广告互动数据，以投放、限制频次、衡量或个性化广告。本站会在广告启用前同步更新本政策及相应的同意控制。',
+          '截至上方所示日期，本站仅提供可选的 Google Analytics，尚未展示 Google AdSense 广告。如果未来启用 AdSense，Google 及其广告合作伙伴可能放置或读取 Cookie、使用网络信标或类似技术，并处理本地存储、设备标识符、IP 地址、大致位置、页面上下文和广告互动数据，以投放广告、限制频次、衡量效果、防止欺诈或个性化广告。在法律要求的地区，广告代码启用前将由 Google 认证的同意管理平台收集广告选择。',
         ],
         links: [
           {
             href: 'https://policies.google.com/privacy?hl=zh-CN',
             label: 'Google 隐私权政策',
             description: '了解 Google 如何在 Analytics 和广告服务中处理数据。',
+          },
+          {
+            href: 'https://policies.google.com/technologies/partner-sites?hl=zh-CN',
+            label: 'Google 如何使用采用其服务的网站或应用提供的信息',
+            description: '了解 Google 在合作伙伴网站上如何处理 Cookie、标识符、IP 地址及相关数据。',
           },
           {
             href: 'https://tools.google.com/dlpage/gaoptout?hl=zh-CN',

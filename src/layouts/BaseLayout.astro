@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import GoogleConsentManager from '../components/GoogleConsentManager.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
@@ -43,6 +44,7 @@ const contentSection = pathSegments[0];
 const fullTitle = getSeoTitle(lang, Astro.url.pathname, title);
 const readingSections = new Set(['mechanics', 'database', 'guides', 'strategies', 'changelog']);
 const isReadingPage = contentSection !== undefined && readingSections.has(contentSection) && pathSegments.length > 1;
+const googleCmpEnabled = import.meta.env.PUBLIC_GOOGLE_CMP_ENABLED === 'true';
 const provenanceSources = contentSection === 'database'
   ? [
       { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
@@ -84,6 +86,8 @@ const provenanceSources = contentSection === 'database'
       <link rel="alternate" hreflang={getHtmlLang(altLang)} href={new URL(href, Astro.site ?? Astro.url).toString()} />
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(alternates.find(a => a.lang === 'en')?.href ?? '/', Astro.site ?? Astro.url).toString()} />
+
+    <GoogleConsentManager enabled={googleCmpEnabled} />
 
     <!-- Google Analytics is loaded only after explicit consent. -->
     <script is:inline>

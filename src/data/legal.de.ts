@@ -11,7 +11,7 @@ export const deLegalDocuments: LegalDocuments = {
     eyebrow: 'DATENSCHUTZ',
     lead: 'Eine verständliche Erklärung, welche Daten diese statische Community-Seite verarbeitet und warum.',
     updatedLabel: 'Zuletzt aktualisiert',
-    updatedDate: '13. Juli 2026',
+    updatedDate: '25. Juli 2026',
     relatedHeading: 'Weitere Informationen',
     backHome: 'Zurück zur Startseite',
     sections: [
@@ -37,13 +37,18 @@ export const deLegalDocuments: LegalDocuments = {
         heading: 'Cookies, Reichweitenmessung und künftige Werbung',
         paragraphs: [
           'Nach der Einwilligung kann Google Analytics Cookies wie _ga verwenden. „Nur erforderlich“ verhindert das Laden des Analytics-Tags. Die Auswahl kann jederzeit über die Cookie-Einstellungen im Footer geändert werden, ohne den Zugriff auf Inhalte einzuschränken.',
-          'Zum oben genannten Stand bietet OpenFront Intel Google Analytics optional an, zeigt jedoch keine Google-AdSense-Anzeigen. Vor einer späteren Aktivierung von AdSense werden diese Erklärung und die erforderlichen Einwilligungssteuerungen aktualisiert.',
+          'Zum oben genannten Stand bietet OpenFront Intel Google Analytics optional an, zeigt jedoch keine Google-AdSense-Anzeigen. Wird AdSense später aktiviert, können Google und seine Werbepartner Cookies setzen oder lesen, Web-Beacons oder ähnliche Technologien einsetzen und lokalen Speicher, Gerätekennungen, IP-Adressen, einen ungefähren Standort, Seitenkontext sowie Anzeigeninteraktionen verarbeiten, um Anzeigen auszuliefern, ihre Häufigkeit zu begrenzen, Leistung zu messen, Betrug zu verhindern oder Werbung zu personalisieren. Soweit erforderlich, werden Werbeentscheidungen über eine von Google zertifizierte Consent-Management-Plattform erfasst, bevor Werbecode aktiviert wird.',
         ],
         links: [
           {
             href: 'https://policies.google.com/privacy?hl=de',
             label: 'Datenschutzerklärung von Google',
             description: 'Datenverarbeitung durch Google bei Analytics und Werbediensten.',
+          },
+          {
+            href: 'https://policies.google.com/technologies/partner-sites?hl=de',
+            label: 'Wie Google Informationen von Websites oder Apps verwendet, die seine Dienste nutzen',
+            description: 'Googles Erklärung zu Cookies, Kennungen, IP-Adressen und verwandter Datenverarbeitung auf Partnerseiten.',
           },
           {
             href: 'https://tools.google.com/dlpage/gaoptout?hl=de',

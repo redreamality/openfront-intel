@@ -11,7 +11,7 @@ export const frLegalDocuments: LegalDocuments = {
     eyebrow: 'CONFIDENTIALITÉ',
     lead: 'Une explication claire des données traitées par ce site communautaire statique et de leur finalité.',
     updatedLabel: 'Dernière mise à jour',
-    updatedDate: '13 juillet 2026',
+    updatedDate: '25 juillet 2026',
     relatedHeading: 'Informations associées',
     backHome: 'Retour à l’accueil',
     sections: [
@@ -37,13 +37,18 @@ export const frLegalDocuments: LegalDocuments = {
         heading: 'Cookies, mesure d’audience et publicité future',
         paragraphs: [
           'Après consentement, Google Analytics peut utiliser des cookies tels que _ga. Le choix « Essentiel uniquement » empêche le chargement de la balise. Les préférences peuvent être rouvertes depuis le pied de page sans limiter l’accès au contenu.',
-          'À la date indiquée ci-dessus, OpenFront Intel propose Google Analytics en option mais ne diffuse pas de publicités Google AdSense. Si AdSense est activé ultérieurement, cette politique et les contrôles de consentement seront mis à jour avant la diffusion des annonces.',
+          'À la date indiquée ci-dessus, OpenFront Intel propose Google Analytics en option mais ne diffuse pas de publicités Google AdSense. Si AdSense est activé ultérieurement, Google et ses partenaires publicitaires pourront déposer ou lire des cookies, utiliser des balises web ou des technologies similaires, et traiter le stockage local, les identifiants de l’appareil, l’adresse IP, la localisation approximative, le contexte de la page et les interactions publicitaires afin de diffuser des annonces, limiter leur fréquence, mesurer leurs performances, prévenir la fraude ou personnaliser la publicité. Lorsque la réglementation l’exige, les choix publicitaires seront recueillis par une plateforme de gestion du consentement certifiée par Google avant l’activation du code publicitaire.',
         ],
         links: [
           {
             href: 'https://policies.google.com/privacy?hl=fr',
             label: 'Règles de confidentialité de Google',
             description: 'Traitement des données par Google dans Analytics et les services publicitaires.',
+          },
+          {
+            href: 'https://policies.google.com/technologies/partner-sites?hl=fr',
+            label: 'Utilisation par Google des informations provenant de sites ou d’applications partenaires',
+            description: 'Explication de Google concernant les cookies, identifiants, adresses IP et traitements associés sur les sites partenaires.',
           },
           {
             href: 'https://tools.google.com/dlpage/gaoptout?hl=fr',

@@ -11,7 +11,7 @@ export const nlLegalDocuments: LegalDocuments = {
     eyebrow: 'PRIVACY',
     lead: 'Een duidelijke uitleg van welke gegevens deze statische communitysite verwerkt en waarom.',
     updatedLabel: 'Laatst bijgewerkt',
-    updatedDate: '13 juli 2026',
+    updatedDate: '25 juli 2026',
     relatedHeading: 'Gerelateerde informatie',
     backHome: 'Terug naar home',
     sections: [
@@ -37,13 +37,18 @@ export const nlLegalDocuments: LegalDocuments = {
         heading: 'Cookies, bezoekersmeting en toekomstige advertenties',
         paragraphs: [
           'Na toestemming kan Google Analytics cookies zoals _ga gebruiken. “Alleen essentieel” voorkomt dat de Analytics-tag wordt geladen. U kunt de keuze via Cookie-instellingen in de footer wijzigen zonder toegang tot inhoud te verliezen.',
-          'Op de datum hierboven biedt OpenFront Intel Google Analytics optioneel aan, maar toont het geen Google AdSense-advertenties. Voordat AdSense later wordt ingeschakeld, worden dit beleid en de toepasselijke toestemmingsinstellingen bijgewerkt.',
+          'Op de datum hierboven biedt OpenFront Intel Google Analytics optioneel aan, maar toont het geen Google AdSense-advertenties. Als AdSense later wordt ingeschakeld, kunnen Google en zijn advertentiepartners cookies plaatsen of lezen, webbakens of vergelijkbare technologieën gebruiken en lokale opslag, apparaat-ID’s, IP-adressen, een benaderde locatie, paginacontext en advertentie-interacties verwerken om advertenties te tonen, de frequentie te beperken, prestaties te meten, fraude te voorkomen of advertenties te personaliseren. Waar dit verplicht is, worden advertentiekeuzes via een door Google gecertificeerd toestemmingsbeheerplatform verzameld voordat advertentiecode wordt ingeschakeld.',
         ],
         links: [
           {
             href: 'https://policies.google.com/privacy?hl=nl',
             label: 'Privacybeleid van Google',
             description: 'Hoe Google gegevens verwerkt in Analytics en advertentiediensten.',
+          },
+          {
+            href: 'https://policies.google.com/technologies/partner-sites?hl=nl',
+            label: 'Hoe Google informatie gebruikt van sites of apps die zijn diensten gebruiken',
+            description: 'Google legt uit hoe cookies, identificatoren, IP-adressen en verwante gegevens op partnersites worden verwerkt.',
           },
           {
             href: 'https://tools.google.com/dlpage/gaoptout?hl=nl',

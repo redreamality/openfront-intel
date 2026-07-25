@@ -92,3 +92,9 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **`gh` 同时登录多个账号时，读操作成功不代表当前账号有仓库写权限**：对另一个账号名下仓库调用 Git Data/Contents 写 API 可能返回伪装的 404。写入前先看 `gh auth status` 的 Active account；需要临时使用仓库所有者凭据时，在单条命令内用 `$env:GH_TOKEN = gh auth token --user <owner>`，不要输出 token，也不要无故永久切换全局 active account。
 - **PowerShell 下不要把 `ConvertTo-Json` 的结果直接管道给 `gh api --input -`**：旧版 PowerShell 的原生命令管道编码可能让 GitHub 返回 `Problems parsing JSON`。优先用 `gh api -f/-F` 构造字段，文件内容用 `-F 'field=@path'` 交给 CLI 读取；确需输入文件时必须显式生成 UTF-8 无 BOM。
 - **Git Data API 的 `tree` 数组不要用未经验证的 `gh api -f 'tree[0][…]'` 拼装**：当前 `gh` 版本会生成 GitHub 判定为 `Invalid tree info` 的请求。需要创建 tree/commit 时，用 Node `spawnSync` 向 `gh api --input -` 传 UTF-8 `JSON.stringify` 结果，并校验返回 tree/commit SHA 后再更新 ref。
+- **PowerShell 下把含 `^{commit}`、`^{tree}` 等花括号的 Git revision 传给原生命令时必须整体加引号**：未加引号的 `71a3bdf^{commit}` 会被 PowerShell 当成 ScriptBlock，报 `ScriptBlock should only be specified as a value of the Command parameter`；应写成 `'71a3bdf^{commit}'`。
+- **调用仓库级 `gh api` / `gh run` 前先从 `git remote get-url origin` 解析真实 owner/repo，不要凭账号或目录名猜测**：猜错仓库会得到误导性的 404；同时 `gh repo view --json` 字段受当前 CLI 版本限制，Pages 状态优先用真实仓库名调用 `/repos/{owner}/{repo}/pages`，不要假设字段一定存在。
+- **PowerShell 的 `foreach (...) { ... }` 结果不要在同一语句末尾直接接管道**：` } | Format-Table` 可能报 `An empty pipe element is not allowed`；先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`。
+- **临时 Node 调试脚本不要假设项目根目录存在可直接导入的 `node_modules/playwright` 或 `node_modules/playwright-core`**：pnpm 可能只在 `node_modules/.pnpm/` 中保存真实包目录；优先从项目已安装的 `@playwright/test` 导入浏览器能力，或先用 `pnpm why playwright` / `require.resolve()` 确认解析路径。
+- **用 `shell_command` 跑完整 `pnpm build` 等长任务时不要设置秒级 `timeout_ms`**：该接口会在超时后终止进程，而不是保证返回可继续轮询的会话；生产构建至少预留 120 秒，并以最终退出码和 `dist` 产物为准。
+- **`git push` 使用低速保护时也可能报 `Operation too slow. Less than 1000 bytes/sec transferred`**：这与连接重置同属 GitHub HTTPS 瞬时链路问题；失败后先用 GitHub API 核对目标 ref，确认远端仍为旧 SHA 才以相同低速参数重试一次，避免服务端已接收却重复推送。

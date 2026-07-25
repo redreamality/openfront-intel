@@ -11,7 +11,7 @@ export const enLegalDocuments: LegalDocuments = {
     eyebrow: 'PRIVACY',
     lead: 'A plain-language account of what this static community site processes and why.',
     updatedLabel: 'Last updated',
-    updatedDate: '13 July 2026',
+    updatedDate: '25 July 2026',
     relatedHeading: 'Related information',
     backHome: 'Back to home',
     sections: [
@@ -37,13 +37,18 @@ export const enLegalDocuments: LegalDocuments = {
         heading: 'Cookies, analytics, and future advertising',
         paragraphs: [
           'Google Analytics may use cookies such as _ga after analytics consent is granted. Choosing “Essential only” prevents the Analytics tag from loading. You can reopen Cookie settings from the footer, change the choice, or clear site storage; either option leaves all editorial content available.',
-          'At the date shown above, OpenFront Intel offers optional Google Analytics but does not serve Google AdSense advertisements. If AdSense is enabled later, Google and its advertising partners may use cookies, local storage, device identifiers, IP-derived information, and ad interaction data to deliver, limit, measure, or personalize ads. This policy and the applicable consent controls will be updated before advertising is introduced.',
+          'At the date shown above, OpenFront Intel offers optional Google Analytics but does not serve Google AdSense advertisements. If AdSense is enabled later, Google and its advertising partners may place or read cookies, use web beacons or similar technologies, and process local storage, device identifiers, IP addresses, approximate location, page context, and ad interaction data to deliver ads, limit frequency, measure performance, prevent fraud, or personalize advertising. Where required, advertising choices will be handled by a Google-certified consent management platform before ad code is enabled.',
         ],
         links: [
           {
             href: 'https://policies.google.com/privacy',
             label: 'Google Privacy Policy',
             description: 'How Google processes data across Analytics and advertising services.',
+          },
+          {
+            href: 'https://policies.google.com/technologies/partner-sites',
+            label: 'How Google uses information from sites or apps that use its services',
+            description: 'Google’s explanation of cookies, identifiers, IP addresses, and related data processing on partner sites.',
           },
           {
             href: 'https://tools.google.com/dlpage/gaoptout',
