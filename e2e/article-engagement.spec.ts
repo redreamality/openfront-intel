@@ -1,18 +1,28 @@
 import { expect, test } from '@playwright/test';
 
-for (const path of ['/guides/first-match/', '/mechanics/basics/', '/database/units/']) {
-  test(`${path} exposes reading progress`, async ({ page }) => {
-    await page.goto(path, { waitUntil: 'domcontentloaded' });
-    const progress = page.locator('[data-reading-progress]');
-    await expect(progress).toHaveCount(1);
+test.describe('reading progress', () => {
+  // ReadingProgress batches scroll work with requestAnimationFrame. Running these
+  // three long-page scroll assertions concurrently can background-throttle their
+  // frames in headless Chromium, so keep this small interaction group serial.
+  test.describe.configure({ mode: 'serial' });
 
-    await page.evaluate(() => window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'instant',
-    }));
-    await expect.poll(async () => Number(await progress.getAttribute('data-progress'))).toBeGreaterThanOrEqual(95);
-  });
-}
+  for (const path of ['/guides/first-match/', '/mechanics/basics/', '/database/units/']) {
+    test(`${path} exposes reading progress`, async ({ page }) => {
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      const progress = page.locator('[data-reading-progress]');
+      await expect(progress).toHaveCount(1);
+
+      await page.evaluate(() => window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'instant',
+      }));
+      await page.evaluate(() => new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }));
+      await expect.poll(async () => Number(await progress.getAttribute('data-progress'))).toBeGreaterThanOrEqual(95);
+    });
+  }
+});
 
 test('collection hubs do not show article progress', async ({ page }) => {
   await page.goto('/guides/', { waitUntil: 'domcontentloaded' });

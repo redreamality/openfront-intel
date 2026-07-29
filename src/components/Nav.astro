@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Lang } from '../i18n';
+import { feedbackIntegration } from '../config/feedback';
 
 interface Props {
   lang: Lang;
@@ -11,7 +12,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pathname = Astro.url.pathname;
 const langPrefix = lang === 'en' ? '' : `/${lang}`;
 
-const links = [
+const links: Array<{ href: string; label: string; external?: boolean }> = [
   { href: `${base}${langPrefix}/mechanics/`, label: t('nav.mechanics') },
   { href: `${base}${langPrefix}/database/`, label: t('nav.database') },
   { href: `${base}${langPrefix}/strategies/`, label: t('nav.strategies') },
@@ -19,6 +20,11 @@ const links = [
   { href: `${base}${langPrefix}/changelog/`, label: t('nav.changelog') },
   { href: `${base}${langPrefix}/glossary/`, label: t('nav.glossary') },
   { href: `${base}${langPrefix}/shortcuts/`, label: t('nav.shortcuts') },
+  {
+    href: feedbackIntegration.feedbackUrl,
+    label: t('nav.feedback'),
+    external: true,
+  },
 ];
 
 function isActive(href: string) {
@@ -34,6 +40,9 @@ function isActive(href: string) {
       <li>
         <a
           href={link.href}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+          data-feedback-provider={link.external ? feedbackIntegration.provider : undefined}
           class:list={[
             'nav-link',
             'nav-link-responsive',
@@ -42,6 +51,7 @@ function isActive(href: string) {
           aria-current={isActive(link.href) ? 'page' : undefined}
         >
           {link.label}
+          {link.external && <span class="ml-1 text-xs" aria-hidden="true">↗</span>}
         </a>
       </li>
     ))}

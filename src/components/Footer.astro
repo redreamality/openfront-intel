@@ -1,6 +1,7 @@
 ---
 import { useTranslations, type Lang } from '../i18n';
 import meta from '../data/_meta.json';
+import { feedbackIntegration } from '../config/feedback';
 
 interface Props {
   lang: Lang;
@@ -14,11 +15,11 @@ const langPrefix = lang === 'en' ? '' : `${lang}/`;
 // 版本号随 _meta.json 自动更新（由 `pnpm extract` 从上游 OpenFrontIO 抽取），不要写死。
 const copyright = t('footer.copyright').replace('{version}', meta.upstreamVersion);
 const transparencyCopy = {
-  en: { title: 'Transparency', upstream: 'Upstream game source', site: 'Site source & issues', privacy: 'Privacy', editorial: 'Editorial policy', contact: 'Contact', cookies: 'Cookie settings' },
-  fr: { title: 'Transparence', upstream: 'Code source du jeu', site: 'Code et tickets du site', privacy: 'Confidentialité', editorial: 'Politique éditoriale', contact: 'Contact', cookies: 'Préférences cookies' },
-  nl: { title: 'Transparantie', upstream: 'Broncode van het spel', site: 'Sitesource en issues', privacy: 'Privacy', editorial: 'Redactioneel beleid', contact: 'Contact', cookies: 'Cookie-instellingen' },
-  de: { title: 'Transparenz', upstream: 'Quellcode des Spiels', site: 'Website-Code und Issues', privacy: 'Datenschutz', editorial: 'Redaktionsrichtlinie', contact: 'Kontakt', cookies: 'Cookie-Einstellungen' },
-  zh: { title: '透明度', upstream: '游戏上游源码', site: '本站源码与问题反馈', privacy: '隐私政策', editorial: '编辑政策', contact: '联系我们', cookies: 'Cookie 设置' },
+  en: { title: 'Transparency', upstream: 'Upstream game source', site: 'Site source', feedback: 'Feedback board', roadmap: 'Site roadmap', privacy: 'Privacy', editorial: 'Editorial policy', contact: 'Contact', cookies: 'Cookie settings' },
+  fr: { title: 'Transparence', upstream: 'Code source du jeu', site: 'Code source du site', feedback: 'Tableau de suggestions', roadmap: 'Feuille de route du site', privacy: 'Confidentialité', editorial: 'Politique éditoriale', contact: 'Contact', cookies: 'Préférences cookies' },
+  nl: { title: 'Transparantie', upstream: 'Broncode van het spel', site: 'Broncode van de site', feedback: 'Feedbackbord', roadmap: 'Roadmap van de site', privacy: 'Privacy', editorial: 'Redactioneel beleid', contact: 'Contact', cookies: 'Cookie-instellingen' },
+  de: { title: 'Transparenz', upstream: 'Quellcode des Spiels', site: 'Website-Quellcode', feedback: 'Feedback-Board', roadmap: 'Website-Roadmap', privacy: 'Datenschutz', editorial: 'Redaktionsrichtlinie', contact: 'Kontakt', cookies: 'Cookie-Einstellungen' },
+  zh: { title: '透明度', upstream: '游戏上游源码', site: '本站源码', feedback: '意见反馈', roadmap: '站点路线图', privacy: '隐私政策', editorial: '编辑政策', contact: '联系我们', cookies: 'Cookie 设置' },
 } as const;
 const legal = transparencyCopy[lang];
 ---
@@ -45,6 +46,20 @@ const legal = transparencyCopy[lang];
         <li><a class="nav-link" href="https://openfront.io/" rel="noopener" target="_blank">{t('footer.official')}</a></li>
         <li><a class="nav-link" href="https://github.com/openfrontio/OpenFrontIO" rel="noopener" target="_blank">{legal.upstream}</a></li>
         <li><a class="nav-link" href="https://github.com/redreamality/openfront-intel" rel="noopener" target="_blank">{legal.site}</a></li>
+        <li>
+          <a
+            class="nav-link"
+            href={feedbackIntegration.feedbackUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+            data-feedback-provider={feedbackIntegration.provider}
+          >
+            {legal.feedback}
+          </a>
+        </li>
+        {feedbackIntegration.roadmapUrl && (
+          <li><a class="nav-link" href={feedbackIntegration.roadmapUrl} rel="noopener noreferrer" target="_blank">{legal.roadmap}</a></li>
+        )}
         <li><a class="nav-link" href={`${base}${langPrefix}about/`}>{t('nav.about')}</a></li>
       </ul>
     </div>

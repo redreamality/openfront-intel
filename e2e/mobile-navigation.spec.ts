@@ -73,7 +73,11 @@ test('desktop navigation remains visible and complete', async ({ page }) => {
 
   const nav = page.locator('[data-desktop-navigation]');
   await expect(nav).toBeVisible();
-  await expect(nav.getByRole('link')).toHaveCount(7);
+  await expect(nav.getByRole('link')).toHaveCount(8);
   await expect(nav.getByRole('link', { name: 'Mechanics' })).toHaveAttribute('aria-current', 'page');
   await expect(nav.getByRole('link', { name: 'Database' })).toHaveAttribute('href', '/database/');
+  await expect(nav.getByRole('link', { name: 'Feedback' })).toHaveAttribute(
+    'href',
+    'https://feedback.example.test/openfront/',
+  );
 });

@@ -21,9 +21,13 @@ for (const c of cases) {
     await expect(footer).toContainText(`© ${new Date().getFullYear()}`);
     await expect(footer).not.toContainText('made with Astro');
     await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '隐私政策' : 'Privacy' })).toBeVisible();
-    await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '本站源码与问题反馈' : 'Site source & issues' })).toHaveAttribute(
+    await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '本站源码' : 'Site source' })).toHaveAttribute(
       'href',
       'https://github.com/redreamality/openfront-intel',
+    );
+    await expect(footer.getByRole('link', { name: c.lang === 'zh' ? '意见反馈' : 'Feedback board' })).toHaveAttribute(
+      'href',
+      'https://feedback.example.test/openfront/',
     );
   });
 }

@@ -56,6 +56,7 @@ jobs:
           SITE_URL: https://${{ github.repository_owner }}.github.io
           BASE_PATH: /${{ github.event.repository.name }}
           PUBLIC_GOOGLE_CMP_ENABLED: ${{ vars.PUBLIC_GOOGLE_CMP_ENABLED }}
+          PUBLIC_FEEDLOG_URL: ${{ vars.PUBLIC_FEEDLOG_URL }}
         run: pnpm build
 
       - uses: actions/configure-pages@v5

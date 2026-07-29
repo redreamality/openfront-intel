@@ -6,6 +6,7 @@
 - **数据库 4 页** — 单位 / 建筑 / 公式 / 地图分类与分析（数量由 extract 自动同步）。
 - **战术攻略 4 篇 + 教程 3 篇（每种语言）** — FFA / Team / 海战 / 核威慑 / 新手第一局 / 快捷键 / 水上核弹。
 - **版本笔记** — v24–v31 官方 Release 的整理与解读。
+- **站点反馈** — 可接入 Feedlog 反馈面板与公开路线图，未配置时回退到 GitHub Issues。
 - **发布者透明度** — 五语隐私政策、联系页与编辑政策，Analytics 仅在访客明确同意后加载。
 
 ## 技术栈
@@ -72,6 +73,22 @@ PUBLIC_GOOGLE_CMP_ENABLED=true
 ```
 
 workflow 会在生产构建时读取该变量。未发布消息时不要开启，否则站点可能加载一个没有可用配置的 CMP。现有站内横幅只管理可选 Google Analytics；Funding Choices 负责法律要求地区的广告同意。`PUBLIC_GOOGLE_CMP_SCRIPT_SRC` 仅用于 e2e 的无网络 stub，生产环境不得设置。
+
+### Feedlog 反馈与路线图
+
+[Feedlog](https://github.com/linkcraftstudio/feedlog) 是需要数据库和服务端运行时的独立 Nuxt 应用，不能直接部署进本站的 GitHub Pages 静态产物。推荐将 Feedlog 部署到 `feedback.openfront.fyi` 等独立子域名，再把公开入口交给本站构建：
+
+1. 按 Feedlog 官方文档部署到 Cloudflare Workers、Vercel 或 Docker。Feedlog 至少需要 PostgreSQL 17 + `pgvector`、`DATABASE_URL`、`BETTER_AUTH_SECRET` 与 `SYSTEM_ADMIN_EMAILS`。
+2. 在 Feedlog 后台创建 OpenFront Intel workspace、反馈 board，并配置品牌信息。
+3. 在本仓库 Settings → Secrets and variables → Actions → Variables 中设置：
+
+   ```text
+   PUBLIC_FEEDLOG_URL=https://feedback.openfront.fyi
+   ```
+
+4. 重新运行 Pages workflow。主导航和页脚会链接到 Feedlog，页脚同时展示其 `/roadmap` 入口。
+
+`PUBLIC_FEEDLOG_URL` 只是公开地址，不得写入数据库连接、管理员邮箱、OAuth 密钥或 SSO 密钥。变量缺失时，“反馈”入口会回退到本站 GitHub Issues，不会生成失效链接。本项目目前没有用户账户，因此不接入 Feedlog SSO；将来若增加登录系统，JWT 必须由受信任的服务端签名，不能在 Astro 静态前端保存共享密钥。
 
 ### 自定义域名
 

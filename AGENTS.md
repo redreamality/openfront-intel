@@ -98,3 +98,22 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **临时 Node 调试脚本不要假设项目根目录存在可直接导入的 `node_modules/playwright` 或 `node_modules/playwright-core`**：pnpm 可能只在 `node_modules/.pnpm/` 中保存真实包目录；优先从项目已安装的 `@playwright/test` 导入浏览器能力，或先用 `pnpm why playwright` / `require.resolve()` 确认解析路径。
 - **用 `shell_command` 跑完整 `pnpm build` 等长任务时不要设置秒级 `timeout_ms`**：该接口会在超时后终止进程，而不是保证返回可继续轮询的会话；生产构建至少预留 120 秒，并以最终退出码和 `dist` 产物为准。
 - **`git push` 使用低速保护时也可能报 `Operation too slow. Less than 1000 bytes/sec transferred`**：这与连接重置同属 GitHub HTTPS 瞬时链路问题；失败后先用 GitHub API 核对目标 ref，确认远端仍为旧 SHA 才以相同低速参数重试一次，避免服务端已接收却重复推送。
+- **完整 Playwright 并行套件若阅读进度用例只表现为 `data-progress` 始终为 `0`，先排查首批 worker 的资源竞争/滚动帧调度**：`ReadingProgress` 用 `requestAnimationFrame` 合并滚动更新，并发长页面可能被 headless Chromium 后台节流。先用正斜杠路径执行 `pnpm test:e2e e2e/article-engagement.spec.ts --workers=1`；若单线程全过，不要改业务组件，应把这组依赖帧调度的断言放进 `test.describe.configure({ mode: 'serial' })`，再跑完整套件。
+- **PowerShell 审计可选产物目录时不要把存在与不存在的多个路径一次性交给 `Get-ChildItem`**：即使使用 `-ErrorAction SilentlyContinue`，缺失的 `playwright-report/` 等路径仍可能让命令以退出码 1 结束。先对每个候选路径执行 `Test-Path`，只对存在的目录调用 `Get-ChildItem`。
+- **脏工作树中不要用 `git update-index --refresh -- <单文件>` 试图消除单文件的假修改状态**：该命令仍会检查并报告其他所有已修改跟踪文件，以 `needs update` 和退出码 1 结束。生成文件若只有时间戳/换行噪声，应先用普通 diff 与适当的 `core.autocrlf` 审计确认无语义差异，再按已知基线精确恢复目标文件。
+- **gopass 的 `cloudflare` 条目当前是 Bearer API Token，不是 Global API Key**：使用 `/user/tokens/verify` 可能返回 401，改成 `X-Auth-Email` / `X-Auth-Key` 会返回 400；不要据此反复切换认证格式。对实际目标端点直接使用 `Authorization: Bearer <token>` 做最小权限探测。
+- **Cloudflare Token 能读取 Workers 与 DNS 不代表具备 Hyperdrive/R2 权限**：当前 token 访问 Hyperdrive 和 R2 API 会返回 `code 10000 Authentication error`。部署前分别探测 `/accounts/{id}/hyperdrive/configs` 与 `/accounts/{id}/r2/buckets`；缺权限时应先扩展 token 权限，不能把认证失败误判为资源尚未开通。
+- **并行执行多个只读探测时不要让 `Promise.all` 直接承接可能以 1 表示“零匹配”的 `rg`**：任一零匹配会让整个编排被判失败，其他结果也无法回传。先在每条 PowerShell 命令里把 `rg` 的退出码 1 显式转换为正常审计结果，或使用能保留各子任务结果的 settled 模式。
+- **`apply_patch` 的上下文即使只差一个空格也会导致整份多文件补丁回滚**：复制长行作为锚点后要逐字核对；新文件和既有文件修改应拆成小补丁，避免附带更新的上下文错误阻止主要产物写入。
+- **Neon CLI 的浏览器授权不要依赖默认 60 秒命令超时**：交互登录应在用户可见的 PowerShell 中运行并预留足够时间完成浏览器确认；超时退出不等同于账号或授权本身失败。
+- **Neon CLI 调用项目命令时显式传 `--org-id`**：省略组织会打开交互式组织选择，自动化环境中可能未创建任何资源却仍以退出码 0 结束；必须再用项目列表或 API 核对结果。
+- **需要解析 Neon CLI JSON 时要隔离交互提示和日志**：先固定组织与非交互参数，再校验输出确实是 JSON；不要让组织选择、认证提示或状态日志污染后直接交给 JSON 解析器。
+- **Neon CLI 帮助中列出的区域不代表当前组织实际可用**：创建项目前以 API 返回的 `available_regions` 为准；例如 CLI 展示 Azure 区域，但组织仅开放 AWS 时，创建仍会被服务端拒绝。
+- **当前会话没有暴露某项 skill 时，不要沿用旧会话的缓存路径强行读取**：以本轮 `Available skills` 为准；缺失的 browser 等 skill 应改用当前可用工具或明确说明能力缺口。
+- **Feedlog v0.4.0 在 pnpm 严格依赖布局下缺少直接的 `@nuxt/kit` 声明**：其 `nuxt.config.ts` 顶层 `import { createResolver } from '@nuxt/kit'` 会让 `pnpm install` 的 `nuxt prepare` 报 `Cannot find module '@nuxt/kit'`。部署该版本时先添加与 Nuxt 匹配的精确 `@nuxt/kit` devDependency，再更新锁文件和构建。
+- **`neonctl connection-string --output json` 仍可能返回裸 `postgresql://...` 文本**：不要无条件交给 `ConvertFrom-Json`；先检查输出是否以 `postgres` 开头，只有确实是 JSON 时才解析对象或字符串格式，否则会报 `Invalid JSON primitive: postgresql`。
+- **从非交互 shell 用 `Start-Process powershell.exe -Wait` 启动 gopass 解锁窗口不保证用户能看到或操作**：子进程可能一直等待 pinentry/`Read-Host` 直到外层超时。连续解密失败时让用户在自己的可见 PowerShell 中执行输出重定向到 `$null` 的 `gopass show -o` 来预热 gpg-agent，再继续自动化。
+- **不要假设 Wrangler 会继承之前通过环境变量使用的 Cloudflare Token**：`CLOUDFLARE_API_TOKEN` 是进程级变量，后续新命令执行 `wrangler whoami` 仍会报 `Not logged in`。每次 Cloudflare 操作都要在同一 PowerShell 调用内从 gopass 注入 Token，或先完成持久化 OAuth 登录。
+- **PowerShell `Invoke-RestMethod` 调 Cloudflare API 偶尔会报 `The underlying connection was closed`**：将其视为瞬时 TLS/网络故障，改用 Wrangler 或 `curl.exe` 重试一次；重试创建资源前先重新列出远端状态，防止第一次请求其实已成功。
+- **Windows PowerShell 把原生命令 stderr 合并进变量时，`$ErrorActionPreference='Stop'` 可能把 pnpm 进度行升级成 `NativeCommandError`**：外层脚本会提前终止，但子命令可能已经完成外部写入。运行 `pnpm dlx`/Wrangler 时用 `Continue` 并检查 `$LASTEXITCODE`；遇异常后先查询远端资源再重试。
+- **Windows `curl.exe` 若报 `CRYPT_E_REVOCATION_OFFLINE`，是 Schannel 无法联网检查证书吊销状态**：对已知 HTTPS 服务的诊断请求加 `--ssl-no-revoke` 再试；批量网络探测使用 settled 模式保留其他地址的结果，不要让一个 TLS 失败丢掉全部输出。

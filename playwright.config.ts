@@ -26,6 +26,7 @@ export default defineConfig({
       ...webServerEnv,
       PUBLIC_GOOGLE_CMP_ENABLED: 'true',
       PUBLIC_GOOGLE_CMP_SCRIPT_SRC: 'data:text/javascript,window.__openfrontGoogleCmpStubLoaded%3Dtrue',
+      PUBLIC_FEEDLOG_URL: 'https://feedback.example.test/openfront',
     },
     reuseExistingServer: false,
     timeout: 180_000,
