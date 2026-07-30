@@ -121,3 +121,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **审计 `.cache` 时不要无边界 `Get-ChildItem -Recurse`**：缓存目录可能包含完整项目、构建产物和 `node_modules`，递归枚举会产生巨量输出并超时。优先 `Test-Path` 后只读取明确目标（如 `.cache/gsc`），确需递归时显式排除依赖与构建目录。
 - **GitHub Release 的 `codeload.github.com` 压缩包下载若 TLS handshake timeout，不要循环重试整包**：改用 `gh api` 查询目标 tag 的递归 tree，再只读取任务需要的 content/blob；既减少传输量，也能保留来源 commit 与文件路径证据。
 - **PowerShell 一段脚本里调用 `gh`、`git`、`pnpm` 等原生命令后，应立即保存并检查 `$LASTEXITCODE`**：后续成功命令会覆盖退出码，导致前面的网络或 CLI 失败最终显示为 exit 0；需要继续收集其他结果时，把各命令退出码分别存入任务专用变量并在结尾统一判定。
+- **`git push` 若报 `OpenSSL SSL_connect: SSL_ERROR_SYSCALL`，按 GitHub HTTPS 瞬时断流处理**：先用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch>` 核对远端 ref；远端 SHA 已更新则视为成功，分支不存在或仍为旧 SHA 时才使用相同低速保护参数重试一次，连续失败则停止。
