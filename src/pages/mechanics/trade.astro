@@ -26,7 +26,7 @@ rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>Global <strong>cap 150 ships</strong> (v24), spawn probability drops sharply near cap.</li>
+      <li>v32 uses a <strong>sigmoid midpoint of 400 active ships</strong>; spawn probability falls progressively as the global fleet grows.</li>
       <li><code>rejections</code> is the "embargo mercy timer": more rejections = slower spawns for you.</li>
       <li>Ports check probability every 10 ticks, so "no ships spawning" is normal.</li>
     </ul>

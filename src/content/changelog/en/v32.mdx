@@ -1,0 +1,87 @@
+---
+title: 'v32: WebGL, Larger Trade Networks, New Maps & Doomsday Clock'
+description: 'Player-focused summary of OpenFront v32 through v0.32.18: faster nukes, trade scaling, Doomsday Clock, map tools, graphics settings, and new controls.'
+pubDate: 2026-06-17
+updatedDate: 2026-07-30
+version: v32
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Direct answer: what matters in v32?
+
+v32 is not just a renderer update. It changes how large trade networks scale, shortens the reaction window against nukes, expands the map pool, and adds new ways to read crowded games.
+
+Follow-up releases through v0.32.18 also introduced the **Doomsday Clock**, customizable alliance duration, a retaliation hotkey, map search and favorites, clearer small-player highlighting, and many lobby and stability fixes.
+
+The practical result is a faster, easier-to-read late game with stronger trade, more varied maps, and fewer reasons to wait forever in a stalemate.
+
+## Changes you will notice in the next match
+
+### WebGL and graphics settings
+
+- The game now uses a WebGL renderer, improving performance on large and busy maps.
+- Graphics settings include colorblind support, structure-dot visibility, coastline and fallout colors, player highlighting, and other readability options.
+- A strength slider can highlight smaller players, making vulnerable targets and collapsing teammates easier to notice.
+
+Treat these as information tools. Reduce visual noise before a competitive match instead of changing settings while borders are already moving.
+
+### Trade networks scale further
+
+The old “global cap of 150 trade ships” guidance is obsolete. In v32, the spawn-suppression sigmoid is centered at **400 active ships**.
+
+This does not make every extra Port profitable. New ships still become harder to spawn as the global fleet grows. Long routes, reliable partners, safe water, and upgraded Ports remain more valuable than blind Port spam.
+
+### Nukes travel faster
+
+Default nuke speed increased from 8 to **10 tiles per tick**. SAM cooldown remains 90 ticks, so late detection is more dangerous even when the target has coverage.
+
+Players should watch launch warnings earlier, avoid clustering every SAM around one core, and prepare overlapping coverage before the first enemy Silo appears.
+
+### Defense Posts no longer transfer
+
+When their tile is captured, **Defense Posts are destroyed** rather than handed to the occupier. SAM Launchers and Missile Silos can still transfer.
+
+Capturing a fortified line therefore opens the route but does not give you a ready-made land defense. Keep Gold available to rebuild the chokepoint.
+
+## Doomsday Clock
+
+Doomsday Clock is a battle-royale-style anti-stalemate mode added during the v32 cycle and later placed in the public modifier rotation.
+
+- A grace period allows normal expansion and positioning.
+- Later waves squeeze the playable area.
+- Doomed players lose troop strength but stop at a small floor instead of being wiped instantly.
+- Warships suffer their own accelerating attrition and stay on patrol instead of idling at Ports.
+
+The key adjustment is to value central access and escape routes earlier. A rich edge position can become a trap if the next safe zone requires crossing an enemy-controlled corridor.
+
+## Controls, alliances, and lobbies
+
+- `Shift` + `R` retaliates against the most recent attacker.
+- Hosts can set alliances to **1–15 minutes**; setting 0 disables alliances.
+- Private lobbies can anonymize player names or use allowlists.
+- Single-player starts immediately after choosing a spawn.
+- Alliance renewal and rejection alerts are more visible.
+
+Retaliation is an execution shortcut, not a target-selection system. Check whether the last attacker is still the main threat before committing troops.
+
+## Maps and map selection
+
+v32 adds a large map wave including Caribbean, Danish Straits, Venice, Indian Subcontinent, Balkans, Yellow Sea, Korea, Hong Kong, Southeast Asia, Titan, World Inverted, Labyrinth, Chopping Block, and Warship Warship.
+
+Map search and a favorites tab make it easier to build a personal rotation. Use favorites for maps you understand, but practice unfamiliar coastlines before joining team games where teammates depend on your spawn choice.
+
+## Strategy adjustments
+
+1. **React to nukes earlier**: speed 10 gives less time to notice, select, and understand the threat.
+2. **Scale trade by route quality**: the 400-ship midpoint rewards large networks, but weak short routes still waste Port slots and attention.
+3. **Carry rebuild Gold when attacking forts**: a captured Defense Post will not protect the land you just took.
+4. **Plan two exits in Doomsday matches**: one route can be cut by the zone or another player.
+5. **Use graphics for decisions**: small-player highlighting and structure dots should reveal opportunities, not merely decorate the map.
+6. **Do not retaliate automatically**: `Shift` + `R` is fast, but the last attacker may be baiting you away from the decisive front.
+
+## Follow-up status through v0.32.18
+
+Later v32 patches focused on Doomsday balance, lobby reliability, renderer polish, embedded streaming, security, and exploit fixes. The main player-facing strategic changes remain the trade curve, faster nukes, Doomsday Clock, map expansion, capture behavior, and new controls.
+
+Sources: [official v0.32.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.32.0) and [cumulative v0.32.18 follow-up](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.32.18).

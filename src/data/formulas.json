@@ -2,19 +2,19 @@
   "meta": {
     "i18n": {
       "en": {
-        "description": "Core formulas extracted from OpenFrontIO v24 (numeric values/coefficients shown as strings)."
+        "description": "Core formulas validated against OpenFrontIO v32 (numeric values/coefficients shown as strings)."
       },
       "zh": {
-        "description": "从 OpenFrontIO v24 提取的核心公式(数值/系数为字符串展示)。"
+        "description": "按 OpenFrontIO v32 核验的核心公式（数值/系数以字符串展示）。"
       },
       "fr": {
-        "description": "Formules clés extraites d'OpenFrontIO v24 (valeurs/coefficients en chaînes)."
+        "description": "Formules clés vérifiées sur OpenFrontIO v32 (valeurs et coefficients sous forme de chaînes)."
       },
       "de": {
-        "description": "Aus OpenFrontIO v24 extrahierte Kernformeln (Werte/Koeffizienten als Strings)."
+        "description": "Mit OpenFrontIO v32 abgeglichene Kernformeln (Werte/Koeffizienten als Strings)."
       },
       "nl": {
-        "description": "Kernformules uit OpenFrontIO v24 (waarden/coëfficiënten als strings weergegeven)."
+        "description": "Kernformules gecontroleerd aan de hand van OpenFrontIO v32 (waarden/coëfficiënten als tekst)."
       }
     }
   },
@@ -444,47 +444,47 @@
           "i18n": {
             "en": {
               "name": "Trade ship spawn",
-              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))"
             },
             "zh": {
               "name": "贸易船生成",
-              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))"
             },
             "fr": {
               "name": "Spawn navires de commerce",
-              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))"
             },
             "de": {
               "name": "Handelsschiff-Spawn",
-              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))"
             },
             "nl": {
               "name": "Handelsschip-spawn",
-              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))"
+              "expr": "spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))"
             }
           }
         },
         {
           "i18n": {
             "en": {
-              "name": "Trade ship cap",
-              "expr": "Global 150 ships (v24)"
+              "name": "Trade ship scaling",
+              "expr": "v32 sigmoid midpoint: 400 active ships; spawning becomes progressively slower"
             },
             "zh": {
-              "name": "贸易船上限",
-              "expr": "全局 150 艘 (v24)"
+              "name": "贸易船规模曲线",
+              "expr": "v32 sigmoid 中点：400 艘活跃船只；数量越多，生成越慢"
             },
             "fr": {
-              "name": "Cap navires de commerce",
-              "expr": "Global 150 navires (v24)"
+              "name": "Échelle des navires de commerce",
+              "expr": "Point médian sigmoid v32 : 400 navires actifs ; le spawn ralentit progressivement"
             },
             "de": {
-              "name": "Handelsschiff-Limit",
-              "expr": "Global 150 Schiffe (v24)"
+              "name": "Handelsschiff-Skalierung",
+              "expr": "v32-Sigmoid-Mittelpunkt: 400 aktive Schiffe; der Spawn wird zunehmend langsamer"
             },
             "nl": {
-              "name": "Handelsschip-limiet",
-              "expr": "Globaal 150 schepen (v24)"
+              "name": "Schaal van handelsschepen",
+              "expr": "v32-sigmoidmiddelpunt: 400 actieve schepen; spawns worden geleidelijk trager"
             }
           }
         }
@@ -608,6 +608,30 @@
         {
           "i18n": {
             "en": {
+              "name": "Default nuke speed",
+              "expr": "10 tiles/tick (v32)"
+            },
+            "zh": {
+              "name": "默认核弹速度",
+              "expr": "10 tiles/tick (v32)"
+            },
+            "fr": {
+              "name": "Vitesse par défaut des nukes",
+              "expr": "10 tiles/tick (v32)"
+            },
+            "de": {
+              "name": "Standard-Nuke-Geschwindigkeit",
+              "expr": "10 Tiles/Tick (v32)"
+            },
+            "nl": {
+              "name": "Standaardsnelheid van nukes",
+              "expr": "10 tiles/tick (v32)"
+            }
+          }
+        },
+        {
+          "i18n": {
+            "en": {
               "name": "SAM range formula",
               "expr": "samRange(level) = 150 - 480 / (level + 5); default 70, top ≈ 140, cap 150"
             },
@@ -702,23 +726,23 @@
           "i18n": {
             "en": {
               "name": "Alliance duration",
-              "expr": "3000 ticks ≈ 5 minutes"
+              "expr": "Default 3000 ticks ≈ 5 minutes; lobby setting 1–15 minutes, 0 disables alliances"
             },
             "zh": {
               "name": "同盟时长",
-              "expr": "3000 ticks ≈ 5 分钟"
+              "expr": "默认 3000 ticks ≈ 5 分钟；大厅可设 1–15 分钟，0 表示禁用同盟"
             },
             "fr": {
               "name": "Durée d'alliance",
-              "expr": "3000 ticks ≈ 5 minutes"
+              "expr": "Par défaut 3000 ticks ≈ 5 minutes ; réglage du lobby 1–15 minutes, 0 désactive les alliances"
             },
             "de": {
               "name": "Allianzdauer",
-              "expr": "3000 Ticks ≈ 5 Minuten"
+              "expr": "Standard 3000 Ticks ≈ 5 Minuten; Lobby-Einstellung 1–15 Minuten, 0 deaktiviert Allianzen"
             },
             "nl": {
               "name": "Alliantieduur",
-              "expr": "3000 ticks ≈ 5 minuten"
+              "expr": "Standaard 3000 ticks ≈ 5 minuten; lobby-instelling 1–15 minuten, 0 schakelt allianties uit"
             }
           }
         },

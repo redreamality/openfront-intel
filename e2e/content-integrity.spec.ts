@@ -5,7 +5,7 @@ const maps = JSON.parse(
   readFileSync(new URL('../src/data/maps.json', import.meta.url), 'utf8'),
 ) as { meta: { total: number } };
 
-for (const version of ['24', '25', '26', '27', '28', '29', '30', '31']) {
+for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   test(`changelog v${version} links to the official semantic-version release`, async ({ page }) => {
     await page.goto(`/changelog/v${version}/`, { waitUntil: 'domcontentloaded' });
 
@@ -23,7 +23,7 @@ test('provenance distinguishes the extraction checkout from the editorial snapsh
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toContainText('generated from the recorded upstream checkout');
-  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v24');
+  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v32');
 });
 
 const aboutCases = [
@@ -42,17 +42,36 @@ for (const aboutCase of aboutCases) {
 }
 
 const mechanicsCases = [
-  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v24 data snapshot' },
-  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v24 数据快照' },
-  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané v24' },
-  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den v24-Datenstand' },
-  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de v24-datasnapshot' },
+  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v32 data snapshot' },
+  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v32 数据快照' },
+  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané v32' },
+  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den v32-Datenstand' },
+  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de v32-datasnapshot' },
 ];
 
 for (const mechanicsCase of mechanicsCases) {
   test(`mechanics[${mechanicsCase.lang}] states the snapshot scope`, async ({ page }) => {
     await page.goto(mechanicsCase.path, { waitUntil: 'domcontentloaded' });
     await expect(page.locator('main')).toContainText(mechanicsCase.text);
+  });
+}
+
+const v32Cases = [
+  { path: '/changelog/v32/', answer: 'what matters in v32?', trade: '400 active ships', nuke: '10 tiles per tick' },
+  { path: '/zh/changelog/v32/', answer: 'v32 到底改变了什么？', trade: '400 艘活跃船只', nuke: '10 tiles/tick' },
+  { path: '/fr/changelog/v32/', answer: 'que change vraiment la v32 ?', trade: '400 navires actifs', nuke: '10 tiles par tick' },
+  { path: '/de/changelog/v32/', answer: 'Was ändert v32 wirklich?', trade: '400 aktiven Schiffen', nuke: '10 Tiles pro Tick' },
+  { path: '/nl/changelog/v32/', answer: 'wat verandert v32 echt?', trade: '400 actieve schepen', nuke: '10 tiles per tick' },
+];
+
+for (const v32Case of v32Cases) {
+  test(`${v32Case.path} explains the player-facing v32 changes`, async ({ page }) => {
+    await page.goto(v32Case.path, { waitUntil: 'domcontentloaded' });
+    const main = page.locator('main');
+    await expect(main).toContainText(v32Case.answer);
+    await expect(main).toContainText(v32Case.trade);
+    await expect(main).toContainText(v32Case.nuke);
+    await expect(main).toContainText('Doomsday Clock');
   });
 }
 

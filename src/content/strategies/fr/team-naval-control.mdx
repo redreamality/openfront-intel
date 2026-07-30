@@ -2,11 +2,11 @@
 title: 'Mode Team : style contrôle naval'
 description: Ports, navires de guerre, transports et commerce forment un rôle maritime qui doit convertir la mer en territoire pour l'équipe.
 pubDate: 2026-05-12
-updatedDate: 2026-07-16
+updatedDate: 2026-07-30
 tags: [team, naval, ports]
 category: Team
 difficulty: Intermédiaire
-version: v24
+version: v32
 ---
 
 ## Réponse directe
@@ -59,7 +59,7 @@ Le revenu suit `floor((75 000 / (1 + exp(-0,03 × (dist - 300))) + 50 × dist) �
 
 Les longues routes paient plus par arrivée, mais la sécurité et le temps comptent. Un revenu qui n'atteint jamais le Port n'est pas un revenu.
 
-Les données v24 indiquent un plafond mondial de 150 navires. Plus de Ports ne crée pas une flotte infinie, et la probabilité change avec le nombre total.
+Les données v32 placent le point médian de suppression à 400 navires actifs. Plus de Ports ne crée pas une flotte infinie, et la probabilité baisse avec la flotte mondiale.
 
 Les paires sous embargo ne génèrent pas de commerce. Un plan coordonné exige donc un accès diplomatique autant qu'un accès à l'eau.
 
@@ -261,7 +261,7 @@ Les Ports changent de propriétaire avec la terre. Construisez assez de terrain 
 
 ### Surconstruire des Ports
 
-Ports et Usines partagent un compteur doublant, et le commerce possède un plafond mondial. Plus de coques possibles ne signifie pas plus d'arrivées rentables.
+Ports et Usines partagent un compteur doublant, tandis que la courbe mondiale ralentit les nouveaux navires quand la flotte grandit. Plus de coques possibles ne signifie pas plus d'arrivées rentables.
 
 ### Envoyer les transports dans une patrouille
 
@@ -361,7 +361,7 @@ Nommez la route, la fenêtre et l'objectif : « traversez ici », « leurs trans
 
 Lisez les [mécaniques des unités](/fr/mechanics/units/) pour les interactions entre navires, transports, obus et commerce.
 
-Utilisez les [mécaniques du commerce](/fr/mechanics/trade/) pour la distance, le plafond mondial, l'apparition et les embargos.
+Utilisez les [mécaniques du commerce](/fr/mechanics/trade/) pour la distance, l'échelle mondiale, l'apparition et les embargos.
 
 Consultez les [structures](/fr/mechanics/structures/) pour les rôles actuels des Ports, Postes, Villes, SAM et Silos.
 

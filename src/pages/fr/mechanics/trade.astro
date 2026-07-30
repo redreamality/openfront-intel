@@ -26,7 +26,7 @@ rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>Cap global de <strong>150 navires</strong> (introduit en v24) ; la probabilité de spawn chute brutalement en approchant du cap.</li>
+      <li>En v32, le <strong>point médian sigmoid est fixé à 400 navires actifs</strong> ; la probabilité de spawn baisse progressivement avec la flotte mondiale.</li>
       <li><code>rejections</code> = « timer de pitié pour refus » : plus vous refusez, plus votre propre spawn ralentit.</li>
       <li>Chaque Port vérifie sa probabilité toutes les 10 ticks, donc « longtemps sans nouveau navire » est normal.</li>
     </ul>
@@ -44,7 +44,7 @@ spawnProbability = 1 / spawnRate</code></pre>
     <ol>
       <li><strong>Choix d'emplacement à l'ouverture</strong> : visez les Port traversant une mer ou un continent — revenu par navire 3 fois supérieur.</li>
       <li><strong>Nombre de Port</strong> : 4 à 6 est l'optimum. Au-delà, la sigmoïde inhibe et chaque navire devient plus rare.</li>
-      <li><strong>Amélioration des Port</strong> : depuis v24, c'est la clé pour compenser le cap de 150, plus rentable que la construction de nouveaux Port.</li>
+      <li><strong>Amélioration des Port</strong> : elle améliore la qualité du réseau sans dépendre uniquement du nombre de Port, souvent avec un meilleur rendement qu'une expansion aveugle.</li>
       <li><strong>Ne refusez pas le commerce à l'aveugle</strong> : sauf stratégie d'embargo, cela ne fait qu'augmenter votre propre compteur de rejections.</li>
       <li><strong>Protégez vos navires de commerce</strong> : patrouille de warships le long des routes, retour immédiat au port en cas d'hostilité.</li>
     </ol>

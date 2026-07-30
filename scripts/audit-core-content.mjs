@@ -66,7 +66,7 @@ async function auditPage(page, lang) {
   const minimum = lang === 'zh' ? page.hanMin : page.latinMin;
   const paragraphs = longParagraphs(body);
   const headings = headingCount(body);
-  const hasUpdatedDate = /^updatedDate:\s*2026-07-16\s*$/m.test(frontmatter);
+  const hasUpdatedDate = /^updatedDate:\s*\d{4}-\d{2}-\d{2}\s*$/m.test(frontmatter);
   return {
     relative,
     lang,

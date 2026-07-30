@@ -94,7 +94,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **Git Data API 的 `tree` 数组不要用未经验证的 `gh api -f 'tree[0][…]'` 拼装**：当前 `gh` 版本会生成 GitHub 判定为 `Invalid tree info` 的请求。需要创建 tree/commit 时，用 Node `spawnSync` 向 `gh api --input -` 传 UTF-8 `JSON.stringify` 结果，并校验返回 tree/commit SHA 后再更新 ref。
 - **PowerShell 下把含 `^{commit}`、`^{tree}` 等花括号的 Git revision 传给原生命令时必须整体加引号**：未加引号的 `71a3bdf^{commit}` 会被 PowerShell 当成 ScriptBlock，报 `ScriptBlock should only be specified as a value of the Command parameter`；应写成 `'71a3bdf^{commit}'`。
 - **调用仓库级 `gh api` / `gh run` 前先从 `git remote get-url origin` 解析真实 owner/repo，不要凭账号或目录名猜测**：猜错仓库会得到误导性的 404；同时 `gh repo view --json` 字段受当前 CLI 版本限制，Pages 状态优先用真实仓库名调用 `/repos/{owner}/{repo}/pages`，不要假设字段一定存在。
-- **PowerShell 的 `foreach (...) { ... }` 结果不要在同一语句末尾直接接管道**：` } | Format-Table` 可能报 `An empty pipe element is not allowed`；先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`。
+- **PowerShell 的 `foreach (...) { ... }` 结果不要在同一语句末尾直接接管道**：` } | Format-Table` 会报 `An empty pipe element is not allowed`，本项目审计中已多次复现；一律先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`。
 - **临时 Node 调试脚本不要假设项目根目录存在可直接导入的 `node_modules/playwright` 或 `node_modules/playwright-core`**：pnpm 可能只在 `node_modules/.pnpm/` 中保存真实包目录；优先从项目已安装的 `@playwright/test` 导入浏览器能力，或先用 `pnpm why playwright` / `require.resolve()` 确认解析路径。
 - **用 `shell_command` 跑完整 `pnpm build` 等长任务时不要设置秒级 `timeout_ms`**：该接口会在超时后终止进程，而不是保证返回可继续轮询的会话；生产构建至少预留 120 秒，并以最终退出码和 `dist` 产物为准。
 - **`git push` 使用低速保护时也可能报 `Operation too slow. Less than 1000 bytes/sec transferred`**：这与连接重置同属 GitHub HTTPS 瞬时链路问题；失败后先用 GitHub API 核对目标 ref，确认远端仍为旧 SHA 才以相同低速参数重试一次，避免服务端已接收却重复推送。
@@ -117,3 +117,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **PowerShell `Invoke-RestMethod` 调 Cloudflare API 偶尔会报 `The underlying connection was closed`**：将其视为瞬时 TLS/网络故障，改用 Wrangler 或 `curl.exe` 重试一次；重试创建资源前先重新列出远端状态，防止第一次请求其实已成功。
 - **Windows PowerShell 把原生命令 stderr 合并进变量时，`$ErrorActionPreference='Stop'` 可能把 pnpm 进度行升级成 `NativeCommandError`**：外层脚本会提前终止，但子命令可能已经完成外部写入。运行 `pnpm dlx`/Wrangler 时用 `Continue` 并检查 `$LASTEXITCODE`；遇异常后先查询远端资源再重试。
 - **Windows `curl.exe` 若报 `CRYPT_E_REVOCATION_OFFLINE`，是 Schannel 无法联网检查证书吊销状态**：对已知 HTTPS 服务的诊断请求加 `--ssl-no-revoke` 再试；批量网络探测使用 settled 模式保留其他地址的结果，不要让一个 TLS 失败丢掉全部输出。
+- **用 `functions.exec` 并行编排多个 `shell_command` 时，单个命令的 `timeout_ms` 不会自动延长外层默认执行窗口**：只要其中有网络请求或多文件读取，就应在脚本首行设置足够的 `// @exec: {"yield_time_ms": ...}`，或拆成较小调用；否则外层可能先在 10 秒超时，造成所有子检查看似一起失败。
+- **审计 `.cache` 时不要无边界 `Get-ChildItem -Recurse`**：缓存目录可能包含完整项目、构建产物和 `node_modules`，递归枚举会产生巨量输出并超时。优先 `Test-Path` 后只读取明确目标（如 `.cache/gsc`），确需递归时显式排除依赖与构建目录。
+- **GitHub Release 的 `codeload.github.com` 压缩包下载若 TLS handshake timeout，不要循环重试整包**：改用 `gh api` 查询目标 tag 的递归 tree，再只读取任务需要的 content/blob；既减少传输量，也能保留来源 commit 与文件路径证据。
+- **PowerShell 一段脚本里调用 `gh`、`git`、`pnpm` 等原生命令后，应立即保存并检查 `$LASTEXITCODE`**：后续成功命令会覆盖退出码，导致前面的网络或 CLI 失败最终显示为 exit 0；需要继续收集其他结果时，把各命令退出码分别存入任务专用变量并在结尾统一判定。

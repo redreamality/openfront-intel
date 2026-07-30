@@ -26,7 +26,7 @@ rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>Globale <strong>cap van 150 schepen</strong> (v24-introductie); naarmate je deze nadert, daalt de spawnkans drastisch.</li>
+      <li>v32 gebruikt een <strong>sigmoidmiddelpunt van 400 actieve schepen</strong>; de spawnkans daalt geleidelijk naarmate de wereldwijde vloot groeit.</li>
       <li><code>rejections</code> is de "mercy-timer voor handelsweigering": hoe meer je weigert, hoe trager je zelf spawnt.</li>
       <li>Port controleert de kans elke 10 ticks; "lang geen schepen gehad" is dus normaal.</li>
     </ul>
@@ -44,7 +44,7 @@ spawnProbability = 1 / spawnRate</code></pre>
     <ol>
       <li><strong>Locatie bij de start</strong>: kies een haven aan de overkant van zee of continent; de opbrengst per schip is meteen 3× die van anderen.</li>
       <li><strong>Aantal havens</strong>: 4-6 is optimaal. Meer dan dat activeert de sigmoid-remming en vertraagt de spawn van elk schip.</li>
-      <li><strong>Port upgraden</strong>: sinds v24 is upgraden de sleutel om de cap van 150 te compenseren, met een betere ROI dan nieuwe havens bouwen.</li>
+      <li><strong>Port upgraden</strong>: dit verbetert de kwaliteit van het netwerk zonder alleen meer havens te stapelen, vaak met een betere ROI dan blinde uitbreiding.</li>
       <li><strong>Niet hersenloos handel weigeren</strong>: tenzij je strategisch embargo voert, verhoog je alleen je eigen rejection-teller.</li>
       <li><strong>Bescherm je handelsschepen</strong>: patrouilleer met warships langs de route en trek schepen terug naar de haven zodra de tegenstander vijandig wordt.</li>
     </ol>
