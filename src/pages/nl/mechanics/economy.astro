@@ -19,7 +19,7 @@ const economy = formulas.groups.economy;
 
     <h2>Snelle goudformule</h2>
     <FormulaBlock label={economy} items={economy.items} />
-    <p>Veelvoorkomende misvatting: <strong>meer havens zijn niet altijd beter</strong> — er is een globale limiet van 150 handelsschepen, dus te veel havens drukt de opbrengst per schip. Aanbeveling voor de mid-game: 4-6 havens, gecombineerd met SAM-bescherming tegen kernwapens.</p>
+    <p>Veelvoorkomende misvatting: <strong>meer havens zijn niet automatisch beter</strong>. In v32 ligt het middelpunt van de spawnonderdrukking bij 400 actieve schepen, maar een grotere vloot maakt verdere spawns nog steeds trager. Afstand, veilige handelspartners en Port-levels tellen zwaarder dan het ruwe aantal havens.</p>
 
     <h2>Bevolking (troops-limiet)</h2>
     <p>De bevolkingslimiet is zowel je aanvalskracht als je defensieve buffer:</p>
@@ -39,7 +39,7 @@ const economy = formulas.groups.economy;
     <ul>
       <li>Spawnen is probabilistisch: hoe groter <code>spawnRate</code>, hoe langer het duurt om een schip te spawnen, en <strong>meer schepen maakt verdere spawn moeilijker</strong> (sigmoid-remming).</li>
       <li>"Mercy voor handelsweigering": hoe vaker je handelsschepen van andere spelers weigert, hoe trager je zelf spawnt — handelsweigering kost dus iets.</li>
-      <li>v24-cap van 150 schepen, gecompenseerd door upgrades aan Port om de opbrengst per schip te verhogen.</li>
+      <li>v32 verplaatst het sigmoidmiddelpunt naar 400 actieve schepen, zodat grote handelsnetwerken langer kunnen groeien voordat de onderdrukking sterk wordt.</li>
     </ul>
 
     <h2>Treineconomie (nieuw in v24)</h2>

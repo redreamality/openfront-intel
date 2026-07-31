@@ -19,7 +19,7 @@ const economy = formulas.groups.economy;
 
     <h2>Formules rapides d'or</h2>
     <FormulaBlock label={economy} items={economy.items} />
-    <p>Erreur classique : <strong>plus de Port n'est pas mieux</strong> — le cap global est de 150 navires de commerce, trop de Port fait chuter la production par navire. Visez 4 à 6 Port en mid-game, soutenus par des SAM anti-nucléaires.</p>
+    <p>Erreur classique : <strong>plus de Port n'est pas toujours mieux</strong>. En v32, la courbe de suppression du spawn est centrée sur 400 navires actifs, mais le spawn ralentit toujours avec la taille de la flotte. La distance, la sécurité des partenaires et le niveau des Port comptent davantage que leur nombre brut.</p>
 
     <h2>Population (plafond de troupes)</h2>
     <p>Le plafond de population est à la fois votre puissance de frappe et votre tampon défensif :</p>
@@ -39,7 +39,7 @@ const economy = formulas.groups.economy;
     <ul>
       <li>La génération est probabiliste : plus <code>spawnRate</code> est grand, plus l'intervalle est long. <strong>Plus il y a de navires, plus c'est dur d'en faire spawner d'autres</strong> (inhibition sigmoïde).</li>
       <li>« Pitié pour refus de commerce » : plus vous refusez les navires des autres, plus les vôtres sont lents à spawn — refuser a un coût.</li>
-      <li>Cap v24 à 150 navires globaux ; amélioration des Port pour compenser le revenu par navire.</li>
+      <li>La v32 place le point médian sigmoid à 400 navires actifs : les grands réseaux peuvent croître davantage avant une forte suppression.</li>
     </ul>
 
     <h2>Économie des trains (nouveau en v24)</h2>

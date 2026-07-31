@@ -6,7 +6,7 @@
  *     <sandbox>/OpenFrontIO/    (cloned source)
  *     <sandbox>/openfront-intel/ (this site — runs the script from here)
  *
- * Writes JSON to ./src/data/. Falls back to a built-in v24 snapshot when the
+ * Writes JSON to ./src/data/. Falls back to a built-in v32 snapshot when the
  * source repo is not present, so the site can still build (e.g. on a CI box
  * that only has this repo checked out).
  *
@@ -26,7 +26,7 @@ const SOURCE_DIR = resolve(ROOT, '..', 'OpenFrontIO');
 mkdirSync(OUT_DIR, { recursive: true });
 
 const HAS_SOURCE = existsSync(SOURCE_DIR);
-const SNAPSHOT_VERSION = 'v24';
+const SNAPSHOT_VERSION = 'v32';
 
 function readUpstreamCommit() {
   if (!HAS_SOURCE) return null;
@@ -42,9 +42,9 @@ function readUpstreamCommit() {
 
 const meta = {
   generatedAt: new Date().toISOString(),
-  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v24',
+  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v32',
   // The structured fallback model and editorial notes were validated against
-  // v24. A newer checkout does not automatically make every snapshot field a
+  // v32. A newer checkout does not automatically make every snapshot field a
   // newer-version claim, so keep the version explicit and record the commit
   // separately for reproducibility.
   upstreamVersion: SNAPSHOT_VERSION,
@@ -289,11 +289,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: null,
     upgradable: false,
     i18n: {
-      en: { name: 'Trade Ship', role: 'Auto-shuttles between ports to generate gold.', costFormula: 'Free, spawned probabilistically', notes: ['v24 global cap 150 ships', 'Captured ships transfer to the captor; destroyed ships are lost'] },
-      zh: { name: '贸易船', role: '在港口之间自动往返产生金币。', costFormula: '免费,按概率生成', notes: ['v24 全局上限 150 艘', '被敌方夺取归对方所有;被毁则消失'] },
-      fr: { name: 'Navire de commerce', role: "Fait l'aller-retour automatique entre les ports pour générer de l'or.", costFormula: 'Gratuit, généré par probabilité', notes: ['Cap global v24 : 150 navires', 'Les navires capturés vont au captureur ; les détruits sont perdus'] },
-      de: { name: 'Handelsschiff', role: 'Pendelt automatisch zwischen Häfen, um Gold zu generieren.', costFormula: 'Kostenlos, probabilistisch gespawnt', notes: ['v24 globales Limit 150 Schiffe', 'Eroberte Schiffe gehen an den Eroberer; zerstörte sind verloren'] },
-      nl: { name: 'Handelsschip', role: 'Pendelt automatisch tussen havens om goud te genereren.', costFormula: 'Gratis, probabilistisch gespawned', notes: ['v24 globaal limiet 150 schepen', 'Veroverde schepen gaan naar de veroveraar; vernietigde zijn verloren'] },
+      en: { name: 'Trade Ship', role: 'Auto-shuttles between ports to generate gold.', costFormula: 'Free, spawned probabilistically', notes: ['v32 spawn suppression midpoint: 400 active ships', 'Captured ships transfer to the captor; destroyed ships are lost'] },
+      zh: { name: '贸易船', role: '在港口之间自动往返产生金币。', costFormula: '免费,按概率生成', notes: ['v32 生成抑制曲线中点：400 艘活跃船只', '被敌方夺取归对方所有;被毁则消失'] },
+      fr: { name: 'Navire de commerce', role: "Fait l'aller-retour automatique entre les ports pour générer de l'or.", costFormula: 'Gratuit, généré par probabilité', notes: ['Point médian de suppression en v32 : 400 navires actifs', 'Les navires capturés vont au captureur ; les détruits sont perdus'] },
+      de: { name: 'Handelsschiff', role: 'Pendelt automatisch zwischen Häfen, um Gold zu generieren.', costFormula: 'Kostenlos, probabilistisch gespawnt', notes: ['v32-Mittelpunkt der Spawn-Dämpfung: 400 aktive Schiffe', 'Eroberte Schiffe gehen an den Eroberer; zerstörte sind verloren'] },
+      nl: { name: 'Handelsschip', role: 'Pendelt automatisch tussen havens om goud te genereren.', costFormula: 'Gratis, probabilistisch gespawned', notes: ['v32-middelpunt van spawnonderdrukking: 400 actieve schepen', 'Veroverde schepen gaan naar de veroveraar; vernietigde zijn verloren'] },
     },
   },
   {
@@ -323,11 +323,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: 50,
     upgradable: false,
     i18n: {
-      en: { name: 'Defense Post', role: 'Land defense tower: significantly boosts defense within 30 tiles.', costFormula: 'min(250,000, (n+1) × 50,000)', notes: ['Defense zone mag ×5, speed ×3', 'Range 30 tiles'] },
-      zh: { name: '防御工事', role: '陆地防御塔：周围 30 tiles 内显著加强防御。', costFormula: 'min(250,000, (n+1) × 50,000)', notes: ['防御区 mag ×5,speed ×3', '范围 30 tiles'] },
-      fr: { name: 'Poste de défense', role: 'Tour de défense terrestre : renforce significativement la défense dans un rayon de 30 tiles.', costFormula: 'min(250 000, (n+1) × 50 000)', notes: ['Zone de défense mag ×5, speed ×3', 'Portée 30 tiles'] },
-      de: { name: 'Verteidigungsposten', role: 'Landverteidigungsturm: erhöht die Verteidigung innerhalb von 30 Tiles signifikant.', costFormula: 'min(250.000, (n+1) × 50.000)', notes: ['Verteidigungszone mag ×5, speed ×3', 'Reichweite 30 Tiles'] },
-      nl: { name: 'Verdedigingspost', role: 'Landverdedigingstoren: verhoogt verdediging significant binnen 30 tiles.', costFormula: 'min(250.000, (n+1) × 50.000)', notes: ['Verdedigingszone mag ×5, speed ×3', 'Bereik 30 tiles'] },
+      en: { name: 'Defense Post', role: 'Land defense tower: significantly boosts defense within 30 tiles.', costFormula: 'min(250,000, (n+1) × 50,000)', notes: ['Defense zone mag ×5, speed ×3', 'Destroyed rather than transferred when its tile is captured'] },
+      zh: { name: '防御工事', role: '陆地防御塔：周围 30 tiles 内显著加强防御。', costFormula: 'min(250,000, (n+1) × 50,000)', notes: ['防御区 mag ×5,speed ×3', '所在 tile 被占领时会被摧毁，不会移交'] },
+      fr: { name: 'Poste de défense', role: 'Tour de défense terrestre : renforce significativement la défense dans un rayon de 30 tiles.', costFormula: 'min(250 000, (n+1) × 50 000)', notes: ['Zone de défense mag ×5, speed ×3', 'Détruit au lieu d’être transféré lorsque sa tile est capturée'] },
+      de: { name: 'Verteidigungsposten', role: 'Landverteidigungsturm: erhöht die Verteidigung innerhalb von 30 Tiles signifikant.', costFormula: 'min(250.000, (n+1) × 50.000)', notes: ['Verteidigungszone mag ×5, speed ×3', 'Wird bei Eroberung seines Tiles zerstört statt übertragen'] },
+      nl: { name: 'Verdedigingspost', role: 'Landverdedigingstoren: verhoogt verdediging significant binnen 30 tiles.', costFormula: 'min(250.000, (n+1) × 50.000)', notes: ['Verdedigingszone mag ×5, speed ×3', 'Wordt vernietigd in plaats van overgedragen wanneer de tile wordt veroverd'] },
     },
   },
   {
@@ -451,8 +451,8 @@ const FORMULAS_SNAPSHOT = {
       { i18n: { en: { name: 'City troop bonus', expr: 'Each City level provides +250,000 troop cap' }, zh: { name: '城市部队加成', expr: '每级 City 提供 +250,000 部队上限' }, fr: { name: 'Bonus troupes Ville', expr: 'Chaque niveau de Ville fournit +250 000 cap de troupes' }, de: { name: 'Stadt-Truppenbonus', expr: 'Jede Stadt-Stufe gibt +250.000 Truppenlimit' }, nl: { name: 'Stad-troepenbonus', expr: 'Elk stadsniveau geeft +250.000 troepenlimiet' } } },
       { i18n: { en: { name: 'Train revenue', expr: 'baseGold (ally 35k / team 25k / self 10k) − distPenalty (5,000 × max(0, citiesVisited − 9)), floor 5,000' }, zh: { name: '火车收益', expr: 'baseGold (ally 35k / team 25k / self 10k) − distPenalty (5,000 × max(0, citiesVisited − 9)),下限 5,000' }, fr: { name: 'Revenu des trains', expr: 'baseGold (allié 35k / équipe 25k / soi 10k) − distPenalty (5 000 × max(0, citiesVisited − 9)), min 5 000' }, de: { name: 'Zug-Einkommen', expr: 'baseGold (Verbündeter 35k / Team 25k / selbst 10k) − distPenalty (5.000 × max(0, citiesVisited − 9)), min 5.000' }, nl: { name: 'Trein-inkomsten', expr: 'baseGold (bondgenoot 35k / team 25k / zelf 10k) − distPenalty (5.000 × max(0, citiesVisited − 9)), min 5.000' } } },
       { i18n: { en: { name: 'Trade ship revenue', expr: 'floor( (75,000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )' }, zh: { name: '贸易船收益', expr: 'floor( (75,000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )' }, fr: { name: 'Revenu navires de commerce', expr: 'floor( (75 000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )' }, de: { name: 'Handelsschiff-Einnahmen', expr: 'floor( (75.000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )' }, nl: { name: 'Handelsschip-inkomsten', expr: 'floor( (75.000 / (1 + exp(-0.03 × (dist - 300))) + 50 × dist) × goldMultiplier )' } } },
-      { i18n: { en: { name: 'Trade ship spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))' }, zh: { name: '贸易船生成', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))' }, fr: { name: 'Spawn navires de commerce', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))' }, de: { name: 'Handelsschiff-Spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))' }, nl: { name: 'Handelsschip-spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 200)))' } } },
-      { i18n: { en: { name: 'Trade ship cap', expr: 'Global 150 ships (v24)' }, zh: { name: '贸易船上限', expr: '全局 150 艘 (v24)' }, fr: { name: 'Cap navires de commerce', expr: 'Global 150 navires (v24)' }, de: { name: 'Handelsschiff-Limit', expr: 'Global 150 Schiffe (v24)' }, nl: { name: 'Handelsschip-limiet', expr: 'Globaal 150 schepen (v24)' } } },
+      { i18n: { en: { name: 'Trade ship spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))' }, zh: { name: '贸易船生成', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))' }, fr: { name: 'Spawn navires de commerce', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))' }, de: { name: 'Handelsschiff-Spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))' }, nl: { name: 'Handelsschip-spawn', expr: 'spawnRate = floor((100 × 1/(rejections+1)) / (1 - sigmoid(numShips, ln(2)/50, 400)))' } } },
+      { i18n: { en: { name: 'Trade ship scaling', expr: 'v32 sigmoid midpoint: 400 active ships; spawning becomes progressively slower' }, zh: { name: '贸易船规模曲线', expr: 'v32 sigmoid 中点：400 艘活跃船只；数量越多，生成越慢' }, fr: { name: 'Échelle des navires de commerce', expr: 'Point médian sigmoid v32 : 400 navires actifs ; le spawn ralentit progressivement' }, de: { name: 'Handelsschiff-Skalierung', expr: 'v32-Sigmoid-Mittelpunkt: 400 aktive Schiffe; der Spawn wird zunehmend langsamer' }, nl: { name: 'Schaal van handelsschepen', expr: 'v32-sigmoidmiddelpunt: 400 actieve schepen; spawns worden geleidelijk trager' } } },
     ],
   },
   nukes: {
@@ -468,6 +468,7 @@ const FORMULAS_SNAPSHOT = {
       { i18n: { en: { name: 'Hydrogen bomb blast radius', expr: 'inner 80 / outer 100 tiles' }, zh: { name: '氢弹冲击半径', expr: 'inner 80 / outer 100 tiles' }, fr: { name: "Rayon d'explosion bombe à hydrogène", expr: 'inner 80 / outer 100 tiles' }, de: { name: 'Wasserstoffbomben-Explosionsradius', expr: 'inner 80 / outer 100 Tiles' }, nl: { name: 'Waterstofbom explosieradius', expr: 'inner 80 / outer 100 tiles' } } },
       { i18n: { en: { name: 'MIRV warhead', expr: 'inner 12 / outer 18 tiles' }, zh: { name: 'MIRV 弹头', expr: 'inner 12 / outer 18 tiles' }, fr: { name: 'Tête MIRV', expr: 'inner 12 / outer 18 tiles' }, de: { name: 'MIRV-Sprengkopf', expr: 'inner 12 / outer 18 Tiles' }, nl: { name: 'MIRV-kernkop', expr: 'inner 12 / outer 18 tiles' } } },
       { i18n: { en: { name: 'SAM cooldown', expr: '90 ticks (9s)' }, zh: { name: 'SAM 冷却', expr: '90 ticks (9s)' }, fr: { name: 'Cooldown SAM', expr: '90 ticks (9s)' }, de: { name: 'SAM-Abklingzeit', expr: '90 Ticks (9s)' }, nl: { name: 'SAM-cooldown', expr: '90 ticks (9s)' } } },
+      { i18n: { en: { name: 'Default nuke speed', expr: '10 tiles/tick (v32)' }, zh: { name: '默认核弹速度', expr: '10 tiles/tick (v32)' }, fr: { name: 'Vitesse par défaut des nukes', expr: '10 tiles/tick (v32)' }, de: { name: 'Standard-Nuke-Geschwindigkeit', expr: '10 Tiles/Tick (v32)' }, nl: { name: 'Standaardsnelheid van nukes', expr: '10 tiles/tick (v32)' } } },
       { i18n: { en: { name: 'SAM range formula', expr: 'samRange(level) = 150 - 480 / (level + 5); default 70, top ≈ 140, cap 150' }, zh: { name: 'SAM 射程公式', expr: 'samRange(level) = 150 - 480 / (level + 5); 默认 70, 顶级 ≈ 140, 上限 150' }, fr: { name: 'Formule de portée SAM', expr: 'samRange(level) = 150 - 480 / (level + 5) ; défaut 70, max ≈ 140, plafond 150' }, de: { name: 'SAM-Reichweiten-Formel', expr: 'samRange(level) = 150 - 480 / (level + 5); Standard 70, Top ≈ 140, Max 150' }, nl: { name: 'SAM-bereik-formule', expr: 'samRange(level) = 150 - 480 / (level + 5); standaard 70, top ≈ 140, max 150' } } },
       { i18n: { en: { name: 'SAM intercept targets', expr: 'Only AtomBomb / HydrogenBomb; MIRV body and warheads immune' }, zh: { name: 'SAM 拦截目标', expr: '仅 AtomBomb / HydrogenBomb;MIRV 本体与弹头免疫' }, fr: { name: "Cibles d'interception SAM", expr: 'Seulement AtomBomb / HydrogenBomb ; corps et têtes MIRV immunisés' }, de: { name: 'SAM-Abfangziele', expr: 'Nur AtomBomb / HydrogenBomb; MIRV-Körper und Sprengköpfe immun' }, nl: { name: 'SAM-onderscheppingsdoelen', expr: 'Alleen AtomBomb / HydrogenBomb; MIRV-lichaam en kernkoppen immuun' } } },
       { i18n: { en: { name: 'Pre-fire window', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, zh: { name: '提前射击窗口', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, fr: { name: 'Fenêtre de tir anticipé', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, de: { name: 'Vorab-Feuer-Fenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, nl: { name: 'Voor-vuurvenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' } } },
@@ -482,7 +483,7 @@ const FORMULAS_SNAPSHOT = {
       nl: { label: 'Allianties en verraad' },
     },
     items: [
-      { i18n: { en: { name: 'Alliance duration', expr: '3000 ticks ≈ 5 minutes' }, zh: { name: '同盟时长', expr: '3000 ticks ≈ 5 分钟' }, fr: { name: "Durée d'alliance", expr: '3000 ticks ≈ 5 minutes' }, de: { name: 'Allianzdauer', expr: '3000 Ticks ≈ 5 Minuten' }, nl: { name: 'Alliantieduur', expr: '3000 ticks ≈ 5 minuten' } } },
+      { i18n: { en: { name: 'Alliance duration', expr: 'Default 3000 ticks ≈ 5 minutes; lobby setting 1–15 minutes, 0 disables alliances' }, zh: { name: '同盟时长', expr: '默认 3000 ticks ≈ 5 分钟；大厅可设 1–15 分钟，0 表示禁用同盟' }, fr: { name: "Durée d'alliance", expr: 'Par défaut 3000 ticks ≈ 5 minutes ; réglage du lobby 1–15 minutes, 0 désactive les alliances' }, de: { name: 'Allianzdauer', expr: 'Standard 3000 Ticks ≈ 5 Minuten; Lobby-Einstellung 1–15 Minuten, 0 deaktiviert Allianzen' }, nl: { name: 'Alliantieduur', expr: 'Standaard 3000 ticks ≈ 5 minuten; lobby-instelling 1–15 minuten, 0 schakelt allianties uit' } } },
       { i18n: { en: { name: 'Renewal warning', expr: 'Both parties notified 300 ticks (30s) before expiry' }, zh: { name: '延期提示', expr: '到期前 300 ticks (30s) 提示双方' }, fr: { name: 'Avertissement de renouvellement', expr: "Les deux parties sont notifiées 300 ticks (30s) avant l'expiration" }, de: { name: 'Verlängerungswarnung', expr: 'Beide Parteien werden 300 Ticks (30s) vor Ablauf benachrichtigt' }, nl: { name: 'Verlengingswaarschuwing', expr: 'Beide partijen krijgen 300 ticks (30s) voor afloop melding' } } },
       { i18n: { en: { name: 'Renewal rules', expr: 'Mutual consent auto-renews; single-party consent enters renewal window' }, zh: { name: '续约规则', expr: '双方同意自动续期;仅一方同意进入延期窗口' }, fr: { name: 'Règles de renouvellement', expr: 'Accord mutuel = renouvellement automatique ; accord unilatéral = fenêtre de renouvellement' }, de: { name: 'Verlängerungsregeln', expr: 'Beiderseitige Zustimmung = automatische Verlängerung; einseitige Zustimmung = Verlängerungsfenster' }, nl: { name: 'Verlengingsregels', expr: 'Wederzijdse instemming = automatische verlenging; eenzijdige instemming = verlengingsvenster' } } },
       { i18n: { en: { name: 'Betrayal immediate effect', expr: 'Triggers automatic embargo; defense ×0.5, speed ×0.8, duration 300 ticks' }, zh: { name: '背叛立即效果', expr: '触发自动禁运;防御减益 0.5,速度减益 0.8,持续 300 ticks' }, fr: { name: 'Effet immédiat de trahison', expr: 'Déclenche embargo automatique ; défense ×0.5, vitesse ×0.8, durée 300 ticks' }, de: { name: 'Verrats-Soforteffekt', expr: 'Löst automatisches Embargo aus; Verteidigung ×0.5, Geschwindigkeit ×0.8, Dauer 300 Ticks' }, nl: { name: 'Verraad direct effect', expr: 'Activeert automatisch embargo; verdediging ×0.5, snelheid ×0.8, duur 300 ticks' } } },
@@ -509,11 +510,13 @@ const FORMULAS_SNAPSHOT = {
 
 const MAP_CATEGORIES = {
   Continental: ['africa', 'asia', 'australia', 'europe', 'europeclassic', 'giantworldmap', 'northamerica', 'oceania', 'southamerica', 'world'],
-  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caucasus', 'conakry', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fourislands', 'gatewaytotheatlantic', 'greatlakes', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'iceland', 'italia', 'japan', 'lemnos', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'montreal', 'newyorkcity', 'niledelta', 'passage', 'sanfrancisco', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'thestraits', 'tradersdream', 'twolakes', 'yenisei', 'balkans', 'caribbean', 'danishstraits', 'indiansubcontinent', 'korea', 'northwestpassage', 'venice', 'yellowsea'],
-  Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'surrounded'],
-  Arcade: ['sierpinski', 'thebox', 'labyrinth', 'onion'],
+  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'balkans', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caribbean', 'caucasus', 'conakry', 'danishstraits', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fourislands', 'gatewaytotheatlantic', 'greatlakes', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'hongkong', 'iceland', 'indiansubcontinent', 'italia', 'japan', 'juandefucastrait', 'korea', 'lemnos', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'mississippiriver', 'montreal', 'newyorkcity', 'niledelta', 'northwestpassage', 'passage', 'sanfrancisco', 'southeastasia', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'tradersdream', 'twolakes', 'venice', 'yellowsea', 'yenisei'],
+  Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'surrounded', 'titan'],
+  Arcade: ['choppingblock', 'labyrinth', 'onion', 'sierpinski', 'thebox', 'warshipwarship', 'worldinverted'],
   Tournament: ['tourney1', 'tourney2', 'tourney3', 'tourney4'],
 };
+
+const REMOVED_MAP_IDS = new Set(['thestraits']);
 
 const CATEGORY_I18N = {
   Continental: {
@@ -554,16 +557,24 @@ const CATEGORY_I18N = {
 };
 
 const MAP_I18N = {
-  // --- 新增地图 (upstream 990eba6...main，2026-05) ---
+  // --- v32 新增地图 ---
   balkans: { enName: 'Balkans', en: 'Balkans', zh: '巴尔干', fr: 'Balkans', de: 'Balkan', nl: 'Balkan' },
   caribbean: { enName: 'Caribbean', en: 'Caribbean', zh: '加勒比海', fr: 'Caraïbes', de: 'Karibik', nl: 'Caraïben' },
+  choppingblock: { enName: 'Chopping Block', en: 'Chopping Block', zh: '砧板', fr: 'Billot', de: 'Hackklotz', nl: 'Hakblok' },
   danishstraits: { enName: 'Danish Straits', en: 'Danish Straits', zh: '丹麦海峡', fr: 'Détroits danois', de: 'Dänische Meerengen', nl: 'Deense Zeestraten' },
+  hongkong: { enName: 'Hong Kong', en: 'Hong Kong', zh: '香港', fr: 'Hong Kong', de: 'Hongkong', nl: 'Hongkong' },
   indiansubcontinent: { enName: 'Indian Subcontinent', en: 'Indian Subcontinent', zh: '印度次大陆', fr: 'Sous-continent indien', de: 'Indischer Subkontinent', nl: 'Indisch subcontinent' },
+  juandefucastrait: { enName: 'Juan De Fuca Strait', en: 'Juan De Fuca Strait', zh: '胡安·德富卡海峡', fr: 'Détroit de Juan de Fuca', de: 'Juan-de-Fuca-Straße', nl: 'Straat van Juan de Fuca' },
   korea: { enName: 'Korea', en: 'Korea', zh: '朝鲜半岛', fr: 'Corée', de: 'Korea', nl: 'Korea' },
   labyrinth: { enName: 'Labyrinth', en: 'Labyrinth', zh: '迷宫', fr: 'Labyrinthe', de: 'Labyrinth', nl: 'Labyrint' },
+  mississippiriver: { enName: 'Mississippi River', en: 'Mississippi River', zh: '密西西比河', fr: 'Mississippi', de: 'Mississippi', nl: 'Mississippi' },
   northwestpassage: { enName: 'Northwest Passage', en: 'Northwest Passage', zh: '西北航道', fr: 'Passage du Nord-Ouest', de: 'Nordwestpassage', nl: 'Noordwestelijke Doorvaart' },
   onion: { enName: 'Onion', en: 'Onion', zh: '洋葱', fr: 'Oignon', de: 'Zwiebel', nl: 'Ui' },
+  southeastasia: { enName: 'SoutheastAsia', en: 'Southeast Asia', zh: '东南亚', fr: 'Asie du Sud-Est', de: 'Südostasien', nl: 'Zuidoost-Azië' },
+  titan: { enName: 'Titan', en: 'Titan', zh: '泰坦', fr: 'Titan', de: 'Titan', nl: 'Titan' },
   venice: { enName: 'Venice', en: 'Venice', zh: '威尼斯', fr: 'Venise', de: 'Venedig', nl: 'Venetië' },
+  warshipwarship: { enName: 'Warship Warship', en: 'Warship Warship', zh: '战舰战舰', fr: 'Warship Warship', de: 'Warship Warship', nl: 'Warship Warship' },
+  worldinverted: { enName: 'World Inverted', en: 'World Inverted', zh: '反转世界', fr: 'Monde inversé', de: 'Umgekehrte Welt', nl: 'Omgekeerde wereld' },
   yellowsea: { enName: 'Yellow Sea', en: 'Yellow Sea', zh: '黄海', fr: 'Mer Jaune', de: 'Gelbes Meer', nl: 'Gele Zee' },
   // --- 既有地图 ---
   africa: { enName: 'Africa', en: 'Africa', zh: '非洲', fr: 'Afrique', de: 'Afrika', nl: 'Afrika' },
@@ -676,6 +687,7 @@ function readMapDirs() {
   const dir = join(SOURCE_DIR, 'resources', 'maps');
   if (!existsSync(dir)) return Object.values(MAP_CATEGORIES).flat();
   return readdirSync(dir).filter((name) => {
+    if (REMOVED_MAP_IDS.has(name)) return false;
     try {
       return statSync(join(dir, name)).isDirectory();
     } catch {
@@ -735,11 +747,11 @@ const mapsByCategory = Object.fromEntries(
 const formulasPayload = {
   meta: {
     i18n: {
-      en: { description: 'Core formulas extracted from OpenFrontIO v24 (numeric values/coefficients shown as strings).' },
-      zh: { description: '从 OpenFrontIO v24 提取的核心公式(数值/系数为字符串展示)。' },
-      fr: { description: "Formules clés extraites d'OpenFrontIO v24 (valeurs/coefficients en chaînes)." },
-      de: { description: 'Aus OpenFrontIO v24 extrahierte Kernformeln (Werte/Koeffizienten als Strings).' },
-      nl: { description: 'Kernformules uit OpenFrontIO v24 (waarden/coëfficiënten als strings weergegeven).' },
+      en: { description: 'Core formulas validated against OpenFrontIO v32 (numeric values/coefficients shown as strings).' },
+      zh: { description: '按 OpenFrontIO v32 核验的核心公式（数值/系数以字符串展示）。' },
+      fr: { description: "Formules clés vérifiées sur OpenFrontIO v32 (valeurs et coefficients sous forme de chaînes)." },
+      de: { description: 'Mit OpenFrontIO v32 abgeglichene Kernformeln (Werte/Koeffizienten als Strings).' },
+      nl: { description: 'Kernformules gecontroleerd aan de hand van OpenFrontIO v32 (waarden/coëfficiënten als tekst).' },
     },
   },
   groups: FORMULAS_SNAPSHOT,

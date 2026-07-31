@@ -26,7 +26,7 @@ rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>Globaler <strong>Cap 150 Schiffe</strong> (eingeführt mit v24); je näher am Limit, desto stärker die Drosselung der Spawn-Wahrscheinlichkeit.</li>
+      <li>v32 nutzt einen <strong>Sigmoid-Mittelpunkt von 400 aktiven Schiffen</strong>; mit wachsender globaler Flotte sinkt die Spawn-Wahrscheinlichkeit schrittweise.</li>
       <li><code>rejections</code> ist der „Embargo-Mercy-Timer": Je mehr du ablehnst, desto langsamer spawnen deine eigenen Schiffe.</li>
       <li>Ports prüfen die Wahrscheinlichkeit alle 10 ticks; „längere Trockenperioden" sind also normal.</li>
     </ul>

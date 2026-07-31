@@ -19,7 +19,7 @@ const economy = formulas.groups.economy;
 
     <h2>金币速查公式</h2>
     <FormulaBlock label={economy} items={economy.items} />
-    <p>常见误区：<strong>港口数量不是越多越好</strong>——贸易船全局上限 150 艘，过多港口会让单船产值下降。建议中盘 4~6 座港口配合 SAM 防核。</p>
+    <p>常见误区：<strong>港口数量不是越多越好</strong>。v32 把贸易船生成抑制曲线的中点提高到 400 艘活跃船只，但船队越大仍会越难继续生成。航线距离、可靠贸易伙伴与港口等级比盲目铺港更重要。</p>
 
     <h2>人口（部队上限）</h2>
     <p>人口上限既是攻击底力也是防御缓冲：</p>
@@ -39,7 +39,7 @@ const economy = formulas.groups.economy;
     <ul>
       <li>生成是概率性的：<code>spawnRate</code> 越大代表越久才生成一次，<strong>船多了会变难刷</strong>（sigmoid 抑制）。</li>
       <li>「拒贸怜悯」：你拒绝其它玩家的贸易船越多次，自己刷船越慢——拒贸有代价。</li>
-      <li>v24 单船上限 150 艘，配合 Port 升级补偿单船产值。</li>
+      <li>v32 将 sigmoid 曲线中点提高到 400 艘活跃船只，大型贸易网能在明显受抑制前继续扩张。</li>
     </ul>
 
     <h2>火车经济（v24 新）</h2>

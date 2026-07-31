@@ -19,7 +19,7 @@ const economy = formulas.groups.economy;
 
     <h2>Gold-Kurzformeln</h2>
     <FormulaBlock label={economy} items={economy.items} />
-    <p>Häufiger Irrtum: <strong>Mehr Ports sind nicht zwangsläufig besser</strong> — der globale Cap liegt bei 150 Handelsschiffen, zu viele Ports senken den Wert pro Schiff. Empfehlung im Mid-Game: 4–6 Ports kombiniert mit SAM-Verteidigung.</p>
+    <p>Häufiger Irrtum: <strong>Mehr Ports sind nicht automatisch besser</strong>. In v32 liegt der Mittelpunkt der Spawn-Dämpfung bei 400 aktiven Schiffen, doch mit wachsender Flotte wird weiterer Spawn weiterhin langsamer. Entfernung, sichere Partner und Port-Stufen zählen mehr als die reine Zahl der Ports.</p>
 
     <h2>Bevölkerung (Truppenlimit)</h2>
     <p>Das Bevölkerungslimit ist sowohl Angriffsbasis als auch Verteidigungspuffer:</p>
@@ -39,7 +39,7 @@ const economy = formulas.groups.economy;
     <ul>
       <li>Das Spawnen ist probabilistisch: Je größer <code>spawnRate</code>, desto länger dauert das Erzeugen. <strong>Mehr Schiffe → langsamere Erneuerung</strong> (Sigmoid-Bremse).</li>
       <li>„Embargo-Mercy": Je mehr fremde Handelsschiffe du ablehnst, desto langsamer spawnen deine eigenen — Ablehnen hat einen Preis.</li>
-      <li>v24: globaler Cap 150 Schiffe, kombiniert mit Port-Upgrades, um den Wert pro Schiff zu kompensieren.</li>
+      <li>v32 verschiebt den Sigmoid-Mittelpunkt auf 400 aktive Schiffe; große Handelsnetze skalieren länger, bevor die Dämpfung stark wird.</li>
     </ul>
 
     <h2>Zug-Wirtschaft (v24 neu)</h2>

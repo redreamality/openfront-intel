@@ -2,11 +2,11 @@
 title: 'Team Mode: Naval Control Playstyle'
 description: At the 5-minute Team mode pace, Ports, Warships and Trade form a symbiotic sea-power playstyle.
 pubDate: 2026-05-12
-updatedDate: 2026-07-16
+updatedDate: 2026-07-30
 tags: [team, naval, ports]
 category: Team
 difficulty: Intermediate
-version: v24
+version: v32
 ---
 
 ## Direct Answer
@@ -59,7 +59,7 @@ Trade revenue follows a distance curve: `floor((75,000 / (1 + exp(-0.03 × (dist
 
 Longer routes pay more per arrival, but safety and travel time still matter. Revenue that never reaches a Port is not income.
 
-The generated economy data lists a global cap of 150 trade ships for v24. More Ports do not create infinite ships, and spawn probability changes as the ship count rises.
+The v32 economy data centers trade-ship spawn suppression at 400 active ships. More Ports do not create infinite ships, and spawn probability falls as the global fleet grows.
 
 Embargoed pairs do not spawn trade ships between each other. A coordinated trade plan needs diplomatic access as well as water.
 
@@ -261,7 +261,7 @@ Ports transfer with captured territory. Build enough connected land behind the c
 
 ### Overbuilding Ports
 
-Port and Factory costs share a doubling counter, and trade ships have a global cap. More hull access is not automatically more completed revenue.
+Port and Factory costs share a doubling counter, while the global trade-ship curve slows new spawns as fleets grow. More hull access is not automatically more completed revenue.
 
 ### Sending transports through a patrol
 
@@ -361,7 +361,7 @@ Name the route, window, and objective: “cross here now,” “their transports
 
 Read [unit mechanics](/mechanics/units/) for Warship, Transport, Shell, and Trade Ship interactions.
 
-Use [trade mechanics](/mechanics/trade/) for the distance curve, global cap, spawn behavior, and embargo effects.
+Use [trade mechanics](/mechanics/trade/) for the distance curve, global scaling, spawn behavior, and embargo effects.
 
 Check [structures](/mechanics/structures/) for current Port, Defense Post, City, SAM, and Silo roles.
 

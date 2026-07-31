@@ -26,7 +26,7 @@ rejectionModifier= 1 / (rejections + 1)
 spawnRate        = floor((100 × rejectionModifier) / baseSpawnRate)
 spawnProbability = 1 / spawnRate</code></pre>
     <ul>
-      <li>全局 <strong>cap 150 艘</strong>（v24 引入），逼近时刷新概率急剧下降。</li>
+      <li>v32 使用<strong>全局 400 艘活跃船只的 sigmoid 中点</strong>；船队越大，生成概率会逐步下降。</li>
       <li><code>rejections</code> 即「拒贸怜悯计时器」：你拒得越多，自己刷得越慢。</li>
       <li>Port 每 10 ticks 检查一次概率，所以「久不刷船」是正常的。</li>
     </ul>

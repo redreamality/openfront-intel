@@ -2,11 +2,11 @@
 title: 'Team-Modus: Naval-Control-Stil'
 description: Im 5-Minuten-Takt des Team-Modus bilden Ports, Warships und Handel einen symbiotischen Seemacht-Stil.
 pubDate: 2026-05-12
-updatedDate: 2026-07-16
+updatedDate: 2026-07-30
 tags: [team, naval, ports]
 category: Team
 difficulty: Fortgeschritten
-version: v24
+version: v32
 ---
 
 ## Direkte Antwort
@@ -59,7 +59,7 @@ Handelsertrag folgt der Distanzkurve `floor((75.000 / (1 + exp(-0,03 × (dist - 
 
 Längere Routen zahlen mehr pro Ankunft, doch Sicherheit und Fahrzeit bleiben wichtig. Einkommen, das nie einen Port erreicht, ist kein Einkommen.
 
-Die generierten Wirtschaftsdaten nennen für v24 einen globalen Cap von 150 Handelsschiffen. Mehr Ports erzeugen keine unendlichen Schiffe; die Spawnchance ändert sich mit der Zahl.
+Die v32-Wirtschaftsdaten setzen den Mittelpunkt der Spawn-Dämpfung auf 400 aktive Handelsschiffe. Mehr Ports erzeugen keine unendlichen Schiffe; mit wachsender Weltflotte sinkt die Spawnchance.
 
 Zwischen embargoierten Parteien entstehen keine Handelsschiffe. Ein gemeinsamer Handelsplan braucht diplomatischen Zugang ebenso wie Wasser.
 
@@ -261,7 +261,7 @@ Ports wechseln mit erobertem Land den Besitzer. Baue genug verbundenes Hinterlan
 
 ### Zu viele Ports bauen
 
-Port und Factory teilen den Verdopplungszähler, Handelsschiffe haben einen globalen Cap. Mehr Rümpfe bedeuten nicht automatisch mehr abgeschlossene Einnahmen.
+Port und Factory teilen den Verdopplungszähler, während die globale Kurve neue Spawns mit wachsender Flotte verlangsamt. Mehr Rümpfe bedeuten nicht automatisch mehr abgeschlossene Einnahmen.
 
 ### Transporte durch eine Patrouille schicken
 
@@ -361,7 +361,7 @@ Nenne Route, Fenster und Ziel: „Jetzt hier queren“, „Ihre Transporte sind 
 
 Lies [Einheitenmechaniken](/de/mechanics/units/) für Kriegsschiffe, Transporte, Shells und Handelsschiffe.
 
-Nutze [Handelsmechaniken](/de/mechanics/trade/) für Distanzkurve, globalen Cap, Spawnverhalten und Embargo.
+Nutze [Handelsmechaniken](/de/mechanics/trade/) für Distanzkurve, globale Skalierung, Spawnverhalten und Embargo.
 
 Prüfe [Gebäude](/de/mechanics/structures/) für Rollen von Port, Defense Post, City, SAM und Silo.
 

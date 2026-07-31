@@ -19,7 +19,7 @@ const economy = formulas.groups.economy;
 
     <h2>Gold Formula Reference</h2>
     <FormulaBlock label={economy} items={economy.items} />
-    <p>Common misconception: <strong>more ports isn't always better</strong>—global trade ship cap is 150, too many ports dilutes per-ship value. Mid-game sweet spot is 4-6 ports with SAM coverage.</p>
+    <p>Common misconception: <strong>more ports isn't always better</strong>. In v32 the spawn-suppression curve is centered at 400 active ships, but spawning still slows as the fleet grows. Port quality, route distance, and safe partners matter more than raw Port count.</p>
 
     <h2>Population (Troop Cap)</h2>
     <p>Population cap is both offensive power and defensive buffer:</p>
@@ -39,7 +39,7 @@ const economy = formulas.groups.economy;
     <ul>
       <li>Spawning is probabilistic: higher <code>spawnRate</code> means longer spawn intervals, <strong>more ships = harder to spawn new ones</strong> (sigmoid suppression).</li>
       <li>"Embargo mercy": The more you reject other players' trade ships, the slower your own ships spawn—rejection has a cost.</li>
-      <li>v24 caps at 150 ships, Port upgrades compensate per-ship value.</li>
+      <li>v32 moved the sigmoid midpoint to 400 active ships, so large trade networks scale further before suppression becomes severe.</li>
     </ul>
 
     <h2>Train Economics (v24 New)</h2>
