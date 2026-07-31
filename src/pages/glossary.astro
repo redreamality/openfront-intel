@@ -28,7 +28,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Port', zh: '港口', desc: 'Spawns trade ships / transport ships / warships.' },
       { term: 'Factory', zh: '工厂', desc: 'Train production source, works with railways and cities.' },
       { term: 'DefensePost', zh: '防御工事', desc: '30 tiles range: mag ×5 / speed ×3.' },
-      { term: 'SAM Launcher', zh: 'SAM 发射器', desc: 'Intercepts atom/hydrogen bombs, cannot intercept MIRV.' },
+      { term: 'SAM Launcher', zh: 'SAM 发射器', desc: 'Intercepts atom/hydrogen bombs and MIRV warheads aimed less than 50 tiles away; cannot intercept the MIRV carrier.' },
       { term: 'Missile Silo', zh: '导弹井', desc: 'Nuclear launch platform, 100 ticks build time.' },
       { term: 'Transport Ship', zh: '运输船', desc: 'Landing craft, vulnerable to warships.' },
       { term: 'Warship', zh: '战舰', desc: 'Naval control unit, HP 1000, Shell 250 damage.' },
@@ -36,7 +36,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Train', zh: '火车', desc: 'Land gold carrier, ally station visits yield 35k.' },
       { term: 'Atom Bomb', zh: '原子弹', desc: '750k gold, inner 12 / outer 30.' },
       { term: 'Hydrogen Bomb', zh: '氢弹', desc: '5M gold, inner 80 / outer 100.' },
-      { term: 'MIRV', desc: '25M + 15M·n, multi-warhead carrier, SAM cannot intercept.' },
+      { term: 'MIRV', desc: '25M + 15M·n multi-warhead carrier. The carrier crosses SAM coverage, but close-target warheads can be intercepted.' },
     ],
   },
   {

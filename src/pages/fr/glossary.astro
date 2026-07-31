@@ -28,7 +28,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Port', en: 'Port', desc: "Base de génération des navires de commerce / transport / guerre." },
       { term: 'Factory', en: 'Factory', desc: "Source de production de trains, fonctionne avec rails et villes." },
       { term: 'DefensePost', en: 'DefensePost', desc: "Dans un rayon de 30 tiles : mag ×5 / speed ×3." },
-      { term: 'Lanceur SAM', en: 'SAM Launcher', desc: "Intercepte AtomBomb / HydrogenBomb, mais pas les MIRV." },
+      { term: 'Lanceur SAM', en: 'SAM Launcher', desc: "Intercepte AtomBomb / HydrogenBomb et les ogives MIRV visant à moins de 50 tiles ; pas le véhicule MIRV." },
       { term: 'Silo de missile', en: 'Missile Silo', desc: "Rampe de lancement nucléaire, 100 ticks de construction." },
       { term: 'Navire de transport', en: 'Transport Ship', desc: "Véhicule de débarquement, vulnérable aux warships." },
       { term: 'Warship', en: 'Warship', desc: "Unité de contrôle maritime, HP 1000, dégâts Shell 250." },
@@ -36,7 +36,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Train', en: 'Train', desc: "Véhicule terrestre porteur d'or, 35k de revenu à une station alliée." },
       { term: 'AtomBomb', en: 'Atom Bomb', desc: "750k d'or, inner 12 / outer 30." },
       { term: 'HydrogenBomb', en: 'Hydrogen Bomb', desc: "5M d'or, inner 80 / outer 100." },
-      { term: 'MIRV', en: 'MIRV', desc: "25M + 15M·n, véhicule multi-ogives, non interceptable par SAM." },
+      { term: 'MIRV', en: 'MIRV', desc: "Véhicule multi-ogives à 25M + 15M·n ; le véhicule traverse les SAM, mais les ogives visant à proximité peuvent être interceptées." },
     ],
   },
   {

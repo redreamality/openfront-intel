@@ -18,10 +18,11 @@ const nukes = formulas.groups.nukes;
       <tbody>
         <tr><td>AtomBomb</td><td>750.000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5.000.000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>— (vrijgegeven door MIRV)</td><td>12</td><td>18</td><td>✗</td></tr>
+        <tr><td>MIRVWarhead</td><td>— (vrijgegeven door MIRV)</td><td>12</td><td>18</td><td>Voorwaardelijk: doel op minder dan 50 tiles van SAM</td></tr>
         <tr><td>MIRV (voertuig)</td><td>25M + 15M × aantal reeds gelanceerd</td><td colspan="2">splitst in meerdere MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
+    <p><strong>Gedrag in de v0.32.18-broncode:</strong> de MIRV-drager is geen SAM-doel. Na de splitsing vernietigt een lanceerder kernkoppen waarvan het doel minder dan 50 tiles verder ligt. Dit gebruikt een schotcyclus en activeert cooldown; plaatsing en overlap blijven belangrijk. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Controleer de upstream SAM-uitvoering</a>.</p>
     <Callout type="spec" title="Interpretatie van de explosiestraal">
       <p>Alle tiles binnen <strong>inner</strong> worden voor 100% vernietigd. <strong>outer</strong> is de buitenste ring en verspreidt zich via een BFS-kans (ongeveer 50%), met een achterblijvende fallout-zone. Deze straling verzwakt de mag van de aanvaller tijdelijk: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -32,7 +33,7 @@ const nukes = formulas.groups.nukes;
     <h2>SAM-afweer</h2>
     <FormulaBlock label={nukes} items={nukes.items} />
     <ul>
-      <li><strong>Kan alleen AtomBomb / HydrogenBomb onderscheppen</strong>; MIRV en zijn warheads zijn immuun.</li>
+      <li><strong>Onderschept AtomBomb / HydrogenBomb</strong>. De MIRV-drager wordt niet gekozen, maar kernkoppen met een doel op minder dan 50 tiles van de lanceerder worden apart vernietigd.</li>
       <li>Bereik groeit van 70 tot maximaal 150 tiles: minstens niveau 3 (ca. 90-100 tiles) vormt een echt verdedigingsschild.</li>
       <li>Cooldown 90 ticks ≈ 9 seconden. Bij gelijktijdig afgevuurde bommen kan één SAM er slechts één onderscheppen — bouw er 2 à 3 op.</li>
       <li>Bouwduur 300 ticks (30 seconden); niet last-minute te improviseren.</li>
@@ -47,7 +48,7 @@ const nukes = formulas.groups.nukes;
     </ol>
 
     <Callout type="warn" title="MIRV is psychologische oorlogvoering">
-      <p>De <strong>echte waarde van een MIRV ligt niet in zijn vernielingskracht</strong> — sinds v24 is hij verzwakt, met een outer van slechts 18 tiles per warhead. Maar omdat MIRV niet onderschept kan worden en zich opsplitst in meerdere doelwitten, dwingt hij de tegenstander om dure SAM-upgrades en Silo's te spreiden, wat indirect zijn enkelvoudige nucleaire afweer verzwakt.</p>
+      <p>De <strong>echte waarde van een MIRV is geen gegarandeerde inslag</strong>: sinds de v24-nerf heeft elke kernkop slechts 18 tiles outer. De drager passeert SAM-dekking, maar voltooide lanceerders kunnen kernkoppen voor hun nabije zone opruimen. Verspreide doelen kunnen die lokale bescherming nog overbelasten; verdeel SAMs zonder ze allemaal in één explosiegebied te stapelen.</p>
     </Callout>
 
     <h2>Belangrijke punten voor anti-nuke</h2>

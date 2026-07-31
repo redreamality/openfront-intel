@@ -2,7 +2,7 @@
 title: What Are Water Nukes in OpenFront?
 description: Water Nukes in OpenFront is a v31 option that permanently turns destroyed land into water. Learn the blast result, terrain conversion, counters, and whether you can reclaim the ground.
 pubDate: 2026-06-03
-updatedDate: 2026-07-16
+updatedDate: 2026-07-31
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
@@ -25,7 +25,7 @@ After a tile becomes water, ordinary land expansion cannot restore it. You can s
 
 Water Nukes changes terrain, not the basic price or documented blast radius of a weapon. An Atom Bomb still has inner 12 and outer 30 reach. A Hydrogen Bomb still has inner 80 and outer 100 reach.
 
-Atom and Hydrogen Bombs are still valid SAM targets. MIRV carriers and their warheads remain immune to SAM interception. The modifier does not turn every weapon into an unblockable strike.
+Atom and Hydrogen Bombs are still valid SAM targets. The MIRV carrier is not interceptable, but v0.32.18 SAMs clear warheads aimed less than 50 tiles from a launcher. The modifier does not turn every weapon into an unblockable strike.
 
 The v31 release paired Water Nukes with inland-water trading. Ports, Warships, and trade ships can work on any body of water, rather than only on ocean water.
 
@@ -67,13 +67,13 @@ Do not read “permanent” as “the match can never use that area again.” It
 | --- | ---: | --- | --- |
 | Atom Bomb | 750,000 | Inner 12 / outer 30 tiles | Interceptable |
 | Hydrogen Bomb | 5,000,000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | 25M + 15M per prior launch | Splits into MIRV warheads | Carrier and warheads immune |
-| MIRV warhead | Included with MIRV | Inner 12 / outer 18 tiles | Immune |
+| MIRV | 25M + 15M per prior launch | Splits into MIRV warheads | Carrier immune; warheads conditional |
+| MIRV warhead | Included with MIRV | Inner 12 / outer 18 tiles | Intercepted when target is &lt; 50 tiles from SAM |
 | SAM Launcher | First costs 1,500,000 | Starts at 70 tiles, scales upward | 90-tick cooldown |
 
 An Atom Bomb is the cheaper terrain-editing attempt, but its footprint is far smaller than a Hydrogen Bomb. A Hydrogen strike can reshape a broad front, yet it concentrates 5,000,000 Gold into one interceptable projectile.
 
-A MIRV can create several smaller affected areas and ignores SAM interception. Its starting cost is five times a Hydrogen Bomb, and every prior MIRV launch adds another 15,000,000 Gold.
+A MIRV can create several smaller affected areas. Its carrier crosses SAM targeting, but close-target warheads can be cleared. Its starting cost is five times a Hydrogen Bomb, and every prior launch adds another 15,000,000 Gold.
 
 The correct choice depends on shape, not only damage. Decide whether you need a small breach, a wide cut, several scattered craters, or simply troop destruction.
 
@@ -205,7 +205,7 @@ A Hydrogen Bomb has outer reach 100. One successful strike can affect a much wid
 
 The first MIRV costs 25,000,000 Gold. The second costs 40,000,000 because one prior launch adds 15,000,000. The third costs 55,000,000.
 
-Its immunity to SAMs is strategically important, but the escalating price means each use needs a map-changing objective rather than a vague desire to create more water.
+Carrier immunity is strategically important, but local warhead interception and the escalating price mean each use needs a map-changing objective rather than a vague desire to create more water.
 
 ## Common failure modes
 
@@ -247,7 +247,7 @@ Use overlapping coverage without placing every SAM, Silo, City, and Port in one 
 
 ### Treating SAMs as complete protection
 
-SAMs intercept Atom and Hydrogen Bombs, then face a 90-tick cooldown. MIRV carriers and warheads are immune.
+SAMs intercept Atom and Hydrogen Bombs, then face a 90-tick cooldown. They cannot stop the MIRV carrier, but they clear warheads aimed less than 50 tiles from the launcher.
 
 Defense also needs terrain depth, re-expansion troops, separated infrastructure, and a plan for naval use after conversion.
 
@@ -257,7 +257,9 @@ If the attacker uses cheap Atom strikes, prioritize the land connectors that eac
 
 If the attacker is saving for Hydrogen Bombs, spread high-value structures beyond one broad target area. Keep more than one usable land and economic core.
 
-If MIRV becomes the threat, do not expect more SAMs to solve it. Preserve troop depth, distribute infrastructure, and prepare to operate across several smaller craters.
+If MIRV becomes the threat, use overlapping SAMs to protect critical near targets, but do not expect them to stop the carrier or every dispersed warhead.
+
+Preserve troop depth, distribute infrastructure, and prepare to operate across several smaller craters.
 
 If a crater becomes water, contest it as a naval zone. Friendly Ports can support ship activity, while Warships can deny transports and trade on the new route.
 
@@ -281,7 +283,7 @@ The mode applies to Atom, Hydrogen, and MIRV warhead effects. Their prices, shap
 
 ### Can SAMs stop a Water Nuke?
 
-SAMs can intercept Atom and Hydrogen Bombs. They cannot intercept the MIRV carrier or MIRV warheads.
+SAMs can intercept Atom and Hydrogen Bombs. They cannot intercept the MIRV carrier, but they clear MIRV warheads aimed less than 50 tiles from the launcher.
 
 ### Can I save land after impact?
 
