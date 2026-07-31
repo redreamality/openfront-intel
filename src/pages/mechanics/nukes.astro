@@ -18,10 +18,11 @@ const nukes = formulas.groups.nukes;
       <tbody>
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>— (released by MIRV)</td><td>12</td><td>18</td><td>✗</td></tr>
+        <tr><td>MIRVWarhead</td><td>— (released by MIRV)</td><td>12</td><td>18</td><td>Conditional: target &lt; 50 tiles from SAM</td></tr>
         <tr><td>MIRV (carrier)</td><td>25M + 15M × launched count</td><td colspan="2">Splits into multiple MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
+    <p><strong>v0.32.18 source behavior:</strong> the carrier is not a SAM target. After separation, a launcher destroys MIRV warheads whose destination is less than 50 tiles from that launcher. This uses a firing cycle, so launcher placement and cooldown still matter. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Verify the upstream SAM execution</a>.</p>
     <Callout type="spec" title="Blast Radius Explained">
       <p><strong>Inner</strong> radius: 100% destruction of all tiles. <strong>Outer</strong> is the fallout zone, ~50% BFS probability spread, leaving radiation. Radiation weakens attacker mag: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -32,7 +33,7 @@ const nukes = formulas.groups.nukes;
     <h2>SAM Defense</h2>
     <FormulaBlock label={nukes} items={nukes.items} />
     <ul>
-      <li><strong>Only intercepts AtomBomb / HydrogenBomb</strong>—MIRV and its warheads are immune.</li>
+      <li><strong>Intercepts AtomBomb / HydrogenBomb</strong>. It cannot target the MIRV carrier, but it separately destroys warheads aimed less than 50 tiles from the launcher.</li>
       <li>Range grows from 70 to cap of 150 tiles: recommend at least level 3 (~90-100 tiles) for effective coverage.</li>
       <li>Cooldown 90 ticks ≈ 9 seconds. Two simultaneous nukes = one SAM can only intercept one—need 2-3 SAMs for overlap.</li>
       <li>Build time 300 ticks (30 seconds), can't be rushed last-minute.</li>
@@ -47,7 +48,7 @@ const nukes = formulas.groups.nukes;
     </ol>
 
     <Callout type="warn" title="MIRV Psychological Warfare">
-      <p>MIRV's <strong>real value isn't damage</strong>—v24 nerfed it, outer radius only 18 tiles per warhead. But MIRV can't be SAM-intercepted and splits into multiple targets, forcing opponents to spread expensive SAM upgrades and Silos, indirectly weakening their single-point nuclear defense.</p>
+      <p>MIRV's <strong>real value isn't guaranteed damage</strong>—v24 nerfed it, with an outer radius of only 18 tiles per warhead. The carrier crosses SAM coverage, but completed launchers can clear warheads aimed at their near zone. Spread targets can still overload that local protection, so defenders should distribute SAMs without clustering every launcher inside one blast area.</p>
     </Callout>
 
     <h2>Counter-Nuclear Essentials</h2>

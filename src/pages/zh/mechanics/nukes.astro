@@ -18,10 +18,11 @@ const nukes = formulas.groups.nukes;
       <tbody>
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>—（由 MIRV 释放）</td><td>12</td><td>18</td><td>✗</td></tr>
+        <tr><td>MIRVWarhead</td><td>—（由 MIRV 释放）</td><td>12</td><td>18</td><td>有条件：目标距 SAM 小于 50 tiles</td></tr>
         <tr><td>MIRV（载具）</td><td>25M + 15M × 已发射数</td><td colspan="2">分裂为多枚 MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
+    <p><strong>v0.32.18 源码行为：</strong>SAM 不会瞄准 MIRV 载体；分裂后，目标点距发射器小于 50 tiles 的 MIRV 弹头会被摧毁。该动作会占用一次发射与冷却，因此布点和冗余仍然重要。<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">查看上游 SAM 执行源码</a>。</p>
     <Callout type="spec" title="冲击半径解读">
       <p><strong>inner</strong> 半径内的所有 tile 100% 损毁。<strong>outer</strong> 是外圈，按 BFS 概率（约 50%）扩散，留下辐射区域。辐射区让攻方 mag 临时变弱：<code>mag *= (5 − 2 × falloutRatio)</code>。</p>
     </Callout>
@@ -32,7 +33,7 @@ const nukes = formulas.groups.nukes;
     <h2>SAM 防空</h2>
     <FormulaBlock label={nukes} items={nukes.items} />
     <ul>
-      <li><strong>仅能拦原子弹 / 氢弹</strong>，MIRV 与其子弹头免疫。</li>
+      <li><strong>可拦原子弹 / 氢弹</strong>。SAM 不能瞄准 MIRV 载体，但会另行摧毁目标点距发射器小于 50 tiles 的弹头。</li>
       <li>射程从 70 增长到上限 150 tiles：建议至少升到 3 级（约 90~100 tiles）才能形成有效防线。</li>
       <li>冷却 90 ticks ≈ 9 秒。两枚核弹齐射时单座 SAM 只能拦一枚——必须叠 2~3 座。</li>
       <li>建造时长 300 ticks（30 秒），不能临时抱佛脚。</li>
@@ -47,7 +48,7 @@ const nukes = formulas.groups.nukes;
     </ol>
 
     <Callout type="warn" title="MIRV 心理战">
-      <p>MIRV 的<strong>真正价值不在杀伤</strong>——v24 已被削弱，外环 outer 仅 18 tile，单弹头不大。但 MIRV 不可被 SAM 拦截，且分裂为多个目标，会强迫对手把贵重的 SAM 升级与 Silo 分散布点，间接削弱其单点核打击的防线。</p>
+      <p>MIRV 的<strong>真正价值不是保证命中</strong>——v24 已被削弱，单弹头 outer 仅 18 tiles。载体能穿过 SAM 覆盖，但已完工的发射器可清除瞄准其近域的弹头。分散目标仍能压垮这种局部保护，因此防守方要分散 SAM，同时避免把全部发射器塞进同一个爆炸区。</p>
     </Callout>
 
     <h2>反核要点</h2>

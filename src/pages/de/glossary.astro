@@ -28,7 +28,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Hafen', en: 'Port', desc: 'Basis für Handelsschiffe, Transportschiffe und Kriegsschiffe.' },
       { term: 'Fabrik', en: 'Factory', desc: 'Produktionsquelle für Züge; arbeitet mit Schienen und Städten zusammen.' },
       { term: 'Verteidigungsposten', en: 'DefensePost', desc: 'In 30 tiles Radius mag ×5 / speed ×3.' },
-      { term: 'SAM-Werfer', en: 'SAM Launcher', desc: 'Fängt AtomBomb / HydrogenBomb ab; kann MIRV nicht abfangen.' },
+      { term: 'SAM-Werfer', en: 'SAM Launcher', desc: 'Fängt AtomBomb / HydrogenBomb und MIRV-Sprengköpfe mit Zielen unter 50 Tiles ab; nicht den MIRV-Träger.' },
       { term: 'Raketensilo', en: 'Missile Silo', desc: 'Startrampe für Atomwaffen; 100 ticks Bauzeit.' },
       { term: 'Transportschiff', en: 'Transport Ship', desc: 'Landungsfahrzeug; durch Kriegsschiffe gefährdet.' },
       { term: 'Kriegsschiff', en: 'Warship', desc: 'Einheit zur Seekontrolle, HP 1000, Shell 250 Schaden.' },
@@ -36,7 +36,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Zug', en: 'Train', desc: 'Landgebundenes Gold-Vehikel; an Bahnhöfen verbündeter Städte 35k Gewinn.' },
       { term: 'Atombombe', en: 'Atom Bomb', desc: '750k Gold, inner 12 / outer 30.' },
       { term: 'Wasserstoffbombe', en: 'Hydrogen Bomb', desc: '5M Gold, inner 80 / outer 100.' },
-      { term: 'MIRV', en: 'MIRV', desc: '25M + 15M·n; Mehrfachsprengkopf-Träger; durch SAM nicht abfangbar.' },
+      { term: 'MIRV', en: 'MIRV', desc: 'Mehrfachsprengkopf-Träger für 25M + 15M·n; der Träger passiert SAM, nahe zielende Sprengköpfe sind abfangbar.' },
     ],
   },
   {

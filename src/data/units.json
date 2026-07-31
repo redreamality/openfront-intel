@@ -181,7 +181,7 @@
         "costFormula": "Free, gated by SAM cooldown",
         "notes": [
           "Default speed 12 tiles/tick",
-          "Intercepts only AtomBomb and HydrogenBomb; MIRV warheads immune"
+          "Intercepts AtomBomb/HydrogenBomb; MIRV warheads use a separate close-target defense"
         ]
       },
       "zh": {
@@ -190,7 +190,7 @@
         "costFormula": "免费,受 SAM 冷却限制",
         "notes": [
           "默认速度 12 tiles/tick",
-          "仅拦截 AtomBomb 与 HydrogenBomb,MIRV 弹头免疫"
+          "拦截 AtomBomb 与 HydrogenBomb；MIRV 弹头使用独立的近目标防御逻辑"
         ]
       },
       "fr": {
@@ -199,7 +199,7 @@
         "costFormula": "Gratuit, limité par le cooldown SAM",
         "notes": [
           "Vitesse par défaut 12 tiles/tick",
-          "Intercepte uniquement AtomBomb et HydrogenBomb ; les têtes MIRV sont immunisées"
+          "Intercepte AtomBomb/HydrogenBomb ; les ogives MIRV suivent une défense de proximité séparée"
         ]
       },
       "de": {
@@ -208,7 +208,7 @@
         "costFormula": "Kostenlos, durch SAM-Abklingzeit begrenzt",
         "notes": [
           "Standardgeschwindigkeit 12 Tiles/Tick",
-          "Fängt nur AtomBomb und HydrogenBomb ab; MIRV-Sprengköpfe sind immun"
+          "Fängt AtomBomb/HydrogenBomb ab; MIRV-Sprengköpfe nutzen eine separate Nahzielabwehr"
         ]
       },
       "nl": {
@@ -217,7 +217,7 @@
         "costFormula": "Gratis, beperkt door SAM-cooldown",
         "notes": [
           "Standaardsnelheid 12 tiles/tick",
-          "Onderschept alleen AtomBomb en HydrogenBomb; MIRV-kernkoppen zijn immuun"
+          "Onderschept AtomBomb/HydrogenBomb; MIRV-kernkoppen gebruiken aparte nabijdoelverdediging"
         ]
       }
     }
@@ -409,7 +409,7 @@
         "costFormula": "25,000,000 + 15,000,000 × launches fired",
         "notes": [
           "Major v24 nerf: craters can be quickly conquered",
-          "MIRV body cannot be intercepted by SAM; warheads also immune"
+          "MIRV carrier cannot be intercepted; warheads aimed less than 50 tiles from a SAM can be intercepted"
         ]
       },
       "zh": {
@@ -418,7 +418,7 @@
         "costFormula": "25,000,000 + 15,000,000 × 已发射数",
         "notes": [
           "v24 大幅削弱：陨石坑可被快速征服",
-          "MIRV 本体不可被 SAM 拦截,弹头亦免疫"
+          "MIRV 载体不可拦截；目标点距 SAM 小于 50 tiles 的弹头可被拦截"
         ]
       },
       "fr": {
@@ -427,7 +427,7 @@
         "costFormula": "25 000 000 + 15 000 000 × lancements effectués",
         "notes": [
           "Gros nerf v24 : les cratères peuvent être conquis rapidement",
-          "Le corps du MIRV ne peut pas être intercepté par SAM ; les têtes sont également immunisées"
+          "Le véhicule MIRV n'est pas interceptable ; les ogives visant à moins de 50 tiles d'un SAM peuvent l'être"
         ]
       },
       "de": {
@@ -436,7 +436,7 @@
         "costFormula": "25.000.000 + 15.000.000 × Anzahl Starts",
         "notes": [
           "Großer v24-Nerf: Krater können schnell erobert werden",
-          "MIRV-Körper kann nicht von SAM abgefangen werden; Sprengköpfe ebenfalls immun"
+          "Der MIRV-Träger ist nicht abfangbar; Sprengköpfe mit Ziel unter 50 Tiles vom SAM können abgefangen werden"
         ]
       },
       "nl": {
@@ -445,7 +445,7 @@
         "costFormula": "25.000.000 + 15.000.000 × aantal lanceringen",
         "notes": [
           "Grote v24-nerf: kraters kunnen snel veroverd worden",
-          "MIRV-lichaam kan niet door SAM onderschept worden; kernkoppen ook immuun"
+          "De MIRV-drager is niet onderschepbaar; kernkoppen met een doel op minder dan 50 tiles van een SAM wel"
         ]
       }
     }
@@ -466,7 +466,7 @@
         "costFormula": "Auto-produced by MIRV",
         "notes": [
           "Blast inner 12 / outer 18 tiles",
-          "SAM cannot intercept"
+          "SAM intercepts when the target is less than 50 tiles from the launcher"
         ]
       },
       "zh": {
@@ -475,7 +475,7 @@
         "costFormula": "由 MIRV 自动产生",
         "notes": [
           "爆炸 inner 12 / outer 18 tiles",
-          "SAM 无法拦截"
+          "目标点距发射器小于 50 tiles 时可被 SAM 拦截"
         ]
       },
       "fr": {
@@ -484,7 +484,7 @@
         "costFormula": "Auto-produite par MIRV",
         "notes": [
           "Explosion inner 12 / outer 18 tiles",
-          "Le SAM ne peut pas intercepter"
+          "Interceptable si la cible se trouve à moins de 50 tiles du lanceur SAM"
         ]
       },
       "de": {
@@ -493,7 +493,7 @@
         "costFormula": "Automatisch von MIRV produziert",
         "notes": [
           "Explosion inner 12 / outer 18 Tiles",
-          "SAM kann nicht abfangen"
+          "Durch SAM abfangbar, wenn das Ziel unter 50 Tiles vom Werfer liegt"
         ]
       },
       "nl": {
@@ -502,7 +502,7 @@
         "costFormula": "Automatisch geproduceerd door MIRV",
         "notes": [
           "Explosie inner 12 / outer 18 tiles",
-          "SAM kan niet onderscheppen"
+          "Door SAM onderschepbaar als het doel minder dan 50 tiles van de lanceerder ligt"
         ]
       }
     }
@@ -690,52 +690,52 @@
     "i18n": {
       "en": {
         "name": "SAM Launcher",
-        "role": "Anti-air installation intercepting atom and hydrogen bombs.",
+        "role": "Anti-air installation intercepting atom/hydrogen bombs and close-target MIRV warheads.",
         "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
         "notes": [
           "Cooldown 90 ticks",
           "Range scales 70 → 150 tiles by level",
-          "Cannot intercept MIRV"
+          "Cannot intercept MIRV carrier; protects targets less than 50 tiles away from its warheads"
         ]
       },
       "zh": {
         "name": "SAM 防空发射器",
-        "role": "拦截原子弹与氢弹的防空设施。",
+        "role": "拦截原子弹、氢弹与近目标 MIRV 弹头的防空设施。",
         "costFormula": "min(3,000,000, (n+1) × 1,500,000)",
         "notes": [
           "冷却 90 ticks",
           "射程随等级 70 → 150 tiles",
-          "不能拦截 MIRV"
+          "不能拦截 MIRV 载体；可保护距发射器小于 50 tiles 的弹头目标"
         ]
       },
       "fr": {
         "name": "Lanceur SAM",
-        "role": "Installation anti-aérienne interceptant bombes atomiques et à hydrogène.",
+        "role": "Installation anti-aérienne contre Atom/Hydrogen et les ogives MIRV visant à proximité.",
         "costFormula": "min(3 000 000, (n+1) × 1 500 000)",
         "notes": [
           "Cooldown 90 ticks",
           "Portée 70 → 150 tiles selon le niveau",
-          "Ne peut pas intercepter les MIRV"
+          "N'intercepte pas le véhicule MIRV ; protège les cibles à moins de 50 tiles de ses ogives"
         ]
       },
       "de": {
         "name": "SAM-Werfer",
-        "role": "Flugabwehranlage, die Atom- und Wasserstoffbomben abfängt.",
+        "role": "Flugabwehr gegen Atom-/Wasserstoffbomben und MIRV-Sprengköpfe mit nahem Ziel.",
         "costFormula": "min(3.000.000, (n+1) × 1.500.000)",
         "notes": [
           "Abklingzeit 90 Ticks",
           "Reichweite skaliert 70 → 150 Tiles je Level",
-          "Kann MIRV nicht abfangen"
+          "Fängt den MIRV-Träger nicht ab; schützt Ziele unter 50 Tiles Entfernung vor Sprengköpfen"
         ]
       },
       "nl": {
         "name": "SAM-lanceerinstallatie",
-        "role": "Luchtafweerinstallatie die atoom- en waterstofbommen onderschept.",
+        "role": "Luchtafweer tegen atoom-/waterstofbommen en MIRV-kernkoppen met een nabij doel.",
         "costFormula": "min(3.000.000, (n+1) × 1.500.000)",
         "notes": [
           "Cooldown 90 ticks",
           "Bereik schaalt 70 → 150 tiles per niveau",
-          "Kan MIRV niet onderscheppen"
+          "Onderschept de MIRV-drager niet; beschermt doelen op minder dan 50 tiles tegen kernkoppen"
         ]
       }
     }

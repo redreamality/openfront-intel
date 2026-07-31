@@ -18,10 +18,11 @@ const nukes = formulas.groups.nukes;
       <tbody>
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>— (libéré par MIRV)</td><td>12</td><td>18</td><td>✗</td></tr>
+        <tr><td>MIRVWarhead</td><td>— (libéré par MIRV)</td><td>12</td><td>18</td><td>Conditionnel : cible à moins de 50 tiles du SAM</td></tr>
         <tr><td>MIRV (vecteur)</td><td>25M + 15M × tirs déjà effectués</td><td colspan="2">se sépare en plusieurs MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
+    <p><strong>Comportement du code v0.32.18 :</strong> le véhicule MIRV n'est pas ciblé par les SAM. Après séparation, un lanceur détruit les ogives dont la destination se trouve à moins de 50 tiles. Ce tir consomme un cycle et son cooldown : placement et redondance restent essentiels. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Vérifier l'exécution SAM en amont</a>.</p>
     <Callout type="spec" title="Lecture du rayon d'impact">
       <p>Tous les tiles à l'intérieur du rayon <strong>inner</strong> sont détruits à 100 %. L'<strong>outer</strong> est l'anneau extérieur, propagé par BFS probabiliste (environ 50 %), laissant une zone de retombées. La zone de retombées affaiblit temporairement le mag de l'attaquant : <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -32,7 +33,7 @@ const nukes = formulas.groups.nukes;
     <h2>SAM antiaérien</h2>
     <FormulaBlock label={nukes} items={nukes.items} />
     <ul>
-      <li><strong>Intercepte uniquement AtomBomb / HydrogenBomb</strong>, le MIRV et ses ogives en sont immunisés.</li>
+      <li><strong>Intercepte AtomBomb / HydrogenBomb</strong>. Le véhicule MIRV n'est pas ciblé, mais les ogives visant à moins de 50 tiles du lanceur sont détruites séparément.</li>
       <li>La portée croît de 70 jusqu'à 150 tiles : visez au moins niveau 3 (environ 90-100 tiles) pour avoir une ligne défensive utile.</li>
       <li>Cooldown 90 ticks ≈ 9 secondes. Face à une salve de deux nukes, un seul SAM ne peut intercepter qu'un seul — il faut empiler 2 à 3 SAM.</li>
       <li>Temps de construction 300 ticks (30 secondes), impossible à improviser dans l'urgence.</li>
@@ -47,7 +48,7 @@ const nukes = formulas.groups.nukes;
     </ol>
 
     <Callout type="warn" title="Guerre psychologique du MIRV">
-      <p>La <strong>vraie valeur du MIRV n'est pas dans les dégâts</strong> — il a été affaibli en v24, son outer n'est que 18 tiles et une ogive seule fait peu de dégâts. Mais comme le MIRV est non-interceptable par SAM et se sépare en plusieurs cibles, il force l'adversaire à disperser ses précieuses améliorations SAM et ses Silo, ce qui affaiblit indirectement sa défense contre les frappes uniques.</p>
+      <p>La <strong>vraie valeur du MIRV n'est pas un impact garanti</strong> : depuis le nerf v24, chaque ogive n'a qu'un outer de 18 tiles. Le véhicule traverse la couverture SAM, mais un lanceur terminé peut nettoyer les ogives visant sa zone proche. Des cibles dispersées peuvent encore saturer cette protection locale ; le défenseur doit donc répartir ses SAM sans les regrouper dans une seule zone d'explosion.</p>
     </Callout>
 
     <h2>Points clés de la défense antinucléaire</h2>

@@ -75,6 +75,66 @@ for (const v32Case of v32Cases) {
   });
 }
 
+const mirvSamCases = [
+  {
+    lang: 'en',
+    mechanicsPath: '/mechanics/nukes/',
+    strategyPath: '/strategies/nuclear-deterrence/',
+    carrier: 'the carrier is not a SAM target',
+    range: 'less than 50 tiles',
+  },
+  {
+    lang: 'zh',
+    mechanicsPath: '/zh/mechanics/nukes/',
+    strategyPath: '/zh/strategies/nuclear-deterrence/',
+    carrier: 'SAM 不会瞄准 MIRV 载体',
+    range: '小于 50 tiles',
+  },
+  {
+    lang: 'fr',
+    mechanicsPath: '/fr/mechanics/nukes/',
+    strategyPath: '/fr/strategies/nuclear-deterrence/',
+    carrier: "le véhicule MIRV n'est pas ciblé",
+    range: 'moins de 50 tiles',
+  },
+  {
+    lang: 'de',
+    mechanicsPath: '/de/mechanics/nukes/',
+    strategyPath: '/de/strategies/nuclear-deterrence/',
+    carrier: 'Der MIRV-Träger ist kein SAM-Ziel',
+    range: /(?:weniger als|unter) 50 Tiles/,
+  },
+  {
+    lang: 'nl',
+    mechanicsPath: '/nl/mechanics/nukes/',
+    strategyPath: '/nl/strategies/nuclear-deterrence/',
+    carrier: 'de MIRV-drager is geen SAM-doel',
+    range: 'minder dan 50 tiles',
+  },
+];
+
+for (const mirvSamCase of mirvSamCases) {
+  test(`MIRV/SAM mechanics[${mirvSamCase.lang}] distinguish carrier and warheads`, async ({ page }) => {
+    await page.goto(mirvSamCase.mechanicsPath, { waitUntil: 'domcontentloaded' });
+
+    const main = page.locator('main');
+    await expect(main).toContainText(mirvSamCase.carrier);
+    await expect(main).toContainText(mirvSamCase.range);
+    await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
+      'href',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts',
+    );
+  });
+
+  test(`MIRV/SAM strategy[${mirvSamCase.lang}] keeps the same decision rule`, async ({ page }) => {
+    await page.goto(mirvSamCase.strategyPath, { waitUntil: 'domcontentloaded' });
+
+    const main = page.locator('main');
+    await expect(main).toContainText(mirvSamCase.range);
+    await expect(main).toContainText('MIRV');
+  });
+}
+
 const mapFlowCases = [
   { path: '/database/maps/', heading: 'A three-pass map check', steps: ['Contact distance', 'Water routes', 'Spawn fairness'] },
   { path: '/zh/database/maps/', heading: '三步选图检查', steps: ['接敌距离', '水路连通', '出生公平'] },
