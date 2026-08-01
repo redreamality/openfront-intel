@@ -1,0 +1,74 @@
+---
+title: 'v33 beta1：MIRV 反制、末日波次、排位 2v2 与 22 张地图'
+description: '面向玩家的 OpenFront v33 beta1 版本笔记：MIRV 弹头正常受 SAM 拦截、发射井冷却、末日时序、排位 2v2、战舰熟练度、不可通行地形与 22 张地图。'
+pubDate: 2026-07-31
+updatedDate: 2026-08-01
+version: v33
+tags: [changelog, balance, features]
+category: 版本笔记
+---
+
+## 直接答案：下一局最重要的变化是什么？
+
+已发布的 `v0.33.0-beta1` 是一份有真实正文的 v33 Release，但 tag 仍带 beta。最重要的实战变化是：MIRV 现在是压垮防空弹量的武器，不再是稳定绕过 SAM 的捷径。
+
+MIRV 分裂弹头会像普通核弹一样飞行，并进入常规 SAM 弹道拦截系统。发射 MIRV 也会让对应 Missile Silo 进入冷却，同一发射井不能立刻补第二枚核弹。
+
+另外几项会直接改变对局：Doomsday Clock 有 10 分钟宽限、Ranked 2v2 上线、战舰获得熟练度、地图可使用不可通行地形，并新增 22 张地图。
+
+## MIRV 与 SAM：设计过载，不要假设绕防空
+
+MIRV 载体分裂后，每枚弹头都会成为飞行中的 `MIRVWarhead`。SAM 现在会把它与 Atom Bomb、Hydrogen Bomb 一起做弹道检查。
+
+旧的“目标必须距发射器小于 50 tiles”简化规则在 v33 已失效。能否拦截取决于弹头轨迹、SAM 射程、拦截弹飞行时间、可用弹量与冷却。
+
+- **进攻方：**把弹头分散到覆盖边缘，或组合多次发射，迫使 SAM 耗尽已装填拦截弹。
+- **防守方：**重叠布置发射器，让关键飞行路径进入射程，不要只保护每座 SAM 周围的 50-tile 圆。
+- **双方：**MIRV 发射后要计算 Silo 冷却。连续核打击需要另一座可用发射井，或等待下一次窗口。
+
+继续阅读更新后的[核武器与 SAM 机制](/zh/mechanics/nukes/)和[核威慑策略](/zh/strategies/nuclear-deterrence/)。
+
+## Doomsday Clock：第一波前就要移动
+
+所有速度预设都有 **10 分钟宽限期**。之后所需领土占比按波次提高到 4%、9%、16%、26%、40%，最终到 55%。
+
+团队按合计领土计算，与单人阵营面对同一条门槛。进入 doomed 状态后会先收到警告，再损失部队与战舰生命，但最低停在最大值的 **5%**，不会直接归零。
+
+实战规则很简单：10 分钟前拿到中央通路，并准备两条撤退线。边缘经济再好，如果下一波只能穿过敌方走廊，也会变成陷阱。
+
+## Ranked 2v2：用好受保护的 1 分钟
+
+Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友。Ranked 2v2 的 PvP 出生保护是 **1 分钟**，Compact 地图概率为 **50%**。
+
+整支队伍全部死亡或断线时，对局可以提前结束。应该利用保护期建立共同前线，而不是两名队友分别在地图两端贪经济。
+
+## 战舰熟练度：保住已经打出战果的船
+
+战舰最多拥有 **3 级熟练度**。每级增加 **20% 最大生命**和 **20% 炮弹伤害**。
+
+击沉 1 艘敌方战舰可直接升 1 级。击沉 10 艘运输船或俘获 25 艘贸易船也能积满一级进度。升级只提高生命上限，不会瞬间治疗当前生命。
+
+老练战舰现在是会复利的资产。受伤后应轮换回 Port 修复，而不是像新船一样换掉。
+
+## 不可通行地形与 22 张新地图
+
+地图作者现在可以标记不可通行地形。它会改变陆路、出生出口、核弹路径，以及哪些海岸能真正支持进攻。
+
+新增地图包括 Sol、Russia、United States、France、Germany、China、Vietnam、Scandinavia、Balkhash、Baltics 与 Caspian Sea。
+
+此外还有 Clearwater Lakes、Crimea、Finger Lakes、Gulf of Guinea、Hecate Strait、Irish Sea、Las Vegas Strip、Levant、Tierra del Fuego、Branching Paths 与 More than luck。
+
+可在更新后的[地图数据库](/zh/database/maps/)核对完整 **117 张地图**。陌生地图开局前，先检查接敌距离、水路连通与不可通行瓶颈。
+
+## 还值得记住的小变化
+
+- 右键现在会取消战舰或船只选择，不再打开操作菜单。
+- 公开对局不再轮换 ports-disabled modifier。
+- Ranked 1v1 的 Compact 地图概率从 50% 降到 20%。
+- doomed 阵营的战舰会继续巡逻，同时承受生命衰减。
+
+## 来源状态
+
+GitHub 将这份 Release 标记为 `draft=false`、`prerelease=false`，但官方 tag 仍是 `v0.33.0-beta1`。本站保留 beta 标识，不把它写成不存在的无后缀稳定版 `v0.33.0`。
+
+来源：[官方 v0.33.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts)、[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts)与[熟练度配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts)。

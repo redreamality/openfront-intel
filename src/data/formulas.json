@@ -2,19 +2,19 @@
   "meta": {
     "i18n": {
       "en": {
-        "description": "Core formulas validated against OpenFrontIO v32 (numeric values/coefficients shown as strings)."
+        "description": "Core formulas validated against OpenFrontIO v33 (numeric values/coefficients shown as strings)."
       },
       "zh": {
-        "description": "按 OpenFrontIO v32 核验的核心公式（数值/系数以字符串展示）。"
+        "description": "按 OpenFrontIO v33 核验的核心公式（数值/系数以字符串展示）。"
       },
       "fr": {
-        "description": "Formules clés vérifiées sur OpenFrontIO v32 (valeurs et coefficients sous forme de chaînes)."
+        "description": "Formules clés vérifiées sur OpenFrontIO v33 (valeurs et coefficients sous forme de chaînes)."
       },
       "de": {
-        "description": "Mit OpenFrontIO v32 abgeglichene Kernformeln (Werte/Koeffizienten als Strings)."
+        "description": "Mit OpenFrontIO v33 abgeglichene Kernformeln (Werte/Koeffizienten als Strings)."
       },
       "nl": {
-        "description": "Kernformules gecontroleerd aan de hand van OpenFrontIO v32 (waarden/coëfficiënten als tekst)."
+        "description": "Kernformules gecontroleerd aan de hand van OpenFrontIO v33 (waarden/coëfficiënten als tekst)."
       }
     }
   },
@@ -609,23 +609,23 @@
           "i18n": {
             "en": {
               "name": "Default nuke speed",
-              "expr": "10 tiles/tick (v32)"
+              "expr": "10 tiles/tick (v33)"
             },
             "zh": {
               "name": "默认核弹速度",
-              "expr": "10 tiles/tick (v32)"
+              "expr": "10 tiles/tick (v33)"
             },
             "fr": {
               "name": "Vitesse par défaut des nukes",
-              "expr": "10 tiles/tick (v32)"
+              "expr": "10 tiles/tick (v33)"
             },
             "de": {
               "name": "Standard-Nuke-Geschwindigkeit",
-              "expr": "10 Tiles/Tick (v32)"
+              "expr": "10 Tiles/Tick (v33)"
             },
             "nl": {
               "name": "Standaardsnelheid van nukes",
-              "expr": "10 tiles/tick (v32)"
+              "expr": "10 tiles/tick (v33)"
             }
           }
         },
@@ -657,23 +657,47 @@
           "i18n": {
             "en": {
               "name": "SAM intercept targets",
-              "expr": "AtomBomb / HydrogenBomb; MIRV warheads aimed less than 50 tiles away; MIRV carrier immune"
+              "expr": "AtomBomb / HydrogenBomb / in-flight MIRVWarhead (v33 trajectory targeting)"
             },
             "zh": {
               "name": "SAM 拦截目标",
-              "expr": "AtomBomb / HydrogenBomb；目标点距发射器小于 50 tiles 的 MIRV 弹头；载体免疫"
+              "expr": "AtomBomb / HydrogenBomb / 飞行中的 MIRVWarhead（v33 弹道选目标）"
             },
             "fr": {
               "name": "Cibles d'interception SAM",
-              "expr": "AtomBomb / HydrogenBomb ; ogives MIRV visant à moins de 50 tiles ; véhicule immunisé"
+              "expr": "AtomBomb / HydrogenBomb / MIRVWarhead en vol (ciblage de trajectoire v33)"
             },
             "de": {
               "name": "SAM-Abfangziele",
-              "expr": "AtomBomb / HydrogenBomb; MIRV-Sprengköpfe mit Ziel unter 50 Tiles; Träger immun"
+              "expr": "AtomBomb / HydrogenBomb / fliegender MIRVWarhead (v33-Flugbahnziel)"
             },
             "nl": {
               "name": "SAM-onderscheppingsdoelen",
-              "expr": "AtomBomb / HydrogenBomb; MIRV-kernkoppen met doel op minder dan 50 tiles; drager immuun"
+              "expr": "AtomBomb / HydrogenBomb / vliegende MIRVWarhead (v33-baanselectie)"
+            }
+          }
+        },
+        {
+          "i18n": {
+            "en": {
+              "name": "MIRV silo cooldown",
+              "expr": "Launching MIRV calls MissileSilo.launch() and blocks an immediate follow-up nuke"
+            },
+            "zh": {
+              "name": "MIRV 发射井冷却",
+              "expr": "发射 MIRV 会调用 MissileSilo.launch()，不能立刻从同一发射井补第二枚核弹"
+            },
+            "fr": {
+              "name": "Cooldown du silo après MIRV",
+              "expr": "Le tir d’un MIRV appelle MissileSilo.launch() et bloque une nuke immédiate"
+            },
+            "de": {
+              "name": "Silo-Cooldown nach MIRV",
+              "expr": "Ein MIRV-Start ruft MissileSilo.launch() auf und verhindert einen sofortigen zweiten Nuke"
+            },
+            "nl": {
+              "name": "Silo-cooldown na MIRV",
+              "expr": "Een MIRV-lancering roept MissileSilo.launch() aan en blokkeert een directe tweede nuke"
             }
           }
         },

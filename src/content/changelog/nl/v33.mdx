@@ -1,0 +1,74 @@
+---
+title: 'v33 beta1: MIRV-tegenspel, Doomsday-golven, Ranked 2v2 en 22 kaarten'
+description: 'Spelersgerichte OpenFront v33 beta1-notities: normale SAM-interceptie van MIRV-kernkoppen, silo-cooldown, Doomsday, Ranked 2v2, warship-veterancy, onbegaanbaar terrein en 22 kaarten.'
+pubDate: 2026-07-31
+updatedDate: 2026-08-01
+version: v33
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Direct antwoord: wat verandert je volgende partij?
+
+De gepubliceerde Release `v0.33.0-beta1` bevat echte v33-notities, hoewel de tag beta blijft. De belangrijkste strategische wijziging: MIRV is nu een verzadigingswapen, geen betrouwbare manier om SAM te omzeilen.
+
+MIRV-kernkoppen vliegen als normale nukes en gaan door de gewone SAM-baanselectie. Een MIRV-lancering zet ook de Missile Silo op cooldown; dezelfde silo kan dus niet direct een tweede nuke afvuren.
+
+Andere bepalende wijzigingen zijn tien minuten Doomsday-respijt, Ranked 2v2, warship-veterancy, onbegaanbaar terrein en 22 nieuwe kaarten.
+
+## MIRV en SAM: plan overbelasting, geen omzeiling
+
+Na de splitsing wordt elke kernkop een vliegende `MIRVWarhead`. SAM controleert die samen met Atom Bomb en Hydrogen Bomb.
+
+De oude verkorte regel “doel binnen 50 tiles van de lanceerder” is in v33 verouderd. Interceptie hangt af van baan, SAM-bereik, raketvluchttijd, beschikbare schoten en cooldown.
+
+- **Aanvaller:** spreid kernkoppen over de randen van dekking of combineer lanceringen zodat SAMs hun geladen raketten verbruiken.
+- **Verdediger:** overlap lanceerders en dek belangrijke vliegroutes, niet alleen een cirkel van 50 tiles rond elke SAM.
+- **Beide kanten:** reken na een MIRV op silo-cooldown. Een tweede nuke vereist een andere gereedstaande silo of een later venster.
+
+Lees de bijgewerkte [nuke- en SAM-mechanieken](/nl/mechanics/nukes/) en [strategie voor nucleaire afschrikking](/nl/strategies/nuclear-deterrence/).
+
+## Doomsday Clock: beweeg voor de eerste golf
+
+Elke snelheid begint met **10 minuten respijt**. Daarna stijgt het vereiste terreinaandeel in golven naar 4%, 9%, 16%, 26%, 40% en uiteindelijk 55%.
+
+Een team wordt beoordeeld op gezamenlijk terrein tegen dezelfde grens als een solo-zijde. Na de waarschuwing verliest een doomed zijde troepen en warship-HP tot een **vloer van 5%**, niet tot nul.
+
+De praktische regel: verzeker voor minuut tien centrale toegang en twee uitwegen. Een rijke randpositie wordt een val als slechts één vijandige corridor naar houdbaar gebied leidt.
+
+## Ranked 2v2: gebruik de beschermde minuut
+
+Ranked heeft nu een aparte 2v2-ladder en koppelt bij voorkeur clangenoten. PvP-spawnbescherming duurt **1 minuut** en Compact-kaarten verschijnen **50%** van de tijd.
+
+De partij kan vroeg eindigen wanneer een volledig team dood of losgekoppeld is. Gebruik de beschermde minuut voor een gezamenlijk front, niet voor twee losse economieën aan tegenovergestelde randen.
+
+## Warship-veterancy: behoud het schip dat ervaring opbouwde
+
+Warships kunnen **3 veterancy-niveaus** bereiken. Elk niveau geeft **20% maximale HP** en **20% granaatschade** extra.
+
+Eén vernietigd vijandelijk warship geeft een niveau. Tien gedode transportschepen of 25 veroverde handelsschepen vullen ook een niveau. De HP-limiet stijgt, maar het schip geneest niet onmiddellijk.
+
+Een veteraan is nu een groeiend bezit. Draai een beschadigd veteranenschip terug naar een Port in plaats van het als een nieuwe romp te ruilen.
+
+## Onbegaanbaar terrein en 22 nieuwe kaarten
+
+Kaartmakers kunnen terrein als onbegaanbaar markeren. Dat verandert landroutes, spawn-uitgangen, nukepaden en welke kusten werkelijk een aanval ondersteunen.
+
+Nieuw zijn Sol, Russia, United States, France, Germany, China, Vietnam, Scandinavia, Balkhash, Baltics en Caspian Sea.
+
+Daarnaast zijn er Clearwater Lakes, Crimea, Finger Lakes, Gulf of Guinea, Hecate Strait, Irish Sea, Las Vegas Strip, Levant, Tierra del Fuego, Branching Paths en More than luck.
+
+De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**. Controleer op een onbekende kaart contactafstand, waterroutes en onbegaanbare knelpunten voordat je spawnt.
+
+## Kleinere wijzigingen om te onthouden
+
+- Rechtsklik annuleert nu warship- of bootselectie in plaats van het actiemenu te openen.
+- De ports-disabled-modifier verdwijnt uit openbare partijen.
+- In Ranked 1v1 daalt de Compact-kans van 50% naar 20%.
+- Warships van een doomed zijde blijven patrouilleren terwijl hun HP afneemt.
+
+## Bronstatus
+
+GitHub markeert deze Release als `draft=false` en `prerelease=false`, maar de officiële tag blijft `v0.33.0-beta1`. Daarom behouden we het beta-label en noemen we dit niet ten onrechte een stabiele `v0.33.0`.
+
+Bronnen: [officiële v0.33.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1), [SAM-doelselectie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts), [MIRV-uitvoering](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts) en [veterancy-configuratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts).

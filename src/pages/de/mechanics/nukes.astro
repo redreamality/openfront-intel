@@ -18,11 +18,11 @@ const nukes = formulas.groups.nukes;
       <tbody>
         <tr><td>AtomBomb</td><td>750.000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5.000.000</td><td>80</td><td>100</td><td>✓</td></tr>
-        <tr><td>MIRVWarhead</td><td>— (von MIRV abgespalten)</td><td>12</td><td>18</td><td>Bedingt: Ziel unter 50 Tiles vom SAM</td></tr>
+        <tr><td>MIRVWarhead</td><td>— (von MIRV abgespalten)</td><td>12</td><td>18</td><td>✓ normales SAM-Ziel im Flug</td></tr>
         <tr><td>MIRV (Träger)</td><td>25M + 15M × bereits gestartet</td><td colspan="2">spaltet sich in mehrere MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>Verhalten im v0.32.18-Quellcode:</strong> Der MIRV-Träger ist kein SAM-Ziel. Nach der Trennung zerstört ein Werfer Sprengköpfe, deren Ziel weniger als 50 Tiles entfernt liegt. Das verbraucht einen Schusszyklus und löst den Cooldown aus; Platzierung und Redundanz bleiben entscheidend. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Upstream-SAM-Ausführung prüfen</a>.</p>
+    <p><strong>Verhalten im v33-beta-Quellcode:</strong> Der Träger bleibt außerhalb der SAM-Zielliste. Nach der Trennung fliegt jeder MIRVWarhead über NukeExecution und die normale Flugbahnprüfung. Die alte 50-Tiles-Kurzregel entfällt. Der Start setzt auch das Missile Silo auf Cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">SAM-Ziele prüfen</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV-Ausführung prüfen</a>.</p>
     <Callout type="spec" title="Wirkungsradius im Detail">
       <p>Im <strong>inner</strong>-Radius werden alle tiles zu 100 % zerstört. <strong>outer</strong> ist der Außenring; er breitet sich per BFS mit ca. 50 % Wahrscheinlichkeit aus und hinterlässt Fallout-Zonen. Die Fallout-Zone schwächt vorübergehend die mag des Angreifers: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -33,7 +33,7 @@ const nukes = formulas.groups.nukes;
     <h2>SAM-Verteidigung</h2>
     <FormulaBlock label={nukes} items={nukes.items} />
     <ul>
-      <li><strong>Fängt AtomBomb und HydrogenBomb ab</strong>. Der MIRV-Träger wird nicht anvisiert, aber Sprengköpfe mit einem Ziel unter 50 Tiles vom Werfer werden separat zerstört.</li>
+      <li><strong>Fängt AtomBomb, HydrogenBomb und fliegende MIRVWarheads ab</strong>; für alle gilt dieselbe Flugbahn- und Zeitlogik. Der Träger vor der Trennung ist kein Ziel.</li>
       <li>Reichweite wächst von 70 auf max. 150 tiles: Empfohlen mind. Stufe 3 (etwa 90–100 tiles), um eine effektive Linie zu bilden.</li>
       <li>Cooldown 90 ticks ≈ 9 Sekunden. Bei einer Doppel-Salve kann eine einzelne SAM nur ein Geschoss abfangen — 2–3 SAMs nötig.</li>
       <li>Bauzeit 300 ticks (30 Sekunden) — kein Last-Minute-Aufstellen.</li>
@@ -48,7 +48,7 @@ const nukes = formulas.groups.nukes;
     </ol>
 
     <Callout type="warn" title="Die Psychologie der MIRV">
-      <p>Der <strong>wahre Wert der MIRV ist kein garantierter Treffer</strong>: Seit dem v24-Nerf misst der Outer-Ring je Sprengkopf nur 18 Tiles. Der Träger durchquert die SAM-Abdeckung, fertige Werfer können jedoch Sprengköpfe für ihre Nahzone löschen. Verteilte Ziele können diesen lokalen Schutz weiterhin überlasten; Verteidiger sollten SAMs verteilen, ohne sie in eine einzige Explosionszone zu stapeln.</p>
+      <p>Der <strong>wahre Wert der MIRV ist Sättigung, kein garantierter Treffer</strong>. Nach der Trennung wird jeder Sprengkopf zum normalen SAM-Ziel. Angreifer müssen geladene Schüsse oder gedeckte Flugwege überlasten; Verteidiger sollten Werfer überlappen, ohne sie in eine Explosionszone zu stapeln.</p>
     </Callout>
 
     <h2>Anti-Nuke-Essentials</h2>

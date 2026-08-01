@@ -1,0 +1,74 @@
+---
+title: 'v33 beta1: MIRV Counterplay, Doomsday Waves, Ranked 2v2 & 22 Maps'
+description: 'Player-focused OpenFront v33 beta1 notes: normal SAM interception for MIRV warheads, silo cooldown, Doomsday timing, Ranked 2v2, warship veterancy, impassable terrain, and 22 maps.'
+pubDate: 2026-07-31
+updatedDate: 2026-08-01
+version: v33
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Direct answer: what changes your next match?
+
+The published `v0.33.0-beta1` Release is a real v33 change set, although the tag still carries a beta label. Its biggest strategic change is that MIRV is now a saturation weapon, not a reliable SAM bypass.
+
+MIRV warheads fly as normal nukes and can be intercepted through the regular SAM trajectory system. Launching a MIRV also puts its Missile Silo on cooldown, so the same silo cannot fire an immediate follow-up nuke.
+
+The other match-defining changes are a 10-minute Doomsday grace period, Ranked 2v2, warship veterancy, impassable terrain, and 22 new maps.
+
+## MIRV and SAM: plan an overload, not a bypass
+
+After the MIRV carrier separates, each warhead becomes an in-flight `MIRVWarhead`. SAM targeting now checks it beside Atom Bombs and Hydrogen Bombs.
+
+The old “target must be within 50 tiles of the launcher” shortcut is obsolete in v33. Interception depends on the warhead trajectory, SAM range, missile travel time, available shots, and cooldown.
+
+- **Attacker:** spread warheads across coverage boundaries or combine launches so SAMs exhaust ready shots.
+- **Defender:** overlap launchers and keep key routes inside coverage instead of protecting only a 50-tile circle around each structure.
+- **Both sides:** count the silo cooldown after a MIRV. A second nuke needs another ready silo or a later firing window.
+
+See the updated [nuke and SAM mechanics](/mechanics/nukes/) and [nuclear deterrence strategy](/strategies/nuclear-deterrence/).
+
+## Doomsday Clock: move before the first wave
+
+Every speed preset starts with a **10-minute grace period**. The required territory share then rises in waves toward 4%, 9%, 16%, 26%, 40%, and finally 55%.
+
+Teams are judged by their combined territory against the same bar as a solo side. A doomed side receives a warning, then loses troops and warship health until reaching a **5% floor**, not zero.
+
+The practical rule is to secure central access and two escape routes before minute 10. Edge wealth is temporary if the next wave forces you through one hostile corridor.
+
+## Ranked 2v2: survive the protected minute
+
+Ranked now has a separate 2v2 ladder and prefers clanmates as teammates. Ranked 2v2 PvP spawn immunity is **1 minute**, and Compact maps appear **50%** of the time.
+
+A match can end early when a full team is dead or disconnected. Use the protected minute to establish a shared front; do not interpret it as permission for both teammates to greed on opposite edges.
+
+## Warship veterancy: preserve the ship that earned kills
+
+Warships can reach **3 veterancy levels**. Each level adds **20% maximum health** and **20% shell damage**.
+
+One enemy warship kill grants a level. Progress can also come from 10 transport kills or 25 trade-ship captures. A new level raises the health cap but does not instantly heal the ship.
+
+Veteran ships are now compounding assets. Rotate a damaged veteran to a Port instead of trading it like a fresh hull.
+
+## Impassable terrain and 22 new maps
+
+Mappers can mark terrain as impassable. That changes land routes, spawn exits, nuke paths, and which coastlines can actually support an attack.
+
+The new pool adds Sol, Russia, United States, France, Germany, China, Vietnam, Scandinavia, Balkhash, Baltics, and Caspian Sea.
+
+It also adds Clearwater Lakes, Crimea, Finger Lakes, Gulf of Guinea, Hecate Strait, Irish Sea, Las Vegas Strip, Levant, Tierra del Fuego, Branching Paths, and More than luck.
+
+Use the updated [map database](/database/maps/) to confirm the full **117-map** pool. On unfamiliar maps, check contact distance, usable water routes, and impassable chokepoints before committing to a spawn.
+
+## Smaller changes worth remembering
+
+- Right-click now cancels warship or boat selection instead of opening the action menu.
+- Public games no longer rotate the ports-disabled modifier.
+- Compact-map probability in Ranked 1v1 drops from 50% to 20%.
+- Warships from doomed sides keep patrolling while their health decays.
+
+## Source status
+
+GitHub labels this Release `draft=false` and `prerelease=false`, but the official tag is still `v0.33.0-beta1`. This page keeps that beta label instead of presenting an untagged stable `v0.33.0`.
+
+Sources: [official v0.33.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1), [SAM targeting](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts), [MIRV execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts), and [veterancy configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts).

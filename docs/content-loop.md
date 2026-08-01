@@ -1,6 +1,6 @@
 # OpenFront Intel 每日内容循环
 
-更新日期：2026-07-31。
+更新日期：2026-08-01。
 
 本文件既是每日任务的执行手册，也是内容队列和运行记录。定时任务每次运行都必须先读本文件，并在结束前主动更新完成项、新增项和运行日志。
 
@@ -102,7 +102,8 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-07-31：依据 v0.32.18 `SAMLauncherExecution.ts` 修正“整个 MIRV 都绕过 SAM”的五语事实错误；明确载体不是 SAM 目标，目标点距发射器小于 50 tiles 的分裂弹头会被清除；同步核威慑、核武机制、Water Nukes、FAQ、Glossary、单位/建筑机制、相邻策略、提取快照与生成数据；[PR #3](https://github.com/redreamality/openfront-intel/pull/3)。
+- [x] 2026-08-01：同步 OpenFrontIO `v0.33.0-beta1` 五语版本笔记；更新 MIRV 弹头常规 SAM 弹道拦截、Missile Silo 冷却、战舰三级熟练度、Doomsday 时序、Ranked 2v2、不可通行地形与 22 张新地图；刷新生成快照至 v33 和 117 张地图，并同步核威慑、Water Nukes、经济、海军、首局与快捷键相邻内容；保留 beta tag，未写成无后缀稳定版。PR 待创建。
+- [x] 2026-07-31：依据 v0.32.18 `SAMLauncherExecution.ts` 修正“整个 MIRV 都绕过 SAM”的五语事实错误；明确载体不是 SAM 目标，目标点距发射器小于 50 tiles 的分裂弹头会被清除；同步核威慑、核武机制、Water Nukes、FAQ、Glossary、单位/建筑机制、相邻策略、提取快照与生成数据；[PR #3](https://github.com/redreamality/openfront-intel/pull/3) 已于 2026-07-31 合并。
 - [x] 2026-07-31：刷新 Search Console 7 天（2026-07-23 至 2026-07-29）与 28 天（2026-07-02 至 2026-07-29）本地报告。
 - [x] 2026-07-31：完成 OpenFront v32 五语内容升级并合并 [PR #2](https://github.com/redreamality/openfront-intel/pull/2)。
 - [x] 2026-07-31：将内容循环改为每日执行，建立定时任务 `openfront`。
@@ -110,13 +111,11 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 待办队列
 
-- [ ] 2026-07-31｜上游 `main/resources/maps` 与本地 `maps.json` 差集｜上游 117 个地图目录，本地数据库 95 条，缺 22 个且无多余项；玩家问题：当前能玩哪些地图、数据库为什么搜不到；目标页：`/database/maps/`；作为一次提取器与数据刷新处理，不拆成 22 个薄页。
 - [ ] 2026-07-31｜Search Console 7/28 天｜`water nukes` 意图仍落到 guides 索引或 hotkeys，但专页在报告截止后才上线；玩家问题：Water Nukes 是什么、怎样利用和防守；目标页：`/guides/water-nukes/`；先观察新页收录与 14 天数据，不立即重复改稿。
 - [ ] 2026-07-31｜Search Console 7/28 天 + 未发布 upstream main｜`shortcuts`、`hotkeys`、`controls`、`keybinds` 同时落到两页；玩家问题：快速查键位还是练习操作流程，以及右键取消舰船选择、公开房间 `P` 暂停为何与旧说明不同；目标页：`/shortcuts/`（速查）与 `/guides/hotkeys/`（训练/故障恢复）；先明确两页分工，未发布键位变化正式发布后再写入。
-- [ ] 2026-07-31｜v32 内容缺口 + Search Console｜玩家询问 Doomsday Clock 的触发和应对；目标页：新增五语实战攻略，并由 `/glossary/`、`/changelog/v32/` 导入。
+- [ ] 2026-08-01｜v33 正式 Release + Search Console 既有内容缺口｜Doomsday Clock 已进入公开 modifier 轮换；玩家问题：10 分钟宽限、波次收圈、部队/战舰衰减如何改变扩张与撤退；目标页：新增五语实战攻略，并由 `/glossary/`、`/changelog/v33/` 导入。今天先在版本笔记给出决策摘要，不与独立攻略重复扩写。
 - [ ] 2026-07-31｜Search Console 7/28 天｜围绕 `population growth`、`money guide`、`economy guide` 整理唯一主落地页；玩家问题：何时扩人口、何时存钱；目标页：`/mechanics/economy/`。
-- [ ] 2026-07-31｜未发布 upstream main｜SAM targeting、范围和核弹路径修复尚未进入正式 Release；玩家问题：为什么覆盖圈内仍漏拦或误判；正式发布后复核 `/mechanics/nukes/` 与 `/strategies/nuclear-deterrence/`。
-- [ ] 2026-07-31｜未发布 upstream main｜Ranked 2v2 的出生保护、Compact/Normal 轮换和整队掉线判负已变化；玩家问题：开局多久安全、地图大小为何不同、队友全掉线会怎样；正式发布后更新 `/mechanics/modes/`。
+- [ ] 2026-08-01｜v33 正式 Release｜Ranked 2v2 已发布：PvP 出生保护 1 分钟、Compact 地图概率 50%，整队死亡或断线会提前结束；玩家问题：开局多久安全、地图大小为何不同、队友全掉线会怎样；目标页：`/mechanics/modes/`。今天先在版本笔记给出直接答案，后续按独立模式页补全。
 - [ ] 2026-07-31｜内容缺口｜新增攻击比例与吞并效率攻略。
 - [ ] 2026-07-31｜内容缺口｜新增最佳出生位置决策攻略。
 - [ ] 2026-07-31｜Search Console 7/28 天｜品牌词主要落到法语 About、德语首页或英文首页；玩家问题：寻找 OpenFront 游戏与站内情报入口；刷新数据后判断首页定位、hreflang 与标题是否需要调整。
@@ -127,3 +126,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 |---|---|---|---|---|
 | 2026-07-31 | 回到并同步 `main`；建立每日执行手册与定时任务 `openfront` | 频率由每周改为每天；新增品牌词错落地观察项 | `git diff --check` 通过 | 刷新 7 天和 28 天 Search Console 报告 |
 | 2026-07-31 | 通过 [PR #3](https://github.com/redreamality/openfront-intel/pull/3) 修正五语 MIRV/SAM 事实：载体不可拦，目标点距发射器小于 50 tiles 的弹头可被清除；同步现有主落地页、相邻内容和生成数据 | 最新正式版本仍为 v0.32.18；GitHub Issues/Feedlog 无真实重复问题；新增 22 个缺失地图的数据刷新项，并合并 shortcuts/hotkeys 重复意图 | `pnpm content:audit -- --strict` 35/35；`pnpm build` 220 页；`pnpm check:links` 检查 8,739 个链接；定向 e2e 53/53；完整 e2e 142/142；旧弹头免疫短语与模糊 `within 50` 文案均为零匹配 | 刷新地图提取基线并补齐 22 个地图 ID；若出现新正式 Release 则先响应版本变化 |
+| 2026-08-01 | 完成 `v0.33.0-beta1` 五语玩家版 Release Notes，并同步 MIRV/SAM/Silo、战舰熟练度、右键取消舰船选择、117 张地图和相邻策略；PR 待创建 | GitHub Release 正文完整且 `draft=false`、`prerelease=false`，但 tag 保留 beta；GitHub Issues 为 0，Feedlog 仅系统 welcome；新增 Doomsday 与 Ranked 2v2 后续独立页，地图刷新并入今日主任务 | `pnpm content:audit -- --strict` 35/35；`pnpm build` 225 页；`pnpm check:links` 检查 8,964 个链接；内容完整性 e2e 65/65；完整 e2e 154/154 | 编写五语 Doomsday Clock 实战攻略，并由 Glossary、v33 版本笔记与模式页导入 |

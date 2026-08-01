@@ -6,7 +6,7 @@
  *     <sandbox>/OpenFrontIO/    (cloned source)
  *     <sandbox>/openfront-intel/ (this site — runs the script from here)
  *
- * Writes JSON to ./src/data/. Falls back to a built-in v32 snapshot when the
+ * Writes JSON to ./src/data/. Falls back to a built-in v33 snapshot when the
  * source repo is not present, so the site can still build (e.g. on a CI box
  * that only has this repo checked out).
  *
@@ -26,7 +26,7 @@ const SOURCE_DIR = resolve(ROOT, '..', 'OpenFrontIO');
 mkdirSync(OUT_DIR, { recursive: true });
 
 const HAS_SOURCE = existsSync(SOURCE_DIR);
-const SNAPSHOT_VERSION = 'v32';
+const SNAPSHOT_VERSION = 'v33';
 
 function readUpstreamCommit() {
   if (!HAS_SOURCE) return null;
@@ -42,9 +42,9 @@ function readUpstreamCommit() {
 
 const meta = {
   generatedAt: new Date().toISOString(),
-  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v32',
+  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v33',
   // The structured fallback model and editorial notes were validated against
-  // v32. A newer checkout does not automatically make every snapshot field a
+  // v33. A newer checkout does not automatically make every snapshot field a
   // newer-version claim, so keep the version explicit and record the commit
   // separately for reproducibility.
   upstreamVersion: SNAPSHOT_VERSION,
@@ -129,13 +129,14 @@ const UNIT_SNAPSHOT = [
         notes: [
           'Auto-retreats at HP ≤ 750',
           'Since v24: prioritizes transport ships and cools down immediately on hit',
+          'v33 veterancy: up to 3 levels; each adds 20% max health and shell damage',
         ],
       },
       zh: {
         name: '战舰',
         role: '海上控制单位,发射 Shell 攻击敌方船只/海岸。',
         costFormula: 'min(1,000,000, (n+1) × 250,000),n = 已有战舰数',
-        notes: ['生命值 ≤ 750 自动撤退', 'v24 起优先击中运输船且击中后立即冷却'],
+        notes: ['生命值 ≤ 750 自动撤退', 'v24 起优先击中运输船且击中后立即冷却', 'v33 熟练度最多 3 级；每级增加 20% 最大生命与炮弹伤害'],
       },
       fr: {
         name: 'Navire de guerre',
@@ -144,19 +145,20 @@ const UNIT_SNAPSHOT = [
         notes: [
           'Retraite automatique à HP ≤ 750',
           'Depuis v24 : cible en priorité les navires de transport et refroidit immédiatement après un tir',
+          'Vétérance v33 : 3 niveaux maximum ; +20 % de vie max. et de dégâts d’obus par niveau',
         ],
       },
       de: {
         name: 'Kriegsschiff',
         role: 'Marinekontrolleinheit; feuert Granaten auf feindliche Schiffe/Küsten.',
         costFormula: 'min(1.000.000, (n+1) × 250.000), n = vorhandene Kriegsschiffe',
-        notes: ['Automatischer Rückzug bei HP ≤ 750', 'Ab v24: priorisiert Transportschiffe und kühlt nach Treffer sofort ab'],
+        notes: ['Automatischer Rückzug bei HP ≤ 750', 'Ab v24: priorisiert Transportschiffe und kühlt nach Treffer sofort ab', 'v33-Veteranenstatus: maximal 3 Stufen; je +20 % Max-LP und Granatenschaden'],
       },
       nl: {
         name: 'Oorlogsschip',
         role: 'Marine controle-eenheid; vuurt granaten af op vijandelijke schepen/kusten.',
         costFormula: 'min(1.000.000, (n+1) × 250.000), n = bestaande oorlogsschepen',
-        notes: ['Automatische terugtocht bij HP ≤ 750', 'Sinds v24: prioriteert transportschepen en koelt direct af na een treffer'],
+        notes: ['Automatische terugtocht bij HP ≤ 750', 'Sinds v24: prioriteert transportschepen en koelt direct af na een treffer', 'v33-veterancy: maximaal 3 niveaus; elk +20% maximale HP en granaatschade'],
       },
     },
   },
@@ -187,11 +189,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: null,
     upgradable: false,
     i18n: {
-      en: { name: 'SAM Missile', role: 'Auto-launched by SAM Launchers to intercept nukes.', costFormula: 'Free, gated by SAM cooldown', notes: ['Default speed 12 tiles/tick', 'Intercepts AtomBomb/HydrogenBomb; MIRV warheads use a separate close-target defense'] },
-      zh: { name: 'SAM 拦截弹', role: '由 SAM 发射器自动发射拦截核弹。', costFormula: '免费,受 SAM 冷却限制', notes: ['默认速度 12 tiles/tick', '拦截 AtomBomb 与 HydrogenBomb；MIRV 弹头使用独立的近目标防御逻辑'] },
-      fr: { name: 'Missile SAM', role: 'Auto-lancé par les lanceurs SAM pour intercepter les nukes.', costFormula: 'Gratuit, limité par le cooldown SAM', notes: ['Vitesse par défaut 12 tiles/tick', 'Intercepte AtomBomb/HydrogenBomb ; les ogives MIRV suivent une défense de proximité séparée'] },
-      de: { name: 'SAM-Rakete', role: 'Automatisch von SAM-Werfern abgefeuert, um Atomwaffen abzufangen.', costFormula: 'Kostenlos, durch SAM-Abklingzeit begrenzt', notes: ['Standardgeschwindigkeit 12 Tiles/Tick', 'Fängt AtomBomb/HydrogenBomb ab; MIRV-Sprengköpfe nutzen eine separate Nahzielabwehr'] },
-      nl: { name: 'SAM-raket', role: 'Automatisch gelanceerd door SAM-installaties om nukes te onderscheppen.', costFormula: 'Gratis, beperkt door SAM-cooldown', notes: ['Standaardsnelheid 12 tiles/tick', 'Onderschept AtomBomb/HydrogenBomb; MIRV-kernkoppen gebruiken aparte nabijdoelverdediging'] },
+      en: { name: 'SAM Missile', role: 'Auto-launched by SAM Launchers to intercept nukes.', costFormula: 'Free, gated by SAM cooldown', notes: ['Default speed 12 tiles/tick', 'v33 targets AtomBomb, HydrogenBomb, and in-flight MIRV warheads through the same trajectory check'] },
+      zh: { name: 'SAM 拦截弹', role: '由 SAM 发射器自动发射拦截核弹。', costFormula: '免费,受 SAM 冷却限制', notes: ['默认速度 12 tiles/tick', 'v33 对 AtomBomb、HydrogenBomb 与飞行中的 MIRV 弹头使用同一套弹道拦截检查'] },
+      fr: { name: 'Missile SAM', role: 'Auto-lancé par les lanceurs SAM pour intercepter les nukes.', costFormula: 'Gratuit, limité par le cooldown SAM', notes: ['Vitesse par défaut 12 tiles/tick', 'En v33, AtomBomb, HydrogenBomb et les ogives MIRV en vol suivent le même contrôle de trajectoire'] },
+      de: { name: 'SAM-Rakete', role: 'Automatisch von SAM-Werfern abgefeuert, um Atomwaffen abzufangen.', costFormula: 'Kostenlos, durch SAM-Abklingzeit begrenzt', notes: ['Standardgeschwindigkeit 12 Tiles/Tick', 'v33 prüft AtomBomb, HydrogenBomb und fliegende MIRV-Sprengköpfe mit derselben Flugbahnlogik'] },
+      nl: { name: 'SAM-raket', role: 'Automatisch gelanceerd door SAM-installaties om nukes te onderscheppen.', costFormula: 'Gratis, beperkt door SAM-cooldown', notes: ['Standaardsnelheid 12 tiles/tick', 'v33 controleert AtomBomb, HydrogenBomb en vliegende MIRV-kernkoppen met dezelfde baanlogica'] },
     },
   },
   {
@@ -255,11 +257,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: null,
     upgradable: false,
     i18n: {
-      en: { name: 'MIRV', role: 'Long-range multi-warhead vehicle; splits into multiple MIRV Warheads on arrival.', costFormula: '25,000,000 + 15,000,000 × launches fired', notes: ['Major v24 nerf: craters can be quickly conquered', 'MIRV carrier cannot be intercepted; warheads aimed less than 50 tiles from a SAM can be intercepted'] },
-      zh: { name: 'MIRV 多弹头', role: '远程多弹头载具,到达目标后分裂为多枚 MIRVWarhead。', costFormula: '25,000,000 + 15,000,000 × 已发射数', notes: ['v24 大幅削弱：陨石坑可被快速征服', 'MIRV 载体不可拦截；目标点距 SAM 小于 50 tiles 的弹头可被拦截'] },
-      fr: { name: 'MIRV', role: "Véhicule longue portée à têtes multiples ; se divise en plusieurs têtes MIRV à l'arrivée.", costFormula: '25 000 000 + 15 000 000 × lancements effectués', notes: ['Gros nerf v24 : les cratères peuvent être conquis rapidement', "Le véhicule MIRV n'est pas interceptable ; les ogives visant à moins de 50 tiles d'un SAM peuvent l'être"] },
-      de: { name: 'MIRV', role: 'Langstrecken-Mehrkopfraketenträger; teilt sich bei Ankunft in mehrere MIRV-Sprengköpfe.', costFormula: '25.000.000 + 15.000.000 × Anzahl Starts', notes: ['Großer v24-Nerf: Krater können schnell erobert werden', 'Der MIRV-Träger ist nicht abfangbar; Sprengköpfe mit Ziel unter 50 Tiles vom SAM können abgefangen werden'] },
-      nl: { name: 'MIRV', role: 'Langeafstandsvoertuig met meerdere kernkoppen; splitst bij aankomst in meerdere MIRV-kernkoppen.', costFormula: '25.000.000 + 15.000.000 × aantal lanceringen', notes: ['Grote v24-nerf: kraters kunnen snel veroverd worden', 'De MIRV-drager is niet onderschepbaar; kernkoppen met een doel op minder dan 50 tiles van een SAM wel'] },
+      en: { name: 'MIRV', role: 'Long-range multi-warhead vehicle; splits into multiple MIRV Warheads on arrival.', costFormula: '25,000,000 + 15,000,000 × launches fired', notes: ['Major v24 nerf: craters can be quickly conquered', 'v33 warheads fly as normal nukes and the launch puts the Missile Silo on cooldown'] },
+      zh: { name: 'MIRV 多弹头', role: '远程多弹头载具,到达目标后分裂为多枚 MIRVWarhead。', costFormula: '25,000,000 + 15,000,000 × 已发射数', notes: ['v24 大幅削弱：陨石坑可被快速征服', 'v33 弹头按普通核弹飞行，发射 MIRV 也会让 Missile Silo 进入冷却'] },
+      fr: { name: 'MIRV', role: "Véhicule longue portée à têtes multiples ; se divise en plusieurs têtes MIRV à l'arrivée.", costFormula: '25 000 000 + 15 000 000 × lancements effectués', notes: ['Gros nerf v24 : les cratères peuvent être conquis rapidement', 'En v33, les ogives volent comme des nukes normales et le tir met le Silo en cooldown'] },
+      de: { name: 'MIRV', role: 'Langstrecken-Mehrkopfraketenträger; teilt sich bei Ankunft in mehrere MIRV-Sprengköpfe.', costFormula: '25.000.000 + 15.000.000 × Anzahl Starts', notes: ['Großer v24-Nerf: Krater können schnell erobert werden', 'In v33 fliegen die Sprengköpfe wie normale Nukes und der Start löst Silo-Cooldown aus'] },
+      nl: { name: 'MIRV', role: 'Langeafstandsvoertuig met meerdere kernkoppen; splitst bij aankomst in meerdere MIRV-kernkoppen.', costFormula: '25.000.000 + 15.000.000 × aantal lanceringen', notes: ['Grote v24-nerf: kraters kunnen snel veroverd worden', 'In v33 vliegen kernkoppen als normale nukes en zet de lancering de Silo op cooldown'] },
     },
   },
   {
@@ -272,11 +274,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: null,
     upgradable: false,
     i18n: {
-      en: { name: 'MIRV Warhead', role: 'Small warhead produced when a MIRV splits.', costFormula: 'Auto-produced by MIRV', notes: ['Blast inner 12 / outer 18 tiles', 'SAM intercepts when the target is less than 50 tiles from the launcher'] },
-      zh: { name: 'MIRV 弹头', role: 'MIRV 分裂后的小型弹头。', costFormula: '由 MIRV 自动产生', notes: ['爆炸 inner 12 / outer 18 tiles', '目标点距发射器小于 50 tiles 时可被 SAM 拦截'] },
-      fr: { name: 'Tête MIRV', role: "Petite tête produite lors de la séparation d'un MIRV.", costFormula: 'Auto-produite par MIRV', notes: ['Explosion inner 12 / outer 18 tiles', "Interceptable si la cible se trouve à moins de 50 tiles du lanceur SAM"] },
-      de: { name: 'MIRV-Sprengkopf', role: 'Kleiner Sprengkopf, der bei der Trennung eines MIRV entsteht.', costFormula: 'Automatisch von MIRV produziert', notes: ['Explosion inner 12 / outer 18 Tiles', 'Durch SAM abfangbar, wenn das Ziel unter 50 Tiles vom Werfer liegt'] },
-      nl: { name: 'MIRV-kernkop', role: 'Kleine kernkop geproduceerd bij splitsing van een MIRV.', costFormula: 'Automatisch geproduceerd door MIRV', notes: ['Explosie inner 12 / outer 18 tiles', 'Door SAM onderschepbaar als het doel minder dan 50 tiles van de lanceerder ligt'] },
+      en: { name: 'MIRV Warhead', role: 'Small warhead produced when a MIRV splits.', costFormula: 'Auto-produced by MIRV', notes: ['Blast inner 12 / outer 18 tiles', 'v33: real in-flight nuke, normally targetable by SAM'] },
+      zh: { name: 'MIRV 弹头', role: 'MIRV 分裂后的小型弹头。', costFormula: '由 MIRV 自动产生', notes: ['爆炸 inner 12 / outer 18 tiles', 'v33：作为真实飞行核弹，可被 SAM 正常选中拦截'] },
+      fr: { name: 'Tête MIRV', role: "Petite tête produite lors de la séparation d'un MIRV.", costFormula: 'Auto-produite par MIRV', notes: ['Explosion inner 12 / outer 18 tiles', 'v33 : nuke réellement en vol, ciblée normalement par les SAM'] },
+      de: { name: 'MIRV-Sprengkopf', role: 'Kleiner Sprengkopf, der bei der Trennung eines MIRV entsteht.', costFormula: 'Automatisch von MIRV produziert', notes: ['Explosion inner 12 / outer 18 Tiles', 'v33: echte fliegende Nuke, normal durch SAM erfassbar'] },
+      nl: { name: 'MIRV-kernkop', role: 'Kleine kernkop geproduceerd bij splitsing van een MIRV.', costFormula: 'Automatisch geproduceerd door MIRV', notes: ['Explosie inner 12 / outer 18 tiles', 'v33: echte vliegende nuke, normaal doelwit voor SAM'] },
     },
   },
   {
@@ -340,11 +342,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: 300,
     upgradable: true,
     i18n: {
-      en: { name: 'SAM Launcher', role: 'Anti-air installation intercepting atom/hydrogen bombs and close-target MIRV warheads.', costFormula: 'min(3,000,000, (n+1) × 1,500,000)', notes: ['Cooldown 90 ticks', 'Range scales 70 → 150 tiles by level', 'Cannot intercept MIRV carrier; protects targets less than 50 tiles away from its warheads'] },
-      zh: { name: 'SAM 防空发射器', role: '拦截原子弹、氢弹与近目标 MIRV 弹头的防空设施。', costFormula: 'min(3,000,000, (n+1) × 1,500,000)', notes: ['冷却 90 ticks', '射程随等级 70 → 150 tiles', '不能拦截 MIRV 载体；可保护距发射器小于 50 tiles 的弹头目标'] },
-      fr: { name: 'Lanceur SAM', role: 'Installation anti-aérienne contre Atom/Hydrogen et les ogives MIRV visant à proximité.', costFormula: 'min(3 000 000, (n+1) × 1 500 000)', notes: ['Cooldown 90 ticks', 'Portée 70 → 150 tiles selon le niveau', "N'intercepte pas le véhicule MIRV ; protège les cibles à moins de 50 tiles de ses ogives"] },
-      de: { name: 'SAM-Werfer', role: 'Flugabwehr gegen Atom-/Wasserstoffbomben und MIRV-Sprengköpfe mit nahem Ziel.', costFormula: 'min(3.000.000, (n+1) × 1.500.000)', notes: ['Abklingzeit 90 Ticks', 'Reichweite skaliert 70 → 150 Tiles je Level', 'Fängt den MIRV-Träger nicht ab; schützt Ziele unter 50 Tiles Entfernung vor Sprengköpfen'] },
-      nl: { name: 'SAM-lanceerinstallatie', role: 'Luchtafweer tegen atoom-/waterstofbommen en MIRV-kernkoppen met een nabij doel.', costFormula: 'min(3.000.000, (n+1) × 1.500.000)', notes: ['Cooldown 90 ticks', 'Bereik schaalt 70 → 150 tiles per niveau', 'Onderschept de MIRV-drager niet; beschermt doelen op minder dan 50 tiles tegen kernkoppen'] },
+      en: { name: 'SAM Launcher', role: 'Anti-air installation intercepting atom, hydrogen, and MIRV warhead nukes.', costFormula: 'min(3,000,000, (n+1) × 1,500,000)', notes: ['Cooldown 90 ticks', 'Range scales 70 → 150 tiles by level', 'v33 treats in-flight MIRV warheads as normal SAM targets'] },
+      zh: { name: 'SAM 防空发射器', role: '拦截原子弹、氢弹与 MIRV 弹头核弹的防空设施。', costFormula: 'min(3,000,000, (n+1) × 1,500,000)', notes: ['冷却 90 ticks', '射程随等级 70 → 150 tiles', 'v33 将飞行中的 MIRV 弹头作为普通 SAM 目标'] },
+      fr: { name: 'Lanceur SAM', role: 'Installation anti-aérienne contre les bombes atomiques, hydrogène et ogives MIRV.', costFormula: 'min(3 000 000, (n+1) × 1 500 000)', notes: ['Cooldown 90 ticks', 'Portée 70 → 150 tiles selon le niveau', 'En v33, les ogives MIRV en vol sont des cibles SAM normales'] },
+      de: { name: 'SAM-Werfer', role: 'Flugabwehr gegen Atom-, Wasserstoff- und MIRV-Sprengkopf-Nukes.', costFormula: 'min(3.000.000, (n+1) × 1.500.000)', notes: ['Abklingzeit 90 Ticks', 'Reichweite skaliert 70 → 150 Tiles je Level', 'v33 behandelt fliegende MIRV-Sprengköpfe als normale SAM-Ziele'] },
+      nl: { name: 'SAM-lanceerinstallatie', role: 'Luchtafweer tegen atoom-, waterstof- en MIRV-kernkopnukes.', costFormula: 'min(3.000.000, (n+1) × 1.500.000)', notes: ['Cooldown 90 ticks', 'Bereik schaalt 70 → 150 tiles per niveau', 'v33 behandelt vliegende MIRV-kernkoppen als normale SAM-doelen'] },
     },
   },
   {
@@ -468,9 +470,10 @@ const FORMULAS_SNAPSHOT = {
       { i18n: { en: { name: 'Hydrogen bomb blast radius', expr: 'inner 80 / outer 100 tiles' }, zh: { name: '氢弹冲击半径', expr: 'inner 80 / outer 100 tiles' }, fr: { name: "Rayon d'explosion bombe à hydrogène", expr: 'inner 80 / outer 100 tiles' }, de: { name: 'Wasserstoffbomben-Explosionsradius', expr: 'inner 80 / outer 100 Tiles' }, nl: { name: 'Waterstofbom explosieradius', expr: 'inner 80 / outer 100 tiles' } } },
       { i18n: { en: { name: 'MIRV warhead', expr: 'inner 12 / outer 18 tiles' }, zh: { name: 'MIRV 弹头', expr: 'inner 12 / outer 18 tiles' }, fr: { name: 'Tête MIRV', expr: 'inner 12 / outer 18 tiles' }, de: { name: 'MIRV-Sprengkopf', expr: 'inner 12 / outer 18 Tiles' }, nl: { name: 'MIRV-kernkop', expr: 'inner 12 / outer 18 tiles' } } },
       { i18n: { en: { name: 'SAM cooldown', expr: '90 ticks (9s)' }, zh: { name: 'SAM 冷却', expr: '90 ticks (9s)' }, fr: { name: 'Cooldown SAM', expr: '90 ticks (9s)' }, de: { name: 'SAM-Abklingzeit', expr: '90 Ticks (9s)' }, nl: { name: 'SAM-cooldown', expr: '90 ticks (9s)' } } },
-      { i18n: { en: { name: 'Default nuke speed', expr: '10 tiles/tick (v32)' }, zh: { name: '默认核弹速度', expr: '10 tiles/tick (v32)' }, fr: { name: 'Vitesse par défaut des nukes', expr: '10 tiles/tick (v32)' }, de: { name: 'Standard-Nuke-Geschwindigkeit', expr: '10 Tiles/Tick (v32)' }, nl: { name: 'Standaardsnelheid van nukes', expr: '10 tiles/tick (v32)' } } },
+      { i18n: { en: { name: 'Default nuke speed', expr: '10 tiles/tick (v33)' }, zh: { name: '默认核弹速度', expr: '10 tiles/tick (v33)' }, fr: { name: 'Vitesse par défaut des nukes', expr: '10 tiles/tick (v33)' }, de: { name: 'Standard-Nuke-Geschwindigkeit', expr: '10 Tiles/Tick (v33)' }, nl: { name: 'Standaardsnelheid van nukes', expr: '10 tiles/tick (v33)' } } },
       { i18n: { en: { name: 'SAM range formula', expr: 'samRange(level) = 150 - 480 / (level + 5); default 70, top ≈ 140, cap 150' }, zh: { name: 'SAM 射程公式', expr: 'samRange(level) = 150 - 480 / (level + 5); 默认 70, 顶级 ≈ 140, 上限 150' }, fr: { name: 'Formule de portée SAM', expr: 'samRange(level) = 150 - 480 / (level + 5) ; défaut 70, max ≈ 140, plafond 150' }, de: { name: 'SAM-Reichweiten-Formel', expr: 'samRange(level) = 150 - 480 / (level + 5); Standard 70, Top ≈ 140, Max 150' }, nl: { name: 'SAM-bereik-formule', expr: 'samRange(level) = 150 - 480 / (level + 5); standaard 70, top ≈ 140, max 150' } } },
-      { i18n: { en: { name: 'SAM intercept targets', expr: 'AtomBomb / HydrogenBomb; MIRV warheads aimed less than 50 tiles away; MIRV carrier immune' }, zh: { name: 'SAM 拦截目标', expr: 'AtomBomb / HydrogenBomb；目标点距发射器小于 50 tiles 的 MIRV 弹头；载体免疫' }, fr: { name: "Cibles d'interception SAM", expr: "AtomBomb / HydrogenBomb ; ogives MIRV visant à moins de 50 tiles ; véhicule immunisé" }, de: { name: 'SAM-Abfangziele', expr: 'AtomBomb / HydrogenBomb; MIRV-Sprengköpfe mit Ziel unter 50 Tiles; Träger immun' }, nl: { name: 'SAM-onderscheppingsdoelen', expr: 'AtomBomb / HydrogenBomb; MIRV-kernkoppen met doel op minder dan 50 tiles; drager immuun' } } },
+      { i18n: { en: { name: 'SAM intercept targets', expr: 'AtomBomb / HydrogenBomb / in-flight MIRVWarhead (v33 trajectory targeting)' }, zh: { name: 'SAM 拦截目标', expr: 'AtomBomb / HydrogenBomb / 飞行中的 MIRVWarhead（v33 弹道选目标）' }, fr: { name: "Cibles d'interception SAM", expr: 'AtomBomb / HydrogenBomb / MIRVWarhead en vol (ciblage de trajectoire v33)' }, de: { name: 'SAM-Abfangziele', expr: 'AtomBomb / HydrogenBomb / fliegender MIRVWarhead (v33-Flugbahnziel)' }, nl: { name: 'SAM-onderscheppingsdoelen', expr: 'AtomBomb / HydrogenBomb / vliegende MIRVWarhead (v33-baanselectie)' } } },
+      { i18n: { en: { name: 'MIRV silo cooldown', expr: 'Launching MIRV calls MissileSilo.launch() and blocks an immediate follow-up nuke' }, zh: { name: 'MIRV 发射井冷却', expr: '发射 MIRV 会调用 MissileSilo.launch()，不能立刻从同一发射井补第二枚核弹' }, fr: { name: 'Cooldown du silo après MIRV', expr: 'Le tir d’un MIRV appelle MissileSilo.launch() et bloque une nuke immédiate' }, de: { name: 'Silo-Cooldown nach MIRV', expr: 'Ein MIRV-Start ruft MissileSilo.launch() auf und verhindert einen sofortigen zweiten Nuke' }, nl: { name: 'Silo-cooldown na MIRV', expr: 'Een MIRV-lancering roept MissileSilo.launch() aan en blokkeert een directe tweede nuke' } } },
       { i18n: { en: { name: 'Pre-fire window', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, zh: { name: '提前射击窗口', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, fr: { name: 'Fenêtre de tir anticipé', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, de: { name: 'Vorab-Feuer-Fenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, nl: { name: 'Voor-vuurvenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' } } },
     ],
   },
@@ -510,9 +513,9 @@ const FORMULAS_SNAPSHOT = {
 
 const MAP_CATEGORIES = {
   Continental: ['africa', 'asia', 'australia', 'europe', 'europeclassic', 'giantworldmap', 'northamerica', 'oceania', 'southamerica', 'world'],
-  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'balkans', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caribbean', 'caucasus', 'conakry', 'danishstraits', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fourislands', 'gatewaytotheatlantic', 'greatlakes', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'hongkong', 'iceland', 'indiansubcontinent', 'italia', 'japan', 'juandefucastrait', 'korea', 'lemnos', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'mississippiriver', 'montreal', 'newyorkcity', 'niledelta', 'northwestpassage', 'passage', 'sanfrancisco', 'southeastasia', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'tradersdream', 'twolakes', 'venice', 'yellowsea', 'yenisei'],
-  Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'surrounded', 'titan'],
-  Arcade: ['choppingblock', 'labyrinth', 'onion', 'sierpinski', 'thebox', 'warshipwarship', 'worldinverted'],
+  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'balkans', 'balkhash', 'baltics', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caribbean', 'caspiansea', 'caucasus', 'china', 'clearwaterlakes', 'conakry', 'crimea', 'danishstraits', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fingerlakes', 'fourislands', 'france', 'gatewaytotheatlantic', 'germany', 'greatlakes', 'gulfofguinea', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'hecatestrait', 'hongkong', 'iceland', 'indiansubcontinent', 'irishsea', 'italia', 'japan', 'juandefucastrait', 'korea', 'lasvegasstrip', 'lemnos', 'levant', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'mississippiriver', 'montreal', 'newyorkcity', 'niledelta', 'northwestpassage', 'passage', 'russia', 'sanfrancisco', 'scandinavia', 'southeastasia', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'tierradelfuego', 'tradersdream', 'twolakes', 'unitedstates', 'venice', 'vietnam', 'yellowsea', 'yenisei'],
+  Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'sol', 'surrounded', 'titan'],
+  Arcade: ['branchingpaths', 'choppingblock', 'labyrinth', 'morethanluck', 'onion', 'sierpinski', 'thebox', 'warshipwarship', 'worldinverted'],
   Tournament: ['tourney1', 'tourney2', 'tourney3', 'tourney4'],
 };
 
@@ -576,6 +579,29 @@ const MAP_I18N = {
   warshipwarship: { enName: 'Warship Warship', en: 'Warship Warship', zh: '战舰战舰', fr: 'Warship Warship', de: 'Warship Warship', nl: 'Warship Warship' },
   worldinverted: { enName: 'World Inverted', en: 'World Inverted', zh: '反转世界', fr: 'Monde inversé', de: 'Umgekehrte Welt', nl: 'Omgekeerde wereld' },
   yellowsea: { enName: 'Yellow Sea', en: 'Yellow Sea', zh: '黄海', fr: 'Mer Jaune', de: 'Gelbes Meer', nl: 'Gele Zee' },
+  // --- v33 新增地图 ---
+  balkhash: { enName: 'Balkhash', en: 'Balkhash', zh: '巴尔喀什湖', fr: 'Lac Balkhach', de: 'Balchaschsee', nl: 'Balkasjmeer' },
+  baltics: { enName: 'Baltics', en: 'Baltics', zh: '波罗的海地区', fr: 'Pays baltes', de: 'Baltikum', nl: 'Baltische staten' },
+  branchingpaths: { enName: 'Branching Paths', en: 'Branching Paths', zh: '分岔之路', fr: 'Chemins ramifiés', de: 'Verzweigte Pfade', nl: 'Vertakkende paden' },
+  caspiansea: { enName: 'Caspian Sea', en: 'Caspian Sea', zh: '里海', fr: 'Mer Caspienne', de: 'Kaspisches Meer', nl: 'Kaspische Zee' },
+  china: { enName: 'China', en: 'China', zh: '中国', fr: 'Chine', de: 'China', nl: 'China' },
+  clearwaterlakes: { enName: 'Clearwater Lakes', en: 'Clearwater Lakes', zh: '清水湖群', fr: 'Lacs Clearwater', de: 'Clearwater-Seen', nl: 'Clearwatermeren' },
+  crimea: { enName: 'Crimea', en: 'Crimea', zh: '克里米亚', fr: 'Crimée', de: 'Krim', nl: 'De Krim' },
+  fingerlakes: { enName: 'Finger Lakes', en: 'Finger Lakes', zh: '手指湖群', fr: 'Finger Lakes', de: 'Finger Lakes', nl: 'Finger Lakes' },
+  france: { enName: 'France', en: 'France', zh: '法国', fr: 'France', de: 'Frankreich', nl: 'Frankrijk' },
+  germany: { enName: 'Germany', en: 'Germany', zh: '德国', fr: 'Allemagne', de: 'Deutschland', nl: 'Duitsland' },
+  gulfofguinea: { enName: 'Gulf of Guinea', en: 'Gulf of Guinea', zh: '几内亚湾', fr: 'Golfe de Guinée', de: 'Golf von Guinea', nl: 'Golf van Guinee' },
+  hecatestrait: { enName: 'Hecate Strait', en: 'Hecate Strait', zh: '赫卡特海峡', fr: "Détroit d'Hécate", de: 'Hecate-Straße', nl: 'Straat Hecate' },
+  irishsea: { enName: 'Irish Sea', en: 'Irish Sea', zh: '爱尔兰海', fr: "Mer d'Irlande", de: 'Irische See', nl: 'Ierse Zee' },
+  lasvegasstrip: { enName: 'Las Vegas Strip', en: 'Las Vegas Strip', zh: '拉斯维加斯大道', fr: 'Las Vegas Strip', de: 'Las Vegas Strip', nl: 'Las Vegas Strip' },
+  levant: { enName: 'Levant', en: 'Levant', zh: '黎凡特', fr: 'Levant', de: 'Levante', nl: 'Levant' },
+  morethanluck: { enName: 'More than luck', en: 'More than luck', zh: '不止靠运气', fr: 'Plus que de la chance', de: 'Mehr als Glück', nl: 'Meer dan geluk' },
+  russia: { enName: 'Russia', en: 'Russia', zh: '俄罗斯', fr: 'Russie', de: 'Russland', nl: 'Rusland' },
+  scandinavia: { enName: 'Scandinavia', en: 'Scandinavia', zh: '斯堪的纳维亚', fr: 'Scandinavie', de: 'Skandinavien', nl: 'Scandinavië' },
+  sol: { enName: 'Sol', en: 'Sol', zh: '太阳系', fr: 'Système solaire', de: 'Sonnensystem', nl: 'Zonnestelsel' },
+  tierradelfuego: { enName: 'Tierra del Fuego', en: 'Tierra del Fuego', zh: '火地岛', fr: 'Terre de Feu', de: 'Feuerland', nl: 'Vuurland' },
+  unitedstates: { enName: 'United States', en: 'United States', zh: '美国', fr: 'États-Unis', de: 'Vereinigte Staaten', nl: 'Verenigde Staten' },
+  vietnam: { enName: 'Vietnam', en: 'Vietnam', zh: '越南', fr: 'Viêt Nam', de: 'Vietnam', nl: 'Vietnam' },
   // --- 既有地图 ---
   africa: { enName: 'Africa', en: 'Africa', zh: '非洲', fr: 'Afrique', de: 'Afrika', nl: 'Afrika' },
   asia: { enName: 'Asia', en: 'Asia', zh: '亚洲', fr: 'Asie', de: 'Asien', nl: 'Azië' },
@@ -747,11 +773,11 @@ const mapsByCategory = Object.fromEntries(
 const formulasPayload = {
   meta: {
     i18n: {
-      en: { description: 'Core formulas validated against OpenFrontIO v32 (numeric values/coefficients shown as strings).' },
-      zh: { description: '按 OpenFrontIO v32 核验的核心公式（数值/系数以字符串展示）。' },
-      fr: { description: "Formules clés vérifiées sur OpenFrontIO v32 (valeurs et coefficients sous forme de chaînes)." },
-      de: { description: 'Mit OpenFrontIO v32 abgeglichene Kernformeln (Werte/Koeffizienten als Strings).' },
-      nl: { description: 'Kernformules gecontroleerd aan de hand van OpenFrontIO v32 (waarden/coëfficiënten als tekst).' },
+      en: { description: 'Core formulas validated against OpenFrontIO v33 (numeric values/coefficients shown as strings).' },
+      zh: { description: '按 OpenFrontIO v33 核验的核心公式（数值/系数以字符串展示）。' },
+      fr: { description: "Formules clés vérifiées sur OpenFrontIO v33 (valeurs et coefficients sous forme de chaînes)." },
+      de: { description: 'Mit OpenFrontIO v33 abgeglichene Kernformeln (Werte/Koeffizienten als Strings).' },
+      nl: { description: 'Kernformules gecontroleerd aan de hand van OpenFrontIO v33 (waarden/coëfficiënten als tekst).' },
     },
   },
   groups: FORMULAS_SNAPSHOT,

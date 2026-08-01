@@ -2,22 +2,24 @@
 title: Nukleare Abschreckung und SAM-Netzwerke
 description: Vom ersten Silo bis zum MIRV — Timing nuklearer Schläge, SAM-Platzierung und Anti-Nuklear-Strategie.
 pubDate: 2026-05-12
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, SAM, deterrence]
 category: Mittel-Endspiel
 difficulty: Fortgeschritten
-version: v32
+version: v33
 ---
 
 ## Direkte Antwort
 
 Nukleare Abschreckung heißt, einen glaubwürdigen Gegenschlag zu bewahren und den ersten Schlag des Gegners teuer oder unsicher zu machen. Dafür brauchst du Gold, Silo, geschützte Startfähigkeit und passende SAM-Abdeckung.
 
-Ein SAM ist Warnung und Grundschutz, keine vollständige Sicherheit. Sein Cooldown von 90 Ticks begrenzt den Durchsatz. Der MIRV-Träger ist kein SAM-Ziel, doch v0.32.18 zerstört Sprengköpfe mit einem Ziel unter 50 Tiles vom Werfer.
+Ein SAM ist Warnung und Grundschutz, keine vollständige Sicherheit. Sein Cooldown von 90 Ticks begrenzt den Durchsatz.
+
+In v33 beta ist der MIRV-Träger kein SAM-Ziel, getrennte Sprengköpfe folgen jedoch den normalen Flugbahn- und Zeitprüfungen.
 
 Wähle die Waffe nach Auftrag. Atombomben sind billiger und kleiner. Wasserstoffbomben decken viel mehr Fläche.
 
-Der MIRV-Träger durchquert das Hauptzielsystem der SAMs und verteilt kleine Sprengköpfe, doch nahe zielende Köpfe bleiben abfangbar.
+Der MIRV-Träger durchquert das Hauptzielsystem der SAMs und verteilt kleine Sprengköpfe, die nach der Trennung zu normalen Zielen im Flug werden.
 
 Starte nicht nur, weil eine Waffe bereitsteht. Ein Schlag sollte Kapazität entfernen, einen Bodenangriff öffnen, eine Route sperren oder eine defensive Ausgabe erzwingen, die deine Lage verbessert.
 
@@ -51,7 +53,9 @@ Der Träger spaltet sich in mehrere MIRV-Sprengköpfe. Jeder Sprengkopf hat ange
 
 Der MIRV-Träger kann nicht abgefangen werden.
 
-Nach der Trennung zerstört die [SAM-Ausführung aus v0.32.18](https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts) Sprengköpfe, deren Ziel unter 50 Tiles vom Werfer liegt, und verbraucht dessen Schusszyklus.
+Nach der Trennung prüft die [SAM-Ausführung aus v0.33.0-beta1](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts) jeden Sprengkopf wie andere unterstützte Nukes nach Flugbahn, Reichweite, Timing, bereiten Schüssen und Cooldown.
+
+Der MIRV-Start setzt auch das tatsächliche Missile Silo in den Cooldown. Ein sofortiger Folgeschlag braucht deshalb ein weiteres bereites Silo oder ein späteres Zeitfenster.
 
 Trägerimmunität macht die MIRV nicht zum automatischen Finisher. Lokaler Sprengkopfabfang, Preis, kleiner Radius, Zielstreuung und schnelle Rückeroberung bleiben relevant.
 
@@ -105,7 +109,7 @@ Leere die Kasse nicht für die sichtbare Waffe, wenn dadurch SAM, City oder Bode
 
 ### Schritt 5: Einen Schlagauftrag wählen
 
-Nutze einen kleinen Schlag für ein kleines Ziel. Nutze große Fläche bei genügend Zieldichte. Nutze MIRV, wenn verteilte Ziele mehr Wert schaffen, als die lokale 50-Tile-SAM-Abwehr entfernen kann.
+Nutze einen kleinen Schlag für ein kleines Ziel. Nutze große Fläche bei genügend Zieldichte. Nutze MIRV, wenn verteilte Flugbahnen mehr Wert schaffen, als die bereite SAM-Abdeckung entfernen kann.
 
 Formuliere vor dem Start den Folgezug in einem Satz. Kannst du nicht erklären, was sich nach dem Einschlag ändert, behalte die Waffe als Druckmittel oder investiere anders.
 
@@ -131,7 +135,7 @@ Prüfe nach Fertigstellung, welche Citys, Silos und Wege wirklich in Reichweite 
 
 Beachte die Fluggeometrie. Die Vorfeuerformel zeigt, dass Abfangen von Erreichungszeit und nominalem Kreis abhängt.
 
-Bei KI-Gegnern sagen bestehende Gebäudehinweise, dass KI-Nukes SAM-Ziele meiden. Das verstärkt Abschreckung, ändert aber weder menschliche Ziele noch Trägerimmunität oder die Nahzielregel der Sprengköpfe.
+Bei KI-Gegnern sagen bestehende Gebäudehinweise, dass KI-Nukes SAM-Ziele meiden. Das verstärkt Abschreckung, ändert aber weder menschliche Ziele noch Trägerimmunität oder die normalen Prüfungen nach der Trennung.
 
 ### Redundanzphase
 
@@ -195,7 +199,7 @@ Die bessere Wahl hängt von Zieldichte, Abdeckung, Cooldown-Timing und Auftrag a
 
 Die erste MIRV kostet 25.000.000. Nach einem Start kostet die nächste 40.000.000. Beide zusammen verbrauchen 65.000.000, noch ohne Silo oder Verteidigung.
 
-Der Anstieg belohnt gezielten Einsatz. Der Träger umgeht SAM-Zielerfassung, nahe zielende Sprengköpfe können jedoch zerstört werden; ihre Radien sind 12/18 und v24-Krater lassen sich schnell zurücknehmen.
+Der Anstieg belohnt gezielten Einsatz. Der Träger umgeht SAM-Zielerfassung, getrennte Sprengköpfe können jedoch zerstört werden; ihre Radien sind 12/18, das Silo geht in den Cooldown und v24-Krater lassen sich schnell zurücknehmen.
 
 ### Szenario 6: City-Puffer
 
@@ -213,9 +217,9 @@ Kontere mit überlappenden fertigen Werfern auf Kernanlagen, ohne einen Cluster 
 
 ### MIRV-Sättigung
 
-SAMs können den Träger nicht abfangen, aber Sprengköpfe für die Nahzone eines Werfers löschen. Schütze wichtige Anlagen überlappend und behalte Abstand, mehrere wiederherstellbare Kerne, Bodentruppen und Wiederaufbauwirtschaft.
+SAMs können den Träger nicht abfangen, getrennte Sprengköpfe aber nach normalen Flugbahnprüfungen bekämpfen. Decke wichtige Pfade überlappend und behalte Abstand, mehrere wiederherstellbare Kerne, Bodentruppen und Wiederaufbauwirtschaft.
 
-Werte nicht einen SAM weiter auf, als würde normale Reichweite die feste Nahzielregel vergrößern. Die breite MIRV-Antwort lautet Überlappung, Widerstandsfähigkeit und Erholung.
+Werte nicht einen SAM weiter auf, als würde Reichweite allein jeden Abschuss garantieren. Die breite MIRV-Antwort lautet Überlappung, bereite Schüsse, Widerstandsfähigkeit und Erholung.
 
 ### Verteilte Ziele
 
@@ -321,7 +325,7 @@ Das erste MIRV kostet 25.000.000 Gold. Jeder frühere MIRV-Start erhöht den Pre
 
 ### Kann ein SAM jede Nuke stoppen?
 
-Nein. Er fängt Atom- und Wasserstoffbomben ab, nicht den MIRV-Träger, und löscht nur Sprengköpfe mit einem Ziel unter 50 Tiles vom Werfer. Der Cooldown von 90 Ticks begrenzt Folgeschüsse.
+Nein. Er fängt Atom- und Wasserstoffbomben ab, nicht den MIRV-Träger, und kann vor seinem 90-Tick-Cooldown nur ein unterstütztes Ziel bekämpfen. Getrennte Sprengköpfe sind unterstützt, doch Flugbahn und Timing entscheiden weiter.
 
 ### Welche Reichweite hat der erste SAM?
 
@@ -337,11 +341,13 @@ Wähle Atom für einen billigeren kleinen Auftrag oder mehrere Starts. Wähle Wa
 
 ### Stoppt SAM eine MIRV?
 
-Teilweise. Der Träger ist nicht abfangbar. Nach der Trennung löscht SAM Sprengköpfe mit einem Ziel unter 50 Tiles von diesem Werfer: lokaler Schutz statt vollständiger Stopp.
+Teilweise. Der Träger ist nicht abfangbar. Nach der Trennung wird jeder Sprengkopf zu einem normalen Ziel; Reichweite, Flugbahn, Flugzeit des Abfangjägers, bereite Schüsse und Cooldown entscheiden, was durchkommt.
 
 ### Ist MIRV immer besser als eine Wasserstoffbombe?
 
-Nein. Der Träger durchquert die SAM-Zielerfassung, doch nahe zielende Sprengköpfe können zerstört werden. Die erste kostet 25.000.000, spätere werden teurer, jeder Kopf ist kleiner und v24-Krater lassen sich schnell zurückerobern.
+Nein. Der Träger durchquert die SAM-Zielerfassung, doch getrennte Sprengköpfe können zerstört werden.
+
+Die erste kostet 25.000.000, spätere werden teurer, das Silo geht in den Cooldown, jeder Kopf ist kleiner und v24-Krater lassen sich schnell zurückerobern.
 
 ### Wohin sollte ich zielen?
 

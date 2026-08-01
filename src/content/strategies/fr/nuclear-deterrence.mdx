@@ -2,11 +2,11 @@
 title: Dissuasion nucléaire et réseaux SAM
 description: Du premier Silo au MIRV — timing des frappes, placement des SAM et stratégie de défense nucléaire.
 pubDate: 2026-05-12
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, SAM, deterrence]
 category: Milieu-Fin de partie
 difficulty: Intermédiaire
-version: v32
+version: v33
 ---
 
 ## Réponse directe
@@ -15,11 +15,11 @@ La dissuasion nucléaire consiste à préserver une riposte crédible tout en re
 
 Un SAM apporte un avertissement et une première couverture, pas une sécurité totale. Son cooldown de 90 ticks limite le débit.
 
-Le véhicule MIRV n'est pas ciblé, mais en v0.32.18 les ogives visant à moins de 50 tiles du lanceur sont détruites.
+En v33 beta, le véhicule MIRV n'est pas ciblé, mais les ogives séparées suivent les contrôles normaux de trajectoire et de timing.
 
 Choisissez l'arme selon la mission. Atom est moins chère et plus petite. Hydrogen couvre une zone bien plus large.
 
-Le véhicule MIRV traverse l'écran principal des SAM et disperse de petites ogives, mais celles qui visent à proximité restent interceptables.
+Le véhicule MIRV traverse l'écran principal des SAM et disperse de petites ogives, qui deviennent des cibles normales en vol après la séparation.
 
 Ne tirez pas uniquement parce qu'une arme est disponible. Une frappe doit retirer de la capacité, ouvrir une attaque, nier une route ou imposer une dépense défensive utile.
 
@@ -53,9 +53,11 @@ Le véhicule se divise en plusieurs ogives MIRV. Chaque ogive possède des rayon
 
 Le véhicule MIRV ne peut pas être intercepté.
 
-Après séparation, [l'exécution SAM de la v0.32.18](https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts) détruit les ogives dont la destination se trouve à moins de 50 tiles d'un lanceur, puis consomme son cycle de tir.
+Après séparation, [l'exécution SAM de la v0.33.0-beta1](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts) évalue chaque ogive selon la trajectoire, la portée, le timing, les tirs prêts et le cooldown, comme les autres nukes prises en charge.
 
-L'immunité du véhicule ne garantit pas la victoire. L'interception locale des ogives, le prix, leur petit rayon, la dispersion et la reprise du défenseur comptent toujours.
+Le lancement du MIRV met aussi le véritable Silo en cooldown. Une frappe immédiate exige donc un autre Silo prêt ou une fenêtre ultérieure.
+
+L'immunité du véhicule ne garantit pas la victoire. Les trajectoires des ogives, le prix, leur petit rayon, la dispersion et la reprise du défenseur comptent toujours.
 
 ### Lanceur SAM
 
@@ -107,7 +109,7 @@ Ne videz pas le trésor dans l'arme visible si cela empêche le SAM, la Ville ou
 
 ### Étape 5 : choisir la mission de frappe
 
-Utilisez une petite frappe pour un petit objectif. Utilisez une grande explosion si la densité le justifie. Utilisez le MIRV si ses cibles dispersées créent plus de valeur que la protection SAM locale de 50 tiles ne peut en retirer.
+Utilisez une petite frappe pour un petit objectif. Utilisez une grande explosion si la densité le justifie. Utilisez le MIRV si ses trajectoires dispersées créent plus de valeur que la couverture SAM prête ne peut en retirer.
 
 Avant le tir, formulez le suivi en une phrase. Si vous ne pouvez pas expliquer ce qui change après l'impact, gardez l'arme comme levier.
 
@@ -133,7 +135,7 @@ Quand le SAM termine, vérifiez quelles Villes, Silos et routes sont réellement
 
 Contrôlez la géométrie d'approche. La formule de pré-tir signifie que le temps de portée compte autant que le cercle nominal.
 
-Si des IA sont présentes, les notes de structures indiquent que leurs nukes évitent les cibles sous SAM. Cela ne change ni le ciblage humain, ni l'immunité du véhicule, ni la règle des ogives visant à proximité.
+Si des IA sont présentes, les notes de structures indiquent que leurs nukes évitent les cibles sous SAM. Cela ne change ni le ciblage humain, ni l'immunité du véhicule, ni les contrôles normaux des ogives après séparation.
 
 ### Phase de redondance
 
@@ -149,7 +151,7 @@ Vérifiez la cible, les cercles SAM ennemis, le suivi terrestre et votre risque 
 
 Pour Atom ou Hydrogen, supposez qu'une trajectoire couverte peut être interceptée.
 
-Pour MIRV, supposez que le véhicule atteint la séparation, puis vérifiez si chaque cible importante se trouve dans la zone de protection de 50 tiles d'un lanceur.
+Pour MIRV, supposez que le véhicule atteint la séparation, puis vérifiez si chaque trajectoire importante traverse la portée d'un lanceur prêt avec assez de temps pour l'intercepteur.
 
 ### Lancement et exploitation
 
@@ -171,7 +173,7 @@ Un premier Silo coûte 1 000 000 et un premier SAM 1 500 000, soit 2 500 000 au 
 
 Ajouter Atom coûte 750 000 et porte l'ensemble à 3 250 000. Vous obtenez une plateforme, une arme et une couche de défense contre les nukes interceptables.
 
-Cela n'ajoute ni redondance de salve ni défense MIRV étendue. Le lanceur protège localement les cibles proches contre les ogives ; sa valeur dépend encore du placement et de la préparation.
+Cela n'ajoute ni redondance de salve ni défense MIRV garantie. Un lanceur prêt peut engager une ogive séparée si sa trajectoire et le timing le permettent ; sa valeur dépend encore du placement et de la préparation.
 
 ### Scénario 2 : coût de SAM superposés
 
@@ -199,7 +201,7 @@ Le choix dépend de la densité, de la couverture, du timing de cooldown et de l
 
 Le premier MIRV coûte 25 000 000. Après un tir, le suivant coûte 40 000 000. Acheter les deux consomme 65 000 000 avant Silo ou défense.
 
-Cette escalade impose la sélection. Le véhicule contourne le ciblage SAM, mais les ogives visant à proximité peuvent être détruites, leurs rayons ne font que 12/18 et les cratères v24 se reprennent vite.
+Cette escalade impose la sélection. Le véhicule contourne le ciblage SAM, mais les ogives séparées peuvent être détruites, leurs rayons ne font que 12/18, le Silo entre en cooldown et les cratères v24 se reprennent vite.
 
 ### Scénario 6 : tampon d'une Ville
 
@@ -217,11 +219,11 @@ Superposez des lanceurs terminés sur les actifs critiques, sans former un group
 
 ### Saturation MIRV
 
-Les SAM ne peuvent intercepter le véhicule, mais ils nettoient les ogives visant près d'un lanceur.
+Les SAM ne peuvent intercepter le véhicule, mais ils peuvent engager les ogives séparées selon les contrôles normaux de trajectoire.
 
 Protégez les actifs essentiels par chevauchement, puis gardez de l'espacement, plusieurs cœurs récupérables, des forces terrestres et une économie de reconstruction.
 
-N'améliorez pas sans fin un SAM comme si sa portée normale agrandissait la règle fixe des ogives proches. La réponse globale au MIRV reste le chevauchement, la résilience et la récupération.
+N'améliorez pas sans fin un SAM comme si la portée seule garantissait chaque interception. La réponse globale au MIRV reste le chevauchement, les tirs prêts, la résilience et la récupération.
 
 ### Dispersion des cibles
 
@@ -255,7 +257,7 @@ Un Silo hors couverture SAM et près d'une frontière faible offre une cible aux
 
 ### Confiance excessive dans un SAM
 
-Un lanceur apporte une vraie couverture, surtout contre les IA, mais son cooldown ouvre des fenêtres et sa défense MIRV reste locale aux ogives proches. C'est une première couche, pas un bouclier complet.
+Un lanceur apporte une vraie couverture, surtout contre les IA, mais son cooldown ouvre des fenêtres et le MIRV peut disperser ses ogives sur plusieurs trajectoires. C'est une première couche, pas un bouclier complet.
 
 ### Quartier nucléaire compact
 
@@ -271,7 +273,7 @@ Plusieurs Atom créent plusieurs tirs, mais les projectiles couverts peuvent êt
 
 ### MIRV considéré comme victoire automatique
 
-L'immunité du véhicule garantit la séparation, pas l'impact de chaque ogive ni le contrôle permanent. Interception locale, petites ogives, prix, dispersion et reconquête limitent le résultat.
+L'immunité du véhicule garantit la séparation, pas l'impact de chaque ogive ni le contrôle permanent. Interception en vol, petites ogives, prix, dispersion et reconquête limitent le résultat.
 
 ### Dépenser jusqu'à zéro
 
@@ -327,7 +329,9 @@ Le premier MIRV coûte 25 000 000 Gold. Chaque lancement antérieur ajoute 15 00
 
 ### Un SAM peut-il arrêter toutes les nukes ?
 
-Non. Il intercepte Atom et Hydrogen, ne peut pas toucher le véhicule MIRV et ne nettoie que les ogives visant à moins de 50 tiles du lanceur. Son cooldown de 90 ticks limite encore les tirs suivants.
+Non. Il intercepte Atom et Hydrogen, ne peut pas toucher le véhicule MIRV et ne peut engager qu'une cible prise en charge avant son cooldown de 90 ticks.
+
+Les ogives séparées sont prises en charge, mais trajectoire et timing décident encore du tir.
 
 ### Quelle est la portée du premier SAM ?
 
@@ -343,11 +347,11 @@ Choisissez Atom pour une petite mission moins chère ou plusieurs tirs. Choisiss
 
 ### Le SAM arrête-t-il le MIRV ?
 
-En partie. Le véhicule n'est pas interceptable. Après séparation, le SAM détruit les ogives visant à moins de 50 tiles de ce lanceur : protection locale, pas arrêt complet.
+En partie. Le véhicule n'est pas interceptable. Après séparation, chaque ogive devient une cible normale ; portée, trajectoire, temps de vol de l'intercepteur, tirs prêts et cooldown décident de ce qui passe.
 
 ### Le MIRV est-il toujours meilleur qu'Hydrogen ?
 
-Non. Le véhicule traverse le ciblage SAM, mais les ogives visant à proximité peuvent être détruites. Il coûte 25 000 000 au départ, augmente ensuite, utilise de petites ogives et laisse des cratères vite récupérables.
+Non. Le véhicule traverse le ciblage SAM, mais les ogives séparées peuvent être détruites. Il coûte 25 000 000 au départ, augmente ensuite, met le Silo en cooldown, utilise de petites ogives et laisse des cratères vite récupérables.
 
 ### Où faut-il viser ?
 

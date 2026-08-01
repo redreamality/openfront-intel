@@ -122,3 +122,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **GitHub Release 的 `codeload.github.com` 压缩包下载若 TLS handshake timeout，不要循环重试整包**：改用 `gh api` 查询目标 tag 的递归 tree，再只读取任务需要的 content/blob；既减少传输量，也能保留来源 commit 与文件路径证据。
 - **PowerShell 一段脚本里调用 `gh`、`git`、`pnpm` 等原生命令后，应立即保存并检查 `$LASTEXITCODE`**：后续成功命令会覆盖退出码，导致前面的网络或 CLI 失败最终显示为 exit 0；需要继续收集其他结果时，把各命令退出码分别存入任务专用变量并在结尾统一判定。
 - **`git push` 若报 `OpenSSL SSL_connect: SSL_ERROR_SYSCALL`，按 GitHub HTTPS 瞬时断流处理**：先用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch>` 核对远端 ref；远端 SHA 已更新则视为成功，分支不存在或仍为旧 SHA 时才使用相同低速保护参数重试一次，连续失败则停止。
+- **2026-08-01 复发：Windows `rg` 的路径参数绝不含 `*`，即使通配目标看似简单**：`src/pages/*/mechanics`、`src/content/guides/*/first-match.mdx` 都会触发 `os error 123`；固定从 `src/pages`、`src/content/guides` 等真实目录根搜索，并把筛选写进 `--glob`。
+- **2026-08-01 复发：并行审计中的每一条 `rg` 都要单独归一化退出码 1**：不要只包装部分子命令；任何遗漏的零匹配都会让 `Promise.all` 整体失败并吞掉其他结果。每条命令都应保存 `$LASTEXITCODE`，把 1 转成明确的 `NO_MATCH` 成功输出。
+- **2026-08-01 复发：PowerShell 中所有含 `^{tree}` / `^{commit}` 的 Git revision 都必须从一开始整体单引号包裹**：包括 `HEAD^{tree}` 和 `origin/main^{tree}`；不要等报错后再补引号，否则 PowerShell 可能插入 `-encodedCommand` 并产生误导性的 Git revision 错误。
+- **2026-08-01 复发：`git push` 命中 `Operation too slow` 后不要立即重复**：先用真实 owner/repo 的 Git ref API 查询完整分支路径；本轮确认远端分支不存在后才允许按相同低速参数重试一次。核对脚本本身应以 0 正常返回状态文本，不要用人为非零退出码表达“需要重试”。

@@ -1,0 +1,74 @@
+---
+title: 'v33 beta1: MIRV-Abwehr, Doomsday-Wellen, Ranked 2v2 und 22 Karten'
+description: 'Spielerorientierte OpenFront-v33-beta1-Notizen: normale SAM-Abwehr für MIRV-Sprengköpfe, Silo-Cooldown, Doomsday, Ranked 2v2, Warship-Veteranenstatus, unpassierbares Gelände und 22 Karten.'
+pubDate: 2026-07-31
+updatedDate: 2026-08-01
+version: v33
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Direkte Antwort: Was ändert dein nächstes Match?
+
+Das veröffentlichte Release `v0.33.0-beta1` enthält echte v33-Notizen, auch wenn der Tag weiter beta heißt. Die wichtigste Strategieänderung: MIRV ist jetzt eine Sättigungswaffe und kein verlässlicher SAM-Bypass.
+
+MIRV-Sprengköpfe fliegen wie normale Nukes und werden durch die reguläre SAM-Flugbahnlogik erfasst. Ein MIRV-Start setzt außerdem das Missile Silo auf Cooldown; dasselbe Silo kann nicht sofort nachfeuern.
+
+Weitere matchprägende Änderungen sind zehn Minuten Doomsday-Schonzeit, Ranked 2v2, Warship-Veteranenstatus, unpassierbares Gelände und 22 neue Karten.
+
+## MIRV und SAM: Überlastung statt Umgehung planen
+
+Nach der Trennung wird jeder Sprengkopf zu einem fliegenden `MIRVWarhead`. Der SAM prüft ihn zusammen mit Atom Bomb und Hydrogen Bomb.
+
+Die alte Kurzregel „Ziel unter 50 Tiles vom Werfer“ ist in v33 überholt. Entscheidend sind Flugbahn, SAM-Reichweite, Raketenflugzeit, verfügbare Schüsse und Cooldown.
+
+- **Angreifer:** verteile Sprengköpfe über Deckungsgrenzen oder kombiniere Starts, damit SAMs ihre geladenen Raketen verbrauchen.
+- **Verteidiger:** überlappe Werfer und decke wichtige Flugwege, statt nur einen 50-Tiles-Kreis um jede Anlage zu schützen.
+- **Beide Seiten:** rechne nach einem MIRV mit Silo-Cooldown. Ein zweiter Nuke braucht ein anderes bereites Silo oder ein späteres Zeitfenster.
+
+Lies die aktualisierten [Nuke- und SAM-Mechaniken](/de/mechanics/nukes/) sowie die [Strategie zur nuklearen Abschreckung](/de/strategies/nuclear-deterrence/).
+
+## Doomsday Clock: vor der ersten Welle bewegen
+
+Jedes Tempo-Preset beginnt mit **10 Minuten Schonzeit**. Danach steigt der geforderte Gebietsanteil in Wellen auf 4 %, 9 %, 16 %, 26 %, 40 % und schließlich 55 %.
+
+Ein Team zählt mit seinem gemeinsamen Gebiet gegen dieselbe Schwelle wie eine Solo-Seite. Nach der Warnung verliert eine doomed Seite Truppen und Warship-LP bis zu einem **5-%-Minimum**, nicht bis null.
+
+Die praktische Regel: Sichere vor Minute zehn zentralen Zugang und zwei Rückzugswege. Eine reiche Randposition wird zur Falle, wenn nur ein feindlicher Korridor in das haltbare Gebiet führt.
+
+## Ranked 2v2: die geschützte Minute nutzen
+
+Ranked hat nun eine eigene 2v2-Rangliste und bevorzugt Clanmitglieder als Partner. Die PvP-Spawn-Immunität dauert **1 Minute**, und Compact-Karten erscheinen mit **50 %** Wahrscheinlichkeit.
+
+Das Match kann enden, wenn ein ganzes Team tot oder getrennt ist. Nutzt die geschützte Minute für eine gemeinsame Front, nicht für zwei getrennte Wirtschaftsstarts an gegenüberliegenden Rändern.
+
+## Warship-Veteranenstatus: das erfahrene Schiff erhalten
+
+Warships erreichen bis zu **3 Veteranenstufen**. Jede Stufe erhöht maximale LP und Granatenschaden um **20 %**.
+
+Ein versenktes gegnerisches Warship gibt eine Stufe. Zehn zerstörte Transporter oder 25 eroberte Handelsschiffe füllen ebenfalls eine Stufe. Die LP-Grenze steigt, aber das Schiff wird nicht sofort geheilt.
+
+Ein Veteran ist nun ein wachsender Vermögenswert. Ziehe ein beschädigtes Veteranenschiff zum Port zurück, statt es wie einen neuen Rumpf einzutauschen.
+
+## Unpassierbares Gelände und 22 neue Karten
+
+Kartenersteller können Gelände als unpassierbar markieren. Dadurch ändern sich Landwege, Spawn-Ausgänge, Nuke-Pfade und tatsächlich nutzbare Küsten.
+
+Neu sind Sol, Russia, United States, France, Germany, China, Vietnam, Scandinavia, Balkhash, Baltics und Caspian Sea.
+
+Dazu kommen Clearwater Lakes, Crimea, Finger Lakes, Gulf of Guinea, Hecate Strait, Irish Sea, Las Vegas Strip, Levant, Tierra del Fuego, Branching Paths und More than luck.
+
+Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Karten**. Prüfe auf unbekannten Karten Kontaktentfernung, Wasserwege und unpassierbare Engstellen vor der Spawn-Wahl.
+
+## Kleinere Änderungen, die man kennen sollte
+
+- Rechtsklick hebt nun die Warship- oder Bootsauswahl auf, statt das Aktionsmenü zu öffnen.
+- Der ports-disabled-Modifikator wurde aus öffentlichen Spielen entfernt.
+- In Ranked 1v1 sinkt die Compact-Wahrscheinlichkeit von 50 % auf 20 %.
+- Warships doomed Seiten patrouillieren weiter, während ihre LP sinken.
+
+## Quellenstatus
+
+GitHub markiert das Release als `draft=false` und `prerelease=false`, der offizielle Tag lautet aber weiterhin `v0.33.0-beta1`. Deshalb bleibt die Beta-Kennzeichnung erhalten; wir nennen es nicht fälschlich stabiles `v0.33.0`.
+
+Quellen: [offizielles v0.33.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1), [SAM-Zielsystem](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts), [MIRV-Ausführung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts) und [Veteranen-Konfiguration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts).

@@ -3,7 +3,20 @@ import { test, expect } from '@playwright/test';
 
 const maps = JSON.parse(
   readFileSync(new URL('../src/data/maps.json', import.meta.url), 'utf8'),
-) as { meta: { total: number } };
+) as { meta: { total: number }; list: Array<{ id: string }> };
+
+const v33MapIds = [
+  'sol', 'russia', 'unitedstates', 'france', 'germany', 'china', 'vietnam',
+  'scandinavia', 'balkhash', 'baltics', 'caspiansea', 'clearwaterlakes',
+  'crimea', 'fingerlakes', 'gulfofguinea', 'hecatestrait', 'irishsea',
+  'lasvegasstrip', 'levant', 'tierradelfuego', 'branchingpaths', 'morethanluck',
+];
+
+test('v33 map extraction contains the 117-map pool and all 22 additions', () => {
+  expect(maps.meta.total).toBe(117);
+  const extractedIds = new Set(maps.list.map((map) => map.id));
+  for (const id of v33MapIds) expect(extractedIds.has(id), `missing map id: ${id}`).toBe(true);
+});
 
 for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   test(`changelog v${version} links to the official semantic-version release`, async ({ page }) => {
@@ -18,12 +31,23 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
+test('changelog v33 keeps the beta tag in the official Release URL', async ({ page }) => {
+  await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
+
+  const provenance = page.locator('[data-provenance-panel]');
+  await expect(provenance).toBeVisible();
+  await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
+    'href',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1',
+  );
+});
+
 test('provenance distinguishes the extraction checkout from the editorial snapshot scope', async ({ page }) => {
   await page.goto('/database/units/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toContainText('generated from the recorded upstream checkout');
-  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v32');
+  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v33');
 });
 
 const aboutCases = [
@@ -42,11 +66,11 @@ for (const aboutCase of aboutCases) {
 }
 
 const mechanicsCases = [
-  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v32 data snapshot' },
-  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v32 数据快照' },
-  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané v32' },
-  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den v32-Datenstand' },
-  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de v32-datasnapshot' },
+  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v33 beta data snapshot' },
+  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v33 beta 数据快照' },
+  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané v33 beta' },
+  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den v33-Beta-Datenstand' },
+  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de v33-beta-datasnapshot' },
 ];
 
 for (const mechanicsCase of mechanicsCases) {
@@ -75,41 +99,71 @@ for (const v32Case of v32Cases) {
   });
 }
 
+const v33Cases = [
+  { path: '/changelog/v33/', grace: '10-minute grace period', ranked: '1 minute', veteran: '3 veterancy levels', maps: '117-map' },
+  { path: '/zh/changelog/v33/', grace: '10 分钟宽限期', ranked: '1 分钟', veteran: '3 级熟练度', maps: '117 张地图' },
+  { path: '/fr/changelog/v33/', grace: 'grâce de 10 minutes', ranked: '1 minute', veteran: '3 niveaux de vétérérance', maps: '117 cartes' },
+  { path: '/de/changelog/v33/', grace: '10 Minuten Schonzeit', ranked: '1 Minute', veteran: '3 Veteranenstufen', maps: '117 Karten' },
+  { path: '/nl/changelog/v33/', grace: '10 minuten respijt', ranked: '1 minuut', veteran: '3 veterancy-niveaus', maps: '117 kaarten' },
+];
+
+for (const v33Case of v33Cases) {
+  test(`${v33Case.path} explains the player-facing v33 beta changes`, async ({ page }) => {
+    await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
+    const main = page.locator('main');
+    await expect(main).toContainText(v33Case.grace);
+    await expect(main).toContainText(v33Case.ranked);
+    await expect(main).toContainText(v33Case.veteran);
+    await expect(main).toContainText(v33Case.maps);
+    await expect(main).toContainText('MIRV');
+  });
+}
+
 const mirvSamCases = [
   {
     lang: 'en',
     mechanicsPath: '/mechanics/nukes/',
     strategyPath: '/strategies/nuclear-deterrence/',
-    carrier: 'the carrier is not a SAM target',
-    range: 'less than 50 tiles',
+    carrier: 'carrier remains outside the SAM target list',
+    warhead: 'normal NukeExecution and SAM trajectory checks',
+    cooldown: 'Missile Silo on cooldown',
+    strategy: 'trajectory, range, timing, ready-shot, and cooldown logic',
   },
   {
     lang: 'zh',
     mechanicsPath: '/zh/mechanics/nukes/',
     strategyPath: '/zh/strategies/nuclear-deterrence/',
-    carrier: 'SAM 不会瞄准 MIRV 载体',
-    range: '小于 50 tiles',
+    carrier: 'MIRV 载体仍不在 SAM 目标列表中',
+    warhead: '接受 SAM 弹道检查',
+    cooldown: 'Missile Silo 进入冷却',
+    strategy: '按弹道、射程、时机、可用弹量与冷却检查',
   },
   {
     lang: 'fr',
     mechanicsPath: '/fr/mechanics/nukes/',
     strategyPath: '/fr/strategies/nuclear-deterrence/',
-    carrier: "le véhicule MIRV n'est pas ciblé",
-    range: 'moins de 50 tiles',
+    carrier: 'le véhicule reste hors de la liste SAM',
+    warhead: 'contrôle de trajectoire normal',
+    cooldown: 'Missile Silo en cooldown',
+    strategy: 'selon la trajectoire, la portée, le timing, les tirs prêts et le cooldown',
   },
   {
     lang: 'de',
     mechanicsPath: '/de/mechanics/nukes/',
     strategyPath: '/de/strategies/nuclear-deterrence/',
-    carrier: 'Der MIRV-Träger ist kein SAM-Ziel',
-    range: /(?:weniger als|unter) 50 Tiles/,
+    carrier: 'Der Träger bleibt außerhalb der SAM-Zielliste',
+    warhead: 'normale Flugbahnprüfung',
+    cooldown: 'Missile Silo auf Cooldown',
+    strategy: 'nach Flugbahn, Reichweite, Timing, bereiten Schüssen und Cooldown',
   },
   {
     lang: 'nl',
     mechanicsPath: '/nl/mechanics/nukes/',
     strategyPath: '/nl/strategies/nuclear-deterrence/',
-    carrier: 'de MIRV-drager is geen SAM-doel',
-    range: 'minder dan 50 tiles',
+    carrier: 'de drager blijft buiten de SAM-doellijst',
+    warhead: 'normale baancontrole',
+    cooldown: 'Missile Silo op cooldown',
+    strategy: 'op baan, bereik, timing, gereed schot en cooldown',
   },
 ];
 
@@ -119,10 +173,11 @@ for (const mirvSamCase of mirvSamCases) {
 
     const main = page.locator('main');
     await expect(main).toContainText(mirvSamCase.carrier);
-    await expect(main).toContainText(mirvSamCase.range);
+    await expect(main).toContainText(mirvSamCase.warhead);
+    await expect(main).toContainText(mirvSamCase.cooldown);
     await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
       'href',
-      'https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts',
     );
   });
 
@@ -130,8 +185,23 @@ for (const mirvSamCase of mirvSamCases) {
     await page.goto(mirvSamCase.strategyPath, { waitUntil: 'domcontentloaded' });
 
     const main = page.locator('main');
-    await expect(main).toContainText(mirvSamCase.range);
+    await expect(main).toContainText(mirvSamCase.strategy);
     await expect(main).toContainText('MIRV');
+  });
+}
+
+const hotkeySelectionCases = [
+  { lang: 'en', path: '/guides/hotkeys/', text: 'Cancel an active warship/boat selection' },
+  { lang: 'zh', path: '/zh/guides/hotkeys/', text: '有战舰/船只选择时取消选择' },
+  { lang: 'fr', path: '/fr/guides/hotkeys/', text: 'Annuler une sélection active de Warships/bateaux' },
+  { lang: 'de', path: '/de/guides/hotkeys/', text: 'eine aktive Warship-/Bootsauswahl aufheben' },
+  { lang: 'nl', path: '/nl/guides/hotkeys/', text: 'een actieve oorlogsschip-/bootselectie wissen' },
+];
+
+for (const hotkeyCase of hotkeySelectionCases) {
+  test(`hotkeys[${hotkeyCase.lang}] documents v33 right-click selection cancel`, async ({ page }) => {
+    await page.goto(hotkeyCase.path, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('main')).toContainText(hotkeyCase.text);
   });
 }
 
