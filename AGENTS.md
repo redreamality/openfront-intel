@@ -127,3 +127,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **2026-08-01 复发：PowerShell 中所有含 `^{tree}` / `^{commit}` 的 Git revision 都必须从一开始整体单引号包裹**：包括 `HEAD^{tree}` 和 `origin/main^{tree}`；不要等报错后再补引号，否则 PowerShell 可能插入 `-encodedCommand` 并产生误导性的 Git revision 错误。
 - **2026-08-01 复发：`git push` 命中 `Operation too slow` 后不要立即重复**：先用真实 owner/repo 的 Git ref API 查询完整分支路径；本轮确认远端分支不存在后才允许按相同低速参数重试一次。核对脚本本身应以 0 正常返回状态文本，不要用人为非零退出码表达“需要重试”。
 - **2026-08-01 复发：`git fetch` 低速超时且两次 `git push` 均无法连接 `github.com:443` 后，不要继续循环 Git HTTPS**：先用 GitHub API 确认远端 `main`、目标 ref 和本地 merge-base；基线一致且远端 ref 不存在时，可用 Git Data API 按本地提交顺序上传 blob/tree/commit 并创建 ref，创建后再逐一核对提交 SHA，避免网络故障阻塞 PR 交付。
+- **Windows PowerShell 的 `[pscustomobject]@{ key = ... }` 属性值里不要直接写 `(if (...) { ... })`**：Windows PowerShell 5 会把 `if` 当作命令并报 `The term 'if' is not recognized`。先把条件结果赋给中间变量，或使用 `$()` 子表达式，再写入对象属性。
+- **多语内容完整性审计不要给中文与拉丁语种套同一个字符长度门槛**：中文信息密度更高，统一阈值会制造假失败。按语种设置最小值，并继续单独校验版本号、必备事实和非空摘要。
+- **跨 Git worktree 修改同名文件时，不能复用另一工作树的 `apply_patch` 尾部上下文**：不同分支的 `AGENTS.md` 等文件可能已分叉。分别读取各目标文件的精确尾部并拆成独立补丁，避免一个 worktree 的上下文不匹配导致整份多文件补丁回滚。
+- **2026-08-02 复发：PowerShell 的 `foreach (...) { ... }` 输出绝不能在同一语句后直接接管道**：` } | ConvertTo-Json` 与 ` } | Format-Table` 都会报 `An empty pipe element is not allowed`。先写 `$results = foreach (...) { ... }`，下一条语句再处理 `$results`。

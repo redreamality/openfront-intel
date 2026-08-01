@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import RelatedContent from '../components/RelatedContent.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
+import FreshnessSummary from '../components/FreshnessSummary.astro';
 import { getLangFromUrl, useTranslations, getIntlLocale } from '../i18n';
 
 export interface Props {
@@ -18,6 +19,7 @@ export interface Props {
   related?: Array<{ href: string; title: string; description?: string; date?: Date }>;
   eyebrow?: string;
   version?: string;
+  freshnessSummary?: string;
 }
 const {
   title,
@@ -32,6 +34,7 @@ const {
   related = [],
   eyebrow,
   version,
+  freshnessSummary,
 } = Astro.props as Props;
 
 const lang = getLangFromUrl(Astro.url);
@@ -71,7 +74,7 @@ const articleJsonLd = {
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <TableOfContents headings={headings} />
   <article class="container-wide pt-12 pb-20 lg:pr-64">
-    <header class="border-b border-iron-800 pb-6 mb-8">
+    <header class:list={['border-b border-iron-800 pb-6', freshnessSummary ? 'mb-6' : 'mb-8']}>
       {eyebrow && <p class="tag-chip">{eyebrow}</p>}
       <h1 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-iron-50">{title}</h1>
       {description && <p class="mt-3 text-base text-iron-300 leading-relaxed max-w-3xl">{description}</p>}
@@ -84,6 +87,15 @@ const articleJsonLd = {
         {tags.length > 0 && tags.map((tag) => <span class="text-iron-500">#{tag}</span>)}
       </div>
     </header>
+
+    {freshnessSummary && version && updatedDate && (
+      <FreshnessSummary
+        lang={lang}
+        version={version}
+        verifiedDate={updatedDate}
+        summary={freshnessSummary}
+      />
+    )}
 
     <div class="prose prose-invert max-w-none prose-headings:scroll-mt-20 prose-h2:border-b prose-h2:border-iron-800 prose-h2:pb-1 prose-h2:text-iron-50 prose-h3:text-iron-100 prose-a:text-cannon-400 prose-code:text-military-300 prose-pre:bg-iron-950 prose-pre:border prose-pre:border-iron-800">
       <slot />

@@ -13,6 +13,8 @@ const CORE_PAGES = [
 ];
 
 const strict = process.argv.includes('--strict');
+const CURRENT_VERSION = 'v33';
+const FRESHNESS_BASELINE = '2026-08-02';
 
 function splitDocument(source) {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
@@ -57,6 +59,11 @@ function headingCount(markdown) {
   return markdown.match(/^#{2,4}\s+.+$/gm)?.length ?? 0;
 }
 
+function frontmatterValue(frontmatter, key) {
+  const match = frontmatter.match(new RegExp(`^${key}:\\s*(?:"([^"]*)"|'([^']*)'|(.+))\\s*$`, 'm'));
+  return (match?.[1] ?? match?.[2] ?? match?.[3] ?? '').trim();
+}
+
 async function auditPage(page, lang) {
   const relative = `src/content/${page.collection}/${lang}/${page.slug}.mdx`;
   const source = await readFile(resolve(relative), 'utf8');
@@ -67,6 +74,14 @@ async function auditPage(page, lang) {
   const paragraphs = longParagraphs(body);
   const headings = headingCount(body);
   const hasUpdatedDate = /^updatedDate:\s*\d{4}-\d{2}-\d{2}\s*$/m.test(frontmatter);
+  const updatedDate = frontmatterValue(frontmatter, 'updatedDate');
+  const version = frontmatterValue(frontmatter, 'version');
+  const freshnessSummary = frontmatterValue(frontmatter, 'freshnessSummary');
+  const hasCurrentVersion = version === CURRENT_VERSION;
+  const hasCurrentVerification = updatedDate >= FRESHNESS_BASELINE;
+  const freshnessMinimum = lang === 'zh' ? 20 : 40;
+  const hasFreshnessSummary = [...freshnessSummary].length >= freshnessMinimum
+    && freshnessSummary.includes(CURRENT_VERSION);
   return {
     relative,
     lang,
@@ -75,7 +90,16 @@ async function auditPage(page, lang) {
     headings,
     longParagraphs: paragraphs.length,
     hasUpdatedDate,
-    passes: count >= minimum && headings >= 8 && paragraphs.length === 0 && hasUpdatedDate,
+    hasCurrentVersion,
+    hasCurrentVerification,
+    hasFreshnessSummary,
+    passes: count >= minimum
+      && headings >= 8
+      && paragraphs.length === 0
+      && hasUpdatedDate
+      && hasCurrentVersion
+      && hasCurrentVerification
+      && hasFreshnessSummary,
   };
 }
 
@@ -85,7 +109,7 @@ for (const page of CORE_PAGES) {
 }
 
 console.log('Core content audit');
-console.log('lang  page                           count/min      h2-h4  >240  updated  status');
+console.log('lang  page                           count/min      h2-h4  >240  updated  version  fresh  status');
 for (const result of results) {
   const page = result.relative.replace(/^src\/content\//, '').replace(/\.mdx$/, '');
   console.log([
@@ -95,6 +119,8 @@ for (const result of results) {
     String(result.headings).padEnd(6),
     String(result.longParagraphs).padEnd(5),
     (result.hasUpdatedDate ? 'yes' : 'no').padEnd(8),
+    (result.hasCurrentVersion ? 'yes' : 'no').padEnd(8),
+    (result.hasCurrentVerification && result.hasFreshnessSummary ? 'yes' : 'no').padEnd(6),
     result.passes ? 'PASS' : 'FAIL',
   ].join(' '));
 }

@@ -1,0 +1,68 @@
+---
+import { getIntlLocale, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  version: string;
+  verifiedDate: Date;
+  summary: string;
+}
+
+const { lang, version, verifiedDate, summary } = Astro.props as Props;
+const copy = {
+  en: {
+    title: 'Freshness check',
+    version: 'Applies to',
+    verified: 'Last verified',
+    change: 'What changed in this version',
+  },
+  fr: {
+    title: 'Contrôle de fraîcheur',
+    version: 'Version applicable',
+    verified: 'Dernière vérification',
+    change: 'Changement clé de cette version',
+  },
+  nl: {
+    title: 'Actualiteitscontrole',
+    version: 'Geldt voor',
+    verified: 'Laatst gecontroleerd',
+    change: 'Belangrijkste wijziging in deze versie',
+  },
+  de: {
+    title: 'Aktualitätscheck',
+    version: 'Gilt für',
+    verified: 'Zuletzt geprüft',
+    change: 'Wichtigste Änderung dieser Version',
+  },
+  zh: {
+    title: '新鲜度核验',
+    version: '适用版本',
+    verified: '最后核验',
+    change: '本版本关键变化',
+  },
+} as const;
+const labels = copy[lang];
+const formattedDate = new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 'medium' }).format(verifiedDate);
+---
+
+<aside
+  class="mb-8 rounded-lg border border-cannon-500/35 bg-cannon-950/20 px-5 py-4"
+  data-freshness-summary
+  aria-label={labels.title}
+>
+  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-cannon-300">{labels.title}</p>
+  <dl class="mt-3 grid gap-3 text-sm sm:grid-cols-[minmax(8rem,0.8fr)_minmax(10rem,1fr)_minmax(18rem,2.4fr)]">
+    <div>
+      <dt class="text-xs font-medium text-iron-400">{labels.version}</dt>
+      <dd class="mt-1 font-mono font-semibold text-iron-100">{version}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium text-iron-400">{labels.verified}</dt>
+      <dd class="mt-1 font-mono text-iron-100">{formattedDate}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium text-iron-400">{labels.change}</dt>
+      <dd class="mt-1 leading-relaxed text-iron-200">{summary}</dd>
+    </div>
+  </dl>
+</aside>
