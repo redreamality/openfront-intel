@@ -121,7 +121,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- `FRESH-02`：内容与验证已完成，等待创建今日唯一待审 PR。现有 7 个核心答案（`first-match`、`hotkeys`、`water-nukes`、`economy-fundamentals`、`ffa-opening`、`nuclear-deterrence`、`team-naval-control`）的 en/zh/fr/de/nl 版本共 35 页，均已显示适用版本、最后核验日期与页面专属 v33 变化摘要。
+- `FRESH-02`：内容与验证已完成并交付至待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。现有 7 个核心答案（`first-match`、`hotkeys`、`water-nukes`、`economy-fundamentals`、`ffa-opening`、`nuclear-deterrence`、`team-naval-control`）的 en/zh/fr/de/nl 版本共 35 页，均已显示适用版本、最后核验日期与页面专属 v33 变化摘要。
 
 ## 计划承接表
 
@@ -130,7 +130,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | ID | 状态 | 下一决策点 |
 |---|---|---|
 | `FRESH-01` | `v32`、`v33` 均已完成；PR #4 已合并 | 在 `FRESH-02` / `FRESH-03` 中补齐旧页与首页入口 |
-| `FRESH-02` | 已完成：35 个核心本地化页面、共享摘要、严格审计和五语 e2e 已交付 | PR 合并后进入 `FRESH-03` |
+| `FRESH-02` | 已完成并提交 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)：35 个核心本地化页面、共享摘要、严格审计和五语 e2e 已交付 | PR 合并后进入 `FRESH-03` |
 | `FRESH-03` | 当前下一项 | 重构五语首页信息层级并补 e2e |
 | `DOOM-01` | 待开始 | `FRESH-03` 交付后的第一篇独立攻略 |
 | `ECON-01` | Next | 先判断扩写 `/mechanics/economy/` 是否足够承接人口甜区意图 |
@@ -163,12 +163,12 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 语言状态：en、zh、fr、de、nl 全部完成，35/35 页面均为 `v33`、核验日期 `2026-08-02`，数字、键位、版本范围和结论一致。
 - 旧页同步范围：7 个核心答案 × 5 语，共 35 页；hotkeys 五语正文中的核验参考同时从 v32 更新为 v33。
 - 视觉证据类型：代码原生静态摘要组件与可核验文本；没有使用截图或生成游戏画面。
-- 验证结果：严格内容审计 35/35；生产构建 225 页；内部链接 8,964 条；定向内容 e2e 100/100；完整 Playwright 189/189；`git diff --check` 待最终提交前复核。
-- 阻塞：无内容阻塞。今日最多创建一个待审 PR，不自动合并。
+- 验证结果：严格内容审计 35/35；生产构建 225 页；内部链接 8,964 条；定向内容 e2e 100/100；完整 Playwright 189/189；提交前 `git diff --check` 通过。
+- 阻塞：无内容阻塞。[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已创建并保持待审，不自动合并。
 
 ## 已完成
 
-- [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面。
+- [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。
 - [x] 2026-08-01：建立 [`content-strategy.md`](content-strategy.md)，把内容原则、当前战役、Next/Later、版本响应、多语节奏、Feedlog 选题池与停止规则从每日账本中分离。
 - [x] 2026-08-01：更新自动化 `openfront`，令其先读战略、写每日编辑判断、按战役退出条件选任务，并允许无文章的研究/复盘日。
 - [x] 2026-08-01：完成 `FRESH-02` 来源包与范围审计，确认 35 个核心本地化页面、共享布局缺口、语言状态和下一次验证门禁；今天未创建第二个 PR。
@@ -188,4 +188,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-01 | `FRESH-01` | 完成 `v0.33.0-beta1` 五语玩家影响总览和受影响页面同步；[PR #4](https://github.com/redreamality/openfront-intel/pull/4) 已合并 | 新增 Doomsday 独立攻略后续项；地图刷新并入版本任务 | content audit 35/35；build 225 页；links 8,964；完整 e2e 154/154 | 按战役顺序推进 `FRESH-02` |
 | 2026-08-01 | 内容运行体系 | 将战略计划与每日账本分离，建立当前战役、计划 ID、退出条件、信号池和非机械选择门槛 | 多语改为紧急 en+zh / 72 小时补齐；Feedlog 改为按真实问题和票数维护的选题池；自动化 `openfront` 已同步新规则 | 自动化更新成功；文档链接与 Markdown 结构待本轮校验 | PR #4 合并后执行 `FRESH-02` |
 | 2026-08-01 | `FRESH-02` | 完成研究日交付：确认 7 个核心答案 × 5 语的顶部新鲜度缺口、共享布局方案与验证门禁 | PR #4 已合并；GSC 候选顺序不变；在线 Release/Issues/Feedlog 刷新因 TLS 超时保持未确认 | 内容审计 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未跑 build/link/e2e | 下一次从最新 main 实施 35 页统一摘要；`FRESH-03`、`DOOM-01` 继续等待 |
-| 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189 | 创建今日唯一待审 PR；合并后执行 `FRESH-03` |
+| 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 待审 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189；diff check 通过 | PR #5 合并后执行 `FRESH-03` |

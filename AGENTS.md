@@ -131,3 +131,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **多语内容完整性审计不要给中文与拉丁语种套同一个字符长度门槛**：中文信息密度更高，统一阈值会制造假失败。按语种设置最小值，并继续单独校验版本号、必备事实和非空摘要。
 - **跨 Git worktree 修改同名文件时，不能复用另一工作树的 `apply_patch` 尾部上下文**：不同分支的 `AGENTS.md` 等文件可能已分叉。分别读取各目标文件的精确尾部并拆成独立补丁，避免一个 worktree 的上下文不匹配导致整份多文件补丁回滚。
 - **2026-08-02 复发：PowerShell 的 `foreach (...) { ... }` 输出绝不能在同一语句后直接接管道**：` } | ConvertTo-Json` 与 ` } | Format-Table` 都会报 `An empty pipe element is not allowed`。先写 `$results = foreach (...) { ... }`，下一条语句再处理 `$results`。
+- **Git Data API 创建 commit 时不要要求远端 commit SHA 必须等于本地 SHA**：GitHub 可能规范化提交元数据，即使 tree 与父节点完全一致也会产生不同 SHA。应严格核对远端 commit 的 `tree.sha` 与本地 tree、首个 parent 与已确认基线一致，再使用 API 返回的 commit SHA 创建 ref，并在创建后复核远端 ref；不要因 SHA 不同在 ref 写入前中止。
