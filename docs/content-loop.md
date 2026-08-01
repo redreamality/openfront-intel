@@ -98,10 +98,11 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- [ ] 2026-08-01｜OpenFrontIO `v0.33.0-beta1` 五语同步｜内容、生成数据与验证均已完成，本地分支 `codex/daily-content-2026-08-01-v33-release` 已 rebase 到远端 `main`，提交 `3c3ca9a`；两次 `git push` 分别因 HTTPS 低速与连接重置失败，GitHub API 确认远端分支仍不存在，因此 PR 暂时无法创建。网络恢复后先推送并创建待审 PR，再开始下一项。
+- 无。2026-08-01 的 v33 beta 同步已完成并创建 [PR #4](https://github.com/redreamality/openfront-intel/pull/4) 待审；该 PR 合并前不启动同日第二项。
 
 ## 已完成
 
+- [x] 2026-08-01：完成 OpenFrontIO `v0.33.0-beta1` 五语玩家版 Release Notes，并同步 MIRV/SAM/Silo、战舰三级熟练度、Doomsday、Ranked 2v2、右键取消舰船选择、117 张地图和相邻策略；[PR #4](https://github.com/redreamality/openfront-intel/pull/4) 已创建待审，未自动合并。
 - [x] 2026-07-31：依据 v0.32.18 `SAMLauncherExecution.ts` 修正“整个 MIRV 都绕过 SAM”的五语事实错误；明确载体不是 SAM 目标，目标点距发射器小于 50 tiles 的分裂弹头会被清除；同步核威慑、核武机制、Water Nukes、FAQ、Glossary、单位/建筑机制、相邻策略、提取快照与生成数据；[PR #3](https://github.com/redreamality/openfront-intel/pull/3) 已于 2026-07-31 合并。
 - [x] 2026-07-31：刷新 Search Console 7 天（2026-07-23 至 2026-07-29）与 28 天（2026-07-02 至 2026-07-29）本地报告。
 - [x] 2026-07-31：完成 OpenFront v32 五语内容升级并合并 [PR #2](https://github.com/redreamality/openfront-intel/pull/2)。
@@ -125,4 +126,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 |---|---|---|---|---|
 | 2026-07-31 | 回到并同步 `main`；建立每日执行手册与定时任务 `openfront` | 频率由每周改为每天；新增品牌词错落地观察项 | `git diff --check` 通过 | 刷新 7 天和 28 天 Search Console 报告 |
 | 2026-07-31 | 通过 [PR #3](https://github.com/redreamality/openfront-intel/pull/3) 修正五语 MIRV/SAM 事实：载体不可拦，目标点距发射器小于 50 tiles 的弹头可被清除；同步现有主落地页、相邻内容和生成数据 | 最新正式版本仍为 v0.32.18；GitHub Issues/Feedlog 无真实重复问题；新增 22 个缺失地图的数据刷新项，并合并 shortcuts/hotkeys 重复意图 | `pnpm content:audit -- --strict` 35/35；`pnpm build` 220 页；`pnpm check:links` 检查 8,739 个链接；定向 e2e 53/53；完整 e2e 142/142；旧弹头免疫短语与模糊 `within 50` 文案均为零匹配 | 刷新地图提取基线并补齐 22 个地图 ID；若出现新正式 Release 则先响应版本变化 |
-| 2026-08-01 | 完成 `v0.33.0-beta1` 五语玩家版 Release Notes，并同步 MIRV/SAM/Silo、战舰熟练度、右键取消舰船选择、117 张地图和相邻策略；本地提交 `3c3ca9a` | GitHub Release 正文完整且 `draft=false`、`prerelease=false`，但 tag 保留 beta；GitHub Issues 为 0，Feedlog 仅系统 welcome；新增 Doomsday 与 Ranked 2v2 后续独立页，地图刷新并入今日主任务；两次 push 因低速/连接重置失败，远端分支不存在，PR 未创建 | `pnpm content:audit -- --strict` 35/35；`pnpm build` 225 页；`pnpm check:links` 检查 8,964 个链接；内容完整性 e2e 65/65；完整 e2e 154/154；旧生成 MIRV 规则与错误免疫文案均为零匹配 | 网络恢复后先推送今日分支并创建待审 PR；合并后再编写五语 Doomsday Clock 实战攻略 |
+| 2026-08-01 | 完成 `v0.33.0-beta1` 五语玩家版 Release Notes，并同步 MIRV/SAM/Silo、战舰熟练度、右键取消舰船选择、117 张地图和相邻策略；创建 [PR #4](https://github.com/redreamality/openfront-intel/pull/4) 待审 | GitHub Release 正文完整且 `draft=false`、`prerelease=false`，但 tag 保留 beta；GitHub Issues 为 0，Feedlog 仅系统 welcome；新增 Doomsday 与 Ranked 2v2 后续独立页，地图刷新并入今日主任务；Git HTTPS 持续失败后按核验过的 Git Data API 兜底交付，远端提交 SHA 与本地一致 | `pnpm content:audit -- --strict` 35/35；`pnpm build` 225 页；`pnpm check:links` 检查 8,964 个链接；内容完整性 e2e 65/65；完整 e2e 154/154；旧生成 MIRV 规则与错误免疫文案均为零匹配 | 等待 PR #4 审阅；合并后再编写五语 Doomsday Clock 实战攻略 |
