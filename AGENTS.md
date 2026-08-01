@@ -126,3 +126,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **2026-08-01 复发：并行审计中的每一条 `rg` 都要单独归一化退出码 1**：不要只包装部分子命令；任何遗漏的零匹配都会让 `Promise.all` 整体失败并吞掉其他结果。每条命令都应保存 `$LASTEXITCODE`，把 1 转成明确的 `NO_MATCH` 成功输出。
 - **2026-08-01 复发：PowerShell 中所有含 `^{tree}` / `^{commit}` 的 Git revision 都必须从一开始整体单引号包裹**：包括 `HEAD^{tree}` 和 `origin/main^{tree}`；不要等报错后再补引号，否则 PowerShell 可能插入 `-encodedCommand` 并产生误导性的 Git revision 错误。
 - **2026-08-01 复发：`git push` 命中 `Operation too slow` 后不要立即重复**：先用真实 owner/repo 的 Git ref API 查询完整分支路径；本轮确认远端分支不存在后才允许按相同低速参数重试一次。核对脚本本身应以 0 正常返回状态文本，不要用人为非零退出码表达“需要重试”。
+- **2026-08-01 复发：`git fetch` 低速超时且两次 `git push` 均无法连接 `github.com:443` 后，不要继续循环 Git HTTPS**：先用 GitHub API 确认远端 `main`、目标 ref 和本地 merge-base；基线一致且远端 ref 不存在时，可用 Git Data API 按本地提交顺序上传 blob/tree/commit 并创建 ref，创建后再逐一核对提交 SHA，避免网络故障阻塞 PR 交付。
