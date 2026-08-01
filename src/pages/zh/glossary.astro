@@ -28,7 +28,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: '港口', en: 'Port', desc: '贸易船 / 运输船 / 战舰生成基地。' },
       { term: '工厂', en: 'Factory', desc: '火车生产源，配合铁路与城市运转。' },
       { term: '防御工事', en: 'DefensePost', desc: '30 tiles 范围内 mag ×5 / speed ×3。' },
-      { term: 'SAM 发射器', en: 'SAM Launcher', desc: '拦截原子弹 / 氢弹与目标点在 50 tiles 内的 MIRV 弹头；不能拦 MIRV 载体。' },
+      { term: 'SAM 发射器', en: 'SAM Launcher', desc: '按弹道与时间判定拦截原子弹、氢弹和飞行中的 MIRV 弹头。' },
       { term: '导弹井', en: 'Missile Silo', desc: '核弹发射台，建造 100 ticks。' },
       { term: '运输船', en: 'Transport Ship', desc: '登陆载具，受战舰威胁。' },
       { term: '战舰', en: 'Warship', desc: '海上控制单位，HP 1000、Shell 250 伤害。' },
@@ -36,7 +36,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: '火车', en: 'Train', desc: '陆地金币载具，盟友站点 35k 收益。' },
       { term: '原子弹', en: 'Atom Bomb', desc: '750k 金币，inner 12 / outer 30。' },
       { term: '氢弹', en: 'Hydrogen Bomb', desc: '5M 金币，inner 80 / outer 100。' },
-      { term: 'MIRV', en: 'MIRV', desc: '25M + 15M·n 的多弹头载体；载体穿过 SAM，近目标弹头仍可被拦截。' },
+      { term: 'MIRV', en: 'MIRV', desc: '25M + 15M·n 的多弹头载体；v33 弹头按普通核弹飞行，发射还会触发 Silo 冷却。' },
     ],
   },
   {

@@ -94,7 +94,9 @@ const generatedAt = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang, {
   dateStyle: 'medium',
 }).format(new Date(meta.generatedAt));
 const releaseTag = version && /^v\d+$/.test(version)
-  ? version.replace(/^v(\d+)$/, 'v0.$1.0')
+  ? version === 'v33'
+    ? 'v0.33.0-beta1'
+    : version.replace(/^v(\d+)$/, 'v0.$1.0')
   : version;
 const releaseHref = kind === 'changelog' && version
   ? `https://github.com/openfrontio/OpenFrontIO/releases/tag/${releaseTag}`

@@ -2,7 +2,7 @@
 title: Wat zijn Water Nukes in OpenFront?
 description: De v31-optie verandert vernietigd land permanent in water. Lees hoe kraters, terrein, herstel en tactische keuzes precies werken.
 pubDate: 2026-06-03
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Gevorderd
@@ -25,7 +25,9 @@ Na de omzetting kan normale landexpansie het water niet herstellen. Je kunt het 
 
 Water Nukes verandert het terrein, niet de prijs of het gedocumenteerde bereik. Een Atoombom blijft inner 12 en outer 30; een Waterstofbom blijft inner 80 en outer 100.
 
-Atoom- en Waterstofbommen blijven doelen voor SAM. De MIRV-drager is niet onderschepbaar, maar v0.32.18 ruimt kernkoppen op met doelen op minder dan 50 tiles van de lanceerder. De modifier maakt niet ieder wapen ononderschepbaar.
+Atoom- en Waterstofbommen blijven doelen voor SAM. In v33 beta is de MIRV-drager geen doel, maar afgesplitste kernkoppen volgen de normale baan- en timingcontroles.
+
+De lancering zet ook de Silo op cooldown. De modifier maakt niet ieder wapen ononderschepbaar.
 
 v31 koppelde Water Nukes aan handel op binnenwater. Havens, oorlogsschepen en handelsschepen werken op ieder wateroppervlak, niet alleen op oceanen.
 
@@ -67,13 +69,15 @@ Die vorm telt. Een gladde krater gedraagt zich eerder als één samenhangend wat
 | --- | ---: | --- | --- |
 | Atoombom | 750.000 | Inner 12 / outer 30 tiles | Onderschepbaar |
 | Waterstofbom | 5.000.000 | Inner 80 / outer 100 tiles | Onderschepbaar |
-| MIRV | 25M + 15M per eerdere lancering | Splitst in koppen | Drager immuun; koppen voorwaardelijk |
-| MIRV-kop | Inbegrepen | Inner 12 / outer 18 tiles | Onderschepbaar als het doel minder dan 50 tiles van SAM ligt |
+| MIRV | 25M + 15M per eerdere lancering | Splitst in koppen | Drager geen doel; lancering activeert Silo-cooldown |
+| MIRV-kop | Inbegrepen | Inner 12 / outer 18 tiles | Normaal SAM-doel tijdens de vlucht |
 | SAM-lanceerinstallatie | Eerste 1.500.000 | Begint op 70 tiles | Cooldown 90 ticks |
 
 Een Atoombom is de goedkopere terreinaanpassing, maar de voetafdruk is veel kleiner. Waterstof vormt een breed front om, maar stopt 5.000.000 Gold in één onderschepbaar projectiel.
 
-Een MIRV maakt meerdere kleinere zones. De drager passeert SAM-doelselectie, maar nabij gerichte kernkoppen kunnen worden opgeruimd. De startprijs is vijf Waterstofbommen en iedere eerdere MIRV voegt 15.000.000 toe.
+Een MIRV maakt meerdere kleinere zones. De drager passeert SAM-doelselectie, maar afgesplitste kernkoppen kunnen bij passende baan en timing worden onderschept.
+
+De startprijs is vijf Waterstofbommen, iedere eerdere MIRV voegt 15.000.000 toe en het schot activeert de Silo-cooldown.
 
 De juiste keuze draait om vorm, niet alleen schade. Bepaal of je een kleine opening, brede snede, meerdere kraters of alleen troepenvernietiging nodig hebt.
 
@@ -247,7 +251,7 @@ Laat dekking overlappen zonder alle SAM, Silo's, Steden en Havens in één klein
 
 ### SAM als volledige bescherming zien
 
-SAM onderschept Atoom en Waterstof en krijgt daarna 90 ticks cooldown. Hij stopt de MIRV-drager niet, maar ruimt kernkoppen op met doelen op minder dan 50 tiles van de lanceerder.
+SAM onderschept Atoom en Waterstof en krijgt daarna 90 ticks cooldown. Hij stopt de MIRV-drager niet, maar afgesplitste kernkoppen zijn normale doelen tijdens de vlucht; de vaste 50-tile-regel is vervallen.
 
 Verdediging vraagt ook diepte, heroveringstroepen, verspreide infrastructuur en een plan voor het water na conversie.
 
@@ -257,7 +261,7 @@ Gebruikt de aanvaller goedkope Atoombommen, bescherm dan eerst verbindingen die 
 
 Spaart de aanvaller voor Waterstof, spreid dan waardevolle structuren buiten één breed doelgebied en houd meer dan één kern bruikbaar.
 
-Wordt MIRV de dreiging, gebruik overlappende SAMs voor belangrijke nabije doelen, maar verwacht niet dat ze de drager of alle verspreide kernkoppen stoppen.
+Wordt MIRV de dreiging, gebruik overlappende SAMs voor belangrijke vliegroutes, maar verwacht niet dat ze de drager of alle verspreide kernkoppen stoppen.
 
 Bewaar landdiepte, verspreid infrastructuur en bereid meerdere kleinere kraters voor.
 
@@ -283,7 +287,7 @@ De modus geldt voor Atoom, Waterstof en MIRV-koppen. Hun prijzen, vormen en SAM-
 
 ### Kan SAM een Water Nuke stoppen?
 
-SAM kan Atoom- en Waterstofbommen onderscheppen. De MIRV-drager is niet onderschepbaar, maar kernkoppen met doelen op minder dan 50 tiles van de lanceerder worden opgeruimd.
+SAM kan Atoom- en Waterstofbommen onderscheppen. De MIRV-drager is niet onderschepbaar; afgesplitste MIRV-kernkoppen worden volgens de normale baanregels gecontroleerd. Water Nukes verandert die regel niet.
 
 ### Kan ik land na de inslag redden?
 

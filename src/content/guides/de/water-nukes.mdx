@@ -2,7 +2,7 @@
 title: Was sind Water Nukes in OpenFront?
 description: Water Nukes ist die v31-Option, bei der Nukes zerstörtes Land dauerhaft in Wasser verwandeln. So ändern sich Kraterform, Gelände und Rückeroberung.
 pubDate: 2026-06-03
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Fortgeschritten
@@ -25,7 +25,9 @@ Nach der Umwandlung kann normale Landexpansion das Tile nicht zurückbringen. Ne
 
 Water Nukes ändert Gelände, nicht Preis oder dokumentierten Radius einer Waffe. Eine Atombombe besitzt weiter inner 12 und outer 30. Eine Wasserstoffbombe besitzt inner 80 und outer 100.
 
-Atom- und Wasserstoffbomben bleiben gültige SAM-Ziele. Der MIRV-Träger ist nicht abfangbar, aber v0.32.18 löscht Sprengköpfe mit Zielen unter 50 Tiles vom Werfer. Der Modifikator macht nicht jede Waffe unabfangbar.
+Atom- und Wasserstoffbomben bleiben gültige SAM-Ziele. In v33 beta ist der MIRV-Träger kein Ziel, getrennte Sprengköpfe durchlaufen jedoch die normalen Flugbahn- und Zeitprüfungen.
+
+Der Start setzt außerdem das Silo in den Cooldown. Der Modifikator macht nicht jede Waffe unabfangbar.
 
 Die v31-Veröffentlichung verband Water Nukes mit Binnenwasser-Handel. Ports, Warships und Handelsschiffe können auf jedem Gewässer arbeiten, nicht nur auf Ozeanen.
 
@@ -67,13 +69,13 @@ Die Form zählt taktisch. Ein glatter Krater verhält sich eher wie ein geschlos
 | --- | ---: | --- | --- |
 | Atombombe | 750.000 | Inner 12 / outer 30 Tiles | Abfangbar |
 | Wasserstoffbombe | 5.000.000 | Inner 80 / outer 100 Tiles | Abfangbar |
-| MIRV | 25M + 15M je früherem Start | Spaltet sich in MIRV-Sprengköpfe | Träger immun; Sprengköpfe bedingt |
-| MIRV-Sprengkopf | In MIRV enthalten | Inner 12 / outer 18 Tiles | Abfangbar, wenn Ziel unter 50 Tiles vom SAM liegt |
+| MIRV | 25M + 15M je früherem Start | Spaltet sich in MIRV-Sprengköpfe | Träger kein Ziel; Start löst Silo-Cooldown aus |
+| MIRV-Sprengkopf | In MIRV enthalten | Inner 12 / outer 18 Tiles | Normales SAM-Ziel im Flug |
 | SAM Launcher | Erster kostet 1.500.000 | Beginnt bei 70 Tiles und skaliert | 90 Ticks Cooldown |
 
 Eine Atombombe ist der billigere Versuch zur Geländeänderung, ihr Fußabdruck ist aber viel kleiner. Wasserstoff formt eine breite Front um, konzentriert jedoch 5.000.000 Gold in ein abfangbares Geschoss.
 
-Eine MIRV erzeugt mehrere kleinere Flächen. Der Träger durchquert die SAM-Zielerfassung, nahe zielende Sprengköpfe können jedoch gelöscht werden.
+Eine MIRV erzeugt mehrere kleinere Flächen. Der Träger durchquert die SAM-Zielerfassung, getrennte Sprengköpfe können bei passender Flugbahn und Zeit jedoch abgefangen werden. Der Start löst auch den Silo-Cooldown aus.
 
 Ihr Startpreis beträgt das Fünffache einer Wasserstoffbombe, jeder frühere Start addiert 15.000.000 Gold.
 
@@ -249,7 +251,7 @@ Nutze überlappende Abdeckung, ohne jeden SAM, jedes Silo, jede City und jeden P
 
 ### SAMs als vollständigen Schutz behandeln
 
-SAMs fangen Atom- und Wasserstoffbomben ab und haben danach 90 Ticks Cooldown. Sie stoppen den MIRV-Träger nicht, löschen aber Sprengköpfe mit Zielen unter 50 Tiles vom Werfer.
+SAMs fangen Atom- und Wasserstoffbomben ab und haben danach 90 Ticks Cooldown. Sie stoppen den MIRV-Träger nicht, doch getrennte Sprengköpfe sind normale Ziele im Flug; die feste 50-Tile-Regel gilt nicht mehr.
 
 Verteidigung braucht außerdem Geländetiefe, Rückexpansionstruppen, getrennte Infrastruktur und einen Marineplan nach der Umwandlung.
 
@@ -259,7 +261,7 @@ Nutzt der Angreifer billige Atombomben, priorisiere die Landverbindungen, die ou
 
 Spart der Gegner auf Wasserstoff, verteile hochwertige Strukturen über mehr als eine breite Zielfläche. Bewahre mehrere Land- und Wirtschaftskerne.
 
-Wird MIRV zur Gefahr, schütze wichtige Nahziele mit überlappenden SAMs, ohne zu erwarten, dass sie den Träger oder alle verteilten Sprengköpfe stoppen. Erhalte Truppentiefe, verteile Infrastruktur und plane mehrere kleine Krater.
+Wird MIRV zur Gefahr, decke wichtige Flugbahnen mit überlappenden SAMs, ohne zu erwarten, dass sie den Träger oder alle verteilten Sprengköpfe stoppen. Erhalte Truppentiefe, verteile Infrastruktur und plane mehrere kleine Krater.
 
 Wird ein Krater Wasser, behandle ihn als Marinezone. Eigene Ports unterstützen Schiffe, Warships verweigern Transporte und Handel auf der neuen Route.
 
@@ -283,7 +285,7 @@ Der Modus gilt für Effekte von Atom-, Wasserstoff- und MIRV-Sprengköpfen. Prei
 
 ### Können SAMs eine Water Nuke stoppen?
 
-SAMs fangen Atom- und Wasserstoffbomben ab. Sie können den MIRV-Träger nicht abfangen, löschen aber Sprengköpfe mit Zielen unter 50 Tiles vom Werfer.
+SAMs fangen Atom- und Wasserstoffbomben ab. Sie können den MIRV-Träger nicht abfangen; getrennte MIRV-Sprengköpfe werden nach den normalen Flugbahnregeln geprüft. Water Nukes ändert diese Regel nicht.
 
 ### Kann ich Land nach dem Einschlag retten?
 

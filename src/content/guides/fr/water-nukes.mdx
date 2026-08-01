@@ -2,7 +2,7 @@
 title: Que sont les Water Nukes dans OpenFront ?
 description: L'option v31 transforme définitivement la terre détruite par les nukes en eau. Forme du cratère, terrain, récupération et tactiques expliqués en détail.
 pubDate: 2026-06-03
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
@@ -25,7 +25,7 @@ Après la transformation en eau, l'expansion terrestre normale ne peut pas la re
 
 Water Nukes change le terrain, pas le prix ni le rayon documenté des armes. Une bombe atomique conserve inner 12 et outer 30. Une bombe à hydrogène conserve inner 80 et outer 100.
 
-Atom et Hydrogen restent des cibles valides pour les SAM. Le véhicule MIRV n'est pas interceptable, mais en v0.32.18 les ogives visant à moins de 50 tiles du lanceur sont nettoyées.
+Atom et Hydrogen restent des cibles valides pour les SAM. En v33 beta, le véhicule MIRV n'est pas ciblé, mais les ogives séparées suivent les contrôles normaux de trajectoire et de timing. Le tir met aussi le Silo en cooldown.
 
 Le modificateur ne rend pas toutes les frappes impossibles à intercepter.
 
@@ -69,13 +69,15 @@ La forme compte. Un cratère lisse devient plus facilement un plan d'eau cohére
 | --- | ---: | --- | --- |
 | Bombe atomique | 750 000 | Inner 12 / outer 30 tiles | Interceptable |
 | Bombe à hydrogène | 5 000 000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | 25M + 15M par tir antérieur | Se divise en ogives | Véhicule immunisé ; ogives conditionnelles |
-| Ogive MIRV | Incluse avec le MIRV | Inner 12 / outer 18 tiles | Interceptée si la cible est à moins de 50 tiles du SAM |
+| MIRV | 25M + 15M par tir antérieur | Se divise en ogives | Véhicule non ciblé ; le tir déclenche le cooldown du Silo |
+| Ogive MIRV | Incluse avec le MIRV | Inner 12 / outer 18 tiles | Cible SAM normale en vol |
 | Lanceur SAM | Premier à 1 500 000 | Débute à 70 tiles | Cooldown de 90 ticks |
 
 Atom est la tentative de modification la moins chère, mais son empreinte est bien plus petite. Hydrogen remodèle un large front, mais concentre 5 000 000 d'or dans un projectile interceptable.
 
-Un MIRV crée plusieurs zones plus petites. Son véhicule traverse le ciblage SAM, mais les ogives visant à proximité peuvent être nettoyées. Son prix de départ vaut cinq Hydrogen, puis chaque lancement antérieur ajoute 15 000 000 d'or.
+Un MIRV crée plusieurs zones plus petites. Son véhicule traverse le ciblage SAM, mais les ogives séparées peuvent être interceptées si trajectoire et timing le permettent.
+
+Son prix de départ vaut cinq Hydrogen, chaque lancement antérieur ajoute 15 000 000 d'or et le tir déclenche le cooldown du Silo.
 
 Le choix dépend de la forme, pas seulement des dégâts. Décidez s'il faut une petite brèche, une coupure large, plusieurs cratères ou simplement détruire des troupes.
 
@@ -249,7 +251,7 @@ Superposez les couvertures sans placer tous les SAM, Silos, Villes et Ports dans
 
 ### Considérer les SAM comme une protection totale
 
-Les SAM interceptent Atom et Hydrogen, puis subissent 90 ticks de cooldown. Ils n'arrêtent pas le véhicule MIRV, mais nettoient les ogives visant à moins de 50 tiles du lanceur.
+Les SAM interceptent Atom et Hydrogen, puis subissent 90 ticks de cooldown. Ils n'arrêtent pas le véhicule MIRV, mais les ogives séparées deviennent des cibles normales en vol, sans règle fixe de 50 tiles.
 
 La défense exige aussi de la profondeur, des troupes pour reprendre, des structures séparées et un plan naval après conversion.
 
@@ -259,7 +261,7 @@ Si l'attaquant utilise des Atom bon marché, protégez d'abord les connexions qu
 
 S'il économise pour Hydrogen, espacez les structures de grande valeur au-delà d'une seule zone cible. Gardez plusieurs cœurs terrestres et économiques utilisables.
 
-Si le MIRV devient la menace, superposez des SAM pour protéger les cibles proches essentielles, sans attendre qu'ils arrêtent le véhicule ou toutes les ogives dispersées.
+Si le MIRV devient la menace, superposez des SAM pour couvrir les trajectoires essentielles, sans attendre qu'ils arrêtent le véhicule ou toutes les ogives dispersées.
 
 Préservez la profondeur, distribuez l'infrastructure et préparez plusieurs cratères.
 
@@ -285,7 +287,7 @@ Le mode s'applique aux effets d'Atom, Hydrogen et des ogives MIRV. Leurs prix, f
 
 ### Les SAM peuvent-ils arrêter une Water Nuke ?
 
-Ils peuvent intercepter Atom et Hydrogen. Ils ne peuvent pas intercepter le véhicule MIRV, mais nettoient les ogives visant à moins de 50 tiles du lanceur.
+Ils peuvent intercepter Atom et Hydrogen. Ils ne peuvent pas intercepter le véhicule MIRV, mais les ogives MIRV séparées suivent les contrôles normaux de trajectoire. Water Nukes ne change pas cette règle.
 
 ### Puis-je sauver la terre après l'impact ?
 

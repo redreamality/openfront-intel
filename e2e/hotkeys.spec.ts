@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// Hotkeys 速查页改写后（v32 核验键位 + “重复建造/连发核弹”技巧）的回归测试。
+// Hotkeys 速查页改写后（v33 核验键位 + “重复建造/连发核弹”技巧）的回归测试。
 // 旧页面把 Space=暂停、A=攻击、B=Build 菜单、T=运输 写错了，这里锁死正确内容，
 // 防止后续 agent 再退回旧值。
 
@@ -25,7 +25,7 @@ const cases = [
 ];
 
 for (const c of cases) {
-  test(`hotkeys[${c.lang}] 展示 v32 核验键位与连发核弹技巧`, async ({ page }) => {
+  test(`hotkeys[${c.lang}] 展示 v33 核验键位与连发核弹技巧`, async ({ page }) => {
     // 只等 DOM 就绪，不等 'load'：BaseLayout 内联了 googletagmanager 异步脚本，
     // 本机外网受限时它迟迟不返回，'load' 事件可能 30s 内不触发；而要断言的内容
     // 都是服务端渲染的静态 HTML，domcontentloaded 已足够。

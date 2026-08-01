@@ -2,22 +2,22 @@
 title: Nucleaire afschrikking en SAM-netwerken
 description: Van de eerste Silo tot MIRV — tempo van nucleaire aanvallen, SAM-plaatsing en anti-nucleaire strategie.
 pubDate: 2026-05-12
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, SAM, deterrence]
 category: Midden-eindspel
 difficulty: Gevorderd
-version: v32
+version: v33
 ---
 
 ## Direct antwoord
 
 Nucleaire afschrikking betekent een geloofwaardige vergelding bewaren en de eerste aanval van de vijand duur of onzeker maken. Je hebt Gold, een Silo, beschermde lanceercapaciteit en passende SAM-dekking nodig.
 
-Eén SAM is waarschuwing en basisdekking, geen volledige veiligheid. Zijn cooldown van 90 ticks beperkt de doorvoer. De MIRV-drager is geen SAM-doel, maar v0.32.18 vernietigt kernkoppen met een doel op minder dan 50 tiles van de lanceerder.
+Eén SAM is waarschuwing en basisdekking, geen volledige veiligheid. Zijn cooldown van 90 ticks beperkt de doorvoer. In v33 beta is de MIRV-drager geen SAM-doel, maar afgesplitste kernkoppen volgen de normale baan- en timingcontroles.
 
 Kies een wapen op missie. Atoombommen zijn goedkoper en kleiner. Waterstofbommen bestrijken veel meer terrein.
 
-De MIRV-drager passeert het hoofdvizier van SAM en verspreidt kleine kernkoppen, maar nabij gerichte koppen blijven onderschepbaar.
+De MIRV-drager passeert het hoofdvizier van SAM en verspreidt kleine kernkoppen, die na de splitsing normale doelen tijdens de vlucht worden.
 
 Lanceer niet alleen omdat een wapen klaarstaat. Een aanval moet capaciteit verwijderen, een grondaanval openen, een route ontzeggen of defensieve uitgaven afdwingen die jouw positie helpen.
 
@@ -51,7 +51,9 @@ De drager splitst in meerdere MIRV-kernkoppen. Elke kernkop heeft binnen- en bui
 
 De MIRV-drager kan niet worden onderschept.
 
-Na de splitsing vernietigt de [SAM-uitvoering van v0.32.18](https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts) kernkoppen waarvan het doel minder dan 50 tiles van een lanceerder ligt en gebruikt daarbij diens schotcyclus.
+Na de splitsing beoordeelt de [SAM-uitvoering van v0.33.0-beta1](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts) iedere kernkop net als andere ondersteunde nukes op baan, bereik, timing, gereed schot en cooldown.
+
+De MIRV-lancering zet ook de echte Missile Silo op cooldown. Een directe vervolgaanval heeft daarom een andere gereedstaande Silo of een later venster nodig.
 
 Immuniteit van de drager maakt MIRV geen automatische finisher. Lokale kernkoponderschepping, prijs, kleine straal, spreiding en herovering blijven tellen.
 
@@ -105,7 +107,7 @@ Geef niet alles uit aan het zichtbare wapen als daardoor SAM, Stad of grondverde
 
 ### Stap 5: Kies een aanvalsmissie
 
-Gebruik een kleine aanval voor een klein doel. Gebruik een grote straal als de doeldichtheid het waard is. Gebruik MIRV als verspreide doelen meer waarde maken dan lokale SAM-bescherming van 50 tiles kan verwijderen.
+Gebruik een kleine aanval voor een klein doel. Gebruik een grote straal als de doeldichtheid het waard is. Gebruik MIRV als verspreide vliegroutes meer waarde maken dan gereedstaande SAM-dekking kan verwijderen.
 
 Formuleer vóór lancering de vervolgzet in één zin. Kun je niet uitleggen wat erna verandert, bewaar het wapen dan als drukmiddel of investeer anders.
 
@@ -131,7 +133,7 @@ Controleer na voltooiing welke Steden, Silo's en routes werkelijk binnen bereik 
 
 Bekijk de aanvlieggeometrie. De voorvuurformule betekent dat onderschepping afhangt van aankomsttijd én de nominale cirkel.
 
-Bij AI-tegenstanders zeggen bestaande gebouwennotities dat AI-kernwapens SAM-doelen mijden. Dat voegt afschrikking toe, maar verandert menselijke doelen, immuniteit van de drager of de nabijdoelregel voor kernkoppen niet.
+Bij AI-tegenstanders zeggen bestaande gebouwennotities dat AI-kernwapens SAM-doelen mijden. Dat voegt afschrikking toe, maar verandert menselijke doelen, immuniteit van de drager of de normale controles na de splitsing niet.
 
 ### Redundantiefase
 
@@ -167,7 +169,7 @@ Eén eerste Silo kost 1.000.000 en één eerste SAM 1.500.000, samen 2.500.000. 
 
 Een Atoombom kost nog 750.000 en brengt het pakket op 3.250.000. Het geeft lanceercapaciteit, één wapen en één laag bescherming tegen onderschepbare nukes.
 
-Het geeft geen salvoredundantie of brede MIRV-afweer. Nabije doelen krijgen wel lokale bescherming tegen kernkoppen; de waarde blijft afhangen van plaatsing en paraatheid.
+Het geeft geen salvoredundantie of gegarandeerde brede MIRV-afweer. Een gereedstaande lanceerder kan een afgesplitste kernkop aanvallen als baan en timing dat toelaten; de waarde blijft afhangen van plaatsing en paraatheid.
 
 ### Scenario 2: Kosten van overlappende SAM's
 
@@ -195,7 +197,7 @@ De beste keuze hangt af van doeldichtheid, dekking, cooldown-timing en missie. P
 
 De eerste MIRV kost 25.000.000. Na één lancering kost de volgende 40.000.000. Beide samen verbruiken 65.000.000 vóór Silo of verdediging.
 
-Die stijging beloont selectief gebruik. De drager omzeilt SAM-doelselectie, maar nabij gerichte kernkoppen kunnen worden vernietigd; hun stralen zijn 12/18 en v24-kraters worden snel heroverd.
+Die stijging beloont selectief gebruik. De drager omzeilt SAM-doelselectie, maar afgesplitste kernkoppen kunnen worden vernietigd; hun stralen zijn 12/18, de Silo gaat op cooldown en v24-kraters worden snel heroverd.
 
 ### Scenario 6: Stadsbuffer
 
@@ -213,9 +215,9 @@ Reageer met overlappende voltooide lanceerders op sleutelgebieden, zonder een cl
 
 ### MIRV-verzadiging
 
-SAM's kunnen de drager niet onderscheppen, maar ruimen kernkoppen voor de nabijzone van een lanceerder op. Bescherm belangrijke bezittingen overlappend en behoud spreiding, herstelbare kernen, grondtroepen en wederopbouweconomie.
+SAM's kunnen de drager niet onderscheppen, maar kunnen afgesplitste kernkoppen via normale baancontroles aanvallen. Dek belangrijke routes overlappend en behoud spreiding, herstelbare kernen, grondtroepen en wederopbouweconomie.
 
-Blijf niet één SAM upgraden alsof normaal bereik de vaste nabijdoelregel vergroot. Het brede antwoord op MIRV is overlap, veerkracht en herstel.
+Blijf niet één SAM upgraden alsof bereik alleen iedere onderschepping garandeert. Het brede antwoord op MIRV is overlap, gereedstaande schoten, veerkracht en herstel.
 
 ### Doelspreiding
 
@@ -249,7 +251,7 @@ Een Silo buiten SAM-dekking en dicht bij een zwakke grens biedt zichtbare waarde
 
 ### Vertrouwen in één SAM
 
-Eén lanceerder geeft echte dekking, vooral tegen AI-doelen. Cooldown opent nog gaten en zijn MIRV-bescherming geldt alleen voor nabij gerichte kernkoppen. Zie hem als eerste laag, niet als volledig schild.
+Eén lanceerder geeft echte dekking, vooral tegen AI-doelen. Cooldown opent nog gaten en MIRV kan kernkoppen over meerdere routes verspreiden. Zie hem als eerste laag, niet als volledig schild.
 
 ### Compact nucleair district
 
@@ -321,7 +323,7 @@ De eerste MIRV kost 25.000.000 Gold. Elke eerdere MIRV-lancering voegt 15.000.00
 
 ### Kan één SAM elke nuke stoppen?
 
-Nee. Hij onderschept Atoom- en Waterstofbommen, niet de MIRV-drager, en ruimt alleen kernkoppen op met een doel op minder dan 50 tiles van de lanceerder. De cooldown van 90 ticks beperkt vervolgschoten.
+Nee. Hij onderschept Atoom- en Waterstofbommen, niet de MIRV-drager, en kan vóór zijn cooldown van 90 ticks slechts één ondersteund doel aanvallen. Afgesplitste kernkoppen worden ondersteund, maar baan en timing blijven beslissen.
 
 ### Welk bereik heeft de eerste SAM?
 
@@ -337,11 +339,11 @@ Kies Atoom voor een goedkopere kleine missie of meerdere lanceringen. Kies Water
 
 ### Stopt SAM een MIRV?
 
-Gedeeltelijk. De drager is niet onderschepbaar. Na de splitsing ruimt SAM kernkoppen op met een doel op minder dan 50 tiles van die lanceerder: lokale bescherming, geen volledige stop.
+Gedeeltelijk. De drager is niet onderschepbaar. Na de splitsing wordt iedere kernkop een normaal doel; bereik, baan, vliegtijd van de onderschepper, gereedstaande schoten en cooldown bepalen wat doorbreekt.
 
 ### Is MIRV altijd beter dan Waterstof?
 
-Nee. De drager passeert SAM-doelselectie, maar nabij gerichte kernkoppen kunnen worden vernietigd. De eerste kost 25.000.000, latere worden duurder, elke kernkop is kleiner en v24-kraters worden snel heroverd.
+Nee. De drager passeert SAM-doelselectie, maar afgesplitste kernkoppen kunnen worden vernietigd. De eerste kost 25.000.000, latere worden duurder, de Silo gaat op cooldown, elke kernkop is kleiner en v24-kraters worden snel heroverd.
 
 ### Waar moet ik op richten?
 

@@ -2,20 +2,20 @@
 title: Nuclear Deterrence and SAM Networks
 description: From the first Silo to MIRV — nuclear strike timing, SAM placement, and anti-nuke strategy.
 pubDate: 2026-05-12
-updatedDate: 2026-07-31
+updatedDate: 2026-08-01
 tags: [nukes, SAM, deterrence]
 category: Mid-Late Game
 difficulty: Intermediate
-version: v32
+version: v33
 ---
 
 ## Direct Answer
 
 Nuclear deterrence means preserving a credible reply while making an enemy's first strike expensive or unreliable. In OpenFront, that requires Gold, a Silo, protected launch capacity, and SAM coverage that matches the assets at risk.
 
-One SAM is warning and basic coverage, not complete safety. Its 90-tick cooldown creates a throughput limit. The MIRV carrier is not a SAM target, but v0.32.18 launchers destroy warheads aimed less than 50 tiles from the launcher.
+One SAM is warning and basic coverage, not complete safety. Its 90-tick cooldown creates a throughput limit. In v33 beta, the MIRV carrier is not a SAM target, but separated warheads follow the normal trajectory and timing checks.
 
-Choose a weapon by mission. Atom Bombs are cheaper and smaller. Hydrogen Bombs cover a much larger area. MIRVs carry many smaller warheads across the main SAM screen, but close-target warheads can still be cleared.
+Choose a weapon by mission. Atom Bombs are cheaper and smaller. Hydrogen Bombs cover a much larger area. MIRVs carry many smaller warheads across the main SAM screen, but the warheads become normal in-flight targets after separation.
 
 Do not launch only because a weapon is available. A strike should remove capacity, open a ground attack, deny a route, or force a defensive expense that improves your position.
 
@@ -49,9 +49,11 @@ The carrier splits into multiple MIRV warheads. Each warhead lists inner and out
 
 The MIRV carrier cannot be intercepted.
 
-After separation, the [v0.32.18 SAM execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.32.18/src/core/execution/SAMLauncherExecution.ts) destroys warheads whose destination is less than 50 tiles from a launcher, then consumes that launcher's firing cycle.
+After separation, the [v0.33.0-beta1 SAM execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts) evaluates each warhead through the same trajectory, range, timing, ready-shot, and cooldown logic as other supported nukes.
 
-Carrier immunity does not make a MIRV an automatic finisher. Local warhead interception, its price, smaller warhead radius, target spread, and the defender's ability to reclaim ground all matter.
+Launching MIRV also puts the actual Missile Silo on cooldown. An immediate follow-up therefore needs another ready Silo or a later firing window.
+
+Carrier immunity does not make a MIRV an automatic finisher. Warhead trajectories, its price, smaller warhead radius, target spread, and the defender's ability to reclaim ground all matter.
 
 ### SAM Launcher
 
@@ -103,7 +105,7 @@ Do not spend the entire treasury on the visible weapon if doing so prevents the 
 
 ### Step 5: choose a strike mission
 
-Use a small strike for a small objective. Use a large blast when the target density justifies the cost. Use a MIRV when dispersed warheads can create more value than the defender's local 50-tile SAM protection can remove.
+Use a small strike for a small objective. Use a large blast when the target density justifies the cost. Use a MIRV when dispersed trajectories can create more value than the defender's ready SAM coverage can remove.
 
 Before launch, state the follow-up in one sentence. If you cannot explain what changes after impact, keep the weapon as leverage or choose another investment.
 
@@ -129,7 +131,7 @@ When the SAM finishes, confirm which Cities, Silos, and routes are actually insi
 
 Check the approach geometry. The pre-fire formula means interception depends on reach time as well as the target sitting inside a nominal circle.
 
-If AI opponents are present, existing structure notes say AI nukes avoid SAM-covered targets. That adds deterrence value, but it does not change human targeting, carrier immunity, or the close-target warhead rule.
+If AI opponents are present, existing structure notes say AI nukes avoid SAM-covered targets. That adds deterrence value, but it does not change human targeting, carrier immunity, or the normal post-separation warhead checks.
 
 ### Redundancy phase
 
@@ -143,7 +145,9 @@ Upgrade range only when the added circle covers a real asset or intercept path. 
 
 Verify the target, enemy SAM circles, likely ground follow-up, and your own retaliation risk. Keep the weapon unlaunched if the impact would not change those conditions.
 
-For Atom or Hydrogen Bombs, assume covered paths may be intercepted. For MIRV, assume the carrier reaches separation, then check whether each important target sits inside a launcher's 50-tile warhead-protection zone.
+For Atom or Hydrogen Bombs, assume covered paths may be intercepted. For MIRV, assume the carrier reaches separation.
+
+Then trace whether each important warhead path crosses a ready launcher's range with enough time for the interceptor to arrive.
 
 ### Launch and follow-through
 
@@ -165,7 +169,7 @@ One first Silo costs 1,000,000 and one first SAM costs 1,500,000, for 2,500,000 
 
 Adding one Atom Bomb costs another 750,000, bringing the package to 3,250,000. This creates launch capacity, one weapon, and one layer of interceptable-nuke defense.
 
-It does not create salvo redundancy or wide-area MIRV defense. It does give local protection against warheads aimed close to the launcher; value still depends on placement and readiness.
+It does not create salvo redundancy or guaranteed wide-area MIRV defense. It does let one ready launcher engage a separated warhead when path and timing permit; value still depends on placement and readiness.
 
 ### Scenario 2: overlapping SAM cost
 
@@ -193,7 +197,7 @@ The better choice depends on target density, coverage, cooldown timing, and the 
 
 The first MIRV costs 25,000,000. After one launch, the next costs 40,000,000. Buying both would consume 65,000,000 before Silo or defense costs.
 
-That escalation rewards selective use. The carrier bypasses SAM targeting, but close-target warheads can be destroyed, the listed blasts are only 12/18, and v24 craters can be reclaimed quickly.
+That escalation rewards selective use. The carrier bypasses SAM targeting, but separated warheads can be intercepted, the listed blasts are only 12/18, the Silo enters cooldown, and v24 craters can be reclaimed quickly.
 
 ### Scenario 6: City buffer
 
@@ -211,9 +215,11 @@ Counter by overlapping completed launchers on critical assets, while avoiding a 
 
 ### MIRV saturation
 
-SAMs cannot intercept the carrier, but they can clear warheads aimed near a launcher. Counter with overlapping protection on critical assets, asset spacing, multiple recoverable cores, preserved ground forces, and enough economy to rebuild.
+SAMs cannot intercept the carrier, but they can engage separated warheads through normal trajectory checks.
 
-Do not keep upgrading one SAM as if normal range expands the fixed close-target warhead rule. The broader MIRV answer is overlapping launchers, resilience, and recovery.
+Counter with overlapping coverage on critical paths, asset spacing, multiple recoverable cores, preserved ground forces, and enough economy to rebuild.
+
+Do not keep upgrading one SAM as if range alone guarantees every interception. The broader MIRV answer is overlapping launchers, ready shots, resilience, and recovery.
 
 ### Target dispersion
 
@@ -247,7 +253,7 @@ A Silo outside SAM coverage and near a weak border offers visible value to both 
 
 ### One-SAM confidence
 
-One launcher adds real coverage, especially against AI targeting, but its cooldown can expose later weapons and its MIRV protection is local to close-target warheads. Label it a first layer, not a complete shield.
+One launcher adds real coverage, especially against AI targeting, but its cooldown can expose later weapons and MIRV can split across several paths. Label it a first layer, not a complete shield.
 
 ### Compact nuclear district
 
@@ -319,7 +325,9 @@ The first MIRV costs 25,000,000 Gold. Each prior MIRV launch adds 15,000,000, so
 
 ### Can one SAM stop every nuke?
 
-No. It intercepts Atom and Hydrogen Bombs, cannot intercept the MIRV carrier, and only clears MIRV warheads aimed less than 50 tiles from the launcher. Its 90-tick cooldown still limits follow-up shots.
+No. It intercepts Atom and Hydrogen Bombs, cannot intercept the MIRV carrier, and can engage only one supported in-flight target before its 90-tick cooldown.
+
+Separated MIRV warheads are supported targets, but path and timing still decide the shot.
 
 ### What range does a first SAM have?
 
@@ -335,11 +343,11 @@ Choose Atom for a cheaper, smaller mission or multiple launch events. Choose Hyd
 
 ### Does SAM stop a MIRV?
 
-Partly. The carrier cannot be intercepted. After separation, SAM clears warheads aimed less than 50 tiles from that launcher, so coverage is local rather than a full stop.
+Partly. The carrier cannot be intercepted. After separation, each warhead becomes a normal supported target, so range, trajectory, interceptor travel time, ready shots, and cooldown decide what gets through.
 
 ### Is a MIRV always better than a Hydrogen Bomb?
 
-No. The carrier crosses SAM targeting, but close-target warheads can be cleared. The first costs 25,000,000, later launches escalate, each warhead is smaller, and v24 craters can be reclaimed quickly.
+No. The carrier crosses SAM targeting, but separated warheads can be intercepted. The first costs 25,000,000, later launches escalate, the firing Silo enters cooldown, each warhead is smaller, and v24 craters can be reclaimed quickly.
 
 ### Where should I target?
 

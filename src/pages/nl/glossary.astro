@@ -28,7 +28,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Haven', en: 'Port', desc: 'Basis voor handelsschepen / transportschepen / oorlogsschepen.' },
       { term: 'Fabriek', en: 'Factory', desc: 'Productiebron voor treinen, werkt samen met spoor en steden.' },
       { term: 'Verdedigingspost', en: 'DefensePost', desc: 'Binnen 30 tiles: mag ×5 / speed ×3.' },
-      { term: 'SAM-lanceerder', en: 'SAM Launcher', desc: 'Onderschept AtomBomb/HydrogenBomb en MIRV-kernkoppen met doelen op minder dan 50 tiles; niet de MIRV-drager.' },
+      { term: 'SAM-lanceerder', en: 'SAM Launcher', desc: 'Onderschept AtomBomb, HydrogenBomb en vliegende MIRV-kernkoppen op basis van baan en beschikbare tijd.' },
       { term: 'Raketsilo', en: 'Missile Silo', desc: 'Lanceerplatform voor kernwapens, bouwduur 100 ticks.' },
       { term: 'Transportschip', en: 'Transport Ship', desc: 'Landingsvaartuig, kwetsbaar voor warships.' },
       { term: 'Oorlogsschip', en: 'Warship', desc: 'Eenheid voor zeebeheersing, HP 1000, Shell 250 schade.' },
@@ -36,7 +36,7 @@ const sections: Array<{ key: string; label: string; terms: Term[] }> = [
       { term: 'Trein', en: 'Train', desc: 'Goudvoertuig op het land; oplevering 35k bij bondgenootstations.' },
       { term: 'AtomBomb', en: 'Atom Bomb', desc: '750k goud, inner 12 / outer 30.' },
       { term: 'HydrogenBomb', en: 'Hydrogen Bomb', desc: '5M goud, inner 80 / outer 100.' },
-      { term: 'MIRV', en: 'MIRV', desc: 'Meervoudige kernkopdrager voor 25M + 15M·n; de drager passeert SAM, nabij gerichte kernkoppen zijn onderschepbaar.' },
+      { term: 'MIRV', en: 'MIRV', desc: 'Drager voor 25M + 15M·n; in v33 vliegen kernkoppen als normale nukes en activeert de lancering Silo-cooldown.' },
     ],
   },
   {

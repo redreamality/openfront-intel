@@ -1,0 +1,74 @@
+---
+title: 'v33 beta1 : contre des MIRV, vagues Doomsday, Ranked 2v2 et 22 cartes'
+description: 'Notes OpenFront v33 beta1 orientées joueur : interception normale des ogives MIRV par SAM, cooldown du silo, Doomsday, Ranked 2v2, vétérérance navale, terrain infranchissable et 22 cartes.'
+pubDate: 2026-07-31
+updatedDate: 2026-08-01
+version: v33
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Réponse directe : qu’est-ce qui change votre prochaine partie ?
+
+La Release publiée `v0.33.0-beta1` contient de vraies notes v33, même si son tag reste beta. Le changement stratégique majeur est simple : le MIRV sert désormais à saturer la défense, pas à contourner sûrement les SAM.
+
+Les ogives MIRV volent comme des nukes normales et passent par le ciblage de trajectoire habituel des SAM. Un tir MIRV met aussi le Missile Silo en cooldown ; ce même silo ne peut donc pas enchaîner immédiatement.
+
+Les autres changements décisifs sont la grâce Doomsday de 10 minutes, le Ranked 2v2, la vétérérance des navires de guerre, le terrain infranchissable et 22 nouvelles cartes.
+
+## MIRV et SAM : créez une saturation, pas un contournement
+
+Après la séparation du véhicule, chaque ogive devient une `MIRVWarhead` réellement en vol. Le SAM la contrôle avec Atom Bomb et Hydrogen Bomb.
+
+L’ancienne règle simplifiée « cible à moins de 50 tiles du lanceur » est obsolète en v33. L’interception dépend de la trajectoire, de la portée, du temps de vol SAM, des tirs disponibles et du cooldown.
+
+- **Attaquant :** écartez les ogives aux limites des couvertures ou combinez les tirs pour vider les missiles prêts.
+- **Défenseur :** superposez les lanceurs et couvrez les trajectoires importantes, pas seulement un cercle de 50 tiles autour de chaque SAM.
+- **Deux camps :** comptez le cooldown du silo après un MIRV. Une deuxième nuke exige un autre silo prêt ou une fenêtre plus tardive.
+
+Consultez les [mécaniques nukes et SAM](/fr/mechanics/nukes/) et la [stratégie de dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) mises à jour.
+
+## Doomsday Clock : bougez avant la première vague
+
+Tous les préréglages commencent par une **grâce de 10 minutes**. La part de territoire requise monte ensuite par vagues vers 4 %, 9 %, 16 %, 26 %, 40 %, puis 55 %.
+
+Une équipe est jugée sur son territoire combiné, avec la même barre qu’un camp solo. Après l’avertissement, un camp doomed perd troupes et santé navale jusqu’à un **plancher de 5 %**, jamais jusqu’à zéro.
+
+La règle pratique : sécurisez un accès central et deux sorties avant la dixième minute. Une position riche en bord de carte devient un piège si une seule route hostile mène à la zone viable.
+
+## Ranked 2v2 : exploitez la minute protégée
+
+Le Ranked possède maintenant un classement 2v2 séparé et préfère associer les membres d’un même clan. L’immunité PvP de départ dure **1 minute** et les cartes Compact apparaissent **50 %** du temps.
+
+La partie peut se terminer si une équipe entière est morte ou déconnectée. Utilisez la minute protégée pour créer un front commun, pas pour laisser les deux alliés investir des bords opposés.
+
+## Vétérance navale : conservez le navire qui a progressé
+
+Un navire de guerre peut atteindre **3 niveaux de vétérérance**. Chaque niveau ajoute **20 % de santé maximale** et **20 % de dégâts d’obus**.
+
+Détruire un navire ennemi donne un niveau. Dix transports détruits ou 25 navires marchands capturés remplissent aussi un niveau. Le plafond de santé monte, mais le navire n’est pas soigné instantanément.
+
+Un vétéran est désormais un actif cumulatif. Faites-le revenir près d’un Port au lieu de l’échanger comme une coque neuve.
+
+## Terrain infranchissable et 22 nouvelles cartes
+
+Les créateurs peuvent marquer du terrain comme infranchissable. Cela modifie les routes terrestres, les sorties de spawn, les trajectoires nucléaires et les côtes réellement utilisables.
+
+Les ajouts sont Sol, Russia, United States, France, Germany, China, Vietnam, Scandinavia, Balkhash, Baltics et Caspian Sea.
+
+S’ajoutent Clearwater Lakes, Crimea, Finger Lakes, Gulf of Guinea, Hecate Strait, Irish Sea, Las Vegas Strip, Levant, Tierra del Fuego, Branching Paths et More than luck.
+
+La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes**. Avant un spawn inconnu, vérifiez la distance de contact, les routes maritimes et les goulets infranchissables.
+
+## Changements secondaires à retenir
+
+- Le clic droit annule désormais la sélection d’un navire au lieu d’ouvrir le menu d’action.
+- Le modificateur ports-disabled quitte la rotation publique.
+- La probabilité Compact en Ranked 1v1 passe de 50 % à 20 %.
+- Les navires d’un camp doomed continuent leur patrouille pendant la perte de santé.
+
+## Statut de la source
+
+GitHub marque cette Release `draft=false` et `prerelease=false`, mais le tag officiel reste `v0.33.0-beta1`. Nous conservons donc le mot beta au lieu d’inventer une version stable `v0.33.0` sans suffixe.
+
+Sources : [Release officielle v0.33.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1), [ciblage SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts), [exécution MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts) et [configuration de la vétérérance](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts).
