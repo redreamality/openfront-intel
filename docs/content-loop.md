@@ -121,7 +121,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- 无新增内容执行项。`FRESH-03` 已完成并等待创建今天唯一的待审 PR；`DOOM-01` 是当前下一项，但必须等本 PR 合并后再开始。
+- 无新增内容执行项。`FRESH-03` 已完成并交付至今天唯一的待审 [PR #6](https://github.com/redreamality/openfront-intel/pull/6)；`DOOM-01` 是当前下一项，但必须等本 PR 合并后再开始。
 
 ## 计划承接表
 
@@ -131,7 +131,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 |---|---|---|
 | `FRESH-01` | `v32`、`v33` 均已完成；PR #4 已合并 | 在 `FRESH-02` / `FRESH-03` 中补齐旧页与首页入口 |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
-| `FRESH-03` | 已完成；待审 PR 创建后回填 | PR 合并后检查首页入口表现，并将当前战役转入 `DOOM-01` |
+| `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 待审 | PR 合并后检查首页入口表现，并将当前战役转入 `DOOM-01` |
 | `DOOM-01` | 当前下一项 | 等待 `FRESH-03` PR 合并后建立来源包与独立实战提纲 |
 | `ECON-01` | Next | 先判断扩写 `/mechanics/economy/` 是否足够承接人口甜区意图 |
 | `ATTACK-01` | Next | 建立攻击比例的当前公式与两个局势例子来源包 |
@@ -167,7 +167,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 旧页同步范围：同步五语首页、共享 `HomePriorityPaths` 组件和首页 i18n 文案；没有改动旧攻略正文或生成数据。
 - 视觉证据类型：HTML/CSS 原生入口卡片与可核验文本；没有使用或伪造游戏截图。
 - 验证结果：严格内容审计 35/35；Astro check 0 errors、9 个既有 hints；生产构建 225 页；内部链接 8,979 条、无断链；首页定向 e2e 5/5；完整 Playwright 194/194（`--workers=1`）。并行套件两次只在 `browserContext.newPage` 阶段出现资源争用，相关用例单线程复跑通过，业务断言无失败。
-- 阻塞：无内容阻塞。分支 `codex/daily-content-2026-08-03-homepage-freshness` 将创建今天唯一的待审 PR，不自动合并；PR 链接创建后回填。
+- 阻塞：无内容阻塞。今天唯一的待审 [PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已创建，不自动合并；`DOOM-01` 等待该 PR 合并。
 
 ## 本次合规自检（2026-08-03，`FRESH-02` 待审复核日）
 
@@ -195,7 +195,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-03：完成 `FRESH-03`，五语首页首屏和首个内容区依次突出 v33 玩家影响、第一局、快捷键与经济增长；栏目索引和数字卡降为次级浏览与参考，没有新增页面。
+- [x] 2026-08-03：完成 `FRESH-03`，五语首页首屏和首个内容区依次突出 v33 玩家影响、第一局、快捷键与经济增长；栏目索引和数字卡降为次级浏览与参考，没有新增页面；待审 [PR #6](https://github.com/redreamality/openfront-intel/pull/6)。
 - [x] 2026-08-03：完成本周首次校准与 PR #5 发布前复核；正式 Release、上游、GSC、Issues 和 Feedlog 均无打断理由；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 随后已由用户合并。
 - [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并。
 - [x] 2026-08-01：建立 [`content-strategy.md`](content-strategy.md)，把内容原则、当前战役、Next/Later、版本响应、多语节奏、Feedlog 选题池与停止规则从每日账本中分离。
@@ -219,4 +219,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-01 | `FRESH-02` | 完成研究日交付：确认 7 个核心答案 × 5 语的顶部新鲜度缺口、共享布局方案与验证门禁 | PR #4 已合并；GSC 候选顺序不变；在线 Release/Issues/Feedlog 刷新因 TLS 超时保持未确认 | 内容审计 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未跑 build/link/e2e | 下一次从最新 main 实施 35 页统一摘要；`FRESH-03`、`DOOM-01` 继续等待 |
 | 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 后于 8 月 3 日合并 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189；diff check 通过 | 合并完成，执行 `FRESH-03` |
 | 2026-08-03 | `FRESH-02` | 完成本周首次校准和早间待审复核；PR #5 当时为 `CLEAN / MERGEABLE`，随后由用户合并 | 最新 Release 不变；tag 后 15 个提交未形成站内事实错误；GSC 候选不变；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome | audit 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未重复跑 build/link/e2e | 前置门禁已解除，本轮完成 `FRESH-03` |
-| 2026-08-03 | `FRESH-03` | 五语首页现在先引导玩家查看 v33 变化、第一局、快捷键和经济增长，数字与栏目索引后置；没有新增路由 | 复用四个既有唯一主答案；Next/Later 不提前；`DOOM-01` 成为当前战役下一项 | audit 35/35；Astro check 0 errors、9 hints；build 225 页；links 8,979；首页 e2e 5/5；完整 e2e 194/194（单线程） | 创建唯一待审 PR；合并后启动 `DOOM-01` |
+| 2026-08-03 | `FRESH-03` | 五语首页现在先引导玩家查看 v33 变化、第一局、快捷键和经济增长，数字与栏目索引后置；没有新增路由；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 待审 | 复用四个既有唯一主答案；Next/Later 不提前；`DOOM-01` 成为当前战役下一项 | audit 35/35；Astro check 0 errors、9 hints；build 225 页；links 8,979；首页 e2e 5/5；完整 e2e 194/194（单线程） | PR #6 合并后启动 `DOOM-01` |
