@@ -1,0 +1,248 @@
+---
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+type PriorityId = 'latest' | 'first-match' | 'shortcuts' | 'economy';
+
+interface PriorityCard {
+  id: PriorityId;
+  eyebrow: string;
+  title: string;
+  description: string;
+  cta: string;
+}
+
+interface PriorityCopy {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  cards: PriorityCard[];
+}
+
+const copyByLang: Record<Lang, PriorityCopy> = {
+  en: {
+    eyebrow: 'Start here',
+    title: 'What do you need this match?',
+    lead: 'Open the answer that changes your next decision. The data tables stay available below when you need exact values.',
+    cards: [
+      {
+        id: 'latest',
+        eyebrow: 'Latest version · v33',
+        title: 'See what changed before you queue',
+        description: 'Doomsday Clock, MIRV and SAM behavior, warship veterancy, impassable terrain, and the new map pool—organized by player impact.',
+        cta: 'Read the v33 impact guide',
+      },
+      {
+        id: 'first-match',
+        eyebrow: 'First match',
+        title: 'Survive the opening without emptying your army',
+        description: 'Choose a spawn, expand in controlled steps, read the interface, and recover from the mistakes that end beginner games.',
+        cta: 'Play the first-match walkthrough',
+      },
+      {
+        id: 'shortcuts',
+        eyebrow: 'Controls',
+        title: 'Find the key, mouse action, or build hotkey',
+        description: 'Use the fast reference when you know the action you want. The separate hotkeys guide teaches workflows and recovery.',
+        cta: 'Open the shortcuts reference',
+      },
+      {
+        id: 'economy',
+        eyebrow: 'Economy growth',
+        title: 'Grow gold and population without stalling',
+        description: 'See how base income, Cities, trade ships, trains, and troop reserves change what you should buy next.',
+        cta: 'Understand economy growth',
+      },
+    ],
+  },
+  fr: {
+    eyebrow: 'Commencer ici',
+    title: 'De quoi avez-vous besoin pour cette partie ?',
+    lead: 'Ouvrez d’abord la réponse qui change votre prochaine décision. Les données brutes restent disponibles plus bas pour vérifier une valeur précise.',
+    cards: [
+      {
+        id: 'latest',
+        eyebrow: 'Dernière version · v33',
+        title: 'Voir ce qui a changé avant de lancer une partie',
+        description: 'Doomsday Clock, comportement MIRV/SAM, expérience des navires de guerre, terrain infranchissable et nouvelles cartes, classés par impact joueur.',
+        cta: 'Lire l’impact joueur de la v33',
+      },
+      {
+        id: 'first-match',
+        eyebrow: 'Première partie',
+        title: 'Survivre au départ sans vider son armée',
+        description: 'Choisissez un spawn, avancez par étapes, lisez l’interface et corrigez les erreurs qui éliminent les nouveaux joueurs.',
+        cta: 'Suivre le guide de première partie',
+      },
+      {
+        id: 'shortcuts',
+        eyebrow: 'Commandes',
+        title: 'Trouver une touche, une action souris ou un raccourci',
+        description: 'Utilisez la fiche rapide pour retrouver une commande ; le guide hotkeys séparé explique les enchaînements et la récupération.',
+        cta: 'Ouvrir la fiche des raccourcis',
+      },
+      {
+        id: 'economy',
+        eyebrow: 'Croissance économique',
+        title: 'Faire croître or et population sans bloquer la partie',
+        description: 'Voyez comment revenu de base, Cities, navires de commerce, trains et réserve de troupes changent votre prochain achat.',
+        cta: 'Comprendre la croissance économique',
+      },
+    ],
+  },
+  nl: {
+    eyebrow: 'Begin hier',
+    title: 'Wat heb je in deze partij nodig?',
+    lead: 'Open eerst het antwoord dat je volgende beslissing verandert. De ruwe cijfers blijven verderop beschikbaar voor exacte controles.',
+    cards: [
+      {
+        id: 'latest',
+        eyebrow: 'Nieuwste versie · v33',
+        title: 'Bekijk de veranderingen vóór je een partij start',
+        description: 'Doomsday Clock, MIRV- en SAM-gedrag, veterancy van oorlogsschepen, onbegaanbaar terrein en de nieuwe kaarten, gerangschikt naar spelerseffect.',
+        cta: 'Lees de v33-impactgids',
+      },
+      {
+        id: 'first-match',
+        eyebrow: 'Eerste partij',
+        title: 'Overleef de opening zonder je leger leeg te trekken',
+        description: 'Kies een spawn, breid in stappen uit, lees de interface en herstel van fouten die beginners uit de partij halen.',
+        cta: 'Volg de eerste-partijgids',
+      },
+      {
+        id: 'shortcuts',
+        eyebrow: 'Besturing',
+        title: 'Vind de toets, muisactie of bouwsneltoets',
+        description: 'Gebruik het snelle overzicht om een toets te vinden; de aparte hotkeygids behandelt workflows en herstel.',
+        cta: 'Open het sneltoetsoverzicht',
+      },
+      {
+        id: 'economy',
+        eyebrow: 'Economische groei',
+        title: 'Laat goud en bevolking groeien zonder stil te vallen',
+        description: 'Zie hoe basisinkomen, Cities, handelsschepen, treinen en troepenreserve je volgende investering bepalen.',
+        cta: 'Begrijp economische groei',
+      },
+    ],
+  },
+  de: {
+    eyebrow: 'Hier beginnen',
+    title: 'Was brauchst du in diesem Match?',
+    lead: 'Öffne zuerst die Antwort, die deine nächste Entscheidung verändert. Exakte Rohwerte bleiben weiter unten als Referenz verfügbar.',
+    cards: [
+      {
+        id: 'latest',
+        eyebrow: 'Neueste Version · v33',
+        title: 'Vor dem Match prüfen, was sich geändert hat',
+        description: 'Doomsday Clock, MIRV- und SAM-Verhalten, Kriegsschiff-Erfahrung, unpassierbares Gelände und neue Karten nach Spielerauswirkung geordnet.',
+        cta: 'Den v33-Spielerüberblick lesen',
+      },
+      {
+        id: 'first-match',
+        eyebrow: 'Erstes Match',
+        title: 'Die Eröffnung überleben, ohne die Armee zu leeren',
+        description: 'Spawn wählen, kontrolliert expandieren, die Oberfläche lesen und typische Anfängerfehler rechtzeitig korrigieren.',
+        cta: 'Zum Leitfaden fürs erste Match',
+      },
+      {
+        id: 'shortcuts',
+        eyebrow: 'Steuerung',
+        title: 'Taste, Mausaktion oder Bau-Hotkey finden',
+        description: 'Die Schnellreferenz findet Befehle; der getrennte Hotkey-Guide erklärt Abläufe und Wiederherstellung.',
+        cta: 'Tastenkürzel öffnen',
+      },
+      {
+        id: 'economy',
+        eyebrow: 'Wirtschaftswachstum',
+        title: 'Gold und Bevölkerung steigern, ohne festzulaufen',
+        description: 'Sieh, wie Grundeinkommen, Cities, Handelsschiffe, Züge und Truppenreserve die nächste Investition verändern.',
+        cta: 'Wirtschaftswachstum verstehen',
+      },
+    ],
+  },
+  zh: {
+    eyebrow: '本局先看',
+    title: '你现在最需要解决什么？',
+    lead: '先打开会改变下一步决策的答案；需要核对精确数值时，再看后面的参考数据。',
+    cards: [
+      {
+        id: 'latest',
+        eyebrow: '最新版本 · v33',
+        title: '排队前先看 v33 改了什么',
+        description: '按玩家影响整理末日时钟、MIRV 与 SAM、战舰经验、不可通行地形和新地图池。',
+        cta: '阅读 v33 玩家影响总览',
+      },
+      {
+        id: 'first-match',
+        eyebrow: '第一局',
+        title: '别在开局扩张时把兵力抽空',
+        description: '学会选出生点、分段扩张、读懂界面，并从最常见的新手失误中恢复。',
+        cta: '开始第一局教程',
+      },
+      {
+        id: 'shortcuts',
+        eyebrow: '操作',
+        title: '快速找到按键、鼠标动作和建造快捷键',
+        description: '知道想做什么时用速查表找键；连续操作与故障恢复由独立快捷键教程承接。',
+        cta: '打开快捷键速查',
+      },
+      {
+        id: 'economy',
+        eyebrow: '经济增长',
+        title: '让金币和人口增长而不失速',
+        description: '判断基础收入、城市、贸易船、火车和预留兵力怎样改变下一笔投资。',
+        cta: '理解经济增长',
+      },
+    ],
+  },
+};
+
+const paths: Record<PriorityId, string> = {
+  latest: 'changelog/v33/',
+  'first-match': 'guides/first-match/',
+  shortcuts: 'shortcuts/',
+  economy: 'mechanics/economy/',
+};
+
+const { lang } = Astro.props as Props;
+const copy = copyByLang[lang];
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+---
+
+<section class="border-b border-iron-800 bg-iron-950/30" data-home-priority aria-labelledby="home-priority-title">
+  <div class="container-wide py-12 sm:py-16">
+    <p class="tag-chip">{copy.eyebrow}</p>
+    <div class="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.65fr)] lg:items-end">
+      <h2 id="home-priority-title" class="max-w-3xl text-2xl font-semibold tracking-tight text-iron-50 sm:text-3xl">{copy.title}</h2>
+      <p class="text-sm leading-relaxed text-iron-400 sm:text-base">{copy.lead}</p>
+    </div>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {copy.cards.map((card, index) => (
+        <a
+          href={`${base}${langPrefix}${paths[card.id]}`}
+          class:list={[
+            'group flex h-full flex-col rounded-lg border p-5 transition-colors',
+            card.id === 'latest'
+              ? 'border-cannon-700 bg-cannon-950/20 hover:border-cannon-500'
+              : 'border-iron-800 bg-iron-900/40 hover:border-military-600',
+          ]}
+          data-home-priority-link
+          data-priority-id={card.id}
+        >
+          <div class="flex items-center justify-between gap-3 text-xs uppercase tracking-widest">
+            <span class={card.id === 'latest' ? 'text-cannon-400' : 'text-military-300'}>{card.eyebrow}</span>
+            <span class="font-mono text-iron-600">0{index + 1}</span>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold leading-snug text-iron-100 group-hover:text-cannon-300">{card.title}</h3>
+          <p class="mt-3 flex-1 text-sm leading-relaxed text-iron-400">{card.description}</p>
+          <span class="mt-5 text-xs font-medium text-iron-300 group-hover:text-cannon-400">{card.cta} →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
