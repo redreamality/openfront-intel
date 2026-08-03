@@ -113,15 +113,15 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 ## 今日编辑判断
 
 - 日期：2026-08-03。
-- 当前周目标 / 计划 ID：保持“旧攻略一打开就能判断是否仍适用”的玩家结果；继续承接 `FRESH-02` 的待审交付。
-- 玩家结果：玩家获得已经核验且可合并的五语新鲜度摘要；在它进入 `main` 前，不被第二个并行改版 PR 分散审阅或引入基线冲突。
-- 为什么今天做：这是本周首次运行，当前战役退出条件不变；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 仍是唯一开放的自动化 PR，状态为 `CLEAN / MERGEABLE`、无评审意见，且远端 `main` 未前进。最新正式 Release 仍为有真实正文的 `v0.33.0-beta1`，上游新增提交没有确认新的站内事实错误，因此今天最有价值的动作是复核信号并保持该 PR 待审。
-- 为什么其他候选等待：`FRESH-03` 必须等 `FRESH-02` 合并后才从最新 `main` 开始；`DOOM-01` 与 GSC 支持的快捷键、经济、Water Nukes 候选仍受当前战役顺序约束。核弹路径修复改善不可通行地形附近的发射选择，但不推翻现有攻略结论，不足以制造补丁页或抢占第二个 PR。
-- 产出类型：每周校准、发布前复核与等待；继续现有 PR，不新建页面、不创建第二个 PR。
+- 当前周目标 / 计划 ID：让首页先回答“最新、入门、操作、经济”；执行 `FRESH-03`。
+- 玩家结果：玩家进入任一语种首页后，首屏按钮和首个内容区都能直接前往 v33 玩家影响总览、第一局教程、快捷键速查与经济增长答案；原始数值只作为后续参考。
+- 为什么今天做：[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已由用户合并，`FRESH-02` 前置门禁解除；远端 `main` 已更新到 `365e889`。最新正式 Release、上游差异、GSC、Issues 与 Feedlog 没有形成新的事实错误或版本中断，`FRESH-03` 因此是当前战役最接近退出条件的计划项。
+- 为什么其他候选等待：`DOOM-01` 必须在首页入口交付后再开始；快捷键分工、经济甜区和 Water Nukes 虽有 GSC 需求，但仍属于 Next/观察项，且本次首页只链接既有唯一主答案，不复制正文或新建薄页。
+- 产出类型：五语首页入口重构、共享展示组件与内容完整性 e2e；不新建内容路由。
 
 ## 当前进行中
 
-- `FRESH-02`：内容与验证已完成并交付至待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。现有 7 个核心答案（`first-match`、`hotkeys`、`water-nukes`、`economy-fundamentals`、`ffa-opening`、`nuclear-deterrence`、`team-naval-control`）的 en/zh/fr/de/nl 版本共 35 页，均已显示适用版本、最后核验日期与页面专属 v33 变化摘要。2026-08-03 复核时 PR 仍为 `CLEAN / MERGEABLE`，无评论或评审；继续等待合并，不启动 `FRESH-03`。
+- 无新增内容执行项。`FRESH-03` 已完成并等待创建今天唯一的待审 PR；`DOOM-01` 是当前下一项，但必须等本 PR 合并后再开始。
 
 ## 计划承接表
 
@@ -130,9 +130,9 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | ID | 状态 | 下一决策点 |
 |---|---|---|
 | `FRESH-01` | `v32`、`v33` 均已完成；PR #4 已合并 | 在 `FRESH-02` / `FRESH-03` 中补齐旧页与首页入口 |
-| `FRESH-02` | 已完成并提交 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)：35 个核心本地化页面、共享摘要、严格审计和五语 e2e 已交付 | PR 合并后进入 `FRESH-03` |
-| `FRESH-03` | 当前下一项 | 重构五语首页信息层级并补 e2e |
-| `DOOM-01` | 待开始 | `FRESH-03` 交付后的第一篇独立攻略 |
+| `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
+| `FRESH-03` | 已完成；待审 PR 创建后回填 | PR 合并后检查首页入口表现，并将当前战役转入 `DOOM-01` |
+| `DOOM-01` | 当前下一项 | 等待 `FRESH-03` PR 合并后建立来源包与独立实战提纲 |
 | `ECON-01` | Next | 先判断扩写 `/mechanics/economy/` 是否足够承接人口甜区意图 |
 | `ATTACK-01` | Next | 建立攻击比例的当前公式与两个局势例子来源包 |
 | `CTRL-01` | Next | 明确 `/shortcuts/` 与 `/guides/hotkeys/` 的非重复提纲和互链 |
@@ -154,8 +154,20 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-02｜Search Console 7/28 天｜缓存仍截止 2026-07-29；Water Nukes、controls/hotkeys、economy/growth 和品牌词错落地判断未变化，继续留在原计划项，不越过当前战役。
 - 2026-08-02｜Feedlog / GitHub Issues｜远端开放 Issues 为 0；Feedlog 仍只有系统 welcome，0 票、0 评论。没有真实重复玩家问题可升级为新选题。
 - 2026-08-03｜Release / 上游｜最新正式正文仍为 `v0.33.0-beta1`。tag 后比较已到 `9f3423d`、共 15 个提交；`bf38c58` 的普通核弹路径选择仍是唯一会改变局内决策的机制修复，`5d01149` 只把拦截通知从 missile 改为 SAM，其他提交属于商店、账户、翻译、回放、图标或文档。没有与站内当前攻略冲突的事实，也不为小修复拆版本薄页。
-- 2026-08-03｜Search Console 7/28 天｜最近缓存仍截止 2026-07-29；Water Nukes 错落到 guides/hotkeys、快捷键两页分工、经济与人口增长需求、品牌词错落地的判断均未变化。它们继续分别留在 `NUKE-01`、`CTRL-01`、`ECON-01` 与 `FRESH-03`，不能越过待合并的 `FRESH-02`。
+- 2026-08-03｜Search Console 7/28 天｜最近缓存仍截止 2026-07-29；Water Nukes 错落到 guides/hotkeys、快捷键两页分工、经济与人口增长需求、品牌词错落地的判断均未变化。首页错落地由 `FRESH-03` 通过既有主答案入口承接；`NUKE-01`、`CTRL-01`、`ECON-01` 继续等待，不能越过当前战役剩余的 `DOOM-01`。
 - 2026-08-03｜Feedlog / GitHub Issues｜远端开放 Issues 仍为 0；Feedlog 在线反馈页与路线图仍只有系统 welcome，0 票、0 评论，没有真实重复玩家问题可升级为选题。
+
+## 本次合规自检（2026-08-03，`FRESH-03` 交付日）
+
+- 计划 ID：`FRESH-03`。
+- 是否推进当前战役退出条件：是。五语首页的首屏按钮和首个内容区已突出最新版本变化、第一次玩、快捷键与经济增长，原始数字降为后续参考；`FRESH-03` 达到完成定义，当前战役只剩 `DOOM-01`。
+- 为何未制造薄页：本次只重构五个既有首页并抽取共享入口组件，没有新增内容路由，也没有把 v33 小修复拆成版本薄页。
+- 唯一主落地页：首页只承担分发，不复制答案；四个意图继续分别由 `/changelog/v33/`、`/guides/first-match/`、`/shortcuts/` 与 `/mechanics/economy/` 承接。
+- 语言状态：en、zh、fr、de、nl 全部完成；四个入口的顺序、版本范围、链接目标和结论一致，没有待补语言。
+- 旧页同步范围：同步五语首页、共享 `HomePriorityPaths` 组件和首页 i18n 文案；没有改动旧攻略正文或生成数据。
+- 视觉证据类型：HTML/CSS 原生入口卡片与可核验文本；没有使用或伪造游戏截图。
+- 验证结果：严格内容审计 35/35；Astro check 0 errors、9 个既有 hints；生产构建 225 页；内部链接 8,979 条、无断链；首页定向 e2e 5/5；完整 Playwright 194/194（`--workers=1`）。并行套件两次只在 `browserContext.newPage` 阶段出现资源争用，相关用例单线程复跑通过，业务断言无失败。
+- 阻塞：无内容阻塞。分支 `codex/daily-content-2026-08-03-homepage-freshness` 将创建今天唯一的待审 PR，不自动合并；PR 链接创建后回填。
 
 ## 本次合规自检（2026-08-03，`FRESH-02` 待审复核日）
 
@@ -167,7 +179,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 旧页同步范围：今天未改旧攻略正文；待审范围仍为 7 个核心答案 × 5 语。
 - 视觉证据类型：今天没有新增视觉；待审交付使用代码原生静态摘要和可核验文本，没有伪造截图。
 - 验证结果：严格内容审计 35/35；`git diff --check` 通过；账本为 UTF-8 无 BOM、无尾随空白。今天只改执行账本，没有路由、正文事实或交互变化，因此不重复运行 build、link check 或 Playwright。
-- 阻塞：[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 尚未合并；状态 `CLEAN / MERGEABLE`，无评审意见。按门禁等待，不创建第二个 PR。
+- 阻塞（早间复核时）：[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 尚未合并，状态为 `CLEAN / MERGEABLE`；随后已由用户合并，`FRESH-03` 前置门禁解除。
 
 ## 本次合规自检（2026-08-02，`FRESH-02` 交付日）
 
@@ -183,8 +195,9 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-03：完成本周首次校准与 PR #5 发布前复核；正式 Release、上游、GSC、Issues 和 Feedlog 均无打断理由，保持现有 PR 待审，不启动 `FRESH-03` 或制造第二个 PR。
-- [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。
+- [x] 2026-08-03：完成 `FRESH-03`，五语首页首屏和首个内容区依次突出 v33 玩家影响、第一局、快捷键与经济增长；栏目索引和数字卡降为次级浏览与参考，没有新增页面。
+- [x] 2026-08-03：完成本周首次校准与 PR #5 发布前复核；正式 Release、上游、GSC、Issues 和 Feedlog 均无打断理由；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 随后已由用户合并。
+- [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并。
 - [x] 2026-08-01：建立 [`content-strategy.md`](content-strategy.md)，把内容原则、当前战役、Next/Later、版本响应、多语节奏、Feedlog 选题池与停止规则从每日账本中分离。
 - [x] 2026-08-01：更新自动化 `openfront`，令其先读战略、写每日编辑判断、按战役退出条件选任务，并允许无文章的研究/复盘日。
 - [x] 2026-08-01：完成 `FRESH-02` 来源包与范围审计，确认 35 个核心本地化页面、共享布局缺口、语言状态和下一次验证门禁；今天未创建第二个 PR。
@@ -204,5 +217,6 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-01 | `FRESH-01` | 完成 `v0.33.0-beta1` 五语玩家影响总览和受影响页面同步；[PR #4](https://github.com/redreamality/openfront-intel/pull/4) 已合并 | 新增 Doomsday 独立攻略后续项；地图刷新并入版本任务 | content audit 35/35；build 225 页；links 8,964；完整 e2e 154/154 | 按战役顺序推进 `FRESH-02` |
 | 2026-08-01 | 内容运行体系 | 将战略计划与每日账本分离，建立当前战役、计划 ID、退出条件、信号池和非机械选择门槛 | 多语改为紧急 en+zh / 72 小时补齐；Feedlog 改为按真实问题和票数维护的选题池；自动化 `openfront` 已同步新规则 | 自动化更新成功；文档链接与 Markdown 结构待本轮校验 | PR #4 合并后执行 `FRESH-02` |
 | 2026-08-01 | `FRESH-02` | 完成研究日交付：确认 7 个核心答案 × 5 语的顶部新鲜度缺口、共享布局方案与验证门禁 | PR #4 已合并；GSC 候选顺序不变；在线 Release/Issues/Feedlog 刷新因 TLS 超时保持未确认 | 内容审计 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未跑 build/link/e2e | 下一次从最新 main 实施 35 页统一摘要；`FRESH-03`、`DOOM-01` 继续等待 |
-| 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 待审 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189；diff check 通过 | PR #5 合并后执行 `FRESH-03` |
-| 2026-08-03 | `FRESH-02` | 完成本周首次校准和待审复核；PR #5 仍为 `CLEAN / MERGEABLE` 且无评审意见，今天不启动并行首页改版 | 最新 Release 不变；tag 后 15 个提交未形成站内事实错误；GSC 候选不变；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome | audit 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未重复跑 build/link/e2e | PR #5 合并后，从最新 `main` 执行 `FRESH-03` |
+| 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 后于 8 月 3 日合并 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189；diff check 通过 | 合并完成，执行 `FRESH-03` |
+| 2026-08-03 | `FRESH-02` | 完成本周首次校准和早间待审复核；PR #5 当时为 `CLEAN / MERGEABLE`，随后由用户合并 | 最新 Release 不变；tag 后 15 个提交未形成站内事实错误；GSC 候选不变；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome | audit 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未重复跑 build/link/e2e | 前置门禁已解除，本轮完成 `FRESH-03` |
+| 2026-08-03 | `FRESH-03` | 五语首页现在先引导玩家查看 v33 变化、第一局、快捷键和经济增长，数字与栏目索引后置；没有新增路由 | 复用四个既有唯一主答案；Next/Later 不提前；`DOOM-01` 成为当前战役下一项 | audit 35/35；Astro check 0 errors、9 hints；build 225 页；links 8,979；首页 e2e 5/5；完整 e2e 194/194（单线程） | 创建唯一待审 PR；合并后启动 `DOOM-01` |

@@ -132,3 +132,6 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **跨 Git worktree 修改同名文件时，不能复用另一工作树的 `apply_patch` 尾部上下文**：不同分支的 `AGENTS.md` 等文件可能已分叉。分别读取各目标文件的精确尾部并拆成独立补丁，避免一个 worktree 的上下文不匹配导致整份多文件补丁回滚。
 - **2026-08-02 复发：PowerShell 的 `foreach (...) { ... }` 输出绝不能在同一语句后直接接管道**：` } | ConvertTo-Json` 与 ` } | Format-Table` 都会报 `An empty pipe element is not allowed`。先写 `$results = foreach (...) { ... }`，下一条语句再处理 `$results`。
 - **Git Data API 创建 commit 时不要要求远端 commit SHA 必须等于本地 SHA**：GitHub 可能规范化提交元数据，即使 tree 与父节点完全一致也会产生不同 SHA。应严格核对远端 commit 的 `tree.sha` 与本地 tree、首个 parent 与已确认基线一致，再使用 API 返回的 commit SHA 创建 ref，并在创建后复核远端 ref；不要因 SHA 不同在 ref 写入前中止。
+- **`gh api` 若报 `read tcp ... wsarecv: An established connection was aborted`，按瞬时 GitHub API 断流处理**：并行探测中可能只有部分端点失败、另一些已经成功；必须保留每个端点的独立退出码，只对失败端点重试一次，不重复成功查询，也不能把连接中断解释为 PR、Release 或 Issue 状态变化。
+- **e2e 已限定到某个 section 后，后代 `h2` 仍可能命中嵌套组件标题**：例如数值参考区内还包含来源面板，`[data-home-reference] h2` 会触发 strict-mode。断言区块自身标题时使用 `getByRole('heading', { level: 2, name, exact: true })` 或 `:scope > h2`，不要假设 section 内只有一个同级标题。
+- **完整 Playwright 的 `browserContext.newPage` 资源争用在 `--workers=2` 下也可能换一批用例复发**：失败仍发生在 fixture 建页、且单线程定向用例通过时，不要继续试不同的中间并发；直接用 `pnpm test:e2e --workers=1` 做最终全套，避免反复生成随机三项超时。

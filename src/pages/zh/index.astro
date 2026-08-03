@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomePriorityPaths from '../../components/HomePriorityPaths.astro';
 import ProvenancePanel from '../../components/ProvenancePanel.astro';
 import { useTranslations } from '../../i18n';
 import meta from '../../data/_meta.json';
@@ -59,17 +60,18 @@ const highlights = [
         <span class="text-cannon-500">OpenFront</span> {t('home.hero.title')}
       </h1>
       <p class="mt-6 max-w-2xl text-lg text-iron-300 leading-relaxed">
-        围绕开源实时策略游戏 <a class="text-cannon-400 hover:underline" href="https://openfront.io/" target="_blank" rel="noopener">OpenFront.io</a> 整理的中文机制百科：从出生免疫到 MIRV 弹道，每条规则都有来源、数字与公式。
+        {t('home.hero.lead').split('OpenFront.io')[0]}<a class="text-cannon-400 hover:underline" href="https://openfront.io/" target="_blank" rel="noopener">OpenFront.io</a>{t('home.hero.lead').split('OpenFront.io')[1]}
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href={`${base}${langPrefix}mechanics/`} class="rounded bg-cannon-600 px-4 py-2 text-sm font-semibold text-iron-950 hover:bg-cannon-500">{t('home.cta.mechanics')}</a>
-        <a href={`${base}${langPrefix}database/`} class="rounded border border-iron-700 px-4 py-2 text-sm text-iron-200 hover:border-cannon-600 hover:text-cannon-400">{t('home.cta.database')}</a>
-        <a href={`${base}${langPrefix}strategies/`} class="rounded border border-iron-700 px-4 py-2 text-sm text-iron-200 hover:border-military-500 hover:text-military-300">{t('home.cta.strategies')}</a>
+        <a href={`${base}${langPrefix}changelog/v33/`} class="rounded bg-cannon-600 px-4 py-2 text-sm font-semibold text-iron-950 hover:bg-cannon-500">{t('home.cta.latest')}</a>
+        <a href={`${base}${langPrefix}guides/first-match/`} class="rounded border border-iron-700 px-4 py-2 text-sm text-iron-200 hover:border-cannon-600 hover:text-cannon-400">{t('home.cta.firstMatch')}</a>
       </div>
     </div>
   </section>
 
-  <section class="container-wide py-16">
+  <HomePriorityPaths lang={lang} />
+
+  <section class="container-wide py-16" data-home-browse>
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {pillars.map((p) => (
         <a href={p.href} class="card group block">
@@ -82,7 +84,7 @@ const highlights = [
     </div>
   </section>
 
-  <section class="container-wide pb-20">
+  <section class="container-wide pb-20" data-home-reference>
     <h2 class="text-xl font-semibold text-iron-50">{t('home.highlights')}</h2>
     <p class="mt-1 text-sm text-iron-400">{t('home.highlights.source')} <code class="font-mono text-cannon-400">scripts/extract-game-data.mjs</code></p>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
