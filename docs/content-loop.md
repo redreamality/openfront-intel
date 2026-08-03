@@ -1,6 +1,6 @@
 # OpenFront Intel 每日执行账本
 
-更新日期：2026-08-02。
+更新日期：2026-08-03。
 
 本文件只回答“今天看到了什么、推进了哪个计划项、交付与验证结果是什么”。内容原则、当前战役、未来 6–8 周顺序和完成定义以 [`content-strategy.md`](content-strategy.md) 为准。
 
@@ -112,16 +112,16 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 今日编辑判断
 
-- 日期：2026-08-02。
-- 当前周目标 / 计划 ID：让旧攻略进入后即可判断是否仍适用；交付 `FRESH-02`。
-- 玩家结果：玩家打开任一核心攻略时，不必翻到来源面板或页脚，就能直接看到适用版本、最后核验日期，以及 v33 对该页决策最重要的变化。
-- 为什么今天做：`v33` 总览已经合并，远端没有未合并的同计划 PR；上一轮已确认 7 个核心答案 × 5 语的统一摘要缺口、共享布局方案和验证门禁，证据与前置均已成熟，且它是当前战役最接近退出条件的一项。
-- 为什么其他候选等待：最新正式 Release 仍为有真实正文的 `v0.33.0-beta1`；Release 后的核弹路径修复没有与站内现有结论冲突。`FRESH-03`、`DOOM-01` 与 GSC 支持的快捷键、经济、Water Nukes 候选均按战略顺序等待，不用新页面填满今日产出。
-- 产出类型：刷新现有页、共享展示组件、严格内容审计与五语 e2e；不新建页面。
+- 日期：2026-08-03。
+- 当前周目标 / 计划 ID：保持“旧攻略一打开就能判断是否仍适用”的玩家结果；继续承接 `FRESH-02` 的待审交付。
+- 玩家结果：玩家获得已经核验且可合并的五语新鲜度摘要；在它进入 `main` 前，不被第二个并行改版 PR 分散审阅或引入基线冲突。
+- 为什么今天做：这是本周首次运行，当前战役退出条件不变；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 仍是唯一开放的自动化 PR，状态为 `CLEAN / MERGEABLE`、无评审意见，且远端 `main` 未前进。最新正式 Release 仍为有真实正文的 `v0.33.0-beta1`，上游新增提交没有确认新的站内事实错误，因此今天最有价值的动作是复核信号并保持该 PR 待审。
+- 为什么其他候选等待：`FRESH-03` 必须等 `FRESH-02` 合并后才从最新 `main` 开始；`DOOM-01` 与 GSC 支持的快捷键、经济、Water Nukes 候选仍受当前战役顺序约束。核弹路径修复改善不可通行地形附近的发射选择，但不推翻现有攻略结论，不足以制造补丁页或抢占第二个 PR。
+- 产出类型：每周校准、发布前复核与等待；继续现有 PR，不新建页面、不创建第二个 PR。
 
 ## 当前进行中
 
-- `FRESH-02`：内容与验证已完成并交付至待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。现有 7 个核心答案（`first-match`、`hotkeys`、`water-nukes`、`economy-fundamentals`、`ffa-opening`、`nuclear-deterrence`、`team-naval-control`）的 en/zh/fr/de/nl 版本共 35 页，均已显示适用版本、最后核验日期与页面专属 v33 变化摘要。
+- `FRESH-02`：内容与验证已完成并交付至待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。现有 7 个核心答案（`first-match`、`hotkeys`、`water-nukes`、`economy-fundamentals`、`ffa-opening`、`nuclear-deterrence`、`team-naval-control`）的 en/zh/fr/de/nl 版本共 35 页，均已显示适用版本、最后核验日期与页面专属 v33 变化摘要。2026-08-03 复核时 PR 仍为 `CLEAN / MERGEABLE`，无评论或评审；继续等待合并，不启动 `FRESH-03`。
 
 ## 计划承接表
 
@@ -153,6 +153,21 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-02｜Release / 上游｜最新正式正文仍为 `v0.33.0-beta1`。tag 后 6 个提交中，`bf38c58` 修复普通核弹绕不可通行地形时的 Silo 与曲线选择；站内没有与新行为冲突的旧结论，因此记录为后续刷新信号，不打断 `FRESH-02`。
 - 2026-08-02｜Search Console 7/28 天｜缓存仍截止 2026-07-29；Water Nukes、controls/hotkeys、economy/growth 和品牌词错落地判断未变化，继续留在原计划项，不越过当前战役。
 - 2026-08-02｜Feedlog / GitHub Issues｜远端开放 Issues 为 0；Feedlog 仍只有系统 welcome，0 票、0 评论。没有真实重复玩家问题可升级为新选题。
+- 2026-08-03｜Release / 上游｜最新正式正文仍为 `v0.33.0-beta1`。tag 后比较已到 `9f3423d`、共 15 个提交；`bf38c58` 的普通核弹路径选择仍是唯一会改变局内决策的机制修复，`5d01149` 只把拦截通知从 missile 改为 SAM，其他提交属于商店、账户、翻译、回放、图标或文档。没有与站内当前攻略冲突的事实，也不为小修复拆版本薄页。
+- 2026-08-03｜Search Console 7/28 天｜最近缓存仍截止 2026-07-29；Water Nukes 错落到 guides/hotkeys、快捷键两页分工、经济与人口增长需求、品牌词错落地的判断均未变化。它们继续分别留在 `NUKE-01`、`CTRL-01`、`ECON-01` 与 `FRESH-03`，不能越过待合并的 `FRESH-02`。
+- 2026-08-03｜Feedlog / GitHub Issues｜远端开放 Issues 仍为 0；Feedlog 在线反馈页与路线图仍只有系统 welcome，0 票、0 评论，没有真实重复玩家问题可升级为选题。
+
+## 本次合规自检（2026-08-03，`FRESH-02` 待审复核日）
+
+- 计划 ID：`FRESH-02`。
+- 是否推进当前战役退出条件：今天没有新增内容交付；确认现有交付仍可合并，并保护它不被并行的 `FRESH-03` 基线冲突拖慢。退出条件仍需 PR #5 合并、`FRESH-03` 与 `DOOM-01` 完成。
+- 为何未制造薄页：没有新正式 Release、已确认事实错误或独立玩家问题；tag 后修复不改变站内结论，不能据此拆小版本页。
+- 唯一主落地页：仍由 PR #5 中的 7 个既有核心答案承接各自意图；今天没有新增或竞争路由。
+- 语言状态：en、zh、fr、de、nl 的 `FRESH-02` 内容仍为 35/35 完成；今天没有新增待补语言。
+- 旧页同步范围：今天未改旧攻略正文；待审范围仍为 7 个核心答案 × 5 语。
+- 视觉证据类型：今天没有新增视觉；待审交付使用代码原生静态摘要和可核验文本，没有伪造截图。
+- 验证结果：严格内容审计 35/35；`git diff --check` 通过；账本为 UTF-8 无 BOM、无尾随空白。今天只改执行账本，没有路由、正文事实或交互变化，因此不重复运行 build、link check 或 Playwright。
+- 阻塞：[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 尚未合并；状态 `CLEAN / MERGEABLE`，无评审意见。按门禁等待，不创建第二个 PR。
 
 ## 本次合规自检（2026-08-02，`FRESH-02` 交付日）
 
@@ -168,6 +183,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
+- [x] 2026-08-03：完成本周首次校准与 PR #5 发布前复核；正式 Release、上游、GSC、Issues 和 Feedlog 均无打断理由，保持现有 PR 待审，不启动 `FRESH-03` 或制造第二个 PR。
 - [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；待审 [PR #5](https://github.com/redreamality/openfront-intel/pull/5)。
 - [x] 2026-08-01：建立 [`content-strategy.md`](content-strategy.md)，把内容原则、当前战役、Next/Later、版本响应、多语节奏、Feedlog 选题池与停止规则从每日账本中分离。
 - [x] 2026-08-01：更新自动化 `openfront`，令其先读战略、写每日编辑判断、按战役退出条件选任务，并允许无文章的研究/复盘日。
@@ -189,3 +205,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-01 | 内容运行体系 | 将战略计划与每日账本分离，建立当前战役、计划 ID、退出条件、信号池和非机械选择门槛 | 多语改为紧急 en+zh / 72 小时补齐；Feedlog 改为按真实问题和票数维护的选题池；自动化 `openfront` 已同步新规则 | 自动化更新成功；文档链接与 Markdown 结构待本轮校验 | PR #4 合并后执行 `FRESH-02` |
 | 2026-08-01 | `FRESH-02` | 完成研究日交付：确认 7 个核心答案 × 5 语的顶部新鲜度缺口、共享布局方案与验证门禁 | PR #4 已合并；GSC 候选顺序不变；在线 Release/Issues/Feedlog 刷新因 TLS 超时保持未确认 | 内容审计 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未跑 build/link/e2e | 下一次从最新 main 实施 35 页统一摘要；`FRESH-03`、`DOOM-01` 继续等待 |
 | 2026-08-02 | `FRESH-02` | 35 个五语核心页面已在直接答案前显示 v33、核验日期和页面专属变化摘要；没有新建页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 待审 | 最新 Release 不变；记录 tag 后核弹路径修复；Issues 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 35/35；build 225 页；links 8,964；定向 e2e 100/100；完整 e2e 189/189；diff check 通过 | PR #5 合并后执行 `FRESH-03` |
+| 2026-08-03 | `FRESH-02` | 完成本周首次校准和待审复核；PR #5 仍为 `CLEAN / MERGEABLE` 且无评审意见，今天不启动并行首页改版 | 最新 Release 不变；tag 后 15 个提交未形成站内事实错误；GSC 候选不变；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome | audit 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未重复跑 build/link/e2e | PR #5 合并后，从最新 `main` 执行 `FRESH-03` |
