@@ -154,7 +154,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-02｜Search Console 7/28 天｜缓存仍截止 2026-07-29；Water Nukes、controls/hotkeys、economy/growth 和品牌词错落地判断未变化，继续留在原计划项，不越过当前战役。
 - 2026-08-02｜Feedlog / GitHub Issues｜远端开放 Issues 为 0；Feedlog 仍只有系统 welcome，0 票、0 评论。没有真实重复玩家问题可升级为新选题。
 - 2026-08-03｜Release / 上游｜最新正式正文仍为 `v0.33.0-beta1`。tag 后比较已到 `9f3423d`、共 15 个提交；`bf38c58` 的普通核弹路径选择仍是唯一会改变局内决策的机制修复，`5d01149` 只把拦截通知从 missile 改为 SAM，其他提交属于商店、账户、翻译、回放、图标或文档。没有与站内当前攻略冲突的事实，也不为小修复拆版本薄页。
-- 2026-08-03｜Search Console 7/28 天｜最近缓存仍截止 2026-07-29；Water Nukes 错落到 guides/hotkeys、快捷键两页分工、经济与人口增长需求、品牌词错落地的判断均未变化。首页错落地由 `FRESH-03` 通过既有主答案入口承接；`NUKE-01`、`CTRL-01`、`ECON-01` 继续等待，不能越过当前战役剩余的 `DOOM-01`。
+- 2026-08-03｜Search Console 7/28 天｜已主动刷新至 2026-08-01：7 天范围为 2026-07-26 至 2026-08-01（811 个 Query、1,507 条 Query × Page），28 天范围为 2026-07-05 至 2026-08-01（1,080 个 Query、2,384 条 Query × Page）。Doomsday 两个核心 7 天查询共 106 次展现，仍主要落到 `/changelog/v32/`，进一步支持 `DOOM-01` 作为当前下一项；Water Nukes 仍错落到 hotkeys/guides，快捷键意图仍在 `/shortcuts/` 与 `/guides/hotkeys/` 间切换，经济 quick win 已正确落到 `/mechanics/economy/`。新数据强化现有排序但不构成事实错误或正式 Release 中断，`NUKE-01`、`CTRL-01`、`ECON-01` 继续等待。
 - 2026-08-03｜Feedlog / GitHub Issues｜远端开放 Issues 仍为 0；Feedlog 在线反馈页与路线图仍只有系统 welcome，0 票、0 评论，没有真实重复玩家问题可升级为选题。
 
 ## 本次合规自检（2026-08-03，`FRESH-03` 交付日）
