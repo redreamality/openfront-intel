@@ -80,6 +80,67 @@ for (const mechanicsCase of mechanicsCases) {
   });
 }
 
+const freshnessLanguages = [
+  {
+    lang: 'en',
+    prefix: '',
+    labels: ['Applies to', 'Last verified', 'What changed in this version'],
+    hotkeyFact: 'right-click',
+  },
+  {
+    lang: 'zh',
+    prefix: '/zh',
+    labels: ['适用版本', '最后核验', '本版本关键变化'],
+    hotkeyFact: '右键',
+  },
+  {
+    lang: 'fr',
+    prefix: '/fr',
+    labels: ['Version applicable', 'Dernière vérification', 'Changement clé de cette version'],
+    hotkeyFact: 'clic droit',
+  },
+  {
+    lang: 'de',
+    prefix: '/de',
+    labels: ['Gilt für', 'Zuletzt geprüft', 'Wichtigste Änderung dieser Version'],
+    hotkeyFact: 'Rechtsklick',
+  },
+  {
+    lang: 'nl',
+    prefix: '/nl',
+    labels: ['Geldt voor', 'Laatst gecontroleerd', 'Belangrijkste wijziging in deze versie'],
+    hotkeyFact: 'rechtermuisklik',
+  },
+] as const;
+
+const freshnessPages = [
+  { route: '/guides/first-match/', fact: '22' },
+  { route: '/guides/hotkeys/', fact: 'hotkey' },
+  { route: '/guides/water-nukes/', fact: 'MIRV' },
+  { route: '/strategies/economy-fundamentals/', fact: 'v32' },
+  { route: '/strategies/ffa-opening/', fact: '22' },
+  { route: '/strategies/nuclear-deterrence/', fact: 'MIRV' },
+  { route: '/strategies/team-naval-control/', fact: '3' },
+] as const;
+
+for (const language of freshnessLanguages) {
+  for (const freshnessPage of freshnessPages) {
+    test(`freshness summary[${language.lang}] appears on ${freshnessPage.route}`, async ({ page }) => {
+      await page.goto(`${language.prefix}${freshnessPage.route}`, { waitUntil: 'domcontentloaded' });
+
+      const freshness = page.locator('[data-freshness-summary]');
+      await expect(freshness).toBeVisible();
+      await expect(freshness.locator('dd')).toHaveCount(3);
+      await expect(freshness).toContainText('v33');
+      await expect(freshness).toContainText('2026');
+      for (const label of language.labels) await expect(freshness).toContainText(label);
+      await expect(freshness).toContainText(
+        freshnessPage.fact === 'hotkey' ? language.hotkeyFact : freshnessPage.fact,
+      );
+    });
+  }
+}
+
 const v32Cases = [
   { path: '/changelog/v32/', answer: 'what matters in v32?', trade: '400 active ships', nuke: '10 tiles per tick' },
   { path: '/zh/changelog/v32/', answer: 'v32 到底改变了什么？', trade: '400 艘活跃船只', nuke: '10 tiles/tick' },

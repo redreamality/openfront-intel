@@ -9,6 +9,7 @@ const docSchema = z.object({
   category: z.string().optional(),
   difficulty: z.string().optional(),
   version: z.string().optional(),
+  freshnessSummary: z.string().optional(),
   draft: z.boolean().optional(),
 });
 
