@@ -107,21 +107,22 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 - 战役：恢复“始终是最新的”印象。
 - 玩家结果：从首页或旧攻略进入后，能立刻看见当前版本变化、适用版本和下一步实战答案。
-- 当前计划项：`FRESH-01`、`FRESH-02`、`FRESH-03`、`DOOM-01`。
-- 退出条件：版本系列总览、核心攻略顶部新鲜度摘要、首页四个高价值入口和 Doomsday 独立攻略全部交付。
+- 当前计划项：`FRESH-01`、`FRESH-02`、`FRESH-03`、`DOOM-01` 均已交付；`DOOM-01` 已按用户审阅反馈完成五语深度扩写，[PR #8](https://github.com/redreamality/openfront-intel/pull/8) 合并后进入 Next。
+- 退出条件：版本系列总览、核心攻略顶部新鲜度摘要、首页四个高价值入口和 Doomsday 独立攻略已全部完成。
 
 ## 今日编辑判断
 
 - 日期：2026-08-04。
-- 当前周目标 / 计划 ID：在正式 Release 后 24 小时内恢复“这里适用于最新版”的可信度；由 `FRESH-01` 打断并校准 v33 系列总览与受影响旧页。
-- 玩家结果：玩家进入任一语种 `/changelog/v33/` 或相关 MIRV、快捷键、第一局与海战答案时，看到的是当前正式 `v0.33.1`，能立刻知道 v33.1 修复了回放 desync 与自定义 tribe 排行榜显示，同时原有 MIRV、Doomsday、Ranked 2v2、战舰熟练度和地图结论仍成立。
-- 为什么今天做：`v0.33.1` 于 2026-08-03T21:39:35Z 发布，`draft=false`、`prerelease=false`，正文包含完整 v33.0 变化与两个 v33.1 修复，不是 TEST；现有五语 v33 总览和多处旧页仍把当前来源写成 `v0.33.0-beta1`，已构成会削弱最新版可信度的明确版本事实缺口。
-- 为什么其他候选等待：`DOOM-01` 在新刷新的 7 天 GSC 中有 12 个相关 query、152 次展现且仍主要落到 `/changelog/v32/`，但正式 Release 的硬优先级更高；Water Nukes、快捷键分工、经济甜区及其他 Next/Later 继续等待，不用第二篇新页填满今天。
-- 产出类型：刷新现有 v33 系列总览、同步受影响旧页与来源面板、更新内容完整性 e2e；不拆 `v33.1` 薄页，不新建内容路由。
+- 当前周目标 / 计划 ID：完成恢复“始终是最新的”战役最后一个退出条件；推进 `DOOM-01`，让玩家获得独立的 Doomsday Clock 实战主答案。
+- 玩家结果：玩家能在 `/guides/doomsday-clock/` 直接判断 10 分钟宽限期内何时扩张、何时转向、门槛上升前怎样保留两条低成本路线，以及部队和战舰进入 doomed 状态后该抢回领土还是争夺第一。
+- 为什么今天做：PR #7 已于 2026-08-04 合并，正式 Release 响应的前置门禁解除；最新正式版本仍为正文非 TEST 的 `v0.33.1`，上游 `main` 与本站 extraction checkout 同为 `0668045`，没有新的机制、键位、地图、数值或占领规则变化需要打断。新刷新的 7 天 GSC 为 2026-07-27 至 2026-08-02（825 个 Query、1,563 条 Query × Page），其中 14 个 Doomsday Query、192 次展现仍主要落到 `/changelog/v32/`，证明独立实战答案既是当前战役缺口，也有真实错落地需求。
+- 为什么其他候选等待：Water Nukes、快捷键分工和经济甜区仍有信号，但都属于 Next；当前战役只剩 `DOOM-01`，应先完成退出条件。GitHub Issues 为 0，Feedlog 仍只有系统 welcome（1 个 Other 帖子、0 票、0 评论），没有更高优先级的重复玩家问题。
+- 产出类型：新增 en/zh/fr/de/nl 五语 Doomsday Clock 实战攻略，使用可核验规则表与文本决策树，同步至少两个自然入口和内容完整性 e2e；不扩写第二个 Doomsday 页面，也不领取 Next/Later。
+- 审阅反馈后的继续判断：用户明确指出初稿篇幅不足，因此继续修正同一 [PR #8](https://github.com/redreamality/openfront-intel/pull/8)，把唯一主答案扩成可独立解决整局决策的长篇指南；不另建“速度”“波次”或 FAQ 页面，也不改变 Now / Next / Later 顺序。
 
 ## 当前进行中
 
-- `FRESH-01` 的正式 `v0.33.1` 响应已完成并交付至 [PR #7](https://github.com/redreamality/openfront-intel/pull/7)：唯一主落地页仍为五语 `/changelog/v33/`，受影响机制、FAQ、第一局、快捷键、Water Nukes、核威慑与海战页已同步清除 beta1 过期表述。合并后恢复 `DOOM-01`，不提前领取 Next/Later。
+- 无内容生产项执行中。`DOOM-01` 已按审阅反馈完成深度扩写并更新 [PR #8](https://github.com/redreamality/openfront-intel/pull/8)，继续等待审阅；下一次运行先检查该 PR 是否合并，再按战略默认顺序评估 `ECON-01`，不得在本次交付中提前混入 Next。
 
 ## 计划承接表
 
@@ -129,10 +130,10 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | 正式 `v0.33.1` 响应已完成；[PR #7](https://github.com/redreamality/openfront-intel/pull/7) 待审；沿用现有 v33 系列总览，不拆小版本页 | PR 合并后恢复 `DOOM-01` |
+| `FRESH-01` | 正式 `v0.33.1` 响应已完成；[PR #7](https://github.com/redreamality/openfront-intel/pull/7) 已合并；沿用现有 v33 系列总览，不拆小版本页 | 保持版本系列总览，等待下一正式 Release 或事实变化 |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
-| `DOOM-01` | 当前下一项，因正式 Release 暂停 | `FRESH-01` 的 v0.33.1 响应合并后建立来源包与独立实战提纲 |
+| `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | PR 合并后确认战役关闭，并开始评估 `ECON-01` |
 | `ECON-01` | Next | 先判断扩写 `/mechanics/economy/` 是否足够承接人口甜区意图 |
 | `ATTACK-01` | Next | 建立攻击比例的当前公式与两个局势例子来源包 |
 | `CTRL-01` | Next | 明确 `/shortcuts/` 与 `/guides/hotkeys/` 的非重复提纲和互链 |
@@ -158,7 +159,21 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-03｜Feedlog / GitHub Issues｜远端开放 Issues 仍为 0；Feedlog 在线反馈页与路线图仍只有系统 welcome，0 票、0 评论，没有真实重复玩家问题可升级为选题。
 - 2026-08-04｜Release / 上游｜正式 [`v0.33.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1) 于 2026-08-03T21:39:35Z 发布，`draft=false`、`prerelease=false`，正文不是 TEST。两项热修是回放 desync 与自定义 tribe 名称不显示在排行榜；它们恢复可靠性与可见性，不改变 MIRV、Doomsday、Ranked 2v2、战舰熟练度或地图结论。上游 clone 的 pull 外层虽超时，事后确认已干净快进到 `0668045`；`_meta.upstreamCommit` 已记录该 extraction checkout，本地未取得 Release tag，不把 checkout 误写成 tag 提交。
 - 2026-08-04｜Search Console 7/28 天｜已主动刷新至 2026-08-02：7 天范围为 2026-07-27 至 2026-08-02（765 个 Query、1,411 条 Query × Page），28 天范围为 2026-07-06 至 2026-08-02（1,077 个 Query、2,370 条 Query × Page），两份报告均为本次成功刷新而非旧缓存。Doomsday 的 7 天窗口有 12 个相关 Query、152 次展现，仍主要落到 `/changelog/v32/`；它继续支持 `DOOM-01`，但不能越过正式 Release。Water Nukes、controls 与经济信号维持 `NUKE-01`、`CTRL-01`、`ECON-01` 原排序。
+- 2026-08-04｜Search Console 7/28 天（`DOOM-01` 运行）｜再次主动刷新成功，数据稳定延迟仍保留 2 天：7 天为 2026-07-27 至 2026-08-02，生成于 2026-08-04T08:34:49.318Z（825 个 Query、1,563 条 Query × Page）；28 天为 2026-07-06 至 2026-08-02，生成于 2026-08-04T08:35:00.599Z（1,110 个 Query、2,479 条 Query × Page）。对应 Markdown 意图报告已复核；7 天共有 14 个 Doomsday Query、192 次展现，主落地仍是 `/changelog/v32/`，支持把独立主答案交付为当前战役最后一项。此次未回退缓存，也未改变 Next 排序。
 - 2026-08-04｜Feedlog / GitHub Issues｜远端开放 Issues 为 0；Feedlog 与路线图仍只有系统 welcome，1 个 Other 帖子、0 票、0 评论。没有真实重复玩家问题，也没有同计划未合并 PR 可继续。
+- 2026-08-04｜用户审阅反馈｜用户指出 Doomsday 初稿“太短”，要求写长。该反馈直接作用于现有 `DOOM-01` 唯一主答案，因此继续修正 [PR #8](https://github.com/redreamality/openfront-intel/pull/8)：补齐六轮时间线、门槛公式与取整、30 秒救场、四档速度、领土形状矩阵和 FAQ；不升级为新选题，不拆第二个页面。
+
+## 本次合规自检（2026-08-04，`DOOM-01` 交付日）
+
+- 计划 ID：`DOOM-01`。
+- 是否推进当前战役退出条件：是。五语 Doomsday Clock 独立实战主答案、相邻入口、来源包和回归测试已完成，当前战役的四个计划项全部达到完成定义。
+- 为何未制造薄页：Doomsday 的独立玩家问题原先错误落到版本总览，新增一个唯一主答案有真实 GSC 错落地证据；没有按速度、波次或小版本继续拆分第二个页面，v32/v33 只保留版本背景与自然入口。
+- 唯一主落地页：en/zh/fr/de/nl 的 `/guides/doomsday-clock/` 分别承接本地化实战意图；版本总览不再承担完整操作答案。正文直接纠正“地理安全圈”误解，并覆盖宽限期、六档门槛、两张完整时间表、警告救场、速度档、领土形状、衰减、团队规则、反制和结算。
+- 语言状态：en、zh、fr、de、nl 全部完成，没有 72 小时待补项；五语均有 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字。4/9/16/26/40/55%、10 分钟、30 秒、2%→5%、1%→50%、5% 下限、团队合计、领先方豁免与不自动判胜等事实一致。
+- 旧页同步范围：五语 v32 与 v33 系列总览共 10 个相邻页面修正“抢中心/安全圈”错误并各补一个自然入口；核心内容审计新增五语 Doomsday 页面，内容完整性 e2e 同步验证主答案与两代版本入口。
+- 视觉证据类型：源码与 Release 可追溯来源、Markdown 波次表、状态/决策表和文本场景；没有使用或伪造游戏截图。
+- 验证结果：GSC 7/28 天成功刷新至 2026-08-02；深度扩写后严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产构建 230 页；内部链接 9,224 条、无断链；Doomsday 定向 e2e 15/15；完整 Playwright 209/209（`--workers=1`）；`git diff --check` 通过。
+- 阻塞与 PR：无内容阻塞；今天唯一的待审 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) 已创建，不自动合并。
 
 ## 本次合规自检（2026-08-04，`FRESH-01` v33.1 响应交付日）
 
@@ -210,7 +225,8 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-04：完成正式 `v0.33.1` 的 `FRESH-01` 响应；五语 v33 系列总览吸收回放 desync 与 tribe 排行榜修复，40 个相邻页面同步正式来源，未新建小版本薄页；[PR #7](https://github.com/redreamality/openfront-intel/pull/7) 待审。
+- [x] 2026-08-04：完成 `DOOM-01` 并按用户审阅反馈深度扩写；五语独立实战攻略补齐六轮时间线、公式取整、四档速度、30 秒救场、领土形状矩阵和 FAQ，v32/v33 十个相邻页纠错并导流，当前战役退出条件全部满足；待审 [PR #8](https://github.com/redreamality/openfront-intel/pull/8)。
+- [x] 2026-08-04：完成正式 `v0.33.1` 的 `FRESH-01` 响应；五语 v33 系列总览吸收回放 desync 与 tribe 排行榜修复，40 个相邻页面同步正式来源，未新建小版本薄页；[PR #7](https://github.com/redreamality/openfront-intel/pull/7) 已合并。
 - [x] 2026-08-03：完成 `FRESH-03`，五语首页首屏和首个内容区依次突出 v33 玩家影响、第一局、快捷键与经济增长；栏目索引和数字卡降为次级浏览与参考，没有新增页面；待审 [PR #6](https://github.com/redreamality/openfront-intel/pull/6)。
 - [x] 2026-08-03：完成本周首次校准与 PR #5 发布前复核；正式 Release、上游、GSC、Issues 和 Feedlog 均无打断理由；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 随后已由用户合并。
 - [x] 2026-08-02：完成 `FRESH-02`，为 7 个核心答案 × 5 语补统一的新鲜度摘要、v33 适用范围、核验日期、严格审计和逐页 e2e；没有新增页面；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并。
@@ -237,3 +253,5 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-03 | `FRESH-02` | 完成本周首次校准和早间待审复核；PR #5 当时为 `CLEAN / MERGEABLE`，随后由用户合并 | 最新 Release 不变；tag 后 15 个提交未形成站内事实错误；GSC 候选不变；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome | audit 35/35；diff check、UTF-8 无 BOM 与尾随空白检查通过；docs-only，未重复跑 build/link/e2e | 前置门禁已解除，本轮完成 `FRESH-03` |
 | 2026-08-03 | `FRESH-03` | 五语首页现在先引导玩家查看 v33 变化、第一局、快捷键和经济增长，数字与栏目索引后置；没有新增路由；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 待审 | 复用四个既有唯一主答案；Next/Later 不提前；`DOOM-01` 成为当前战役下一项 | audit 35/35；Astro check 0 errors、9 hints；build 225 页；links 8,979；首页 e2e 5/5；完整 e2e 194/194（单线程） | PR #6 合并后启动 `DOOM-01` |
 | 2026-08-04 | `FRESH-01` | 正式 v33.1 已并入五语 `/changelog/v33/`，两项热修和正式来源同步到 40 个相邻页面；未新建小版本路由；[PR #7](https://github.com/redreamality/openfront-intel/pull/7) 待审 | GSC 成功刷新至 2026-08-02；Doomsday 7 天 12 个 Query、152 次展现；Issues 为 0，Feedlog 仍只有 0 票/0 评论 welcome；extraction checkout 更新到 `0668045` | audit 35/35；Astro check 0 errors、9 hints；build 225 页；links 8,979；定向 e2e 100/100；完整 e2e 194/194（单线程） | PR #7 合并后恢复 `DOOM-01` |
+| 2026-08-04 | `DOOM-01` | 五语 `/guides/doomsday-clock/` 成为唯一实战主答案，纠正安全圈误解并给出波次、撤退、团队与海战决策；v32/v33 十个相邻页同步纠错与入口；待审 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | GSC 再次刷新至 2026-08-02：7 天 825/1,563，28 天 1,110/2,479；14 个 Doomsday Query、192 次展现；上游与 extraction checkout 同为 `0668045`，无新规则变化 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,224；定向 e2e 15/15；完整 e2e 209/209（单线程）；diff check 通过 | PR #8 合并后关闭当前战役；下一次先评估 `ECON-01` 的现有页扩写方案 |
+| 2026-08-04 | `DOOM-01` 审阅修订 | 根据用户“文章太短”的反馈继续更新同一主答案；五语各新增约 175 行，补齐完整时间线、公式取整、速度档、警告救场、领土形状和 FAQ，没有拆页或创建第二个 PR | 五语均达 55 个 H2–H4；英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；事实与来源边界不变 | 扩写后 audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,224；定向 e2e 15/15；完整 e2e 209/209（单线程）；diff check 通过 | 更新 PR #8 后继续等待审阅，不提前领取 Next |

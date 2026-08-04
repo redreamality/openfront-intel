@@ -1,0 +1,372 @@
+---
+title: "Guide Doomsday Clock OpenFront : vagues, attrition et survie"
+description: "La Doomsday Clock d’OpenFront vérifie une part de terrain croissante, pas un cercle sûr mobile. Toutes les vagues, l’avertissement de 30 secondes, l’attrition des troupes et Warships, les équipes et les contres."
+pubDate: 2026-08-04
+updatedDate: 2026-08-04
+tags: [doomsday-clock, territory, endgame, strategy]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "La v33.1 conserve la Doomsday Clock rééquilibrée : 10 minutes de grâce, six vagues de part territoriale, calcul par équipe et attrition des troupes et Warships limitée à un plancher de 5 %."
+---
+
+## Réponse directe : que fait la Doomsday Clock ?
+
+La **Doomsday Clock** termine les parties bloquées en imposant à chaque camp non leader une part croissante des terres utilisables.
+
+Ce n’est pas un cercle qui se referme vers le centre géographique. Après dix minutes de grâce, la barre monte vers 4 %, 9 %, 16 %, 26 %, 40 %, puis 55 %.
+
+Si votre camp passe sous la barre, un crâne apparaît et vous avez 30 secondes pour récupérer. Ensuite, les troupes et la santé des Warships diminuent chaque seconde.
+
+Repassez au-dessus de la barre et la marque disparaît immédiatement. Sans récupération, l’attrition s’arrête à 5 % de la force maximale : vous restez vivant, mais très facile à achever.
+
+L’objectif pratique est donc de conserver une part de terrain connectée avec une marge, assez de troupes pour prendre rapidement des tiles pendant l’avertissement, puis de devenir leader territorial avant le dernier resserrement.
+
+## Corriger d’abord le principal malentendu
+
+Il n’existe ni position cachée de zone sûre, ni règle fondée sur la distance au centre. Le jeu compare des nombres de tiles.
+
+En FFA, votre territoire est celui de votre camp. En mode équipe, les territoires de tous les coéquipiers vivants sont additionnés et comparés à la même barre qu’un camp solo.
+
+Un petit allié reste sûr si le total d’équipe est sûr ; si ce total passe sous la barre, tous les membres reçoivent le crâne et l’attrition.
+
+La barre utilise les terres actuelles hors fallout. Le panneau affiche la part requise et celle de votre camp. Lisez cette comparaison au lieu d’essayer de deviner où se trouverait une prochaine « zone ».
+
+## Lire le panneau avant de choisir l’action suivante
+
+Le panneau Doomsday apparaît lorsque le mode est actif.
+
+Les parties publiques affichent un badge de modificateur, avec la vitesse lorsqu’elle est disponible ; les hôtes peuvent activer le mode et choisir son rythme dans une partie personnalisée.
+
+Le panneau indique **Stable**, **Unstable** ou **Collapsing**. Il montre aussi le pourcentage à tenir, votre part ou celle de votre équipe, la cible de la vague et le temps restant avant la prochaine montée.
+
+Considérez l’avertissement orange ou proche du danger comme un ordre d’arrêter les combats facultatifs.
+
+L’interface signale déjà le danger lorsque votre part se trouve à environ 10 % de marge relative. Un avantage minuscule disparaît dès qu’une frontière cède.
+
+## Calendrier des vagues et vitesses
+
+Tous les préréglages gardent les dix premières minutes à 0 %. Chaque vague monte progressivement jusqu’à sa cible, puis marque une courte pause. La barre ne saute pas instantanément d’un pourcentage du tableau au suivant.
+
+| Vitesse | 4 % | 9 % | 16 % | 26 % | 40 % | 55 % final |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Lente | 14:52 | 20:54 | 26:56 | 32:58 | 39:00 | 45:00 |
+| Normale | 13:28 | 17:46 | 22:04 | 26:22 | 30:40 | 35:00 |
+| Rapide | 12:05 | 14:40 | 17:15 | 19:50 | 22:25 | 25:00 |
+| Très rapide | 10:40 | 11:32 | 12:24 | 13:16 | 14:08 | 15:00 |
+
+Chaque heure indique le moment où la vague atteint complètement sa cible. Pendant la montée, l’exigence réelle peut prendre n’importe quelle valeur entre l’ancienne et la nouvelle cible.
+
+À 55 %, deux camps ne peuvent pas tous deux tenir la barre. Le camp leader est exempté.
+
+Cette exemption laisse une armée capable de conclure la partie. La vague ne donne toutefois pas une victoire instantanée : la conquête, l’élimination ou le chronomètre normal déterminent encore le résultat.
+
+## Début exact des montées et fenêtres de pause
+
+Le premier tableau indique quand chaque cible est entièrement atteinte. Celui-ci ajoute le début de chaque montée, moment plus utile pour planifier une attaque ou une route de récupération.
+
+| Vitesse | Début des six montées | Cibles entièrement atteintes | Pause après les vagues 1 à 5 |
+| --- | --- | --- | ---: |
+| Lente | 10:00 · 16:02 · 22:04 · 28:06 · 34:08 · 40:10 | 14:52 · 20:54 · 26:56 · 32:58 · 39:00 · 45:00 | 70 secondes |
+| Normale | 10:00 · 14:18 · 18:36 · 22:54 · 27:12 · 31:30 | 13:28 · 17:46 · 22:04 · 26:22 · 30:40 · 35:00 | 50 secondes |
+| Rapide | 10:00 · 12:35 · 15:10 · 17:45 · 20:20 · 22:55 | 12:05 · 14:40 · 17:15 · 19:50 · 22:25 · 25:00 | 30 secondes |
+| Très rapide | 10:00 · 10:52 · 11:44 · 12:36 · 13:28 · 14:20 | 10:40 · 11:32 · 12:24 · 13:16 · 14:08 · 15:00 | 12 secondes |
+
+La pause est la fenêtre la plus stable pour reconstruire une marge. La barre ne bouge plus, mais un adversaire peut toujours vous retirer du terrain et vous faire passer dessous.
+
+Ne confondez pas l’arrivée d’une cible avec la montée suivante. En vitesse Normale, 16 % est atteint à 22:04, mais la montée vers 26 % ne commence qu’à 22:54.
+
+## Comment le jeu calcule la ligne de sécurité
+
+Le jeu convertit le pourcentage en un nombre entier de tiles. Sous forme simplifiée, le contrôle est :
+
+`tiles requises = floor(seuil actuel × terres utilisables)`
+
+Les terres utilisables correspondent aux terres de la carte moins les tiles couvertes de fallout. L’eau ne fait pas partie du dénominateur ; contrôler la mer ne relève donc pas directement votre part.
+
+Votre camp est sûr lorsque son nombre de tiles est **égal ou supérieur** à l’exigence. Seul un camp non leader strictement en dessous reçoit l’avertissement.
+
+En équipe, le jeu additionne d’abord les territoires de tous les membres vivants. Il ne multiplie pas l’exigence par le nombre de coéquipiers.
+
+Le leader territorial est exempté séparément. Un camp peut donc être sûr en tenant la ligne ou en occupant la première place.
+
+### Exemple complet de calcul
+
+Supposons 80 000 tiles de terre utilisable et une barre actuelle à 12,5 %. L’exigence entière est alors de 10 000 tiles.
+
+- Un joueur solo à 10 000 tiles est sûr, car l’égalité suffit.
+- Une équipe à 6 200 et 3 800 tiles est également sûre avec un total de 10 000.
+- Un camp non leader à 9 999 tiles reçoit l’avertissement.
+- Ce même camp à 9 999 reste exempté s’il est encore leader territorial.
+
+Le fallout peut modifier l’exigence absolue en réduisant le dénominateur. Ce changement n’est pas une conquête et ne doit pas être traité comme du terrain gagné.
+
+## Ce qui arrive sous la barre
+
+| État | Action du jeu | Meilleure réponse |
+| --- | --- | --- |
+| Stable | Votre camp est au-dessus de la barre, ou il est leader | Construire une marge relative de 10–15 % |
+| Unstable | Un camp non leader est sous la barre ; l’avertissement de 30 secondes commence | Annuler les attaques facultatives et prendre la terre accessible la moins chère |
+| Collapsing | L’avertissement est terminé et l’attrition a commencé | Récupérer du terrain immédiatement ; stocker des troupes ne suffit pas |
+| Plancher | Troupes et Warships approchent 5 % de leur maximum | Préserver les routes, éviter de donner des éliminations et chercher une reprise rapide ou l’aide de l’équipe |
+
+La perte de troupes commence à 2 % de la capacité maximale par seconde et monte linéairement à 5 % en 90 secondes. Comme elle dépend de la capacité maximale et non des troupes restantes, conserver une armée pleine ne résout pas le problème.
+
+Les Warships commencent par perdre 1 % de leur santé maximale. La courbe reste douce au début, puis devient très raide jusqu’à 50 % par seconde.
+
+Ils s’arrêtent aussi à 5 % de leur santé maximale corrigée par la vétérérance, mais ne peuvent pas se soigner tant que leur propriétaire est doomed.
+
+## Plan de récupération pendant les 30 secondes
+
+L’avertissement suffit pour exécuter une récupération préparée, mais pas pour improviser une guerre lointaine. Traitez le crâne comme un compte à rebours opérationnel.
+
+### Secondes 0–5 : arrêter d’aggraver l’écart
+
+Annulez les attaques facultatives et lisez l’écart exact avec la barre. Vérifiez si le seuil monte encore ou s’il se trouve en pause.
+
+Ne cherchez pas le centre géographique. Identifiez la terre la moins chère déjà reliée à votre frontière ou à un transport prêt à partir.
+
+### Secondes 5–15 : prendre la terre la plus fiable
+
+Préférez du neutre, une frontière faible ou une poche exposée pouvant tomber vite. La meilleure cible restaure le pourcentage, même si elle paraît peu prestigieuse.
+
+En équipe, un joueur capture tandis qu’un autre empêche la frontière actuelle de céder. Tous partagent le résultat ; deux alliés ne doivent pas dupliquer la même attaque.
+
+### Secondes 15–25 : protéger la route de récupération
+
+Si la première prise ne suffit pas, continuez sur la même frontière bon marché. Changer pour un front lointain gaspille l’avertissement en déplacement et en préparation.
+
+Troupes et flotte doivent maintenir la route ouverte. Les dons peuvent aider une capture, mais ils ne modifient pas eux-mêmes la part territoriale de l’équipe.
+
+### Secondes 25–30 : choisir le terrain plutôt que l’orgueil
+
+Abandonnez une grosse attaque si elle ne peut pas se terminer avant l’expiration. Une petite capture certaine vaut mieux qu’une grande bataille presque gagnée.
+
+Si la récupération est impossible, préservez deux routes et évitez de donner des unités. Il faut repasser la ligne après le début de l’attrition avant que l’ennemi n’exploite le plancher de 5 %.
+
+### Après le début de l’attrition
+
+N’attendez pas un « temps fixe jusqu’au plancher ». La perte dépend de la capacité maximale, laquelle peut varier avec le territoire et l’état du joueur.
+
+Restaurer la ligne reste le seul reset direct. Une fois en sécurité, le crâne disparaît, l’attrition s’arrête et une nouvelle chute redonne un avertissement complet de 30 secondes.
+
+## Le plan des dix premières minutes
+
+Utilisez la grâce pour vous étendre et vous placer, sans la traiter comme dix minutes de greed gratuit. La forme de votre territoire à 10:00 détermine le coût d’une réponse à la première montée.
+
+Préférez des frontières connectées qui donnent plusieurs expansions peu coûteuses. Une longue pointe vers une zone riche peut sembler forte tout en ne laissant qu’une seule route chère pour gagner des tiles en urgence.
+
+Gardez assez de troupes pour prendre du neutre ou un voisin faible. Dépenser tout à 9:40 dans une conquête lente peut vous laisser sous la première barre mobile sans moyen de récupération.
+
+Préparez deux directions d’expansion. Elles ne doivent pas viser le centre de la carte ; elles doivent mener vers des terres que vous pouvez réellement prendre.
+
+## Plan de jeu pour chaque vitesse
+
+Les pourcentages cibles ne changent jamais, mais le temps disponible pour reconstruire la marge varie fortement. Choisissez le plan d’après le badge de vitesse.
+
+### Lente : construire de la profondeur, puis la convertir
+
+La vitesse Lente atteint 4 % à 14:52 et ne commence la montée vers 55 % qu’à 40:10. Vous pouvez mener de vraies guerres, mais les pauses de 70 secondes masquent parfois une mauvaise position.
+
+Construisez plusieurs couches de terrain connecté. À 34:08, quand commence la montée vers 40 %, cessez de traiter comme permanentes les possessions lointaines incapables d’aider la bataille finale.
+
+Le risque principal est la complaisance. On peut sembler sûr pendant trente minutes, puis découvrir que la même frontière étroite ne fournit pas assez de terrain pour 40 % et 55 %.
+
+### Normale : terminer chaque guerre avant le prochain jalon
+
+La vitesse Normale commence les montées vers 16 % à 18:36, 26 % à 22:54, 40 % à 27:12 et 55 % à 31:30.
+
+Utilisez ces quatre heures comme échéances. Une guerre qui consomme encore des troupes au début du jalon suivant doit produire du terrain immédiatement ou être annulée.
+
+Les pauses de 50 secondes suffisent pour refaire une marge, pas pour traverser la carte. Gardez une capture adjacente prête avant chaque arrivée de cible.
+
+### Rapide : chaque attaque doit aussi améliorer la part
+
+La vitesse Rapide commence à monter vers 26 % à 17:45, vers 40 % à 20:20, puis vers 55 % dès 22:55.
+
+Chaque grande attaque doit augmenter votre terrain ou supprimer la route de récupération adverse. Un simple échange de troupes coûte cher, car la vague suivante arrive avant la reconstruction complète.
+
+Entrez dans la vingtième minute avec une route vers la première place. Attendre la dernière montée laisse trop peu de temps pour modifier le classement.
+
+### Très rapide : l’ouverture est déjà la fin de partie
+
+La vitesse Très rapide démarre à 10:00 et atteint 55 % à 15:00. Chaque pause ne dure que 12 secondes ; la barre bouge pendant presque tout le resserrement.
+
+Évitez les conquêtes lentes avant dix minutes. Sécurisez du terrain bon marché, une frontière compacte et une route de transport avant la première montée.
+
+La montée vers 40 % commence à 13:28, celle vers 55 % à 14:20. Vous devez déjà disputer la première place, pas simplement essayer de survivre.
+
+## Jouer chaque partie du resserrement
+
+### Avant la première montée
+
+Privilégiez l’efficacité territoriale plutôt qu’une cible prestigieuse. Cherchez des frontières ouvrant plusieurs captures et évitez les poches isolées dépendantes d’un transport ou d’un unique couloir ennemi.
+
+Vérifiez la vitesse. Une partie Très rapide atteint 55 % à 15:00, donc chaque détour initial coûte cher. Une partie Lente offre plus de temps de combat, mais la même cible finale arrive quand même.
+
+### Pendant une montée
+
+Regardez le pourcentage réel, pas seulement la prochaine cible du tableau. Si la barre monte de 9 % à 16 %, être à 12 % est sûr maintenant, mais déjà soumis à une échéance.
+
+Préférez les gains de tiles à faible risque. Une grande attaque ratée coûte à la fois le terrain espéré et la réserve nécessaire à la récupération.
+
+### Pendant une pause
+
+Profitez du palier pour reconstruire votre marge. Une pause ne signifie pas que le danger est passé ; elle prépare la prochaine cible.
+
+Si vous êtes à peine sûr, réparez votre frontière avant une guerre lointaine. Si un adversaire est à peine sûr, préparez une attaque courte qui se termine juste avant la prochaine montée.
+
+### À 40 % et 55 %
+
+À 40 %, peu de camps peuvent rester confortablement au-dessus de la même barre. Ne mesurez plus seulement votre survie : demandez-vous si vous pouvez devenir leader.
+
+À 55 %, un seul camp au maximum peut atteindre la barre, mais la vague ne déclare pas de vainqueur. Si vous n’êtes pas leader, dépassez la couronne, retirez du terrain au premier ou coordonnez la poussée d’équipe décisive.
+
+## Règles de décision en FFA
+
+Le leader territorial ne peut pas être doomed, même si tous les joueurs restants sont sous la barre. Prendre la première place vaut donc parfois plus que rester juste au-dessus du seuil.
+
+Lorsque le leader possède une grosse avance, attaquez du terrain qui change le classement au lieu de poursuivre un joueur faible déjà doomed. La Clock affaiblit déjà ce dernier.
+
+Lorsque vous menez, maintenez la pression sans céder la couronne. L’exemption ne dure que tant que vous restez premier ; une chute en deuxième position peut vous exposer immédiatement.
+
+## Règles de décision en équipe
+
+Une équipe est jugée sur son territoire combiné avec la même exigence qu’un joueur FFA. La barre n’est pas multipliée par le nombre de membres.
+
+Répartissez les rôles pendant l’avertissement. Un allié tient le front tandis qu’un autre prend les tiles faciles. Comme tout le monde partage l’état de l’équipe, le total commun compte plus que le score individuel.
+
+N’abandonnez pas un petit allié parce que son propre territoire est faible. Si l’équipe est sûre, il l’est aussi. Si l’équipe est doomed, les dons seuls ne retirent pas le crâne : quelqu’un doit restaurer la part commune.
+
+## Décisions navales et cartes insulaires
+
+L’eau ne satisfait pas une exigence de terre. Une flotte dominante peut contrôler les déplacements tandis que son propriétaire passe sous la barre territoriale.
+
+Utilisez les Warships pour protéger les transports, empêcher les débarquements et garder des routes d’expansion ouvertes. La puissance navale ne remplace pas la possession de terrain.
+
+Si votre camp devient doomed, les Warships continuent de patrouiller mais ne se soignent plus et descendent vers 5 % de santé. Récupérez d’abord la barre ; la flotte survivante pourra ensuite réparer.
+
+## Choisir la forme du territoire, pas sa distance au centre
+
+Deux positions avec le même pourcentage peuvent avoir des chances de récupération opposées. La question utile est le nombre de captures bon marché encore reliées au territoire.
+
+| Forme territoriale | Avantage | Risque Doomsday | Meilleur ajustement |
+| --- | --- | --- | --- |
+| Large front connecté | Plusieurs directions neutres ou faibles | Davantage de frontières à défendre | Garder des réserves près des deux routes les moins chères |
+| Longue pointe étroite | Accès rapide à une terre lointaine | Une coupure isole toute la route | Élargir la base avant la prochaine montée |
+| Péninsule ou goulet | Défense efficace et contacts prévisibles | Peu d’expansion quand le passage se ferme | Traverser ou sécuriser le goulet avant l’avertissement |
+| Archipel | Transport et contrôle naval solides | L’eau n’ajoute aucune part territoriale | Préparer les transports et protéger les tiles de débarquement |
+| Poches isolées | Plusieurs fronts locaux | Renforts et croissance fragmentés | Relier les poches ou abandonner la moins récupérable |
+| Bloc intérieur compact | Frontières défensives courtes | La terre bon marché proche s’épuise | Préparer une sortie avant 26 % et 40 % |
+
+Le centre n’a de valeur que s’il offre une terre connectée et capturable, ou s’il permet de prendre la première place. Se déplacer vers l’intérieur sans plan de capture ne protège pas.
+
+### Quand abandonner un bord riche
+
+Ne quittez pas un bord seulement parce qu’il est loin du centre. Partez quand la prochaine terre exige un transport lent, un couloir ennemi coûteux ou une guerre impossible à finir avant la montée.
+
+À l’inverse, un bord riche avec plusieurs voisins faibles peut être plus sûr qu’une poche centrale entourée de joueurs forts. Le seuil récompense l’accès à la terre, pas l’esthétique de la carte.
+
+### Quand conserver un couloir étroit
+
+Un couloir mérite d’être tenu s’il relie deux bassins d’expansion ou protège l’unique débarquement. Il devient un poids si toute récupération dépend d’une seule tile ennemie fortifiée.
+
+Avant une montée, élargissez-le, placez assez de troupes pour éviter la coupure ou préparez une seconde route. N’attendez pas l’avertissement pour découvrir sa fragilité.
+
+## Utiliser la Clock contre un adversaire
+
+Visez un adversaire proche de la ligne et qui n’est pas leader. Une petite perte de frontière peut déclencher son avertissement de 30 secondes et annuler son attaque prévue.
+
+La pression est maximale au début d’une montée. Prenez ou neutralisez une terre périphérique bon marché, puis contestez la route de récupération la plus simple.
+
+Ne vous étendez pas trop pour doom un joueur qui peut récupérer gratuitement ailleurs. Le meilleur piège retire à la fois son terrain actuel et son option d’expansion la moins chère.
+
+Si la cible est leader, la Clock ne la punira pas. Dépassez d’abord son total territorial, ou aidez un autre camp à le faire.
+
+## Erreurs fréquentes
+
+### Confondre la Clock avec un cercle géographique
+
+Courir vers le centre visuel ne vous protège pas. Le mécanisme vérifie une part de terrain, pas des coordonnées. Déplacez-vous vers de la terre capturable et défendable.
+
+### Attendre le crâne
+
+Le crâne signifie que vous êtes déjà sous la barre. Utilisez le minuteur de vague et l’écart de pourcentage avant l’avertissement.
+
+### Tenir exactement le minimum
+
+Une frontière perdue efface une marge trop fine, surtout pendant une montée. Visez un vrai coussin.
+
+### Dépenser toutes les troupes dans une attaque lente
+
+Seule la récupération territoriale arrête l’attrition. Gardez toujours une capture rapide possible.
+
+### Croire que la flotte suffit
+
+Le contrôle maritime sécurise des routes, mais ne compte pas comme terre. Une flotte doomed perd aussi son soin et sa santé.
+
+### Regarder uniquement son territoire personnel en équipe
+
+La simulation utilise les tiles cumulées. Coordonnez le total et attribuez un rôle clair à chaque joueur.
+
+### Poursuivre un doomed au lieu du leader
+
+La Clock affaiblit déjà les camps non leaders. Si la couronne reste intacte, la vague finale aide le joueur que vous avez ignoré.
+
+## Trois exemples pratiques
+
+### Vitesse Normale à 21:30
+
+La barre monte vers 16 %, atteint à 22:04. Votre camp possède 17 %. Annulez l’attaque lointaine, prenez une terre faible proche et reconstruisez une marge avant la vague à 26 %.
+
+### Partie d’équipe Rapide à 19:40
+
+La cible de 26 % arrive à 19:50. Votre équipe a 27 %, la rivale 25 %. Un allié presse sa frontière tandis que l’autre prend de la terre sûre afin de maintenir votre total au-dessus et de pousser le sien dessous.
+
+### Partie insulaire Très rapide à 14:00
+
+La cible de 40 % termine à 14:08 et 55 % arrive à 15:00. Votre flotte contrôle la mer, mais votre terre est à 35 %. Utilisez immédiatement des transports : construire un Warship de plus ne change pas le calcul.
+
+## Questions fréquentes sur la Doomsday Clock
+
+### La Clock peut-elle m’éliminer seule ?
+
+Non. L’attrition des troupes et des Warships s’arrête à 5 % du maximum concerné. L’adversaire, le combat normal ou les règles de victoire doivent encore conclure.
+
+### Tenir exactement le nombre requis de tiles est-il sûr ?
+
+Oui. Le danger exige d’être strictement sous le nombre entier requis. Une seule tile perdue peut toutefois supprimer immédiatement cette sécurité.
+
+### L’océan ou le contrôle naval compte-t-il dans la barre ?
+
+Non. Le calcul utilise la terre exploitable. La flotte sert à protéger transports, débarquements et accès au terrain.
+
+### Le fallout reste-t-il de la terre à tenir ?
+
+Les tiles de fallout sont retirées du dénominateur. Elles ne deviennent pas votre territoire, mais peuvent modifier le nombre absolu requis pour un même pourcentage.
+
+### Un don de troupes retire-t-il le crâne de l’équipe ?
+
+Pas directement. Il peut aider une capture, mais le crâne disparaît seulement quand le territoire combiné atteint la ligne ou quand l’équipe devient leader.
+
+### Un Warship doomed peut-il se soigner au Port ?
+
+Non. La guérison passive et à quai est bloquée. Les navires continuent de patrouiller et peuvent reprendre les soins après la récupération du camp.
+
+### Devenir leader réinitialise-t-il l’avertissement ?
+
+Oui. Le leader est exempté : la marque et l’attrition s’arrêtent. Perdre la première place peut exposer de nouveau le camp.
+
+### L’hôte peut-il régler séparément l’avertissement ou les dégâts ?
+
+Le salon permet d’activer le mode et de choisir sa vitesse. Les 30 secondes, les courbes d’attrition et le plancher de 5 % sont des valeurs fixes, pas des curseurs séparés.
+
+### La vague finale à 55 % donne-t-elle la victoire au leader ?
+
+Non. Elle crée une fenêtre de pression décisive. La conquête, l’élimination, les exceptions Ranked ou les chronomètres déterminent toujours le résultat.
+
+## Sources et prochaines lectures
+
+Les règles actuelles sont confirmées par la [Release officielle v0.33.1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), le [calendrier des vagues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts), l’[exécution des camps et de l’attrition](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/DoomsdayClockExecution.ts), les [valeurs de l’avertissement et du drain](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts), le [panneau HUD](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/client/components/DoomsdayClockPanel.ts) et la [rotation publique](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/server/MapPlaylist.ts).
+
+Pour le contexte complet, lisez [les changements de la v33](/fr/changelog/v33/). Pour construire le premier coussin territorial, continuez avec le [guide de première partie](/fr/guides/first-match/). Pour arbitrer expansion, troupes et or, consultez la [stratégie économique](/fr/strategies/economy-fundamentals/).

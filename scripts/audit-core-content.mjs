@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 const LANGUAGES = ['en', 'fr', 'de', 'nl', 'zh'];
 const CORE_PAGES = [
   { collection: 'guides', slug: 'first-match', latinMin: 8_000, hanMin: 10_000 },
+  { collection: 'guides', slug: 'doomsday-clock', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'guides', slug: 'hotkeys', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'guides', slug: 'water-nukes', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'strategies', slug: 'economy-fundamentals', latinMin: 1_500, hanMin: 2_500 },

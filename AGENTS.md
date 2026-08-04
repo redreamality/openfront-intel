@@ -139,3 +139,10 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **并行 `gh api` 探测遇到 TLS 超时时要保留每个端点的独立结果**：不要让一个失败请求中止整批并继续解析空对象；使用 settled 模式、逐项检查退出码，只对失败端点重试一次。
 - **`git pull` 的外层超时不等于远端更新没有落地**：超时或终止后先核验仓库 `HEAD`、`origin/main` 与工作树状态；本轮 pull 已实际快进到新提交，若按旧 HEAD 继续会把有效 extract checkout 写错。
 - **拉取上游后不要假设正式 Release tag 已同时取得**：先用 `git tag -l '<tag>'` 确认本地存在，再运行带 `^{commit}` 的 `rev-parse`；tag 缺失时使用 Release API 与当前 checkout 分别记录来源，不要把 checkout 冒充 tag 提交。
+- **GitHub Discussions 未启用时，GraphQL / REST 查询会返回 410，不代表网络或权限异常**：先检查仓库是否启用 Discussions；未启用就记录“无此信号源”，不要反复重试或把 410 误报为内容阻塞。
+- **PowerShell 做路径规范化时不要使用未正确转义的 `-replace '\'`**：反斜杠在正则中是转义符，表达式会报 `Invalid pattern`；优先调用字符串 `.Replace('\', '/')`，或使用正确转义的正则 `'\\'`。
+- **Doomsday 配置不在假定的 `GameConfig.ts`**：模式 schema 位于上游 `src/core/Schemas.ts`，警告与损耗默认值位于 `src/core/configuration/Config.ts`；核验前先用 `rg --files` 和源码搜索确认真实路径，不要按旧文件名猜测。
+- **2026-08-04 再次复发：Windows 下不要把 `src/content/guides/*/doomsday-clock.mdx` 这类通配路径直接传给 `rg`**：PowerShell 不会按预期展开，`rg` 会收到非法文件名并报 `os error 123`；固定从真实目录根搜索，并用 `--glob 'doomsday-clock.mdx'` 限定文件。
+- **研究 Markdown 不要用行尾两个空格制造硬换行**：`git diff --check` 会把它视为 trailing whitespace 并失败；使用空行、列表内完整句子或显式结构分隔，并确保文件只保留一个结尾换行、不多出空白 EOF 行。
+- **生成 JSON 只有换行或 stat 漂移时，完整执行 `git update-index --refresh` 也可能逐个报 `needs update` 并退出 1**：先用 `git diff --quiet -- <精确文件列表>` 确认无语义差异，再对这些精确文件执行 `git add -- ...` 刷新索引状态，并确认没有产生 staged diff；不要把 refresh 失败误判成数据变化。
+- **扩写五语文章时不要假设各语种段落锚点逐字对应**：同一事实的译文句式可能不同，跨语种复用 `apply_patch` 上下文会失败；每个语种插入前分别读取目标标题附近的精确文本，再用短锚点分开补丁。
