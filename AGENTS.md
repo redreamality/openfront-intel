@@ -146,3 +146,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **研究 Markdown 不要用行尾两个空格制造硬换行**：`git diff --check` 会把它视为 trailing whitespace 并失败；使用空行、列表内完整句子或显式结构分隔，并确保文件只保留一个结尾换行、不多出空白 EOF 行。
 - **生成 JSON 只有换行或 stat 漂移时，完整执行 `git update-index --refresh` 也可能逐个报 `needs update` 并退出 1**：先用 `git diff --quiet -- <精确文件列表>` 确认无语义差异，再对这些精确文件执行 `git add -- ...` 刷新索引状态，并确认没有产生 staged diff；不要把 refresh 失败误判成数据变化。
 - **扩写五语文章时不要假设各语种段落锚点逐字对应**：同一事实的译文句式可能不同，跨语种复用 `apply_patch` 上下文会失败；每个语种插入前分别读取目标标题附近的精确文本，再用短锚点分开补丁。
+- **2026-08-05 复发：PowerShell 路径规范化不要写 `-replace '\'`**：`-replace` 的第一个参数是正则，单个反斜杠会触发 `InvalidRegularExpression`；不需要正则时统一用 `$path.Replace('\', '/')`，需要正则时写 `-replace '\\', '/'`。

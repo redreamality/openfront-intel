@@ -5,6 +5,16 @@ const maps = JSON.parse(
   readFileSync(new URL('../src/data/maps.json', import.meta.url), 'utf8'),
 ) as { meta: { total: number }; list: Array<{ id: string }> };
 
+const formulas = JSON.parse(
+  readFileSync(new URL('../src/data/formulas.json', import.meta.url), 'utf8'),
+) as {
+  groups: {
+    troops: {
+      items: Array<{ i18n: { en: { name: string; expr: string } } }>;
+    };
+  };
+};
+
 const v33MapIds = [
   'sol', 'russia', 'unitedstates', 'france', 'germany', 'china', 'vietnam',
   'scandinavia', 'balkhash', 'baltics', 'caspiansea', 'clearwaterlakes',
@@ -16,6 +26,16 @@ test('v33 map extraction contains the 117-map pool and all 22 additions', () => 
   expect(maps.meta.total).toBe(117);
   const extractedIds = new Set(maps.list.map((map) => map.id));
   for (const id of v33MapIds) expect(extractedIds.has(id), `missing map id: ${id}`).toBe(true);
+});
+
+test('population-cap data matches the v33.1 source formula', () => {
+  const populationCap = formulas.groups.troops.items.find(
+    (item) => item.i18n.en.name === 'Population cap base',
+  );
+  expect(populationCap?.i18n.en.expr).toBe(
+    '2 × (tiles^0.6 × 1000 + 50,000) + Σ(cityLevel × 250,000)',
+  );
+  expect(populationCap?.i18n.en.expr).not.toContain('0.6 × tiles^0.6');
 });
 
 for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
@@ -77,6 +97,84 @@ for (const mechanicsCase of mechanicsCases) {
   test(`mechanics[${mechanicsCase.lang}] states the snapshot scope`, async ({ page }) => {
     await page.goto(mechanicsCase.path, { waitUntil: 'domcontentloaded' });
     await expect(page.locator('main')).toContainText(mechanicsCase.text);
+  });
+}
+
+const economyGrowthCases = [
+  {
+    lang: 'en',
+    path: '/mechanics/economy/',
+    indexPath: '/mechanics/',
+    firstMatchPath: '/guides/first-match/',
+    directAnswer: 'Direct answer: when should you stop expanding?',
+    formula: '2 × (tiles^0.6 × 1000 + 50,000)',
+    peak: '42% of cap',
+    highBand: 'Above 80%',
+  },
+  {
+    lang: 'zh',
+    path: '/zh/mechanics/economy/',
+    indexPath: '/zh/mechanics/',
+    firstMatchPath: '/zh/guides/first-match/',
+    directAnswer: '直接答案：什么时候该停止扩张？',
+    formula: '2 × (tiles^0.6 × 1000 + 50,000)',
+    peak: '上限的 42%',
+    highBand: '高于 80%',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/mechanics/economy/',
+    indexPath: '/fr/mechanics/',
+    firstMatchPath: '/fr/guides/first-match/',
+    directAnswer: "Réponse directe : quand arrêter l'expansion ?",
+    formula: '2 × (tiles^0.6 × 1000 + 50 000)',
+    peak: '42 % du plafond',
+    highBand: 'Plus de 80 %',
+  },
+  {
+    lang: 'de',
+    path: '/de/mechanics/economy/',
+    indexPath: '/de/mechanics/',
+    firstMatchPath: '/de/guides/first-match/',
+    directAnswer: 'Direkte Antwort: Wann solltest du die Expansion stoppen?',
+    formula: '2 × (tiles^0.6 × 1000 + 50.000)',
+    peak: '42 % des Limits',
+    highBand: 'Über 80 %',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/mechanics/economy/',
+    indexPath: '/nl/mechanics/',
+    firstMatchPath: '/nl/guides/first-match/',
+    directAnswer: 'Direct antwoord: wanneer stop je met uitbreiden?',
+    formula: '2 × (tiles^0.6 × 1000 + 50.000)',
+    peak: '42% van het plafond',
+    highBand: 'Boven 80%',
+  },
+] as const;
+
+for (const economyCase of economyGrowthCases) {
+  test(`economy growth[${economyCase.lang}] gives the current cap and reserve decision`, async ({ page }) => {
+    await page.goto(economyCase.path, { waitUntil: 'domcontentloaded' });
+
+    const main = page.locator('main');
+    await expect(main.getByRole('heading', { level: 2, name: economyCase.directAnswer })).toBeVisible();
+    await expect(main).toContainText(economyCase.formula);
+    await expect(main).not.toContainText('0.6 × tiles^0.6');
+    await expect(main).toContainText(economyCase.peak);
+    await expect(main).toContainText(economyCase.highBand);
+    await expect(main.locator('[data-freshness-summary]')).toContainText('v33.1');
+    await expect(
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857"]'),
+    ).toHaveCount(1);
+  });
+
+  test(`economy growth[${economyCase.lang}] keeps two natural inbound paths`, async ({ page }) => {
+    await page.goto(economyCase.indexPath, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator(`main a[href="${economyCase.path}"]`)).toHaveCount(1);
+
+    await page.goto(economyCase.firstMatchPath, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator(`main a[href="${economyCase.path}"]`)).toHaveCount(1);
   });
 }
 

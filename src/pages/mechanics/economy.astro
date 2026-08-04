@@ -2,65 +2,121 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Callout from '../../components/Callout.astro';
+import FreshnessSummary from '../../components/FreshnessSummary.astro';
 import FormulaBlock from '../../components/FormulaBlock.astro';
 import formulas from '../../data/formulas.json';
 const economy = formulas.groups.economy;
+const troops = formulas.groups.troops;
+const verifiedDate = new Date('2026-08-05T00:00:00Z');
 ---
 
-<BaseLayout title="Economy: Gold, Trade & Population" description="OpenFront.io gold income, trade ships, trains, and city troop bonus formulas.">
-  <PageHeader eyebrow="MECHANICS · 02" title="Economy: Gold, Trade & Population" lead="OpenFront's economy has three pillars: base gold, trade ships, and trains. Which one is strongest determines what you can build." />
+<BaseLayout title="OpenFront Economy & Population Growth Guide" description="When to stop expanding, how much troop reserve to keep, and when a City, Port, or train network is the right OpenFront investment.">
+  <PageHeader eyebrow="MECHANICS · 02" title="Economy: Population Growth, Gold & Troop Reserve" lead="Use the troop-growth formula to decide when to expand, rebuild, bank a reserve, or raise your cap—then choose the Gold route that fits the map." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Three Gold Sources</h2>
-    <ol>
-      <li><strong>Base Gold</strong>: Auto-generated each tick. Human 100/tick, Bot 50/tick (multiplied by <code>goldMultiplier</code>, adjustable in private lobbies).</li>
-      <li><strong>Trade Ships</strong>: Travel between two ports, longer distance = higher revenue, settled on each port arrival.</li>
-      <li><strong>Trains (v24)</strong>: Run between cities, gold based on city owner relationship—allies pay best.</li>
-    </ol>
+    <h2>Direct answer: when should you stop expanding?</h2>
+    <p>Stop spending troops on optional land when the next capture creates another active border, drops you below roughly 30% of troop cap with an enemy nearby, or buys less safety than rebuilding would. With quiet borders, the strongest raw growth band is usually about 35–50% of cap; the formula peaks near 42% for normal large caps. Under pressure, holding 50–70% is often worth slower growth because the reserve prevents a collapse.</p>
 
-    <h2>Gold Formula Reference</h2>
-    <FormulaBlock label={economy} items={economy.items} />
-    <p>Common misconception: <strong>more ports isn't always better</strong>. In v32 the spawn-suppression curve is centered at 400 active ships, but spawning still slows as the fleet grows. Port quality, route distance, and safe partners matter more than raw Port count.</p>
-
-    <h2>Population (Troop Cap)</h2>
-    <p>Population cap is both offensive power and defensive buffer:</p>
-    <FormulaBlock
-      label="Population Cap"
-      items={[
-        { name: 'Base', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City level × 250,000)' },
-        { name: 'Type Multiplier', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
-      ]}
+    <FreshnessSummary
+      lang="en"
+      version="v33.1"
+      verifiedDate={verifiedDate}
+      summary="Corrected the population-cap formula: current code is 2 × (tiles^0.6 × 1000 + 50,000), without the extra 0.6 multiplier previously shown here. The decision guide now replaces the old fixed build timetable."
     />
-    <Callout type="tip" title="City Investment ROI">
-      <p>Cities 1-4 cost 125k → 250k → 500k → 1M. <strong>First city is almost always worth it</strong>—250,000 troop cap boost far exceeds the 125,000 gold cost in population terms.</p>
-      <p>When tiles are already high (200k+ late game), <code>0.6 × tiles^0.6 × 1000</code> growth slows, making City's fixed bonus relatively more valuable.</p>
+
+    <Callout type="info" title="This page owns the population-growth answer">
+      <p>Use this mechanics page for troop cap, growth ratios, and the expand-versus-rebuild decision. Use <a href="/strategies/economy-fundamentals/">Economy Fundamentals</a> for the broader question of which protected investment to buy next. Keeping those jobs separate avoids two pages competing for the same answer.</p>
     </Callout>
 
-    <h2>Trade Ship Economics</h2>
-    <ul>
-      <li>Spawning is probabilistic: higher <code>spawnRate</code> means longer spawn intervals, <strong>more ships = harder to spawn new ones</strong> (sigmoid suppression).</li>
-      <li>"Embargo mercy": The more you reject other players' trade ships, the slower your own ships spawn—rejection has a cost.</li>
-      <li>v32 moved the sigmoid midpoint to 400 active ships, so large trade networks scale further before suppression becomes severe.</li>
-    </ul>
-
-    <h2>Train Economics (v24 New)</h2>
-    <ul>
-      <li>Requires <strong>Factory + City + Railroad</strong> trio, minimum 2 stations to run trains.</li>
-      <li>Each city visit settles: <strong>Ally 35k / Team 25k / Self 10k</strong>.</li>
-      <li>Beyond 9 stations, each additional visit penalized 5,000 gold (floor 5,000).</li>
-      <li>Train spawn rate: <code>(numFactories + 10) × 15</code> ticks per train.</li>
-    </ul>
-
-    <h2>Budget Decision Table</h2>
+    <h2>The troop sweet spot is a band, not a permanent target</h2>
+    <FormulaBlock label={troops} items={troops.items} />
+    <p>The final factor, <code>1 - troops / maxTroops</code>, removes growth as the bar fills. The <code>troops^0.73</code> term rises with your current army, so the fastest raw generation is not at zero troops. Across common human caps, the maximum sits close to <strong>42% of cap</strong>. That is a planning signal, not an order to dump troops whenever the bar passes 42%.</p>
     <table>
       <thead>
-        <tr><th>Phase</th><th>Gold Target</th><th>Priority Build</th></tr>
+        <tr><th>Current troops</th><th>What the formula says</th><th>Practical decision</th></tr>
       </thead>
       <tbody>
-        <tr><td>Opening (0-60s)</td><td>Accumulate 125k</td><td>1st City + 1st Port</td></tr>
-        <tr><td>Early (60-180s)</td><td>250k–1M</td><td>2nd City, 1 DefensePost at chokepoint</td></tr>
-        <tr><td>Mid (3-6 min)</td><td>1M–5M</td><td>Missile Silo + 1st SAM for nuclear shield</td></tr>
-        <tr><td>Late (6 min+)</td><td>5M+</td><td>Upgrade City/Port/SAM; MIRV as needed</td></tr>
+        <tr><td>Below 30%</td><td>Plenty of headroom, but little deterrence</td><td>Pause optional wars. Take only cheap neutral land or a capture that immediately removes danger.</td></tr>
+        <tr><td>35–50%</td><td>Near the raw troop-growth peak</td><td>Use quiet windows for efficient expansion and short, decisive attacks.</td></tr>
+        <tr><td>50–70%</td><td>Slower growth, stronger immediate reserve</td><td>Prefer this band on a contested chokepoint, before betrayal, or when two rivals can reach you.</td></tr>
+        <tr><td>70–80%</td><td>Growth is visibly throttled</td><td>Bank this much only for a known timing, credible threat, or expensive follow-up.</td></tr>
+        <tr><td>Above 80%</td><td>The cap factor is 0.20 or less</td><td>If the border is safe, convert troops into useful land or raise the cap instead of idling at a full bar.</td></tr>
       </tbody>
     </table>
+
+    <h2>Four checks before one more expansion</h2>
+    <ol>
+      <li><strong>Is the land cheap?</strong> A short neutral edge or weak disconnected pocket may pay for itself. A long attack into defended land is not “growth”; it is a war budget.</li>
+      <li><strong>What remains after the capture?</strong> Judge the post-attack ratio, not the number before you click. Below 30% with a live enemy border is a rebuild warning.</li>
+      <li><strong>Does the shape improve?</strong> A compact choke, coast connection, or closed pocket can be worth slower recovery. A thin corridor or new second front can make a larger country poorer.</li>
+      <li><strong>Is cap actually the bottleneck?</strong> If troops are near 80% and the position is safe, more cap helps. If troops are low because you keep losing fights, another City does not repair the real problem.</li>
+    </ol>
+
+    <h2>Three match situations</h2>
+    <h3>Quiet outer frontier</h3>
+    <p>You hold about 45% of cap, the nearest opponent is separated by neutral land, and each capture keeps one coherent border. Continue taking low-cost tiles while the ratio remains near the growth band. Stop when the route opens another opponent, stretches into a corridor, or pushes the next attack below a safe recovery floor.</p>
+
+    <h3>Contested chokepoint</h3>
+    <p>You hold 55–65% of cap and a rival can attack the same narrow border. Do not spend back to 42% merely because it is the mathematical peak. The rival can turn your “efficient growth” into an immediate loss. Preserve the reserve, use a Defense Post if it solves the choke, and expand elsewhere only if the new land reduces rather than multiplies pressure.</p>
+
+    <h3>Post-war rebuild</h3>
+    <p>You won land but fell below 25% of cap. Cancel small attacks, keep Gold liquid, and let the army recover before buying exposed infrastructure. A safe City can be prepared if the cap will soon bind; a City on a frontier that is about to fall converts Gold into an enemy asset.</p>
+
+    <h2>When is a City worth the Gold?</h2>
+    <p>A completed City level adds a fixed <strong>250,000 troop cap</strong>. The first City costs 125,000 Gold, but that is not a direct “profit”: you trade liquid Gold for cap, a train station, and a structure that must survive. Build or upgrade when cap is restricting recovery, the site is defensible, and the Gold is not needed for an immediate border or nuclear answer.</p>
+    <table>
+      <thead>
+        <tr><th>Owned tiles</th><th>Cap without City</th><th>Cap with one City level</th><th>What it means</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10,000</td><td>≈602,000</td><td>≈852,000</td><td>A large +42% increase; useful if the early site is safe.</td></tr>
+        <tr><td>50,000</td><td>≈1,420,000</td><td>≈1,670,000</td><td>About +18%; still meaningful, but compare it with defense and route income.</td></tr>
+        <tr><td>200,000</td><td>≈3,131,000</td><td>≈3,381,000</td><td>About +8%; the City is predictable cap, not automatically the best purchase.</td></tr>
+      </tbody>
+    </table>
+    <p>The tile term has diminishing returns, but the fixed City bonus also becomes a smaller percentage of a large existing cap. Its strategic advantage late is different: it raises cap without widening the frontier.</p>
+
+    <h2>Gold sources and when they fit</h2>
+    <FormulaBlock label={economy} items={economy.items} />
+
+    <h3>Base Gold</h3>
+    <p>Humans receive 100 Gold per tick before modifiers. It is reliable and cannot be embargoed, so waiting with a purpose is valid. Hoarding without a trigger is not: decide whether the reserve answers cap, defense, trade, trains, or a nuclear threat.</p>
+
+    <h3>Trade Ships</h3>
+    <p>Longer safe routes pay more, but fleet-wide spawn suppression rises around the v32 midpoint of 400 active trade ships. A protected long route and reliable partner are better than several exposed Ports. Rejecting ships triggers a pity mechanic that changes later spawn timing, so an embargo is a strategic cost, not a free toggle.</p>
+
+    <h3>Trains</h3>
+    <p>Trains need a Factory, City stations, and usable rail links. Visits pay 35k for an ally, 25k for a teammate or other player, and 10k for your own City before distance penalties and modifiers. Build the network where the stations can survive; a theoretically rich route that crosses the battle line is a donation to the opponent.</p>
+
+    <h2>Decision table: buy for the current constraint</h2>
+    <table>
+      <thead>
+        <tr><th>Signal</th><th>Best next action</th><th>Common losing move</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Below 30% with a hostile border</td><td>Stop optional attacks, stabilize the shortest front, rebuild</td><td>Buying an exposed Port or City because the Gold button is available</td></tr>
+        <tr><td>35–50%, quiet border, cheap neutral land</td><td>Expand efficiently while preserving one recovery route</td><td>Holding a full bar and wasting growth headroom</td></tr>
+        <tr><td>Above 80%, safe and cap-limited</td><td>Use troops for value or add protected City cap</td><td>Staying full with no planned attack or cap increase</td></tr>
+        <tr><td>Safe coast and reliable distant partner</td><td>Invest in a Port route</td><td>Counting Ports instead of route safety, distance, and capture risk</td></tr>
+        <tr><td>Protected cluster of City stations</td><td>Add a Factory and train loop when the lobby supports it</td><td>Building rails through a contested frontier</td></tr>
+        <tr><td>Enemy nuclear capability is credible</td><td>Keep enough liquid Gold for spacing, SAM, or recovery</td><td>Locking every resource into slow income infrastructure</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Common failures and opponent counterplay</h2>
+    <ul>
+      <li><strong>Full-bar fallacy:</strong> a large stored army looks strong, but above 80% its natural growth is heavily throttled. Opponents can outgrow you if they spend efficiently and keep a reserve.</li>
+      <li><strong>Blind City timing:</strong> cap does not solve an exposed border. Pressure a player immediately after they spend Gold on a City they cannot protect.</li>
+      <li><strong>Port spam:</strong> more Ports add capture targets and do not remove global trade-ship suppression. Embargo, threaten the partner, or attack the coastal cluster.</li>
+      <li><strong>Growth-band greed:</strong> a player sitting near 42% is optimized for generation, not for absorbing a surprise. Betrayal or concentrated pressure forces them into a slower reserve band.</li>
+      <li><strong>Gold without a trigger:</strong> saved Gold preserves options only when the player knows what condition releases it. Take decisive land while a passive hoarder waits for a perfect purchase.</li>
+    </ul>
+
+    <h2>Sources and next reading</h2>
+    <p>Verify the current <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857" target="_blank" rel="noopener">population cap and troop-growth code</a>, then use the <a href="/database/formulas/">formula reference</a> for the compact data view.</p>
+    <ul>
+      <li><a href="/strategies/economy-fundamentals/">Economy Fundamentals</a> — choose between protected cap, trade, trains, defense, and nuclear spending.</li>
+      <li><a href="/strategies/ffa-opening/">FFA Opening</a> — apply the reserve bands during the first expansion.</li>
+      <li><a href="/mechanics/trade/">Trade System</a> — inspect route income and embargo behavior in more detail.</li>
+    </ul>
   </article>
 </BaseLayout>

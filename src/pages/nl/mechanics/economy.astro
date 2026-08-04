@@ -2,65 +2,121 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
+const troops = formulas.groups.troops;
+const verifiedDate = new Date('2026-08-05T00:00:00Z');
 ---
 
-<BaseLayout title="Economie: goud, handel en bevolking" description="Goudproductie, handelsschepen, treinen en bevolkingsformules van de stad in OpenFront.io.">
-  <PageHeader eyebrow="MECHANIEK · 02" title="Economie: goud, handel en bevolking" lead="OpenFront staat op drie economische pijlers: basisgoud, handelsschepen en treinen. Welke pijler dik is bepaalt welke gebouwen je je kunt veroorloven." />
+<BaseLayout title="OpenFront economie en troepengroei" description="Wanneer je stopt met uitbreiden, hoeveel troepenreserve je houdt en wanneer City, Port of treinen de juiste investering zijn.">
+  <PageHeader eyebrow="MECHANIEK · 02" title="Economie: troepengroei, goud en reserve" lead="Gebruik de groeiformule om te kiezen tussen uitbreiding, herstel, reserve of een hoger plafond en kies daarna de goudroute die bij de kaart past." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Drie bronnen van goud</h2>
-    <ol>
-      <li><strong>Basisgoud</strong>: automatisch geproduceerd per tick. Human 100 / tick, Bot 50 / tick (vermenigvuldigd met <code>goldMultiplier</code>, instelbaar in private lobbies).</li>
-      <li><strong>Handelsschepen</strong>: pendelen tussen twee havens; hoe groter de afstand, hoe hoger de opbrengst, vereffend bij iedere aankomst.</li>
-      <li><strong>Treinen (v24)</strong>: rijden tussen steden, geven goud op basis van de relatie met de bezochte stad — bondgenoten leveren het meeste op.</li>
-    </ol>
+    <h2>Direct antwoord: wanneer stop je met uitbreiden?</h2>
+    <p>Stop optionele veroveringen wanneer de volgende tile een extra actief front opent, je met een bereikbare vijand onder ongeveer 30% van je troepenplafond brengt, of minder veiligheid oplevert dan eerst herstellen. Aan een rustige grens ligt de sterkste ruwe groeizone meestal rond 35–50%, met een piek dicht bij 42%. Onder druk is 50–70% vaak beter ondanks tragere groei, omdat die reserve een instorting voorkomt.</p>
 
-    <h2>Snelle goudformule</h2>
-    <FormulaBlock label={economy} items={economy.items} />
-    <p>Veelvoorkomende misvatting: <strong>meer havens zijn niet automatisch beter</strong>. In v32 ligt het middelpunt van de spawnonderdrukking bij 400 actieve schepen, maar een grotere vloot maakt verdere spawns nog steeds trager. Afstand, veilige handelspartners en Port-levels tellen zwaarder dan het ruwe aantal havens.</p>
-
-    <h2>Bevolking (troops-limiet)</h2>
-    <p>De bevolkingslimiet is zowel je aanvalskracht als je defensieve buffer:</p>
-    <FormulaBlock
-      label="Bevolkingslimiet"
-      items={[
-        { name: 'Basis', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City-niveau × 250,000)' },
-        { name: 'Typemultiplier', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
-      ]}
+    <FreshnessSummary
+      lang="nl"
+      version="v33.1"
+      verifiedDate={verifiedDate}
+      summary="Formulecorrectie: de huidige code gebruikt 2 × (tiles^0.6 × 1000 + 50.000), zonder de extra factor 0,6 die hier eerder stond. Het vaste bouwschema is vervangen door keuzes op basis van de situatie."
     />
-    <Callout type="tip" title="ROI van een stad">
-      <p>De 1e tot 4e City kosten 125k → 250k → 500k → 1M. <strong>De eerste is bijna altijd winstgevend</strong> — een verhoging van de troops-limiet met 250.000 weegt veel zwaarder dan de bevolkingswaarde van 125.000 goud.</p>
-      <p>Wanneer tiles al zeer groot zijn (zoals 200k+ in de late game), vertraagt <code>0.6 × tiles^0.6 × 1000</code>, waardoor de vaste bonus van een City juist meer waard wordt.</p>
+
+    <Callout type="info" title="Het hoofdantwoord over groei staat hier">
+      <p>Deze mechanicapagina behandelt het troepenplafond, groeibanden en uitbreiden tegenover herstellen. Lees de <a href="/nl/strategies/economy-fundamentals/">economische basisprincipes</a> voor de bredere keuze welke beschermde investering je koopt. Zo concurreren twee pagina's niet om dezelfde intentie.</p>
     </Callout>
 
-    <h2>Details van de handelsscheepseconomie</h2>
-    <ul>
-      <li>Spawnen is probabilistisch: hoe groter <code>spawnRate</code>, hoe langer het duurt om een schip te spawnen, en <strong>meer schepen maakt verdere spawn moeilijker</strong> (sigmoid-remming).</li>
-      <li>"Mercy voor handelsweigering": hoe vaker je handelsschepen van andere spelers weigert, hoe trager je zelf spawnt — handelsweigering kost dus iets.</li>
-      <li>v32 verplaatst het sigmoidmiddelpunt naar 400 actieve schepen, zodat grote handelsnetwerken langer kunnen groeien voordat de onderdrukking sterk wordt.</li>
-    </ul>
-
-    <h2>Treineconomie (nieuw in v24)</h2>
-    <ul>
-      <li>Vereist een <strong>Factory + City + Railroad</strong>-trio; minstens 2 stations zijn nodig om een trein te laten rijden.</li>
-      <li>Vereffening per bezochte stad: <strong>bondgenoot 35k / team 25k / eigen 10k</strong>.</li>
-      <li>Voor elke bezochte stad boven de 9: -5.000 goud straf per extra stad (minimum 5.000).</li>
-      <li>Spawnritme van treinen: <code>(numFactories + 10) × 15</code> ticks voor één trein.</li>
-    </ul>
-
-    <h2>Budgetbeslissingsmatrix</h2>
+    <h2>De sweet spot is een band, geen permanent doel</h2>
+    <FormulaBlock label={troops} items={troops.items} />
+    <p>De laatste factor <code>1 - troops / maxTroops</code> haalt groei weg wanneer de balk volloopt. Tegelijk stijgt <code>troops^0.73</code> met je huidige leger, dus maximale ruwe groei ligt niet bij nul troepen. Voor normale menselijke plafonds ligt de piek dicht bij <strong>42% van het plafond</strong>. Dat is een planningssignaal, geen bevel om boven 42% troepen te verspillen.</p>
     <table>
       <thead>
-        <tr><th>Fase</th><th>Goud-doel</th><th>Prioriteit voor bouw</th></tr>
+        <tr><th>Huidige troepen</th><th>Betekenis van de formule</th><th>Praktische keuze</th></tr>
       </thead>
       <tbody>
-        <tr><td>Opening (0-60s)</td><td>125k sparen</td><td>1e City + 1e Port</td></tr>
-        <tr><td>Vroeg (60-180s)</td><td>250k-1M</td><td>2e City, 1 DefensePost bij knooppunt</td></tr>
-        <tr><td>Mid (3-6 minuten)</td><td>1M-5M</td><td>Missile Silo + 1e SAM als kernschild</td></tr>
-        <tr><td>Laat (6 minuten+)</td><td>5M+</td><td>City/Port/SAM upgraden; MIRV op vraag</td></tr>
+        <tr><td>Onder 30%</td><td>Veel groeiruimte, weinig afschrikking</td><td>Stop optionele oorlogen; neem alleen goedkoop neutraal land of een doel dat direct gevaar wegneemt.</td></tr>
+        <tr><td>35–50%</td><td>Dicht bij de ruwe groeipiek</td><td>Gebruik rustige vensters voor efficiënte uitbreiding en korte beslissende aanvallen.</td></tr>
+        <tr><td>50–70%</td><td>Tragere groei, sterkere directe reserve</td><td>Houd deze band bij een betwist knelpunt, voor verraad of met twee bereikbare rivalen.</td></tr>
+        <tr><td>70–80%</td><td>Groei duidelijk afgeremd</td><td>Spaar zoveel alleen voor een bekend timingvenster, echte dreiging of dure vervolgstap.</td></tr>
+        <tr><td>Boven 80%</td><td>De plafondfactor is 0,20 of lager</td><td>Zet bij een veilige grens troepen om in nuttig land of verhoog het plafond.</td></tr>
       </tbody>
     </table>
+
+    <h2>Vier controles voor nog één uitbreiding</h2>
+    <ol>
+      <li><strong>Is het land goedkoop?</strong> Een korte neutrale rand kan zichzelf terugverdienen. Een lange aanval in verdedigd land is een oorlogsbudget.</li>
+      <li><strong>Wat blijft er na de aanval over?</strong> Beoordeel de verhouding na de klik. Onder 30% met een actieve vijandelijke grens is een herstelsignaal.</li>
+      <li><strong>Wordt de vorm beter?</strong> Een zak sluiten, kust bereiken of een knelpunt houden kan tragere groei waard zijn. Een corridor of tweede front maakt een groter rijk armer.</li>
+      <li><strong>Is het plafond echt de beperking?</strong> Rond 80% in een veilige positie helpt meer plafond. Als slechte gevechten je leger leegmaken, lost een City niets op.</li>
+    </ol>
+
+    <h2>Drie wedstrijdsituaties</h2>
+    <h3>Rustige buitenrand</h3>
+    <p>Je hebt ongeveer 45% van het plafond, de dichtstbijzijnde vijand ligt achter neutraal land en elke verovering houdt één samenhangende grens. Neem goedkope tiles verder. Stop wanneer de route een tweede vijand opent, een corridor wordt of de volgende aanval onder je veilige herstelgrens zakt.</p>
+
+    <h3>Betwist knelpunt</h3>
+    <p>Je hebt 55–65% en een rivaal kan dezelfde smalle grens aanvallen. Besteed niet terug naar 42% alleen vanwege de wiskundige piek. De reserve voorkomt een directe doorbraak; een Defense Post die het knelpunt echt oplost is vaak beter dan een nieuwe kwetsbare grens.</p>
+
+    <h3>Herstel na een oorlog</h3>
+    <p>Je won land maar zakte onder 25%. Annuleer kleine aanvallen, houd goud vloeibaar en laat het leger herstellen. Bereid een veilige City voor als het plafond binnenkort knelt; aan een front dat gaat vallen wordt het gebouw een cadeau.</p>
+
+    <h2>Wanneer is een City het goud waard?</h2>
+    <p>Een voltooid City-niveau voegt vast <strong>250.000 troepenplafond</strong> toe. De eerste kost 125.000 goud, maar dat is geen directe winst: je ruilt vloeibaar goud voor plafond, een treinstation en een gebouw dat moet overleven. Bouw wanneer het plafond herstel beperkt, de plek verdedigbaar is en het goud niet direct nodig is voor grens of nucleaire reactie.</p>
+    <table>
+      <thead>
+        <tr><th>Eigen tiles</th><th>Plafond zonder City</th><th>Met één City-niveau</th><th>Betekenis</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10.000</td><td>≈602.000</td><td>≈852.000</td><td>Ongeveer +42%; sterk als de vroege plek veilig is.</td></tr>
+        <tr><td>50.000</td><td>≈1.420.000</td><td>≈1.670.000</td><td>Ongeveer +18%; vergelijk met verdediging en route-inkomen.</td></tr>
+        <tr><td>200.000</td><td>≈3.131.000</td><td>≈3.381.000</td><td>Ongeveer +8%; voorspelbaar plafond, niet automatisch de beste aankoop.</td></tr>
+      </tbody>
+    </table>
+    <p>De tile-term heeft afnemende meeropbrengst, maar de vaste bonus wordt ook een kleiner percentage van een groot plafond. Het late strategische voordeel is extra plafond zonder je grens breder te maken.</p>
+
+    <h2>Goudbronnen en passende situaties</h2>
+    <FormulaBlock label={economy} items={economy.items} />
+
+    <h3>Basisgoud</h3>
+    <p>Humans krijgen voor vermenigvuldigers 100 goud per tick. Dit inkomen is betrouwbaar en kan niet worden geblokkeerd. Wachten met een duidelijke trigger is geldig; goud oppotten zonder keuze tussen plafond, verdediging, handel, treinen of nucleair gevaar niet.</p>
+
+    <h3>Handelsschepen</h3>
+    <p>Lange veilige routes betalen meer, maar globale spawnonderdrukking stijgt rond het v32-middelpunt van 400 actieve handelsschepen. Eén beschermde lange route met betrouwbare partner is beter dan meerdere blootgestelde Ports. Weigeringen veranderen de pity-teller en latere timing; een embargo is niet gratis.</p>
+
+    <h3>Treinen</h3>
+    <p>Treinen hebben een Factory, City-stations en bruikbare rails nodig. Voor straf en vermenigvuldiger betaalt een bezoek 35k bij een bondgenoot, 25k bij teamgenoot of andere speler en 10k bij je eigen City. Een theoretisch rijke route over de frontlijn is een schenking aan de tegenstander.</p>
+
+    <h2>Koop voor de huidige beperking</h2>
+    <table>
+      <thead>
+        <tr><th>Signaal</th><th>Volgende actie</th><th>Veelgemaakte verliezende zet</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Onder 30% met vijandelijke grens</td><td>Stop optionele aanvallen, stabiliseer het kortste front, herstel</td><td>Een blootgestelde Port of City bouwen omdat de knop beschikbaar is</td></tr>
+        <tr><td>35–50%, rustige grens, goedkoop neutraal land</td><td>Efficiënt uitbreiden en één herstelroute bewaren</td><td>Met volle balk groeiruimte verspillen</td></tr>
+        <tr><td>Boven 80%, veilig en plafondgebonden</td><td>Troepen nuttig inzetten of beschermd City-plafond toevoegen</td><td>Vol blijven zonder aanval of geplande plafondverhoging</td></tr>
+        <tr><td>Veilige kust en betrouwbare verre partner</td><td>Investeer in een Port-route</td><td>Ports tellen zonder afstand, veiligheid en veroveringsrisico</td></tr>
+        <tr><td>Beschermde groep City-stations</td><td>Voeg Factory en spoorlus toe als de modus het ondersteunt</td><td>Rails door een betwist front leggen</td></tr>
+        <tr><td>Geloofwaardige vijandelijke nucleaire capaciteit</td><td>Houd vloeibaar goud voor spreiding, SAM of herstel</td><td>Alles vastzetten in langzaam inkomen</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Veelvoorkomende fouten en tegenspel</h2>
+    <ul>
+      <li><strong>Volle-balkmisvatting:</strong> boven 80% wordt natuurlijke groei zwaar afgeremd. Een efficiënt bestedende tegenstander kan je ontgroeien.</li>
+      <li><strong>Blinde City:</strong> plafond repareert geen open grens. Val aan nadat de tegenstander goud in een onbeschermde City heeft vastgezet.</li>
+      <li><strong>Port-spam:</strong> meer kustdoelen verwijderen de globale curve niet. Embargo, druk op de partner of aanval op het kustcluster werkt als antwoord.</li>
+      <li><strong>Hebzucht rond 42%:</strong> deze band optimaliseert productie, niet verrassingsverdediging. Verraad dwingt de tegenstander naar een tragere reserveband.</li>
+      <li><strong>Goud zonder trigger:</strong> een reserve houdt alleen opties open als een duidelijke voorwaarde hem vrijgeeft. Pak de beslissende grens terwijl de ander wacht op de perfecte aankoop.</li>
+    </ul>
+
+    <h2>Bronnen en volgende stap</h2>
+    <p>Controleer de <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857" target="_blank" rel="noopener">v0.33.1-code voor plafond en groei</a> en gebruik daarna de compacte <a href="/nl/database/formulas/">formuleverwijzing</a>.</p>
+    <ul>
+      <li><a href="/nl/strategies/economy-fundamentals/">Economische basisprincipes</a> — kiezen tussen beschermd plafond, handel, treinen, verdediging en nucleair budget.</li>
+      <li><a href="/nl/strategies/ffa-opening/">FFA-opening</a> — reservebanden toepassen op de eerste uitbreiding.</li>
+      <li><a href="/nl/mechanics/trade/">Handelssysteem</a> — route-inkomen en embargo verder uitwerken.</li>
+    </ul>
   </article>
 </BaseLayout>
