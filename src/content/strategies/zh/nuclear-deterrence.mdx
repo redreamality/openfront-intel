@@ -2,7 +2,7 @@
 title: 核威慑与 SAM 网络
 description: 从第一座导弹井到 MIRV，系统讲清核武任务、SAM 覆盖与冷却、资产分散、反击预算和打击后的跟进。
 pubDate: 2026-05-12
-updatedDate: 2026-08-02
+updatedDate: 2026-08-04
 tags: [nukes, SAM, deterrence]
 category: 中后盘
 difficulty: 进阶
@@ -16,7 +16,7 @@ freshnessSummary: "v33 让 MIRV 分裂弹头成为普通 SAM 目标，并让发�
 
 在 OpenFront 中，这需要足够金币、导弹井、能活下来的发射能力，以及与真正高价值资产匹配的 SAM 覆盖。
 
-一座 SAM 是预警和第一层防护，不是绝对安全。它有 90 ticks 冷却。v33 beta 中，MIRV 载体不是 SAM 目标，但分裂弹头会按常规弹道与时机规则检查拦截。
+一座 SAM 是预警和第一层防护，不是绝对安全。它有 90 ticks 冷却。v33.1 中，MIRV 载体不是 SAM 目标，但分裂弹头会按常规弹道与时机规则检查拦截。
 
 武器应按任务选择：原子弹便宜且范围小；氢弹覆盖大区域；MIRV 载体穿过主要拦截网并分散小弹头，但弹头分裂后会成为常规飞行中目标。
 
@@ -48,7 +48,7 @@ freshnessSummary: "v33 让 MIRV 分裂弹头成为普通 SAM 目标，并让发�
 
 载体会分裂成多个弹头，每个弹头 inner 12、outer 18。载体与弹头都不能被 SAM 拦截。
 
-MIRV 载体不可拦截；分裂后，[v0.33.0-beta1 的 SAM 执行逻辑](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts)会像处理其他支持的核弹一样，按弹道、射程、时机、可用弹量与冷却检查每枚弹头。
+MIRV 载体不可拦截；分裂后，[v0.33.1 的 SAM 执行逻辑](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts)会像处理其他支持的核弹一样，按弹道、射程、时机、可用弹量与冷却检查每枚弹头。
 
 发射 MIRV 还会让实际 Missile Silo 进入冷却。想立刻补第二枚核弹，必须有另一座可用发射井或等待下一次窗口。
 

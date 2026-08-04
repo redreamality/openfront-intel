@@ -1,8 +1,8 @@
 ---
-title: 'v33 beta1：MIRV 反制、末日波次、排位 2v2 与 22 张地图'
-description: '面向玩家的 OpenFront v33 beta1 版本笔记：MIRV 弹头正常受 SAM 拦截、发射井冷却、末日时序、排位 2v2、战舰熟练度、不可通行地形与 22 张地图。'
+title: 'v33.1：MIRV 反制、末日波次、排位 2v2 与 22 张地图'
+description: '面向玩家的 OpenFront v33.1 版本笔记：MIRV 弹头正常受 SAM 拦截、发射井冷却、末日时序、排位 2v2、战舰熟练度、不可通行地形与 22 张地图。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-01
+updatedDate: 2026-08-04
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
@@ -10,11 +10,17 @@ category: 版本笔记
 
 ## 直接答案：下一局最重要的变化是什么？
 
-已发布的 `v0.33.0-beta1` 是一份有真实正文的 v33 Release，但 tag 仍带 beta。最重要的实战变化是：MIRV 现在是压垮防空弹量的武器，不再是稳定绕过 SAM 的捷径。
+官方 `v0.33.1` Release 是当前正式发布的 v33 系列条目，包含完整 v33.0 功能与两项 v33.1 修复。最重要的实战变化仍是：MIRV 现在是压垮防空弹量的武器，不再是稳定绕过 SAM 的捷径。
 
 MIRV 分裂弹头会像普通核弹一样飞行，并进入常规 SAM 弹道拦截系统。发射 MIRV 也会让对应 Missile Silo 进入冷却，同一发射井不能立刻补第二枚核弹。
 
 另外几项会直接改变对局：Doomsday Clock 有 10 分钟宽限、Ranked 2v2 上线、战舰获得熟练度、地图可使用不可通行地形，并新增 22 张地图。
+
+## v33.1 热修：回放与 tribe 排行榜恢复正常
+
+v33.1 修复了回放 desync 错误，也让自定义 tribe 名称重新显示在排行榜中。如果团队对局回放失败，或已购买的 tribe 名称没有出现，可以在 v33.1 重新尝试。
+
+这两项属于可靠性和显示修复，不改变下文的 MIRV、Doomsday、Ranked 2v2、战舰熟练度或地图决策。
 
 ## MIRV 与 SAM：设计过载，不要假设绕防空
 
@@ -69,6 +75,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将这份 Release 标记为 `draft=false`、`prerelease=false`，但官方 tag 仍是 `v0.33.0-beta1`。本站保留 beta 标识，不把它写成不存在的无后缀稳定版 `v0.33.0`。
+GitHub 将官方 `v0.33.1` Release 标记为 `draft=false`、`prerelease=false`。正文把 v33.0 功能与两项 v33.1 修复合并在同一条目中，因此本站继续维护单篇 v33 系列总览，不另拆一篇薄补丁页。
 
-来源：[官方 v0.33.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts)、[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/game/DoomsdayClock.ts)与[熟练度配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/configuration/Config.ts)。
+来源：[官方 v0.33.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts)、[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts)与[熟练度配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts)。

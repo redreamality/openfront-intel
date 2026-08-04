@@ -22,7 +22,7 @@ const nukes = formulas.groups.nukes;
         <tr><td>MIRV（载具）</td><td>25M + 15M × 已发射数</td><td colspan="2">分裂为多枚 MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>v33 beta 源码行为：</strong>MIRV 载体仍不在 SAM 目标列表中；分裂后，每枚 MIRVWarhead 都按普通 NukeExecution 飞行并接受 SAM 弹道检查。旧的 50-tile 目标捷径已失效。发射 MIRV 也会让对应 Missile Silo 进入冷却。<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">核验 SAM 选目标</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV 执行</a>。</p>
+    <p><strong>v33.1 源码行为：</strong>MIRV 载体仍不在 SAM 目标列表中；分裂后，每枚 MIRVWarhead 都按普通 NukeExecution 飞行并接受 SAM 弹道检查。旧的 50-tile 目标捷径已失效。发射 MIRV 也会让对应 Missile Silo 进入冷却。<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">核验 SAM 选目标</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV 执行</a>。</p>
     <Callout type="spec" title="冲击半径解读">
       <p><strong>inner</strong> 半径内的所有 tile 100% 损毁。<strong>outer</strong> 是外圈，按 BFS 概率（约 50%）扩散，留下辐射区域。辐射区让攻方 mag 临时变弱：<code>mag *= (5 − 2 × falloutRatio)</code>。</p>
     </Callout>
