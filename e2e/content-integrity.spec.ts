@@ -115,6 +115,7 @@ const freshnessLanguages = [
 
 const freshnessPages = [
   { route: '/guides/first-match/', fact: '22' },
+  { route: '/guides/doomsday-clock/', fact: '10' },
   { route: '/guides/hotkeys/', fact: 'hotkey' },
   { route: '/guides/water-nukes/', fact: 'MIRV' },
   { route: '/strategies/economy-fundamentals/', fact: 'v32' },
@@ -220,6 +221,133 @@ for (const v33Case of v33Cases) {
     await expect(main).toContainText(v33Case.replay);
     await expect(main).toContainText(v33Case.tribe);
     await expect(main).toContainText('MIRV');
+  });
+}
+
+const doomsdayCases = [
+  {
+    lang: 'en',
+    path: '/guides/doomsday-clock/',
+    v32Path: '/changelog/v32/',
+    v33Path: '/changelog/v33/',
+    notCircle: 'It is not a circle',
+    warning: '30 seconds',
+    team: 'every living teammate',
+    noInstantWin: 'does not award an instant win',
+    troopRate: '2%',
+    warshipRate: '50%',
+    floor: '5%',
+    equalSafe: 'equal to or above',
+    recoveryHeading: 'A 30-second recovery playbook',
+    shapeHeading: 'Choose territory by shape, not by distance from center',
+    faqHeading: 'Doomsday Clock FAQ',
+  },
+  {
+    lang: 'zh',
+    path: '/zh/guides/doomsday-clock/',
+    v32Path: '/zh/changelog/v32/',
+    v33Path: '/zh/changelog/v33/',
+    notCircle: '不是从地图边缘向中心移动的安全圈',
+    warning: '30 秒',
+    team: '所有存活队友的领土相加',
+    noInstantWin: '不会立即判胜',
+    troopRate: '2%',
+    warshipRate: '50%',
+    floor: '5%',
+    equalSafe: '等于或高于',
+    recoveryHeading: '30 秒警告期的救场流程',
+    shapeHeading: '判断领土形状，而不是判断离中心多远',
+    faqHeading: '末日时钟常见问题',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/guides/doomsday-clock/',
+    v32Path: '/fr/changelog/v32/',
+    v33Path: '/fr/changelog/v33/',
+    notCircle: 'Ce n’est pas un cercle',
+    warning: '30 secondes',
+    team: 'territoires de tous les coéquipiers vivants',
+    noInstantWin: 'ne donne toutefois pas une victoire instantanée',
+    troopRate: '2 %',
+    warshipRate: '50 %',
+    floor: '5 %',
+    equalSafe: 'égal ou supérieur',
+    recoveryHeading: 'Plan de récupération pendant les 30 secondes',
+    shapeHeading: 'Choisir la forme du territoire, pas sa distance au centre',
+    faqHeading: 'Questions fréquentes sur la Doomsday Clock',
+  },
+  {
+    lang: 'de',
+    path: '/de/guides/doomsday-clock/',
+    v32Path: '/de/changelog/v32/',
+    v33Path: '/de/changelog/v33/',
+    notCircle: 'Sie ist kein Kreis',
+    warning: '30 Sekunden',
+    team: 'Gebiete aller lebenden Teammitglieder',
+    noInstantWin: 'vergibt aber keinen Sofortsieg',
+    troopRate: '2 %',
+    warshipRate: '50 %',
+    floor: '5 %',
+    equalSafe: 'gleich oder größer',
+    recoveryHeading: 'Rettungsplan für die 30-Sekunden-Warnung',
+    shapeHeading: 'Gebietsform statt Entfernung zur Mitte wählen',
+    faqHeading: 'Häufige Fragen zur Doomsday Clock',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/guides/doomsday-clock/',
+    v32Path: '/nl/changelog/v32/',
+    v33Path: '/nl/changelog/v33/',
+    notCircle: 'Het is geen cirkel',
+    warning: '30 seconden',
+    team: 'gebieden van alle levende teamgenoten',
+    noInstantWin: 'geeft geen directe overwinning',
+    troopRate: '2%',
+    warshipRate: '50%',
+    floor: '5%',
+    equalSafe: 'gelijk aan of hoger',
+    recoveryHeading: 'Herstelplan voor de waarschuwing van 30 seconden',
+    shapeHeading: 'Kies de vorm van je gebied, niet de afstand tot het midden',
+    faqHeading: 'Veelgestelde vragen over de Doomsday Clock',
+  },
+] as const;
+
+for (const doomsdayCase of doomsdayCases) {
+  test(`Doomsday guide[${doomsdayCase.lang}] explains the current territory-threshold rules`, async ({ page }) => {
+    await page.goto(doomsdayCase.path, { waitUntil: 'domcontentloaded' });
+
+    const main = page.locator('main');
+    await expect(main).toContainText(doomsdayCase.notCircle);
+    await expect(main).toContainText(doomsdayCase.warning);
+    await expect(main).toContainText(doomsdayCase.team);
+    await expect(main).toContainText(doomsdayCase.noInstantWin);
+    await expect(main).toContainText(doomsdayCase.troopRate);
+    await expect(main).toContainText(doomsdayCase.warshipRate);
+    await expect(main).toContainText(doomsdayCase.floor);
+    await expect(main).toContainText(doomsdayCase.equalSafe);
+    await expect(main.getByRole('heading', { level: 2, name: doomsdayCase.recoveryHeading })).toBeVisible();
+    await expect(main.getByRole('heading', { level: 2, name: doomsdayCase.shapeHeading })).toBeVisible();
+    await expect(main.getByRole('heading', { level: 2, name: doomsdayCase.faqHeading })).toBeVisible();
+
+    const waveTable = main.locator('table').filter({ hasText: '45:00' }).first();
+    await expect(waveTable).toBeVisible();
+    await expect(waveTable.locator('tbody tr')).toHaveCount(4);
+
+    const timingTable = main.locator('table').filter({ hasText: '40:10' }).first();
+    await expect(timingTable).toBeVisible();
+    await expect(timingTable.locator('tbody tr')).toHaveCount(4);
+
+    await expect(
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts"]'),
+    ).toHaveCount(1);
+  });
+
+  test(`Doomsday guide[${doomsdayCase.lang}] has natural entries from both version overviews`, async ({ page }) => {
+    await page.goto(doomsdayCase.v32Path, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator(`main a[href="${doomsdayCase.path}"]`)).toHaveCount(1);
+
+    await page.goto(doomsdayCase.v33Path, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator(`main a[href="${doomsdayCase.path}"]`)).toHaveCount(1);
   });
 }
 
