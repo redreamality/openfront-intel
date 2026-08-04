@@ -135,3 +135,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **`gh api` 若报 `read tcp ... wsarecv: An established connection was aborted`，按瞬时 GitHub API 断流处理**：并行探测中可能只有部分端点失败、另一些已经成功；必须保留每个端点的独立退出码，只对失败端点重试一次，不重复成功查询，也不能把连接中断解释为 PR、Release 或 Issue 状态变化。
 - **e2e 已限定到某个 section 后，后代 `h2` 仍可能命中嵌套组件标题**：例如数值参考区内还包含来源面板，`[data-home-reference] h2` 会触发 strict-mode。断言区块自身标题时使用 `getByRole('heading', { level: 2, name, exact: true })` 或 `:scope > h2`，不要假设 section 内只有一个同级标题。
 - **完整 Playwright 的 `browserContext.newPage` 资源争用在 `--workers=2` 下也可能换一批用例复发**：失败仍发生在 fixture 建页、且单线程定向用例通过时，不要继续试不同的中间并发；直接用 `pnpm test:e2e --workers=1` 做最终全套，避免反复生成随机三项超时。
+- **2026-08-04 复发：PowerShell 的 `foreach (...) { ... }` 结果不能在同一语句末尾直接接管道**：即使只是汇总只读 JSON，`} | ConvertTo-Json` 也会在命令执行前报 `An empty pipe element is not allowed`。始终先赋给任务专用变量，再在下一条语句处理。
+- **并行 `gh api` 探测遇到 TLS 超时时要保留每个端点的独立结果**：不要让一个失败请求中止整批并继续解析空对象；使用 settled 模式、逐项检查退出码，只对失败端点重试一次。
+- **`git pull` 的外层超时不等于远端更新没有落地**：超时或终止后先核验仓库 `HEAD`、`origin/main` 与工作树状态；本轮 pull 已实际快进到新提交，若按旧 HEAD 继续会把有效 extract checkout 写错。
+- **拉取上游后不要假设正式 Release tag 已同时取得**：先用 `git tag -l '<tag>'` 确认本地存在，再运行带 `^{commit}` 的 `rev-parse`；tag 缺失时使用 Release API 与当前 checkout 分别记录来源，不要把 checkout 冒充 tag 提交。

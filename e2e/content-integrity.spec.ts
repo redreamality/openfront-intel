@@ -31,14 +31,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 keeps the beta tag in the official Release URL', async ({ page }) => {
+test('changelog v33 uses the official v0.33.1 Release URL', async ({ page }) => {
   await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.0-beta1',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1',
   );
 });
 
@@ -66,11 +66,11 @@ for (const aboutCase of aboutCases) {
 }
 
 const mechanicsCases = [
-  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v33 beta data snapshot' },
-  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v33 beta 数据快照' },
-  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané v33 beta' },
-  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den v33-Beta-Datenstand' },
-  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de v33-beta-datasnapshot' },
+  { lang: 'en', path: '/mechanics/', text: 'Numeric examples are scoped to the v33 editorial data snapshot' },
+  { lang: 'zh', path: '/zh/mechanics/', text: '数值示例适用于 v33 编辑数据快照' },
+  { lang: 'fr', path: '/fr/mechanics/', text: 'Les exemples numériques sont limités à l’instantané éditorial v33' },
+  { lang: 'de', path: '/de/mechanics/', text: 'Zahlenbeispiele gelten für den redaktionellen v33-Datenstand' },
+  { lang: 'nl', path: '/nl/mechanics/', text: 'Cijfervoorbeelden gelden voor de redactionele v33-datasnapshot' },
 ];
 
 for (const mechanicsCase of mechanicsCases) {
@@ -161,21 +161,64 @@ for (const v32Case of v32Cases) {
 }
 
 const v33Cases = [
-  { path: '/changelog/v33/', grace: '10-minute grace period', ranked: '1 minute', veteran: '3 veterancy levels', maps: '117-map' },
-  { path: '/zh/changelog/v33/', grace: '10 分钟宽限期', ranked: '1 分钟', veteran: '3 级熟练度', maps: '117 张地图' },
-  { path: '/fr/changelog/v33/', grace: 'grâce de 10 minutes', ranked: '1 minute', veteran: '3 niveaux de vétérérance', maps: '117 cartes' },
-  { path: '/de/changelog/v33/', grace: '10 Minuten Schonzeit', ranked: '1 Minute', veteran: '3 Veteranenstufen', maps: '117 Karten' },
-  { path: '/nl/changelog/v33/', grace: '10 minuten respijt', ranked: '1 minuut', veteran: '3 veterancy-niveaus', maps: '117 kaarten' },
+  {
+    path: '/changelog/v33/',
+    grace: '10-minute grace period',
+    ranked: '1 minute',
+    veteran: '3 veterancy levels',
+    maps: '117-map',
+    replay: 'replay desync errors',
+    tribe: 'custom tribe names',
+  },
+  {
+    path: '/zh/changelog/v33/',
+    grace: '10 分钟宽限期',
+    ranked: '1 分钟',
+    veteran: '3 级熟练度',
+    maps: '117 张地图',
+    replay: '回放 desync 错误',
+    tribe: '自定义 tribe 名称',
+  },
+  {
+    path: '/fr/changelog/v33/',
+    grace: 'grâce de 10 minutes',
+    ranked: '1 minute',
+    veteran: '3 niveaux de vétérérance',
+    maps: '117 cartes',
+    replay: 'erreurs de desync des replays',
+    tribe: 'noms de tribe personnalisés',
+  },
+  {
+    path: '/de/changelog/v33/',
+    grace: '10 Minuten Schonzeit',
+    ranked: '1 Minute',
+    veteran: '3 Veteranenstufen',
+    maps: '117 Karten',
+    replay: 'Desync-Fehler in Replays',
+    tribe: 'benutzerdefinierte Tribe-Namen',
+  },
+  {
+    path: '/nl/changelog/v33/',
+    grace: '10 minuten respijt',
+    ranked: '1 minuut',
+    veteran: '3 veterancy-niveaus',
+    maps: '117 kaarten',
+    replay: 'desyncfouten in replays',
+    tribe: 'aangepaste tribe-namen',
+  },
 ];
 
 for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains the player-facing v33 beta changes`, async ({ page }) => {
+  test(`${v33Case.path} explains the player-facing v33.1 changes`, async ({ page }) => {
     await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(v33Case.grace);
     await expect(main).toContainText(v33Case.ranked);
     await expect(main).toContainText(v33Case.veteran);
     await expect(main).toContainText(v33Case.maps);
+    await expect(main).toContainText('v0.33.1');
+    await expect(main).toContainText(v33Case.replay);
+    await expect(main).toContainText(v33Case.tribe);
     await expect(main).toContainText('MIRV');
   });
 }
@@ -238,7 +281,7 @@ for (const mirvSamCase of mirvSamCases) {
     await expect(main).toContainText(mirvSamCase.cooldown);
     await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
       'href',
-      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts',
     );
   });
 

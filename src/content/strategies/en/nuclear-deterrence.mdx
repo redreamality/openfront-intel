@@ -2,7 +2,7 @@
 title: Nuclear Deterrence and SAM Networks
 description: From the first Silo to MIRV — nuclear strike timing, SAM placement, and anti-nuke strategy.
 pubDate: 2026-05-12
-updatedDate: 2026-08-02
+updatedDate: 2026-08-04
 tags: [nukes, SAM, deterrence]
 category: Mid-Late Game
 difficulty: Intermediate
@@ -14,7 +14,7 @@ freshnessSummary: "v33 turns separated MIRV warheads into normal SAM targets and
 
 Nuclear deterrence means preserving a credible reply while making an enemy's first strike expensive or unreliable. In OpenFront, that requires Gold, a Silo, protected launch capacity, and SAM coverage that matches the assets at risk.
 
-One SAM is warning and basic coverage, not complete safety. Its 90-tick cooldown creates a throughput limit. In v33 beta, the MIRV carrier is not a SAM target, but separated warheads follow the normal trajectory and timing checks.
+One SAM is warning and basic coverage, not complete safety. Its 90-tick cooldown creates a throughput limit. In v33.1, the MIRV carrier is not a SAM target, but separated warheads follow the normal trajectory and timing checks.
 
 Choose a weapon by mission. Atom Bombs are cheaper and smaller. Hydrogen Bombs cover a much larger area. MIRVs carry many smaller warheads across the main SAM screen, but the warheads become normal in-flight targets after separation.
 
@@ -50,7 +50,7 @@ The carrier splits into multiple MIRV warheads. Each warhead lists inner and out
 
 The MIRV carrier cannot be intercepted.
 
-After separation, the [v0.33.0-beta1 SAM execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.0-beta1/src/core/execution/SAMLauncherExecution.ts) evaluates each warhead through the same trajectory, range, timing, ready-shot, and cooldown logic as other supported nukes.
+After separation, the [v0.33.1 SAM execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts) evaluates each warhead through the same trajectory, range, timing, ready-shot, and cooldown logic as other supported nukes.
 
 Launching MIRV also puts the actual Missile Silo on cooldown. An immediate follow-up therefore needs another ready Silo or a later firing window.
 
