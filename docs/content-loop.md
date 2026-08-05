@@ -99,7 +99,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 5. 创建一个 PR 后继续检查本批次其他成熟项，不把“已有一个 PR”当作停止条件。
 6. 自动化自己创建或继续维护的 PR 不再等待人工审阅。只有同时满足以下门禁时才直接 squash merge：已同步并 rebase 最新 `main`；本 PR 范围要求的 audit、check、build、link check 和 e2e 全部通过；PR 为 `CLEAN / MERGEABLE`；已配置的 checks 全部成功，或仓库没有 checks 且 PR 正文记录了完整本地验证；没有未解决评论、重叠文件、依赖冲突或顺序阻塞；远端 head SHA 与本地提交一致。
 7. 合并成功后核对 PR 状态与远端 `main` SHA，并更新账本；合并命令若遇网络瞬断，先查 PR 状态和远端 ref，只允许在确认未合并后重试一次。任一门禁不满足时保留 PR，记录阻塞并停止自动合并。
-8. 定时任务不创建或使用 worktree。启动时本地项目必须是干净工作区；随后切到并 fast-forward-only 同步 `main`，再直接创建本地主题分支。每个 PR 合入后必须在同一目录切回并同步 `main`，确认当前分支为 main、工作区干净后才可继续下一项；若启动时有用户改动或无法回到最新 main，则停止并报告，禁止自动 stash、reset 或 clean。
+8. 定时任务不创建或使用 worktree。启动时用 `git status --porcelain --untracked-files=all` 检查本地项目，只豁免未跟踪的 `.cache/**` 本地缓存，并禁止把缓存加入提交；随后切到并 fast-forward-only 同步 `main`，再直接创建本地主题分支。每个 PR 合入后必须在同一目录切回并同步 `main`，确认当前分支为 main，且除 `.cache/**` 外工作区干净后才可继续下一项；若有用户改动或无法回到最新 main，则停止并报告，禁止自动 stash、reset 或 clean。
 9. 若整个候选集都没有值得提交的内容，只更新发现结果和队列，不制造空 PR 或空页面。
 
 ## 定时任务
