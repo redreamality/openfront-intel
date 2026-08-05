@@ -99,7 +99,8 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 5. 创建一个 PR 后继续检查本批次其他成熟项，不把“已有一个 PR”当作停止条件。
 6. 自动化自己创建或继续维护的 PR 不再等待人工审阅。只有同时满足以下门禁时才直接 squash merge：已同步并 rebase 最新 `main`；本 PR 范围要求的 audit、check、build、link check 和 e2e 全部通过；PR 为 `CLEAN / MERGEABLE`；已配置的 checks 全部成功，或仓库没有 checks 且 PR 正文记录了完整本地验证；没有未解决评论、重叠文件、依赖冲突或顺序阻塞；远端 head SHA 与本地提交一致。
 7. 合并成功后核对 PR 状态与远端 `main` SHA，并更新账本；合并命令若遇网络瞬断，先查 PR 状态和远端 ref，只允许在确认未合并后重试一次。任一门禁不满足时保留 PR，记录阻塞并停止自动合并。
-8. 若整个候选集都没有值得提交的内容，只更新发现结果和队列，不制造空 PR 或空页面。
+8. 定时任务不创建或使用 worktree。启动时本地项目必须是干净工作区；随后切到并 fast-forward-only 同步 `main`，再直接创建本地主题分支。每个 PR 合入后必须在同一目录切回并同步 `main`，确认当前分支为 main、工作区干净后才可继续下一项；若启动时有用户改动或无法回到最新 main，则停止并报告，禁止自动 stash、reset 或 clean。
+9. 若整个候选集都没有值得提交的内容，只更新发现结果和队列，不制造空 PR 或空页面。
 
 ## 定时任务
 
@@ -107,6 +108,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 自动化 ID：`openfront`。
 - 频率：每天一次，本地时间 09:00。
 - 执行位置：`openfront-intel` 本地项目。
+- 执行方式：不创建 worktree；从干净、最新的本地 `main` 直接创建主题分支，PR 合入后回到并同步 `main`。
 - 计划来源：[`content-strategy.md`](content-strategy.md)。
 - 交付边界：可以修改和扩展多个页面、更新本文件并创建、验证、直接合并多个 PR；不得为了制造吞吐量创建重复页面、薄页或空 PR，任一自动合并门禁不满足时必须保留 PR 并报告。
 
@@ -174,6 +176,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-05｜事实错误｜对照 v0.33.1 `Config.ts` 确认真实人口上限是 `2 × (tiles^0.6 × 1000 + 50,000) + Σ(cityLevel × 250,000)`；站内生成源和五语经济页此前多写 `0.6 ×`。本轮已修正生成源、重新 extract，并把 35–50% 增长区、约 42% 峰值、50–70% 威胁储备和 80%+ 上限抑制写入五语主答案。
 - 2026-08-05｜Feedlog / GitHub Issues｜开放 Issues 为 0；Feedlog 仍只有系统 welcome，1 个 Other 帖子、0 票、0 评论。系统帖、空内容与无真实重复问题均未升级为候选。
 - 2026-08-05｜用户执行授权｜用户确认后续自动化 PR 在质量门禁通过后可以直接合入，无需再次人工审阅。该授权只改变合并等待步骤，不放宽内容证据、唯一主落地页、多语一致、完整验证、最新 main、无冲突和远端 SHA 核验要求。
+- 2026-08-05｜用户工作区授权｜用户要求定时任务直接在本地主题分支修改，PR 合入后回到 main，不再创建 worktree。为保护用户改动，启动时工作区不干净即停止，不自动 stash/reset/clean。
 
 ## 本次执行规则自检（2026-08-05，自动合并授权）
 
@@ -182,6 +185,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 保留门禁：内容证据、唯一主落地页、多语一致、必要 audit/check/build/link/e2e、最新 main rebase、`CLEAN / MERGEABLE`、checks 状态、未解决评论、依赖顺序和远端 head SHA 全部继续核验。
 - 合并方式：满足门禁后 squash merge 并删除远端分支；多个 PR 按依赖顺序逐个核对，不能用一个 PR 的验证结果代替另一个。
 - 失败处理：网络或 GitHub 状态不确定时先核对 PR 状态、远端 ref 和 main SHA；确认未合并后最多重试一次，否则保留 PR 并报告。
+- 工作区模式：定时任务只使用本地主题分支，不创建 worktree；启动和收尾都必须处于最新、干净的 main，多个 PR 逐个合入并逐次回 main。
 - 本轮状态：[PR #9](https://github.com/redreamality/openfront-intel/pull/9) 已在本次规则调整前合并；自动合并规则已通过 [PR #10](https://github.com/redreamality/openfront-intel/pull/10) squash 合入，当前无开放内容 PR。本轮只同步定时任务与 Markdown，不改内容、路由或交互。
 
 ## 本次合规自检（2026-08-05，`ECON-01` 交付日）
@@ -258,6 +262,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
+- [x] 2026-08-05：定时任务改为直接在本地主题分支执行，PR 合入后回到 main，不再创建 worktree；脏工作区会停止并报告。
 - [x] 2026-08-05：通过已合并 [PR #10](https://github.com/redreamality/openfront-intel/pull/10) 同步自动化与 Markdown 的合并权限；后续自动化 PR 在完整质量门禁通过后直接 squash merge，不再等待人工审阅。
 - [x] 2026-08-05：完成 `ECON-01` 与人口上限事实纠错；五语 `/mechanics/economy/` 直接回答停止扩张、部队甜区、威胁储备和 City 上限，公式生成源同步修正，两个自然入口与完整回归通过；[PR #9](https://github.com/redreamality/openfront-intel/pull/9) 已合并。
 - [x] 2026-08-04：完成 `DOOM-01` 并按用户审阅反馈深度扩写；五语独立实战攻略补齐六轮时间线、公式取整、四档速度、30 秒救场、领土形状矩阵和 FAQ，v32/v33 十个相邻页纠错并导流，当前战役退出条件全部满足；待审 [PR #8](https://github.com/redreamality/openfront-intel/pull/8)。
@@ -291,4 +296,5 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-04 | `DOOM-01` | 五语 `/guides/doomsday-clock/` 成为唯一实战主答案，纠正安全圈误解并给出波次、撤退、团队与海战决策；v32/v33 十个相邻页同步纠错与入口；待审 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | GSC 再次刷新至 2026-08-02：7 天 825/1,563，28 天 1,110/2,479；14 个 Doomsday Query、192 次展现；上游与 extraction checkout 同为 `0668045`，无新规则变化 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,224；定向 e2e 15/15；完整 e2e 209/209（单线程）；diff check 通过 | PR #8 合并后关闭当前战役；下一次先评估 `ECON-01` 的现有页扩写方案 |
 | 2026-08-04 | `DOOM-01` 审阅修订 | 根据用户“文章太短”的反馈继续更新同一主答案；五语各新增约 175 行，补齐完整时间线、公式取整、速度档、警告救场、领土形状和 FAQ，没有拆页或创建第二个 PR | 五语均达 55 个 H2–H4；英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；事实与来源边界不变 | 扩写后 audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,224；定向 e2e 15/15；完整 e2e 209/209（单线程）；diff check 通过 | 更新 PR #8 后继续等待审阅，不提前领取 Next |
 | 2026-08-05 | `ECON-01` | 修正人口上限公式并深度刷新五语 `/mechanics/economy/`，直接回答停止扩张、35–50% 增长区、约 42% 峰值、威胁储备和 City 上限；没有新增路由；[PR #9](https://github.com/redreamality/openfront-intel/pull/9) 已合并 | GSC 成功刷新至 2026-08-02：7 天 825/1,563，28 天 1,110/2,479；经济意图分别 18 Query/109 展现和 24 Query/392 展现；最新正式 Release 仍为 v0.33.1，Issues 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,249；定向 e2e 126/126；完整 e2e 220/220（单线程）；diff/BOM check 通过 | 观察经济主答案的收录、平均排名和错落地变化 |
-| 2026-08-05 | 自动合并授权 | 定时任务和战略/账本改为：自动化自有 PR 通过完整门禁后直接 squash merge，不再等待人工审阅；[PR #10](https://github.com/redreamality/openfront-intel/pull/10) 已按该门禁合并 | PR #9 与 PR #10 均已合并；当前无开放内容 PR；保留最新 main、独立验证、checks/评论/依赖、远端 SHA 和网络失败复核门禁 | docs-only：`git diff --check`、UTF-8 BOM、旧治理规则审计；自动化已核对为 ACTIVE、每日 09:00、本地项目执行 | 后续内容 PR 在门禁满足后当轮直接合入；linked worktree 合并优先使用 REST，避免隐式 checkout main |
+| 2026-08-05 | 自动合并授权 | 定时任务和战略/账本改为：自动化自有 PR 通过完整门禁后直接 squash merge，不再等待人工审阅；[PR #10](https://github.com/redreamality/openfront-intel/pull/10) 已按该门禁合并 | PR #9 与 PR #10 均已合并；当前无开放内容 PR；保留最新 main、独立验证、checks/评论/依赖、远端 SHA 和网络失败复核门禁 | docs-only：`git diff --check`、UTF-8 BOM、旧治理规则审计；自动化已核对为 ACTIVE、每日 09:00、本地项目执行 | 后续内容 PR 在门禁满足后当轮直接合入；使用 REST 合并并核对远端状态 |
+| 2026-08-05 | 本地分支执行模式 | 定时任务不再创建 worktree；从干净、最新的本地 main 创建主题分支，PR 合入后切回并同步 main | 用户直接调整执行方式；不改变内容证据、验证或自动合并门禁；当前主工作区有用户改动，因此本次只更新治理规则，不在其中切分支 | docs-only：远端三文件精确 diff、UTF-8/BOM、自动化 prompt 和 PR 合并门禁 | 下一次启动若工作区仍不干净则停止并报告，不自动处理用户文件 |
