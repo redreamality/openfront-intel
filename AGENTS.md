@@ -147,3 +147,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **生成 JSON 只有换行或 stat 漂移时，完整执行 `git update-index --refresh` 也可能逐个报 `needs update` 并退出 1**：先用 `git diff --quiet -- <精确文件列表>` 确认无语义差异，再对这些精确文件执行 `git add -- ...` 刷新索引状态，并确认没有产生 staged diff；不要把 refresh 失败误判成数据变化。
 - **扩写五语文章时不要假设各语种段落锚点逐字对应**：同一事实的译文句式可能不同，跨语种复用 `apply_patch` 上下文会失败；每个语种插入前分别读取目标标题附近的精确文本，再用短锚点分开补丁。
 - **2026-08-05 复发：PowerShell 路径规范化不要写 `-replace '\'`**：`-replace` 的第一个参数是正则，单个反斜杠会触发 `InvalidRegularExpression`；不需要正则时统一用 `$path.Replace('\', '/')`，需要正则时写 `-replace '\\', '/'`。
+- **同一轮里 `gh pr view` 成功不代表后续 GitHub API 调用不会瞬断**：本环境可能先出现 `gh api ... TLS handshake timeout`，随后 GraphQL `EOF`，而 `git fetch origin` 仍可成功。远端核验优先保留每一步独立结果；API/GraphQL 瞬断只重试一次，必要时改用 REST `gh api repos/<owner>/<repo>/pulls/<number>` 或已成功的 `git fetch` + 远端 ref 交叉确认，不要把单个端点失败误判为 PR 未合并或 main 未更新。
