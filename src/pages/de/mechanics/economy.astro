@@ -2,65 +2,121 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
+const troops = formulas.groups.troops;
+const verifiedDate = new Date('2026-08-05T00:00:00Z');
 ---
 
-<BaseLayout title="Wirtschaft: Gold, Handel und Bevölkerung" description="OpenFront.io: Gold-Produktion, Handelsschiffe, Züge und Bonusformeln für City-Truppen.">
-  <PageHeader eyebrow="MECHANIK · 02" title="Wirtschaft: Gold, Handel und Bevölkerung" lead="Die Wirtschaft von OpenFront ruht auf drei Säulen: Basis-Gold, Handelsschiffe, Züge. Welche Säule dick ist, bestimmt, welche Gebäude du dir leisten kannst." />
+<BaseLayout title="OpenFront Wirtschaft und Truppenwachstum" description="Wann du Expansion stoppst, wie viel Truppenreserve du hältst und wann City, Port oder Züge die richtige Investition sind.">
+  <PageHeader eyebrow="MECHANIK · 02" title="Wirtschaft: Truppenwachstum, Gold und Reserve" lead="Nutze die Wachstumsformel für Expansion, Erholung, Reserve oder mehr Limit und wähle dann die Goldquelle, die zur Karte passt." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Drei Gold-Quellen</h2>
-    <ol>
-      <li><strong>Basis-Gold</strong>: Wird pro tick automatisch erzeugt. Human 100/tick, Bot 50/tick (multipliziert mit <code>goldMultiplier</code>, in privaten Lobbies einstellbar).</li>
-      <li><strong>Handelsschiffe</strong>: Pendeln zwischen zwei Ports; je größer die Distanz, desto höher der Ertrag. Abrechnung bei jeder Ankunft.</li>
-      <li><strong>Züge (v24)</strong>: Verkehren zwischen Städten und zahlen je nach Beziehung zur besuchten Stadt — Verbündete bringen am meisten.</li>
-    </ol>
+    <h2>Direkte Antwort: Wann solltest du die Expansion stoppen?</h2>
+    <p>Stoppe optionale Eroberungen, wenn das nächste Gebiet eine weitere aktive Grenze öffnet, dich bei erreichbarem Gegner unter ungefähr 30 % des Truppenlimits drückt oder weniger Sicherheit bringt als eine Erholungspause. An ruhigen Grenzen liegt die stärkste rohe Wachstumszone meist bei 35–50 %, mit einem Maximum nahe 42 %. Unter Druck sind 50–70 % trotz langsamerem Wachstum oft besser, weil die Reserve einen Einbruch verhindert.</p>
 
-    <h2>Gold-Kurzformeln</h2>
-    <FormulaBlock label={economy} items={economy.items} />
-    <p>Häufiger Irrtum: <strong>Mehr Ports sind nicht automatisch besser</strong>. In v32 liegt der Mittelpunkt der Spawn-Dämpfung bei 400 aktiven Schiffen, doch mit wachsender Flotte wird weiterer Spawn weiterhin langsamer. Entfernung, sichere Partner und Port-Stufen zählen mehr als die reine Zahl der Ports.</p>
-
-    <h2>Bevölkerung (Truppenlimit)</h2>
-    <p>Das Bevölkerungslimit ist sowohl Angriffsbasis als auch Verteidigungspuffer:</p>
-    <FormulaBlock
-      label="Bevölkerungslimit"
-      items={[
-        { name: 'Basis', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City-Stufe × 250,000)' },
-        { name: 'Typmultiplikator', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
-      ]}
+    <FreshnessSummary
+      lang="de"
+      version="v33.1"
+      verifiedDate={verifiedDate}
+      summary="Formelkorrektur: Der aktuelle Code nutzt 2 × (tiles^0.6 × 1000 + 50.000), ohne den zuvor hier gezeigten zusätzlichen Faktor 0,6. Der feste Bauzeitplan wurde durch situationsabhängige Entscheidungen ersetzt."
     />
-    <Callout type="tip" title="ROI beim Stadtbau">
-      <p>Die ersten 4 Citys kosten 125k → 250k → 500k → 1M. <strong>Die erste ist fast immer profitabel</strong> — der Zuwachs von 250.000 Truppenlimit übersteigt die Bevölkerungsumrechnung von 125.000 Gold bei weitem.</p>
-      <p>Wenn man bereits sehr viele tiles besitzt (z. B. 200k+ im Late-Game), verlangsamt sich <code>0.6 × tiles^0.6 × 1000</code> und der fixe Bonus durch eine City wird relativ wertvoller.</p>
+
+    <Callout type="info" title="Die Hauptantwort zum Wachstum steht auf dieser Seite">
+      <p>Diese Mechanikseite erklärt Truppenlimit, Wachstumsbereiche und Expansion gegen Erholung. Die <a href="/de/strategies/economy-fundamentals/">Wirtschaftsgrundlagen</a> beantworten, welche geschützte Investition als Nächstes gekauft wird. So konkurrieren die beiden Seiten nicht um dieselbe Absicht.</p>
     </Callout>
 
-    <h2>Details zur Handelsschiff-Wirtschaft</h2>
-    <ul>
-      <li>Das Spawnen ist probabilistisch: Je größer <code>spawnRate</code>, desto länger dauert das Erzeugen. <strong>Mehr Schiffe → langsamere Erneuerung</strong> (Sigmoid-Bremse).</li>
-      <li>„Embargo-Mercy": Je mehr fremde Handelsschiffe du ablehnst, desto langsamer spawnen deine eigenen — Ablehnen hat einen Preis.</li>
-      <li>v32 verschiebt den Sigmoid-Mittelpunkt auf 400 aktive Schiffe; große Handelsnetze skalieren länger, bevor die Dämpfung stark wird.</li>
-    </ul>
-
-    <h2>Zug-Wirtschaft (v24 neu)</h2>
-    <ul>
-      <li>Benötigt das Trio aus <strong>Factory + City + Railroad</strong>; mindestens 2 Stationen für Zugbetrieb.</li>
-      <li>Pro besuchter Stadt: <strong>Verbündete 35k / Team 25k / Eigene 10k</strong>.</li>
-      <li>Ab der 10. Station: pro zusätzlicher Station 5.000 Gold Strafe (Untergrenze 5.000).</li>
-      <li>Zug-Spawn-Takt: <code>(numFactories + 10) × 15</code> ticks pro Zug.</li>
-    </ul>
-
-    <h2>Budget-Entscheidungstabelle</h2>
+    <h2>Der Sweet Spot ist ein Bereich, kein Dauerziel</h2>
+    <FormulaBlock label={troops} items={troops.items} />
+    <p>Der letzte Faktor <code>1 - troops / maxTroops</code> nimmt Wachstum weg, wenn die Leiste voll wird. Gleichzeitig steigt <code>troops^0.73</code> mit der vorhandenen Armee. Das schnellste rohe Wachstum liegt deshalb nicht bei null Truppen, sondern bei normalen menschlichen Limits ungefähr bei <strong>42 % des Limits</strong>. Das ist ein Planungssignal, kein Befehl, ab 43 % Truppen zu verschwenden.</p>
     <table>
       <thead>
-        <tr><th>Phase</th><th>Gold-Ziel</th><th>Priorität beim Bau</th></tr>
+        <tr><th>Aktuelle Truppen</th><th>Aussage der Formel</th><th>Praktische Entscheidung</th></tr>
       </thead>
       <tbody>
-        <tr><td>Eröffnung (0–60s)</td><td>125k ansparen</td><td>Erste City + erster Port</td></tr>
-        <tr><td>Früh (60–180s)</td><td>250k–1M</td><td>Zweite City, 1 DefensePost am Engpass</td></tr>
-        <tr><td>Mid (3–6 Min.)</td><td>1M–5M</td><td>Silo + erste SAM für Nuklearschild</td></tr>
-        <tr><td>Late (6 Min.+)</td><td>5M+</td><td>City/Port/SAM upgraden; MIRV nach Bedarf</td></tr>
+        <tr><td>Unter 30 %</td><td>Viel Spielraum, aber geringe Abschreckung</td><td>Optionale Kriege stoppen; nur billiges neutrales Land oder sofortige Gefahrenlösung nehmen.</td></tr>
+        <tr><td>35–50 %</td><td>Nahe am rohen Wachstumsmaximum</td><td>Ruhige Fenster für effiziente Expansion und kurze klare Angriffe nutzen.</td></tr>
+        <tr><td>50–70 %</td><td>Langsameres Wachstum, stärkere Sofortreserve</td><td>An umkämpften Engstellen, vor Verrat oder mit zwei erreichbaren Gegnern halten.</td></tr>
+        <tr><td>70–80 %</td><td>Wachstum deutlich gedrosselt</td><td>Nur für ein bekanntes Timing, eine glaubhafte Gefahr oder teure Folgeaktion so viel lagern.</td></tr>
+        <tr><td>Über 80 %</td><td>Der Limitfaktor ist 0,20 oder kleiner</td><td>Bei sicherer Grenze Truppen in wertvolles Land umsetzen oder das Limit erhöhen.</td></tr>
       </tbody>
     </table>
+
+    <h2>Vier Prüfungen vor dem nächsten Gebiet</h2>
+    <ol>
+      <li><strong>Ist das Land billig?</strong> Eine kurze neutrale Kante kann sich selbst tragen. Ein langer Angriff in Verteidigung ist Kriegsbudget, kein kostenloses Wachstum.</li>
+      <li><strong>Was bleibt danach?</strong> Beurteile den Anteil nach dem Klick. Unter 30 % mit aktiver Feindgrenze ist ein Erholungssignal.</li>
+      <li><strong>Wird die Form besser?</strong> Eine Tasche schließen, Küste erreichen oder einen Engpass halten kann langsamere Erholung rechtfertigen. Ein Korridor oder eine zweite Front macht ein großes Reich ärmer.</li>
+      <li><strong>Ist wirklich das Limit der Engpass?</strong> Nahe 80 % in sicherer Lage hilft mehr Limit. Wenn schlechte Kämpfe die Truppen leeren, löst eine weitere City nichts.</li>
+    </ol>
+
+    <h2>Drei Spielsituationen</h2>
+    <h3>Ruhige Außengrenze</h3>
+    <p>Du hältst ungefähr 45 % des Limits, der nächste Gegner ist durch neutrales Land getrennt und jede Eroberung lässt eine zusammenhängende Grenze. Nimm günstige Tiles weiter. Stoppe, sobald die Route einen zweiten Gegner öffnet, zum Korridor wird oder der nächste Angriff die sichere Erholung unterschreitet.</p>
+
+    <h3>Umkämpfter Engpass</h3>
+    <p>Du hältst 55–65 % und ein Rivale kann dieselbe schmale Grenze angreifen. Gib nicht bis 42 % aus, nur weil dort das mathematische Maximum liegt. Die Reserve verhindert den direkten Durchbruch; ein Defense Post, der den Engpass wirklich löst, ist oft besser als eine neue fragile Grenze.</p>
+
+    <h3>Erholung nach einem Krieg</h3>
+    <p>Du hast Land gewonnen, bist aber unter 25 % gefallen. Kleine Angriffe abbrechen, Gold liquide halten und die Armee auffüllen lassen. Eine sichere City ist sinnvoll, wenn das Limit bald bremst; an einer fallenden Front wird sie zum Geschenk.</p>
+
+    <h2>Wann lohnt sich eine City?</h2>
+    <p>Eine fertige City-Stufe erhöht das Truppenlimit fest um <strong>250.000</strong>. Die erste kostet 125.000 Gold, aber das ist kein direkter Gewinn: Du tauschst liquides Gold gegen Limit, einen Bahnhof und ein zu schützendes Gebäude. Baue, wenn das Limit die Erholung bremst, der Standort haltbar ist und das Gold nicht sofort für Grenze oder Nuklearabwehr gebraucht wird.</p>
+    <table>
+      <thead>
+        <tr><th>Eigene Tiles</th><th>Limit ohne City</th><th>Mit einer City-Stufe</th><th>Bedeutung</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10.000</td><td>≈602.000</td><td>≈852.000</td><td>Etwa +42 %; stark, wenn der frühe Standort sicher ist.</td></tr>
+        <tr><td>50.000</td><td>≈1.420.000</td><td>≈1.670.000</td><td>Etwa +18 %; mit Verteidigung und Routeneinkommen vergleichen.</td></tr>
+        <tr><td>200.000</td><td>≈3.131.000</td><td>≈3.381.000</td><td>Etwa +8 %; planbares Limit, nicht automatisch der beste Kauf.</td></tr>
+      </tbody>
+    </table>
+    <p>Der Tile-Term hat abnehmenden Grenznutzen, doch der feste Bonus ist bei großem Limit ebenfalls ein kleinerer Prozentanteil. Der späte strategische Vorteil lautet: mehr Limit, ohne die Grenze zu verbreitern.</p>
+
+    <h2>Goldquellen und passende Situationen</h2>
+    <FormulaBlock label={economy} items={economy.items} />
+
+    <h3>Basis-Gold</h3>
+    <p>Menschen erhalten vor Multiplikatoren 100 Gold pro Tick. Dieses Einkommen ist zuverlässig und nicht embargo-fähig. Warten mit klarem Auslöser ist sinnvoll; Gold ohne Entscheidung zwischen Limit, Verteidigung, Handel, Zügen oder Nukleargefahr zu horten nicht.</p>
+
+    <h3>Handelsschiffe</h3>
+    <p>Lange sichere Routen zahlen mehr, aber die globale Spawn-Dämpfung steigt um den v32-Mittelpunkt von 400 aktiven Handelsschiffen. Eine geschützte lange Route mit verlässlichem Partner schlägt mehrere offene Ports. Ablehnungen verändern den Pity-Zähler und späteres Timing; ein Embargo ist nicht kostenlos.</p>
+
+    <h3>Züge</h3>
+    <p>Züge brauchen Factory, City-Stationen und nutzbare Schienen. Vor Strafe und Multiplikator zahlt ein Besuch 35k beim Verbündeten, 25k bei Team oder anderem Spieler und 10k bei der eigenen City. Eine theoretisch reiche Route über die Front ist eine Spende an den Gegner.</p>
+
+    <h2>Nach dem aktuellen Engpass kaufen</h2>
+    <table>
+      <thead>
+        <tr><th>Signal</th><th>Nächste Aktion</th><th>Typischer Verlustzug</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Unter 30 % mit feindlicher Grenze</td><td>Optionale Angriffe stoppen, kürzeste Front stabilisieren, erholen</td><td>Offenen Port oder City bauen, nur weil der Button verfügbar ist</td></tr>
+        <tr><td>35–50 %, ruhige Grenze, billiges neutrales Land</td><td>Effizient expandieren und eine Erholungsroute bewahren</td><td>Mit voller Leiste Wachstumsraum verschwenden</td></tr>
+        <tr><td>Über 80 %, sicher und limitgebunden</td><td>Truppen sinnvoll einsetzen oder geschütztes City-Limit ergänzen</td><td>Voll bleiben ohne Angriff oder geplante Limiterhöhung</td></tr>
+        <tr><td>Sichere Küste und zuverlässiger ferner Partner</td><td>In eine Port-Route investieren</td><td>Ports zählen statt Entfernung, Sicherheit und Eroberungsrisiko</td></tr>
+        <tr><td>Geschützter City-Cluster</td><td>Factory und Schienenring ergänzen, wenn der Modus es erlaubt</td><td>Schienen durch eine umkämpfte Front führen</td></tr>
+        <tr><td>Glaubhafte gegnerische Nuklearfähigkeit</td><td>Liquides Gold für Abstand, SAM oder Erholung halten</td><td>Alles in langsame Einkommensstruktur binden</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Häufige Fehler und Gegenplay</h2>
+    <ul>
+      <li><strong>Volle-Leiste-Irrtum:</strong> Über 80 % wird natürliches Wachstum stark gedrosselt. Ein effizient ausgebender Gegner kann dich überholen.</li>
+      <li><strong>Blinde City:</strong> Limit repariert keine offene Grenze. Greife an, nachdem der Gegner Gold in eine ungeschützte City gebunden hat.</li>
+      <li><strong>Port-Spam:</strong> Mehr Küstenziele beseitigen die globale Kurve nicht. Embargo, Druck auf den Partner oder Angriff auf den Hafencluster kontern das Netz.</li>
+      <li><strong>Gier bei 42 %:</strong> Dieser Bereich optimiert Erzeugung, nicht Überraschungsabwehr. Verrat zwingt den Gegner in ein langsameres Reserveband.</li>
+      <li><strong>Gold ohne Auslöser:</strong> Reserve hält nur dann Optionen offen, wenn eine klare Bedingung sie freigibt. Nimm die entscheidende Grenze, während der andere auf den perfekten Kauf wartet.</li>
+    </ul>
+
+    <h2>Quellen und nächste Schritte</h2>
+    <p>Prüfe den <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857" target="_blank" rel="noopener">v0.33.1-Code für Limit und Wachstum</a> und danach die kompakte <a href="/de/database/formulas/">Formelreferenz</a>.</p>
+    <ul>
+      <li><a href="/de/strategies/economy-fundamentals/">Wirtschaftsgrundlagen</a> — zwischen geschütztem Limit, Handel, Zügen, Verteidigung und Nuklearbudget wählen.</li>
+      <li><a href="/de/strategies/ffa-opening/">FFA-Eröffnung</a> — Reservebereiche auf die erste Expansion anwenden.</li>
+      <li><a href="/de/mechanics/trade/">Handelssystem</a> — Routenertrag und Embargo vertiefen.</li>
+    </ul>
   </article>
 </BaseLayout>

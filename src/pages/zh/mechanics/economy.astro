@@ -2,65 +2,121 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
+const troops = formulas.groups.troops;
+const verifiedDate = new Date('2026-08-05T00:00:00Z');
 ---
 
-<BaseLayout title="经济：金币、贸易与人口" description="OpenFront.io 金币产出、贸易船、火车、城市部队加成公式。">
-  <PageHeader eyebrow="MECHANICS · 02" title="经济：金币、贸易与人口" lead="OpenFront 的经济三条腿：基础金币、贸易船、火车。哪条腿粗决定你能造哪种建筑。" />
+<BaseLayout title="OpenFront 经济与人口增长攻略" description="什么时候停止扩张、保留多少兵，以及何时该建 City、Port 或火车经济。">
+  <PageHeader eyebrow="MECHANICS · 02" title="经济：人口增长、金币与兵力储备" lead="用部队增长公式判断该扩张、回兵、囤储备还是提高上限，再按地图与局势选择金币路线。" />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>三种金币来源</h2>
-    <ol>
-      <li><strong>基础金币</strong>：每个 tick 自动产出。Human 100 / tick，Bot 50 / tick（再乘 <code>goldMultiplier</code>，私密大厅可调）。</li>
-      <li><strong>贸易船</strong>：两个港口之间往返，距离越远收益越高，每次到港结算一次。</li>
-      <li><strong>火车（v24）</strong>：城市之间运行火车，按访问城市的关系给金币——盟友最赚。</li>
-    </ol>
+    <h2>直接答案：什么时候该停止扩张？</h2>
+    <p>下一块地如果会多开一条活跃边境、让你在敌人可立即接触时跌到部队上限约 30% 以下，或带来的安全收益还不如先回兵，就停止无必要扩张。边境安静时，约 35%–50% 通常是原始部队增长最快的区间，常见上限下峰值接近 42%；真正受压时宁可保留 50%–70%，用较慢增长换不被一波打穿。</p>
 
-    <h2>金币速查公式</h2>
-    <FormulaBlock label={economy} items={economy.items} />
-    <p>常见误区：<strong>港口数量不是越多越好</strong>。v32 把贸易船生成抑制曲线的中点提高到 400 艘活跃船只，但船队越大仍会越难继续生成。航线距离、可靠贸易伙伴与港口等级比盲目铺港更重要。</p>
-
-    <h2>人口（部队上限）</h2>
-    <p>人口上限既是攻击底力也是防御缓冲：</p>
-    <FormulaBlock
-      label="人口上限"
-      items={[
-        { name: '基础', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(City 等级 × 250,000)' },
-        { name: '类型乘数', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
-      ]}
+    <FreshnessSummary
+      lang="zh"
+      version="v33.1"
+      verifiedDate={verifiedDate}
+      summary="修正人口上限公式：当前代码是 2 × (tiles^0.6 × 1000 + 50,000)，没有本站此前多写的 0.6 乘数；同时用局势判断替换旧的固定分钟建造表。"
     />
-    <Callout type="tip" title="城市投资回报">
-      <p>第 1~4 座 City 成本 125k → 250k → 500k → 1M。<strong>第 1 座几乎稳赚</strong>——250,000 部队上限的提升远远超过 125,000 金币的人口换算。</p>
-      <p>当 tiles 已经很多时（如 200k+ 的中后期），<code>0.6 × tiles^0.6 × 1000</code> 增长放缓，City 提供的固定加成性价比反而抬升。</p>
+
+    <Callout type="info" title="人口增长的主答案在本页">
+      <p>本机制页负责部队上限、增长比例和「继续扩张还是先回兵」。更完整的建筑投资与安全路线选择请读<a href="/zh/strategies/economy-fundamentals/">经济基本功</a>。两页分工后，不再用两套文章争同一个搜索意图。</p>
     </Callout>
 
-    <h2>贸易船经济细节</h2>
-    <ul>
-      <li>生成是概率性的：<code>spawnRate</code> 越大代表越久才生成一次，<strong>船多了会变难刷</strong>（sigmoid 抑制）。</li>
-      <li>「拒贸怜悯」：你拒绝其它玩家的贸易船越多次，自己刷船越慢——拒贸有代价。</li>
-      <li>v32 将 sigmoid 曲线中点提高到 400 艘活跃船只，大型贸易网能在明显受抑制前继续扩张。</li>
-    </ul>
-
-    <h2>火车经济（v24 新）</h2>
-    <ul>
-      <li>需要 <strong>Factory + City + Railroad</strong> 三件套，至少 2 个站点才能跑火车。</li>
-      <li>每访问一个城市结算一次：<strong>盟友 35k / 团队 25k / 自家 10k</strong>。</li>
-      <li>每超过 9 站，每多访问一站惩罚 5,000 金币（下限 5,000）。</li>
-      <li>火车生成节奏：<code>(numFactories + 10) × 15</code> ticks 出一辆。</li>
-    </ul>
-
-    <h2>预算决策表</h2>
+    <h2>部队甜区是一段范围，不是必须死守的数字</h2>
+    <FormulaBlock label={troops} items={troops.items} />
+    <p>最后一项 <code>1 - troops / maxTroops</code> 会在兵条接近满值时压低增长；但 <code>troops^0.73</code> 又会随现有兵量上升，所以最快增长不在零兵。对常见 Human 上限，原始增长峰值大致落在<strong>上限的 42%</strong>。这是判断信号，不是看到 43% 就必须乱花兵。</p>
     <table>
       <thead>
-        <tr><th>阶段</th><th>金币目标</th><th>优先建造</th></tr>
+        <tr><th>当前兵力</th><th>公式含义</th><th>实战做法</th></tr>
       </thead>
       <tbody>
-        <tr><td>开局 (0-60s)</td><td>积累 125k</td><td>第 1 座 City + 第 1 座 Port</td></tr>
-        <tr><td>早期 (60-180s)</td><td>250k–1M</td><td>第 2 座 City，1 座 DefensePost 守瓶颈</td></tr>
-        <tr><td>中期 (3-6 分钟)</td><td>1M–5M</td><td>导弹井 + 第 1 座 SAM 起核盾</td></tr>
-        <tr><td>后期 (6 分钟+)</td><td>5M+</td><td>升级 City/Port/SAM；按需 MIRV</td></tr>
+        <tr><td>低于 30%</td><td>增长空间大，但威慑很薄</td><td>停掉可选战争，只拿便宜中立地或能立刻解除危险的目标。</td></tr>
+        <tr><td>35%–50%</td><td>接近原始部队增长峰值</td><td>利用安静窗口高效扩张，攻击必须短而有明确收益。</td></tr>
+        <tr><td>50%–70%</td><td>增长较慢，但即时储备更厚</td><td>瓶颈对峙、背叛前夕或两家都能碰到你时，优先留在这段。</td></tr>
+        <tr><td>70%–80%</td><td>增长已经明显受压</td><td>只有在明确开战时机、真实威胁或高成本后续前才这样囤兵。</td></tr>
+        <tr><td>高于 80%</td><td>上限因子只剩 0.20 或更低</td><td>边境安全时，把兵换成有价值的领土，或提高上限，不要长期满条发呆。</td></tr>
       </tbody>
     </table>
+
+    <h2>再扩一块地前检查四件事</h2>
+    <ol>
+      <li><strong>这块地便宜吗？</strong>短距离中立边或脱节弱地可能很赚；打进有人防守的长线，本质是战争预算，不是免费增长。</li>
+      <li><strong>打完还剩多少？</strong>看点击后的比例，不要只看点击前的兵数。打完低于 30% 且敌人就在边上，就是回兵警报。</li>
+      <li><strong>版图形状变好吗？</strong>封住口袋、拿到海岸或卡住瓶颈，可能值得暂时慢回兵；细长走廊和第二战线会让大国变穷。</li>
+      <li><strong>真正卡住你的是上限吗？</strong>安全地带里兵力接近 80%，提高上限有用；如果兵少是因为每场都打亏，再建 City 也修不好问题。</li>
+    </ol>
+
+    <h2>三个真实局势</h2>
+    <h3>安静的外围扩张</h3>
+    <p>你有约 45% 上限兵力，最近的敌人隔着中立地，每次占领都维持一条连贯边境。此时继续拿低成本 tiles；当路线接触第二个敌人、拉成长走廊，或下一次攻击会跌破安全回兵线时停止。</p>
+
+    <h3>争夺瓶颈</h3>
+    <p>你有 55%–65%，对手随时能打同一条窄边。不要为了回到数学峰值而把储备花到 42%。此时储备能阻止对手一波突破；Defense Post 若能真正解决瓶颈，通常比再多一条脆弱边境更值。</p>
+
+    <h3>大战后的回兵期</h3>
+    <p>你赢了地，却跌到上限 25% 以下。取消零碎攻击，保持金币流动性，先让部队恢复。若很快会被上限卡住，可以准备安全 City；如果建筑点就在要丢的前线，建造只是在把金币送给对手。</p>
+
+    <h2>什么时候 City 才值得？</h2>
+    <p>一层完工 City 固定增加 <strong>250,000 部队上限</strong>。第一座成本 125,000 金币，但这不是直接「赚钱」：你把流动金币换成上限、火车站点和一个需要保护的建筑。只有当上限正在限制恢复、位置守得住、金币又不需要立刻处理边境或核威胁时，才建或升级。</p>
+    <table>
+      <thead>
+        <tr><th>拥有 tiles</th><th>无 City 上限</th><th>加一层 City</th><th>怎么理解</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10,000</td><td>约 602,000</td><td>约 852,000</td><td>增加约 42%；早期位置安全时影响很大。</td></tr>
+        <tr><td>50,000</td><td>约 1,420,000</td><td>约 1,670,000</td><td>增加约 18%；仍有价值，但要和防守、路线收益比较。</td></tr>
+        <tr><td>200,000</td><td>约 3,131,000</td><td>约 3,381,000</td><td>增加约 8%；是稳定上限，不代表自动成为最佳购买。</td></tr>
+      </tbody>
+    </table>
+    <p>tiles 项确实边际递减，但固定 250,000 在大上限里占比也会变小。City 的中后期战略优势是<strong>不扩大边境也能加上限</strong>，不是比例收益越来越高。</p>
+
+    <h2>金币来源与适用局势</h2>
+    <FormulaBlock label={economy} items={economy.items} />
+
+    <h3>基础金币</h3>
+    <p>Human 在倍率前每 tick 获得 100 金币。它稳定、不会被禁运，所以有目的地等待完全合理；没有触发条件地囤钱则不合理。先决定这笔储备是等上限、防守、贸易、火车，还是核威胁。</p>
+
+    <h3>贸易船</h3>
+    <p>距离更远且安全的航线收益更高，但全局活跃贸易船接近 v32 的 400 艘曲线中点后，生成会越来越慢。一个可靠长航线通常胜过多个裸露 Port。拒绝贸易船会进入怜悯计数并影响之后的生成节奏，因此禁运不是没有代价的按钮。</p>
+
+    <h3>火车</h3>
+    <p>火车需要 Factory、City 站点和可用铁路。每次访问在倍率和距离惩罚前，盟友 35k、队友或其他玩家 25k、自家 City 10k。只有站点守得住时网络才有价值；穿过战线的高收益路线，往往只是送给对手的建筑链。</p>
+
+    <h2>按当前瓶颈花钱</h2>
+    <table>
+      <thead>
+        <tr><th>信号</th><th>下一步</th><th>常见输法</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>低于 30%，且有敌对边境</td><td>停止可选攻击，稳定最短战线，先回兵</td><td>因为按钮亮了就建裸露 Port 或 City</td></tr>
+        <tr><td>35%–50%，边境安静且中立地便宜</td><td>高效扩张，同时保留一条回兵路线</td><td>满条不动，浪费增长空间</td></tr>
+        <tr><td>高于 80%，安全且确实被上限卡住</td><td>把兵换成价值，或增加受保护的 City 上限</td><td>没有进攻计划，也不提高上限</td></tr>
+        <tr><td>海岸安全且有可靠远方伙伴</td><td>投资 Port 航线</td><td>只数 Port，不看距离、安全和被占风险</td></tr>
+        <tr><td>有受保护的 City 站点群</td><td>大厅允许时增加 Factory 与铁路环</td><td>把铁路铺过争夺前线</td></tr>
+        <tr><td>敌方核能力已经可信</td><td>保留足够流动金币用于分散、SAM 或恢复</td><td>把全部资源锁进慢收益基础设施</td></tr>
+      </tbody>
+    </table>
+
+    <h2>常见失败与对手反制</h2>
+    <ul>
+      <li><strong>满条幻觉：</strong>储兵看起来强，但高于 80% 时自然增长被重压。对手若高效花兵并留储备，会逐渐拉开差距。</li>
+      <li><strong>盲目 City：</strong>上限解决不了裸露边境。对手刚把金币花在守不住的 City 上，就是施压窗口。</li>
+      <li><strong>Port 铺满：</strong>更多 Port 同时增加被占目标，也无法消除全局生成抑制。禁运、威胁伙伴或直接打海岸集群都能反制。</li>
+      <li><strong>甜区贪心：</strong>42% 附近适合增长，不适合吃突袭。背叛或集中攻击能迫使对方回到更慢的储备区间。</li>
+      <li><strong>囤金无触发：</strong>储备只有在知道什么条件会花掉它时才保留选择。对手若一直等「完美购买」，就先抢决定性边境。</li>
+    </ul>
+
+    <h2>来源与下一步</h2>
+    <p>可直接核验 `v0.33.1` 的<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857" target="_blank" rel="noopener">人口上限与部队增长源码</a>，再用<a href="/zh/database/formulas/">公式数据库</a>查看紧凑数据。</p>
+    <ul>
+      <li><a href="/zh/strategies/economy-fundamentals/">经济基本功</a>：在上限、贸易、火车、防守和核投入间做选择。</li>
+      <li><a href="/zh/strategies/ffa-opening/">FFA 开局</a>：把储备区间用于第一轮扩张。</li>
+      <li><a href="/zh/mechanics/trade/">贸易系统</a>：继续查看航线收益与禁运机制。</li>
+    </ul>
   </article>
 </BaseLayout>

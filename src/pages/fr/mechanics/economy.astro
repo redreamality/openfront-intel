@@ -2,65 +2,121 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const economy = formulas.groups.economy;
+const troops = formulas.groups.troops;
+const verifiedDate = new Date('2026-08-05T00:00:00Z');
 ---
 
-<BaseLayout title="Économie : or, commerce et population" description="Formules de production d'or, navires de commerce, trains et bonus de troupes des City dans OpenFront.io.">
-  <PageHeader eyebrow="MÉCANIQUES · 02" title="Économie : or, commerce et population" lead="L'économie d'OpenFront repose sur trois piliers : or de base, navires de commerce et trains. Le pilier le plus solide détermine ce que vous pouvez construire." />
+<BaseLayout title="Guide économie et croissance de population OpenFront" description="Quand arrêter l'expansion, quelle réserve de troupes garder et quand investir dans une City, un Port ou les trains.">
+  <PageHeader eyebrow="MÉCANIQUES · 02" title="Économie : croissance, or et réserve de troupes" lead="Utilisez la formule de croissance pour choisir entre expansion, récupération, réserve et hausse du plafond, puis financez la route adaptée à la carte." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Trois sources d'or</h2>
-    <ol>
-      <li><strong>Or de base</strong> : produit automatiquement à chaque tick. Human 100 / tick, Bot 50 / tick (multiplié par <code>goldMultiplier</code>, ajustable en salon privé).</li>
-      <li><strong>Navires de commerce</strong> : va-et-vient entre deux Port, le revenu augmente avec la distance, payé à chaque arrivée à quai.</li>
-      <li><strong>Trains (v24)</strong> : trains circulant entre City, or versé selon la relation avec le propriétaire des stations visitées — les alliés rapportent le plus.</li>
-    </ol>
+    <h2>Réponse directe : quand arrêter l'expansion ?</h2>
+    <p>Arrêtez les conquêtes facultatives si la prochaine tile ouvre un nouveau front actif, vous fait tomber sous environ 30 % du plafond avec un ennemi proche, ou apporte moins de sécurité qu'une phase de récupération. Sur une frontière calme, la meilleure zone de croissance brute se situe souvent vers 35–50 %, avec un pic proche de 42 %. Sous pression, conserver 50–70 % vaut souvent la croissance perdue, car cette réserve empêche l'effondrement.</p>
 
-    <h2>Formules rapides d'or</h2>
-    <FormulaBlock label={economy} items={economy.items} />
-    <p>Erreur classique : <strong>plus de Port n'est pas toujours mieux</strong>. En v32, la courbe de suppression du spawn est centrée sur 400 navires actifs, mais le spawn ralentit toujours avec la taille de la flotte. La distance, la sécurité des partenaires et le niveau des Port comptent davantage que leur nombre brut.</p>
-
-    <h2>Population (plafond de troupes)</h2>
-    <p>Le plafond de population est à la fois votre puissance de frappe et votre tampon défensif :</p>
-    <FormulaBlock
-      label="Plafond de population"
-      items={[
-        { name: 'Base', expr: '2 × (0.6 × tiles^0.6 × 1000 + 50,000) + Σ(niveau City × 250,000)' },
-        { name: 'Multiplicateur de type', expr: 'Human ×1 · Bot ÷3 · Nation 0.5/0.75/1.0/1.25' },
-      ]}
+    <FreshnessSummary
+      lang="fr"
+      version="v33.1"
+      verifiedDate={verifiedDate}
+      summary="Correction de la formule du plafond : le code actuel utilise 2 × (tiles^0.6 × 1000 + 50 000), sans le multiplicateur 0,6 affiché auparavant. L'ancien calendrier d'achats fixe est remplacé par des décisions selon la situation."
     />
-    <Callout type="tip" title="Retour sur investissement d'une City">
-      <p>Coûts des 1ère à 4ème City : 125k → 250k → 500k → 1M. <strong>La 1ère est quasiment toujours rentable</strong> — le +250 000 au plafond de troupes dépasse de loin la conversion en population de 125 000 d'or.</p>
-      <p>Quand les tiles sont déjà nombreux (200k+ en mid/late game), la croissance de <code>0.6 × tiles^0.6 × 1000</code> ralentit, et le bonus fixe d'une City reprend de la valeur.</p>
+
+    <Callout type="info" title="La réponse principale sur la croissance est ici">
+      <p>Cette page de mécaniques couvre le plafond, les ratios de croissance et le choix expansion ou récupération. Consultez les <a href="/fr/strategies/economy-fundamentals/">fondamentaux économiques</a> pour choisir l'investissement protégé à acheter. Cette séparation évite que deux pages visent la même intention.</p>
     </Callout>
 
-    <h2>Détails économiques des navires de commerce</h2>
-    <ul>
-      <li>La génération est probabiliste : plus <code>spawnRate</code> est grand, plus l'intervalle est long. <strong>Plus il y a de navires, plus c'est dur d'en faire spawner d'autres</strong> (inhibition sigmoïde).</li>
-      <li>« Pitié pour refus de commerce » : plus vous refusez les navires des autres, plus les vôtres sont lents à spawn — refuser a un coût.</li>
-      <li>La v32 place le point médian sigmoid à 400 navires actifs : les grands réseaux peuvent croître davantage avant une forte suppression.</li>
-    </ul>
-
-    <h2>Économie des trains (nouveau en v24)</h2>
-    <ul>
-      <li>Trois ingrédients requis : <strong>Factory + City + Railroad</strong>, au moins 2 stations pour faire rouler un train.</li>
-      <li>Paiement à chaque visite de City : <strong>allié 35k / équipe 25k / chez soi 10k</strong>.</li>
-      <li>Au-delà de 9 stations, pénalité de 5 000 d'or par station supplémentaire (plancher 5 000).</li>
-      <li>Rythme de génération des trains : un toutes les <code>(numFactories + 10) × 15</code> ticks.</li>
-    </ul>
-
-    <h2>Tableau des décisions budgétaires</h2>
+    <h2>La zone idéale est une plage, pas une consigne permanente</h2>
+    <FormulaBlock label={troops} items={troops.items} />
+    <p>Le facteur final <code>1 - troops / maxTroops</code> retire de la croissance quand la barre se remplit. Le terme <code>troops^0.73</code> augmente avec l'armée actuelle : la génération maximale n'est donc pas à zéro troupe. Pour les plafonds humains courants, le pic brut reste proche de <strong>42 % du plafond</strong>. C'est un signal de planification, pas une obligation de dépenser dès 43 %.</p>
     <table>
       <thead>
-        <tr><th>Phase</th><th>Objectif d'or</th><th>À construire en priorité</th></tr>
+        <tr><th>Troupes actuelles</th><th>Lecture de la formule</th><th>Décision pratique</th></tr>
       </thead>
       <tbody>
-        <tr><td>Ouverture (0-60s)</td><td>Accumuler 125k</td><td>1ère City + 1er Port</td></tr>
-        <tr><td>Début (60-180s)</td><td>250k–1M</td><td>2ème City, 1 DefensePost sur le goulet</td></tr>
-        <tr><td>Mid-game (3-6 min)</td><td>1M–5M</td><td>Missile Silo + 1er SAM pour le bouclier nucléaire</td></tr>
-        <tr><td>Late-game (6 min+)</td><td>5M+</td><td>Améliorer City/Port/SAM ; MIRV selon besoin</td></tr>
+        <tr><td>Moins de 30 %</td><td>Beaucoup de marge, mais peu de dissuasion</td><td>Stoppez les guerres facultatives ; ne prenez que du neutre bon marché ou une cible qui supprime immédiatement un danger.</td></tr>
+        <tr><td>35–50 %</td><td>Près du pic de croissance brute</td><td>Profitez des fenêtres calmes pour une expansion efficace et des attaques courtes.</td></tr>
+        <tr><td>50–70 %</td><td>Croissance plus lente, réserve immédiate plus forte</td><td>Gardez cette plage sur un goulet disputé, avant une trahison ou face à deux voisins.</td></tr>
+        <tr><td>70–80 %</td><td>Croissance déjà fortement freinée</td><td>Ne stockez autant que pour un timing, une menace ou un suivi coûteux identifié.</td></tr>
+        <tr><td>Plus de 80 %</td><td>Le facteur de plafond vaut 0,20 ou moins</td><td>Si la frontière est sûre, transformez des troupes en territoire utile ou augmentez le plafond.</td></tr>
       </tbody>
     </table>
+
+    <h2>Quatre vérifications avant une conquête de plus</h2>
+    <ol>
+      <li><strong>La tile est-elle bon marché ?</strong> Une bordure neutre courte peut se rembourser. Une longue attaque dans une défense est un budget de guerre.</li>
+      <li><strong>Que reste-t-il après l'attaque ?</strong> Jugez le ratio après le clic. Passer sous 30 % avec un ennemi actif est un signal de récupération.</li>
+      <li><strong>La forme devient-elle meilleure ?</strong> Fermer une poche, gagner une côte ou tenir un goulet peut justifier une récupération plus lente. Un corridor et un second front appauvrissent un grand territoire.</li>
+      <li><strong>Le plafond est-il vraiment la limite ?</strong> Près de 80 % dans une position sûre, plus de cap aide. Si les troupes sont basses à cause de combats perdants, une City ne corrige rien.</li>
+    </ol>
+
+    <h2>Trois situations de partie</h2>
+    <h3>Frontière extérieure calme</h3>
+    <p>Vous avez environ 45 % du plafond, l'ennemi le plus proche est séparé par du neutre et chaque capture garde une frontière cohérente. Continuez les prises peu coûteuses. Arrêtez quand la route ouvre un deuxième adversaire, devient un corridor ou fait passer la prochaine attaque sous votre seuil de récupération.</p>
+
+    <h3>Goulet disputé</h3>
+    <p>Vous avez 55–65 % et un rival peut frapper la même frontière étroite. Ne redescendez pas à 42 % uniquement pour le pic mathématique. La réserve empêche une percée immédiate ; un Defense Post qui résout le goulet vaut souvent plus qu'une nouvelle frontière fragile.</p>
+
+    <h3>Récupération après une guerre</h3>
+    <p>Vous avez gagné du terrain mais chuté sous 25 %. Annulez les petites attaques, gardez l'or liquide et laissez l'armée revenir. Préparez une City sûre si le plafond va bientôt bloquer ; sur une ligne qui va tomber, le bâtiment devient un cadeau.</p>
+
+    <h2>Quand une City vaut-elle son prix ?</h2>
+    <p>Un niveau de City terminé ajoute exactement <strong>250 000 au plafond de troupes</strong>. La première coûte 125 000 or, mais ce n'est pas un bénéfice direct : vous échangez de l'or liquide contre du cap, une gare et une structure à défendre. Construisez quand le plafond limite la récupération, que le site est défendable et que l'or n'est pas requis immédiatement ailleurs.</p>
+    <table>
+      <thead>
+        <tr><th>Tiles possédées</th><th>Cap sans City</th><th>Avec un niveau de City</th><th>Interprétation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10 000</td><td>≈602 000</td><td>≈852 000</td><td>Environ +42 % ; fort si le site initial est sûr.</td></tr>
+        <tr><td>50 000</td><td>≈1 420 000</td><td>≈1 670 000</td><td>Environ +18 % ; comparez avec la défense et les revenus de route.</td></tr>
+        <tr><td>200 000</td><td>≈3 131 000</td><td>≈3 381 000</td><td>Environ +8 % ; cap prévisible, pas achat automatiquement optimal.</td></tr>
+      </tbody>
+    </table>
+    <p>Le terme des tiles a des rendements décroissants, mais le bonus fixe devient aussi un pourcentage plus petit d'un grand plafond. Son avantage tardif est d'ajouter du cap sans élargir la frontière.</p>
+
+    <h2>Sources d'or et situations adaptées</h2>
+    <FormulaBlock label={economy} items={economy.items} />
+
+    <h3>Or de base</h3>
+    <p>Un Human reçoit 100 or par tick avant multiplicateurs. Ce revenu est fiable et impossible à embargo. Attendre avec un déclencheur précis est valide ; stocker sans savoir si l'or servira au cap, à la défense, au commerce, aux trains ou au nucléaire ne l'est pas.</p>
+
+    <h3>Navires de commerce</h3>
+    <p>Une route longue et sûre paie davantage, mais la suppression globale augmente autour du point médian v32 de 400 navires actifs. Une route protégée avec un partenaire fiable vaut mieux que plusieurs Port exposés. Les refus modifient le compteur de pitié et le rythme futur : l'embargo a un coût stratégique.</p>
+
+    <h3>Trains</h3>
+    <p>Les trains exigent une Factory, des City et des rails utilisables. Avant pénalité et multiplicateur, une visite paie 35k chez un allié, 25k chez un coéquipier ou autre joueur, et 10k chez soi. Un réseau rentable sur le papier mais posé sur la ligne de front devient un don.</p>
+
+    <h2>Dépenser selon la contrainte actuelle</h2>
+    <table>
+      <thead>
+        <tr><th>Signal</th><th>Action suivante</th><th>Erreur perdante</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Moins de 30 % avec frontière hostile</td><td>Stopper les attaques facultatives, stabiliser le front le plus court, récupérer</td><td>Acheter un Port ou une City exposé parce que le bouton est disponible</td></tr>
+        <tr><td>35–50 %, frontière calme, neutre bon marché</td><td>S'étendre efficacement tout en gardant une route de récupération</td><td>Rester à barre pleine et gaspiller la marge de croissance</td></tr>
+        <tr><td>Plus de 80 %, position sûre et cap limitant</td><td>Employer les troupes ou ajouter du cap protégé</td><td>Rester plein sans attaque ni hausse de plafond prévue</td></tr>
+        <tr><td>Côte sûre et partenaire distant fiable</td><td>Investir dans une route de Port</td><td>Compter les Port sans regarder distance, sécurité et capture</td></tr>
+        <tr><td>Groupe de City protégé</td><td>Ajouter Factory et boucle ferroviaire si le mode le permet</td><td>Faire passer les rails par un front disputé</td></tr>
+        <tr><td>Capacité nucléaire ennemie crédible</td><td>Garder de l'or liquide pour espacement, SAM ou récupération</td><td>Bloquer toutes les ressources dans un revenu lent</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Échecs fréquents et contre-jeu</h2>
+    <ul>
+      <li><strong>Illusion de la barre pleine :</strong> au-dessus de 80 %, la croissance naturelle est très freinée. Un adversaire qui dépense efficacement peut vous dépasser.</li>
+      <li><strong>City aveugle :</strong> le cap ne répare pas une frontière exposée. Attaquez juste après que l'adversaire a immobilisé son or dans une City fragile.</li>
+      <li><strong>Spam de Port :</strong> davantage de cibles côtières ne suppriment pas la courbe globale. Embargo, menace sur le partenaire ou attaque du groupe côtier répondent au réseau.</li>
+      <li><strong>Avidité autour de 42 % :</strong> cette zone optimise la génération, pas la résistance à une surprise. Une trahison oblige l'adversaire à revenir vers une réserve plus lente.</li>
+      <li><strong>Or sans déclencheur :</strong> une réserve conserve des options seulement si une condition précise la libère. Prenez la frontière décisive pendant que l'autre attend l'achat parfait.</li>
+    </ul>
+
+    <h2>Sources et lecture suivante</h2>
+    <p>Vérifiez directement le <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts#L817-L857" target="_blank" rel="noopener">code v0.33.1 du plafond et de la croissance</a>, puis consultez la <a href="/fr/database/formulas/">référence des formules</a>.</p>
+    <ul>
+      <li><a href="/fr/strategies/economy-fundamentals/">Fondamentaux économiques</a> — choisir entre cap protégé, commerce, trains, défense et nucléaire.</li>
+      <li><a href="/fr/strategies/ffa-opening/">Ouverture FFA</a> — appliquer les plages de réserve à la première expansion.</li>
+      <li><a href="/fr/mechanics/trade/">Système commercial</a> — approfondir revenus de route et embargo.</li>
+    </ul>
   </article>
 </BaseLayout>
