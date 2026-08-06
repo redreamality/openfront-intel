@@ -1,8 +1,22 @@
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
-import { ADSENSE_PUBLISHER_ID, getGoogleCmpScriptUrl } from '../src/config/adsense';
+import { ADSENSE_PUBLISHER_ID, getAdSenseScriptUrl, getGoogleCmpScriptUrl } from '../src/config/adsense';
 
 const adsTxt = readFileSync(new URL('../public/ads.txt', import.meta.url), 'utf8');
+const adSenseScriptUrl = getAdSenseScriptUrl();
+
+for (const path of ['/', '/zh/', '/fr/', '/de/', '/nl/']) {
+  test(`${path} includes the global AdSense loader`, async ({ page }) => {
+    await page.route('https://pagead2.googlesyndication.com/**', route => route.abort());
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+    const adSenseScript = page.locator('head > script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]');
+    await expect(adSenseScript).toHaveCount(1);
+    await expect(adSenseScript).toHaveAttribute('src', adSenseScriptUrl);
+    await expect(adSenseScript).toHaveAttribute('async', '');
+    await expect(adSenseScript).toHaveAttribute('crossorigin', 'anonymous');
+  });
+}
 
 test('analytics stays disabled until the visitor opts in', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });

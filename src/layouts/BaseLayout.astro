@@ -7,6 +7,7 @@ import ConsentBanner from '../components/ConsentBanner.astro';
 import GoogleConsentManager from '../components/GoogleConsentManager.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
+import { getAdSenseScriptUrl } from '../config/adsense';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
 import { getSeoTitle } from '../i18n/seo';
 
@@ -45,6 +46,7 @@ const fullTitle = getSeoTitle(lang, Astro.url.pathname, title);
 const readingSections = new Set(['mechanics', 'database', 'guides', 'strategies', 'changelog']);
 const isReadingPage = contentSection !== undefined && readingSections.has(contentSection) && pathSegments.length > 1;
 const googleCmpEnabled = import.meta.env.PUBLIC_GOOGLE_CMP_ENABLED === 'true';
+const adSenseScriptSrc = getAdSenseScriptUrl();
 const provenanceSources = contentSection === 'database'
   ? [
       { label: 'Config.ts', path: 'src/core/configuration/Config.ts' },
@@ -88,6 +90,7 @@ const provenanceSources = contentSection === 'database'
     <link rel="alternate" hreflang="x-default" href={new URL(alternates.find(a => a.lang === 'en')?.href ?? '/', Astro.site ?? Astro.url).toString()} />
 
     <GoogleConsentManager enabled={googleCmpEnabled} />
+    <script is:inline async src={adSenseScriptSrc} crossorigin="anonymous"></script>
 
     <!-- Google Analytics is loaded only after explicit consent. -->
     <script is:inline>
