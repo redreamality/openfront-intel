@@ -8,19 +8,53 @@ const cases = [
   {
     lang: 'en',
     path: '/guides/hotkeys/',
+    title: 'Hotkey Practice and Control Workflows',
     atom: 'Atom Bomb',
     hydrogen: 'Hydrogen Bomb',
     // 头部问答标题里的关键短语
     repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
+    referenceHrefEnd: '/shortcuts/',
   },
   {
     lang: 'zh',
     path: '/zh/guides/hotkeys/',
+    title: '快捷键练习与实战控制流程',
     atom: '原子弹',
     hydrogen: '氢弹',
     repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
+    referenceHrefEnd: '/zh/shortcuts/',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/guides/hotkeys/',
+    title: 'Entraînement aux raccourcis et séquences de contrôle',
+    atom: 'bombe atomique',
+    hydrogen: 'bombe à hydrogène',
+    repeatHeading: /Comment les joueurs lancent-ils des nukes aussi vite/i,
+    cityRow: /Ville/,
+    referenceHrefEnd: '/fr/shortcuts/',
+  },
+  {
+    lang: 'de',
+    path: '/de/guides/hotkeys/',
+    title: 'Hotkey-Training und Steuerungsabläufe',
+    atom: 'Atombombe',
+    hydrogen: 'Wasserstoffbombe',
+    repeatHeading: /Wie feuern Spieler Nukes so schnell/i,
+    cityRow: /City/,
+    referenceHrefEnd: '/de/shortcuts/',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/guides/hotkeys/',
+    title: 'Sneltoetsen oefenen en besturingsroutines',
+    atom: 'Atoombom',
+    hydrogen: 'Waterstofbom',
+    repeatHeading: /Hoe vuren spelers zo snel nukes af/i,
+    cityRow: /Stad/,
+    referenceHrefEnd: '/nl/shortcuts/',
   },
 ];
 
@@ -31,6 +65,11 @@ for (const c of cases) {
     // 都是服务端渲染的静态 HTML，domcontentloaded 已足够。
     await page.goto(c.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
+
+    // CTRL-01：攻略只负责训练与故障恢复，完整键位清单留给 /shortcuts/。
+    await expect(page.locator('h1')).toContainText(c.title);
+    await expect(main.locator(`a[href$="${c.referenceHrefEnd}"]`).first()).toBeVisible();
+    await expect(main.locator('table')).toHaveCount(1);
 
     // 1) 建造数字键：8 = 原子弹、9 = 氢弹（页面以表格列出）
     await expect(main).toContainText(c.atom);

@@ -36,7 +36,7 @@ const groups: Group[] = [
     rows: [
       { keys: ['Linksklick'], action: 'Feind / herrenlose Grenze angreifen oder Transport übers Wasser senden' },
       { keys: ['Linksklick'], action: 'Scharfes Gebäude auf eigenem Land platzieren' },
-      { keys: ['Rechtsklick'], action: 'Radial- / Baumenü öffnen' },
+      { keys: ['Rechtsklick'], action: 'In v33.1 aktive Warship- / Bootsauswahl aufheben; sonst Radial- / Baumenü öffnen' },
       { keys: ['Strg', 'Linksklick'], action: 'Baumenü an dieser Stelle öffnen' },
       { keys: ['Alt', 'Linksklick'], action: 'Emote-Menü öffnen' },
       { keys: ['Shift', 'Ziehen'], action: 'Mehrere Kriegsschiffe per Box auswählen' },
@@ -94,15 +94,20 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Tastenkürzel"
-  description="Die komplette OpenFront.io-Tastenkürzel-Übersicht: jedes Standard-Tastenkürzel, jede Maussteuerung und jeder Bau-Hotkey auf einer Seite, aktuell für v24."
+  description="Die komplette OpenFront.io-v33.1-Tastenkürzel-Übersicht: alle Standardtasten, Maussteuerungen und Bau-Hotkeys zum schnellen Nachschlagen."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Tastenkürzel"
-    lead="Alle Standard-Tastenkürzel, Maussteuerungen und Bau-Hotkeys von OpenFront.io, nach Zweck gruppiert für schnelles Nachschlagen. Aktuell für v24 — seit v24 lässt sich jede Taste in Einstellungen → Tastenbelegung neu belegen. Unter macOS gilt Strg als Cmd."
+    lead="Alle Standard-Tastenkürzel, Maussteuerungen und Bau-Hotkeys von OpenFront.io, nach Zweck gruppiert für schnelles Nachschlagen. Seit v24 lässt sich jede Taste in Einstellungen → Tastenbelegung neu belegen. Unter macOS gilt Strg als Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
+    <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
+      <strong class="text-iron-100">Gilt für v33.1 · zuletzt geprüft am 6. August 2026.</strong>
+      Die wichtigste Steuerungsänderung in v33 ist kontextabhängig: Ein Rechtsklick hebt zuerst eine aktive Warship- oder Bootsauswahl auf und kehrt danach zum üblichen Radialmenü zurück.
+    </p>
+
     <a
       href={guideHref}
       class="block rounded border border-cannon-700/50 bg-cannon-950/30 px-4 py-3 text-sm text-iron-200 transition-colors hover:border-cannon-500"
@@ -136,8 +141,12 @@ const groups: Group[] = [
       </section>
     ))}
 
+    <p class="text-sm text-iron-400">
+      Wenn die Belegung sitzt, nutze den <a class="text-cannon-300 hover:text-cannon-200" href={`${base}/de/mechanics/economy/`}>Wirtschaftsguide</a> für die Bauentscheidung und die <a class="text-cannon-300 hover:text-cannon-200" href={`${base}/de/mechanics/nukes/`}>Nuklearmechanik-Referenz</a> vor Übungen zu Start und Abfang.
+    </p>
+
     <p class="text-xs text-iron-500">
-      Dies sind die v24-Standardbelegungen im Spiel (Einstellungen → Tastenbelegung). Verhält sich eine Taste anders, prüfe, ob sie neu belegt wurde.
+      Dies sind die v33.1-Standardbelegungen im Spiel (Einstellungen → Tastenbelegung), geprüft gegen die aktuelle Upstream-Quelle. Verhält sich eine Taste anders, prüfe, ob sie neu belegt wurde.
     </p>
   </section>
 </BaseLayout>
