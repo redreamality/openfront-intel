@@ -174,3 +174,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **受限沙箱中普通 `git diff --check` 偶尔会把现有工作区误报为 `Not a git repository`**：先用 `git -c safe.directory='C:/absolute/workspace/path' diff --check` 单次复跑；成功后按所有权/沙箱识别问题处理，不要修改全局 Git 配置。
 - **向长 Markdown 账本同时补章节和表格行时不要把整条历史表格行塞进同一份多位置补丁**：表格措辞只差一个词就会使 `apply_patch` 整体回滚。本轮把“回到 main”误作实际的“切回并同步 main”而匹配失败；应先读取精确尾行，再把日期、章节、清单和表格拆成独立短补丁。
 - **`git push` 若连续报 `Failed to connect to github.com port 443 ... Couldn't connect to server`，不得把已创建 PR 的旧远端 head 当作最新交付**：首次失败后用 GitHub ref API 对比远端与本地 SHA；远端仍旧时只重试一次，第二次仍失败就保留 PR 和本地 ahead 提交、记录 head 不一致并停止自动合并，不再第三次重试。
+- **MDX 渲染会把部分直撇号转换成弯引号**：Playwright 对法语 `d'abord` 等带撇号整句做 `toContainText` 精确字符串断言时，源码 ASCII 撇号可能渲染为 `d’abord` 而失败。优先断言不跨撇号的稳定语义片段，仍保留关键事实保护。
+- **重分配相邻页面职责时同步更新既有内容完整性断言**：若完整按键表从攻略迁到速查页，旧测试可能仍锁定原表格中的斜杠、大小写或精确文案。应把断言迁到新的事实承载位置并补“表格数量/互链”合同，不能删除有效事实断言或为旧测试保留重复内容。
+- **自动化包装运行 `pnpm gsc:queries -- --days ...` 若长时间无日志且目标文件未刷新，不能视为成功**：约 30 秒后先核对输出文件的 `generatedAt`；仍未变化时停止该进程，并在同一环境直接运行 `node scripts/fetch-search-console.mjs --days <n> --output <path>`，检查退出码与 JSON 数组后再继续。代理/SSL 失败仍只重试一次。
+- **PowerShell 统计 `gh ... --json` 空数组时先过滤 `$null`**：`ConvertFrom-Json` 的空结果在某些包装中会形成一个 `$null`，直接 `@($value).Count` 会把 0 错报为 1。统一用 `@($value | Where-Object { $_ }).Count`，并保留原始 `[]` 作为核验依据。

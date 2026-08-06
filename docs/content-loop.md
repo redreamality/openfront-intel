@@ -13,7 +13,7 @@
 ### 1. 同步与检查状态
 
 1. 阅读项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md) 和本文件。
-2. 从最新 `main` 创建独立工作树，不直接改写主分支。
+2. 在配置的本地项目目录中，从最新且干净的 `main` 创建独立主题分支；不得创建或复用 worktree，也不得直接改写 `main`。
 3. 检查所有由内容循环创建但尚未合并的 PR，记录计划 ID、改动页面、依赖、评审状态和目标分支。
 4. 若已有同一计划或重叠页面的 PR，优先继续或修正它，不创建重复 PR；其他互不冲突的计划可以建立新的独立 PR。
 5. 检查上一轮每个进行中事项是否已经合并，并确认当前周目标、战役退出条件和可并行候选是否仍成立。
@@ -115,23 +115,23 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 ## 当前周目标
 
 - 战役：恢复“始终是最新的”印象已经随 PR #8 合并退出；本周主线转入高价值核心决策答案。
-- 玩家结果：玩家能在经济主答案中判断什么时候停止扩张、保留多少兵、何时提高 City 上限，并确认这些结论适用于 v33.1。
-- 当前计划项：`FRESH-01`、`FRESH-02`、`FRESH-03`、`DOOM-01` 均已合并完成；`ECON-01` 已通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并。
-- 完成条件：人口上限生成公式与 v33.1 源码一致；五语现有主落地页提供直接答案、新鲜度摘要、失败反例、对手反制和至少两个自然入口；不拆 population、money 或 worker-ratio 薄页。
+- 玩家结果：玩家能先在快捷键参考页找到当前默认键，再到实战控制攻略练成镜头恢复、建造、边境、海军和核弹取消流程，并确认这些结论适用于 v33.1。
+- 当前计划项：`ECON-01` 已通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并；本轮领取证据成熟、无前置冲突的 `CTRL-01`。
+- 完成条件：五语 `/shortcuts/` 是唯一完整默认键位参考，五语 `/guides/hotkeys/` 不再复制完整按键表而专注选择、练习、失败恢复与对手反制；两类页面互链、版本范围一致，内容完整性回归锁定分工。
 
 ## 今日编辑判断
 
-- 日期：2026-08-05。
-- 当前周目标 / 计划 ID：确认“始终是最新的”战役已经随 PR #8 合并达到退出条件，并进入 `ECON-01`；本轮同时处理经济主落地页中的人口上限公式事实错误。
-- 玩家结果：玩家打开 `/mechanics/economy/` 就能直接判断何时继续扩张、何时停止花兵、何时用 City 抬高上限，以及应该保留多少恢复空间，而不是被错误公式或固定建造时间表带偏。
-- 为什么今天做：最新正式 Release 仍是正文完整、非 TEST 的 `v0.33.1`，没有新的正式版本中断；但对照上游 `src/core/configuration/Config.ts` 发现本站五语经济页和生成公式把人口上限误写成 `2 × (0.6 × tiles^0.6 × 1000 + 50,000)`，真实代码没有前置 `0.6 ×`。同时本次主动刷新成功：7 天为 2026-07-27 至 2026-08-02（825 个 Query、1,563 条 Query × Page），经济相关 18 个 Query、109 次展现，`openfront population growth` 主要落到现有经济页但平均排名约 17.71；28 天经济相关 24 个 Query、392 次展现。事实错误优先级高于普通扩写，且 `ECON-01` 的唯一主落地页已经成立。
-- 批次与 PR 边界：一个 PR 完成 `ECON-01` 的五语现有页深度刷新、公式生成源修正、受影响入口与内容完整性 e2e，并同步用户已明确调整的批次化执行规则；不新建 population、money 或 worker-ratio 薄页。分支为 `codex/daily-content-2026-08-05-economy-growth`，基线是最新 `main` 的 `cdc72cb`。
-- 为什么其他候选等待：Water Nukes 28 天需求更高但专页仍在 14 天观察窗内，报告截止日期也早于最新主答案上线；controls/hotkeys 需要先完成两页分工设计，不能用一轮关键词数据仓促复制按键表；Doomsday 报告截止于 PR #8 合并前；攻击比例、出生点、私人房和地图试点没有足够真实需求。上游新增 Yangtze River 尚无正式 Release 与试点需求，迟到 spawn 修复堵住漏洞但不改变守规玩家的现有操作结论。GitHub Issues 为 0，Feedlog 仍只有系统 welcome（1 个 Other 帖子、0 票、0 评论）。
-- 产出类型与停止条件：事实纠错 + 扩写现有主答案 + 五语同步 + 内链 + e2e。只有正确公式、直接答案、失败反例、对手反制、至少两个自然入口、五语事实一致和范围验证全部完成后才停止。
+- 日期：2026-08-06。
+- 当前周目标 / 计划 ID：高价值核心决策答案 / `CTRL-01`。本轮不改变已经退出的新鲜度战役，只把旧快捷键内容按 v33.1 重新核验并消除两页意图重叠。
+- 玩家结果：只想找键的玩家在 `/shortcuts/` 得到完整、可扫描的默认键位；想练操作的玩家在 `/guides/hotkeys/` 得到优先级、十分钟训练、实战序列、失败恢复和对手反制，不必在两套重复表格之间判断哪一套更新。
+- 为什么今天做：最新正式 Release 仍是正文完整、非 TEST 的 `v0.33.1`，没有新正式版本或更高优先事实错误中断。主动刷新成功且保留 2 天稳定延迟：7 天为 2026-07-29 至 2026-08-04（874 个 Query、1,704 条 Query × Page，生成于 2026-08-06T09:21:40.192Z）；28 天为 2026-07-08 至 2026-08-04（1,172 个 Query、2,711 条 Query × Page，生成于 2026-08-06T09:22:24.543Z）。28 天 `openfront hotkeys` 239 次展现、`shortcuts` 220、`controls` 186、`keybinds` 152、`keyboard shortcuts` 166，且仍在两类页面间切换；同时五语 `/shortcuts/` 仍把适用范围写成 v24，右键说明未覆盖 v33.1 的选中取消状态。上游 `getDefaultKeybinds()` 与 `InputHandler` 已核对当前默认值和上下文行为。
+- 批次与 PR 边界：一个 PR 在五语现有页面完成意图分工、版本摘要、互链和内容完整性 e2e，并修正本账本前部遗留的 worktree 冲突规则；分支为 `codex/daily-content-2026-08-06-control-workflows`，基线是已合并 PR #14 后的最新 `main` `e620b97`。唯一完整查键落地页是各语种 `/shortcuts/`；`/guides/hotkeys/` 是相邻实战工作流，不新建页面。
+- 为什么其他候选等待：Water Nukes 和 Doomsday 的 28 天窗口截止早于新主答案上线，继续等待观察窗；攻击比例、出生点和私人房尚未完成来源包；Feedlog 只有系统 welcome（0 票、0 评论），GitHub 开放 Issues 与 PR 均为 0；Yangtze River 不在允许的五张地图试点内。没有候选能越过当前已证实的快捷键需求。
+- 产出类型与停止条件：现有页意图拆分 + v33.1 事实修正 + 五语同步 + 双向内链 + e2e。只有五语事实一致、快捷键参考保留完整表、实战攻略移除完整重复表、直接答案/正确做法/失败反例/反制/下一步阅读齐全，并通过范围验证后才停止。
 
 ## 当前进行中
 
-- 无内容项执行中。`ECON-01` 已通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并；下一决策点是后续 GSC 收录/排名复盘，以及按新自动合并门禁领取证据成熟的 Next 候选。
+- `CTRL-01` 已完成：五语 `/shortcuts/` 与 `/guides/hotkeys/` 的非重复分工、v33.1 核验和回归已交付并通过 [PR #15](https://github.com/redreamality/openfront-intel/pull/15)。无待补语言或内容阻塞；下一决策点是观察两类查询是否稳定落到各自目标页，并继续等待 Water Nukes / Doomsday 的有效观察窗口。
 
 ## 计划承接表
 
@@ -145,7 +145,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
 | `ECON-01` | 已完成并通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并；五语经济页、公式生成源、自然入口断言和新鲜度摘要已同批交付 | 观察 `/mechanics/economy/` 的人口增长查询排名与错落地变化 |
 | `ATTACK-01` | Next | 建立攻击比例的当前公式与两个局势例子来源包 |
-| `CTRL-01` | Next | 明确 `/shortcuts/` 与 `/guides/hotkeys/` 的非重复提纲和互链 |
+| `CTRL-01` | 已完成；五语 `/shortcuts/` 保留 6 组完整默认键位表，五语 `/guides/hotkeys/` 只保留 1 张场景决策表并专注训练、失败恢复与反制；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并 | 观察 shortcuts/hotkeys/controls/keybinds 查询的错落地是否下降，不再复制第二套完整表 |
 | `NUKE-01` | 观察中 | 专页上线满 14 天后检查收录与错落地 |
 | `SPAWN-01` | Next | 选择海岸、半岛、中心、瓶颈四个真实地图场景 |
 | `ROOM-01` | Next | 核验当前私人房设置和适用玩法 |
@@ -177,6 +177,21 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-05｜Feedlog / GitHub Issues｜开放 Issues 为 0；Feedlog 仍只有系统 welcome，1 个 Other 帖子、0 票、0 评论。系统帖、空内容与无真实重复问题均未升级为候选。
 - 2026-08-05｜用户执行授权｜用户确认后续自动化 PR 在质量门禁通过后可以直接合入，无需再次人工审阅。该授权只改变合并等待步骤，不放宽内容证据、唯一主落地页、多语一致、完整验证、最新 main、无冲突和远端 SHA 核验要求。
 - 2026-08-05｜用户工作区授权｜用户要求定时任务直接在本地主题分支修改，PR 合入后回到 main，不再创建 worktree。为保护用户改动，启动时工作区不干净即停止，不自动 stash/reset/clean。
+- 2026-08-06｜Release / 上游｜最新正式 Release 仍为正文完整、非 TEST 的 [`v0.33.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1)；extraction checkout 仍为 `0668045`，上游 main 为 `9bf6edf`、领先 16 个提交。迟到出生与队伍分配修复会影响边缘局面，Yangtze River 是新增地图，Silo 新声音不改变决策；没有站内事实错误或新正式版本需要打断 `CTRL-01`，Yangtze 也不在允许的五张地图试点内。
+- 2026-08-06｜Search Console 7/28 天｜两份报告均主动刷新成功，没有缓存回退；保留 2 天稳定延迟。7 天为 2026-07-29 至 2026-08-04，生成于 2026-08-06T09:21:40.192Z（874 个 Query、1,704 条 Query × Page）；28 天为 2026-07-08 至 2026-08-04，生成于 2026-08-06T09:22:24.543Z（1,172 个 Query、2,711 条 Query × Page）。快捷键核心查询分别有 239、220、186、152、166 次展现并在 `/shortcuts/` 与 `/guides/hotkeys/` 间切换，支持 `CTRL-01`；Water Nukes 与 Doomsday 继续等待新主答案上线后的有效窗口。
+- 2026-08-06｜Feedlog / GitHub｜开放 Issues 与 PR 均为 0；Feedlog 仍只有系统 welcome，1 个 Other 帖子、0 票、0 评论。系统帖、空反馈和品牌拼错均未升级为选题；没有同计划 PR 需要继续或去重。
+
+## 本次合规自检（2026-08-06，`CTRL-01` 交付日）
+
+- 计划 ID：`CTRL-01`。
+- 是否推进当前战役退出条件：恢复新鲜度战役早已退出，本轮不虚构退出进度；它推进 Next 的高价值玩家决策，并用 v33.1 版本摘要和当前源码核验巩固“答案适用于最新版本”的玩家结果。
+- 为何未制造薄页：两个既有路由已经覆盖“查键”和“练操作”，问题是职责重叠而不是答案缺失；本轮没有新增 shortcuts、controls、keybinds 或 combo 页面，也没有为 Yangtze、Water Nukes 或 Doomsday 制造观察窗不足的页面。
+- 唯一主落地页：五语 `/shortcuts/` 分别是本地化完整默认键位参考；五语 `/guides/hotkeys/` 只负责优先级、十分钟训练、实战序列、失败恢复和对手反制。两类页面双向连接但不复制两套完整键位表。
+- 语言状态：en、zh、fr、de、nl 全部完成，没有 72 小时待补项；五语的版本范围、右键取消选中、数字键连发核弹、可重绑定、页面分工与后续入口一致。
+- 旧页同步范围：5 个 shortcuts 静态页、5 个 hotkeys 旧攻略、3 个相关 e2e 文件和本账本；没有修改生成游戏数据、其它机制正文、首页或导航交互。
+- 视觉证据类型：上游 `getDefaultKeybinds()` / `InputHandler` 源码、HTML 键位表、Markdown 场景决策表和文本训练序列；没有使用或伪造游戏截图。
+- 验证结果：GSC 7/28 天刷新成功且未回退缓存；严格内容审计 40/40；Astro check 0 errors、9 hints；生产构建 230 页；内部链接 9,269 条、无断链；快捷键定向 e2e 20/20；右键事实定向 e2e 5/5；完整 Playwright 237/237；`git diff --check` 通过。完整套件首次 232/237，原因是旧精确文案断言仍锁定已移除表格的斜杠写法；保留事实断言并改到新正文语义后全量复跑通过。
+- 阻塞与 PR：无内容、语言或验证阻塞；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已按自动合并门禁 squash 合入。其余候选均受观察窗或来源包不足约束，因此不制造第二个内容主题。
 
 ## 本次执行规则自检（2026-08-05，自动合并授权）
 
@@ -268,10 +283,11 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 语言状态 / 旧页同步范围：没有修改 en、zh、fr、de、nl 发布内容；范围仅为 README、三份历史文档、Search Console 流程文档、Issue 模板和项目避坑规则。
 - 视觉证据类型：不适用；没有截图、解释图或游戏画面。
 - 验证结果：严格内容审计 40/40；README 清单核对为 4 篇 guides、4 篇 strategies、v24–v33 与 v33 内置快照；Issue 模板 frontmatter、文档链接目标、UTF-8 BOM 和 `git diff --check` 均通过。没有 Astro 输入、路由、生成数据或交互变化，因此不运行 build、link check 或 e2e。
-- 阻塞与 PR：原始文件已安全保留，[PR #14](https://github.com/redreamality/openfront-intel/pull/14) 已创建；Git push 连续两次无法连接 `github.com:443`，远端 head 仍为 `201eb73`，本地账本提交因此尚未推送且 PR 不满足自动合并门禁。本轮未刷新 GSC 或生产内容，不能把本次文件处理写成当前玩家信号。
+- 阻塞与 PR：原始文件已安全保留；网络恢复后 [PR #14](https://github.com/redreamality/openfront-intel/pull/14) 已于 2026-08-06 squash 合并为 `e620b97`，远端主题分支已删除，本地与远端 `main` 已核对一致。本次文件整理本身未刷新 GSC 或生产内容，也没有被写成玩家需求信号。
 
 ## 已完成
 
+- [x] 2026-08-06：完成 `CTRL-01`；五语 `/shortcuts/` 成为 v33.1 唯一完整查键页，五语 `/guides/hotkeys/` 改为训练、实战序列、失败恢复与反制页，双向入口和 237 条完整回归通过；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并。
 - [x] 2026-08-06：安全整理启动门禁发现的本地文件；旧战略/账本保留最新版，仍有效的 README、历史状态、Issue 模板和避坑规则交付至 [PR #14](https://github.com/redreamality/openfront-intel/pull/14)。
 - [x] 2026-08-05：定时任务改为直接在本地主题分支执行，PR 合入后回到 main，不再创建 worktree；脏工作区会停止并报告。
 - [x] 2026-08-05：通过已合并 [PR #10](https://github.com/redreamality/openfront-intel/pull/10) 同步自动化与 Markdown 的合并权限；后续自动化 PR 在完整质量门禁通过后直接 squash merge，不再等待人工审阅。
@@ -310,3 +326,5 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-05 | 自动合并授权 | 定时任务和战略/账本改为：自动化自有 PR 通过完整门禁后直接 squash merge，不再等待人工审阅；[PR #10](https://github.com/redreamality/openfront-intel/pull/10) 已按该门禁合并 | PR #9 与 PR #10 均已合并；当前无开放内容 PR；保留最新 main、独立验证、checks/评论/依赖、远端 SHA 和网络失败复核门禁 | docs-only：`git diff --check`、UTF-8 BOM、旧治理规则审计；自动化已核对为 ACTIVE、每日 09:00、本地项目执行 | 后续内容 PR 在门禁满足后当轮直接合入；使用 REST 合并并核对远端状态 |
 | 2026-08-05 | 本地分支执行模式 | 定时任务不再创建 worktree；从干净、最新的本地 main 创建主题分支，PR 合入后切回并同步 main | 用户直接调整执行方式；不改变内容证据、验证或自动合并门禁；当前主工作区有用户改动，因此本次只更新治理规则，不在其中切分支 | docs-only：远端三文件精确 diff、UTF-8/BOM、自动化 prompt 和 PR 合并门禁 | 下一次启动若工作区仍不干净则停止并报告，不自动处理用户文件 |
 | 2026-08-06 | `RUN-GOVERNANCE` | 把阻塞自动化的 11 个非缓存文件安全分流：旧副本不覆盖最新战略/账本，有效说明与模板进入 [PR #14](https://github.com/redreamality/openfront-intel/pull/14) | README 校准到 v33；历史文档增加权威入口；新增内容循环 Issue 模板；本地避坑规则并入最新版；后续账本提交因 GitHub 443 连接失败仍在本地 | audit 40/40；清单、模板、链接目标、BOM、diff check 全部通过；无站点或交互变更，未跑 build/link/e2e | 网络恢复后先推送并核对 PR head，再决定合并；不得基于旧远端 head 自动合并 |
+| 2026-08-06 | `RUN-GOVERNANCE` 合并完成 | [PR #14](https://github.com/redreamality/openfront-intel/pull/14) 已按门禁 squash 合并为 `e620b97`，远端分支已删除，本地和远端 main 对齐 | GitHub 网络恢复；没有夹带 `.cache/**` 或旧战略文件 | PR `CLEAN / MERGEABLE`、无 checks、无未解决评论；远端 head 与本地提交一致 | 继续同日 `CTRL-01` 内容交付 |
+| 2026-08-06 | `CTRL-01` | 五语完整查键页与实战工作流页完成非重复分工，v33.1 右键上下文、版本核验、双向入口和失败恢复一致；没有新建页面；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并 | GSC 刷新至 2026-08-04：7 天 874/1,704，28 天 1,172/2,711；五类快捷键查询形成稳定需求；Issues/开放 PR 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,269；定向 e2e 20/20 + 5/5；完整 e2e 237/237；diff check 通过 | 观察两类页面错落地；Water Nukes / Doomsday 等待有效窗口，ATTACK/SPAWN/ROOM 先补来源包 |

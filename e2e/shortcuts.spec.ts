@@ -14,6 +14,9 @@ const cases = [
     navLabel: 'Shortcuts',
     linkHrefEnd: '/shortcuts/',
     guideHrefEnd: '/guides/hotkeys/',
+    economyHrefEnd: '/mechanics/economy/',
+    nukesHrefEnd: '/mechanics/nukes/',
+    rightClick: 'Cancel an active Warship',
     bcAria: 'Breadcrumb',
     home: 'Home',
   },
@@ -26,8 +29,56 @@ const cases = [
     navLabel: '快捷键',
     linkHrefEnd: '/zh/shortcuts/',
     guideHrefEnd: '/zh/guides/hotkeys/',
+    economyHrefEnd: '/zh/mechanics/economy/',
+    nukesHrefEnd: '/zh/mechanics/nukes/',
+    rightClick: '取消当前战舰',
     bcAria: '面包屑导航',
     home: '首页',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/shortcuts/',
+    title: 'Raccourcis OpenFront',
+    buildTerm: 'Ville',
+    navAria: 'Navigation principale',
+    navLabel: 'Raccourcis',
+    linkHrefEnd: '/fr/shortcuts/',
+    guideHrefEnd: '/fr/guides/hotkeys/',
+    economyHrefEnd: '/fr/mechanics/economy/',
+    nukesHrefEnd: '/fr/mechanics/nukes/',
+    rightClick: 'annuler une sélection active',
+    bcAria: 'Fil d’Ariane',
+    home: 'Accueil',
+  },
+  {
+    lang: 'de',
+    path: '/de/shortcuts/',
+    title: 'OpenFront Tastenkürzel',
+    buildTerm: 'City',
+    navAria: 'Hauptnavigation',
+    navLabel: 'Tastenkürzel',
+    linkHrefEnd: '/de/shortcuts/',
+    guideHrefEnd: '/de/guides/hotkeys/',
+    economyHrefEnd: '/de/mechanics/economy/',
+    nukesHrefEnd: '/de/mechanics/nukes/',
+    rightClick: 'aktive Warship',
+    bcAria: 'Brotkrümelnavigation',
+    home: 'Startseite',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/shortcuts/',
+    title: 'OpenFront sneltoetsen',
+    buildTerm: 'Stad',
+    navAria: 'Hoofdnavigatie',
+    navLabel: 'Sneltoetsen',
+    linkHrefEnd: '/nl/shortcuts/',
+    guideHrefEnd: '/nl/guides/hotkeys/',
+    economyHrefEnd: '/nl/mechanics/economy/',
+    nukesHrefEnd: '/nl/mechanics/nukes/',
+    rightClick: 'actieve oorlogsschip',
+    bcAria: 'Kruimelpad',
+    home: 'Home',
   },
 ];
 
@@ -47,6 +98,13 @@ for (const c of cases) {
 
     // 3) 交叉链接：指向深入的 hotkeys 教程
     await expect(page.locator(`a[href$="${c.guideHrefEnd}"]`).first()).toBeVisible();
+    await expect(page.locator(`a[href$="${c.economyHrefEnd}"]`).first()).toBeVisible();
+    await expect(page.locator(`a[href$="${c.nukesHrefEnd}"]`).first()).toBeVisible();
+
+    // CTRL-01：本页是完整查键页；攻略页不复制这 6 组默认键位表。
+    await expect(page.locator('main table')).toHaveCount(6);
+    await expect(page.locator('main')).toContainText('v33.1');
+    await expect(page.locator('main')).toContainText(c.rightClick);
   });
 
   test(`shortcuts[${c.lang}] 主导航含快捷键入口`, async ({ page }) => {

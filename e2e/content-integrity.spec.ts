@@ -521,11 +521,11 @@ for (const mirvSamCase of mirvSamCases) {
 }
 
 const hotkeySelectionCases = [
-  { lang: 'en', path: '/guides/hotkeys/', text: 'Cancel an active warship/boat selection' },
-  { lang: 'zh', path: '/zh/guides/hotkeys/', text: '有战舰/船只选择时取消选择' },
-  { lang: 'fr', path: '/fr/guides/hotkeys/', text: 'Annuler une sélection active de Warships/bateaux' },
-  { lang: 'de', path: '/de/guides/hotkeys/', text: 'eine aktive Warship-/Bootsauswahl aufheben' },
-  { lang: 'nl', path: '/nl/guides/hotkeys/', text: 'een actieve oorlogsschip-/bootselectie wissen' },
+  { lang: 'en', path: '/guides/hotkeys/', text: 'Right-click cancels an active warship or boat selection in v33.1' },
+  { lang: 'zh', path: '/zh/guides/hotkeys/', text: '选中战舰或船只时右键会先取消选择' },
+  { lang: 'fr', path: '/fr/guides/hotkeys/', text: 'une sélection active de Warships ou de bateaux' },
+  { lang: 'de', path: '/de/guides/hotkeys/', text: 'hebt ein Rechtsklick zuerst eine aktive Warship- oder Bootsauswahl auf' },
+  { lang: 'nl', path: '/nl/guides/hotkeys/', text: 'wist een rechtermuisklik eerst een actieve oorlogsschip- of bootselectie' },
 ];
 
 for (const hotkeyCase of hotkeySelectionCases) {
