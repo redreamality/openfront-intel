@@ -1,5 +1,7 @@
 # 上游 OpenFrontIO Diff 更新计划
 
+> 状态：已归档的历史执行记录。该计划写于 v32 正式发布前，其中“暂不写 v32”等结论已经失效；当前版本响应原则和排期以 [`content-strategy.md`](content-strategy.md) 为准，每日状态见 [`content-loop.md`](content-loop.md)。
+
 > Diff 范围：`990eba6 ... main`
 > 生成日期：2026-05-31
 
