@@ -1,5 +1,7 @@
 # OpenFront 情报站 · 项目概览
 
+> 状态：2026-05-16 的历史快照。本文中的页数、地图数与 v24 数值不代表当前站点；当前数据版本读取 `src/data/_meta.json`，内容原则与排期见 [`content-strategy.md`](content-strategy.md)，每日状态见 [`content-loop.md`](content-loop.md)。
+
 ## 线上地址
 
 - **站点**: https://redreamality.github.io/openfront-intel/

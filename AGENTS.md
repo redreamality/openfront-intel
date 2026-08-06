@@ -152,3 +152,25 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **`openfront` 定时任务只在项目目录的本地分支中执行**：启动时使用 `git status --porcelain --untracked-files=all`；只允许未跟踪的 `.cache/**` 本地缓存存在，并且绝不能 stage、commit、删除或顺带改写与本轮无关的缓存。出现任何已修改/暂存文件，或 `.cache/**` 以外的未跟踪文件时停止并报告，禁止自动 stash/reset/clean；门禁通过后切到并 fast-forward-only 同步 `main`，再从 main 创建 `codex/daily-content-YYYY-MM-DD-<topic>`。PR 经 REST squash 合入并核对远端后，必须在同一目录切回并同步 `main`；未回到最新干净 main 前不得开始下一个任务。
 - **2026-08-06 再次复发：Windows 下不要把 `src/data/legal.*.ts` 等通配符作为 `rg` 的路径参数**：这会被当成非法文件名并以退出码 2 失败；应从真实目录根（如 `src`）搜索，并用 `--glob 'legal.*.ts'` 限定文件，零匹配时只把退出码 1 解释为正常审计结果。
 - **临时 worktree 安装依赖后，`git worktree remove --force` 可能已注销 worktree、却因忽略的 `node_modules` 等残留目录非空而返回失败**：先用 `git worktree list` 确认已注销，再校验残留路径确实位于 `%TEMP%` 且名称匹配；若命令安全策略仍阻止 `Remove-Item -Recurse -Force`，不要改用其他 shell 绕过或扩大删除范围，保留精确路径并报告人工清理。
+- **`gh pr checks` 在 PR 没有配置任何检查时会输出 `no checks reported` 并返回退出码 1**：先用 `gh pr view --json mergeable,mergeStateStatus,statusCheckRollup` 区分“无检查”与“检查失败”；`statusCheckRollup` 为空且 PR 为 `CLEAN / MERGEABLE` 时，不要把退出码 1 误判为 CI 阻塞。
+- **Astro 内容集合配置位于 `src/content/config.ts`，不是 `src/content.config.ts`**：读取 schema 前先用 `rg --files | Select-String 'content.*config'` 确认真正路径，不要沿用其他 Astro 项目的目录布局假设。
+- **PowerShell 中使用 `stash@{0}`、`stash@{1}` 等 Git stash 引用时必须整体加引号**：未加引号的 `git stash pop stash@{0}` 会被 PowerShell 拆解并让 Git 报 `unknown switch`；统一写成 `git stash pop 'stash@{0}'`。
+- **自动化环境中 `$CODEX_HOME` 可能未设置**：读取自动化记忆前先检测变量；缺失时使用当前用户已知的 `.codex` 目录（本机为 `C:\\Users\\Remy\\.codex`），不要把空变量直接拼进路径。
+- **PowerShell 下不要把 `git diff` 的原生输出直接管道给 `git apply`**：原生命令管道的编码和换行可能破坏补丁。优先使用 `apply_patch`；确需传递补丁时先写成 UTF-8 无 BOM 文件并检查内容，再执行 `git apply <path>`。
+- **Windows 下消费 `rg --files` 输出时先把反斜杠规范化为正斜杠**：后续若按 POSIX 路径比较、构造 URL 或作为正则过滤器，直接使用 `\\` 会导致漏匹配或意外转义。
+- **调用 GitHub Contents API 时不要预先把路径中的 `/` 编码为 `%2F`**：API 路由需要保留目录分隔符；只对各路径段中的特殊字符编码，否则会得到误导性的 404。
+- **Windows PowerShell 5 的 `Get-Date` 不支持 `-AsUTC`**：统一使用 `(Get-Date).ToUniversalTime()`，再按需要调用 `ToString(...)`，避免参数不存在导致脚本中断。
+- **`pnpm check:links` 只审计已有的 `dist/`，不会自动构建**：新工作树或清理产物后必须先运行 `pnpm build`，否则会以 `dist/ does not exist` 退出；不要把它误判为链接内容失败。
+- **独立 Git worktree 不会自动共享主工作树的 `node_modules`**：若 `pnpm build` 报 `'astro' is not recognized` 且提示本地 `node_modules` 缺失，先在该 worktree 设置 `CI=true` 并执行 `pnpm install --frozen-lockfile`，再运行构建与 Playwright。
+- **多语 e2e 核验严格数值边界时要允许该语种的明确同义比较词**：例如德语 `< 50` 可写 `weniger als 50` 或 `unter 50`；用本地化正则枚举等价表达，同时保留数字和“小于”语义，不要为满足单一字面断言改坏自然正文。
+- **独立 Git worktree 不会带入原工作树未跟踪的 `.cache` 文件**：需要读取 GSC 或研究报告时先确认它实际位于哪个工作树；不要根据前一步相对路径假设缓存已复制。
+- **审计 MIRV/SAM 旧错误时必须区分“载体免疫”与“弹头免疫”**：载体免疫是正确规则；负向搜索应锁定 `warhead/弹头/ogive/Sprengkopf/kernkop` 与免疫或不可拦截的组合，不能用会跨字段吞到 `carrier immune` 的宽泛正则。
+- **`pnpm content:audit -- --strict` 的 240 字符限制按空行分隔的 Markdown 段落块计算**：仅插入软换行不会缩短审计段落；新增五语核心内容后若 `>240` 失败，应在自然句界处加入真正的空行拆段，并保留完整事实与断言。
+- **PowerShell 不要在类型转换或布尔表达式的括号里混入原生命令和分号**：例如 `[bool](git cat-file ...; $LASTEXITCODE -eq 0)` 会在解析阶段报 `Missing closing ')'`。先单独执行原生命令并保存 `$LASTEXITCODE`，再在下一条语句计算布尔值。
+- **受限沙箱里 `gh` 可能先因无法读取 `%APPDATA%\GitHub CLI\config.yml` 报 Access denied**：需要 GitHub 查询时按工具要求申请提升后重试；若提升后对 `api.github.com` 连续两次 `TLS handshake timeout`，立即停止，不把网络失败解释为“没有 Release / Issue / PR”，改为记录未确认状态并等待下一轮刷新。
+- **读取同级目录的上游 Git clone 时，每个 `git -C` 子命令都要显式带单次 `-c safe.directory='C:/absolute/path'`**：沙箱用户会触发 `detected dubious ownership`；不要修改全局 safe.directory，也不要只给脚本中的第一条 Git 命令加覆盖。
+- **主工作树落后远端且存在独立最新 worktree 时，不要默认新合并文件在当前目录可读**：先用 `git status --branch`、`git worktree list` 和 `git ls-tree origin/main` 确认文件属于哪个基线，再从对应 worktree 读取；否则会把“当前 main 尚未包含”误报成路径不存在。
+- **纯 Node 审计脚本不要在无 TTY 环境里盲目经 `pnpm <script>` 启动**：Codex 的 pnpm 运行时可能先触发隐式安装/清理并报 `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY`。确认脚本不依赖 pnpm 注入后，直接运行 `node scripts/<audit>.mjs --strict`，避免触碰现有 `node_modules`。
+- **受限沙箱中普通 `git diff --check` 偶尔会把现有工作区误报为 `Not a git repository`**：先用 `git -c safe.directory='C:/absolute/workspace/path' diff --check` 单次复跑；成功后按所有权/沙箱识别问题处理，不要修改全局 Git 配置。
+- **向长 Markdown 账本同时补章节和表格行时不要把整条历史表格行塞进同一份多位置补丁**：表格措辞只差一个词就会使 `apply_patch` 整体回滚。本轮把“回到 main”误作实际的“切回并同步 main”而匹配失败；应先读取精确尾行，再把日期、章节、清单和表格拆成独立短补丁。
+- **`git push` 若连续报 `Failed to connect to github.com port 443 ... Couldn't connect to server`，不得把已创建 PR 的旧远端 head 当作最新交付**：首次失败后用 GitHub ref API 对比远端与本地 SHA；远端仍旧时只重试一次，第二次仍失败就保留 PR 和本地 ahead 提交、记录 head 不一致并停止自动合并，不再第三次重试。

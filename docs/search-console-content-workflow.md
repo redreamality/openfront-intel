@@ -1,5 +1,7 @@
 # Search Console → 内容机会工作流
 
+> 本文只说明数据获取与机会分类。选题门槛、周/月节奏和当前战役见 [`content-strategy.md`](content-strategy.md)；每日执行状态见 [`content-loop.md`](content-loop.md)。
+
 `pnpm gsc:queries` 读取 `sc-domain:openfront.fyi` 最近 7 个已稳定数据日的 Query × Page 数据，并生成：
 
 - `.cache/gsc/top-queries.json`：完整本地数据，供脚本分析。

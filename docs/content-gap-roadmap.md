@@ -1,5 +1,7 @@
 # OpenFront Intel 内容差距与扩写路线图
 
+> 状态：历史调研基线。竞品证据和页面分工仍可参考；当前优先级、节奏与滚动计划以 [`content-strategy.md`](content-strategy.md) 为准，每日状态见 [`content-loop.md`](content-loop.md)。
+
 审计日期：2026-07-16。
 
 ## 基线
