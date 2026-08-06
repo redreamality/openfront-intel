@@ -172,3 +172,5 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **主工作树落后远端且存在独立最新 worktree 时，不要默认新合并文件在当前目录可读**：先用 `git status --branch`、`git worktree list` 和 `git ls-tree origin/main` 确认文件属于哪个基线，再从对应 worktree 读取；否则会把“当前 main 尚未包含”误报成路径不存在。
 - **纯 Node 审计脚本不要在无 TTY 环境里盲目经 `pnpm <script>` 启动**：Codex 的 pnpm 运行时可能先触发隐式安装/清理并报 `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY`。确认脚本不依赖 pnpm 注入后，直接运行 `node scripts/<audit>.mjs --strict`，避免触碰现有 `node_modules`。
 - **受限沙箱中普通 `git diff --check` 偶尔会把现有工作区误报为 `Not a git repository`**：先用 `git -c safe.directory='C:/absolute/workspace/path' diff --check` 单次复跑；成功后按所有权/沙箱识别问题处理，不要修改全局 Git 配置。
+- **向长 Markdown 账本同时补章节和表格行时不要把整条历史表格行塞进同一份多位置补丁**：表格措辞只差一个词就会使 `apply_patch` 整体回滚。本轮把“回到 main”误作实际的“切回并同步 main”而匹配失败；应先读取精确尾行，再把日期、章节、清单和表格拆成独立短补丁。
+- **`git push` 若连续报 `Failed to connect to github.com port 443 ... Couldn't connect to server`，不得把已创建 PR 的旧远端 head 当作最新交付**：首次失败后用 GitHub ref API 对比远端与本地 SHA；远端仍旧时只重试一次，第二次仍失败就保留 PR 和本地 ahead 提交、记录 head 不一致并停止自动合并，不再第三次重试。

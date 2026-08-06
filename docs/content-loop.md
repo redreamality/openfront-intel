@@ -1,6 +1,6 @@
 # OpenFront Intel 每日执行账本
 
-更新日期：2026-08-05。
+更新日期：2026-08-06。
 
 本文件只回答“今天看到了什么、组成了什么执行批次、推进了哪些计划项、各 PR 的交付与验证结果是什么”。内容原则、当前战役、未来 6–8 周顺序和完成定义以 [`content-strategy.md`](content-strategy.md) 为准。
 
@@ -260,8 +260,19 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 验证结果：严格内容审计 35/35；生产构建 225 页；内部链接 8,964 条；定向内容 e2e 100/100；完整 Playwright 189/189；提交前 `git diff --check` 通过。
 - 阻塞：无内容阻塞。[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已创建并保持待审，不自动合并。
 
+## 本次合规自检（2026-08-06，当前文件整理）
+
+- 计划 ID：`RUN-GOVERNANCE`。这是用户在内容循环被脏工作区门禁阻止后直接要求的文件整理，不是新内容候选，也不声称推进已退出的当前战役。
+- 文件处理：先把 11 个非缓存文件原样保存到仅本地的安全提交 `169700d`，再从 GitHub 当前 `main` 建立整理分支；最新版 `content-strategy.md`、本账本和两份已合入研究记录均未被旧副本覆盖，`.cache/**` 未 stage、修改或删除。
+- 为何未制造薄页 / 唯一主落地页：没有创建玩家页面或路由；只校正 README 版本事实、标记历史文档、补内容维护入口与 Issue 模板，因此主落地页不适用。
+- 语言状态 / 旧页同步范围：没有修改 en、zh、fr、de、nl 发布内容；范围仅为 README、三份历史文档、Search Console 流程文档、Issue 模板和项目避坑规则。
+- 视觉证据类型：不适用；没有截图、解释图或游戏画面。
+- 验证结果：严格内容审计 40/40；README 清单核对为 4 篇 guides、4 篇 strategies、v24–v33 与 v33 内置快照；Issue 模板 frontmatter、文档链接目标、UTF-8 BOM 和 `git diff --check` 均通过。没有 Astro 输入、路由、生成数据或交互变化，因此不运行 build、link check 或 e2e。
+- 阻塞与 PR：原始文件已安全保留，[PR #14](https://github.com/redreamality/openfront-intel/pull/14) 已创建；Git push 连续两次无法连接 `github.com:443`，远端 head 仍为 `201eb73`，本地账本提交因此尚未推送且 PR 不满足自动合并门禁。本轮未刷新 GSC 或生产内容，不能把本次文件处理写成当前玩家信号。
+
 ## 已完成
 
+- [x] 2026-08-06：安全整理启动门禁发现的本地文件；旧战略/账本保留最新版，仍有效的 README、历史状态、Issue 模板和避坑规则交付至 [PR #14](https://github.com/redreamality/openfront-intel/pull/14)。
 - [x] 2026-08-05：定时任务改为直接在本地主题分支执行，PR 合入后回到 main，不再创建 worktree；脏工作区会停止并报告。
 - [x] 2026-08-05：通过已合并 [PR #10](https://github.com/redreamality/openfront-intel/pull/10) 同步自动化与 Markdown 的合并权限；后续自动化 PR 在完整质量门禁通过后直接 squash merge，不再等待人工审阅。
 - [x] 2026-08-05：完成 `ECON-01` 与人口上限事实纠错；五语 `/mechanics/economy/` 直接回答停止扩张、部队甜区、威胁储备和 City 上限，公式生成源同步修正，两个自然入口与完整回归通过；[PR #9](https://github.com/redreamality/openfront-intel/pull/9) 已合并。
@@ -298,3 +309,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-05 | `ECON-01` | 修正人口上限公式并深度刷新五语 `/mechanics/economy/`，直接回答停止扩张、35–50% 增长区、约 42% 峰值、威胁储备和 City 上限；没有新增路由；[PR #9](https://github.com/redreamality/openfront-intel/pull/9) 已合并 | GSC 成功刷新至 2026-08-02：7 天 825/1,563，28 天 1,110/2,479；经济意图分别 18 Query/109 展现和 24 Query/392 展现；最新正式 Release 仍为 v0.33.1，Issues 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,249；定向 e2e 126/126；完整 e2e 220/220（单线程）；diff/BOM check 通过 | 观察经济主答案的收录、平均排名和错落地变化 |
 | 2026-08-05 | 自动合并授权 | 定时任务和战略/账本改为：自动化自有 PR 通过完整门禁后直接 squash merge，不再等待人工审阅；[PR #10](https://github.com/redreamality/openfront-intel/pull/10) 已按该门禁合并 | PR #9 与 PR #10 均已合并；当前无开放内容 PR；保留最新 main、独立验证、checks/评论/依赖、远端 SHA 和网络失败复核门禁 | docs-only：`git diff --check`、UTF-8 BOM、旧治理规则审计；自动化已核对为 ACTIVE、每日 09:00、本地项目执行 | 后续内容 PR 在门禁满足后当轮直接合入；使用 REST 合并并核对远端状态 |
 | 2026-08-05 | 本地分支执行模式 | 定时任务不再创建 worktree；从干净、最新的本地 main 创建主题分支，PR 合入后切回并同步 main | 用户直接调整执行方式；不改变内容证据、验证或自动合并门禁；当前主工作区有用户改动，因此本次只更新治理规则，不在其中切分支 | docs-only：远端三文件精确 diff、UTF-8/BOM、自动化 prompt 和 PR 合并门禁 | 下一次启动若工作区仍不干净则停止并报告，不自动处理用户文件 |
+| 2026-08-06 | `RUN-GOVERNANCE` | 把阻塞自动化的 11 个非缓存文件安全分流：旧副本不覆盖最新战略/账本，有效说明与模板进入 [PR #14](https://github.com/redreamality/openfront-intel/pull/14) | README 校准到 v33；历史文档增加权威入口；新增内容循环 Issue 模板；本地避坑规则并入最新版；后续账本提交因 GitHub 443 连接失败仍在本地 | audit 40/40；清单、模板、链接目标、BOM、diff check 全部通过；无站点或交互变更，未跑 build/link/e2e | 网络恢复后先推送并核对 PR head，再决定合并；不得基于旧远端 head 自动合并 |
