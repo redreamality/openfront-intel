@@ -178,3 +178,5 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **重分配相邻页面职责时同步更新既有内容完整性断言**：若完整按键表从攻略迁到速查页，旧测试可能仍锁定原表格中的斜杠、大小写或精确文案。应把断言迁到新的事实承载位置并补“表格数量/互链”合同，不能删除有效事实断言或为旧测试保留重复内容。
 - **自动化包装运行 `pnpm gsc:queries -- --days ...` 若长时间无日志且目标文件未刷新，不能视为成功**：约 30 秒后先核对输出文件的 `generatedAt`；仍未变化时停止该进程，并在同一环境直接运行 `node scripts/fetch-search-console.mjs --days <n> --output <path>`，检查退出码与 JSON 数组后再继续。代理/SSL 失败仍只重试一次。
 - **PowerShell 统计 `gh ... --json` 空数组时先过滤 `$null`**：`ConvertFrom-Json` 的空结果在某些包装中会形成一个 `$null`，直接 `@($value).Count` 会把 0 错报为 1。统一用 `@($value | Where-Object { $_ }).Count`，并保留原始 `[]` 作为核验依据。
+- **自动化沙箱若无法在 `.git` 创建 `index.lock`，不要继续同步或内容生产**：即使当前分支已是 `main`，`git switch main` 也可能因 `.git` 仅可读而报 `Permission denied`。这不是 GitHub 瞬断，禁止网络重试或绕到 worktree/副本；应停止本轮，并让自动化配置授予项目 `.git` 写权限后再运行。
+- **自动化不得被自己追加的避坑规则永久阻塞**：阻塞运行若按会话要求修改了 `AGENTS.md`，必须在 automation memory 记录完整来源和精确差异，并在权限恢复后优先通过独立治理分支收口。下轮门禁仅当“唯一 tracked 改动是 `AGENTS.md`、无 staged/非缓存未跟踪项、且最新 memory 能逐字证明该差异由紧邻上轮自动化写入”时进入恢复专用流程；该流程只能提交这一个文件，禁止顺带生产内容。任一条件不符仍立即停止，绝不猜测或覆盖用户改动。
