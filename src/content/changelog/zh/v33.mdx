@@ -1,8 +1,8 @@
 ---
-title: 'v33.1：MIRV 反制、末日波次、排位 2v2 与 22 张地图'
-description: '面向玩家的 OpenFront v33.1 版本笔记：MIRV 弹头正常受 SAM 拦截、发射井冷却、末日时序、排位 2v2、战舰熟练度、不可通行地形与 22 张地图。'
+title: 'v33.2：末日领土腐化、MIRV 反制、排位 2v2 与 22 张地图'
+description: '面向玩家的 OpenFront v33.2 版本笔记：末日七档门槛、40% 到 5% 保护下限与领土腐化，以及 MIRV 反制、排位 2v2、战舰熟练度、地形和地图。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
@@ -10,11 +10,19 @@ category: 版本笔记
 
 ## 直接答案：下一局最重要的变化是什么？
 
-官方 `v0.33.1` Release 是当前正式发布的 v33 系列条目，包含完整 v33.0 功能与两项 v33.1 修复。最重要的实战变化仍是：MIRV 现在是压垮防空弹量的武器，不再是稳定绕过 SAM 的捷径。
+官方 `v0.33.2` Release 是当前正式发布的 v33 系列条目。最急需改变的决策来自末日终局：七档较低门槛取代旧六档时序，兵力保护下限从 40% 降到 5%，持续 doomed 150 秒会因领土腐化被淘汰。
 
 MIRV 分裂弹头会像普通核弹一样飞行，并进入常规 SAM 弹道拦截系统。发射 MIRV 也会让对应 Missile Silo 进入冷却，同一发射井不能立刻补第二枚核弹。
 
-另外几项会直接改变对局：Doomsday Clock 有 10 分钟宽限、Ranked 2v2 上线、战舰获得熟练度、地图可使用不可通行地形，并新增 22 张地图。
+v33 系列其余变化仍然有效：MIRV 是压垮防空弹量的武器而非稳定绕过 SAM 的捷径，Ranked 2v2 已上线，战舰获得熟练度，地图可使用不可通行地形，并新增 22 张地图。
+
+## v33.2 更新：在领土腐化前恢复
+
+四档速度仍保留 10 分钟宽限，但实时门槛现在依次升向 **2%、4%、7%、11%、17%、25% 和 35%**。低于门槛仍先触发 30 秒警告。
+
+警告结束后，部队与战舰保护下限会在 **90 秒内从 40% 降到 5%**。如果阵营被压在下限，系统开始移除领土、路线与建筑，并以**第一次出现骷髅后的第 150 秒**为领土归零期限。
+
+重新过线或成为领土第一会清除骷髅，同时停止单位损耗和领土腐化。当前正确决策不再是“在 5% 安全等待”，而是保住一条低成本、连通的占领路线，并在腐化切断它之前恢复。
 
 ## v33.1 热修：回放与 tribe 排行榜恢复正常
 
@@ -36,9 +44,9 @@ MIRV 载体分裂后，每枚弹头都会成为飞行中的 `MIRVWarhead`。SAM 
 
 ## Doomsday Clock：第一波前就要移动
 
-所有速度预设都有 **10 分钟宽限期**。之后所需领土占比按波次提高到 4%、9%、16%、26%、40%，最终到 55%。
+所有速度预设都有 **10 分钟宽限期**。之后所需领土占比按波次提高到 2%、4%、7%、11%、17%、25%，最终到 35%。
 
-团队按合计领土计算，与单人阵营面对同一条门槛。进入 doomed 状态后会先收到警告，再损失部队与战舰生命，但最低停在最大值的 **5%**，不会直接归零。
+团队按合计领土计算，与单人阵营面对同一条门槛。进入 doomed 状态后会先收到警告，保护下限再从 **40% 降到 5%**，随后进入领土腐化；过线或成为第一会停止整个过程。
 
 实战规则是：10 分钟前保有连通领土，并准备两条低成本扩张路线。时钟检查领土占比，不检查你离地图中心多远。完整波次、30 秒警告、恢复和反制见[末日时钟实战攻略](/zh/guides/doomsday-clock/)。
 
@@ -75,6 +83,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.1` Release 标记为 `draft=false`、`prerelease=false`。正文把 v33.0 功能与两项 v33.1 修复合并在同一条目中，因此本站继续维护单篇 v33 系列总览，不另拆一篇薄补丁页。
+GitHub 将官方 `v0.33.2` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实末日改动，不是 TEST 占位。v33.2 直接修订本页已有的末日决策，因此继续维护单篇 v33 系列总览；完整时序与恢复意图由独立攻略承接，不另造重复的薄补丁页。
 
-来源：[官方 v0.33.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts)、[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts)与[熟练度配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts)。
+来源：[官方 v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)、[损耗与领土腐化执行](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)、[固定配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts)与[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts)。

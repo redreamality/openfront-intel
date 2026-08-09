@@ -180,3 +180,6 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **PowerShell 统计 `gh ... --json` 空数组时先过滤 `$null`**：`ConvertFrom-Json` 的空结果在某些包装中会形成一个 `$null`，直接 `@($value).Count` 会把 0 错报为 1。统一用 `@($value | Where-Object { $_ }).Count`，并保留原始 `[]` 作为核验依据。
 - **自动化沙箱若无法在 `.git` 创建 `index.lock`，不要继续同步或内容生产**：即使当前分支已是 `main`，`git switch main` 也可能因 `.git` 仅可读而报 `Permission denied`。这不是 GitHub 瞬断，禁止网络重试或绕到 worktree/副本；应停止本轮，并让自动化配置授予项目 `.git` 写权限后再运行。
 - **自动化不得被自己追加的避坑规则永久阻塞**：阻塞运行若按会话要求修改了 `AGENTS.md`，必须在 automation memory 记录完整来源和精确差异，并在权限恢复后优先通过独立治理分支收口。下轮门禁仅当“唯一 tracked 改动是 `AGENTS.md`、无 staged/非缓存未跟踪项、且最新 memory 能逐字证明该差异由紧邻上轮自动化写入”时进入恢复专用流程；该流程只能提交这一个文件，禁止顺带生产内容。任一条件不符仍立即停止，绝不猜测或覆盖用户改动。
+- **运行内容审计前先用 `rg --files scripts` 核对真实脚本名**：本项目的实现是 `scripts/audit-core-content.mjs`，不存在 `scripts/content-audit.mjs`。不要根据 npm script 名 `content:audit` 猜文件路径；优先运行 `pnpm content:audit -- --strict`，或在需要绕开 pnpm 时直接运行已确认的真实 Node 脚本。
+- **Windows 下经 pnpm 脚本向 Playwright 传 `--grep` 时不要使用含 `|` 的正则**：即使 PowerShell 外层写了单引号，pnpm 的 `.cmd` 转发仍可能让 `cmd.exe` 把 `|` 当管道，并报后半段“不是内部或外部命令”。改为直接传目标 spec，或分别用不含管道的单个 `--grep=<词>` 运行。
+- **给 `rg` 传多个搜索根前先确认每个目录真实存在**：把猜测的 `src/lib` 与有效目录一起传入会让 `rg` 即使找到匹配仍以路径错误退出 2。先用 `rg --files src` 或逐个 `Test-Path` 枚举真实根，再组合搜索；不要把部分输出误当成整条审计成功。

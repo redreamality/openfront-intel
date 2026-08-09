@@ -2,23 +2,25 @@
 title: "OpenFront Doomsday Clock Guide: Waves, Decay & Survival"
 description: "The OpenFront Doomsday Clock is a rising territory-share test, not a moving safe circle. Learn every wave, the 30-second warning, troop and warship decay, team rules, recovery, and counterplay."
 pubDate: 2026-08-04
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Tutorial
 difficulty: Intermediate
 version: v33
-freshnessSummary: "v33.1 keeps the rebalanced Doomsday Clock: a 10-minute grace period, six rising territory-share waves, team-wide checks, and troop plus warship decay that stops at 5% instead of zero."
+freshnessSummary: "v33.2 changes the Doomsday endgame: seven territory targets now rise through 2/4/7/11/17/25/35%, the troop floor decays from 40% to 5%, and territory rot eliminates a side that stays doomed for 150 seconds."
 ---
 
 ## Direct answer: what does the Doomsday Clock do?
 
 The **Doomsday Clock** ends stalled OpenFront matches by making every non-leading side hold a rising share of the map's usable land.
 
-It is not a circle that moves toward the geographic center. After a 10-minute grace period, the required share ramps through 4%, 9%, 16%, 26%, 40%, and 55%.
+It is not a circle that moves toward the geographic center. After a 10-minute grace period, the required share ramps through 2%, 4%, 7%, 11%, 17%, 25%, and 35%.
 
 If your side falls below the live bar, a skull appears and you get 30 seconds to recover. After that, troops and Warship health drain each second.
 
-Climb back above the bar and the mark clears immediately. If you cannot recover, the drain stops at 5% of maximum strength, leaving you alive but easy to finish.
+Climb back above the bar and the mark clears immediately.
+
+If you cannot recover, your troop floor decays from 40% to 5% over the next 90 seconds. Once you are pinned at that floor, territory starts rotting and is scheduled to reach zero 150 seconds after the skull first appeared.
 
 Your practical objective is therefore simple: hold a connected land share with a safety margin, keep enough troops to take cheap tiles during the warning, and become the territory leader before the final squeeze.
 
@@ -36,7 +38,9 @@ The bar uses current land excluding fallout. The panel shows the required percen
 
 The Doomsday panel appears when the mode is enabled. Public games show a modifier badge, including the speed when available; hosts can enable the mode and choose a pace in custom games.
 
-The panel reports **Stable**, **Unstable**, or **Collapsing**. It also shows the territory percentage you must hold, your own or your team's share, the current wave target, and the time until the next rise.
+The panel reports **Stable**, **Unstable**, **Collapsing**, or **Decaying**. Decaying is the red-skull territory-loss phase.
+
+The panel also shows the territory percentage you must hold, your own or your team's share, the current wave target, and the time until the next rise.
 
 Treat orange or near-danger feedback as an order to stop spending troops on optional fights.
 
@@ -46,16 +50,18 @@ The interface marks you as near danger when your share is within roughly 10% of 
 
 Every preset keeps the first ten minutes at 0%. The threshold then rises smoothly during each wave and pauses briefly at its target. It does not jump instantly from one listed percentage to the next.
 
-| Speed | 4% | 9% | 16% | 26% | 40% | 55% final |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Slow | 14:52 | 20:54 | 26:56 | 32:58 | 39:00 | 45:00 |
-| Normal | 13:28 | 17:46 | 22:04 | 26:22 | 30:40 | 35:00 |
-| Fast | 12:05 | 14:40 | 17:15 | 19:50 | 22:25 | 25:00 |
-| Very fast | 10:40 | 11:32 | 12:24 | 13:16 | 14:08 | 15:00 |
+| Speed | 2% | 4% | 7% | 11% | 17% | 25% | 35% final |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Slow | 14:00 | 19:10 | 24:20 | 29:30 | 34:40 | 39:50 | 45:00 |
+| Normal | 12:48 | 16:30 | 20:12 | 23:54 | 27:36 | 31:18 | 35:00 |
+| Fast | 11:42 | 13:55 | 16:08 | 18:21 | 20:34 | 22:47 | 25:00 |
+| Very fast | 10:36 | 11:20 | 12:04 | 12:48 | 13:32 | 14:16 | 15:00 |
 
 The listed time is when that wave reaches its full target. During the ramp, the live requirement can be any value between the previous and next targets.
 
-The 55% finish matters because two sides cannot both hold 55% of the same land. The leading side is exempt from Doomsday.
+At the final 35% bar, two sides can still both be safe. The leading side is exempt from Doomsday, but the threshold no longer forces a single survivor by arithmetic alone.
+
+Territory rot closes the match by eliminating any non-leading side that stays below the bar for the full deadline.
 
 That exemption leaves an army capable of closing the match instead of crippling everyone into another stalemate. Reaching this wave does not award an instant win; normal conquest, elimination, or timer rules still decide the result.
 
@@ -63,16 +69,16 @@ That exemption leaves an army capable of closing the match instead of crippling 
 
 The first table tells you when each target is fully reached. The table below tells you when each climb begins, which is the more useful moment for planning attacks and recovery routes.
 
-| Speed | Ramps begin | Targets are fully reached | Pause after waves 1–5 |
+| Speed | Ramps begin | Targets are fully reached | Pause after waves 1–6 |
 | --- | --- | --- | ---: |
-| Slow | 10:00 · 16:02 · 22:04 · 28:06 · 34:08 · 40:10 | 14:52 · 20:54 · 26:56 · 32:58 · 39:00 · 45:00 | 70 seconds |
-| Normal | 10:00 · 14:18 · 18:36 · 22:54 · 27:12 · 31:30 | 13:28 · 17:46 · 22:04 · 26:22 · 30:40 · 35:00 | 50 seconds |
-| Fast | 10:00 · 12:35 · 15:10 · 17:45 · 20:20 · 22:55 | 12:05 · 14:40 · 17:15 · 19:50 · 22:25 · 25:00 | 30 seconds |
-| Very fast | 10:00 · 10:52 · 11:44 · 12:36 · 13:28 · 14:20 | 10:40 · 11:32 · 12:24 · 13:16 · 14:08 · 15:00 | 12 seconds |
+| Slow | 10:00 · 15:10 · 20:20 · 25:30 · 30:40 · 35:50 · 41:00 | 14:00 · 19:10 · 24:20 · 29:30 · 34:40 · 39:50 · 45:00 | 70 seconds |
+| Normal | 10:00 · 13:42 · 17:24 · 21:06 · 24:48 · 28:30 · 32:12 | 12:48 · 16:30 · 20:12 · 23:54 · 27:36 · 31:18 · 35:00 | 54 seconds |
+| Fast | 10:00 · 12:13 · 14:26 · 16:39 · 18:52 · 21:05 · 23:18 | 11:42 · 13:55 · 16:08 · 18:21 · 20:34 · 22:47 · 25:00 | 31 seconds |
+| Very fast | 10:00 · 10:44 · 11:28 · 12:12 · 12:56 · 13:40 · 14:24 | 10:36 · 11:20 · 12:04 · 12:48 · 13:32 · 14:16 · 15:00 | 8 seconds |
 
 The pause is your cleanest rebuilding window. The live bar stops moving, but enemies can still remove territory and push you below it.
 
-Do not confuse a target's arrival with the next ramp. On Normal speed, for example, 16% is reached at 22:04, but 26% does not start climbing until 22:54.
+Do not confuse a target's arrival with the next ramp. On Normal speed, for example, 7% is reached at 20:12, but 11% does not start climbing until 21:06.
 
 ## How the game calculates the safety line
 
@@ -107,14 +113,22 @@ The sequence is recoverable at first and brutal if ignored.
 | --- | --- | --- |
 | Stable | Your side is above the bar, or you are the current leader | Build a 10–15% relative cushion over the requirement |
 | Unstable | A non-leading side is below the bar; the 30-second warning is running | Cancel optional attacks and capture the cheapest reachable land |
-| Collapsing | The warning expired and decay has started | Recover territory immediately; stockpiled troops alone will not stop decay |
-| Floor | Troops and Warships have reached 5% of their maximum | Preserve routes, avoid feeding kills, and look for a quick land recovery or team rescue |
+| Collapsing | The warning expired; troops and Warships drain while their protected floor falls from 40% toward 5% | Recover territory immediately; stockpiled troops alone will not stop the countdown |
+| Decaying | The floor has bottomed out and the red skull marks territory rot | Cross the bar now; land, routes, and structures are being removed toward the 150-second deadline |
 
-Troop loss starts at 2% of maximum troop capacity per second and rises linearly to 5% over 90 seconds. Because the loss is based on maximum capacity rather than current troops, simply hoarding a full army does not solve the problem.
+Troop loss starts at 2% of maximum troop capacity per second and rises linearly to 5% over 90 seconds. At the same time, the protected troop floor falls linearly from 40% to 5%.
+
+Because both values use maximum capacity rather than current troops, simply hoarding a full army does not solve the problem.
 
 Warships start with gentler 1% health loss, then the curve steepens toward 50% per second.
 
-They also stop at 5% of veterancy-adjusted maximum health rather than sinking from the clock itself. Healing is suppressed while their owner is doomed.
+Warships use the same falling 40%-to-5% floor against veterancy-adjusted maximum health. Healing is suppressed while their owner is doomed.
+
+The skull's full deadline is 150 seconds. After the 30-second warning and 90-second floor-decay window, a side pinned at its floor enters territory rot.
+
+The sim opens scattered holes, then spreads them through owned land. Unowned tiles no longer support routes or structures. The per-second quota adjusts so the remaining territory reaches zero at the deadline.
+
+This is still recoverable until the side is eliminated. Reaching the bar or becoming the territory leader clears the skull, stops drain and rot immediately, and resets the rot path for a later failure.
 
 ## A 30-second recovery playbook
 
@@ -142,13 +156,15 @@ Use the army and fleet to keep the route open. Troop donations can support the c
 
 Abandon a slow prestige attack if it cannot complete before the warning expires. A small safe capture is worth more than nearly winning a large battle.
 
-If recovery is impossible, preserve two routes and avoid feeding units. The next goal is to cross the line after decay begins, before enemies exploit the 5% floor.
+If recovery is impossible during the warning, preserve two routes and avoid feeding units. The next goal is to cross the line during the 90-second falling-floor window, before territory rot starts deleting those routes.
 
 ### After decay starts
 
-Do not wait for a fixed “time to floor.” Troop loss is based on maximum capacity, and maximum capacity can change as territory changes.
+Treat 2:30 from the first skull as a hard elimination deadline, not a promise of exactly 90 seconds of usable troops.
 
-Recovering the land line remains the only direct reset. Once safe, the skull clears, the drain stops, and a later failure starts with a fresh 30-second warning.
+Maximum capacity changes with territory, and rot begins only once the falling floor has reached 5% and the army is pinned to it.
+
+Recovering the land line remains the direct reset. Once safe, the skull clears, drain and rot stop, and a later failure starts with a fresh 30-second warning and a fresh rot pattern.
 
 ## The 10-minute plan
 
@@ -166,35 +182,35 @@ The target percentages never change, but the time available for rebuilding chang
 
 ### Slow: build depth, then convert it
 
-Slow reaches 4% at 14:52 and does not begin the 55% ramp until 40:10. You have time for real wars, but repeated 70-second pauses can hide a bad long-term position.
+Slow reaches 2% at 14:00 and does not begin the 35% ramp until 41:00. You have time for real wars, but repeated 70-second pauses can hide a bad long-term position.
 
-Use the early game to build several layers of connected land. By 34:08, when the 40% ramp begins, stop treating remote holdings as permanent if they cannot support the final contest.
+Use the early game to build several layers of connected land. By 35:50, when the 25% ramp begins, stop treating remote holdings as permanent if they cannot support the final contest.
 
-The danger on Slow is complacency. A player can look safe for half an hour, then discover that the same narrow border cannot supply enough land for 40% and 55%.
+The danger on Slow is complacency. A player can look safe for half an hour, then discover that the same narrow border cannot supply enough land for 25% and 35%.
 
 ### Normal: finish each war before the next milestone
 
-Normal begins the 16% ramp at 18:36, the 26% ramp at 22:54, the 40% ramp at 27:12, and the final ramp at 31:30.
+Normal begins the 7% ramp at 17:24, the 11% ramp at 21:06, the 25% ramp at 28:30, and the final 35% ramp at 32:12.
 
 Use those four times as campaign deadlines. A war that is still consuming troops when the next climb begins must either deliver territory immediately or be canceled.
 
-The 50-second pauses are long enough to refill a margin but too short for crossing the map. Keep the next capture option adjacent before each target arrives.
+The 54-second pauses are long enough to refill a margin but too short for crossing the map. Keep the next capture option adjacent before each target arrives.
 
 ### Fast: combine expansion with every attack
 
-Fast starts climbing to 26% at 17:45 and to 40% at 20:20. The final ramp already begins at 22:55.
+Fast starts climbing to 11% at 16:39 and to 25% at 21:05. The final 35% ramp already begins at 23:18.
 
 Every major attack should also improve your territory share or remove the opponent's recovery path. Pure troop trades are expensive because the next threshold arrives before armies fully rebuild.
 
-Enter minute 20 with a route to first place. Waiting until the 55% ramp begins leaves little time to change the ranking.
+Enter minute 20 with a route to first place. Waiting until the 35% ramp begins leaves little time to change the ranking or survive a 150-second doomed deadline.
 
 ### Very fast: the opening is the endgame
 
-Very fast starts at 10:00 and reaches 55% at 15:00. Every pause is only 12 seconds, so the bar is moving for most of the five-minute squeeze.
+Very fast starts at 10:00 and reaches 35% at 15:00. Every pause is only 8 seconds, so the bar is moving for most of the five-minute squeeze.
 
 Avoid long conquests before minute ten. Secure cheap land, a compact border, and a transport path before the first ramp begins.
 
-At 13:28 the 40% ramp starts; at 14:20 the final ramp starts. By then, you should already be contesting the territory lead rather than merely trying to survive.
+At 13:40 the 25% ramp starts; at 14:24 the final 35% ramp starts. By then, you should already be contesting the territory lead rather than merely trying to survive.
 
 ## How to play each part of the squeeze
 
@@ -202,11 +218,11 @@ At 13:28 the 40% ramp starts; at 14:20 the final ramp starts. By then, you shoul
 
 Prioritize land efficiency over one prestige target. Secure borders that give several follow-up captures, and avoid creating an isolated pocket that needs transports or one hostile corridor to grow.
 
-Check the speed badge. A Very fast match reaches 55% at 15:00, so every early detour is expensive. A Slow match gives more fighting time, but the same final threshold still arrives.
+Check the speed badge. A Very fast match reaches 35% at 15:00, so every early detour is expensive. A Slow match gives more fighting time, but the same final threshold and rot deadline still arrive.
 
 ### During a ramp
 
-Watch the live percentage, not only the target printed in the schedule. If the bar is climbing from 9% to 16%, being at 12% is temporarily safe but already on a deadline.
+Watch the live percentage, not only the target printed in the schedule. If the bar is climbing from 7% to 11%, being at 9% is temporarily safe but already on a deadline.
 
 Prefer low-risk tile gains. A failed large attack can cost both the territory you hoped to win and the troop reserve needed to recover.
 
@@ -216,11 +232,11 @@ Use the flat interval to rebuild the safety margin. A pause is not proof that th
 
 If you are barely safe, improve the border before starting a distant war. If an opponent is barely safe, prepare a short attack that lands just before the next ramp.
 
-### Near 40% and 55%
+### Near 25% and 35%
 
-At 40%, only a few sides can remain comfortably above the same bar. Stop measuring success by survival alone and start measuring whether you can become the leader.
+At 25%, only a few sides can remain comfortably above the same bar. Stop measuring success by survival alone and start measuring whether you can become the leader.
 
-At 55%, only one side can meet the bar, but the wave does not declare a winner.
+At 35%, two sides can still meet the bar, and the wave does not declare a winner. Territory rot, ordinary conquest, elimination, Ranked exceptions, or configured timers finish the match.
 
 If you are not leading, a narrow buffer is temporary. Overtake the crown, remove the leader's land, or coordinate the decisive team push before the final requirement settles.
 
@@ -246,7 +262,7 @@ Water does not satisfy a land-share requirement. A powerful fleet can control mo
 
 Use Warships to protect transports, deny enemy landings, and keep expansion routes open. Do not treat naval dominance as a substitute for owning land.
 
-If your side becomes doomed, Warships keep patrolling but cannot heal and will eventually fall toward the 5% health floor. Recover the land threshold first; then the surviving fleet can repair and matter again.
+If your side becomes doomed, Warships keep patrolling but cannot heal and fall with the same 40%-to-5% protected-floor countdown. Recover the land threshold first; then the surviving fleet can repair and matter again.
 
 ## Choose territory by shape, not by distance from center
 
@@ -259,7 +275,7 @@ Two positions with the same percentage can have very different recovery chances.
 | Peninsula or chokepoint | Efficient defense and predictable contact | Limited expansion once the neck closes | Cross or secure the neck before the warning |
 | Archipelago holding | Strong transport and naval control | Water adds no territory share | Pre-position transports and protect landing tiles |
 | Several isolated pockets | Multiple local fronts | Reinforcement and growth are fragmented | Connect pockets or abandon the least recoverable one |
-| Compact interior block | Short defensive borders | Nearby cheap land may run out | Prepare a breakout before 26% and 40% |
+| Compact interior block | Short defensive borders | Nearby cheap land may run out | Prepare a breakout before 17% and 25% |
 
 The map center is valuable only when it offers connected, capturable land or changes the territory lead. Moving inward without a capture plan gives no special protection.
 
@@ -313,27 +329,31 @@ The panel and simulation use the team's combined tiles. Coordinate the shared nu
 
 ### Chasing a doomed player instead of the leader
 
-The clock already cripples non-leading sides. If the crown remains untouched, the final wave favors the leader you ignored.
+The clock already cripples and eventually rots non-leading sides. If the crown remains untouched, the final wave favors the leader you ignored.
 
 ## Three practical examples
 
 ### Normal speed at 21:30
 
-The threshold is ramping toward 16%, which completes at 22:04. Your side holds 17%. Cancel the distant attack, take nearby weak land, and rebuild a margin before the 26% wave begins.
+The threshold is ramping from 7% toward 11%, which completes at 23:54. Your side holds 9%. Cancel the distant attack, take nearby weak land, and rebuild a margin before the 17% wave begins.
 
 ### Fast team game at 19:40
 
-The 26% target arrives at 19:50. Your team holds 27%; the rival team holds 25%. One teammate pressures their border while the other captures safe land, trying to keep your total above the line while pushing theirs below it.
+The bar is ramping from 11% toward 17%, which completes at 20:34. Your team holds 16%; the rival team holds 15%.
+
+One teammate pressures their border while the other captures safe land, trying to keep your total above the live line while pushing theirs below it.
 
 ### Very fast island game at 14:00
 
-The 40% target is almost complete at 14:08, and 55% arrives at 15:00. Your fleet controls the sea but your land share is 35%. Use transports for immediate land, because another Warship does not change the Doomsday calculation.
+The 25% target arrives at 14:16, and 35% arrives at 15:00. Your fleet controls the sea but your land share is 22%. Use transports for immediate land, because another Warship does not change the Doomsday calculation.
 
 ## Doomsday Clock FAQ
 
 ### Can the clock eliminate me by itself?
 
-No. Its troop and Warship drain stops at 5% of the relevant maximum. Opponents, ordinary combat, or the standard victory rules still finish the match.
+Yes in v33.2. Drain itself respects the falling floor, but territory rot then removes owned land toward zero and can eliminate the side 150 seconds after the skull first appeared.
+
+Crossing the bar or becoming leader before elimination stops the process.
 
 ### Is holding exactly the required tile count safe?
 
@@ -357,20 +377,29 @@ No. Passive and docked healing are suppressed while the owner is doomed. The shi
 
 ### Does becoming the leader reset the warning?
 
-Yes. The leading side is exempt, so becoming the territory leader clears the mark and stops the drain. Losing first place can expose the side again.
+Yes. The leading side is exempt, so becoming the territory leader clears the mark and stops drain and rot. Losing first place can expose the side again.
 
 ### Can a custom-game host change the warning or drain rates?
 
-The lobby exposes whether Doomsday is enabled and which speed preset is used. The 30-second warning, drain curves, and 5% floor are fixed configuration values rather than separate lobby sliders.
+The lobby exposes whether Doomsday is enabled and which speed preset is used. The 30-second warning, drain curves, 40%-to-5% floor decay, and 150-second rot deadline are fixed configuration values rather than separate lobby sliders.
 
-### Does the final 55% wave declare the leader the winner?
+### Does the final 35% wave declare the leader the winner?
 
-No. It creates a decisive pressure window. Normal conquest, elimination, Ranked exceptions, or configured timers still determine the result.
+No. Two sides can still meet 35% at once. The final bar narrows the field, while territory rot, normal conquest, elimination, Ranked exceptions, or configured timers determine the result.
 
 ## Sources and next steps
 
-The current rules are documented in the [official v0.33.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), the shared [wave schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts), the authoritative [side and decay execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/DoomsdayClockExecution.ts), the [default warning and drain values](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts), the [HUD panel](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/client/components/DoomsdayClockPanel.ts), and the [public modifier rotation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/server/MapPlaylist.ts).
+The current rules are documented in these official sources:
+
+- [v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
+- [Wave schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
+- [Side, drain, and territory-rot execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
+- [Default warning, floor, and rot values](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+- [HUD panel](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/client/components/DoomsdayClockPanel.ts)
+- [Public modifier rotation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/server/MapPlaylist.ts)
 
 For the wider version context, read [what changed in v33](/changelog/v33/).
 
-For the opening that builds your first territory buffer, continue with the [first-match guide](/guides/first-match/). For troop and Gold trade-offs behind safe expansion, use the [economy fundamentals strategy](/strategies/economy-fundamentals/).
+For the opening that builds your first territory buffer, continue with the [first-match guide](/guides/first-match/).
+
+For troop and Gold trade-offs behind safe expansion, use the [economy fundamentals strategy](/strategies/economy-fundamentals/).
