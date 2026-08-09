@@ -51,14 +51,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 uses the official v0.33.1 Release URL', async ({ page }) => {
+test('changelog v33 uses the official v0.33.2 Release URL', async ({ page }) => {
   await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2',
   );
 });
 
@@ -213,7 +213,7 @@ const freshnessLanguages = [
 
 const freshnessPages = [
   { route: '/guides/first-match/', fact: '22' },
-  { route: '/guides/doomsday-clock/', fact: '10' },
+  { route: '/guides/doomsday-clock/', fact: '150' },
   { route: '/guides/hotkeys/', fact: 'hotkey' },
   { route: '/guides/water-nukes/', fact: 'MIRV' },
   { route: '/strategies/economy-fundamentals/', fact: 'v32' },
@@ -268,6 +268,8 @@ const v33Cases = [
     maps: '117-map',
     replay: 'replay desync errors',
     tribe: 'custom tribe names',
+    thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
+    rot: 'territory rot',
   },
   {
     path: '/zh/changelog/v33/',
@@ -277,6 +279,8 @@ const v33Cases = [
     maps: '117 张地图',
     replay: '回放 desync 错误',
     tribe: '自定义 tribe 名称',
+    thresholds: '2%、4%、7%、11%、17%、25%，最终到 35%',
+    rot: '领土腐化',
   },
   {
     path: '/fr/changelog/v33/',
@@ -286,6 +290,8 @@ const v33Cases = [
     maps: '117 cartes',
     replay: 'erreurs de desync des replays',
     tribe: 'noms de tribe personnalisés',
+    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
+    rot: 'corruption territoriale',
   },
   {
     path: '/de/changelog/v33/',
@@ -295,6 +301,8 @@ const v33Cases = [
     maps: '117 Karten',
     replay: 'Desync-Fehler in Replays',
     tribe: 'benutzerdefinierte Tribe-Namen',
+    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
+    rot: 'Gebietszerfall',
   },
   {
     path: '/nl/changelog/v33/',
@@ -304,20 +312,25 @@ const v33Cases = [
     maps: '117 kaarten',
     replay: 'desyncfouten in replays',
     tribe: 'aangepaste tribe-namen',
+    thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
+    rot: 'landrot',
   },
 ];
 
 for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains the player-facing v33.1 changes`, async ({ page }) => {
+  test(`${v33Case.path} explains the player-facing v33.2 changes`, async ({ page }) => {
     await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(v33Case.grace);
     await expect(main).toContainText(v33Case.ranked);
     await expect(main).toContainText(v33Case.veteran);
     await expect(main).toContainText(v33Case.maps);
-    await expect(main).toContainText('v0.33.1');
+    await expect(main).toContainText('v0.33.2');
     await expect(main).toContainText(v33Case.replay);
     await expect(main).toContainText(v33Case.tribe);
+    await expect(main).toContainText(v33Case.thresholds);
+    await expect(main).toContainText(v33Case.rot);
+    await expect(main).toContainText('150');
     await expect(main).toContainText('MIRV');
   });
 }
@@ -335,6 +348,10 @@ const doomsdayCases = [
     troopRate: '2%',
     warshipRate: '50%',
     floor: '5%',
+    floorTransition: '40% to 5%',
+    thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
+    rot: 'territory rot',
+    deadline: '150 seconds',
     equalSafe: 'equal to or above',
     recoveryHeading: 'A 30-second recovery playbook',
     shapeHeading: 'Choose territory by shape, not by distance from center',
@@ -352,6 +369,10 @@ const doomsdayCases = [
     troopRate: '2%',
     warshipRate: '50%',
     floor: '5%',
+    floorTransition: '40% 降到 5%',
+    thresholds: '2%、4%、7%、11%、17%、25% 和 35%',
+    rot: '领土腐化',
+    deadline: '150 秒',
     equalSafe: '等于或高于',
     recoveryHeading: '30 秒警告期的救场流程',
     shapeHeading: '判断领土形状，而不是判断离中心多远',
@@ -369,6 +390,10 @@ const doomsdayCases = [
     troopRate: '2 %',
     warshipRate: '50 %',
     floor: '5 %',
+    floorTransition: '40 % à 5 %',
+    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
+    rot: 'corruption territoriale',
+    deadline: '150 secondes',
     equalSafe: 'égal ou supérieur',
     recoveryHeading: 'Plan de récupération pendant les 30 secondes',
     shapeHeading: 'Choisir la forme du territoire, pas sa distance au centre',
@@ -386,6 +411,10 @@ const doomsdayCases = [
     troopRate: '2 %',
     warshipRate: '50 %',
     floor: '5 %',
+    floorTransition: '40 % auf 5 %',
+    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
+    rot: 'Gebietszerfall',
+    deadline: '150 Sekunden',
     equalSafe: 'gleich oder größer',
     recoveryHeading: 'Rettungsplan für die 30-Sekunden-Warnung',
     shapeHeading: 'Gebietsform statt Entfernung zur Mitte wählen',
@@ -403,6 +432,10 @@ const doomsdayCases = [
     troopRate: '2%',
     warshipRate: '50%',
     floor: '5%',
+    floorTransition: '40% naar 5%',
+    thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
+    rot: 'landrot',
+    deadline: '150 seconden',
     equalSafe: 'gelijk aan of hoger',
     recoveryHeading: 'Herstelplan voor de waarschuwing van 30 seconden',
     shapeHeading: 'Kies de vorm van je gebied, niet de afstand tot het midden',
@@ -422,6 +455,10 @@ for (const doomsdayCase of doomsdayCases) {
     await expect(main).toContainText(doomsdayCase.troopRate);
     await expect(main).toContainText(doomsdayCase.warshipRate);
     await expect(main).toContainText(doomsdayCase.floor);
+    await expect(main).toContainText(doomsdayCase.floorTransition);
+    await expect(main).toContainText(doomsdayCase.thresholds);
+    await expect(main).toContainText(doomsdayCase.rot);
+    await expect(main).toContainText(doomsdayCase.deadline);
     await expect(main).toContainText(doomsdayCase.equalSafe);
     await expect(main.getByRole('heading', { level: 2, name: doomsdayCase.recoveryHeading })).toBeVisible();
     await expect(main.getByRole('heading', { level: 2, name: doomsdayCase.shapeHeading })).toBeVisible();
@@ -431,12 +468,12 @@ for (const doomsdayCase of doomsdayCases) {
     await expect(waveTable).toBeVisible();
     await expect(waveTable.locator('tbody tr')).toHaveCount(4);
 
-    const timingTable = main.locator('table').filter({ hasText: '40:10' }).first();
+    const timingTable = main.locator('table').filter({ hasText: '41:00' }).first();
     await expect(timingTable).toBeVisible();
     await expect(timingTable.locator('tbody tr')).toHaveCount(4);
 
     await expect(
-      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts"]'),
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts"]'),
     ).toHaveCount(1);
   });
 

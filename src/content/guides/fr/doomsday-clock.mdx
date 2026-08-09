@@ -2,23 +2,25 @@
 title: "Guide Doomsday Clock OpenFront : vagues, attrition et survie"
 description: "La Doomsday Clock d’OpenFront vérifie une part de terrain croissante, pas un cercle sûr mobile. Toutes les vagues, l’avertissement de 30 secondes, l’attrition des troupes et Warships, les équipes et les contres."
 pubDate: 2026-08-04
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v33
-freshnessSummary: "La v33.1 conserve la Doomsday Clock rééquilibrée : 10 minutes de grâce, six vagues de part territoriale, calcul par équipe et attrition des troupes et Warships limitée à un plancher de 5 %."
+freshnessSummary: "La v33.2 transforme la fin de partie Doomsday : sept seuils montent à 2/4/7/11/17/25/35 %, le plancher des troupes descend de 40 % à 5 %, puis la corruption territoriale élimine un camp doomed pendant 150 secondes."
 ---
 
 ## Réponse directe : que fait la Doomsday Clock ?
 
 La **Doomsday Clock** termine les parties bloquées en imposant à chaque camp non leader une part croissante des terres utilisables.
 
-Ce n’est pas un cercle qui se referme vers le centre géographique. Après dix minutes de grâce, la barre monte vers 4 %, 9 %, 16 %, 26 %, 40 %, puis 55 %.
+Ce n’est pas un cercle qui se referme vers le centre géographique. Après dix minutes de grâce, la barre monte vers 2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %.
 
 Si votre camp passe sous la barre, un crâne apparaît et vous avez 30 secondes pour récupérer. Ensuite, les troupes et la santé des Warships diminuent chaque seconde.
 
-Repassez au-dessus de la barre et la marque disparaît immédiatement. Sans récupération, l’attrition s’arrête à 5 % de la force maximale : vous restez vivant, mais très facile à achever.
+Repassez au-dessus de la barre et la marque disparaît immédiatement.
+
+Sans récupération, le plancher des troupes descend de 40 % à 5 % en 90 secondes. Une fois bloqué à ce plancher, votre territoire commence à pourrir et doit atteindre zéro 150 secondes après l’apparition du crâne.
 
 L’objectif pratique est donc de conserver une part de terrain connectée avec une marge, assez de troupes pour prendre rapidement des tiles pendant l’avertissement, puis de devenir leader territorial avant le dernier resserrement.
 
@@ -38,7 +40,9 @@ Le panneau Doomsday apparaît lorsque le mode est actif.
 
 Les parties publiques affichent un badge de modificateur, avec la vitesse lorsqu’elle est disponible ; les hôtes peuvent activer le mode et choisir son rythme dans une partie personnalisée.
 
-Le panneau indique **Stable**, **Unstable** ou **Collapsing**. Il montre aussi le pourcentage à tenir, votre part ou celle de votre équipe, la cible de la vague et le temps restant avant la prochaine montée.
+Le panneau indique **Stable**, **Unstable**, **Collapsing** ou **Decaying**. Decaying est la phase au crâne rouge où le territoire disparaît.
+
+Le panneau montre aussi le pourcentage à tenir, votre part ou celle de votre équipe, la cible de la vague et le temps restant avant la prochaine montée.
 
 Considérez l’avertissement orange ou proche du danger comme un ordre d’arrêter les combats facultatifs.
 
@@ -48,16 +52,18 @@ L’interface signale déjà le danger lorsque votre part se trouve à environ 1
 
 Tous les préréglages gardent les dix premières minutes à 0 %. Chaque vague monte progressivement jusqu’à sa cible, puis marque une courte pause. La barre ne saute pas instantanément d’un pourcentage du tableau au suivant.
 
-| Vitesse | 4 % | 9 % | 16 % | 26 % | 40 % | 55 % final |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Lente | 14:52 | 20:54 | 26:56 | 32:58 | 39:00 | 45:00 |
-| Normale | 13:28 | 17:46 | 22:04 | 26:22 | 30:40 | 35:00 |
-| Rapide | 12:05 | 14:40 | 17:15 | 19:50 | 22:25 | 25:00 |
-| Très rapide | 10:40 | 11:32 | 12:24 | 13:16 | 14:08 | 15:00 |
+| Vitesse | 2 % | 4 % | 7 % | 11 % | 17 % | 25 % | 35 % final |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Lente | 14:00 | 19:10 | 24:20 | 29:30 | 34:40 | 39:50 | 45:00 |
+| Normale | 12:48 | 16:30 | 20:12 | 23:54 | 27:36 | 31:18 | 35:00 |
+| Rapide | 11:42 | 13:55 | 16:08 | 18:21 | 20:34 | 22:47 | 25:00 |
+| Très rapide | 10:36 | 11:20 | 12:04 | 12:48 | 13:32 | 14:16 | 15:00 |
 
 Chaque heure indique le moment où la vague atteint complètement sa cible. Pendant la montée, l’exigence réelle peut prendre n’importe quelle valeur entre l’ancienne et la nouvelle cible.
 
-À 55 %, deux camps ne peuvent pas tous deux tenir la barre. Le camp leader est exempté.
+À 35 %, deux camps peuvent encore tenir la barre. Le leader reste exempté, mais la dernière vague ne garantit donc plus un survivant unique par simple arithmétique.
+
+La corruption territoriale conclut la pression en éliminant tout camp non leader qui reste sous la barre jusqu’à l’échéance.
 
 Cette exemption laisse une armée capable de conclure la partie. La vague ne donne toutefois pas une victoire instantanée : la conquête, l’élimination ou le chronomètre normal déterminent encore le résultat.
 
@@ -65,16 +71,16 @@ Cette exemption laisse une armée capable de conclure la partie. La vague ne don
 
 Le premier tableau indique quand chaque cible est entièrement atteinte. Celui-ci ajoute le début de chaque montée, moment plus utile pour planifier une attaque ou une route de récupération.
 
-| Vitesse | Début des six montées | Cibles entièrement atteintes | Pause après les vagues 1 à 5 |
+| Vitesse | Début des sept montées | Cibles entièrement atteintes | Pause après les vagues 1 à 6 |
 | --- | --- | --- | ---: |
-| Lente | 10:00 · 16:02 · 22:04 · 28:06 · 34:08 · 40:10 | 14:52 · 20:54 · 26:56 · 32:58 · 39:00 · 45:00 | 70 secondes |
-| Normale | 10:00 · 14:18 · 18:36 · 22:54 · 27:12 · 31:30 | 13:28 · 17:46 · 22:04 · 26:22 · 30:40 · 35:00 | 50 secondes |
-| Rapide | 10:00 · 12:35 · 15:10 · 17:45 · 20:20 · 22:55 | 12:05 · 14:40 · 17:15 · 19:50 · 22:25 · 25:00 | 30 secondes |
-| Très rapide | 10:00 · 10:52 · 11:44 · 12:36 · 13:28 · 14:20 | 10:40 · 11:32 · 12:24 · 13:16 · 14:08 · 15:00 | 12 secondes |
+| Lente | 10:00 · 15:10 · 20:20 · 25:30 · 30:40 · 35:50 · 41:00 | 14:00 · 19:10 · 24:20 · 29:30 · 34:40 · 39:50 · 45:00 | 70 secondes |
+| Normale | 10:00 · 13:42 · 17:24 · 21:06 · 24:48 · 28:30 · 32:12 | 12:48 · 16:30 · 20:12 · 23:54 · 27:36 · 31:18 · 35:00 | 54 secondes |
+| Rapide | 10:00 · 12:13 · 14:26 · 16:39 · 18:52 · 21:05 · 23:18 | 11:42 · 13:55 · 16:08 · 18:21 · 20:34 · 22:47 · 25:00 | 31 secondes |
+| Très rapide | 10:00 · 10:44 · 11:28 · 12:12 · 12:56 · 13:40 · 14:24 | 10:36 · 11:20 · 12:04 · 12:48 · 13:32 · 14:16 · 15:00 | 8 secondes |
 
 La pause est la fenêtre la plus stable pour reconstruire une marge. La barre ne bouge plus, mais un adversaire peut toujours vous retirer du terrain et vous faire passer dessous.
 
-Ne confondez pas l’arrivée d’une cible avec la montée suivante. En vitesse Normale, 16 % est atteint à 22:04, mais la montée vers 26 % ne commence qu’à 22:54.
+Ne confondez pas l’arrivée d’une cible avec la montée suivante. En vitesse Normale, 7 % est atteint à 20:12, mais la montée vers 11 % ne commence qu’à 21:06.
 
 ## Comment le jeu calcule la ligne de sécurité
 
@@ -107,14 +113,22 @@ Le fallout peut modifier l’exigence absolue en réduisant le dénominateur. Ce
 | --- | --- | --- |
 | Stable | Votre camp est au-dessus de la barre, ou il est leader | Construire une marge relative de 10–15 % |
 | Unstable | Un camp non leader est sous la barre ; l’avertissement de 30 secondes commence | Annuler les attaques facultatives et prendre la terre accessible la moins chère |
-| Collapsing | L’avertissement est terminé et l’attrition a commencé | Récupérer du terrain immédiatement ; stocker des troupes ne suffit pas |
-| Plancher | Troupes et Warships approchent 5 % de leur maximum | Préserver les routes, éviter de donner des éliminations et chercher une reprise rapide ou l’aide de l’équipe |
+| Collapsing | L’avertissement est terminé ; troupes et Warships perdent de la force tandis que leur plancher protégé descend de 40 % à 5 % | Récupérer du terrain immédiatement ; stocker des troupes ne suffit pas |
+| Decaying | Le plancher est arrivé à 5 % et le crâne rouge marque la corruption territoriale | Repasser la barre maintenant ; terres, routes et structures disparaissent jusqu’à l’échéance de 150 secondes |
 
-La perte de troupes commence à 2 % de la capacité maximale par seconde et monte linéairement à 5 % en 90 secondes. Comme elle dépend de la capacité maximale et non des troupes restantes, conserver une armée pleine ne résout pas le problème.
+La perte de troupes commence à 2 % de la capacité maximale par seconde et monte linéairement à 5 % en 90 secondes. Pendant ce temps, le plancher protégé descend linéairement de 40 % à 5 %.
+
+Comme les deux calculs dépendent de la capacité maximale et non des troupes restantes, conserver une armée pleine ne résout pas le problème.
 
 Les Warships commencent par perdre 1 % de leur santé maximale. La courbe reste douce au début, puis devient très raide jusqu’à 50 % par seconde.
 
-Ils s’arrêtent aussi à 5 % de leur santé maximale corrigée par la vétérérance, mais ne peuvent pas se soigner tant que leur propriétaire est doomed.
+Les Warships utilisent le même plancher descendant de 40 % à 5 % de leur santé maximale corrigée par la vétérérance, mais ne peuvent pas se soigner tant que leur propriétaire est doomed.
+
+L’échéance complète du crâne est de 150 secondes. Après les 30 secondes d’avertissement et les 90 secondes de baisse du plancher, un camp bloqué à 5 % entre en corruption territoriale.
+
+La simulation ouvre des trous dispersés puis les propage. Les tiles redevenues neutres ne soutiennent plus routes ni structures. Le quota par seconde s’ajuste pour que le territoire restant atteigne zéro à l’échéance.
+
+La situation reste récupérable jusqu’à l’élimination. Repasser la barre ou devenir leader retire le crâne, arrête immédiatement l’attrition et la corruption, puis réinitialise leur tracé pour un échec ultérieur.
 
 ## Plan de récupération pendant les 30 secondes
 
@@ -142,13 +156,15 @@ Troupes et flotte doivent maintenir la route ouverte. Les dons peuvent aider une
 
 Abandonnez une grosse attaque si elle ne peut pas se terminer avant l’expiration. Une petite capture certaine vaut mieux qu’une grande bataille presque gagnée.
 
-Si la récupération est impossible, préservez deux routes et évitez de donner des unités. Il faut repasser la ligne après le début de l’attrition avant que l’ennemi n’exploite le plancher de 5 %.
+Si la récupération est impossible, préservez deux routes et évitez de donner des unités. Il faut repasser la ligne pendant les 90 secondes de baisse du plancher, avant que la corruption ne supprime ces routes.
 
 ### Après le début de l’attrition
 
-N’attendez pas un « temps fixe jusqu’au plancher ». La perte dépend de la capacité maximale, laquelle peut varier avec le territoire et l’état du joueur.
+Traitez 2 min 30 après le premier crâne comme une échéance d’élimination stricte, et non comme la promesse de 90 secondes de troupes utilisables.
 
-Restaurer la ligne reste le seul reset direct. Une fois en sécurité, le crâne disparaît, l’attrition s’arrête et une nouvelle chute redonne un avertissement complet de 30 secondes.
+La capacité maximale varie avec le territoire, et la corruption ne commence qu’une fois le plancher arrivé à 5 % et l’armée bloquée dessus.
+
+Restaurer la ligne reste le seul reset direct. Une fois en sécurité, le crâne disparaît, attrition et corruption s’arrêtent, et une nouvelle chute redonne un avertissement complet de 30 secondes avec un nouveau tracé de corruption.
 
 ## Le plan des dix premières minutes
 
@@ -166,35 +182,35 @@ Les pourcentages cibles ne changent jamais, mais le temps disponible pour recons
 
 ### Lente : construire de la profondeur, puis la convertir
 
-La vitesse Lente atteint 4 % à 14:52 et ne commence la montée vers 55 % qu’à 40:10. Vous pouvez mener de vraies guerres, mais les pauses de 70 secondes masquent parfois une mauvaise position.
+La vitesse Lente atteint 2 % à 14:00 et ne commence la montée vers 35 % qu’à 41:00. Vous pouvez mener de vraies guerres, mais les pauses de 70 secondes masquent parfois une mauvaise position.
 
-Construisez plusieurs couches de terrain connecté. À 34:08, quand commence la montée vers 40 %, cessez de traiter comme permanentes les possessions lointaines incapables d’aider la bataille finale.
+Construisez plusieurs couches de terrain connecté. À 35:50, quand commence la montée vers 25 %, cessez de traiter comme permanentes les possessions lointaines incapables d’aider la bataille finale.
 
-Le risque principal est la complaisance. On peut sembler sûr pendant trente minutes, puis découvrir que la même frontière étroite ne fournit pas assez de terrain pour 40 % et 55 %.
+Le risque principal est la complaisance. On peut sembler sûr pendant trente minutes, puis découvrir que la même frontière étroite ne fournit pas assez de terrain pour 25 % et 35 %.
 
 ### Normale : terminer chaque guerre avant le prochain jalon
 
-La vitesse Normale commence les montées vers 16 % à 18:36, 26 % à 22:54, 40 % à 27:12 et 55 % à 31:30.
+La vitesse Normale commence les montées vers 7 % à 17:24, 11 % à 21:06, 25 % à 28:30 et 35 % à 32:12.
 
 Utilisez ces quatre heures comme échéances. Une guerre qui consomme encore des troupes au début du jalon suivant doit produire du terrain immédiatement ou être annulée.
 
-Les pauses de 50 secondes suffisent pour refaire une marge, pas pour traverser la carte. Gardez une capture adjacente prête avant chaque arrivée de cible.
+Les pauses de 54 secondes suffisent pour refaire une marge, pas pour traverser la carte. Gardez une capture adjacente prête avant chaque arrivée de cible.
 
 ### Rapide : chaque attaque doit aussi améliorer la part
 
-La vitesse Rapide commence à monter vers 26 % à 17:45, vers 40 % à 20:20, puis vers 55 % dès 22:55.
+La vitesse Rapide commence à monter vers 11 % à 16:39, vers 25 % à 21:05, puis vers 35 % dès 23:18.
 
 Chaque grande attaque doit augmenter votre terrain ou supprimer la route de récupération adverse. Un simple échange de troupes coûte cher, car la vague suivante arrive avant la reconstruction complète.
 
-Entrez dans la vingtième minute avec une route vers la première place. Attendre la dernière montée laisse trop peu de temps pour modifier le classement.
+Entrez dans la vingtième minute avec une route vers la première place. Attendre la montée à 35 % laisse trop peu de temps pour modifier le classement ou survivre aux 150 secondes doomed.
 
 ### Très rapide : l’ouverture est déjà la fin de partie
 
-La vitesse Très rapide démarre à 10:00 et atteint 55 % à 15:00. Chaque pause ne dure que 12 secondes ; la barre bouge pendant presque tout le resserrement.
+La vitesse Très rapide démarre à 10:00 et atteint 35 % à 15:00. Chaque pause ne dure que 8 secondes ; la barre bouge pendant presque tout le resserrement.
 
 Évitez les conquêtes lentes avant dix minutes. Sécurisez du terrain bon marché, une frontière compacte et une route de transport avant la première montée.
 
-La montée vers 40 % commence à 13:28, celle vers 55 % à 14:20. Vous devez déjà disputer la première place, pas simplement essayer de survivre.
+La montée vers 25 % commence à 13:40, celle vers 35 % à 14:24. Vous devez déjà disputer la première place, pas simplement essayer de survivre.
 
 ## Jouer chaque partie du resserrement
 
@@ -202,11 +218,11 @@ La montée vers 40 % commence à 13:28, celle vers 55 % à 14:20. Vous devez dé
 
 Privilégiez l’efficacité territoriale plutôt qu’une cible prestigieuse. Cherchez des frontières ouvrant plusieurs captures et évitez les poches isolées dépendantes d’un transport ou d’un unique couloir ennemi.
 
-Vérifiez la vitesse. Une partie Très rapide atteint 55 % à 15:00, donc chaque détour initial coûte cher. Une partie Lente offre plus de temps de combat, mais la même cible finale arrive quand même.
+Vérifiez la vitesse. Une partie Très rapide atteint 35 % à 15:00, donc chaque détour initial coûte cher. Une partie Lente offre plus de temps de combat, mais la même cible finale et la même échéance de corruption arrivent quand même.
 
 ### Pendant une montée
 
-Regardez le pourcentage réel, pas seulement la prochaine cible du tableau. Si la barre monte de 9 % à 16 %, être à 12 % est sûr maintenant, mais déjà soumis à une échéance.
+Regardez le pourcentage réel, pas seulement la prochaine cible du tableau. Si la barre monte de 7 % à 11 %, être à 9 % est sûr maintenant, mais déjà soumis à une échéance.
 
 Préférez les gains de tiles à faible risque. Une grande attaque ratée coûte à la fois le terrain espéré et la réserve nécessaire à la récupération.
 
@@ -216,11 +232,13 @@ Profitez du palier pour reconstruire votre marge. Une pause ne signifie pas que 
 
 Si vous êtes à peine sûr, réparez votre frontière avant une guerre lointaine. Si un adversaire est à peine sûr, préparez une attaque courte qui se termine juste avant la prochaine montée.
 
-### À 40 % et 55 %
+### À 25 % et 35 %
 
-À 40 %, peu de camps peuvent rester confortablement au-dessus de la même barre. Ne mesurez plus seulement votre survie : demandez-vous si vous pouvez devenir leader.
+À 25 %, peu de camps peuvent rester confortablement au-dessus de la même barre. Ne mesurez plus seulement votre survie : demandez-vous si vous pouvez devenir leader.
 
-À 55 %, un seul camp au maximum peut atteindre la barre, mais la vague ne déclare pas de vainqueur. Si vous n’êtes pas leader, dépassez la couronne, retirez du terrain au premier ou coordonnez la poussée d’équipe décisive.
+À 35 %, deux camps peuvent encore atteindre la barre et la vague ne déclare pas de vainqueur. La corruption territoriale, la conquête normale, l’élimination, les exceptions Ranked ou les chronomètres terminent la partie.
+
+Si vous n’êtes pas leader, dépassez la couronne, retirez du terrain au premier ou coordonnez la poussée d’équipe décisive avant l’échéance.
 
 ## Règles de décision en FFA
 
@@ -244,7 +262,7 @@ L’eau ne satisfait pas une exigence de terre. Une flotte dominante peut contr�
 
 Utilisez les Warships pour protéger les transports, empêcher les débarquements et garder des routes d’expansion ouvertes. La puissance navale ne remplace pas la possession de terrain.
 
-Si votre camp devient doomed, les Warships continuent de patrouiller mais ne se soignent plus et descendent vers 5 % de santé. Récupérez d’abord la barre ; la flotte survivante pourra ensuite réparer.
+Si votre camp devient doomed, les Warships continuent de patrouiller mais ne se soignent plus et suivent le même plancher descendant de 40 % à 5 %. Récupérez d’abord la barre ; la flotte survivante pourra ensuite réparer.
 
 ## Choisir la forme du territoire, pas sa distance au centre
 
@@ -257,7 +275,7 @@ Deux positions avec le même pourcentage peuvent avoir des chances de récupéra
 | Péninsule ou goulet | Défense efficace et contacts prévisibles | Peu d’expansion quand le passage se ferme | Traverser ou sécuriser le goulet avant l’avertissement |
 | Archipel | Transport et contrôle naval solides | L’eau n’ajoute aucune part territoriale | Préparer les transports et protéger les tiles de débarquement |
 | Poches isolées | Plusieurs fronts locaux | Renforts et croissance fragmentés | Relier les poches ou abandonner la moins récupérable |
-| Bloc intérieur compact | Frontières défensives courtes | La terre bon marché proche s’épuise | Préparer une sortie avant 26 % et 40 % |
+| Bloc intérieur compact | Frontières défensives courtes | La terre bon marché proche s’épuise | Préparer une sortie avant 17 % et 25 % |
 
 Le centre n’a de valeur que s’il offre une terre connectée et capturable, ou s’il permet de prendre la première place. Se déplacer vers l’intérieur sans plan de capture ne protège pas.
 
@@ -317,21 +335,21 @@ La Clock affaiblit déjà les camps non leaders. Si la couronne reste intacte, l
 
 ### Vitesse Normale à 21:30
 
-La barre monte vers 16 %, atteint à 22:04. Votre camp possède 17 %. Annulez l’attaque lointaine, prenez une terre faible proche et reconstruisez une marge avant la vague à 26 %.
+La barre monte vers 11 %, atteinte à 23:54. Votre camp possède 12 %. Annulez l’attaque lointaine, prenez une terre faible proche et reconstruisez une marge avant la vague à 17 %.
 
 ### Partie d’équipe Rapide à 19:40
 
-La cible de 26 % arrive à 19:50. Votre équipe a 27 %, la rivale 25 %. Un allié presse sa frontière tandis que l’autre prend de la terre sûre afin de maintenir votre total au-dessus et de pousser le sien dessous.
+La cible de 17 % arrive à 20:34. Votre équipe a 18 %, la rivale 16 %. Un allié presse sa frontière tandis que l’autre prend de la terre sûre afin de maintenir votre total au-dessus et de pousser le sien dessous.
 
 ### Partie insulaire Très rapide à 14:00
 
-La cible de 40 % termine à 14:08 et 55 % arrive à 15:00. Votre flotte contrôle la mer, mais votre terre est à 35 %. Utilisez immédiatement des transports : construire un Warship de plus ne change pas le calcul.
+La cible de 25 % termine à 14:16 et 35 % arrive à 15:00. Votre flotte contrôle la mer, mais votre terre est à 23 %. Utilisez immédiatement des transports : construire un Warship de plus ne change pas le calcul.
 
 ## Questions fréquentes sur la Doomsday Clock
 
 ### La Clock peut-elle m’éliminer seule ?
 
-Non. L’attrition des troupes et des Warships s’arrête à 5 % du maximum concerné. L’adversaire, le combat normal ou les règles de victoire doivent encore conclure.
+Oui. L’attrition des troupes et des Warships s’arrête à 5 % du maximum concerné, puis la corruption retire territoire, routes et structures jusqu’à éliminer le camp à l’échéance de 150 secondes s’il ne récupère pas.
 
 ### Tenir exactement le nombre requis de tiles est-il sûr ?
 
@@ -359,14 +377,23 @@ Oui. Le leader est exempté : la marque et l’attrition s’arrêtent. Perdre l
 
 ### L’hôte peut-il régler séparément l’avertissement ou les dégâts ?
 
-Le salon permet d’activer le mode et de choisir sa vitesse. Les 30 secondes, les courbes d’attrition et le plancher de 5 % sont des valeurs fixes, pas des curseurs séparés.
+Le salon permet d’activer le mode et de choisir sa vitesse. Les 30 secondes, les courbes d’attrition, le plancher descendant de 40 % à 5 % et l’échéance de 150 secondes sont des valeurs fixes, pas des curseurs séparés.
 
-### La vague finale à 55 % donne-t-elle la victoire au leader ?
+### La vague finale à 35 % donne-t-elle la victoire au leader ?
 
-Non. Elle crée une fenêtre de pression décisive. La conquête, l’élimination, les exceptions Ranked ou les chronomètres déterminent toujours le résultat.
+Non. Deux camps peuvent encore atteindre 35 %. La corruption crée la limite décisive pour les camps non leaders restés sous la barre ; conquête, élimination, exceptions Ranked ou chronomètres déterminent toujours le résultat.
 
 ## Sources et prochaines lectures
 
-Les règles actuelles sont confirmées par la [Release officielle v0.33.1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), le [calendrier des vagues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts), l’[exécution des camps et de l’attrition](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/DoomsdayClockExecution.ts), les [valeurs de l’avertissement et du drain](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts), le [panneau HUD](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/client/components/DoomsdayClockPanel.ts) et la [rotation publique](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/server/MapPlaylist.ts).
+Les règles actuelles sont confirmées par ces sources officielles :
 
-Pour le contexte complet, lisez [les changements de la v33](/fr/changelog/v33/). Pour construire le premier coussin territorial, continuez avec le [guide de première partie](/fr/guides/first-match/). Pour arbitrer expansion, troupes et or, consultez la [stratégie économique](/fr/strategies/economy-fundamentals/).
+- [Release v0.33.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
+- [Calendrier des vagues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
+- [Exécution des camps, de l’attrition et de la corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
+- [Valeurs de l’avertissement et du drain](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+
+Pour le contexte complet, lisez [les changements de la v33](/fr/changelog/v33/).
+
+Pour construire le premier coussin territorial, continuez avec le [guide de première partie](/fr/guides/first-match/).
+
+Pour arbitrer expansion, troupes et or, consultez la [stratégie économique](/fr/strategies/economy-fundamentals/).

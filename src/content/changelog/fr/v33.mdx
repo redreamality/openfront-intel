@@ -1,8 +1,8 @@
 ---
-title: 'v33.1 : contre des MIRV, vagues Doomsday, Ranked 2v2 et 22 cartes'
-description: 'Notes OpenFront v33.1 orientées joueur : interception normale des ogives MIRV par SAM, cooldown du silo, Doomsday, Ranked 2v2, vétérérance navale, terrain infranchissable et 22 cartes.'
+title: 'v33.2 : corruption Doomsday, contre des MIRV, Ranked 2v2 et 22 cartes'
+description: 'Notes OpenFront v33.2 orientées joueur : sept seuils Doomsday, plancher décroissant et corruption territoriale, plus contre des MIRV, Ranked 2v2, vétérérance, terrain et cartes.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,11 +10,19 @@ category: Release Notes
 
 ## Réponse directe : qu’est-ce qui change votre prochaine partie ?
 
-La Release officielle `v0.33.1` est l’entrée publiée actuelle de la série v33. Elle réunit toutes les fonctions v33.0 et deux correctifs v33.1. Le changement stratégique majeur reste simple : le MIRV sert à saturer la défense, pas à contourner sûrement les SAM.
+La Release officielle `v0.33.2` est l’entrée publiée actuelle de la série v33. Le changement urgent concerne la fin Doomsday : sept seuils plus bas remplacent l’ancien calendrier à six vagues, le plancher protégé descend de 40 % à 5 % et la corruption peut éliminer un camp doomed pendant 150 secondes.
 
 Les ogives MIRV volent comme des nukes normales et passent par le ciblage de trajectoire habituel des SAM. Un tir MIRV met aussi le Missile Silo en cooldown ; ce même silo ne peut donc pas enchaîner immédiatement.
 
-Les autres changements décisifs sont la grâce Doomsday de 10 minutes, le Ranked 2v2, la vétérérance des navires de guerre, le terrain infranchissable et 22 nouvelles cartes.
+Le reste de la série v33 reste décisif : le MIRV sert à saturer la défense plutôt qu’à contourner sûrement les SAM, le Ranked 2v2 est actif, les navires gagnent en vétérérance, le terrain peut être infranchissable et 22 cartes ont rejoint la sélection.
+
+## Mise à jour v33.2 : récupérer avant la corruption
+
+Les quatre vitesses conservent 10 minutes de grâce, puis la barre monte vers **2 %, 4 %, 7 %, 11 %, 17 %, 25 % et 35 %**. Passer dessous lance toujours l’avertissement de 30 secondes.
+
+Après cet avertissement, le plancher protégé des troupes et Warships descend de **40 % à 5 % en 90 secondes**. Un camp bloqué au plancher perd ensuite terrain, routes et structures jusqu’à l’échéance fixée **150 secondes après le premier crâne**.
+
+Repasser la barre ou devenir leader territorial retire le crâne et arrête attrition comme corruption. La bonne décision n’est plus « attendre en sécurité à 5 % » : conservez une route de capture connectée et peu coûteuse, puis utilisez-la avant sa disparition.
 
 ## Correctif v33.1 : replays et classement des tribes
 
@@ -36,9 +44,9 @@ Consultez les [mécaniques nukes et SAM](/fr/mechanics/nukes/) et la [stratégie
 
 ## Doomsday Clock : bougez avant la première vague
 
-Tous les préréglages commencent par une **grâce de 10 minutes**. La part de territoire requise monte ensuite par vagues vers 4 %, 9 %, 16 %, 26 %, 40 %, puis 55 %.
+Tous les préréglages commencent par une **grâce de 10 minutes**. La part de territoire requise monte ensuite par vagues vers 2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %.
 
-Une équipe est jugée sur son territoire combiné, avec la même barre qu’un camp solo. Après l’avertissement, un camp doomed perd troupes et santé navale jusqu’à un **plancher de 5 %**, jamais jusqu’à zéro.
+Une équipe est jugée sur son territoire combiné, avec la même barre qu’un camp solo. Après l’avertissement, son plancher protégé descend de **40 % à 5 %** avant la corruption territoriale ; repasser la barre ou devenir leader arrête toute la séquence.
 
 La règle pratique : conservez une part de terrain connectée et deux expansions peu coûteuses avant la dixième minute. La Clock vérifie un pourcentage territorial, pas la distance au centre. Le [guide Doomsday Clock](/fr/guides/doomsday-clock/) détaille les vitesses, l’avertissement, la récupération et les contres.
 
@@ -75,6 +83,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.1` comme `draft=false` et `prerelease=false`. Elle regroupe les fonctions v33.0 et les deux correctifs v33.1 ; cette page reste donc l’unique vue d’ensemble de la série v33, sans mince page séparée pour le patch.
+GitHub marque la Release officielle `v0.33.2` comme `draft=false` et `prerelease=false`, avec un vrai contenu Doomsday plutôt qu’un placeholder TEST. La v33.2 révise directement la décision Doomsday déjà présente ici : cette page reste donc l’unique vue d’ensemble v33, tandis que le guide dédié porte les horaires et la récupération sans créer de mince doublon.
 
-Sources : [Release officielle v0.33.1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), [ciblage SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts), [exécution MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts) et [configuration de la vétérérance](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts).
+Sources : [Release officielle v0.33.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), [attrition et corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts), [configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts), [ciblage SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts) et [exécution MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts).

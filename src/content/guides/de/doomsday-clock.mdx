@@ -2,23 +2,25 @@
 title: "OpenFront Doomsday-Clock-Guide: Wellen, Verfall und Überleben"
 description: "Die OpenFront Doomsday Clock prüft einen steigenden Gebietsanteil, keinen wandernden Sicherheitskreis. Alle Wellen, die 30-Sekunden-Warnung, Truppen- und Warship-Verfall, Teamregeln und Konter."
 pubDate: 2026-08-04
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Anleitung
 difficulty: Mittel
 version: v33
-freshnessSummary: "v33.1 behält die überarbeitete Doomsday Clock bei: 10 Minuten Schonzeit, sechs steigende Gebietswellen, gemeinsame Teamwertung sowie Truppen- und Warship-Verfall mit einem Minimum von 5 %."
+freshnessSummary: "v33.2 verändert das Doomsday-Endspiel: Sieben Gebietsziele steigen auf 2/4/7/11/17/25/35 %, das Truppenminimum fällt von 40 % auf 5 %, danach eliminiert Gebietszerfall eine 150 Sekunden lang doomed Seite."
 ---
 
 ## Direkte Antwort: Was macht die Doomsday Clock?
 
 Die **Doomsday Clock** beendet festgefahrene OpenFront-Partien, indem jede nicht führende Seite einen wachsenden Anteil des nutzbaren Landes halten muss.
 
-Sie ist kein Kreis, der sich zum geografischen Zentrum bewegt. Nach zehn Minuten Schonzeit steigt die Schwelle auf 4 %, 9 %, 16 %, 26 %, 40 % und schließlich 55 %.
+Sie ist kein Kreis, der sich zum geografischen Zentrum bewegt. Nach zehn Minuten Schonzeit steigt die Schwelle auf 2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %.
 
 Fällt deine Seite unter die aktuelle Linie, erscheint ein Totenkopf und du hast 30 Sekunden zur Erholung. Danach sinken Truppen und Warship-LP jede Sekunde.
 
-Sobald du wieder mindestens die Schwelle erreichst, verschwindet die Markierung sofort. Ohne Erholung stoppt der Verfall bei 5 % der jeweiligen Maximalstärke: Du lebst noch, bist aber leicht zu besiegen.
+Sobald du wieder mindestens die Schwelle erreichst, verschwindet die Markierung sofort.
+
+Ohne Erholung fällt das Truppenminimum in 90 Sekunden von 40 % auf 5 %. Bist du dort festgesetzt, beginnt dein Gebiet zu zerfallen und soll 150 Sekunden nach dem ersten Totenkopf null erreichen.
 
 Das praktische Ziel lautet daher: Halte einen verbundenen Gebietsanteil mit Reserve, bewahre genug Truppen für billige Eroberungen während der Warnung und werde vor der letzten Welle Gebietsführer.
 
@@ -36,7 +38,9 @@ Die Linie verwendet aktuelles Land ohne Fallout. Das HUD zeigt den geforderten A
 
 Das Doomsday-Panel erscheint bei aktivem Modus. Öffentliche Spiele zeigen ein Modifikator-Abzeichen und, wenn vorhanden, das Tempo. Hosts können die Clock in privaten Spielen einschalten und eine Geschwindigkeit wählen.
 
-Das Panel meldet **Stable**, **Unstable** oder **Collapsing**. Außerdem siehst du den zu haltenden Prozentsatz, deinen oder den gemeinsamen Teamanteil, das aktuelle Wellenziel und den Countdown bis zum nächsten Anstieg.
+Das Panel meldet **Stable**, **Unstable**, **Collapsing** oder **Decaying**. Decaying ist die rote Totenkopfphase mit Gebietsverlust.
+
+Außerdem siehst du den zu haltenden Prozentsatz, deinen oder den gemeinsamen Teamanteil, das aktuelle Wellenziel und den Countdown bis zum nächsten Anstieg.
 
 Orange oder „fast gefährlich“ bedeutet: Beende optionale Kämpfe.
 
@@ -46,16 +50,18 @@ Die Oberfläche warnt bereits, wenn deine relative Reserve nur noch ungefähr 10
 
 Alle Presets halten die ersten zehn Minuten bei 0 %. Danach steigt die Schwelle während jeder Welle gleichmäßig zum Ziel und pausiert kurz. Sie springt nicht sofort von einem Tabellenwert zum nächsten.
 
-| Tempo | 4 % | 9 % | 16 % | 26 % | 40 % | 55 % final |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Langsam | 14:52 | 20:54 | 26:56 | 32:58 | 39:00 | 45:00 |
-| Normal | 13:28 | 17:46 | 22:04 | 26:22 | 30:40 | 35:00 |
-| Schnell | 12:05 | 14:40 | 17:15 | 19:50 | 22:25 | 25:00 |
-| Sehr schnell | 10:40 | 11:32 | 12:24 | 13:16 | 14:08 | 15:00 |
+| Tempo | 2 % | 4 % | 7 % | 11 % | 17 % | 25 % | 35 % final |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Langsam | 14:00 | 19:10 | 24:20 | 29:30 | 34:40 | 39:50 | 45:00 |
+| Normal | 12:48 | 16:30 | 20:12 | 23:54 | 27:36 | 31:18 | 35:00 |
+| Schnell | 11:42 | 13:55 | 16:08 | 18:21 | 20:34 | 22:47 | 25:00 |
+| Sehr schnell | 10:36 | 11:20 | 12:04 | 12:48 | 13:32 | 14:16 | 15:00 |
 
 Die Zeit nennt den Moment, in dem die jeweilige Welle ihr Ziel vollständig erreicht. Während des Anstiegs kann die aktuelle Anforderung jeden Wert zwischen altem und neuem Ziel annehmen.
 
-Bei 55 % können nicht zwei Seiten gleichzeitig die Linie erfüllen. Die führende Seite ist von Doomsday ausgenommen.
+Bei 35 % können weiterhin zwei Seiten gleichzeitig die Linie erfüllen. Der Führende bleibt ausgenommen, doch die letzte Welle erzwingt daher nicht allein rechnerisch einen Überlebenden.
+
+Der Gebietszerfall beendet das Match, indem er jede nicht führende Seite eliminiert, die bis zum Ablauf unter der Linie bleibt.
 
 Dadurch bleibt eine kampffähige Armee, die das Match beenden kann. Die Welle vergibt aber keinen Sofortsieg; normale Eroberungs-, Eliminierungs- oder Zeitregeln entscheiden weiter.
 
@@ -63,16 +69,16 @@ Dadurch bleibt eine kampffähige Armee, die das Match beenden kann. Die Welle ve
 
 Die erste Tabelle zeigt, wann jedes Ziel vollständig erreicht ist. Diese Tabelle ergänzt den Beginn jedes Anstiegs, also den wichtigeren Zeitpunkt für Angriffe und Rettungswege.
 
-| Tempo | Beginn der sechs Anstiege | Ziele vollständig erreicht | Pause nach Welle 1–5 |
+| Tempo | Beginn der sieben Anstiege | Ziele vollständig erreicht | Pause nach Welle 1–6 |
 | --- | --- | --- | ---: |
-| Langsam | 10:00 · 16:02 · 22:04 · 28:06 · 34:08 · 40:10 | 14:52 · 20:54 · 26:56 · 32:58 · 39:00 · 45:00 | 70 Sekunden |
-| Normal | 10:00 · 14:18 · 18:36 · 22:54 · 27:12 · 31:30 | 13:28 · 17:46 · 22:04 · 26:22 · 30:40 · 35:00 | 50 Sekunden |
-| Schnell | 10:00 · 12:35 · 15:10 · 17:45 · 20:20 · 22:55 | 12:05 · 14:40 · 17:15 · 19:50 · 22:25 · 25:00 | 30 Sekunden |
-| Sehr schnell | 10:00 · 10:52 · 11:44 · 12:36 · 13:28 · 14:20 | 10:40 · 11:32 · 12:24 · 13:16 · 14:08 · 15:00 | 12 Sekunden |
+| Langsam | 10:00 · 15:10 · 20:20 · 25:30 · 30:40 · 35:50 · 41:00 | 14:00 · 19:10 · 24:20 · 29:30 · 34:40 · 39:50 · 45:00 | 70 Sekunden |
+| Normal | 10:00 · 13:42 · 17:24 · 21:06 · 24:48 · 28:30 · 32:12 | 12:48 · 16:30 · 20:12 · 23:54 · 27:36 · 31:18 · 35:00 | 54 Sekunden |
+| Schnell | 10:00 · 12:13 · 14:26 · 16:39 · 18:52 · 21:05 · 23:18 | 11:42 · 13:55 · 16:08 · 18:21 · 20:34 · 22:47 · 25:00 | 31 Sekunden |
+| Sehr schnell | 10:00 · 10:44 · 11:28 · 12:12 · 12:56 · 13:40 · 14:24 | 10:36 · 11:20 · 12:04 · 12:48 · 13:32 · 14:16 · 15:00 | 8 Sekunden |
 
 Die Pause ist das stabilste Fenster zum Aufbau einer Reserve. Die Linie bewegt sich nicht, doch Gegner können weiterhin Land nehmen und dich darunter drücken.
 
-Verwechsle das Erreichen eines Ziels nicht mit dem nächsten Anstieg. Bei Normal werden 16 % um 22:04 erreicht, aber der Anstieg auf 26 % beginnt erst um 22:54.
+Verwechsle das Erreichen eines Ziels nicht mit dem nächsten Anstieg. Bei Normal werden 7 % um 20:12 erreicht, aber der Anstieg auf 11 % beginnt erst um 21:06.
 
 ## So berechnet das Spiel die Sicherheitslinie
 
@@ -105,14 +111,22 @@ Fallout kann die absolute Anforderung verändern, weil es den Nenner verkleinert
 | --- | --- | --- |
 | Stable | Deine Seite liegt über der Linie oder führt | Eine relative Reserve von 10–15 % aufbauen |
 | Unstable | Eine nicht führende Seite liegt darunter; die 30-Sekunden-Warnung läuft | Optionale Angriffe abbrechen und das billigste erreichbare Land nehmen |
-| Collapsing | Die Warnung ist vorbei und der Verfall läuft | Sofort Gebiet zurückholen; gehortete Truppen stoppen den Verfall nicht |
-| Minimum | Truppen und Warships nähern sich 5 % des Maximums | Wege erhalten, keine Kills verschenken und schnelle Erholung oder Teamhilfe suchen |
+| Collapsing | Die Warnung ist vorbei; Truppen und Warships verlieren Stärke, während ihr Schutzminimum von 40 % auf 5 % fällt | Sofort Gebiet zurückholen; gehortete Truppen stoppen den Countdown nicht |
+| Decaying | Das Minimum ist bei 5 % angekommen und der rote Totenkopf markiert Gebietszerfall | Jetzt die Linie überschreiten; Land, Wege und Gebäude verschwinden bis zur 150-Sekunden-Frist |
 
-Der Truppenverlust beginnt bei 2 % der maximalen Truppenkapazität pro Sekunde und steigt in 90 Sekunden linear auf 5 %. Da das Maximum statt des aktuellen Bestands verwendet wird, löst eine volle Armee das Problem nicht.
+Der Truppenverlust beginnt bei 2 % der maximalen Truppenkapazität pro Sekunde und steigt in 90 Sekunden linear auf 5 %. Gleichzeitig fällt das geschützte Truppenminimum linear von 40 % auf 5 %.
+
+Da beide Werte das Maximum statt des aktuellen Bestands verwenden, löst eine volle Armee das Problem nicht.
 
 Warships beginnen mit 1 % Verlust ihrer maximalen LP. Die Kurve bleibt anfangs sanft und steigt später steil bis 50 % pro Sekunde.
 
-Auch sie stoppen bei 5 % ihres durch Veteranenstatus angepassten Maximums, können während des doomed-Status aber nicht heilen.
+Warships verwenden dasselbe fallende 40-bis-5-%-Minimum ihres durch Veteranenstatus angepassten Maximums, können während des doomed-Status aber nicht heilen.
+
+Die gesamte Totenkopf-Frist beträgt 150 Sekunden. Nach 30 Sekunden Warnung und 90 Sekunden fallendem Minimum beginnt für eine bei 5 % festgesetzte Seite der Gebietszerfall.
+
+Die Simulation öffnet verstreute Löcher und breitet sie durch eigenes Land aus. Neutrale Tiles tragen keine Wege oder Gebäude mehr. Die Quote pro Sekunde passt sich so an, dass das Restgebiet bis zur Frist null erreicht.
+
+Bis zur Eliminierung bleibt die Lage rettbar. Das Erreichen der Linie oder der Gebietsführung entfernt den Totenkopf, stoppt Verfall und Zerfall sofort und setzt den Zerfallspfad für einen späteren Fehler zurück.
 
 ## Rettungsplan für die 30-Sekunden-Warnung
 
@@ -140,13 +154,15 @@ Truppen und Flotte sollen den Weg offenhalten. Spenden können eine Eroberung un
 
 Gib einen großen Angriff auf, wenn er nicht vor Ablauf endet. Eine kleine sichere Eroberung ist mehr wert als eine große Schlacht, die fast gewonnen ist.
 
-Ist Rettung unmöglich, erhalte zwei Wege und verschenke keine Einheiten. Überschreite die Linie nach Beginn des Verfalls, bevor Gegner das 5-%-Minimum ausnutzen.
+Ist Rettung unmöglich, erhalte zwei Wege und verschenke keine Einheiten. Überschreite die Linie während der 90 Sekunden des fallenden Minimums, bevor der Gebietszerfall diese Wege löscht.
 
 ### Nach Beginn des Verfalls
 
-Warte nicht auf eine feste „Zeit bis zum Minimum“. Der Verlust basiert auf der maximalen Kapazität, die sich mit Gebiet und Spielerstatus verändern kann.
+Behandle 2:30 ab dem ersten Totenkopf als harte Eliminierungsfrist, nicht als Zusage von genau 90 Sekunden nutzbarer Truppen.
 
-Nur die Wiederherstellung der Gebietsgrenze setzt direkt zurück. Danach verschwinden Totenkopf und Verfall; ein späterer Absturz beginnt wieder mit 30 Sekunden Warnung.
+Die maximale Kapazität ändert sich mit dem Gebiet, und der Zerfall beginnt erst, wenn das fallende Minimum 5 % erreicht und die Armee dort festgesetzt ist.
+
+Nur die Wiederherstellung der Gebietsgrenze setzt direkt zurück. Danach verschwinden Totenkopf, Verfall und Zerfall; ein späterer Absturz beginnt wieder mit 30 Sekunden Warnung und einem neuen Zerfallspfad.
 
 ## Der Plan für die ersten zehn Minuten
 
@@ -164,35 +180,35 @@ Die Zielprozente bleiben gleich, doch die Zeit zum Wiederaufbau ändert sich sta
 
 ### Langsam: Tiefe aufbauen und später umwandeln
 
-Langsam erreicht 4 % um 14:52 und beginnt den Anstieg auf 55 % erst um 40:10. Echte Kriege sind möglich, aber 70-Sekunden-Pausen können eine schlechte Lage verdecken.
+Langsam erreicht 2 % um 14:00 und beginnt den Anstieg auf 35 % erst um 41:00. Echte Kriege sind möglich, aber 70-Sekunden-Pausen können eine schlechte Lage verdecken.
 
-Baue mehrere Schichten verbundenes Land. Wenn um 34:08 der Anstieg auf 40 % beginnt, sind entfernte Gebiete ohne Nutzen für den Endkampf keine dauerhaften Besitztümer mehr.
+Baue mehrere Schichten verbundenes Land. Wenn um 35:50 der Anstieg auf 25 % beginnt, sind entfernte Gebiete ohne Nutzen für den Endkampf keine dauerhaften Besitztümer mehr.
 
-Die größte Gefahr ist Bequemlichkeit. Eine Position kann dreißig Minuten sicher wirken und dann an derselben engen Grenze nicht genug Land für 40 % und 55 % finden.
+Die größte Gefahr ist Bequemlichkeit. Eine Position kann dreißig Minuten sicher wirken und dann an derselben engen Grenze nicht genug Land für 25 % und 35 % finden.
 
 ### Normal: jeden Krieg vor dem nächsten Meilenstein beenden
 
-Normal beginnt die Anstiege auf 16 % um 18:36, 26 % um 22:54, 40 % um 27:12 und 55 % um 31:30.
+Normal beginnt die Anstiege auf 7 % um 17:24, 11 % um 21:06, 25 % um 28:30 und 35 % um 32:12.
 
 Nutze diese Zeiten als Fristen. Ein Krieg, der beim nächsten Anstieg weiter Truppen verbraucht, muss sofort Gebiet liefern oder abgebrochen werden.
 
-Die 50-Sekunden-Pausen reichen für eine Reserve, nicht zum Überqueren der Karte. Halte vor jeder Zielzeit eine benachbarte billige Eroberung bereit.
+Die 54-Sekunden-Pausen reichen für eine Reserve, nicht zum Überqueren der Karte. Halte vor jeder Zielzeit eine benachbarte billige Eroberung bereit.
 
 ### Schnell: jeder Angriff muss den Anteil verbessern
 
-Schnell beginnt den Anstieg auf 26 % um 17:45, auf 40 % um 20:20 und auf 55 % bereits um 22:55.
+Schnell beginnt den Anstieg auf 11 % um 16:39, auf 25 % um 21:05 und auf 35 % bereits um 23:18.
 
 Jeder große Angriff sollte eigenes Land gewinnen oder den billigsten Rettungsweg des Gegners entfernen. Reiner Truppentausch ist teuer, weil die nächste Welle vor dem Wiederaufbau kommt.
 
-Gehe mit einer Route zu Platz eins in Minute 20. Erst beim finalen Anstieg die Rangfolge ändern zu wollen, lässt kaum Zeit.
+Gehe mit einer Route zu Platz eins in Minute 20. Erst beim 35-%-Anstieg die Rangfolge ändern zu wollen, lässt kaum Zeit, die Rangfolge zu ändern oder eine 150-Sekunden-Frist zu überleben.
 
 ### Sehr schnell: Die Eröffnung ist schon das Endspiel
 
-Sehr schnell startet um 10:00 und erreicht 55 % um 15:00. Jede Pause dauert nur 12 Sekunden; die Linie bewegt sich fast während der gesamten Verengung.
+Sehr schnell startet um 10:00 und erreicht 35 % um 15:00. Jede Pause dauert nur 8 Sekunden; die Linie bewegt sich fast während der gesamten Verengung.
 
 Vermeide langsame Eroberungen vor Minute zehn. Sichere billiges Land, eine kompakte Grenze und eine Transportstrecke vor dem ersten Anstieg.
 
-Um 13:28 beginnt der Anstieg auf 40 %, um 14:20 der letzte. Zu diesem Zeitpunkt solltest du bereits um die Gebietsführung kämpfen, nicht nur überleben.
+Um 13:40 beginnt der Anstieg auf 25 %, um 14:24 der letzte auf 35 %. Zu diesem Zeitpunkt solltest du bereits um die Gebietsführung kämpfen, nicht nur überleben.
 
 ## Jede Phase der Verengung spielen
 
@@ -200,11 +216,11 @@ Um 13:28 beginnt der Anstieg auf 40 %, um 14:20 der letzte. Zu diesem Zeitpunkt 
 
 Gebietseffizienz ist wichtiger als ein prestigeträchtiges Einzelziel. Sichere Grenzen mit mehreren Folgezielen und vermeide isolierte Taschen, die von Transporten oder einem einzigen feindlichen Korridor abhängen.
 
-Prüfe das Tempo. Sehr schnell erreicht 55 % bereits bei 15:00, daher ist jeder frühe Umweg teuer. Langsam gibt mehr Kampfzeit, endet aber bei derselben finalen Schwelle.
+Prüfe das Tempo. Sehr schnell erreicht 35 % bereits bei 15:00, daher ist jeder frühe Umweg teuer. Langsam gibt mehr Kampfzeit, endet aber bei derselben finalen Schwelle und Zerfallsfrist.
 
 ### Während eines Anstiegs
 
-Beobachte den Live-Prozentsatz und nicht nur das Ziel im Plan. Steigt die Linie von 9 % auf 16 %, sind 12 % im Moment sicher, aber bereits mit Frist versehen.
+Beobachte den Live-Prozentsatz und nicht nur das Ziel im Plan. Steigt die Linie von 7 % auf 11 %, sind 9 % im Moment sicher, aber bereits mit Frist versehen.
 
 Nimm risikoarme Tile-Gewinne. Ein gescheiterter Großangriff kostet sowohl das erhoffte Gebiet als auch die Reserve für eine Erholung.
 
@@ -214,11 +230,13 @@ Nutze das Plateau, um die Reserve neu aufzubauen. Eine Pause beweist nicht, dass
 
 Bist du nur knapp sicher, repariere zuerst die Grenze. Ist ein Gegner knapp sicher, plane einen kurzen Angriff, der kurz vor dem nächsten Anstieg trifft.
 
-### Bei 40 % und 55 %
+### Bei 25 % und 35 %
 
-Bei 40 % können nur wenige Seiten bequem dieselbe Linie erfüllen. Miss Erfolg nicht mehr nur am Überleben, sondern daran, ob du die Führung erreichen kannst.
+Bei 25 % können nur wenige Seiten bequem dieselbe Linie erfüllen. Miss Erfolg nicht mehr nur am Überleben, sondern daran, ob du die Führung erreichen kannst.
 
-Bei 55 % kann höchstens eine Seite die Linie halten, doch die Welle erklärt keinen Sieger. Überhole die Krone, nimm dem Führenden Land oder koordiniere den entscheidenden Teamstoß.
+Bei 35 % können zwei Seiten die Linie halten, und die Welle erklärt keinen Sieger. Gebietszerfall, normale Eroberung, Eliminierung, Ranked-Ausnahmen oder Timer beenden das Match.
+
+Überhole die Krone, nimm dem Führenden Land oder koordiniere den entscheidenden Teamstoß vor der Frist.
 
 ## Entscheidungsregeln im FFA
 
@@ -242,7 +260,7 @@ Wasser erfüllt keine Landanforderung. Eine mächtige Flotte kann Bewegungen kon
 
 Nutze Warships zum Schutz von Transporten, gegen Landungen und zum Offenhalten von Expansionswegen. Seeherrschaft ersetzt kein eigenes Land.
 
-Wird deine Seite doomed, patrouillieren Warships weiter, können aber nicht heilen und fallen Richtung 5 % LP. Stelle zuerst die Gebietsgrenze wieder her; danach kann sich die überlebende Flotte reparieren.
+Wird deine Seite doomed, patrouillieren Warships weiter, können aber nicht heilen und folgen demselben fallenden 40-bis-5-%-Minimum. Stelle zuerst die Gebietsgrenze wieder her; danach kann sich die überlebende Flotte reparieren.
 
 ## Gebietsform statt Entfernung zur Mitte wählen
 
@@ -255,7 +273,7 @@ Zwei Positionen mit demselben Prozentsatz können völlig verschiedene Rettungsc
 | Halbinsel oder Engpass | Effiziente Verteidigung und klare Kontakte | Wenig Expansion nach Schließung des Halses | Engpass vor der Warnung queren oder sichern |
 | Inselgruppe | Starker Transport und Seekontrolle | Wasser erhöht den Anteil nicht | Transporte vorbereiten und Landungs-Tiles schützen |
 | Getrennte Taschen | Mehrere lokale Fronten | Verstärkung und Wachstum zerfallen | Taschen verbinden oder die schwächste aufgeben |
-| Kompakter Innenblock | Kurze Verteidigungsgrenzen | Billiges Land in der Nähe endet | Vor 26 % und 40 % einen Ausbruch vorbereiten |
+| Kompakter Innenblock | Kurze Verteidigungsgrenzen | Billiges Land in der Nähe endet | Vor 17 % und 25 % einen Ausbruch vorbereiten |
 
 Die Kartenmitte ist nur wertvoll, wenn sie verbundenes Land bietet oder die Gebietsführung verändert. Bewegung nach innen ohne Eroberungsplan gewährt keinen Schutz.
 
@@ -315,21 +333,21 @@ Die Clock schwächt nicht führende Seiten bereits. Bleibt die Krone unberührt,
 
 ### Normales Tempo bei 21:30
 
-Die Linie steigt auf 16 %, vollständig erreicht bei 22:04. Deine Seite hält 17 %. Brich den fernen Angriff ab, nimm nahes schwaches Land und baue vor der 26-%-Welle eine Reserve auf.
+Die Linie steigt auf 11 %, vollständig erreicht bei 23:54. Deine Seite hält 12 %. Brich den fernen Angriff ab, nimm nahes schwaches Land und baue vor der 17-%-Welle eine Reserve auf.
 
 ### Schnelles Teamspiel bei 19:40
 
-Das 26-%-Ziel kommt bei 19:50. Dein Team hält 27 %, der Gegner 25 %. Ein Mitspieler drückt die Grenze, der andere nimmt sicheres Land, damit eure Summe oben und seine unten bleibt.
+Das 17-%-Ziel kommt bei 20:34. Dein Team hält 18 %, der Gegner 16 %. Ein Mitspieler drückt die Grenze, der andere nimmt sicheres Land, damit eure Summe oben und seine unten bleibt.
 
 ### Sehr schnelles Inselspiel bei 14:00
 
-40 % werden bei 14:08 erreicht, 55 % bei 15:00. Deine Flotte kontrolliert das Meer, dein Landanteil beträgt aber 35 %. Nutze sofort Transporte, denn ein weiteres Warship ändert die Berechnung nicht.
+25 % werden bei 14:16 erreicht, 35 % bei 15:00. Deine Flotte kontrolliert das Meer, dein Landanteil beträgt aber 23 %. Nutze sofort Transporte, denn ein weiteres Warship ändert die Berechnung nicht.
 
 ## Häufige Fragen zur Doomsday Clock
 
 ### Kann die Clock mich allein eliminieren?
 
-Nein. Der Verfall von Truppen und Warships stoppt bei 5 % des jeweiligen Maximums. Gegner, normaler Kampf oder Standard-Siegregeln müssen das Match beenden.
+Ja. Der Verfall von Truppen und Warships stoppt bei 5 % des jeweiligen Maximums, danach entfernt der Gebietszerfall Land, Wege und Gebäude, bis die Seite bei der 150-Sekunden-Frist eliminiert ist, falls sie sich nicht rettet.
 
 ### Ist genau die benötigte Tile-Zahl sicher?
 
@@ -357,14 +375,23 @@ Ja. Der Führende ist ausgenommen, Markierung und Verfall stoppen. Der Verlust v
 
 ### Kann der Host Warnung oder Verfall getrennt einstellen?
 
-Die Lobby bietet Aktivierung und Tempo. 30 Sekunden Warnung, Verfallskurven und 5-%-Minimum sind feste Werte, keine getrennten Regler.
+Die Lobby bietet Aktivierung und Tempo. 30 Sekunden Warnung, Verfallskurven, das fallende 40-bis-5-%-Minimum und die 150-Sekunden-Frist sind feste Werte, keine getrennten Regler.
 
-### Vergibt die letzte 55-%-Welle den Sieg?
+### Vergibt die letzte 35-%-Welle den Sieg?
 
-Nein. Sie erzeugt ein entscheidendes Druckfenster. Eroberung, Eliminierung, Ranked-Ausnahmen oder Timer bestimmen weiterhin das Ergebnis.
+Nein. Zwei Seiten können noch 35 % erreichen. Der Gebietszerfall setzt die entscheidende Frist für nicht führende Seiten unter der Linie; Eroberung, Eliminierung, Ranked-Ausnahmen oder Timer bestimmen weiterhin das Ergebnis.
 
 ## Quellen und nächste Schritte
 
-Die aktuellen Regeln stehen im [offiziellen v0.33.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), im [gemeinsamen Wellenplan](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts), in der [Ausführung für Seiten und Verfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/DoomsdayClockExecution.ts), in den [Standardwerten für Warnung und Verfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts), im [HUD-Panel](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/client/components/DoomsdayClockPanel.ts) und in der [öffentlichen Modifikator-Rotation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/server/MapPlaylist.ts).
+Die aktuellen Regeln stehen in diesen offiziellen Quellen:
 
-Für den Versionskontext lies [die Änderungen in v33](/de/changelog/v33/). Für den ersten Gebietspuffer nutze den [Guide für das erste Match](/de/guides/first-match/). Für Entscheidungen zwischen Expansion, Truppen und Gold folgt die [Wirtschaftsstrategie](/de/strategies/economy-fundamentals/).
+- [v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
+- [Gemeinsamer Wellenplan](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
+- [Ausführung für Seiten, Verfall und Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
+- [Standardwerte für Warnung und Verfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+
+Für den Versionskontext lies [die Änderungen in v33](/de/changelog/v33/).
+
+Für den ersten Gebietspuffer nutze den [Guide für das erste Match](/de/guides/first-match/).
+
+Für Entscheidungen zwischen Expansion, Truppen und Gold folgt die [Wirtschaftsstrategie](/de/strategies/economy-fundamentals/).

@@ -1,8 +1,8 @@
 ---
-title: 'v33.1: MIRV Counterplay, Doomsday Waves, Ranked 2v2 & 22 Maps'
-description: 'Player-focused OpenFront v33.1 notes: normal SAM interception for MIRV warheads, silo cooldown, Doomsday timing, Ranked 2v2, warship veterancy, impassable terrain, and 22 maps.'
+title: 'v33.2: Doomsday Territory Rot, MIRV Counterplay, Ranked 2v2 & 22 Maps'
+description: 'Player-focused OpenFront v33.2 notes: seven Doomsday thresholds, a falling troop floor and territory rot, plus MIRV counterplay, Ranked 2v2, warship veterancy, terrain, and maps.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-04
+updatedDate: 2026-08-09
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,11 +10,19 @@ category: Release Notes
 
 ## Direct answer: what changes your next match?
 
-The official `v0.33.1` Release is the current published v33 series entry. It includes the full v33.0 feature set plus two v33.1 fixes. The biggest strategic change remains that MIRV is now a saturation weapon, not a reliable SAM bypass.
+The official `v0.33.2` Release is the current published v33 series entry. The urgent change is the Doomsday endgame: seven lower territory targets replace the old six-wave schedule, the protected troop floor falls from 40% to 5%, and territory rot can eliminate a side that stays doomed for 150 seconds.
 
 MIRV warheads fly as normal nukes and can be intercepted through the regular SAM trajectory system. Launching a MIRV also puts its Missile Silo on cooldown, so the same silo cannot fire an immediate follow-up nuke.
 
-The other match-defining changes are a 10-minute Doomsday grace period, Ranked 2v2, warship veterancy, impassable terrain, and 22 new maps.
+The rest of the v33 series still matters: MIRV is a saturation weapon rather than a reliable SAM bypass, Ranked 2v2 is live, warships gain veterancy, terrain can be impassable, and the pool includes 22 new maps.
+
+## v33.2 update: recover before territory rot
+
+All four speed presets still keep a 10-minute grace period, but the live share now rises through **2%, 4%, 7%, 11%, 17%, 25%, and 35%**. Falling below it starts the same 30-second warning.
+
+After the warning, the protected troop and warship floor decays from **40% to 5% over 90 seconds**. A side pinned at the floor then loses territory, routes, and structures toward a deadline **150 seconds after the skull first appeared**.
+
+Crossing the live bar or becoming the territory leader clears the skull and stops both unit drain and territory rot. The decision is no longer “wait safely at 5%”; preserve a cheap connected capture route and use it before the rot removes it.
 
 ## v33.1 hotfix: replays and tribe leaderboard work again
 
@@ -36,9 +44,9 @@ See the updated [nuke and SAM mechanics](/mechanics/nukes/) and [nuclear deterre
 
 ## Doomsday Clock: move before the first wave
 
-Every speed preset starts with a **10-minute grace period**. The required territory share then rises in waves toward 4%, 9%, 16%, 26%, 40%, and finally 55%.
+Every speed preset starts with a **10-minute grace period**. The required territory share then rises in waves toward 2%, 4%, 7%, 11%, 17%, 25%, and finally 35%.
 
-Teams are judged by their combined territory against the same bar as a solo side. A doomed side receives a warning, then loses troops and warship health until reaching a **5% floor**, not zero.
+Teams are judged by their combined territory against the same bar as a solo side. A doomed side receives a warning, then its protected floor falls from **40% to 5%** before territory rot starts. Reaching the bar or becoming leader stops the whole process.
 
 The practical rule is to secure a connected land share and two cheap expansion routes before minute 10. The Clock checks territory percentage, not distance from the map center. Use the [Doomsday Clock guide](/guides/doomsday-clock/) for every speed, the warning window, recovery, and counterplay.
 
@@ -75,6 +83,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.1` Release `draft=false` and `prerelease=false`. It combines the v33.0 feature set and the two v33.1 fixes in one published entry, so this remains the single v33 series overview instead of a separate thin patch page.
+GitHub labels the official `v0.33.2` Release `draft=false` and `prerelease=false`, and its body contains real Doomsday changes rather than TEST placeholder text. This page remains the single v33 series overview because v33.2 directly revises its existing Doomsday decision; the complete timing and recovery intent stays on the dedicated guide instead of a thin duplicate patch page.
 
-Sources: [official v0.33.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.1), [SAM targeting](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts), [MIRV execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/game/DoomsdayClock.ts), and [veterancy configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/configuration/Config.ts).
+Sources: [official v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), [Doomsday drain and territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts), [configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts), [SAM targeting](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts), and [MIRV execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts).
