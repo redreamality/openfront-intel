@@ -187,3 +187,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **核心内容严格审计会把超过 240 字符的单个段落记为失败**：新增法语、德语、荷兰语等长句时，把规则边界、导流和页面职责拆成自然的多个短段；不要为了通过审计删除事实或缩成含义不完整的一句。
 - **Playwright 若在测试启动前报 `Timed out waiting 180000ms from config.webServer`，先查项目端口与 Node 命令行**：端口有本项目遗留 preview 时只结束精确核验的遗留进程；端口无监听但另一个仓库正在高负载 lint/build 时，不得终止无关进程，可用新的 `PLAYWRIGHT_PORT` 单次重跑并继续核对最终退出码。
 - **PowerShell 下调用 `gh api graphql` 时不要在查询正文里内嵌仓库名等双引号字符串**：原生命令参数序列化可能剥掉引号，把 `openfront-intel` 解析成减法并报 `Expected type 'number'`。查询统一声明 `$owner`、`$name`、`$number` 变量，再用 `-F owner=... -F name=... -F number=...` 传值。
+- **REST merge 成功后只读 `gh api` 若瞬时返回 EOF，不得重放 merge**：先用 merge 响应的 `merged=true` 与 PR `state=MERGED` 确认写入结果，再只重试失败的 ref GET 一次；远端 main SHA 符合 merge commit 后才删除精确主题分支。
+- **`gh pr view --json` 走 GraphQL，可能在相邻 API 成功时单独 TLS handshake timeout**：只重试一次；仍失败时改用 REST 的 pull、head ref、check-runs/status 与 GraphQL 变量化 reviewThreads 分项完成门禁，不得把一次读取超时写成 PR 冲突或 checks 失败。
+- **GitHub REST 的 commit check-runs/status 门禁使用完整 40 位 SHA**：不要把日志里的 7–8 位短 SHA直接拼进 `/commits/{ref}/check-runs` 或 `/commits/{ref}/status`；当前 API 可能分别返回 422 `No commit found` 与 404 `Ref not found`。先从远端 head ref 读取完整 SHA，再查询并核对 `total_count`。
+- **完整 Git SHA 也不得从日志手工转录到后续 API 命令**：单字符抄错仍会让 check-runs 返回 422，且肉眼不易发现。应在同一 PowerShell 调用内把远端 ref 结果保存到任务专用变量，检查上一条命令退出码后直接插值给 checks/status URL。
