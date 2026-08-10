@@ -201,7 +201,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 旧页同步范围：0。只更新研究来源包、本账本和 1 条与本轮失败对应的项目避坑规则；不改玩家正文、入口、路由、生成数据或交互。
 - 视觉证据类型：正式 Release、GitHub commit、GSC Query × Page 聚合和 URL Inspection；没有截图或伪造游戏画面。
 - 验证结果：严格 content audit 40/40；`git diff --check`、Markdown 链接目标、UTF-8 BOM 与工作区范围审计通过。没有站点输入、路由、生成数据或交互变化，因此不运行 build、link check 或 Playwright。
-- 阻塞与 PR：可用 GSC 截止日为 2026-08-08，早于入口修复，这是数据等待条件而非内容阻塞。[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已创建，待最终远端合并门禁核验。
+- 阻塞与 PR：可用 GSC 截止日为 2026-08-08，早于入口修复，这是数据等待条件而非内容阻塞。[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已通过最终门禁并由 REST squash 合并为 `8b9c04d`，远端主题分支已删除。
 
 ## 本次合规自检（2026-08-10，`NUKE-01` 入口交付日）
 
@@ -333,7 +333,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-11：完成 `NUKE-01` 发布后观察来源包；五语 Water Nukes 专页均为 PASS / Submitted and indexed，当前 GSC 截止日早于入口修复，因此保留唯一主答案并等待有效窗口，没有制造新页面；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已创建。
+- [x] 2026-08-11：完成 `NUKE-01` 发布后观察来源包；五语 Water Nukes 专页均为 PASS / Submitted and indexed，当前 GSC 截止日早于入口修复，因此保留唯一主答案并等待有效窗口，没有制造新页面；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并。
 - [x] 2026-08-10：完成 `NUKE-01`；五语 guides 索引与 hotkeys 均导向 Water Nukes 唯一主答案，索引按最近核验日期排序并显示本地化更新时间，没有新增路由或重复正文，完整回归 242/242 通过；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并。
 - [x] 2026-08-09：完成正式 `v0.33.2` 的 `FRESH-01` 响应；五语 v33 总览、Doomsday 主答案与首页入口已同步七档门槛、下限衰减和领土腐化，没有新建重复小版本页，完整回归 237/237 通过；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并。
 - [x] 2026-08-06：完成 `CTRL-01`；五语 `/shortcuts/` 成为 v33.1 唯一完整查键页，五语 `/guides/hotkeys/` 改为训练、实战序列、失败恢复与反制页，双向入口和 237 条完整回归通过；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并。
@@ -379,4 +379,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-06 | `CTRL-01` | 五语完整查键页与实战工作流页完成非重复分工，v33.1 右键上下文、版本核验、双向入口和失败恢复一致；没有新建页面；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并 | GSC 刷新至 2026-08-04：7 天 874/1,704，28 天 1,172/2,711；五类快捷键查询形成稳定需求；Issues/开放 PR 为 0，Feedlog 仍为 0 票/0 评论 welcome | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,269；定向 e2e 20/20 + 5/5；完整 e2e 237/237；diff check 通过 | 观察两类页面错落地；Water Nukes / Doomsday 等待有效窗口，ATTACK/SPAWN/ROOM 先补来源包 |
 | 2026-08-09 | `FRESH-01` | 五语 v33 总览先解释 v33.2 对下一局的影响，五语 Doomsday 旧攻略同步七档时序、下限衰减、领土腐化、恢复与反制；首页最新版本入口改为 v33.2；没有新路由；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并 | GSC 刷新至 2026-08-06：7 天 880/1,802，28 天 1,225/2,928；Doomsday 17 Query/450 展现/25 点击；正式 tag 为 `e9e1070`，本地 clone 因 GitHub 443 瞬断仍为 `0668045`，未运行 extract；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,269；定向 1/1 + 5/5；完整 e2e 237/237；diff/BOM/旧来源审计通过 | 继续观察 Water Nukes；ATTACK/SPAWN/ROOM 先补成熟来源包，等待下一正式 Release |
 | 2026-08-10 | `NUKE-01` | 五语 guides 索引和 hotkeys 现在把 Water Nukes 错落地查询导向既有唯一主答案；索引改按最近核验日期排序并显示本地化更新时间，没有新路由或重复正文；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并为 `b51aff8` | GSC 刷新至 2026-08-08：7 天 855/1,695，28 天 1,239/2,984；Water Nukes 15 Query/482 展现/4 点击，索引 218、hotkeys 176、英文专页 4；正式 Release 仍为 v0.33.2，Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,279；定向 e2e 5/5 + 10/10；完整 e2e 242/242；diff/BOM check 通过 | 观察完整发布窗口；若专页仍非主落地，优先查收录而不复制正文 |
-| 2026-08-11 | `NUKE-01` 发布后观察 | 五语 Water Nukes 专页均已收录且 self-canonical；当前数据窗口早于入口修复，因此不重复改稿、不建第二页；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已创建 | GSC 主动刷新至 2026-08-08：7 天 897/1,797，28 天 1,258/3,055；Water Nukes 为 11 Query/137 展现与 16 Query/507 展现；Issues/开放 PR 0，Feedlog 0 票/0 评论 | docs-only：严格 audit 40/40；diff/BOM/Markdown 链接和范围审计通过；无站点或交互变化 | 等首个截止日至少为 2026-08-10 的稳定窗口，再判断落地页是否转向专页 |
+| 2026-08-11 | `NUKE-01` 发布后观察 | 五语 Water Nukes 专页均已收录且 self-canonical；当前数据窗口早于入口修复，因此不重复改稿、不建第二页；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并为 `8b9c04d` | GSC 主动刷新至 2026-08-08：7 天 897/1,797，28 天 1,258/3,055；Water Nukes 为 11 Query/137 展现与 16 Query/507 展现；Issues/开放 PR 0，Feedlog 0 票/0 评论 | docs-only：严格 audit 40/40；diff/BOM/Markdown 链接和范围审计通过；无站点或交互变化 | 等首个截止日至少为 2026-08-10 的稳定窗口，再判断落地页是否转向专页 |
