@@ -207,7 +207,7 @@ const freshnessLanguages = [
     lang: 'nl',
     prefix: '/nl',
     labels: ['Geldt voor', 'Laatst gecontroleerd', 'Belangrijkste wijziging in deze versie'],
-    hotkeyFact: 'rechtermuisklik',
+    hotkeyFact: 'rechtsklik-annulering',
   },
 ] as const;
 

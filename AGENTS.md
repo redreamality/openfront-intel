@@ -183,3 +183,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **运行内容审计前先用 `rg --files scripts` 核对真实脚本名**：本项目的实现是 `scripts/audit-core-content.mjs`，不存在 `scripts/content-audit.mjs`。不要根据 npm script 名 `content:audit` 猜文件路径；优先运行 `pnpm content:audit -- --strict`，或在需要绕开 pnpm 时直接运行已确认的真实 Node 脚本。
 - **Windows 下经 pnpm 脚本向 Playwright 传 `--grep` 时不要使用含 `|` 的正则**：即使 PowerShell 外层写了单引号，pnpm 的 `.cmd` 转发仍可能让 `cmd.exe` 把 `|` 当管道，并报后半段“不是内部或外部命令”。改为直接传目标 spec，或分别用不含管道的单个 `--grep=<词>` 运行。
 - **给 `rg` 传多个搜索根前先确认每个目录真实存在**：把猜测的 `src/lib` 与有效目录一起传入会让 `rg` 即使找到匹配仍以路径错误退出 2。先用 `rg --files src` 或逐个 `Test-Path` 枚举真实根，再组合搜索；不要把部分输出误当成整条审计成功。
+- **Astro content collection schema 位于 `src/content/config.ts`，不是 `src/content.config.ts`**：审计 schema 或 SEO 字段前先用 `rg --files src/content` 确认真实路径；不要把猜错的旧式路径与有效搜索根一起交给 `rg`，否则会以路径错误退出 2。
+- **核心内容严格审计会把超过 240 字符的单个段落记为失败**：新增法语、德语、荷兰语等长句时，把规则边界、导流和页面职责拆成自然的多个短段；不要为了通过审计删除事实或缩成含义不完整的一句。
+- **Playwright 若在测试启动前报 `Timed out waiting 180000ms from config.webServer`，先查项目端口与 Node 命令行**：端口有本项目遗留 preview 时只结束精确核验的遗留进程；端口无监听但另一个仓库正在高负载 lint/build 时，不得终止无关进程，可用新的 `PLAYWRIGHT_PORT` 单次重跑并继续核对最终退出码。
+- **PowerShell 下调用 `gh api graphql` 时不要在查询正文里内嵌仓库名等双引号字符串**：原生命令参数序列化可能剥掉引号，把 `openfront-intel` 解析成减法并报 `Expected type 'number'`。查询统一声明 `$owner`、`$name`、`$number` 变量，再用 `-F owner=... -F name=... -F number=...` 传值。
