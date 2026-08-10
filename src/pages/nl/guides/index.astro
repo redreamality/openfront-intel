@@ -9,13 +9,20 @@ const LANG = 'nl';
 const base = import.meta.env.BASE_URL;
 const all = (await getCollection('guides', ({ data }) => !data.draft))
   .filter(byLang(LANG))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => (b.data.updatedDate ?? b.data.pubDate).valueOf() - (a.data.updatedDate ?? a.data.pubDate).valueOf());
 const fmt = (d: Date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium' }).format(d);
+const updatedLabel = 'Bijgewerkt';
 ---
 
 <BaseLayout title="Gidsen" description="OpenFront.io tutorials van beginner tot gevorderd, bedieningspaneel, sneltoetsen en analyse van je eerste partij.">
   <PageHeader eyebrow="GUIDES" title="Gidsen" lead="Stap voor stap van het openen van het spel tot je eerste succesvolle expansie." />
   <CollectionIntro kind="guide" />
+  <section class="container-wide pt-8" aria-labelledby="water-nukes-route" data-water-nukes-route>
+    <h2 id="water-nukes-route" class="text-lg font-semibold text-iron-50">Zoek je Water Nukes?</h2>
+    <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">
+      Ga rechtstreeks naar de <a class="text-cannon-400 hover:text-cannon-300 underline" href={`${base}nl/guides/water-nukes/`}>aparte Water Nukes-gids</a> voor terreinverandering, aanvalskeuzes, verdediging en veelgemaakte fouten.
+    </p>
+  </section>
   <section class="container-wide py-10">
     {all.length === 0 ? (
       <p class="text-iron-400">Nog geen gidsen.</p>
@@ -27,7 +34,7 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium' 
               <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
                 <span class="tag-chip">{post.data.category ?? 'Gids'}</span>
                 {post.data.difficulty && <span class="tag-chip">Moeilijkheid · {post.data.difficulty}</span>}
-                <span class="font-mono">{fmt(post.data.pubDate)}</span>
+                <span class="font-mono">{post.data.updatedDate ? `${updatedLabel} ${fmt(post.data.updatedDate)}` : fmt(post.data.pubDate)}</span>
               </div>
               <h2 class="mt-2 text-lg font-semibold text-cannon-400 group-hover:text-cannon-300">{post.data.title}</h2>
               <p class="mt-2 text-sm text-iron-300 leading-relaxed">{post.data.description}</p>
