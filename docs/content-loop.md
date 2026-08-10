@@ -195,10 +195,10 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 为何未制造薄页：现有五语专页已经直接回答定义、触发、进攻、防守、失败反例与对手反制；缺口是入口与旧发布时间排序，而不是答案不足。本轮没有新路由，也没有创建第二个 Water Nukes、控制或核武页面。
 - 唯一主落地页：各语言 `/guides/water-nukes/`。`/guides/` 与 `/guides/hotkeys/` 只做明确意图分流，不复制地形转换、攻击时机或防守答案；专页原有机制、核武和海战等自然下一步入口继续保留。
 - 语言状态：en、zh、fr、de、nl 全部完成，没有 24/72 小时待补项；五语入口职责、`v33.2` 适用范围、2026-08-10 核验日期、列表排序和 Water Nukes 结论一致。
-- 旧页同步范围：5 个 guides 索引、5 个 hotkeys 旧攻略、5 个 Water Nukes 新鲜度摘要、2 个 e2e 文件、战略、本账本与 8 条本轮命令失败规避规则；没有修改路由、首页、导航、生成游戏数据或其它攻略正文。
+- 旧页同步范围：5 个 guides 索引、5 个 hotkeys 旧攻略、5 个 Water Nukes 新鲜度摘要、2 个 e2e 文件、战略、本账本与 9 条本轮命令失败规避规则；没有修改路由、首页、导航、生成游戏数据或其它攻略正文。
 - 视觉证据类型：正式 Release、上游提交核验、GSC Query × Page 数据、现有 HTML 列表与 Markdown 文本入口；没有使用或伪造游戏截图。
 - 验证结果：GSC 7/28 天刷新成功且未回退缓存；严格 content audit 40/40；Astro check 0 errors、9 hints；生产 build 230 页；link check 9,279 条且无断链；Water Nukes 定向 e2e 5/5；hotkeys 定向 e2e 10/10；完整 Playwright 242/242；`git diff --check` 通过。完整套件首次 240/242：中文页面仅在完整并发中瞬时超时，单线程定向通过；荷兰语旧新鲜度断言仍锁定扩写前文案，改为稳定语义后完整复跑通过。
-- 阻塞与 PR：内容、语言与验证无阻塞；prebuild 仅刷新生成时间戳和换行状态，核对业务数据无变化后已精确恢复 5 个生成 JSON。[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 最终为 `CLEAN / MERGEABLE`、无 checks、review、评论或未解决 thread，远端 head 与本地一致，已由本轮通过 REST squash 合并为 `b51aff8` 并删除远端主题分支。合并后首次读取 main ref 瞬时 EOF；merge 响应和 PR 状态已确认成功，只重试该读操作一次后取得同一 SHA，未重复 merge。治理门禁中的 `gh pr view` 也曾一次 TLS handshake timeout，唯一重试成功；REST checks/status 首次误用短 SHA 返回 422/404，随后又因手抄完整 SHA 时单字符错误触发一次 422；最终改为从远端 ref 程序化传递完整 head，确认两类 checks 均为 0。对应避坑规则由治理 [PR #19](https://github.com/redreamality/openfront-intel/pull/19) 按同样门禁合并。
+- 阻塞与 PR：内容、语言与验证无阻塞；prebuild 仅刷新生成时间戳和换行状态，核对业务数据无变化后已精确恢复 5 个生成 JSON。[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 最终为 `CLEAN / MERGEABLE`、无 checks、review、评论或未解决 thread，远端 head 与本地一致，已由本轮通过 REST squash 合并为 `b51aff8` 并删除远端主题分支。合并后首次读取 main ref 瞬时 EOF；merge 响应和 PR 状态已确认成功，只重试该读操作一次后取得同一 SHA，未重复 merge。治理门禁中的 `gh pr view` 也曾一次 TLS handshake timeout，唯一重试成功；REST checks/status 首次误用短 SHA 返回 422/404，随后又因手抄完整 SHA 时单字符错误触发一次 422；最终改为从远端 ref 程序化传递完整 head，确认两类 checks 均为 0。对应避坑规则由治理 [PR #19](https://github.com/redreamality/openfront-intel/pull/19) 按同样门禁合并。最终清理复核中，内容 ref 的 matching-refs 首次 TLS handshake timeout；DELETE 先前已成功，只重试读操作一次后返回空数组，未重复删除；该规则由治理 [PR #20](https://github.com/redreamality/openfront-intel/pull/20) 按同样门禁合并。
 
 ## 本次合规自检（2026-08-09，`FRESH-01` v33.2 响应交付日）
 
