@@ -191,3 +191,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **`gh pr view --json` 走 GraphQL，可能在相邻 API 成功时单独 TLS handshake timeout**：只重试一次；仍失败时改用 REST 的 pull、head ref、check-runs/status 与 GraphQL 变量化 reviewThreads 分项完成门禁，不得把一次读取超时写成 PR 冲突或 checks 失败。
 - **GitHub REST 的 commit check-runs/status 门禁使用完整 40 位 SHA**：不要把日志里的 7–8 位短 SHA直接拼进 `/commits/{ref}/check-runs` 或 `/commits/{ref}/status`；当前 API 可能分别返回 422 `No commit found` 与 404 `Ref not found`。先从远端 head ref 读取完整 SHA，再查询并核对 `total_count`。
 - **完整 Git SHA 也不得从日志手工转录到后续 API 命令**：单字符抄错仍会让 check-runs 返回 422，且肉眼不易发现。应在同一 PowerShell 调用内把远端 ref 结果保存到任务专用变量，检查上一条命令退出码后直接插值给 checks/status URL。
+- **远端 ref DELETE 成功后，matching-refs 复核若 TLS handshake timeout，不要重复删除**：保留已成功 DELETE 的证据，只重试只读 matching-refs 一次；返回空数组即可确认收口，连续失败则报告“删除已受理、复核受阻”，不得把读超时写成分支仍存在。
