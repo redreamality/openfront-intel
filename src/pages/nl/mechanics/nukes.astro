@@ -22,10 +22,14 @@ const nukes = formulas.groups.nukes;
         <tr><td>MIRV (voertuig)</td><td>25M + 15M × aantal reeds gelanceerd</td><td colspan="2">splitst in meerdere MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>Gedrag in de v33.1-broncode:</strong> de drager blijft buiten de SAM-doellijst. Na de splitsing volgt elke MIRVWarhead NukeExecution en de normale baancontrole. De oude 50-tiles-regel vervalt. De lancering zet ook de Missile Silo op cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Controleer SAM-selectie</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV-uitvoering</a>.</p>
+    <p><strong>Gedrag in de v33.4-broncode:</strong> de drager blijft buiten de SAM-doellijst. Na de splitsing volgt elke MIRVWarhead NukeExecution en de normale baancontrole. De oude 50-tiles-regel vervalt. De lancering zet ook de Missile Silo op cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Controleer SAM-selectie</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV-uitvoering</a>.</p>
     <Callout type="spec" title="Interpretatie van de explosiestraal">
       <p>Alle tiles binnen <strong>inner</strong> worden voor 100% vernietigd. <strong>outer</strong> is de buitenste ring en verspreidt zich via een BFS-kans (ongeveer 50%), met een achterblijvende fallout-zone. Deze straling verzwakt de mag van de aanvaller tijdelijk: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
+
+    <h2>Atom Bomb-bundels en Silo-timing in v33.4</h2>
+    <p><code>8</code> eenmaal kiest x1, tweemaal x5. Het radiale menu biedt Atom Bomb x1/x2/x5/xMax; Hydrogen Bomb en MIRV blijven enkel. Goud, maximaal 50 acties en de geladen buizen van alle Silos begrenzen de bundel.</p>
+    <p>Dezelfde Silo lanceert bommen met telkens één tick ertussen; verschillende gereedstaande Silos kunnen in dezelfde tick elk één lanceren. De bundel versnelt invoer, maar laat niet alle bommen uit dezelfde Silo tegelijk vertrekken en omzeilt geen SAM. Controleer de <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts" target="_blank" rel="noopener">bundellimieten</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts" target="_blank" rel="noopener">radiale aantallen</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts" target="_blank" rel="noopener">Silo-planning</a>.</p>
 
     <h2>Watercore-modus (isWaterNukes)</h2>
     <p>Wanneer ingeschakeld, wordt de explosie berekend als een <strong>gladde cirkel</strong> in plaats van BFS-verspreiding, wat betekent dat ook de zee gelijkmatig wordt opgeruimd — een grote dreiging voor spelers aan de kust. Standaard uitgeschakeld in private lobbies.</p>
@@ -35,7 +39,7 @@ const nukes = formulas.groups.nukes;
     <ul>
       <li><strong>Onderschept AtomBomb, HydrogenBomb en vliegende MIRVWarheads</strong> met dezelfde baan- en tijdlogica. De drager vóór de splitsing is geen doel.</li>
       <li>Bereik groeit van 70 tot maximaal 150 tiles: minstens niveau 3 (ca. 90-100 tiles) vormt een echt verdedigingsschild.</li>
-      <li>Cooldown 90 ticks ≈ 9 seconden. Bij gelijktijdig afgevuurde bommen kan één SAM er slechts één onderscheppen — bouw er 2 à 3 op.</li>
+      <li>Cooldown 90 ticks ≈ 9 seconden. Verschillende Silos kunnen samen starten en dezelfde Silo vuurt per tick; één gereedstaande SAM dekt de hele bundel niet — laat 2 à 3 installaties overlappen.</li>
       <li>Bouwduur 300 ticks (30 seconden); niet last-minute te improviseren.</li>
     </ul>
 

@@ -1,6 +1,6 @@
 # OpenFront Intel 每日执行账本
 
-更新日期：2026-08-11。
+更新日期：2026-08-12。
 
 本文件只回答“今天看到了什么、组成了什么执行批次、推进了哪些计划项、各 PR 的交付与验证结果是什么”。内容原则、当前战役、未来 6–8 周顺序和完成定义以 [`content-strategy.md`](content-strategy.md) 为准。
 
@@ -114,25 +114,26 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前周目标
 
-- 战役：让已经成熟的高价值玩家问题落到唯一主答案；本周先处理 `NUKE-01` 的 Water Nukes 错落地，不用新页面替代入口修复。
-- 玩家结果：搜索 Water Nukes 的玩家即使先进入 guides 索引或 hotkeys，也能立刻到达五语 `/guides/water-nukes/`，并从索引日期判断该答案最近何时核验。
-- 当前计划项：`NUKE-01` 发布后观察。五语入口已交付，专页继续作为唯一完整答案；当前只验证 GSC 是否转向专页，以及是否存在 URL 级收录故障。
-- 完成条件：五语 guides 索引与 hotkeys 的入口合同保持有效；五语专页已收录；拥有截止日至少为 2026-08-10 的稳定 GSC 窗口后，判断查询是否转向专页。若仍错落地，先查抓取与入口，不复制正文。
+- 战役：正式 Release 重新打开 `FRESH-01`；本周先让玩家在五语 v33 总览、快捷键工作流和 Water Nukes 主答案中看到 `v0.33.4` 的批量操作与错峰发射规则。
+- 玩家结果：玩家知道如何一次升级多级结构或批量发射已装填的原子弹，也知道同一 Silo 的弹体会逐 tick 错开、不同 Silo 可以并发，而不是继续按旧版重复点击或误判为全局串行。
+- 当前计划项：`FRESH-01` v33.4 响应；`NUKE-01` 观察保持 Monitoring，等待包含 2026-08-10 的稳定 GSC 窗口，不让旧窗口阻塞正式版本交付。
+- 完成条件：五语 `/changelog/v33/`、`/shortcuts/`、`/guides/hotkeys/` 与 `/guides/water-nukes/` 同步精确操作边界、正式来源、版本与核验日期；首页最新版本入口指向 v33.4；受影响事实由 e2e 锁定，且不新建重复小版本页。
 
 ## 今日编辑判断
 
-- 日期：2026-08-11。
-- 当前周目标 / 计划 ID：让真实问题落到唯一主答案 / `NUKE-01` 发布后观察。今天不重复已经合并的入口修复，而是验证专页收录状态和首个可用数据窗口。
-- 玩家结果：只有在真实发布后数据证明查询仍错落地时才继续修改；如果五语专页已正常收录，就保留唯一主答案并等待入口修复进入稳定 GSC 窗口。
-- 为什么今天做：最新正式 Release 仍是正文真实、非 TEST 的 [`v0.33.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)。GSC 两份报告主动刷新成功且保留 2 天稳定延迟：7 天为 2026-08-02 至 2026-08-08（897 个 Query、1,797 条 Query × Page，生成于 2026-08-10T23:05:23.862Z）；28 天为 2026-07-12 至 2026-08-08（1,258 个 Query、3,055 条 Query × Page，生成于 2026-08-10T23:05:36.928Z）。它们仍完全早于 2026-08-10 合并的 PR #18，不能评价修复效果。五语 Water Nukes URL Inspection 均为 `PASS / Submitted and indexed`、抓取成功且 self-canonical，排除立即收录故障。
-- 批次与 PR 边界：一个 docs-only `NUKE-01` 观察 PR，记录来源包、账本判断和本轮命令失败规避规则；分支为 `codex/daily-content-2026-08-11-water-nukes-observation`，基线为已同步的 `main` `9a56959`。唯一主落地页仍是各语言 `/guides/water-nukes/`；不修改玩家正文、入口、路由、生成数据或交互。
-- 为什么其他候选等待：main 上同一 Silo 跨 tick 发射、MIRV/SAM 近距离修复和拥挤地图出生间距放宽仍未进入新正式 Release，且没有推翻站内当前结论；只进入下次正式版本核验池。`ATTACK-01`、`SPAWN-01`、`ROOM-01` 没有新增成熟需求或来源；开放 PR 与 Issue 为 0，Feedlog 仍只有系统 welcome（1 个 Other、0 票、0 评论）。
-- 产出类型与停止条件：发布后观察来源包 + 账本复盘，不新增页面、不制造薄页。确认五语已收录、可用 GSC 截止日仍早于修复、其余候选未过硬门槛后停止内容生产；下一次报告截止日至少达到 2026-08-10 才比较落地页。
+- 日期：2026-08-12。
+- 当前周目标 / 计划 ID：让玩家立即按最新正式规则操作 / `FRESH-01` v33.4 响应，同时保留 `NUKE-01` 发布后观察。正式 Release 优先于仍缺完整窗口的观察项。
+- 玩家结果：从五语 v33 总览进入的玩家能直接看懂批量升级与批量原子弹的入口、数量上限和成本边界；快捷键页负责查操作，hotkeys 负责练工作流，Water Nukes 页只同步与核打击相关的批量发射决策。
+- 为什么今天做：[`v0.33.4`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4) 于 2026-08-11T17:25:41Z 正式发布，`draft=false`、`prerelease=false` 且正文不是 TEST。tag `20c813f` 的源码确认：重复按同一建造键会在 x1 / x5 间切换；径向菜单为原子弹提供 x1/x2/x5/xMax、为结构升级提供 x1/x5/x10/xMax；xMax 同时受最多 50 次、总成本与已装填 Silo 管数限制；同一 Silo 的核弹逐 tick 错开，不同 Silo 可在同 tick 各发一枚。v33.3 只有 Las Vegas Strip 修图与单人局保存修复，不形成独立攻略意图。
+- GSC 状态：7/28 天均主动刷新成功且未回退缓存。7 天为 2026-08-03 至 2026-08-09（917 个 Query、1,855 条 Query × Page，生成于 2026-08-11T23:02:49.856Z）；28 天为 2026-07-13 至 2026-08-09（1,281 个 Query、3,152 条 Query × Page，生成于 2026-08-11T23:03:01.627Z）。截止日仍早于 PR #18，`NUKE-01` 不能据此退出。
+- 批次与 PR 边界：一个 `FRESH-01` 版本响应 PR，分支 `codex/daily-content-2026-08-12-v33-4-response`，基线为已同步 `main` `9aa169a`。版本唯一主落地页为五语 `/changelog/v33/`；控制事实由五语 `/shortcuts/` 查键页与 `/guides/hotkeys/` 工作流页分工承接；Water Nukes 唯一主答案仍为五语 `/guides/water-nukes/`。不新建 `v33.3`、`v33.4` 或第二个核武页面。
+- 为什么其他候选等待：`ATTACK-01` 在 28 天只有 4 次宽泛展现，`SPAWN-01` 为 0，`ROOM-01` 为 1；开放 Issue / PR 均为 0。Feedlog 反馈页与路线图仍只有系统 welcome（1 个 Other、0 票、0 评论）。这些候选没有成熟需求包，不与 24 小时正式版本响应并行制造薄内容。
+- 产出类型与停止条件：五语现有页面整组版本响应 + 正式 tag 来源包 + 内容完整性 e2e；完成 audit、check、build、link check 与必要 Playwright 后交付。若精准源码证明某页面不受影响，则不做日期噪声更新。
 
 ## 当前进行中
 
-- `NUKE-01` 观察中：五语入口交付已由 [PR #18](https://github.com/redreamality/openfront-intel/pull/18) 完成；2026-08-11 的五语 URL Inspection 全部通过，但最新 GSC 仍截止 2026-08-08，早于修复。等待首个截止日至少为 2026-08-10 的稳定窗口，不重复改正文。
-- `FRESH-01` 已完成：五语 v33 总览、Doomsday 主答案和首页入口已同步 `v0.33.2` 的七档门槛、下限衰减和领土腐化；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 通过本地完整验证与远端自动合并门禁后由本轮 REST squash 合并，无待补语言或内容阻塞。
+- `NUKE-01` 观察中：五语入口交付已由 [PR #18](https://github.com/redreamality/openfront-intel/pull/18) 完成；2026-08-11 的五语 URL Inspection 全部通过，但最新 GSC 仍截止 2026-08-09，早于修复。等待首个截止日至少为 2026-08-10 的稳定窗口，不重复 Water Nukes 主答案。
+- `FRESH-01` v33.4 响应本批已完成：五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已同步批量操作、50 次上限、递增成本和 Silo 发射时序；完整本地质量门禁已通过，等待本轮 PR 收口。
 
 ## 计划承接表
 
@@ -140,14 +141,14 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | 正式 `v0.33.2` 响应已完成；五语 v33 总览、Doomsday 主答案与首页入口已统一到当前规则，没有新增路由；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已按自动合并门禁收口 | 继续响应下一正式 Release，并按独立玩家价值决定合并、拆分或专题承接 |
+| `FRESH-01` | 正式 `v0.33.4` 响应本批已完成；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已统一到批量操作和 Silo 时序，没有新增路由，等待本轮 PR 收口 | 收口本轮 PR；之后继续按独立玩家价值响应下一正式 Release |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
 | `ECON-01` | 已完成并通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并；五语经济页、公式生成源、自然入口断言和新鲜度摘要已同批交付 | 观察 `/mechanics/economy/` 的人口增长查询排名与错落地变化 |
 | `ATTACK-01` | Next | 建立攻击比例的当前公式与两个局势例子来源包 |
 | `CTRL-01` | 已完成；五语 `/shortcuts/` 保留 6 组完整默认键位表，五语 `/guides/hotkeys/` 只保留 1 张场景决策表并专注训练、失败恢复与反制；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并 | 观察 shortcuts/hotkeys/controls/keybinds 查询的错落地是否下降，不再复制第二套完整表 |
-| `NUKE-01` | 入口交付已完成；五语错落地入口、最近核验排序和定向 e2e 已通过 [PR #18](https://github.com/redreamality/openfront-intel/pull/18) 收口；2026-08-11 五语 URL Inspection 均为 PASS / Submitted and indexed | 当前 GSC 截止 2026-08-08，早于修复；等待截止日至少为 2026-08-10 的稳定窗口后判断主要落地页是否转向专页，不复制正文 |
+| `NUKE-01` | Monitoring；入口交付已完成，五语 URL Inspection 均为 PASS / Submitted and indexed；v33.4 只同步新规则对现有主答案的影响 | 当前 GSC 截止 2026-08-09，早于修复；等待截止日至少为 2026-08-10 的稳定窗口后判断主要落地页是否转向专页，不复制正文 |
 | `SPAWN-01` | Next | 选择海岸、半岛、中心、瓶颈四个真实地图场景 |
 | `ROOM-01` | Next | 核验当前私人房设置和适用玩法 |
 | `MAP-01` | Later | Caribbean 与 Danish Straits 两篇试点先验证需求，再决定是否继续其余地图 |
@@ -190,6 +191,21 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-11｜Release / 上游｜最新正式 Release 仍为正文真实、非 TEST 的 [`v0.33.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)；上游 main 为 `49d52b0`。未发布 main 新增同一 Silo 跨 tick 排队、MIRV/SAM 近距离拦截、拥挤地图出生间距放宽与 Las Vegas Strip 修复；它们没有推翻站内当前结论，也不能抢先写成 v33.2 正式事实，保留下次 Release 核验。
 - 2026-08-11｜Search Console / URL Inspection｜两份报告主动刷新成功且未回退缓存：7 天为 2026-08-02 至 2026-08-08（897 个 Query、1,797 条 Query × Page），28 天为 2026-07-12 至 2026-08-08（1,258 个 Query、3,055 条 Query × Page）。Water Nukes 明确意图为 7 天 11 Query/137 展现/0 点击，28 天 16 Query/507 展现/4 点击；数据截止日早于 2026-08-10 入口修复，不能评价效果。五语专页均为 PASS、Submitted and indexed、抓取成功且 self-canonical，排除立即收录故障；详细来源见 [`2026-08-11-content-signals.md`](research/2026-08-11-content-signals.md)。
 - 2026-08-11｜Feedlog / GitHub｜开放 Issues 与开放 PR 均为 0；Feedlog 仍只有系统 welcome，1 个 Other、0 票、0 评论。没有真实重复玩家问题或成熟 Next/Later 候选，今天不制造内容页。
+- 2026-08-12｜Release / 上游｜正式 [`v0.33.4`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4) 于 2026-08-11T17:25:41Z 发布，`draft=false`、`prerelease=false` 且正文不是 TEST；tag commit 为 `20c813f`，上游 main 为 `228143e`。已有建筑升级与 Atom Bomb 获得批量，且同一 Silo 逐 tick、不同 Silo 可同 tick 发射，直接触发 `FRESH-01`；v33.3 只有地图小修与单人归档修复，不拆薄页。
+- 2026-08-12｜Search Console 7/28 天｜两份报告主动刷新成功且未回退缓存：7 天为 2026-08-03 至 2026-08-09（917 个 Query、1,855 条 Query × Page），28 天为 2026-07-13 至 2026-08-09（1,281 个 Query、3,152 条 Query × Page）。截止日仍早于 2026-08-10 的入口修复，`NUKE-01` 保持 Monitoring；详细来源见 [`2026-08-12-v33-4-content-signals.md`](research/2026-08-12-v33-4-content-signals.md)。
+- 2026-08-12｜Feedlog / GitHub｜开放 Issues 与开放 PR 均为 0；Feedlog 仍只有系统 welcome，1 个 Other、0 票、0 评论。`ATTACK-01`、`SPAWN-01`、`ROOM-01` 和地图试点没有新增成熟证据，本轮不制造第二个主题。
+
+## 本次合规自检（2026-08-12，`FRESH-01` v33.4 响应交付日）
+
+- 计划 ID：`FRESH-01` v33.4 正式版本响应；`NUKE-01` 继续保留在 Monitoring，不让旧 GSC 窗口阻塞正式 Release。
+- 是否推进当前战役退出条件：是。五语版本总览、首页入口、完整查键页、hotkeys 工作流、Water Nukes 主答案和核武机制已统一到 `v0.33.4` 的批量操作、上限与 Silo 发射时序，本轮正式版本响应达到完成定义。
+- 为何未制造薄页：v33.3 只有地图小修与单人归档修复，没有独立玩家决策；v33.4 的变化由既有 v33 总览与常青主答案完整承接，因此没有建立 `/changelog/v33.3/`、`/changelog/v33.4/` 或第二个核武页面。
+- 唯一主落地页：版本意图由五语 `/changelog/v33/` 承接；查键意图由五语 `/shortcuts/` 承接，训练与实战工作流由 `/guides/hotkeys/` 承接；Water Nukes 意图继续只由五语 `/guides/water-nukes/` 承接。首页和核武机制页只做入口与精确事实同步，不复制主答案。
+- 语言状态：en、zh、fr、de、nl 同批完成，没有 24/72 小时待补项；五语一致说明热键 x1/x5、径向菜单数量、最多 50 次、递增升级成本、Silo 容量、同一 Silo 逐 tick、不同 Silo 同 tick，以及 Hydrogen Bomb / MIRV 仍为单次操作。
+- 旧页同步范围：5 个 v33 总览、5 个首页入口、5 个 shortcuts、5 个 hotkeys、5 个 Water Nukes、5 个核武机制页及共享来源面板；未受影响的 first-match、Doomsday 与策略正文不做日期噪声更新。
+- 视觉证据类型：正式 Release、v33.4 tag 源码、代码原生表格与文字解释；没有真实截图时未生成或伪造游戏画面。
+- 验证结果：GSC 7/28 天主动刷新成功且未回退缓存；严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产构建 230 页；内部链接 9,289 条、无断链；新鲜度定向 e2e 40/40；Water Nukes 发现性定向 e2e 5/5；完整 Playwright 247/247（`--workers=1`）；`git diff --check`、BOM、旧版本字面值与范围审计在提交前完成。首轮回归暴露 10 条旧摘要事实映射和 5 条旧版本断言，修正测试契约后全量通过，规避规则已写入 `AGENTS.md`。
+- 阻塞与 PR：无内容、语言或验证阻塞；分支 `codex/daily-content-2026-08-12-v33-4-response` 等待创建 PR，并按自动合并门禁收口。合并结果将在回到最新干净 `main` 后写回本账本。
 
 ## 本次合规自检（2026-08-11，`NUKE-01` 发布后观察）
 
@@ -333,6 +349,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
+- [x] 2026-08-12：完成正式 `v0.33.4` 的 `FRESH-01` 响应；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作和 Silo 发射时序，没有新建小版本或重复核武页面，完整回归 247/247 通过，等待本轮 PR 收口。
 - [x] 2026-08-11：完成 `NUKE-01` 发布后观察来源包；五语 Water Nukes 专页均为 PASS / Submitted and indexed，当前 GSC 截止日早于入口修复，因此保留唯一主答案并等待有效窗口，没有制造新页面；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并。
 - [x] 2026-08-10：完成 `NUKE-01`；五语 guides 索引与 hotkeys 均导向 Water Nukes 唯一主答案，索引按最近核验日期排序并显示本地化更新时间，没有新增路由或重复正文，完整回归 242/242 通过；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并。
 - [x] 2026-08-09：完成正式 `v0.33.2` 的 `FRESH-01` 响应；五语 v33 总览、Doomsday 主答案与首页入口已同步七档门槛、下限衰减和领土腐化，没有新建重复小版本页，完整回归 237/237 通过；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并。
@@ -380,3 +397,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-09 | `FRESH-01` | 五语 v33 总览先解释 v33.2 对下一局的影响，五语 Doomsday 旧攻略同步七档时序、下限衰减、领土腐化、恢复与反制；首页最新版本入口改为 v33.2；没有新路由；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并 | GSC 刷新至 2026-08-06：7 天 880/1,802，28 天 1,225/2,928；Doomsday 17 Query/450 展现/25 点击；正式 tag 为 `e9e1070`，本地 clone 因 GitHub 443 瞬断仍为 `0668045`，未运行 extract；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,269；定向 1/1 + 5/5；完整 e2e 237/237；diff/BOM/旧来源审计通过 | 继续观察 Water Nukes；ATTACK/SPAWN/ROOM 先补成熟来源包，等待下一正式 Release |
 | 2026-08-10 | `NUKE-01` | 五语 guides 索引和 hotkeys 现在把 Water Nukes 错落地查询导向既有唯一主答案；索引改按最近核验日期排序并显示本地化更新时间，没有新路由或重复正文；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并为 `b51aff8` | GSC 刷新至 2026-08-08：7 天 855/1,695，28 天 1,239/2,984；Water Nukes 15 Query/482 展现/4 点击，索引 218、hotkeys 176、英文专页 4；正式 Release 仍为 v0.33.2，Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,279；定向 e2e 5/5 + 10/10；完整 e2e 242/242；diff/BOM check 通过 | 观察完整发布窗口；若专页仍非主落地，优先查收录而不复制正文 |
 | 2026-08-11 | `NUKE-01` 发布后观察 | 五语 Water Nukes 专页均已收录且 self-canonical；当前数据窗口早于入口修复，因此不重复改稿、不建第二页；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并为 `8b9c04d` | GSC 主动刷新至 2026-08-08：7 天 897/1,797，28 天 1,258/3,055；Water Nukes 为 11 Query/137 展现与 16 Query/507 展现；Issues/开放 PR 0，Feedlog 0 票/0 评论 | docs-only：严格 audit 40/40；diff/BOM/Markdown 链接和范围审计通过；无站点或交互变化 | 等首个截止日至少为 2026-08-10 的稳定窗口，再判断落地页是否转向专页 |
+| 2026-08-12 | `FRESH-01` v33.4 响应 | 五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作、50 次上限、递增成本及 Silo 时序；没有新增路由，等待本轮 PR 收口 | 正式 v0.33.4 为非 TEST Release；GSC 刷新至 2026-08-09：7 天 917/1,855，28 天 1,281/3,152；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,289；定向 40/40 + 5/5；完整 e2e 247/247；最终 diff/BOM 审计待提交前完成 | 收口本轮 PR；`NUKE-01` 等截止日至少为 2026-08-10 的稳定窗口 |

@@ -70,6 +70,6 @@ for (const contentCase of cases) {
 
     await page.goto(targetPath, { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { level: 2, name: contentCase.directAnswer })).toBeVisible();
-    await expect(page.locator('main')).toContainText('v33.2');
+    await expect(page.locator('main')).toContainText('v33.4');
   });
 }

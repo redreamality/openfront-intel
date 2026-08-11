@@ -192,4 +192,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **GitHub REST 的 commit check-runs/status 门禁使用完整 40 位 SHA**：不要把日志里的 7–8 位短 SHA直接拼进 `/commits/{ref}/check-runs` 或 `/commits/{ref}/status`；当前 API 可能分别返回 422 `No commit found` 与 404 `Ref not found`。先从远端 head ref 读取完整 SHA，再查询并核对 `total_count`。
 - **完整 Git SHA 也不得从日志手工转录到后续 API 命令**：单字符抄错仍会让 check-runs 返回 422，且肉眼不易发现。应在同一 PowerShell 调用内把远端 ref 结果保存到任务专用变量，检查上一条命令退出码后直接插值给 checks/status URL。
 - **远端 ref DELETE 成功后，matching-refs 复核若 TLS handshake timeout，不要重复删除**：保留已成功 DELETE 的证据，只重试只读 matching-refs 一次；返回空数组即可确认收口，连续失败则报告“删除已受理、复核受阻”，不得把读超时写成分支仍存在。
+- **核心页更新 `freshnessSummary` 后必须同步内容 e2e 的摘要事实映射**：正文仍保留旧事实不代表顶部摘要还应断言旧关键词；`e2e/content-integrity.spec.ts` 应锁定当前版本最重要变化，并另用正文级断言保护未改变的历史事实，避免把正确的新鲜度更新误报成回归。
+- **正式版本响应必须全局审计 `e2e/` 中旧正式版本的精确字面值**：不能只更新版本总览或 `content-integrity.spec.ts`；入口、发现性和专题 spec 也可能仍断言上一版（如 Water Nukes discovery 的 `v33.2`），导致页面已正确刷新但完整回归失败。提交前从 `e2e` 真实目录检索旧版本并逐条判断是否应保留历史语境。
+- **新建 Markdown 文件结尾只保留一个终止换行**：正文后再留空白行会让 `git diff --cached --check` 报 `new blank line at EOF` 并返回 1；暂存后仍要跑该检查，发现时删除额外空行再提交。
 - **不要从 automation memory 直接沿用上轮的进程级 Git 代理地址**：`127.0.0.1:15236` 等本地代理端口可能只在上轮临时监听；fetch 前先探测该端口，未监听就直接使用带低速保护的直连，避免把 `Failed to connect to 127.0.0.1` 误判为 GitHub 断流并浪费唯一重试。

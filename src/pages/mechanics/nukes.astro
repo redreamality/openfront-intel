@@ -22,10 +22,14 @@ const nukes = formulas.groups.nukes;
         <tr><td>MIRV (carrier)</td><td>25M + 15M × launched count</td><td colspan="2">Splits into multiple MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>v33.1 source behavior:</strong> the carrier remains outside the SAM target list. After separation, each MIRVWarhead flies through normal NukeExecution and SAM trajectory checks. The old 50-tile destination shortcut is gone. Launching MIRV also puts its Missile Silo on cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Verify SAM targeting</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV execution</a>.</p>
+    <p><strong>v33.4 source behavior:</strong> the carrier remains outside the SAM target list. After separation, each MIRVWarhead flies through normal NukeExecution and SAM trajectory checks. The old 50-tile destination shortcut is gone. Launching MIRV also puts its Missile Silo on cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Verify SAM targeting</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV execution</a>.</p>
     <Callout type="spec" title="Blast Radius Explained">
       <p><strong>Inner</strong> radius: 100% destruction of all tiles. <strong>Outer</strong> is the fallout zone, ~50% BFS probability spread, leaving radiation. Radiation weakens attacker mag: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
+
+    <h2>v33.4 Atom Bomb Batches and Silo Timing</h2>
+    <p>Press <code>8</code> once for x1 or twice for x5. The radial menu offers Atom Bomb x1/x2/x5/xMax; Hydrogen Bomb and MIRV remain single actions. Gold, a maximum of 50 actions, and the loaded tubes across all Silos cap the batch.</p>
+    <p>One Silo releases queued bombs one tick apart. Separate ready Silos can each release one bomb on the same tick. Bulk input therefore shortens setup but does not make every bomb leave one Silo simultaneously or bypass SAM checks. Verify the <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts" target="_blank" rel="noopener">batch limits</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts" target="_blank" rel="noopener">radial quantities</a>, and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts" target="_blank" rel="noopener">same-Silo scheduling</a>.</p>
 
     <h2>Water Nukes Mode (isWaterNukes)</h2>
     <p>When enabled, nuclear blast uses <strong>smooth circular</strong> pattern instead of BFS spread—ocean tiles get evenly cleared. Major threat to coastal players. Disabled by default in private lobbies.</p>
@@ -35,7 +39,7 @@ const nukes = formulas.groups.nukes;
     <ul>
       <li><strong>Intercepts AtomBomb, HydrogenBomb, and in-flight MIRVWarhead</strong> through the same trajectory and timing logic. The carrier itself is not a target before separation.</li>
       <li>Range grows from 70 to cap of 150 tiles: recommend at least level 3 (~90-100 tiles) for effective coverage.</li>
-      <li>Cooldown 90 ticks ≈ 9 seconds. Two simultaneous nukes = one SAM can only intercept one—need 2-3 SAMs for overlap.</li>
+      <li>Cooldown 90 ticks ≈ 9 seconds. Different Silos can launch together, while one Silo staggers by one tick; a single ready SAM still cannot cover a batch—use 2-3 overlapping launchers.</li>
       <li>Build time 300 ticks (30 seconds), can't be rushed last-minute.</li>
     </ul>
 

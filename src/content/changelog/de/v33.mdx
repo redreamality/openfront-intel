@@ -1,8 +1,8 @@
 ---
-title: 'v33.2: Doomsday-Gebietszerfall, MIRV-Abwehr, Ranked 2v2 und 22 Karten'
-description: 'Spielerorientierte OpenFront-v33.2-Notizen: sieben Doomsday-Schwellen, fallendes Minimum und Gebietszerfall sowie MIRV-Abwehr, Ranked 2v2, Veteranenstatus, Gelände und Karten.'
+title: 'v33.4: Mengen-Upgrades, versetzte Nuke-Salven, Doomsday und 22 Karten'
+description: 'Spielerorientierte OpenFront-v33.4-Notizen: Mengen-Upgrades, geladene Atom-Bomb-Salven, Silo-Taktung, Doomsday-Zerfall, MIRV-Abwehr, Ranked 2v2 und Karten.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-09
+updatedDate: 2026-08-12
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,11 +10,31 @@ category: Release Notes
 
 ## Direkte Antwort: Was ändert dein nächstes Match?
 
-Das offizielle Release `v0.33.2` ist der aktuelle veröffentlichte Eintrag der v33-Serie. Die dringende Änderung betrifft das Doomsday-Endspiel: Sieben niedrigere Schwellen ersetzen den alten Sechs-Wellen-Plan, das Schutzminimum fällt von 40 % auf 5 %, und Gebietszerfall kann eine 150 Sekunden lang doomed Seite eliminieren.
+Das offizielle Release `v0.33.4` ist der aktuelle veröffentlichte Eintrag der v33-Serie. Neu ist die Wahl zwischen einer Aktion und einem Paket: bestehende Gebäude-Upgrades und geladene Atom Bombs lassen sich gesammelt auslösen.
+
+Ein zweiter Druck auf denselben Bau-Hotkey schaltet bei einem passenden Upgrade oder einer Atom Bomb zwischen x1 und x5 um. Das Radialmenü bietet x1/x5/x10/xMax für Upgrades und x1/x2/x5/xMax für Atom Bombs.
+
+Dasselbe Silo startet seine Nukes mit je einem Tick Abstand; mehrere bereite Silos können im selben Tick je eine Nuke starten. Gold, höchstens 50 Aktionen und bei Atom Bombs die Zahl geladener Rohre begrenzen das Paket.
 
 MIRV-Sprengköpfe fliegen wie normale Nukes und werden durch die reguläre SAM-Flugbahnlogik erfasst. Ein MIRV-Start setzt außerdem das Missile Silo auf Cooldown; dasselbe Silo kann nicht sofort nachfeuern.
 
-Der restliche v33-Umfang bleibt wichtig: MIRV ist eine Sättigungswaffe statt eines verlässlichen SAM-Bypasses, Ranked 2v2 ist aktiv, Warships sammeln Veteranenstatus, Gelände kann unpassierbar sein und 22 Karten kamen hinzu.
+Der restliche v33-Umfang bleibt wichtig: Doomsday-Gebietszerfall kann nach 150 Sekunden eliminieren, MIRV bleibt eine Sättigungswaffe statt eines verlässlichen SAM-Bypasses, und Ranked 2v2, Veteranenstatus sowie 22 Karten bleiben aktiv.
+
+## v33.4-Update: Menge wählen, dann Kapazität prüfen
+
+Ein doppelter Druck auf eine Zahlentaste baut keine fünf neuen Gebäude. x5 gilt nur für ein vorhandenes aufrüstbares Gebäude oder die mit `8` aktivierte Atom Bomb; Neubauten, Hydrogen Bomb und MIRV bleiben Einzelaktionen.
+
+Das Radialmenü zeigt Menge und Gesamtpreis vor der Bestätigung. Da jede weitere Gebäudestufe teurer wird, ist der x5-Preis nicht einfach der aktuelle Einzelpreis mal fünf.
+
+Bei Atom Bombs überschreitet xMax nie die geladenen Rohre aller Silos. Starts desselben Silos folgen im Tick-Abstand, getrennte Silos können gleichzeitig feuern.
+
+Nutze x2 oder x5 erst nach Prüfung von Zielwert, SAM-Abdeckung, geladenen Rohren und Gesamtpreis. Die Menge spart Klicks, aber weder Gold noch Abfangrisiko.
+
+## v33.3-Fixes: Solo-Archive und Las Vegas Strip
+
+Solo-Siege werden nun beim Sieg archiviert statt erst beim Verlassen der Seite. Außerdem wurde der obere rechte Bereich von Las Vegas Strip korrigiert.
+
+Beides braucht keinen eigenen Guide: Ein Fix schützt das Ergebnis einer beendeten Partie, die Karte liegt außerhalb des aktuellen redaktionellen Piloten.
 
 ## v33.2-Update: vor dem Gebietszerfall retten
 
@@ -83,6 +103,6 @@ Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Kart
 
 ## Quellenstatus
 
-GitHub markiert das offizielle Release `v0.33.2` als `draft=false` und `prerelease=false`; der Text enthält echte Doomsday-Änderungen statt eines TEST-Platzhalters. v33.2 überarbeitet die vorhandene Doomsday-Entscheidung direkt, daher bleibt diese Seite die einzige v33-Übersicht. Zeiten und Rettungsablauf gehören in den eigenen Guide statt in einen dünnen Doppelartikel.
+GitHub markiert das offizielle Release `v0.33.4` als `draft=false` und `prerelease=false`; der Text enthält echte v33.4- und v33.3-Einträge statt eines TEST-Platzhalters. Diese Seite bleibt die einzige v33-Übersicht; neue Bedienung gehört in bestehende Antworten statt in einen dünnen Doppelartikel.
 
-Quellen: [offizielles v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), [Verfall und Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts), [Konfiguration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts), [SAM-Zielsystem](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts) und [MIRV-Ausführung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts).
+Quellen: [offizielles v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [Mengenlimits und Kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [Tastatur-Umschaltung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiales Mengenmenü](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) und [Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

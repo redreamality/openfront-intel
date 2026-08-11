@@ -51,14 +51,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 uses the official v0.33.2 Release URL', async ({ page }) => {
+test('changelog v33 uses the official v0.33.4 Release URL', async ({ page }) => {
   await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4',
   );
 });
 
@@ -183,31 +183,36 @@ const freshnessLanguages = [
     lang: 'en',
     prefix: '',
     labels: ['Applies to', 'Last verified', 'What changed in this version'],
-    hotkeyFact: 'right-click',
+    hotkeyFact: 'x1/x5',
+    waterNukeFact: 'Silo',
   },
   {
     lang: 'zh',
     prefix: '/zh',
     labels: ['适用版本', '最后核验', '本版本关键变化'],
-    hotkeyFact: '右键',
+    hotkeyFact: 'x1/x5',
+    waterNukeFact: 'Silo',
   },
   {
     lang: 'fr',
     prefix: '/fr',
     labels: ['Version applicable', 'Dernière vérification', 'Changement clé de cette version'],
-    hotkeyFact: 'clic droit',
+    hotkeyFact: 'x1/x5',
+    waterNukeFact: 'Silo',
   },
   {
     lang: 'de',
     prefix: '/de',
     labels: ['Gilt für', 'Zuletzt geprüft', 'Wichtigste Änderung dieser Version'],
-    hotkeyFact: 'Rechtsklick',
+    hotkeyFact: 'x1/x5',
+    waterNukeFact: 'Silo',
   },
   {
     lang: 'nl',
     prefix: '/nl',
     labels: ['Geldt voor', 'Laatst gecontroleerd', 'Belangrijkste wijziging in deze versie'],
-    hotkeyFact: 'rechtsklik-annulering',
+    hotkeyFact: 'x1/x5',
+    waterNukeFact: 'Silo',
   },
 ] as const;
 
@@ -215,7 +220,7 @@ const freshnessPages = [
   { route: '/guides/first-match/', fact: '22' },
   { route: '/guides/doomsday-clock/', fact: '150' },
   { route: '/guides/hotkeys/', fact: 'hotkey' },
-  { route: '/guides/water-nukes/', fact: 'MIRV' },
+  { route: '/guides/water-nukes/', fact: 'water-nukes' },
   { route: '/strategies/economy-fundamentals/', fact: 'v32' },
   { route: '/strategies/ffa-opening/', fact: '22' },
   { route: '/strategies/nuclear-deterrence/', fact: 'MIRV' },
@@ -233,9 +238,12 @@ for (const language of freshnessLanguages) {
       await expect(freshness).toContainText('v33');
       await expect(freshness).toContainText('2026');
       for (const label of language.labels) await expect(freshness).toContainText(label);
-      await expect(freshness).toContainText(
-        freshnessPage.fact === 'hotkey' ? language.hotkeyFact : freshnessPage.fact,
-      );
+      const expectedFact = freshnessPage.fact === 'hotkey'
+        ? language.hotkeyFact
+        : freshnessPage.fact === 'water-nukes'
+          ? language.waterNukeFact
+          : freshnessPage.fact;
+      await expect(freshness).toContainText(expectedFact);
     });
   }
 }
@@ -270,6 +278,9 @@ const v33Cases = [
     tribe: 'custom tribe names',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
     rot: 'territory rot',
+    batch: 'Press the same build key twice to toggle x1 / x5',
+    timing: 'One Silo releases its queued bombs one tick apart',
+    single: 'New placements, Hydrogen Bombs, and MIRVs remain single actions',
   },
   {
     path: '/zh/changelog/v33/',
@@ -281,6 +292,9 @@ const v33Cases = [
     tribe: '自定义 tribe 名称',
     thresholds: '2%、4%、7%、11%、17%、25%，最终到 35%',
     rot: '领土腐化',
+    batch: '同一建造键连按两次，会为可升级建筑或原子弹在 x1 / x5 间切换',
+    timing: '同一 Silo 的核弹每隔 1 tick 发出一枚',
+    single: '新建建筑、氢弹和 MIRV 仍是单次操作',
   },
   {
     path: '/fr/changelog/v33/',
@@ -292,6 +306,9 @@ const v33Cases = [
     tribe: 'noms de tribe personnalisés',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
     rot: 'corruption territoriale',
+    batch: 'Appuyer deux fois sur la même touche de construction bascule entre x1 et x5',
+    timing: 'Un même Silo espace ses tirs d’un tick',
+    single: 'nouvelle structure, Hydrogen Bomb et MIRV restent unitaires',
   },
   {
     path: '/de/changelog/v33/',
@@ -303,6 +320,9 @@ const v33Cases = [
     tribe: 'benutzerdefinierte Tribe-Namen',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
     rot: 'Gebietszerfall',
+    batch: 'Ein zweiter Druck auf denselben Bau-Hotkey',
+    timing: 'Dasselbe Silo startet seine Nukes mit je einem Tick Abstand',
+    single: 'Neubauten, Hydrogen Bomb und MIRV bleiben Einzelaktionen',
   },
   {
     path: '/nl/changelog/v33/',
@@ -314,22 +334,28 @@ const v33Cases = [
     tribe: 'aangepaste tribe-namen',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
     rot: 'landrot',
+    batch: 'Druk dezelfde bouwtoets twee keer',
+    timing: 'Eén Silo vuurt zijn nukes met telkens één tick ertussen',
+    single: 'nieuwbouw, Hydrogen Bomb en MIRV blijven enkele acties',
   },
 ];
 
 for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains the player-facing v33.2 changes`, async ({ page }) => {
+  test(`${v33Case.path} explains the player-facing v33.4 changes`, async ({ page }) => {
     await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(v33Case.grace);
     await expect(main).toContainText(v33Case.ranked);
     await expect(main).toContainText(v33Case.veteran);
     await expect(main).toContainText(v33Case.maps);
-    await expect(main).toContainText('v0.33.2');
+    await expect(main).toContainText('v0.33.4');
     await expect(main).toContainText(v33Case.replay);
     await expect(main).toContainText(v33Case.tribe);
     await expect(main).toContainText(v33Case.thresholds);
     await expect(main).toContainText(v33Case.rot);
+    await expect(main).toContainText(v33Case.batch);
+    await expect(main).toContainText(v33Case.timing);
+    await expect(main).toContainText(v33Case.single);
     await expect(main).toContainText('150');
     await expect(main).toContainText('MIRV');
   });
@@ -494,6 +520,8 @@ const mirvSamCases = [
     carrier: 'carrier remains outside the SAM target list',
     warhead: 'normal NukeExecution and SAM trajectory checks',
     cooldown: 'Missile Silo on cooldown',
+    batch: 'Atom Bomb x1/x2/x5/xMax',
+    timing: 'One Silo releases queued bombs one tick apart',
     strategy: 'trajectory, range, timing, ready-shot, and cooldown logic',
   },
   {
@@ -503,6 +531,8 @@ const mirvSamCases = [
     carrier: 'MIRV 载体仍不在 SAM 目标列表中',
     warhead: '接受 SAM 弹道检查',
     cooldown: 'Missile Silo 进入冷却',
+    batch: '原子弹 x1/x2/x5/xMax',
+    timing: '同一 Silo 的核弹每隔 1 tick 发出一枚',
     strategy: '按弹道、射程、时机、可用弹量与冷却检查',
   },
   {
@@ -512,6 +542,8 @@ const mirvSamCases = [
     carrier: 'le véhicule reste hors de la liste SAM',
     warhead: 'contrôle de trajectoire normal',
     cooldown: 'Missile Silo en cooldown',
+    batch: 'Atom Bomb x1/x2/x5/xMax',
+    timing: 'Un même Silo espace ses bombes d’un tick',
     strategy: 'selon la trajectoire, la portée, le timing, les tirs prêts et le cooldown',
   },
   {
@@ -521,6 +553,8 @@ const mirvSamCases = [
     carrier: 'Der Träger bleibt außerhalb der SAM-Zielliste',
     warhead: 'normale Flugbahnprüfung',
     cooldown: 'Missile Silo auf Cooldown',
+    batch: 'Atom Bomb x1/x2/x5/xMax',
+    timing: 'Dasselbe Silo startet seine Bomben mit je einem Tick Abstand',
     strategy: 'nach Flugbahn, Reichweite, Timing, bereiten Schüssen und Cooldown',
   },
   {
@@ -530,6 +564,8 @@ const mirvSamCases = [
     carrier: 'de drager blijft buiten de SAM-doellijst',
     warhead: 'normale baancontrole',
     cooldown: 'Missile Silo op cooldown',
+    batch: 'Atom Bomb x1/x2/x5/xMax',
+    timing: 'Dezelfde Silo lanceert bommen met telkens één tick ertussen',
     strategy: 'op baan, bereik, timing, gereed schot en cooldown',
   },
 ];
@@ -542,10 +578,15 @@ for (const mirvSamCase of mirvSamCases) {
     await expect(main).toContainText(mirvSamCase.carrier);
     await expect(main).toContainText(mirvSamCase.warhead);
     await expect(main).toContainText(mirvSamCase.cooldown);
+    await expect(main).toContainText(mirvSamCase.batch);
+    await expect(main).toContainText(mirvSamCase.timing);
     await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
       'href',
-      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts',
     );
+    await expect(
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts"]'),
+    ).toHaveCount(1);
   });
 
   test(`MIRV/SAM strategy[${mirvSamCase.lang}] keeps the same decision rule`, async ({ page }) => {
@@ -558,17 +599,104 @@ for (const mirvSamCase of mirvSamCases) {
 }
 
 const hotkeySelectionCases = [
-  { lang: 'en', path: '/guides/hotkeys/', text: 'Right-click cancels an active warship or boat selection in v33.1' },
-  { lang: 'zh', path: '/zh/guides/hotkeys/', text: '选中战舰或船只时右键会先取消选择' },
-  { lang: 'fr', path: '/fr/guides/hotkeys/', text: 'une sélection active de Warships ou de bateaux' },
-  { lang: 'de', path: '/de/guides/hotkeys/', text: 'hebt ein Rechtsklick zuerst eine aktive Warship- oder Bootsauswahl auf' },
-  { lang: 'nl', path: '/nl/guides/hotkeys/', text: 'wist een rechtermuisklik eerst een actieve oorlogsschip- of bootselectie' },
+  {
+    lang: 'en',
+    path: '/guides/hotkeys/',
+    selection: 'Right-click cancels an active warship or boat selection in v33.1',
+    batch: 'Press 8 once to arm one Atom Bomb',
+    single: 'Hydrogen Bombs and MIRVs do not gain the x5 hotkey batch',
+    cost: 'escalating cost',
+  },
+  {
+    lang: 'zh',
+    path: '/zh/guides/hotkeys/',
+    selection: '选中战舰或船只时右键会先取消选择',
+    batch: '按一次 8 武装 1 枚原子弹',
+    single: '氢弹和 MIRV 都不会获得 x5 热键批量',
+    cost: '逐级递增成本计价',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/guides/hotkeys/',
+    selection: 'une sélection active de Warships ou de bateaux',
+    batch: 'Appuyez une fois sur 8 pour armer une Atom Bomb x1',
+    single: 'Hydrogen et MIRV n’obtiennent pas le lot x5',
+    cost: 'coût croissant de chaque niveau',
+  },
+  {
+    lang: 'de',
+    path: '/de/guides/hotkeys/',
+    selection: 'hebt ein Rechtsklick zuerst eine aktive Warship- oder Bootsauswahl auf',
+    batch: 'Drücke 8 einmal für eine Atom Bomb x1',
+    single: 'Hydrogen Bomb und MIRV erhalten keine x5-Hotkey-Menge',
+    cost: 'steigenden Preis',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/guides/hotkeys/',
+    selection: 'wist een rechtermuisklik eerst een actieve oorlogsschip- of bootselectie',
+    batch: 'Druk 8 eenmaal voor een Atom Bomb x1',
+    single: 'Hydrogen Bomb en MIRV krijgen geen x5-hotkeybundel',
+    cost: 'stijgende prijs',
+  },
 ];
 
 for (const hotkeyCase of hotkeySelectionCases) {
-  test(`hotkeys[${hotkeyCase.lang}] documents v33 right-click selection cancel`, async ({ page }) => {
+  test(`hotkeys[${hotkeyCase.lang}] documents v33.4 bulk controls and selection cancel`, async ({ page }) => {
     await page.goto(hotkeyCase.path, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('main')).toContainText(hotkeyCase.text);
+    const main = page.locator('main');
+    await expect(main).toContainText(hotkeyCase.selection);
+    await expect(main).toContainText(hotkeyCase.batch);
+    await expect(main).toContainText(hotkeyCase.single);
+    await expect(main).toContainText(hotkeyCase.cost);
+  });
+}
+
+const waterNukeBatchCases = [
+  {
+    lang: 'en',
+    path: '/guides/water-nukes/',
+    unchanged: 'changes the tempo, not the conversion rule',
+    batch: 'Atom Bombs can be launched in x2/x5/xMax batches',
+    timing: 'One Silo releases queued bombs one tick apart',
+  },
+  {
+    lang: 'zh',
+    path: '/zh/guides/water-nukes/',
+    unchanged: '改变的是打击节奏，不是地形转换机制',
+    batch: '径向菜单可选原子弹 x2/x5/xMax',
+    timing: '同一 Silo 的核弹逐 tick 发出',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/guides/water-nukes/',
+    unchanged: 'change le rythme, pas la conversion',
+    batch: 'Atom Bombs x2/x5/xMax',
+    timing: 'Un même Silo espace les bombes d’un tick',
+  },
+  {
+    lang: 'de',
+    path: '/de/guides/water-nukes/',
+    unchanged: 'ändert das Tempo, nicht die Geländeumwandlung',
+    batch: 'Atom Bombs x2/x5/xMax',
+    timing: 'Dasselbe Silo feuert im Tick-Abstand',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/guides/water-nukes/',
+    unchanged: 'verandert het tempo, niet de omzetting',
+    batch: 'Atom Bombs x2/x5/xMax',
+    timing: 'Dezelfde Silo vuurt per tick',
+  },
+] as const;
+
+for (const waterNukeCase of waterNukeBatchCases) {
+  test(`Water Nukes[${waterNukeCase.lang}] applies v33.4 timing without changing conversion`, async ({ page }) => {
+    await page.goto(waterNukeCase.path, { waitUntil: 'domcontentloaded' });
+    const main = page.locator('main');
+    await expect(main).toContainText(waterNukeCase.unchanged);
+    await expect(main).toContainText(waterNukeCase.batch);
+    await expect(main).toContainText(waterNukeCase.timing);
   });
 }
 

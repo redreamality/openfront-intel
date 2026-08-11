@@ -1,8 +1,8 @@
 ---
-title: 'v33.2 : corruption Doomsday, contre des MIRV, Ranked 2v2 et 22 cartes'
-description: 'Notes OpenFront v33.2 orientées joueur : sept seuils Doomsday, plancher décroissant et corruption territoriale, plus contre des MIRV, Ranked 2v2, vétérérance, terrain et cartes.'
+title: 'v33.4 : améliorations groupées, salves décalées, Doomsday et 22 cartes'
+description: 'Notes OpenFront v33.4 orientées joueur : améliorations groupées, salves d’Atom Bombs chargées, rythme par Silo, corruption Doomsday, contre des MIRV, Ranked 2v2 et cartes.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-09
+updatedDate: 2026-08-12
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,11 +10,31 @@ category: Release Notes
 
 ## Réponse directe : qu’est-ce qui change votre prochaine partie ?
 
-La Release officielle `v0.33.2` est l’entrée publiée actuelle de la série v33. Le changement urgent concerne la fin Doomsday : sept seuils plus bas remplacent l’ancien calendrier à six vagues, le plancher protégé descend de 40 % à 5 % et la corruption peut éliminer un camp doomed pendant 150 secondes.
+La Release officielle `v0.33.4` est l’entrée publiée actuelle de la série v33. La nouvelle décision consiste à exécuter une action ou un lot : les améliorations existantes et les Atom Bombs chargées peuvent être commandées en bloc.
+
+Appuyer deux fois sur la même touche de construction bascule entre x1 et x5 pour une amélioration éligible ou une Atom Bomb. Le menu radial propose x1/x5/x10/xMax pour les améliorations et x1/x2/x5/xMax pour les Atom Bombs.
+
+Un même Silo espace ses tirs d’un tick ; plusieurs Silos prêts peuvent chacun tirer pendant le même tick. Le lot dépend de l’or, d’un plafond de 50 actions et, pour les Atom Bombs, du nombre de tubes chargés.
 
 Les ogives MIRV volent comme des nukes normales et passent par le ciblage de trajectoire habituel des SAM. Un tir MIRV met aussi le Missile Silo en cooldown ; ce même silo ne peut donc pas enchaîner immédiatement.
 
-Le reste de la série v33 reste décisif : le MIRV sert à saturer la défense plutôt qu’à contourner sûrement les SAM, le Ranked 2v2 est actif, les navires gagnent en vétérérance, le terrain peut être infranchissable et 22 cartes ont rejoint la sélection.
+Le reste de la série v33 reste décisif : la corruption Doomsday peut éliminer un camp après 150 secondes, le MIRV sert à saturer la défense plutôt qu’à contourner sûrement les SAM, et le Ranked 2v2, la vétérérance et les 22 cartes restent actifs.
+
+## Mise à jour v33.4 : choisissez le lot, puis vérifiez la capacité
+
+Deux pressions sur une touche numérique ne construisent pas cinq nouvelles structures. Le x5 ne s’applique qu’à une structure existante améliorable ou à l’Atom Bomb armée avec `8` ; nouvelle structure, Hydrogen Bomb et MIRV restent unitaires.
+
+Le menu radial affiche le lot et son coût total avant confirmation. Les niveaux successifs d’une structure renchérissent : le total x5 n’est donc pas le prix unitaire actuel multiplié par cinq.
+
+Pour les Atom Bombs, xMax ne dépasse pas les tubes chargés de tous vos Silos. Les tirs d’un même Silo se suivent à un tick d’écart, tandis que des Silos distincts peuvent tirer ensemble.
+
+N’utilisez x2 ou x5 qu’après avoir vérifié la cible, les SAM, les tubes chargés et le coût total. Le lot économise des clics, pas l’or, et ne contourne pas l’interception.
+
+## Correctifs v33.3 : archives solo et Las Vegas Strip
+
+Les victoires solo sont désormais archivées au moment de la victoire au lieu de dépendre de la fermeture de page. La zone supérieure droite de Las Vegas Strip a aussi été corrigée.
+
+Ces changements ne justifient pas un guide séparé : l’un protège le résultat d’une partie terminée, l’autre concerne une carte hors du pilote éditorial actuel.
 
 ## Mise à jour v33.2 : récupérer avant la corruption
 
@@ -83,6 +103,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.2` comme `draft=false` et `prerelease=false`, avec un vrai contenu Doomsday plutôt qu’un placeholder TEST. La v33.2 révise directement la décision Doomsday déjà présente ici : cette page reste donc l’unique vue d’ensemble v33, tandis que le guide dédié porte les horaires et la récupération sans créer de mince doublon.
+GitHub marque la Release officielle `v0.33.4` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.4 et v33.3, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; les commandes rejoignent les réponses existantes sans créer de mince doublon.
 
-Sources : [Release officielle v0.33.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), [attrition et corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts), [configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts), [ciblage SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts) et [exécution MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts).
+Sources : [Release officielle v0.33.4](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
