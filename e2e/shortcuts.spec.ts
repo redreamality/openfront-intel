@@ -17,6 +17,7 @@ const cases = [
     economyHrefEnd: '/mechanics/economy/',
     nukesHrefEnd: '/mechanics/nukes/',
     rightClick: 'Cancel an active Warship',
+    bulk: 'x1/x2/x5/xMax',
     bcAria: 'Breadcrumb',
     home: 'Home',
   },
@@ -32,6 +33,7 @@ const cases = [
     economyHrefEnd: '/zh/mechanics/economy/',
     nukesHrefEnd: '/zh/mechanics/nukes/',
     rightClick: '取消当前战舰',
+    bulk: 'x1/x2/x5/xMax',
     bcAria: '面包屑导航',
     home: '首页',
   },
@@ -47,6 +49,7 @@ const cases = [
     economyHrefEnd: '/fr/mechanics/economy/',
     nukesHrefEnd: '/fr/mechanics/nukes/',
     rightClick: 'annuler une sélection active',
+    bulk: 'x1/x2/x5/xMax',
     bcAria: 'Fil d’Ariane',
     home: 'Accueil',
   },
@@ -62,6 +65,7 @@ const cases = [
     economyHrefEnd: '/de/mechanics/economy/',
     nukesHrefEnd: '/de/mechanics/nukes/',
     rightClick: 'aktive Warship',
+    bulk: 'x1/x2/x5/xMax',
     bcAria: 'Brotkrümelnavigation',
     home: 'Startseite',
   },
@@ -77,6 +81,7 @@ const cases = [
     economyHrefEnd: '/nl/mechanics/economy/',
     nukesHrefEnd: '/nl/mechanics/nukes/',
     rightClick: 'actieve oorlogsschip',
+    bulk: 'x1/x2/x5/xMax',
     bcAria: 'Kruimelpad',
     home: 'Home',
   },
@@ -103,8 +108,9 @@ for (const c of cases) {
 
     // CTRL-01：本页是完整查键页；攻略页不复制这 6 组默认键位表。
     await expect(page.locator('main table')).toHaveCount(6);
-    await expect(page.locator('main')).toContainText('v33.1');
+    await expect(page.locator('main')).toContainText('v33.4');
     await expect(page.locator('main')).toContainText(c.rightClick);
+    await expect(page.locator('main')).toContainText(c.bulk);
   });
 
   test(`shortcuts[${c.lang}] 主导航含快捷键入口`, async ({ page }) => {

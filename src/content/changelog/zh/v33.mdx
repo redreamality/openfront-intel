@@ -1,8 +1,8 @@
 ---
-title: 'v33.2：末日领土腐化、MIRV 反制、排位 2v2 与 22 张地图'
-description: '面向玩家的 OpenFront v33.2 版本笔记：末日七档门槛、40% 到 5% 保护下限与领土腐化，以及 MIRV 反制、排位 2v2、战舰熟练度、地形和地图。'
+title: 'v33.4：批量升级、核弹错峰齐射、末日腐化与 22 张地图'
+description: '面向玩家的 OpenFront v33.4 版本笔记：建筑批量升级、已装填原子弹批量发射、同 Silo 错峰，以及末日领土腐化、MIRV 反制、排位 2v2 和地图。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-09
+updatedDate: 2026-08-12
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
@@ -10,11 +10,31 @@ category: 版本笔记
 
 ## 直接答案：下一局最重要的变化是什么？
 
-官方 `v0.33.2` Release 是当前正式发布的 v33 系列条目。最急需改变的决策来自末日终局：七档较低门槛取代旧六档时序，兵力保护下限从 40% 降到 5%，持续 doomed 150 秒会因领土腐化被淘汰。
+官方 `v0.33.4` Release 是当前正式发布的 v33 系列条目。新决策是一次执行 1 次还是一批：已有建筑升级与已装填的原子弹现在可以批量下达，不必连续点击。
+
+同一建造键连按两次，会为可升级建筑或原子弹在 x1 / x5 间切换。径向菜单为建筑升级提供 x1/x5/x10/xMax，为原子弹提供 x1/x2/x5/xMax。
+
+同一 Silo 的核弹每隔 1 tick 发出一枚；多个可用 Silo 仍能在同一 tick 各发一枚。批量数量受金币、最多 50 次操作，以及原子弹的已装填发射管数量共同限制。
 
 MIRV 分裂弹头会像普通核弹一样飞行，并进入常规 SAM 弹道拦截系统。发射 MIRV 也会让对应 Missile Silo 进入冷却，同一发射井不能立刻补第二枚核弹。
 
-v33 系列其余变化仍然有效：MIRV 是压垮防空弹量的武器而非稳定绕过 SAM 的捷径，Ranked 2v2 已上线，战舰获得熟练度，地图可使用不可通行地形，并新增 22 张地图。
+v33 系列其余变化仍然有效：末日领土腐化可在 150 秒后淘汰阵营；MIRV 是压垮防空弹量的武器而非稳定绕过 SAM 的捷径；Ranked 2v2、战舰熟练度与 22 张新地图也仍然有效。
+
+## v33.4 更新：先选批量，再核对容量
+
+同一数字键连按两次不会一次建造 5 座新建筑。只有光标指向已有可升级建筑，或按 `8` 武装原子弹时，x5 才会生效；新建建筑、氢弹和 MIRV 仍是单次操作。
+
+径向菜单会在确认前显示批量数量与总价。建筑升级每一级都会按下一等级重新计价，因此 x5 总价不是当前单级价格简单乘 5。
+
+原子弹的 xMax 不会超过所有 Silo 当前已装填的发射管数。同一 Silo 内逐 tick 错开，不同 Silo 可并发发射。
+
+只有在核对目标价值、SAM 覆盖、已装填管数与总价后，才使用 x2 或 x5。批量输入省去点击，但不会省金币，也不会绕过拦截。
+
+## v33.3 修复：单人存档与 Las Vegas Strip
+
+单人局现在会在胜利时归档，不再依赖页面卸载，因此完成的对局更不容易丢失。Las Vegas Strip 地图也修复了右上区域。
+
+这两项都不需要独立攻略：前者保护已结束单人局结果，后者也不属于当前五张地图试点。
 
 ## v33.2 更新：在领土腐化前恢复
 
@@ -83,6 +103,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.2` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实末日改动，不是 TEST 占位。v33.2 直接修订本页已有的末日决策，因此继续维护单篇 v33 系列总览；完整时序与恢复意图由独立攻略承接，不另造重复的薄补丁页。
+GitHub 将官方 `v0.33.4` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.4 与 v33.3 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；新操作由既有快捷键、核武与 Water Nukes 主答案承接，不另造重复薄页。
 
-来源：[官方 v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)、[损耗与领土腐化执行](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)、[固定配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)、[SAM 选目标源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts)与[MIRV 执行源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts)。
+来源：[官方 v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)、[键盘切换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts)、[径向批量菜单](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts)、[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)与[领土腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)。

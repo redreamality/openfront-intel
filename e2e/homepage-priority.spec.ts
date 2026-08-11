@@ -10,7 +10,7 @@ const homepageCases = [
     firstMatchCta: 'Play Your First Match',
     priorityTitle: 'What do you need this match?',
     cardTexts: ['Latest version', 'First match', 'Controls', 'Economy growth'],
-    latestSignal: 'territory rot',
+    latestSignal: 'x5',
     referenceTitle: 'Reference Numbers',
   },
   {
@@ -22,7 +22,7 @@ const homepageCases = [
     firstMatchCta: '打好第一局',
     priorityTitle: '你现在最需要解决什么？',
     cardTexts: ['最新版本', '第一局', '操作', '经济增长'],
-    latestSignal: '领土腐化',
+    latestSignal: 'x5',
     referenceTitle: '数值参考',
   },
   {
@@ -34,7 +34,7 @@ const homepageCases = [
     firstMatchCta: 'Réussir sa première partie',
     priorityTitle: 'De quoi avez-vous besoin pour cette partie ?',
     cardTexts: ['Dernière version', 'Première partie', 'Commandes', 'Croissance économique'],
-    latestSignal: 'corruption territoriale',
+    latestSignal: 'x5',
     referenceTitle: 'Chiffres de référence',
   },
   {
@@ -46,7 +46,7 @@ const homepageCases = [
     firstMatchCta: 'Erstes Match spielen',
     priorityTitle: 'Was brauchst du in diesem Match?',
     cardTexts: ['Neueste Version', 'Erstes Match', 'Steuerung', 'Wirtschaftswachstum'],
-    latestSignal: 'Gebietszerfall',
+    latestSignal: 'x5',
     referenceTitle: 'Referenzwerte',
   },
   {
@@ -58,7 +58,7 @@ const homepageCases = [
     firstMatchCta: 'Speel je eerste partij',
     priorityTitle: 'Wat heb je in deze partij nodig?',
     cardTexts: ['Nieuwste versie', 'Eerste partij', 'Besturing', 'Economische groei'],
-    latestSignal: 'landrot',
+    latestSignal: 'x5',
     referenceTitle: 'Referentiewaarden',
   },
 ] as const;
@@ -103,7 +103,7 @@ for (const homepageCase of homepageCases) {
       await expect(links.nth(index)).toHaveAttribute('href', expectedHrefs[index]);
       await expect(links.nth(index)).toContainText(homepageCase.cardTexts[index]);
     }
-    await expect(links.first()).toContainText('v33.2');
+    await expect(links.first()).toContainText('v33.4');
     await expect(links.first()).toContainText(homepageCase.latestSignal);
 
     const contentOrder = await main.evaluate((element) =>

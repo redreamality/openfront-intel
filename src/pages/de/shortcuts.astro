@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Bau- & Einheiten-Zahlentasten',
-    note: 'Zahl tippen, dann mit Linksklick auf eigenes Land platzieren — das überspringt das Radialmenü komplett.',
+    note: 'Einmal drücken ergibt x1. Derselbe Hotkey schaltet beim vorhandenen Upgrade oder bei der Atom Bomb auf x5; Neubau, Hydrogen Bomb und MIRV bleiben x1.',
     rows: [
       { keys: ['1'], action: 'Stadt (City) bauen' },
       { keys: ['2'], action: 'Fabrik (Factory) bauen' },
@@ -21,7 +21,7 @@ const groups: Group[] = [
       { keys: ['5'], action: 'Raketensilo (Missile Silo) bauen' },
       { keys: ['6'], action: 'SAM-Werfer bauen' },
       { keys: ['7'], action: 'Kriegsschiff (Warship) bauen' },
-      { keys: ['8'], action: 'Atombombe — bleibt für Salven scharf' },
+      { keys: ['8'], action: 'Atombombe — bleibt scharf; 8 erneut drücken wählt ein x5-Paket aus geladenen Rohren' },
       { keys: ['9'], action: 'Wasserstoffbombe — bleibt für Salven scharf' },
       { keys: ['0'], action: 'MIRV' },
       { keys: ['Enter'], action: 'Scharfe Einheit unter dem Cursor bauen' },
@@ -94,7 +94,7 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Tastenkürzel"
-  description="Die komplette OpenFront.io-v33.1-Tastenkürzel-Übersicht: alle Standardtasten, Maussteuerungen und Bau-Hotkeys zum schnellen Nachschlagen."
+  description="Die komplette OpenFront.io-v33.4-Tastenkürzel-Übersicht: Standardtasten, Maussteuerung, Bau-Hotkeys und Mengenaktionen."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
@@ -104,8 +104,8 @@ const groups: Group[] = [
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">Gilt für v33.1 · zuletzt geprüft am 6. August 2026.</strong>
-      Die wichtigste Steuerungsänderung in v33 ist kontextabhängig: Ein Rechtsklick hebt zuerst eine aktive Warship- oder Bootsauswahl auf und kehrt danach zum üblichen Radialmenü zurück.
+      <strong class="text-iron-100">Gilt für v33.4 · zuletzt geprüft am 12. August 2026.</strong>
+      Derselbe Bau-Hotkey schaltet beim vorhandenen Upgrade oder bei der Atom Bomb zwischen x1 / x5. Das Radialmenü bietet x1/x5/x10/xMax für Gebäude und x1/x2/x5/xMax für Atom Bombs; Gold und geladene Silo-Rohre begrenzen xMax.
     </p>
 
     <a
@@ -113,7 +113,7 @@ const groups: Group[] = [
       class="block rounded border border-cannon-700/50 bg-cannon-950/30 px-4 py-3 text-sm text-iron-200 transition-colors hover:border-cannon-500"
     >
       <span class="font-semibold text-cannon-300">Neu hier?</span>
-      Der schnellste Vorteil sind die Bau-Zahlentasten — <kbd class="kbd">8</kbd> tippen, dann linksklicken feuert eine Atombombe, und sie bleibt scharf, sodass du Ziel um Ziel anklicken kannst. Für die Taktik hinter diesen Tasten (Nuke-Salven, Combos, Kampfrhythmus) lies den ausführlichen
+      Der schnellste Vorteil sind die Bau-Zahlentasten — <kbd class="kbd">8</kbd> einmal für x1 oder zweimal für x5, dann klicken. Dasselbe Silo feuert im Tick-Abstand; getrennte bereite Silos können gemeinsam starten. Für Übungen lies den ausführlichen
       <span class="underline decoration-dotted">Hotkey-Guide →</span>
     </a>
 
@@ -146,7 +146,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Dies sind die v33.1-Standardbelegungen im Spiel (Einstellungen → Tastenbelegung), geprüft gegen die aktuelle Upstream-Quelle. Verhält sich eine Taste anders, prüfe, ob sie neu belegt wurde.
+      Dies sind die v33.4-Standardbelegungen im Spiel (Einstellungen → Tastenbelegung), geprüft gegen den offiziellen Tag. Verhält sich eine Taste anders, prüfe, ob sie neu belegt wurde.
     </p>
   </section>
 </BaseLayout>

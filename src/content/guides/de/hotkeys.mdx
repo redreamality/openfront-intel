@@ -1,13 +1,13 @@
 ---
 title: Hotkey-Training und Steuerungsabläufe
-description: Lerne, welche OpenFront.io-Steuerungen du zuerst üben solltest, wie typische Gefechtsabläufe funktionieren und wie du Eingabefehler in v33.2 behebst.
+description: Lerne die Mengensteuerung aus OpenFront.io v33.4, typische Gefechtsabläufe und die Erholung nach Eingabefehlern.
 pubDate: 2026-05-12
-updatedDate: 2026-08-10
+updatedDate: 2026-08-12
 tags: [hotkeys, ui]
 category: Tutorial
 difficulty: Anfänger
 version: v33
-freshnessSummary: "v33.2 ändert die Steuerungen dieser Seite nicht; Rechtsklick-Abbruch, Standard-Zahlentasten und frei belegbare Tastenkürzel aus v33 bleiben aktuell."
+freshnessSummary: "v33.4 ergänzt x1/x5-Hotkey-Mengen für vorhandene Gebäude-Upgrades und Atom Bombs; Neubauten, Hydrogen Bombs und MIRVs bleiben Einzelaktionen."
 ---
 
 ## Direkte Antwort: die schnellsten OpenFront-Steuerungen
@@ -18,9 +18,11 @@ Dieser Guide hilft dir, die wichtigsten Steuerungen auszuwählen und Kamerarück
 
 Drücke eine Zahl, um Gebäude oder Einheit scharfzuschalten, und linksklicke dann auf das Ziel. Die Ziffernreihe überspringt das Radialmenü und macht Bauen oder Starten deutlich schneller.
 
-Für wiederholte Nuklearstarts drückst du einmal `8` für eine Atombombe oder `9` für eine Wasserstoffbombe. Die Nuke bleibt nach dem Start aktiv, sodass du weitere Ziele linksklicken kannst.
+Drücke `8` einmal für eine Atom Bomb x1 oder vor dem Klick erneut, um auf x5 zu schalten. `9` aktiviert weiterhin genau eine Hydrogen Bomb; Hydrogen Bomb und MIRV erhalten keine x5-Hotkey-Menge.
 
-Kein Autoclicker oder externes Tool ist nötig. Drücke `Esc` oder rechtsklicke zum Abbrechen. Andere Gebäude verschwinden meist nach einer Platzierung und müssen vor dem nächsten Bau erneut gewählt werden.
+Der doppelte Tastendruck baut keine fünf neuen Gebäude, sondern wählt x5 nur für ein vorhandenes Upgrade. Das Radialmenü bietet x1/x5/x10/xMax für Upgrades und x1/x2/x5/xMax für Atom Bombs.
+
+Kein Autoclicker oder externes Tool ist nötig. Gold begrenzt jedes Paket auf höchstens 50 Aktionen; Atom Bombs enden zusätzlich bei den geladenen Silo-Rohren. `Esc` oder Rechtsklick bricht ab.
 
 Das sind die mit der v33-Referenz dieser Website abgeglichenen Standardsteuerungen. Seit v24 lassen sich Tasten unter **Settings → Keybindings** neu belegen oder vollständig lösen.
 
@@ -54,7 +56,11 @@ Ergänze weitere Ziffern erst, wenn „Zahl, gültiger Ort, Klick, Vorschau prü
 
 `Enter` bestätigt das aktive Element am Cursor. `Esc` bricht die Vorschau ab. Bei aktiver Atom- oder Wasserstoffbombe dreht `U` den Startbogen zwischen den zwei Richtungen um.
 
+Ein zweiter Druck auf denselben Bau-Hotkey schaltet nur beim vorhandenen Upgrade oder bei der Atom Bomb zwischen x1/x5. Neubau, Hydrogen Bomb und MIRV bleiben x1.
+
 Die Tasten umgehen keine Spielregeln. Du brauchst weiterhin genug Gold, nötige Infrastruktur, ein gültiges Ziel oder Feld und eine Lobbyoption, die das Element erlaubt.
+
+Ein Upgrade-Paket berechnet jede nächste Stufe zum steigenden Preis, nicht den angezeigten Einzelpreis mal Menge.
 
 ## Mausverhalten vorhersehbar machen
 
@@ -86,14 +92,16 @@ Nutze `Shift` + `R` vorsichtig. Es zielt auf den letzten Angreifer und ist schne
 
 Nutze eine Zifferntaste, wenn die Entscheidung bereits steht. Weißt du, dass du einen Defense Post brauchst, spart `4` Zeit und lässt mehr Aufmerksamkeit für Truppen, Grenzen und Geschosse.
 
-Nutze das Radialmenü, wenn du noch entscheidest. Es zeigt verfügbare Bauten und Unterebenen und ist bei unbekannten Upgrades oder einer frisch geänderten Belegung sicherer.
+Nutze das Radialmenü, wenn du noch entscheidest oder eine andere Menge als x1/x5 brauchst. Es zeigt x1/x5/x10/xMax für Upgrades und x1/x2/x5/xMax für Atom Bombs vor der Bestätigung.
 
 Nutze die kompakte [Shortcut-Referenz](/de/shortcuts/) für schnelles Nachschlagen. Dieser Guide erklärt Gründe, Übungen und Fehlerbehebung hinter den Steuerungen.
 
 | Situation | Bester Steuerweg | Grund |
 | --- | --- | --- |
-| Eine vertraute Struktur | Zifferntaste, dann Klick | Wenigste Aktionen |
-| Mehrere Atom- oder Wasserstoffziele | `8` oder `9`, dann wiederholte Klicks | Nuke bleibt aktiv |
+| Ein vertrauter Neubau | Zifferntaste, dann Klick | Neubau bleibt x1 |
+| Fünf Stufen eines vorhandenen Gebäudes | Dieselbe Zahl zweimal, dann Klick | x5 mit steigenden Stufenkosten |
+| Eine oder fünf Atom Bombs | `8` einmal oder zweimal, dann Klick | x5 durch geladene Rohre begrenzt |
+| Eine Hydrogen Bomb oder MIRV | `9` oder `0`, dann Klick | Diese Waffen bleiben x1 |
 | Unbekanntes Upgrade | Radialmenü | Visuelle Bestätigung |
 | Kamera verloren | `C` | Rückkehr zur eigenen Nation |
 | Feine Änderung der Attack Ratio | Regler | Mehr visuelle Präzision |
@@ -136,9 +144,9 @@ Beide Befehle lösen andere Probleme. `F` ist die globale Antwort, die Boxauswah
 
 ### Schritt 6: Nuklearstart sicher üben
 
-Baue in einer Lobby mit aktiven Nukes die nötige Infrastruktur und spare genug Gold. Drücke `8`, wähle ein gültiges Ziel, klicke einmal und prüfe, ob die Atombombe aktiv bleibt.
+Baue in einer Lobby mit aktiven Nukes die Infrastruktur und lade mehrere Silo-Rohre. Drücke `8` einmal und bestätige x1, dann erneut und bestätige x5, bevor du ein Ziel wählst.
 
-Wechsle ohne erneutes `8` zu einem zweiten Ziel. Drücke dann `Esc` und bestätige, dass ein weiterer Klick keine aktive Bombe mehr startet.
+Prüfe Gesamtpreis und geladene Rohre vor dem Klick. Dasselbe Silo feuert im Tick-Abstand, getrennte bereite Silos können gemeinsam starten. Drücke dann `Esc` und bestätige, dass ein weiterer Klick nichts startet.
 
 Wiederhole vor dem Start mit `U`, um den Bogenwechsel zu erkennen. Es ist eine Steuerübung, kein Beweis, dass eine Bogenrichtung immer strategisch besser ist.
 
@@ -168,11 +176,11 @@ Dieser Rhythmus trennt Wirtschaftsentscheidung und mechanische Ausführung. Ents
 
 ### Nuklearsalve und sauberes Abbrechen
 
-1. Bestätige, dass die Lobby Nukes erlaubt.
-2. Bestätige Waffe, Gold und Ziel.
-3. Drücke `8` für Atom oder `9` für Wasserstoff.
-4. Klicke jedes geplante Ziel einmal an.
-5. Drücke direkt nach dem letzten Start `Esc`.
+1. Bestätige, dass die Lobby Nukes erlaubt, und zähle geladene Silo-Rohre.
+2. Prüfe Gold, Zielwert und SAM-Abdeckung.
+3. Drücke `8` einmal für x1 oder zweimal für x5; x2 und xMax kommen aus dem Radialmenü.
+4. Klicke erst, wenn Menge und Gesamtpreis zum Plan passen.
+5. Drücke sofort `Esc`; nutze `9` separat für genau eine Hydrogen Bomb.
 
 Das Abbrechen ist wichtig. Eine aktive Waffe kann einen späteren Klick in einen teuren Fehler verwandeln, während du verschiebst, prüfst oder zur Bodensteuerung wechselst.
 
@@ -207,13 +215,13 @@ Drücke nicht weiter, ohne den Zustand zu verstehen. Wiederholte Eingaben könne
 
 ### „Der nächste Klick startete noch eine Nuke“
 
-Atom- und Wasserstoffbomben bleiben nach dem Abschuss aktiv. Das ist die beabsichtigte Wiederholungsfunktion. Drücke nach der geplanten Salve `Esc` oder rechtsklicke.
+Eine aktive Nuke kann nach dem Start aktiv bleiben. In v33.4 kann ein zweiter Druck auf `8` vor dem Klick die Atom Bomb außerdem von x1 auf x5 schalten. Drücke nach der Salve `Esc` oder rechtsklicke.
 
 Baue das Abbrechen ins Muskelgedächtnis ein: Waffentaste, Ziele, `Esc`. Der letzte Befehl gehört zur Startfolge und ist keine optionale Aufräumarbeit.
 
 ### „Shift-Klick wiederholte mein Gebäude nicht“
 
-Die Standardreferenz beschreibt `Shift` nicht als allgemeinen Wiederholungsmodifikator. `Shift` + Ziehen wählt Warships. Aktiviere normale Strukturen vor jeder Platzierung neu.
+Die Standardreferenz beschreibt `Shift` nicht als allgemeinen Wiederholungsmodifikator. `Shift` + Ziehen wählt Warships. Ein zweiter Bau-Hotkey wählt x5 nur beim vorhandenen Upgrade; Neubauten bleiben einzeln.
 
 ### „Mein Klick griff an, statt ein Menü zu öffnen“
 
@@ -237,7 +245,7 @@ Nutze den [Guide zu Wirtschaftsgrundlagen](/de/strategies/economy-fundamentals/)
 
 ## Anpassung gegen schnelle Gegner
 
-Feuert ein Gegner mehrere Nukes schnell, denke zuerst an aktive Wiederholungs-Zifferntasten statt an Automatisierung.
+Feuert ein Gegner mehrere Atom Bombs schnell, denke zuerst an das x5-Paket aus v33.4. Beobachte die Startorte: Dasselbe Silo feuert im Tick-Abstand, getrennte bereite Silos können gemeinsam starten.
 
 Atom- und Wasserstoffbomben sind abfangbar. Der MIRV-Träger ist kein Ziel, getrennte Sprengköpfe folgen jedoch der normalen Flugbahnprüfung.
 
@@ -253,11 +261,15 @@ Sind Nukes deaktiviert, verschwinden die Entscheidungen für `8`, `9` und `0`. N
 
 ### Wie feuern Spieler Nukes so schnell?
 
-Sie drücken einmal `8` oder `9` und klicken mehrere Ziele. Atom- und Wasserstoffbomben bleiben nach jedem Start aktiv. Kein externes Wiederholungswerkzeug ist nötig.
+Bei Atom Bombs drücken sie `8` einmal für x1 oder zweimal für x5 und klicken dann. Gold und geladene Silo-Rohre begrenzen das Paket; Hydrogen Bomb und MIRV bleiben einzeln. Kein externes Tool ist nötig.
 
 ### Wie stoppe ich das Wiederholungsfeuer?
 
 Drücke `Esc` oder rechtsklicke nach dem letzten geplanten Ziel. Prüfe vor normalen Klicks, ob die aktive Vorschau verschwunden ist.
+
+### Baut ein doppelter Hotkey fünf neue Gebäude?
+
+Nein. x5 gilt nur für ein vorhandenes Upgrade oder eine Atom Bomb. Neubauten bleiben x1, und jede Upgradestufe wird zum steigenden Preis berechnet.
 
 ### Wiederholt `Shift` jedes Gebäude?
 
@@ -290,6 +302,7 @@ Die Eingabe ist kontextabhängig. Je nach Cursorort und aktivem Zustand kann sie
 ## Als Nächstes lesen
 
 - Halte die kompakte [OpenFront-Shortcut-Tabelle](/de/shortcuts/) zum Nachschlagen offen.
+- Lies die [v33-Übersicht](/de/changelog/v33/) für die Quellen zu Mengenlimits und Silo-Taktung.
 - Lerne Kosten und Rollen in der [Gebäudedatenbank](/de/database/structures/).
 - Vergleiche Waffenpreise und Radien in der [Einheitendatenbank](/de/database/units/).
 - Studiere [Atomwaffen- und SAM-Mechaniken](/de/mechanics/nukes/).

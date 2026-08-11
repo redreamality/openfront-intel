@@ -22,10 +22,14 @@ const nukes = formulas.groups.nukes;
         <tr><td>MIRV（载具）</td><td>25M + 15M × 已发射数</td><td colspan="2">分裂为多枚 MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>v33.1 源码行为：</strong>MIRV 载体仍不在 SAM 目标列表中；分裂后，每枚 MIRVWarhead 都按普通 NukeExecution 飞行并接受 SAM 弹道检查。旧的 50-tile 目标捷径已失效。发射 MIRV 也会让对应 Missile Silo 进入冷却。<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">核验 SAM 选目标</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV 执行</a>。</p>
+    <p><strong>v33.4 源码行为：</strong>MIRV 载体仍不在 SAM 目标列表中；分裂后，每枚 MIRVWarhead 都按普通 NukeExecution 飞行并接受 SAM 弹道检查。旧的 50-tile 目标捷径已失效。发射 MIRV 也会让对应 Missile Silo 进入冷却。<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">核验 SAM 选目标</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV 执行</a>。</p>
     <Callout type="spec" title="冲击半径解读">
       <p><strong>inner</strong> 半径内的所有 tile 100% 损毁。<strong>outer</strong> 是外圈，按 BFS 概率（约 50%）扩散，留下辐射区域。辐射区让攻方 mag 临时变弱：<code>mag *= (5 − 2 × falloutRatio)</code>。</p>
     </Callout>
+
+    <h2>v33.4 原子弹批量与 Silo 时序</h2>
+    <p><code>8</code> 按一次是 x1，连按两次是 x5；径向菜单提供原子弹 x1/x2/x5/xMax。氢弹和 MIRV 仍是单次。批量受金币、最多 50 次操作与所有 Silo 已装填发射管数共同限制。</p>
+    <p>同一 Silo 的核弹每隔 1 tick 发出一枚；不同可用 Silo 可在同一 tick 各发一枚。批量输入只缩短下达命令的时间，不代表同一 Silo 同时发射，也不会绕过 SAM。核验<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts" target="_blank" rel="noopener">批量上限</a>、<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts" target="_blank" rel="noopener">径向档位</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts" target="_blank" rel="noopener">同 Silo 调度</a>。</p>
 
     <h2>水核模式（isWaterNukes）</h2>
     <p>启用时，核爆判定改为<strong>平滑圆形</strong>而非 BFS 扩散，意味着海面也能被均匀清空——对沿海玩家是极大威胁。私密大厅默认关闭。</p>
@@ -35,7 +39,7 @@ const nukes = formulas.groups.nukes;
     <ul>
       <li><strong>可拦原子弹、氢弹与飞行中的 MIRVWarhead</strong>，三者使用同一套弹道与时间判定；分裂前的载体本身不是目标。</li>
       <li>射程从 70 增长到上限 150 tiles：建议至少升到 3 级（约 90~100 tiles）才能形成有效防线。</li>
-      <li>冷却 90 ticks ≈ 9 秒。两枚核弹齐射时单座 SAM 只能拦一枚——必须叠 2~3 座。</li>
+      <li>冷却 90 ticks ≈ 9 秒。不同 Silo 可以并发、同一 Silo 逐 tick 错峰，但单座可用 SAM 仍无法覆盖整批——必须重叠 2~3 座。</li>
       <li>建造时长 300 ticks（30 秒），不能临时抱佛脚。</li>
     </ul>
 

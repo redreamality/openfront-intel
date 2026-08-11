@@ -2,12 +2,12 @@
 title: OpenFront 的「水核」(Water Nukes)是什么？
 description: v31 水核选项会把核弹炸毁的陆地永久变成水域。本文完整解释弹坑、地形转换、反制与实战选择。
 pubDate: 2026-06-03
-updatedDate: 2026-08-10
+updatedDate: 2026-08-12
 tags: [nukes, mechanics, water-nukes]
 category: 教程
 difficulty: 进阶
 version: v33
-freshnessSummary: "v33.2 没有改变 Water Nukes 的地形转换规则；本文关于 v33 MIRV 拦截与 Missile Silo 冷却的结论仍然适用。"
+freshnessSummary: "v33.4 没有改变 Water Nukes 转换规则，但加入已装填原子弹批量；同一 Silo 逐 tick 发射，不同可用 Silo 可以并发。"
 ---
 
 ## 直接答案：水核到底做什么
@@ -21,6 +21,8 @@ freshnessSummary: "v33.2 没有改变 Water Nukes 的地形转换规则；本文
 最重要的防守答案是速度。转换在爆炸后批量执行。若一块 tile 在检查前被重新占领，不再是无主陆地，它就可能保留为陆地。
 
 一旦转换完成，普通陆地扩张无法把水变回土地。不过你仍能用港口、运输船、战舰和贸易利用新水域。
+
+v33.4 改变的是打击节奏，不是地形转换机制。径向菜单可选原子弹 x2/x5/xMax，或连按两次 `8` 选择 x5。同一 Silo 的核弹逐 tick 发出，不同可用 Silo 可在同一 tick 各发一枚。这样能更快制造多个小弹坑，但每次爆炸仍分别进入“转换前抢回土地”的同一检查。
 
 ## 概念与前置条件
 
@@ -302,7 +304,7 @@ SAM 可以拦截原子弹和氢弹，不能拦 MIRV 载体；分裂后的 MIRV �
 
 ### 开水道该用原子弹还是氢弹
 
-原子弹适合较小、较便宜的地形修改；氢弹适合一次切开宽阔区域。还要同时考虑 SAM 风险与新水道价值。
+原子弹适合较小、较便宜的地形修改；氢弹适合一次切开宽阔区域。v33.4 可以批量发射原子弹，但仍要计算金币、已装填管数、同 Silo 错峰、SAM 风险与每条新水道的价值。
 
 ### 为什么弹坑里仍有一些陆地
 
@@ -319,5 +321,6 @@ SAM 可以拦截原子弹和氢弹，不能拦 MIRV 载体；分裂后的 MIRV �
 - 阅读[核武器与 SAM 机制](/zh/mechanics/nukes/)理解拦截规则。
 - 查看[v31 版本笔记](/zh/changelog/v31/)确认 Water Nukes 与内陆水贸易来源。
 - 用[快捷键教程](/zh/guides/hotkeys/)练习连续发射与及时取消。
+- 在 [v33 版本总览](/zh/changelog/v33/)核对批量与 Silo 时序的正式来源。
 - 通过[核威慑与 SAM 网络](/zh/strategies/nuclear-deterrence/)规划分层防御。
 - 参考[Team 海上控制流派](/zh/strategies/team-naval-control/)利用新航道。

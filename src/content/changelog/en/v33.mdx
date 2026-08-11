@@ -1,8 +1,8 @@
 ---
-title: 'v33.2: Doomsday Territory Rot, MIRV Counterplay, Ranked 2v2 & 22 Maps'
-description: 'Player-focused OpenFront v33.2 notes: seven Doomsday thresholds, a falling troop floor and territory rot, plus MIRV counterplay, Ranked 2v2, warship veterancy, terrain, and maps.'
+title: 'v33.4: Bulk Upgrades, Staggered Nuke Salvos, Doomsday & 22 Maps'
+description: 'Player-focused OpenFront v33.4 notes: bulk structure upgrades, loaded Atom Bomb salvos, same-Silo launch timing, Doomsday territory rot, MIRV counterplay, Ranked 2v2, and maps.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-09
+updatedDate: 2026-08-12
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,11 +10,31 @@ category: Release Notes
 
 ## Direct answer: what changes your next match?
 
-The official `v0.33.2` Release is the current published v33 series entry. The urgent change is the Doomsday endgame: seven lower territory targets replace the old six-wave schedule, the protected troop floor falls from 40% to 5%, and territory rot can eliminate a side that stays doomed for 150 seconds.
+The official `v0.33.4` Release is the current published v33 series entry. The new decision is whether to buy one action or a batch: existing structure upgrades and loaded Atom Bomb launches can now be issued in multiples instead of repeated clicks.
+
+Press the same build key twice to toggle x1 / x5 for an eligible upgrade or Atom Bomb. The radial menu offers x1/x5/x10/xMax for structure upgrades and x1/x2/x5/xMax for Atom Bombs.
+
+One Silo releases its queued bombs one tick apart; separate ready Silos can each release a bomb on the same tick. The batch is capped by Gold, a maximum of 50 actions, and, for Atom Bombs, the number of loaded Silo tubes.
 
 MIRV warheads fly as normal nukes and can be intercepted through the regular SAM trajectory system. Launching a MIRV also puts its Missile Silo on cooldown, so the same silo cannot fire an immediate follow-up nuke.
 
-The rest of the v33 series still matters: MIRV is a saturation weapon rather than a reliable SAM bypass, Ranked 2v2 is live, warships gain veterancy, terrain can be impassable, and the pool includes 22 new maps.
+The rest of the v33 series still matters: Doomsday territory rot can eliminate a side after 150 seconds, MIRV is a saturation weapon rather than a reliable SAM bypass, Ranked 2v2 is live, warships gain veterancy, and the pool includes 22 new maps.
+
+## v33.4 update: batch the action, then check capacity
+
+Double-tapping the same number key does not build five new structures. It selects x5 only when the target is an existing upgradable structure or when `8` has armed an Atom Bomb. New placements, Hydrogen Bombs, and MIRVs remain single actions.
+
+The radial menu exposes the exact batch before you commit. Structure totals use the escalating cost of each next level, so x5 is not simply five times the displayed single-upgrade price.
+
+For Atom Bombs, xMax cannot exceed the currently loaded tubes across your Silos. A same-Silo salvo trails by one tick per bomb instead of overlapping; different Silos can still launch together.
+
+Use x2 or x5 only after checking target value, SAM coverage, loaded tubes, and the total Gold label. Bulk input removes clicking, not the cost or interception decision.
+
+## v33.3 fixes: single-player archives and Las Vegas Strip
+
+Single-player wins are now archived at win time instead of depending on page teardown, so completed games are less likely to disappear. The Las Vegas Strip map also received a top-right geometry fix.
+
+Neither fix creates a separate strategy page: one protects the result of a finished solo game, and the map is outside the current five-map editorial pilot.
 
 ## v33.2 update: recover before territory rot
 
@@ -83,6 +103,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.2` Release `draft=false` and `prerelease=false`, and its body contains real Doomsday changes rather than TEST placeholder text. This page remains the single v33 series overview because v33.2 directly revises its existing Doomsday decision; the complete timing and recovery intent stays on the dedicated guide instead of a thin duplicate patch page.
+GitHub labels the official `v0.33.4` Release `draft=false` and `prerelease=false`; its body contains real v33.4 and v33.3 entries rather than TEST placeholder text. This remains the single v33 series overview because the new controls belong on existing shortcut, nuke, and Water Nukes answers rather than a thin duplicate patch page.
 
-Sources: [official v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), [Doomsday drain and territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts), [configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts), [SAM targeting](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/SAMLauncherExecution.ts), and [MIRV execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/MIRVExecution.ts).
+Sources: [official v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [keyboard toggle](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radial batch menu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), and [territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

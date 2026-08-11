@@ -22,10 +22,14 @@ const nukes = formulas.groups.nukes;
         <tr><td>MIRV (Träger)</td><td>25M + 15M × bereits gestartet</td><td colspan="2">spaltet sich in mehrere MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>Verhalten im v33.1-Quellcode:</strong> Der Träger bleibt außerhalb der SAM-Zielliste. Nach der Trennung fliegt jeder MIRVWarhead über NukeExecution und die normale Flugbahnprüfung. Die alte 50-Tiles-Kurzregel entfällt. Der Start setzt auch das Missile Silo auf Cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">SAM-Ziele prüfen</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV-Ausführung prüfen</a>.</p>
+    <p><strong>Verhalten im v33.4-Quellcode:</strong> Der Träger bleibt außerhalb der SAM-Zielliste. Nach der Trennung fliegt jeder MIRVWarhead über NukeExecution und die normale Flugbahnprüfung. Die alte 50-Tiles-Kurzregel entfällt. Der Start setzt auch das Missile Silo auf Cooldown. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">SAM-Ziele prüfen</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV-Ausführung prüfen</a>.</p>
     <Callout type="spec" title="Wirkungsradius im Detail">
       <p>Im <strong>inner</strong>-Radius werden alle tiles zu 100 % zerstört. <strong>outer</strong> ist der Außenring; er breitet sich per BFS mit ca. 50 % Wahrscheinlichkeit aus und hinterlässt Fallout-Zonen. Die Fallout-Zone schwächt vorübergehend die mag des Angreifers: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
+
+    <h2>Atom-Bomb-Pakete und Silo-Taktung in v33.4</h2>
+    <p><code>8</code> einmal wählt x1, zweimal x5. Das Radialmenü bietet Atom Bomb x1/x2/x5/xMax; Hydrogen Bomb und MIRV bleiben einzeln. Gold, höchstens 50 Aktionen und die geladenen Rohre aller Silos begrenzen das Paket.</p>
+    <p>Dasselbe Silo startet seine Bomben mit je einem Tick Abstand; mehrere bereite Silos können im selben Tick je eine starten. Das Paket beschleunigt die Eingabe, lässt aber nicht alle Bomben desselben Silos gleichzeitig starten und umgeht keine SAM. Prüfe <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts" target="_blank" rel="noopener">Paketlimits</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts" target="_blank" rel="noopener">Radialmengen</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts" target="_blank" rel="noopener">Silo-Planung</a>.</p>
 
     <h2>Wassernuke-Modus (isWaterNukes)</h2>
     <p>Bei Aktivierung wird die Nuke-Wirkung als <strong>glatter Kreis</strong> berechnet statt per BFS — Wasserflächen werden gleichmäßig „leergeräumt", was für Küstenspieler eine massive Bedrohung darstellt. In privaten Lobbies standardmäßig deaktiviert.</p>
@@ -35,7 +39,7 @@ const nukes = formulas.groups.nukes;
     <ul>
       <li><strong>Fängt AtomBomb, HydrogenBomb und fliegende MIRVWarheads ab</strong>; für alle gilt dieselbe Flugbahn- und Zeitlogik. Der Träger vor der Trennung ist kein Ziel.</li>
       <li>Reichweite wächst von 70 auf max. 150 tiles: Empfohlen mind. Stufe 3 (etwa 90–100 tiles), um eine effektive Linie zu bilden.</li>
-      <li>Cooldown 90 ticks ≈ 9 Sekunden. Bei einer Doppel-Salve kann eine einzelne SAM nur ein Geschoss abfangen — 2–3 SAMs nötig.</li>
+      <li>Cooldown 90 ticks ≈ 9 Sekunden. Getrennte Silos können gemeinsam starten, dasselbe Silo feuert im Tick-Abstand; eine einzelne bereite SAM deckt das Paket nicht — 2–3 überlappende SAMs sind nötig.</li>
       <li>Bauzeit 300 ticks (30 Sekunden) — kein Last-Minute-Aufstellen.</li>
     </ul>
 

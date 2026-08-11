@@ -1,13 +1,13 @@
 ---
 title: Hotkey Practice and Control Workflows
-description: Learn which OpenFront.io controls to practice first, how to execute common battlefield sequences, and how to recover from input mistakes in v33.2.
+description: Learn the OpenFront.io v33.4 bulk-action controls to practice first, the battlefield sequences they enable, and how to recover from input mistakes.
 pubDate: 2026-05-12
-updatedDate: 2026-08-10
+updatedDate: 2026-08-12
 tags: [hotkeys, ui]
 category: Tutorial
 difficulty: Beginner
 version: v33
-freshnessSummary: "v33.2 does not change the controls on this page; v33 right-click selection cancel, default number keys, and remappable keybindings remain current."
+freshnessSummary: "v33.4 adds x1/x5 hotkey batches for existing structure upgrades and Atom Bombs; new structures, Hydrogen Bombs, and MIRVs remain single actions."
 ---
 
 ## Direct answer: the fastest OpenFront controls
@@ -18,9 +18,11 @@ Use this guide to decide which controls matter first and rehearse them until cam
 
 Press a number to arm a building or unit, then left-click its destination. The number row skips the radial menu, which is why experienced players can build or launch far faster than someone browsing icons.
 
-For repeated nuclear launches, press `8` once for an Atom Bomb or `9` once for a Hydrogen Bomb. The nuke stays armed after a launch, so you can keep left-clicking targets until you cancel.
+Press `8` once to arm one Atom Bomb, or press `8` again before clicking to toggle an x5 batch. Pressing `9` arms one Hydrogen Bomb; Hydrogen Bombs and MIRVs do not gain the x5 hotkey batch.
 
-No autoclicker or external tool is required. Press `Esc` or right-click when you want to clear the armed nuke. Other buildings normally clear after one placement, so press their number again before the next build.
+The same double-press selects x5 only for an existing structure upgrade, never five new structures. The radial menu offers structure x1/x5/x10/xMax and Atom Bomb x1/x2/x5/xMax when you need an exact batch.
+
+No autoclicker or external tool is required. Gold caps every batch at a maximum of 50 actions, Atom Bombs also stop at the loaded Silo tubes, and `Esc` or right-click clears the armed nuke.
 
 These are the default controls verified against the site's v33 reference. Since v24, keybindings can be remapped in **Settings → Keybindings**, and some actions can be left unbound.
 
@@ -52,7 +54,11 @@ Add the other build numbers only after the sequence “number, valid location, c
 
 `Enter` confirms the armed item under the cursor. `Esc` cancels the preview. When an Atom or Hydrogen Bomb is armed, `U` flips its launch arc between the two available directions.
 
+Press an eligible build key a second time to toggle x1/x5. This works when upgrading an existing structure or arming an Atom Bomb; a new structure, Hydrogen Bomb, or MIRV remains x1.
+
 The keys do not bypass game rules. You still need enough Gold, the required infrastructure, a valid placement or target, and any lobby option that enables the item.
+
+Structure batches charge each successive upgrade level at its own escalating cost, not the displayed single price multiplied by the count.
 
 ## Make mouse behavior predictable
 
@@ -84,14 +90,16 @@ Treat `Shift` + `R` with care. It targets the player who last attacked you, whic
 
 Use a number key when the decision is already made. If you know you need a Defense Post, pressing `4` is faster and leaves more attention for troop counts, borders, and incoming projectiles.
 
-Use the radial menu when you are still deciding. It exposes the available build choices and secondary levels, which makes it safer for unfamiliar upgrades or a control layout you recently remapped.
+Use the radial menu when you are still deciding or need a batch other than x1/x5. It exposes x1/x5/x10/xMax for existing structure upgrades and x1/x2/x5/xMax for Atom Bombs before you commit.
 
 Use the dedicated [shortcuts reference](/shortcuts/) when you need a compact lookup. Keep this guide for the reasoning, drills, and failure recovery behind those controls.
 
 | Situation | Best control path | Reason |
 | --- | --- | --- |
-| One familiar structure | Number key, then click | Fewest actions |
-| Several Atom or Hydrogen targets | `8` or `9`, then repeated clicks | Nuke remains armed |
+| One familiar new structure | Number key, then click | New placement stays x1 |
+| Five levels on an existing structure | Same number key twice, then click | Toggles x5; total uses escalating level costs |
+| One or five Atom Bombs | `8` once or twice, then click | x5 is limited by loaded Silo tubes |
+| One Hydrogen Bomb or MIRV | `9` or `0`, then click | These weapons stay x1 |
 | Unfamiliar upgrade | Radial menu | Visual confirmation |
 | Lost camera | `C` | Returns to your nation |
 | Fine attack-ratio change | Slider | More visual precision |
@@ -134,9 +142,11 @@ The two commands solve different problems. `F` is a global response; box selecti
 
 ### Step 6: rehearse a nuclear launch safely
 
-In a lobby where nukes are enabled, build the required infrastructure and save enough Gold. Press `8`, choose a valid target, click once, and verify that the Atom Bomb remains armed.
+In a lobby where nukes are enabled, build the required infrastructure and load several Silo tubes. Press `8` once and confirm x1, then press `8` again and confirm x5 before choosing a valid target.
 
-Move to a second target without pressing `8` again. Then press `Esc` and confirm that another click no longer launches the armed bomb.
+Click only after checking the total Gold and loaded-tube limit. Bombs from one Silo leave one tick apart, while separate ready Silos can each launch on the same tick.
+
+Then press `Esc` and confirm that another click no longer launches the armed bomb.
 
 Repeat with `U` before launch so you recognize the arc flip. Do this as a control drill, not as proof that one arc is always strategically superior.
 
@@ -166,11 +176,11 @@ This rhythm separates the economic decision from the mechanical execution. Decid
 
 ### Nuke salvo and clean cancellation
 
-1. Confirm that the lobby allows nukes.
-2. Confirm the weapon, Gold, and target.
-3. Press `8` for Atom or `9` for Hydrogen.
-4. Click each intended target once.
-5. Press `Esc` immediately after the last launch.
+1. Confirm that the lobby allows nukes and count the loaded Silo tubes.
+2. Check Gold, target value, and SAM coverage.
+3. Press `8` once for one Atom Bomb or twice for x5; use the radial menu for x2 or xMax.
+4. Click only after the batch label and total cost match the plan.
+5. Press `Esc` immediately after the launch; use `9` separately for a single Hydrogen Bomb.
 
 The final cancellation matters. An armed weapon can turn a later click into an expensive mistake, especially while you are trying to pan, inspect, or switch back to ground control.
 
@@ -205,13 +215,13 @@ Do not keep pressing the key without diagnosing the state. Repeated input can be
 
 ### “The next click launched another nuke”
 
-Atom and Hydrogen Bombs remain armed after firing. This is intended repeat-fire behavior. Press `Esc` or right-click as soon as the planned salvo ends.
+An armed nuke can remain active after firing. In v33.4, a second press of `8` before the click can also switch an Atom Bomb from x1 to x5. Press `Esc` or right-click as soon as the planned salvo ends.
 
 Build the cancellation into your muscle memory: weapon key, targets, `Esc`. Treat the last input as part of the launch sequence rather than optional cleanup.
 
 ### “Shift-click did not repeat my building”
 
-The default reference does not document `Shift` as a general repeat-build modifier. `Shift` + drag selects Warships. Re-arm normal structures with their number key for each placement.
+The default reference does not document `Shift` as a general repeat-build modifier. `Shift` + drag selects Warships. A second build-key press selects x5 only on an existing upgrade; new placements still happen one at a time.
 
 ### “My click attacked instead of opening a menu”
 
@@ -235,7 +245,7 @@ Use the [economy fundamentals guide](/strategies/economy-fundamentals/) to decid
 
 ## How to adjust against fast opponents
 
-If a rival fires several nukes quickly, assume repeat-armed number keys before assuming automation.
+If a rival fires several Atom Bombs quickly, assume a v33.4 x5 batch before assuming automation. Watch the launch origins: one Silo releases queued bombs one tick apart, but different ready Silos can fire together.
 
 Atom and Hydrogen Bombs can be intercepted by SAMs. The MIRV carrier is not targeted, but separated warheads use normal trajectory interception.
 
@@ -251,11 +261,15 @@ When a lobby disables nukes, the `8`, `9`, and `0` decisions disappear. Realloca
 
 ### How do players fire nukes so quickly?
 
-They can press `8` or `9` once, then click several targets. Atom and Hydrogen Bombs remain armed after each launch. No external repeat tool is required.
+For Atom Bombs, they can press `8` once for x1 or twice for x5, then click. The batch is limited by Gold and loaded Silo tubes; Hydrogen Bombs and MIRVs stay single actions. No external repeat tool is required.
 
 ### How do I stop repeat firing?
 
 Press `Esc` or right-click after the last intended target. Verify that the armed preview is gone before returning to normal clicks.
+
+### Does double-pressing a build key create five new structures?
+
+No. x5 applies only to an existing structure upgrade or an Atom Bomb. New structures stay x1, and an upgrade batch charges each next level at its increasing cost.
 
 ### Does `Shift` repeat every building?
 
@@ -288,6 +302,7 @@ The input is contextual. It can attack, launch a transport, or place an armed bu
 ## Next reading
 
 - Keep the compact [OpenFront shortcuts table](/shortcuts/) open for quick lookup.
+- Read the [v33 release overview](/changelog/v33/) for the source-backed batch limits and Silo timing.
 - Learn costs and roles in the [structures database](/database/structures/).
 - Compare weapon costs and blast sizes in the [units database](/database/units/).
 - Study [nuclear weapons and SAM mechanics](/mechanics/nukes/).
