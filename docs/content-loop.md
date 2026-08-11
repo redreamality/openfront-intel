@@ -133,7 +133,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 ## 当前进行中
 
 - `NUKE-01` 观察中：五语入口交付已由 [PR #18](https://github.com/redreamality/openfront-intel/pull/18) 完成；2026-08-11 的五语 URL Inspection 全部通过，但最新 GSC 仍截止 2026-08-09，早于修复。等待首个截止日至少为 2026-08-10 的稳定窗口，不重复 Water Nukes 主答案。
-- `FRESH-01` v33.4 响应本批已完成：五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已同步批量操作、50 次上限、递增成本和 Silo 发射时序；完整本地质量门禁已通过，等待本轮 PR 收口。
+- `FRESH-01` v33.4 响应已完成：五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已同步批量操作、50 次上限、递增成本和 Silo 发射时序；完整质量门禁通过后，[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 已 squash 合并。
 
 ## 计划承接表
 
@@ -141,7 +141,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | 正式 `v0.33.4` 响应本批已完成；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已统一到批量操作和 Silo 时序，没有新增路由，等待本轮 PR 收口 | 收口本轮 PR；之后继续按独立玩家价值响应下一正式 Release |
+| `FRESH-01` | 正式 `v0.33.4` 响应已完成；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制已统一到批量操作和 Silo 时序，没有新增路由；[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 已合并 | 继续按独立玩家价值响应下一正式 Release |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
@@ -205,7 +205,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 旧页同步范围：5 个 v33 总览、5 个首页入口、5 个 shortcuts、5 个 hotkeys、5 个 Water Nukes、5 个核武机制页及共享来源面板；未受影响的 first-match、Doomsday 与策略正文不做日期噪声更新。
 - 视觉证据类型：正式 Release、v33.4 tag 源码、代码原生表格与文字解释；没有真实截图时未生成或伪造游戏画面。
 - 验证结果：GSC 7/28 天主动刷新成功且未回退缓存；严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产构建 230 页；内部链接 9,289 条、无断链；新鲜度定向 e2e 40/40；Water Nukes 发现性定向 e2e 5/5；完整 Playwright 247/247（`--workers=1`）；`git diff --check`、BOM、旧版本字面值与范围审计在提交前完成。首轮回归暴露 10 条旧摘要事实映射和 5 条旧版本断言，修正测试契约后全量通过，规避规则已写入 `AGENTS.md`。
-- 阻塞与 PR：无内容、语言或验证阻塞；分支 `codex/daily-content-2026-08-12-v33-4-response` 等待创建 PR，并按自动合并门禁收口。合并结果将在回到最新干净 `main` 后写回本账本。
+- 阻塞与 PR：无内容、语言或验证阻塞；[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 在 `CLEAN / MERGEABLE`、无 checks 配置、无 review/评论且远端 head 与本地一致后，通过 REST squash 合并为 `b59c840`。远端主题分支已删除，本地已回到并 fast-forward-only 同步最新 `main`。
 
 ## 本次合规自检（2026-08-11，`NUKE-01` 发布后观察）
 
@@ -349,7 +349,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-12：完成正式 `v0.33.4` 的 `FRESH-01` 响应；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作和 Silo 发射时序，没有新建小版本或重复核武页面，完整回归 247/247 通过，等待本轮 PR 收口。
+- [x] 2026-08-12：完成正式 `v0.33.4` 的 `FRESH-01` 响应；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作和 Silo 发射时序，没有新建小版本或重复核武页面，完整回归 247/247 通过；[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 已合并。
 - [x] 2026-08-11：完成 `NUKE-01` 发布后观察来源包；五语 Water Nukes 专页均为 PASS / Submitted and indexed，当前 GSC 截止日早于入口修复，因此保留唯一主答案并等待有效窗口，没有制造新页面；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并。
 - [x] 2026-08-10：完成 `NUKE-01`；五语 guides 索引与 hotkeys 均导向 Water Nukes 唯一主答案，索引按最近核验日期排序并显示本地化更新时间，没有新增路由或重复正文，完整回归 242/242 通过；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并。
 - [x] 2026-08-09：完成正式 `v0.33.2` 的 `FRESH-01` 响应；五语 v33 总览、Doomsday 主答案与首页入口已同步七档门槛、下限衰减和领土腐化，没有新建重复小版本页，完整回归 237/237 通过；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并。
@@ -397,4 +397,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-09 | `FRESH-01` | 五语 v33 总览先解释 v33.2 对下一局的影响，五语 Doomsday 旧攻略同步七档时序、下限衰减、领土腐化、恢复与反制；首页最新版本入口改为 v33.2；没有新路由；[PR #17](https://github.com/redreamality/openfront-intel/pull/17) 已合并 | GSC 刷新至 2026-08-06：7 天 880/1,802，28 天 1,225/2,928；Doomsday 17 Query/450 展现/25 点击；正式 tag 为 `e9e1070`，本地 clone 因 GitHub 443 瞬断仍为 `0668045`，未运行 extract；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,269；定向 1/1 + 5/5；完整 e2e 237/237；diff/BOM/旧来源审计通过 | 继续观察 Water Nukes；ATTACK/SPAWN/ROOM 先补成熟来源包，等待下一正式 Release |
 | 2026-08-10 | `NUKE-01` | 五语 guides 索引和 hotkeys 现在把 Water Nukes 错落地查询导向既有唯一主答案；索引改按最近核验日期排序并显示本地化更新时间，没有新路由或重复正文；[PR #18](https://github.com/redreamality/openfront-intel/pull/18) 已合并为 `b51aff8` | GSC 刷新至 2026-08-08：7 天 855/1,695，28 天 1,239/2,984；Water Nukes 15 Query/482 展现/4 点击，索引 218、hotkeys 176、英文专页 4；正式 Release 仍为 v0.33.2，Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,279；定向 e2e 5/5 + 10/10；完整 e2e 242/242；diff/BOM check 通过 | 观察完整发布窗口；若专页仍非主落地，优先查收录而不复制正文 |
 | 2026-08-11 | `NUKE-01` 发布后观察 | 五语 Water Nukes 专页均已收录且 self-canonical；当前数据窗口早于入口修复，因此不重复改稿、不建第二页；[PR #21](https://github.com/redreamality/openfront-intel/pull/21) 已合并为 `8b9c04d` | GSC 主动刷新至 2026-08-08：7 天 897/1,797，28 天 1,258/3,055；Water Nukes 为 11 Query/137 展现与 16 Query/507 展现；Issues/开放 PR 0，Feedlog 0 票/0 评论 | docs-only：严格 audit 40/40；diff/BOM/Markdown 链接和范围审计通过；无站点或交互变化 | 等首个截止日至少为 2026-08-10 的稳定窗口，再判断落地页是否转向专页 |
-| 2026-08-12 | `FRESH-01` v33.4 响应 | 五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作、50 次上限、递增成本及 Silo 时序；没有新增路由，等待本轮 PR 收口 | 正式 v0.33.4 为非 TEST Release；GSC 刷新至 2026-08-09：7 天 917/1,855，28 天 1,281/3,152；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,289；定向 40/40 + 5/5；完整 e2e 247/247；最终 diff/BOM 审计待提交前完成 | 收口本轮 PR；`NUKE-01` 等截止日至少为 2026-08-10 的稳定窗口 |
+| 2026-08-12 | `FRESH-01` v33.4 响应 | 五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作、50 次上限、递增成本及 Silo 时序；没有新增路由；[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 已合并为 `b59c840` | 正式 v0.33.4 为非 TEST Release；GSC 刷新至 2026-08-09：7 天 917/1,855，28 天 1,281/3,152；Issues/起始开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,289；定向 40/40 + 5/5；完整 e2e 247/247；diff/BOM 审计通过 | `NUKE-01` 等截止日至少为 2026-08-10 的稳定窗口；继续响应下一正式 Release |
