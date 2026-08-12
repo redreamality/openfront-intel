@@ -200,3 +200,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **已逐文件证明为 stat-only 的 `M` 仍会让 `git rebase` 以 `You have unstaged changes` 拒绝执行**：fetch 后若 `origin/main` 未变化，并且 `git merge-base --is-ancestor origin/main HEAD` 与 `git rev-parse HEAD^` 均证明当前唯一提交直接基于最新 main，则不要为形式上的 rebase 改写这些文件或索引；记录拓扑证明后继续。若 main 已变化，则停止并等待工作树可安全恢复，不能绕过 rebase 门禁。
 - **PowerShell 双引号插值中变量后紧跟 `?` 时也要用 `${name}` 明确边界**：例如 GitHub Contents API 应写 `"repos/.../contents/${path}?ref=v0.33.4"`；`"$path?ref=..."` 会把 `?ref` 吞进变量名并请求错误路径，表现为一组误导性的 HTTP 404。
 - **PowerShell 的 `foreach` 语法中关键字与变量之间必须保留空格**：统一写成 `foreach ($file in $files) { ... }`；`foreach($file in$files)` 会把 `in$files` 解析失败并在执行前报 `Missing 'in' after variable in foreach loop`。
+- **带显式 refspec 的 `git fetch origin main <topic> --prune` 不会保证清除其他已删除分支的 remote-tracking ref**：GitHub ref 删除并复核为 0 后，若还要断言本地 `origin/<topic>` 不存在，应运行不限定 refspec 的 `git fetch --prune origin` 或 `git remote prune origin`，再做本地引用检查；不要把陈旧 remote-tracking ref 误报为远端分支仍存在。
