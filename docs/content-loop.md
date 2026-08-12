@@ -114,9 +114,9 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前周目标
 
-- 战役：`FRESH-01` 因 v33.4 Water Nukes 舰船绕路边界重新打开；`NUKE-01` 留在 Monitoring，`ATTACK-01` 进入外部等待，`SPAWN-01` 已作合并取消决策。
+- 战役：`FRESH-01` 的 v33.4 Water Nukes 舰船绕路边界纠错已完成；`NUKE-01` 留在 Monitoring，`ATTACK-01` 进入外部等待，`SPAWN-01` 已作合并取消决策。
 - 玩家结果：玩家知道新水域“可航行”不等于 v33.4 会选择最短航线，并能用首艘运输船与备用路线降低绕路风险；同时停止制造重复的出生点独立页。
-- 当前计划项：Production 为 `FRESH-01` 五语事实纠错；Monitoring 为 `NUKE-01`；Incubation 下一锚点为 `ROOM-01`，`ATTACK-01` 等待 #4237 或真实重复需求。
+- 当前计划项：Production 当前为空并继续响应下一正式 Release 或事实错误；Monitoring 为 `NUKE-01`；Incubation 下一锚点为 `ROOM-01`，`ATTACK-01` 等待 #4237 或真实重复需求。
 - 完成条件：五语唯一 Water Nukes 主答案区分当前正式缺陷与未发布修复，带可核验视觉证据和内容 e2e；`SPAWN-01` 从队列移除并明确由 first-match 承接。
 
 ## 今日编辑判断
@@ -131,7 +131,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- Production：`FRESH-01` 在分支 `codex/daily-content-2026-08-13-water-nukes-pathfinding` 修正五语 Water Nukes 寻路边界；唯一主落地页仍为各语言 `/guides/water-nukes/`，不新建路由。
+- Production：当前为空；`FRESH-01` 本次五语 Water Nukes 寻路边界纠错已由 [PR #28](https://github.com/redreamality/openfront-intel/pull/28) 合并，继续响应下一正式 Release 或事实错误。
 - Monitoring：`NUKE-01` 的入口与收录已完成。本轮 GSC 仍截止 2026-08-10，未到至少 8 月 11 日的决策点，直接跳过，不用混合窗口评价入口修复。
 - Incubation：`ATTACK-01` 等待 #4237 明确或真实重复需求；`SPAWN-01` 已确认由五语 first-match 承接并取消独立页；下一孵化锚点为 `ROOM-01`。
 
@@ -141,7 +141,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | 2026-08-13 因 v33.4 Water Nukes 绕路边界重新打开；五语既有主答案正在区分当前缺陷与未发布 `c5c7d74` 修复 | 完成范围验证并交付当前内容 PR；正式 Release 包含修复后再移除警告 |
+| `FRESH-01` | 2026-08-13 的 v33.4 Water Nukes 绕路边界纠错已由 [PR #28](https://github.com/redreamality/openfront-intel/pull/28) 合并为 `8be391b`；五语既有主答案已区分当前缺陷与未发布 `c5c7d74` 修复 | 正式 Release 包含修复后再移除警告；继续按独立玩家价值响应下一正式 Release |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
@@ -213,7 +213,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 语言、旧页与孵化结论：en、zh、fr、de、nl 同批修正；现有 first-match 五语页已覆盖海岸、半岛、中心、瓶颈、备用路线与停止线，因此 `SPAWN-01` 合并进该主答案并取消独立页，下一 Incubation 锚点转为 `ROOM-01`。
 - 视觉证据：使用上游 PR #4975 的两张真实游戏前后对比图；内容 e2e 断言每个五语主答案都渲染两张图片及 Issue / PR 来源链接，没有生成或伪造截图。
 - 验证结果：GSC 7/28 天主动刷新成功且未回退缓存；严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产 build 230 页；内部链接 9,289 条、无断链；Water Nukes 发现性定向 e2e 5/5；完整 Playwright 252/252。内容完整性首次 135/136，唯一失败是法语渲染将直撇号排版为 `’` 而测试仍期待 `'`；校准渲染文本契约后定向 1/1 与完整套件均通过，对应规则已写入 `AGENTS.md`。
-- 阻塞与 PR：本地内容、语言和验证无阻塞；本轮唯一交付为 [PR #28](https://github.com/redreamality/openfront-intel/pull/28)。只有远端 head、最新 main、CLEAN / MERGEABLE、checks、评论与依赖门禁全部通过后才 squash merge。
+- 阻塞与 PR：无内容、语言或验证阻塞；[PR #28](https://github.com/redreamality/openfront-intel/pull/28) 在最新 main、`CLEAN / MERGEABLE`、0 checks/statuses、无 review/评论/thread 且远端 head 等于本地提交后，通过 REST squash 合并为 `8be391b`。远端主题分支已删除，本地已回到并 fast-forward-only 同步最新 `main`。
 
 ## 本次合规自检（2026-08-12，`ATTACK-01` 孵化与三通道迁移）
 
