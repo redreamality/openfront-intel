@@ -2,19 +2,21 @@
 title: Was sind Water Nukes in OpenFront?
 description: Water Nukes ist die v31-Option, bei der Nukes zerstörtes Land dauerhaft in Wasser verwandeln. So ändern sich Kraterform, Gelände und Rückeroberung.
 pubDate: 2026-06-03
-updatedDate: 2026-08-12
+updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Fortgeschritten
 version: v33
-freshnessSummary: "v33.4 lässt die Water-Nukes-Umwandlung unverändert, ergänzt aber geladene Atom-Bomb-Pakete; dasselbe Silo feuert versetzt, getrennte bereite Silos gemeinsam."
+freshnessSummary: "In v33.4 ist neues Wasser befahrbar, doch Schiffe können Water-Nukes-Krater umfahren; der Fix liegt auf main, aber noch in keinem Release."
 ---
 
 ## Direkte Antwort: Was Water Nukes bewirken
 
 **Water Nukes** ist ein optionaler v31-Modus, in dem Nuklearschläge zerstörte Land-Tiles dauerhaft in Wasser verwandeln. Der Krater wird Teil der Karte, statt Land mit Fallout zu bleiben.
 
-Das neue Wasser ist echtes Gelände. Küsten, Ozean-Tiles, Uferkanten, Minimap und Marine-Pathfinding werden neu berechnet. Schiffe können so während der Partie erzeugtes Wasser nutzen.
+Das neue Wasser ist echtes Gelände und kann von Schiffen genutzt werden.
+
+In v33.4 kann die Minimap nach der Umwandlung jedoch falsche Tiefen- und Ozeanwerte behalten. Ein Transport funktioniert, nimmt aber unter Umständen einen langen Umweg um den Water-Nukes-Krater.
 
 Der Modus ist standardmäßig aus. Hosts aktivieren ihn in den Spieloptionen. Öffentliche Partien zeigen vor dem Spawn ein **Water Nukes**-Abzeichen.
 
@@ -25,6 +27,30 @@ Nach der Umwandlung kann normale Landexpansion das Tile nicht zurückbringen. Ne
 v33.4 ändert das Tempo, nicht die Geländeumwandlung. Das Radialmenü bietet Atom Bombs x2/x5/xMax, zweimal `8` wählt x5.
 
 Dasselbe Silo feuert im Tick-Abstand; getrennte bereite Silos können gemeinsam starten. Mehrere kleine Krater entstehen schneller, doch jeder Einschlag behält dieselbe Rückeroberungsfrist vor der Umwandlung.
+
+## Bekannte Schiffsweg-Einschränkung in v33.4
+
+Verlasse dich nicht darauf, dass die kürzeste sichtbare Linie durch einen neuen Kanal auch die Transportroute ist.
+
+Umgewandeltes Wasser bleibt befahrbar, doch Water-Nukes-Tiles der Minimap können magnitude 0 behalten und ihre ocean-Markierung verlieren.
+
+Die Wegsuche berechnet dort den dreifachen Schrittkostenwert. Sie verwirft außerdem einige gerade Glättungen und kann dadurch den Krater umfahren.
+
+Das ist ein Routenfehler und kein Zeichen dafür, dass der Krater Land geblieben ist. Prüfe vor einem Verstärkungstransport die erste angezeigte Route und halte eine alternative Küste oder Landverbindung offen.
+
+Ein funktionierender Umweg setzt das Schiff länger einer Abwehr aus, als die Kartenform vermuten lässt.
+
+Upstream [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) dokumentiert das Produktionsverhalten. [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) berechnet ocean-Markierungen und Minimap-Tiefe nach der Umwandlung neu.
+
+Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) ist in `main` zusammengeführt, aber neuer als das letzte formale Release `v0.33.4`. Bis zu einem Release bleibt er ein kommender Fix.
+
+![Offizieller v33.4-Produktionsvergleich: Die Transportroute umfährt das durch Water Nukes umgewandelte Afrika](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
+
+*v33.4-Produktion: Die Route meidet einen großen Teil des neuen Wassers. Quelle: OpenFrontIO PR #4975.*
+
+![Offizieller Vergleich nach dem unveröffentlichten Water-Nukes-Fix: Die Route führt direkt durch das umgewandelte Wasser](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+
+*Upstream `main` nach `c5c7d74`: ocean-Markierung und Minimap-Tiefe werden neu aufgebaut. Das Bild behauptet keine Veröffentlichung des Fixes.*
 
 ## Konzepte und Voraussetzungen
 

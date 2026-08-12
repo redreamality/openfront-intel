@@ -2,19 +2,21 @@
 title: Que sont les Water Nukes dans OpenFront ?
 description: L'option v31 transforme définitivement la terre détruite par les nukes en eau. Forme du cratère, terrain, récupération et tactiques expliqués en détail.
 pubDate: 2026-06-03
-updatedDate: 2026-08-12
+updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v33
-freshnessSummary: "La v33.4 conserve la conversion Water Nukes mais ajoute les lots d’Atom Bombs chargées ; un Silo décale ses tirs, plusieurs Silos prêts tirent ensemble."
+freshnessSummary: "En v33.4, la nouvelle eau est navigable, mais les navires peuvent contourner un cratère Water Nukes ; le correctif est sur main, pas encore dans une Release."
 ---
 
 ## Réponse directe : l'effet des Water Nukes
 
 **Water Nukes** est un mode optionnel de la v31 où les frappes nucléaires transforment définitivement la terre détruite en eau. Le cratère devient une partie de la carte au lieu de rester un sol irradié.
 
-Cette eau est un vrai terrain. Le littoral, les tiles d'océan, les bords, la minicarte et le pathfinding naval sont recalculés. Les navires peuvent donc utiliser l'eau créée pendant la partie.
+Cette eau est un vrai terrain et les navires peuvent l'utiliser.
+
+En v33.4, la minicarte peut cependant garder une profondeur et un marquage d'océan erronés après la conversion. Le transport fonctionne, mais sa route peut contourner largement le cratère Water Nukes.
 
 Le mode est désactivé par défaut. L'hôte peut l'activer dans les options. Les parties publiques concernées affichent un badge **Water Nukes** avant l'apparition des joueurs.
 
@@ -25,6 +27,28 @@ Après la transformation en eau, l'expansion terrestre normale ne peut pas la re
 La v33.4 change le rythme, pas la conversion. Le menu radial propose des Atom Bombs x2/x5/xMax, et deux pressions sur `8` choisissent x5.
 
 Un même Silo espace les bombes d’un tick ; plusieurs Silos prêts peuvent tirer ensemble. Plusieurs petits cratères arrivent donc plus vite, mais chaque impact garde la même fenêtre de reconquête avant conversion.
+
+## Limite connue des routes navales en v33.4
+
+Ne supposez pas que la ligne visible la plus courte dans un nouveau chenal sera la route du transport. L'eau convertie reste navigable, mais les tiles Water Nukes de la minicarte peuvent rester à magnitude 0 et perdre leur marqueur ocean.
+
+Le pathfinding applique alors un coût trois fois supérieur près de ces tiles. Il refuse aussi certains raccourcis en ligne droite et peut donc contourner le cratère.
+
+C'est un défaut de route, pas la preuve que le cratère est resté terrestre. Avant de dépendre du chenal pour des renforts, observez le premier transport et gardez une autre côte ou une voie terrestre.
+
+Une route fonctionnelle mais longue expose le navire plus longtemps que ne le suggère la carte.
+
+L'[Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) montre le comportement en production. La [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalcule les marqueurs d'océan et la profondeur de la minicarte après conversion.
+
+Le commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) est fusionné dans `main`, mais il est postérieur à la dernière Release formelle `v0.33.4`. Traitez-le comme un correctif à venir jusqu'à sa publication.
+
+![Capture officielle en production v33.4 : le transport contourne l'Afrique transformée par Water Nukes](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
+
+*Production v33.4 : la route évite une grande partie de l'eau convertie. Source : OpenFrontIO PR #4975.*
+
+![Capture officielle après le correctif Water Nukes non publié : la route traverse directement l'eau convertie](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+
+*`main` après `c5c7d74` : les marqueurs ocean et la profondeur sont reconstruits. Cette image ne signifie pas encore que le correctif est publié.*
 
 ## Concepts et prérequis
 

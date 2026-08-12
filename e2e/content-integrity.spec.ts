@@ -184,35 +184,35 @@ const freshnessLanguages = [
     prefix: '',
     labels: ['Applies to', 'Last verified', 'What changed in this version'],
     hotkeyFact: 'x1/x5',
-    waterNukeFact: 'Silo',
+    waterNukeFact: 'detour',
   },
   {
     lang: 'zh',
     prefix: '/zh',
     labels: ['适用版本', '最后核验', '本版本关键变化'],
     hotkeyFact: 'x1/x5',
-    waterNukeFact: 'Silo',
+    waterNukeFact: '绕开',
   },
   {
     lang: 'fr',
     prefix: '/fr',
     labels: ['Version applicable', 'Dernière vérification', 'Changement clé de cette version'],
     hotkeyFact: 'x1/x5',
-    waterNukeFact: 'Silo',
+    waterNukeFact: 'contourner',
   },
   {
     lang: 'de',
     prefix: '/de',
     labels: ['Gilt für', 'Zuletzt geprüft', 'Wichtigste Änderung dieser Version'],
     hotkeyFact: 'x1/x5',
-    waterNukeFact: 'Silo',
+    waterNukeFact: 'umfahren',
   },
   {
     lang: 'nl',
     prefix: '/nl',
     labels: ['Geldt voor', 'Laatst gecontroleerd', 'Belangrijkste wijziging in deze versie'],
     hotkeyFact: 'x1/x5',
-    waterNukeFact: 'Silo',
+    waterNukeFact: 'om',
   },
 ] as const;
 
@@ -697,6 +697,62 @@ for (const waterNukeCase of waterNukeBatchCases) {
     await expect(main).toContainText(waterNukeCase.unchanged);
     await expect(main).toContainText(waterNukeCase.batch);
     await expect(main).toContainText(waterNukeCase.timing);
+  });
+}
+
+const waterNukePathfindingCases = [
+  {
+    lang: 'en',
+    path: '/guides/water-nukes/',
+    limitation: 'Known v33.4 ship-route limitation',
+    cost: 'three times the normal step cost',
+    release: 'upcoming fix until a Release includes it',
+  },
+  {
+    lang: 'zh',
+    path: '/zh/guides/water-nukes/',
+    limitation: 'v33.4 已知舰船绕路问题',
+    cost: '单步成本提高到正常值的 3 倍',
+    release: '只能把它视为即将发布的修复',
+  },
+  {
+    lang: 'fr',
+    path: '/fr/guides/water-nukes/',
+    limitation: 'Limite connue des routes navales en v33.4',
+    cost: 'un coût trois fois supérieur',
+    release: 'Traitez-le comme un correctif à venir jusqu’à sa publication',
+  },
+  {
+    lang: 'de',
+    path: '/de/guides/water-nukes/',
+    limitation: 'Bekannte Schiffsweg-Einschränkung in v33.4',
+    cost: 'dreifachen Schrittkostenwert',
+    release: 'Bis zu einem Release bleibt er ein kommender Fix',
+  },
+  {
+    lang: 'nl',
+    path: '/nl/guides/water-nukes/',
+    limitation: 'Bekende beperking van scheepsroutes in v33.4',
+    cost: 'drie keer de normale stapkosten',
+    release: 'Behandel dit als een komende fix totdat een Release hem bevat',
+  },
+] as const;
+
+for (const pathfindingCase of waterNukePathfindingCases) {
+  test(`Water Nukes[${pathfindingCase.lang}] separates the v33.4 detour from the unreleased fix`, async ({ page }) => {
+    await page.goto(pathfindingCase.path, { waitUntil: 'domcontentloaded' });
+    const main = page.locator('main');
+    await expect(main).toContainText(pathfindingCase.limitation);
+    await expect(main).toContainText(pathfindingCase.cost);
+    await expect(main).toContainText(pathfindingCase.release);
+
+    const issueSource = main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/4760"]');
+    const fixSource = main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/pull/4975"]');
+    await expect(issueSource).toHaveCount(1);
+    await expect(fixSource).toHaveCount(1);
+
+    const comparisonImages = main.locator('img[src^="https://github.com/user-attachments/assets/"]');
+    await expect(comparisonImages).toHaveCount(2);
   });
 }
 
