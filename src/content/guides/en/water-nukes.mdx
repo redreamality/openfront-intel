@@ -2,19 +2,21 @@
 title: What Are Water Nukes in OpenFront?
 description: Water Nukes in OpenFront is a v31 option that permanently turns destroyed land into water. Learn the blast result, terrain conversion, counters, and whether you can reclaim the ground.
 pubDate: 2026-06-03
-updatedDate: 2026-08-12
+updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
 version: v33
-freshnessSummary: "v33.4 leaves Water Nukes conversion intact but adds loaded Atom Bomb batches; one Silo staggers bombs by tick while separate ready Silos can launch together."
+freshnessSummary: "In v33.4 the new water works, but ship routes can detour around Water-Nuked areas; an upstream fix is merged but not yet in a formal Release."
 ---
 
 ## Direct answer: what are Water Nukes in OpenFront?
 
 **Water Nukes in OpenFront** is an optional v31 game mode in which nuclear strikes permanently convert destroyed land tiles into water. The crater becomes part of the map instead of remaining land covered by fallout.
 
-The new water is functional terrain. Coastlines, ocean tiles, shoreline edges, the minimap, and naval pathfinding are recalculated, so ships can use water created during the match.
+The new water is functional terrain, so ships can use water created during the match.
+
+In v33.4, however, the minimap can keep the wrong depth and ocean metadata after conversion. A transport still works, but its route may take a strange detour around the Water-Nuked area.
 
 The mode is off by default. A host can enable it in the game-options panel. Public games that use it display a **Water Nukes** modifier badge before players spawn.
 
@@ -25,6 +27,28 @@ After a tile becomes water, ordinary land expansion cannot restore it. You can s
 v33.4 changes the tempo, not the conversion rule. Atom Bombs can be launched in x2/x5/xMax batches from the radial menu, or x5 by pressing `8` twice.
 
 One Silo releases queued bombs one tick apart; separate ready Silos can launch on the same tick. That can create several small craters faster, but each impact still enters the same reclaim-before-conversion check.
+
+## Known v33.4 ship-route limitation
+
+Do not assume that a channel's shortest visible line is the route a transport will take in v33.4. The converted water remains navigable, but Water-Nuked minimap tiles can stay at magnitude 0 and lose their ocean flag.
+
+The water pathfinder then charges three times the normal step cost near those tiles. It also rejects some line-of-sight smoothing, so the route can bend around the crater instead of crossing it directly.
+
+This is a routing defect, not evidence that the crater stayed land. Before relying on a new channel for reinforcements, inspect the first transport route and keep an alternate coast or land route available.
+
+A working but indirect route can expose the ship for longer than the map shape suggests.
+
+Upstream [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) documents the production behavior. [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalculates minimap ocean flags and depth after conversion.
+
+Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) is merged into `main`, but it is newer than the latest formal `v0.33.4` Release. Treat it as an upcoming fix until a Release includes it.
+
+![Official upstream v33.4 production screenshot showing a transport route detouring around Water-Nuked Africa](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
+
+*v33.4 production behavior: the route avoids much of the converted water. Source: OpenFrontIO PR #4975.*
+
+![Official upstream screenshot after the unreleased Water Nukes pathfinding fix showing the direct route through converted water](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+
+*Upstream `main` after `c5c7d74`: ocean flags and minimap depth are rebuilt, producing the direct route. This screenshot does not claim the fix is released yet.*
 
 ## Concepts and prerequisites
 

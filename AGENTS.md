@@ -201,3 +201,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **PowerShell 双引号插值中变量后紧跟 `?` 时也要用 `${name}` 明确边界**：例如 GitHub Contents API 应写 `"repos/.../contents/${path}?ref=v0.33.4"`；`"$path?ref=..."` 会把 `?ref` 吞进变量名并请求错误路径，表现为一组误导性的 HTTP 404。
 - **PowerShell 的 `foreach` 语法中关键字与变量之间必须保留空格**：统一写成 `foreach ($file in $files) { ... }`；`foreach($file in$files)` 会把 `in$files` 解析失败并在执行前报 `Missing 'in' after variable in foreach loop`。
 - **带显式 refspec 的 `git fetch origin main <topic> --prune` 不会保证清除其他已删除分支的 remote-tracking ref**：GitHub ref 删除并复核为 0 后，若还要断言本地 `origin/<topic>` 不存在，应运行不限定 refspec 的 `git fetch --prune origin` 或 `git remote prune origin`，再做本地引用检查；不要把陈旧 remote-tracking ref 误报为远端分支仍存在。
+- **Windows PowerShell 5 不支持 `Get-Date -AsUTC`**：该参数会报 `ParameterNotFound`；需要 UTC ISO 时间时使用 `(Get-Date).ToUniversalTime().ToString('o')`，不要沿用 PowerShell 7 的参数写法。
+- **`Select-String` 可能返回多个 MatchInfo，不能直接把 `.LineNumber` 当标量做算术**：先用 `$matches = @(...)` 收集，再以 `[int]$matches[0].LineNumber` 选择目标；否则 `$matches.LineNumber - 2` 会因 `Object[]` 没有 `op_Subtraction` 而失败。
+- **多语浏览器断言要以渲染后的排版字符为准**：Astro 的 Markdown 排版可能把法语源码中的直撇号 `'` 转成 `’`；Playwright 的 `toContainText()` 读取的是渲染文本，新增精确断言前先核对浏览器输出，避免把正确内容误报为回归。
+- **PowerShell 经 pnpm 传递 Playwright `--grep` 时不要用反斜杠转义标题里的方括号**：`Water Nukes\\[fr\\]` 可能以双反斜杠到达 Playwright 并导致 `No tests found`；改用不含方括号的稳定标题子串，或用 `Water Nukes.*fr.*` 这类无需反斜杠的正则。
