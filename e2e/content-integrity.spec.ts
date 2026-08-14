@@ -100,6 +100,76 @@ for (const mechanicsCase of mechanicsCases) {
   });
 }
 
+const privateLobbyCases = [
+  {
+    lang: 'en',
+    path: '/mechanics/modes/',
+    indexPath: '/mechanics/',
+    faqPath: '/faq/',
+    headings: ['Fair game with friends', 'Fixed-team coordination practice', 'Mechanics test or teaching demo', 'Tournament or repeated-room workflow'],
+    facts: ['Host Cheats', 'Random Spawn', '0-15 min custom alliances', 'No saved named preset yet'],
+  },
+  {
+    lang: 'zh',
+    path: '/zh/mechanics/modes/',
+    indexPath: '/zh/mechanics/',
+    faqPath: '/zh/faq/',
+    headings: ['公平朋友局', '固定队伍协同训练', '机制实验或教学演示', '赛事或连续多局'],
+    facts: ['Host Cheats', 'Random Spawn', '0-15 分钟自定义同盟', '当前没有具名预设'],
+  },
+  {
+    lang: 'fr',
+    path: '/fr/mechanics/modes/',
+    indexPath: '/fr/mechanics/',
+    faqPath: '/fr/faq/',
+    headings: ['Partie équitable entre amis', "Entraînement d'une équipe fixe", 'Test de mécanique ou démonstration', 'Tournoi ou série de salons'],
+    facts: ['Host Cheats', 'Random Spawn', "alliances 0-15 min", 'Pas encore de preset nommé'],
+  },
+  {
+    lang: 'de',
+    path: '/de/mechanics/modes/',
+    indexPath: '/de/mechanics/',
+    faqPath: '/de/faq/',
+    headings: ['Faire Freundesrunde', 'Training eines festen Teams', 'Mechaniktest oder Lehrdemo', 'Turnier oder wiederholte Räume'],
+    facts: ['Host Cheats', 'Random Spawn', 'Bündnisse 0-15 Min.', 'Noch kein benannter Preset'],
+  },
+  {
+    lang: 'nl',
+    path: '/nl/mechanics/modes/',
+    indexPath: '/nl/mechanics/',
+    faqPath: '/nl/faq/',
+    headings: ['Eerlijk spel met vrienden', 'Training met een vast team', 'Mechanicatest of demonstratie', 'Toernooi of terugkerende lobby'],
+    facts: ['Host Cheats', 'Random Spawn', 'allianties 0-15 min', 'Nog geen benoemde preset'],
+  },
+];
+
+for (const lobbyCase of privateLobbyCases) {
+  test(`private lobby guide[${lobbyCase.lang}] reflects the v33.4 Host controls`, async ({ page }) => {
+    await page.goto(lobbyCase.path, { waitUntil: 'domcontentloaded' });
+    const main = page.locator('main');
+
+    await expect(main).toContainText('v33.4');
+    for (const heading of lobbyCase.headings) {
+      await expect(main.getByRole('heading', { level: 3, name: heading })).toBeVisible();
+    }
+    for (const fact of lobbyCase.facts) await expect(main).toContainText(fact);
+
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/2489"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/4951"]')).toHaveCount(1);
+
+    await page.goto(lobbyCase.indexPath, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator(`main a[href="${lobbyCase.path}"]`)).toHaveCount(1);
+
+    await page.goto(lobbyCase.faqPath, { waitUntil: 'domcontentloaded' });
+    const faqMain = page.locator('main');
+    await expect(faqMain.locator(`a[href="${lobbyCase.path}"]`)).toHaveCount(1);
+    for (const removedField of ['isPeaceTime', 'isNukesDisabled', 'isSAMsDisabled', 'isPortsDisabled']) {
+      await expect(faqMain).not.toContainText(removedField);
+    }
+  });
+}
+
 const economyGrowthCases = [
   {
     lang: 'en',

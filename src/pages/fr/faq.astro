@@ -2,7 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
-const faqs = [
+type Faq = { q: string; a: string; href?: string; linkLabel?: string };
+
+const faqs: Faq[] = [
   {
     q: "Qu'est-ce qu'OpenFront.io ?",
     a: "OpenFront.io est un jeu de stratégie en temps réel en ligne basé sur la géographie réelle et des cartes abstraites, où les joueurs s'affrontent en étendant leur territoire, en formant des alliances et en lançant des armes nucléaires sur différentes cartes. Il est maintenu par evanpelle et son code source est ouvert sous AGPL-3.0.",
@@ -37,7 +39,9 @@ const faqs = [
   },
   {
     q: 'Puis-je modifier les paramètres par défaut ?',
-    a: "En salon privé, vous pouvez ajuster : goldMultiplier, isPeaceTime, isNukesDisabled, isSAMsDisabled, isAlliancesDisabled, isWaterNukes, spawnImmunityDuration. Les salons publics utilisent les préréglages du mode courant.",
+    a: "Oui. En v33.4, l'hôte privé peut régler équipes, spawn et durée, alliances, ressources, modes spéciaux, unités interdites, anonymat, liste blanche et Host Cheats. Certains drapeaux internes des rotations publiques ne sont pas des commandes Host ordinaires.",
+    href: '/fr/mechanics/modes/',
+    linkLabel: "Choisir les réglages selon l'objectif de la partie.",
   },
   {
     q: 'Les données du site sont-elles fiables ?',
@@ -53,7 +57,9 @@ const faqs = [
       {faqs.map((f) => (
         <div class="rounded border border-iron-800 bg-iron-900/40 px-5 py-4">
           <dt class="text-base font-semibold text-cannon-400">Q · {f.q}</dt>
-          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">A · {f.a}</dd>
+          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">
+            A · {f.a}{f.href && <> <a class="text-cannon-400 hover:text-cannon-300" href={f.href}>{f.linkLabel}</a></>}
+          </dd>
         </div>
       ))}
     </dl>

@@ -205,3 +205,6 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **`Select-String` 可能返回多个 MatchInfo，不能直接把 `.LineNumber` 当标量做算术**：先用 `$matches = @(...)` 收集，再以 `[int]$matches[0].LineNumber` 选择目标；否则 `$matches.LineNumber - 2` 会因 `Object[]` 没有 `op_Subtraction` 而失败。
 - **多语浏览器断言要以渲染后的排版字符为准**：Astro 的 Markdown 排版可能把法语源码中的直撇号 `'` 转成 `’`；Playwright 的 `toContainText()` 读取的是渲染文本，新增精确断言前先核对浏览器输出，避免把正确内容误报为回归。
 - **PowerShell 经 pnpm 传递 Playwright `--grep` 时不要用反斜杠转义标题里的方括号**：`Water Nukes\\[fr\\]` 可能以双反斜杠到达 Playwright 并导致 `No tests found`；改用不含方括号的稳定标题子串，或用 `Water Nukes.*fr.*` 这类无需反斜杠的正则。
+- **PowerShell 调原生命令时，含查询串 `&` 的 URL 必须整体单引号包裹**：例如 `gh api 'repos/owner/repo/issues?state=open&per_page=100'`；未引用的 `&` 会被 PowerShell 当运算符，在命令执行前直接解析失败。
+- **命令工具超时终止外层 `pnpm` 不保证回收 Node/Python 子进程**：GSC 等长请求超时后先用 `Get-CimInstance Win32_Process` 核对命令行和父子链，只终止本轮精确 PID，再确认残留为 0 后重试；不要让旧请求与唯一重试同时写同一缓存。
+- **按 CommandLine 清理进程时必须排除当前 PowerShell，且进程退出存在竞态**：宽泛匹配会把清理命令自身纳入并自终止；应先只读记录精确 PID，再逐个 `Stop-Process`，并把“检查后已自然退出”的 `ProcessCommandException` 视为 `ALREADY_EXITED` 后复核残留，而不是让清理脚本失败。
