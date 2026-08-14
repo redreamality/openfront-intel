@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略与滚动计划
 
-更新日期：2026-08-13。当前规划窗口：未来 6–8 周。
+更新日期：2026-08-14。当前规划窗口：未来 6–8 周。
 
 本文回答“为什么做、先做什么、做到什么程度”。[`content-loop.md`](content-loop.md) 只记录每日发现、执行状态和交付结果；[`search-console-content-workflow.md`](search-console-content-workflow.md) 只负责数据获取与机会分类。
 
@@ -161,7 +161,7 @@
 
 ### Production：玩家内容交付
 
-当前没有主动 Production 项。2026-08-13 已重新打开并完成一次 `FRESH-01` 事实边界纠错：五语 Water Nukes 主答案区分 v33.4 可航行水域与已知舰船绕路问题，并把上游 `c5c7d74` 明确标为尚未进入正式 Release 的修复。已完成的 `ECON-01`、`CTRL-01` 与 `DOOM-01` 保持关闭；新的正式 Release、事实错误或成熟玩家问题仍可随时打开 Production。正式 Release 仍优先，但只更新真正改变玩家决策的总览与常青主答案，不为小修复制造薄页。
+`ROOM-01` 已于 2026-08-14 从 Incubation 晋级并完成一次 Production 事实纠错：五语 `/mechanics/modes/` 现在按公平朋友局、团队训练、机制实验和赛事连续多局组织当前 v33.4 Host 设置，五语 FAQ 只做短答导流；独立 `/guides/private-room-settings/` 候选取消。当前没有主动 Production 项；已完成的 `ECON-01`、`CTRL-01`、`DOOM-01` 与 `ROOM-01` 保持关闭，新的正式 Release、事实错误或成熟玩家问题仍可随时打开 Production。正式 Release 仍优先，但只更新真正改变玩家决策的总览与常青主答案，不为小修复制造薄页。
 
 ### Monitoring：已交付结果验证
 
@@ -174,10 +174,9 @@
 | ID | 主题 | 唯一主落地页候选 | 当前结论 | 下一决策门槛 |
 |---|---|---|---|---|
 | `ATTACK-01` | 攻击比例 | `/guides/attack-ratio/` | 继续孵化，不晋级。v33.4 已确认默认 20%、范围 1%–100%、默认步进 10%，单次发送量为点击时当前兵力乘以比例；但开放上游 Issue #4237 显示高比例同 tick 双击可能 full-send，28 天精确需求仅 1 次展现 | #4237 被修复或行为被明确，或 GSC / Feedlog / Issues 出现真实重复问题；届时再决定独立页，或把稳定答案并入现有经济页 |
-| `ROOM-01` | 私人房设置 | 待立项时确定 | 下一孵化锚点；尚无成熟需求包 | 核验当前设置与适用玩法，且形成不复制菜单字段的独立决策边界 |
 | `MAP-01` | 地图试点 | Caribbean 与 Danish Straits 双页候选 | 暂不晋级 | 两张地图分别具备独特决策和需求证据后成组试点，再决定 Venice、Yellow Sea 与 World Inverted |
 
-已完成或合并项不再占 Incubation：`ECON-01` 由五语 `/mechanics/economy/` 承接人口增长与储备；`CTRL-01` 由 `/shortcuts/` 与 `/guides/hotkeys/` 分工承接查键和练操作；`SPAWN-01` 已确认由五语 `/guides/first-match/` 的出生点决策章节完整承接，取消独立 `/guides/best-starting-position/` 候选。`ATTACK-01` 若晋级，只回答滑杆比例、单次/连续发送与局势用量，不重复经济页的增长区和储备答案。
+已完成或合并项不再占 Incubation：`ECON-01` 由五语 `/mechanics/economy/` 承接人口增长与储备；`CTRL-01` 由 `/shortcuts/` 与 `/guides/hotkeys/` 分工承接查键和练操作；`SPAWN-01` 已确认由五语 `/guides/first-match/` 的出生点决策章节完整承接，取消独立 `/guides/best-starting-position/` 候选；`ROOM-01` 已合并进五语 `/mechanics/modes/`，取消独立 `/guides/private-room-settings/` 候选。`ATTACK-01` 若晋级，只回答滑杆比例、单次/连续发送与局势用量，不重复经济页的增长区和储备答案。
 
 ## 每次运行如何组成内容批次
 

@@ -2,47 +2,93 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Overzicht van speltypes" description="Verschillen tussen OpenFront.io-modi: FFA, Duos, Trios, Quads, Team, Tournament.">
-  <PageHeader eyebrow="MECHANIEK · 10" title="Overzicht van speltypes" lead="Verschillende modi hebben verschillende overwinningsvoorwaarden, kaartrotaties en teamgroottes. Kies eerst de juiste modus voordat je tactiek bespreekt." />
+<BaseLayout title="Spelmodi en instellingen voor privélobby's" description="Kies OpenFront.io v33.4-lobbyinstellingen voor eerlijke vriendenspellen, teamtraining, tests of toernooien.">
+  <PageHeader eyebrow="MECHANIEK · 10" title="Spelmodi en instellingen voor privélobby's" lead="Bepaal eerst het doel van de partij en wijzig alleen instellingen die dat doel dienen. Zo voorkom je verborgen voordelen en schakelaars die niet in het normale Host-menu bestaan." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Lijst van modi</h2>
+    <Callout type="spec" title="Gecontroleerd voor OpenFront v33.4 · 14 augustus 2026">
+      <p>Het normale Host-menu biedt FFA of Team, kaart en AI, spawn en tijd, allianties, grondstoffen, speciale modi, verboden eenheden, anonieme namen, whitelist en Host Cheats. Interne openbare-playlistvelden zoals <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> en <code>isPortsDisabled</code> zijn geen normale Host-schakelaars.</p>
+    </Callout>
+
+    <h2>Direct antwoord: kies een doel, geen zogenaamd beste preset</h2>
+    <p>Houd Host Cheats uit voor een eerlijk spel met vrienden, meld elke wereldwijde grondstoffenwijziging en gebruik een whitelist als alleen genodigden mogen meedoen. Kies Team voor training met vaste teams, zet Random Spawn uit en laat de automatisch ingeschakelde goud- en troependonaties aan. Gebruik Infinite Gold, Instant Build, verboden eenheden, Water Nukes of Doomsday alleen voor een benoemde oefening. Publiceer voor een toernooi of reeks partijen een regelslijst en controleer die voor elke start, want benoemde opgeslagen presets bestaan nog niet in v33.4.</p>
+
+    <h2>Wat de moduskeuze werkelijk verandert</h2>
     <table>
-      <thead>
-        <tr><th>Modus</th><th>Teamgrootte</th><th>Typische overwinningsvoorwaarde</th><th>Speelstijl</th></tr>
-      </thead>
+      <thead><tr><th>Keuze</th><th>Geschikt voor</th><th>Belangrijke grens</th></tr></thead>
       <tbody>
-        <tr><td>FFA (Free For All)</td><td>1 speler</td><td>Territorium / alle tegenstanders verslaan</td><td>Diplomatie, balans, bondgenoten zoeken</td></tr>
-        <tr><td>Duos</td><td>2 spelers</td><td>Team verovert 95% van de tiles</td><td>Taakverdeling: diplomatie + hoofdaanval</td></tr>
-        <tr><td>Trios</td><td>3 spelers</td><td>Team verovert 95% van de tiles</td><td>Multitasking-coördinatie; spoornet is hier het waardevolst</td></tr>
-        <tr><td>Quads</td><td>4 spelers</td><td>Team verovert 95% van de tiles</td><td>Continentale heerschappij, gecoördineerde nuke-aanvallen</td></tr>
-        <tr><td>Team</td><td>2v2 tot 8v8</td><td>95% in 5 min / aandeel bij einde van de tijd</td><td>Snel spel, winnaar in de vroege fase</td></tr>
-        <tr><td>Tournament</td><td>1v1 / 2v2 enz.</td><td>Wedstrijdregels bepalen overwinning</td><td>Symmetrische, gebalanceerde kaarten; gericht op skill</td></tr>
+        <tr><td>FFA</td><td>Diplomatie, tijdelijke allianties, individuele winst</td><td>0 minuten schakelt allianties uit; 1-15 minuten overschrijft de standaard van 5 minuten.</td></tr>
+        <tr><td>Team</td><td>Vaste zijden en coördinatie</td><td>Goud- en troependonaties gaan automatisch aan. Het team, niet de alliantieklok, bepaalt de zijde.</td></tr>
+        <tr><td>Duos / Trios / Quads</td><td>Teamgroottes in openbare playlists</td><td>Kies in een privé-Host-lobby Team en stel daarna het aantal teams in.</td></tr>
+        <tr><td>Speciale regels</td><td>Water Nukes, Doomsday of training zonder bepaalde eenheden</td><td>Kondig ze vóór de spawnkeuze aan: ze veranderen het hele beslismodel.</td></tr>
       </tbody>
     </table>
-    <p>Sinds v24 zijn Duos / Trios / Quads opgenomen in de openbare lobbyrotatie (FakeNeo). In Team-modus worden de troepenaantallen automatisch in evenwicht gebracht.</p>
 
-    <h2>Veelgebruikte configuratieschakelaars</h2>
+    <h2>Vier lobbyplannen die hun doel behouden</h2>
+
+    <h3>1. Eerlijk spel met vrienden</h3>
     <ul>
-      <li><code>isAlliancesDisabled</code> — schakel allianties uit voor een zuiver krachtenspel.</li>
-      <li><code>isPortsDisabled</code> — schakel havens uit (vaak op landkaarten).</li>
-      <li><code>isNukesDisabled</code> — schakel kernwapens uit voor een langer tempo.</li>
-      <li><code>isSAMsDisabled</code> — schakel SAM uit; kernwapens domineren.</li>
-      <li><code>isPeaceTime</code> — verleng de vredesperiode, beginnersvriendelijker.</li>
-      <li><code>isWaterNukes</code> — sta kernexplosies over zee toe (let op aan de kust).</li>
-      <li><code>spawnImmunityDuration</code> — verleng de spawn-immuniteit, vriendelijker voor beginners.</li>
-      <li><code>goldMultiplier</code> — schaalt de economische output direct op.</li>
+      <li><strong>Juiste instelling:</strong> Host Cheats uit; whitelist voor genodigden; standaardgrondstoffen tenzij iedereen dezelfde globale Starting Gold, Gold Multiplier, Infinite Gold/Troops of Instant Build accepteert.</li>
+      <li><strong>Privélink of openbare lijst:</strong> een whitelist of Host Cheats voorkomt openbare plaatsing. Een openbare hosted lobby vereist ook de juiste hostbevoegdheid; een gedeelde privélink niet.</li>
+      <li><strong>Mislukking:</strong> de host voegt vlak voor de start een eenzijdig voordeel toe. Open de instellingen na elke wezenlijke wijziging opnieuw en wacht op expliciete instemming.</li>
+      <li><strong>Reactie van spelers:</strong> een link openen is geen toestemming voor latere regels. Vertrek vóór de spawn als de zichtbare instellingen afwijken van de afspraak.</li>
     </ul>
 
-    <h2>Aanbevelingen voor modusselectie</h2>
-    <Callout type="tip" title="Aanbevolen op basis van ervaring">
-      <ul>
-        <li><strong>Eerste keer spelen</strong>: solo + Easy/Medium-naties, met <code>isPeaceTime</code> aan om vroege agressie te beperken.</li>
-        <li><strong>Binnen 10 partijen</strong>: Duos / Trios met vrienden — eenvoudig om taken te verdelen.</li>
-        <li><strong>Geïnteresseerd in diplomatie</strong>: FFA, waar onderhandelen het kernplezier is.</li>
-        <li><strong>Houd je van snelheid</strong>: Team-modus, 5-minuten partijen, geen kernwapens, puur militair.</li>
-      </ul>
+    <h3>2. Training met een vast team</h3>
+    <ul>
+      <li><strong>Juiste instelling:</strong> kies Team en het gewenste aantal teams; zet Random Spawn uit voor oefeningen met nabije teamgenoten of geplande fronten.</li>
+      <li><strong>Ingebouwd gedrag:</strong> Team schakelt goud- en troependonaties automatisch in. Er is geen extra verborgen stap.</li>
+      <li><strong>Mislukking:</strong> Random Spawn breekt een oefening met bekende posities. Start opnieuw met gekozen spawns in plaats van het plan in de verkeerde omgeving te beoordelen.</li>
+      <li><strong>Afspraak met tegenstanders:</strong> leg Compact Map, immuniteit en AI-aantal vooraf vast zodat niemand de vroege druk stilletjes verlaagt.</li>
+    </ul>
+
+    <h3>3. Mechanicatest of demonstratie</h3>
+    <ul>
+      <li><strong>Juiste instelling:</strong> gebruik globale grondstoffen, Instant Build of multipliers voor symmetrische tests. Gebruik Host Cheats alleen als één presentator bewust asymmetrische middelen nodig heeft.</li>
+      <li><strong>Isoleer één variabele:</strong> verbied eenheden voor een concrete counteroefening, maar noem geen universele beste verbodslijst.</li>
+      <li><strong>Speciale modi:</strong> Water Nukes verandert terrein en kustlijnen; Doomsday verandert expansie- en overlevingsdrempels. Lees de aparte gidsen vóór vergelijking met een normaal spel.</li>
+      <li><strong>Mislukking:</strong> een build onder versnelde economie of hostcheats bewijst niets voor de normale economie.</li>
+    </ul>
+
+    <h3>4. Toernooi of terugkerende lobby</h3>
+    <ul>
+      <li><strong>Publiceer een checklist:</strong> modus, teams, kaartbeleid, Random Spawn, anonimiteit, whitelist, alliantieduur, grondstoffen, verboden eenheden, immuniteit, tijdslimiet en speciale modi.</li>
+      <li><strong>Nog geen benoemde preset:</strong> het goedgekeurde verzoek richt zich op v34 maar staat nog open. Hergebruik van de lobbylink bewijst niet dat alle instellingen zijn hersteld.</li>
+      <li><strong>Voor elke start:</strong> vergelijk zichtbare instellingen met de lijst en geef na wijzigingen tijd voor controle.</li>
+      <li><strong>Mislukking:</strong> direct starten na een belangrijke wijziging veroorzaakt een regelgeschil dat de huidige lobby niet automatisch voorkomt.</li>
+    </ul>
+
+    <h2>Huidige Host-bediening per beslissing</h2>
+    <table>
+      <thead><tr><th>Beslissing</th><th>v33.4-bediening</th><th>Risico</th></tr></thead>
+      <tbody>
+        <tr><td>Structuur</td><td>Kaart/willekeurig, FFA/Team, teams, moeilijkheid, 0-400 Bots, 0-400 Nations</td><td>Te veel AI verbergt of een plan tegen mensen werkt.</td></tr>
+        <tr><td>Spawn en tempo</td><td>Random Spawn, Compact Map, 0-120 min immuniteit, 1-120 min limiet, 0-600 sec vertraging</td><td>Andere contactafstand of immuniteit maakt openingen onvergelijkbaar.</td></tr>
+        <tr><td>Diplomatie en economie</td><td>Donaties, allianties 0-15 min, multipliers, Starting Gold, Infinite Gold/Troops, Instant Build</td><td>Grondstoffenversnellers kunnen een eerlijk spel stilletjes herdefiniëren.</td></tr>
+        <tr><td>Speciale regels</td><td>Water Nukes, Doomsday-snelheid, verboden eenheden</td><td>Spelers bereiden standaardterrein of counters voor die de lobby verwijdert.</td></tr>
+        <tr><td>Identiteit en toegang</td><td>Anonymous Players, individuele naamonthulling, whitelist</td><td>Anonimiteit is een lobbyregel, geen lokale weergavevoorkeur.</td></tr>
+      </tbody>
+    </table>
+
+    <Callout type="warn" title="Zoek openbare modifiers niet in het Host-menu">
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> en <code>isPortsDisabled</code> bestaan in de configuratie van openbare rotaties, maar v33.4 toont ze niet als gewone Host-bediening.</p>
     </Callout>
+
+    <h2>Lees hierna</h2>
+    <ul>
+      <li><a href={`${base}nl/guides/first-match/`}>Eerste partij</a> voor spawnkeuze en de eerste expansie.</li>
+      <li><a href={`${base}nl/mechanics/alliances/`}>Allianties en verraad</a> voor de standaardcyclus van vijf minuten.</li>
+      <li><a href={`${base}nl/guides/water-nukes/`}>Water Nukes</a> en <a href={`${base}nl/guides/doomsday-clock/`}>Doomsday Clock</a> voor de twee spelveranderende regels.</li>
+    </ul>
+
+    <h2>Bronnen</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">HostLobbyModal.ts v0.33.4</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/Worker.ts" target="_blank" rel="noopener">Worker.ts</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> voor beperkingen op openbare plaatsing.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/issues/2489" target="_blank" rel="noopener">Issue #2489</a> over de nog niet geleverde preset en <a href="https://github.com/openfrontio/OpenFrontIO/issues/4951" target="_blank" rel="noopener">Issue #4951</a> over het gemelde risico van late wijzigingen.</li>
+    </ul>
   </article>
 </BaseLayout>

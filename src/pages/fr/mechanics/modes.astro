@@ -2,47 +2,93 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Callout from '../../../components/Callout.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Aperçu des modes de jeu" description="Différences entre FFA, Duos, Trios, Quads, Team et Tournament dans OpenFront.io.">
-  <PageHeader eyebrow="MÉCANIQUES · 10" title="Aperçu des modes de jeu" lead="Les conditions de victoire, la rotation des cartes et la taille des équipes varient selon le mode. Choisissez le bon mode avant de parler tactique." />
+<BaseLayout title="Modes de jeu et réglages de salon privé" description="Choisissez les réglages de salon privé OpenFront.io v33.4 pour une partie équitable, un entraînement en équipe, un test ou un tournoi.">
+  <PageHeader eyebrow="MÉCANIQUES · 10" title="Modes de jeu et réglages de salon privé" lead="Définissez d'abord le but de la partie, puis ne changez que les réglages qui le servent. Vous éviterez ainsi les avantages cachés et les options absentes du menu Host normal." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Liste des modes</h2>
+    <Callout type="spec" title="Vérifié pour OpenFront v33.4 · 14 août 2026">
+      <p>Le menu Host normal propose FFA ou Team, carte et IA, spawn et durée, alliances, ressources, modes spéciaux, unités interdites, noms anonymes, liste blanche et Host Cheats. Les drapeaux internes <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> ne sont pas des commandes du menu Host normal.</p>
+    </Callout>
+
+    <h2>Réponse directe : choisissez un objectif, pas un faux préréglage idéal</h2>
+    <p>Pour une partie équitable entre amis, désactivez Host Cheats, annoncez toute modification globale des ressources et utilisez une liste blanche si nécessaire. Pour entraîner une équipe fixe, choisissez Team, désactivez Random Spawn et conservez les dons d'or et de troupes activés automatiquement. Réservez Infinite Gold, Instant Build, les unités interdites, Water Nukes ou Doomsday à un exercice nommé. Pour un tournoi ou une série de parties, publiez une liste de règles et vérifiez-la avant chaque départ : les préréglages nommés ne sont pas encore disponibles en v33.4.</p>
+
+    <h2>Ce que le choix du mode change réellement</h2>
     <table>
-      <thead>
-        <tr><th>Mode</th><th>Taille d'équipe</th><th>Condition de victoire typique</th><th>Orientation de jeu</th></tr>
-      </thead>
+      <thead><tr><th>Choix</th><th>Usage</th><th>Limite importante</th></tr></thead>
       <tbody>
-        <tr><td>FFA (Free For All)</td><td>1 joueur</td><td>Occupation / défaite de tous les adversaires</td><td>Diplomatie, équilibre, recherche d'alliés</td></tr>
-        <tr><td>Duos</td><td>2 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Répartition : diplomatie + attaquant principal</td></tr>
-        <tr><td>Trios</td><td>3 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Coordination multi-fronts, le réseau ferré atteint sa valeur maximale</td></tr>
-        <tr><td>Quads</td><td>4 joueurs</td><td>Équipe occupant 95 % du terrain</td><td>Hégémonie continentale, coordination des frappes nucléaires</td></tr>
-        <tr><td>Team</td><td>2v2 à 8v8</td><td>95 % en 5 minutes, sinon part du territoire à la fin</td><td>Jeu rapide, décision en début de partie</td></tr>
-        <tr><td>Tournament</td><td>1v1 / 2v2 etc.</td><td>Selon le format du tournoi</td><td>Cartes équilibrées symétriques, accent sur la maîtrise</td></tr>
+        <tr><td>FFA</td><td>Diplomatie, alliances temporaires, victoire individuelle</td><td>Une durée d'alliance de 0 minute les désactive ; 1 à 15 minutes remplace la durée par défaut de 5 minutes.</td></tr>
+        <tr><td>Team</td><td>Équipes fixes et coordination</td><td>Les dons d'or et de troupes s'activent automatiquement. L'équipe, pas le timer d'alliance, définit le camp.</td></tr>
+        <tr><td>Duos / Trios / Quads</td><td>Tailles d'équipe des rotations publiques</td><td>Dans un salon Host privé, choisissez Team puis le nombre d'équipes.</td></tr>
+        <tr><td>Règles spéciales</td><td>Water Nukes, Doomsday ou exercice sans certaines unités</td><td>Annoncez-les avant le choix du spawn : elles changent tout le modèle de décision.</td></tr>
       </tbody>
     </table>
-    <p>Depuis v24, Duos / Trios / Quads sont entrés dans la rotation des salons publics (FakeNeo). Le nombre de troupes est automatiquement équilibré en mode Team.</p>
 
-    <h2>Interrupteurs de configuration courants</h2>
+    <h2>Quatre plans de salon adaptés à leur objectif</h2>
+
+    <h3>1. Partie équitable entre amis</h3>
     <ul>
-      <li><code>isAlliancesDisabled</code> — désactive les alliances, pure confrontation de puissance brute.</li>
-      <li><code>isPortsDisabled</code> — désactive les Port (courant sur cartes terrestres).</li>
-      <li><code>isNukesDisabled</code> — désactive les armes nucléaires, rythme allongé.</li>
-      <li><code>isSAMsDisabled</code> — désactive les SAM, domination du nucléaire.</li>
-      <li><code>isPeaceTime</code> — prolonge la période de paix, plus accessible aux débutants.</li>
-      <li><code>isWaterNukes</code> — autorise les explosions nucléaires sur mer (prudence pour les côtiers).</li>
-      <li><code>spawnImmunityDuration</code> — rallonge l'immunité de spawn, plus accueillant pour les débutants.</li>
-      <li><code>goldMultiplier</code> — amplifie directement la production économique.</li>
+      <li><strong>Bon réglage :</strong> laissez Host Cheats désactivé ; utilisez la liste blanche pour les invités ; gardez les ressources normales sauf accord commun sur Starting Gold, Gold Multiplier, Infinite Gold/Troops ou Instant Build.</li>
+      <li><strong>Lien privé ou salon public :</strong> une liste blanche ou Host Cheats empêche la publication du salon. Un salon public hébergé exige aussi le droit d'abonnement correspondant, contrairement à un simple lien privé.</li>
+      <li><strong>Échec typique :</strong> l'hôte ajoute un avantage unilatéral juste avant le départ. Après tout changement important, rouvrez les réglages et attendez l'accord explicite.</li>
+      <li><strong>Réponse du joueur :</strong> rejoindre un lien ne vaut pas consentement aux règles ultérieures. Quittez avant le spawn si les réglages visibles ne correspondent pas à l'accord.</li>
     </ul>
 
-    <h2>Recommandations de mode</h2>
-    <Callout type="tip" title="Selon le niveau de pratique">
-      <ul>
-        <li><strong>Première partie</strong> : solo + Nations Easy/Medium, activez <code>isPeaceTime</code> pour réduire les attaques précoces.</li>
-        <li><strong>Moins de 10 parties</strong> : Duos / Trios avec des connaissances, répartition des rôles facile.</li>
-        <li><strong>Intéressé par la diplomatie</strong> : FFA, la diplomatie y est le ressort central.</li>
-        <li><strong>Recherche de rapidité</strong> : mode Team, fin en 5 minutes, sans nucléaire, militaire pur.</li>
-      </ul>
+    <h3>2. Entraînement d'une équipe fixe</h3>
+    <ul>
+      <li><strong>Bon réglage :</strong> choisissez Team, le nombre d'équipes voulu et désactivez Random Spawn si l'exercice exige des équipiers proches ou des fronts prévus.</li>
+      <li><strong>Comportement intégré :</strong> Team active automatiquement les dons d'or et de troupes ; ce n'est pas une étape cachée supplémentaire.</li>
+      <li><strong>Échec typique :</strong> Random Spawn détruit un exercice fondé sur des positions connues. Relancez avec choix du spawn au lieu de juger le plan dans le mauvais cadre.</li>
+      <li><strong>Accord adverse :</strong> fixez Compact Map, immunité et quantité d'IA à l'avance pour que personne ne réduise discrètement la pression initiale.</li>
+    </ul>
+
+    <h3>3. Test de mécanique ou démonstration</h3>
+    <ul>
+      <li><strong>Bon réglage :</strong> utilisez les ressources globales, Instant Build ou les multiplicateurs pour un test symétrique. Host Cheats convient uniquement à un présentateur qui a volontairement besoin d'un avantage unilatéral.</li>
+      <li><strong>Isolez une variable :</strong> interdisez des unités pour un exercice précis, sans présenter une liste universelle.</li>
+      <li><strong>Modes spéciaux :</strong> Water Nukes transforme terrain et côtes ; Doomsday change les seuils d'expansion et de survie. Consultez leurs guides avant toute comparaison avec une partie normale.</li>
+      <li><strong>Échec typique :</strong> un build validé avec économie accélérée ou cheats d'hôte n'est pas validé en économie normale.</li>
+    </ul>
+
+    <h3>4. Tournoi ou série de salons</h3>
+    <ul>
+      <li><strong>Publiez une liste :</strong> mode, équipes, cartes, Random Spawn, anonymat, liste blanche, durée d'alliance, ressources, unités interdites, immunité, limite et modes spéciaux.</li>
+      <li><strong>Pas encore de preset nommé :</strong> la demande approuvée vise v34 mais reste ouverte. Réutiliser le lien du salon ne prouve pas que tous les réglages ont été restaurés.</li>
+      <li><strong>Avant chaque départ :</strong> comparez les réglages visibles à la liste et laissez un temps de vérification après chaque changement.</li>
+      <li><strong>Échec typique :</strong> démarrer immédiatement après un changement crée un litige que le salon actuel ne résout pas automatiquement.</li>
+    </ul>
+
+    <h2>Commandes Host actuelles, regroupées par décision</h2>
+    <table>
+      <thead><tr><th>Décision</th><th>Commandes v33.4</th><th>Risque</th></tr></thead>
+      <tbody>
+        <tr><td>Structure</td><td>Carte/aléatoire, FFA/Team, équipes, difficulté, 0-400 Bots, 0-400 Nations</td><td>Trop d'IA masque la valeur d'un plan face à des humains.</td></tr>
+        <tr><td>Spawn et rythme</td><td>Random Spawn, Compact Map, immunité 0-120 min, limite 1-120 min, délai 0-600 s</td><td>Changer la distance de contact ou l'immunité invalide la comparaison d'une ouverture.</td></tr>
+        <tr><td>Diplomatie et économie</td><td>Dons, alliances 0-15 min, multiplicateurs, Starting Gold, Infinite Gold/Troops, Instant Build</td><td>Un raccourci économique peut redéfinir silencieusement une partie équitable.</td></tr>
+        <tr><td>Règles spéciales</td><td>Water Nukes, vitesse Doomsday, unités interdites</td><td>Les joueurs peuvent préparer un terrain ou des contres que le salon retire.</td></tr>
+        <tr><td>Identité et accès</td><td>Anonymous Players, révélation individuelle, liste blanche</td><td>L'anonymat est une règle du salon, pas une préférence d'affichage locale.</td></tr>
+      </tbody>
+    </table>
+
+    <Callout type="warn" title="Ne cherchez pas les drapeaux de rotation publique dans Host">
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> existent dans la configuration des rotations publiques, mais v33.4 ne les expose pas comme commandes Host ordinaires.</p>
     </Callout>
+
+    <h2>À lire ensuite</h2>
+    <ul>
+      <li><a href={`${base}fr/guides/first-match/`}>Première partie</a> pour le spawn et la première expansion.</li>
+      <li><a href={`${base}fr/mechanics/alliances/`}>Alliances et trahison</a> pour le cycle par défaut de cinq minutes.</li>
+      <li><a href={`${base}fr/guides/water-nukes/`}>Water Nukes</a> et <a href={`${base}fr/guides/doomsday-clock/`}>Doomsday Clock</a> pour les deux règles qui transforment la partie.</li>
+    </ul>
+
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">HostLobbyModal.ts v0.33.4</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/Worker.ts" target="_blank" rel="noopener">Worker.ts</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> pour les limites de publication.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/issues/2489" target="_blank" rel="noopener">Issue #2489</a> pour les presets non livrés et <a href="https://github.com/openfrontio/OpenFrontIO/issues/4951" target="_blank" rel="noopener">Issue #4951</a> pour le risque de changement tardif signalé.</li>
+    </ul>
   </article>
 </BaseLayout>

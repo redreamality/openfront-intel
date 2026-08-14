@@ -2,47 +2,97 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Callout from '../../components/Callout.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Game Modes Overview" description="OpenFront.io FFA, Duos, Trios, Quads, Team, Tournament mode differences.">
-  <PageHeader eyebrow="MECHANICS · 10" title="Game Modes Overview" lead="Different modes have different victory conditions, map rotations, and team sizes. Pick the right mode before discussing tactics." />
+<BaseLayout title="Game Modes & Private Lobby Settings" description="Choose OpenFront.io v33.4 private lobby settings for fair friend games, team practice, mechanics tests, or repeated events.">
+  <PageHeader eyebrow="MECHANICS · 10" title="Game Modes & Private Lobby Settings" lead="Choose the purpose of the match first, then change only the settings that serve it. This avoids accidental one-sided rules and settings that do not exist in the normal Host menu." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <h2>Mode List</h2>
+    <Callout type="spec" title="Verified for OpenFront v33.4 · 14 August 2026">
+      <p>The normal Host menu offers FFA or Team, map and AI choices, spawn and timing rules, alliances, resources, special modes, disabled units, anonymous names, a whitelist, and Host Cheats. Internal public-playlist flags such as <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> are not normal Host-menu controls.</p>
+    </Callout>
+
+    <h2>Direct answer: choose a goal, not a preset name</h2>
+    <p>For a fair game with friends, keep Host Cheats off, disclose every global resource change, and use a whitelist if the link must stay private. For fixed-team practice, choose Team, keep Random Spawn off, and leave the automatic gold and troop donations enabled. Use Infinite Gold, Instant Build, disabled units, Water Nukes, or Doomsday only for a named drill. For tournaments or repeated rooms, publish a rules checklist and recheck the lobby before every start because named reusable presets are not available in v33.4.</p>
+
+    <h2>What the mode selector actually changes</h2>
     <table>
       <thead>
-        <tr><th>Mode</th><th>Team Size</th><th>Typical Victory</th><th>Focus</th></tr>
+        <tr><th>Choice</th><th>Use it for</th><th>Important boundary</th></tr>
       </thead>
       <tbody>
-        <tr><td>FFA (Free For All)</td><td>1</td><td>Territory / eliminate all</td><td>Diplomacy, balance, finding allies</td></tr>
-        <tr><td>Duos</td><td>2</td><td>Team controls 95% tiles</td><td>Division: diplomacy + main attacker</td></tr>
-        <tr><td>Trios</td><td>3</td><td>Team controls 95% tiles</td><td>Multi-front coordination, railway networks most valuable</td></tr>
-        <tr><td>Quads</td><td>4</td><td>Team controls 95% tiles</td><td>Continental warfare, coordinated nuclear strikes</td></tr>
-        <tr><td>Team</td><td>2v2~8v8</td><td>95% in 5 min / time-based %</td><td>Speed game, early-game decisive</td></tr>
-        <tr><td>Tournament</td><td>1v1 / 2v2 etc</td><td>Bracket-based</td><td>Symmetric balanced maps, skill-focused</td></tr>
+        <tr><td>FFA</td><td>Diplomacy, temporary alliances, solo victory</td><td>Custom alliances can be disabled with 0 minutes or set to 1-15 minutes; otherwise the game uses 5 minutes.</td></tr>
+        <tr><td>Team</td><td>Fixed sides and coordinated practice</td><td>Gold and troop donations turn on automatically. Team membership, not a custom alliance timer, defines the side.</td></tr>
+        <tr><td>Duos / Trios / Quads</td><td>Public playlist team sizes</td><td>These labels describe public rotations. In a private Host room, select Team and set the team count.</td></tr>
+        <tr><td>Special rules</td><td>Water Nukes, Doomsday, or a restricted-unit drill</td><td>They change the decision model of the match; announce them before players commit to a spawn.</td></tr>
       </tbody>
     </table>
-    <p>v24: Duos/Trios/Quads added to public lobby rotation (FakeNeo). Team mode auto-balances troop counts.</p>
 
-    <h2>Common Config Toggles</h2>
+    <h2>Four lobby plans that preserve the purpose of the match</h2>
+
+    <h3>1. Fair game with friends</h3>
     <ul>
-      <li><code>isAlliancesDisabled</code> — Disable alliances, pure power contest.</li>
-      <li><code>isPortsDisabled</code> — No ports (common for land-only maps).</li>
-      <li><code>isNukesDisabled</code> — No nukes, longer games.</li>
-      <li><code>isSAMsDisabled</code> — No SAM, nuclear dominance.</li>
-      <li><code>isPeaceTime</code> — Extended peace period, beginner-friendly.</li>
-      <li><code>isWaterNukes</code> — Nukes affect ocean tiles (coastal players beware).</li>
-      <li><code>spawnImmunityDuration</code> — Longer spawn immunity, more beginner-friendly.</li>
-      <li><code>goldMultiplier</code> — Direct economy scaling.</li>
+      <li><strong>Correct setup:</strong> keep Host Cheats off; use a whitelist for invited players; keep standard resources unless everyone accepts the same global Starting Gold, Gold Multiplier, Infinite Gold/Troops, or Instant Build rule.</li>
+      <li><strong>Private link versus public listing:</strong> a whitelist or Host Cheats prevents the room from being publicly listed. Public hosted lobbies also require the host entitlement; sharing a private link does not.</li>
+      <li><strong>Failure case:</strong> a host adds one-sided cheats or changes resources just before starting. Reopen the lobby settings and wait for explicit agreement after any material change.</li>
+      <li><strong>Player response:</strong> do not treat the join link as consent to later rules. Leave before spawn if the displayed settings do not match the agreed game.</li>
     </ul>
 
-    <h2>Mode Selection Guide</h2>
-    <Callout type="tip" title="By Experience Level">
-      <ul>
-        <li><strong>First time</strong>: Single player + Easy/Medium nations, enable <code>isPeaceTime</code> to reduce early rushes.</li>
-        <li><strong>Under 10 games</strong>: Duos/Trios with friends, low coordination overhead.</li>
-        <li><strong>Interested in diplomacy</strong>: FFA, diplomacy is the core experience.</li>
-        <li><strong>Want speed</strong>: Team mode, 5-minute games, pure military no nukes.</li>
-      </ul>
+    <h3>2. Fixed-team coordination practice</h3>
+    <ul>
+      <li><strong>Correct setup:</strong> choose Team, set the intended number of teams, and keep Random Spawn off when teammates need to practise adjacent starts or planned fronts.</li>
+      <li><strong>Built-in behavior:</strong> Team turns on gold and troop donations automatically, so do not invent a second hidden step.</li>
+      <li><strong>Failure case:</strong> Random Spawn breaks a drill that assumes known teammates and nearby openings. Restart with selectable spawns instead of judging the plan from the wrong setup.</li>
+      <li><strong>Opponent response:</strong> if the goal is pressure testing, agree on compact maps, immunity, and AI counts in advance so one side cannot quietly lower early contact.</li>
+    </ul>
+
+    <h3>3. Mechanics test or teaching demo</h3>
+    <ul>
+      <li><strong>Correct setup:</strong> use global Infinite Gold/Troops, Instant Build, Starting Gold, or multipliers for symmetric tests. Use Host Cheats only when a single presenter deliberately needs asymmetric resources.</li>
+      <li><strong>Isolate one variable:</strong> disable selected units for a specific counter drill; do not present one disabled-unit list as universally best.</li>
+      <li><strong>Special modes:</strong> Water Nukes changes terrain and coastlines; Doomsday changes expansion and survival thresholds. Read the dedicated guides before using either as a normal-match comparison.</li>
+      <li><strong>Failure case:</strong> results from accelerated resources or host-only cheats do not prove a build works under the normal economy.</li>
+    </ul>
+
+    <h3>4. Tournament or repeated-room workflow</h3>
+    <ul>
+      <li><strong>Publish a checklist:</strong> mode, teams, map policy, Random Spawn, anonymous/revealed names, whitelist, alliance duration, resources, disabled units, immunity, time limit, and special modes.</li>
+      <li><strong>No saved named preset yet:</strong> the approved preset request is targeted at v34 but is still open. Reusing a private room link does not prove every setting was restored.</li>
+      <li><strong>Before every start:</strong> compare the visible settings with the checklist and pause after a change so all players can review it.</li>
+      <li><strong>Failure case:</strong> starting immediately after a material change creates a rules dispute that the current lobby does not prevent for you.</li>
+    </ul>
+
+    <h2>Current Host controls, grouped by decision</h2>
+    <table>
+      <thead>
+        <tr><th>Decision</th><th>Current v33.4 controls</th><th>What can go wrong</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Match structure</td><td>Map/Random Map, FFA/Team, teams, difficulty, 0-400 Bots, 0-400 Nations</td><td>Too much AI can hide whether a player plan works against humans.</td></tr>
+        <tr><td>Spawn and tempo</td><td>Random Spawn, Compact Map, 0-120 min immunity, 1-120 min match limit, 0-600 sec start delay</td><td>Changing contact distance or immunity invalidates an opening comparison.</td></tr>
+        <tr><td>Diplomacy and economy</td><td>Gold/troop donations, 0-15 min custom alliances, multipliers, Starting Gold, Infinite Gold/Troops, Instant Build</td><td>Resource shortcuts or alliance changes can quietly redefine a fair match.</td></tr>
+        <tr><td>Special rules</td><td>Water Nukes, Doomsday speed, disabled units</td><td>Players may prepare for standard terrain or counters that the room removes.</td></tr>
+        <tr><td>Identity and access</td><td>Anonymous Players, per-player name reveal, whitelist</td><td>Anonymous mode is a room rule; it is not the same as a player's local display preference.</td></tr>
+      </tbody>
+    </table>
+
+    <Callout type="warn" title="Do not look for public modifier flags in the Host menu">
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> exist in the game configuration used by public rotations, but v33.4 does not expose them as ordinary Host controls. Use the settings the lobby actually shows; do not plan a private match around an internal field name.</p>
     </Callout>
+
+    <h2>Next reading</h2>
+    <ul>
+      <li><a href={`${base}guides/first-match/`}>First match</a> for spawn choice and the first expansion.</li>
+      <li><a href={`${base}mechanics/alliances/`}>Alliances and betrayal</a> for the default five-minute lifecycle and its combat costs.</li>
+      <li><a href={`${base}guides/water-nukes/`}>Water Nukes</a> and <a href={`${base}guides/doomsday-clock/`}>Doomsday Clock</a> for the two special rules that change the whole match.</li>
+    </ul>
+
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">v0.33.4 HostLobbyModal.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a> for visible controls and Team behavior.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/Worker.ts" target="_blank" rel="noopener">Worker.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> for public-listing restrictions.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/issues/2489" target="_blank" rel="noopener">Issue #2489</a> for the not-yet-shipped preset workflow and <a href="https://github.com/openfrontio/OpenFrontIO/issues/4951" target="_blank" rel="noopener">Issue #4951</a> for the reported last-second rule-change risk.</li>
+    </ul>
   </article>
 </BaseLayout>

@@ -2,7 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
-const faqs = [
+type Faq = { q: string; a: string; href?: string; linkLabel?: string };
+
+const faqs: Faq[] = [
   {
     q: 'OpenFront.io 是什么？',
     a: 'OpenFront.io 是一款基于真实地理与抽象地图的在线实时策略游戏，玩家通过扩张领土、建立同盟、发射核武器在不同地图上竞争。它由 evanpelle 维护，源码以 AGPL-3.0 开源。',
@@ -37,7 +39,9 @@ const faqs = [
   },
   {
     q: '我能不能改默认设置？',
-    a: '私密大厅可调整：goldMultiplier、isPeaceTime、isNukesDisabled、isSAMsDisabled、isAlliancesDisabled、isWaterNukes、spawnImmunityDuration。公开大厅按当前模式预设。',
+    a: '能。v33.4 私人房主可调整队伍、出生与时序、同盟、资源、特殊模式、禁用单位、匿名名称、白名单和 Host Cheats；部分公开轮换内部字段并不是普通 Host 控件。',
+    href: '/zh/mechanics/modes/',
+    linkLabel: '按对局目标选择私人房设置。',
   },
   {
     q: '本站的数据可靠吗？',
@@ -53,7 +57,9 @@ const faqs = [
       {faqs.map((f) => (
         <div class="rounded border border-iron-800 bg-iron-900/40 px-5 py-4">
           <dt class="text-base font-semibold text-cannon-400">Q · {f.q}</dt>
-          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">A · {f.a}</dd>
+          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">
+            A · {f.a}{f.href && <> <a class="text-cannon-400 hover:text-cannon-300" href={f.href}>{f.linkLabel}</a></>}
+          </dd>
         </div>
       ))}
     </dl>

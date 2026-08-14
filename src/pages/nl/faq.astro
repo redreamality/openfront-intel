@@ -2,7 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
-const faqs = [
+type Faq = { q: string; a: string; href?: string; linkLabel?: string };
+
+const faqs: Faq[] = [
   {
     q: 'Wat is OpenFront.io?',
     a: 'OpenFront.io is een online realtimestrategiespel gebaseerd op echte geografie en abstracte kaarten waarin spelers concurreren door territorium uit te breiden, allianties te sluiten en kernwapens te lanceren op verschillende kaarten. Het wordt onderhouden door evanpelle en de broncode is open source onder AGPL-3.0.',
@@ -37,7 +39,9 @@ const faqs = [
   },
   {
     q: 'Kan ik de standaardinstellingen wijzigen?',
-    a: 'In private lobbies kun je aanpassen: goldMultiplier, isPeaceTime, isNukesDisabled, isSAMsDisabled, isAlliancesDisabled, isWaterNukes, spawnImmunityDuration. Openbare lobbies gebruiken vaste presets per modus.',
+    a: 'Ja. In v33.4 kan een privéhost teams, spawn en tijd, allianties, grondstoffen, speciale modi, verboden eenheden, anonieme namen, whitelist en Host Cheats instellen. Sommige interne openbare-playlistvelden zijn geen gewone Host-bediening.',
+    href: '/nl/mechanics/modes/',
+    linkLabel: 'Kies privélobby-instellingen op basis van het doel.',
   },
   {
     q: 'Zijn de gegevens op deze site betrouwbaar?',
@@ -53,7 +57,9 @@ const faqs = [
       {faqs.map((f) => (
         <div class="rounded border border-iron-800 bg-iron-900/40 px-5 py-4">
           <dt class="text-base font-semibold text-cannon-400">V · {f.q}</dt>
-          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">A · {f.a}</dd>
+          <dd class="mt-2 text-sm text-iron-300 leading-relaxed">
+            A · {f.a}{f.href && <> <a class="text-cannon-400 hover:text-cannon-300" href={f.href}>{f.linkLabel}</a></>}
+          </dd>
         </div>
       ))}
     </dl>
