@@ -153,6 +153,8 @@
 
 2026-08-15 事实纠错：正式 v33.4 的设置界面没有 `F` 全选战舰、图形重置 `R` 和 `Shift` 框选战舰的独立设置项；上游 `ead15d8` 才在未发布 main 中补齐。五语 shortcuts / hotkeys 的“每个键都可重映射”会让玩家寻找不存在的选项，因此重新打开 `FRESH-01`，在既有查键页与训练页内纠正当前正式版边界，不新增路由，也不把 main 能力写成已发布规则。
 
+2026-08-15 交付结果：五语 shortcuts / hotkeys 的正式与未发布边界、来源包及内容 e2e 已由 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 合并，`FRESH-01` 再次关闭。`MAP-01` 已证明 Caribbean 与 Danish Straits 的地形决策差异，但没有精确需求，继续 Incubation、不创建模板地图页。
+
 2026-08-05 合并权限校准：用户确认后续自动化 PR 无需再次人工审阅。内容与来源门禁、完整验证、最新 main 基线、无重叠冲突和远端 SHA 核验继续保留；全部满足后由自动化直接 squash merge，失败或状态不确定时停止合并并报告，不以“自动合并”降低质量门槛。
 
 2026-08-05 执行工作区校准：用户要求定时任务不再创建 worktree。每轮只能在配置的本地项目目录中，从已同步且干净的 main 创建本地主题分支；启动时只豁免未跟踪的 `.cache/**` 本地缓存，任何已修改/暂存文件或其他未跟踪文件都必须停止。每个 PR 合入后必须切回并 fast-forward-only 同步 main，再领取下一项。
@@ -163,7 +165,7 @@
 
 ### Production：玩家内容交付
 
-`FRESH-01` 于 2026-08-15 因 v33.4 键位重映射事实错误重新打开：五语 `/shortcuts/` 与 `/guides/hotkeys/` 要区分当前固定的 `F`、图形重置 `R`、框选 `Shift` 与未发布可配置能力。`ROOM-01` 已于 2026-08-14 完成并关闭，独立 `/guides/private-room-settings/` 候选取消；`ECON-01`、`CTRL-01` 与 `DOOM-01` 也保持关闭。正式 Release 仍优先，但只更新真正改变玩家决策的总览与常青主答案，不为小修复制造薄页。
+`FRESH-01` 的 v33.4 键位边界纠错已于 2026-08-15 通过 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 完成并关闭；五语 `/shortcuts/` 与 `/guides/hotkeys/` 已区分固定的 `F`、图形重置 `R`、框选 `Shift` 与未发布可配置能力。`ROOM-01`、`ECON-01`、`CTRL-01` 与 `DOOM-01` 也保持关闭，当前没有主动 Production 项。正式 Release 仍优先，但只更新真正改变玩家决策的总览与常青主答案，不为小修复制造薄页。
 
 ### Monitoring：已交付结果验证
 

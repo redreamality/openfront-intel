@@ -114,9 +114,9 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前周目标
 
-- 战役：`FRESH-01` 因 v33.4 键位重映射事实错误重新进入 Production；`NUKE-01` 留在 Monitoring，`MAP-01` 完成第一轮来源孵化但不晋级。
+- 战役：`FRESH-01` 的 v33.4 键位重映射事实纠错已完成并关闭；`NUKE-01` 留在 Monitoring，`MAP-01` 完成第一轮来源孵化但不晋级。
 - 玩家结果：玩家能分清 Settings 中可配置的动作与当前仍固定的 `F`、图形重置 `R`、框选 `Shift`，不再寻找正式版不存在的三个设置项，也不会把未发布 main 能力当成 v33.4 规则。
-- 当前计划项：Production 为 `FRESH-01` 键位边界纠错；Monitoring 为 `NUKE-01`；Incubation 为 `MAP-01` 与等待外部信号的 `ATTACK-01`。
+- 当前计划项：Production 在 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 合并后恢复为空；Monitoring 为 `NUKE-01`；Incubation 为 `MAP-01` 与等待外部信号的 `ATTACK-01`。
 - 完成条件：五语 `/shortcuts/` 与 `/guides/hotkeys/` 的直接答案、故障恢复和 FAQ 一致区分正式/未发布边界，正式 tag 与上游提交可核验，两组五语 e2e 锁定结论；不新增路由。
 
 ## 今日编辑判断
@@ -131,7 +131,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- Production：`FRESH-01` 的五语 shortcuts / hotkeys、来源包与回归已完成，等待 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 通过门禁；`ROOM-01` 已于 [PR #30](https://github.com/redreamality/openfront-intel/pull/30) 完成并关闭。
+- Production：`FRESH-01` 的五语 shortcuts / hotkeys、来源包与回归已由 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 合并为 `8926aad`，当前恢复为空；`ROOM-01` 已于 [PR #30](https://github.com/redreamality/openfront-intel/pull/30) 完成并关闭。
 - Monitoring：`NUKE-01` 的入口与收录已完成。本轮 7/28 天 GSC 主动刷新及唯一重试均超时，回退缓存仍截止 2026-08-10，未到至少 8 月 11 日且后切片有行的决策点，直接跳过。
 - Incubation：`MAP-01` 已确认 Caribbean 与 Danish Straits 有独特地形决策，但没有精确需求证据，继续孵化、不建页；`ATTACK-01` 等待 #4237 明确或真实重复需求；`SPAWN-01` 与 `ROOM-01` 均已合并取消。
 
@@ -141,7 +141,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | Production 内容与验证已完成；v33.4 没有 `F` 全选、图形重置 `R`、框选 `Shift` 的设置项，上游 `ead15d8` 才在未发布 main 补齐；五语 shortcuts / hotkeys 已纠正“全部可重映射”错误 | [PR #31](https://github.com/redreamality/openfront-intel/pull/31) 通过门禁后关闭；下一正式 Release 包含 `ead15d8` 或 `c5c7d74` 时重新核验对应警告 |
+| `FRESH-01` | 已完成；v33.4 没有 `F` 全选、图形重置 `R`、框选 `Shift` 的设置项，上游 `ead15d8` 才在未发布 main 补齐；五语 shortcuts / hotkeys 已纠正“全部可重映射”错误，[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad` | 下一正式 Release 包含 `ead15d8` 或 `c5c7d74` 时重新核验并移除对应当前版本警告 |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
@@ -223,7 +223,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 语言、旧页与孵化结论：en、zh、fr、de、nl 同批完成 shortcuts / hotkeys；两类既有页面互链与其余键位表不变。Caribbean 约 10% 陆地、Danish Straits 约 55% 陆地且地形决策不同，但精确 GSC / Issues 需求为 0，`MAP-01` 继续 Incubation、不建模板页。
 - 视觉证据：五语 shortcuts 使用代码原生来源框、键位表和可核验文字，链接正式源码与未发布补齐提交；没有使用或伪造游戏截图，也没有交互变化。
 - 信号与验证：GSC 7/28 天刷新及各自唯一重试均无输出，回退 2026-08-13 生成、截止 2026-08-10 的未刷新缓存；严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产 build 230 页；内部链接 9,314 条、无断链；shortcuts / hotkeys 定向 e2e 20/20；完整 Playwright 257/257；构建生成 JSON 噪声已恢复。
-- 阻塞与 PR：无内容、语言或验证阻塞；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 将按自动化自有 PR 门禁核对最新 main、checks、评论、冲突、依赖和远端 head。定向 e2e 首轮 18/20 仅暴露法语 `Maj` 与荷兰语 `staan ze vast` 的本地化断言差异，按语种 case 修正后通过；该失败模式已有多语断言规则覆盖，不重复修改 `AGENTS.md`。
+- 阻塞与 PR：无内容、语言或验证阻塞；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 经最新 main、CLEAN/MERGEABLE、0 checks/statuses、0 review/评论/thread、单提交、精确范围和远端 head 门禁后 squash 合并为 `8926aad`，远端主题分支已删除。定向 e2e 首轮 18/20 仅暴露已有规则覆盖的多语断言差异；Git HTTPS push/fetch 各两次失败后按既有 API 恢复协议收口，本地重建 GitHub 签名 commit 时确认签名末尾空 continuation 行必须保留，对应新规则写入 `AGENTS.md`。
 
 ## 本次合规自检（2026-08-14，`ROOM-01` 私人房设置纠错）
 
@@ -408,7 +408,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
-- [x] 2026-08-15：完成 `FRESH-01` v33.4 键位重映射边界纠错；五语 `/shortcuts/` 与 `/guides/hotkeys/` 区分大多数可配置动作和固定的 `F` / 图形重置 `R` / 框选 `Shift`，正式与未发布来源可核验，完整回归 257/257 通过；交付于 [PR #31](https://github.com/redreamality/openfront-intel/pull/31)。`MAP-01` 继续 Incubation、不建页。
+- [x] 2026-08-15：完成 `FRESH-01` v33.4 键位重映射边界纠错；五语 `/shortcuts/` 与 `/guides/hotkeys/` 区分大多数可配置动作和固定的 `F` / 图形重置 `R` / 框选 `Shift`，正式与未发布来源可核验，完整回归 257/257 通过；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad`。`MAP-01` 继续 Incubation、不建页。
 - [x] 2026-08-14：完成 `ROOM-01`；五语 `/mechanics/modes/` 按四种房间目标纠正普通 Host UI 设置边界，FAQ 与 mechanics 索引提供两个自然入口，独立私人房攻略候选取消；完整回归 257/257 通过，交付于 [PR #30](https://github.com/redreamality/openfront-intel/pull/30)。
 - [x] 2026-08-13：完成 v33.4 Water Nukes 舰船绕路事实边界纠错；五语唯一主答案区分当前正式缺陷与未发布修复，加入两张真实前后截图，完整回归 252/252 通过；`SPAWN-01` 合并进 first-match 并取消重复独立页候选；交付于 [PR #28](https://github.com/redreamality/openfront-intel/pull/28)。
 - [x] 2026-08-12：完成正式 `v0.33.4` 的 `FRESH-01` 响应；五语 v33 总览、首页、shortcuts、hotkeys、Water Nukes 与核武机制同步批量操作和 Silo 发射时序，没有新建小版本或重复核武页面，完整回归 247/247 通过；[PR #23](https://github.com/redreamality/openfront-intel/pull/23) 已合并。
@@ -463,4 +463,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-12 | `ATTACK-01` 孵化 / 三通道迁移 | 收口 PR #25；把外部等待移出 Production，并为攻击比例形成稳定事实、双击风险和页面边界来源包；没有玩家页；交付 [PR #26](https://github.com/redreamality/openfront-intel/pull/26) | GSC 刷新至 2026-08-10；Water Nukes 混合窗口仍不可判定；攻击比例精确需求 1 次展现，上游 #4237 有 5 条讨论 | docs-only：严格 audit 40/40；diff/BOM/Markdown 链接和范围审计通过；无站点或交互变化 | `NUKE-01` 等有行的 8 月 11 日后切片；`ATTACK-01` 等 #4237 明确或真实重复需求 |
 | 2026-08-13 | `FRESH-01` Water Nukes + `SPAWN-01` | 五语 Water Nukes 唯一主答案补 v33.4 舰船绕路边界、未发布修复和真实前后截图；`SPAWN-01` 合并进 first-match 并取消重复独立页；交付 [PR #28](https://github.com/redreamality/openfront-intel/pull/28) | GSC 刷新至 2026-08-10：7 天 921/1,867，28 天 1,298/3,229；最新正式版仍为 v0.33.4；Issues 0、Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,289；发现性 5/5；完整 e2e 252/252；生成 JSON 噪声已恢复 | 正式 Release 包含 `c5c7d74` 后移除当前警告；下一 Incubation 锚点为 `ROOM-01` |
 | 2026-08-14 | `ROOM-01` | 五语 modes 按公平朋友局、固定队伍训练、机制实验和赛事连续多局提供当前 Host UI 可执行配置；FAQ 与 mechanics 索引导向唯一主答案，取消独立私人房页候选；交付 [PR #30](https://github.com/redreamality/openfront-intel/pull/30) | GSC 刷新及唯一重试均超时，回退到 2026-08-13 生成、截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 e2e 5/5；完整 e2e 257/257；生成 JSON 噪声已恢复 | Production 恢复为空；`MAP-01` 成为下一 Incubation 锚点，`NUKE-01` 等截止至少 8 月 11 日且后切片有行 |
-| 2026-08-15 | `FRESH-01` 键位边界 + `MAP-01` 孵化 | 五语 shortcuts / hotkeys 纠正 v33.4 “全部可重映射”错误，固定 `F` / 图形重置 `R` / 框选 `Shift` 与未发布补齐提交分开；无新路由；交付 [PR #31](https://github.com/redreamality/openfront-intel/pull/31) | GSC 刷新及唯一重试无输出，回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；地图地形差异成立但精确需求为 0 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 20/20；完整 e2e 257/257；diff/BOM/旧绝对说法审计通过 | Release 含 `ead15d8` 后移除固定警告；`MAP-01` 等真实问题或搜索意图；`NUKE-01` 等有效后切片 |
+| 2026-08-15 | `FRESH-01` 键位边界 + `MAP-01` 孵化 | 五语 shortcuts / hotkeys 纠正 v33.4 “全部可重映射”错误，固定 `F` / 图形重置 `R` / 框选 `Shift` 与未发布补齐提交分开；无新路由；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad` | GSC 刷新及唯一重试无输出，回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；地图地形差异成立但精确需求为 0 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 20/20；完整 e2e 257/257；diff/BOM/旧绝对说法审计通过 | Release 含 `ead15d8` 后移除固定警告；`MAP-01` 等真实问题或搜索意图；`NUKE-01` 等有效后切片 |
