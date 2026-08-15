@@ -208,3 +208,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **PowerShell 调原生命令时，含查询串 `&` 的 URL 必须整体单引号包裹**：例如 `gh api 'repos/owner/repo/issues?state=open&per_page=100'`；未引用的 `&` 会被 PowerShell 当运算符，在命令执行前直接解析失败。
 - **命令工具超时终止外层 `pnpm` 不保证回收 Node/Python 子进程**：GSC 等长请求超时后先用 `Get-CimInstance Win32_Process` 核对命令行和父子链，只终止本轮精确 PID，再确认残留为 0 后重试；不要让旧请求与唯一重试同时写同一缓存。
 - **按 CommandLine 清理进程时必须排除当前 PowerShell，且进程退出存在竞态**：宽泛匹配会把清理命令自身纳入并自终止；应先只读记录精确 PID，再逐个 `Stop-Process`，并把“检查后已自然退出”的 `ProcessCommandException` 视为 `ALREADY_EXITED` 后复核残留，而不是让清理脚本失败。
+- **通过 GitHub API 在本地重建带 `gpgsig` 的合并 commit 时，必须保留签名末尾换行对应的空 continuation 行**：`verification.signature` 的终止换行不能先 `trim` 掉；应把签名首行写为 `gpgsig ...`、每个后续行（包括最后的空行）前置一个空格，再拼接 payload 正文。写对象和 `update-ref` 前先用 `git hash-object -t commit --stdin` 核对结果与 GitHub SHA 完全一致，否则会得到不同 commit。
