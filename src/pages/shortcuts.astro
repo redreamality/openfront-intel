@@ -99,14 +99,19 @@ const groups: Group[] = [
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Shortcuts"
-    lead="Every default keyboard shortcut, mouse control, and build hotkey in OpenFront.io, grouped for fast lookup. Since v24 every key can be remapped (and a few unbound) in Settings → Keybindings. On macOS, read Ctrl as Cmd."
+    lead="Every default keyboard shortcut, mouse control, and build hotkey in OpenFront.io, grouped for fast lookup. Since v24 most action bindings can be remapped (and some unbound) in Settings → Keybindings; v33.4 still has the fixed exceptions below. On macOS, read Ctrl as Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">Applies to v33.4 · verified August 12, 2026.</strong>
+      <strong class="text-iron-100">Applies to v33.4 · verified August 15, 2026.</strong>
       Double-press the same build key to toggle x1 / x5 for an existing upgrade or Atom Bomb. The radial menu offers structure x1/x5/x10/xMax and Atom Bomb x1/x2/x5/xMax batches; Gold and loaded Silo tubes cap xMax.
     </p>
+
+    <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
+      <strong class="text-cannon-300">v33.4 remapping boundary.</strong>
+      Settings → Keybindings can change many actions, but it has no dedicated entry for <kbd class="kbd">F</kbd> select-all-warships, the <kbd class="kbd">R</kbd> half of graphics reset, or <kbd class="kbd">Shift</kbd> + drag warship box selection. Keep those defaults in the current release. An <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/UserSettingModal.ts">official v33.4 source check</a> shows the entries are absent; an <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/commit/ead15d8d1428697d8fc0d1221b849892bbb8c163">unreleased upstream change</a> adds them.
+    </aside>
 
     <a
       href={guideHref}
@@ -146,7 +151,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      These are the v33.4 in-game defaults (Settings → Keybindings), verified against the official tag. If a key behaves differently for you, check whether it has been rebound.
+      These are the v33.4 in-game defaults, verified against the official tag. Most settings entries can be rebound; <kbd class="kbd">F</kbd>, graphics-reset <kbd class="kbd">R</kbd>, and warship box-select <kbd class="kbd">Shift</kbd> are fixed in this release.
     </p>
   </section>
 </BaseLayout>
