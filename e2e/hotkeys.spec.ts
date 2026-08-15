@@ -14,6 +14,7 @@ const cases = [
     // 头部问答标题里的关键短语
     repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
+    fixedBoundary: 'graphics-reset R, and Shift + drag box selection are fixed',
     referenceHrefEnd: '/shortcuts/',
   },
   {
@@ -24,6 +25,7 @@ const cases = [
     hydrogen: '氢弹',
     repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
+    fixedBoundary: 'F 全选、图形重置 R 和 Shift + 拖动框选仍是固定键',
     referenceHrefEnd: '/zh/shortcuts/',
   },
   {
@@ -34,6 +36,7 @@ const cases = [
     hydrogen: 'bombe à hydrogène',
     repeatHeading: /Comment les joueurs lancent-ils des nukes aussi vite/i,
     cityRow: /Ville/,
+    fixedBoundary: 'restent fixes',
     referenceHrefEnd: '/fr/shortcuts/',
   },
   {
@@ -44,6 +47,7 @@ const cases = [
     hydrogen: 'Wasserstoffbombe',
     repeatHeading: /Wie feuern Spieler Nukes so schnell/i,
     cityRow: /City/,
+    fixedBoundary: 'bleiben fest',
     referenceHrefEnd: '/de/shortcuts/',
   },
   {
@@ -54,6 +58,7 @@ const cases = [
     hydrogen: 'Waterstofbom',
     repeatHeading: /Hoe vuren spelers zo snel nukes af/i,
     cityRow: /Stad/,
+    fixedBoundary: 'staan ze vast',
     referenceHrefEnd: '/nl/shortcuts/',
   },
 ];
@@ -85,5 +90,8 @@ for (const c of cases) {
     await expect(main).not.toContainText('Attack mode (towards the cursor)');
     await expect(main).not.toContainText('攻击模式（朝鼠标方向）');
     await expect(main).not.toContainText('召出 Build 菜单');
+
+    // FRESH-01：故障恢复与 FAQ 不能再声称 v33.4 的每个键都可重映射。
+    await expect(main).toContainText(c.fixedBoundary);
   });
 }

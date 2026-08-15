@@ -4,6 +4,11 @@ import { test, expect } from '@playwright/test';
 // 约定同 breadcrumb.spec.ts：只等 domcontentloaded（BaseLayout 内联 gtag 异步脚本，'load' 本机可能 30s 不触发）。
 // 文案按语种参数化：zh 断言「快捷键 / 城市」而非英文。
 
+const officialKeybindingSource =
+  'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/UserSettingModal.ts';
+const unreleasedKeybindingChange =
+  'https://github.com/openfrontio/OpenFrontIO/commit/ead15d8d1428697d8fc0d1221b849892bbb8c163';
+
 const cases = [
   {
     lang: 'en',
@@ -18,6 +23,8 @@ const cases = [
     nukesHrefEnd: '/mechanics/nukes/',
     rightClick: 'Cancel an active Warship',
     bulk: 'x1/x2/x5/xMax',
+    fixed: 'Keep those defaults in the current release',
+    boxSelectKey: 'Shift',
     bcAria: 'Breadcrumb',
     home: 'Home',
   },
@@ -34,6 +41,8 @@ const cases = [
     nukesHrefEnd: '/zh/mechanics/nukes/',
     rightClick: '取消当前战舰',
     bulk: 'x1/x2/x5/xMax',
+    fixed: '当前正式版须保留这些默认键',
+    boxSelectKey: 'Shift',
     bcAria: '面包屑导航',
     home: '首页',
   },
@@ -50,6 +59,8 @@ const cases = [
     nukesHrefEnd: '/fr/mechanics/nukes/',
     rightClick: 'annuler une sélection active',
     bulk: 'x1/x2/x5/xMax',
+    fixed: 'Gardez ces touches par défaut dans la version actuelle',
+    boxSelectKey: 'Maj',
     bcAria: 'Fil d’Ariane',
     home: 'Accueil',
   },
@@ -66,6 +77,8 @@ const cases = [
     nukesHrefEnd: '/de/mechanics/nukes/',
     rightClick: 'aktive Warship',
     bulk: 'x1/x2/x5/xMax',
+    fixed: 'Behalte diese Standardtasten in der aktuellen Version',
+    boxSelectKey: 'Shift',
     bcAria: 'Brotkrümelnavigation',
     home: 'Startseite',
   },
@@ -82,6 +95,8 @@ const cases = [
     nukesHrefEnd: '/nl/mechanics/nukes/',
     rightClick: 'actieve oorlogsschip',
     bulk: 'x1/x2/x5/xMax',
+    fixed: 'Houd deze standaardtoetsen in de huidige versie aan',
+    boxSelectKey: 'Shift',
     bcAria: 'Kruimelpad',
     home: 'Home',
   },
@@ -111,6 +126,14 @@ for (const c of cases) {
     await expect(page.locator('main')).toContainText('v33.4');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
+
+    // FRESH-01：正式 v33.4 仍有三个固定工作流，未发布提交才补设置项。
+    const boundary = page.locator('[data-keybinding-boundary]');
+    await expect(boundary).toHaveCount(1);
+    await expect(boundary).toContainText(c.fixed);
+    await expect(boundary.locator('kbd')).toHaveText(['F', 'R', c.boxSelectKey]);
+    await expect(boundary.locator(`a[href="${officialKeybindingSource}"]`)).toHaveCount(1);
+    await expect(boundary.locator(`a[href="${unreleasedKeybindingChange}"]`)).toHaveCount(1);
   });
 
   test(`shortcuts[${c.lang}] 主导航含快捷键入口`, async ({ page }) => {
