@@ -51,14 +51,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 uses the official v0.33.4 Release URL', async ({ page }) => {
+test('changelog v33 uses the official v0.33.5 Release URL', async ({ page }) => {
   await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5',
   );
 });
 
@@ -108,6 +108,8 @@ const privateLobbyCases = [
     faqPath: '/faq/',
     headings: ['Fair game with friends', 'Fixed-team coordination practice', 'Mechanics test or teaching demo', 'Tournament or repeated-room workflow'],
     facts: ['Host Cheats', 'Random Spawn', '0-15 min custom alliances', 'No saved named preset yet'],
+    managedHeading: 'What v33.5 changes for managed lobbies',
+    managedFacts: ['Custom label and longer listing window', 'Pinned teams at game creation', 'no pinned-team button', 'x5 ghost badge'],
   },
   {
     lang: 'zh',
@@ -116,6 +118,8 @@ const privateLobbyCases = [
     faqPath: '/zh/faq/',
     headings: ['公平朋友局', '固定队伍协同训练', '机制实验或教学演示', '赛事或连续多局'],
     facts: ['Host Cheats', 'Random Spawn', '0-15 分钟自定义同盟', '当前没有具名预设'],
+    managedHeading: 'v33.5 对受管大厅改变了什么',
+    managedFacts: ['自定义标签与更长展示窗口', '创建对局时固定队伍', '没有固定队伍按钮', 'x5 ghost badge'],
   },
   {
     lang: 'fr',
@@ -124,6 +128,8 @@ const privateLobbyCases = [
     faqPath: '/fr/faq/',
     headings: ['Partie équitable entre amis', "Entraînement d'une équipe fixe", 'Test de mécanique ou démonstration', 'Tournoi ou série de salons'],
     facts: ['Host Cheats', 'Random Spawn', "alliances 0-15 min", 'Pas encore de preset nommé'],
+    managedHeading: 'Ce que v33.5 change pour les salons gérés',
+    managedFacts: ['Label personnalisé et liste prolongée', 'Équipes fixées à la création', 'aucun bouton d’équipe fixée', 'Badge fantôme x5'],
   },
   {
     lang: 'de',
@@ -132,6 +138,8 @@ const privateLobbyCases = [
     faqPath: '/de/faq/',
     headings: ['Faire Freundesrunde', 'Training eines festen Teams', 'Mechaniktest oder Lehrdemo', 'Turnier oder wiederholte Räume'],
     facts: ['Host Cheats', 'Random Spawn', 'Bündnisse 0-15 Min.', 'Noch kein benannter Preset'],
+    managedHeading: 'Was v33.5 bei verwalteten Lobbys ändert',
+    managedFacts: ['Eigenes Label und längeres Listing', 'Fixierte Teams bei Erstellung', 'keinen Fixierknopf', 'x5-Ghost-Badge'],
   },
   {
     lang: 'nl',
@@ -140,21 +148,28 @@ const privateLobbyCases = [
     faqPath: '/nl/faq/',
     headings: ['Eerlijk spel met vrienden', 'Training met een vast team', 'Mechanicatest of demonstratie', 'Toernooi of terugkerende lobby'],
     facts: ['Host Cheats', 'Random Spawn', 'allianties 0-15 min', 'Nog geen benoemde preset'],
+    managedHeading: 'Wat v33.5 voor beheerde lobby’s verandert',
+    managedFacts: ['Eigen label en langere plaatsing', 'Teams vastzetten bij aanmaak', 'geen vastzetknop', 'x5-ghostbadge'],
   },
 ];
 
 for (const lobbyCase of privateLobbyCases) {
-  test(`private lobby guide[${lobbyCase.lang}] reflects the v33.4 Host controls`, async ({ page }) => {
+  test(`private lobby guide[${lobbyCase.lang}] separates v33.5 managed lobbies from Host controls`, async ({ page }) => {
     await page.goto(lobbyCase.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
 
-    await expect(main).toContainText('v33.4');
+    await expect(main).toContainText('v33.5');
+    await expect(main.getByRole('heading', { level: 2, name: lobbyCase.managedHeading })).toBeVisible();
     for (const heading of lobbyCase.headings) {
       await expect(main.getByRole('heading', { level: 3, name: heading })).toBeVisible();
     }
     for (const fact of lobbyCase.facts) await expect(main).toContainText(fact);
+    for (const fact of lobbyCase.managedFacts) await expect(main).toContainText(fact);
 
-    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/2489"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/4951"]')).toHaveCount(1);
 
@@ -348,8 +363,12 @@ const v33Cases = [
     tribe: 'custom tribe names',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
     rot: 'territory rot',
-    batch: 'Press the same build key twice to toggle x1 / x5',
-    timing: 'One Silo releases its queued bombs one tick apart',
+    featured: 'Custom featured label and longer listing window',
+    pinned: 'Admin-pinned teams',
+    hostBoundary: 'No new pinned-team button in the ordinary Host UI',
+    ghost: 'x5 ghost badge at zero cost',
+    batch: 'Double-tapping the same number key does not build five new structures',
+    timing: 'A same-Silo salvo trails by one tick per bomb',
     single: 'New placements, Hydrogen Bombs, and MIRVs remain single actions',
   },
   {
@@ -362,8 +381,12 @@ const v33Cases = [
     tribe: '自定义 tribe 名称',
     thresholds: '2%、4%、7%、11%、17%、25%，最终到 35%',
     rot: '领土腐化',
-    batch: '同一建造键连按两次，会为可升级建筑或原子弹在 x1 / x5 间切换',
-    timing: '同一 Silo 的核弹每隔 1 tick 发出一枚',
+    featured: 'featured 自定义标签与更长展示窗口',
+    pinned: '管理员固定队伍',
+    hostBoundary: '普通 Host UI 没有新增固定队伍按钮',
+    ghost: '零成本时显示 x5 ghost badge',
+    batch: '同一数字键连按两次不会一次建造 5 座新建筑',
+    timing: '同一 Silo 内逐 tick 错开',
     single: '新建建筑、氢弹和 MIRV 仍是单次操作',
   },
   {
@@ -376,8 +399,12 @@ const v33Cases = [
     tribe: 'noms de tribe personnalisés',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
     rot: 'corruption territoriale',
-    batch: 'Appuyer deux fois sur la même touche de construction bascule entre x1 et x5',
-    timing: 'Un même Silo espace ses tirs d’un tick',
+    featured: 'Label featured et fenêtre de liste prolongée',
+    pinned: 'Équipes fixées par admin',
+    hostBoundary: 'Aucun nouveau bouton d’équipe fixée dans le Host ordinaire',
+    ghost: 'Badge fantôme x5 à coût nul',
+    batch: 'Deux pressions sur une touche numérique ne construisent pas cinq nouvelles structures',
+    timing: 'Les tirs d’un même Silo se suivent à un tick d’écart',
     single: 'nouvelle structure, Hydrogen Bomb et MIRV restent unitaires',
   },
   {
@@ -390,8 +417,12 @@ const v33Cases = [
     tribe: 'benutzerdefinierte Tribe-Namen',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
     rot: 'Gebietszerfall',
-    batch: 'Ein zweiter Druck auf denselben Bau-Hotkey',
-    timing: 'Dasselbe Silo startet seine Nukes mit je einem Tick Abstand',
+    featured: 'Eigenes Featured-Label und längeres Listing',
+    pinned: 'Von Admins fixierte Teams',
+    hostBoundary: 'Kein neuer Team-Fixierknopf im normalen Host-UI',
+    ghost: 'x5-Ghost-Badge bei Kosten null',
+    batch: 'Ein doppelter Druck auf eine Zahlentaste baut keine fünf neuen Gebäude',
+    timing: 'Starts desselben Silos folgen im Tick-Abstand',
     single: 'Neubauten, Hydrogen Bomb und MIRV bleiben Einzelaktionen',
   },
   {
@@ -404,21 +435,29 @@ const v33Cases = [
     tribe: 'aangepaste tribe-namen',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
     rot: 'landrot',
-    batch: 'Druk dezelfde bouwtoets twee keer',
-    timing: 'Eén Silo vuurt zijn nukes met telkens één tick ertussen',
+    featured: 'Eigen featured label en langere zichtbaarheid',
+    pinned: 'Door admins vastgezette teams',
+    hostBoundary: 'Geen nieuwe teamknop in de gewone Host-UI',
+    ghost: 'x5-ghostbadge bij nul kosten',
+    batch: 'Twee keer op dezelfde cijfertoets drukken bouwt geen vijf nieuwe gebouwen',
+    timing: 'Lanceringen uit dezelfde Silo volgen per tick',
     single: 'nieuwbouw, Hydrogen Bomb en MIRV blijven enkele acties',
   },
 ];
 
 for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains the player-facing v33.4 changes`, async ({ page }) => {
+  test(`${v33Case.path} explains v33.5 managed lobbies and keeps v33.4 controls`, async ({ page }) => {
     await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(v33Case.grace);
     await expect(main).toContainText(v33Case.ranked);
     await expect(main).toContainText(v33Case.veteran);
     await expect(main).toContainText(v33Case.maps);
-    await expect(main).toContainText('v0.33.4');
+    await expect(main).toContainText('v0.33.5');
+    await expect(main).toContainText(v33Case.featured);
+    await expect(main).toContainText(v33Case.pinned);
+    await expect(main).toContainText(v33Case.hostBoundary);
+    await expect(main).toContainText(v33Case.ghost);
     await expect(main).toContainText(v33Case.replay);
     await expect(main).toContainText(v33Case.tribe);
     await expect(main).toContainText(v33Case.thresholds);
@@ -774,42 +813,42 @@ const waterNukePathfindingCases = [
   {
     lang: 'en',
     path: '/guides/water-nukes/',
-    limitation: 'Known v33.4 ship-route limitation',
+    limitation: 'Known v33.5 ship-route limitation',
     cost: 'three times the normal step cost',
     release: 'upcoming fix until a Release includes it',
   },
   {
     lang: 'zh',
     path: '/zh/guides/water-nukes/',
-    limitation: 'v33.4 已知舰船绕路问题',
+    limitation: 'v33.5 已知舰船绕路问题',
     cost: '单步成本提高到正常值的 3 倍',
     release: '只能把它视为即将发布的修复',
   },
   {
     lang: 'fr',
     path: '/fr/guides/water-nukes/',
-    limitation: 'Limite connue des routes navales en v33.4',
+    limitation: 'Limite connue des routes navales en v33.5',
     cost: 'un coût trois fois supérieur',
     release: 'Traitez-le comme un correctif à venir jusqu’à sa publication',
   },
   {
     lang: 'de',
     path: '/de/guides/water-nukes/',
-    limitation: 'Bekannte Schiffsweg-Einschränkung in v33.4',
+    limitation: 'Bekannte Schiffsweg-Einschränkung in v33.5',
     cost: 'dreifachen Schrittkostenwert',
     release: 'Bis zu einem Release bleibt er ein kommender Fix',
   },
   {
     lang: 'nl',
     path: '/nl/guides/water-nukes/',
-    limitation: 'Bekende beperking van scheepsroutes in v33.4',
+    limitation: 'Bekende beperking van scheepsroutes in v33.5',
     cost: 'drie keer de normale stapkosten',
     release: 'Behandel dit als een komende fix totdat een Release hem bevat',
   },
 ] as const;
 
 for (const pathfindingCase of waterNukePathfindingCases) {
-  test(`Water Nukes[${pathfindingCase.lang}] separates the v33.4 detour from the unreleased fix`, async ({ page }) => {
+  test(`Water Nukes[${pathfindingCase.lang}] separates the v33.5 detour from the unreleased fix`, async ({ page }) => {
     await page.goto(pathfindingCase.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(pathfindingCase.limitation);

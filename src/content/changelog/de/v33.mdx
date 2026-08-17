@@ -1,8 +1,8 @@
 ---
-title: 'v33.4: Mengen-Upgrades, versetzte Nuke-Salven, Doomsday und 22 Karten'
-description: 'Spielerorientierte OpenFront-v33.4-Notizen: Mengen-Upgrades, geladene Atom-Bomb-Salven, Silo-Taktung, Doomsday-Zerfall, MIRV-Abwehr, Ranked 2v2 und Karten.'
+title: 'v33.5: Featured-Lobbys, fixierte Teams und v33-Mengensteuerung'
+description: 'Spielerorientierte OpenFront-v33.5-Notizen: verwaltete Featured-Lobbys, von Admins fixierte Teams, sichtbare anonyme Teammitglieder, Infinite-Gold-Feedback und weiterhin gültige v33.4-Mengensteuerung.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-12
+updatedDate: 2026-08-16
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,15 +10,18 @@ category: Release Notes
 
 ## Direkte Antwort: Was ändert dein nächstes Match?
 
-Das offizielle Release `v0.33.4` ist der aktuelle veröffentlichte Eintrag der v33-Serie. Neu ist die Wahl zwischen einer Aktion und einem Paket: bestehende Gebäude-Upgrades und geladene Atom Bombs lassen sich gesammelt auslösen.
+Das offizielle Release `v0.33.5` ist der aktuelle veröffentlichte Eintrag der v33-Serie. Es verbessert verwaltete Events: Featured-Lobbys können ein eigenes Label tragen und länger gelistet bleiben, während per Adminbot erstellte Spiele Spieler festen Teams zuordnen können. Bei anonymen Namen erkennen sich diese fixierten Teammitglieder nun gegenseitig.
 
-Ein zweiter Druck auf denselben Bau-Hotkey schaltet bei einem passenden Upgrade oder einer Atom Bomb zwischen x1 und x5 um. Das Radialmenü bietet x1/x5/x10/xMax für Upgrades und x1/x2/x5/xMax für Atom Bombs.
+Das fügt dem normalen Host-Menü **keinen** Regler für fixierte Teams hinzu. Gewöhnliche Hosts wählen weiter Team und die sichtbaren Lobby-Einstellungen; die feste Zuordnung gehört zum Admin-Erstellungspfad. Infinite Gold zeigt bei Kosten null außerdem das x5-Ghost-Badge, doch das ist Feedback und keine neue Ressourcen- oder Mengenregel.
 
-Dasselbe Silo startet seine Nukes mit je einem Tick Abstand; mehrere bereite Silos können im selben Tick je eine Nuke starten. Gold, höchstens 50 Aktionen und bei Atom Bombs die Zahl geladener Rohre begrenzen das Paket.
+| v33.5-Änderung | Wer sich darauf verlassen kann | Wichtige Grenze |
+|---|---|---|
+| Eigenes Featured-Label und längeres Listing | Spieler in einem verwalteten Featured-Event | Nicht jede gehostete Lobby wird featured |
+| Von Admins fixierte Teams | Organisatoren mit dem Adminbot-Erstellungspfad | Kein neuer Team-Fixierknopf im normalen Host-UI |
+| Fixierte Teammitglieder unter anonymen Namen sichtbar | Bereits gemeinsam zugeordnete Spieler | Gegner bleiben nach Lobby-Regel anonym |
+| x5-Ghost-Badge bei Kosten null | Infinite-Gold-Übungen | Kosten und normale Mengenlimits ändern sich nicht |
 
-MIRV-Sprengköpfe fliegen wie normale Nukes und werden durch die reguläre SAM-Flugbahnlogik erfasst. Ein MIRV-Start setzt außerdem das Missile Silo auf Cooldown; dasselbe Silo kann nicht sofort nachfeuern.
-
-Der restliche v33-Umfang bleibt wichtig: Doomsday-Gebietszerfall kann nach 150 Sekunden eliminieren, MIRV bleibt eine Sättigungswaffe statt eines verlässlichen SAM-Bypasses, und Ranked 2v2, Veteranenstatus sowie 22 Karten bleiben aktiv.
+Die v33.4-Steuerung bleibt aktuell: passende Upgrades und geladene Atom Bombs lassen sich bündeln, ein Silo taktet seine Starts und getrennte bereite Silos können gemeinsam feuern. Doomsday-Zerfall, MIRV-Abfanglogik, Ranked 2v2, Veteranenstatus und 22 Karten bleiben ebenfalls aktiv.
 
 ## v33.4-Update: Menge wählen, dann Kapazität prüfen
 
@@ -103,6 +106,6 @@ Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Kart
 
 ## Quellenstatus
 
-GitHub markiert das offizielle Release `v0.33.4` als `draft=false` und `prerelease=false`; der Text enthält echte v33.4- und v33.3-Einträge statt eines TEST-Platzhalters. Diese Seite bleibt die einzige v33-Übersicht; neue Bedienung gehört in bestehende Antworten statt in einen dünnen Doppelartikel.
+GitHub markiert das offizielle Release `v0.33.5` als `draft=false` und `prerelease=false`; der Text enthält echte v33.5- bis v33.0-Einträge statt eines TEST-Platzhalters. Diese Seite bleibt die einzige v33-Übersicht; die Grenze verwalteter Lobbys gehört in die bestehende Modus-Antwort, Mengensteuerung weiter in Shortcut-, Nuke- und Water-Nukes-Antworten.
 
-Quellen: [offizielles v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [Mengenlimits und Kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [Tastatur-Umschaltung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiales Mengenmenü](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) und [Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Quellen: [offizielles v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [Adminbot-Erstellung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [Teams und anonyme Namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [normale Host-Regler](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [Mengenlimits und Kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [Tastatur-Umschaltung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiales Mengenmenü](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) und [Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

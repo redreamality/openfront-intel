@@ -7,7 +7,7 @@ tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v33
-freshnessSummary: "En v33.4, la nouvelle eau est navigable, mais les navires peuvent contourner un cratère Water Nukes ; le correctif est sur main, pas encore dans une Release."
+freshnessSummary: "En v33.5, la nouvelle eau est navigable, mais les navires peuvent encore contourner un cratère Water Nukes ; le correctif est sur main, pas encore dans une Release."
 ---
 
 ## Réponse directe : l'effet des Water Nukes
@@ -16,7 +16,7 @@ freshnessSummary: "En v33.4, la nouvelle eau est navigable, mais les navires peu
 
 Cette eau est un vrai terrain et les navires peuvent l'utiliser.
 
-En v33.4, la minicarte peut cependant garder une profondeur et un marquage d'océan erronés après la conversion. Le transport fonctionne, mais sa route peut contourner largement le cratère Water Nukes.
+En v33.5, la minicarte peut encore garder une profondeur et un marquage d'océan erronés après la conversion. Le transport fonctionne, mais sa route peut contourner largement le cratère Water Nukes.
 
 Le mode est désactivé par défaut. L'hôte peut l'activer dans les options. Les parties publiques concernées affichent un badge **Water Nukes** avant l'apparition des joueurs.
 
@@ -28,7 +28,7 @@ La v33.4 change le rythme, pas la conversion. Le menu radial propose des Atom Bo
 
 Un même Silo espace les bombes d’un tick ; plusieurs Silos prêts peuvent tirer ensemble. Plusieurs petits cratères arrivent donc plus vite, mais chaque impact garde la même fenêtre de reconquête avant conversion.
 
-## Limite connue des routes navales en v33.4
+## Limite connue des routes navales en v33.5
 
 Ne supposez pas que la ligne visible la plus courte dans un nouveau chenal sera la route du transport. L'eau convertie reste navigable, mais les tiles Water Nukes de la minicarte peuvent rester à magnitude 0 et perdre leur marqueur ocean.
 
@@ -40,7 +40,7 @@ Une route fonctionnelle mais longue expose le navire plus longtemps que ne le su
 
 L'[Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) montre le comportement en production. La [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalcule les marqueurs d'océan et la profondeur de la minicarte après conversion.
 
-Le commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) est fusionné dans `main`, mais il est postérieur à la dernière Release formelle `v0.33.4`. Traitez-le comme un correctif à venir jusqu'à sa publication.
+Le commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) est fusionné dans `main`, mais il reste postérieur à la dernière Release formelle `v0.33.5`. Traitez-le comme un correctif à venir jusqu'à sa publication.
 
 ![Capture officielle en production v33.4 : le transport contourne l'Afrique transformée par Water Nukes](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 

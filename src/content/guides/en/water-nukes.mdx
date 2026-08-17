@@ -7,7 +7,7 @@ tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
 version: v33
-freshnessSummary: "In v33.4 the new water works, but ship routes can detour around Water-Nuked areas; an upstream fix is merged but not yet in a formal Release."
+freshnessSummary: "In v33.5 the new water works, but ship routes can still detour around Water-Nuked areas; an upstream fix is merged but not yet in a formal Release."
 ---
 
 ## Direct answer: what are Water Nukes in OpenFront?
@@ -16,7 +16,7 @@ freshnessSummary: "In v33.4 the new water works, but ship routes can detour arou
 
 The new water is functional terrain, so ships can use water created during the match.
 
-In v33.4, however, the minimap can keep the wrong depth and ocean metadata after conversion. A transport still works, but its route may take a strange detour around the Water-Nuked area.
+In v33.5, however, the minimap can still keep the wrong depth and ocean metadata after conversion. A transport works, but its route may take a strange detour around the Water-Nuked area.
 
 The mode is off by default. A host can enable it in the game-options panel. Public games that use it display a **Water Nukes** modifier badge before players spawn.
 
@@ -28,9 +28,9 @@ v33.4 changes the tempo, not the conversion rule. Atom Bombs can be launched in 
 
 One Silo releases queued bombs one tick apart; separate ready Silos can launch on the same tick. That can create several small craters faster, but each impact still enters the same reclaim-before-conversion check.
 
-## Known v33.4 ship-route limitation
+## Known v33.5 ship-route limitation
 
-Do not assume that a channel's shortest visible line is the route a transport will take in v33.4. The converted water remains navigable, but Water-Nuked minimap tiles can stay at magnitude 0 and lose their ocean flag.
+Do not assume that a channel's shortest visible line is the route a transport will take in v33.5. The converted water remains navigable, but Water-Nuked minimap tiles can stay at magnitude 0 and lose their ocean flag.
 
 The water pathfinder then charges three times the normal step cost near those tiles. It also rejects some line-of-sight smoothing, so the route can bend around the crater instead of crossing it directly.
 
@@ -40,7 +40,7 @@ A working but indirect route can expose the ship for longer than the map shape s
 
 Upstream [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) documents the production behavior. [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalculates minimap ocean flags and depth after conversion.
 
-Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) is merged into `main`, but it is newer than the latest formal `v0.33.4` Release. Treat it as an upcoming fix until a Release includes it.
+Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) is merged into `main`, but it is still newer than the latest formal `v0.33.5` Release. Treat it as an upcoming fix until a Release includes it.
 
 ![Official upstream v33.4 production screenshot showing a transport route detouring around Water-Nuked Africa](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 

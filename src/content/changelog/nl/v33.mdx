@@ -1,8 +1,8 @@
 ---
-title: 'v33.4: bundelupgrades, gespreide nukesalvo’s, Doomsday en 22 kaarten'
-description: 'Spelersgerichte OpenFront v33.4-notities: bundelupgrades, geladen Atom Bomb-salvo’s, Silo-timing, Doomsday-landrot, MIRV-tegenspel, Ranked 2v2 en kaarten.'
+title: 'v33.5: featured lobby’s, vastgezette teams en v33-bundelbediening'
+description: 'Spelersgerichte OpenFront v33.5-notities: beheerde featured lobby’s, door admins vastgezette teams, zichtbare anonieme teamgenoten, Infinite Gold-feedback en geldige v33.4-bundelbediening.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-12
+updatedDate: 2026-08-16
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,15 +10,18 @@ category: Release Notes
 
 ## Direct antwoord: wat verandert je volgende partij?
 
-De officiële Release `v0.33.4` is het huidige gepubliceerde item van de v33-serie. De nieuwe keuze is één actie of een bundel: upgrades van bestaande gebouwen en geladen Atom Bombs kunnen nu als groep worden uitgevoerd.
+De officiële Release `v0.33.5` is het huidige gepubliceerde item van de v33-serie. Hij verbetert beheerde events: een featured lobby kan een eigen label krijgen en langer zichtbaar blijven, terwijl een spel dat via adminbot wordt gemaakt spelers in teams kan vastzetten. Met anonieme namen kunnen zulke vaste teamgenoten elkaar nu herkennen.
 
-Druk dezelfde bouwtoets twee keer om voor een geschikte upgrade of Atom Bomb tussen x1 en x5 te wisselen. Het radiale menu biedt x1/x5/x10/xMax voor upgrades en x1/x2/x5/xMax voor Atom Bombs.
+Dit voegt **geen** optie voor vastgezette teams toe aan het gewone Host-menu. Een normale host kiest nog steeds Team en de zichtbare lobbyinstellingen; de vaste indeling hoort bij het admin-aanmaakpad. Infinite Gold toont bij nul kosten ook de x5-ghostbadge, maar dat is feedback en geen nieuwe grondstof- of bundelregel.
 
-Eén Silo vuurt zijn nukes met telkens één tick ertussen; meerdere gereedstaande Silos kunnen in dezelfde tick elk een nuke lanceren. Goud, maximaal 50 acties en voor Atom Bombs het aantal geladen buizen begrenzen de bundel.
+| v33.5-wijziging | Wie erop kan rekenen | Belangrijke grens |
+|---|---|---|
+| Eigen featured label en langere zichtbaarheid | Spelers in een beheerd featured event | Niet elke gehoste lobby wordt featured |
+| Door admins vastgezette teams | Organisatoren met het adminbot-aanmaakpad | Geen nieuwe teamknop in de gewone Host-UI |
+| Vaste teamgenoten zichtbaar met anonieme namen | Spelers die al samen zijn ingedeeld | Tegenstanders blijven anoniem volgens de lobbyregel |
+| x5-ghostbadge bij nul kosten | Infinite Gold-oefeningen | Kosten en gewone bundellimieten veranderen niet |
 
-MIRV-kernkoppen vliegen als normale nukes en gaan door de gewone SAM-baanselectie. Een MIRV-lancering zet ook de Missile Silo op cooldown; dezelfde silo kan dus niet direct een tweede nuke afvuren.
-
-De rest van v33 blijft bepalend: Doomsday-landrot kan een zijde na 150 seconden uitschakelen, MIRV blijft een verzadigingswapen in plaats van een betrouwbare SAM-omzeiling, en Ranked 2v2, veterancy en 22 kaarten blijven actief.
+De v33.4-bediening blijft actueel: geschikte upgrades en geladen Atom Bombs kunnen in bundels, één Silo spreidt lanceringen per tick en verschillende gereedstaande Silos kunnen samen vuren. Doomsday-landrot, MIRV-onderschepping, Ranked 2v2, veterancy en de 22 kaarten blijven ook actief.
 
 ## v33.4-update: kies de bundel en controleer de capaciteit
 
@@ -103,6 +106,6 @@ De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**.
 
 ## Bronstatus
 
-GitHub markeert de officiële Release `v0.33.4` als `draft=false` en `prerelease=false`; de body bevat echte v33.4- en v33.3-items en geen TEST-placeholder. Deze pagina blijft het enige v33-overzicht; nieuwe bediening hoort in bestaande antwoorden en niet in een dun duplicaat.
+GitHub markeert de officiële Release `v0.33.5` als `draft=false` en `prerelease=false`; de body bevat echte v33.5- tot v33.0-items en geen TEST-placeholder. Deze pagina blijft het enige v33-overzicht; de grens van beheerde lobby’s hoort in het bestaande modes-antwoord, bundelbediening in de bestaande sneltoets-, nuke- en Water Nukes-antwoorden.
 
-Bronnen: [officiële v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [bundellimieten en kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [toetsenbordschakelaar](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiaal bundelmenu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) en [landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Bronnen: [officiële v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [adminbot-aanmaak](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [teams en anonieme namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [gewone Host-bediening](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bundellimieten en kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [toetsenbordschakelaar](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiaal bundelmenu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) en [landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

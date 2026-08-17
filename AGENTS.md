@@ -209,3 +209,6 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **命令工具超时终止外层 `pnpm` 不保证回收 Node/Python 子进程**：GSC 等长请求超时后先用 `Get-CimInstance Win32_Process` 核对命令行和父子链，只终止本轮精确 PID，再确认残留为 0 后重试；不要让旧请求与唯一重试同时写同一缓存。
 - **按 CommandLine 清理进程时必须排除当前 PowerShell，且进程退出存在竞态**：宽泛匹配会把清理命令自身纳入并自终止；应先只读记录精确 PID，再逐个 `Stop-Process`，并把“检查后已自然退出”的 `ProcessCommandException` 视为 `ALREADY_EXITED` 后复核残留，而不是让清理脚本失败。
 - **通过 GitHub API 在本地重建带 `gpgsig` 的合并 commit 时，必须保留签名末尾换行对应的空 continuation 行**：`verification.signature` 的终止换行不能先 `trim` 掉；应把签名首行写为 `gpgsig ...`、每个后续行（包括最后的空行）前置一个空格，再拼接 payload 正文。写对象和 `update-ref` 前先用 `git hash-object -t commit --stdin` 核对结果与 GitHub SHA 完全一致，否则会得到不同 commit。
+- **PowerShell 变量名不区分大小写，`$host` 会与只读自动变量 `$Host` 冲突**：主机名、仓库 owner 或临时响应不要命名为 `host`；使用 `$hostName`、`$repoOwner`、`$hostResponse` 等任务专用变量，避免 `Cannot overwrite variable Host because it is read-only or constant`。
+- **GSC OAuth `token.json` 缺失时不要在无头自动化中反复触发交互授权**：确认 token 不存在后立即回退最后有效缓存，明确记录截止日与未刷新状态；授权必须由用户在可见终端运行 `gsc_cli.py auth` 完成，后续自动化再恢复刷新。
+- **版本边界审计不能只搜索能力词组合而忽略否定语境**：例如“普通 Host UI 没有固定队伍按钮”是正确边界，粗糙正则会把它误报为能力声明；应只匹配明确的错误肯定陈述，或先排除 `没有`、`未`、`does not`、`no` 等否定上下文。
