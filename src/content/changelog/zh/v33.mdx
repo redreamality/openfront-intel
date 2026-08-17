@@ -1,8 +1,8 @@
 ---
-title: 'v33.4：批量升级、核弹错峰齐射、末日腐化与 22 张地图'
-description: '面向玩家的 OpenFront v33.4 版本笔记：建筑批量升级、已装填原子弹批量发射、同 Silo 错峰，以及末日领土腐化、MIRV 反制、排位 2v2 和地图。'
+title: 'v33.5：featured 大厅、固定队伍与 v33 批量操作'
+description: '面向玩家的 OpenFront v33.5 版本笔记：受管 featured 大厅、管理员固定队伍、匿名队友互见、Infinite Gold 反馈，以及仍有效的 v33.4 批量操作。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-12
+updatedDate: 2026-08-16
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
@@ -10,15 +10,18 @@ category: 版本笔记
 
 ## 直接答案：下一局最重要的变化是什么？
 
-官方 `v0.33.4` Release 是当前正式发布的 v33 系列条目。新决策是一次执行 1 次还是一批：已有建筑升级与已装填的原子弹现在可以批量下达，不必连续点击。
+官方 `v0.33.5` Release 是当前正式发布的 v33 条目。它主要改善受管活动：featured lobby 可以使用自定义标签并延长展示窗口，通过 adminbot 创建的对局可以预先固定玩家队伍；开启匿名名称时，已固定的队友现在也能彼此识别。
 
-同一建造键连按两次，会为可升级建筑或原子弹在 x1 / x5 间切换。径向菜单为建筑升级提供 x1/x5/x10/xMax，为原子弹提供 x1/x2/x5/xMax。
+这**不代表**普通 Host 菜单新增了“固定队伍”控件。普通房主仍应选择 Team 并使用大厅可见设置；固定队伍输入属于管理员创建对局的路径。Infinite Gold 在费用为零时会显示 x5 ghost badge，但这只是操作反馈，不是新的资源或批量规则。
 
-同一 Silo 的核弹每隔 1 tick 发出一枚；多个可用 Silo 仍能在同一 tick 各发一枚。批量数量受金币、最多 50 次操作，以及原子弹的已装填发射管数量共同限制。
+| v33.5 变化 | 谁可以依赖 | 必须记住的边界 |
+|---|---|---|
+| featured 自定义标签与更长展示窗口 | 加入受管 featured 活动的玩家 | 不是所有 hosted lobby 都会自动 featured |
+| 管理员固定队伍 | 使用 adminbot 创建对局的组织者 | 普通 Host UI 没有新增固定队伍按钮 |
+| 匿名名称下固定队友互见 | 已被预先分到同队的玩家 | 对手仍按房间匿名规则隐藏 |
+| 零成本时显示 x5 ghost badge | Infinite Gold 练习局 | 成本与普通批量上限没有被重写 |
 
-MIRV 分裂弹头会像普通核弹一样飞行，并进入常规 SAM 弹道拦截系统。发射 MIRV 也会让对应 Missile Silo 进入冷却，同一发射井不能立刻补第二枚核弹。
-
-v33 系列其余变化仍然有效：末日领土腐化可在 150 秒后淘汰阵营；MIRV 是压垮防空弹量的武器而非稳定绕过 SAM 的捷径；Ranked 2v2、战舰熟练度与 22 张新地图也仍然有效。
+v33.4 的操作仍是现行规则：可升级建筑与已装填原子弹可以批量下达；同一 Silo 的核弹逐 tick 发射，不同可用 Silo 可以并发。末日领土腐化、MIRV 拦截、Ranked 2v2、战舰熟练度和 22 张新地图也仍然有效。
 
 ## v33.4 更新：先选批量，再核对容量
 
@@ -103,6 +106,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.4` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.4 与 v33.3 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；新操作由既有快捷键、核武与 Water Nukes 主答案承接，不另造重复薄页。
+GitHub 将官方 `v0.33.5` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.5 至 v33.0 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；受管大厅边界由既有 modes 主答案承接，批量操作继续由快捷键、核武与 Water Nukes 主答案承接。
 
-来源：[官方 v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)、[键盘切换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts)、[径向批量菜单](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts)、[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)与[领土腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)。
+来源：[官方 v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[队伍与匿名名称处理](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts)、[普通 Host 控件](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)、[键盘切换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts)、[径向批量菜单](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts)、[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)与[领土腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)。

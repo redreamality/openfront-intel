@@ -6,15 +6,26 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Spielmodi und private Lobby-Einstellungen" description="Passende OpenFront.io-v33.4-Einstellungen für faire Freundesrunden, Teamtraining, Tests oder Turniere.">
+<BaseLayout title="Spielmodi und private Lobby-Einstellungen" description="OpenFront.io-v33.5-Einstellungen wählen und normale Host-Regler von verwalteten Featured-Lobbys und Admin-Teams unterscheiden.">
   <PageHeader eyebrow="MECHANIK · 10" title="Spielmodi und private Lobby-Einstellungen" lead="Lege zuerst das Ziel der Partie fest und ändere nur Einstellungen, die diesem Ziel dienen. So vermeidest du versteckte Vorteile und Schalter, die es im normalen Host-Menü nicht gibt." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Für OpenFront v33.4 geprüft · 14. August 2026">
+    <Callout type="spec" title="Für OpenFront v33.5 geprüft · 16. August 2026">
       <p>Das normale Host-Menü bietet FFA oder Team, Karte und KI, Spawn und Zeit, Bündnisse, Ressourcen, Spezialmodi, gesperrte Einheiten, anonyme Namen, Whitelist und Host Cheats. Interne Public-Playlist-Felder wie <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> und <code>isPortsDisabled</code> sind keine normalen Host-Schalter.</p>
     </Callout>
 
     <h2>Direkte Antwort: Wähle ein Ziel, keinen angeblich besten Preset</h2>
-    <p>Für eine faire Freundesrunde bleiben Host Cheats aus, jede globale Ressourcenänderung wird offengelegt und eine Whitelist begrenzt bei Bedarf den Zutritt. Für festes Teamtraining wählst du Team, deaktivierst Random Spawn und lässt die automatisch aktivierten Gold- und Truppenspenden an. Infinite Gold, Instant Build, gesperrte Einheiten, Water Nukes oder Doomsday gehören in eine klar benannte Übung. Für Turniere oder Serien braucht es vor jedem Start eine veröffentlichte Checkliste, denn benannte, speicherbare Presets gibt es in v33.4 noch nicht.</p>
+    <p>Für eine faire Freundesrunde bleiben Host Cheats aus, jede globale Ressourcenänderung wird offengelegt und eine Whitelist begrenzt bei Bedarf den Zutritt. Für festes Teamtraining in einer normalen Lobby wählst du Team, deaktivierst Random Spawn und lässt die automatischen Spenden an. Infinite Gold, Instant Build, gesperrte Einheiten, Water Nukes oder Doomsday gehören in eine klar benannte Übung. Für Turniere oder Serien braucht es vor jedem Start eine Checkliste, denn benannte, speicherbare Presets gibt es in v33.5 noch nicht.</p>
+
+    <h2>Was v33.5 bei verwalteten Lobbys ändert</h2>
+    <table>
+      <thead><tr><th>Fähigkeit</th><th>Wo sie gilt</th><th>Grenze des normalen Hosts</th></tr></thead>
+      <tbody>
+        <tr><td>Eigenes Label und längeres Listing</td><td>Featured-Lobbys aus dem Admin-Werkzeug</td><td>Eine normale gehostete Lobby wird nicht automatisch featured.</td></tr>
+        <tr><td>Fixierte Teams bei Erstellung</td><td>Die Adminbot-Anfrage kann Spieler Teams zuordnen</td><td>Das v33.5-Host-Menü hat keinen Fixierknopf; nutze Team und sichtbare Regler.</td></tr>
+        <tr><td>Fixierte Teammitglieder bei anonymen Namen sichtbar</td><td>Bereits demselben verwalteten Team zugeordnete Spieler</td><td>Gegner bleiben nach Lobby-Regel anonym.</td></tr>
+        <tr><td>x5-Ghost-Badge bei Kosten null</td><td>Infinite-Gold-Übungen</td><td>Das ist Eingabefeedback, keine neue Ressourcen- oder Mengenregel.</td></tr>
+      </tbody>
+    </table>
 
     <h2>Was die Moduswahl wirklich ändert</h2>
     <table>
@@ -63,7 +74,7 @@ const base = import.meta.env.BASE_URL;
 
     <h2>Aktuelle Host-Regler nach Entscheidung</h2>
     <table>
-      <thead><tr><th>Entscheidung</th><th>v33.4-Regler</th><th>Risiko</th></tr></thead>
+      <thead><tr><th>Entscheidung</th><th>v33.5-Regler</th><th>Risiko</th></tr></thead>
       <tbody>
         <tr><td>Struktur</td><td>Karte/Zufall, FFA/Team, Teams, Schwierigkeit, 0-400 Bots, 0-400 Nations</td><td>Zu viel KI verdeckt, ob ein Plan gegen Menschen funktioniert.</td></tr>
         <tr><td>Spawn und Tempo</td><td>Random Spawn, Compact Map, 0-120 Min. Immunität, 1-120 Min. Limit, 0-600 Sek. Verzögerung</td><td>Andere Kontaktdistanz oder Immunität macht Eröffnungen unvergleichbar.</td></tr>
@@ -74,7 +85,7 @@ const base = import.meta.env.BASE_URL;
     </table>
 
     <Callout type="warn" title="Suche öffentliche Modifier nicht im Host-Menü">
-      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> und <code>isPortsDisabled</code> existieren in der Konfiguration öffentlicher Rotationen, werden in v33.4 aber nicht als normale Host-Regler angeboten.</p>
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> und <code>isPortsDisabled</code> existieren in der Konfiguration öffentlicher Rotationen, werden in v33.5 aber nicht als normale Host-Regler angeboten. Dasselbe gilt für Admin-Teamzuordnung: Plane eine normale private Lobby nicht um ein internes Feld oder API-Eingaben.</p>
     </Callout>
 
     <h2>Als Nächstes</h2>
@@ -86,8 +97,9 @@ const base = import.meta.env.BASE_URL;
 
     <h2>Quellen</h2>
     <ul>
-      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">HostLobbyModal.ts v0.33.4</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a>.</li>
-      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/Worker.ts" target="_blank" rel="noopener">Worker.ts</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> zu öffentlichen Listungsgrenzen.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5" target="_blank" rel="noopener">Offizielles v0.33.5 Release</a> für die vier veröffentlichten Änderungen.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts" target="_blank" rel="noopener">AdminBotRoutes.ts</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> für Teamzuordnung, Featured-Metadaten und anonyme Teammitglieder.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">HostLobbyModal.ts v0.33.5</a> und <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a> für normale sichtbare Regler.</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/issues/2489" target="_blank" rel="noopener">Issue #2489</a> zum noch nicht ausgelieferten Preset und <a href="https://github.com/openfrontio/OpenFrontIO/issues/4951" target="_blank" rel="noopener">Issue #4951</a> zum gemeldeten Spätänderungsrisiko.</li>
     </ul>
   </article>

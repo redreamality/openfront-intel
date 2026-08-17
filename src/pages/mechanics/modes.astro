@@ -6,15 +6,26 @@ import Callout from '../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Game Modes & Private Lobby Settings" description="Choose OpenFront.io v33.4 private lobby settings for fair friend games, team practice, mechanics tests, or repeated events.">
+<BaseLayout title="Game Modes & Private Lobby Settings" description="Choose OpenFront.io v33.5 private lobby settings and distinguish ordinary Host controls from managed featured and admin-pinned lobbies.">
   <PageHeader eyebrow="MECHANICS · 10" title="Game Modes & Private Lobby Settings" lead="Choose the purpose of the match first, then change only the settings that serve it. This avoids accidental one-sided rules and settings that do not exist in the normal Host menu." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Verified for OpenFront v33.4 · 14 August 2026">
+    <Callout type="spec" title="Verified for OpenFront v33.5 · 16 August 2026">
       <p>The normal Host menu offers FFA or Team, map and AI choices, spawn and timing rules, alliances, resources, special modes, disabled units, anonymous names, a whitelist, and Host Cheats. Internal public-playlist flags such as <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> are not normal Host-menu controls.</p>
     </Callout>
 
     <h2>Direct answer: choose a goal, not a preset name</h2>
-    <p>For a fair game with friends, keep Host Cheats off, disclose every global resource change, and use a whitelist if the link must stay private. For fixed-team practice, choose Team, keep Random Spawn off, and leave the automatic gold and troop donations enabled. Use Infinite Gold, Instant Build, disabled units, Water Nukes, or Doomsday only for a named drill. For tournaments or repeated rooms, publish a rules checklist and recheck the lobby before every start because named reusable presets are not available in v33.4.</p>
+    <p>For a fair game with friends, keep Host Cheats off, disclose every global resource change, and use a whitelist if the link must stay private. For fixed-team practice in an ordinary room, choose Team, keep Random Spawn off, and leave automatic gold and troop donations enabled. Use Infinite Gold, Instant Build, disabled units, Water Nukes, or Doomsday only for a named drill. For tournaments or repeated rooms, publish a rules checklist and recheck the lobby before every start because named reusable presets are not available in v33.5.</p>
+
+    <h2>What v33.5 changes for managed lobbies</h2>
+    <table>
+      <thead><tr><th>Capability</th><th>Where it applies</th><th>Ordinary Host boundary</th></tr></thead>
+      <tbody>
+        <tr><td>Custom label and longer listing window</td><td>Featured lobbies managed through the admin tooling</td><td>A normal hosted lobby does not become featured automatically.</td></tr>
+        <tr><td>Pinned teams at game creation</td><td>The adminbot create-game request can assign players to teams</td><td>The v33.5 Host menu has no pinned-team button; choose Team and the visible controls instead.</td></tr>
+        <tr><td>Pinned teammates see one another with anonymous names</td><td>Players already assigned to the same managed team</td><td>Anonymous mode still hides opponents according to the room rule.</td></tr>
+        <tr><td>x5 ghost badge at zero cost</td><td>Infinite Gold drills</td><td>This is input feedback, not a new resource or batch rule.</td></tr>
+      </tbody>
+    </table>
 
     <h2>What the mode selector actually changes</h2>
     <table>
@@ -66,7 +77,7 @@ const base = import.meta.env.BASE_URL;
     <h2>Current Host controls, grouped by decision</h2>
     <table>
       <thead>
-        <tr><th>Decision</th><th>Current v33.4 controls</th><th>What can go wrong</th></tr>
+        <tr><th>Decision</th><th>Current v33.5 controls</th><th>What can go wrong</th></tr>
       </thead>
       <tbody>
         <tr><td>Match structure</td><td>Map/Random Map, FFA/Team, teams, difficulty, 0-400 Bots, 0-400 Nations</td><td>Too much AI can hide whether a player plan works against humans.</td></tr>
@@ -78,7 +89,7 @@ const base = import.meta.env.BASE_URL;
     </table>
 
     <Callout type="warn" title="Do not look for public modifier flags in the Host menu">
-      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> exist in the game configuration used by public rotations, but v33.4 does not expose them as ordinary Host controls. Use the settings the lobby actually shows; do not plan a private match around an internal field name.</p>
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> exist in the game configuration used by public rotations, but v33.5 does not expose them as ordinary Host controls. The same boundary applies to admin-pinned teams: use the settings the lobby actually shows; do not plan an ordinary private match around an internal field or API input.</p>
     </Callout>
 
     <h2>Next reading</h2>
@@ -90,8 +101,9 @@ const base = import.meta.env.BASE_URL;
 
     <h2>Sources</h2>
     <ul>
-      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">v0.33.4 HostLobbyModal.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a> for visible controls and Team behavior.</li>
-      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/Worker.ts" target="_blank" rel="noopener">Worker.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> for public-listing restrictions.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5" target="_blank" rel="noopener">Official v0.33.5 Release</a> for the four published changes.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts" target="_blank" rel="noopener">AdminBotRoutes.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> for pinned teams, featured metadata, and anonymous teammate visibility.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">v0.33.5 HostLobbyModal.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a> for ordinary visible controls and Team behavior.</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/issues/2489" target="_blank" rel="noopener">Issue #2489</a> for the not-yet-shipped preset workflow and <a href="https://github.com/openfrontio/OpenFrontIO/issues/4951" target="_blank" rel="noopener">Issue #4951</a> for the reported last-second rule-change risk.</li>
     </ul>
   </article>

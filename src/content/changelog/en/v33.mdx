@@ -1,8 +1,8 @@
 ---
-title: 'v33.4: Bulk Upgrades, Staggered Nuke Salvos, Doomsday & 22 Maps'
-description: 'Player-focused OpenFront v33.4 notes: bulk structure upgrades, loaded Atom Bomb salvos, same-Silo launch timing, Doomsday territory rot, MIRV counterplay, Ranked 2v2, and maps.'
+title: 'v33.5: Featured Lobbies, Pinned Teams & v33 Bulk Controls'
+description: 'Player-focused OpenFront v33.5 notes: managed featured lobbies, admin-pinned teams, anonymous teammate visibility, Infinite Gold feedback, and the v33.4 bulk-control rules still in force.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-12
+updatedDate: 2026-08-16
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,15 +10,18 @@ category: Release Notes
 
 ## Direct answer: what changes your next match?
 
-The official `v0.33.4` Release is the current published v33 series entry. The new decision is whether to buy one action or a batch: existing structure upgrades and loaded Atom Bomb launches can now be issued in multiples instead of repeated clicks.
+The official `v0.33.5` Release is the current published v33 entry. It improves managed events: featured lobbies can carry a custom label and remain listed longer, while games created through the adminbot can pin players to teams. Pinned teammates can now see each other when anonymous names are enabled.
 
-Press the same build key twice to toggle x1 / x5 for an eligible upgrade or Atom Bomb. The radial menu offers x1/x5/x10/xMax for structure upgrades and x1/x2/x5/xMax for Atom Bombs.
+This does **not** add a pinned-team control to the normal Host menu. Ordinary hosts still choose Team and the visible lobby settings; the pinned-team input belongs to the admin game-creation path. Infinite Gold also shows the x5 ghost badge when costs are zero, but that is feedback, not a new resource or batch rule.
 
-One Silo releases its queued bombs one tick apart; separate ready Silos can each release a bomb on the same tick. The batch is capped by Gold, a maximum of 50 actions, and, for Atom Bombs, the number of loaded Silo tubes.
+| v33.5 change | Who can rely on it | Boundary to remember |
+|---|---|---|
+| Custom featured label and longer listing window | Players joining a managed featured event | Not every hosted lobby becomes featured |
+| Admin-pinned teams | Organizers using the adminbot create-game path | No new pinned-team button in the ordinary Host UI |
+| Pinned teammates visible under anonymous names | Players already assigned as teammates | Opponents remain anonymized by the room rule |
+| x5 ghost badge at zero cost | Infinite Gold drills | Costs and normal batch limits are not redefined |
 
-MIRV warheads fly as normal nukes and can be intercepted through the regular SAM trajectory system. Launching a MIRV also puts its Missile Silo on cooldown, so the same silo cannot fire an immediate follow-up nuke.
-
-The rest of the v33 series still matters: Doomsday territory rot can eliminate a side after 150 seconds, MIRV is a saturation weapon rather than a reliable SAM bypass, Ranked 2v2 is live, warships gain veterancy, and the pool includes 22 new maps.
+The v33.4 controls remain current: eligible structure upgrades and loaded Atom Bombs can be batched, one Silo spaces queued bombs by one tick, and separate ready Silos can fire together. Doomsday territory rot, MIRV interception, Ranked 2v2, warship veterancy, and the 22-map addition also remain in force.
 
 ## v33.4 update: batch the action, then check capacity
 
@@ -103,6 +106,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.4` Release `draft=false` and `prerelease=false`; its body contains real v33.4 and v33.3 entries rather than TEST placeholder text. This remains the single v33 series overview because the new controls belong on existing shortcut, nuke, and Water Nukes answers rather than a thin duplicate patch page.
+GitHub labels the official `v0.33.5` Release `draft=false` and `prerelease=false`; its body contains real v33.5 through v33.0 entries rather than TEST placeholder text. This remains the single v33 series overview because the managed-lobby boundary belongs in the existing modes answer, while bulk controls remain on the shortcut, nuke, and Water Nukes answers.
 
-Sources: [official v0.33.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [keyboard toggle](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radial batch menu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), and [territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Sources: [official v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [team and anonymous-name handling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [ordinary Host controls](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [keyboard toggle](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radial batch menu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), and [territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 // 文案按语种参数化：zh 断言「快捷键 / 城市」而非英文。
 
 const officialKeybindingSource =
-  'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/UserSettingModal.ts';
+  'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/UserSettingModal.ts';
 const unreleasedKeybindingChange =
   'https://github.com/openfrontio/OpenFrontIO/commit/ead15d8d1428697d8fc0d1221b849892bbb8c163';
 
@@ -123,11 +123,11 @@ for (const c of cases) {
 
     // CTRL-01：本页是完整查键页；攻略页不复制这 6 组默认键位表。
     await expect(page.locator('main table')).toHaveCount(6);
-    await expect(page.locator('main')).toContainText('v33.4');
+    await expect(page.locator('main')).toContainText('v33.5');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
 
-    // FRESH-01：正式 v33.4 仍有三个固定工作流，未发布提交才补设置项。
+    // FRESH-01：正式 v33.5 仍有三个固定工作流，未发布提交才补设置项。
     const boundary = page.locator('[data-keybinding-boundary]');
     await expect(boundary).toHaveCount(1);
     await expect(boundary).toContainText(c.fixed);

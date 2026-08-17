@@ -7,14 +7,14 @@ tags: [nukes, mechanics, water-nukes]
 category: 教程
 difficulty: 进阶
 version: v33
-freshnessSummary: "v33.4 的新水域可以通航，但舰船可能绕开水核弹坑；上游修复已合入 main，尚未进入正式 Release。"
+freshnessSummary: "v33.5 的新水域可以通航，但舰船仍可能绕开水核弹坑；上游修复已合入 main，尚未进入正式 Release。"
 ---
 
 ## 直接答案：水核到底做什么
 
 **Water Nukes** 是 v31 的可选模式。核打击不只留下辐射区，还会把符合条件的被毁陆地永久转换成水域。
 
-新水域是真实地形，船只可以使用本局中被炸出来的水。但在 v33.4 中，转换后的小地图可能保留错误的水深与海洋标记。运输船仍能行动，却可能绕开水核区域走出异常远路。
+新水域是真实地形，船只可以使用本局中被炸出来的水。但在 v33.5 中，转换后的小地图仍可能保留错误的水深与海洋标记。运输船可以行动，却可能绕开水核区域走出异常远路。
 
 该模式默认关闭。房主可在游戏选项中开启；公开局在出生前会显示 **Water Nukes** 标记。
 
@@ -24,13 +24,13 @@ freshnessSummary: "v33.4 的新水域可以通航，但舰船可能绕开水核�
 
 v33.4 改变的是打击节奏，不是地形转换机制。径向菜单可选原子弹 x2/x5/xMax，或连按两次 `8` 选择 x5。同一 Silo 的核弹逐 tick 发出，不同可用 Silo 可在同一 tick 各发一枚。这样能更快制造多个小弹坑，但每次爆炸仍分别进入“转换前抢回土地”的同一检查。
 
-## v33.4 已知舰船绕路问题
+## v33.5 已知舰船绕路问题
 
-不要把新水道最短的可见连线直接当成 v33.4 的实际航线。转换后的水仍可通航，但水核小地图 tile 可能一直保持 magnitude 0，并丢失 ocean 标记。水上寻路会把这些 tile 附近的单步成本提高到正常值的 3 倍，也会拒绝部分直线平滑，于是运输船可能绕开弹坑，而不是直接穿过。
+不要把新水道最短的可见连线直接当成 v33.5 的实际航线。转换后的水仍可通航，但水核小地图 tile 可能一直保持 magnitude 0，并丢失 ocean 标记。水上寻路会把这些 tile 附近的单步成本提高到正常值的 3 倍，也会拒绝部分直线平滑，于是运输船可能绕开弹坑，而不是直接穿过。
 
 这是寻路缺陷，不代表弹坑仍是陆地。依赖新航道运兵前，先观察第一艘运输船的路线，并保留替代海岸或陆路。能走但绕远的路线会让舰船暴露得比地图形状看起来更久。
 
-上游 [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) 记录了正式环境的异常；[PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) 会在转换后重算小地图 ocean 标记与水深。提交 [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) 已进入 `main`，但晚于最新正式 `v0.33.4` Release。在正式版本包含它之前，只能把它视为即将发布的修复。
+上游 [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) 记录了正式环境的异常；[PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) 会在转换后重算小地图 ocean 标记与水深。提交 [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) 已进入 `main`，但仍晚于最新正式 `v0.33.5` Release。在正式版本包含它之前，只能把它视为即将发布的修复。
 
 ![OpenFrontIO 上游官方截图：v33.4 正式环境中，运输船航线绕开被水核改造的非洲水域](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 

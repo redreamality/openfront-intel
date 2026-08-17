@@ -1,8 +1,8 @@
 ---
-title: 'v33.4 : améliorations groupées, salves décalées, Doomsday et 22 cartes'
-description: 'Notes OpenFront v33.4 orientées joueur : améliorations groupées, salves d’Atom Bombs chargées, rythme par Silo, corruption Doomsday, contre des MIRV, Ranked 2v2 et cartes.'
+title: 'v33.5 : salons featured, équipes fixées et commandes groupées v33'
+description: 'Notes OpenFront v33.5 orientées joueur : salons featured gérés, équipes fixées par admin, coéquipiers anonymes visibles, retour Infinite Gold et commandes groupées v33.4 toujours actives.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-12
+updatedDate: 2026-08-16
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
@@ -10,15 +10,18 @@ category: Release Notes
 
 ## Réponse directe : qu’est-ce qui change votre prochaine partie ?
 
-La Release officielle `v0.33.4` est l’entrée publiée actuelle de la série v33. La nouvelle décision consiste à exécuter une action ou un lot : les améliorations existantes et les Atom Bombs chargées peuvent être commandées en bloc.
+La Release officielle `v0.33.5` est l’entrée publiée actuelle de la série v33. Elle améliore les événements gérés : un salon featured peut porter un label personnalisé et rester listé plus longtemps, tandis qu’une partie créée par adminbot peut fixer les joueurs dans leurs équipes. Avec les noms anonymes, ces coéquipiers fixés peuvent maintenant se reconnaître.
 
-Appuyer deux fois sur la même touche de construction bascule entre x1 et x5 pour une amélioration éligible ou une Atom Bomb. Le menu radial propose x1/x5/x10/xMax pour les améliorations et x1/x2/x5/xMax pour les Atom Bombs.
+Cela **n’ajoute pas** de commande « équipe fixée » au menu Host ordinaire. Un hôte normal choisit toujours Team et les réglages visibles du salon ; l’affectation fixée appartient au chemin de création admin. Infinite Gold affiche aussi le badge fantôme x5 lorsque le coût vaut zéro, mais ce retour visuel ne crée aucune nouvelle règle de ressources ou de lot.
 
-Un même Silo espace ses tirs d’un tick ; plusieurs Silos prêts peuvent chacun tirer pendant le même tick. Le lot dépend de l’or, d’un plafond de 50 actions et, pour les Atom Bombs, du nombre de tubes chargés.
+| Changement v33.5 | Qui peut s’y fier | Limite à retenir |
+|---|---|---|
+| Label featured et fenêtre de liste prolongée | Joueurs d’un événement featured géré | Tous les salons hébergés ne deviennent pas featured |
+| Équipes fixées par admin | Organisateurs utilisant la création adminbot | Aucun nouveau bouton d’équipe fixée dans le Host ordinaire |
+| Coéquipiers fixés visibles sous anonymat | Joueurs déjà affectés à la même équipe | Les adversaires restent masqués par la règle du salon |
+| Badge fantôme x5 à coût nul | Exercices Infinite Gold | Les coûts et plafonds de lot normaux ne changent pas |
 
-Les ogives MIRV volent comme des nukes normales et passent par le ciblage de trajectoire habituel des SAM. Un tir MIRV met aussi le Missile Silo en cooldown ; ce même silo ne peut donc pas enchaîner immédiatement.
-
-Le reste de la série v33 reste décisif : la corruption Doomsday peut éliminer un camp après 150 secondes, le MIRV sert à saturer la défense plutôt qu’à contourner sûrement les SAM, et le Ranked 2v2, la vétérérance et les 22 cartes restent actifs.
+Les commandes v33.4 restent actuelles : améliorations éligibles et Atom Bombs chargées se lancent par lots, un même Silo espace ses tirs d’un tick et plusieurs Silos prêts peuvent tirer ensemble. La corruption Doomsday, l’interception MIRV, le Ranked 2v2, la vétérérance et les 22 cartes restent également actifs.
 
 ## Mise à jour v33.4 : choisissez le lot, puis vérifiez la capacité
 
@@ -103,6 +106,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.4` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.4 et v33.3, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; les commandes rejoignent les réponses existantes sans créer de mince doublon.
+GitHub marque la Release officielle `v0.33.5` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.5 à v33.0, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; la limite des salons gérés rejoint la réponse modes existante, tandis que les lots restent dans les réponses raccourcis, nukes et Water Nukes.
 
-Sources : [Release officielle v0.33.4](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.4), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Sources : [Release officielle v0.33.5](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [équipes et anonymat](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [commandes Host ordinaires](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

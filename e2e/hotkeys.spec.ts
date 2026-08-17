@@ -91,7 +91,8 @@ for (const c of cases) {
     await expect(main).not.toContainText('攻击模式（朝鼠标方向）');
     await expect(main).not.toContainText('召出 Build 菜单');
 
-    // FRESH-01：故障恢复与 FAQ 不能再声称 v33.4 的每个键都可重映射。
+    // FRESH-01：故障恢复与 FAQ 不能再声称 v33.5 的每个键都可重映射。
+    await expect(main).toContainText('v33.5');
     await expect(main).toContainText(c.fixedBoundary);
   });
 }
