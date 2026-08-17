@@ -114,9 +114,9 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前周目标
 
-- 战役：正式非 TEST `v0.33.5` 重新打开 `FRESH-01`；五语内容与验证已完成，等待 PR 交付门禁。`NUKE-01` 留在 Monitoring，`MAP-01` 与 `ATTACK-01` 不凭无效窗口或系统帖晋级。
+- 战役：正式非 TEST `v0.33.5` 的 `FRESH-01` 响应已通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 完成并关闭；`NUKE-01` 留在 Monitoring，`MAP-01` 与 `ATTACK-01` 不凭无效窗口或系统帖晋级。
 - 玩家结果：玩家能看懂 v33.5 对 featured lobby、管理员固定队伍和匿名固定队友可见性的影响，同时知道普通 Host 菜单、v33.4 批量核武、固定键位和 Water Nukes 舰船绕路边界没有被该 Release 改写。
-- 当前计划项：Production 为已完成本地内容、等待交付的 `FRESH-01` v33.5 响应；Monitoring 为 `NUKE-01`；Incubation 为 `MAP-01` 与等待 #4237 或真实重复问题的 `ATTACK-01`。
+- 当前计划项：Production 为空；Monitoring 为 `NUKE-01`；Incubation 为 `MAP-01` 与等待 #4237 或真实重复问题的 `ATTACK-01`。
 - 完成条件：五语 v33 总览、首页和 modes 主答案一致说明 v33.5 玩家影响与普通 Host 边界；shortcuts / hotkeys / Water Nukes 的当前正式版警告推进到 v33.5 且继续区分未发布修复；相关 e2e 锁定结论，不新增路由。
 
 ## 今日编辑判断
@@ -131,7 +131,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前进行中
 
-- Production：`FRESH-01` 的五语版本入口、受管活动边界、两个仍未发布修复的当前版本标记与完整回归已在本地分支 `codex/daily-content-2026-08-16-v33-5-response` 完成；等待 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 自动合并门禁后关闭。
+- Production：当前为空。`FRESH-01` 的五语版本入口、受管活动边界、两个仍未发布修复的当前版本标记与完整回归已通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 合并，内容远端分支已删除。
 - Monitoring：`NUKE-01` 的入口与收录已完成。本轮 GSC 未刷新，回退缓存仍截止 2026-08-10，未取得至少 8 月 11 日且含后切片行的报告，直接跳过。
 - Incubation：`MAP-01` 已确认两张地图有独特地形决策但仍无精确需求，继续孵化、不建页；`ATTACK-01` 等待 #4237 明确或真实重复需求；`SPAWN-01` 与 `ROOM-01` 均已合并取消。
 
@@ -141,7 +141,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 | ID | 状态 | 下一决策点 |
 |---|---|---|
-| `FRESH-01` | Production 本地完成、等待 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 交付；正式 v33.5 新增受管 featured lobby / 固定队伍能力，但普通 Host UI 未变，且仍未包含 `ead15d8` 或 `c5c7d74`；五语版本入口、modes、shortcuts / hotkeys / Water Nukes 与 e2e 已完成 | PR 门禁通过后关闭；下一正式 Release 仍需核验两个未发布修复 |
+| `FRESH-01` | 已完成；正式 v33.5 新增受管 featured lobby / 固定队伍能力，但普通 Host UI 未变，且仍未包含 `ead15d8` 或 `c5c7d74`；五语版本入口、modes、shortcuts / hotkeys / Water Nukes 与 e2e 已由 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 合并为 `29eea4c` | 下一正式 Release 仍需核验两个未发布修复与 tag 后核弹保护 |
 | `FRESH-02` | 已完成；[PR #5](https://github.com/redreamality/openfront-intel/pull/5) 已合并 | 在 `FRESH-03` 首页入口中自然连接版本与核心旧攻略 |
 | `FRESH-03` | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并 | 首页入口已可承接刷新后的 v33 系列总览 |
 | `DOOM-01` | 已完成并按用户反馈深度扩写；五语正文各 55 个 H2–H4，英文约 3,816 词、法语约 3,758 词、德语约 3,228 词、荷兰语约 3,416 词、中文约 5,453 汉字；相邻入口、来源包与 e2e 同批交付至已合并 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 当前战役已关闭；后续只在规则或需求变化时复核 |
@@ -226,7 +226,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 语言与旧页同步：en、zh、fr、de、nl 同批完成 v33 总览、首页、modes、FAQ、shortcuts、hotkeys 与 Water Nukes；v33.4 批量操作历史不被 v33.5 覆盖，固定键位与 Water Nukes 绕路警告推进为 v33.5 仍存在。
 - 来源与视觉证据：正式 Release、tag commit、正式源码 blob 对比、代码原生表格和既有真实 Water Nukes 前后截图共同构成证据；不把 adminbot API 写成普通 Host 按钮，不把上游 main 能力写成当前规则，也没有生成或伪造游戏截图。
 - 信号与验证：GSC 刷新失败后按规则回退截止 2026-08-10 的缓存；严格内容审计 40/40；Astro check 0 errors、9 个既有 hints；生产 build 230 页；内部链接 9,314 条、无断链；完整 Playwright 257/257。定向首轮 166/171 的五个失败均为首页测试仍锁定旧 x5 信号，修正测试契约后首页 5/5，随后完整套件通过；构建生成 JSON 噪声已恢复。
-- 阻塞与 PR：无内容、语言或本地验证阻塞；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已创建，远端 head、mergeability、checks 与评论将在合并门禁中重新核对；merge SHA 只在真实合并结果产生后回写。
+- 阻塞与 PR：无内容、语言或验证阻塞；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 经最新 main、`CLEAN / MERGEABLE`、0 checks/statuses、0 review/评论/thread、单提交、精确范围和远端 head 门禁后 squash 合并为 `29eea4ca6a1b60d5952417b79e487312a9feb49c`，精确远端分支已删除，本地已回到并 fast-forward-only 同步最新 `main`。
 
 ## 本次合规自检（2026-08-15，`FRESH-01` v33.4 键位边界纠错）
 
@@ -421,6 +421,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
+- [x] 2026-08-16：完成正式 `v0.33.5` 的 `FRESH-01` 响应；五语 v33 总览、首页与 modes 区分受管 featured/admin lobby 和普通 Host UI，shortcuts / hotkeys / Water Nukes 保留两个未发布修复的当前版本警告，完整回归 257/257 通过；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已合并为 `29eea4c`。
 - [x] 2026-08-15：完成 `FRESH-01` v33.4 键位重映射边界纠错；五语 `/shortcuts/` 与 `/guides/hotkeys/` 区分大多数可配置动作和固定的 `F` / 图形重置 `R` / 框选 `Shift`，正式与未发布来源可核验，完整回归 257/257 通过；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad`。`MAP-01` 继续 Incubation、不建页。
 - [x] 2026-08-14：完成 `ROOM-01`；五语 `/mechanics/modes/` 按四种房间目标纠正普通 Host UI 设置边界，FAQ 与 mechanics 索引提供两个自然入口，独立私人房攻略候选取消；完整回归 257/257 通过，交付于 [PR #30](https://github.com/redreamality/openfront-intel/pull/30)。
 - [x] 2026-08-13：完成 v33.4 Water Nukes 舰船绕路事实边界纠错；五语唯一主答案区分当前正式缺陷与未发布修复，加入两张真实前后截图，完整回归 252/252 通过；`SPAWN-01` 合并进 first-match 并取消重复独立页候选；交付于 [PR #28](https://github.com/redreamality/openfront-intel/pull/28)。
@@ -477,4 +478,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-13 | `FRESH-01` Water Nukes + `SPAWN-01` | 五语 Water Nukes 唯一主答案补 v33.4 舰船绕路边界、未发布修复和真实前后截图；`SPAWN-01` 合并进 first-match 并取消重复独立页；交付 [PR #28](https://github.com/redreamality/openfront-intel/pull/28) | GSC 刷新至 2026-08-10：7 天 921/1,867，28 天 1,298/3,229；最新正式版仍为 v0.33.4；Issues 0、Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,289；发现性 5/5；完整 e2e 252/252；生成 JSON 噪声已恢复 | 正式 Release 包含 `c5c7d74` 后移除当前警告；下一 Incubation 锚点为 `ROOM-01` |
 | 2026-08-14 | `ROOM-01` | 五语 modes 按公平朋友局、固定队伍训练、机制实验和赛事连续多局提供当前 Host UI 可执行配置；FAQ 与 mechanics 索引导向唯一主答案，取消独立私人房页候选；交付 [PR #30](https://github.com/redreamality/openfront-intel/pull/30) | GSC 刷新及唯一重试均超时，回退到 2026-08-13 生成、截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 e2e 5/5；完整 e2e 257/257；生成 JSON 噪声已恢复 | Production 恢复为空；`MAP-01` 成为下一 Incubation 锚点，`NUKE-01` 等截止至少 8 月 11 日且后切片有行 |
 | 2026-08-15 | `FRESH-01` 键位边界 + `MAP-01` 孵化 | 五语 shortcuts / hotkeys 纠正 v33.4 “全部可重映射”错误，固定 `F` / 图形重置 `R` / 框选 `Shift` 与未发布补齐提交分开；无新路由；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad` | GSC 刷新及唯一重试无输出，回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；地图地形差异成立但精确需求为 0 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 20/20；完整 e2e 257/257；diff/BOM/旧绝对说法审计通过 | Release 含 `ead15d8` 后移除固定警告；`MAP-01` 等真实问题或搜索意图；`NUKE-01` 等有效后切片 |
-| 2026-08-16 | `FRESH-01` v33.5 响应 | 五语 v33 总览先解释受管 featured/admin lobby，modes 区分普通 Host UI；首页、FAQ、shortcuts、hotkeys 与 Water Nukes 同步当前版本边界，没有新增路由；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已创建 | 正式 v0.33.5 为非 TEST Release；GSC 回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；Issues/起始开放 PR 0，Feedlog 0 票/0 评论，#4237 无更新 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；完整 e2e 257/257；生成 JSON 噪声已恢复 | 完成自动合并门禁；下一正式 Release 核验 `ead15d8`、`c5c7d74` 与 tag 后核弹保护 |
+| 2026-08-16 | `FRESH-01` v33.5 响应 | 五语 v33 总览先解释受管 featured/admin lobby，modes 区分普通 Host UI；首页、FAQ、shortcuts、hotkeys 与 Water Nukes 同步当前版本边界，没有新增路由；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已合并为 `29eea4c` | 正式 v0.33.5 为非 TEST Release；GSC 回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；Issues/起始开放 PR 0，Feedlog 0 票/0 评论，#4237 无更新 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；完整 e2e 257/257；生成 JSON 噪声已恢复；PR 最终门禁通过 | Production 关闭；下一正式 Release 核验 `ead15d8`、`c5c7d74` 与 tag 后核弹保护 |
