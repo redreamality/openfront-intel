@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略与滚动计划
 
-更新日期：2026-08-16。当前规划窗口：未来 6–8 周。
+更新日期：2026-08-19。当前规划窗口：未来 6–8 周。
 
 本文回答“为什么做、先做什么、做到什么程度”。[`content-loop.md`](content-loop.md) 只记录每日发现、执行状态和交付结果；[`search-console-content-workflow.md`](search-console-content-workflow.md) 只负责数据获取与机会分类。
 
@@ -171,9 +171,7 @@
 
 ### Monitoring：已交付结果验证
 
-| ID | 玩家结果 | 当前状态 | 最早下一决策点 | 退出条件 |
-|---|---|---|---|---|
-| `NUKE-01` | 搜索 Water Nukes 的玩家从 guides 索引或 hotkeys 进入五语唯一完整答案 | 五语入口、更新时间、排序和收录均已交付；2026-08-12 的 7 天窗口截至 2026-08-10，但有 6 天在入口修复前，单日 8 月 10 日因低量匿名化返回 0 Query | 首个截止日至少为 2026-08-11、且 Water Nukes 后切片返回 Query x Page 行的稳定报告；未到该条件直接跳过 | 查询主要落地页转向专页，或 URL 级证据证明仍需修复索引/抓取；不得扩写重复正文或新建第二页 |
+当前没有主动 Monitoring 项。`NUKE-01` 已在截止 2026-08-16 的首个有效稳定窗口达到退出条件：7 天明确意图中，五语唯一主答案 `/guides/water-nukes/` 获得 97 次展现和全部 3 次点击，高于 `/guides/hotkeys/` 的 64 次展现，且专页排名明显更高。入口修复不再占用观察通道；后续只有出现新的错落地或收录证据时才重新打开。
 
 ### Incubation：候选来源与边界
 
@@ -182,7 +180,7 @@
 | `ATTACK-01` | 攻击比例 | `/guides/attack-ratio/` | 继续孵化，不晋级。v33.4 已确认默认 20%、范围 1%–100%、默认步进 10%，单次发送量为点击时当前兵力乘以比例；但开放上游 Issue #4237 显示高比例同 tick 双击可能 full-send，28 天精确需求仅 1 次展现 | #4237 被修复或行为被明确，或 GSC / Feedlog / Issues 出现真实重复问题；届时再决定独立页，或把稳定答案并入现有经济页 |
 | `MAP-01` | 地图试点 | Caribbean 与 Danish Straits 双页候选 | 继续孵化，不晋级。正式 manifest 与真实 thumbnail 已确认 Caribbean 约 10% 陆地、跨群岛海权主导，Danish Straits 约 55% 陆地、狭长海峡与半岛通道主导；GSC 与上游 Issues 对两图均无精确问题 | 出现真实问题、搜索意图，或来源足以回答出生、港口、舰队与 chokepoint 的具体差异后，两图成组试点；否则不创建模板地图页 |
 
-已完成或合并项不再占 Incubation：`ECON-01` 由五语 `/mechanics/economy/` 承接人口增长与储备；`CTRL-01` 由 `/shortcuts/` 与 `/guides/hotkeys/` 分工承接查键和练操作；`SPAWN-01` 已确认由五语 `/guides/first-match/` 的出生点决策章节完整承接，取消独立 `/guides/best-starting-position/` 候选；`ROOM-01` 已合并进五语 `/mechanics/modes/`，取消独立 `/guides/private-room-settings/` 候选。`ATTACK-01` 若晋级，只回答滑杆比例、单次/连续发送与局势用量，不重复经济页的增长区和储备答案。
+已完成或合并项不再占 Incubation：`ECON-01` 由五语 `/mechanics/economy/` 承接人口增长与储备；`CTRL-01` 由 `/shortcuts/` 与 `/guides/hotkeys/` 分工承接查键和练操作；`NUKE-01` 已证明 Water Nukes 查询主要转向五语唯一专页并退出 Monitoring；`SPAWN-01` 已确认由五语 `/guides/first-match/` 的出生点决策章节完整承接，取消独立 `/guides/best-starting-position/` 候选；`ROOM-01` 已合并进五语 `/mechanics/modes/`，取消独立 `/guides/private-room-settings/` 候选。`ATTACK-01` 若晋级，只回答滑杆比例、单次/连续发送与局势用量，不重复经济页的增长区和储备答案。
 
 ## 每次运行如何组成内容批次
 
