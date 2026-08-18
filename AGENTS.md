@@ -212,3 +212,4 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **PowerShell 变量名不区分大小写，`$host` 会与只读自动变量 `$Host` 冲突**：主机名、仓库 owner 或临时响应不要命名为 `host`；使用 `$hostName`、`$repoOwner`、`$hostResponse` 等任务专用变量，避免 `Cannot overwrite variable Host because it is read-only or constant`。
 - **GSC OAuth `token.json` 缺失时不要在无头自动化中反复触发交互授权**：确认 token 不存在后立即回退最后有效缓存，明确记录截止日与未刷新状态；授权必须由用户在可见终端运行 `gsc_cli.py auth` 完成，后续自动化再恢复刷新。
 - **版本边界审计不能只搜索能力词组合而忽略否定语境**：例如“普通 Host UI 没有固定队伍按钮”是正确边界，粗糙正则会把它误报为能力声明；应只匹配明确的错误肯定陈述，或先排除 `没有`、`未`、`does not`、`no` 等否定上下文。
+- **只读 `gh api` 使用 `-f` / `-F` 传查询参数时必须显式加 `-X GET`**：否则 GitHub CLI 会默认切换为 POST；例如查询开放 pulls 时会误调用创建 PR 接口并返回 422 `base, head weren't supplied`。也可以把查询串整体放进已引用的 URL，避免方法漂移。

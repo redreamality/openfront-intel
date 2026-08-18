@@ -1,6 +1,6 @@
 # OpenFront Intel 每日执行账本
 
-更新日期：2026-08-16。
+更新日期：2026-08-19。
 
 本文件只回答“今天看到了什么、组成了什么执行批次、推进了哪些计划项、各 PR 的交付与验证结果是什么”。内容原则、当前战役、未来 6–8 周顺序和完成定义以 [`content-strategy.md`](content-strategy.md) 为准。
 
@@ -114,26 +114,27 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 当前周目标
 
-- 战役：正式非 TEST `v0.33.5` 的 `FRESH-01` 响应已通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 完成并关闭；`NUKE-01` 留在 Monitoring，`MAP-01` 与 `ATTACK-01` 不凭无效窗口或系统帖晋级。
-- 玩家结果：玩家能看懂 v33.5 对 featured lobby、管理员固定队伍和匿名固定队友可见性的影响，同时知道普通 Host 菜单、v33.4 批量核武、固定键位和 Water Nukes 舰船绕路边界没有被该 Release 改写。
-- 当前计划项：Production 为空；Monitoring 为 `NUKE-01`；Incubation 为 `MAP-01` 与等待 #4237 或真实重复问题的 `ATTACK-01`。
-- 完成条件：五语 v33 总览、首页和 modes 主答案一致说明 v33.5 玩家影响与普通 Host 边界；shortcuts / hotkeys / Water Nukes 的当前正式版警告推进到 v33.5 且继续区分未发布修复；相关 e2e 锁定结论，不新增路由。
+- 战役：正式非 TEST `v0.33.5` 的 `FRESH-01` 已关闭；`NUKE-01` 在首个有效后切片中达到退出条件，不再占 Monitoring。
+- 玩家结果：Water Nukes 查询主要进入五语唯一主答案；未发布的机制变化继续与当前 v33.5 规则分开。
+- 当前计划项：Production 与 Monitoring 均为空；Incubation 为 `MAP-01` 与等待 #4237 或真实重复问题的 `ATTACK-01`。
+- 完成条件：等待下一正式 Release、事实错误或成熟玩家问题；地图与攻击比例不凭零需求或旧 PR 晋级，Doomsday 错落地先等下一稳定窗口复核。
 
 ## 今日编辑判断
 
-- 日期：2026-08-16。
-- 当前周目标 / 计划 ID：以 `FRESH-01` 响应正式 `v0.33.5`；`NUKE-01` 只检查 Monitoring 门槛，`MAP-01` 与 `ATTACK-01` 继续等待真实需求或外部事实变化。
-- 玩家结果：玩家能在 v33 总览和 modes 主答案中分清 v33.5 的受管活动能力与普通 Host 控件；同时 shortcuts、hotkeys 和 Water Nukes 不会因版本号过时而暗示 `ead15d8` 或 `c5c7d74` 已经发布。
-- 为什么今天做：`v0.33.5` 于 2026-08-15 发布真实正文，tag commit 为 `87f1a52`。它新增 featured lobby 标签和更长展示窗口、管理员固定队伍，并修复匿名名称下固定队友互见与无限金币 x5 徽标；这是正式 Release 和当前版本入口变化。tag 的 `HostLobbyModal.ts` 与 v33.4 blob 相同，`UserSettingModal.ts` 仍是 `428afd9`，`WaterManager.ts` 也不是 `c5c7d74` 修复 blob，因此普通 Host UI、三个固定键位和 Water Nukes 绕路警告仍成立。
-- GSC 状态：7 天和 28 天包装命令均在 30 秒内无日志且缓存未刷新；精确终止并清除残留后，各自唯一直接 Node 重试仍未写入报告。本轮回退 2026-08-13 生成、截止 2026-08-10 的缓存：7 天 921 个 Query / 1,867 条 Query x Page，28 天 1,298 / 3,229。OAuth token 当前不存在，自动化无法完成交互授权；`NUKE-01` 未获得截止至少 8 月 11 日且含后切片行的新报告，直接跳过。
-- 需求与孵化：站点开放 Issues 与开放 PR 均为 0；Feedlog feedback / roadmap 仍只有系统 welcome、0 票、0 评论；#4237 仍开放、5 评论且无更新。上一轮后的上游 Issues 主要是未批准的列车预览、拆除队列、Port 生成率与 SAM 计时报告，没有形成重复玩家问题；`MAP-01` 和 `ATTACK-01` 均不晋级。
-- 批次与 PR 边界：一个内容 PR 更新五语 v33 总览、首页、modes、shortcuts、hotkeys 和 Water Nukes 的当前版本边界，加入 v33.5 来源包并同步内容 e2e；不新增路由、不改交互、不把管理员 API 写成普通房主按钮。战略只记录正式 Release 触发与完成状态，不重排 Incubation。
+- 日期：2026-08-19。
+- 当前周目标 / 计划 ID：关闭达到退出条件的 `NUKE-01` Monitoring；刷新 `MAP-01` 与 `ATTACK-01` 的需求门槛，不制造新页面或重复正文。
+- 玩家结果：搜索 Water Nukes 的玩家已主要进入五语唯一主答案；站点停止继续加工已经生效的入口修复，把后续产能留给新的正式版本或成熟问题。
+- 为什么今天做：GSC 首次成功取得截止 2026-08-16、且包含 Water Nukes 后切片行的稳定窗口。7 天明确意图中 `/guides/water-nukes/` 获得 97 次展现和全部 3 次点击，高于 `/guides/hotkeys/` 的 64 次展现；专页在对应行的排名也明显更高，满足“主要落地页转向专页”的退出条件。
+- Release / 上游边界：最新正式非 TEST Release 仍为 `v0.33.5`。上游 `main` 从上轮 `64b092a` 前进到 `0b0c765`；新结盟后 0.5 秒核弹保护、Port 商船生成率重算、封闭领土吞并校验和团队 Doomsday 更高门槛均尚未正式发布，只进入下次 Release 核验，不改写当前 v33.5 玩家规则。
+- GSC 状态：7 天报告为 2026-08-10 至 2026-08-16，966 个 Query / 1,967 条 Query x Page；28 天报告为 2026-07-20 至 2026-08-16，1,419 / 3,694。两份 `pnpm gsc:queries` 均首次成功，来源为 `gsc-cli-oauth`，没有重试或缓存回退。
+- 需求与孵化：站点开放 Issues / PR 为 0；Feedlog 仍只有系统 welcome、0 票、0 评论；#4237 仍开放、5 评论且没有更新。`ATTACK-01` 7 天精确需求为 0、28 天仍仅 1 次展现；Caribbean / Danish Straits 在两窗口均为 0，上游搜索只返回旧地图 PR，没有真实玩家 Issue，因此两项继续 Incubation、不晋级。
+- 其他信号与停止条件：Doomsday 明确意图 7 天有 382 次展现，但 v33 总览短期承接 161 次、现有完整攻略承接较少；由于专页已直接回答问题且 Release 周期会暂时抬高 changelog，本轮只记录下一窗口复核，不做 canonical、拆页或重复 SEO 改稿。批次只提交 `NUKE-01` 退出与信号证据；无玩家正文、路由或交互变化。
 
 ## 当前进行中
 
 - Production：当前为空。`FRESH-01` 的五语版本入口、受管活动边界、两个仍未发布修复的当前版本标记与完整回归已通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 合并，内容远端分支已删除。
-- Monitoring：`NUKE-01` 的入口与收录已完成。本轮 GSC 未刷新，回退缓存仍截止 2026-08-10，未取得至少 8 月 11 日且含后切片行的报告，直接跳过。
-- Incubation：`MAP-01` 已确认两张地图有独特地形决策但仍无精确需求，继续孵化、不建页；`ATTACK-01` 等待 #4237 明确或真实重复需求；`SPAWN-01` 与 `ROOM-01` 均已合并取消。
+- Monitoring：当前为空。`NUKE-01` 已在截止 2026-08-16 的 7 天窗口证明专页以 97 次展现和全部 3 次点击超过 hotkeys 的 64 次展现，达到退出条件。
+- Incubation：`MAP-01` 的两张地图仍无精确 GSC 或玩家 Issue，继续孵化、不建页；`ATTACK-01` 仍等待 #4237 明确或真实重复需求；`SPAWN-01` 与 `ROOM-01` 均已合并取消。
 
 ## 计划承接表
 
@@ -148,12 +149,16 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | `ECON-01` | 已完成并通过 [PR #9](https://github.com/redreamality/openfront-intel/pull/9) 合并；五语经济页、公式生成源、自然入口断言和新鲜度摘要已同批交付 | 观察 `/mechanics/economy/` 的人口增长查询排名与错落地变化 |
 | `ATTACK-01` | Incubation；默认 20%、范围 1%–100%、默认步进 10% 与单次发送公式已核验；开放 #4237 记录高比例同 tick 双击可能 full-send | 等 #4237 被修复/明确，或出现真实重复需求；否则不建立五语独立页，也不写武断比例表 |
 | `CTRL-01` | 已完成；五语 `/shortcuts/` 保留 6 组完整默认键位表，五语 `/guides/hotkeys/` 只保留 1 张场景决策表并专注训练、失败恢复与反制；[PR #15](https://github.com/redreamality/openfront-intel/pull/15) 已合并 | 观察 shortcuts/hotkeys/controls/keybinds 查询的错落地是否下降，不再复制第二套完整表 |
-| `NUKE-01` | Monitoring；入口交付已完成，五语 URL Inspection 均为 PASS / Submitted and indexed；当前混合窗口仍不可判定 | 等截止日至少为 2026-08-11 且后切片返回 Water Nukes Query × Page 行，再判断主要落地页是否转向专页；未到条件直接跳过 |
+| `NUKE-01` | 已完成；五语入口、收录与唯一主答案均已交付，截止 2026-08-16 的有效 7 天窗口中专页获得 97 次展现和全部 3 次点击，高于 hotkeys 的 64 次展现 | 退出 Monitoring；只有新的错落地、索引或抓取证据才重新打开 |
 | `SPAWN-01` | 已合并取消；五语 first-match 已覆盖海岸、半岛、中心、瓶颈、备用路线与停止线，独立页会重复主答案 | 只有出现 first-match 无法承接的真实重复问题才重新立项 |
 | `ROOM-01` | 已晋级并合并进五语 `/mechanics/modes/`；FAQ 只做短答导流，取消独立私人房攻略候选 | 后续只在 Host UI、公开列房限制、preset 交付或真实重复问题变化时复核 |
 | `MAP-01` | Incubation；正式 manifest 与 thumbnail 已确认 Caribbean 约 10% 陆地、Danish Straits 约 55% 陆地及不同海陆通道，但 GSC / Issues 均无精确问题，本轮不晋级 | 出现真实问题、搜索意图，或来源足以回答出生、港口、舰队与 chokepoint 的具体差异后，两图成组试点 |
 
 ## 信号池
+
+- 2026-08-19｜`NUKE-01` 退出｜GSC 首次成功刷新到截止 2026-08-16 的有效窗口：7 天 966 Query / 1,967 Query x Page，28 天 1,419 / 3,694。7 天 Water Nukes 专页获得 97 次展现和全部 3 次点击，高于 hotkeys 的 64 次展现，主要落地页已转向唯一主答案，Monitoring 关闭。来源见 [`2026-08-19-nuke-monitoring-exit.md`](research/2026-08-19-nuke-monitoring-exit.md)。
+- 2026-08-19｜Release / 上游｜最新正式非 TEST Release 仍为 `v0.33.5`；上游 main 从 `64b092a` 前进到 `0b0c765`。新结盟核弹保护、Port 商船生成率重算、封闭领土吞并和团队 Doomsday 门槛均未正式发布，只进入下一 Release 核验。
+- 2026-08-19｜需求与孵化｜站点开放 Issues / PR 为 0，Feedlog 仍只有系统 welcome、0 票、0 评论，#4237 无更新。`ATTACK-01` 7 天精确需求 0、28 天 1 次展现；Caribbean / Danish Straits 两窗口均为 0，上游只命中旧地图 PR，继续 Incubation、不晋级。Doomsday 7 天错落地信号进入下一稳定窗口复核，不做重复改稿。
 
 - 2026-08-16｜Release / 上游｜最新正式非 TEST Release 为 [`v0.33.5`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5)，发布于 2026-08-15T02:24:47Z，tag commit `87f1a52`。受管 featured lobby 标签与展示窗口、adminbot 固定队伍、匿名固定队友互见和 Infinite Gold x5 ghost badge 触发 `FRESH-01`；普通 Host UI 未新增固定队伍控件。
 - 2026-08-16｜正式与未发布边界｜v33.5 正式 `UserSettingModal.ts` 仍无 `resetGfx`、`selectAllWarships` 或 `boxSelectWarships` 设置项，`WaterManager.ts` 仍无 `c5c7d74` 修复；固定 `F`、图形重置 `R`、框选 `Shift` 与运输船绕开 Water-Nuked 水域的警告继续有效。来源包见 [`2026-08-16-v33-5-content-signals.md`](research/2026-08-16-v33-5-content-signals.md)。
@@ -218,6 +223,16 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 - 2026-08-12｜Release / 上游二次核验｜最新正式非 TEST Release 仍为 `v0.33.4`。上游 main 从 `228143e` 前进 5 个未发布提交到 `8e1d2fd`：出生倒计时边框、Sol/Archipelago 小修、管理员固定队伍、按账号保存外观、无限金币时显示 x5 幽灵徽标；均未改变站内已发布操作或机制结论。
 - 2026-08-12｜Feedlog / GitHub 二次核验｜站点开放 Issues 与开放 PR 均为 0；Feedlog 仍只有系统 welcome，1 个 Other、0 票、0 评论。上游开放 #4237 则提供两段视频与 5 条讨论，表明高攻击比例的同 tick 双击可能意外 full-send；它是 `ATTACK-01` 的事实风险，不足以单独证明五语新页需求。
 - 2026-08-12｜`ATTACK-01` 孵化决策｜v33.4 源码确认默认攻击比例 20%、范围 1%–100%、默认步进 10%，单次发送量为点击时当前兵力 × 比例；相同目标的并行地面攻击会合并。28 天精确 `openfront attack ratio` 只有 1 次展现，相关攻击/发兵/获胜泛意图合计 10 次展现。结论为继续 Incubation、不晋级；详细来源见 [`2026-08-12-attack-ratio-incubation.md`](research/2026-08-12-attack-ratio-incubation.md)。
+
+## 本次合规自检（2026-08-19，`NUKE-01` Monitoring 退出）
+
+- 计划 ID：`NUKE-01`；本轮是达到既定退出门槛后的 docs-only 决策收口，不修改玩家正文、路由、生成数据或交互。
+- 玩家结果与唯一主落地页：7 天有效窗口中 `/guides/water-nukes/` 以 97 次展现和全部 3 次点击超过 hotkeys 的 64 次展现，证明查询已主要进入唯一完整答案；不再继续扩写或新建第二个 Water Nukes 页面。
+- Release 与上游边界：最新正式非 TEST Release 仍为 `v0.33.5`；上游 `0b0c765` 的核弹保护、Port 商船、封闭领土吞并和团队 Doomsday 变化只列入下一 Release 核验，没有抢先写成当前规则。
+- 孵化与其他信号：`MAP-01` 的 GSC 精确需求和玩家 Issue 仍为 0，`ATTACK-01` 28 天仍只有 1 次展现且 #4237 无更新，两项继续 Incubation。Doomsday 错落地留待下一稳定窗口复核，不做重复内容或 canonical 猜测。
+- 语言、旧页与视觉证据：en、zh、fr、de、nl 玩家页面改动均为 0；来源是 GSC Query x Page、正式 Release、上游 compare、GitHub Issues/PR 与 Feedlog API，没有截图或伪造游戏画面。
+- 验证：严格内容审计 40/40；`git diff --check`、本地 Markdown 链接、UTF-8 BOM、终止换行和尾随空白检查通过。没有 Astro 输入、站点路由、内部站点链接或交互变化，因此不运行 Astro check、build、`pnpm check:links` 或 Playwright。
+- 命令失败收口：`$CODEX_HOME` 缺失已有项目规则覆盖，未重复追加；只读 `gh api` 带 `-f` 默认切换 POST 并返回 pulls 422 是新的可复现模式，已在 `AGENTS.md` 增加显式 `-X GET` 规则。交付为 [PR #35](https://github.com/redreamality/openfront-intel/pull/35)。
 
 ## 本次合规自检（2026-08-16，`FRESH-01` v33.5 正式响应）
 
@@ -421,6 +436,7 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 
 ## 已完成
 
+- [x] 2026-08-19：`NUKE-01` 在首个有效后切片中达到退出条件；7 天 Water Nukes 专页以 97 次展现和全部 3 次点击成为主要落地页，Monitoring 关闭。`MAP-01` / `ATTACK-01` 继续 Incubation；本轮只提交决策、来源包和一条新命令规避规则，交付为 [PR #35](https://github.com/redreamality/openfront-intel/pull/35)。
 - [x] 2026-08-16：完成正式 `v0.33.5` 的 `FRESH-01` 响应；五语 v33 总览、首页与 modes 区分受管 featured/admin lobby 和普通 Host UI，shortcuts / hotkeys / Water Nukes 保留两个未发布修复的当前版本警告，完整回归 257/257 通过；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已合并为 `29eea4c`。
 - [x] 2026-08-15：完成 `FRESH-01` v33.4 键位重映射边界纠错；五语 `/shortcuts/` 与 `/guides/hotkeys/` 区分大多数可配置动作和固定的 `F` / 图形重置 `R` / 框选 `Shift`，正式与未发布来源可核验，完整回归 257/257 通过；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad`。`MAP-01` 继续 Incubation、不建页。
 - [x] 2026-08-14：完成 `ROOM-01`；五语 `/mechanics/modes/` 按四种房间目标纠正普通 Host UI 设置边界，FAQ 与 mechanics 索引提供两个自然入口，独立私人房攻略候选取消；完整回归 257/257 通过，交付于 [PR #30](https://github.com/redreamality/openfront-intel/pull/30)。
@@ -479,3 +495,4 @@ Search Console 原始指标保持在本地缓存中，不写入仓库。本文�
 | 2026-08-14 | `ROOM-01` | 五语 modes 按公平朋友局、固定队伍训练、机制实验和赛事连续多局提供当前 Host UI 可执行配置；FAQ 与 mechanics 索引导向唯一主答案，取消独立私人房页候选；交付 [PR #30](https://github.com/redreamality/openfront-intel/pull/30) | GSC 刷新及唯一重试均超时，回退到 2026-08-13 生成、截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；Issues/开放 PR 0，Feedlog 0 票/0 评论 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 e2e 5/5；完整 e2e 257/257；生成 JSON 噪声已恢复 | Production 恢复为空；`MAP-01` 成为下一 Incubation 锚点，`NUKE-01` 等截止至少 8 月 11 日且后切片有行 |
 | 2026-08-15 | `FRESH-01` 键位边界 + `MAP-01` 孵化 | 五语 shortcuts / hotkeys 纠正 v33.4 “全部可重映射”错误，固定 `F` / 图形重置 `R` / 框选 `Shift` 与未发布补齐提交分开；无新路由；[PR #31](https://github.com/redreamality/openfront-intel/pull/31) 已合并为 `8926aad` | GSC 刷新及唯一重试无输出，回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；最新正式版仍为 v0.33.4；地图地形差异成立但精确需求为 0 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；定向 20/20；完整 e2e 257/257；diff/BOM/旧绝对说法审计通过 | Release 含 `ead15d8` 后移除固定警告；`MAP-01` 等真实问题或搜索意图；`NUKE-01` 等有效后切片 |
 | 2026-08-16 | `FRESH-01` v33.5 响应 | 五语 v33 总览先解释受管 featured/admin lobby，modes 区分普通 Host UI；首页、FAQ、shortcuts、hotkeys 与 Water Nukes 同步当前版本边界，没有新增路由；[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已合并为 `29eea4c` | 正式 v0.33.5 为非 TEST Release；GSC 回退截止 2026-08-10 的 7 天 921/1,867 与 28 天 1,298/3,229；Issues/起始开放 PR 0，Feedlog 0 票/0 评论，#4237 无更新 | audit 40/40；Astro check 0 errors、9 hints；build 230 页；links 9,314；完整 e2e 257/257；生成 JSON 噪声已恢复；PR 最终门禁通过 | Production 关闭；下一正式 Release 核验 `ead15d8`、`c5c7d74` 与 tag 后核弹保护 |
+| 2026-08-19 | `NUKE-01` Monitoring 退出 | 首个有效 7 天窗口证明 Water Nukes 专页以 97 次展现和全部 3 次点击成为主要落地页，关闭 Monitoring；没有修改玩家页面；交付为 [PR #35](https://github.com/redreamality/openfront-intel/pull/35) | GSC 成功刷新至 2026-08-16：7 天 966/1,967，28 天 1,419/3,694；最新正式版仍为 v0.33.5；`MAP-01` / `ATTACK-01` 不晋级，Doomsday 错落地进入下一窗口复核 | docs-only：audit 40/40；diff/BOM/终止换行/本地 Markdown 链接通过；无站点或交互变化 | 等下一正式 Release、事实错误或成熟玩家问题 |
