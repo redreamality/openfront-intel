@@ -1,16 +1,28 @@
 ---
-title: 'v33.5: featured lobby’s, vastgezette teams en v33-bundelbediening'
-description: 'Spelersgerichte OpenFront v33.5-notities: beheerde featured lobby’s, door admins vastgezette teams, zichtbare anonieme teamgenoten, Infinite Gold-feedback en geldige v33.4-bundelbediening.'
+title: 'v33.6: versie-replays, featured lobby’s en v33-bediening'
+description: 'Spelersgerichte OpenFront v33.6-notities: speel oude partijen met de juiste build opnieuw, plus de v33.5-lobby- en v33.4-bundelgrenzen.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-16
+updatedDate: 2026-08-20
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct antwoord: wat verandert je volgende partij?
+## Direct antwoord: kun je een oude partij opnieuw spelen?
 
-De officiële Release `v0.33.5` is het huidige gepubliceerde item van de v33-serie. Hij verbetert beheerde events: een featured lobby kan een eigen label krijgen en langer zichtbaar blijven, terwijl een spel dat via adminbot wordt gemaakt spelers in teams kan vastzetten. Met anonieme namen kunnen zulke vaste teamgenoten elkaar nu herkennen.
+Ja. De officiële Release `v0.33.6` voegt versie-replay-shells toe. Als de build van een gearchiveerde partij niet bij de huidige client past, controleert het spel `https://replay.<domain>/<gameId>` en opent het de shell die met de regels van die partij is gebouwd.
+
+Open de oude link of replay-ingang opnieuw en forceer niet de huidige `/game/<id>`-pagina. Voor builds van vóór deze functie blijft de bekende versie-mismatchmelding mogelijk als er geen shell is gearchiveerd. De replay simuleert lokaal, houdt de canonieke replay-URL vast en gebruikt geen nieuwe multiplayerplek.
+
+| v33.6-wijziging | Resultaat voor spelers | Belangrijke grens |
+|---|---|---|
+| Versie-replay-shells | Oude partijen draaien met hun oorspronkelijke build | Dit is een replaypad, geen manier om actuele lobby’s oude regels te geven |
+| Luna-frequentie in openbare multiplayer `6 → 2` | Luna verschijnt minder vaak in de openbare rotatie | Alleen de rotatie verandert, niet Luna’s terrein of regels |
+| Rejoin-limiet | Normale herverbindingen blijven werken | Meer dan 5 rejoin-frames per client per minuut worden beperkt |
+
+## v33.5: beheerde lobby’s houden hun eigen grens
+
+De officiële Release `v0.33.5` verbeterde beheerde events: een featured lobby kan een eigen label krijgen en langer zichtbaar blijven, terwijl een spel dat via adminbot wordt gemaakt spelers in teams kan vastzetten. Met anonieme namen kunnen zulke vaste teamgenoten elkaar nu herkennen.
 
 Dit voegt **geen** optie voor vastgezette teams toe aan het gewone Host-menu. Een normale host kiest nog steeds Team en de zichtbare lobbyinstellingen; de vaste indeling hoort bij het admin-aanmaakpad. Infinite Gold toont bij nul kosten ook de x5-ghostbadge, maar dat is feedback en geen nieuwe grondstof- of bundelregel.
 
@@ -106,6 +118,6 @@ De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**.
 
 ## Bronstatus
 
-GitHub markeert de officiële Release `v0.33.5` als `draft=false` en `prerelease=false`; de body bevat echte v33.5- tot v33.0-items en geen TEST-placeholder. Deze pagina blijft het enige v33-overzicht; de grens van beheerde lobby’s hoort in het bestaande modes-antwoord, bundelbediening in de bestaande sneltoets-, nuke- en Water Nukes-antwoorden.
+GitHub markeert de officiële Release `v0.33.6` als `draft=false` en `prerelease=false`; de body bevat echte v33.6- tot v33.0-items en geen TEST-placeholder. Deze pagina blijft het enige v33-overzicht; versie-replay is een versie-workflow, de grens van beheerde lobby’s hoort in het bestaande modes-antwoord, bundelbediening in de bestaande sneltoets-, nuke- en Water Nukes-antwoorden.
 
-Bronnen: [officiële v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [adminbot-aanmaak](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [teams en anonieme namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [gewone Host-bediening](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bundellimieten en kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [toetsenbordschakelaar](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiaal bundelmenu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) en [landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Bronnen: [officiële v0.33.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [versie-replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [doorsturen van gearchiveerde replays](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [replay-shell-verwerking](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [Luna-rotatiefrequentie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [rejoin-limiter](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [adminbot-aanmaak](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [teams en anonieme namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [gewone Host-bediening](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bundellimieten en kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [toetsenbordschakelaar](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiaal bundelmenu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) en [landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

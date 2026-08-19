@@ -63,6 +63,7 @@ OpenFront.io 多语种(en/zh/fr/de/nl)情报与攻略站,Astro + Tailwind 静态
 - **Cookie 设置从“允许统计”改回“仅必要功能”时必须立即停止当前页 Analytics**：不能只改 `localStorage` 等待下次导航。应设置 `ga-disable-<MEASUREMENT_ID>`、发送 denied consent update、移除动态 Google tag，并用 e2e 覆盖 allow → essential 的撤回路径。
 - **`astro check` 会一起检查 `e2e/*.ts` 的 TypeScript**：Playwright 的 `page.evaluate` 即使运行正常，直接访问 `window['自定义属性']` 仍会触发 `ts(7015)`。对 `ga-disable-*` 等自定义全局属性使用局部交叉类型声明后再读取，不要依赖运行时宽松行为。
 - **来源面板必须区分“提取 checkout”与“编辑验证范围”**：`_meta.upstreamCommit` 记录本次 extract 使用的源码 checkout，`_meta.upstreamVersion` 仍表示编辑验证范围/内置 fallback 版本；不得暗示该 commit 就是 vXX 对应 tag。源码链接可以指向 checkout，但文案必须明确两者含义。
+- **升级系列 changelog 的正式小版本时必须同步来源面板映射**：如果页面仍使用 `version: v33` 等系列标识而正文升级到新的正式 tag，更新 `src/components/ProvenancePanel.astro` 的显式 `releaseTag` 映射，并保留对应 Release URL e2e；否则正文会显示新版本但来源链接仍指向旧 Release。
 - **补攻略视觉内容时不得伪造游戏截图**：优先用真实可核验截图；没有真实素材时，可基于现有数据和编辑规则制作 HTML/CSS 代码原生解释图，并为五语页面增加内容完整性 e2e。
 - **最终回归的 prebuild 会反复刷新 `_meta.json.generatedAt`**：若数据、`upstreamVersion`、`upstreamCommit` 与配置值都没变化，最终 amend 前应移除仅时间戳变化的噪声；不要手改生成 JSON，使用针对该文件的已知基线恢复，并确认首次有效 extract 的 commit/版本元数据仍保留。
 - **不要为普通 push 改变已有 GitHub 仓库的 visibility**：Public→Private→Public 切换会删除 GitHub Pages 站点配置，表现为自定义域名返回 GitHub Pages 404、仓库 `has_pages=false`、`GET /repos/{owner}/{repo}/pages` 返回 404，且 `configure-pages` 报 “Get Pages site failed”。恢复步骤是用 Pages API 以 `build_type=workflow` 重建站点、重新绑定 `openfront.fyi`、触发部署；workflow 的 `actions/configure-pages` 保持 `enablement: true`，并保留 `public/CNAME` 防止域名配置再次漂移。

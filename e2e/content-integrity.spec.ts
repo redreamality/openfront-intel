@@ -51,14 +51,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 uses the official v0.33.5 Release URL', async ({ page }) => {
+test('changelog v33 uses the official v0.33.6 Release URL', async ({ page }) => {
   await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5',
+    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6',
   );
 });
 
@@ -360,6 +360,7 @@ const v33Cases = [
     veteran: '3 veterancy levels',
     maps: '117-map',
     replay: 'replay desync errors',
+    versionedReplay: 'versioned replay shells',
     tribe: 'custom tribe names',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
     rot: 'territory rot',
@@ -378,6 +379,7 @@ const v33Cases = [
     veteran: '3 级熟练度',
     maps: '117 张地图',
     replay: '回放 desync 错误',
+    versionedReplay: '版本化 replay shell',
     tribe: '自定义 tribe 名称',
     thresholds: '2%、4%、7%、11%、17%、25%，最终到 35%',
     rot: '领土腐化',
@@ -396,6 +398,7 @@ const v33Cases = [
     veteran: '3 niveaux de vétérérance',
     maps: '117 cartes',
     replay: 'erreurs de desync des replays',
+    versionedReplay: 'shells de replay versionnés',
     tribe: 'noms de tribe personnalisés',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
     rot: 'corruption territoriale',
@@ -414,6 +417,7 @@ const v33Cases = [
     veteran: '3 Veteranenstufen',
     maps: '117 Karten',
     replay: 'Desync-Fehler in Replays',
+    versionedReplay: 'versionierte Replay-Shells',
     tribe: 'benutzerdefinierte Tribe-Namen',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
     rot: 'Gebietszerfall',
@@ -432,6 +436,7 @@ const v33Cases = [
     veteran: '3 veterancy-niveaus',
     maps: '117 kaarten',
     replay: 'desyncfouten in replays',
+    versionedReplay: 'Versie-replay-shells',
     tribe: 'aangepaste tribe-namen',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
     rot: 'landrot',
@@ -446,14 +451,15 @@ const v33Cases = [
 ];
 
 for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains v33.5 managed lobbies and keeps v33.4 controls`, async ({ page }) => {
+  test(`${v33Case.path} explains v33.6 replay behavior and keeps earlier controls`, async ({ page }) => {
     await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(v33Case.grace);
     await expect(main).toContainText(v33Case.ranked);
     await expect(main).toContainText(v33Case.veteran);
     await expect(main).toContainText(v33Case.maps);
-    await expect(main).toContainText('v0.33.5');
+    await expect(main).toContainText('v0.33.6');
+    await expect(main).toContainText(v33Case.versionedReplay);
     await expect(main).toContainText(v33Case.featured);
     await expect(main).toContainText(v33Case.pinned);
     await expect(main).toContainText(v33Case.hostBoundary);

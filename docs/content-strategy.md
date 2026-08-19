@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略与滚动计划
 
-更新日期：2026-08-19。当前规划窗口：未来 6–8 周。
+更新日期：2026-08-20。当前规划窗口：未来 6–8 周。
 
 本文回答“为什么做、先做什么、做到什么程度”。[`content-loop.md`](content-loop.md) 只记录每日发现、执行状态和交付结果；[`search-console-content-workflow.md`](search-console-content-workflow.md) 只负责数据获取与机会分类。
 
@@ -124,7 +124,7 @@
 
 | ID | 玩家结果 | 交付范围 | 状态 / 下一步 | 完成定义 |
 |---|---|---|---|---|
-| `FRESH-01` | 快速看懂当前版本及重要小版本对实战的影响 | `v32`、`v33` 已有总览；后续版本可继续维护总览，也可按独立玩家影响增加小版本或专题页 | v33.5 正式响应已通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 收口：五语 v33 总览、首页与 modes 区分受管 featured/admin lobby 和普通 Host UI，并把固定键位与 Water Nukes 绕路警告推进为 v33.5 仍存在 | 版本内容覆盖真正改变玩法的内容，并连接所有受影响主答案；拆分或合并有明确玩家价值依据 |
+| `FRESH-01` | 快速看懂当前版本及重要小版本对实战的影响 | `v32`、`v33` 已有总览；后续版本可继续维护总览，也可按独立玩家影响增加小版本或专题页 | v33.6 正式响应进入 Production：沿用唯一五语 v33 总览，直接回答旧对局的版本化回放、匹配 shell 和版本不匹配边界，并保留 v33.5 受管大厅与 v33.4 操作规则；首页最新版本卡片同步 v33.6 | 版本内容覆盖真正改变玩法的内容，并连接所有受影响主答案；拆分或合并有明确玩家价值依据 |
 | `FRESH-02` | 打开旧攻略就能判断是否仍适用 | 为核心攻略增加统一的正文顶部新鲜度摘要 | 已完成：7 个核心答案 × 5 语均显示 v33、核验日期和页面专属变化 | 显示适用版本、核验日期、最重要变化；五语事实一致 |
 | `FRESH-03` | 首页先回答“最新、入门、操作、经济” | 重构五语首页信息层级 | 已完成；[PR #6](https://github.com/redreamality/openfront-intel/pull/6) 已合并：五语首屏和首个内容区优先连接四个高价值答案，数字卡降为参考 | 首屏或首个内容区突出最新版本变化、第一次玩、快捷键、经济增长；数字卡降为辅助 |
 | `DOOM-01` | 玩家知道 Doomsday 中何时扩张、撤退、囤兵，以及何时争领土第一而不是盲抢中心 | 新增 Doomsday Clock 独立实战攻略并同步受影响页面 | 已完成并按审阅反馈深度扩写：五语主答案、v32/v33 相邻入口、来源包和 e2e 同批交付至 [PR #8](https://github.com/redreamality/openfront-intel/pull/8) | 覆盖宽限期、波次、速度档、警告救场、领土形状、部队/战舰衰减、常见失败和反制；不重复版本总览 |
@@ -157,6 +157,8 @@
 
 2026-08-16 正式 Release 中断与交付：`v0.33.5` 于 2026-08-15 发布真实正文，新增受管 featured lobby 标签与展示窗口、adminbot 固定队伍、匿名固定队友互见和 Infinite Gold x5 ghost badge。该版本重新打开 `FRESH-01`；本轮沿用五语 `/changelog/v33/` 与 `/mechanics/modes/` 的既有主答案，并同步首页、FAQ、shortcuts、hotkeys 与 Water Nukes。正式 tag 的普通 `HostLobbyModal.ts` 未新增固定队伍控件，且仍未包含 `ead15d8` 的键位设置或 `c5c7d74` 的 Water Nukes 寻路修复，因此继续保留当前版本警告。[PR #33](https://github.com/redreamality/openfront-intel/pull/33) 已 squash 合并为 `29eea4c`，`FRESH-01` 再次关闭。
 
+2026-08-20 正式 Release 中断：`v0.33.6` 于 2026-08-19 发布真实正文，新增版本化回放 shell，使旧对局在当前部署不存在时仍能按原构建规则回放；同时把 Luna 公共多人频率从 6 降至 2，并为每客户端 rejoin 增加每分钟 5 次限流。回放改变玩家下一步操作，重新打开 `FRESH-01`；沿用五语 `/changelog/v33/` 与首页最新版本入口，不新建回放薄页。Luna 轮换和 rejoin 限流保留在版本笔记与来源中，不晋级独立策略页。
+
 2026-08-05 合并权限校准：用户确认后续自动化 PR 无需再次人工审阅。内容与来源门禁、完整验证、最新 main 基线、无重叠冲突和远端 SHA 核验继续保留；全部满足后由自动化直接 squash merge，失败或状态不确定时停止合并并报告，不以“自动合并”降低质量门槛。
 
 2026-08-05 执行工作区校准：用户要求定时任务不再创建 worktree。每轮只能在配置的本地项目目录中，从已同步且干净的 main 创建本地主题分支；启动时只豁免未跟踪的 `.cache/**` 本地缓存，任何已修改/暂存文件或其他未跟踪文件都必须停止。每个 PR 合入后必须切回并 fast-forward-only 同步 main，再领取下一项。
@@ -167,7 +169,7 @@
 
 ### Production：玩家内容交付
 
-`FRESH-01` 的 v33.5 正式响应已于 2026-08-17 通过 [PR #33](https://github.com/redreamality/openfront-intel/pull/33) 完成并关闭；五语 `/changelog/v33/`、首页与 `/mechanics/modes/` 已区分受管活动能力和普通 Host UI，shortcuts / hotkeys / Water Nukes 也保持两个未发布修复的当前版本警告。`ROOM-01`、`ECON-01`、`CTRL-01` 与 `DOOM-01` 保持关闭，当前没有主动 Production 项。正式 Release 仍优先，但只更新真正改变玩家决策的总览与常青主答案，不为小修复制造薄页。
+`FRESH-01` 的 v33.6 正式响应正在 Production：五语 `/changelog/v33/` 与首页将直接回答旧对局如何跳转到匹配版本的 replay shell，并保留 v33.5 受管活动、v33.4 批量操作与两个未发布修复的边界。`ROOM-01`、`ECON-01`、`CTRL-01` 与 `DOOM-01` 保持关闭；当前唯一主动 Production 是本次版本响应。只更新真正改变玩家决策的总览与常青主答案，不为服务保护小修复制造薄页。
 
 ### Monitoring：已交付结果验证
 

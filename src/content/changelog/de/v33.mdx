@@ -1,16 +1,28 @@
 ---
-title: 'v33.5: Featured-Lobbys, fixierte Teams und v33-Mengensteuerung'
-description: 'Spielerorientierte OpenFront-v33.5-Notizen: verwaltete Featured-Lobbys, von Admins fixierte Teams, sichtbare anonyme Teammitglieder, Infinite-Gold-Feedback und weiterhin gültige v33.4-Mengensteuerung.'
+title: 'v33.6: Versions-Replays, Featured-Lobbys und v33-Steuerung'
+description: 'Spielerorientierte OpenFront-v33.6-Notizen: ältere Spiele mit dem passenden Build replayen, dazu die Grenzen der v33.5-Lobbys und v33.4-Mengensteuerung.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-16
+updatedDate: 2026-08-20
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direkte Antwort: Was ändert dein nächstes Match?
+## Direkte Antwort: Kannst du ein älteres Spiel replayen?
 
-Das offizielle Release `v0.33.5` ist der aktuelle veröffentlichte Eintrag der v33-Serie. Es verbessert verwaltete Events: Featured-Lobbys können ein eigenes Label tragen und länger gelistet bleiben, während per Adminbot erstellte Spiele Spieler festen Teams zuordnen können. Bei anonymen Namen erkennen sich diese fixierten Teammitglieder nun gegenseitig.
+Ja. Das offizielle Release `v0.33.6` ergänzt versionierte Replay-Shells. Wenn der Build eines archivierten Spiels nicht zum aktuellen Client passt, prüft das Spiel `https://replay.<domain>/<gameId>` und öffnet die Shell, die mit den Regeln der aufgezeichneten Partie gebaut wurde.
+
+Öffne den alten Spiel-Link oder den Replay-Eintrag erneut und erzwinge nicht die aktuelle `/game/<id>`-Seite. Für Builds vor dieser Funktion kann weiterhin die bekannte Versionsfehler-Meldung erscheinen, wenn keine Replay-Shell archiviert wurde. Das Replay simuliert lokal, behält die kanonische Replay-URL und verbraucht keinen neuen Multiplayer-Platz.
+
+| v33.6-Änderung | Ergebnis für Spieler | Wichtige Grenze |
+|---|---|---|
+| Versionierte Replay-Shells | Ältere Spiele laufen mit ihrem ursprünglichen Build weiter | Replay ist ein eigener Pfad und macht aktuelle Lobbys nicht zu alten Regelversionen |
+| Luna-Multiplayer-Frequenz `6 → 2` | Luna erscheint seltener in der öffentlichen Rotation | Nur die Rotation ändert sich, nicht Lunas Terrain oder Regeln |
+| Rejoin-Limit | Normale Verbindungen funktionieren weiter | Mehr als 5 Rejoin-Frames pro Client und Minute werden begrenzt |
+
+## v33.5: Verwaltete Lobbys behalten ihre eigene Grenze
+
+Das offizielle Release `v0.33.5` verbessert verwaltete Events: Featured-Lobbys können ein eigenes Label tragen und länger gelistet bleiben, während per Adminbot erstellte Spiele Spieler festen Teams zuordnen können. Bei anonymen Namen erkennen sich diese fixierten Teammitglieder nun gegenseitig.
 
 Das fügt dem normalen Host-Menü **keinen** Regler für fixierte Teams hinzu. Gewöhnliche Hosts wählen weiter Team und die sichtbaren Lobby-Einstellungen; die feste Zuordnung gehört zum Admin-Erstellungspfad. Infinite Gold zeigt bei Kosten null außerdem das x5-Ghost-Badge, doch das ist Feedback und keine neue Ressourcen- oder Mengenregel.
 
@@ -106,6 +118,6 @@ Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Kart
 
 ## Quellenstatus
 
-GitHub markiert das offizielle Release `v0.33.5` als `draft=false` und `prerelease=false`; der Text enthält echte v33.5- bis v33.0-Einträge statt eines TEST-Platzhalters. Diese Seite bleibt die einzige v33-Übersicht; die Grenze verwalteter Lobbys gehört in die bestehende Modus-Antwort, Mengensteuerung weiter in Shortcut-, Nuke- und Water-Nukes-Antworten.
+GitHub markiert das offizielle Release `v0.33.6` als `draft=false` und `prerelease=false`; der Text enthält echte v33.6- bis v33.0-Einträge statt eines TEST-Platzhalters. Diese Seite bleibt die einzige v33-Übersicht; das Versions-Replay ist ein Versions-Workflow, die Grenze verwalteter Lobbys gehört in die bestehende Modus-Antwort, Mengensteuerung weiter in Shortcut-, Nuke- und Water-Nukes-Antworten.
 
-Quellen: [offizielles v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [Adminbot-Erstellung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [Teams und anonyme Namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [normale Host-Regler](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [Mengenlimits und Kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [Tastatur-Umschaltung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiales Mengenmenü](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) und [Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Quellen: [offizielles v0.33.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [versionierte Replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Archiv-Replay-Weiterleitung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [Replay-Shell-Verarbeitung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [Luna-Rotationsfrequenz](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [Rejoin-Limiter](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [Adminbot-Erstellung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [Teams und anonyme Namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [normale Host-Regler](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [Mengenlimits und Kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [Tastatur-Umschaltung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiales Mengenmenü](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-Wellen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) und [Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
