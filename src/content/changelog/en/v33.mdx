@@ -1,16 +1,28 @@
 ---
-title: 'v33.5: Featured Lobbies, Pinned Teams & v33 Bulk Controls'
-description: 'Player-focused OpenFront v33.5 notes: managed featured lobbies, admin-pinned teams, anonymous teammate visibility, Infinite Gold feedback, and the v33.4 bulk-control rules still in force.'
+title: 'v33.6: Versioned Replays, Featured Lobbies & v33 Controls'
+description: 'Player-focused OpenFront v33.6 notes: replay older games with the matching build, plus the v33.5 managed-lobby and v33.4 bulk-control rules still in force.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-16
+updatedDate: 2026-08-20
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changes your next match?
+## Direct answer: can you replay an older game?
 
-The official `v0.33.5` Release is the current published v33 entry. It improves managed events: featured lobbies can carry a custom label and remain listed longer, while games created through the adminbot can pin players to teams. Pinned teammates can now see each other when anonymous names are enabled.
+Yes. The official `v0.33.6` Release adds versioned replay shells. When an archived game's build no longer matches the live client, the game checks `https://replay.<domain>/<gameId>` and opens the shell built with the rules that recorded the match.
+
+Open the old game link or replay entry again; do not force it through the current `/game/<id>` page. If the matching shell was not archived for a pre-feature build, the existing version-mismatch message remains the honest result. Replays simulate locally, preserve the canonical replay URL, and do not consume a new multiplayer slot.
+
+| v33.6 change | Player result | Boundary to remember |
+|---|---|---|
+| Versioned replay shells | Older archived games can replay under their original build | It is a replay path, not a way to make a current lobby use old rules |
+| Luna public multiplayer frequency `6 → 2` | Luna appears less often in public multiplayer rotation | This changes map rotation, not Luna's terrain or rules |
+| Rejoin rate limit | Normal reconnects continue to work without a visible change | More than 5 rejoin frames per client per minute are limited |
+
+## v33.5 update: managed lobbies still have a separate boundary
+
+The official `v0.33.5` Release improved managed events: featured lobbies can carry a custom label and remain listed longer, while games created through the adminbot can pin players to teams. Pinned teammates can now see each other when anonymous names are enabled.
 
 This does **not** add a pinned-team control to the normal Host menu. Ordinary hosts still choose Team and the visible lobby settings; the pinned-team input belongs to the admin game-creation path. Infinite Gold also shows the x5 ghost badge when costs are zero, but that is feedback, not a new resource or batch rule.
 
@@ -106,6 +118,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.5` Release `draft=false` and `prerelease=false`; its body contains real v33.5 through v33.0 entries rather than TEST placeholder text. This remains the single v33 series overview because the managed-lobby boundary belongs in the existing modes answer, while bulk controls remain on the shortcut, nuke, and Water Nukes answers.
+GitHub labels the official `v0.33.6` Release `draft=false` and `prerelease=false`; its body contains real v33.6 through v33.0 entries rather than TEST placeholder text. This remains the single v33 series overview because versioned replay is a release-level workflow, the managed-lobby boundary belongs in the existing modes answer, and bulk controls remain on the shortcut, nuke, and Water Nukes answers.
 
-Sources: [official v0.33.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [team and anonymous-name handling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [ordinary Host controls](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [keyboard toggle](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radial batch menu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), and [territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Sources: [official v0.33.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [versioned replay URL helper](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [archived replay redirect](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [replay shell handling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [Luna rotation frequency](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [rejoin limiter](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [team and anonymous-name handling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [ordinary Host controls](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [keyboard toggle](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radial batch menu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts), and [territory rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).

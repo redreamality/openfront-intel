@@ -1,16 +1,28 @@
 ---
-title: 'v33.5 : salons featured, équipes fixées et commandes groupées v33'
-description: 'Notes OpenFront v33.5 orientées joueur : salons featured gérés, équipes fixées par admin, coéquipiers anonymes visibles, retour Infinite Gold et commandes groupées v33.4 toujours actives.'
+title: 'v33.6 : replays versionnés, salons featured et commandes v33'
+description: 'Notes OpenFront v33.6 orientées joueur : rejouer les anciennes parties avec le build correspondant, plus les limites des salons v33.5 et des commandes groupées v33.4.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-16
+updatedDate: 2026-08-20
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Réponse directe : qu’est-ce qui change votre prochaine partie ?
+## Réponse directe : peut-on rejouer une ancienne partie ?
 
-La Release officielle `v0.33.5` est l’entrée publiée actuelle de la série v33. Elle améliore les événements gérés : un salon featured peut porter un label personnalisé et rester listé plus longtemps, tandis qu’une partie créée par adminbot peut fixer les joueurs dans leurs équipes. Avec les noms anonymes, ces coéquipiers fixés peuvent maintenant se reconnaître.
+Oui. La Release officielle `v0.33.6` ajoute des shells de replay versionnés. Si le build de l’ancienne partie ne correspond plus au client courant, le jeu vérifie `https://replay.<domain>/<gameId>` puis ouvre le shell construit avec les règles qui ont enregistré la partie.
+
+Rouvrez le lien ou l’entrée de replay ; ne forcez pas l’URL actuelle `/game/<id>`. Si aucun shell n’a été archivé pour un build antérieur à cette fonction, le message de version incompatible reste le résultat attendu. Le replay simule localement la partie, conserve son URL canonique et ne consomme pas une nouvelle place multijoueur.
+
+| Changement v33.6 | Résultat pour le joueur | Limite à retenir |
+|---|---|---|
+| Shells de replay versionnés | Les anciennes parties peuvent être rejouées avec leur build d’origine | C’est un chemin de replay, pas un moyen d’appliquer d’anciennes règles à un salon actuel |
+| Fréquence multijoueur publique de Luna `6 → 2` | Luna apparaît moins souvent dans la rotation publique | La rotation change, pas le terrain ni les règles de Luna |
+| Limitation des rejoin | Les reconnexions normales continuent de fonctionner | Plus de 5 trames rejoin par client et par minute sont limitées |
+
+## v33.5 : les salons gérés gardent une limite distincte
+
+La Release officielle `v0.33.5` améliore les événements gérés : un salon featured peut porter un label personnalisé et rester listé plus longtemps, tandis qu’une partie créée par adminbot peut fixer les joueurs dans leurs équipes. Avec les noms anonymes, ces coéquipiers fixés peuvent maintenant se reconnaître.
 
 Cela **n’ajoute pas** de commande « équipe fixée » au menu Host ordinaire. Un hôte normal choisit toujours Team et les réglages visibles du salon ; l’affectation fixée appartient au chemin de création admin. Infinite Gold affiche aussi le badge fantôme x5 lorsque le coût vaut zéro, mais ce retour visuel ne crée aucune nouvelle règle de ressources ou de lot.
 
@@ -106,6 +118,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.5` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.5 à v33.0, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; la limite des salons gérés rejoint la réponse modes existante, tandis que les lots restent dans les réponses raccourcis, nukes et Water Nukes.
+GitHub marque la Release officielle `v0.33.6` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.6 à v33.0, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; le replay versionné est un workflow de version, la limite des salons gérés rejoint la réponse modes existante, tandis que les lots restent dans les réponses raccourcis, nukes et Water Nukes.
 
-Sources : [Release officielle v0.33.5](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [équipes et anonymat](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [commandes Host ordinaires](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Sources : [Release officielle v0.33.6](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [URL du replay versionné](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [redirection d’un replay archivé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [gestion du shell de replay](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [fréquence de Luna](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [limiteur des rejoin](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [équipes et anonymat](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [commandes Host ordinaires](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
