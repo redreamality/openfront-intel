@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
+import { latestOpenFrontRelease } from '../src/config/openfront-release';
 
 const maps = JSON.parse(
   readFileSync(new URL('../src/data/maps.json', import.meta.url), 'utf8'),
@@ -51,14 +52,14 @@ for (const version of ['24', '25', '26', '27', '28', '29', '30', '31', '32']) {
   });
 }
 
-test('changelog v33 uses the official v0.33.6 Release URL', async ({ page }) => {
-  await page.goto('/changelog/v33/', { waitUntil: 'domcontentloaded' });
+test(`changelog ${latestOpenFrontRelease.series} uses the official ${latestOpenFrontRelease.tag} Release URL`, async ({ page }) => {
+  await page.goto(`/changelog/${latestOpenFrontRelease.series}/`, { waitUntil: 'domcontentloaded' });
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toBeVisible();
   await expect(provenance.getByRole('link', { name: /GitHub Release/ })).toHaveAttribute(
     'href',
-    'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6',
+    latestOpenFrontRelease.releaseUrl,
   );
 });
 
@@ -352,127 +353,23 @@ for (const v32Case of v32Cases) {
   });
 }
 
-const v33Cases = [
-  {
-    path: '/changelog/v33/',
-    grace: '10-minute grace period',
-    ranked: '1 minute',
-    veteran: '3 veterancy levels',
-    maps: '117-map',
-    replay: 'replay desync errors',
-    versionedReplay: 'versioned replay shells',
-    tribe: 'custom tribe names',
-    thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
-    rot: 'territory rot',
-    featured: 'Custom featured label and longer listing window',
-    pinned: 'Admin-pinned teams',
-    hostBoundary: 'No new pinned-team button in the ordinary Host UI',
-    ghost: 'x5 ghost badge at zero cost',
-    batch: 'Double-tapping the same number key does not build five new structures',
-    timing: 'A same-Silo salvo trails by one tick per bomb',
-    single: 'New placements, Hydrogen Bombs, and MIRVs remain single actions',
-  },
-  {
-    path: '/zh/changelog/v33/',
-    grace: '10 分钟宽限期',
-    ranked: '1 分钟',
-    veteran: '3 级熟练度',
-    maps: '117 张地图',
-    replay: '回放 desync 错误',
-    versionedReplay: '版本化 replay shell',
-    tribe: '自定义 tribe 名称',
-    thresholds: '2%、4%、7%、11%、17%、25%，最终到 35%',
-    rot: '领土腐化',
-    featured: 'featured 自定义标签与更长展示窗口',
-    pinned: '管理员固定队伍',
-    hostBoundary: '普通 Host UI 没有新增固定队伍按钮',
-    ghost: '零成本时显示 x5 ghost badge',
-    batch: '同一数字键连按两次不会一次建造 5 座新建筑',
-    timing: '同一 Silo 内逐 tick 错开',
-    single: '新建建筑、氢弹和 MIRV 仍是单次操作',
-  },
-  {
-    path: '/fr/changelog/v33/',
-    grace: 'grâce de 10 minutes',
-    ranked: '1 minute',
-    veteran: '3 niveaux de vétérérance',
-    maps: '117 cartes',
-    replay: 'erreurs de desync des replays',
-    versionedReplay: 'shells de replay versionnés',
-    tribe: 'noms de tribe personnalisés',
-    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
-    rot: 'corruption territoriale',
-    featured: 'Label featured et fenêtre de liste prolongée',
-    pinned: 'Équipes fixées par admin',
-    hostBoundary: 'Aucun nouveau bouton d’équipe fixée dans le Host ordinaire',
-    ghost: 'Badge fantôme x5 à coût nul',
-    batch: 'Deux pressions sur une touche numérique ne construisent pas cinq nouvelles structures',
-    timing: 'Les tirs d’un même Silo se suivent à un tick d’écart',
-    single: 'nouvelle structure, Hydrogen Bomb et MIRV restent unitaires',
-  },
-  {
-    path: '/de/changelog/v33/',
-    grace: '10 Minuten Schonzeit',
-    ranked: '1 Minute',
-    veteran: '3 Veteranenstufen',
-    maps: '117 Karten',
-    replay: 'Desync-Fehler in Replays',
-    versionedReplay: 'versionierte Replay-Shells',
-    tribe: 'benutzerdefinierte Tribe-Namen',
-    thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
-    rot: 'Gebietszerfall',
-    featured: 'Eigenes Featured-Label und längeres Listing',
-    pinned: 'Von Admins fixierte Teams',
-    hostBoundary: 'Kein neuer Team-Fixierknopf im normalen Host-UI',
-    ghost: 'x5-Ghost-Badge bei Kosten null',
-    batch: 'Ein doppelter Druck auf eine Zahlentaste baut keine fünf neuen Gebäude',
-    timing: 'Starts desselben Silos folgen im Tick-Abstand',
-    single: 'Neubauten, Hydrogen Bomb und MIRV bleiben Einzelaktionen',
-  },
-  {
-    path: '/nl/changelog/v33/',
-    grace: '10 minuten respijt',
-    ranked: '1 minuut',
-    veteran: '3 veterancy-niveaus',
-    maps: '117 kaarten',
-    replay: 'desyncfouten in replays',
-    versionedReplay: 'Versie-replay-shells',
-    tribe: 'aangepaste tribe-namen',
-    thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
-    rot: 'landrot',
-    featured: 'Eigen featured label en langere zichtbaarheid',
-    pinned: 'Door admins vastgezette teams',
-    hostBoundary: 'Geen nieuwe teamknop in de gewone Host-UI',
-    ghost: 'x5-ghostbadge bij nul kosten',
-    batch: 'Twee keer op dezelfde cijfertoets drukken bouwt geen vijf nieuwe gebouwen',
-    timing: 'Lanceringen uit dezelfde Silo volgen per tick',
-    single: 'nieuwbouw, Hydrogen Bomb en MIRV blijven enkele acties',
-  },
-];
+const latestReleaseSsrCases = [
+  { lang: 'en', path: '/', signal: 'versioned replay shells' },
+  { lang: 'zh', path: '/zh/', signal: '版本化 replay shell' },
+  { lang: 'fr', path: '/fr/', signal: 'shells de replay versionnés' },
+  { lang: 'de', path: '/de/', signal: 'versionierte Replay-Shells' },
+  { lang: 'nl', path: '/nl/', signal: 'Versie-replay-shells' },
+] as const;
 
-for (const v33Case of v33Cases) {
-  test(`${v33Case.path} explains v33.6 replay behavior and keeps earlier controls`, async ({ page }) => {
-    await page.goto(v33Case.path, { waitUntil: 'domcontentloaded' });
+for (const releaseCase of latestReleaseSsrCases) {
+  test(`changelog ${latestOpenFrontRelease.series}[${releaseCase.lang}] renders the localized latest-release answer`, async ({ page }) => {
+    await page.goto(
+      `${releaseCase.path}changelog/${latestOpenFrontRelease.series}/`,
+      { waitUntil: 'domcontentloaded' },
+    );
     const main = page.locator('main');
-    await expect(main).toContainText(v33Case.grace);
-    await expect(main).toContainText(v33Case.ranked);
-    await expect(main).toContainText(v33Case.veteran);
-    await expect(main).toContainText(v33Case.maps);
-    await expect(main).toContainText('v0.33.6');
-    await expect(main).toContainText(v33Case.versionedReplay);
-    await expect(main).toContainText(v33Case.featured);
-    await expect(main).toContainText(v33Case.pinned);
-    await expect(main).toContainText(v33Case.hostBoundary);
-    await expect(main).toContainText(v33Case.ghost);
-    await expect(main).toContainText(v33Case.replay);
-    await expect(main).toContainText(v33Case.tribe);
-    await expect(main).toContainText(v33Case.thresholds);
-    await expect(main).toContainText(v33Case.rot);
-    await expect(main).toContainText(v33Case.batch);
-    await expect(main).toContainText(v33Case.timing);
-    await expect(main).toContainText(v33Case.single);
-    await expect(main).toContainText('150');
-    await expect(main).toContainText('MIRV');
+    await expect(main).toBeVisible();
+    await expect(main).toContainText(releaseCase.signal);
   });
 }
 

@@ -9,6 +9,7 @@ type SeoCopy = {
   changelog: (title: string) => string;
   fallback: (title: string) => string;
   special: Record<string, string>;
+  specialPaths: Record<string, string>;
 };
 
 type SeoSection = 'mechanics' | 'database' | 'strategies' | 'guides' | 'changelog';
@@ -31,6 +32,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
       privacy: 'OpenFront Intel Privacy: Analytics & Cookie Choices',
       'editorial-policy': 'OpenFront Intel Editorial Policy: Sources & Verification',
     },
+    specialPaths: {
+      'guides/doomsday-clock': 'OpenFront Doomsday Clock: Rules, Waves & Survival',
+    },
   },
   fr: {
     home: 'Guide OpenFront.io : cartes, unités, mécaniques et stratégies',
@@ -48,6 +52,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: 'Contacter OpenFront Intel : corrections et contributions',
       privacy: 'Confidentialité OpenFront Intel : analytics et cookies',
       'editorial-policy': 'Politique éditoriale : sources et vérification OpenFront.io',
+    },
+    specialPaths: {
+      'guides/doomsday-clock': 'Doomsday Clock OpenFront : règles, vagues et survie',
     },
   },
   nl: {
@@ -67,6 +74,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
       privacy: 'Privacy OpenFront Intel: analytics en cookiekeuzes',
       'editorial-policy': 'Redactioneel beleid: OpenFront.io-bronnen en controle',
     },
+    specialPaths: {
+      'guides/doomsday-clock': 'OpenFront Doomsday Clock: regels, golven & overleven',
+    },
   },
   de: {
     home: 'OpenFront.io Guide: Karten, Einheiten, Mechaniken & Strategie',
@@ -85,6 +95,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
       privacy: 'OpenFront Intel Datenschutz: Analytics und Cookie-Auswahl',
       'editorial-policy': 'Redaktionsrichtlinie: OpenFront.io Quellen und Prüfung',
     },
+    specialPaths: {
+      'guides/doomsday-clock': 'OpenFront Doomsday Clock: Regeln, Wellen & Überleben',
+    },
   },
   zh: {
     home: 'OpenFront.io 攻略站：地图、单位、机制与实战策略',
@@ -102,6 +115,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: '联系 OpenFront 情报站：纠错、建议与内容贡献',
       privacy: 'OpenFront 情报站隐私说明：统计与 Cookie 选择',
       'editorial-policy': 'OpenFront 情报站编辑规范：来源、验证与更正',
+    },
+    specialPaths: {
+      'guides/doomsday-clock': 'OpenFront 末日时钟：规则、波次与生存攻略',
     },
   },
 };
@@ -210,9 +226,11 @@ export function getSeoTitle(lang: Lang, pathname: string, title: string) {
   const segments = trimLanguagePrefix(pathname);
   const section = segments[0] ?? 'home';
   const copy = seoCopy[lang];
+  const pathKey = segments.join('/');
 
   if (section === 'home') return copy.home;
   if (section === '404') return title;
+  if (copy.specialPaths[pathKey]) return copy.specialPaths[pathKey];
   if (copy.special[section]) return copy.special[section];
 
   const formatter = section === 'mechanics'

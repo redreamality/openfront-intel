@@ -1,0 +1,85 @@
+# Git 与 GitHub runbook
+
+仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
+
+来源范围：`路径与验证` 原章节。
+
+## 规则
+
+- **PowerShell 读取含 `[` / `]` 的动态路由文件必须使用 `Get-Content -LiteralPath`**：例如 `src/pages/guides/[...slug].astro` 会被普通 `-Path` 当成通配表达式，导致“对象不存在”错误。
+- **Windows 下不要把 `src/pages/*/about.astro`、`src/data/legal.*.ts` 等通配符直接作为 `rg` 的路径参数**：Windows 会把它视为非法文件名并报 `os error 123`。应从真实目录根搜索，例如 `rg PATTERN src/pages --glob 'about.astro'`。
+- **沙箱用户运行 Git 若报 `detected dubious ownership`，不要改全局配置**：为单次命令添加 `git -c safe.directory='C:/absolute/workspace/path' ...`；若同时看到用户级 ignore 权限警告，可再按命令覆盖不可读的全局/排除配置。
+- **PowerShell 下不要把包含多层字符串比较或正则的复杂表达式直接交给 `gh api --jq`**：引号可能在原生参数传递时被剥离，出现 `function not defined: v24/0` 等 jq 误解析。优先让 `gh api` 输出原始 JSON，再用 `ConvertFrom-Json` + `Where-Object` 过滤。
+- **OpenFront changelog 的站内简写 `vXX` 不是 GitHub Release tag**：官方正式 Release URL 使用 `v0.XX.0`（如 `v24` → `v0.24.0`）。构造来源链接时必须规范化，并通过 `gh api repos/openfrontio/OpenFrontIO/releases/tags/<tag>` 验证正文不是 TEST 占位。
+- **升级系列 changelog 的正式小版本时必须同步来源面板映射**：如果页面仍使用 `version: v33` 等系列标识而正文升级到新的正式 tag，更新 `src/components/ProvenancePanel.astro` 的显式 `releaseTag` 映射，并保留对应 Release URL e2e；否则正文会显示新版本但来源链接仍指向旧 Release。
+- **不要为普通 push 改变已有 GitHub 仓库的 visibility**：Public→Private→Public 切换会删除 GitHub Pages 站点配置，表现为自定义域名返回 GitHub Pages 404、仓库 `has_pages=false`、`GET /repos/{owner}/{repo}/pages` 返回 404，且 `configure-pages` 报 “Get Pages site failed”。恢复步骤是用 Pages API 以 `build_type=workflow` 重建站点、重新绑定 `openfront.fyi`、触发部署；workflow 的 `actions/configure-pages` 保持 `enablement: true`，并保留 `public/CNAME` 防止域名配置再次漂移。
+- **法语机制正文是 Astro 页面，不在 `src/content/mechanics/fr/`**：检索术语前先用 `rg --files src | Select-String mechanics` 确认布局；当前路径是 `src/pages/fr/mechanics/`，不要把 content collection 与页面目录混淆。
+- **不要把大型 `git diff` 直接管道到 `Select-Object -First`**：下游达到条数后会提前关闭管道，使仍在输出的 `git diff` 遇到 broken pipe 并返回退出码 1，即使已经显示了所需内容。先把 diff 捕获到变量或文件，再对捕获结果做 `Select-String`/截断，避免制造伪失败。
+- **`gh` 同时登录多个账号时，读操作成功不代表当前账号有仓库写权限**：对另一个账号名下仓库调用 Git Data/Contents 写 API 可能返回伪装的 404。写入前先看 `gh auth status` 的 Active account；需要临时使用仓库所有者凭据时，在单条命令内用 `$env:GH_TOKEN = gh auth token --user <owner>`，不要输出 token，也不要无故永久切换全局 active account。
+- **PowerShell 下不要把 `ConvertTo-Json` 的结果直接管道给 `gh api --input -`**：旧版 PowerShell 的原生命令管道编码可能让 GitHub 返回 `Problems parsing JSON`。优先用 `gh api -f/-F` 构造字段，文件内容用 `-F 'field=@path'` 交给 CLI 读取；确需输入文件时必须显式生成 UTF-8 无 BOM。
+- **Git Data API 的 `tree` 数组不要用未经验证的 `gh api -f 'tree[0][…]'` 拼装**：当前 `gh` 版本会生成 GitHub 判定为 `Invalid tree info` 的请求。需要创建 tree/commit 时，用 Node `spawnSync` 向 `gh api --input -` 传 UTF-8 `JSON.stringify` 结果，并校验返回 tree/commit SHA 后再更新 ref。
+- **PowerShell 下把含 `^{commit}`、`^{tree}` 等花括号的 Git revision 传给原生命令时必须整体加引号**：未加引号的 `71a3bdf^{commit}` 会被 PowerShell 当成 ScriptBlock，报 `ScriptBlock should only be specified as a value of the Command parameter`；应写成 `'71a3bdf^{commit}'`。
+- **调用仓库级 `gh api` / `gh run` 前先从 `git remote get-url origin` 解析真实 owner/repo，不要凭账号或目录名猜测**：猜错仓库会得到误导性的 404；同时 `gh repo view --json` 字段受当前 CLI 版本限制，Pages 状态优先用真实仓库名调用 `/repos/{owner}/{repo}/pages`，不要假设字段一定存在。
+- **`git push` 使用低速保护时也可能报 `Operation too slow. Less than 1000 bytes/sec transferred`**：这与连接重置同属 GitHub HTTPS 瞬时链路问题；失败后先用 GitHub API 核对目标 ref，确认远端仍为旧 SHA 才以相同低速参数重试一次，避免服务端已接收却重复推送。
+- **脏工作树中不要用 `git update-index --refresh -- <单文件>` 试图消除单文件的假修改状态**：该命令仍会检查并报告其他所有已修改跟踪文件，以 `needs update` 和退出码 1 结束。生成文件若只有时间戳/换行噪声，应先用普通 diff 与适当的 `core.autocrlf` 审计确认无语义差异，再按已知基线精确恢复目标文件。
+- **PowerShell `Invoke-RestMethod` 调 Cloudflare API 偶尔会报 `The underlying connection was closed`**：将其视为瞬时 TLS/网络故障，改用 Wrangler 或 `curl.exe` 重试一次；重试创建资源前先重新列出远端状态，防止第一次请求其实已成功。
+- **Windows PowerShell 把原生命令 stderr 合并进变量时，`$ErrorActionPreference='Stop'` 可能把 pnpm 进度行升级成 `NativeCommandError`**：外层脚本会提前终止，但子命令可能已经完成外部写入。运行 `pnpm dlx`/Wrangler 时用 `Continue` 并检查 `$LASTEXITCODE`；遇异常后先查询远端资源再重试。
+- **GitHub Release 的 `codeload.github.com` 压缩包下载若 TLS handshake timeout，不要循环重试整包**：改用 `gh api` 查询目标 tag 的递归 tree，再只读取任务需要的 content/blob；既减少传输量，也能保留来源 commit 与文件路径证据。
+- **PowerShell 一段脚本里调用 `gh`、`git`、`pnpm` 等原生命令后，应立即保存并检查 `$LASTEXITCODE`**：后续成功命令会覆盖退出码，导致前面的网络或 CLI 失败最终显示为 exit 0；需要继续收集其他结果时，把各命令退出码分别存入任务专用变量并在结尾统一判定。
+- **`git push` 若报 `OpenSSL SSL_connect: SSL_ERROR_SYSCALL`，按 GitHub HTTPS 瞬时断流处理**：先用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch>` 核对远端 ref；远端 SHA 已更新则视为成功，分支不存在或仍为旧 SHA 时才使用相同低速保护参数重试一次，连续失败则停止。
+- **2026-08-01 复发：Windows `rg` 的路径参数绝不含 `*`，即使通配目标看似简单**：`src/pages/*/mechanics`、`src/content/guides/*/first-match.mdx` 都会触发 `os error 123`；固定从 `src/pages`、`src/content/guides` 等真实目录根搜索，并把筛选写进 `--glob`。
+- **2026-08-01 复发：PowerShell 中所有含 `^{tree}` / `^{commit}` 的 Git revision 都必须从一开始整体单引号包裹**：包括 `HEAD^{tree}` 和 `origin/main^{tree}`；不要等报错后再补引号，否则 PowerShell 可能插入 `-encodedCommand` 并产生误导性的 Git revision 错误。
+- **2026-08-01 复发：`git push` 命中 `Operation too slow` 后不要立即重复**：先用真实 owner/repo 的 Git ref API 查询完整分支路径；本轮确认远端分支不存在后才允许按相同低速参数重试一次。核对脚本本身应以 0 正常返回状态文本，不要用人为非零退出码表达“需要重试”。
+- **2026-08-01 复发：`git fetch` 低速超时且两次 `git push` 均无法连接 `github.com:443` 后，不要继续循环 Git HTTPS**：先用 GitHub API 确认远端 `main`、目标 ref 和本地 merge-base；基线一致且远端 ref 不存在时，可用 Git Data API 按本地提交顺序上传 blob/tree/commit 并创建 ref，创建后再逐一核对提交 SHA，避免网络故障阻塞 PR 交付。
+- **跨 Git worktree 修改同名文件时，不能复用另一工作树的 `apply_patch` 尾部上下文**：不同分支的 `AGENTS.md` 等文件可能已分叉。分别读取各目标文件的精确尾部并拆成独立补丁，避免一个 worktree 的上下文不匹配导致整份多文件补丁回滚。
+- **Git Data API 创建 commit 时不要要求远端 commit SHA 必须等于本地 SHA**：GitHub 可能规范化提交元数据，即使 tree 与父节点完全一致也会产生不同 SHA。应严格核对远端 commit 的 `tree.sha` 与本地 tree、首个 parent 与已确认基线一致，再使用 API 返回的 commit SHA 创建 ref，并在创建后复核远端 ref；不要因 SHA 不同在 ref 写入前中止。
+- **`gh api` 若报 `read tcp ... wsarecv: An established connection was aborted`，按瞬时 GitHub API 断流处理**：并行探测中可能只有部分端点失败、另一些已经成功；必须保留每个端点的独立退出码，只对失败端点重试一次，不重复成功查询，也不能把连接中断解释为 PR、Release 或 Issue 状态变化。
+- **并行 `gh api` 探测遇到 TLS 超时时要保留每个端点的独立结果**：不要让一个失败请求中止整批并继续解析空对象；使用 settled 模式、逐项检查退出码，只对失败端点重试一次。
+- **`git pull` 的外层超时不等于远端更新没有落地**：超时或终止后先核验仓库 `HEAD`、`origin/main` 与工作树状态；本轮 pull 已实际快进到新提交，若按旧 HEAD 继续会把有效 extract checkout 写错。
+- **拉取上游后不要假设正式 Release tag 已同时取得**：先用 `git tag -l '<tag>'` 确认本地存在，再运行带 `^{commit}` 的 `rev-parse`；tag 缺失时使用 Release API 与当前 checkout 分别记录来源，不要把 checkout 冒充 tag 提交。
+- **GitHub Discussions 未启用时，GraphQL / REST 查询会返回 410，不代表网络或权限异常**：先检查仓库是否启用 Discussions；未启用就记录“无此信号源”，不要反复重试或把 410 误报为内容阻塞。
+- **研究 Markdown 不要用行尾两个空格制造硬换行**：`git diff --check` 会把它视为 trailing whitespace 并失败；使用空行、列表内完整句子或显式结构分隔，并确保文件只保留一个结尾换行、不多出空白 EOF 行。
+- **生成 JSON 只有换行或 stat 漂移时，完整执行 `git update-index --refresh` 也可能逐个报 `needs update` 并退出 1**：先用 `git diff --quiet -- <精确文件列表>` 确认无语义差异，再对这些精确文件执行 `git add -- ...` 刷新索引状态，并确认没有产生 staged diff；不要把 refresh 失败误判成数据变化。
+- **同一轮里 `gh pr view` 成功不代表后续 GitHub API 调用不会瞬断**：本环境可能先出现 `gh api ... TLS handshake timeout`，随后 GraphQL `EOF`，而 `git fetch origin` 仍可成功。远端核验优先保留每一步独立结果；API/GraphQL 瞬断只重试一次，必要时改用 REST `gh api repos/<owner>/<repo>/pulls/<number>` 或已成功的 `git fetch` + 远端 ref 交叉确认，不要把单个端点失败误判为 PR 未合并或 main 未更新。
+- **在 linked worktree 中运行 `gh pr merge --delete-branch` 可能已完成远端合并，却因本地 `main` 被另一个 worktree 占用而以退出码 1 结束**：看到 `fatal: 'main' is already used by worktree` 时先用 REST 核对 PR 的 `merged`、`merge_commit_sha` 与远端 main；确认已合并后不要重跑 merge，只通过 GitHub ref API 删除已核准的远端主题分支，本地 worktree/分支另行清理。该规则仅用于仍存在的手动/历史 linked worktree；`openfront` 定时任务不再创建或使用 worktree。
+- **`openfront` 定时任务只在项目目录的本地分支中执行**：启动时使用 `git status --porcelain --untracked-files=all`；只允许未跟踪的 `.cache/**` 本地缓存存在，并且绝不能 stage、commit、删除或顺带改写与本轮无关的缓存。出现任何已修改/暂存文件，或 `.cache/**` 以外的未跟踪文件时停止并报告，禁止自动 stash/reset/clean；门禁通过后切到并 fast-forward-only 同步 `main`，再从 main 创建 `codex/daily-content-YYYY-MM-DD-<topic>`。PR 经 REST squash 合入并核对远端后，必须在同一目录切回并同步 `main`；未回到最新干净 main 前不得开始下一个任务。
+- **临时 worktree 安装依赖后，`git worktree remove --force` 可能已注销 worktree、却因忽略的 `node_modules` 等残留目录非空而返回失败**：先用 `git worktree list` 确认已注销，再校验残留路径确实位于 `%TEMP%` 且名称匹配；若命令安全策略仍阻止 `Remove-Item -Recurse -Force`，不要改用其他 shell 绕过或扩大删除范围，保留精确路径并报告人工清理。
+- **`gh pr checks` 在 PR 没有配置任何检查时会输出 `no checks reported` 并返回退出码 1**：先用 `gh pr view --json mergeable,mergeStateStatus,statusCheckRollup` 区分“无检查”与“检查失败”；`statusCheckRollup` 为空且 PR 为 `CLEAN / MERGEABLE` 时，不要把退出码 1 误判为 CI 阻塞。
+- **PowerShell 中使用 `stash@{0}`、`stash@{1}` 等 Git stash 引用时必须整体加引号**：未加引号的 `git stash pop stash@{0}` 会被 PowerShell 拆解并让 Git 报 `unknown switch`；统一写成 `git stash pop 'stash@{0}'`。
+- **PowerShell 下不要把 `git diff` 的原生输出直接管道给 `git apply`**：原生命令管道的编码和换行可能破坏补丁。优先使用 `apply_patch`；确需传递补丁时先写成 UTF-8 无 BOM 文件并检查内容，再执行 `git apply <path>`。
+- **调用 GitHub Contents API 时不要预先把路径中的 `/` 编码为 `%2F`**：API 路由需要保留目录分隔符；只对各路径段中的特殊字符编码，否则会得到误导性的 404。
+- **独立 Git worktree 不会自动共享主工作树的 `node_modules`**：若 `pnpm build` 报 `'astro' is not recognized` 且提示本地 `node_modules` 缺失，先在该 worktree 设置 `CI=true` 并执行 `pnpm install --frozen-lockfile`，再运行构建与 Playwright。
+- **独立 Git worktree 不会带入原工作树未跟踪的 `.cache` 文件**：需要读取 GSC 或研究报告时先确认它实际位于哪个工作树；不要根据前一步相对路径假设缓存已复制。
+- **PowerShell 不要在类型转换或布尔表达式的括号里混入原生命令和分号**：例如 `[bool](git cat-file ...; $LASTEXITCODE -eq 0)` 会在解析阶段报 `Missing closing ')'`。先单独执行原生命令并保存 `$LASTEXITCODE`，再在下一条语句计算布尔值。
+- **受限沙箱里 `gh` 可能先因无法读取 `%APPDATA%\GitHub CLI\config.yml` 报 Access denied**：需要 GitHub 查询时按工具要求申请提升后重试；若提升后对 `api.github.com` 连续两次 `TLS handshake timeout`，立即停止，不把网络失败解释为“没有 Release / Issue / PR”，改为记录未确认状态并等待下一轮刷新。
+- **读取同级目录的上游 Git clone 时，每个 `git -C` 子命令都要显式带单次 `-c safe.directory='C:/absolute/path'`**：沙箱用户会触发 `detected dubious ownership`；不要修改全局 safe.directory，也不要只给脚本中的第一条 Git 命令加覆盖。
+- **主工作树落后远端且存在独立最新 worktree 时，不要默认新合并文件在当前目录可读**：先用 `git status --branch`、`git worktree list` 和 `git ls-tree origin/main` 确认文件属于哪个基线，再从对应 worktree 读取；否则会把“当前 main 尚未包含”误报成路径不存在。
+- **受限沙箱中普通 `git diff --check` 偶尔会把现有工作区误报为 `Not a git repository`**：先用 `git -c safe.directory='C:/absolute/workspace/path' diff --check` 单次复跑；成功后按所有权/沙箱识别问题处理，不要修改全局 Git 配置。
+- **`git push` 若连续报 `Failed to connect to github.com port 443 ... Couldn't connect to server`，不得把已创建 PR 的旧远端 head 当作最新交付**：首次失败后用 GitHub ref API 对比远端与本地 SHA；远端仍旧时只重试一次，第二次仍失败就保留 PR 和本地 ahead 提交、记录 head 不一致并停止自动合并，不再第三次重试。
+- **自动化包装运行 `pnpm gsc:queries -- --days ...` 若长时间无日志且目标文件未刷新，不能视为成功**：约 30 秒后先核对输出文件的 `generatedAt`；仍未变化时停止该进程，并在同一环境直接运行 `node scripts/fetch-search-console.mjs --days <n> --output <path>`，检查退出码与 JSON 数组后再继续。代理/SSL 失败仍只重试一次。
+- **PowerShell 统计 `gh ... --json` 空数组时先过滤 `$null`**：`ConvertFrom-Json` 的空结果在某些包装中会形成一个 `$null`，直接 `@($value).Count` 会把 0 错报为 1。统一用 `@($value | Where-Object { $_ }).Count`，并保留原始 `[]` 作为核验依据。
+- **自动化沙箱若无法在 `.git` 创建 `index.lock`，不要继续同步或内容生产**：即使当前分支已是 `main`，`git switch main` 也可能因 `.git` 仅可读而报 `Permission denied`。这不是 GitHub 瞬断，禁止网络重试或绕到 worktree/副本；应停止本轮，并让自动化配置授予项目 `.git` 写权限后再运行。
+- **自动化不得被自己追加的避坑规则永久阻塞**：阻塞运行若按会话要求修改了 `AGENTS.md`，必须在 automation memory 记录完整来源和精确差异，并在权限恢复后优先通过独立治理分支收口。下轮门禁仅当“唯一 tracked 改动是 `AGENTS.md`、无 staged/非缓存未跟踪项、且最新 memory 能逐字证明该差异由紧邻上轮自动化写入”时进入恢复专用流程；该流程只能提交这一个文件，禁止顺带生产内容。任一条件不符仍立即停止，绝不猜测或覆盖用户改动。
+- **Playwright 若在测试启动前报 `Timed out waiting 180000ms from config.webServer`，先查项目端口与 Node 命令行**：端口有本项目遗留 preview 时只结束精确核验的遗留进程；端口无监听但另一个仓库正在高负载 lint/build 时，不得终止无关进程，可用新的 `PLAYWRIGHT_PORT` 单次重跑并继续核对最终退出码。
+- **PowerShell 下调用 `gh api graphql` 时不要在查询正文里内嵌仓库名等双引号字符串**：原生命令参数序列化可能剥掉引号，把 `openfront-intel` 解析成减法并报 `Expected type 'number'`。查询统一声明 `$owner`、`$name`、`$number` 变量，再用 `-F owner=... -F name=... -F number=...` 传值。
+- **REST merge 成功后只读 `gh api` 若瞬时返回 EOF，不得重放 merge**：先用 merge 响应的 `merged=true` 与 PR `state=MERGED` 确认写入结果，再只重试失败的 ref GET 一次；远端 main SHA 符合 merge commit 后才删除精确主题分支。
+- **`gh pr view --json` 走 GraphQL，可能在相邻 API 成功时单独 TLS handshake timeout**：只重试一次；仍失败时改用 REST 的 pull、head ref、check-runs/status 与 GraphQL 变量化 reviewThreads 分项完成门禁，不得把一次读取超时写成 PR 冲突或 checks 失败。
+- **GitHub REST 的 commit check-runs/status 门禁使用完整 40 位 SHA**：不要把日志里的 7–8 位短 SHA直接拼进 `/commits/{ref}/check-runs` 或 `/commits/{ref}/status`；当前 API 可能分别返回 422 `No commit found` 与 404 `Ref not found`。先从远端 head ref 读取完整 SHA，再查询并核对 `total_count`。
+- **完整 Git SHA 也不得从日志手工转录到后续 API 命令**：单字符抄错仍会让 check-runs 返回 422，且肉眼不易发现。应在同一 PowerShell 调用内把远端 ref 结果保存到任务专用变量，检查上一条命令退出码后直接插值给 checks/status URL。
+- **远端 ref DELETE 成功后，matching-refs 复核若 TLS handshake timeout，不要重复删除**：保留已成功 DELETE 的证据，只重试只读 matching-refs 一次；返回空数组即可确认收口，连续失败则报告“删除已受理、复核受阻”，不得把读超时写成分支仍存在。
+- **正式版本响应必须全局审计 `e2e/` 中旧正式版本的精确字面值**：不能只更新版本总览或 `content-integrity.spec.ts`；入口、发现性和专题 spec 也可能仍断言上一版（如 Water Nukes discovery 的 `v33.2`），导致页面已正确刷新但完整回归失败。提交前从 `e2e` 真实目录检索旧版本并逐条判断是否应保留历史语境。
+- **新建 Markdown 文件结尾只保留一个终止换行**：正文后再留空白行会让 `git diff --cached --check` 报 `new blank line at EOF` 并返回 1；暂存后仍要跑该检查，发现时删除额外空行再提交。
+- **不要从 automation memory 直接沿用上轮的进程级 Git 代理地址**：`127.0.0.1:15236` 等本地代理端口可能只在上轮临时监听；fetch 前先探测该端口，未监听就直接使用带低速保护的直连，避免把 `Failed to connect to 127.0.0.1` 误判为 GitHub 断流并浪费唯一重试。
+- **已逐文件证明为 stat-only 的 `M` 仍会让 `git rebase` 以 `You have unstaged changes` 拒绝执行**：fetch 后若 `origin/main` 未变化，并且 `git merge-base --is-ancestor origin/main HEAD` 与 `git rev-parse HEAD^` 均证明当前唯一提交直接基于最新 main，则不要为形式上的 rebase 改写这些文件或索引；记录拓扑证明后继续。若 main 已变化，则停止并等待工作树可安全恢复，不能绕过 rebase 门禁。
+- **PowerShell 双引号插值中变量后紧跟 `?` 时也要用 `${name}` 明确边界**：例如 GitHub Contents API 应写 `"repos/.../contents/${path}?ref=v0.33.4"`；`"$path?ref=..."` 会把 `?ref` 吞进变量名并请求错误路径，表现为一组误导性的 HTTP 404。
+- **带显式 refspec 的 `git fetch origin main <topic> --prune` 不会保证清除其他已删除分支的 remote-tracking ref**：GitHub ref 删除并复核为 0 后，若还要断言本地 `origin/<topic>` 不存在，应运行不限定 refspec 的 `git fetch --prune origin` 或 `git remote prune origin`，再做本地引用检查；不要把陈旧 remote-tracking ref 误报为远端分支仍存在。
+- **PowerShell 调原生命令时，含查询串 `&` 的 URL 必须整体单引号包裹**：例如 `gh api 'repos/owner/repo/issues?state=open&per_page=100'`；未引用的 `&` 会被 PowerShell 当运算符，在命令执行前直接解析失败。
+- **通过 GitHub API 在本地重建带 `gpgsig` 的合并 commit 时，必须保留签名末尾换行对应的空 continuation 行**：`verification.signature` 的终止换行不能先 `trim` 掉；应把签名首行写为 `gpgsig ...`、每个后续行（包括最后的空行）前置一个空格，再拼接 payload 正文。写对象和 `update-ref` 前先用 `git hash-object -t commit --stdin` 核对结果与 GitHub SHA 完全一致，否则会得到不同 commit。
+- **PowerShell 变量名不区分大小写，`$host` 会与只读自动变量 `$Host` 冲突**：主机名、仓库 owner 或临时响应不要命名为 `host`；使用 `$hostName`、`$repoOwner`、`$hostResponse` 等任务专用变量，避免 `Cannot overwrite variable Host because it is read-only or constant`。
+- **只读 `gh api` 使用 `-f` / `-F` 传查询参数时必须显式加 `-X GET`**：否则 GitHub CLI 会默认切换为 POST；例如查询开放 pulls 时会误调用创建 PR 接口并返回 422 `base, head weren't supplied`。也可以把查询串整体放进已引用的 URL，避免方法漂移。
+- **审计可选的 GitHub branch protection 时，404 表示“未配置保护”，不是传输故障**：`gh api repos/<owner>/<repo>/branches/<branch>/protection` 会在未保护分支上输出 `Branch not protected` 并返回退出码 1；审计脚本应读取响应状态，将明确的 404 归一化为 `UNPROTECTED` 成功结果，只有认证、网络或其他状态才按命令失败处理。
+- **`gh pr list` 遇 GraphQL `EOF` 时改用 REST 列表端点完成只读核验**：同一路径只重试一次；仍失败时调用已引用的 `gh api -X GET 'repos/<owner>/<repo>/pulls?state=open&per_page=100'`，并保存各次退出码。不要因列表瞬断把开放 PR 误报为 0，也不要循环 GraphQL。
+- **当前 `gh release list --json` 不支持 `url` 字段**：可用字段以命令报出的列表为准；Release 链接应由已核验的 `tagName` 规范构造为 `https://github.com/<owner>/<repo>/releases/tag/<tag>`，或改用 Releases REST API 读取 `html_url`。不要把其他 `gh` 子命令支持的 JSON 字段直接套到 `release list`。
+- **跨仓库依赖出现 `Could not resolve to a Repository` 时不能判定依赖不存在**：它也可能表示仓库私有、当前凭据无权访问或仓库名已变化。只读 REST 最多复核一次；仍不可见就把依赖标为“未验证”，不得把私有仓库名、Issue/PR 标题、URL 或实现细节写入公共内容，也不得宣称功能已完整交付。
+- **GitHub milestone 列表端点瞬时 `EOF` 时优先复用 Issue/PR 已返回的 milestone 字段**：保留失败端点和退出码，只在确实需要全量 milestone 元数据时重试一次；不要让一个辅助列表失败清空已成功取得的候选状态，也不要把 `EOF` 解释成“没有 milestone”。
+- **同一轮不要并发多个 `gh api` 大列表或 compare 请求**：本环境并发访问 GitHub API 会让原本可用的端点一起报 `TLS handshake timeout`。改为逐个顺序调用，每个端点只重试一次，并在 PowerShell 管道后立即保存、检查 `$LASTEXITCODE`；任一请求失败时保留旧游标，不能把缺失输出解释为 0 条 Issue / PR / commit。

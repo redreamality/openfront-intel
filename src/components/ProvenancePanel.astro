@@ -1,5 +1,6 @@
 ---
 import meta from '../data/_meta.json';
+import { latestOpenFrontRelease } from '../config/openfront-release';
 import { getLangFromUrl, type Lang } from '../i18n';
 
 interface SourceLink {
@@ -94,12 +95,14 @@ const generatedAt = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang, {
   dateStyle: 'medium',
 }).format(new Date(meta.generatedAt));
 const releaseTag = version && /^v\d+$/.test(version)
-  ? version === 'v33'
-    ? 'v0.33.6'
+  ? version === latestOpenFrontRelease.series
+    ? latestOpenFrontRelease.tag
     : version.replace(/^v(\d+)$/, 'v0.$1.0')
   : version;
 const releaseHref = kind === 'changelog' && version
-  ? `https://github.com/openfrontio/OpenFrontIO/releases/tag/${releaseTag}`
+  ? version === latestOpenFrontRelease.series
+    ? latestOpenFrontRelease.releaseUrl
+    : `https://github.com/openfrontio/OpenFrontIO/releases/tag/${releaseTag}`
   : null;
 ---
 
