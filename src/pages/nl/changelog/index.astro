@@ -16,18 +16,22 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium' 
   <PageHeader eyebrow="CHANGELOG" title="Wijzigingslog" lead="Per versie georganiseerd, met de nadruk op balanswijzigingen die gameplay-beslissingen beïnvloeden." />
   <section class="container-wide py-10">
     <ul class="space-y-4">
-      {entries.map((post) => (
+      {entries.map((post) => {
+        const statusLabel = post.data.releaseStatus === 'not-released' ? 'Nog niet uitgebracht' : 'Uitgebracht';
+        return (
         <li>
           <a href={`${base}nl/changelog/${stripLangPrefix(post.slug)}/`} class="block card group">
             <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
               <span class="tag-chip">{post.data.version}</span>
+              <span class="tag-chip border-cannon-700 text-cannon-300">{statusLabel}</span>
               <span class="font-mono">{fmt(post.data.pubDate)}</span>
             </div>
             <h2 class="mt-2 text-lg font-semibold text-cannon-400 group-hover:text-cannon-300">{post.data.title}</h2>
             <p class="mt-2 text-sm text-iron-300 leading-relaxed">{post.data.description}</p>
           </a>
         </li>
-      ))}
+        );
+      })}
     </ul>
   </section>
 </BaseLayout>

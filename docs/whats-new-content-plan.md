@@ -1,15 +1,15 @@
 # What's New 栏目与每日来源计划
 
-更新日期：2026-08-20。
+更新日期：2026-08-21。
 
 本文定义公开 `What's New` 栏目的编辑边界、数据结构、首批候选和每日维护流程。GitHub 一手资料详见 [`2026-08-20-whats-new-upstream-source-plan.md`](research/2026-08-20-whats-new-upstream-source-plan.md)；每日状态与执行结果仍写入 [`content-loop.md`](content-loop.md)，长期内容原则仍以 [`content-strategy.md`](content-strategy.md) 为准。
 
 ## 决策摘要
 
 1. 新建五语 `/whats-new/` 栏目，但它不是 OpenFrontIO GitHub 活动镜像。
-2. 栏目按 `Released`、`Merged`、`In development`、`Watching` 四种状态披露；只有有真实正文的正式 Release 才能写“已上线”。
-3. `changelog` 继续负责按正式版本归档已经发布的确定事实；`What's New` 负责回答“现在上线了什么、下一版可能出现什么、哪些高价值功能正在开发”。
-4. GitHub Issues 和 PRs 成为每日内容账本的正式来源，但任何公开条目都必须经过玩家价值、证据成熟度、状态准确性和安全边界四道门槛。
+2. 公共栏目只展示按版本写成的玩家文章；版本状态只有 `Released` 和 `Not released yet` 两种公开状态。
+3. `changelog` 继续负责版本文章的稳定 URL。正式发布前可先写 v34 预览，发布后只切换文章 frontmatter 的 `releaseStatus`，不更换 URL。
+4. GitHub Issues 和 PRs 只属于内部内容账本与证据核验，绝不在终端页面、文章、首页摘要或 RSS 中展示编号、标题或链接。
 5. 首版只做一个可扫描的索引页和首页摘要，不为每个 PR 建薄详情页。改变机制或操作的项目仍应更新对应常青主答案。
 6. GitHub 没有实质变化时只记录扫描结果，不刷新公开条目的日期，也不制造内容 PR。
 
@@ -17,12 +17,12 @@
 
 | 内容层 | 回答的问题 | 可用来源 | 时间边界 |
 |---|---|---|---|
-| `What's New` | 最近上线了什么；哪些重要变化已合并或正在开发 | Release、公开 PR、公开且已批准的 Issue、tag 源码 | 可以早于 Release，但必须显示状态 |
+| `What's New` | 最近上线了什么；下一版本值得期待什么 | 五语版本文章；内部以 Release、PR、Issue 和 tag 源码核验 | 可以早于 Release，但必须标注 `Not released yet` |
 | `changelog` | 某个正式版本究竟发布了什么 | 非 TEST GitHub Release 正文和正式 tag | 只写已发布事实 |
 | 常青机制 / 攻略 | 这条变化会怎样改变我的下一局 | 正式 tag 源码、生成数据、真实问题 | 默认只按正式版本给确定建议 |
 | 内部内容账本 | 今天发现了什么、为何披露或不披露 | 全部可访问的一手信号 | 可以记录未公开、受限或被排除项目 |
 
-`What's New` 不能替代 changelog。一个条目进入正式 Release 后，状态应转为 `Released` 并链接对应版本总览；如果它改变稳定玩家决策，还要同步常青页。没有独立玩家价值的维护提交只留在官方 GitHub，不进入栏目。
+`What's New` 负责把版本变化整理成玩家能直接理解的文章，不复制提交流。一个预览版本进入正式 Release 后，只需把对应文章的 `releaseStatus` 改为 `released`，并按正式事实核对正文；稳定 URL、文章结构和站内入口保持不变。没有独立玩家价值的维护提交只留在内部账本。
 
 ## 状态契约
 
@@ -95,19 +95,19 @@
 - Draft、长期 stale、存在冲突或 `changes requested` 且玩家结果仍大幅变化的 PR：保留状态，不用作公开承诺。
 - 地图小修和视觉微调：只有改变地图决策、入口或玩家判断时才晋级。
 
-## 公共页面 MVP
+## 公共文章 MVP
 
 首版范围：
 
 1. 新增 `/whats-new/`、`/zh/whats-new/`、`/fr/whats-new/`、`/de/whats-new/`、`/nl/whats-new/`。
-2. 页面按 `Live now`、`Merged for a future release`、`In development` 三组展示；`Watching` 首版最多三项，并放在最低层级。
-3. 每条只显示状态、标题、玩家影响、最后核验日期、正式来源和相关站内主答案。
+2. 页面按 `Released` 和 `Not released yet` 两组展示，内容是版本文章而不是 Issue/PR 条目。
+3. 每篇只显示版本状态、玩家影响、文章日期和相关站内主答案；Issue/PR 编号、标题、URL 和来源列表只保留在内部账本。
 4. 主导航用 `What's New` 取代直接 `Changelog` 入口，页面顶部保留“完整版本历史”链接；旧 changelog 路由、RSS 和 SEO 继续存在。
-5. 首页在现有四个优先路径之后增加最多三条的紧凑更新带，不复制完整正文，也不把未发布项写进“最新版本”卡。
+5. 首页在现有四个优先路径之后增加最多三篇文章摘要，预发布版本明确标为 `Not released yet`。
 6. 首版不增加客户端筛选、标签页或自动刷新；静态分组可减少交互与维护风险。
-7. 首版不为单条更新生成详情页。某项需要长解释时，链接到版本总览或对应常青主答案。
+7. 每个版本只有一个稳定文章 URL，例如 `/changelog/v34/`；预发布文章和正式版本文章复用同一 URL。
 
-推荐使用一个 Astro data collection 保存条目。每个 YAML 条目包含五语短文案和一份共享事实，避免五份 frontmatter 的状态漂移：
+内部来源账本继续使用 Astro data collection 保存条目。公开正文改用五语 `src/content/changelog/{lang}/vXX.mdx` 版本文章，避免把来源记录误当成读者内容：
 
 ```yaml
 id: doomsday-team-wasteland
@@ -127,7 +127,7 @@ locales:
   nl: { title: ..., summary: ... }
 ```
 
-正式 schema 至少约束 `id`、`status`、`impact`、`firstSeenAt`、`verifiedAt`、`sources`、`relatedPath` 和五种语言。`Released` 必须额外提供 `releaseTag` 与公开 Release URL；预发布状态必须提供复核期限。
+正式 schema 至少约束内部条目的 `id`、`status`、`impact`、`firstSeenAt`、`verifiedAt`、`sources`、`relatedPath` 和五种语言；公开 changelog schema 额外约束 `releaseStatus: released | not-released`。v34 正式发布时只把对应文章的 `releaseStatus` 改为 `released`。
 
 ## 后续每日任务
 
@@ -138,7 +138,7 @@ locales:
 3. 拉取自上次扫描以来新合并的 PR、更新过的开放 PR、更新过的已批准 Issue，以及所有已跟踪条目的当前状态。
 4. 对每个变化记录状态转换：`Watching → In development → Merged → Released`，以及 `closed`、`reverted`、`stale` 或 `blocked`。
 5. 先执行安全和私有来源排除，再判断玩家影响。只对通过门槛的条目写公开文案。
-6. 对 `Released` 条目核对 Release 正文和 tag 源码；对 `Merged` 条目明确写“未确认发布”；对开放 PR 不承诺日期、版本或最终数值。
+6. 对 `Released` 版本文章核对 Release 正文和 tag 源码；预发布文章只写玩家可理解的影响，不承诺日期、版本或最终数值。
 7. 更新 `content-loop.md` 的来源快照、候选状态和下一决策点。没有实质变化时写一条批次总览后停止，不触碰公共条目的 `verifiedAt`。
 8. 有实质变化时，把同一玩家主题的多个 PR 合并成一个条目；同步受影响的 changelog、常青页、首页摘要和多语状态。
 
@@ -158,10 +158,10 @@ locales:
 ### 发布触发器
 
 - 正式 Release：24 小时内把已包含条目转为 `Released`，同步 en + zh；72 小时内完成其余语言和受影响常青页。
-- 高影响 PR 合并：可立即发布 `Merged` 摘要，但必须等 Release 后才改写正式版本规则。
-- 高影响开放 PR：只有玩家结果稳定、来源公开且维护价值高时才加入 `In development`。
-- Issue 获批准或进入 milestone：只进入内部观察；同时具备清晰玩家价值和较强交付信号时，才加入 `Watching`。
-- PR 关闭未合并、回退或长期停滞：从公开活跃列表撤下，内部账本保留原因，避免历史承诺悬空。
+- 高影响 PR 合并：只更新内部账本；如果能形成稳定玩家主题，再写入对应预发布版本文章。
+- 高影响开放 PR：只作为内部证据，不能直接产生公共状态或文章。
+- Issue 获批准或进入 milestone：只进入内部观察；只有形成玩家文章后才影响版本预览。
+- PR 关闭未合并、回退或长期停滞：从内部候选撤下或标记原因，公共文章不展示过程流水。
 
 ### 每周清理
 

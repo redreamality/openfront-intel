@@ -16,18 +16,22 @@ const fmt = (d: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' 
   <PageHeader eyebrow="CHANGELOG" title="更新日志" lead="按版本归档，重点列出会影响玩法决策的平衡变更。" />
   <section class="container-wide py-10">
     <ul class="space-y-4">
-      {entries.map((post) => (
+      {entries.map((post) => {
+        const statusLabel = post.data.releaseStatus === 'not-released' ? '尚未发布' : '已发布';
+        return (
         <li>
           <a href={`${base}zh/changelog/${stripLangPrefix(post.slug)}/`} class="block card group">
             <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
               <span class="tag-chip">{post.data.version}</span>
+              <span class="tag-chip border-cannon-700 text-cannon-300">{statusLabel}</span>
               <span class="font-mono">{fmt(post.data.pubDate)}</span>
             </div>
             <h2 class="mt-2 text-lg font-semibold text-cannon-400 group-hover:text-cannon-300">{post.data.title}</h2>
             <p class="mt-2 text-sm text-iron-300 leading-relaxed">{post.data.description}</p>
           </a>
         </li>
-      ))}
+        );
+      })}
     </ul>
   </section>
 </BaseLayout>

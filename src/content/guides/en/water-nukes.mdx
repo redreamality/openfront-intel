@@ -38,13 +38,13 @@ This is a routing defect, not evidence that the crater stayed land. Before relyi
 
 A working but indirect route can expose the ship for longer than the map shape suggests.
 
-Upstream [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) documents the production behavior. [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalculates minimap ocean flags and depth after conversion.
+The current production behavior is a routing defect: minimap ocean flags and depth can remain stale after conversion. The upcoming fix rebuilds those values, but it is not part of the formal release yet.
 
 Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) is merged into `main`, but it is still newer than the latest formal `v0.33.5` Release. Treat it as an upcoming fix until a Release includes it.
 
 ![Official upstream v33.4 production screenshot showing a transport route detouring around Water-Nuked Africa](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
-*v33.4 production behavior: the route avoids much of the converted water. Source: OpenFrontIO PR #4975.*
+*v33.4 production behavior: the route avoids much of the converted water.*
 
 ![Official upstream screenshot after the unreleased Water Nukes pathfinding fix showing the direct route through converted water](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 

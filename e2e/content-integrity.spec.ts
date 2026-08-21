@@ -171,8 +171,7 @@ for (const lobbyCase of privateLobbyCases) {
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts"]')).toHaveCount(1);
-    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/2489"]')).toHaveCount(1);
-    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/4951"]')).toHaveCount(1);
+    await expect(main.locator('a[href*="/issues/"], a[href*="/pull/"]')).toHaveCount(0);
 
     await page.goto(lobbyCase.indexPath, { waitUntil: 'domcontentloaded' });
     await expect(page.locator(`main a[href="${lobbyCase.path}"]`)).toHaveCount(1);
@@ -758,10 +757,7 @@ for (const pathfindingCase of waterNukePathfindingCases) {
     await expect(main).toContainText(pathfindingCase.cost);
     await expect(main).toContainText(pathfindingCase.release);
 
-    const issueSource = main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/issues/4760"]');
-    const fixSource = main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/pull/4975"]');
-    await expect(issueSource).toHaveCount(1);
-    await expect(fixSource).toHaveCount(1);
+    await expect(main.locator('a[href*="/issues/"], a[href*="/pull/"]')).toHaveCount(0);
 
     const comparisonImages = main.locator('img[src^="https://github.com/user-attachments/assets/"]');
     await expect(comparisonImages).toHaveCount(2);

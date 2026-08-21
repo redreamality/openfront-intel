@@ -38,13 +38,13 @@ C'est un défaut de route, pas la preuve que le cratère est resté terrestre. A
 
 Une route fonctionnelle mais longue expose le navire plus longtemps que ne le suggère la carte.
 
-L'[Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) montre le comportement en production. La [PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) recalcule les marqueurs d'océan et la profondeur de la minicarte après conversion.
+Le comportement actuel en production est un défaut de route : les marqueurs d'océan et la profondeur peuvent rester périmés après conversion. Le correctif à venir reconstruit ces données, mais n'est pas encore dans la release formelle.
 
 Le commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) est fusionné dans `main`, mais il reste postérieur à la dernière Release formelle `v0.33.5`. Traitez-le comme un correctif à venir jusqu'à sa publication.
 
 ![Capture officielle en production v33.4 : le transport contourne l'Afrique transformée par Water Nukes](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
-*Production v33.4 : la route évite une grande partie de l'eau convertie. Source : OpenFrontIO PR #4975.*
+*Production v33.4 : la route évite une grande partie de l'eau convertie.*
 
 ![Capture officielle après le correctif Water Nukes non publié : la route traverse directement l'eau convertie](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 

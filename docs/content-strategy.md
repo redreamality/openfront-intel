@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略
 
-更新日期：2026-08-20。规划窗口：未来 6–8 周。
+更新日期：2026-08-21。规划窗口：未来 6–8 周。
 
 本文只回答“为什么做、当前做什么、何时晋级或停止”。实时状态与指标见 [`content-loop.md`](content-loop.md)；Search Console 获取规则见 [`search-console-content-workflow.md`](search-console-content-workflow.md)；`What's New` 的字段与披露合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-08-20 前的完整叙事见 [归档](archive/content-strategy-through-2026-08-20.md)，不属于定时任务热上下文。
 
@@ -29,9 +29,8 @@
 
 | 通道 | 当前项 | 结论与下一门槛 |
 |---|---|---|
-| Production | `WN-01` | 实现五语 `/whats-new/`、共享事实 schema、首批高价值条目、首页/导航入口和状态 e2e；详细合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。正式机制页只在 Release 后更新，安全、私有依赖和开发噪声不公开。 |
+| Monitoring | `WN-01` | 五语版本文章、v34 预发布稳定 URL、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付；详细合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。Issue/PR 只作内部证据，正式机制页只在 Release 后更新。 |
 | Production | `DOOM-SEO-01` | 本批次集中五语 Doomsday 路径级 SEO title、教程索引入口和 v33 摘要锚文本；合并即转 Monitoring，在首个完整稳定窗口复核 query-to-page 与点击。 |
-| Monitoring | 空 | `NUKE-01` 已在首个有效后切片中达到退出条件；只有出现新错落地、索引或抓取异常才重开。 |
 | Parked | `ATTACK-01` | 默认 20%、范围 1%–100%、步进 10% 已核验，但高比例同 tick 双击风险未定、28 天精确需求仅 1 次展现。只有上游 #4237 状态变化或真实重复需求才恢复。 |
 | Parked | `MAP-01` | Caribbean 与 Danish Straits 的地形差异已成立，但连续有效窗口中 GSC/Issues 精确需求为 0。只有真实问题、搜索意图或新的地图专属来源才恢复。 |
 
@@ -58,7 +57,7 @@
 
 ## 度量与复盘
 
-- 每日：只扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和真实新信号；无变化时保留游标，不刷新公共日期。
+- 每日：只扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和真实新信号；Issue/PR 不直接生成公共条目，只有形成玩家文章主题才更新版本预览；无变化时保留游标，不刷新公共日期。
 - 每周：围绕一个玩家结果校准 Production；检查错落地、依赖与退出条件。
 - 每月：比较 GSC 7/28 天意图、落地页、CTR、Feedlog/Issues；选择下月主题并记录拒绝原因。
 - 每季度：清理过时版本、重复页面和低点击入口；决定地图试点是否继续。
@@ -75,7 +74,7 @@
 ## 明确不做
 
 - 不追求每个单位、建筑、地图或小修复都有页面。
-- 不复制 GitHub 活动流、PR 标题列表或 Issue backlog。
+- 不复制 GitHub 活动流、PR 标题列表或 Issue backlog；公共页面只发布按版本整理的玩家文章。
 - 不把开发中、已合并待发布或不可见依赖写成正式能力。
 - 不追逐拼错品牌词，不用无需求内容填满日程。
 - 不因五语无法同日完成而延迟紧急 en + zh 事实，也不长期遗忘其余语言。

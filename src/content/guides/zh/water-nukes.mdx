@@ -30,11 +30,11 @@ v33.4 改变的是打击节奏，不是地形转换机制。径向菜单可选�
 
 这是寻路缺陷，不代表弹坑仍是陆地。依赖新航道运兵前，先观察第一艘运输船的路线，并保留替代海岸或陆路。能走但绕远的路线会让舰船暴露得比地图形状看起来更久。
 
-上游 [Issue #4760](https://github.com/openfrontio/OpenFrontIO/issues/4760) 记录了正式环境的异常；[PR #4975](https://github.com/openfrontio/OpenFrontIO/pull/4975) 会在转换后重算小地图 ocean 标记与水深。提交 [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) 已进入 `main`，但仍晚于最新正式 `v0.33.5` Release。在正式版本包含它之前，只能把它视为即将发布的修复。
+当前正式环境的问题是寻路缺陷：转换后小地图 ocean 标记与水深可能仍然过时。即将到来的修复会重建这些数据，但还没有进入正式版本。提交 [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) 已进入 `main`，在正式版本包含它之前，只能把它视为即将发布的修复。
 
 ![OpenFrontIO 上游官方截图：v33.4 正式环境中，运输船航线绕开被水核改造的非洲水域](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
-*v33.4 正式环境：航线避开了大部分转换水域。来源：OpenFrontIO PR #4975。*
+*v33.4 正式环境：航线避开了大部分转换水域。*
 
 ![OpenFrontIO 上游官方截图：未发布的 Water Nukes 寻路修复后，航线直接穿过转换水域](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 

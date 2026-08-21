@@ -12,6 +12,7 @@ interface SourceLink {
 interface Props {
   kind?: 'data' | 'mechanics' | 'guide' | 'strategy' | 'changelog';
   version?: string;
+  releaseStatus?: 'released' | 'not-released';
   sources?: SourceLink[];
   compact?: boolean;
 }
@@ -19,6 +20,7 @@ interface Props {
 const {
   kind = 'data',
   version,
+  releaseStatus,
   sources = [],
   compact = false,
 } = Astro.props;
@@ -42,6 +44,7 @@ const copy = {
     commit: 'Extraction checkout commit',
     methodology: 'Editorial and correction policy',
     source: 'Primary source',
+    changelogPreview: `This page previews the player impact expected for ${version ?? ''}. It is not a live release yet; the status above is the release boundary.`,
   },
   fr: {
     title: 'Sources, version et portée éditoriale',
@@ -52,6 +55,7 @@ const copy = {
     commit: 'Commit du checkout d’extraction',
     methodology: 'Politique éditoriale et corrections',
     source: 'Source primaire',
+    changelogPreview: `Cette page présente l’impact joueur attendu pour ${version ?? ''}. Il ne s’agit pas encore d’une release en ligne ; le statut en tête de page fait foi.`,
   },
   nl: {
     title: 'Bronnen, versie en redactionele reikwijdte',
@@ -62,6 +66,7 @@ const copy = {
     commit: 'Checkout-commit voor extractie',
     methodology: 'Redactioneel en correctiebeleid',
     source: 'Primaire bron',
+    changelogPreview: `Deze pagina toont de verwachte impact voor spelers van ${version ?? ''}. Dit is nog geen live release; de status bovenaan bepaalt de grens.`,
   },
   de: {
     title: 'Quellen, Version und redaktioneller Umfang',
@@ -72,6 +77,7 @@ const copy = {
     commit: 'Checkout-Commit der Extraktion',
     methodology: 'Redaktions- und Korrekturrichtlinie',
     source: 'Primärquelle',
+    changelogPreview: `Diese Seite zeigt die erwarteten Auswirkungen von ${version ?? ''} für Spieler. Es ist noch keine Live-Release; der Status oben markiert die Grenze.`,
   },
   zh: {
     title: '来源、版本与编辑范围',
@@ -82,12 +88,13 @@ const copy = {
     commit: '提取所用 checkout 提交',
     methodology: '编辑与勘误政策',
     source: '权威来源',
+    changelogPreview: `本页预览 ${version ?? ''} 对玩家的预期影响。它还不是已上线的正式版本，顶部状态才是发布边界。`,
   },
 } as const;
 
 const t = copy[lang];
 const statement = kind === 'changelog'
-  ? t.changelog
+  ? releaseStatus === 'not-released' ? t.changelogPreview : t.changelog
   : kind === 'guide' || kind === 'strategy'
     ? `${t.snapshot} ${t.interpretation}`
     : t.snapshot;
@@ -99,7 +106,7 @@ const releaseTag = version && /^v\d+$/.test(version)
     ? latestOpenFrontRelease.tag
     : version.replace(/^v(\d+)$/, 'v0.$1.0')
   : version;
-const releaseHref = kind === 'changelog' && version
+const releaseHref = kind === 'changelog' && version && releaseStatus !== 'not-released'
   ? version === latestOpenFrontRelease.series
     ? latestOpenFrontRelease.releaseUrl
     : `https://github.com/openfrontio/OpenFrontIO/releases/tag/${releaseTag}`

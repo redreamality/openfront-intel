@@ -5,7 +5,7 @@ export async function GET(context) {
   const [strategies, guides, changelog] = await Promise.all([
     getCollection('strategies', ({ data }) => !data.draft),
     getCollection('guides', ({ data }) => !data.draft),
-    getCollection('changelog', ({ data }) => !data.draft),
+    getCollection('changelog', ({ data }) => !data.draft && data.releaseStatus === 'released'),
   ]);
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');

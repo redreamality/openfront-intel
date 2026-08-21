@@ -31,6 +31,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: 'Contact OpenFront Intel: Corrections & Contributions',
       privacy: 'OpenFront Intel Privacy: Analytics & Cookie Choices',
       'editorial-policy': 'OpenFront Intel Editorial Policy: Sources & Verification',
+      'whats-new': "OpenFront.io What's New: Releases, Merged Changes & Development",
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Rules, Waves & Survival',
@@ -52,6 +53,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: 'Contacter OpenFront Intel : corrections et contributions',
       privacy: 'Confidentialité OpenFront Intel : analytics et cookies',
       'editorial-policy': 'Politique éditoriale : sources et vérification OpenFront.io',
+      'whats-new': 'Nouveautés OpenFront.io : releases, changements et développement',
     },
     specialPaths: {
       'guides/doomsday-clock': 'Doomsday Clock OpenFront : règles, vagues et survie',
@@ -73,6 +75,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: 'Contact OpenFront Intel: correcties en bijdragen',
       privacy: 'Privacy OpenFront Intel: analytics en cookiekeuzes',
       'editorial-policy': 'Redactioneel beleid: OpenFront.io-bronnen en controle',
+      'whats-new': 'OpenFront.io Wat is er nieuw: releases, wijzigingen en ontwikkeling',
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: regels, golven & overleven',
@@ -94,6 +97,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: 'OpenFront Intel kontaktieren: Korrekturen und Beiträge',
       privacy: 'OpenFront Intel Datenschutz: Analytics und Cookie-Auswahl',
       'editorial-policy': 'Redaktionsrichtlinie: OpenFront.io Quellen und Prüfung',
+      'whats-new': 'OpenFront.io Neuigkeiten: Releases, Änderungen und Entwicklung',
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Regeln, Wellen & Überleben',
@@ -115,6 +119,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       contact: '联系 OpenFront 情报站：纠错、建议与内容贡献',
       privacy: 'OpenFront 情报站隐私说明：统计与 Cookie 选择',
       'editorial-policy': 'OpenFront 情报站编辑规范：来源、验证与更正',
+      'whats-new': 'OpenFront.io 最新动态：已上线、已合并与开发中',
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront 末日时钟：规则、波次与生存攻略',
