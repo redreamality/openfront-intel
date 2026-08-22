@@ -1,0 +1,307 @@
+---
+title: "Guide MIRV OpenFront : prix, ogives, défense SAM et tactiques"
+description: "Comprenez la séparation du MIRV dans OpenFront, son prix progressif, pourquoi 350 ogives est un plafond, comment le SAM intercepte chaque ogive et comment attaquer ou défendre."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [mirv, nucléaire, sam, missile-silo, stratégie]
+category: Tutoriel
+difficulty: Avancé
+version: v33
+freshnessSummary: "Vérifié jusqu'à la version formelle v0.33.7. Les mécaniques v33 du MIRV, du Silo et du SAM citées dans le code v0.33.6 n'ont pas changé en v0.33.7."
+---
+
+## Réponse directe : comment fonctionne un MIRV ?
+
+Dans OpenFront, un MIRV lance un porteur sans charge explosive depuis un Missile Silo prêt. Arrivé au point de séparation, il crée des ogives autonomes visant les terres du joueur sélectionné.
+
+Le porteur ne peut pas être ciblé par un SAM Launcher. Cela ne rend pas toute la frappe invulnérable.
+
+Après la séparation, chaque `MIRVWarhead` devient une cible nucléaire en vol. Un SAM doit utiliser un emplacement de missile prêt pour chaque ogive interceptée.
+
+Le jeu tente de choisir au maximum 350 cibles. Seule la cible centrale cliquée est certaine. Les bords, l'eau, la propriété et l'espacement peuvent fortement réduire ce nombre.
+
+Le MIRV est donc une arme de saturation modelée par la géométrie du territoire. Ce n'est pas un paquet garanti de 350 impacts.
+
+La frontière joueur actuelle est la version formelle [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Elle n'a pas modifié ces règles nucléaires.
+
+Les détails renvoient au code et aux tests figés de v0.33.6, qui vérifient le comportement v33 toujours applicable.
+
+## Échelle des prix : toute la partie compte
+
+Avec les règles Gold ordinaires, le premier MIRV coûte 25 000 000 Gold. Chaque MIRV lancé avec succès par n'importe quel joueur ajoute 15 000 000 au prix suivant.
+
+Si `g` désigne le nombre déjà lancé globalement, le prix immédiat est :
+
+```text
+prochain prix = 25 000 000 + 15 000 000 × g
+```
+
+Le compteur appartient à la partie, pas au joueur. Le tir d'un adversaire rend aussi votre prochain MIRV plus cher.
+
+Les cinq premiers prix sont 25M, 40M, 55M, 70M et 85M. Attendre peut préserver votre armée, mais laisse aux autres la possibilité de faire avancer l'échelle.
+
+Pour `k` tirs consécutifs après `g` tirs globaux, le total exact vaut :
+
+```text
+coût de série = k × (25 000 000 + 15 000 000 × g)
+              + 7 500 000 × k × (k - 1)
+```
+
+Depuis une échelle vierge, trois MIRV coûtent 25M + 40M + 55M, soit 120M. Si quatre sont déjà partis, les trois suivants coûtent 300M.
+
+Le compteur augmente après une construction MIRV réussie. Une tentative refusée ne doit pas renchérir le prochain achat.
+
+Infinite Gold constitue une exception de salon. Tous les calculs de ce guide supposent le mode Gold normal.
+
+## Emplacements et recharge du Missile Silo
+
+Un Missile Silo coûte 1 000 000 Gold et demande normalement 100 ticks, soit 10 secondes, pour être construit. Un Silo de niveau N possède N tubes indépendants.
+
+Chaque tir Atom, Hydrogen ou porteur MIRV occupe un tube. Celui-ci recharge pendant 90 ticks, donc 9 secondes.
+
+Une amélioration ajoute un tube sans raccourcir ce délai. Le nouvel emplacement commence lui aussi par 90 ticks de chargement et n'offre pas un tir immédiat.
+
+Le jeu choisit le Silo prêt le plus proche de la cible selon la distance de Manhattan. Le code actuel ne fixe aucune portée maximale aux armes nucléaires.
+
+Plusieurs bombes provenant du même Silo démarrent à au moins un tick d'écart. Des Silos distincts et prêts peuvent tirer au même tick.
+
+Le menu radial normal propose x1, x2, x5 et xMax uniquement pour Atom. Hydrogen et MIRV restent des actions unitaires dans l'interface publique.
+
+Comptez donc les tubes prêts avant de compter le Gold. Un budget de 120M ne produit pas trois départs immédiats si un seul emplacement est chargé.
+
+## Vol du porteur et séparation
+
+Le porteur avance à 15 tiles par tick. Il est plus rapide qu'Atom et Hydrogen, dont la vitesse de base vaut 10.
+
+Il n'explose pas sur le point cliqué. Il rejoint un point de séparation calculé entre le lancement et la destination, puis produit sa liste d'ogives.
+
+La cible centrale entre d'abord dans cette liste. Les ogives supplémentaires reçoivent ensuite leur propre destination légale et partent du point de séparation.
+
+La liste de cibles SAM inclut Atom Bomb, Hydrogen Bomb et MIRV Warhead. Elle exclut explicitement le porteur MIRV.
+
+Le défenseur ne peut donc pas supprimer le paquet avant son ouverture. Il peut toutefois attribuer des missiles aux trajectoires individuelles après la séparation.
+
+## Pourquoi 350 reste un plafond
+
+Le générateur s'arrête à 350 cibles, mais il s'arrête aussi lorsque ses recherches bornées ne trouvent plus de candidats légaux.
+
+Toute cible supplémentaire doit respecter ces règles :
+
+- Elle se trouve dans les limites de la carte.
+- Elle est terrestre et franchissable.
+- Elle appartient au même joueur que la cible centrale.
+- Elle reste dans un rayon euclidien de 1 500 tiles.
+- Elle est distante d'au moins 55 tiles de Manhattan de chaque cible choisie.
+
+Un vaste empire continental permet généralement plus de cibles qu'un chapelet d'îles étroit, même si les deux positions semblent également riches.
+
+Près d'un bord, une partie du cercle de 1 500 tiles tombe hors carte. Sur une côte, une autre grande partie tombe sur l'eau.
+
+La propriété fragmentée retire encore des candidats. Les terres alliées, ennemies, neutres ou sans propriétaire dans le cercle ne peuvent pas remplacer celles du joueur visé.
+
+Le nombre 350 est donc un maximum, jamais une promesse. Une prévision exacte exige la carte réelle et la séquence aléatoire déterministe de la partie.
+
+## Vitesse des ogives et rythme d'arrivée
+
+La vitesse de base des ogives vaut 22 tiles par tick. Leur ordre ajoute un bonus de 0 à 4, ce qui porte certains groupes jusqu'à 26.
+
+Chaque ogive attend aussi entre 0 et 14 ticks avant de partir. Un tick dure 100 millisecondes, soit un décalage aléatoire maximal de 1,4 seconde.
+
+Les cibles sont triées de la plus éloignée à la plus proche en distance de Manhattan avant le bonus de vitesse. L'attente indépendante peut encore modifier l'ordre visible.
+
+La frappe s'étale donc dans l'espace et le temps. Elle n'est ni une explosion unique, ni un mur parfaitement simultané.
+
+Chaque ogive a un rayon intérieur de 12 et un rayon extérieur de 18. Le rayon extérieur est une limite, pas la certitude de supprimer chaque tile du disque.
+
+L'anneau extérieur normal est irrégulier et déterministe. Les pertes exactes de territoire et de troupes nécessitent les tiles réellement touchés et l'état du joueur.
+
+## Comment un SAM valide une interception
+
+Le SAM ne se contente pas d'attendre qu'une icône entre dans un cercle. Il examine la trajectoire future et cherche un point d'interception réalisable.
+
+Il découvre d'abord les candidats dans un rayon de recherche de 600 tiles. Ce nombre sert à voir tôt les projectiles rapides ; ce n'est pas sa portée de tir.
+
+Un SAM de niveau N possède N emplacements et utilise la portée réelle suivante :
+
+```text
+portée SAM = 150 - 480 / (niveau + 5)
+```
+
+Le niveau 1 donne 70 tiles, le niveau 5 donne 102, le niveau 10 donne 118 et le niveau 20 donne 130,8.
+
+La portée tend vers 150 sans jamais l'atteindre à un niveau fini. Chaque emplacement utilisé recharge pendant 90 ticks.
+
+Il faut aussi un tile `targetable` de la trajectoire dans cette portée. Une bombe n'est ciblable qu'à moins de 150 tiles strictes de son départ ou de son arrivée.
+
+Enfin, le SAM Missile, qui avance à 12 tiles par tick, doit disposer d'assez de temps pour atteindre le point choisi.
+
+Une destination dessinée dans le cercle ne suffit donc pas à garantir l'interception.
+
+## Priorité SAM pendant une frappe mixte
+
+Un missile SAM détruit un seul Atom, Hydrogen ou MIRV Warhead. L'ancienne idée d'un intercepteur supprimant tout un nuage MIRV est fausse en v33.
+
+Lorsque plusieurs cibles conviennent, Hydrogen reçoit un bonus de priorité propre. La distance au SAM et l'urgence avant l'impact modifient aussi le score.
+
+Dès qu'un lanceur réserve une cible, les autres SAM l'ignorent. Le réseau évite ainsi de gaspiller volontairement deux missiles sur le même projectile.
+
+Un SAM de niveau N entièrement chargé peut attribuer N missiles au même tick. Des emplacements en recharge réduisent ce maximum immédiat.
+
+La différence entre projectiles éligibles et tirs SAM prêts n'est donc qu'une mesure de pression. Elle ignore géométrie, ordre d'arrivée, priorité et recharges futures.
+
+Un écart positif ne garantit pas la percée. Un écart nul ou négatif ne garantit pas l'interception.
+
+## Procédure offensive en cinq étapes
+
+### 1. Lire le compteur global
+
+Vérifiez le nombre global juste avant l'achat et calculez toute la série. Ne multipliez jamais le prix actuel par la quantité.
+
+Gardez du Gold pour l'armée, les transports et l'exploitation. Des trous nucléaires sans conquête peuvent être repris pendant votre récupération économique.
+
+### 2. Examiner la forme de la cible
+
+Visez profondément dans une masse terrestre large et continue. Évitez côte, bord de carte, péninsule étroite et frontière mélangée sauf objectif central décisif.
+
+Pensez au rayon de 1 500 et à l'espacement de 55. La surface totale ne décrit pas seule la qualité d'une cible.
+
+### 3. Compter les tubes prêts
+
+Utilisez plusieurs Silos chargés si la simultanéité compte. Un tube nouvellement obtenu reste en chargement pendant 9 secondes.
+
+Un même Silo espace ses départs d'au moins un tick. Des sites distincts créent une pression initiale plus serrée.
+
+### 4. Imposer un choix difficile
+
+Une frappe mixte peut exploiter la priorité accordée à Hydrogen tandis que les ogives MIRV consomment des emplacements.
+
+Ce n'est pas une combinaison déterministe. Les trajectoires doivent réellement mettre les cibles en concurrence auprès du même réseau au bon moment.
+
+### 5. Exploiter les dégâts
+
+Préparez frontières, débarquements et seconde ligne avant le tir. La valeur vient de la conquête et de la rupture des routes, pas seulement de l'animation.
+
+Si aucune force n'avance après l'impact, l'ennemi peut récupérer les espaces dispersés pendant vos recharges.
+
+## Procédure défensive
+
+### Construire un réseau en profondeur
+
+La valeur d'un SAM combine position et tirs chargés. Placez les lanceurs là où des segments terminaux ciblables peuvent réellement entrer dans leur portée.
+
+Un SAM très amélioré possède beaucoup d'emplacements mais un seul emplacement géographique. Plusieurs sites couvrent des approches différentes.
+
+### Suivre chaque recharge
+
+Après un tir, notez les 9 secondes. Le niveau affiché n'indique pas combien de missiles sont prêts maintenant.
+
+N'améliorez pas au dernier instant en supposant un tir gratuit. Le nouvel emplacement commence vide pendant 90 ticks.
+
+### Réduire la densité des objectifs critiques
+
+Ne cédez pas de bonnes terres uniquement pour réduire un nombre théorique. Évitez plutôt de concentrer tous les Silos, SAM, Cities et Ports dans une seule région évidente.
+
+Conservez des forces et des routes hors de la zone probable afin de reprendre les trous et de contre-attaquer.
+
+### Définir la vraie réussite
+
+Aucun réseau ne promet zéro impact. La défense réussit si elle garde un territoire connecté, une armée, des lanceurs et une option de riposte après la vague.
+
+Le nombre d'animations d'interception ne remplace pas cette mesure stratégique.
+
+## Scénario chiffré : trois MIRV contre deux SAM niveau 5
+
+Supposons qu'aucun MIRV n'ait encore été lancé. Trois tirs coûtent 25M + 40M + 55M, soit 120M.
+
+L'attaquant possède deux Silos niveau 2, tous les emplacements étant chargés. Ses quatre tubes disponibles suffisent aux trois porteurs.
+
+Le défenseur possède deux SAM niveau 5. Deux emplacements du premier rechargent, tandis que le second est plein : 3 + 5 = 8 tirs prêts.
+
+Huit tirs prêts ne limitent pas forcément toute la vague à huit interceptions. Des emplacements peuvent recharger pendant le vol des ogives retardées.
+
+Ils ne garantissent pas non plus huit interceptions. Certaines trajectoires peuvent ne jamais offrir de point ciblable atteignable dans les 102 tiles.
+
+Si le calculateur reçoit 140 projectiles éligibles et huit tirs prêts, l'écart théorique vaut +132. Ce n'est pas une prévision de 132 impacts.
+
+Le résultat dépend encore du nombre produit, des trajectoires couvertes, des attentes aléatoires et des priorités créées par les autres bombes.
+
+## Échecs fréquents et corrections
+
+### « Le porteur passe, donc tout passe »
+
+Faux. Le porteur est exclu, mais chaque ogive séparée devient une cible SAM indépendante.
+
+### « Trois MIRV coûtent trois fois 25M »
+
+Faux. Depuis zéro, les prix sont 25M, 40M et 55M, soit 120M.
+
+### « 350 signifie 350 explosions »
+
+Faux. Il s'agit du plafond de la liste. Îles, côtes, bords et propriétés fragmentées offrent moins de candidats.
+
+### « La destination est dans le cercle, donc elle est sûre »
+
+Incomplet. Il faut un segment ciblable, un emplacement chargé et assez de temps de vol pour le missile SAM.
+
+### « Un SAM niveau 10 arrête toujours dix ogives »
+
+Faux. Dix est sa capacité parallèle maximale à pleine charge, pas un résultat garanti.
+
+### « Le rayon extérieur 18 supprime tout le disque »
+
+Faux pour le territoire. L'anneau extérieur est irrégulier ; le rayon ne donne pas une perte exacte.
+
+## FAQ MIRV
+
+### Le SAM peut-il détruire le porteur avant la séparation ?
+
+Non. Le porteur n'appartient pas à la liste de cibles. Les SAM examinent les ogives individuelles après la séparation.
+
+### 350 est-il le nombre habituel d'ogives ?
+
+Non. C'est le maximum demandé. Le terrain légal, l'espacement, les limites de carte, l'eau, la propriété et la recherche déterminent le nombre réel.
+
+### Chaque joueur a-t-il son propre prix ?
+
+Non. Le compteur est global. Le tir réussi de n'importe quel joueur ajoute 15M au prix suivant pour tous.
+
+### Un MIRV utilise-t-il un tube de Silo ?
+
+Oui. Le porteur occupe un tube prêt, qui recharge ensuite pendant 90 ticks, soit 9 secondes.
+
+### Un missile SAM peut-il détruire plusieurs ogives ?
+
+Non dans le comportement v33 actuel. Chaque intercepteur détruit un seul projectile éligible.
+
+### Une amélioration SAM ne donne-t-elle que de la portée ?
+
+Non. Elle ajoute un emplacement et augmente la portée. Le nouvel emplacement doit d'abord charger.
+
+### Peut-on prévoir exactement les pertes depuis le point cliqué ?
+
+Non. Il faut les cibles générées, les tiles touchés, les troupes, le territoire, les attaques, les transports et l'état aléatoire.
+
+### Où calculer les coûts et les emplacements prêts ?
+
+Utilisez le [calculateur nucléaire OpenFront](/fr/guides/nuke-calculator/) pour le Gold, l'échelle MIRV, les tubes, les tirs SAM, la portée et l'écart limité.
+
+## Sources formelles et frontière de vérification
+
+La frontière actuelle est la [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Ses notes n'introduisent aucun nouveau comportement MIRV, Silo ou SAM.
+
+Les règles restent fondées sur l'implémentation v0.33.6 inchangée et ses tests :
+
+- [Config.ts : coûts, vitesses, rayons, recharges et portée](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts : porteur et génération des cibles](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts : trajectoires, segments ciblables et impacts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts : recherche, priorité et timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts : types éligibles et interception](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts : coûts et choix du Silo prêt](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts : files d'emplacements Silo et SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [Tests MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [Tests SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Tests Missile Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+Pour replacer l'arme dans une doctrine de riposte, consultez la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/).
+
+Pour les règles Atom, Hydrogen, Silo et SAM hors du flux MIRV, consultez [la mécanique nucléaire](/fr/mechanics/nukes/).

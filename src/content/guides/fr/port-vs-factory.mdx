@@ -1,0 +1,377 @@
+---
+title: "Port ou Factory dans OpenFront : quel moteur économique choisir ?"
+description: "Comparez Ports, Factories, Trade Ships et Trains dans OpenFront : coût partagé, conditions de route, améliorations, risques et scénarios de rentabilité."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [port, factory, commerce, trains, economie]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié sur le tag officiel v0.33.7 : Port et Factory partagent une échelle de coût, le niveau d'un Port n'augmente pas le paiement par navire, la pity est distincte de l'embargo et le lobby contrôle la disponibilité des Factories."
+---
+
+## Réponse directe : Port ou Factory ?
+
+Construisez un **Port** si un Port étranger valide existe déjà dans la même eau connectée, si la route est assez longue et si la mer restera probablement ouverte.
+
+Construisez une **Factory** si elle est activée, si des Cities ou Ports protégés respectent les portées du rail et si les routes terrestres sont plus sûres.
+
+Ne construisez aucun moteur si le réseau ne peut pas encore fonctionner.
+
+Un Port sans destination étrangère éligible peut consommer des essais sans lancer de navire. Une Factory sans City ou Port connecté ne possède aucun arrêt rentable.
+
+Le premier choix compte, car Port et Factory partagent une seule échelle de coût.
+
+Acheter l'un des deux pour 125 000 fait généralement passer le premier niveau de l'autre à 250 000.
+
+| Contrainte actuelle | Meilleur premier choix | Raison |
+| --- | --- | --- |
+| Côte sûre et Port étranger lointain | Port | La distance augmente chaque arrivée réussie |
+| Groupe de Cities à l'intérieur | Factory | Les Trains paient aux arrêts City et Port |
+| Mer hostile et noyau stable | Factory | Le rail évite l'interception navale |
+| Aucun arrêt City ou Port utile | Port, avec partenaire valide | Factory seule ne paie rien |
+| Aucun Port étranger dans l'eau connectée | Factory, avec des arrêts | Port n'a pas de destination |
+| Troops souvent au maximum | City d'abord | La contrainte est la capacité |
+
+## Échelle de coût partagée
+
+Port et Factory utilisent le total effectif de leurs niveaux combinés :
+
+```text
+coût du prochain niveau de Port ou Factory
+  = min(1 000 000, 2^n * 125 000)
+```
+
+Les coûts marginaux sont 125 000, 250 000, 500 000, puis 1 000 000 pour chaque niveau combiné suivant.
+
+| Niveaux Port + Factory déjà payés | Prochain niveau | Total après achat |
+| ---: | ---: | ---: |
+| 0 | 125 000 | 125 000 |
+| 1 | 250 000 | 375 000 |
+| 2 | 500 000 | 875 000 |
+| 3 | 1 000 000 | 1 875 000 |
+| 4+ | 1 000 000 | +1 000 000 chacun |
+
+Port, puis Factory, puis Port coûte 875 000 au total. Inverser les deux premiers types donne le même total.
+
+L'ordre reste important, car les premiers 125 000 démarrent un réseau avant l'autre.
+
+Une nouvelle structure et une amélioration font toutes deux avancer l'échelle d'un niveau.
+
+Les structures capturées sont bornées par le comptage des niveaux construits ; un réseau capturé ne crée donc pas une pénalité de prix illimitée.
+
+City possède une échelle séparée. Acheter une City ne renchérit pas Port ou Factory.
+
+## Ce qu'un Port achète réellement
+
+Un Port terminé vérifie la création d'un Trade Ship toutes les dix ticks, soit environ une fois par seconde.
+
+Chaque niveau du Port effectue un essai pendant cette vérification.
+
+Le navire a encore besoin d'une destination valide. Le Port cible doit appartenir à un autre joueur, partager la même eau connectée et ne subir aucun embargo dans les deux sens.
+
+Une alliance n'est pas nécessaire. Tout joueur différent est éligible tant qu'aucun des deux n'impose un embargo.
+
+### Paiement d'un Trade Ship
+
+À l'arrivée, le navire utilise le nombre de tiles d'eau réellement parcourues :
+
+```text
+G(distance) = floor((75 000 / (1 + exp(-0.03 * (distance - 300)))
+                    + 50 * distance) * goldMultiplier)
+```
+
+Lors d'une arrivée normale, le propriétaire du Port source et celui du Port cible reçoivent chacun la totalité de `G(distance)`.
+
+Ils ne partagent pas une seule cagnotte.
+
+| Distance réelle | Gold pour chaque propriétaire à 1x | Arrivées pour couvrir 125 000 |
+| ---: | ---: | ---: |
+| 50 | 2 541 | 50 |
+| 100 | 5 185 | 25 |
+| 200 | 13 556 | 10 |
+| 300 | 52 500 | 3 |
+| 400 | 91 443 | 2 |
+| 600 | 104 990 | 2 |
+| 1 000 | 124 999 | 2 |
+
+La dernière colonne ne compte que la recette du propriétaire source. Additionner le Gold des deux joueurs comme votre retour doublerait le résultat à tort.
+
+Les longs voyages prennent plus de temps et exposent le navire plus longtemps. Le tableau n'est utile que si la route survit.
+
+### Suppression globale et pity
+
+Le système lit le nombre de Trade Ships actifs dans toute la partie :
+
+```text
+base = 1 - sigmoid(globalShips, ln(2)/50, 400)
+odds = floor((100 / (rejections + 1)) / base)
+```
+
+Un essai réussit avec une probabilité de `1 / odds`. Le point médian de la sigmoid globale est 400 navires actifs.
+
+La pression devient donc plus visible lorsque la flotte de toute la partie approche puis dépasse cette zone.
+
+`rejections` compte les essais aléatoires consécutifs ratés pour ce Port. Chaque échec améliore la chance suivante.
+
+C'est une pity, pas une pénalité d'embargo ni un nombre de joueurs refusant le commerce.
+
+Avec une destination valide et un total global fixe, l'attente moyenne dérivée d'un Port niveau 1 est d'environ 12 s à zéro navire actif.
+
+Elle atteint environ 17 s près de 400 navires et 51 s près de 600, pity incluse.
+
+Ce sont des estimations, pas des minuteurs. Le total global change, les niveaux ajoutent des essais et une vérification réussie peut encore manquer de destination.
+
+### Effet d'une amélioration de Port
+
+Chaque niveau ajoute un essai par vérification. Comme destination, un Port apparaît aussi une fois par niveau dans la liste pondérée des candidats.
+
+Le niveau du Port n'entre **pas** dans la formule de Gold du navire.
+
+Améliorer augmente le débit attendu et le poids comme destination, pas le paiement du même voyage.
+
+Améliorez si l'eau et les partenaires sont déjà bons. Construisez ailleurs si une autre côte ou étendue d'eau crée une route vraiment différente.
+
+## Ce qu'une Factory achète réellement
+
+Une Factory achevée devient une station et attire les Cities, Ports et Factories proches dans un réseau ferroviaire.
+
+City et Port sont des arrêts commerciaux. Factory produit le Train mais ne paie rien à son propre arrêt.
+
+Les limites actuelles sont :
+
+- recherche des stations dans un rayon de 110 tiles ;
+- espacement direct strictement supérieur à 15 tiles ;
+- chemin ferroviaire inférieur à `110 * 1.4142`, soit environ 155,562 tiles ;
+- vitesse du Train de 2 tiles de chemin par tick.
+
+Une distance visuelle raisonnable peut échouer si le pathfinder ne trouve pas un trajet sous la limite.
+
+### Génération des Trains
+
+Soit `F` le total des niveaux de Factory du propriétaire. Le dénominateur de chance vaut :
+
+```text
+R(F) = (F + 10) * 15
+```
+
+Chaque niveau réalise un essai `1 / R(F)` par tick dans sa Factory.
+
+Une Factory physique produit au plus un Train dans le même tick. Chaque succès lance aussi un cooldown minimum de dix ticks pour cette Factory.
+
+Si toutes les Factories sont niveau 1, le débit global attendu à faible densité est proche de `F / R(F)` :
+
+| Total F des niveaux | Intervalle moyen estimé |
+| ---: | ---: |
+| 1 | 16,5 s |
+| 2 | 9,0 s |
+| 3 | 6,5 s |
+| 5 | 4,5 s |
+| 10 | 3,0 s |
+
+Concentrer les niveaux dans une seule Factory réduit légèrement le débit exact.
+
+Plusieurs essais réussis dans un même tick ne créent toujours qu'un seul Train dans cette structure.
+
+### Destination et paiement des arrêts
+
+La Factory choisit au hasard une City ou un Port éligible dans son cluster. Les stations valides sont échantillonnées de manière uniforme.
+
+Le niveau d'une City ou d'un Port ne rend pas cette destination plus probable ni plus rentable.
+
+Le Train peut traverser des stations intermédiaires. Chaque City ou Port paie avant l'augmentation du compteur d'arrêts :
+
+| Relation avec le propriétaire du Train | Gold de base au propriétaire du Train |
+| --- | ---: |
+| Ally | 35 000 |
+| Teammate | 25 000 |
+| Autre joueur sans embargo | 25 000 |
+| Self | 10 000 |
+
+Les dix premiers arrêts commerciaux, indexés de 0 à 9, ne subissent aucune pénalité.
+
+À partir du onzième, chaque arrêt retire 5 000, avec un minimum de 5 000.
+
+Si la station appartient à un autre joueur, son propriétaire reçoit lui aussi le montant complet. À un arrêt self, le propriétaire commun n'est crédité qu'une fois.
+
+Le paiement n'a aucun bonus direct de distance. Une plus grande distance signifie seulement plus de temps de trajet.
+
+Une longue route gagne davantage si elle traverse plus d'arrêts utiles, mais la pénalité finit par réduire la valeur marginale.
+
+### Effet d'une amélioration de Factory
+
+Une amélioration augmente le total des niveaux et ajoute un essai dans cette Factory. Elle ne crée pas une deuxième position de station.
+
+Améliorez si la topologie est bonne et que le débit est le blocage.
+
+Construisez une autre Factory si son emplacement relie un nouveau cluster protégé ou réduit un risque de point unique.
+
+## Disponibilité dans les parties actuelles
+
+Factory est une unité configurable. Un lobby peut la placer dans `disabledUnits` ; le moteur désactive alors aussi l'exécution des clusters ferroviaires.
+
+Les playlists publiques formelles de la v0.33.7 utilisent par défaut une liste vide.
+
+L'ancienne affirmation « les Trains existent seulement en solo ou en salon privé » n'est donc plus correcte.
+
+Vérifiez tout de même les modificateurs de la partie. Disponible par défaut ne signifie pas activé dans chaque salon personnalisé.
+
+## Quatre comparaisons réalistes
+
+### 1. Premier Port, route de 100 tiles
+
+Le Port coûte 125 000. Une arrivée normale rapporte environ 5 185 à son propriétaire ; il faut donc 25 arrivées pour dépasser le coût statique.
+
+C'est une route faible, sauf sécurité exceptionnelle ou valeur navale stratégique.
+
+### 2. Premier Port, route de 400 tiles
+
+Une arrivée rapporte environ 91 443. Deux voyages terminés dépassent le coût statique du Port.
+
+La vraie question est la survie, le délai de navigation et le maintien d'un partenaire sans embargo.
+
+### 3. Première Factory avec une City self existante
+
+La Factory coûte 125 000. Un Train self à un arrêt paie 10 000 ; le treizième Train terminé dépasse donc le coût.
+
+L'approximation donne 16,5 s par Train au niveau 1. Treize lancements prennent environ 214,5 s, avant le délai du trajet.
+
+Les Trains peuvent se chevaucher : le déplacement retarde les arrivées sans rendre nécessairement tout le réseau séquentiel.
+
+### 4. Première Factory avec un arrêt allié
+
+Un arrêt ally paie 35 000 au propriétaire du Train et 35 000 au propriétaire de la station.
+
+Quatre Trains terminés dépassent les 125 000 investis par le propriétaire de la Factory.
+
+C'est une croissance partagée, pas un arbitrage privé. L'allié grandit aussi, et une relation ou un embargo peut modifier les paiements futurs.
+
+## Séquence de décision
+
+### 1. Vérifiez que le réseau peut payer
+
+Pour Port, cherchez un Port étranger sans embargo dans la même eau. Pour Factory, cherchez une City ou un Port protégé qui peut rejoindre le cluster.
+
+Si la réponse est non, attendez avant d'acheter.
+
+### 2. Calculez le prochain coût partagé
+
+Comptez ensemble les niveaux de Port et de Factory. N'utilisez pas la ligne de base à 125 000 si vous possédez déjà un niveau de l'un ou de l'autre.
+
+### 3. Estimez un paiement achevé
+
+Pour Port, utilisez la distance d'eau réelle et seulement votre recette. Pour Factory, utilisez la relation de la station et les arrêts antérieurs.
+
+### 4. Ajoutez délai et survie
+
+Un nombre statique d'arrivées ne garantit pas un temps. Ajoutez attente, trajet, captures, changements de route et multiplicateur de Gold.
+
+### 5. Comparez le coût de protection
+
+Le commerce maritime peut demander des Warships ou un Port plus sûr. Le rail peut demander un noyau plus profond ou une autre route.
+
+Le meilleur rendement brut peut perdre après protection et remplacement.
+
+### 6. Choisissez amélioration ou extension
+
+Améliorez un réseau prouvé pour son débit. Ajoutez une structure si son emplacement crée une connexion, une route ou une redondance.
+
+## Quand City doit passer en premier
+
+Port et Factory répondent à un problème de flux de Gold. City répond à un problème de limite de Troops.
+
+Si les Troops restent souvent proches du maximum, un niveau de City peut rouvrir la croissance avant qu'un revenu supplémentaire ne soit utile.
+
+Si les Troops sont loin de la limite, le revenu ou la survie est probablement la contrainte principale.
+
+Lisez le [guide de croissance](/fr/guides/population-growth/) avant de traiter chaque solde de 125 000 comme un achat commercial.
+
+## Contres et échecs fréquents
+
+### Empiler des Ports sur une route courte
+
+La sigmoid de revenu pénalise fortement les distances sous 300. Les Ports supplémentaires font aussi avancer le coût partagé.
+
+### Confondre pity et embargo
+
+L'embargo supprime des destinations. Les essais aléatoires ratés augmentent la pity. Ce sont deux mécanismes distincts.
+
+### Attendre plus de Gold par niveau de Port
+
+Le même voyage paie selon sa distance, pas selon le niveau. Améliorez pour davantage d'essais, pas pour un montant unitaire supérieur.
+
+### Construire une Factory sans arrêt commercial
+
+La Factory peut dessiner des rails, mais le Gold apparaît uniquement aux Cities ou Ports. Confirmez le cluster avant de payer.
+
+### Allonger le rail pour la distance
+
+Le Gold d'un Train n'a pas de terme de distance. Un trajet supplémentaire est un coût s'il n'atteint aucun arrêt utile.
+
+### Compter la recette des deux joueurs
+
+Le commerce maritime et ferroviaire externe crée du Gold pour les deux propriétaires. Votre retour utilise seulement le montant crédité à votre joueur.
+
+### Concentrer tous les noeuds
+
+Un noyau compact se défend bien, mais reste sensible à une capture ou une frappe nucléaire. Équilibrez efficacité et redondance.
+
+### Répéter une restriction obsolète
+
+Factory peut être désactivée, mais les réglages publics v0.33.7 ne la désactivent pas. Lisez le salon au lieu de deviner depuis le mode.
+
+## Questions fréquentes
+
+### La première Factory coûte-t-elle toujours 125 000 ?
+
+Non. Si vous possédez déjà un niveau de Port ou Factory, le niveau partagé suivant coûte normalement 250 000.
+
+### Améliorer un Port augmente-t-il le paiement ?
+
+Non. Cela ajoute des essais et du poids comme destination. Le paiement lit la distance parcourue et le multiplicateur de Gold.
+
+### Un embargo augmente-t-il la pity ?
+
+Non. La pity compte les essais aléatoires échoués. L'embargo change l'éligibilité d'une destination.
+
+### Les Trains fonctionnent-ils en partie publique ?
+
+Oui avec les réglages publics v0.33.7. Un salon personnalisé peut toujours désactiver Factory.
+
+### Une route ferroviaire plus longue rapporte-t-elle plus ?
+
+Pas directement. Le paiement dépend de la relation et du nombre d'arrêts, pas de la distance.
+
+### Quel réseau est le plus sûr ?
+
+Cela dépend de la carte. Les Warships attaquent le trafic maritime ; les stations terrestres peuvent être capturées ou frappées.
+
+Choisissez le réseau que votre position peut protéger.
+
+### Deuxième structure ou amélioration ?
+
+Améliorez si la route fonctionne et manque seulement de débit. Construisez si le nouvel emplacement ouvre une eau, un cluster ou une redondance.
+
+## Sources officielles et limite de version
+
+Ce guide prend la [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) et son tag comme frontière officielle.
+
+Coûts, Gold des navires, suppression, Gold des Trains et limites du rail viennent de [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+Les essais et le poids des destinations se trouvent dans [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PortExecution.ts).
+
+Le déplacement et le paiement des navires sont dans [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TradeShipExecution.ts).
+
+Les connexions sont dans [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/FactoryExecution.ts).
+
+La génération des Trains se trouve dans [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TrainStationExecution.ts).
+
+Le choix de destination et les paiements sont dans [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts).
+
+Les limites de route sont dans [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/RailNetworkImpl.ts).
+
+Les données du site enregistrent séparément le checkout d'extraction `0668045fa926eaa6d6995561a8e13fd8126895b6` et la série `v33`.
+
+Ce checkout est une métadonnée de reproductibilité, pas le tag v0.33.7.
+
+Pour le budget global, lisez les [bases de l'économie](/fr/strategies/economy-fundamentals/). Pour la capacité militaire, utilisez le [guide de croissance](/fr/guides/population-growth/).

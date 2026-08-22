@@ -1,0 +1,405 @@
+---
+title: 'OpenFront Team Roles: A Flexible Coordination Framework'
+description: Coordinate frontline, donation, target, rail, naval, and nuclear responsibilities without treating OpenFront roles as locked classes.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [team, roles, donations, coordination]
+category: Team
+difficulty: Advanced
+version: v33
+freshnessSummary: "Verified against the official v0.33.7 tag on 2026-08-22: donation switches, shared cooldowns, target timing, friendly relations, and Train stop payouts are covered."
+---
+
+## Direct Answer
+
+In v0.33.7, OpenFront has no locked team classes. Treat roles as an editable plan: the frontline absorbs pressure, donors move the scarce resource, and target callers focus attention.
+
+Rail, naval, and nuclear players keep support paths available. Reassign those jobs whenever borders, capacity, Gold, or infrastructure changes.
+
+Donations depend on mode settings, recipient headroom, and one shared 10-second cooldown. A target marker shares intent for 10 seconds, not complete vision. Last verified 2026-08-22.
+
+## Roles Are Decisions, Not Classes
+
+The game does not assign a frontline, donor, caller, logistician, sailor, or nuclear specialist. Those six names are an editorial framework for discussing current work.
+
+They grant no passive bonus, exclusive control, or protected position. One player can hold two responsibilities, and a responsibility can move before the next donation or attack.
+
+Use roles to answer one question: who can remove the team's current bottleneck at the lowest opportunity cost?
+
+A fixed lineup ignores the board. A donor becomes the frontline when a border opens; a naval player becomes logistics when the decisive water no longer matters.
+
+The source proves actions, timers, and resource limits. It does not prove that a six-player composition, donation order, or role split has a fixed win rate.
+
+## Friendly, Teammate, and Ally
+
+In the engine, **friendly** includes self, a player on the same team, and a player in an active alliance. Ordinary land attacks cannot target a friendly player.
+
+A **teammate** belongs to the same team selected by the mode. An **ally** is connected through the timed alliance system.
+
+These relationships overlap in some checks, including friendly donation eligibility. They are not interchangeable states.
+
+Team membership is not a timed alliance. An alliance can expire, be renewed, or be broken, so its routes and support assumptions can change during the match.
+
+The distinction also changes Train income. An ally stop pays differently from a teammate stop in the current code.
+
+Sources: [PlayerImpl.ts][player-source], [AttackExecution.ts][attack-source], and [TrainStation.ts][train-source].
+
+## Check the Donation Switch Before Assigning a Donor
+
+Public playlists use these defaults in v0.33.7. A custom lobby can change the feature switches.
+
+| Public mode | Donate Gold | Donate Troops | Planning consequence |
+| --- | --- | --- | --- |
+| Team | On | On | A donor role can use either resource by default. |
+| FFA | Off | Off | An alliance alone does not enable donation by default. |
+| Ranked 1v1 | Off | Off | Plan without transfers unless custom rules differ. |
+| Ranked 2v2 | On | On | Transfers are available by default. |
+
+Do not write “all allies can always donate.” Sender and recipient must be alive and friendly, and Human players still depend on the relevant lobby switch.
+
+Likewise, “FFA donations are impossible” is too broad. They are off in the public FFA default, while a custom room can expose different settings.
+
+Source: [MapPlaylist.ts][playlist-source], [DonateGoldExecution.ts][gold-source], and [DonateTroopExecution.ts][troop-source].
+
+## Build a Live Team Status Board
+
+Before assigning roles, record six pieces of state. Keep the board small enough to update after a border break, Port loss, or large transfer.
+
+| Question | Useful signal | Role likely to change |
+| --- | --- | --- |
+| Who absorbs land pressure? | Incoming attacks, border length, reserve | Frontline / anchor |
+| Who can receive Troops? | Current Troops and `maxTroops` headroom | Donor / economy |
+| Which enemy matters now? | Active push, exposed structure, landing | Target caller |
+| Which network still settles? | City or Port stops, route, embargo | Rail / trade logistics |
+| Which water changes movement? | Transport lane, Port, chokepoint | Naval support |
+| Who can answer a nuclear threat? | Gold, Silo, SAM pressure, exposure | Nuclear deterrence |
+
+This board is an editorial coordination tool, not an in-game dashboard. It prevents yesterday's assignment from surviving after its purpose disappears.
+
+Recheck it when a recipient reaches troop cap, a route breaks, a marker expires, or an enemy turns toward a support player.
+
+## Role 1: Frontline or Anchor
+
+The frontline absorbs current land pressure and reports what support would change the fight. Its output is a stable contact surface, not the largest territory count.
+
+Report incoming direction, usable Troops, recipient headroom, and one near-term objective. “Send everything” hides the limit that may truncate a transfer.
+
+Use target when one enemy is the current focus, but do not assume the marker reveals that enemy's complete units, Gold, or fogged position.
+
+**Switch signal:** shorten or hand off the role when the border closes, the adjacent enemy changes, or Doomsday pressure makes territory recovery more urgent elsewhere.
+
+**Opponent counter:** split pressure across two fronts or threaten the support route. The anchor must then choose which contact is genuinely decisive.
+
+## Role 2: Donor or Economy
+
+The donor asks whether Gold or Troops removes the larger bottleneck over the next 10 seconds. It does not merely transfer every visible surplus.
+
+Troop donations are limited by the recipient's remaining `maxTroops` capacity and by what the sender can actually lose. Gold is limited by the sender's available balance.
+
+The default Troop donation request is one third of the sender's current Troops, but actual transfer can be lower. That default is not a recommended standing ratio.
+
+Gold and Troop donations to the same recipient share one 10-second sender cooldown. A token transfer can block the resource that was actually urgent.
+
+**Switch signal:** stop donating when the recipient nears cap, the frontline stabilizes, or the donor becomes an attack target and needs its own reserve.
+
+**Opponent counter:** pressure the donor or force several recipients to ask at once. Shared cooldowns make prioritization part of defense.
+
+## Role 3: Target Caller
+
+The target caller uses a short marker to state one current priority. Teammate and ally markers are combined for display, but the marker is still only a coordination signal.
+
+One marker remains visible for 10 seconds. The same sender's target ability has a 15-second cooldown.
+
+That creates about five seconds when the old marker is gone but that sender cannot place the next one. Voice, pings, and visible board state must carry the plan through the gap.
+
+Do not treat target as a command. It does not force an attack, transfer control, or share the target's complete hidden information.
+
+**Switch signal:** rotate the caller when its cooldown conflicts with a new urgent threat, or when another player has a clearer view of the relevant front.
+
+**Opponent counter:** present two credible threats or retreat after being marked. The team should not chase an expired priority automatically.
+
+## Role 4: Rail and Trade Logistics
+
+The logistics role keeps Factory, City, and Port connections able to settle. Route ownership and relationship state matter as much as laying the line.
+
+At 1x multiplier without a stop penalty, an ally stop pays 35,000 base Gold to the Train owner and 35,000 to the foreign station owner.
+
+A teammate stop pays 25,000 to each side. An other-player stop also pays 25,000 to each side, while a self stop records one 10,000 payout.
+
+The two parties at a foreign stop each receive the full listed amount; they do not split one pool. Gold multiplier and long-route stop penalty can change the result.
+
+Do not claim teammate routes have the highest base payout. The v0.33.7 branch gives the larger 35,000 value to an ally stop.
+
+**Switch signal:** change roles when a route is cut, an embargo blocks trade, station ownership changes, or defending the line costs more than its current support value.
+
+**Opponent counter:** capture a stop, sever a narrow connection, or change the diplomatic state. Recalculate the live network instead of defending a historical route.
+
+## Role 5: Naval Support
+
+Naval support protects the water route that changes team movement. It escorts Transports, contests landings, and protects a useful Port rather than maximizing Warship count.
+
+Ask whether the water still connects important fronts. If the battle becomes continental or the Port falls, ships may no longer remove the team's active bottleneck.
+
+Coordinate the landing window with the target caller and frontline. A protected crossing without ready land Troops can spend naval control without gaining territory.
+
+**Switch signal:** pivot when the enemy stops using the lane, no valid Port remains, or a ground responsibility produces more immediate value.
+
+**Opponent counter:** feint one crossing, attack the supporting coast, or force the fleet away from its Port. Preserve the route, not an abstract fleet score.
+
+## Role 6: Nuclear Deterrence
+
+The deterrence role preserves enough Gold, Silo access, and protected infrastructure to answer a strategic threat. It is a readiness job, not permission to fire at any available target.
+
+Report which response is actually available and which facility is exposed. Avoid spending the reserve on a low-value shot when a more urgent counter may appear.
+
+This role should coordinate with donors before a transfer consumes Gold needed for defense or construction. It should also track whether an ally relationship is still active.
+
+**Switch signal:** reassign the job when the Silo is lost, SAM pressure changes viable paths, nuclear options are disabled, or another player has safer infrastructure.
+
+**Opponent counter:** pressure the facilities, disperse valuable targets, or force the reserve to defend two threats. Deterrence is capacity, not guaranteed control.
+
+## Donation Decision: Recipient, Capacity, Resource, Cooldown
+
+Use four checks before every urgent transfer. The order is a diagnostic sequence, not a fixed donation sequence.
+
+1. **Recipient:** Is the intended player alive and friendly, and is donation enabled in this lobby?
+2. **Capacity:** How much Troop headroom remains, and how much can the sender safely deduct?
+3. **Resource:** Will Troops hold the line now, or will Gold unlock the more valuable building, cap, or response?
+4. **Cooldown:** Has this sender donated either resource to this recipient during the last 10 seconds?
+
+The resource question is tactical. The cooldown, headroom, alive state, friendly state, and configuration switch are engine constraints.
+
+Different donors track their own records. Do not infer a global team cooldown, but do not assume one sender can alternate Gold and Troops to bypass the recipient cooldown.
+
+Confirm the received amount after a Troop transfer. A valid request can still be truncated by headroom or sender capacity.
+
+### Scenario 1: headroom truncates a Troop request
+
+Assume a recipient has `maxTroops = 200,000` and currently holds `185,000` Troops. The available capacity is:
+
+`headroom = 200,000 - 185,000 = 15,000`
+
+Even if the sender requests 30,000, the recipient can receive at most 15,000 under this assumption.
+
+After the transfer, that sender's Gold and Troop donations to this recipient both enter the same 10-second cooldown.
+
+The lesson is not “always send Troops first.” It is “inspect capacity before choosing which resource deserves the shared window.”
+
+Sources: [DonateTroopExecution.ts][troop-source], [PlayerImpl.ts][player-source], and [official donation tests][donation-tests].
+
+### Scenario 2: a small transfer blocks urgent Gold
+
+Assume the frontline needs either a small Troop top-up or 120,000 Gold for the action the team considers more urgent.
+
+If one donor sends the small Troop amount first, that donor cannot immediately send Gold to the same recipient. The common cooldown lasts 10 seconds.
+
+Another eligible donor may have a separate record, but availability, friendly state, and mode switches still apply.
+
+Choose the resource that removes the larger bottleneck over the next 10 seconds. No universal ordering follows from the code.
+
+Sources: [DonateGoldExecution.ts][gold-source], [DonateTroopExecution.ts][troop-source], and [Donate.test.ts][donation-tests].
+
+## Target Timing: Ten Seconds Visible, Fifteen Seconds Locked
+
+Treat a target marker as a short intent packet. It says “focus attention here now,” not “the game has shared all intelligence about this player.”
+
+At `t = 0`, the caller marks an enemy. The marker remains visible until about `t = 10s`.
+
+The same sender's cooldown ends around `t = 15s`. There is therefore an approximate five-second gap before that caller can mark again.
+
+### Scenario 3: the marker gap
+
+Suppose a marked enemy retreats at `t = 9s`, while a larger threat appears at `t = 11s`.
+
+The first marker has expired, but the original caller remains on cooldown until about `t = 15s`. Another caller or an external communication channel must carry the change.
+
+This is a reason to rotate responsibility, not proof that every team needs a permanent caller. The most informed available player can own the next window.
+
+The client merges markers from allies and teammates for display. That does not merge fog of war, unit details, Gold balances, or automatic attacks.
+
+Sources: [TargetPlayerExecution.ts][target-source] and [PlayerView.ts][view-source].
+
+## Train Stops: Relationship Changes the Base Payout
+
+Rail support should be evaluated at working stops, not by total track length. A completed external stop pays each side the relationship-specific base amount.
+
+### Scenario 4: ally versus teammate stop
+
+Assume 1x Gold multiplier and no long-route stop penalty.
+
+At a teammate stop, the Train owner receives 25,000 and the station owner receives 25,000.
+
+At an ally stop, the Train owner receives 35,000 and the station owner receives 35,000.
+
+The ally stop therefore produces 10,000 more base Gold for each party in this narrow comparison.
+
+This does not prove alliances are better than teams. It only describes the current Train stop payout branch; alliance duration, embargo, route safety, and team objectives remain separate.
+
+Source: [TrainStation.ts][train-source].
+
+### Scenario 5: “other” is not zero
+
+Under the same assumptions, a stop owned by an other player pays 25,000 to the Train owner and 25,000 to the station owner.
+
+Trade permission still matters. An embargo in either direction can make the planned connection unusable even though the payout table has an “other” branch.
+
+Do not turn the number into a promise that any visible foreign station can settle. Check diplomacy and the live route.
+
+## A Coordination Cycle Without a Fixed Build Order
+
+Use a short review whenever state changes. The following sequence is a discussion aid, not an engine timer or mandatory playbook.
+
+### 1. Name the pressure
+
+Identify the attack, landing, route break, capacity shortage, or nuclear threat that can cause the next irreversible loss.
+
+Do not assign six roles when only two jobs matter. Empty labels cost attention and can conceal that no one owns the current risk.
+
+### 2. Name the constraint
+
+Choose among Troops, Gold, headroom, target clarity, route access, water access, or protected firepower.
+
+This keeps a donor from solving a Troop-cap problem with more Troops, or a fleet from protecting water that no longer carries movement.
+
+### 3. Assign one owner and one switch signal
+
+The owner performs the next useful action. The switch signal says when the job ends: cap reached, marker expired, border closed, route cut, or facility lost.
+
+Without a switch signal, a temporary responsibility hardens into a class and survives after its value disappears.
+
+### 4. Verify the result
+
+Check the received transfer, marker state, settled stop, safe crossing, or preserved response. An attempted action is not the same as a completed team outcome.
+
+## Mode and Map Adjustments
+
+### Public Team and ranked 2v2
+
+Gold and Troop donation are enabled by default. The shared recipient cooldown and headroom checks still apply.
+
+More available transfers increase coordination options; they do not remove the need for donors to retain enough capacity for their own exposed borders.
+
+### Public FFA and ranked 1v1
+
+Both donation types are off by default. An alliance can still make players friendly, but friendship alone does not override disabled Human donation settings.
+
+Custom rooms can change the switches. Confirm the lobby instead of carrying the public default into every private match.
+
+### Continental maps
+
+Frontline and rail roles may dominate when land routes connect most objectives. Naval support should shrink if water does not alter movement.
+
+Long connections create more points that can be cut. Logistics should defend the stop or bridge whose loss changes actual settlement, not every decorative segment.
+
+### Strait and island maps
+
+Naval support can become central when one crossing connects the team. The frontline still needs enough land power to use the crossing after escort succeeds.
+
+If the decisive Port falls, reassess immediately. Continuing to fund an unreachable naval mission is role inertia.
+
+### Nukes or SAMs disabled
+
+When nuclear weapons are disabled, a nuclear deterrence role has no normal mission. Reassign Gold and attention to a live constraint.
+
+When SAMs are disabled but nukes remain, spacing and facility exposure change. Do not assign protection around a launcher the lobby forbids.
+
+## Failure Modes and Opponent Counterplay
+
+### Static job titles
+
+A player keeps donating after becoming the exposed border, or keeps building ships after the water loses relevance.
+
+Counter this with explicit switch signals. Roles describe the next responsibility, not the player's identity for the entire match.
+
+### Donation into a full recipient
+
+The team requests a large transfer without checking `maxTroops` headroom. The amount is truncated, and the sender still spends the 10-second shared window for that recipient.
+
+Read capacity first. If Gold removes a different bottleneck, compare it before committing either donation type.
+
+### Duplicate or stale targets
+
+Several players mark different enemies, or everyone follows a marker after the position changes.
+
+Use one current priority per visible window. Treat the 15-second sender cooldown and the opponent's movement as reasons to reassess.
+
+### Assuming shared vision
+
+A marker is interpreted as complete intelligence. Teammates commit based on unit or resource details they were never given.
+
+State the observable reason for the target. The code supports shared marker display, not complete shared fog-of-war information.
+
+### Mispricing the rail relationship
+
+The team assumes teammate stops pay 35,000 or that foreign stops split one reward.
+
+Use the actual base table: ally 35,000 each; teammate and other 25,000 each; self 10,000 once. Then account for multiplier and stop penalty.
+
+### Attacking the support network
+
+An opponent can pressure the donor, cut a rail connection, capture a Port, split the frontline, or threaten nuclear infrastructure.
+
+These counters do not automatically defeat the framework. They force the team to update its bottleneck and move responsibility.
+
+## Team Roles FAQ
+
+### Does OpenFront lock players into roles?
+
+No. These six roles are an editorial coordination framework. The engine provides actions and relationships, not fixed professions or role bonuses.
+
+### Can every ally receive a donation?
+
+Not always. The pair must be alive and friendly, and Human donation must be enabled. Public FFA and ranked 1v1 disable both donation types by default.
+
+### Are Gold and Troop donation cooldowns separate?
+
+No. One sender's Gold and Troop donations to the same recipient use the same 10-second donation record.
+
+### Can Troop donation exceed `maxTroops`?
+
+No. The transfer is capped by recipient headroom and sender capacity. A requested amount may arrive smaller.
+
+### Does target share full vision?
+
+No. The marker is displayed from allies and teammates for 10 seconds. It does not expose complete fog, units, resources, or force an attack.
+
+### Why can the marker vanish before I can mark again?
+
+Visibility lasts 10 seconds, while the same sender's cooldown lasts 15 seconds. That leaves about a five-second gap.
+
+### Does a teammate Train stop pay 35,000?
+
+No. At the base branch it pays 25,000 to each party. An ally stop pays 35,000 to each party; multiplier and stop penalty can alter actual income.
+
+### Is there a best fixed team composition?
+
+No verified source proves one. Assign only the responsibilities the current border, network, capacity, and threat require, then switch them when those signals change.
+
+## Sources and Next Reading
+
+The current boundary is the official [OpenFront v0.33.7 release][release]. All code and test links below are fixed to the same tag.
+
+- [PlayerImpl.ts][player-source] for friendly, donation records, trade permission, and troop limits.
+- [MapPlaylist.ts][playlist-source] for public mode donation defaults.
+- [DonateGoldExecution.ts][gold-source] and [DonateTroopExecution.ts][troop-source] for transfer eligibility and limits.
+- [TargetPlayerExecution.ts][target-source] and [PlayerView.ts][view-source] for marker timing and combined ally or teammate display.
+- [TrainStation.ts][train-source] for ally, teammate, other, and self stop payouts.
+- [Official donation tests][donation-tests] and [alliance donation tests][alliance-donation-tests] for shared cooldown and friendly boundaries.
+
+Continue with [team naval control](/strategies/team-naval-control/) for the maritime role, [nuclear deterrence](/strategies/nuclear-deterrence/) for strategic firepower, and [trade mechanics](/mechanics/trade/) for the network.
+
+Use [alliances and betrayal](/mechanics/alliances/) before treating an ally route like fixed team infrastructure.
+
+If a teammate is already collapsing, start with the [Recovery Playbook](/strategies/recovery-playbook/). For alliance, embargo, and exit decisions, continue with [Diplomacy & Betrayal](/strategies/diplomacy-betrayal/).
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[gold-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts
+[troop-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts
+[playlist-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts
+[target-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TargetPlayerExecution.ts
+[view-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/view/PlayerView.ts
+[train-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts
+[donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Donate.test.ts
+[alliance-donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceDonation.test.ts

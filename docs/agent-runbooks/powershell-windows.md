@@ -12,7 +12,7 @@
 - **受限用户直接运行 Astro 若因创建 `%APPDATA%/astro/Config` 报 `EPERM`，先设置 `ASTRO_TELEMETRY_DISABLED=1`**，再调用 `node_modules/.bin/astro.cmd`；否则检查尚未进入项目类型分析阶段。
 - **PowerShell 不要在带空格的括号表达式后直接调用 `.Substring()` 等方法**：`(...) .Substring(...)` 会报 `Unexpected token '.Substring'`。先把表达式结果赋给中间变量，再调用实例方法。
 - **`rg` 在“零匹配”时会返回退出码 1，即使零匹配正是审计目标**：检查旧路径为 0 等场景不要把裸 `rg` 当成必须成功的命令；用 PowerShell 条件捕获退出码，或让脚本显式把 0/1 都解释为有效审计结果，避免把“未找到”误报成命令故障。
-- **PowerShell 外层双引号中不要直接嵌入含 `|` 的复杂 `rg` 正则**：转义稍有偏差时，`|` 会被 PowerShell 当成管道并把后半段当命令执行。优先把正则放进单引号，或先赋给变量再作为参数传给 `rg`。
+- **PowerShell 外层双引号中不要直接嵌入含 `|`、反引号或复杂字符类的 `rg` 正则**：转义稍有偏差时，`|` 会被当成管道，反引号会吞掉后续字符并形成残缺正则。优先把模式放进单引号、拆成多个 `-e` 简单模式，或先赋给变量再传给 `rg`。
 - **PowerShell 变量名不区分大小写，`$home` 会与只读自动变量 `$HOME` 冲突**：HTTP 首页响应等临时变量不要命名为 `home`；使用 `$homeResponse`、`$rootPage` 等明确名称，避免 `Cannot overwrite variable HOME`。
 - **不要在 PowerShell 单引号命令字符串里再直接嵌入含单引号的复杂正则/源码**：内层引号会提前结束字符串并造成解析失败。优先把正则赋给双引号变量、使用 here-string，或拆成更简单的多步命令；跨工具传递时先验证最终参数文本。
 - **PowerShell 双引号插值中变量后紧跟冒号时必须用 `${name}:`**：写成 `$line:` 会被解析为作用域变量并报 `Variable reference is not valid`。日志位置、行号等字符串统一使用 `${line}:$value` 或格式化运算符 `-f`。
@@ -55,3 +55,5 @@
 - **2026-08-20 再次复发：PowerShell 的 `foreach (...) { ... }` 结果不能在同一语句末尾直接接管道**：先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`；否则解析器会报 `An empty pipe element is not allowed`。
 - **PowerShell 用 `Select-String` 检查字符串数组时，应通过管道逐行传入**：`Select-String -InputObject $lines` 可能把整个数组作为单个输入对象，导致存在的行首模式仍返回空；使用 `$lines | Select-String -Pattern ...`，再把结果收集为数组并显式选择目标匹配。
 - **2026-08-20 再次复发：Windows 下即使只读 `docs/archive/*.md` 也不能把 `*` 放进 `rg` 路径参数**：从真实目录 `docs/archive` 搜索，并用 `--glob '*.md'` 过滤；否则 `rg` 会报 `os error 123`。
+- **2026-08-22 再次复发：Windows 下盘点 Astro/MDX 时不要把 `src/pages/*/mechanics/modes.astro`、`src/content/strategies/en/*.mdx` 等通配表达式作为 `rg` 路径参数**：应传真实目录，再用 `--glob 'modes.astro'` 或 `--glob '*.mdx'` 限定文件；否则会报 `os error 123`。
+- **核验新 Release 时不要假设相邻的上游 clone 已抓取最新 tag**：先用 `git tag --list <tag>` 或 `git rev-parse --verify <tag>` 确认；本地缺失时改读 GitHub 官方 Release、tag ref 与 raw content API，不为只读核验擅自 fetch。PowerShell 中需要 annotated-tag peel 时把 `<tag>^{}` 整体加引号，否则 `{}` 可能被解析为脚本块。

@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
+
+const base = import.meta.env.BASE_URL;
+const verifiedDate = new Date('2026-08-22T00:00:00Z');
+---
+
+<BaseLayout title="OpenFront Nation-AI: gedrag en tegenspel" description="Hoe OpenFront v33.7 Nations uitbreiden, doelen kiezen, bouwen, bondgenootschappen aangaan, verraden, vloten inzetten en kernwapens gebruiken.">
+  <PageHeader eyebrow="MECHANICS · NATIONS" title="Nation-AI: gedrag en tegenspel" lead="Zie Nations als voorwaardelijke beslissystemen, niet als vaste scripts. Moeilijkheid, reserves, relaties, routes, middelen en de ingezaaide willekeur veranderen elke volgende stap." />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <FreshnessSummary
+      lang="nl"
+      version="v33.7"
+      verifiedDate={verifiedDate}
+      summary="Gecontroleerd aan de officiële v0.33.7-runtime en tests met vaste tag. Drempels komen uit de code; tactiek verandert kandidaten en kosten, maar dwingt geen unieke AI-reactie af."
+    />
+
+    <h2>Direct antwoord: wat doet een Nation?</h2>
+    <p>Een Nation volgt geen vaste bouwvolgorde. Na de spawn combineert het gedrag voor aanvallen, allianties, gebouwen, Warships, gewone kernwapens en MIRV's.</p>
+    <p>Moeilijkheid verandert timing, doelvolgorde, troepenreserve, alliantieregels, bouwscores en speciale reacties. Elke Nation krijgt ook een deterministische pseudowillekeur.</p>
+    <p>Troepen, relaties, grenzen, gebouwen, vloten en inkomende aanvallen kunnen kandidaten beïnvloeden. Ze maken een Nation niet blijvend vriendelijk en voorspellen geen zekere volgende actie.</p>
+
+    <Callout type="info" title="Codedrempels zijn geen winstkansen">
+      <p>De v0.33.7-broncode en tests met vaste tag definiëren kandidaatregels. Ze bevatten geen openbare matchtelemetrie, correctie voor spelersniveau of ranglijst van beste strategieën.</p>
+    </Callout>
+
+    <h2>Nation, Bot en Tribe zijn niet hetzelfde</h2>
+    <table>
+      <thead><tr><th>Actor</th><th>Overlap</th><th>Wat de speler moet weten</th></tr></thead>
+      <tbody>
+        <tr><td>Nation</td><td>Gebruikt gedeelde AI-aanvalshulpen</td><td>Voegt relaties, allianties, gebouwen, vloten, kernwapens, MIRV, embargo, verraad en eigen signalen toe.</td></tr>
+        <tr><td>Gewone Bot</td><td>Kan code voor doelen en aanvallen delen</td><td>Draait niet het volledige pakket voor diplomatie, bouw en kernwapens dat hier staat.</td></tr>
+        <tr><td>Tribe</td><td>Is ook een niet-menselijke actor op de kaart</td><td>Leid Nation-allianties, bouwratio's of nucleaire keuzes niet af uit Tribe-gedrag.</td></tr>
+      </tbody>
+    </table>
+    <p>Het onderscheid bepaalt ook uitzonderingen. Sommige FFA-reserveregels sluiten gewone Bots uit. Team en Humans vs Nations kunnen andere takken gebruiken.</p>
+
+    <h2>De beslislus van een Nation</h2>
+    <ol>
+      <li><strong>Spawn:</strong> start een deterministische stroom uit game-ID en Nation-ID en trek individuele drempels.</li>
+      <li><strong>Eerste uitbreiding:</strong> val Terra Nullius direct eenmaal aan en geef later voorkeur aan aangrenzend neutraal land zonder fallout.</li>
+      <li><strong>Reservecontrole:</strong> stop gewone aanvallen normaal onder de individuele reserve van 30%–39%.</li>
+      <li><strong>Triggercontrole:</strong> kies actieve doelen normaal bij 50%–59% van maximale troepen; daaronder is er nog een kans van 1/10.</li>
+      <li><strong>Prioriteiten:</strong> voer de eerste strategie uit die een geldige kandidaat vindt en een actie voltooit.</li>
+      <li><strong>Parallel:</strong> diplomatie, gebouwen, Warships, embargo, kernwapens en signalen lopen op eigen punten in de cyclus.</li>
+    </ol>
+    <p>Neutrale uitbreiding en herovering van Bot-land met gebouwen gebruiken de lagere individuele uitbreidingsreserve van 10%–19%. Route-, eigendoms- en doelcontroles blijven gelden.</p>
+    <p>De stroom is deterministisch per spel en Nation, maar latere trekkingen hangen af van eerdere aanroepen. Zichtbaar vergelijkbare situaties hoeven niet dezelfde actie te geven.</p>
+
+    <h2>Vier moeilijkheidsniveaus</h2>
+    <table>
+      <thead><tr><th>Niveau</th><th>Hoofdinterval</th><th>Algemene aanvalsgate voor mensen</th><th>Verdediging en infrastructuur</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>65–99 ticks</td><td>25% slaagt per algemene controle</td><td>Geen reactieve Defense Post, 0% spoorwegscore en geen reactie op scheepsincidenten.</td></tr>
+        <tr><td>Medium</td><td>55–69 ticks</td><td>75% slaagt</td><td>50% Defense Post-gate, maximaal één per front; spoorweg 60%; scheepsreactie 15%.</td></tr>
+        <tr><td>Hard</td><td>45–59 ticks</td><td>Geen extra milde gate</td><td>75% FFA-bodem voor buren; spoorweg 75%; scheepsreactie 50%.</td></tr>
+        <tr><td>Impossible</td><td>30–49 ticks</td><td>Geen extra milde gate</td><td>90% FFA-bodem voor buren; spoorweg 100%; scheepsreactie 80%.</td></tr>
+      </tbody>
+    </table>
+    <p>De Hard- en Impossible-bodem beschermt tegen de sterkste niet-vriendelijke, niet-Bot-buur in gewone FFA. Team, Bots en een Nation onder aanval hebben uitzonderingen.</p>
+    <p>Easy kan mensen aanvallen. De 25% is één gate, geen aanvalskans per beurt. Vergelding, traitor, niet-mensen en Humans vs Nations volgen andere paden.</p>
+
+    <h2>Hoe Nations aanvalsdoelen kiezen</h2>
+    <p>Het aanvalsgedrag scant echte landburen en spelers in de buurt. Is er geldig neutraal land, dan probeert het eerst uit te breiden en pas daarna gewone vijandstrategieën.</p>
+    <p>Zonder aangrenzende vijand is er 1/5 kans op een bemonsterde eilandaanval. Met een aangrenzende vijand is er 1/10 kans om eerst een eilandroute te proberen.</p>
+    <p>Een mislukte categorie dwingt geen aanval af. De wachtrij gaat door totdat een strategie slaagt of geen kandidaat overblijft.</p>
+    <table>
+      <thead><tr><th>Doellabel</th><th>Betekenis in de code</th><th>Interpretatie</th></tr></thead>
+      <tbody>
+        <tr><td>Retaliation</td><td>Geef de grootste inkomende aanvaller voorrang</td><td>Een groter leger biedt geen immuniteit als je al troepen stuurt.</td></tr>
+        <tr><td>Very weak</td><td>Doel onder 15% van eigen maximum, met FFA-sterktegrens</td><td>Een lege troepenbalk kan eerder een kandidaat maken dan terreinverlies.</td></tr>
+        <tr><td>Victim</td><td>Inkomende troepen zijn meer dan 50% van huidige troepen</td><td>Een speler onder zware aanval kan nog een Nation aantrekken.</td></tr>
+        <tr><td>Weakest</td><td>Minste huidige troepen onder aangrenzende vijanden</td><td>Dit is een lokale grensvergelijking, niet de zwakste speler ter wereld.</td></tr>
+        <tr><td>Island</td><td>Kies uit twee dichtstbijzijnde bereikbare kandidaten; 1/3 kiest de tweede</td><td>Een geldige route telt, maar de dichtste kust is niet gegarandeerd.</td></tr>
+      </tbody>
+    </table>
+    <p>De doelvolgorde verandert per niveau. Impossible begint met retaliation, Bots en very weak. Easy geeft nuked land en Bots eerder prioriteit.</p>
+    <p>Gelijktijdige Bot-aanvallen zijn begrensd op Easy 1, Medium willekeurig 1 of 2, Hard 3 en Impossible 100. De grens belooft niet dat er genoeg geldige doelen zijn.</p>
+
+    <h2>Defense Posts, gebouwen en plaatsing</h2>
+    <h3>Reactieve Defense Posts</h3>
+    <p>Een reactieve Defense Post is nooit het eerste Nation-gebouw. Easy bouwt deze reactie niet.</p>
+    <p>Medium heeft een gate van 50% en maximaal één per front. Hard en Impossible eisen inkomende landtroepen van minstens 35% van de huidige Nation-troepen.</p>
+    <p>Op die drempel is het gevraagde aantal <code>ceil(incoming / current / 0.4)</code>. Gold, geldige posities en andere controles kunnen de bouw nog verhinderen.</p>
+    <p>Zeeaanvallen tellen niet mee voor deze 35%-tak. Kleinere landaanvallen beïnvloeden nog steeds relaties, vergelding en ander gedrag.</p>
+
+    <h3>Doelen voor gewone gebouwen</h3>
+    <table>
+      <thead><tr><th>Gebouw</th><th>Doelratio</th><th>Belangrijke grens</th></tr></thead>
+      <tbody>
+        <tr><td>Port</td><td>0.75 per City</td><td>Vereist een geldige gedeelde watermassa en bebouwbare kust.</td></tr>
+        <tr><td>Factory</td><td>0.75 per City</td><td>Aan de kust met Ports ingeschakeld wordt de ratio vermenigvuldigd met 0.33.</td></tr>
+        <tr><td>SAM</td><td>0.15 / 0.20 / 0.25 / 0.30 per City</td><td>Van Easy tot Impossible; plaatsing scoort beschermde gebouwen.</td></tr>
+        <tr><td>Missile Silo</td><td>Normaal 0.20 per City; eerste gebruikt 0.40</td><td>Maximaal drie, plus regels voor inschakeling, Gold, ruimte en sparen.</td></tr>
+      </tbody>
+    </table>
+    <p>Doelen gebruiken <code>floor(aantal Cities × ratio)</code>. Het is geen vaste bouwvolgorde of klok.</p>
+    <p>Boven één gebouw per 1,500 tiles verbetert de AI liever bestaande gebouwen. Kandidaten worden bemonsterd en daarna gescoord op terrein, afstand tot kust, spreiding en dekking.</p>
+    <p>Met minstens 3,000,000 start-Gold kan Hard of Impossible eerst SAM proberen wanneer Atom, Silo en SAM ingeschakeld zijn.</p>
+    <p>Bij meer dan één Nation per 7,500 land tiles en zonder City gaat de eerste voorkeur naar Port, of Factory als geen gedeeld water geldig is.</p>
+
+    <h2>Ports, ocean, 3,000 watertegels en Warships</h2>
+    <p>Een Nation-Port vereist kust aan water dat met een andere speler wordt gedeeld. ocean is altijd geldig; binnenwater vereist dat een andere speler hetzelfde component raakt.</p>
+    <p>Behalve op Easy wordt een binnenwater met minder dan 3,000 watertegels overgeslagen. Een zichtbare kust garandeert dus geen Port.</p>
+    <p>De eerste gewone Warship-poging vereist ook een 1/50 gate, een Port, geen huidige Warship, Gold strikt boven de prijs en een geldige watertegel binnen 250 tiles.</p>
+    <p>Niet-Easy Nations met een Port kunnen reageren op vernietigde transports, veroverde Trade Ships of inkomende transports. De bouwgates zijn 15%, 50% en 80% van Medium tot Impossible.</p>
+    <p>Een transport op minder dan 20 tiles van de landing is te dichtbij voor nieuwbouw. Een eigen Warship of patrouille binnen 90 tiles onderdrukt ook een extra bouw.</p>
+    <p>Houd routes kort, begeleid waardevolle transports en let op Warship-bewegingen. Geen van die acties garandeert dat de willekeurige bouwgate mislukt.</p>
+
+    <h2>Allianties, embargo en verraad</h2>
+    <p>Bij een aangrenzende kandidaat moet een actief alliantieverzoek van de Nation eerst door een 1/30 gate. Een verzoek uit de spawn dat op de eerste tick erna wordt verwerkt, wordt geweigerd.</p>
+    <p>Acceptatie kijkt naar confusion, traitor, dreiging, Team, relatie, aantal allianties, speeltijd en relatieve sterkte. Friendly alleen is geen contract.</p>
+    <table>
+      <thead><tr><th>Niveau</th><th>Vroege acceptatietak</th><th>Extra Team-weigering</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>90% in eerste 5 minuten</td><td>25%</td></tr>
+        <tr><td>Medium</td><td>70% in eerste 3 minuten</td><td>50%</td></tr>
+        <tr><td>Hard</td><td>50% in eerste 3 minuten</td><td>75%</td></tr>
+        <tr><td>Impossible</td><td>30% in eerste minuut</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p>Deze waarden gelden alleen als eerdere controles niet zijn teruggekeerd. Een traitor faalt meestal vroeg; 10% passeert die afwijzing en kan later alsnog falen.</p>
+    <p>Hard en Impossible kunnen een bondgenoot onder 20% van diens maximale troepen als kandidaat voor verraad kiezen als die minder huidige troepen heeft dan de Nation.</p>
+    <p>Medium kan verraad overwegen bij 10× de troepen van de bondgenoot. Niet-Easy kan ook een zwakkere traitor of de enige grensbondgenoot met minder dan een derde van zijn troepen kiezen.</p>
+    <p>Dit zijn kandidaatregels in de aanvalswachtrij. Een drempel overschrijden veroorzaakt geen onmiddellijk verraad.</p>
+    <p>Jouw embargo verlaagt de relatie van de Nation tot jou eenmaal met -20. Easy en Medium kunnen bij Neutral automatisch opheffen, Hard bij Friendly. Impossible heeft geen automatische tak.</p>
+
+    <h2>Gewone kernwapens en MIRV</h2>
+    <p>Gewone kerndoelen kunnen de grootste inkomende aanvaller, een crown, een door een bondgenoot gemarkeerd doel, hostile speler, FFA-leider of sterk Team voorrang geven.</p>
+    <p>Hard en Impossible slaan kandidaten over als een vijandelijke SAM de baan kan onderscheppen. Impossible kan een Atom-salvo proberen of een bruikbare Silo tot maximaal level 5 verbeteren.</p>
+    <p>SAM-dekking verhoogt de kosten en verandert kandidaatbanen. SAM is geen nucleaire immuniteit.</p>
+    <p>MIRV vereist een ingeschakeld wapen, Silo, genoeg Gold, een doeltak en een geslaagde hesitation. Die kans is 1/2, 1/4, 1/8 en 1/16 van Easy tot Impossible.</p>
+    <table>
+      <thead><tr><th>MIRV-tak</th><th>Easy</th><th>Medium</th><th>Hard</th><th>Impossible</th></tr></thead>
+      <tbody>
+        <tr><td>Individuele landdrempel</td><td>75%</td><td>65%</td><td>55%</td><td>40%</td></tr>
+        <tr><td>Landdrempel Team</td><td>90%</td><td>80%</td><td>70%</td><td>60%</td></tr>
+        <tr><td>Voorsprong Cities: minimum / ratio</td><td>20 / 2.0×</td><td>10 / 1.5×</td><td>10 / 1.25×</td><td>8 / 1.15×</td></tr>
+      </tbody>
+    </table>
+    <p>Een andere MIRV-tak vergeldt tegen een MIRV-afzender. Onder de landdrempel blijven beschermt dus niet tegen elke nucleaire tak.</p>
+    <p>Nadat een Nation een speler met MIRV als doel kiest, delen alle Nations voor dat doel een cooldown van 300 ticks.</p>
+
+    <h2>Drie rekenvoorbeelden</h2>
+    <h3>Hard Nation naast een rivaal met 400,000 troepen</h3>
+    <p>In gewone FFA houdt de Hard-bodem 75% van die troepen aan. De Nation bewaart na een gewone aanval normaal minstens 300,000.</p>
+    <p>Wordt de Nation al aangevallen, dan kan de reactietak inzetbare troepen verhogen tot minstens het totaal inkomend. De bodem van 300,000 geldt niet overal.</p>
+
+    <h3>Defense Post-druk bij 1,000,000 troepen</h3>
+    <p>Gecombineerde landaanvallen van 340,000 liggen onder de Hard/Impossible-drempel van 35%. Bij 360,000 is het gewenste aantal <code>ceil(0.36 / 0.4) = 1</code>.</p>
+    <p>Bij 850,000 inkomend vraagt de formule om drie. Gold of een geldige tegel kan ontbreken. De tak kan in die cyclus ook een ander gewoon gebouw blokkeren.</p>
+
+    <h3>MIRV-druk op Hard</h3>
+    <p>Met 55% van het individuele land voldoet een speler aan de Hard-tak die winst wil voorkomen. Een City-leider voldoet met minstens 10 Cities voorsprong en 1.25× nummer twee.</p>
+    <p>Hard heeft nog steeds 1/8 hesitation. Silo, Gold, cooldown en andere controles moeten ook slagen. Voldoen betekent niet direct geraakt worden.</p>
+
+    <h2>Veelgemaakte fouten en tegenspel</h2>
+    <ul>
+      <li><strong>“Onder de trigger is het veilig.”</strong> De Nation kan de kans van 1/10 passeren en vergelding heeft aparte druk. Houd reserve aan de grens.</li>
+      <li><strong>“Kleine aanvallen doen niets.”</strong> Ze kunnen onder de Defense Post-drempel blijven, maar veranderen nog steeds relatie, druk en vergeldingskandidaten.</li>
+      <li><strong>“Een kust betekent een Port.”</strong> Controleer gedeeld water en formaat. Ontzeg een bouwbare kust of betwist het water voordat je een vloot verwacht.</li>
+      <li><strong>“Friendly betekent een blijvende alliantie.”</strong> Vermijd traitor, te veel allianties en extreme zwakte. Plan voor afloop of verraad.</li>
+      <li><strong>“SAM stopt de nucleaire dreiging.”</strong> Spreid belangrijke gebouwen, varieer dekking en verwacht dat hoge niveaus een andere baan of druk op SAM zoeken.</li>
+      <li><strong>“Impossible kent geen willekeur.”</strong> Het reageert sneller en strenger, maar gebruikt nog individuele drempels, steekproeven en willekeurige gates.</li>
+    </ul>
+
+    <h2>Veelgestelde vragen over Nation-AI</h2>
+    <h3>Valt een Nation altijd de zwakste speler aan?</h3>
+    <p>Nee. Weakest is één lokale strategie naast retaliation, Bots, hulp aan bondgenoten, traitors, victims, hostile spelers, islands en andere categorieën.</p>
+
+    <h3>Kan Easy een mens aanvallen?</h3>
+    <p>Ja. De algemene controle voor mensen slaagt 25% van de keren. Vergelding, traitor, HvN en niet-menselijke paden hebben andere regels.</p>
+
+    <h3>Garandeert een betere relatie een alliantie?</h3>
+    <p>Nee. Relatie verandert de geschiktheid. Traitor, dreiging, modus, aantal allianties, tijd, sterkte en willekeurige gates blijven meetellen.</p>
+
+    <h3>Bouwt een Nation met een Port een Warship?</h3>
+    <p>Niet per se. Het eerste gewone schip heeft een 1/50 gate plus eisen voor Gold, Port, huidige vloot, ingeschakelde opties en plaatsing.</p>
+
+    <h3>Wordt Impossible volledig voorspelbaar?</h3>
+    <p>Nee. Het interval is korter en de regels zijn sterker, maar drempels, steekproeven, hesitation en bouwgates blijven pseudowillekeurig.</p>
+
+    <h3>Zijn Nation-coördinaten vaste spawns voor mensen?</h3>
+    <p>Nee. Manifestcoördinaten zijn ankers voor bemonstering in de buurt van Nations. Menselijke spawns volgen andere regels.</p>
+
+    <h2>Bronnen en verder lezen</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7" target="_blank" rel="noopener">Officiële OpenFront v0.33.7 Release</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NationExecution.ts" target="_blank" rel="noopener">NationExecution.ts</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/PseudoRandom.ts" target="_blank" rel="noopener">PseudoRandom.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/utils/AiAttackBehavior.ts" target="_blank" rel="noopener">AiAttackBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationStructureBehavior.ts" target="_blank" rel="noopener">NationStructureBehavior.ts</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationWarshipBehavior.ts" target="_blank" rel="noopener">NationWarshipBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationAllianceBehavior.ts" target="_blank" rel="noopener">NationAllianceBehavior.ts</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationEmojiBehavior.ts" target="_blank" rel="noopener">NationEmojiBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationNukeBehavior.ts" target="_blank" rel="noopener">NationNukeBehavior.ts</a> en <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationMIRVBehavior.ts" target="_blank" rel="noopener">NationMIRVBehavior.ts</a>.</li>
+      <li>Lees verder over <a href={`${base}nl/mechanics/alliances/`}>allianties en verraad</a>, <a href={`${base}nl/mechanics/nukes/`}>kernwapens en SAM</a> en <a href={`${base}nl/guides/map-strategy/`}>kaartstrategie</a>.</li>
+    </ul>
+  </article>
+</BaseLayout>

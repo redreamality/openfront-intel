@@ -2,19 +2,21 @@
 title: "OpenFront Doomsday-Clock-Guide: Wellen, Verfall und Überleben"
 description: "Die OpenFront Doomsday Clock prüft einen steigenden Gebietsanteil, keinen wandernden Sicherheitskreis. Alle Wellen, die 30-Sekunden-Warnung, Truppen- und Warship-Verfall, Teamregeln und Konter."
 pubDate: 2026-08-04
-updatedDate: 2026-08-09
+updatedDate: 2026-08-22
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Anleitung
 difficulty: Mittel
 version: v33
-freshnessSummary: "v33.2 verändert das Doomsday-Endspiel: Sieben Gebietsziele steigen auf 2/4/7/11/17/25/35 %, das Truppenminimum fällt von 40 % auf 5 %, danach eliminiert Gebietszerfall eine 150 Sekunden lang doomed Seite."
+freshnessSummary: "v33.7 erhöht die Teamziele auf 3/6/10/15/21/28/35 %, während FFA bei 2/4/7/11/17/25/35 % bleibt; verfallenes Gebiet wird zu Wasteland, das aktiv zurückerobert werden muss."
 ---
 
 ## Direkte Antwort: Was macht die Doomsday Clock?
 
 Die **Doomsday Clock** beendet festgefahrene OpenFront-Partien, indem jede nicht führende Seite einen wachsenden Anteil des nutzbaren Landes halten muss.
 
-Sie ist kein Kreis, der sich zum geografischen Zentrum bewegt. Nach zehn Minuten Schonzeit steigt die Schwelle auf 2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %.
+Sie ist kein Kreis, der sich zum geografischen Zentrum bewegt. Nach zehn Minuten Schonzeit steigt FFA auf 2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %.
+
+Teammodi nutzen dieselben Zeiten, aber die höheren Ziele 3 %, 6 %, 10 %, 15 %, 21 %, 28 % und 35 %.
 
 Fällt deine Seite unter die aktuelle Linie, erscheint ein Totenkopf und du hast 30 Sekunden zur Erholung. Danach sinken Truppen und Warship-LP jede Sekunde.
 
@@ -28,7 +30,7 @@ Das praktische Ziel lautet daher: Halte einen verbundenen Gebietsanteil mit Rese
 
 Es gibt keinen versteckten sicheren Ort und keine Prüfung der Entfernung zur Kartenmitte. Das Spiel vergleicht Tile-Zahlen.
 
-Im FFA bildet dein eigenes Gebiet deine Seite. In Teammodi werden die Gebiete aller lebenden Teammitglieder addiert und mit derselben Schwelle wie eine Solo-Seite verglichen.
+Im FFA bildet dein eigenes Gebiet deine Seite. In Teammodi werden die Gebiete aller lebenden Teammitglieder addiert und mit der höheren Teamleiter verglichen.
 
 Ein kleiner Mitspieler ist sicher, wenn die Teamsumme sicher ist; liegt das Team darunter, erhalten alle Mitglieder Totenkopf und Verfall.
 
@@ -48,7 +50,9 @@ Die Oberfläche warnt bereits, wenn deine relative Reserve nur noch ungefähr 10
 
 ## Wellenplan und Geschwindigkeiten
 
-Alle Presets halten die ersten zehn Minuten bei 0 %. Danach steigt die Schwelle während jeder Welle gleichmäßig zum Ziel und pausiert kurz. Sie springt nicht sofort von einem Tabellenwert zum nächsten.
+Alle Presets halten die ersten zehn Minuten bei 0 %. Die Tabelle zeigt FFA-Ziele; Teams erreichen 3/6/10/15/21/28/35 % zu denselben Zeiten.
+
+Danach steigt die Schwelle während jeder Welle gleichmäßig zum Ziel und pausiert kurz. Sie springt nicht sofort von einem Tabellenwert zum nächsten.
 
 | Tempo | 2 % | 4 % | 7 % | 11 % | 17 % | 25 % | 35 % final |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -124,7 +128,9 @@ Warships verwenden dasselbe fallende 40-bis-5-%-Minimum ihres durch Veteranensta
 
 Die gesamte Totenkopf-Frist beträgt 150 Sekunden. Nach 30 Sekunden Warnung und 90 Sekunden fallendem Minimum beginnt für eine bei 5 % festgesetzte Seite der Gebietszerfall.
 
-Die Simulation öffnet verstreute Löcher und breitet sie durch eigenes Land aus. Neutrale Tiles tragen keine Wege oder Gebäude mehr. Die Quote pro Sekunde passt sich so an, dass das Restgebiet bis zur Frist null erreicht.
+Die Simulation öffnet verstreute Löcher und breitet sie durch eigenes Land aus. Verlorene Tiles werden Wasteland, nicht neutrales Land, das ein Nachbar kostenlos übernimmt. Wege und Gebäude darauf verschwinden.
+
+Die Quote pro Sekunde passt sich so an, dass das Restgebiet bis zur Frist null erreicht.
 
 Bis zur Eliminierung bleibt die Lage rettbar. Das Erreichen der Linie oder der Gebietsführung entfernt den Totenkopf, stoppt Verfall und Zerfall sofort und setzt den Zerfallspfad für einen späteren Fehler zurück.
 
@@ -248,7 +254,7 @@ Wenn du führst, halte Druck auf die Verfolger, ohne die Krone zu verschenken. D
 
 ## Entscheidungsregeln im Team
 
-Teams werden nach gemeinsamem Gebiet mit derselben Schwelle wie ein FFA-Spieler bewertet. Die Linie wird nicht mit der Mitgliederzahl multipliziert.
+Teams werden nach gemeinsamem Gebiet gegen 3 %, 6 %, 10 %, 15 %, 21 %, 28 % und 35 % bewertet. Die Linie wird nicht mit der Mitgliederzahl multipliziert, liegt zwischen den Wellen aber höher als im FFA.
 
 Teilt die Rollen während der Warnung. Ein Spieler hält die feindliche Front, ein anderer nimmt billiges Land. Weil alle denselben Teamstatus teilen, zählt die Summe mehr als die persönliche Tile-Zahl.
 
@@ -385,10 +391,10 @@ Nein. Zwei Seiten können noch 35 % erreichen. Der Gebietszerfall setzt die ents
 
 Die aktuellen Regeln stehen in diesen offiziellen Quellen:
 
-- [v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
-- [Gemeinsamer Wellenplan](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
-- [Ausführung für Seiten, Verfall und Gebietszerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
-- [Standardwerte für Warnung und Verfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+- [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [FFA- und Team-Wellenplan](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Ausführung für Seiten, Verfall und Wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Standardwerte für Warnung und Verfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
 
 Für den Versionskontext lies [die Änderungen in v33](/de/changelog/v33/).
 

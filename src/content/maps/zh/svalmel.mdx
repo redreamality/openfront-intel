@@ -1,0 +1,196 @@
+---
+title: Svalmel 地图攻略：出生、岛群路线与 Compact
+description: 读懂 Svalmel 四大主陆块，选择可守出生，规划跨海转场，并按 OpenFront v33.7 的 Normal 或 Compact 调整路线。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [svalmel, 地图, 岛屿, 海军, compact-map]
+category: 地图攻略
+difficulty: 中级
+version: v33
+freshnessSummary: "已按官方 v33.7 Svalmel manifest 与地形核验：Normal 前四大陆块占 91.48%，全图水域连通，impassable 为 0。"
+---
+
+## 直接答案：Svalmel 应该怎样打？
+
+把 Svalmel 当成**由同一片海域连接的四个主岛战区**，不要把它理解成 26 个同等重要的小岛。Normal 前四大陆块占全部可通行陆地的 91.48%，前两块就占 66.21%。
+
+第一步是解决本岛问题：先在一个主陆块上建立能持续发展的据点，再花钱影响第二个战区。第二步才是海上问题：选择能通往有效目的地的海岸，而不是因为临海就四处建 Port。
+
+好的出生点需要三样东西：能形成紧凑核心的空间、同一陆块上可控的对手数量，以及本岛局势稳定后仍有价值的出海方向。卫星岛可以安全，但没有足够陆地的安全只是在推迟转场。
+
+Compact 仍可用“四大战区”作为宏观模型，但必须重新检查每座小岛和海岸。它加载低分辨率地形，小碎片会变化，接触距离也更短。
+
+![OpenFront 官方 Svalmel 缩略图，展示四组主要岛群](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/svalmel/thumbnail.webp)
+
+*未修改的 Svalmel 地图资产：OpenFront / OpenFront Inc. and Contributors，[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)；[OpenFrontIO v0.33.7 来源](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/thumbnail.webp)。*
+
+## 会改变决策的 Svalmel 数据
+
+| 已核验指标 | Normal | Compact | 实战含义 |
+| --- | ---: | ---: | --- |
+| 网格 | 1,700 x 1,580 | 850 x 790 | 宽高都减半 |
+| 可通行陆地 | 1,011,623（37.66%） | 248,032（36.94%） | Compact 保留 Normal 陆地的 24.52% |
+| 陆地连通块 | 26 | 24 | 小岛会改变，主结构仍在 |
+| 至少 1,000 格的陆块 | 13 | 9 | 不要依赖每个 Normal 卫星岛 |
+| 最大陆块 | 陆地的 35.28% | 35.42% | 有大主战区，但没有统治全图的大陆 |
+| impassable | 0 | 0 | 硬分隔都来自水域或地图边缘 |
+| 临水可通行陆地 | 2.80% | 5.46% | Compact 中海岸占比提高 |
+| 水域连通块 | 1 | 1 | 四个主战区共享同一水域网络 |
+
+官方 v28 Release 把 Svalmel 定义为含五个 Nations 的圣诞主题地图。v33.7 manifest 仍列出 Santa Claus、Svalbard、Melville、Bathurst 与 Nordaustlandet，且都有固定坐标。
+
+这些坐标是 NPC 锚点，不是人类出生点。未手选位置的人类玩家会从符合条件的空闲陆地抽取出生；Svalmel 也没有 `teamGameSpawnAreas`。
+
+这五个 Nation 是 AI 配置，不是五个人类位置。普通公开 FFA 的候选人数为 Normal **50 / 40 / 25**，Compact **12 / 10 / 6**；实际人数仍由抽中的档位、模式和房间设置决定。
+
+## 出生前先读四个主战区
+
+不要先数所有可见小岛。先把四组大陆块与外围卫星分开。
+
+最大块占 35.28%，第二大块占 30.93%。两者规模接近，却不能据此声称完全对称。海岸形状、同岛对手、航程和出生分布都可能让其中一块在具体房间更难。
+
+第三、第四块把前四合计推到 91.48%。四块之外的全部卫星只分享 Normal 可通行陆地的 8.52%。
+
+因此卫星岛主要有三种用途：低接触开局、中转海岸、逃生或牵制据点。它们不是每一座都值得早期建 Port；路线必须通向值得争夺的陆地。
+
+## Svalmel 出生五问
+
+### 1. 我在主陆块还是卫星岛？
+
+主陆块可以完成完整的陆地开局。卫星岛通常要求更早规划跨海。
+
+如果缩略图看不清，就观察陆地纵深和相邻海岸。不要因为当前缩放下缝隙不明显，就假设两块陆地相连。
+
+### 2. 同一陆块上有多少对手？
+
+隔海玩家是后续威胁，同岛玩家会立即争夺同一批中立地。两名同岛对手通常比四名远处旗帜更影响开局。
+
+### 3. 到海岸前能否形成紧凑核心？
+
+内部纵深能提供兵力恢复和安全建筑位。细长海岸带会增加暴露方向，却未必带来足够容量。
+
+先让领地变厚，再接触一段真正有用的海岸。
+
+### 4. 这段海岸能打开另一个主战区吗？
+
+全图水域连通不等于航程短。先选目的地，再选出海口。
+
+### 5. 我的停止线在哪里？
+
+提前决定何时暂停陆地扩张：第二名对手出现、领地开始变窄，或者为跨海保存资源比再拿一条暴露地带更值钱时，都可以是停止线。
+
+## 开局路线：先掌控本岛，再获得全图影响
+
+### 阶段一：建立岛上经济
+
+优先占领能让领地变厚的中立地，持续观察同陆块对手。不要只为多碰一段海岸，就同时制造两条很长的前线。
+
+目标不是立即吃完整座岛，而是拿到足够连通陆地，能够暂停、恢复兵力，并在继续本岛争夺与出海之间做选择。
+
+### 阶段二：判断本岛结果
+
+把局势归入三类：本岛领先、本岛均势、本岛落后。
+
+领先时准备影响第二战区；均势时保留兵力并拒绝让对手轻松收尾；落后时应在边界彻底闭合前寻找转场。
+
+### 阶段三：只选一个海上目标
+
+目标可以是无人陆地、盟友所在战区、薄弱敌岸或中转岛。Transport Ship 不要求 Port，但必须从己方岸线出发，点击到合规目标岸线，并在同一水体中存在可达路径。
+
+Warship 与 Trade Ship 才依赖己方已建成且有效的 Port。应为持续舰队或贸易价值建 Port，而不是把它误当成每次跨海的门票。
+
+## 场景一：两名强手共享一个主岛
+
+你与一名强敌位于同一大块，其他玩家隔海可见，却暂时不能直接沿陆地攻击。
+
+常见错误是急着建 Port 逃离均势，把黄金花在海上时让对手继续争夺你的经济基础。
+
+更稳的路线是：先扩大核心并缩短共同边界；保留让对手进攻代价高昂的兵力；在稳定领地后方选择海岸；只有目的地确实提供陆地或支援时才出海。
+
+对手会通过向另一侧扩张、先抢有效海岸来反制。不要把暂时不交战误判为安全。如果对手同时获得纵深和无人争夺的出海权，你需要更早封锁或寻找更便宜的第二路线。
+
+## 场景二：出生在卫星岛
+
+卫星岛附近对手少，但它属于四大块之外总计 8.52% 的陆地。低接触不等于完整经济。
+
+先用不过度消耗兵力的方式控制本岛，再按对手强弱而不是视觉面积选择主岛目的地。登陆点必须允许落地后向两侧展开，不能只形成一条暴露细带。
+
+保留卫星岛作为第二经济与路线锚点。如果敌人已守住显而易见的登陆线，不要连续把运输送进准备好的海岸；同一片连通海域意味着还有替代目的地。
+
+## 场景三：在 Compact 重做同一路线
+
+Compact Svalmel 为 850 x 790、248,032 个可通行陆地格与 24 个陆块，至少 1,000 格的陆块只剩 9 个。
+
+四大岛群仍是有效宏观模型，但海岸和卫星并非 Normal 的机械缩小。先确认训练用的中转岛是否还存在，并重新判断第一次陆地接触会不会提前。
+
+普通公开 FFA 候选从 50 / 40 / 25 降至 12 / 10 / 6，默认公开 Nations 从五个降到一个。小网格同时配有更小默认人口，并不保证全程都在混战。
+
+## 常见失败与反制
+
+### 同时争夺四个战区
+
+同一水域让每段海岸都显得可达，但多路登陆会让每条路线都容易被反制。只设一个主战区和一个备用目标，先把一次登陆变成稳定陆地。
+
+### 把本岛胜利当成全图控制
+
+最大块也只有 35.28%。区域领先时仍要观察其他三大块，并在某个对手吞并第二战区前建立干预能力。
+
+### 在最近海岸建 Port
+
+最近海岸可能通向低价值目的地，或正好处于敌人的观察线路。先选目的地，再在能被自身领地保护的位置选海岸。
+
+### 高估安全卫星岛
+
+卫星能保命，也可能让主岛经济把你甩开。根据陆地容量与对手发展设定转场期限，而不是死记时间点。
+
+### 把五个 Nations 当成五人平衡图
+
+Nations 与人类槽位是不同系统。判断出生公平时，以实际房间人数与模式为准。
+
+## Svalmel 该选 Normal 还是 Compact？
+
+选择 **Normal**，如果小岛、较长跨海转场和多个同时发生的区域战争正是玩法目标。它保留完整 26 陆块地形与五个默认公开 Nations。
+
+选择 **Compact**，如果较小玩家组仍想保留四岛身份。预期更少有效卫星、更短距离、24 个陆块与一个默认公开 Nation。
+
+两种设置都不能保证平衡或局长。出生分布、人口档、队伍、Bots 与玩家决策仍会改变结果。
+
+精确加载与人数规则见[地图尺寸与 Compact 指南](/zh/guides/map-size-compact-mode/)。跨地图方法见[如何阅读 OpenFront 地图](/zh/guides/map-strategy/)。
+
+## Svalmel 常见问题
+
+### Svalmel 是一个群岛还是四张地图？
+
+它是一张地图，全部水域互相连通。战略上四大陆块占 Normal 可通行陆地的 91.48%，因此形成四个主战区。
+
+### 舰队能到达所有岛屿吗？
+
+水格形成一个连通块，说明存在连续水路；这不代表每条路线都短、安全或有收益。
+
+### Svalmel 有 impassable 吗？
+
+没有。两档已核验地形的 impassable 都为 0，硬分隔来自水域与地图边缘。
+
+### 最大岛一定是最佳出生吗？
+
+不一定。同岛对手数、边界形状、海岸入口和房间设置比面积排名更能决定具体出生强弱。
+
+### Compact 主要去掉什么？
+
+小型陆地细节变化最多：陆块从 26 降到 24，至少 1,000 格的陆块从 13 降到 9，四大岛群仍然可辨。
+
+### 下一张该看什么？
+
+用 [Dyslexdria 地图攻略](/zh/maps/dyslexdria/) 对比“四大岛群”和“前十大碎片战区”。
+
+## 一手来源
+
+- [OpenFront v0.33.7 正式 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v0.33.7 Svalmel manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/manifest.json)
+- [v0.33.7 Svalmel 地图资产](https://github.com/openfrontio/OpenFrontIO/tree/v0.33.7/resources/maps/svalmel)
+- [正式 v0.28.0 Svalmel Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.28.0)
+- [TerrainMapLoader.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [GameMap.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameMap.ts)
+- [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TransportShipUtils.ts)
+- [MapPlaylist.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [NationCreation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)

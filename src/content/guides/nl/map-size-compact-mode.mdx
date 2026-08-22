@@ -1,0 +1,222 @@
+---
+title: OpenFront-kaartgroottes en Compact Map
+description: Ontdek welke OpenFront-kaart het grootst is, wat Compact werkelijk laadt, hoe spelerslimieten ontstaan en wanneer Normal of Compact past.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [kaarten, compact-map, spelersaantal]
+category: Tutorial
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Gecontroleerd met officiele v33.7-assets en broncode: Sol leidt op totale rastergrootte, The Box op speelbaar land en Compact laadt map4x.bin."
+---
+
+## Het directe antwoord
+
+Er is niet een enkele grootste kaart in OpenFront. In de officiele **v33.7** heeft **Sol** met **4.432 x 2.528 = 11.204.096 cellen** het grootste volledige raster.
+
+**The Box** heeft met **4.194.304 tiles** het meeste speelbare land, omdat het volledige raster van 2.048 x 2.048 uit land bestaat.
+
+Die antwoorden meten iets anders. Het raster bevat ook water en onbegaanbare achtergrond. Speelbaar land beschrijft de ruimte die spelers kunnen bezitten en is de invoer voor de spelersaantallen van openbare lobby's.
+
+**Compact Map** is geen uitsnede en geen camerazoom. Het spel laadt `map4x.bin` voor de volledige kaart.
+
+Breedte en hoogte worden allebei gehalveerd, waardoor precies een kwart van alle rastercellen overblijft. De minimap gebruikt `map16x.bin`.
+
+Een openbare Compact-lobby verlaagt daarnaast de gekozen spelerstrap naar 25%. Bots, standaard-Nations en vaste coordinaten worden aangepast. Compact verandert dus de ruimtelijke schaal van de match.
+
+## Drie betekenissen van "grootste kaart"
+
+Kies de maat die de echte vraag beantwoordt.
+
+| Maatstaf | Koploper in v33.7 | Exacte waarde | Wat dit aangeeft |
+| --- | --- | ---: | --- |
+| Totaal raster | Sol | 11.204.096 | Simulatieoppervlak inclusief water en geblokkeerde achtergrond |
+| Speelbaar land | The Box | 4.194.304 | Bezitbare ruimte en invoer voor openbare limieten |
+| Breedte | Passage | 6.000 x 400 | Grootste horizontale afstand |
+| Hoogte | Las Vegas Strip | 2.036 x 4.428 | Grootste verticale afstand |
+| Giant World Map | Raster plaats 3, land plaats 11 | 8.002.384 / 2.335.403 | De naam is geen rangregel |
+
+Een lange corridor en een vierkante landkaart kunnen ongeveer evenveel cellen hebben en toch totaal anders spelen. De beeldverhouding, scheiding door water en impassable terrein bepalen welke routes bruikbaar zijn.
+
+Reken tiles niet om naar vierkante kilometers. De manifests leveren geen gemeenschappelijke projectie of uniforme schaal voor de echte wereld.
+
+Gebruik de [kaartendatabase](/nl/database/maps/) om kaartnamen te vinden. Deze gids behandelt dimensies en topologie.
+
+## Wat Compact Map werkelijk laadt
+
+Ieder actueel manifest bevat drie resolutieniveaus voor het terrein.
+
+| Instelling | Spelterrein | Minimap | Vaste coordinaten |
+| --- | --- | --- | --- |
+| Normal | `map.bin` met `manifest.map` | `map4x.bin` | Originele waarden |
+| Compact | `map4x.bin` met `manifest.map4x` | `map16x.bin` | x/y gedeeld door 2 |
+
+Bij alle 117 v33.7-manifests zijn breedte en hoogte van `map4x` exact de helft van de volledige kaart. Het totale aantal cellen is daardoor precies 25%.
+
+De hoeveelheid speelbaar land ligt alleen ongeveer op 25%. Downsampling verandert dunne kustlijnen en kleine eilanden. De officiele v31-release noemt bovendien expliciet dat kleine eilanden van Compact-kaarten zijn verwijderd.
+
+"Een kwart van het raster" is exact. "Een kwart van iedere kust en ieder eiland" is onjuist.
+
+## Twee gecontroleerde vergelijkingen
+
+Svalmel en Dyslexdria tonen het verschil tussen rasterverkleining en behoud van land.
+
+| Kaart | Normal: raster / land | Compact: raster / land | Land behouden |
+| --- | ---: | ---: | ---: |
+| Svalmel | 1.700 x 1.580 / 1.011.623 | 850 x 790 / 248.032 | 24,52% |
+| Dyslexdria | 3.308 x 1.440 / 2.103.254 | 1.654 x 720 / 508.102 | 24,16% |
+
+Svalmel gaat van 26 landcomponenten naar 24. Dyslexdria daalt van 224 naar 142, omdat die kaart veel meer kleine fragmenten bevat.
+
+De grote strijdtonelen blijven herkenbaar, maar eilanden aan de rand nemen af. Compact bewaart het strategische skelet op een kortere afstand en vermindert fijn kustdetail.
+
+De [gids voor kaartstrategie](/nl/guides/map-strategy/) vertaalt deze componenten naar openingsbeslissingen.
+
+## Berekening van openbare spelersaantallen
+
+OpenFront leest eerst `map.num_land_tiles` van de volledige kaart. Per miljoen speelbare landtiles worden 50 spelers gerekend, afgerond naar het dichtstbijzijnde veelvoud van vijf en met een minimum van vijf.
+
+De server maakt daar drie trappen van: 100%, 75% en 50% van de basis. Een gewone openbare FFA kiest ze met kansen van 30%, 30% en 40%.
+
+Compact berekent daarna `floor(gekozen trap x 0,25)`, met minimaal 3, voordat de uiteindelijke prestatielimiet van 125 wordt toegepast. De formule gebruikt dus niet opnieuw `map4x.num_land_tiles`.
+
+```text
+basis = afronden-op-5(speelbaar land / 1.000.000 x 50)
+Normal FFA = basis / 75% / 50%
+Compact FFA = floor(gekozen Normal-trap x 0,25)
+```
+
+### Svalmel
+
+Met 1.011.623 speelbare tiles krijgt Svalmel kandidaten van **50 / 40 / 25** in Normal en **12 / 10 / 6** in Compact.
+
+De vijf Nations in het manifest betekenen niet vijf menselijke plaatsen. NPC-configuratie en lobbycapaciteit zijn afzonderlijke systemen.
+
+### Dyslexdria
+
+Met 2.103.254 speelbare tiles krijgt Dyslexdria **105 / 80 / 55** in Normal en **26 / 20 / 13** in Compact.
+
+Het manifest bevat 82 primaire Nations. De menselijke capaciteit volgt desondanks de landformule.
+
+### Waarom de lobby iets anders kan tonen
+
+Team verhoogt eerst de basis en rondt daarna af voor Duos, Trios, Quads of een vast aantal teams. Humans vs Nations gebruikt de berekende plaatsen voor de menselijke kant.
+
+Crowded heeft een aparte route. Geschikte kleine kaarten kunnen 125 spelers krijgen, of 60 als Crowded en Compact worden gecombineerd.
+
+Voor een concrete match is het zichtbare aantal in de lobby de uiteindelijke waarheid.
+
+## Andere wijzigingen in Compact
+
+Compact past verschillende standaardwaarden aan het kleinere raster aan.
+
+- De openbare rotatie gebruikt **100 bots** in plaats van 400.
+- Het standaardaantal Nations wordt teruggebracht tot 25%, met minimaal een.
+- Svalmel gaat van 5 naar 1 standaard-Nation.
+- Dyslexdria gaat van 82 naar 20.
+- Coordinaten van Nations, additional Nations, custom Tribes en teamspawngebieden worden geschaald.
+- Team Compact valt af wanneer niet minstens twee teams van elk twee spelers mogelijk blijven.
+
+De Host- en singleplayerinterfaces behouden handmatig ingestelde waarden. Alleen een ongewijzigde standaard van 400 bots schakelt automatisch naar 100.
+
+Twee Compact-lobby's kunnen daardoor zeer verschillende druk opleveren door bots, Nations, teams, immuniteit en startgoud.
+
+## Wanneer Normal zinvol is
+
+Kies Normal wanneer kaartdetail onderdeel van de oefening is.
+
+- Je wilt tijd om meerdere fronten te lezen voordat ze samenkomen.
+- Kleine eilanden, schiereilanden of nevenroutes zijn belangrijk.
+- Teamtraining vraagt gescheiden routes voor verschillende groepen.
+- Je vergelijkt de volledige officiele topologie.
+- Er zijn genoeg spelers om de grotere ruimte te vullen.
+
+Normal betekent niet automatisch traag. Een smalle strook concentreert contact, terwijl een hoge openbare trap ontmoetingen versnelt.
+
+## Wanneer Compact zinvol is
+
+Kies Compact voor dezelfde kaartidentiteit op kortere afstand.
+
+- Een kleine groep moet eerder betekenisvolle grenzen vormen.
+- Je oefent grenscontrole, reacties of teamcommunicatie.
+- Eilanden aan de rand leiden af van het trainingsdoel.
+- Grote landmassa's moeten herkenbaar blijven.
+- Fijn kustdetail mag verdwijnen.
+
+Compact garandeert geen korte match. Allianties, voorzichtige teams, Water Nukes en grondstoffen kunnen nog steeds een lange patstelling veroorzaken.
+
+## Controlelijst voor de lobby
+
+Beantwoord vijf vragen voordat je Compact inschakelt:
+
+1. Hoeveel mensen doen werkelijk mee?
+2. Hangt de oefening af van een klein eiland of een dunne landbrug?
+3. Blijven bots en Nations op de standaardwaarde?
+4. Is de modus FFA, Team, Humans vs Nations of Crowded?
+5. Gebruiken beide tests dezelfde spawnregels, immuniteit en startmiddelen?
+
+Leg die antwoorden vast wanneer je openingen vergelijkt. Een Normal- en Compact-match zijn niet vergelijkbaar als bevolking en Nations ongemerkt ook veranderden.
+
+De [gids voor spelmodi](/nl/mechanics/modes/) legt Host-instellingen uit. De [beginnersgids](/nl/guides/first-match/) behandelt spawn en uitbreiding.
+
+## Veelgemaakte fouten
+
+### Sol in iedere betekenis de grootste noemen
+
+Sol leidt op rastergrootte, maar heeft slechts 877.713 speelbare tiles. The Box heeft bijna vijf keer zoveel speelbaar land.
+
+Noem de maatstaf in dezelfde zin als de rang.
+
+### Compact als een uitsnede beschrijven
+
+Compact laadt een voorbereide versie van de hele kaart. Het bewaart niet alleen het middelste kwart.
+
+### Alle waarden door vier delen
+
+Rastercellen delen exact. Kusten, eilanden, speelbaar land en afgeronde spelersaantallen doen dat niet.
+
+### Spelersaantallen uit Nations afleiden
+
+Nations zijn AI-entiteiten. Menselijke plaatsen volgen uit lobbytype en speelbaar land.
+
+### Een hogere dichtheid garanderen
+
+Het raster wordt kleiner, maar de openbare bevolking ook. Spawn, gekozen trap, bots, Nations en teams bepalen de werkelijke druk.
+
+Spreek over een kortere ruimtelijke schaal, niet over een gegarandeerde rush.
+
+## FAQ
+
+### Welke OpenFront-kaart is het grootst?
+
+Sol op volledig raster met 11.204.096 cellen. The Box op speelbaar land met 4.194.304 tiles. Gebruik het tweede antwoord als je bezitbare ruimte bedoelt.
+
+### Wat doet Compact Map?
+
+Het laadt `map4x.bin`, halveert breedte en hoogte en brengt het raster terug tot een kwart. Minimap, coordinaten, openbare trappen en standaardbevolking veranderen ook.
+
+### Verwijdert Compact een deel van de kaart?
+
+Nee. De hele vorm blijft in lagere resolutie bestaan. Kleine eilanden en dunne kusten kunnen verdwijnen.
+
+### Is Compact exact 25% van Normal?
+
+Voor het raster wel, voor speelbaar land niet. Svalmel behoudt 24,52% en Dyslexdria 24,16%.
+
+### Waarom wint Giant World Map niet?
+
+In v33.7 staat die kaart derde op rastergrootte en elfde op speelbaar land. "Giant" is een naam, geen berekening.
+
+### Heeft een private Compact-lobby een vaste limiet?
+
+Die valt niet uit de kaart alleen af te leiden. De Host-configuratie en het zichtbare lobbyaantal gelden voor de match.
+
+## Bronnen en volgende stap
+
+- [Officiele OpenFront v33.7-release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v33.7-terreinlader](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [v33.7-playlist en capaciteitsformule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [v33.7-aanmaak van Nations](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)
+- [v29-release over dynamische spelersaantallen](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.29.0)
+- [v31-release over verwijderde kleine Compact-eilanden](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Ga verder met [OpenFront-kaarten strategisch lezen](/nl/guides/map-strategy/).

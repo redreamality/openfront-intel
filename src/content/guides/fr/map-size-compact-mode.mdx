@@ -1,0 +1,222 @@
+---
+title: Taille des cartes OpenFront et mode Compact
+description: Découvrez quelle carte OpenFront est la plus grande, ce que charge vraiment le mode Compact, comment les places sont calculées et quand choisir Normal ou Compact.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [cartes, compact-map, joueurs]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié sur les ressources et le code officiels v33.7 : Sol mène par grille totale, The Box par terrain jouable et Compact charge map4x.bin."
+---
+
+## Réponse directe
+
+Il n'existe pas une seule « plus grande carte » dans OpenFront. Dans la version officielle **v33.7**, **Sol** possède la plus grande grille complète : **4 432 x 2 528 = 11 204 096 cases**.
+
+**The Box** offre le plus de terrain jouable : **4 194 304 tiles**, car toute sa grille de 2 048 x 2 048 est terrestre.
+
+Ces réponses mesurent deux choses différentes. La grille inclut l'eau et le décor infranchissable. Le terrain jouable mesure mieux l'espace occupable et sert aussi d'entrée au calcul des salons publics.
+
+**Compact Map** n'est ni un recadrage ni un zoom de caméra. Le jeu charge `map4x.bin` pour la carte entière.
+
+La largeur et la hauteur sont divisées par deux, donc la grille ne conserve qu'un quart de ses cases. La minimap utilise ensuite `map16x.bin`.
+
+Un salon public Compact réduit aussi à 25 % le palier de joueurs choisi. Les bots, Nations par défaut et coordonnées fixes sont ajustés. Compact change l'échelle de la partie, pas seulement son apparence.
+
+## Trois sens de « plus grande carte »
+
+Choisissez la métrique qui répond à la vraie question du joueur.
+
+| Mesure | Première en v33.7 | Valeur exacte | Ce que cela indique |
+| --- | --- | ---: | --- |
+| Cases de grille | Sol | 11 204 096 | Charge spatiale, eau et fond bloqué inclus |
+| Terrain jouable | The Box | 4 194 304 | Espace occupable et entrée du plafond public |
+| Largeur | Passage | 6 000 x 400 | Plus grande portée horizontale |
+| Hauteur | Las Vegas Strip | 2 036 x 4 428 | Plus grande portée verticale |
+| Giant World Map | 3e grille, 11e terrain | 8 002 384 / 2 335 403 | Son nom n'est pas une règle de classement |
+
+Un long couloir et une carte carrée toute terrestre peuvent avoir des nombres proches tout en se jouant très différemment. Le ratio largeur/hauteur, l'eau et l'impassable déterminent les routes possibles.
+
+Ne convertissez pas les tiles en kilomètres carrés. Les manifests OpenFront ne fournissent ni projection commune ni échelle géographique uniforme.
+
+La [base des cartes](/fr/database/maps/) sert à découvrir les noms. Elle n'affiche pas encore dimensions et topologie ; ce guide couvre ces deux questions.
+
+## Ce que charge Compact Map
+
+Chaque manifest actuel fournit trois niveaux de terrain.
+
+| Réglage | Terrain de jeu | Minimap | Coordonnées fixes |
+| --- | --- | --- | --- |
+| Normal | `map.bin` avec `manifest.map` | `map4x.bin` | Coordonnées d'origine |
+| Compact | `map4x.bin` avec `manifest.map4x` | `map16x.bin` | x/y divisés par 2 |
+
+Sur les 117 manifests v33.7, la largeur et la hauteur de `map4x` valent exactement la moitié de la carte complète. Le nombre total de cases vaut donc exactement 25 %.
+
+Le terrain jouable est proche de 25 %, sans être exact. Le sous-échantillonnage modifie les côtes fines et les petites îles. La Release officielle v31 confirme aussi la suppression des îlots sur les cartes Compact.
+
+« Un quart de la grille » est donc exact. « Un quart de chaque côte et de chaque île » ne l'est pas.
+
+## Deux comparaisons vérifiées
+
+Svalmel et Dyslexdria montrent l'écart entre réduction de grille et conservation du terrain.
+
+| Carte | Normal : grille / terrain | Compact : grille / terrain | Terrain conservé |
+| --- | ---: | ---: | ---: |
+| Svalmel | 1 700 x 1 580 / 1 011 623 | 850 x 790 / 248 032 | 24,52 % |
+| Dyslexdria | 3 308 x 1 440 / 2 103 254 | 1 654 x 720 / 508 102 | 24,16 % |
+
+Svalmel passe de 26 composantes terrestres à 24. Dyslexdria passe de 224 à 142, car sa géographie comporte bien plus de fragments mineurs.
+
+Les grands théâtres restent reconnaissables, mais les îles périphériques diminuent. Pensez à Compact comme au même squelette stratégique sur une distance plus courte, avec moins de détail côtier.
+
+Le [guide de stratégie cartographique](/fr/guides/map-strategy/) transforme ces composantes en décisions d'ouverture.
+
+## Calcul des joueurs publics
+
+Le serveur lit d'abord `map.num_land_tiles` sur la carte complète. Il compte 50 joueurs par million de tiles jouables, arrondit au multiple de 5 le plus proche et impose un minimum de 5.
+
+Il crée trois paliers : 100 %, 75 % et 50 % de cette base, eux aussi arrondis par 5. Une FFA publique ordinaire choisit ces paliers avec 30 %, 30 % et 40 % de probabilité.
+
+Compact applique `floor(palier x 0,25)`, avec un minimum de 3, puis le plafond final de 125. Il ne refait pas le calcul depuis `map4x.num_land_tiles`.
+
+```text
+base = arrondi-par-5(terrain jouable / 1 000 000 x 50)
+FFA Normal = base / 75 % / 50 %
+FFA Compact = floor(palier Normal choisi x 0,25)
+```
+
+### Exemple Svalmel
+
+Avec 1 011 623 tiles jouables, Svalmel propose **50 / 40 / 25** joueurs en FFA Normal et **12 / 10 / 6** en Compact.
+
+Ses cinq Nations ne représentent pas cinq places humaines. Les NPC et le plafond du salon sont deux systèmes distincts.
+
+### Exemple Dyslexdria
+
+Avec 2 103 254 tiles jouables, Dyslexdria propose **105 / 80 / 55** joueurs en Normal et **26 / 20 / 13** en Compact.
+
+Le manifest contient 82 Nations principales, mais le nombre humain suit toujours la formule du terrain.
+
+### Pourquoi le salon peut afficher autre chose
+
+Team augmente d'abord la base, puis arrondit selon Duos, Trios, Quads ou le nombre d'équipes. Humans vs Nations réserve la valeur renvoyée au côté humain.
+
+Crowded suit une branche séparée. Une petite carte éligible peut recevoir 125 joueurs, ou 60 si Crowded et Compact sont combinés.
+
+Pour une partie précise, la valeur visible du salon reste l'autorité finale.
+
+## Autres changements liés à Compact
+
+Compact adapte plusieurs valeurs par défaut à sa grille réduite.
+
+- La rotation publique utilise **100 bots** en Compact contre 400 en Normal.
+- Les Nations publiques par défaut prennent 25 % du manifest, avec au moins une.
+- Svalmel passe ainsi de 5 Nations par défaut à 1.
+- Dyslexdria passe de 82 à 20.
+- Les coordonnées des Nations, Nations additionnelles, Tribes personnalisées et zones d'équipe sont redimensionnées.
+- Un Compact en équipe est exclu s'il ne laisse pas deux équipes d'au moins deux joueurs.
+
+Les interfaces Host et solo conservent les valeurs manuelles autant que possible. Le passage de 400 à 100 bots n'arrive automatiquement que si le compte est encore à sa valeur par défaut.
+
+Deux salons Compact peuvent donc produire une pression très différente selon bots, Nations, équipes, immunité et or initial.
+
+## Quand choisir Normal
+
+Choisissez Normal quand les détails géographiques font partie de l'exercice.
+
+- Vous voulez plus de temps avant que plusieurs fronts se rencontrent.
+- Îlots, péninsules fines ou passages secondaires comptent.
+- Chaque groupe d'une équipe doit disposer de sa propre voie.
+- Vous comparez la topologie officielle en pleine résolution.
+- Le salon contient assez de joueurs pour occuper l'espace.
+
+Normal ne signifie pas forcément lent. Une carte étroite concentre toujours le contact, et le grand palier public peut accélérer la rencontre.
+
+## Quand choisir Compact
+
+Choisissez Compact pour conserver l'identité de la carte avec moins de distance.
+
+- Un petit groupe veut des frontières significatives plus tôt.
+- Vous entraînez contrôle de frontière, adaptation ou communication.
+- Les îles périphériques distraient de l'exercice.
+- Vous voulez garder les grandes masses terrestres.
+- Vous acceptez la disparition de détails côtiers.
+
+Compact ne garantit pas une partie courte. Alliances, équipes prudentes, Water Nukes et ressources peuvent encore créer une longue impasse.
+
+## Vérification avant le salon
+
+Répondez à cinq questions avant de basculer l'option :
+
+1. Combien d'humains rejoindront réellement ?
+2. L'exercice dépend-il d'un îlot ou d'un pont terrestre fin ?
+3. Bots et Nations restent-ils aux valeurs par défaut ?
+4. S'agit-il de FFA, Team, Humans vs Nations ou Crowded ?
+5. Les deux camps utilisent-ils le même spawn, la même immunité et les mêmes ressources ?
+
+Consignez ces réponses lorsque vous testez une ouverture. Une partie Normal et une Compact ne sont pas comparables si population et Nations ont aussi changé.
+
+Le [guide des modes](/fr/mechanics/modes/) détaille les contrôles Host. Le [guide de première partie](/fr/guides/first-match/) traite le spawn et la première expansion.
+
+## Erreurs fréquentes
+
+### Dire que Sol est toujours la plus grande
+
+Sol mène la grille, mais son manifest v33.7 ne contient que 877 713 tiles jouables. The Box en possède presque cinq fois plus.
+
+Nommez toujours la métrique avec le classement.
+
+### Présenter Compact comme un recadrage
+
+Compact charge une version de plus faible résolution de toute la carte. Il ne garde pas seulement le quart central.
+
+### Diviser chaque nombre par quatre
+
+La grille se divise exactement. Côtes, îles et terrain jouable non. Les places sont aussi arrondies vers le bas après le facteur de 25 %.
+
+### Déduire les joueurs depuis les Nations
+
+Les Nations sont des entités IA. Les places humaines viennent du salon et du terrain jouable.
+
+### Promettre une densité supérieure
+
+La grille rétrécit, mais la population publique aussi. Spawn, palier, bots, Nations et équipes décident encore de la pression réelle.
+
+Parlez d'échelle spatiale plus courte, pas de rush garanti.
+
+## FAQ
+
+### Quelle est la plus grande carte OpenFront ?
+
+Sol par grille complète avec 11 204 096 cases ; The Box par terrain jouable avec 4 194 304 tiles. Pour l'espace conquérable, utilisez la seconde réponse.
+
+### Que fait Compact Map ?
+
+Il charge `map4x.bin`, divise largeur et hauteur par deux et réduit la grille à un quart. Minimap, coordonnées, paliers publics et populations par défaut changent aussi.
+
+### Compact supprime-t-il une région ?
+
+Non. Il conserve toute la forme à plus faible résolution. Les îles et côtes fines peuvent toutefois disparaître.
+
+### Compact vaut-il exactement 25 % ?
+
+La grille, oui. Le terrain jouable, non : Svalmel conserve 24,52 % et Dyslexdria 24,16 %.
+
+### Pourquoi Giant World Map n'est-elle pas première ?
+
+Elle est troisième par grille et onzième par terrain jouable en v33.7. « Giant » est un nom, pas le résultat d'un calcul.
+
+### Un salon Compact privé a-t-il un plafond fixe ?
+
+La carte seule ne suffit pas. La configuration Host et la valeur du salon sont l'autorité pour cette partie.
+
+## Sources et suite
+
+- [Release officielle OpenFront v33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Chargeur de terrain v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [Rotation et formule de capacité v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [Création des Nations v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)
+- [Release v29 : joueurs dynamiques](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.29.0)
+- [Release v31 : retrait des petites îles Compact](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Continuez avec [Comment lire une carte OpenFront](/fr/guides/map-strategy/).

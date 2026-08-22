@@ -1,0 +1,379 @@
+---
+title: "Port of Factory in OpenFront: welke economie moet je bouwen?"
+description: Vergelijk Ports, Factories, Trade Ships en Trains in OpenFront op gedeelde kosten, routevoorwaarden, upgrades, risico's en realistische terugverdienmodellen.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [port, factory, handel, trains, economie]
+category: Handleiding
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Gecontroleerd tegen de officiële v0.33.7-tag: Port en Factory delen één kostenladder, Port-level verhoogt de betaling per schip niet, pity staat los van embargo en lobby-instellingen bepalen of Factory beschikbaar is."
+---
+
+## Direct antwoord: Port of Factory?
+
+Bouw een **Port** wanneer er in hetzelfde verbonden water al een geldige buitenlandse Port ligt, de route lang genoeg is en de zee waarschijnlijk open blijft.
+
+Bouw een **Factory** wanneer die is ingeschakeld, beschermde Cities of Ports binnen de spoorafstanden passen en landroutes veiliger zijn dan de zee.
+
+Bouw geen van beide zolang het netwerk niet kan werken.
+
+Een Port zonder geschikte buitenlandse bestemming kan pogingen verbruiken zonder schip te lanceren. Een Factory zonder verbonden City of Port heeft geen betalende halte.
+
+De eerste keuze telt, want Port en Factory delen één kostenladder.
+
+Koop je een van beide voor 125.000, dan kost het eerste level van het andere type meestal al 250.000.
+
+| Huidige beperking | Beste eerste keuze | Reden |
+| --- | --- | --- |
+| Veilige kust en verre buitenlandse Port | Port | Afstand verhoogt elke geslaagde aankomst |
+| Beschermde groep Cities | Factory | Trains betalen bij verbonden Cities en Ports |
+| Vijandige zee en stabiele kern | Factory | Het landnet ontwijkt onderschepping op zee |
+| Geen bruikbare City- of Port-halte | Port, alleen met geldige partner | Factory zelf betaalt geen Gold |
+| Geen buitenlandse Port in verbonden water | Factory, als haltes bestaan | Port heeft geen bestemming |
+| Troops bereiken vaak hun maximum | Eerst City | Capaciteit is het knelpunt |
+
+## De gedeelde kostenladder
+
+Beide typen gebruiken het effectieve totaal van alle Port- en Factory-levels:
+
+```text
+kosten van het volgende Port- of Factory-level
+  = min(1.000.000, 2^n * 125.000)
+```
+
+De marginale reeks is 125.000, 250.000, 500.000 en daarna 1.000.000 voor elk volgend gecombineerd level.
+
+| Al betaalde Port- en Factory-levels | Volgend level | Totaal na aankoop |
+| ---: | ---: | ---: |
+| 0 | 125.000 | 125.000 |
+| 1 | 250.000 | 375.000 |
+| 2 | 500.000 | 875.000 |
+| 3 | 1.000.000 | 1.875.000 |
+| 4+ | 1.000.000 | elk +1.000.000 |
+
+Port, dan Factory, dan Port kost samen 875.000. De eerste twee typen omdraaien geeft hetzelfde totaal.
+
+De volgorde blijft belangrijk omdat de eerste 125.000 één netwerk eerder laat starten.
+
+Nieuwe gebouwen en upgrades schuiven de ladder allebei één level door.
+
+Veroverde gebouwen worden begrensd door de telling van zelf gebouwde levels. Een veroverd hoog netwerk veroorzaakt dus geen onbeperkte prijsstraf.
+
+City heeft een aparte ladder. Een City kopen maakt Port of Factory niet duurder.
+
+## Wat een Port werkelijk koopt
+
+Een voltooide Port controleert elke tien ticks op een Trade Ship, ongeveer eenmaal per seconde.
+
+Elk Port-level doet tijdens die controle één spawn-poging.
+
+Een schip heeft nog steeds een geldige bestemming nodig. Die Port moet van een andere speler zijn, hetzelfde verbonden water delen en in beide richtingen zonder embargo zijn.
+
+Een alliance is niet nodig. Elke andere speler is geldig zolang geen van beide partijen de ander een embargo oplegt.
+
+### Betaling van een Trade Ship
+
+Bij aankomst telt de werkelijk afgelegde afstand over watertiles:
+
+```text
+G(distance) = floor((75.000 / (1 + exp(-0.03 * (distance - 300)))
+                    + 50 * distance) * goldMultiplier)
+```
+
+Bij een normale aankomst ontvangen de eigenaar van de bron en de eigenaar van de bestemming elk de volledige `G(distance)`.
+
+Ze delen dus niet één pot.
+
+| Werkelijke waterafstand | Gold voor elke eigenaar op 1x | Aankomsten voor 125.000 |
+| ---: | ---: | ---: |
+| 50 | 2.541 | 50 |
+| 100 | 5.185 | 25 |
+| 200 | 13.556 | 10 |
+| 300 | 52.500 | 3 |
+| 400 | 91.443 | 2 |
+| 600 | 104.990 | 2 |
+| 1.000 | 124.999 | 2 |
+
+De laatste kolom telt alleen de opbrengst van de broneigenaar. Beide betalingen als jouw rendement tellen verdubbelt het resultaat ten onrechte.
+
+Lange routes duren langer en stellen het schip langer bloot. De tabel is alleen nuttig als de reis overleeft.
+
+### Wereldwijde onderdrukking en pity
+
+Het systeem leest het aantal actieve Trade Ships in de hele match:
+
+```text
+base = 1 - sigmoid(globalShips, ln(2)/50, 400)
+odds = floor((100 / (rejections + 1)) / base)
+```
+
+Een poging slaagt met kans `1 / odds`. Het middenpunt van de wereldwijde sigmoid is 400 actieve schepen.
+
+De druk wordt dus merkbaarder wanneer de totale vloot die zone nadert en overschrijdt.
+
+`rejections` telt opeenvolgende mislukte willekeurige pogingen van deze Port. Elke mislukking verbetert de volgende kans.
+
+Het is een pity-timer, geen embargostraf en geen aantal spelers dat handel afwijst.
+
+Met een geldige bestemming en vast aantal schepen wacht een level-1 Port afgeleid ongeveer 12 seconden bij nul actieve schepen.
+
+Rond 400 is dat ongeveer 17 seconden en rond 600 ongeveer 51 seconden, inclusief pity.
+
+Dit zijn schattingen, geen timers. Het wereldwijde aantal verandert, levels voegen pogingen toe en een geslaagde controle kan nog steeds geen bestemming vinden.
+
+### Wat een Port-upgrade verandert
+
+Elk level voegt een poging per controle toe. Als bestemming verschijnt de Port bovendien eenmaal per level in de gewogen kandidatenlijst.
+
+Het Port-level staat **niet** in de Goldformule van het schip.
+
+Upgraden verhoogt verwachte doorvoer en bestemmingsgewicht, niet de betaling van dezelfde reis.
+
+Upgrade als het water en de partners al bruikbaar zijn. Bouw elders als een andere kust of watermassa een werkelijk nieuwe route opent.
+
+## Wat een Factory werkelijk koopt
+
+Een voltooide Factory wordt een Train station en trekt nabije Cities, Ports en Factories in een spoornetwerk.
+
+City en Port zijn handelshaltes. Factory maakt de Train, maar betaalt bij haar eigen halte geen Gold.
+
+De huidige grenzen zijn:
+
+- stations zoeken binnen 110 tiles;
+- directe afstand tussen stations groter dan 15 tiles;
+- spoorpad korter dan `110 * 1.4142`, ongeveer 155,562 tiles;
+- Train-snelheid van 2 padtiles per tick.
+
+Een visueel korte afstand kan mislukken als de pathfinder geen geldige route onder de padlimiet vindt.
+
+### Trains genereren
+
+Laat `F` het totale aantal Factory-levels van de eigenaar zijn. De noemer van de kans is:
+
+```text
+R(F) = (F + 10) * 15
+```
+
+Elk Factory-level doet in zijn gebouw per tick één poging met kans `1 / R(F)`.
+
+Eén fysiek gebouw maakt per tick maximaal één Train. Na succes begint voor dat gebouw ook een minimale cooldown van tien ticks.
+
+Als alle Factories level 1 zijn, is het verwachte netwerktotaal bij lage dichtheid ongeveer `F / R(F)`:
+
+| Totaal aantal Factory-levels F | Geschat gemiddeld interval |
+| ---: | ---: |
+| 1 | 16,5 seconden |
+| 2 | 9,0 seconden |
+| 3 | 6,5 seconden |
+| 5 | 4,5 seconden |
+| 10 | 3,0 seconden |
+
+Levels concentreren in één Factory geeft iets minder dan deze benadering.
+
+Meerdere geslaagde pogingen in dezelfde tick leveren daar nog steeds maar één Train op.
+
+### Bestemming en betaling per halte
+
+De Factory kiest willekeurig een geschikte City of Port in haar cluster. Geschikte stations worden gelijkmatig bemonsterd.
+
+Het level van City of Port maakt een bestemming niet waarschijnlijker of waardevoller.
+
+De Train kan tussenstations passeren. Elke City of Port betaalt voordat de halteteller stijgt:
+
+| Relatie tot de Train-eigenaar | Basis-Gold voor de Train-eigenaar |
+| --- | ---: |
+| Ally | 35.000 |
+| Teammate | 25.000 |
+| Andere speler zonder embargo | 25.000 |
+| Self | 10.000 |
+
+De eerste tien handelshaltes met index 0 tot en met 9 krijgen geen straf.
+
+Vanaf de elfde haalt elke volgende halte 5.000 van het bedrag af, met een minimum van 5.000.
+
+Is het station van een andere speler, dan ontvangt die eigenaar ook het volledige haltebedrag. Bij self wordt dezelfde eigenaar slechts eenmaal betaald.
+
+Train-inkomen heeft geen directe afstandsbonus. Meer afstand betekent alleen meer reistijd.
+
+Een langere route verdient meer als zij extra nuttige haltes passeert, maar de haltestraf verlaagt later de marginale waarde.
+
+### Wat een Factory-upgrade verandert
+
+Een upgrade verhoogt het totale aantal levels en voegt in die Factory een poging toe. Zij maakt geen tweede stationlocatie.
+
+Upgrade wanneer de topologie goed is en alleen doorvoer knelt.
+
+Bouw een ander gebouw wanneer die locatie een nieuw beschermd cluster verbindt of het risico van één enkel punt verlaagt.
+
+## Beschikbaarheid in huidige matches
+
+Factory is instelbaar. Een lobby kan haar in `disabledUnits` zetten; de engine voert dan ook geen spoorclusters uit.
+
+De officiële openbare playlists van v0.33.7 gebruiken standaard een lege lijst.
+
+De oude bewering dat Trains alleen in singleplayer en privélobby's bestaan, is daarom niet meer juist.
+
+Controleer nog steeds de modifiers van de match. Beschikbaar in openbare defaults betekent niet actief in elke aangepaste lobby.
+
+## Vier realistische investeringsvergelijkingen
+
+### 1. Eerste Port met route van 100 tiles
+
+De Port kost 125.000. Een normale aankomst levert haar eigenaar ongeveer 5.185 op, dus er zijn 25 aankomsten nodig voor de statische kosten.
+
+Dit is een zwakke route, tenzij zij uitzonderlijk veilig is of extra strategische marinewaarde heeft.
+
+### 2. Eerste Port met route van 400 tiles
+
+Elke aankomst levert ongeveer 91.443 op. Twee voltooide reizen passeren de statische kosten van de Port.
+
+De werkelijke keuze hangt af van overleving, vaartijd en een partner die geen embargo instelt.
+
+### 3. Eerste Factory met bestaande eigen City
+
+De Factory kost 125.000. Een Train met één self-halte betaalt 10.000; de dertiende voltooide Train passeert dus de kosten.
+
+De benadering voor level 1 geeft één Train per 16,5 seconden. Dertien lanceringen duren ongeveer 214,5 seconden vóór de reistijd.
+
+Trains kunnen overlappen. Reistijd verschuift de aankomsten, maar maakt niet noodzakelijk het hele netwerk serieel.
+
+### 4. Eerste Factory met een geallieerde halte
+
+Een ally-halte betaalt 35.000 aan de Train-eigenaar en 35.000 aan de stationeigenaar.
+
+Vier voltooide Trains passeren de investering van 125.000 door de Factory-eigenaar.
+
+Dit is gedeelde groei, geen privé-arbitrage. De bondgenoot groeit ook, en relatie of embargo kan latere betalingen veranderen.
+
+## Beslisvolgorde voor Port of Factory
+
+### 1. Controleer of het netwerk Gold kan afrekenen
+
+Voor Port heb je een buitenlandse Port zonder embargo in verbonden water nodig. Voor Factory heb je een beschermde City of Port in het spoorcluster nodig.
+
+Is het antwoord nee, wacht dan met de aankoop.
+
+### 2. Bereken de volgende gedeelde prijs
+
+Tel Port- en Factory-levels samen. Begroot niet met de basisrij van 125.000 als je een van beide al bezit of hebt geüpgraded.
+
+### 3. Schat één voltooide betaling
+
+Voor Port gebruik je de echte waterafstand en alleen jouw ontvangst. Voor Factory gebruik je de stationsrelatie en eerdere handelshaltes.
+
+### 4. Voeg tijd en overleving toe
+
+Een statisch aantal aankomsten is geen tijdsgarantie. Voeg wachten, afstand, veroveringsrisico, routewijzigingen en Gold-multiplier toe.
+
+### 5. Vergelijk beschermingskosten
+
+Zeehandel kan Warships of een veiligere Port vereisen. Spoorhandel kan een diepere kern of alternatieve route nodig hebben.
+
+De beste brutoformule kan na bescherming en vervanging verliezen.
+
+### 6. Kies upgrade of uitbreiding
+
+Upgrade een bewezen netwerk voor doorvoer. Bouw nieuw als de locatie een route, verbinding of redundantie creëert.
+
+## Wanneer City eerst moet komen
+
+Port en Factory lossen een Goldstroomprobleem op. City lost een probleem met de troepenlimiet op.
+
+Staan Troops vaak dicht bij het maximum, dan kan een City-level groeiruimte openen voordat een extra inkomensknooppunt belangrijk wordt.
+
+Zijn Troops ver onder de limiet, dan is inkomen of overleving waarschijnlijk de sterkere beperking.
+
+Lees de [gids voor troepengroei](/nl/guides/population-growth/) voordat je elk saldo van 125.000 als handelsbudget behandelt.
+
+## Counters en mislukte keuzes
+
+### Veel Ports op een korte route
+
+De inkomens-sigmoid straft afstanden onder 300 hard. Extra Ports schuiven ook de gedeelde kostenladder door.
+
+### Pity als embargostraf uitleggen
+
+Embargo verwijdert bestemmingen. Mislukte willekeurige pogingen verhogen pity. Het zijn aparte mechanismen.
+
+### Meer betaling verwachten van Port-level
+
+Dezelfde reis betaalt naar afstand, niet naar level. Upgrade voor meer pogingen, niet voor een hoger enkel bedrag.
+
+### Factory zonder handelshalt bouwen
+
+Een Factory kan rails tekenen, maar Gold ontstaat alleen bij Cities en Ports. Controleer het cluster vóór aankoop.
+
+### Spoor alleen voor afstand verlengen
+
+Train-Gold heeft geen afstandsterm. Extra pad is een kostenpost wanneer het geen nuttige haltes bereikt.
+
+### Het inkomen van beide partijen als eigen tellen
+
+Zeehandel en externe spoorhandel maken Gold voor beide eigenaren. Jouw ROI gebruikt alleen het bedrag dat jouw speler krijgt.
+
+### Alle knooppunten concentreren
+
+Een compacte kern is normaal makkelijk te beschermen, maar blijft gevoelig voor verovering en nucleaire schade.
+
+Breng route-efficiëntie en redundantie in balans.
+
+### Een verouderde spelmodusbeperking herhalen
+
+Factory kan worden uitgeschakeld, maar de openbare v0.33.7-defaults doen dat niet. Lees de lobbyinstellingen in plaats van de modusnaam.
+
+## Veelgestelde vragen
+
+### Kost de eerste Factory altijd 125.000?
+
+Nee. Bezit je al één Port- of Factory-level, dan kost het volgende gedeelde level normaal 250.000.
+
+### Verhoogt een Port-upgrade de schipbetaling?
+
+Nee. Zij voegt pogingen en bestemmingsgewicht toe. De betaling leest afgelegde afstand en Gold-multiplier.
+
+### Verhoogt een embargo de pity?
+
+Nee. Pity telt mislukte willekeurige pogingen. Embargo verandert of een bestemming geldig is.
+
+### Kunnen Trains in openbare matches rijden?
+
+Ja onder de openbare v0.33.7-defaults. Een aangepaste lobby kan Factory nog steeds uitschakelen.
+
+### Zijn langere Train-routes winstgevender?
+
+Niet direct. De betaling hangt af van relatie en aantal haltes, niet van afstand.
+
+### Wat is veiliger, Port of Factory?
+
+Dat hangt van de kaart af. Warships vallen zeeverkeer aan; landstations kunnen worden veroverd of geraakt door nukes.
+
+Kies het netwerk dat je huidige positie kan beschermen.
+
+### Tweede knooppunt of upgrade?
+
+Upgrade als de route werkt en alleen doorvoer mist. Bouw nieuw als de locatie nieuw water, een cluster of redundantie opent.
+
+## Officiële bronnen en versiegrens
+
+Deze gids gebruikt de officiële [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) en tag als gedragsgrens.
+
+Kosten, schipbetalingen, wereldwijde onderdrukking, Train-Gold en spoorlimieten staan in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+Port-pogingen en bestemmingsgewicht staan in [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PortExecution.ts).
+
+Beweging en afrekening staan in [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TradeShipExecution.ts).
+
+Verbinding staat in [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/FactoryExecution.ts).
+
+Train-generatie staat in [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TrainStationExecution.ts).
+
+Bestemmingskeuze en haltebetaling staan in [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts).
+
+Routelimieten staan in [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/RailNetworkImpl.ts).
+
+De sitegegevens registreren extract-checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` en redactiereeks `v33` apart.
+
+Die checkout is metadata voor reproduceerbaarheid en niet de v0.33.7-tag.
+
+Lees voor het totale budget de [economische basis](/nl/strategies/economy-fundamentals/). Gebruik voor capaciteit de [gids voor troepengroei](/nl/guides/population-growth/).

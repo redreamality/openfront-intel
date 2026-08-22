@@ -1,0 +1,305 @@
+---
+title: "OpenFront MIRV Guide: Cost, Warheads, SAM Defense, and Tactics"
+description: "Learn how OpenFront MIRVs split, what each launch costs, why 350 warheads is only a ceiling, how SAMs intercept warheads, and how to plan attacks and defenses."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [mirv, nukes, sam, missile-silo, strategy]
+category: Tutorial
+difficulty: Advanced
+version: v33
+freshnessSummary: "Verified through the formal v0.33.7 boundary. The v33 MIRV, Silo, and SAM mechanics cited from v0.33.6 code were not changed by v0.33.7."
+---
+
+## Direct answer: how does a MIRV work in OpenFront?
+
+An OpenFront MIRV launches an unarmed carrier from a ready Missile Silo, flies to a separation point, and then creates many independent nuclear warheads aimed across the selected player's land.
+
+The carrier cannot be targeted by SAM Launchers. That does **not** make the whole strike immune to air defense.
+
+After separation, every `MIRVWarhead` becomes a normal in-flight nuclear target. A SAM must spend one ready missile slot on each warhead it intercepts.
+
+The game attempts to choose as many as 350 targets. Only the clicked center target is assured. Map edges, water, small holdings, ownership, spacing, and random candidate searches can produce far fewer.
+
+A MIRV is therefore a territory-shaped saturation weapon, not a guaranteed package of 350 hits. Its value depends on the target's land geometry and the ready SAM network when the warheads appear.
+
+The current formal release boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). That release did not change these nuclear mechanics.
+
+The exact rules below are linked to the fixed v0.33.6 source and tests that introduced or verified the current v33 behavior.
+
+## Price ladder: the whole match raises your cost
+
+The first MIRV in an ordinary Gold match costs 25,000,000 Gold. Every MIRV already launched by any player adds 15,000,000 Gold to the next successful launch.
+
+Let `g` be the number already launched globally. The immediate price is:
+
+```text
+next price = 25,000,000 + 15,000,000 × g
+```
+
+This is a match-wide counter, not your personal purchase history. An opponent's launch makes your next MIRV more expensive too.
+
+The first five prices are 25M, 40M, 55M, 70M, and 85M. Waiting can preserve your troops, but it can also let another player move the shared ladder before you buy.
+
+For `k` consecutive launches beginning after `g` global launches, use:
+
+```text
+series cost = k × (25,000,000 + 15,000,000 × g)
+            + 7,500,000 × k × (k - 1)
+```
+
+Three MIRVs from a fresh ladder cost 25M + 40M + 55M = 120M. If four have already flown, the next three cost 85M + 100M + 115M = 300M.
+
+The counter advances after a successful MIRV construction. A failed attempt should not make the next one dearer.
+
+Infinite Gold is a special lobby exception. All planning examples on this page assume ordinary Gold rules.
+
+## Missile Silo slots control launch tempo
+
+A Missile Silo costs 1,000,000 Gold and takes 100 ticks, or 10 seconds, to build under normal rules. A level-N Silo has N independent launch slots.
+
+Every Atom Bomb, Hydrogen Bomb, or MIRV carrier occupies one slot when launched. That slot needs 90 ticks, or 9 seconds, before it is ready again.
+
+Upgrading adds a slot; it does not shorten the 9-second cooldown. The new slot begins with its own 90-tick loading period, so an upgrade is not an instant extra shot.
+
+The game chooses the nearest ready Silo by Manhattan distance to the target. Current source code defines no maximum nuclear launch range.
+
+When one Silo receives a batch, its nukes begin at least one tick apart. Separate ready Silos can launch on the same tick.
+
+The normal radial menu exposes x1, x2, x5, and xMax only for Atom Bombs. Hydrogen Bombs and MIRVs remain single actions in the ordinary interface.
+
+For a MIRV plan, count ready tubes before counting money. A 120M budget for three MIRVs is not a three-MIRV volley if only one Silo slot is ready.
+
+## Carrier flight and separation
+
+The carrier flies at 15 tiles per tick. It is faster than an Atom or Hydrogen Bomb, both of which use a base speed of 10.
+
+The carrier does not explode at the clicked location. It travels toward an intermediate separation point derived from the launch and target coordinates.
+
+At separation, the carrier creates the center warhead plus as many valid extra targets as its search can find. Those warheads then fly independently from the separation point.
+
+The SAM target list contains Atom Bombs, Hydrogen Bombs, and MIRV Warheads. It deliberately excludes the carrier.
+
+That distinction matters for timing. Defenders cannot erase the package before it opens, but they can start assigning missiles once the individual warheads have valid trajectories.
+
+## Why “350 warheads” is a ceiling, not a promise
+
+The target generator stops at 350 targets, but it can stop earlier when repeated candidate searches fail. The clicked center target is inserted first.
+
+Every extra target must satisfy all of these conditions:
+
+- It is a valid tile inside the map.
+- It is land rather than water or an impassable tile.
+- It belongs to the same player who owns the clicked target.
+- It lies within 1,500 Euclidean tiles of the clicked target.
+- It stays at least 55 Manhattan tiles from every target already selected.
+
+These rules make a broad continental empire a better saturation target than a narrow island chain with the same number of troops.
+
+A click near a map edge wastes part of the 1,500-tile search circle outside the playable area. A coastal click spends another large portion over water.
+
+Fragmented ownership also reduces candidates. Enemy, allied, neutral, and unowned land inside the circle cannot become extra targets for that MIRV.
+
+The search is randomized and bounded. Even a large legal region does not justify predicting an exact warhead count without the live map state and seeded random sequence.
+
+## Warhead speed, spacing, and arrival pattern
+
+MIRV warheads start at 22 tiles per tick. Their order adds a speed bonus from 0 through 4, giving later groups speeds up to 26.
+
+Each warhead also waits a random 0 through 14 ticks before beginning its flight. One tick is 100 milliseconds.
+
+Targets are sorted from farther to nearer by Manhattan distance before the speed stagger is assigned. The independent waiting delay can still change the visible arrival order.
+
+The strike is therefore a spread in both space and time. It is not one explosion, and it is not a perfectly simultaneous wall of 350 projectiles.
+
+Each warhead has an inner blast radius of 12 tiles and an outer radius of 18. The outer value is a limit, not a promise that every territory tile inside it disappears.
+
+Normal nuclear fallout uses an irregular seeded outer ring. Exact destroyed territory and casualties need the actual impact set and player state.
+
+## How SAM defense really checks a warhead
+
+A SAM Launcher does more than ask whether the destination is inside a circle. It searches a projectile's future trajectory for a valid intercept point.
+
+The launcher first discovers candidate nukes within a broad 600-tile search radius. That value helps it see fast projectiles early; it is not the launcher's real firing range.
+
+A level-N SAM has N missile slots and uses this actual range:
+
+```text
+SAM range = 150 - 480 / (level + 5)
+```
+
+Level 1 reaches 70 tiles, level 5 reaches 102, level 10 reaches 118, and level 20 reaches 130.8. The value approaches 150 but never reaches it at a finite level.
+
+Every used SAM slot reloads for 90 ticks, or 9 seconds. Upgrading adds a slot and more range, but the new slot must load before firing.
+
+The target also needs a `targetable` trajectory tile inside that range. Nukes are targetable only while strictly within 150 tiles of their launch point or destination.
+
+Finally, the SAM missile, moving at 12 tiles per tick, must have enough time to reach the chosen intercept tile. A drawn coverage circle alone cannot prove that condition.
+
+## SAM target choice under a mixed strike
+
+One SAM missile destroys one Atom, Hydrogen, or MIRV warhead. The old idea that one interceptor clears a whole MIRV cloud is wrong for v33.
+
+When several targets qualify, Hydrogen Bombs receive a dedicated priority bonus. Distance to the SAM and urgency before impact also influence the score.
+
+Once one launcher claims a projectile, other SAMs filter it out. This prevents two launchers from deliberately wasting shots on the same target.
+
+A fully loaded level-N launcher can assign as many as N missiles in one tick. It cannot do so when some of those slots are still cooling down.
+
+This is why `eligible projectiles - ready SAM slots` is only a pressure estimate. It ignores geometry, arrival order, targetability, intercept time, and target priority.
+
+A positive result does not guarantee that many penetrations. A zero or negative result does not guarantee a clean defense.
+
+## Offensive workflow: prepare the strike
+
+### Step 1: read the global price before committing
+
+Check how many MIRVs have already launched and calculate the immediate price. Reserve Gold for the Silo network and the conventional war that follows.
+
+Do not price a series as `k × current price`. Every successful MIRV in the sequence moves the ladder by another 15M.
+
+### Step 2: inspect the target's shape
+
+Prefer a click deep inside a broad, continuous block of enemy land. Keep the 1,500 radius and 55-tile spacing rules in mind.
+
+Avoid centering over a coast, map edge, narrow peninsula, or mixed-ownership frontier unless the center target itself is the strategic objective.
+
+### Step 3: count ready Silo slots
+
+Open with separate ready Silos when simultaneous pressure matters. One high-level Silo provides parallel slots, but a recent upgrade may still be loading.
+
+If the target has ready SAMs, a lone Atom launched too early can consume no useful cooldown if it is intercepted long before the main wave arrives.
+
+### Step 4: force a hard defensive choice
+
+Mixing Hydrogen and MIRV pressure can change SAM target priority. The Hydrogen bonus may draw a ready missile when both trajectories qualify.
+
+That is an opportunity, not a deterministic recipe. Different paths or arrival times can prevent the intended targets from competing in the same decision tick.
+
+### Step 5: exploit the result immediately
+
+A MIRV is expensive area disruption. Prepare troops, transports, or a second front before launch so damaged borders convert into territory gains.
+
+If the strike only destroys scattered land and you cannot advance, opponents may reclaim the gaps while your Silo and economy recover.
+
+## Defensive workflow: survive the split
+
+### Build depth, not one decorative circle
+
+SAM value comes from both geometry and loaded slots. Place launchers where targetable approach or terminal segments can enter real firing range.
+
+One highly upgraded SAM has many slots, but all those slots share one location. Multiple positions can cover different terminal geometries and reduce a single crater's effect.
+
+### Track cooldown queues
+
+After a launch, note the 9-second reload. A displayed level is not the same as the number of shots ready now.
+
+Do not upgrade at the instant you expect a strike and assume the new slot works immediately. It begins unloaded for the same 90 ticks.
+
+### Reduce valuable target density
+
+MIRV extra targets require the selected player's land. Complex ownership, water, and narrow shapes reduce legal spacing opportunities.
+
+Do not surrender good territory merely to lower a hypothetical count. Instead, avoid clustering every critical facility in one broad, obvious target region.
+
+### Preserve the counterattack
+
+SAMs cannot promise zero impacts. Keep troops and routes outside the likely target area so surviving forces can reclaim scattered damage.
+
+The defense succeeds when you retain an army, launch capacity, and connected land after the wave, not only when the interceptor animation looks busy.
+
+## Worked scenario: three MIRVs against level-5 SAMs
+
+Assume no MIRV has yet launched globally. An attacker plans three successful launches, so the weapon bill is 25M + 40M + 55M = 120M.
+
+The attacker owns two level-2 Silos. If all four slots are loaded, four launches can be issued without waiting for a reload.
+
+The defender has two level-5 SAMs. One has two cooling slots and the other is fully loaded, leaving three plus five ready shots.
+
+Eight ready shots do not mean only eight MIRV warheads can be stopped during the entire event. Reloads may finish while later warheads are still in flight.
+
+It also does not mean eight will be stopped. Some paths may never offer a reachable targetable point inside either 102-tile firing range.
+
+If the calculator shows 140 eligible projectiles and eight ready shots, the theoretical gap is +132. That is pressure information, not a forecast of 132 impacts.
+
+The true result still depends on how many targets each MIRV generated, which warheads cross coverage, their delays, and whether other nukes alter SAM priority.
+
+## Failure examples and corrections
+
+### “The MIRV carrier bypassed SAM, so all warheads are safe”
+
+Wrong. The carrier is excluded, but every spawned warhead is an eligible SAM target with its own trajectory.
+
+### “I bought three at 25M each”
+
+Wrong under ordinary rules. From a fresh match the three prices are 25M, 40M, and 55M because the global count rises after each success.
+
+### “The menu says 350, so the map gets 350 impacts”
+
+Wrong. The generator can choose at most 350 valid spaced targets. Small, coastal, fragmented, or edge holdings usually offer fewer candidates.
+
+### “My level-5 SAM circle covers the destination”
+
+Incomplete. Level 5 has 102 range, but an intercept still needs a targetable trajectory point, a ready slot, and enough missile travel time.
+
+### “A level-10 SAM always stops ten warheads”
+
+Wrong. Ten is its maximum simultaneous loaded slots. Eligibility, claims by other SAMs, geometry, and timing can reduce actual shots.
+
+### “Outer radius 18 means every tile in that disk is gone”
+
+Wrong for territory. The outer ring is irregular and seeded. Exact losses cannot be inferred from radius alone.
+
+## MIRV FAQ
+
+### Can a SAM shoot the MIRV before it splits?
+
+No. The carrier is not in the SAM target whitelist. SAMs can engage the individual MIRV warheads after separation.
+
+### Is 350 the usual warhead count?
+
+It is the maximum requested target count, not a usual or guaranteed result. Actual count depends on valid enemy land, spacing, map bounds, water, ownership, and random search.
+
+### Does each player have a separate MIRV price?
+
+No. The ladder uses the number launched globally during the match. Any player's successful launch raises the next price for everyone.
+
+### Does MIRV use a Missile Silo slot?
+
+Yes. The carrier launch consumes one ready Silo slot and that slot reloads for 90 ticks, or 9 seconds.
+
+### Can one SAM missile destroy several warheads?
+
+No under current v33 behavior. Each interceptor claims and destroys one eligible nuclear projectile.
+
+### Is a higher SAM level only extra range?
+
+No. Each level adds one missile slot and increases range through the level formula. A newly added slot must load before use.
+
+### Can I calculate exact MIRV casualties from the clicked point?
+
+No. You need the generated targets, irregular impact tiles, ownership, troop state, attacks, transports, and seeded random outcomes.
+
+### Where can I calculate the exact costs and ready slots?
+
+Use the [OpenFront nuke calculator](/guides/nuke-calculator/) for Gold, the global MIRV ladder, Silo slots, SAM slots, range, and a labeled pressure estimate.
+
+## Formal sources and verification boundary
+
+The player-facing release boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Its formal notes do not introduce a new MIRV, Silo, or SAM rule.
+
+The mechanics on this page remain grounded in the unchanged v0.33.6 tagged implementation and tests:
+
+- [Config.ts: costs, speeds, radii, cooldowns, and SAM range](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: carrier and target generation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: trajectories, targetable segments, and impacts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: discovery, priority, and intercept timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: eligible projectile types and hits](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: costs and nearest ready Silo selection](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: Silo and SAM slot queues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [MIRV execution tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [SAM launcher tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile Silo tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+For broader strategic restraint and retaliation planning, continue with [nuclear deterrence](/strategies/nuclear-deterrence/).
+
+For Atom, Hydrogen, Silo, and SAM rules outside the MIRV flow, use [nuclear weapon mechanics](/mechanics/nukes/).

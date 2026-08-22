@@ -30,6 +30,12 @@ const pillars = [
     accent: 'military',
   },
   {
+    href: `${base}${langPrefix}maps/`,
+    title: t('home.pillar.maps.title'),
+    desc: t('home.pillar.maps.desc'),
+    accent: 'cannon',
+  },
+  {
     href: `${base}${langPrefix}strategies/`,
     title: t('home.pillar.strategies.title'),
     desc: t('home.pillar.strategies.desc'),
@@ -76,7 +82,7 @@ const highlights = [
   <HomeWhatsNew lang={lang} />
 
   <section class="container-wide py-16" data-home-browse>
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {pillars.map((p) => (
         <a href={p.href} class="card group block">
           <div class="text-xs uppercase tracking-widest text-iron-500">{t('home.section')}</div>

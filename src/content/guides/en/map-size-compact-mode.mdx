@@ -1,0 +1,228 @@
+---
+title: OpenFront Map Sizes and Compact Map Mode
+description: Learn which OpenFront map is largest, what Compact Map actually loads, how player caps scale, and when Normal or Compact is the better choice.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [maps, compact-map, player-count]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal v33.7 map assets and source: Sol leads by total grid, The Box by playable land, and Compact loads map4x.bin."
+---
+
+## Direct answer
+
+There is no single largest OpenFront map. In formal **v33.7**, **Sol** has the largest full grid at **4,432 x 2,528 = 11,204,096 cells**.
+
+**The Box** has the most playable land at **4,194,304 tiles** because its entire 2,048 x 2,048 grid is land.
+
+Those answers measure different things. Grid cells include water and impassable background. Playable land is the better measure of territory that can be occupied and is also the input used to size public lobbies.
+
+**Compact Map** is not a crop or a camera zoom. It loads the same map's `map4x.bin`; width and height are each halved, so the game grid has one quarter as many cells. Its minimap then uses `map16x.bin`.
+
+Public Compact lobbies also reduce the selected player-count tier to 25%. Bots, default Nations, and fixed coordinates are adjusted too. Compact changes the scale of the match, not just how large the map looks on screen.
+
+## What does “largest map” mean?
+
+Use the question behind the number before comparing maps.
+
+| Measure | v33.7 leader | Exact value | What it tells you |
+| --- | --- | ---: | --- |
+| Total grid cells | Sol | 11,204,096 | Simulation grid, including water and blocked background |
+| Playable land | The Box | 4,194,304 | Occupiable space and the public-cap input |
+| Width | Passage | 6,000 x 400 | Longest horizontal span |
+| Height | Las Vegas Strip | 2,036 x 4,428 | Longest vertical span |
+| Named Giant World Map | Grid rank 3; land rank 11 | 8,002,384 grid; 2,335,403 land | A name is not a size rule |
+
+A wide corridor and a square all-land map can have similar cell counts while playing nothing alike. Aspect ratio changes travel direction, while water separates armies.
+
+Impassable terrain can occupy a visible shape without becoming conquerable territory.
+
+Do not convert map tiles into square kilometres. OpenFront manifests contain grid dimensions, not one shared geographic scale or projection. A tile is a simulation coordinate, not a fixed real-world distance.
+
+The site's [map database](/database/maps/) is useful for names and discovery. It does not currently expose dimensions or topology, so use this guide when the question is about playable scale.
+
+## How Compact Map is loaded
+
+Every current map manifest provides three terrain levels.
+
+| Match setting | Game terrain | Minimap terrain | Coordinate scale |
+| --- | --- | --- | --- |
+| Normal | `map.bin` with `manifest.map` | `map4x.bin` | Original coordinates |
+| Compact | `map4x.bin` with `manifest.map4x` | `map16x.bin` | Fixed x/y coordinates divided by 2 |
+
+Across all 117 v33.7 manifests, `map4x` is exactly half the full width and half the full height. That produces exactly one quarter of the total grid cells.
+
+Playable land is close to, but not always exactly, one quarter. Downsampling changes thin coasts and tiny islands. The formal v31 Release also states that tiny islands were removed from Compact maps.
+
+This distinction matters. “Quarter-sized grid” is exact. “Exactly one quarter of every coastline and land tile” is false.
+
+## Two verified Compact examples
+
+Svalmel and Dyslexdria show why grid scale and playable land must remain separate.
+
+| Map | Normal grid / playable land | Compact grid / playable land | Land retained |
+| --- | ---: | ---: | ---: |
+| Svalmel | 1,700 x 1,580 / 1,011,623 | 850 x 790 / 248,032 | 24.52% |
+| Dyslexdria | 3,308 x 1,440 / 2,103,254 | 1,654 x 720 / 508,102 | 24.16% |
+
+Svalmel loses two land components when moving from Normal to Compact, from 26 to 24. Dyslexdria falls from 224 to 142 because its map contains far more small fragments.
+
+The main theatres remain recognizable, but peripheral island detail is reduced. That is the useful mental model for Compact: the same strategic skeleton at a shorter spatial scale, with less fine coastal detail.
+
+Read the [map strategy guide](/guides/map-strategy/) for the component analysis and for a safer way to turn these numbers into opening decisions.
+
+## How public player counts are calculated
+
+OpenFront first reads the full map's `map.num_land_tiles`. It calculates a base of 50 players per million playable land tiles, rounded to the nearest 5, with a minimum of 5.
+
+The server then creates three possible tiers: 100%, 75%, and 50% of that base, each rounded to the nearest 5. Ordinary public FFA selects the tiers with probabilities of 30%, 30%, and 40%.
+
+Compact applies `floor(tier x 0.25)`, with a minimum of 3, before the final performance cap of 125. It does not recalculate the lobby from `map4x.num_land_tiles`.
+
+```text
+base = round-to-5(playable land / 1,000,000 x 50)
+normal FFA tiers = base / 75% / 50%
+compact FFA tier = floor(selected normal tier x 0.25)
+```
+
+### Svalmel capacity example
+
+Svalmel has 1,011,623 playable land tiles. Its Normal public FFA candidates are **50 / 40 / 25** players. Compact candidates are **12 / 10 / 6**.
+
+The “5 nations” in Svalmel's manifest does not mean five human slots. Nation NPC configuration and lobby capacity are separate systems.
+
+### Dyslexdria capacity example
+
+Dyslexdria has 2,103,254 playable land tiles. Its Normal public FFA candidates are **105 / 80 / 55** players. Compact candidates are **26 / 20 / 13**.
+
+Dyslexdria defines 82 main Nations, yet its human capacity still follows the land formula. Do not use the Nation list to predict the player counter.
+
+### Why the lobby may show another number
+
+Team mode increases the chosen base before Compact and then rounds for Duos, Trios, Quads, or a fixed team count. Humans vs Nations reserves the returned slots for the human side.
+
+The Crowded modifier has its own path. Eligible small maps can use 125 players, or 60 when Crowded and Compact are combined.
+
+The lobby value is therefore the final answer for a specific match. The formula explains the candidate range; it does not override the visible lobby configuration.
+
+## What else Compact changes
+
+Compact adjusts several defaults so a quarter-grid match does not inherit the full-map population unchanged.
+
+- Ordinary public rotation uses **100 bots** on Compact instead of 400 on Normal.
+- Public default Nations use 25% of the manifest list, with a minimum of one.
+- Svalmel therefore uses 1 default public Nation on Compact instead of all 5.
+- Dyslexdria uses 20 default public Nations on Compact instead of all 82.
+- Fixed Nation, additional-Nation, custom-Tribe, and team-spawn coordinates are scaled to the smaller grid.
+- Team Compact is excluded when it cannot leave at least two teams with at least two players each.
+
+Host and single-player controls preserve manual choices where possible. Toggling Compact only changes 400 bots to 100 when the count is still at that default. A custom non-default count is not silently quartered every time.
+
+That boundary is important for experiments. Two hosts can both enable Compact yet create different pressure by choosing different bot, Nation, team, immunity, or starting-gold settings.
+
+## Choose Normal when
+
+Use Normal when the map's geographic detail is part of the lesson or plan.
+
+- You want more time to read neighbors before several fronts meet.
+- Tiny islands, thin peninsulas, or secondary crossings matter.
+- A team exercise needs more room for separate lanes.
+- You are comparing the official full-resolution topology.
+- The lobby has enough players to occupy the larger space without long empty stretches.
+
+Normal does not automatically mean slow. A long narrow map can force one direction, and a high player tier can still create early contact.
+
+## Choose Compact when
+
+Use Compact when you want the same map identity with fewer cells and lower default population.
+
+- A small group wants meaningful contact without waiting across a full map.
+- You are practising border control, quick adaptation, or team communication.
+- The full map has too many peripheral islands for the exercise.
+- You want a shorter spatial scale while keeping major landmasses recognizable.
+- You accept that small coast and island details can disappear.
+
+Compact does not guarantee a short match. Alliances, cautious players, Water Nukes, team composition, and resource settings can still produce a long game.
+
+## A pre-lobby comparison checklist
+
+Before choosing the switch, answer five questions.
+
+1. How many humans will actually join?
+2. Does the lesson depend on minor islands or a thin land bridge?
+3. Are Nations and bots left at defaults or set manually?
+4. Is this FFA, Team, Humans vs Nations, or Crowded?
+5. Do both sides agree on spawn, immunity, and starting resources?
+
+If you are testing an opening, record all five answers. A Normal result cannot be compared fairly with a Compact result when the player count and Nations also changed unnoticed.
+
+The [modes guide](/mechanics/modes/) explains which controls a normal Host can set. The [first-match guide](/guides/first-match/) covers spawn shape and the first expansion.
+
+## Common mistakes
+
+### Calling Sol the largest in every sense
+
+Sol leads total grid cells, but only 877,713 of them are playable land in the v33.7 manifest. The Box has nearly five times that playable land.
+
+State the metric in the same sentence as the claim.
+
+### Treating Compact as a crop
+
+Compact loads a prepared lower-resolution terrain file for the entire map. It does not keep one central quarter and delete the outer world.
+
+The same broad geography remains, while fine detail changes.
+
+### Dividing every number by four
+
+Grid cells divide exactly by four. Coastlines, islands, and playable land do not. Public player tiers are also floored after the 25% multiplier.
+
+Use the manifest and server result instead of mental arithmetic when an exact number matters.
+
+### Predicting players from Nations
+
+Nations are AI entities. The human maximum comes from lobby configuration and playable land.
+
+Svalmel's 5 and Dyslexdria's 82 describe very different NPC sets, not fixed player limits.
+
+### Assuming Compact always means denser play
+
+The grid is smaller, but public capacity is reduced too. Relative pressure still depends on the selected tier, spawn distribution, bots, Nations, and teams.
+
+Describe Compact as shorter spatial scale, not a guaranteed rush mode.
+
+## FAQ
+
+### What is the biggest OpenFront map?
+
+Sol is biggest by full grid at 11,204,096 cells. The Box is biggest by playable land at 4,194,304 tiles. Use the second answer for conquerable space and public-cap context.
+
+### What does Compact Map do?
+
+It loads `map4x.bin`, halves width and height, and reduces total grid cells to one quarter. It also changes the minimap level, fixed coordinates, public player tiers, and several default populations.
+
+### Does Compact remove parts of the map?
+
+It preserves the whole outline at lower resolution rather than cropping to one region. Small islands and thin coastal details can disappear during downsampling.
+
+### Is Compact exactly 25% of Normal?
+
+The total grid is exactly 25%. Playable land is close but not exact. Svalmel retains 24.52%; Dyslexdria retains 24.16%.
+
+### Why does Giant World Map not win?
+
+It ranks third by total grid and eleventh by playable land in v33.7. “Giant” is its name, not a dynamic leaderboard result.
+
+### Does a private Compact lobby have a fixed player cap?
+
+No single number can be inferred from the map alone. Host configuration and the actual lobby value are authoritative for that match.
+
+## Sources and next reading
+
+- [OpenFront v33.7 formal Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v33.7 terrain loader](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [v33.7 public map playlist and capacity formula](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [v33.7 Nation creation rules](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)
+- [Formal v29 Release for dynamic player counts](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.29.0)
+- [Formal v31 Release for Compact tiny-island removal](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Continue with [How to read any OpenFront map](/guides/map-strategy/).

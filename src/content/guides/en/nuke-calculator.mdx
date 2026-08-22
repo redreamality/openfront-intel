@@ -1,0 +1,319 @@
+---
+title: "OpenFront Nuke Calculator: Gold, MIRV Prices, Silo Slots, and SAM Range"
+description: "Calculate OpenFront nuclear weapon costs, the global MIRV price ladder, ready Silo and SAM slots, exact SAM range, and a clearly limited saturation estimate."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [calculator, nukes, mirv, sam, missile-silo]
+category: Tutorial
+difficulty: Advanced
+version: v33
+freshnessSummary: "Verified through the formal v0.33.7 boundary. The v33 cost, Silo, and SAM formulas cited from v0.33.6 code were not changed by v0.33.7."
+---
+
+import NukeCalculator from '../../../components/NukeCalculator.astro';
+
+## Direct answer: what can this nuke calculator tell you?
+
+This calculator gives exact arithmetic for ordinary Gold costs, the global MIRV price sequence, ready Missile Silo slots, ready SAM shots, and SAM range by level.
+
+It also reports `incoming eligible projectiles - ready SAM shots`. That last value is a pressure estimate, not a predicted number of impacts.
+
+The tool cannot determine exact flight time, MIRV warhead count, interception outcome, territory loss, or casualties without the live map and full simulation state.
+
+Use it to answer budget and capacity questions before a launch. Do not use it to promise that a strike penetrates or that a defense is safe.
+
+The formal player-facing boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). It did not change the v33 nuclear formulas verified in v0.33.6 code.
+
+<NukeCalculator />
+
+## Enter the strike package correctly
+
+Start with your current Gold. The calculator subtracts all planned Atom Bombs, Hydrogen Bombs, and the complete MIRV sequence.
+
+Enter the number of MIRVs already launched **globally** before your plan. Do not enter only your own launches.
+
+Then enter how many Atom Bombs, Hydrogen Bombs, and MIRVs you want to compare. MIRVs are priced one after another because every success moves the shared ladder.
+
+For readiness, enter each structure's current level and the number of slots still cooling down. A level is capacity; it is not proof that every slot is ready.
+
+For the theoretical gap, count only incoming projectiles that SAM can target. The MIRV carrier itself is excluded, while each spawned warhead can qualify.
+
+Inputs are planning values, not a connection to a live match. Recheck them whenever another player launches a MIRV or a cooldown finishes.
+
+## Exact Gold costs used by the tool
+
+Under ordinary rules, an Atom Bomb costs 750,000 Gold and a Hydrogen Bomb costs 5,000,000 Gold.
+
+The MIRV price starts at 25,000,000 and rises by 15,000,000 after every successful MIRV launch by any player.
+
+The combined weapon bill is:
+
+```text
+weapon cost = 750,000 × atoms
+            + 5,000,000 × hydrogen bombs
+            + MIRV sequence cost
+```
+
+The displayed balance is `current Gold - weapon cost`. A negative result is a shortfall, not a financing or queue prediction.
+
+The tool uses integer arithmetic for Gold. It does not round a large series through floating-point abbreviations before computing the total.
+
+Infinite Gold lobbies are an exception. The calculator deliberately models ordinary costs because the special mode makes budget comparison meaningless.
+
+Missile Silo and SAM construction costs are discussed below, but they are not included in the weapon total. Add structures separately if they are not already built.
+
+## MIRV sequence cost and the global ladder
+
+Let `g` be the number of MIRVs already launched in the entire match. The next MIRV costs:
+
+```text
+next MIRV = 25,000,000 + 15,000,000 × g
+```
+
+Let `k` be the number you plan to launch in sequence. The exact series total is:
+
+```text
+MIRV series = k × (25,000,000 + 15,000,000 × g)
+            + 7,500,000 × k × (k - 1)
+```
+
+At `g = 0`, one MIRV costs 25M. Two cost 65M in total, three cost 120M, four cost 190M, and five cost 275M.
+
+At `g = 4`, the immediate price is 85M. Three more cost 85M + 100M + 115M = 300M.
+
+The sequence assumes those launches succeed without another player moving the counter between them. In a live match, global competition can change the price before your next click.
+
+The normal interface exposes MIRV as a single action, not an x5 button. A multi-MIRV value in this planner is a budget sequence, not one atomic UI command.
+
+## Missile Silo level and ready tubes
+
+A Missile Silo costs 1,000,000 Gold and normally builds in 100 ticks, or 10 seconds. Every level provides one independent launch slot.
+
+Each Atom, Hydrogen, or MIRV carrier launch puts one slot into a 90-tick cooldown. That equals 9 seconds because one tick is 100 milliseconds.
+
+The calculator uses:
+
+```text
+ready Silo tubes = max(0, level - cooling slots)
+```
+
+A level-5 Silo with two cooling slots has three ready tubes. A level-2 Silo with two cooling slots has none.
+
+Upgrading adds one slot, but the new slot starts with a 90-tick loading period. Enter it as cooling until that period ends.
+
+The game chooses the nearest ready Silo by Manhattan distance to the target. Current source defines no maximum nuclear launch range.
+
+One Silo staggers multiple nukes by at least one tick. Different ready Silos can launch on the same tick, which affects the shape of a real volley.
+
+## SAM level, loaded shots, and range
+
+SAM level controls two different resources: the number of missile slots and the actual firing range.
+
+The first SAM level costs 1,500,000 Gold. Later new SAMs or upgrades normally cost 3,000,000 under the capped scaling formula.
+
+Every level adds one missile slot. Each fired slot takes 90 ticks, or 9 seconds, to reload.
+
+The ready-shot formula matches the Silo calculation:
+
+```text
+ready SAM shots = max(0, level - cooling slots)
+```
+
+The exact range formula is:
+
+```text
+SAM range = 150 - 480 / (level + 5)
+```
+
+Useful values are 70 at level 1, 90 at level 3, 102 at level 5, 118 at level 10, and 130.8 at level 20.
+
+Range approaches 150 as level rises but never reaches 150 at a finite level. Upgrading supplies both broader geometry and more parallel shots.
+
+As with a Silo, the new SAM slot begins unloaded for 90 ticks. A just-completed level increase should not be entered as an immediately ready shot.
+
+## What the theoretical slot gap means
+
+The calculator subtracts ready SAM shots from incoming SAM-eligible projectiles.
+
+```text
+slot gap = eligible incoming projectiles - ready SAM shots
+```
+
+A positive value means there are more listed projectiles than shots ready at that instant. It does not tell you how many projectiles will hit.
+
+Zero means the counts match. It does not prove the SAM can reach every trajectory or fire before impact.
+
+A negative value means more shots are ready than projectiles were entered. It does not prove interception, because geometry and timing still gate every launch.
+
+The comparison also ignores reloads that finish during a long wave. A slot used early may become available again before a delayed MIRV warhead reaches a valid intercept point.
+
+Use the number to compare pressure plans under the same assumptions. Never label it “guaranteed penetrations” or “guaranteed stops.”
+
+## Why a SAM coverage circle is not a safety guarantee
+
+SAM logic inspects a nuclear projectile's future trajectory. It needs an intercept point that is both targetable and inside the launcher's actual level-based range.
+
+Nukes are targetable only while strictly within 150 tiles of their launch point or destination. A long route can contain a non-targetable middle segment.
+
+The SAM missile travels at 12 tiles per tick. It must have enough remaining ticks to reach the selected point.
+
+The launcher uses a 600-tile search radius to discover candidates early. That is not its firing range and should not be entered as one.
+
+Hydrogen Bombs receive a special priority bonus. Distance and urgency also influence which projectile claims a ready slot first.
+
+Once a SAM claims one projectile, other SAMs filter that target out. The distribution of shots across a network therefore depends on execution order and valid choices.
+
+These rules require coordinates, trajectories, cooldown queues, and tick order. Four numeric inputs cannot reproduce them honestly.
+
+## Why MIRV warhead count cannot be calculated here
+
+A MIRV attempts to build a target list of at most 350 points. The clicked center is included, but every extra point must pass live-map tests.
+
+Candidates must be land owned by the selected player, within 1,500 Euclidean tiles of the center, and at least 55 Manhattan tiles from every earlier target.
+
+Map borders, water, impassable terrain, fragmented ownership, and narrow territory remove candidates. The bounded random search can also stop before reaching the ceiling.
+
+The calculator therefore asks you to enter an eligible-projectile estimate instead of manufacturing a “350” result.
+
+For a broad continental target, you can compare several assumptions such as 50, 150, and 300 eligible warheads. Treat that as sensitivity analysis.
+
+For islands or coastal strips, expect geometry to matter even more. Only a map-aware implementation using the seeded target generator could return an exact count.
+
+## Why exact ETA and casualties are excluded
+
+OpenFront nuclear paths are curved. Exact travel time uses the formal parabola pathfinder rather than straight-line distance divided by speed.
+
+Atom and Hydrogen Bombs use a base speed of 10 tiles per tick. The MIRV carrier uses 15, while warheads use 22 through 26 plus independent waits of 0 through 14 ticks.
+
+Those values are useful context, but they do not convert one distance field into an exact ETA.
+
+Territory inside an outer blast radius is not uniformly destroyed. The normal outer ring uses a seeded irregular selection and skips impassable tiles.
+
+Casualties also depend on the actual impacted tiles, player territory, maximum troops, current troops, outgoing attacks, and transports.
+
+A trustworthy casualty simulator would need the full map and live player state. This page intentionally stops at quantities the listed inputs can support.
+
+## Worked budget scenario
+
+Suppose you have 200M Gold and no MIRV has launched. You plan two Atom Bombs, one Hydrogen Bomb, and three MIRVs.
+
+The Atoms cost 1.5M. The Hydrogen costs 5M. The MIRV sequence costs 120M. Total weapon cost is 126.5M, leaving 73.5M.
+
+Now assume a level-5 Silo has two slots cooling. Three tubes are ready, so all three MIRV carrier launches fit the current slot count.
+
+A level-5 SAM also has two cooling slots, leaving three ready shots. Its exact range is 102 tiles.
+
+If you enter five incoming eligible projectiles, the theoretical gap is +2. That means five minus three, and nothing more.
+
+It does not say two will hit. Some of the five may be unreachable, a slot may reload, or another target may receive priority.
+
+Change the global MIRV count from 0 to 4. The same three-MIRV sequence rises from 120M to 300M, making the entered 200M budget insufficient before other weapons.
+
+This is the calculator's main value: it exposes a bad budget or capacity assumption before you build a strategy around it.
+
+## Offensive planning checklist
+
+- Verify the global MIRV count immediately before purchase.
+- Price the full arithmetic series, not one price multiplied by quantity.
+- Count ready Silo tubes rather than structure level alone.
+- Keep Gold for armies, transports, and the follow-up capture.
+- Estimate eligible warheads from target shape instead of assuming 350.
+- Compare the estimate with ready SAM slots as pressure only.
+- Consider Hydrogen priority when building a mixed strike.
+- Recalculate when another player launches or a cooldown ends.
+
+The cheapest plan is not automatically the best plan. A 25M MIRV aimed into poor geometry can generate less useful pressure than several well-timed conventional nukes.
+
+Likewise, a large positive slot gap can be strategically empty when the strike lands where you cannot capture or hold the damaged territory.
+
+## Defensive planning checklist
+
+- Record each SAM's level, location, and current cooling queue.
+- Use the level formula for true range, never the 600-tile search radius.
+- Treat newly added slots as loading for 90 ticks.
+- Count the carrier as non-targetable and each warhead separately.
+- Reserve for mixed Atom, Hydrogen, and MIRV priority pressure.
+- Spread coverage when terminal trajectories differ across valuable regions.
+- Keep forces outside likely craters for recovery and counterattack.
+- Recheck the network after every interceptor fires.
+
+Defense is a timed network problem. Total levels across the map are less useful than loaded slots with reachable intercept geometry at the threatened location.
+
+## Common calculator mistakes
+
+### Using your own MIRV count instead of the global count
+
+The price ladder is shared by the match. Every player's successful launch raises the next cost.
+
+### Treating Silo level as ready launches
+
+Cooling slots are unavailable. Subtract the queue length, and remember that a new upgrade slot starts unloaded.
+
+### Entering the MIRV carrier as SAM-eligible
+
+The carrier is excluded from the target list. Enter individual spawned warheads that you expect could qualify.
+
+### Calling the gap a penetration forecast
+
+The gap has no geometry, targetability, priority, intercept time, or reload simulation. It is only a count comparison.
+
+### Assuming 350 warheads for every MIRV
+
+The generator caps its list at 350 but can produce much less on small, coastal, fragmented, or edge territory.
+
+### Adding straight-line ETA
+
+Formal trajectories are curved, and MIRV warheads have speed and wait staggers. A distance divided by one speed would look precise while being wrong.
+
+## Nuke calculator FAQ
+
+### Does the total include Silo and SAM construction?
+
+No. It includes planned Atom, Hydrogen, and MIRV purchases. Add 1M per Silo level and the applicable SAM build or upgrade costs separately.
+
+### Why is the next MIRV price lower than the final price in my series?
+
+The “next” output is the immediate pre-plan price. Every planned success then increases the price by 15M inside the series total.
+
+### Can Hydrogen Bombs and MIRVs use x5 in the normal menu?
+
+No. The ordinary radial menu exposes batch quantities for Atom Bombs. Multi-item Hydrogen or MIRV values here represent a planning sequence.
+
+### Does level 5 mean five SAM shots are ready?
+
+Only when no slots are cooling. With two cooling slots, a level-5 launcher has three ready shots.
+
+### Why does level 5 show 102 tiles?
+
+Substituting level 5 into `150 - 480 / (level + 5)` gives `150 - 48 = 102`.
+
+### Can a positive gap guarantee at least one hit?
+
+No. Some entered projectiles may never be eligible for that SAM, while reloads or other launchers can add shots during the wave.
+
+### Can a negative gap guarantee full interception?
+
+No. A ready interceptor still needs a reachable targetable point and enough time to arrive before the nuke executes its impact.
+
+### Where can I learn the full MIRV targeting model?
+
+Read the [MIRV guide](/guides/mirv/) for the 1,500-tile candidate radius, 55-tile spacing, carrier split, warhead timing, attack flow, and defense flow.
+
+## Formal sources and verification boundary
+
+The current formal release boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Its notes do not alter the nuclear mechanics calculated here.
+
+The formulas remain verified against these fixed v0.33.6 sources and formal tests:
+
+- [Config.ts: weapon costs, cooldowns, speed, radius, and SAM range](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: global pricing and target generation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: curved flight, targetable segments, and impact](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: interception planning and priority](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: target whitelist and interceptor behavior](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: costs and ready Silo selection](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: independent Silo and SAM slot queues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [MIRV execution tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [SAM launcher tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile Silo tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+Use [nuclear weapon mechanics](/mechanics/nukes/) to interpret the calculator's boundaries. Use [nuclear deterrence](/strategies/nuclear-deterrence/) to connect costs and ready slots to strike and retaliation decisions.

@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Callout from '../../../components/Callout.astro';
+import FreshnessSummary from '../../../components/FreshnessSummary.astro';
+
+const base = import.meta.env.BASE_URL;
+const verifiedDate = new Date('2026-08-22T00:00:00Z');
+---
+
+<BaseLayout title="OpenFront Nation AI 行为与反制" description="解释 OpenFront v33.7 Nation 如何扩张、选目标、建造、结盟、背叛、发展海军和使用核武，以及玩家怎样反制。">
+  <PageHeader eyebrow="机制 · NATIONS" title="Nation AI 行为与反制" lead="把 Nation 当成有条件的决策系统，而不是固定脚本。难度、兵力储备、关系、路线、资源和伪随机序列都会改变下一步。" />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <FreshnessSummary
+      lang="zh"
+      version="v33.7"
+      verifiedDate={verifiedDate}
+      summary="已按官方 v0.33.7 Nation 运行时代码与固定 tag 测试核验。阈值是源码事实；策略只能改变候选资格与成本，不能强制 AI 给出唯一回应。"
+    />
+
+    <h2>直接答案：Nation AI 到底怎样行动？</h2>
+    <p>Nation 没有固定建造顺序。出生后，它会组合运行攻击、联盟、建筑、Warship、普通核武和 MIRV 行为器。</p>
+    <p>难度会改变行动间隔、目标顺序、兵力保留、联盟条件、建筑评分与特殊反制。每个 Nation 还有按对局与 Nation 播种的确定性伪随机序列。</p>
+    <p>玩家能用兵力、关系、边界、结构、舰队和来袭改变部分候选分支，却不能让 Nation 必然友好，也不能保证它下一步做什么。</p>
+
+    <Callout type="info" title="源码阈值不是胜率">
+      <p>v0.33.7 源码与固定 tag 测试能证明候选条件，不能提供真人对局遥测、水平控制或最佳策略 tier list。</p>
+    </Callout>
+
+    <h2>先分清 Nation、Bot 与 Tribe</h2>
+    <table>
+      <thead><tr><th>对象</th><th>共享部分</th><th>玩家需要注意</th></tr></thead>
+      <tbody>
+        <tr><td>Nation</td><td>使用共享 AI 攻击工具</td><td>另有关系、联盟、建筑、舰队、核武、MIRV、embargo、背叛和专属信号。</td></tr>
+        <tr><td>普通 Bot</td><td>可能共享选敌与攻击代码</td><td>不会运行本页所述的完整 Nation 外交、建筑和核武行为套件。</td></tr>
+        <tr><td>Tribe</td><td>也是地图上的非人类对象</td><td>不能从 Tribe 行为推导 Nation 的联盟、建筑比例或核武选择。</td></tr>
+      </tbody>
+    </table>
+    <p>这个区别也影响例外。部分 FFA 兵力地板会排除普通 Bot，Team 与 Humans vs Nations 也可能走不同分支。</p>
+
+    <h2>Nation 的决策循环</h2>
+    <ol>
+      <li><strong>出生：</strong>用 game ID 与 Nation ID 初始化伪随机流，再抽取个体阈值。</li>
+      <li><strong>第一次扩张：</strong>立即攻击一次 Terra Nullius；后续优先相邻且非 fallout 的中立地。</li>
+      <li><strong>储备检查：</strong>常规攻击通常在低于个体 30%–39% 储备时停止。</li>
+      <li><strong>触发检查：</strong>通常在达到最大兵力 50%–59% 后选主动目标；未达到时仍有 1/10 继续机会。</li>
+      <li><strong>优先队列：</strong>从难度对应的目标策略中，执行第一个找到合格候选并成功行动的分支。</li>
+      <li><strong>并行系统：</strong>外交、建筑、Warship、embargo 与核武在循环内各有执行点。</li>
+    </ol>
+    <p>扩张中立地或夺回带结构的 Bot 土地时，使用较低的 10%–19% 个体扩张储备。路线与所有权检查仍然存在。</p>
+    <p>伪随机流在同一对局与 Nation 上可复现，但早期调用会改变后续位置。两个看似相同的局面不保证同一动作。</p>
+
+    <h2>四档难度表</h2>
+    <table>
+      <thead><tr><th>难度</th><th>主行动间隔</th><th>一般人类攻击 gate</th><th>防守与基础设施</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>65–99 ticks</td><td>每次判断 25% 通过</td><td>不建响应式 Defense Post；铁路评分 0%；不做舰船事件反制。</td></tr>
+        <tr><td>Medium</td><td>55–69 ticks</td><td>75% 通过</td><td>Defense Post 有 50% gate 且同一前线最多一座；铁路 60%；舰船反制建造 15%。</td></tr>
+        <tr><td>Hard</td><td>45–59 ticks</td><td>没有额外宽容 gate</td><td>FFA 邻居地板 75%；铁路 75%；舰船反制建造 50%。</td></tr>
+        <tr><td>Impossible</td><td>30–49 ticks</td><td>没有额外宽容 gate</td><td>FFA 邻居地板 90%；铁路 100%；舰船反制建造 80%。</td></tr>
+      </tbody>
+    </table>
+    <p>Hard 与 Impossible 的地板针对普通 FFA 中最强的非友好、非 Bot 邻居。Team、普通 Bot 和正在受攻的 Nation 有例外。</p>
+    <p>Easy 仍会攻击人类。25% 只是一般人类判断的一道 gate，不是每回合攻击概率；还击、traitor、HvN 等路径不同。</p>
+
+    <h2>Nation 如何选择攻击目标</h2>
+    <p>攻击行为先扫描真实陆地邻居与附近玩家。只要存在合规中立地，就会先尝试扩张，再考虑常规敌方策略。</p>
+    <p>没有接壤敌人时，有 1/5 机会抽样一次跨海攻击；已有接壤敌人时，有 1/10 机会先试跨海。</p>
+    <p>某类目标失败不会强制开战。队列会继续，直到某个策略成功，或全部没有候选。</p>
+    <table>
+      <thead><tr><th>目标标签</th><th>源码含义</th><th>玩家读法</th></tr></thead>
+      <tbody>
+        <tr><td>retaliation</td><td>优先最大来袭者</td><td>即使兵力较强，正在进攻也可能触发还击。</td></tr>
+        <tr><td>very weak</td><td>目标低于自身最大兵力 15%，并满足 FFA 强度限制</td><td>兵力条过低会先于领土变化制造候选。</td></tr>
+        <tr><td>victim</td><td>总来袭兵力超过目标现有兵力 50%</td><td>已经被围攻的玩家可能吸引另一 Nation。</td></tr>
+        <tr><td>weakest</td><td>接壤敌人中现有兵力最低者</td><td>它是本地边界比较，不是全图最弱。</td></tr>
+        <tr><td>island</td><td>从最近两个可通航候选中选；有 1/3 取第二近</td><td>路线必须可达，但不保证选最近海岸。</td></tr>
+      </tbody>
+    </table>
+    <p>目标顺序随难度变化。Impossible 先看 retaliation、Bots、very weak；Easy 更早检查 nuked land 与 Bots。</p>
+    <p>Bot 并行攻击上限为 Easy 1、Medium 随机 1 或 2、Hard 3、Impossible 100。上限不代表一定有足够目标。</p>
+
+    <h2>Defense Post、建筑与选址</h2>
+    <h3>响应式 Defense Post</h3>
+    <p>响应式 Defense Post 不会是 Nation 第一座结构。Easy 不建这种反应建筑。</p>
+    <p>Medium 每次有 50% gate，同一前线最多一座。Hard 与 Impossible 要求陆地来袭总兵力达到 Nation 现有兵力的 35%。</p>
+    <p>达到门槛时，请求数量是 <code>ceil(来袭 / 现有 / 0.4)</code>。黄金、合规位置和其他检查仍可能阻止建造。</p>
+    <p>海上攻击不计入这条 35% 分支。小额陆地骚扰仍会影响关系、还击和其他行为。</p>
+
+    <h3>常规结构目标</h3>
+    <table>
+      <thead><tr><th>结构</th><th>目标比例</th><th>重要边界</th></tr></thead>
+      <tbody>
+        <tr><td>Port</td><td>每 City 0.75</td><td>需要可与其他玩家共享的水体和合规岸线。</td></tr>
+        <tr><td>Factory</td><td>每 City 0.75</td><td>临海且 Port 可用时，再乘 0.33。</td></tr>
+        <tr><td>SAM</td><td>0.15 / 0.20 / 0.25 / 0.30</td><td>从 Easy 到 Impossible，并按保护结构评分选址。</td></tr>
+        <tr><td>Missile Silo</td><td>通常每 City 0.20；第一座用 0.40</td><td>最多三座，并受启用、黄金、空间和储蓄限制。</td></tr>
+      </tbody>
+    </table>
+    <p>目标数使用 <code>floor(City 数 × 比例)</code>，不是固定建造顺序或计时器。</p>
+    <p>结构密度超过每 1,500 tiles 一座时，AI 更倾向升级。候选位置先抽样，再按高地、内陆、间距和覆盖评分。</p>
+    <p>初始黄金至少 3,000,000 时，Hard 或 Impossible 在 Atom、Silo、SAM 都启用后可优先尝试 SAM。</p>
+    <p>Nation 密度高于每 7,500 land tiles 一个且没有 City 时，首建偏向 Port；无共享水体则选 Factory。</p>
+
+    <h2>Port、ocean、3,000 格水体与 Warship</h2>
+    <p>Nation 的 Port 必须位于岸线，并接触可与另一玩家共享的水体。ocean 始终合格；内陆水体需要另一玩家也能接触同一 component。</p>
+    <p>除 Easy 外，小于 3,000 个水格的内陆 component 会被跳过。因此“有海岸”不等于“一定建 Port”。</p>
+    <p>常规首艘 Warship 还要求通过 1/50 gate、已有 Port、当前无 Warship、黄金严格大于成本，并在 250 格内找到合规水格。</p>
+    <p>非 Easy 且已有 Port 的 Nation 可反制运输或贸易事件。Medium、Hard、Impossible 的新舰建造 gate 分别为 15%、50%、80%。</p>
+    <p>距离登陆不足 20 格的运输被视为太近；目标 90 格内已有己方 Warship 或巡逻点时，也不会再为它造新舰。</p>
+    <p>缩短航程、护送高价值运输并观察 Warship 转向，可以提高成本，却不能保证随机建造 gate 失败。</p>
+
+    <h2>联盟、embargo 与背叛</h2>
+    <p>处理接壤候选时，Nation 主动联盟请求先过 1/30 gate。出生阶段创建、首个出生后 tick 才处理的请求会被拒绝。</p>
+    <p>接受判断会看 confused、traitor、威胁、Team、关系、联盟数量、时间与实力。Friendly 不等于永久合同。</p>
+    <table>
+      <thead><tr><th>难度</th><th>早期接受分支</th><th>Team 额外拒绝</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>前 5 分钟 90%</td><td>25%</td></tr>
+        <tr><td>Medium</td><td>前 3 分钟 70%</td><td>50%</td></tr>
+        <tr><td>Hard</td><td>前 3 分钟 50%</td><td>75%</td></tr>
+        <tr><td>Impossible</td><td>前 1 分钟 30%</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p>这些值只在前序条件都未返回时生效。traitor 通常先被拒绝，但有 10% 穿过该拒绝分支，之后仍可能失败。</p>
+    <p>Hard 与 Impossible 可把低于最大兵力 20%、且现有兵力低于 Nation 的盟友列为背叛候选。</p>
+    <p>Medium 在 Nation 兵力达到盟友 10× 时可背叛。非 Easy 也可能背叛较弱 traitor，或兵力不到其三分之一的唯一接壤盟友。</p>
+    <p>这些条件位于攻击策略队列内。跨过阈值不代表立即背叛。</p>
+    <p>玩家 embargo Nation 会让它对玩家的关系一次 -20。Easy/Medium 到 Neutral、Hard 到 Friendly 可自动解除；Impossible 没有自动解除分支。</p>
+
+    <h2>普通核武与 MIRV</h2>
+    <p>普通核武可优先最大来袭者、crown、盟友标记目标、hostile、FFA 领先者或 Team 强队。</p>
+    <p>Hard 与 Impossible 会跳过可被敌 SAM 拦截的候选轨迹。Impossible 还可能改用 Atom salvo，或把有用 Silo 升到最多 5 级。</p>
+    <p>SAM 会提高成本并改变候选弹道，但 SAM 不是核免疫。</p>
+    <p>MIRV 要求武器启用、已有 Silo、黄金足够、存在目标分支并通过 hesitation。四档 hesitation 为 1/2、1/4、1/8、1/16。</p>
+    <table>
+      <thead><tr><th>MIRV 分支</th><th>Easy</th><th>Medium</th><th>Hard</th><th>Impossible</th></tr></thead>
+      <tbody>
+        <tr><td>个人领土门槛</td><td>75%</td><td>65%</td><td>55%</td><td>40%</td></tr>
+        <tr><td>团队领土门槛</td><td>90%</td><td>80%</td><td>70%</td><td>60%</td></tr>
+        <tr><td>城市领先：最少 / 倍数</td><td>20 / 2.0×</td><td>10 / 1.5×</td><td>10 / 1.25×</td><td>8 / 1.15×</td></tr>
+      </tbody>
+    </table>
+    <p>反 MIRV 是另一条目标分支。低于胜利门槛，不代表不会因核还击或城市领先成为候选。</p>
+    <p>任何 Nation 对同一目标发射 MIRV 后，所有 Nations 对该目标共享 300-tick 冷却。</p>
+
+    <h2>三个数字场景</h2>
+    <h3>Hard Nation 邻接 400,000 兵力玩家</h3>
+    <p>普通 FFA 中，Hard 地板保留该邻居兵力的 75%。Nation 常规攻击后通常至少保留 300,000。</p>
+    <p>若 Nation 正在受攻，反应分支可把可用兵力提高到总来袭值。300,000 不是所有模式和状态的固定地板。</p>
+
+    <h3>1,000,000 兵力下的 Defense Post 压力</h3>
+    <p>合计 340,000 陆地来袭低于 35% 门槛。达到 360,000 时，请求数量为 <code>ceil(0.36 / 0.4) = 1</code>。</p>
+    <p>来袭 850,000 时公式请求三座。黄金或位置仍可能不足，该分支也可能在当轮阻止其他常规建筑。</p>
+
+    <h3>Hard 的 MIRV 压力</h3>
+    <p>玩家达到个人领土 55%，就符合 Hard 阻止胜利分支。城市分支则要求至少领先 10 座，并达到第二名的 1.25×。</p>
+    <p>Hard 仍有 1/8 hesitation；Silo、黄金、共享冷却与其他检查都必须通过。合格不等于立即被打。</p>
+
+    <h2>常见失败与反制</h2>
+    <ul>
+      <li><strong>“没到 trigger 就安全。”</strong> Nation 仍有 1/10 继续机会，还击也有独立压力。接壤时保留兵力。</li>
+      <li><strong>“小额骚扰没有后果。”</strong> 它可能不触发 Defense Post，却仍改变关系、来袭压力和还击候选。</li>
+      <li><strong>“有海岸就有 Port。”</strong> 先看共享水体和尺寸；通过争夺合规岸线与水域提高建造成本。</li>
+      <li><strong>“Friendly 就永远结盟。”</strong> 避免 traitor、过多联盟和极低兵力，并为到期或背叛准备退路。</li>
+      <li><strong>“SAM 终结核威胁。”</strong> 分散高等级结构、错开覆盖，并预期高难 Nation 寻找另一弹道或压制 SAM。</li>
+      <li><strong>“Impossible 没有随机性。”</strong> 它更快更严格，仍有个体阈值、抽样和随机 gate。</li>
+    </ul>
+
+    <h2>Nation AI 常见问题</h2>
+    <h3>Nation 总会攻击最弱玩家吗？</h3>
+    <p>不会。weakest 只是本地策略之一，队列还有 retaliation、Bots、援助盟友、traitor、victim、hostile 与 island 等分支。</p>
+
+    <h3>Easy 会攻击人类吗？</h3>
+    <p>会。一般人类判断每次有 25% 通过，还击、traitor、HvN 与非人类分支另有规则。</p>
+
+    <h3>提高关系能保证结盟吗？</h3>
+    <p>不能。关系只改变资格；traitor、威胁、模式、联盟数量、时间、实力和随机 gate 仍会参与。</p>
+
+    <h3>有 Port 就一定建 Warship 吗？</h3>
+    <p>不一定。常规首舰有 1/50 gate，还要满足黄金、Port、现有舰队、启用状态和选址要求。</p>
+
+    <h3>Impossible 会停止随机吗？</h3>
+    <p>不会。它间隔更短、规则更强，个体阈值、候选抽样、hesitation 与建造 gate 仍使用伪随机。</p>
+
+    <h3>Nation 坐标是固定人类出生吗？</h3>
+    <p>不是。manifest 坐标是 Nation 附近抽样锚点；人类出生使用另一套规则。</p>
+
+    <h2>一手来源与相邻阅读</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7" target="_blank" rel="noopener">OpenFront v0.33.7 正式 Release</a>。</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NationExecution.ts" target="_blank" rel="noopener">NationExecution.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/PseudoRandom.ts" target="_blank" rel="noopener">PseudoRandom.ts</a>。</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/utils/AiAttackBehavior.ts" target="_blank" rel="noopener">AiAttackBehavior.ts</a>。</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationStructureBehavior.ts" target="_blank" rel="noopener">NationStructureBehavior.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationWarshipBehavior.ts" target="_blank" rel="noopener">NationWarshipBehavior.ts</a>。</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationAllianceBehavior.ts" target="_blank" rel="noopener">NationAllianceBehavior.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationEmojiBehavior.ts" target="_blank" rel="noopener">NationEmojiBehavior.ts</a>。</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationNukeBehavior.ts" target="_blank" rel="noopener">NationNukeBehavior.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationMIRVBehavior.ts" target="_blank" rel="noopener">NationMIRVBehavior.ts</a>。</li>
+      <li>继续阅读<a href={`${base}zh/mechanics/alliances/`}>联盟与背叛</a>、<a href={`${base}zh/mechanics/nukes/`}>核武与 SAM</a>和<a href={`${base}zh/guides/map-strategy/`}>地图策略</a>。</li>
+    </ul>
+  </article>
+</BaseLayout>

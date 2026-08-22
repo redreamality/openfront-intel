@@ -6,6 +6,7 @@ import maps from '../../../data/maps.json';
 import { getLangFromUrl, pickI18n } from '../../../i18n';
 
 const lang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
 const order = ['Continental', 'Regional', 'Fantasy', 'Arcade', 'Tournament'] as const;
 const groups = order.map((key) => {
   const cat = maps.meta.categories[key];
@@ -22,6 +23,12 @@ const groups = order.map((key) => {
 <BaseLayout title="Kartenliste" description="Alle OpenFront.io-Karten in 5 Kategorien: Continental / Regional / Fantasy / Arcade / Tournament.">
   <PageHeader eyebrow="DATABASE / MAPS" title={`Kartenliste · ${maps.meta.total} Karten`} lead="Anhand des offiziellen Repository-Ordners resources/maps gescannt und nach realer Geografie und Spielmechanik gruppiert." />
   <section class="container-wide py-10">
+    <section class="mb-8 border-l-2 border-cannon-700 pl-4" aria-labelledby="map-guides-entry" data-map-guides-entry>
+      <h2 id="map-guides-entry" class="text-lg font-semibold text-iron-50">Suchst du eine Strategie für eine Karte?</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">
+        Diese Datenbank ist die vollständige Kartenliste mit Kategorien. Im <a class="text-cannon-400 underline hover:text-cannon-300" href={`${base}de/maps/`}>Index der Kartenanleitungen</a> findest du vertiefte Analysen zu Terrain, Spawns, Routen und Compact auf Svalmel und Dyslexdria.
+      </p>
+    </section>
     <nav aria-label="Kategorie-Navigation" class="mb-8 flex flex-wrap gap-2">
       {groups.map((g) => (
         <a class="rounded border border-iron-800 px-3 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400" href={`#cat-${g.key.toLowerCase()}`}>

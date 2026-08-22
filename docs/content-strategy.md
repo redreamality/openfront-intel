@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略
 
-更新日期：2026-08-21。规划窗口：未来 6–8 周。
+更新日期：2026-08-22。规划窗口：未来 8–12 周。
 
 本文只回答“为什么做、当前做什么、何时晋级或停止”。实时状态与指标见 [`content-loop.md`](content-loop.md)；Search Console 获取规则见 [`search-console-content-workflow.md`](search-console-content-workflow.md)；`What's New` 的字段与披露合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-08-20 前的完整叙事见 [归档](archive/content-strategy-through-2026-08-20.md)，不属于定时任务热上下文。
 
@@ -30,11 +30,11 @@
 | 通道 | 当前项 | 结论与下一门槛 |
 |---|---|---|
 | Monitoring | `WN-01` | 五语版本文章、v34 预发布稳定 URL、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付；详细合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。Issue/PR 只作内部证据，正式机制页只在 Release 后更新。 |
-| Production | `DOOM-SEO-01` | 本批次集中五语 Doomsday 路径级 SEO title、教程索引入口和 v33 摘要锚文本；合并即转 Monitoring，在首个完整稳定窗口复核 query-to-page 与点击。 |
+| Production | 暂无活动主题 | 本轮 A–E 五批 13 个主题已全部交付并退出队列。下一主题必须先满足唯一玩家意图、成熟证据、自然入口和可验证完成定义；不得退回以 freshness 审计填充日程。完整交付记录见 [`long-form-content-program.md`](long-form-content-program.md)。 |
 | Parked | `ATTACK-01` | 默认 20%、范围 1%–100%、步进 10% 已核验，但高比例同 tick 双击风险未定、28 天精确需求仅 1 次展现。只有上游 #4237 状态变化或真实重复需求才恢复。 |
 | Parked | `MAP-01` | Caribbean 与 Danish Straits 的地形差异已成立，但连续有效窗口中 GSC/Issues 精确需求为 0。只有真实问题、搜索意图或新的地图专属来源才恢复。 |
 
-已完成项不留在活动队列：`FRESH-01/02/03`、`DOOM-01`、`ECON-01`、`CTRL-01`、`NUKE-01` 已完成；`SPAWN-01`、`ROOM-01` 已并入现有主答案。正式 Release 或已确认事实错误可以重开对应项。
+已完成项不留在活动队列：`LF-NUKE-01/02`、`LF-ECON-01/02`、`LF-MAP-01/02/03/04`、`LF-LOBBY-01`、`LF-AI-01`、`LF-PLAY-01/02/03`、`FRESH-01/02/03`、`DOOM-01`、`ECON-01`、`CTRL-01`、`NUKE-01` 已完成；`SPAWN-01`、`ROOM-01` 已并入现有主答案。正式 Release 或已确认事实错误可以重开对应项。
 
 ## 触发、晋级与停车
 
@@ -46,7 +46,7 @@
 4. 有可验证完成定义，而非“增加字数”或“多做一页”。
 5. 不依赖未合并前置，不与进行中 PR 争夺同一意图。
 
-优先级依次是：事实错误、正式 Release、当前 Production 的退出条件、有排名基础的答案/入口问题、反复出现但无主答案的玩家问题。用户明确改变口径、事实错误或正式 Release 可立即打断；其他重排只在周/月校准发生。
+优先级依次是：事实错误、正式 Release、当前 Production 的退出条件、有排名基础的答案/入口问题、已批准长文计划中的成熟主题、反复出现但无主答案的玩家问题。用户明确改变口径、事实错误或正式 Release 可立即打断；其他重排只在周/月校准发生。
 
 停车规则：
 
@@ -57,8 +57,8 @@
 
 ## 度量与复盘
 
-- 每日：只扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和真实新信号；Issue/PR 不直接生成公共条目，只有形成玩家文章主题才更新版本预览；无变化时保留游标，不刷新公共日期。
-- 每周：围绕一个玩家结果校准 Production；检查错落地、依赖与退出条件。
+- 每日：先用不超过生产预算 10% 的时间扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和事实错误；Issue/PR 不直接生成公共条目，无打断项时默认推进当前长文的来源、母稿、场景、五语、入口或验证阶段。
+- 每周：围绕一个玩家结果校准 Production；检查错落地、依赖与退出条件，并确保至少一个已批准长文主题持续前进。
 - 每月：比较 GSC 7/28 天意图、落地页、CTR、Feedlog/Issues；选择下月主题并记录拒绝原因。
 - 每季度：清理过时版本、重复页面和低点击入口；决定地图试点是否继续。
 

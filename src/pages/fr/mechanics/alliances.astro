@@ -5,6 +5,7 @@ import Callout from '../../../components/Callout.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const alliance = formulas.groups.alliance;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Alliances et trahisons" description="Durée des alliances dans OpenFront.io, mécanique de renouvellement, embargo automatique et détail du malus de trahison.">
@@ -64,5 +65,6 @@ const alliance = formulas.groups.alliance;
       <li>Vous êtes le maillon faible d'une alliance à trois, rester signifie mourir — trahir le gros allié pour piller le territoire du tiers.</li>
     </ul>
     <p>Sinon, <strong>laisser l'alliance expirer naturellement sans renouveler</strong> est plus rentable que trahir : pas de malus, pas d'embargo automatique, juste une non-reconduction.</p>
+    <p>Face à une Nation, consultez le <a href={`${base}fr/mechanics/nations/`}>guide de décision de l'IA des Nations</a> pour comprendre ses candidats d'alliance et de trahison en v0.33.7.</p>
   </article>
 </BaseLayout>

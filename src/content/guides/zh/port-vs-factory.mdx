@@ -1,0 +1,325 @@
+---
+title: OpenFront 港口还是工厂：经济建筑选择完整指南
+description: 对比 OpenFront 港口、工厂、贸易船与火车的共享成本、路线条件、升级收益和真实回本场景。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [港口, 工厂, 贸易, 火车, 经济]
+category: 教程
+difficulty: 中级
+version: v33
+freshnessSummary: "按正式 v0.33.7 tag 核验：Port 与 Factory 共用价格阶梯，Port level 不增加单船结算，pity 与 embargo 无关，Factory 是否可用由大厅 disabled units 决定。"
+---
+
+## 直接答案：Port 还是 Factory？
+
+已经有同一连通水域里的有效外方 Port、航程足够长，而且海路能保持开放时，先建 **Port**。
+
+Factory 已启用、安全的 City 或 Port 能落在铁路范围内，而且陆路比海路可靠时，先建 **Factory**。
+
+网络尚不能运行时，两者都不要建。没有合格外方目的港的 Port 可能消耗生成机会却发不出船；没有相连 City 或 Port 的 Factory 没有能结算金币的站点。
+
+第一次选择尤其重要，因为 Port 和 Factory 共用一条成本阶梯。任意一方以 125,000 买下第一 level 后，另一方的第一 level 通常就会涨到 250,000。
+
+| 当前约束 | 更适合先建 | 原因 |
+| --- | --- | --- |
+| 安全海岸和较远的外方 Port | Port | 航程会提高每次成功抵达的结算 |
+| 受保护的内陆 City 集群 | Factory | Train 会在相连 City 和 Port 结算 |
+| 海上敌对、核心区稳定 | Factory | 陆路网络避开海军拦截 |
+| 没有可用 City 或 Port 站点 | 仅在有海贸伙伴时建 Port | Factory 自己不能结算金币 |
+| 连通水域里没有外方 Port | 有站点时建 Factory | Port 没有合格目的地 |
+| Troops 经常顶到上限 | City 优先 | 瓶颈是容量，不是收入 |
+
+## Port 与 Factory 共用的成本阶梯
+
+两种建筑使用已有 Port 与 Factory level 的有效总数：
+
+```text
+下一个 Port 或 Factory level 成本
+  = min(1,000,000, 2^n * 125,000)
+```
+
+边际成本依次是 125,000、250,000、500,000，之后每个合计 level 都是 1,000,000。
+
+| 已支付的 Port + Factory levels | 下一个 level | 买下后的累计投入 |
+| ---: | ---: | ---: |
+| 0 | 125,000 | 125,000 |
+| 1 | 250,000 | 375,000 |
+| 2 | 500,000 | 875,000 |
+| 3 | 1,000,000 | 1,875,000 |
+| 4+ | 1,000,000 | 每级再加 1,000,000 |
+
+Port → Factory → Port 总计需要 875,000。把前两种类型对调，总价不变，但第一笔 125,000 会让其中一张网络更早启动，所以顺序仍然重要。
+
+新建筑和升级都会让阶梯前进一个 level。被占领的建筑受玩家已建 level 的计数规则约束，因此夺取高等级网络不会变成无限期的价格惩罚。
+
+City 使用独立的价格阶梯。购买 City 不会让下一个 Port 或 Factory 涨价。
+
+## Port 到底买来了什么？
+
+已完工 Port 每 10 ticks 检查一次 Trade Ship，大约每秒一次。每个 Port level 会在这次检查中执行一次生成 trial。
+
+Trade Ship 仍需要合格目的地。目的 Port 必须属于另一名玩家、位于同一连通水域，而且任一方向都没有 embargo。
+
+Alliance 不是必要条件。当前规则允许和任何不同玩家交易，除非一方对另一方设置 embargo。
+
+### Trade Ship 结算
+
+船抵达时使用实际走过的水域 tiles：
+
+```text
+G(distance) = floor((75,000 / (1 + exp(-0.03 * (distance - 300)))
+                    + 50 * distance) * goldMultiplier)
+```
+
+正常抵达时，出发 Port 的 owner 和目的 Port 的 owner 各自获得完整的 `G(distance)`，并不是共同分一笔钱。
+
+| 实际水域航程 | 1x 时每位 owner 所得 | 覆盖 125,000 Port 所需抵达数 |
+| ---: | ---: | ---: |
+| 50 | 2,541 | 50 |
+| 100 | 5,185 | 25 |
+| 200 | 13,556 | 10 |
+| 300 | 52,500 | 3 |
+| 400 | 91,443 | 2 |
+| 600 | 104,990 | 2 |
+| 1,000 | 124,999 | 2 |
+
+回本列只计算出发方自己的收入。把两位 owner 的金币都算作你的回报，会把结果错误地翻倍。
+
+长航线需要更久，也让船暴露更长时间。只有船能活着抵达，这张表才有决策意义。
+
+### 全局生成抑制与 pity
+
+生成系统会读取全场当前活跃的 Trade Ship 数量：
+
+```text
+base = 1 - sigmoid(globalShips, ln(2)/50, 400)
+odds = floor((100 / (rejections + 1)) / base)
+```
+
+一次 trial 的成功率是 `1 / odds`。全局 sigmoid midpoint 是 400 艘活跃船，因此全场船队接近和超过该区间时，生成压力会更明显。
+
+`rejections` 指该 Port 连续失败的随机生成 trial。每次失败都会改善下一次机会。它是 pity timer，不是 embargo 惩罚，也不是拒绝交易的玩家数。
+
+在目的地有效、全局船数固定的假设下，level 1 Port 在 0 艘活跃船时推导出的平均等待约 12 秒，在 400 附近约 17 秒，在 600 附近约 51 秒，已计入 pity。
+
+这些只是估算，不是计时器。全局船数会变，高 level 会增加 trials，而成功通过生成检查后也可能找不到合格目的地。
+
+### Port 升级改变什么？
+
+每个 Port level 会在每轮检查中增加一次 chance trial。作为目的地时，该 Port 也会按自身 level 在加权候选列表中出现相应次数。
+
+Port level **不会**进入单船金币公式。升级提高的是网络预期吞吐和目的地权重，不是同一趟航程的结算额。
+
+当前水域和伙伴已经可靠，只缺吞吐时升级。新海岸、湖泊或水域组件能创造真正不同路线时，才新建另一个 Port。
+
+## Factory 到底买来了什么？
+
+已完工 Factory 会成为 Train station，并把附近 City、Port 和 Factory 拉入铁路网络。City 和 Port 是贸易站；Factory 是 Train 来源，自身停靠不结算金币。
+
+当前限制是：
+
+- station 搜索范围为 110 tiles；
+- 直接相连 station 的最小间距必须大于 15 tiles；
+- railroad path 长度必须小于 `110 * 1.4142`，约 155.562 tiles；
+- Train 速度为每 tick 2 个 path tiles。
+
+画面上看似很近也可能连接失败，因为寻路器仍要生成低于 path 限制的有效路线。
+
+### Train 生成
+
+令 `F` 为 owner 拥有的 Factory level 总数，chance denominator 是：
+
+```text
+R(F) = (F + 10) * 15
+```
+
+每个 Factory level 会在所属 Factory 的每个 tick 执行一次 `1 / R(F)` trial。一个实体 Factory 在同一 tick 最多生成一列 Train，每次成功后该 Factory 还有 10 ticks 的最短 cooldown。
+
+当所有 Factory 都是 level 1 时，低密度下全网预期生成率约为 `F / R(F)`：
+
+| Factory level 总数 F | 估算平均间隔 |
+| ---: | ---: |
+| 1 | 16.5 秒 |
+| 2 | 9.0 秒 |
+| 3 | 6.5 秒 |
+| 5 | 4.5 秒 |
+| 10 | 3.0 秒 |
+
+把多个 level 集中到同一 Factory 时，精确生成率会略低于这项近似，因为同一 tick 的多个成功 trial 仍只会生成一列 Train。
+
+### Train 目的地与停站结算
+
+Factory 会在所属 cluster 中随机选择一个合格 City 或 Port。合格站点被等概率抽样；City 或 Port level 不会让 Train 更偏好该站，也不会提高该站价值。
+
+Train 可以经过中间站。每到一个 City 或 Port 都会先结算，再增加 stop counter：
+
+| Station 与 Train owner 的关系 | Train owner 基础金币 |
+| --- | ---: |
+| Ally | 35,000 |
+| Teammate | 25,000 |
+| 其他未 embargo 的玩家 | 25,000 |
+| Self | 10,000 |
+
+前十个 trade stops，也就是 index 0 到 9，没有惩罚。从第 11 个开始，每个后续 stop 减少 5,000，最低为 5,000。
+
+如果 station 属于其他玩家，该 station owner 也会得到完整的停站金额。self station 只有同一位 owner 记一次收入。
+
+Train 结算没有直接距离奖励。更远只意味着旅行时间更长。长路线只有经过更多有效 trade stops 才能提高单列车总收入，而 stop 惩罚最终会压低边际价值。
+
+### Factory 升级改变什么？
+
+升级会增加 Factory level 总数，并让该 Factory 多一次生成 trial，但不会增加第二个 station 位置。
+
+拓扑已经合理、瓶颈只是吞吐时升级。另一个位置能连接新的安全站点集群或减少单点风险时，才新建 Factory。
+
+## 当前对局中的 Factory 可用性
+
+Factory 是可配置单位。大厅可把它加入 `disabledUnits`；Factory 被禁用时，引擎也不会执行铁路 cluster。
+
+正式 v0.33.7 的公共 playlist 默认使用空的 disabled-unit 列表。因此，“Train 只存在于单人和私人大厅”的旧说法已经不准确。
+
+仍然要检查当前大厅 modifiers。公共默认可用，不等于每个自定义大厅都会启用。
+
+## 四个现实投资对比
+
+### 1. 第一座 Port，100 tiles 航线
+
+Port 成本 125,000。每次正常抵达让己方得到约 5,185，所以静态需要 25 次抵达才能超过成本。
+
+除非航线极其安全或有额外海军价值，否则这是偏弱的路线。更远而安全的目的地会彻底改变判断。
+
+### 2. 第一座 Port，400 tiles 航线
+
+每次抵达约得到 91,443，两次完成航程就能超过 Port 静态成本。
+
+真正的判断在于船能否存活、航行多久，以及伙伴是否继续保持 non-embargoed。
+
+### 3. 第一座 Factory，已有 self City
+
+Factory 成本 125,000。单站 self Train 收入为 10,000，因此第 13 列完成的 Train 才超过 Factory 成本。
+
+低密度近似下，level 1 Factory 平均每 16.5 秒生成一列。13 次生成约需 214.5 秒，还要再加路线的旅行延迟。
+
+Train 可以并发，因此旅行时间会把抵达时点向后推，但不一定让整个网络串行等待。
+
+### 4. 第一座 Factory，连接 ally station
+
+一次 ally stop 给 Train owner 35,000，也给 station owner 35,000。四列完成的 Train 就超过 Factory owner 的 125,000 成本。
+
+这是双方共同增长，不是单方套利。盟友也会复利增长；embargo 或关系变化会改变后续资格或 payout。
+
+## Port 与 Factory 决策顺序
+
+### 第一步：确认网络能结算金币
+
+Port 要找到连通水域内、未互相 embargo 的外方 Port。Factory 要找到至少一个能进入 rail cluster 的受保护 City 或 Port。
+
+如果答案是否，就暂时不要购买这个经济引擎。
+
+### 第二步：计算共享的下一档价格
+
+把 Port 和 Factory level 放在一起计数。已经持有或升级其中一类时，不要仍按数据表里的 125,000 基础行做预算。
+
+### 第三步：估算一次完整结算
+
+Port 使用实际水域航程，并且只计算己方所得。Factory 使用 station 关系和此前已经经过的 trade stop 数量。
+
+### 第四步：加入时间与存活风险
+
+静态抵达次数不是时间保证。还要加入生成等待、路程、路线变化、被占领风险和大厅 Gold multiplier。
+
+### 第五步：比较保护成本
+
+海贸可能需要 Warship 或更安全的 Port。铁路可能需要更深的核心区或替代路线。公式里的最低毛成本，不一定能覆盖保护与重建成本。
+
+### 第六步：选择升级还是扩张
+
+已经验证的网络只缺吞吐，就升级。只有新位置能创造新路线、连接或冗余时，才增加建筑。
+
+## 什么时候应该先建 City？
+
+Port 和 Factory 解决金币流问题，City 解决部队上限问题。
+
+如果当前 Troops 经常接近上限，City level 可能比另一个收入节点更快恢复增长空间。如果 Troops 离上限很远，收入或生存通常才是更强约束。
+
+不要把每一笔 125,000 余额都当作贸易预算。先阅读[人口增长指南](/zh/guides/population-growth/)，确认真正的瓶颈。
+
+## 反制与失败模式
+
+### 堆叠短航线 Port
+
+收入 sigmoid 会明显压低 300 tiles 以下的航程。更多 Port 还会推进共享成本，并让更多船进入全局环境。
+
+### 把 pity 叫作 embargo 惩罚
+
+Embargo 会移除目的地；失败的随机 trial 会提高 pity。两者是不同机制，对后续生成机会的影响也不同。
+
+### 期待 Port level 放大单船收益
+
+同一趟航程只按距离结算，不按 Port level。升级是为了更多尝试，不是更大的单次数字。
+
+### 没有贸易站就建 Factory
+
+Factory 可以画出铁路，但金币只会在 City 或 Port stop 出现。付款前先确认 cluster。
+
+### 只为距离延长铁路
+
+Train 金币没有距离项。除非路径能触及更多有效站点，否则额外路程只是成本。
+
+### 把双方收入都算成自己的
+
+海贸和外部铁路会给双方 owner 创造金币。你的 ROI 只能使用记入自己 player 的金额。
+
+### 把所有节点集中在一点
+
+紧凑核心容易用常规军力保护，却更怕被占领或核打击。路线效率与冗余需要平衡。
+
+### 重复过时的模式限制
+
+Factory 可以被禁用，但 v0.33.7 公共默认并未禁用。应该检查大厅设置，而不是根据模式名称猜测。
+
+## 常见问题
+
+### 第一座 Factory 一定是 125,000 吗？
+
+不一定。如果你已经拥有一个 Port 或 Factory level，下一个共享 level 通常需要 250,000。
+
+### 升级 Port 会增加 Trade Ship 结算吗？
+
+不会。它会增加生成 trials 和目的地权重。结算只读取实际航程和 Gold multiplier。
+
+### Embargo 会增加 pity 吗？
+
+不会。Pity 计算随机生成 trial 的连续失败。Embargo 改变的是目的地是否合格。
+
+### 公共对局可以运行 Train 吗？
+
+正式 v0.33.7 公共默认可以。自定义大厅仍然能够禁用 Factory。
+
+### 更长的 Train 路线更赚钱吗？
+
+不直接。Train 结算取决于关系和 stop 数，不取决于距离。
+
+### Port 和 Factory 哪个更安全？
+
+取决于地图。Warship 能攻击海上交通，陆地 station 也会被占领或核打击。选择当前局面真正能保护的路线。
+
+### 应该建第二个节点还是升级？
+
+路线已经有效、只缺吞吐时升级。新节点能解锁新水域、station cluster 或冗余时再新建。
+
+## 官方来源与版本边界
+
+本指南以正式 [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) 和对应 tag 为当前行为边界。
+
+共享成本、Trade Ship 金币、生成抑制、Train 金币与铁路限制来自官方 [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)。
+
+Port trials 和目的地权重见 [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PortExecution.ts)。航行和结算见 [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TradeShipExecution.ts)。
+
+Factory 连接和 Train 生成见 [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/FactoryExecution.ts) 与 [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TrainStationExecution.ts)。
+
+停站结算与随机目的地见 [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts)。路线限制见 [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/RailNetworkImpl.ts)。
+
+本站生成数据另行记录 extract checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` 和编辑系列 `v33`。该 checkout 不是 v0.33.7 tag。
+
+更完整的预算框架见[经济基础](/zh/strategies/economy-fundamentals/)，部队容量决策见[人口增长指南](/zh/guides/population-growth/)。

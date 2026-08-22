@@ -82,6 +82,21 @@ for (const homepageCase of homepageCases) {
       }),
     );
     expect(contentOrder).toEqual(['priority', 'browse', 'reference']);
+
+    const browse = main.locator('[data-home-browse]');
+    const browseLinks = browse.locator('a.card');
+    const browseHrefs = [
+      `${homepageCase.prefix}mechanics/`,
+      `${homepageCase.prefix}database/`,
+      `${homepageCase.prefix}maps/`,
+      `${homepageCase.prefix}strategies/`,
+      `${homepageCase.prefix}guides/`,
+    ];
+    await expect(browseLinks).toHaveCount(browseHrefs.length);
+    for (const href of browseHrefs) {
+      await expect(browse.locator(`a[href="${href}"]`)).toHaveCount(1);
+    }
+
     await expect(main.locator('[data-home-reference]')).toBeVisible();
 
     await links.first().click();

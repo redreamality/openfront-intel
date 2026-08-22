@@ -1,0 +1,365 @@
+---
+title: 外交、禁运与背叛决策
+description: 基于 v0.33.7 的结盟请求、续约、禁运、叛徒风险与核武破盟完整决策指南。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [alliances, diplomacy, betrayal, embargoes]
+category: 中后盘
+difficulty: 高阶
+version: v33
+freshnessSummary: "2026-08-22 按正式 v0.33.7 tag 核验：覆盖请求、续约、禁运、叛徒惩罚与核武破盟检查。"
+---
+
+## 直接答案
+
+在 v0.33.7，外交首先是计时器与退出成本管理。结盟请求持续 20 秒，对同一玩家 30 秒后才能重发，默认联盟持续 300 秒。
+
+续约需要双方同意；自然到期不是背叛。手动破盟可能产生 30 秒 traitor 状态。禁运会切断贸易，核武还可能在落地前先触发破盟。
+
+## 版本边界与术语
+
+本文于 2026-08-22 按正式版本核验。它提供决策成本与反制框架，不承诺固定最佳背叛时点或胜率。
+
+本文把 active alliance 的对方称为 ally，把固定队伍中的玩家称为 teammate。两者都可能属于 friendly，但不是同一机制。
+
+联盟可以请求、续约、自然到期或手动解除。固定 team 不能通过普通 break alliance 动作拆散。
+
+默认联盟时长为 5 分钟。自定义大厅可以设为 1–15 分钟；设为 0 会禁用联盟。旧的禁用联盟设置也会阻止请求。
+
+因此，进入外交决策前先确认大厅规则。不要把默认 300 秒当成每个房间都不可改变的常量。
+
+以下机制来自正式 [v0.33.7 Release][release]、固定 tag 源码和官方测试。战术部分会明确标为编辑建议，而不是引擎保证。
+
+## 外交前先问四个问题
+
+第一问是**时间**：请求、联盟、续约窗口、临时禁运或 traitor 还剩多少秒？
+
+第二问是**退出成本**：能否等自然到期，还是必须立即破盟并承受暴露？
+
+第三问是**网络**：任一方向的 embargo 会切断哪些 Port、Train 或经济路线？
+
+第四问是**火力**：在途或计划中的核弹，会不会在地面行动前先破坏联盟？
+
+这四问不会替玩家做决定。它们的作用，是在边界突然紧张时，把容易忽略的状态转换摊开。
+
+最好再写下一句具体目标：这段联盟要保护恢复窗口、贸易路线、共同缓冲区，还是要腾出另一条战线？
+
+## 结盟请求：20 秒窗口，30 秒周期
+
+一份 alliance request 持续 20 秒。对同一玩家的请求冷却是 30 秒，并从原请求创建时开始计算。
+
+冷却不是在请求失效后才启动。若 `t = 0` 发出请求，它约在 `t = 20s` 消失，并在 `t = 30s` 左右允许向同一对象重发。
+
+所以失效后只剩约 10 秒等待，不是再等完整 30 秒。这十秒可以观察边界，但不能当作即时防御。
+
+如果对方已经向你发来 incoming request，你再向对方发 counter-request，会直接接受这份联盟，而不是并行保留两份请求。
+
+### 场景一：错过一份请求
+
+你在 `12:00` 发出结盟请求。请求约在 `12:20` 失效，对同一玩家约在 `12:30` 才能再次发出。
+
+如果边界撑不过这 10 秒，结盟按钮本身不能救场。你仍要保留足够 Troops、地形空间或另一条撤退路线。
+
+若对方在等待期间主动发来请求，你的 counter-request 可以直接接受。下一步应立刻确认新的友方边界究竟释放了什么资源。
+
+来源：[AllianceRequestExecution.ts][request-source]、[AllianceRequestImpl.ts][request-model]与[官方请求测试][request-tests]。
+
+## 接受联盟会立即改变棋盘
+
+联盟成立后，双方对普通陆攻成为 friendly。两名新盟友之间正在进行的攻击会无普通撤退惩罚地撤回。
+
+接受还会清除双方之间的 temporary embargo，但不会删除 manual embargo。
+
+游戏同时检查新盟友之间的相关在途核弹。按规则会破坏新联盟的核弹会被移除。
+
+这个保护非常具体：它不是全图停火，也不会取消第三方核弹。
+
+接受前先问：联盟是否真正保护了缓冲区、贸易、恢复窗口或关键设施？然后检查是否有在途打击会因成立联盟而消失。
+
+不要只为了删掉一枚导弹就默认接受一定划算。源码能证明删除路径，不能证明这笔外交交换对当前局面必然有利。
+
+## 续约需要两次同意
+
+联盟续约必须双方同意。任何一方都不能单方面把临时联盟变成长约。
+
+客户端会在到期前最后 30 秒开放 extension window。双方完成续约后，从当前 tick 重新计算完整联盟时长。
+
+它不是在旧到期时间上只补 30 秒。默认设置下，成功续约会从续约时刻重新获得 300 秒。
+
+### 场景二：续约默认联盟
+
+假设联盟原定 `15:00` 到期，续约窗口约在 `14:30` 打开。
+
+双方在 `14:42` 完成同意，新到期时间约为 `19:42`，因为从续约 tick 重新起算 300 秒。
+
+如果只有一方同意，续约不会完成，原联盟仍可在 `15:00` 自然结束。
+
+最后 30 秒应被用来确认共同威胁、贸易与缓冲区是否仍有价值。看到续约按钮不等于已经获得对方同意。
+
+来源：[AllianceExtensionExecution.ts][extension-source]、[AllianceImpl.ts][alliance-model]与[官方续约测试][extension-tests]。
+
+## 自然到期不是背叛
+
+联盟正常走完时长，只会结束 alliance 状态。自然到期不会附加 traitor。
+
+当你不需要立即攻击时，这是低惩罚退出方式。可以等计时结束，同时保留防守储备，再重新评估旧盟友边界。
+
+自然到期不等于边界继续安全。前盟友会重新变得可攻击，依赖 friendly 状态的站位与网络都要复核。
+
+关键区别是：自然到期只结束时间；手动 break 是一项会进入独立背叛路径的动作。
+
+### 场景三：等待还是立即破盟
+
+联盟还剩 35 秒。你不需要马上攻击，另一条战线也暂时稳定。
+
+等待可以避开手动破盟的 traitor 路径。现在破盟可能暴露 30 秒，只比剩余联盟少 5 秒。
+
+这不证明等待永远正确。它只说明，付出退出成本前必须先看剩余时间，而不能只看眼前目标。
+
+## Embargo 与联盟是两套状态
+
+只要任一方向存在 embargo，双方就不能交易。交易本身不要求 alliance，而 active alliance 也不能覆盖仍存在的 manual embargo。
+
+普通攻击会使被攻击者对攻击者建立 temporary embargo。这个临时状态约 5 分钟后自动结束。
+
+玩家手动设置的 embargo 是 persistent，不走同一条自动到期路径。
+
+双方接受联盟时，只会清除彼此的 temporary embargo。manual embargo 保留，所以新盟友仍可能无法交易。
+
+因此，“已经结盟，所以贸易恢复”不是可靠判断。接受后要检查真实 Port 或 Train 路线。
+
+Embargo All 会排除自己、Bot 和 teammate，并有 10 秒 cooldown。它能快速切断多个外部关系，但不是对所有玩家的无条件永久封锁。
+
+来源：[EmbargoExecution.ts][embargo-source]、[EmbargoAllExecution.ts][embargo-all]、[PlayerImpl.ts][player-source]与[GameImpl.ts][game-source]。
+
+### 场景四：临时禁运与手动禁运
+
+A 在 `t = 0` 攻击 B。若没有其他变化，B 对 A 的 temporary embargo 预计约在 `t = 300s` 自动结束。
+
+双方在 `t = 120s` 接受联盟，临时禁运立即清除。
+
+如果 B 还设置过 manual embargo，这个持久状态仍会保留。两人已经是 ally，贸易依然可能被阻断。
+
+正确动作是检查实际路线，而不是从 alliance 图标推断 embargo 状态。
+
+## 手动破盟与 30 秒 Traitor 窗口
+
+手动 break 与自然到期走不同路径。若被背叛者仍在线且当前不是 traitor，破盟者会获得 30 秒 traitor 状态。
+
+被背叛的 recipient 会对破盟者记录 `-100` relation。附近且不与 recipient 同队的其他玩家会记录 `-40`。
+
+relation 是引擎状态，不是对真人行为的预测。它不能保证对方一定报复、原谅或改变目标。
+
+更直接的战术风险来自战斗修正。攻击 traitor defender 时，attacker loss 乘 `0.5`。
+
+同一情况下，tile processing cost 乘 `0.8`。这表示推进处理成本更低，不代表固定的完成时间。
+
+路径、Troops、反向攻击和 tick 顺序仍会改变真实推进。不能把 `0.8` 写成保证“快 20% 占领”。
+
+来源：[BreakAllianceExecution.ts][break-source]、[战斗执行工具][combat-source]与[AttackExecution.ts][attack-source]。
+
+### 场景五：30 秒暴露期
+
+你在 `t = 0` 手动破盟，且满足背叛标记条件。traitor 状态持续到约 `t = 30s`。
+
+在此期间攻击你的玩家，获得 `0.5` attacker-loss 与 `0.8` tile-processing-cost 修正。
+
+到 `t = 30s`，traitor 计时结束；窗口内已经损失的领土、兵力和 relation 不会回滚。
+
+真正的问题不是“破盟后能不能赢”，而是“立即行动的价值，是否大于已知的 30 秒暴露和关系代价”。
+
+## 核武会在爆炸前检查破盟
+
+核武破盟有两个互相独立的触发条件：加权 allied territory 超过阈值，或者爆炸会摧毁 allied structure。
+
+当前阈值为 100。inner radius 内每个 allied tile 权重是 `1`，outer ring 内每块权重是 `0.5`。
+
+加权总数必须严格 `> 100`。正好等于 100，不会触发领土计数分支。
+
+结构是另一条独立分支。只要 outer blast radius 内存在会被摧毁的 allied structure，就会破盟，不受 tile threshold 限制。
+
+当发射被判断为会破盟时，执行路径会拒绝相关 pending request、解除 active alliance，并按正常 break 逻辑处理 traitor。
+
+来源：[Config.ts][config-source]、[NukeExecution.ts][nuke-source]与[官方核武测试][nuke-tests]。
+
+### 场景六：严格大于 100
+
+爆炸 inner 区覆盖 101 个 allied tiles，加权总数为 101，领土分支会触发破盟。
+
+正好 100 个 inner allied tiles，加权仍是 100，不满足严格大于。
+
+200 个 outer allied tiles 每块按 `0.5` 计算，总数也是 100，仅靠领土同样不触发。
+
+这些例子只隔离 tile weighting。只要范围内还有结构，结果仍可能被另一条分支改变。
+
+### 场景七：三块地与一座 Port
+
+假设 outer radius 内只有 3 块 allied tiles，加权总数远低于 100。
+
+其中一块地上有会被爆炸摧毁的 allied Port。结构分支成立，联盟仍会解除。
+
+所以瞄准 City、Port、Factory、SAM Launcher 等盟友设施附近时，不能只数领土地块。
+
+## MIRVWarhead 的局部边界
+
+v0.33.7 的 `NukeExecution` 对 `MIRVWarhead` 跳过这里的 alliance-break 检查。
+
+这是局部代码边界。它只支持一句窄结论：该 warhead 执行路径不会在这个位置触发检查。
+
+它不能证明 MIRV carrier、MIRV 的每个阶段或所有后续互动都永远不会破盟。
+
+公开内容应保留窄表述。“MIRVWarhead 跳过此检查”有来源；“整个 MIRV 永不破盟”没有。
+
+team 也要同样谨慎。team membership 不是 alliance，普通 break action 不能拆散队伍。
+
+但这不能推出 teammate 对所有核伤免疫。本文不作任何 teammate 核免疫结论。
+
+## 到期、续约与破盟怎样选
+
+当你不需要立即敌对，又想避开 traitor 路径时，优先比较**自然到期**。
+
+当双方仍需要缓冲区、贸易、恢复时间或共同威胁时，考虑**续约**。在行动前确认两边都已同意。
+
+只有立即行动价值足以覆盖 30 秒 traitor 暴露、relation 变化和友方边界消失时，才考虑**手动破盟**。
+
+当单独切断贸易就能产生价值时，可以考虑**禁运**。它不必与攻击绑定，manual embargo 还可能跨越后续外交变化。
+
+每次外交转换前都要重查核武。接受可能删除符合条件的在途核弹，计划中的落点也可能在爆炸前先解除联盟。
+
+这不是强弱排名。地图拓扑、剩余 Troops、其他邻居和基础设施价值，决定哪一种成本更重要。
+
+## 失败模式与对手反制
+
+### 盟友只是在争取时间
+
+一份联盟能形成缓冲，也给对方恢复和调兵时间。要保留足够防御，应对拒绝、自然到期或之后的破盟。
+
+active alliance 阻止普通陆攻，不代表边界可以永久清空。它始终有计时器。
+
+### 续约没有双向完成
+
+一方同意不会完成续约。对方没有响应时，必须按原到期时间准备。
+
+最后 30 秒应缩短暴露战线、保护设施，并停止新增只能依赖 friendly 状态运转的路线。
+
+### 结盟后贸易仍然断开
+
+最常见原因是 manual embargo。接受联盟只清 temporary embargo。
+
+确认 Port 或 Train 的实际连通状态。在两个方向都允许交易前，不要继续为这条路线投入。
+
+### Traitor 状态吸引第三方
+
+其他玩家可以利用 30 秒 traitor 窗口。更低的攻击损失与 tile processing cost，让你暂时成为成本更低的 defender。
+
+破盟前要检查所有边界，而不只是前盟友。附近玩家也会收到 relation 事件，除非他们与被背叛者同队。
+
+### 核武计算漏掉结构
+
+加权总数 100，只能说明领土分支没有触发。一座 allied structure 位于 outer radius 内，就足以走结构分支。
+
+结构位置和领土覆盖要分开检查。两条条件是 OR，不是 AND。
+
+### 把真人反应写成公式
+
+relation penalty 是游戏状态，不是人类行为模型。真人可能报复、忽略，也可能稍后重新合作。
+
+数字只用于解释引擎后果。对人类反应只能写可能性，不能写必然结果。
+
+## 模式与地图调整
+
+FFA 常有多个开放边界。30 秒 traitor 暴露可能同时被多名附近玩家利用，因此破盟前要检查全图可达性。
+
+Team 模式必须始终区分 ally 与 teammate。队友通过 team membership 成为 friendly，不经过本文的限时联盟生命周期。
+
+紧凑地图中，一次核爆 outer radius 更容易覆盖多座盟友设施。发射前要逐一检查 OR 条件。
+
+大型地图中，五分钟联盟能提供更长的调动纵深；距离也可能降低 relation 变化被立即利用的程度。
+
+贸易密集地图要特别注意 manual embargo，因为 Port 与 Train 的投资周期可能跨越多次联盟周期。
+
+这些调整不会改变任何计时器或倍率，只会改变规则在当前地形中的位置价值。
+
+## FAQ
+
+### 结盟请求持续多久？
+
+20 秒。向同一玩家重发的 cooldown 是从原请求创建时开始计算的 30 秒。
+
+### 默认联盟持续多久？
+
+300 秒，也就是 5 分钟。自定义大厅可设 1–15 分钟；0 会禁用 alliance。
+
+### 联盟会自动续约吗？
+
+不会。双方都要同意。最后 30 秒开放续约窗口，成功后从续约 tick 重置完整时长。
+
+### 自然到期算背叛吗？
+
+不算。自然到期只结束联盟，不会制造手动破盟的 traitor 状态。
+
+### Traitor 持续多久？
+
+满足手动破盟条件时持续 30 秒。攻击 traitor defender 的 loss multiplier 为 `0.5`，tile processing cost multiplier 为 `0.8`。
+
+### 结盟会清除所有禁运吗？
+
+不会。接受只清除双方 temporary embargo；manual embargo 会继续存在并阻断贸易。
+
+### 攻击产生的禁运多久结束？
+
+普通攻击产生的 temporary embargo 约 5 分钟。玩家手动设置的 embargo 是 persistent。
+
+### 正好 100 个加权盟友地块会破盟吗？
+
+不会，领土条件必须严格大于 100。但 outer radius 内一座 allied structure 仍能触发独立结构条件。
+
+### MIRV 是否永远不会破盟？
+
+不能这样写。只核验到 `MIRVWarhead` 分支在 `NukeExecution` 的这个位置跳过检查，不能扩大到整个 MIRV 序列。
+
+### Teammate 是否免疫核伤？
+
+本来源集没有证明这一点。它只证明 team membership 不通过普通 alliance-break 动作解除。
+
+## 下一步阅读
+
+向盟友领土或设施附近规划核打击前，先读[核威慑策略](/zh/strategies/nuclear-deterrence/)。
+
+当外交保护 Port、海岸或共享航线时，继续读[团队海权攻略](/zh/strategies/team-naval-control/)。
+
+需要理解 embargo 会切断什么经济网络，可参考 [Port 与 Factory 决策](/zh/guides/port-vs-factory/)。
+
+如果还不熟悉基础攻击、结盟和读图操作，先回到[第一局教程](/zh/guides/first-match/)。
+
+外交变化让成员暴露时，转到[败局恢复手册](/zh/strategies/recovery-playbook/)；需要持续协调捐赠、目标与后勤时，使用[团队角色攻略](/zh/strategies/team-roles/)。
+
+## 官方来源
+
+- [OpenFrontIO v0.33.7 Release][release]
+- [联盟请求执行][request-source]、[请求对象][request-model]与[请求测试][request-tests]
+- [续约执行][extension-source]、[联盟对象][alliance-model]与[续约测试][extension-tests]
+- [手动破盟执行][break-source]
+- [禁运执行][embargo-source]与 [Embargo All][embargo-all]
+- [玩家 friendly、贸易与禁运状态][player-source]
+- [接受联盟时的状态清理][game-source]
+- [traitor 战斗修正][combat-source]
+- [核武破盟执行][nuke-source]与[官方测试][nuke-tests]
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[request-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceRequestExecution.ts
+[request-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceRequestImpl.ts
+[request-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceRequestExecution.test.ts
+[extension-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceExtensionExecution.ts
+[extension-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceExtensionExecution.test.ts
+[alliance-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceImpl.ts
+[break-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/BreakAllianceExecution.ts
+[embargo-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoExecution.ts
+[embargo-all]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoAllExecution.ts
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[game-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameImpl.ts
+[combat-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/Util.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[config-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts
+[nuke-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NukeExecution.ts
+[nuke-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/core/executions/NukeExecution.test.ts

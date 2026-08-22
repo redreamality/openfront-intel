@@ -66,6 +66,7 @@ const contracts = [
     lang: 'en',
     headingPatterns: [
       /^Direct answer:/i,
+      /^v33\.6 /i,
       /^v33\.5 /i,
       /^v33\.4 /i,
       /^v33\.3 /i,
@@ -80,6 +81,9 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /versioned replay shells/i],
+      ['spectator join', /without taking a player slot/i],
+      ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
+      ['wasteland rot', /wasteland rather than neutral land/i],
       ['managed-lobby boundary', /ordinary Host UI/i],
       ['bulk controls', /x5 ghost badge/i],
       ['same-Silo timing', /same-Silo/i],
@@ -93,6 +97,7 @@ const contracts = [
     lang: 'zh',
     headingPatterns: [
       /^直接答案[：:]/,
+      /^v33\.6 更新[：:]/i,
       /^v33\.5 更新[：:]/i,
       /^v33\.4 更新[：:]/i,
       /^v33\.3 修复[：:]/i,
@@ -107,6 +112,9 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /版本化 replay shell/i],
+      ['spectator join', /不占玩家名额/],
+      ['team Doomsday ladder', /3%、6%、10%、15%、21%、28%.*35%/],
+      ['wasteland rot', /变成 wasteland/],
       ['managed-lobby boundary', /普通 Host UI/i],
       ['bulk controls', /x5 ghost badge/i],
       ['same-Silo timing', /同一 Silo 内逐 tick/i],
@@ -120,6 +128,7 @@ const contracts = [
     lang: 'fr',
     headingPatterns: [
       /^Réponse directe\s*:/i,
+      /^v33\.6\s*:/i,
       /^v33\.5\s*:/i,
       /v33\.4\s*:/i,
       /v33\.3\s*:/i,
@@ -134,6 +143,9 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /shells de replay versionnés/i],
+      ['spectator join', /sans prendre de place de joueur/i],
+      ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
+      ['wasteland rot', /devient du wasteland/i],
       ['managed-lobby boundary', /Host ordinaire/i],
       ['bulk controls', /fantôme x5/i],
       ['same-Silo timing', /même Silo.*tick/i],
@@ -147,6 +159,7 @@ const contracts = [
     lang: 'de',
     headingPatterns: [
       /^Direkte Antwort:/i,
+      /^v33\.6-Update:/i,
       /^v33\.5:/i,
       /^v33\.4-Update:/i,
       /^v33\.3-Fixes:/i,
@@ -161,6 +174,9 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /versionierte Replay-Shells/i],
+      ['spectator join', /ohne einen Spielerplatz zu belegen/i],
+      ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
+      ['wasteland rot', /wird zu Wasteland/i],
       ['managed-lobby boundary', /normalen Host-UI/i],
       ['bulk controls', /x5-Ghost-Badge/i],
       ['same-Silo timing', /desselben Silos.*Tick/i],
@@ -174,6 +190,7 @@ const contracts = [
     lang: 'nl',
     headingPatterns: [
       /^Direct antwoord:/i,
+      /^v33\.6-update:/i,
       /^v33\.5:/i,
       /^v33\.4-update:/i,
       /^v33\.3-fixes:/i,
@@ -188,6 +205,9 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /Versie-replay-shells/i],
+      ['spectator join', /zonder een spelersplek te bezetten/i],
+      ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
+      ['wasteland rot', /wordt wasteland/i],
       ['managed-lobby boundary', /gewone Host-UI/i],
       ['bulk controls', /x5-ghostbadge/i],
       ['same-Silo timing', /dezelfde Silo.*tick/i],

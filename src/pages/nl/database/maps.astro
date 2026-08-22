@@ -6,6 +6,7 @@ import maps from '../../../data/maps.json';
 import { getLangFromUrl, pickI18n } from '../../../i18n';
 
 const lang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
 const order = ['Continental', 'Regional', 'Fantasy', 'Arcade', 'Tournament'] as const;
 const groups = order.map((key) => {
   const cat = maps.meta.categories[key];
@@ -22,6 +23,12 @@ const groups = order.map((key) => {
 <BaseLayout title="Kaartenlijst" description="Alle kaarten van OpenFront.io gegroepeerd per categorie: Continentaal / Regionaal / Fantasy / Arcade / Tournament.">
   <PageHeader eyebrow="DATABASE / MAPS" title={`Kaartenlijst · ${maps.meta.total} kaarten`} lead="Gescand uit de officiële repository onder resources/maps, gegroepeerd op echte geografie en speelstijl." />
   <section class="container-wide py-10">
+    <section class="mb-8 border-l-2 border-cannon-700 pl-4" aria-labelledby="map-guides-entry" data-map-guides-entry>
+      <h2 id="map-guides-entry" class="text-lg font-semibold text-iron-50">Zoek je strategie voor een kaart?</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">
+        Deze database is de volledige kaartenlijst met categorieën. Open de <a class="text-cannon-400 underline hover:text-cannon-300" href={`${base}nl/maps/`}>index met kaartgidsen</a> voor verdieping in terrein, spawns, routes en Compact-keuzes op Svalmel en Dyslexdria.
+      </p>
+    </section>
     <nav aria-label="Categorienavigatie" class="mb-8 flex flex-wrap gap-2">
       {groups.map((g) => (
         <a class="rounded border border-iron-800 px-3 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400" href={`#cat-${g.key.toLowerCase()}`}>

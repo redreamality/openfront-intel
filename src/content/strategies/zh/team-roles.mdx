@@ -1,0 +1,405 @@
+---
+title: 'OpenFront 团队角色攻略：可切换的协作框架'
+description: 用前线、捐赠、目标标记、铁路、海军与核威慑六类可切换职责组织团队，而不是把角色误写成锁定职业。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [team, roles, donations, coordination]
+category: 团队
+difficulty: 进阶
+version: v33
+freshnessSummary: "已于 2026-08-22 对照正式 v0.33.7 tag：覆盖捐赠开关、共同冷却、目标标记时序、友方关系与 Train 站点收益。"
+---
+
+## 直接答案
+
+在 v0.33.7 中，OpenFront 没有锁定职业。把角色当成随局势编辑的分工：前线承受压力，捐赠者把真正稀缺的资源送到瓶颈，目标指挥者集中短时注意力。
+
+铁路、海军与核威慑玩家负责维持跨区支援和响应能力；边界、容量、Gold 或设施变化后，就应重新分配职责。
+
+捐赠受模式开关、接收者 headroom 与 10 秒共同冷却约束。target 只显示 10 秒意图，不共享完整视野。最后核验日期为 2026-08-22。
+
+## 角色是决策框架，不是职业
+
+游戏不会把某人指定成前线、捐赠者、指挥者、后勤、海军或核威慑专员。这六个名称是本站用来组织当前任务的编辑框架。
+
+角色没有被动增益、专属权限或保护位置。同一玩家可以同时承担两项职责，一项职责也可以在下一笔捐赠或下一次攻击前转交。
+
+使用角色只为回答一个问题：谁能以最低机会成本解除团队眼前最大的瓶颈？
+
+固定阵容会忽略棋盘变化。边界打开后，捐赠者可能立刻变成前线；关键水域失去价值后，海军玩家可能转为铁路后勤。
+
+源码能证明动作、计时和资源边界，不能证明固定六人阵容、固定捐赠顺序或某种角色配比具有稳定胜率。
+
+## 先分清 friendly、teammate 与 ally
+
+引擎中的 **friendly（友方）** 包含自己、same team 玩家和 active alliance 玩家。普通陆地攻击不能以 friendly 为目标。
+
+**teammate（队友）** 是模式指定的同队玩家；**ally（盟友）** 是处于有效限时 alliance 的玩家。
+
+两者会在部分检查中合并进入 friendly，例如捐赠资格，但它们不是同一种状态。
+
+team membership 不是限时 alliance。alliance 可以到期、续约或主动破除，所以建立在盟友之上的路线与支援假设会在局内改变。
+
+这一区别也影响 Train 收益：当前代码中 ally 站点与 teammate 站点的基础 payout 不同。
+
+来源：[PlayerImpl.ts][player-source]、[AttackExecution.ts][attack-source] 与 [TrainStation.ts][train-source]。
+
+## 分配捐赠者前，先确认模式开关
+
+v0.33.7 的公开 playlist 默认值如下。自定义房间仍可更改对应能力开关。
+
+| 公开模式 | Donate Gold | Donate Troops | 计划含义 |
+| --- | --- | --- | --- |
+| Team | 开 | 开 | 默认可在 Gold 与 Troops 之间选择 |
+| FFA | 关 | 关 | 仅有 alliance 默认不能开启捐赠 |
+| Ranked 1v1 | 关 | 关 | 除非自定义规则不同，否则按无转移规划 |
+| Ranked 2v2 | 开 | 开 | 默认可使用两类捐赠 |
+
+不要写“所有盟友始终都能捐赠”。发送者与接收者必须存活且属于 friendly；Human 还要通过当前房间的对应配置开关。
+
+也不能写“FFA 永远不能捐赠”。公开 FFA 默认关闭，但自定义房间可能采用不同设置。
+
+来源：[MapPlaylist.ts][playlist-source]、[DonateGoldExecution.ts][gold-source] 与 [DonateTroopExecution.ts][troop-source]。
+
+## 建立一张动态团队状态表
+
+分工前先记录六项状态。表格必须能在边界破裂、Port 丢失或大额转移后快速更新。
+
+| 问题 | 有用信号 | 可能切换的角色 |
+| --- | --- | --- |
+| 谁在承受陆地压力？ | 来袭、边界长度、储备 | 前线 / 锚点 |
+| 谁还能接收 Troops？ | 当前 Troops 与 `maxTroops` headroom | 捐赠 / 经济 |
+| 当前应集中谁？ | 推进、暴露设施、登陆 | target 指挥 |
+| 哪条网络仍会结算？ | City 或 Port 站点、路线、embargo | 铁路 / 贸易后勤 |
+| 哪片水域改变移动？ | 运输线、Port、隘口 | 海军支援 |
+| 谁能回应核威胁？ | Gold、Silo、SAM 压力、暴露程度 | 核威慑 |
+
+这是一种编辑性协作工具，不是游戏内置面板。它的价值是阻止昨天的分工在任务已经消失后继续占用资源。
+
+接收者接近部队上限、路线断裂、标记消失或敌人转向支援者时，都应重查一次。
+
+## 角色一：前线或锚点
+
+前线承担当前陆地压力，并报告什么支援能够改变战斗。它的产出是稳定关键接触面，不是追求全队最大领土。
+
+报告来袭方向、可用 Troops、接收 headroom 和一个近期目标。“全部发来”会掩盖可能截断转移的部队上限。
+
+只有一个敌人是当前重点时再发 target，但不要假设标记会显示对方的全部单位、Gold 或战争迷雾信息。
+
+**切换信号：**边界缩短、相邻敌人改变，或 Doomsday 风险使其他区域的领土恢复更紧急时，缩小或转交前线职责。
+
+**对手反制：**同时压迫两条边界，或威胁支援路线。前线必须重新判断哪一个接触面真正决定局势。
+
+## 角色二：捐赠者或经济位
+
+捐赠者要问未来 10 秒内 Gold 与 Troops 哪一个能解除更大的瓶颈，而不是把所有可见盈余机械转出。
+
+Troop donation 受接收者剩余 `maxTroops` 容量和发送者实际可扣除数量限制。Gold donation 受发送者可用余额限制。
+
+默认 Troop donation 请求量是发送者当前 Troops 的三分之一，但实际到账可能更少。这个默认参数不是推荐的固定持兵比例。
+
+同一发送者向同一接收者捐 Gold 或 Troops，共用一条 10 秒冷却。很小的一笔转移也可能挡住真正紧急的资源。
+
+**切换信号：**接收者接近 cap、前线已经稳定，或捐赠者自己成为目标并需要保留兵力时，停止或转交职责。
+
+**对手反制：**直接压迫捐赠者，或让多个接收者同时求援。共同冷却会迫使团队排序。
+
+## 角色三：target 指挥者
+
+target 指挥者用短时标记说明当前唯一优先级。客户端会合并显示 teammate 与 ally 的标记，但它仍只是协作信号。
+
+一个 target 显示 10 秒，同一发送者的标记能力有 15 秒 cooldown。
+
+因此旧标记消失后，原发送者约有 5 秒仍不能重新标记。语音、ping 或玩家已有的可见信息要承担这段空窗的协调。
+
+不要把 target 当成命令。它不会强制攻击、转移控制权，也不会共享目标的完整隐藏情报。
+
+**切换信号：**冷却与新威胁冲突，或另一名玩家更清楚相关前线时，轮换指挥者。
+
+**对手反制：**同时制造两个可信威胁，或在被标记后撤退。团队不应自动追逐已经过期的优先级。
+
+## 角色四：铁路与贸易后勤
+
+后勤位维持 Factory、City 与 Port 之间能够实际结算的连接。路线所有权和关系状态与铺设线路同样重要。
+
+在 1x multiplier 且无长路线 stop penalty 时，ally 站点给 Train owner 35,000 基础 Gold，也给外方 station owner 35,000。
+
+teammate 站点给双方各 25,000；other 玩家站点同样各 25,000；self 站点只为同一玩家记录一笔 10,000。
+
+外方站点的双方各得完整数值，不是平分一笔奖金。实际结果仍会受到 Gold multiplier 与长路线 stop penalty 影响。
+
+不要声称 teammate 路线基础收益最高。v0.33.7 当前分支把 35,000 给 ally 站点。
+
+**切换信号：**路线被切断、embargo 阻止贸易、站点换手，或守线成本超过当前支援价值时，调整角色。
+
+**对手反制：**夺取站点、切断狭窄连接或改变外交状态。应重新计算活跃网络，而不是保卫已经失效的历史路线。
+
+## 角色五：海军支援
+
+海军支援只保护会改变团队移动的水路。它负责护航 Transport、阻止登陆和保护有用 Port，而不是追求 Warship 数量。
+
+持续确认水域是否仍连接重要前线。战斗转为纯陆战或 Port 丢失后，舰船可能不再解除当前瓶颈。
+
+登陆窗口要同时通知 target 指挥者与前线。若陆地 Troops 没准备好，成功护航也可能无法换来领土。
+
+**切换信号：**敌人不再使用航线、没有有效 Port，或陆地职责能产生更即时价值时，转出海军位。
+
+**对手反制：**佯攻一条航线、攻击支撑海岸，或把舰队引离 Port。海军应保卫有效路线，而不是抽象舰队分数。
+
+## 角色六：核威慑
+
+核威慑位保存足够 Gold、Silo 使用权和受保护设施，以回应战略威胁。这是响应能力，不是看到任何目标就发射的许可。
+
+报告真实可用的响应和暴露的设施。不要为了低价值目标耗尽储备，因为更紧急的反制可能随后出现。
+
+捐赠会消耗防御或建设所需 Gold，因此该角色要在转移前与捐赠者协调，并持续确认 ally 状态是否仍有效。
+
+**切换信号：**Silo 丢失、SAM 压力改变可行路线、核能力被禁用，或另一玩家拥有更安全设施时，重新分配职责。
+
+**对手反制：**压迫设施、分散高价值目标，或迫使储备同时回应两处威胁。威慑是能力，不是控制保证。
+
+## 捐赠决策：接收者、容量、资源、冷却
+
+每次紧急转移前依次回答四个问题。这是诊断顺序，不是固定捐赠顺序。
+
+1. **接收者：**目标玩家是否存活并属于 friendly？当前房间是否启用对应捐赠？
+2. **容量：**还剩多少 Troop headroom？发送者实际能扣除多少？
+3. **资源：**Troops 能否立刻守线，还是 Gold 能解锁更重要的建筑、上限或响应？
+4. **冷却：**该发送者过去 10 秒是否已向同一接收者捐过任一资源？
+
+资源优先级属于战术判断；冷却、headroom、存活、friendly 状态与配置开关是引擎约束。
+
+不同捐赠者维护各自记录，不能把它扩写成全队共同冷却；但同一发送者也不能交替 Gold 与 Troops 来绕过接收者冷却。
+
+Troop 转移后要确认实际到账。合法请求仍可能因 headroom 或发送者容量而被截断。
+
+### 场景一：headroom 截断部队捐赠
+
+假设接收者 `maxTroops = 200,000`，当前持有 `185,000` Troops。可用容量为：
+
+`headroom = 200,000 - 185,000 = 15,000`
+
+即使请求 30,000，在此假设下实际最多只会收到 15,000。
+
+转移后，该发送者向这个接收者捐 Gold 与 Troops 都进入同一条 10 秒冷却。
+
+结论不是“总要先捐部队”，而是“先查容量，再决定哪种资源值得占用共同窗口”。
+
+来源：[DonateTroopExecution.ts][troop-source]、[PlayerImpl.ts][player-source] 与[官方捐赠测试][donation-tests]。
+
+### 场景二：小额转移阻塞紧急 Gold
+
+假设前线既需要少量 Troops，也需要 120,000 Gold 执行团队认为更紧急的行动。
+
+若一名捐赠者先送小额 Troops，他不能紧接着向同一接收者送 Gold；共同冷却持续 10 秒。
+
+另一名合格捐赠者可能有独立记录，但仍要满足余额、friendly 与模式开关条件。
+
+团队应比较未来 10 秒哪种资源能解除更大瓶颈。源码没有给出适用于所有局面的固定先后顺序。
+
+来源：[DonateGoldExecution.ts][gold-source]、[DonateTroopExecution.ts][troop-source] 与 [Donate.test.ts][donation-tests]。
+
+## target 时序：显示 10 秒，发送者锁定 15 秒
+
+把 target 理解成短时意图包：“现在集中注意这里”，而不是“游戏共享了此玩家的全部情报”。
+
+在 `t = 0` 标记敌人后，标记约显示到 `t = 10s`。
+
+同一发送者的 cooldown 约到 `t = 15s` 才结束，所以原发送者重新标记前会出现约 5 秒空窗。
+
+### 场景三：标记空窗
+
+假设敌人在 `t = 9s` 撤退，而更大威胁在 `t = 11s` 出现。
+
+旧标记已经消失，但原指挥者要到约 `t = 15s` 才能再次标记。另一名指挥者或游戏外沟通必须传递变化。
+
+这说明职责应可轮换，不证明每队都需要永久指挥者。当前信息最清楚的可用玩家可以接管下一个窗口。
+
+客户端会合并显示 ally 与 teammate 的标记，但不会合并战争迷雾、单位细节、Gold 余额或自动攻击。
+
+来源：[TargetPlayerExecution.ts][target-source] 与 [PlayerView.ts][view-source]。
+
+## Train 站点：关系改变基础 payout
+
+铁路支援要按能够正常结算的站点评估，不能只看总轨道长度。外方站点完成结算时，双方各得关系对应的基础金额。
+
+### 场景四：ally 与 teammate 站点
+
+假设 Gold multiplier 为 1x，且没有长路线 stop penalty。
+
+teammate 站点让 Train owner 收到 25,000，station owner 也收到 25,000。
+
+ally 站点让 Train owner 收到 35,000，station owner 也收到 35,000。
+
+在这项窄对比中，ally 站点给双方各多 10,000 基础 Gold。
+
+这不证明 alliance 全面优于 team。它只描述当前 Train payout 分支；alliance 时长、embargo、路线安全和团队目标仍是独立问题。
+
+来源：[TrainStation.ts][train-source]。
+
+### 场景五：other 站点并非零收益
+
+在同样假设下，other 玩家站点给 Train owner 与 station owner 各 25,000。
+
+贸易许可仍然重要。任一方向存在 embargo 都可能使计划连接无法使用，即使 payout 表中存在 other 分支。
+
+不要把这个数字写成“任何可见外方站点都一定结算”。必须检查外交状态与实时路线。
+
+## 不依赖固定建造顺序的协作循环
+
+状态变化时做一次简短复盘。以下顺序只是讨论工具，不是引擎计时器或强制战术脚本。
+
+### 一、说清压力
+
+找出下一项可能制造不可逆损失的攻击、登陆、断路、容量短缺或核威胁。
+
+只有两项任务重要时，不要强行分配六个角色。空标签会浪费注意力，也会掩盖当前风险其实无人负责。
+
+### 二、说清瓶颈
+
+在 Troops、Gold、headroom、目标清晰度、路线、水路与受保护火力中选出真正限制。
+
+这样可以避免用更多 Troops 解决部队已满的问题，也能避免舰队继续守护已不承担移动的水域。
+
+### 三、指定一名负责人和一个切换信号
+
+负责人执行下一项有价值动作。切换信号说明任务何时结束：cap 达到、标记消失、边界关闭、路线断裂或设施丢失。
+
+没有切换信号，临时职责就会固化成职业，并在价值消失后继续消耗资源。
+
+### 四、核对结果
+
+检查实际到账、标记状态、站点结算、安全渡海或保留的响应能力。尝试动作不等于团队结果已经完成。
+
+## 模式与地图调整
+
+### 公开 Team 与 Ranked 2v2
+
+Gold 与 Troop donation 默认开启，但共同接收者冷却与 headroom 检查仍然存在。
+
+可转移资源更多，只代表协调选项增加；捐赠者若有暴露边界，仍需为自己保留实际响应能力。
+
+### 公开 FFA 与 Ranked 1v1
+
+两类捐赠默认关闭。alliance 会把玩家变为 friendly，但仅有友方状态不能覆盖已关闭的 Human donation 设置。
+
+自定义房间可更改开关。不要把公开默认值机械套用到所有私人对局。
+
+### 大陆地图
+
+多数目标由陆路相连时，前线与铁路职责可能更重要。水域不改变移动时，应缩小海军支援。
+
+长连接会制造更多可切断点。后勤应保卫丢失后会改变真实结算的站点或桥接处，而不是每一段装饰性轨道。
+
+### 海峡与群岛地图
+
+单一渡口连接团队时，海军支援可能成为核心。护航成功后，前线仍要有足够 Troops 把窗口转成陆地收益。
+
+决定性 Port 丢失后要立刻重评。继续资助无法抵达的海军任务，就是角色惯性。
+
+### 禁用核武或 SAM
+
+禁用核武时，核威慑职责没有正常任务，应把 Gold 与注意力转给仍存在的瓶颈。
+
+核武开启但 SAM 禁用时，应改用设施分散和暴露管理；不要围绕房间禁止的发射器设计保护角色。
+
+## 失败模式与对手反制
+
+### 把职责当成固定职业
+
+捐赠者在自己成为暴露边界后仍持续转出资源，或水域失去价值后海军仍继续造船。
+
+为每项职责写清切换信号。角色描述的是下一项责任，不是玩家整局身份。
+
+### 向已经满员的接收者捐赠
+
+团队未检查 `maxTroops` headroom 就请求大额转移。数量被截断，发送者对该接收者的 10 秒共同窗口仍被占用。
+
+先读容量；若 Gold 能解除另一个瓶颈，就在提交任一捐赠前比较。
+
+### 重复或过期 target
+
+多人同时标记不同敌人，或局势改变后所有人仍追逐旧标记。
+
+每个可见窗口只维护一个当前优先级，并把 15 秒发送冷却和对手移动都当成重评理由。
+
+### 把标记误当共享视野
+
+团队把 target 理解成完整情报，并基于从未共享的单位或资源信息投入兵力。
+
+应说明标记目标的可观察理由。代码支持共同显示，不支持完整共享战争迷雾。
+
+### 错估铁路关系
+
+团队误以为 teammate 站点支付 35,000，或误以为外方双方平分一笔奖励。
+
+使用真实基础表：ally 各 35,000；teammate 与 other 各 25,000；self 只记 10,000。再计算 multiplier 与 penalty。
+
+### 对手攻击支援网络
+
+对手可以压迫捐赠者、切断铁路、夺取 Port、分割前线或威胁核设施。
+
+这些动作不会自动击败框架，但会迫使团队更新瓶颈并转移职责。
+
+## 团队角色 FAQ
+
+### OpenFront 会锁定玩家角色吗？
+
+不会。这六类角色只是编辑性协作框架。引擎提供动作与关系，不提供固定职业或角色增益。
+
+### 每个 ally 都能收到捐赠吗？
+
+不一定。双方必须存活且属于 friendly，Human donation 也必须开启。公开 FFA 与 Ranked 1v1 默认关闭两类捐赠。
+
+### Gold 与 Troop donation 有独立冷却吗？
+
+没有。同一发送者向同一接收者捐 Gold 或 Troops，会使用同一条 10 秒捐赠记录。
+
+### Troop donation 能超过 `maxTroops` 吗？
+
+不能。转移受接收者 headroom 与发送者容量限制，请求量可能不会全额到账。
+
+### target 会共享完整视野吗？
+
+不会。ally 与 teammate 的标记可显示 10 秒，但不会暴露完整迷雾、单位与资源，也不会强制攻击。
+
+### 为什么标记消失后还不能重新标记？
+
+显示时间是 10 秒，同一发送者冷却为 15 秒，因此存在约 5 秒空窗。
+
+### teammate Train 站点支付 35,000 吗？
+
+不支付。基础分支给双方各 25,000；ally 站点给双方各 35,000。multiplier 与 stop penalty 会改变实际收入。
+
+### 有最佳固定团队阵容吗？
+
+没有一手来源能证明。只分配当前边界、网络、容量与威胁真正需要的职责，并在切换信号出现时调整。
+
+## 来源与下一步阅读
+
+当前版本边界是正式 [OpenFront v0.33.7 Release][release]。下列源码和测试链接都固定到同一 tag。
+
+- [PlayerImpl.ts][player-source]：friendly、捐赠记录、贸易许可与 Troop 上限。
+- [MapPlaylist.ts][playlist-source]：公开模式的捐赠默认值。
+- [DonateGoldExecution.ts][gold-source] 与 [DonateTroopExecution.ts][troop-source]：转移资格与数量边界。
+- [TargetPlayerExecution.ts][target-source] 与 [PlayerView.ts][view-source]：标记时序，以及 ally / teammate 合并显示。
+- [TrainStation.ts][train-source]：ally、teammate、other 与 self 站点 payout。
+- [官方捐赠测试][donation-tests]与[联盟捐赠测试][alliance-donation-tests]：共同冷却与 friendly 边界。
+
+海军角色继续阅读[团队海权攻略](/zh/strategies/team-naval-control/)，战略火力阅读[核威慑](/zh/strategies/nuclear-deterrence/)，网络细节阅读[贸易机制](/zh/mechanics/trade/)。
+
+把 ally 路线当成固定 team 基础设施前，先阅读[联盟与背叛](/zh/mechanics/alliances/)。
+
+队友已经崩盘时，先按[败局恢复手册](/zh/strategies/recovery-playbook/)止损；需要管理联盟、禁运与退出时，再读[外交与背叛](/zh/strategies/diplomacy-betrayal/)。
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[gold-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts
+[troop-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts
+[playlist-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts
+[target-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TargetPlayerExecution.ts
+[view-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/view/PlayerView.ts
+[train-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts
+[donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Donate.test.ts
+[alliance-donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceDonation.test.ts

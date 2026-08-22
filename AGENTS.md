@@ -13,6 +13,8 @@ OpenFront.io 多语种（en/zh/fr/de/nl）情报与攻略站，Astro + Tailwind 
 
 ## 产品事实
 
+- 撰写面向玩家的长文时，以玩法、结论和玩家可理解的说明为主；源码只作为事实核验依据，正文尽量避免大段或密集引用源码。
+- 公开一级内容栏目一旦建立独立索引路由（例如 `/maps/`），必须同步提供五语首页栏目入口并用 e2e 保护；不能只出现在导航、数据库或相邻页面中。
 - Footer 的版本来自 `src/data/_meta.json.upstreamVersion`；`src/i18n/ui.ts` 五语 `footer.copyright` 必须保留 `{version}`，禁止写死版本号，也不保留 “made with Astro”。
 - `src/content/changelog/{lang}/vXX.mdx` 是 OpenFront 游戏版本笔记。只以 `openfrontio/OpenFrontIO` 正式 GitHub Release 的真实正文为依据；`TEST` 占位不能生成补丁说明。
 - changelog frontmatter 沿用 `version: vXX`、`category: Release Notes`（zh 为 `版本笔记`）、`tags: [changelog, balance, features]`。

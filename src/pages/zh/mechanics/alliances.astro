@@ -5,6 +5,7 @@ import Callout from '../../../components/Callout.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const alliance = formulas.groups.alliance;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="同盟与背叛" description="OpenFront.io 同盟时长、续期机制、自动禁运、背叛减益详解。">
@@ -64,5 +65,6 @@ const alliance = formulas.groups.alliance;
       <li>三人同盟中你掉队，留下来必死——背叛大盟友抢走第三方的领土补充。</li>
     </ul>
     <p>其余情况，<strong>等同盟自然到期不续</strong>比背叛更划算：没有减益、没有自动禁运，只是不再续约。</p>
+    <p>面对 Nation 时，继续阅读 <a href={`${base}zh/mechanics/nations/`}>Nation AI 决策指南</a>，了解 v0.33.7 的结盟与背叛候选规则。</p>
   </article>
 </BaseLayout>

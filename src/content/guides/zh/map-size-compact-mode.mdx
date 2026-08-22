@@ -1,0 +1,224 @@
+---
+title: OpenFront 地图尺寸与 Compact Map 完整指南
+description: 解释 OpenFront 最大地图的不同口径、Compact Map 实际加载方式、公开大厅人数计算，以及何时应选 Normal 或 Compact。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [地图, compact-map, 玩家人数]
+category: 教程
+difficulty: 中级
+version: v33
+freshnessSummary: "已按正式 v33.7 地图资产与源码核验：Sol 的完整网格最大，The Box 的可通行陆地最多，Compact 实际加载 map4x.bin。"
+---
+
+## 直接答案
+
+OpenFront 没有一个适用于所有问法的“最大地图”。在正式 **v33.7** 中，**Sol** 的完整网格最大：**4,432 x 2,528 = 11,204,096 格**。**The Box** 的可通行陆地最多：**4,194,304 格**，因为它的 2,048 x 2,048 网格全部是陆地。
+
+两个答案衡量的是不同对象。完整网格包含水域与不可通行背景；可通行陆地更接近能被玩家占领的空间，也是服务器计算公开大厅人数的输入。
+
+**Compact Map** 不是裁掉地图外围，也不是把镜头拉近。游戏会加载同一张地图的 `map4x.bin`：宽、高各减半，因此实际游戏网格只有四分之一；小地图改用 `map16x.bin`。
+
+公开 Compact 大厅还会把抽中的人数档位降到 25%，并调整 bots、默认 Nations 与固定坐标。它改变的是整局空间尺度，不只是画面看起来更小。
+
+## “最大地图”有哪三种口径
+
+比较之前，先确定玩家真正想知道什么。
+
+| 口径 | v33.7 第一名 | 精确数值 | 能说明什么 |
+| --- | --- | ---: | --- |
+| 完整网格 | Sol | 11,204,096 | 包含水域与背景的运行规模 |
+| 可通行陆地 | The Box | 4,194,304 | 可占领空间与公开人数输入 |
+| 横向跨度 | Passage | 6,000 x 400 | 最长的横向长条 |
+| 纵向跨度 | Las Vegas Strip | 2,036 x 4,428 | 最长的纵向长条 |
+| Giant World Map | 网格第 3、陆地第 11 | 8,002,384 网格、2,335,403 陆地 | 名称不是动态排名 |
+
+长走廊和方形全陆图可能有相近格数，却会产生完全不同的对局。长宽比决定主要移动方向；水域分割陆军；不可通行地形可能占据很大画面，却不能成为领土。
+
+不要把 tile 换算成平方公里。OpenFront manifest 只有离散网格尺寸，没有统一现实比例与投影。游戏中的一格不是固定现实距离。
+
+本站的[地图数据库](/zh/database/maps/)适合查名称和地图清单，但目前不包含尺寸与拓扑；需要判断实际规模时，以本指南的三个口径为准。
+
+## Compact Map 实际加载什么
+
+当前每张地图的 manifest 都提供三档地形。
+
+| 对局设置 | 实际游戏地形 | 小地图地形 | 固定坐标 |
+| --- | --- | --- | --- |
+| Normal | `map.bin` + `manifest.map` | `map4x.bin` | 原坐标 |
+| Compact | `map4x.bin` + `manifest.map4x` | `map16x.bin` | x/y 除以 2 |
+
+v33.7 的 117 张地图中，`map4x` 宽、高都严格等于完整图的一半。因此总网格严格等于四分之一。
+
+可通行陆地只会接近四分之一，不保证精确。下采样会改变细海岸和小岛；正式 v31 Release 还明确说明 Compact 地图移除了小岛。
+
+所以，“总网格是 25%”是精确事实；“每条海岸与每块陆地都机械除以 4”则是错误说法。
+
+## 两张已核验的 Compact 对照
+
+Svalmel 与 Dyslexdria 清楚展示了网格缩放和陆地保留率的区别。
+
+| 地图 | Normal 网格 / 可通行陆地 | Compact 网格 / 可通行陆地 | 陆地保留率 |
+| --- | ---: | ---: | ---: |
+| Svalmel | 1,700 x 1,580 / 1,011,623 | 850 x 790 / 248,032 | 24.52% |
+| Dyslexdria | 3,308 x 1,440 / 2,103,254 | 1,654 x 720 / 508,102 | 24.16% |
+
+Svalmel 从 Normal 切到 Compact 时，陆地连通块由 26 降到 24。Dyslexdria 的碎片更多，连通块由 224 降到 142。
+
+主要战区仍然可辨认，但外围小岛和精细海岸减少。理解 Compact 最稳妥的方式是：保留同一战略骨架，缩短空间尺度，同时牺牲部分边缘细节。
+
+阅读[地图战略指南](/zh/guides/map-strategy/)，可查看两张图的连通块分析，以及如何把这些数字转化为开局判断。
+
+## 公开大厅人数怎样计算
+
+OpenFront 先读取完整地图的 `map.num_land_tiles`。每 100 万可通行陆地按 50 人计算 base，四舍五入到最接近的 5，最低为 5。
+
+服务器再生成三个候选档：base 的 100%、75% 和 50%，每档仍按 5 取整。普通公开 FFA 选择三档的概率分别为 30%、30% 和 40%。
+
+Compact 对已选档位执行 `floor(档位 x 0.25)`，最低为 3，之后再套最终 125 人性能上限。它不会用 `map4x.num_land_tiles` 重新算一遍。
+
+```text
+base = 按 5 取整（可通行陆地 / 1,000,000 x 50）
+Normal FFA = base / 75% / 50% 三档
+Compact FFA = floor（抽中的 Normal 档 x 0.25）
+```
+
+### Svalmel 人数示例
+
+Svalmel 有 1,011,623 个可通行陆地格。Normal 公开 FFA 候选是 **50 / 40 / 25** 人，Compact 候选是 **12 / 10 / 6** 人。
+
+manifest 中的“5 个 Nations”不是 5 个真人槽位。AI Nation 配置与大厅人数属于两套逻辑。
+
+### Dyslexdria 人数示例
+
+Dyslexdria 有 2,103,254 个可通行陆地格。Normal 公开 FFA 候选是 **105 / 80 / 55** 人，Compact 候选是 **26 / 20 / 13** 人。
+
+Dyslexdria 定义了 82 个主 Nations，但真人容量仍按陆地公式计算。不能通过 Nation 名单预测大厅人数。
+
+### 为什么实际大厅可能是别的数字
+
+Team 会先提高抽中的基础档位，再根据 Duos、Trios、Quads 或固定队数调整为可整除人数。Humans vs Nations 返回的是人类一侧槽位。
+
+Crowded 另有特殊分支。符合条件的小图可以使用 125 人；Crowded 与 Compact 同时开启时为 60 人。
+
+因此，某一局应以大厅显示为最终事实。公式解释候选范围，不能覆盖房间里已经确定的设置。
+
+## Compact 还会改变什么
+
+Compact 会同步调整默认负载，避免四分之一网格仍塞入完整图的人口。
+
+- 普通公开轮换在 Compact 使用 **100 bots**，Normal 使用 400。
+- 公开 default Nations 只取 manifest 数量的 25%，至少 1 个。
+- Svalmel 从默认全部 5 个变为 Compact 的 1 个。
+- Dyslexdria 从默认全部 82 个变为 Compact 的 20 个。
+- 固定 Nation、additional Nation、custom Tribe 与团队出生区域坐标会按小网格缩放。
+- 如果团队 Compact 无法保证至少两队、每队至少两人，服务器会排除该组合。
+
+Host 与单机界面会尽量保留手动值。只有 bots 仍是默认 400 时，切 Compact 才自动变为 100；用户已修改的非默认数量不会每次都被强制除以四。
+
+做实验时必须记录这一边界。两个房间都开 Compact，却可能因为 bots、Nations、队伍、免疫或起始金币不同而产生完全不同的压力。
+
+## 哪些情况适合 Normal
+
+当地图细节本身就是训练目标时，选 Normal。
+
+- 想在多条前线接触前留出更多读图时间。
+- 小岛、细半岛或次级渡口对计划重要。
+- 团队训练需要让不同小队拥有独立路线。
+- 想比较官方完整分辨率拓扑。
+- 真人足够多，不会让大图出现长时间空区。
+
+Normal 不自动等于慢。狭长地图仍会把压力集中在一个方向，高人数档也会提前接敌。
+
+## 哪些情况适合 Compact
+
+当小队希望保留地图身份、同时减少空间时，选 Compact。
+
+- 人数少，但仍希望较快出现有效边界。
+- 想练边界控制、快速应变或团队沟通。
+- 完整图的外围小岛会干扰训练目标。
+- 想保留主要大陆，同时缩短移动尺度。
+- 能接受细海岸与小岛消失。
+
+Compact 也不保证短局。联盟、谨慎玩家、Water Nukes、队伍与资源设置仍可能把对局拖长。
+
+## 开房前五项核对
+
+决定开关之前，回答五个问题：
+
+1. 实际会有多少真人加入？
+2. 训练是否依赖小岛或细陆桥？
+3. Nations 与 bots 保持默认，还是手动设置？
+4. 是 FFA、Team、Humans vs Nations，还是 Crowded？
+5. 双方是否统一了出生、免疫和起始资源？
+
+测试开局时，把五项一起记录。若人数和 Nations 也悄悄变化，Normal 结果就不能与 Compact 结果直接比较。
+
+[模式指南](/zh/mechanics/modes/)解释普通 Host 能设置哪些控件；[第一局指南](/zh/guides/first-match/)负责出生形状与第一轮扩张。
+
+## 常见误区
+
+### 把 Sol 写成所有口径的最大
+
+Sol 的完整网格第一，但 v33.7 manifest 只有 877,713 个可通行陆地格。The Box 的可通行陆地接近它的五倍。
+
+每次写“最大”，都要在同一句标明口径。
+
+### 把 Compact 当成裁图
+
+Compact 加载整张地图的低分辨率预制地形，不是只保留中心四分之一。
+
+宏观地理仍在，细节会改变。
+
+### 把所有数字直接除以四
+
+总网格可以精确除以四，海岸、小岛与可通行陆地不能。公开人数还会在乘 25% 后向下取整。
+
+需要精确值时应查 manifest 与服务器结果。
+
+### 用 Nation 数预测真人
+
+Nations 是 AI 实体，真人上限来自大厅配置与可通行陆地。
+
+Svalmel 的 5 与 Dyslexdria 的 82 描述 NPC 集合，不是固定玩家数。
+
+### 认为 Compact 一定更拥挤
+
+地图变小的同时，公开人数也会减少。实际相对压力仍由档位、出生、bots、Nations 与队伍决定。
+
+更准确的说法是“空间尺度更短”，而不是“必定速攻”。
+
+## FAQ
+
+### OpenFront 最大地图是哪张？
+
+按完整网格是 Sol，共 11,204,096 格；按可通行陆地是 The Box，共 4,194,304 格。讨论可占领空间和公开人数时，应使用第二个答案。
+
+### Compact Map 到底做什么？
+
+它加载 `map4x.bin`，让宽高各减半、总网格降到四分之一；同时改变小地图层、固定坐标、公开人数档和若干默认人口。
+
+### Compact 会删掉地图的一部分吗？
+
+它保留整张轮廓的低分辨率版本，不会只截取一个区域。但小岛和细海岸可能在下采样中消失。
+
+### Compact 是否精确等于 Normal 的 25%？
+
+总网格精确等于 25%，可通行陆地不精确。Svalmel 保留 24.52%，Dyslexdria 保留 24.16%。
+
+### Giant World Map 为什么不是第一？
+
+它在 v33.7 按完整网格排第 3，按可通行陆地排第 11。“Giant”是名称，不是实时排名规则。
+
+### 私人 Compact 房有固定人数上限吗？
+
+不能只从地图推出一个固定数字。该局应以 Host 配置和大厅实际显示为准。
+
+## 来源与下一步阅读
+
+- [OpenFront v33.7 正式 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v33.7 地图加载源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [v33.7 公开地图轮换与人数公式](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [v33.7 Nation 创建规则](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)
+- [v29 正式 Release：动态玩家人数](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.29.0)
+- [v31 正式 Release：Compact 移除小岛](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- 继续阅读[如何读懂任意 OpenFront 地图](/zh/guides/map-strategy/)。

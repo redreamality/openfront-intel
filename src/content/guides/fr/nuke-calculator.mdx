@@ -1,0 +1,321 @@
+---
+title: "Calculateur nucléaire OpenFront : Gold, prix MIRV, Silos et portée SAM"
+description: "Calculez le coût des armes nucléaires OpenFront, l'échelle globale des MIRV, les emplacements Silo et SAM prêts, la portée exacte et un écart de saturation bien délimité."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [calculateur, nucléaire, mirv, sam, missile-silo]
+category: Tutoriel
+difficulty: Avancé
+version: v33
+freshnessSummary: "Vérifié jusqu'à la version formelle v0.33.7. Les formules v33 de coût, de Silo et de SAM citées dans le code v0.33.6 n'ont pas changé en v0.33.7."
+---
+
+import NukeCalculator from '../../../components/NukeCalculator.astro';
+
+## Réponse directe : que calcule cet outil ?
+
+Le calculateur fournit l'arithmétique exacte des coûts Gold ordinaires, de la série MIRV globale, des tubes Missile Silo prêts, des tirs SAM prêts et de la portée SAM par niveau.
+
+Il affiche aussi `projectiles éligibles - tirs SAM prêts`. Cette dernière valeur mesure une pression théorique ; elle ne prédit pas le nombre d'impacts.
+
+Sans carte en direct et sans état complet, l'outil ne peut pas simuler exactement les trajectoires, les interceptions, le nombre d'ogives MIRV, les pertes de terrain ou les victimes.
+
+Utilisez-le pour tester un budget et une capacité avant le tir. Ne l'utilisez pas pour promettre une percée ou une défense parfaite.
+
+La frontière joueur formelle est [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Elle n'a pas modifié les formules nucléaires v33 vérifiées dans le code v0.33.6.
+
+<NukeCalculator />
+
+## Bien remplir le groupe de frappe
+
+Commencez par le Gold disponible. Le calculateur retire tous les Atom, Hydrogen et MIRV prévus.
+
+Saisissez le nombre de MIRV déjà lancés **dans toute la partie**. Il ne s'agit pas seulement de vos propres tirs.
+
+Indiquez ensuite les quantités d'Atom, Hydrogen et MIRV à comparer. Les MIRV sont tarifés successivement, car chaque succès déplace l'échelle partagée.
+
+Pour les lanceurs, donnez le niveau et le nombre d'emplacements encore en recharge. Le niveau décrit la capacité, pas le chargement actuel.
+
+Dans l'écart théorique, comptez uniquement les projectiles que le SAM peut cibler. Le porteur MIRV est exclu, tandis que chaque ogive séparée peut être éligible.
+
+Ces valeurs ne sont pas synchronisées avec une partie. Actualisez-les après le tir d'un autre joueur ou la fin d'une recharge.
+
+## Coûts Gold exacts
+
+Sous les règles normales, un Atom Bomb coûte 750 000 Gold et un Hydrogen Bomb coûte 5 000 000.
+
+Le MIRV commence à 25 000 000. Chaque lancement MIRV réussi par n'importe quel joueur ajoute 15 000 000 au prix suivant.
+
+Le total des armes est :
+
+```text
+coût = 750 000 × Atom
+      + 5 000 000 × Hydrogen
+      + coût de la série MIRV
+```
+
+Le solde affiché est `Gold actuel - coût`. Un résultat négatif est un manque, pas une prévision de crédit ou de file d'attente.
+
+L'outil emploie des entiers pour le Gold. Il n'arrondit pas d'abord les grands montants en millions avant d'effectuer l'addition.
+
+Infinite Gold est une exception de salon. Le calculateur modélise volontairement les règles ordinaires, où le budget a un sens.
+
+La construction des Silos et des SAM n'entre pas dans le total des armes. Ajoutez-la séparément lorsque les structures n'existent pas encore.
+
+## Série MIRV et compteur global
+
+Si `g` est le nombre global déjà lancé, le prochain MIRV coûte :
+
+```text
+prochain MIRV = 25 000 000 + 15 000 000 × g
+```
+
+Pour `k` MIRV successifs, le total exact est :
+
+```text
+série MIRV = k × (25 000 000 + 15 000 000 × g)
+             + 7 500 000 × k × (k - 1)
+```
+
+À `g = 0`, un MIRV coûte 25M, deux coûtent 65M, trois 120M, quatre 190M et cinq 275M.
+
+À `g = 4`, le prix immédiat vaut 85M. Trois MIRV supplémentaires coûtent 85M + 100M + 115M, soit 300M.
+
+La série suppose vos succès sans tir concurrent entre deux actions. En partie, un adversaire peut faire évoluer le compteur avant votre clic suivant.
+
+Le menu normal présente le MIRV comme une action unitaire. Une quantité supérieure à un dans l'outil décrit un plan budgétaire, pas un bouton x5 public.
+
+## Niveau du Missile Silo et tubes prêts
+
+Un Missile Silo coûte 1 000 000 Gold et se construit normalement en 100 ticks, soit 10 secondes. Chaque niveau fournit un tube indépendant.
+
+Tout tir Atom, Hydrogen ou porteur MIRV met un tube en recharge pendant 90 ticks, donc 9 secondes.
+
+Le calculateur applique :
+
+```text
+tubes prêts = max(0, niveau - emplacements en recharge)
+```
+
+Un Silo niveau 5 avec deux tubes en recharge dispose de trois tirs. Un Silo niveau 2 avec deux recharges n'en a aucun.
+
+Une amélioration ajoute un tube mais ne réduit pas les 9 secondes. Le nouvel emplacement commence par sa propre période de chargement.
+
+Le jeu choisit le Silo prêt le plus proche selon la distance de Manhattan. Le code courant ne fixe pas de portée maximale nucléaire.
+
+Un même Silo espace les départs multiples d'au moins un tick. Des Silos distincts et prêts peuvent tirer au même tick.
+
+## Niveau SAM, tirs chargés et portée
+
+Le niveau SAM contrôle deux ressources : le nombre d'emplacements de missiles et la portée réelle.
+
+Le premier niveau SAM coûte 1 500 000 Gold. Les constructions ou améliorations suivantes coûtent normalement 3 000 000 selon la formule plafonnée.
+
+Chaque niveau ajoute un emplacement. Après un tir, celui-ci recharge pendant 90 ticks, soit 9 secondes.
+
+Le nombre prêt vaut :
+
+```text
+tirs SAM prêts = max(0, niveau - emplacements en recharge)
+```
+
+La portée exacte vaut :
+
+```text
+portée SAM = 150 - 480 / (niveau + 5)
+```
+
+Elle vaut 70 au niveau 1, 90 au niveau 3, 102 au niveau 5, 118 au niveau 10 et 130,8 au niveau 20.
+
+La portée approche 150 sans l'atteindre à un niveau fini. Une amélioration donne donc à la fois un tir parallèle et une meilleure géométrie.
+
+Le nouvel emplacement commence vide pendant 90 ticks. Ne le saisissez pas comme prêt immédiatement après l'amélioration.
+
+## Interpréter l'écart théorique
+
+Le calculateur soustrait les tirs SAM prêts des projectiles entrants éligibles.
+
+```text
+écart = projectiles entrants éligibles - tirs SAM prêts
+```
+
+Un résultat positif signifie que plus de projectiles sont listés que de tirs prêts à cet instant. Il ne donne pas le nombre final d'impacts.
+
+Zéro signifie que les comptes sont égaux. Cela ne prouve pas que toutes les trajectoires sont accessibles à temps.
+
+Un résultat négatif signifie que davantage de missiles sont chargés. Il ne garantit pas l'interception, car chaque tir reste limité par la géométrie.
+
+La comparaison ignore aussi les emplacements qui terminent leur recharge pendant une vague longue.
+
+Un écart positif ne garantit pas une percée. Un écart nul ou négatif ne garantit pas une interception.
+
+Servez-vous-en pour comparer des scénarios sous les mêmes hypothèses, jamais comme nombre de « passages garantis ».
+
+## Pourquoi le cercle SAM n'est pas une zone sûre
+
+Le SAM lit la trajectoire future et cherche un point à la fois ciblable et situé dans sa portée réelle.
+
+Une bombe n'est ciblable qu'à moins de 150 tiles strictes du départ ou de l'arrivée. Une longue trajectoire peut avoir un milieu intouchable.
+
+Le SAM Missile se déplace à 12 tiles par tick. Il faut assez de ticks restants pour rejoindre le point d'interception.
+
+Le rayon de recherche de 600 tiles permet une détection précoce. Il ne s'agit pas de la portée de tir et ne doit pas remplacer la formule du niveau.
+
+Hydrogen bénéficie d'un bonus de priorité. La distance et l'urgence modifient aussi le projectile qui obtient le premier emplacement libre.
+
+Lorsqu'un SAM réserve une cible, les autres l'écartent. La distribution du réseau dépend donc des choix réalisables et de l'ordre d'exécution.
+
+Une simulation fidèle a besoin des coordonnées, des trajectoires, des files de recharge et des ticks. Quelques champs numériques ne suffisent pas.
+
+## Pourquoi le nombre d'ogives MIRV reste une entrée
+
+Un MIRV tente de créer au maximum 350 cibles. Le centre est inclus, mais chaque cible supplémentaire passe des contrôles de carte.
+
+Elle doit être une terre du joueur ciblé, située dans 1 500 tiles euclidiennes et espacée d'au moins 55 tiles de Manhattan des cibles précédentes.
+
+Bords, eau, terrain infranchissable, propriété fragmentée et bandes étroites éliminent des candidats. La recherche bornée peut s'arrêter tôt.
+
+L'outil vous demande donc une estimation des projectiles éligibles au lieu de fabriquer un résultat « 350 ».
+
+Pour un vaste continent, comparez par exemple des hypothèses de 50, 150 et 300 ogives. C'est une analyse de sensibilité, pas une prédiction.
+
+Pour des îles ou des côtes étroites, la géométrie pèse encore plus. Seul un outil connecté à la carte et au générateur déterministe serait exact.
+
+## Pourquoi ETA et victimes ne sont pas simulés
+
+Les armes nucléaires suivent des courbes. Le temps exact vient du pathfinder parabolique formel, pas de la distance en ligne droite divisée par la vitesse.
+
+Atom et Hydrogen avancent à 10 tiles par tick, le porteur à 15 et les ogives à 22 jusqu'à 26 avec 0 à 14 ticks d'attente.
+
+Ces valeurs expliquent le rythme relatif, mais elles ne suffisent pas pour un ETA précis à partir d'une distance.
+
+Le territoire du rayon extérieur n'est pas supprimé uniformément. L'anneau normal est irrégulier, déterministe et ignore les tiles infranchissables.
+
+Les victimes dépendent encore des tiles réellement touchés, du territoire, des troupes maximales et actuelles, des attaques et des transports.
+
+Un simulateur crédible aurait besoin de la carte et de l'état joueur complets. Cet outil s'arrête aux quantités justifiées par ses entrées.
+
+## Exemple budgétaire complet
+
+Supposons 200M Gold, aucun MIRV global, deux Atom, un Hydrogen et trois MIRV prévus.
+
+Les Atom coûtent 1,5M, l'Hydrogen 5M et la série MIRV 120M. Le total vaut 126,5M et il reste 73,5M.
+
+Un Silo niveau 5 avec deux emplacements en recharge offre trois tubes prêts. Les trois porteurs tiennent donc dans la capacité actuelle.
+
+Un SAM niveau 5 avec deux recharges offre aussi trois tirs prêts. Sa portée exacte est de 102 tiles.
+
+Avec cinq projectiles éligibles, l'écart théorique vaut +2. Il signifie seulement cinq moins trois.
+
+Certains projectiles peuvent être inaccessibles, un emplacement peut recharger, ou une autre cible peut gagner la priorité.
+
+Passez le compteur global de 0 à 4. La même série de trois MIRV passe de 120M à 300M et dépasse déjà le budget de 200M.
+
+L'intérêt principal est là : détecter une hypothèse de coût ou de capacité fausse avant d'en faire une stratégie.
+
+## Checklist offensive
+
+- Revérifiez le compteur MIRV global avant l'achat.
+- Calculez la série arithmétique complète.
+- Comptez les tubes prêts, pas seulement les niveaux.
+- Gardez du Gold pour les forces d'exploitation.
+- Estimez les ogives selon la forme du territoire.
+- Traitez l'écart SAM comme une simple pression.
+- Tenez compte de la priorité Hydrogen dans un mélange.
+- Recalculez après chaque tir ou recharge importante.
+
+Le plan le moins cher n'est pas nécessairement le meilleur. Un MIRV à 25M placé sur une mauvaise géométrie peut valoir moins que plusieurs bombes classiques bien synchronisées.
+
+Un grand écart positif n'apporte rien si vous ne pouvez pas conquérir ou tenir la zone frappée.
+
+## Checklist défensive
+
+- Notez niveau, position et file de recharge de chaque SAM.
+- Utilisez la formule de portée, jamais le rayon de recherche 600.
+- Comptez un nouvel emplacement comme vide pendant 90 ticks.
+- Excluez le porteur et comptez chaque ogive séparément.
+- Prévoyez la priorité d'une frappe Atom, Hydrogen et MIRV.
+- Répartissez les positions pour couvrir plusieurs approches.
+- Gardez des forces de reprise hors des cratères probables.
+- Actualisez les tirs prêts après chaque interception.
+
+La défense est un réseau dans le temps. Des niveaux élevés loin de la menace valent moins qu'un missile chargé disposant d'une trajectoire d'interception réelle.
+
+## Erreurs fréquentes
+
+### Compter seulement ses propres MIRV
+
+L'échelle est globale. Tout tir réussi ajoute 15M au prochain prix pour tous les joueurs.
+
+### Confondre niveau du Silo et tirs prêts
+
+Les emplacements en recharge sont indisponibles. Soustrayez-les et rappelez-vous qu'une amélioration commence vide.
+
+### Ajouter le porteur aux cibles SAM
+
+Le porteur est exclu. Estimez les ogives séparées susceptibles de devenir éligibles.
+
+### Appeler l'écart une prévision de percée
+
+Il ne simule ni géométrie, ni segment ciblable, ni priorité, ni temps d'interception, ni recharge pendant la vague.
+
+### Fixer chaque MIRV à 350
+
+350 est un maximum. Les territoires petits, côtiers, fragmentés ou proches d'un bord produisent moins de cibles légales.
+
+### Ajouter un ETA en ligne droite
+
+Les trajectoires sont courbes et les ogives ont des vitesses et attentes décalées. Une division simple donnerait une fausse précision.
+
+## FAQ du calculateur nucléaire
+
+### Le total inclut-il la construction des Silos et SAM ?
+
+Non. Il comprend les Atom, Hydrogen et MIRV prévus. Ajoutez séparément les coûts des structures nécessaires.
+
+### Pourquoi le prochain MIRV coûte-t-il moins que le dernier de la série ?
+
+La sortie « prochain » affiche le prix immédiat avant le plan. Chaque succès ajoute ensuite 15M dans la série.
+
+### Hydrogen et MIRV proposent-ils x5 dans le menu normal ?
+
+Non. Le menu radial expose les lots pour Atom. Les quantités supérieures à un représentent ici une suite planifiée.
+
+### Niveau 5 signifie-t-il cinq SAM prêts ?
+
+Seulement à pleine charge. Avec deux emplacements en recharge, un niveau 5 possède trois tirs prêts.
+
+### Pourquoi le niveau 5 affiche-t-il 102 tiles ?
+
+En remplaçant le niveau dans `150 - 480 / (niveau + 5)`, on obtient `150 - 48 = 102`.
+
+### Un écart positif garantit-il au moins un impact ?
+
+Non. Certains projectiles saisis peuvent être inaccessibles, tandis que des recharges ou d'autres SAM peuvent ajouter des tirs.
+
+### Un écart négatif garantit-il une interception complète ?
+
+Non. Chaque missile prêt a encore besoin d'un point ciblable atteignable avant l'impact.
+
+### Où apprendre le modèle MIRV complet ?
+
+Consultez le [guide MIRV](/fr/guides/mirv/) pour le rayon de 1 500, l'espacement de 55, la séparation, le rythme des ogives et les procédures tactiques.
+
+## Sources formelles et frontière de vérification
+
+La frontière actuelle est la [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Ses notes ne modifient pas les formules nucléaires de cet outil.
+
+Les calculs restent vérifiés par le code v0.33.6 inchangé et ses tests formels :
+
+- [Config.ts : coûts, recharges, vitesses, rayons et portée SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts : prix global et génération](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts : vol courbe, ciblage et impact](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts : interception et priorité](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts : liste des cibles et missile](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts : coûts et sélection du Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts : files des emplacements indépendants](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [Tests MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [Tests SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Tests Missile Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+Utilisez [la mécanique nucléaire](/fr/mechanics/nukes/) pour interpréter les limites, puis [la dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) pour relier coûts, tirs prêts et décision de riposte.

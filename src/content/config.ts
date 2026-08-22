@@ -16,6 +16,7 @@ const docSchema = z.object({
 
 const guides = defineCollection({ type: 'content', schema: docSchema });
 const strategies = defineCollection({ type: 'content', schema: docSchema });
+const maps = defineCollection({ type: 'content', schema: docSchema });
 const changelog = defineCollection({
   type: 'content',
   schema: docSchema.extend({
@@ -58,4 +59,4 @@ const whatsNew = defineCollection({
   }),
 });
 
-export const collections = { guides, strategies, changelog, whatsNew };
+export const collections = { guides, strategies, maps, changelog, whatsNew };

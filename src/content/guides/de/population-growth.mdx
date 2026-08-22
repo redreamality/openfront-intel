@@ -1,0 +1,304 @@
+---
+title: OpenFront-Guide zu Truppenwachstum, Bevölkerung und Cities
+description: Verstehe die genaue Truppenobergrenze, die Wachstumsformel, die echte Bedeutung von Workers und den richtigen Zeitpunkt für eine neue City oder ein Upgrade.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [population, truppen, city, wirtschaft]
+category: Anleitung
+difficulty: Mittel
+version: v33
+freshnessSummary: "Am offiziellen Tag v0.33.7 geprüft: Workers ist kein eigener Bevölkerungspool, jedes fertiggestellte City-Level erhöht das Truppenmaximum um 250.000 und Cities haben keine feste Vier-Level-Grenze."
+---
+
+## Direkte Antwort: Wie wächst die Bevölkerung?
+
+OpenFront teilt deine Bevölkerung nicht in Arbeiter und Soldaten. Die Simulation speichert Troops, Gold, Gebiet und Gebäude.
+
+Die Spalte **Workers** im Ergebnisbildschirm ist der Name für festes passives Gold. Sie ist kein Bevölkerungspool, der durch Angriffe sinkt.
+
+Dein Truppenmaximum besteht aus einer Gebietsformel mit abnehmendem Ertrag und 250.000 für jedes fertiggestellte City-Level.
+
+Troops wachsen bei viel freiem Platz schnell. Nahe am Maximum wird das Wachstum immer langsamer und erreicht schließlich null.
+
+Baue oder verbessere eine City, wenn das Maximum die Erholung oder eine geplante Reserve begrenzt.
+
+Wenige Troops bedeuten nicht automatisch ein zu niedriges Maximum. Weit darunter kauft eine weitere City nur ungenutzten Spielraum und ersetzt keine Verluste.
+
+Nutze diese vier Schritte:
+
+1. Berechne die aktuellen Troops als Anteil des Maximums.
+2. Trenne Maximumsdruck von Ausgaben und Kampfverlusten.
+3. Kaufe City-Kapazität nur, wenn das Maximum wirklich bremst.
+4. Verbessere für sofortige Kapazität oder baue neu für einen weiteren geschützten Bahnhalt.
+
+## Die genaue Formel der Truppenobergrenze
+
+Für einen normalen Human-Spieler berechnet v0.33.7:
+
+```text
+maxTroops = 2 * (tiles^0.6 * 1.000 + 50.000)
+          + 250.000 * Summe fertiggestellter City-Level
+```
+
+Cities im Bau zählen nicht. Eine City auf Level 3 liefert drei Level oder 750.000. Drei Cities auf Level 1 liefern dasselbe Maximum.
+
+Der Gebietsterm nutzt den Exponenten 0,6. Mehr Land erhöht das Maximum immer, aber derselbe zusätzliche Flächenblock bringt später weniger als zuvor.
+
+| Eigene Tiles | Ohne City | Mit einem City-Level | Relativer Zuwachs |
+| ---: | ---: | ---: | ---: |
+| 1 | 102.000 | 352.000 | +245 % |
+| 100 | etwa 131.697 | etwa 381.697 | +190 % |
+| 1.000 | etwa 226.191 | etwa 476.191 | +111 % |
+| 10.000 | etwa 602.377 | etwa 852.377 | +41,5 % |
+| 50.000 | etwa 1.419.507 | etwa 1.669.507 | +17,6 % |
+| 100.000 | etwa 2.100.000 | etwa 2.350.000 | +11,9 % |
+| 200.000 | etwa 3.131.433 | etwa 3.381.433 | +8,0 % |
+
+Der absolute City-Bonus wird nicht kleiner. Jedes Level bleibt 250.000 wert.
+
+Sein prozentualer Einfluss sinkt nur, weil ein großes Reich bereits ein höheres gebietsbasiertes Maximum hat.
+
+Bots und Nations verwenden zusätzliche Modifikatoren. Ein Bot erhält ein Drittel des Basisergebnisses.
+
+Die Nation-Schwierigkeit multipliziert es danach mit 0,5 auf Easy, 0,75 auf Medium, 1 auf Hard und 1,25 auf Impossible.
+
+Dieser Guide nutzt für Entscheidungen die normale Human-Formel.
+
+## Die genaue Wachstumsformel
+
+Ein normaler Human erhält pro Simulationstick:
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+Das Ergebnis wird begrenzt, damit ein Tick das Maximum nicht überschreitet. Ein normaler Tick dauert 100 ms, also gibt es etwa zehn Berechnungen pro Sekunde.
+
+Der erste Term steigt mit den aktuellen Troops. Der Faktor für freien Platz fällt, wenn sich die Leiste füllt.
+
+Zusammen erzeugen sie einen breiten Wachstumsgipfel. Die einfache Regel „je weniger Truppen, desto schneller das Wachstum“ ist falsch.
+
+Beispiel: Human mit 10.000 Tiles, ohne City und mit einem Maximum von etwa 602.377:
+
+| Aktuelle Troops | Anteil am Maximum | Zuwachs pro Tick | Etwa pro Sekunde |
+| ---: | ---: | ---: | ---: |
+| 60.238 | 10 % | 703 | 7.032 |
+| 150.594 | 25 % | 1.137 | 11.368 |
+| 252.998 | 42 % | 1.281 | 12.812 |
+| 301.189 | 50 % | 1.254 | 12.537 |
+| 451.783 | 75 % | 842 | 8.419 |
+| 542.139 | 90 % | 385 | 3.846 |
+| 572.258 | 95 % | 200 | 2.000 |
+
+Das mathematische Maximum liegt in diesem Beispiel nahe 42 %. Nutze es als Effizienzsignal, nicht als vorgeschriebene Reserve.
+
+Ein offener Spieler kann bei 42 % ein leichtes Ziel sein. Bei 65 % wächst er langsamer, hat aber sofort mehr verfügbare Kraft.
+
+Die richtige Reserve hängt von Grenzen, Bündnissen, Gelände und dem nächsten geplanten Angriff ab.
+
+## Was Workers wirklich bedeutet
+
+Die aktuelle Simulation besitzt keine unabhängige Arbeitermenge. Jeder lebende Nicht-Bot-Spieler erhält vor dem Lobby-Multiplikator 100 Gold pro Tick.
+
+Bots erhalten 50. Die Engine verbucht dieses passive Einkommen in `GOLD_INDEX_WORK`; deshalb heißt die Ergebnisspalte **Workers**.
+
+Bei zehn Ticks pro Sekunde und 1x-Multiplikator bekommt ein Human ungefähr:
+
+- 1.000 Gold pro Sekunde;
+- 60.000 Gold pro Minute;
+- 125.000 Gold in etwa 2 Minuten 5 Sekunden;
+- 250.000 Gold in etwa 4 Minuten 10 Sekunden.
+
+Troops zu senden oder zu verlieren und das Maximum zu erhöhen ändert diese Rate nicht.
+
+Eine City erzeugt keine zusätzlichen Workers und multipliziert das passive Gold nicht.
+
+Trade Ships, Trains, Eroberung, erbeuteter Handel, Startgold und Lobby-Multiplikatoren sind getrennte Quellen.
+
+Wenn Goldfluss statt Truppenkapazität dein Problem ist, nutze den [Port-oder-Factory-Guide](/de/guides/port-vs-factory/).
+
+## Kosten und Kapazität einer City
+
+City besitzt einen eigenen Levelzähler. Sie teilt ihre Kostenleiter nicht mit Port oder Factory.
+
+```text
+Kosten des nächsten City-Levels
+  = min(1.000.000, 2^n * 125.000)
+```
+
+`n` ist die effektive Zahl bereits gebauter City-Level. Eine neue City und ein Upgrade bewegen denselben Zähler jeweils um eins.
+
+| Zusätzliches City-Level | Kosten | Neues Maximum | Kapazität pro Gold |
+| ---: | ---: | ---: | ---: |
+| 1. | 125.000 | 250.000 | 2,00 |
+| 2. | 250.000 | 250.000 | 1,00 |
+| 3. | 500.000 | 250.000 | 0,50 |
+| 4. und später | 1.000.000 | 250.000 | 0,25 |
+
+In v0.33.7 gibt es keine feste Vier-Level-Grenze. Beim vierten Gesamtlevel erreicht der Preis sein Maximum; weitere Level bleiben zu diesem Grenzpreis verfügbar.
+
+Nenne das keinen Gold-ROI. Eine City tauscht flüssiges Gold gegen militärische Kapazität, Erholungsraum und eine mögliche Bahnstation.
+
+## Neue City oder Upgrade?
+
+Beide Optionen liefern 250.000 und bewegen dieselbe Kostenleiter. Sie unterscheiden sich bei Zeit, Position und Netzwerkwert.
+
+### Verbessere eine bestehende City, wenn
+
+- du die Kapazität sofort brauchst;
+- die City sicher im Kern liegt;
+- ein weiteres offenes Gebäude das Eroberungsrisiko erhöht;
+- das Bahnnetz bereits genug Standorte besitzt.
+
+Ein Upgrade wirkt sofort nach den Aktionsprüfungen. Es startet keinen neuen Bautimer von 20 Ticks.
+
+### Baue eine neue City, wenn
+
+- du einen zweiten geschützten Train-Halt brauchst;
+- der Standort Topologie oder Redundanz verbessert;
+- eine einzelne City ein zu attraktives Nuklearziel wäre;
+- der neue Standort seine 20 Ticks Bauzeit übersteht.
+
+Eine City wird nur dann zur Train-Station, wenn eine Factory in Reichweite liegt oder sie später in ihr Netz aufnimmt.
+
+Das City-Level erhöht weder die Auszahlung am Halt noch das Zielgewicht.
+
+## Prüfe, ob das Maximum wirklich bremst
+
+### 1. Bist du wiederholt nahe am Maximum?
+
+Liegt die Leiste in ruhigen Phasen oft über 80 %, wird natürliches Wachstum stark gedrosselt.
+
+Mehr Land oder ein City-Level schafft nutzbaren Freiraum. Erreichst du selten 50 %, ist das Maximum wahrscheinlich nicht das unmittelbare Problem.
+
+### 2. Wird die nächste Armee den Platz nutzen?
+
+Eine City ist stark vor einer geplanten Reserve, einem umkämpften Engpass oder nach einer großen, erfolgreichen Expansion.
+
+Sie ist schwach, wenn kein Frontplan die zusätzlichen Troops braucht. Kapazität, die bis zum Spielende leer bleibt, war teure Optionalität.
+
+### 3. Kann das Gebäude überleben?
+
+Eine eroberte City überträgt ihren Wert an den Besatzer. Stelle Bevölkerungsinfrastruktur hinter eine Grenze, die du halten kannst.
+
+Unter direktem Druck ist die kleinste wirksame Verteidigung oft wertvoller als ein Maximum, das du nicht füllen kannst.
+
+## Drei berechnete Entscheidungen
+
+### Szenario A: 10.000 Tiles bei 90 %
+
+Ohne City liegt das Maximum bei etwa 602.377. Bei 90 % besitzt der Spieler rund 542.139 und wächst nur um ungefähr 3.846 pro Sekunde.
+
+Ein City-Level hebt das Maximum auf etwa 852.377. Dieselben Troops sind sofort nur noch 63,6 %, wodurch viel neuer Wachstumsraum entsteht.
+
+Das ist ein guter Kauf, wenn der Standort sicher ist und das Gold nicht für dringende Verteidigung gebraucht wird.
+
+### Szenario B: 10.000 Tiles bei 25 %
+
+Der Spieler hat etwa 150.594 Troops und gewinnt bereits rund 11.368 pro Sekunde.
+
+Eine weitere City erhöht das Maximum, ersetzt aber nicht die ausgegebene Armee. Stoppe optionale Angriffe und erhole dich zuerst.
+
+### Szenario C: geschützter Bahnkern
+
+Der Spieler braucht 250.000 zusätzlich und besitzt bereits eine Factory. Ein Upgrade liefert die Kapazität sofort.
+
+Eine neue City liefert sie nach zwei Sekunden und schafft einen weiteren möglichen Handelshalt.
+
+Wähle den Neubau nur, wenn sein Standort und seine Redundanz ein weiteres Gebäude auf der Karte rechtfertigen.
+
+## Entscheidungen nach Anteil am Maximum
+
+### Unter 30 %
+
+Schone Troops und beende unnötige Angriffe. Nimm nur billiges Land, das deine Lage verbessert.
+
+Eine neue City löst diesen Zustand gewöhnlich nicht.
+
+### Zwischen 35 % und 50 %
+
+Das rohe natürliche Wachstum ist effizient. Expandiere mit sicheren, kurzen Aktionen und halte genug Reserve für sichtbare Gegner.
+
+### Zwischen 50 % und 70 %
+
+Das Wachstum bleibt brauchbar und die direkte Verteidigung wird stärker. Dieser Bereich ist oft praktisch vor einem Kampf oder Verratsfenster.
+
+### Über 80 %
+
+Der Freiraumfaktor liegt bei 0,2 oder darunter. Sind die Grenzen sicher, nutze Reserve für gutes Land oder erhöhe das Maximum mit einer geschützten City.
+
+### Nahe 100 %
+
+Natürliches Wachstum ist fast gestoppt. Voll zu bleiben lohnt nur vor einem bestimmten Angriff, zur Abschreckung oder für eine koordinierte Teamaktion.
+
+## Häufige Fehler
+
+### Workers als verfügbare Troops behandeln
+
+Es gibt keinen Arbeiterregler und keinen Arbeiterpool. Leite das Goldeinkommen nicht aus der Truppenleiste ab.
+
+### Nach jeder Niederlage eine City kaufen
+
+Wenig Troops und ein niedriges Maximum sind verschiedene Probleme. Kampfverluste verlangen Erholung und sicherere Angriffe.
+
+### Eine Grenze auf Level 4 annehmen
+
+Der Preis verdoppelt sich nach dem vierten Gesamtlevel nicht weiter. Upgrades bleiben trotzdem möglich.
+
+### Nur das absolute Maximum vergleichen
+
+Dieselben 250.000 verändern ein kleines Gebiet stark, sind für ein großes Reich aber ein kleinerer Anteil.
+
+Vergleiche den Bonus mit dem aktuellen Maximum und der geplanten Reserve.
+
+### An der aktiven Grenze bauen
+
+Kapazität hat nur Wert, solange du sie besitzt. Eine billige erste City kann zum teuren Geschenk werden, wenn der Standort fällt.
+
+### Im Gefahrenmoment auf 42 % optimieren
+
+Der Wachstumsgipfel kennt keinen gegnerischen Angriff. Halte mehr Reserve, wenn taktische Schwäche teurer als verlorenes Wachstum ist.
+
+## Häufig gestellte Fragen
+
+### Senkt ein Angriff das Workers-Einkommen?
+
+Nein. Truppenausgaben und das als Workers bezeichnete passive Gold werden getrennt berechnet.
+
+### Erhöht eine City das Goldeinkommen?
+
+Nicht direkt. Sie erhöht das Truppenmaximum und kann als Handelshalt dienen, wenn eine Factory sie verbindet.
+
+### Wie viel bringt ein City-Upgrade?
+
+Jedes fertiggestellte Level fügt der normalen Berechnung genau 250.000 hinzu.
+
+### Ist Level 4 das Maximum?
+
+Nein. Die Upgrade-Prüfungen in v0.33.7 zeigen kein hartes Limit. Das vierte Gesamtlevel erreicht nur den Grenzpreis von 1.000.000.
+
+### Ist ein Neubau besser als ein Upgrade?
+
+Für reine Kapazität sind sie gleich. Ein Neubau schafft einen Standort; ein Upgrade wirkt sofort und hält den Wert in einem sicheren Gebäude.
+
+### Warum wird das Wachstum nahe am Maximum langsam?
+
+Die Formel multipliziert mit `1 - troops / maxTroops`. Dieser Faktor nähert sich null, wenn die aktuellen Troops das Maximum erreichen.
+
+## Offizielle Quellen und Versionsgrenze
+
+Dieser Guide behandelt das offizielle [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) und seinen Tag als aktuelle Verhaltensgrenze.
+
+Formeln, City-Kosten und passives Gold stehen in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+Die Ausführung pro Tick steht in [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts).
+
+Levelzählung und Upgrades stehen in [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts).
+
+Der Workers-Name ist in [StatsSchemas.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/StatsSchemas.ts) und [StatsImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/StatsImpl.ts) definiert.
+
+Die generierten Seitendaten führen den Extract-Checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` und die redaktionelle Reihe `v33` getrennt.
+
+Der Checkout ist Reproduzierbarkeitsmetadatum und nicht der v0.33.7-Tag.
+
+Vergleiche als nächste Wirtschaftsentscheidung [Port und Factory](/de/guides/port-vs-factory/). Für den Gesamtplan lies die [Wirtschaftsgrundlagen](/de/strategies/economy-fundamentals/).

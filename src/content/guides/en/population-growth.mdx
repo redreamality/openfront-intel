@@ -1,0 +1,279 @@
+---
+title: OpenFront Population Growth and City Cap Guide
+description: Learn the exact OpenFront troop-cap and growth formulas, what Workers really means, when a City pays for useful capacity, and whether to build or upgrade.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [population, troops, city, economy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal v0.33.7 tag: Workers are not a separate population pool, every completed City level adds 250,000 troop cap, and City upgrades have no four-level hard cap."
+---
+
+## Direct answer: how does population growth work?
+
+OpenFront does not split your population into workers and soldiers. The simulation stores Troops, Gold, territory, and structures.
+
+The post-game **Workers** column is the label for fixed passive Gold income, not a population count that falls when you attack.
+
+Your maximum Troops comes from a diminishing territory formula plus 250,000 for every completed City level. Current Troops then grow fastest with plenty of headroom and slow toward zero as the bar approaches that maximum.
+
+Build or upgrade a City when the cap is restricting recovery or a planned reserve. Do not buy one merely because Troops are low. If you are far below the current cap, another City creates unused headroom without fixing combat losses.
+
+The short rule is:
+
+1. Read current Troops as a percentage of the current maximum.
+2. Decide whether low Troops comes from cap pressure or from spending and losses.
+3. Add City capacity only when the maximum is the real constraint.
+4. Choose an upgrade for immediate capacity or a new City for another protected rail station.
+
+## The exact troop-cap formula
+
+For a normal Human player, the current v0.33.7 code calculates:
+
+```text
+maxTroops = 2 * (tiles^0.6 * 1,000 + 50,000)
+          + 250,000 * sum(completed City levels)
+```
+
+Cities under construction do not count. A level-3 City contributes three levels, or 750,000 cap. Three level-1 Cities contribute the same cap.
+
+The territory term uses an exponent of 0.6. More land always raises the cap, but each additional block of land adds less than the previous block.
+
+| Owned tiles | Cap without a City | Cap with one City level | Relative increase |
+| ---: | ---: | ---: | ---: |
+| 1 | 102,000 | 352,000 | +245% |
+| 100 | about 131,697 | about 381,697 | +190% |
+| 1,000 | about 226,191 | about 476,191 | +111% |
+| 10,000 | about 602,377 | about 852,377 | +41.5% |
+| 50,000 | about 1,419,507 | about 1,669,507 | +17.6% |
+| 100,000 | about 2,100,000 | about 2,350,000 | +11.9% |
+| 200,000 | about 3,131,433 | about 3,381,433 | +8.0% |
+
+The City bonus does not get smaller. Its absolute value stays 250,000 per level. Its percentage impact becomes smaller because a large empire already has a larger territory-based cap.
+
+Bots and Nations use additional modifiers. A Bot receives one third of the base maximum. Nation difficulty multiplies it by 0.5 on Easy, 0.75 on Medium, 1 on Hard, and 1.25 on Impossible.
+
+This guide uses the normal Human formula for player decisions.
+
+## The exact troop-growth formula
+
+For a normal Human, the gain per simulation tick is:
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+The game clamps the result so one tick cannot push Troops above the maximum. A normal tick is 100 milliseconds, so there are about 10 growth calculations per second.
+
+The first term rises with current Troops. The final headroom term falls as the bar fills. Their combination creates a broad growth peak rather than a simple rule that lower is always faster.
+
+For a Human with 10,000 tiles, no City, and a maximum near 602,377:
+
+| Current Troops | Share of cap | Gain per tick | Approximate gain per second |
+| ---: | ---: | ---: | ---: |
+| 60,238 | 10% | 703 | 7,032 |
+| 150,594 | 25% | 1,137 | 11,368 |
+| 252,998 | 42% | 1,281 | 12,812 |
+| 301,189 | 50% | 1,254 | 12,537 |
+| 451,783 | 75% | 842 | 8,419 |
+| 542,139 | 90% | 385 | 3,846 |
+| 572,258 | 95% | 200 | 2,000 |
+
+The mathematical peak in this example is close to 42%. Treat that as a growth-efficiency signal, not a mandatory reserve target.
+
+An exposed player at 42% can still be easy to attack. A player at 65% grows more slowly but has more force available immediately. The correct reserve depends on borders, alliances, terrain, and the next planned attack.
+
+## What Workers means in OpenFront
+
+The current simulation has no independent worker quantity. Every living non-Bot player receives 100 Gold per tick before the lobby Gold multiplier. Bots receive 50.
+
+The engine records that passive income in a statistics category named `GOLD_INDEX_WORK`. That is why the results table calls it **Workers**.
+
+At the standard 10-tick cadence and a 1x multiplier, a Human receives about:
+
+- 1,000 Gold per second;
+- 60,000 Gold per minute;
+- 125,000 Gold in about 2 minutes 5 seconds;
+- 250,000 Gold in about 4 minutes 10 seconds.
+
+Sending Troops, losing Troops, or raising the troop cap does not change this base rate. A City does not create more Workers and does not multiply passive Gold.
+
+Trade Ships, Trains, conquest, captured trade, starting Gold, and lobby multipliers are separate sources. Use the [Port vs Factory guide](/guides/port-vs-factory/) when Gold flow, rather than troop capacity, is the constraint.
+
+## City cost and capacity efficiency
+
+City uses its own escalating level counter. It does not share that counter with Port or Factory.
+
+```text
+next City level cost = min(1,000,000, 2^n * 125,000)
+```
+
+`n` is the effective number of City levels already owned and constructed by the player. A new City and an upgrade both advance the same counter by one.
+
+| Marginal City level | Cost | Added cap | Cap per Gold |
+| ---: | ---: | ---: | ---: |
+| 1st | 125,000 | 250,000 | 2.00 |
+| 2nd | 250,000 | 250,000 | 1.00 |
+| 3rd | 500,000 | 250,000 | 0.50 |
+| 4th and later | 1,000,000 | 250,000 | 0.25 |
+
+There is no four-level hard cap in v0.33.7. The fourth total level reaches the 1,000,000 price ceiling; later levels remain upgradeable at that capped marginal price.
+
+Do not call this a Gold return on investment. City converts liquid Gold into military capacity. Its return is faster recovery headroom, a larger reserve, and a possible Train station.
+
+## Build a new City or upgrade one?
+
+Both choices add the same 250,000 cap and advance the same cost ladder. The difference is timing, position, and network value.
+
+### Upgrade an existing City when
+
+- you need the cap immediately;
+- the existing City is safely inside the core;
+- another exposed structure would add capture risk;
+- the rail network already has enough station locations.
+
+The upgrade path raises the level immediately after the action passes its checks. It does not start another 20-tick construction timer.
+
+### Build a new City when
+
+- you need a second protected Train stop;
+- another station improves rail topology or redundancy;
+- the old City is a concentrated nuclear target;
+- the new site can survive its 20-tick construction period.
+
+A City becomes a Train station only when a Factory is in range or a later Factory pulls it into the network. A City level does not increase Train stop payout or destination weight.
+
+## When cap is actually the bottleneck
+
+Use three checks before spending Gold.
+
+### Check 1: are you repeatedly close to the maximum?
+
+If the bar often sits above 80% during quiet periods, natural growth is heavily throttled. More land or another City level creates usable headroom.
+
+If the bar rarely reaches 50%, the cap is probably not the immediate problem.
+
+### Check 2: would the next army use the extra capacity?
+
+A City is strongest before a planned reserve, a contested chokepoint, or recovery from a large but successful expansion. It is weaker when no front or plan needs the additional Troops.
+
+Capacity that remains empty for the entire match was expensive optionality.
+
+### Check 3: can the structure survive?
+
+A captured City transfers its value to the occupier. Put population infrastructure behind a border that can hold.
+
+If the core is under immediate pressure, the smallest effective defense can be more valuable than a larger maximum you cannot fill.
+
+## Three worked decisions
+
+### Scenario A: 10,000 tiles at 90% cap
+
+Without a City, maximum Troops is about 602,377. At 90%, the player has about 542,139 and grows by roughly 3,846 per second.
+
+One completed City level raises the maximum to about 852,377. Current Troops immediately become only 63.6% of the new cap, opening much more recovery room.
+
+This is a strong City purchase if the site is safe and Gold is not needed for an urgent defense.
+
+### Scenario B: 10,000 tiles at 25% cap
+
+The player has about 150,594 Troops and already gains roughly 11,368 per second. Another City raises the maximum but does not replace the army that was spent.
+
+Pause optional attacks and rebuild first. Buy capacity later if the bar begins to bind.
+
+### Scenario C: a protected rail core
+
+The player needs another 250,000 cap and already owns a Factory. Upgrading a City supplies capacity immediately. Building a new City supplies the same capacity after two seconds and adds another possible trade stop.
+
+Choose the new City only if its station location and redundancy justify another structure on the map.
+
+## Population decisions during a match
+
+### Below 30% of cap
+
+Preserve Troops and remove unnecessary attacks. Take only cheap land that improves the position. A new City usually does not solve this state.
+
+### Around 35% to 50%
+
+Raw natural growth is efficient. Expand through safe, short actions while keeping enough reserve for visible enemies.
+
+### Around 50% to 70%
+
+Growth is still useful and immediate defense is stronger. This is often a practical band before a planned fight or betrayal window.
+
+### Above 80%
+
+The headroom factor is 0.2 or lower. If borders are safe, convert part of the reserve into useful land or raise the maximum with a protected City level.
+
+### Near 100%
+
+Natural growth is almost stopped. Sitting full is correct only when you are waiting for a specific attack, deterrence moment, or coordinated team action.
+
+## Common population mistakes
+
+### Treating Workers as spare Troops
+
+There is no worker slider or worker pool. Do not predict Gold income from the displayed troop bar.
+
+### Buying a City after every defeat
+
+Low Troops and low maximum are different problems. A loss-driven shortage needs recovery and safer combat.
+
+### Believing City stops at level 4
+
+The price stops doubling after the fourth total level. The upgrade capability does not stop.
+
+### Comparing only absolute cap
+
+The same 250,000 is transformative on a small territory and a smaller percentage of a large empire. Compare the bonus with current maximum and planned reserve.
+
+### Building on the active border
+
+Population capacity has value only while you own it. A cheap first City can become an expensive gift if the site falls.
+
+### Optimizing for 42% during danger
+
+The growth peak does not account for an enemy attack. Keep more reserve when the tactical cost of being weak exceeds the lost growth rate.
+
+## Frequently asked questions
+
+### Does attacking reduce worker income?
+
+No. Troop spending and passive worker-labeled Gold are separate calculations.
+
+### Does a City increase Gold income?
+
+Not directly. It increases maximum Troops and may serve as a Train trade stop when connected to a Factory network.
+
+### How much cap does a City upgrade add?
+
+Every completed level adds exactly 250,000 to the normal cap calculation.
+
+### Is level 4 the maximum City level?
+
+No hard maximum appears in the v0.33.7 upgrade checks. The fourth total level is where the marginal price reaches its 1,000,000 cap.
+
+### Is a new City better than an upgrade?
+
+Not for raw cap. Both add one level. A new City adds location and rail-network value; an upgrade is immediate and keeps the value concentrated in an existing safe structure.
+
+### Why does growth slow near a full bar?
+
+The formula multiplies growth by `1 - troops / maxTroops`. That factor approaches zero as current Troops approach the maximum.
+
+## Official sources and version boundary
+
+This guide treats the formal [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) and tag as the live boundary.
+
+The exact mechanics are in the official [cap, growth, City cost, and passive Gold code](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts) and [per-player tick execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts).
+
+[City level and upgrade accounting](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts) confirms how completed levels enter the cap.
+
+The Workers label is defined in the official [statistics schema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/StatsSchemas.ts).
+
+Its passive-income meaning is confirmed by the [statistics implementation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/StatsImpl.ts).
+
+The site's generated snapshot records extract checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` and editorial series `v33` separately. That checkout is reproducibility metadata, not the v0.33.7 tag.
+
+For the next economic decision, compare [Port and Factory](/guides/port-vs-factory/). For a broader spending plan, read [Economy Fundamentals](/strategies/economy-fundamentals/).

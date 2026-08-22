@@ -5,6 +5,7 @@ import Callout from '../../components/Callout.astro';
 import FormulaBlock from '../../components/FormulaBlock.astro';
 import formulas from '../../data/formulas.json';
 const alliance = formulas.groups.alliance;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Alliances & Betrayal" description="OpenFront.io alliance duration, renewal mechanics, auto-embargo, and betrayal debuffs explained.">
@@ -64,5 +65,6 @@ const alliance = formulas.groups.alliance;
       <li>In a 3-way alliance where you're falling behind—betray the stronger ally to grab third party's territory.</li>
     </ul>
     <p>In all other cases, <strong>letting alliance expire naturally</strong> is better than betrayal: no debuffs, no auto-embargo, just non-renewal.</p>
+    <p>Facing a Nation? Read the <a href={`${base}mechanics/nations/`}>Nation AI decision guide</a> to see how v0.33.7 Nations choose alliance and betrayal candidates.</p>
   </article>
 </BaseLayout>

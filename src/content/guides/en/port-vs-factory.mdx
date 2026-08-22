@@ -1,0 +1,325 @@
+---
+title: "Port vs Factory in OpenFront: Which Economy Should You Build?"
+description: Compare OpenFront Ports, Factories, Trade Ships, Trains, shared costs, upgrades, route requirements, and realistic payback scenarios.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [port, factory, trade, trains, economy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal v0.33.7 tag: Port and Factory share one cost ladder, Port levels do not raise per-ship payout, pity is unrelated to embargo, and Factory availability is controlled by lobby disabled units."
+---
+
+## Direct answer: Port or Factory?
+
+Build a **Port** when you already have a valid foreign Port in the same connected water, the route is long enough to pay well, and the sea is likely to remain open.
+
+Build a **Factory** when it is enabled, protected City or Port stations fit inside the rail ranges, and land routes are safer than the sea.
+
+Build neither when the network cannot operate yet. A Port without an eligible foreign destination can spend spawn chances without launching a ship. A Factory without a connected City or Port has nowhere profitable to send a Train.
+
+The first choice matters because Port and Factory share one cost ladder. If you buy either for 125,000, the first level of the other usually becomes the 250,000 step.
+
+| Current constraint | Better first choice | Reason |
+| --- | --- | --- |
+| Safe coast, distant foreign Port | Port | Distance raises each completed voyage payout |
+| Protected inland City cluster | Factory | Trains pay at connected City and Port stops |
+| Hostile sea, stable core | Factory | The land network avoids naval interception |
+| No useful City or Port stations | Port, only with a valid sea partner | Factory alone cannot settle Gold |
+| No foreign Port in connected water | Factory, if stations exist | Port has no eligible destination |
+| Troops repeatedly hit their maximum | City first | Capacity is the bottleneck, not income |
+
+## The shared Port and Factory cost ladder
+
+Both types use the same effective total of Port and Factory levels:
+
+```text
+next Port or Factory level cost
+  = min(1,000,000, 2^n * 125,000)
+```
+
+The marginal sequence is 125,000, 250,000, 500,000, then 1,000,000 for every later combined level.
+
+| Combined Port + Factory levels already paid | Next level | Total spent after buying it |
+| ---: | ---: | ---: |
+| 0 | 125,000 | 125,000 |
+| 1 | 250,000 | 375,000 |
+| 2 | 500,000 | 875,000 |
+| 3 | 1,000,000 | 1,875,000 |
+| 4+ | 1,000,000 | +1,000,000 each |
+
+A Port, then Factory, then Port costs 875,000 in total. Reversing the first two types costs the same. Order still matters because the first 125,000 starts one network earlier.
+
+New structures and upgrades both advance the ladder by one level. Captured structures are limited by the player's constructed-level accounting, so a captured high-level network does not behave like an unlimited lifetime price penalty.
+
+City has a separate cost ladder. Buying a City does not push Port or Factory to the next step.
+
+## What a Port actually buys
+
+A completed Port checks for a Trade Ship once every 10 ticks, about once per second. Every Port level makes one spawn trial during that check.
+
+A Trade Ship still needs an eligible destination. The destination Port must belong to another player, share a connected water component, and have no embargo in either direction.
+
+Alliance is not required. In the current trade rule, any different player is eligible unless either side embargoes the other.
+
+### Trade Ship payout
+
+On arrival, the ship uses the water tiles it actually traveled:
+
+```text
+G(distance) = floor((75,000 / (1 + exp(-0.03 * (distance - 300)))
+                    + 50 * distance) * goldMultiplier)
+```
+
+In a normal arrival, the source Port owner and destination Port owner each receive the full `G(distance)`. They do not split one pot.
+
+| Actual water distance | Gold to each owner at 1x | Arrivals to cover a 125,000 Port |
+| ---: | ---: | ---: |
+| 50 | 2,541 | 50 |
+| 100 | 5,185 | 25 |
+| 200 | 13,556 | 10 |
+| 300 | 52,500 | 3 |
+| 400 | 91,443 | 2 |
+| 600 | 104,990 | 2 |
+| 1,000 | 124,999 | 2 |
+
+The payback column counts only the source owner's receipts. Counting both owners' Gold as your return would double the result incorrectly.
+
+Long routes take longer and expose the ship for more time. The table is useful only when the voyage survives.
+
+### Global spawn suppression and pity
+
+The spawn system reads the number of active Trade Ships across the whole game:
+
+```text
+base = 1 - sigmoid(globalShips, ln(2)/50, 400)
+odds = floor((100 / (rejections + 1)) / base)
+```
+
+One trial succeeds with probability `1 / odds`. The global sigmoid midpoint is 400 active ships, so spawn pressure becomes more visible as the match-wide fleet grows.
+
+`rejections` means consecutive failed random spawn trials for that Port. Every failure improves the next chance. It is a pity timer, not an embargo penalty and not a count of players refusing trade.
+
+With a valid destination and a fixed global count, a level-1 Port has a derived expected wait of about 12 seconds at zero active ships, 17 seconds near 400, and 51 seconds near 600 after including pity.
+
+Those are estimates, not timers. Global count changes, higher levels add trials, and a Port can fail to find an eligible destination after a successful spawn check.
+
+### What a Port upgrade changes
+
+Each Port level adds another chance trial per check. A destination Port also appears in the weighted candidate list once per level.
+
+Port level does **not** enter the per-ship Gold formula. Upgrading raises expected network throughput and destination weight, not the payout of the same completed voyage.
+
+Upgrade a Port when the current water component and partners are already useful. Build another Port when a different coast, lake, or water component creates a genuinely different route.
+
+## What a Factory actually buys
+
+A completed Factory becomes a Train station and pulls nearby City, Port, and Factory structures into a rail network. City and Port are trade stations; Factory is the Train source and does not pay Gold at its own stop.
+
+The current limits are:
+
+- station search range: 110 tiles;
+- minimum direct station spacing: more than 15 tiles;
+- railroad path length: less than `110 * 1.4142`, about 155.562 tiles;
+- Train speed: 2 path tiles per tick.
+
+A visible straight-line gap can still fail if the pathfinder cannot produce a route below the path limit.
+
+### Train generation
+
+Let `F` be the owner's total Factory levels. The chance denominator is:
+
+```text
+R(F) = (F + 10) * 15
+```
+
+Every Factory level makes one `1 / R(F)` trial per tick at its Factory. One physical Factory can create at most one Train in a tick, and each success starts a 10-tick minimum cooldown for that Factory.
+
+When all Factories are level 1, the low-density expected whole-network rate is approximately `F / R(F)`:
+
+| Total Factory levels F | Approximate average interval |
+| ---: | ---: |
+| 1 | 16.5 seconds |
+| 2 | 9.0 seconds |
+| 3 | 6.5 seconds |
+| 5 | 4.5 seconds |
+| 10 | 3.0 seconds |
+
+Concentrating levels in one Factory gives a slightly lower exact rate than this approximation because multiple successful trials in one tick still create only one Train.
+
+### Train destination and stop payout
+
+The Factory randomly chooses an eligible City or Port in its connected cluster. Eligible stations are sampled evenly; City or Port level does not make a Train destination more valuable or more likely.
+
+The Train can pass intermediate stations. Every City or Port stop pays before the stop counter increases:
+
+| Station relation to Train owner | Base Gold to Train owner |
+| --- | ---: |
+| Ally | 35,000 |
+| Teammate | 25,000 |
+| Other non-embargoed player | 25,000 |
+| Self | 10,000 |
+
+The first ten trade stops, indexed 0 through 9, have no penalty. Starting with the eleventh, each later stop subtracts 5,000, with a 5,000 floor.
+
+If the station belongs to another player, that station owner also receives the full stop amount. At a self station, only the one shared owner is credited.
+
+Train payout has no direct distance bonus. More distance means more travel time. A longer route earns more only if it passes additional useful trade stops, and the stop penalty eventually reduces that value.
+
+### What a Factory upgrade changes
+
+An upgrade increases total Factory levels and gives that Factory another spawn trial. It does not add a second station location.
+
+Upgrade when topology is already good and throughput is the bottleneck. Build another Factory when a different location connects a new protected station cluster or reduces single-point risk.
+
+## Factory availability in current games
+
+Factory is a configurable unit. A lobby can include it in `disabledUnits`, and the engine disables rail-cluster execution when Factory is disabled.
+
+The formal v0.33.7 public playlist configurations use an empty disabled-unit list by default. Therefore, the old claim that Trains exist only in single-player and private lobbies is no longer accurate.
+
+Check the actual lobby modifiers. “Available in public defaults” does not mean every custom lobby enables it.
+
+## Four realistic investment comparisons
+
+### 1. First Port with a 100-tile route
+
+The Port costs 125,000. Each successful normal arrival returns about 5,185 to its owner, so it takes 25 arrivals to pass the static cost.
+
+This is a weak route unless it has exceptional safety or strategic naval value. A longer safe destination can change the decision dramatically.
+
+### 2. First Port with a 400-tile route
+
+Each arrival returns about 91,443. Two completed voyages pass the Port's static cost.
+
+The real decision is whether ships survive, how long they travel, and whether the partner remains non-embargoed.
+
+### 3. First Factory with an existing self City
+
+The Factory costs 125,000. A one-stop self Train pays 10,000, so the thirteenth completed Train passes the Factory cost.
+
+A level-1 Factory takes about 16.5 seconds per Train in the low-density approximation. Thirteen launches take about 214.5 seconds before adding the route's travel delay.
+
+Trains can overlap, so travel time shifts completion later but does not necessarily serialize the whole network.
+
+### 4. First Factory with an allied stop
+
+One allied stop pays 35,000 to the Train owner and 35,000 to the station owner. Four completed Trains pass the Factory owner's 125,000 cost.
+
+This is strong shared growth, not private arbitrage. Your ally compounds too, and an embargo or relationship change can alter future eligibility or payout.
+
+## Port vs Factory decision sequence
+
+### Step 1: verify the network can settle Gold
+
+For Port, find a foreign non-embargoed Port in connected water. For Factory, find at least one protected City or Port that can join the rail cluster.
+
+If the answer is no, do not buy the engine yet.
+
+### Step 2: price the shared next level
+
+Count Port and Factory levels together. Do not budget from the database's 125,000 base row if you already own or upgraded either type.
+
+### Step 3: estimate one completed payment
+
+For Port, use actual water distance and count only your receipt. For Factory, use station relationship and the number of earlier trade stops.
+
+### Step 4: add timing and survival
+
+A static number of arrivals is not a time guarantee. Add spawn waiting, travel length, route changes, capture risk, and the lobby Gold multiplier.
+
+### Step 5: compare protection cost
+
+Sea trade may need Warships or a safer Port. Rail trade may need a deeper core or another route. The cheapest gross formula can lose after protection and replacement costs.
+
+### Step 6: decide upgrade or expansion
+
+Upgrade a proven network for throughput. Add a new structure when its location creates a new route, connection, or redundancy.
+
+## When City should come first
+
+Port and Factory answer a Gold-flow problem. City answers a troop-cap problem.
+
+If current Troops repeatedly sit near maximum, a City level may restore growth headroom before another income node matters. If Troops are far below cap, income or survival may be the stronger constraint.
+
+Read the [Population Growth guide](/guides/population-growth/) before treating every 125,000 balance as a trade purchase.
+
+## Counterplay and failure modes
+
+### Short-route Port spam
+
+The income sigmoid heavily punishes distances below 300. More Ports also advance the shared cost ladder and contribute ships to the global environment.
+
+### Calling pity an embargo penalty
+
+Embargo removes destinations. Failed random trials increase pity. They are separate mechanisms with opposite effects on later spawn chance.
+
+### Expecting Port level to multiply payout
+
+The same voyage pays from distance, not Port level. Upgrade for more attempts, not a larger settlement number.
+
+### Building a Factory without a trade station
+
+A Factory can draw rails, but Gold appears only at City or Port stops. Confirm the cluster before paying.
+
+### Extending rail purely for distance
+
+Train Gold has no distance term. Extra path length is a cost unless it reaches more useful stops.
+
+### Counting both sides' revenue as yours
+
+Sea and external rail trade create Gold for both owners. Your ROI uses only the amount credited to your player.
+
+### Concentrating every node
+
+One compact core is easy to defend conventionally but vulnerable to capture and nuclear loss. Balance route efficiency with redundancy.
+
+### Repeating an obsolete mode restriction
+
+Factory can be disabled, but v0.33.7 public defaults do not disable it. Inspect lobby settings instead of assuming the game type.
+
+## Frequently asked questions
+
+### Does the first Factory always cost 125,000?
+
+No. If you already have one Port or Factory level, the next shared level normally costs 250,000.
+
+### Does upgrading a Port increase Trade Ship payout?
+
+No. It increases spawn trials and destination weighting. Payout reads actual traveled distance and Gold multiplier.
+
+### Does an embargo increase pity?
+
+No. Pity counts failed random spawn trials. Embargo changes whether a destination is eligible.
+
+### Can Trains run in public games?
+
+Yes under the v0.33.7 public defaults. A custom lobby can still disable Factory.
+
+### Are longer Train routes more profitable?
+
+Not directly. Train settlement depends on relation and stop count, not distance.
+
+### Which is safer, Port or Factory?
+
+It depends on the map. Warships can attack sea traffic; land stations can be captured or nuked. Choose the route your current position can protect.
+
+### Should I build a second node or upgrade?
+
+Upgrade when the route already works and only throughput is missing. Build another node when location unlocks a new connected water, station cluster, or redundancy.
+
+## Official sources and version boundary
+
+This guide treats the formal [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) and tag as the live boundary.
+
+Shared cost, Trade Ship Gold, spawn suppression, Train Gold, and rail limits come from the official [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+Port trials and destination weighting are in [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PortExecution.ts). Voyage movement and settlement are in [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TradeShipExecution.ts).
+
+Factory connection and Train spawning are in [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/FactoryExecution.ts) and [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TrainStationExecution.ts).
+
+Stop settlement and random destination selection are in [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts). Route limits are in [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/RailNetworkImpl.ts).
+
+The site's generated data records extract checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` separately from its editorial `v33` series. That checkout is not the v0.33.7 tag.
+
+For the wider budget, read [Economy Fundamentals](/strategies/economy-fundamentals/). For troop capacity, use the [Population Growth guide](/guides/population-growth/).

@@ -1,0 +1,321 @@
+---
+title: "OpenFront-kernwapencalculator: Gold, MIRV-prijzen, Silo-slots en SAM-bereik"
+description: "Bereken nucleaire wapenkosten, de globale MIRV-prijsladder, gereedstaande Silo- en SAM-slots, exact SAM-bereik en een duidelijk begrensde verzadigingsschatting."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [calculator, kernwapens, mirv, sam, missile-silo]
+category: Handleiding
+difficulty: Gevorderd
+version: v33
+freshnessSummary: "Gecontroleerd tot de formele versie v0.33.7. De v33-formules voor kosten, Silo en SAM uit de vaste v0.33.6-code zijn in v0.33.7 niet gewijzigd."
+---
+
+import NukeCalculator from '../../../components/NukeCalculator.astro';
+
+## Direct antwoord: wat berekent dit hulpmiddel?
+
+De calculator geeft exacte rekenkunde voor gewone Gold-kosten, globale MIRV-reeksen, gereedstaande Missile Silo-buizen, gereedstaande SAM-schoten en SAM-bereik per level.
+
+Hij toont ook `geschikte projectielen - gereedstaande SAM-schoten`. Die laatste waarde is een theoretische drukmeting, geen voorspelling van inslagen.
+
+Zonder live kaart en volledige speltoestand kan het hulpmiddel banen, onderscheppingen, MIRV-kernkoppen, territoriumverlies of slachtoffers niet exact simuleren.
+
+Gebruik het voor budget en capaciteit vóór een lancering. Gebruik het niet als belofte van een doorbraak of perfecte verdediging.
+
+De formele spelersgrens is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Die versie veranderde de in v0.33.6-code bevestigde v33-formules niet.
+
+<NukeCalculator />
+
+## Vul het aanvalspakket juist in
+
+Begin met je huidige Gold. De calculator trekt alle geplande Atom, Hydrogen en de volledige MIRV-reeks af.
+
+Vul het aantal **wereldwijd** al gelanceerde MIRVs in. Dat omvat alle spelers en niet alleen je eigen lanceringen.
+
+Geef daarna aantallen Atom, Hydrogen en MIRV op. MIRVs worden na elkaar duurder omdat elk succes de gedeelde ladder verplaatst.
+
+Voor Launchers geef je het level en het aantal nog afkoelende slots op. Het level beschrijft capaciteit, niet de huidige lading.
+
+Tel voor het theoretische verschil alleen projectielen die een SAM kan kiezen. De MIRV-drager is uitgesloten, maar elke kernkop kan geschikt worden.
+
+Deze invoer is niet verbonden met een partij. Werk hem bij na een MIRV van een andere speler of zodra een cooldown eindigt.
+
+## Exacte Gold-kosten
+
+Onder normale regels kost een Atom Bomb 750.000 Gold en een Hydrogen Bomb 5.000.000.
+
+MIRV begint bij 25.000.000. Elke succesvolle MIRV-lancering van een speler verhoogt de volgende prijs met 15.000.000.
+
+De totale wapenkosten zijn:
+
+```text
+kosten = 750.000 × Atom
+       + 5.000.000 × Hydrogen
+       + kosten van de MIRV-reeks
+```
+
+Het getoonde saldo is `huidig Gold - kosten`. Een negatief resultaat is een tekort, geen krediet- of wachtrijvoorspelling.
+
+Het hulpmiddel rekent Gold als gehele getallen. Het rondt grote bedragen niet eerst af in miljoenen voordat het optelt.
+
+Infinite Gold is een lobby-uitzondering. De calculator modelleert gewone regels, omdat een budgetvergelijking anders geen betekenis heeft.
+
+Bouwkosten van Silo en SAM zitten niet in het wapentotaal. Voeg die los toe wanneer de vereiste gebouwen nog ontbreken.
+
+## MIRV-reeks en globale teller
+
+Als `g` MIRVs al wereldwijd zijn gelanceerd, kost de volgende:
+
+```text
+volgende MIRV = 25.000.000 + 15.000.000 × g
+```
+
+Voor `k` opeenvolgende MIRVs geldt exact:
+
+```text
+MIRV-reeks = k × (25.000.000 + 15.000.000 × g)
+             + 7.500.000 × k × (k - 1)
+```
+
+Bij `g = 0` kost één MIRV 25M, twee samen 65M, drie 120M, vier 190M en vijf 275M.
+
+Bij `g = 4` is de directe prijs 85M. Drie extra kosten 85M + 100M + 115M, samen 300M.
+
+De reeks veronderstelt jouw succesvolle acties zonder vijandelijke lancering ertussen. In een partij kan een ander de teller vóór je volgende klik verhogen.
+
+Het normale menu toont MIRV als losse actie. Een groter aantal in de calculator is een budgetreeks en geen openbare x5-opdracht.
+
+## Missile Silo-level en gereedstaande buizen
+
+Een Missile Silo kost 1.000.000 Gold en bouwt normaal in 100 ticks of 10 seconden. Elk level levert één onafhankelijke buis.
+
+Elke Atom-, Hydrogen- of MIRV-drager zet één buis 90 ticks, of 9 seconden, in cooldown.
+
+De calculator gebruikt:
+
+```text
+gereedstaande buizen = max(0, level - afkoelende slots)
+```
+
+Een Silo van level 5 met twee afkoelende slots heeft drie gereedstaande buizen. Een level-2-Silo met twee cooldowns heeft er geen.
+
+Een upgrade voegt een slot toe maar verkort de 9 seconden niet. Het nieuwe slot begint met een eigen laadperiode.
+
+Het spel kiest de dichtstbijzijnde gereedstaande Silo op Manhattan-afstand. De huidige code definieert geen maximaal nucleair bereik.
+
+Eén Silo spreidt meerdere starts met minstens één tick. Verschillende gereedstaande Silos kunnen in dezelfde tick lanceren.
+
+## SAM-level, geladen schoten en bereik
+
+Het SAM-level regelt twee middelen: het aantal raketslots en het echte schietbereik.
+
+Het eerste SAM-level kost 1.500.000 Gold. Latere nieuwe installaties of upgrades kosten door de begrensde formule normaal 3.000.000.
+
+Elk level voegt een slot toe. Na een schot herlaadt dat slot 90 ticks, of 9 seconden.
+
+Het gereedstaande aantal is:
+
+```text
+gereedstaande SAM-schoten = max(0, level - afkoelende slots)
+```
+
+Het exacte bereik is:
+
+```text
+SAM-bereik = 150 - 480 / (level + 5)
+```
+
+Het is 70 op level 1, 90 op level 3, 102 op level 5, 118 op level 10 en 130,8 op level 20.
+
+Het bereik nadert 150 maar haalt dat nooit op een eindig level. Een upgrade geeft dus tegelijk een extra slot en betere geometrie.
+
+Het nieuwe slot begint 90 ticks ongeladen. Voer het direct na de upgrade niet als gereedstaand schot in.
+
+## Betekenis van het theoretische slotverschil
+
+De calculator trekt gereedstaande SAM-schoten af van de ingevoerde geschikte projectielen.
+
+```text
+slotverschil = geschikte inkomende projectielen - gereedstaande SAM-schoten
+```
+
+Een positieve waarde betekent dat nu meer projectielen dan geladen schoten zijn opgegeven. Het getal noemt niet het latere aantal inslagen.
+
+Nul betekent gelijke aantallen. Het bewijst niet dat elke baan op tijd bereikbaar is.
+
+Een negatieve waarde betekent meer geladen raketten. Ze garandeert geen onderschepping, want geometrie en timing beperken elk schot.
+
+De vergelijking negeert ook slots die tijdens een lange golf klaar zijn met herladen.
+
+Een positief verschil garandeert geen doorbraak. Nul of negatief garandeert geen onderschepping.
+
+Gebruik het alleen om scenario's onder dezelfde aannames te vergelijken.
+
+## Waarom een SAM-cirkel geen veilige zone is
+
+De SAM leest de toekomstige baan en zoekt een punt dat richtbaar is en binnen het echte levelbereik ligt.
+
+Een nuke is alleen strikt binnen 150 tiles van start of doel richtbaar. Een lange baan kan een niet-richtbaar middendeel hebben.
+
+De SAM Missile vliegt 12 tiles per tick. Er moeten voldoende ticks over zijn om het onderscheppingspunt te bereiken.
+
+De zoekstraal van 600 tiles helpt vroege ontdekking. Het is geen schietbereik en vervangt de levelformule niet.
+
+Hydrogen krijgt een prioriteitsbonus. Afstand en urgentie veranderen ook welk projectiel als eerste een vrij slot opeist.
+
+Zodra een SAM een doel reserveert, filteren andere installaties het weg. De verdeling hangt dus van haalbare punten en uitvoeringsvolgorde af.
+
+Een trouwe simulatie vereist coördinaten, banen, cooldownwachtrijen en ticks. Enkele getalvelden kunnen dat niet leveren.
+
+## Waarom het aantal MIRV-kernkoppen invoer blijft
+
+Een MIRV probeert maximaal 350 doelen te maken. Het centrum staat vast, maar elk extra doel moet live kaartcontroles doorstaan.
+
+Het moet land van de doelspeler zijn, binnen 1.500 Euclidische tiles liggen en 55 Manhattan-tiles van eerdere doelen blijven.
+
+Kaartgrenzen, water, onbegaanbaar terrein, gemengd eigendom en smalle stroken verwijderen kandidaten. De begrensde zoekactie kan vroeg stoppen.
+
+De calculator vraagt daarom een schatting van geschikte projectielen in plaats van een schijnbaar exact getal van 350 te verzinnen.
+
+Voor een breed continent kun je aannames van 50, 150 en 300 vergelijken. Dat is gevoeligheidsanalyse en geen voorspelling.
+
+Voor eilanden of smalle kusten weegt geometrie nog zwaarder. Exactheid vereist de live kaart en de seeded doelgenerator.
+
+## Waarom exacte ETA en slachtoffers ontbreken
+
+Kernwapens volgen gekromde banen. De exacte tijd komt uit de formele paraboolpathfinder, niet uit rechte afstand gedeeld door snelheid.
+
+Atom en Hydrogen vliegen 10 tiles per tick, de drager 15 en Warheads 22 tot 26 met elk 0 tot 14 ticks wachttijd.
+
+Die waarden verklaren het relatieve tempo, maar geven uit één afstand geen exacte ETA.
+
+Territorium binnen de buitenstraal verdwijnt niet gelijkmatig. De normale ring is seeded, onregelmatig en slaat onbegaanbare tiles over.
+
+Slachtoffers hangen ook af van werkelijk getroffen tiles, territorium, maximale en huidige troepen, aanvallen en transporten.
+
+Een geloofwaardige simulator heeft kaart en volledige spelertoestand nodig. Dit hulpmiddel stopt bij grootheden die zijn invoer werkelijk ondersteunt.
+
+## Volledig budgetvoorbeeld
+
+Stel dat je 200M Gold bezit. Er is nog geen MIRV gelanceerd. Je plant twee Atom, één Hydrogen en drie MIRVs.
+
+De Atoms kosten 1,5M, Hydrogen 5M en de MIRV-reeks 120M. Totaal is 126,5M en er blijft 73,5M over.
+
+Een Silo van level 5 met twee afkoelende slots biedt drie gereedstaande buizen. De drie dragers passen dus in de huidige capaciteit.
+
+Een SAM van level 5 met twee afkoelende slots biedt ook drie schoten. Zijn exacte bereik is 102 tiles.
+
+Bij vijf geschikte projectielen is het theoretische verschil +2. Dat betekent alleen vijf min drie.
+
+Sommige projectielen kunnen onbereikbaar zijn, een slot kan herladen of een ander doel kan hogere prioriteit krijgen.
+
+Verander de globale teller van 0 naar 4. Dezelfde reeks van drie stijgt van 120M naar 300M en overschrijdt het budget van 200M al.
+
+Daar ligt de hoofdwaarde: een verkeerde kosten- of capaciteitsaanname verschijnt voordat je er een strategie op bouwt.
+
+## Aanvalschecklist
+
+- Controleer de globale MIRV-teller vlak voor aankoop.
+- Bereken de hele rekenkundige reeks.
+- Tel gereedstaande Silo-buizen en niet alleen levels.
+- Bewaar Gold voor troepen die de schade benutten.
+- Schat kernkoppen uit territoriumvorm, niet standaard 350.
+- Behandel het SAM-verschil alleen als drukwaarde.
+- Houd rekening met Hydrogen-prioriteit in een mix.
+- Bereken opnieuw na elke belangrijke start of cooldown.
+
+Het goedkoopste plan is niet automatisch het beste. Een MIRV van 25M op slechte geometrie kan minder doen dan enkele goed getimede gewone nukes.
+
+Ook een groot positief verschil is waardeloos als je het getroffen gebied niet kunt veroveren of vasthouden.
+
+## Verdedigingschecklist
+
+- Noteer level, locatie en cooldown van elke SAM.
+- Gebruik de bereikformule en niet de zoekstraal 600.
+- Behandel een nieuw slot 90 ticks als ongeladen.
+- Sluit de drager uit en tel Warheads afzonderlijk.
+- Plan voor gemengde Atom-, Hydrogen- en MIRV-prioriteit.
+- Spreid locaties over verschillende aanvliegroutes.
+- Bewaar heroveringstroepen buiten waarschijnlijke kraters.
+- Werk gereedstaande schoten bij na elke onderschepping.
+
+Verdediging is een netwerk door de tijd. Hoge levels ver weg zijn minder waard dan één geladen raket met echte onderscheppingsgeometrie.
+
+## Veelvoorkomende rekenfouten
+
+### Alleen eigen MIRVs tellen
+
+De ladder is globaal. Elke succesvolle lancering verhoogt de volgende prijs voor iedereen met 15M.
+
+### Silo-level verwarren met gereedheid
+
+Afkoelende slots zijn niet beschikbaar. Trek ze af en bedenk dat een upgradeslot ongeladen begint.
+
+### De MIRV-drager als SAM-doel tellen
+
+De drager is uitgesloten. Schat afgesplitste Warheads die werkelijk geschikt kunnen worden.
+
+### Het verschil een doorbraakvoorspelling noemen
+
+Het simuleert geen geometrie, richtbare segmenten, prioriteit, onderscheppingstijd of herladen tijdens de golf.
+
+### Elke MIRV op 350 zetten
+
+350 is het maximum. Klein, kustachtig, versnipperd of randnabij territorium geeft minder geldige doelen.
+
+### Een ETA via rechte afstand toevoegen
+
+Banen zijn gekromd en Warheads hebben verschoven snelheid en wachttijd. Een simpele deling zou vals nauwkeurig zijn.
+
+## FAQ over de kernwapencalculator
+
+### Bevat het totaal bouwkosten van Silo en SAM?
+
+Nee. Het bevat geplande Atom, Hydrogen en MIRV. Voeg noodzakelijke gebouwen los toe.
+
+### Waarom is de volgende MIRV goedkoper dan de laatste in de reeks?
+
+“Volgende” toont de directe prijs vóór het plan. Elk succes verhoogt daarna de prijs binnen de reeks met 15M.
+
+### Hebben Hydrogen en MIRV x5 in het normale menu?
+
+Nee. Het radiale menu biedt aantallen voor Atom. Grotere aantallen zijn hier een geplande reeks.
+
+### Betekent level 5 vijf gereedstaande SAM-schoten?
+
+Alleen bij volle lading. Met twee afkoelende slots heeft een SAM van level 5 drie gereedstaande schoten.
+
+### Waarom toont level 5 precies 102 tiles?
+
+Met level 5 geeft `150 - 480 / (level + 5)` de uitkomst `150 - 48 = 102`.
+
+### Garandeert een positief verschil minstens één inslag?
+
+Nee. Sommige ingevoerde doelen kunnen onbereikbaar zijn, terwijl herladen of andere SAMs extra schoten kunnen leveren.
+
+### Garandeert een negatief verschil volledige onderschepping?
+
+Nee. Elke gereedstaande raket heeft nog een tijdig bereikbaar, richtbaar punt nodig.
+
+### Waar staat het volledige MIRV-doelmodel?
+
+Lees de [MIRV-gids](/nl/guides/mirv/) voor straal 1.500, afstand 55, splitsing, timing van kernkoppen en de aanvals- en verdedigingsprocedure.
+
+## Formele bronnen en verificatiegrens
+
+De huidige grens is de [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). De notities veranderen geen formule van dit hulpmiddel.
+
+De berekeningen blijven bevestigd door ongewijzigde v0.33.6-code en officiële tests:
+
+- [Config.ts: kosten, cooldowns, snelheid, stralen en SAM-bereik](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: globale prijzen en doelen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: gekromde vlucht, richtbaarheid en inslag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: onderscheppingsplan en prioriteit](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: doellijst en raketgedrag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: kosten en Silo-keuze](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: onafhankelijke slotwachtrijen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [MIRV-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [SAM-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile-Silo-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+Gebruik [kernwapenmechanica](/nl/mechanics/nukes/) voor de grenzen en [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) om kosten en slots aan inzet en vergelding te koppelen.

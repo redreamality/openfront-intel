@@ -58,7 +58,9 @@ const formattedDate = new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 
     </div>
     <div>
       <dt class="text-xs font-medium text-iron-400">{labels.verified}</dt>
-      <dd class="mt-1 font-mono text-iron-100">{formattedDate}</dd>
+      <dd class="mt-1 font-mono text-iron-100">
+        <time datetime={verifiedDate.toISOString().slice(0, 10)}>{formattedDate}</time>
+      </dd>
     </div>
     <div>
       <dt class="text-xs font-medium text-iron-400">{labels.change}</dt>

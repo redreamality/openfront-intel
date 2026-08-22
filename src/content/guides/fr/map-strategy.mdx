@@ -1,0 +1,273 @@
+---
+title: Comment lire une carte OpenFront
+description: Analysez terrain jouable, régions connectées, réseaux d'eau, impassable, spawns et Compact avant de choisir votre ouverture OpenFront.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [cartes, stratégie, marine, spawn]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié sur le terrain et les ressources officiels v33.7, avec des mesures reproductibles pour Svalmel et Dyslexdria."
+---
+
+## Réponse directe : cinq lectures successives
+
+Ne commencez pas par chercher le pays qui semble le plus sûr. Lisez toute carte OpenFront dans cet ordre :
+
+1. **Terrain jouable** : combien de territoire peut réellement être possédé ?
+2. **Composantes terrestres** : quelles régions se rejoignent par terre ?
+3. **Réseaux d'eau** : existe-t-il un seul théâtre naval ou plusieurs systèmes isolés ?
+4. **Terrain impassable** : quelles formes ne peuvent être possédées, attaquées ou traversées par un nuke ?
+5. **Spawn et mode** : comment joueurs, Nations, équipes et Compact peuplent-ils ce squelette ?
+
+Cet ordre sépare les faits de la carte des conditions du salon. Il évite de prendre un fond noir pour du terrain vide, cinq Nations pour cinq humains, ou une ligne fine pour un chokepoint garanti.
+
+## Ce que les fichiers prouvent
+
+En v33.7, chaque case de terrain tient dans un byte. Les bits land, shoreline, ocean et magnitude déterminent son type. Land avec magnitude 31 signifie impassable.
+
+Le jeu relie nord, sud, ouest et est, sans boucler aux bords. Nous pouvons donc recalculer les composantes terrestres et aquatiques depuis `map.bin`.
+
+Les fichiers prouvent dimensions, terrain jouable, impassable, connexions, côte, Nations et coordonnées fixes. Ils ne prouvent ni durée moyenne, ni meilleur spawn, ni victoire probable, ni rendement d'un Port.
+
+Utilisez les mesures comme instrument de lecture, pas comme remplacement des parties.
+
+## Passe 1 : mesurer le terrain jouable
+
+La grille inclut eau et arrière-plan bloqué. Le terrain jouable représente l'espace de contrôle ordinaire et alimente la formule des joueurs publics.
+
+Sol mène la grille avec 11 204 096 cases, mais seulement 877 713 sont jouables. The Box offre 4 194 304 tiles jouables.
+
+Total et proportion répondent à des questions différentes :
+
+- **Total et proportion élevés** : nombreuses routes terrestres et forte croissance.
+- **Grand total, faible proportion** : l'eau ou la séparation domine une grande toile.
+- **Petit total, forte proportion** : pression terrestre plus concentrée.
+- **Faible proportion, nombreuses composantes** : transports et flotte deviennent centraux.
+
+Ce ne sont pas des tiers automatiques. Un couloir terrestre peut être plus contraignant qu'un archipel doté de plusieurs sorties utiles.
+
+## Passe 2 : classer les composantes terrestres
+
+Une composante regroupe les tiles jouables liées dans quatre directions. Deux régions de composantes différentes nécessitent un transport ou une règle qui transforme le terrain.
+
+Comptez-les, puis classez-les par part de terrain. Le nombre brut inclut souvent de minuscules îles ; observez d'abord les quelques blocs qui contiennent l'essentiel.
+
+Posez trois questions :
+
+1. Un bloc contient-il la majorité du terrain ?
+2. Deux à cinq grands théâtres se partagent-ils la carte ?
+3. Quelle part reste dans les satellites ?
+
+Un bloc dominant favorise frontières continues et profondeur. Plusieurs blocs rendent le contrôle régional plus facile que le contrôle global. Les satellites valorisent Ports de relais et information côtière.
+
+« Connecté » ne signifie pas « ouvert ». Un même bloc peut contenir un isthme, des montagnes ou un très long corridor.
+
+## Passe 3 : séparer eau et littoral
+
+Les composantes d'eau indiquent si les flottes partagent théoriquement une masse continue ou doivent être construites dans des systèmes isolés.
+
+Une seule composante ne garantit pas une route courte. Distance, côtes hostiles, coût de pathfinding et contrôle naval restent décisifs.
+
+Depuis la Release v31, Ports, Trade Ships et Warships opèrent sur toutes les eaux, pas seulement ocean. Un lac isolé peut accueillir une flotte sans la relier au lac voisin.
+
+Une tile côtière n'est pas un compteur de Ports. Avant une ouverture navale, vérifiez :
+
+- la composante d'eau touchée par votre spawn ;
+- les grands blocs atteignables depuis cette eau ;
+- si un second Port étend l'accès ou répète la même côte ;
+- quel rival peut contester la route avant son amortissement.
+
+Le [guide du contrôle naval en équipe](/fr/strategies/team-naval-control/) prend le relais après l'identification du théâtre.
+
+## Passe 4 : marquer l'impassable
+
+En v33.7, l'impassable est une case land de magnitude 31. Elle ne peut être possédée, attaquée ou nukée ; les trajectoires de nuke ne peuvent pas la traverser.
+
+C'est une frontière dure, pas seulement un terrain coûteux.
+
+Vérifiez si elle divise une région visible, ferme réellement un corridor, bloque une ligne nucléaire ou occupe un espace qui ne compte pas dans la capacité publique.
+
+Ne déduisez pas ce statut de la couleur seule. Les réglages graphiques changent l'apparence ; les données de terrain font autorité.
+
+## Passe 5 : ajouter population et spawn
+
+Ajoutez la configuration seulement après avoir lu le squelette.
+
+La FFA publique part du terrain jouable complet et choisit trois paliers. Compact réduit le palier retenu à 25 %. Team arrondit selon les équipes ; Crowded suit une autre branche.
+
+Les Nations décrivent des IA, pas les places humaines. Random Spawn, zones d'équipe, bots et comptes personnalisés changent fortement la pression.
+
+La valeur visible du salon reste la vérité de la partie. Le [guide des tailles et de Compact](/fr/guides/map-size-compact-mode/) explique son calcul.
+
+## Étude de cas : Svalmel
+
+La Release v28 décrit Svalmel comme une carte de Noël avec cinq Nations. Le manifest v33.7 les conserve toutes avec des coordonnées fixes.
+
+![Miniature officielle OpenFront de Svalmel montrant quatre grands groupes insulaires](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/svalmel/thumbnail.webp)
+
+*Ressource Svalmel non modifiée : OpenFront / OpenFront Inc. and Contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) ; [source OpenFrontIO v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/thumbnail.webp).*
+
+| Mesure Normal vérifiée | Valeur |
+| --- | ---: |
+| Grille | 1 700 x 1 580 |
+| Terrain jouable | 1 011 623, soit 37,66 % |
+| Impassable | 0 |
+| Composantes terrestres | 26 |
+| Composantes d'au moins 1 000 tiles | 13 |
+| Plus grand bloc | 35,28 % du terrain |
+| Quatre premiers blocs | 91,48 % |
+| Composantes d'eau | 1 |
+
+Svalmel n'est pas un nuage uniforme de petites îles. Quatre groupes contiennent 91,48 % du terrain, et les deux premiers 66,21 %.
+
+La macro-partie comporte donc quatre théâtres et des satellites. Gagner une grande île ne crée aucune frontière terrestre vers les trois autres.
+
+Toute l'eau forme un réseau continu. Les transports peuvent relier les théâtres en principe, mais longueur et contrôle ennemi décident de l'usage réel.
+
+Les deux plus grands blocs valent 35,28 % et 30,93 %. Les données ne permettent pas de promettre une symétrie parfaite.
+
+Questions d'ouverture : sur quel bloc êtes-vous, le premier rival partage-t-il ce bloc, quelle côte ouvre plusieurs théâtres, et quelle île satellite constitue un relais plutôt qu'une distraction ?
+
+Compact Svalmel utilise 850 x 790, 248 032 tiles jouables et 24 composantes. Le squelette principal demeure, avec moins d'îlots.
+
+## Étude de cas : Dyslexdria
+
+La Release v31 présente Dyslexdria comme une carte April Fools de retour, basée sur un World recoloré. Les ressources v33.7 incluent ses mises à jour v33.
+
+![Miniature officielle OpenFront de Dyslexdria montrant une composition mondiale fragmentée](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/dyslexdria/thumbnail.webp)
+
+*Ressource Dyslexdria non modifiée : OpenFront / OpenFront Inc. and Contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) ; [source OpenFrontIO v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/thumbnail.webp).*
+
+| Mesure Normal vérifiée | Valeur |
+| --- | ---: |
+| Grille | 3 308 x 1 440 |
+| Terrain jouable | 2 103 254, soit 44,15 % |
+| Cases land impassables | 175 320 |
+| Composantes terrestres | 224 |
+| Composantes d'au moins 1 000 tiles | 52 |
+| Plus grand bloc | 16,77 % du terrain |
+| Dix premiers blocs | 85,78 % |
+| Composantes d'eau | 1 |
+
+Aucun continent ne domine Dyslexdria. Le plus grand ne vaut que 16,77 %, et il faut dix régions pour atteindre 85,78 %.
+
+Une victoire régionale ne signifie donc pas contrôle global. Une force locale ne peut pas soutenir immédiatement un théâtre lointain sans traverser l'eau.
+
+Le total de 224 contient beaucoup de petits fragments. Analysez d'abord les dix grands blocs ; utilisez les autres comme relais, fuite ou diversion.
+
+Les 175 320 cases impassables n'entrent pas dans le terrain jouable. Le fond noir de la miniature n'est pas une terre vide à conquérir.
+
+Le manifest contient 82 Nations principales, dont 69 positionnées, plus 189 noms additionnels. Le default public Normal peut prendre 82 Nations, Compact 20. Ce ne sont pas des plafonds humains.
+
+Compact Dyslexdria utilise 1 654 x 720, 508 102 tiles jouables, 43 913 impassables et 142 composantes terrestres.
+
+## Transformer la lecture en ouverture
+
+Après le spawn, suivez une courte chaîne de décision.
+
+### 1. Nommez votre composante
+
+Êtes-vous sur le continent principal, un théâtre parmi plusieurs, une péninsule ou un satellite ? Cela détermine si l'expansion terrestre suffit.
+
+### 2. Marquez deux sorties réelles
+
+Choisissez la voie principale et une réserve. Une ouverture fermée par impassable n'est pas une réserve.
+
+### 3. Comptez les voisins utiles
+
+Priorisez ceux qui partagent votre bloc, puis ceux qui contestent la même côte ou le même passage.
+
+### 4. Décidez si l'eau est accès ou exposition
+
+Une bonne côte ouvre plusieurs théâtres. Une mauvaise consomme de l'or naval pendant que l'unique rival terrestre avance.
+
+### 5. Fixez une ligne d'arrêt
+
+Arrêtez l'expansion là où le terrain se resserre, où les défenses se recouvrent ou où un Port ouvre le prochain théâtre.
+
+Le [guide de première partie](/fr/guides/first-match/) développe cette séquence.
+
+## Familles de topologie
+
+### Masse terrestre dominante
+
+Attendez-vous à des frontières continues et plusieurs voisins. Profondeur et forme de frontière priment sur les transports précoces.
+
+### Plusieurs grandes îles
+
+Traitez chaque île comme une économie régionale. Svalmel en est l'exemple vérifié avec quatre grands blocs dans un réseau d'eau commun.
+
+### Long corridor
+
+La direction est contrainte, mais la distance reste immense. Les dimensions 6 000 x 400 de Passage signalent ce risque.
+
+### Monde fragmenté
+
+Plusieurs grands blocs créent des guerres indépendantes. Dyslexdria en est l'exemple : son plus grand bloc contient moins d'un sixième du terrain.
+
+### Eaux séparées
+
+Des Ports placés dans deux composantes d'eau soutiennent des flottes distinctes. Une supériorité navale locale ne protège pas l'autre système.
+
+## Erreurs fréquentes
+
+### Choisir au volume visuel
+
+Une grande forme peut cacher impassable ou plusieurs composantes. Vérifiez les sorties jouables.
+
+### Appeler toute ligne fine un chokepoint
+
+Un vrai passage doit être franchissable, défendable, fréquenté et contrôlable. La miniature seule ne le prouve pas.
+
+### Construire un Port parce que l'eau est proche
+
+La côte vaut seulement si elle atteint un théâtre utile et si son coût d'opportunité est supportable.
+
+### Confondre Nations et joueurs
+
+Le manifest configure les IA. Les humains viennent du salon.
+
+### Copier un plan Normal en Compact
+
+Grandes formes, îlots, distances, paliers, bots et Nations changent. Recalculez l'ordre des contacts.
+
+### Déclarer un meilleur spawn sans parties
+
+La topologie décrit les compromis, pas les taux de victoire. Il faut des parties comparables pour classer les spawns.
+
+## FAQ
+
+### Que regarder en premier ?
+
+Votre composante terrestre et deux sorties réelles. Vérifiez ensuite le réseau d'eau côtier et les barrières impassables.
+
+### Une seule eau signifie-t-elle une marine facile ?
+
+Non. Elle prouve seulement une route continue. Distance, flotte adverse, Ports et pathfinding restent déterminants.
+
+### Plus de composantes favorise-t-il toujours la marine ?
+
+Non. Les petites îles ajoutent des trajets sans garantir assez de terrain pour amortir l'infrastructure.
+
+### La topologie donne-t-elle le meilleur spawn ?
+
+Elle explique les risques et élimine de fausses hypothèses. Un classement exige des parties répétées dans le même mode.
+
+### Comment Compact change-t-il la topologie ?
+
+Il charge un terrain moitié moins large et haut, soit un quart de la grille. Les grands blocs restent souvent, les détails fins peuvent disparaître.
+
+### Pourquoi isoler l'impassable ?
+
+Son land bit ressemble à de la terre brute, mais il ne peut être possédé et n'entre pas dans la capacité. Il bloque aussi attaques et nukes.
+
+## Sources et suite
+
+- [Release officielle OpenFront v33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Sémantique des tiles et voisinage v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameMap.ts)
+- [Manifest Svalmel v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/manifest.json)
+- [Manifest Dyslexdria v33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/manifest.json)
+- [Release v28 pour Svalmel](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.28.0)
+- [Release v31 pour Dyslexdria et les eaux intérieures](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Comparez les échelles dans [Taille des cartes et Compact](/fr/guides/map-size-compact-mode/).

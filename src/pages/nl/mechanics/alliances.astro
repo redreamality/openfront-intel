@@ -5,6 +5,7 @@ import Callout from '../../../components/Callout.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const alliance = formulas.groups.alliance;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Allianties en verraad" description="Duur van OpenFront.io-allianties, hernieuwingsmechaniek, automatisch embargo en verraadstraffen in detail.">
@@ -64,5 +65,6 @@ const alliance = formulas.groups.alliance;
       <li>In een trio waarbij jij achterop raakt, sterf je sowieso — verraad de grote bondgenoot om het territorium van een derde te grijpen.</li>
     </ul>
     <p>In alle andere gevallen is <strong>de alliantie laten aflopen zonder hernieuwing</strong> winstgevender dan verraad: geen straf, geen automatisch embargo, gewoon niet meer verlengen.</p>
+    <p>Speel je tegen een Nation? Lees de <a href={`${base}nl/mechanics/nations/`}>beslisgids voor Nation-AI</a> om te zien hoe v0.33.7 kandidaten voor alliantie en verraad kiest.</p>
   </article>
 </BaseLayout>

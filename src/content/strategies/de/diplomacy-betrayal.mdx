@@ -1,0 +1,367 @@
+---
+title: Diplomatie, Embargos und Verrat
+description: Ein v0.33.7-Entscheidungsleitfaden für Bündnisanfragen, Verlängerungen, Embargos, Verräterrisiko und bündnisbrechende Nuklearschläge.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [alliances, diplomacy, betrayal, embargoes]
+category: Mittel-Endspiel
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Am 2026-08-22 gegen den offiziellen Tag v0.33.7 geprüft: Anfragen, Verlängerungen, Embargos, traitor-Strafen und nukleare Bündnisbruchprüfungen."
+---
+
+## Direkte Antwort
+
+In v0.33.7 ist Diplomatie ein Problem aus Zeitfenstern und Ausstiegskosten. Eine Anfrage hält 20 Sekunden, derselbe Spieler kann nach 30 Sekunden erneut gefragt werden und das Standardbündnis dauert 300 Sekunden.
+
+Eine Verlängerung braucht beide Spieler. Natürliches Auslaufen ist kein Verrat. Manuelles Brechen kann 30 Sekunden `traitor` auslösen, während Embargos und Nuklearprüfungen Handel oder Bündnis noch vor dem geplanten Angriff ändern.
+
+## Versionsgrenze und Begriffe
+
+Dieser Leitfaden wurde am 2026-08-22 geprüft. Er erklärt Regeln und Entscheidungskosten, aber keinen garantiert besten Verratszeitpunkt.
+
+Ein **ally** steht in einem aktiven Bündnis. Ein **teammate** gehört zum selben festen Team. Beide können `friendly` sein, doch ihre Zustände sind nicht gleich.
+
+Ein Bündnis kann angefragt, verlängert, natürlich beendet oder manuell gebrochen werden. Die normale Break-Alliance-Aktion löst kein Team auf.
+
+Die Standarddauer beträgt fünf Minuten. Eine benutzerdefinierte Lobby kann eine bis 15 Minuten wählen. Der Wert null deaktiviert Bündnisse.
+
+Auch die ältere Einstellung zum Deaktivieren verhindert Anfragen. Prüfe die Lobby, bevor du mit einem festen Fenster von 300 Sekunden planst.
+
+Die Fakten stammen aus dem offiziellen [Release v0.33.7][release], fest verlinktem Tag-Code und offiziellen Tests. Taktische Hinweise bleiben Entscheidungsrahmen.
+
+## Vier Fragen vor jeder Diplomatieaktion
+
+Erste Frage: **Wie viel Zeit bleibt** für Anfrage, Bündnis, Verlängerungsfenster, temporary embargo oder traitor?
+
+Zweite Frage: **Wie hoch sind die Ausstiegskosten**? Kannst du natürliches Auslaufen abwarten oder ist ein sofortiger Bruch nötig?
+
+Dritte Frage: **Welches Netzwerk fällt aus**, wenn eine Richtung ein Embargo setzt und Ports oder Trains nicht mehr handeln können?
+
+Vierte Frage: **Welche Nuke ist bereits unterwegs**? Annahme kann einen Flugkörper entfernen, ein geplanter Einschlag dagegen das Bündnis brechen.
+
+Diese Fragen treffen keine automatische Wahl. Sie zeigen Zustandswechsel, die an einer plötzlich dringenden Grenze leicht übersehen werden.
+
+Formuliere zusätzlich das Ziel: Soll das Bündnis Erholung, Handel, einen Puffer oder Truppenverlagerung an eine andere Front ermöglichen?
+
+## Bündnisanfrage: 20 Sekunden im 30-Sekunden-Zyklus
+
+Eine `alliance request` bleibt 20 Sekunden aktiv. Der Cooldown gegenüber demselben Spieler beträgt 30 Sekunden ab Erstellung der ursprünglichen Anfrage.
+
+Der Cooldown startet nicht erst mit dem Ablauf. Eine Anfrage bei `t = 0` verschwindet etwa bei `t = 20s`; dieselbe Person wird um `t = 30s` wieder anfragbar.
+
+Nach dem Ablauf bleiben daher ungefähr zehn Sekunden, nicht weitere 30. Dieses kurze Fenster dient zur Beobachtung, nicht als sofortige Verteidigung.
+
+Hat der andere Spieler bereits eine eingehende Anfrage geschickt, nimmt deine Gegenanfrage dieses Bündnis an. Es bleiben keine zwei unabhängigen Angebote bestehen.
+
+### Szenario 1: verpasste Anfrage
+
+Du fragst um `12:00` an. Das Angebot bleibt bis ungefähr `12:20` aktiv. Eine erneute Anfrage wird um etwa `12:30` möglich.
+
+Hält die Grenze diese zehn Sekunden nicht, genügt die Diplomatieaktion nicht. Du brauchst weiterhin Troops, Raum oder einen anderen Ausweg.
+
+Sendet die andere Seite währenddessen selbst eine Anfrage, kann deine Gegenanfrage sie annehmen. Prüfe dann sofort, was die neue friendly Grenze tatsächlich freigibt.
+
+Quellen: [AllianceRequestExecution.ts][request-source], [AllianceRequestImpl.ts][request-model] und [offizielle Tests][request-tests].
+
+## Annahme verändert die Karte sofort
+
+Ein aktives Bündnis macht beide Spieler für normale Landangriffe friendly. Ein laufender Angriff zwischen den neuen Verbündeten wird ohne normalen Rückzugsmalus zurückgerufen.
+
+Die Annahme löscht außerdem temporary embargoes zwischen beiden Spielern. Manuelle Embargos bleiben bestehen.
+
+Das Spiel prüft relevante Nukes, die schon fliegen. Flugkörper zwischen den neuen Verbündeten werden entfernt, falls sie das neue Bündnis brechen würden.
+
+Dieser Schutz ist eng begrenzt. Er ist weder ein globaler Waffenstillstand noch eine Entfernung von Nukes Dritter.
+
+Frage vor der Annahme, ob der Puffer, Handel, Erholungszeit oder wichtige Infrastruktur tatsächlich geschützt werden.
+
+Prüfe dann, ob ein laufender Schlag gelöscht wird. Der Code beweist die Entfernung, aber nicht den strategischen Gewinn der Annahme.
+
+## Eine Verlängerung braucht zwei Entscheidungen
+
+Beide Spieler müssen einer Verlängerung zustimmen. Eine Seite kann das zeitlich begrenzte Bündnis nicht allein in eine neue volle Periode umwandeln.
+
+Der Client öffnet das Verlängerungsfenster in den letzten 30 Sekunden. Erfolgreiche beidseitige Zustimmung setzt die volle Dauer ab dem aktuellen Tick neu.
+
+Sie hängt nicht nur 30 Sekunden an das alte Ende. Bei der Standardeinstellung beginnen im Moment der Verlängerung neue 300 Sekunden.
+
+### Szenario 2: Standardbündnis verlängern
+
+Nehmen wir ein geplantes Ende um `15:00` an. Das Verlängerungsfenster öffnet etwa um `14:30`.
+
+Beide Seiten bestätigen um `14:42`. Das neue Ende liegt ungefähr bei `19:42`, weil ab dem Verlängerungstick 300 Sekunden neu laufen.
+
+Stimmt nur eine Seite zu, findet keine Verlängerung statt. Das ursprüngliche Bündnis kann um `15:00` natürlich auslaufen.
+
+Nutze die letzten 30 Sekunden, um Puffer, Handel und gemeinsame Bedrohung neu zu bewerten. Eine sichtbare Schaltfläche ist noch keine beidseitige Zustimmung.
+
+Quellen: [AllianceExtensionExecution.ts][extension-source], [AllianceImpl.ts][alliance-model] und [offizielle Verlängerungstests][extension-tests].
+
+## Natürliches Auslaufen ist kein Verrat
+
+Endet die Zeit regulär, endet nur der Bündnisstatus. Natürliches Auslaufen erzeugt keinen traitor-Status.
+
+Das ist ein Ausstieg mit geringerem Regelpreis, wenn kein sofortiger Angriff nötig ist. Du kannst Reserven halten und die Grenze danach neu bewerten.
+
+Die ehemalige Ally-Grenze ist anschließend nicht weiter sicher. Angriffe werden wieder möglich und jede auf friendly beruhende Stellung muss überprüft werden.
+
+Die mechanische Trennung ist klar: Ablauf beendet Zeit; manueller Bruch startet einen eigenen Verratspfad.
+
+### Szenario 3: warten oder brechen
+
+Das Bündnis läuft noch 35 Sekunden. Du musst nicht sofort angreifen und die andere Front hält.
+
+Warten vermeidet den manuellen traitor-Pfad. Sofortiges Brechen kann 30 Sekunden verwundbar machen und spart hier nur fünf Sekunden.
+
+Das beweist keine allgemeine Überlegenheit des Wartens. Es zeigt, warum die Restzeit vor den Ausstiegskosten verglichen werden muss.
+
+## Embargo und Bündnis sind getrennte Zustände
+
+Handel ist blockiert, sobald eine Richtung die andere mit einem Embargo belegt. Handel braucht kein Bündnis, und ein Bündnis überschreibt kein aktives manuelles Embargo.
+
+Ein normaler Angriff erzeugt beim Ziel ein temporary embargo gegen den Angreifer. Dieser Zustand endet nach ungefähr fünf Minuten.
+
+Ein manuell gesetztes Embargo ist persistent. Es folgt keinem automatischen Ablauf auf demselben Pfad.
+
+Bei Bündnisannahme werden nur temporary embargoes zwischen dem Paar gelöscht. Ein manuelles Embargo bleibt und kann den Handel weiter blockieren.
+
+Leite den Handelsstatus daher nicht vom Bündnissymbol ab. Prüfe die wirkliche Port- oder Train-Verbindung nach der Annahme.
+
+`Embargo All` schließt den Spieler selbst, Bots und teammates aus. Der Cooldown beträgt zehn Sekunden.
+
+Die Aktion kann mehrere externe Beziehungen schnell kappen. Sie ist dennoch keine universelle und permanente Sperre jedes Spielers.
+
+Quellen: [EmbargoExecution.ts][embargo-source], [EmbargoAllExecution.ts][embargo-all], [PlayerImpl.ts][player-source] und [GameImpl.ts][game-source].
+
+### Szenario 4: temporäres oder manuelles Embargo
+
+A greift B bei `t = 0` an. Ohne weitere Änderungen endet Bs temporary embargo gegen A ungefähr bei `t = 300s`.
+
+Bei `t = 120s` nehmen beide ein Bündnis an. Das temporäre Embargo wird sofort entfernt.
+
+Hat B zusätzlich manuell ein Embargo gesetzt, bleibt dieser persistente Zustand. Handel kann auch zwischen den neuen Allies blockiert bleiben.
+
+Prüfe deshalb die echte Verbindung. Nimm nicht an, dass das Bündnis jeden Embargotyp entfernt hat.
+
+## Manueller Bruch und das Traitor-Fenster
+
+Manuelles Brechen folgt nicht dem natürlichen Ablauf. Ist der betrogene Spieler verbunden und nicht selbst traitor, erhält der Brechende 30 Sekunden traitor-Status.
+
+Der betrogene Empfänger speichert eine Relationsänderung von `-100`. Nahe Spieler, die nicht im Team des Empfängers sind, speichern `-40`.
+
+Relation ist ein Zustand der Engine, keine Vorhersage menschlichen Verhaltens. Die Zahl garantiert weder Vergeltung noch Vergebung oder einen Zielwechsel.
+
+Das direkte taktische Risiko entsteht durch Kampfmodifikatoren. Gegen einen traitor defender werden die Verluste des Angreifers mit `0.5` multipliziert.
+
+Die Tile-Verarbeitungskosten werden mit `0.8` multipliziert. Das senkt unter gleichen Bedingungen Kosten, verspricht aber keine feste Eroberungsdauer.
+
+Route, Troops, Gegenangriffe und Tick-Reihenfolge verändern den Fortschritt weiterhin. `0.8` bedeutet nicht garantiert 20 Prozent schnellere Eroberung.
+
+Quellen: [BreakAllianceExecution.ts][break-source], [Kampf-Utility][combat-source] und [AttackExecution.ts][attack-source].
+
+### Szenario 5: 30 Sekunden Exposition
+
+Du brichst bei `t = 0`, während die Verratsbedingungen erfüllt sind. Der traitor-Status läuft bis ungefähr `t = 30s`.
+
+Währenddessen erhalten Angreifer gegen dich die Multiplikatoren `0.5` für Verluste und `0.8` für Tile-Verarbeitungskosten.
+
+Bei `t = 30s` endet der Status. Bereits verlorene Troops, Gebiete und geänderte Beziehungen werden nicht zurückgesetzt.
+
+Die Frage lautet nicht, ob Verrat einen Sieg garantiert. Sie lautet, ob sofortiges Handeln diese bekannte Verwundbarkeit und den Relationspreis wert ist.
+
+## Nuklearwaffen können vor dem Einschlag brechen
+
+Die nukleare Bündnisprüfung hat zwei unabhängige Auslöser: gewichtetes Ally-Gebiet über einem Schwellenwert oder eine bedrohte Ally-Struktur.
+
+Der konfigurierte Schwellenwert ist 100. Jeder Ally-Tile im inner radius zählt `1`; jeder im outer ring zählt `0.5`.
+
+Die Summe muss strikt größer als 100 sein. Genau 100 löst den Gebietszweig nicht aus.
+
+Der Strukturzweig ist unabhängig. Jede Ally-Struktur, die im outer blast radius zerstört würde, reicht unabhängig von der gewichteten Tile-Zahl.
+
+Wird ein Start als bündnisbrechend bewertet, lehnt die Ausführung relevante offene Anfragen ab, bricht das Bündnis und nutzt den normalen traitor-Pfad.
+
+Quellen: [Config.ts][config-source], [NukeExecution.ts][nuke-source] und [offizielle Nuke-Tests][nuke-tests].
+
+### Szenario 6: strikt größer als 100
+
+Der innere Bereich umfasst 101 Ally-Tiles. Die Summe ist 101, also bricht der Gebietszweig das Bündnis.
+
+Genau 100 innere Ally-Tiles ergeben 100. Die strikte Bedingung `> 100` ist nicht erfüllt.
+
+Zweihundert äußere Ally-Tiles ergeben ebenfalls 100, weil jeder `0.5` zählt. Nur das Gebiet löst weiterhin nichts aus.
+
+Die Beispiele isolieren die Gewichtung. Eine Struktur im Blast kann das Ergebnis über den zweiten Zweig ändern.
+
+### Szenario 7: drei Tiles und ein Port
+
+Angenommen, nur drei Ally-Tiles liegen im outer radius. Ihr Gesamtgewicht bleibt weit unter 100.
+
+Auf einem davon steht ein Ally-Port, den die Explosion zerstören würde. Der Strukturzweig greift und das Bündnis bricht.
+
+In der Nähe einer Ally-City, eines Ports, einer Factory oder eines SAM Launchers reicht reines Tile-Zählen nicht aus.
+
+## Lokale Grenze von MIRVWarhead
+
+In `NukeExecution` v0.33.7 überspringt der Typ `MIRVWarhead` diese Bündnisbruchprüfung an genau dieser Stelle.
+
+Das ist eine lokale Codegrenze. Belegt ist nur, dass dieser Warhead-Pfad die Prüfung dort nicht auslöst.
+
+Nicht belegt ist, dass der MIRV-Träger, jede Phase eines MIRV oder alle späteren Interaktionen niemals ein Bündnis brechen.
+
+Die öffentliche Aussage muss eng bleiben. „MIRVWarhead überspringt diese Prüfung“ ist gestützt; „MIRV bricht nie“ ist es nicht.
+
+Dieselbe Vorsicht gilt für Teams. Teamzugehörigkeit ist kein Bündnis und wird durch die Break-Alliance-Aktion nicht entfernt.
+
+Das beweist keine Nuklearimmunität von teammates. Dieser Leitfaden macht eine solche Aussage nicht.
+
+## Ablauf, Verlängerung oder Bruch wählen
+
+Wähle **natürliches Auslaufen**, wenn keine sofortige Feindschaft nötig ist und du den traitor-Pfad vermeiden willst.
+
+Wähle **Verlängerung**, wenn beide Seiten noch Puffer, Handel, Erholung oder Schutz vor einer gemeinsamen Bedrohung gewinnen.
+
+Erwäge **manuellen Bruch** nur, wenn sofortiges Handeln 30 Sekunden Exposition, Relationsänderungen und den Verlust einer friendly Grenze rechtfertigt.
+
+Erwäge **Embargo**, wenn Handelsverweigerung allein schon Wert schafft. Es braucht keinen Angriff, und ein manuelles Embargo kann spätere Diplomatie überdauern.
+
+Prüfe Nukes vor jedem Übergang neu. Annahme kann qualifizierte Flugkörper entfernen; ein geplanter Blast kann das Bündnis vor dem Einschlag brechen.
+
+Das ist keine Rangliste. Karte, Troops, weitere Nachbarn und verbundene Infrastruktur bestimmen, welcher Preis gerade wichtig ist.
+
+## Fehlerbilder und Gegenmaßnahmen
+
+### Die Ally gewinnt nur Zeit
+
+Ein Bündnis schützt eine Grenze, gibt der anderen Seite aber ebenfalls Zeit zur Erholung und Verlagerung. Halte Verteidigung für Ablehnung, Ablauf oder späteren Bruch.
+
+Räume die gemeinsame Grenze nicht vollständig. Die Sperre normaler Landangriffe hängt an einem zeitlich begrenzten Zustand.
+
+### Die Verlängerung bleibt einseitig
+
+Eine Zustimmung verlängert noch nichts. Ohne Antwort musst du mit dem ursprünglichen Ende planen.
+
+Nutze die letzten 30 Sekunden, um die Front zu kürzen, Strukturen zu schützen und keine neue Route von einem endenden friendly Status abhängig zu machen.
+
+### Handel bleibt nach Annahme gesperrt
+
+Suche zuerst nach einem manuellen Embargo. Nur temporary embargoes werden bei der Annahme gelöscht.
+
+Prüfe den echten Port oder Train. Investiere nicht weiter, bevor beide Richtungen Handel erlauben.
+
+### Dritte nutzen den Traitor-Status
+
+Andere Spieler können die 30 Sekunden ausnutzen. Die niedrigeren Multiplikatoren machen einen traitor defender in diesem Fenster günstiger angreifbar.
+
+Prüfe vor dem Bruch alle Grenzen. Nahe Spieler erhalten ebenfalls das Relationsereignis, außer sie gehören zum Team des betrogenen Spielers.
+
+### Die Nuke-Rechnung vergisst Strukturen
+
+Eine gewichtete Summe von 100 verhindert nur den Gebietszweig. Eine einzelne Ally-Struktur im outer radius reicht für den anderen Zweig.
+
+Prüfe Strukturen getrennt vom Gebiet. Beide Bedingungen sind mit OR, nicht mit AND verbunden.
+
+### Menschliches Verhalten wird zur Formel
+
+Relationsstrafen sind Engine-Zustand, kein Modell für echte Entscheidungen. Ein Mensch kann angreifen, ignorieren oder später erneut kooperieren.
+
+Nutze Zahlen für die Regelwirkung. Beschreibe menschliche Reaktionen nur als Möglichkeiten, nie als sichere Folge.
+
+## Anpassung an Modus und Karte
+
+In FFA können mehrere nahe Spieler das traitor-Fenster nutzen. Prüfe alle erreichbaren Grenzen, nicht nur die ehemalige Ally.
+
+Im Teammodus musst du ally und teammate immer trennen. Ein teammate ist durch das Team friendly, nicht durch diesen zeitlich begrenzten Bündniszyklus.
+
+Auf kompakten Karten umfasst ein outer radius leichter mehrere Ally-Strukturen. Prüfe den OR-Zweig vor dem Start einzeln.
+
+Auf großen Karten schaffen fünf Minuten viel Verlagerungszeit. Entfernung kann auch verlangsamen, wie schnell eine Relationsänderung ausgenutzt wird.
+
+Auf handelsstarken Karten wiegt ein persistentes manuelles Embargo stärker, weil Port- und Train-Investitionen länger als ein Bündniszyklus laufen.
+
+Diese Anpassungen ändern keine Zeit und keinen Multiplikator. Sie ändern nur den Positionswert der Regeln.
+
+## FAQ
+
+### Wie lange hält eine Bündnisanfrage?
+
+20 Sekunden. Der Cooldown zum selben Spieler beträgt 30 Sekunden ab Erstellung der ursprünglichen Anfrage.
+
+### Wie lange dauert das Standardbündnis?
+
+300 Sekunden oder fünf Minuten. Benutzerdefinierte Lobbys erlauben eine bis 15 Minuten; null deaktiviert Bündnisse.
+
+### Wird ein Bündnis automatisch verlängert?
+
+Nein. Beide Seiten müssen zustimmen. Das Fenster liegt in den letzten 30 Sekunden, danach startet eine volle Dauer ab dem Verlängerungstick.
+
+### Ist natürliches Auslaufen Verrat?
+
+Nein. Es beendet das Bündnis ohne den traitor-Status des manuellen Bruchs.
+
+### Wie lange hält traitor?
+
+30 Sekunden, wenn die Bedingungen des manuellen Bruchs greifen. Angreifer erhalten dann die beschriebenen Multiplikatoren `0.5` und `0.8`.
+
+### Löscht ein Bündnis jedes Embargo?
+
+Nein. Annahme löscht temporary embargoes zwischen beiden Spielern, nicht persistente manuelle Embargos.
+
+### Ist ein Angriffs-Embargo permanent?
+
+Nein. Das temporary embargo eines normalen Angriffs dauert ungefähr fünf Minuten. Nur das manuelle Embargo ist persistent.
+
+### Brechen genau 100 gewichtete Tiles das Bündnis?
+
+Nein. Die Gebietsbedingung verlangt strikt mehr als 100. Eine Ally-Struktur im outer radius kann trotzdem den anderen Zweig auslösen.
+
+### Kann ein MIRV niemals ein Bündnis brechen?
+
+Diese Aussage ist zu breit. Nur `MIRVWarhead` überspringt diese konkrete Prüfung in `NukeExecution`.
+
+### Sind teammates gegen Nukes immun?
+
+Die verwendeten Quellen belegen das nicht. Sie zeigen nur, dass die normale Bündnisbruchaktion das Team nicht auflöst.
+
+## Weiterlesen
+
+Lies [nukleare Abschreckung](/de/strategies/nuclear-deterrence/), bevor du nahe Ally-Gebiet oder Strukturen zielst.
+
+Nutze [Team-Seekontrolle](/de/strategies/team-naval-control/), wenn Diplomatie Ports, Küsten oder gemeinsame Seewege schützt.
+
+[Port oder Factory](/de/guides/port-vs-factory/) erklärt das Wirtschaftsnetz, das ein Embargo unterbrechen kann.
+
+Kehre zum [Leitfaden für die erste Partie](/de/guides/first-match/) zurück, wenn Angriffs-, Bündnis- oder Kartensteuerung noch unklar ist.
+
+Legt eine diplomatische Änderung einen Spieler offen, wechsle zum [Recovery-Playbook](/de/strategies/recovery-playbook/). Für Spenden, Ziele und Logistik nutze [Teamrollen](/de/strategies/team-roles/).
+
+## Offizielle Quellen
+
+- [OpenFrontIO Release v0.33.7][release]
+- [Anfrageausführung][request-source], [Modell][request-model] und [Tests][request-tests]
+- [Verlängerungsausführung][extension-source], [Bündnismodell][alliance-model] und [Tests][extension-tests]
+- [Manueller Bündnisbruch][break-source]
+- [Embargo][embargo-source] und [Embargo All][embargo-all]
+- [Friendly-, Handels- und Embargozustand][player-source]
+- [Bereinigung bei Annahme][game-source]
+- [Traitor-Kampfmodifikatoren][combat-source]
+- [Nukleare Bündnisbruchprüfung][nuke-source] und [offizielle Tests][nuke-tests]
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[request-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceRequestExecution.ts
+[request-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceRequestImpl.ts
+[request-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceRequestExecution.test.ts
+[extension-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceExtensionExecution.ts
+[extension-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceExtensionExecution.test.ts
+[alliance-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceImpl.ts
+[break-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/BreakAllianceExecution.ts
+[embargo-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoExecution.ts
+[embargo-all]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoAllExecution.ts
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[game-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameImpl.ts
+[combat-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/Util.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[config-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts
+[nuke-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NukeExecution.ts
+[nuke-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/core/executions/NukeExecution.test.ts

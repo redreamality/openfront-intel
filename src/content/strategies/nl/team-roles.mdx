@@ -1,0 +1,405 @@
+---
+title: 'OpenFront-teamrollen: een flexibel coördinatiekader'
+description: Coördineer front, donaties, doelen, spoor, marine en nucleaire afschrikking zonder OpenFront-rollen als vaste klassen te behandelen.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [team, roles, donations, coordination]
+category: Team
+difficulty: Gevorderd
+version: v33
+freshnessSummary: "Op 2026-08-22 geverifieerd tegen de officiële v0.33.7-tag: donatieopties, gedeelde afkoeltijd, doeltiming, friendly-relaties en Train-opbrengsten."
+---
+
+## Direct antwoord
+
+In v0.33.7 kent OpenFront geen vergrendelde teamklassen. Gebruik rollen als een bewerkbaar plan: het front vangt druk op, donoren verplaatsen de schaarse grondstof en doelcoördinatoren richten aandacht.
+
+Spoor, marine en nucleaire afschrikking houden steunroutes beschikbaar. Verdeel die taken opnieuw zodra grenzen, capaciteit, goud of infrastructuur verandert.
+
+Donaties hangen af van modusinstellingen, headroom bij de ontvanger en één gedeelde afkoeltijd van 10 seconden. Een doelmarkering deelt 10 seconden intentie, geen volledig zicht. Laatst geverifieerd op 2026-08-22.
+
+## Rollen zijn beslissingen, geen klassen
+
+Het spel wijst niemand aan als front, donor, doelcoördinator, logistiek speler, zeemacht of nucleair specialist. Die zes namen zijn een redactioneel kader voor huidig werk.
+
+Ze geven geen passieve bonus, exclusieve bediening of beschermde positie. Eén speler kan twee verantwoordelijkheden dragen en er één vóór de volgende actie afstaan.
+
+Gebruik rollen voor één vraag: wie kan het huidige knelpunt van het team tegen de laagste alternatieve kosten wegnemen?
+
+Een vaste opstelling negeert het bord. Een donor wordt frontspeler wanneer een grens opengaat; een zeespeler wordt logistiek wanneer beslissend water niet meer telt.
+
+De bron bewijst acties, tijden en grondstofgrenzen. Ze bewijst geen vaste zeskoppige bezetting, donatievolgorde of rolverdeling met een gegarandeerde winstkans.
+
+## Friendly, teammate en ally onderscheiden
+
+In de engine omvat **friendly** jezelf, een speler in hetzelfde team en een speler in een actieve alliantie. Een gewone landaanval kan geen friendly speler als doel nemen.
+
+Een **teammate**, of teamgenoot, hoort door de modus bij hetzelfde team. Een **ally**, of bondgenoot, is verbonden via het tijdelijke alliantiesysteem.
+
+Beide relaties vallen bij sommige controles onder friendly, zoals bij geschiktheid voor donaties. Toch zijn het geen gelijke toestanden.
+
+Teamlidmaatschap is geen tijdelijke alliantie. Een alliantie kan verlopen, worden verlengd of verbroken; routes en steunafspraken kunnen daardoor tijdens een partij veranderen.
+
+Het verschil wijzigt ook Train-inkomsten. Een ally-stop betaalt in de huidige code een andere basis dan een teammate-stop.
+
+Bronnen: [PlayerImpl.ts][player-source], [AttackExecution.ts][attack-source] en [TrainStation.ts][train-source].
+
+## Controleer de donatieoptie vóór je een donor aanwijst
+
+Openbare playlists gebruiken in v0.33.7 deze standaardwaarden. Een aangepaste lobby kan de opties wijzigen.
+
+| Openbare modus | Donate Gold | Donate Troops | Gevolg voor planning |
+| --- | --- | --- | --- |
+| Team | Aan | Aan | De donor kan standaard tussen beide grondstoffen kiezen. |
+| FFA | Uit | Uit | Alleen een alliantie activeert donaties niet. |
+| Ranked 1v1 | Uit | Uit | Plan zonder transfers, tenzij aangepaste regels afwijken. |
+| Ranked 2v2 | Aan | Aan | Beide donaties zijn standaard beschikbaar. |
+
+Schrijf niet dat elke ally altijd kan doneren. Zender en ontvanger moeten leven en friendly zijn; Human-spelers hangen ook af van de bijbehorende lobbyoptie.
+
+Ook “doneren in FFA is onmogelijk” is te breed. In de openbare FFA staat het standaard uit, maar een aangepaste kamer kan andere instellingen gebruiken.
+
+Bronnen: [MapPlaylist.ts][playlist-source], [DonateGoldExecution.ts][gold-source] en [DonateTroopExecution.ts][troop-source].
+
+## Bouw een actueel teamoverzicht
+
+Noteer zes toestanden voordat je rollen verdeelt. Houd het overzicht kort genoeg om het na een grensbreuk, verloren Haven of grote transfer direct te vernieuwen.
+
+| Vraag | Nuttig signaal | Rol die waarschijnlijk wisselt |
+| --- | --- | --- |
+| Wie vangt landdruk op? | Inkomende aanvallen, grenslengte, reserve | Front / anker |
+| Wie kan Troops ontvangen? | Huidige Troops en `maxTroops`-headroom | Donor / economie |
+| Welke vijand telt nu? | Lopende aanval, bloot gebouw, landing | Doelcoördinator |
+| Welk netwerk rekent nog af? | Stad- of Havenstop, route, embargo | Spoor / handelslogistiek |
+| Welk water verandert beweging? | Transportroute, Haven, knelpunt | Marinesteun |
+| Wie kan nucleair antwoorden? | Goud, Silo, SAM-druk, blootstelling | Nucleaire afschrikking |
+
+Dit overzicht is een redactioneel hulpmiddel, geen ingebouwd scherm. Het voorkomt dat de taak van gisteren blijft bestaan nadat haar doel verdween.
+
+Controleer opnieuw wanneer een ontvanger zijn limiet nadert, een route breekt, een markering verloopt of een vijand naar de steunspeler draait.
+
+## Rol 1: front of anker
+
+Het front vangt de huidige landdruk op en meldt welke steun het gevecht verandert. Het resultaat is een stabiel contactvlak, niet het grootste gebied binnen het team.
+
+Meld richting, bruikbare Troops, headroom bij de ontvanger en één doel voor de korte termijn. “Stuur alles” verbergt de limiet die een transfer kan afkappen.
+
+Gebruik target wanneer één vijand prioriteit heeft. Neem niet aan dat de markering alle eenheden, goudreserves of verborgen gebieden van die vijand toont.
+
+**Wisselsignaal:** draag de rol over wanneer de grens korter wordt, de buur verandert of Doomsday-druk herstel van ander gebied urgenter maakt.
+
+**Tegenzet:** druk op twee fronten of bedreiging van de steunroute. Het anker moet dan bepalen welk contact echt beslissend is.
+
+## Rol 2: donor of economie
+
+De donor vraagt of goud of Troops in de komende 10 seconden het grootste knelpunt oplost. De rol verstuurt niet automatisch elk zichtbaar overschot.
+
+Troop-donaties worden beperkt door vrije ruimte tot `maxTroops` en door wat de zender werkelijk kan aftrekken. Goud wordt begrensd door het beschikbare saldo.
+
+De standaardaanvraag voor Troops is een derde van de huidige Troops van de zender, maar de echte transfer kan lager zijn. Die standaard is geen aanbevolen reservepercentage.
+
+Goud en Troops van dezelfde zender aan dezelfde ontvanger delen één afkoeltijd van 10 seconden. Een kleine donatie kan de werkelijk urgente grondstof blokkeren.
+
+**Wisselsignaal:** stop als de ontvanger bijna vol is, het front stabiel wordt of de donor zelf doelwit wordt en een eigen reserve nodig heeft.
+
+**Tegenzet:** val de donor aan of laat meerdere ontvangers tegelijk steun vragen. De gedeelde afkoeltijd maakt prioriteren onderdeel van verdediging.
+
+## Rol 3: doelcoördinator
+
+De doelcoördinator gebruikt een korte markering voor één actuele prioriteit. De client toont markers van teammates en allies samen, maar ze blijven coördinatiesignalen.
+
+Een target blijft 10 seconden zichtbaar. De mogelijkheid van dezelfde zender heeft een afkoeltijd van 15 seconden.
+
+Er zijn dus ongeveer 5 seconden waarin de oude marker weg is en die zender nog geen nieuwe kan plaatsen. Stem, pings of bestaande zichtbare informatie moeten de kloof dragen.
+
+Target is geen bevel. Het dwingt geen aanval af, draagt geen besturing over en deelt geen volledige verborgen informatie over het doel.
+
+**Wisselsignaal:** wissel de coördinator als diens afkoeltijd botst met een urgente dreiging of een ander speler het relevante front beter ziet.
+
+**Tegenzet:** toon twee geloofwaardige dreigingen of trek terug na de markering. Het team mag een verlopen prioriteit niet automatisch blijven volgen.
+
+## Rol 4: spoor- en handelslogistiek
+
+Logistiek houdt verbindingen tussen Fabriek, Stad en Haven in staat om af te rekenen. Eigendom en relatie tellen even zwaar als het aangelegde spoor.
+
+Bij 1x multiplier zonder stopstraf voor een lange route betaalt een ally-stop 35.000 basisgoud aan de Train-eigenaar en 35.000 aan de buitenlandse stationseigenaar.
+
+Een teammate-stop betaalt beide partijen elk 25.000. Een other-stop betaalt ook elk 25.000; een self-stop boekt één betaling van 10.000.
+
+Bij een buitenlandse stop ontvangt elke partij het volledige bedrag; ze delen niet één pot. Goudmultiplier en stopstraf voor een lange route kunnen het resultaat wijzigen.
+
+Beweer niet dat teammate-routes de hoogste basis betalen. De v0.33.7-tak kent de waarde van 35.000 toe aan een ally-stop.
+
+**Wisselsignaal:** verander bij een gebroken route, handelsblokkade, nieuwe stationseigenaar of verdediging die meer kost dan de huidige steunwaarde.
+
+**Tegenzet:** verover een stop, snijd een smalle verbinding af of verander de diplomatieke toestand. Bereken het actieve netwerk opnieuw.
+
+## Rol 5: marinesteun
+
+Marinesteun beschermt het water dat teambeweging verandert. Ze escorteert Transports, bestrijdt landingen en beschermt een nuttige Haven zonder Warships te maximaliseren.
+
+Vraag voortdurend of het water nog belangrijke fronten verbindt. Wordt de strijd continentaal of valt de Haven, dan lossen schepen het actieve knelpunt mogelijk niet meer op.
+
+Stem het landingsvenster af met front en doelcoördinator. Zonder land-Troops die klaarstaan, levert een beschermde overtocht niet vanzelf gebied op.
+
+**Wisselsignaal:** draai weg als de vijand de route verlaat, geen geldige Haven overblijft of grondwerk direct meer waarde heeft.
+
+**Tegenzet:** veins een overtocht, val de ondersteunende kust aan of lok de vloot weg van haar Haven. Bescherm de route, niet een abstract vlootcijfer.
+
+## Rol 6: nucleaire afschrikking
+
+Afschrikking bewaart genoeg goud, toegang tot een Silo en beschermde infrastructuur voor een strategisch antwoord. Het is geen toestemming om op elk beschikbaar doel te vuren.
+
+Meld welk antwoord echt gereed is en welke installatie blootstaat. Verspil de reserve niet aan een zwak doel als een urgenter antwoord kan volgen.
+
+Deze rol overlegt vóór donaties goud voor verdediging of bouw verbruiken. Ook controleert ze of een ally-relatie nog actief is.
+
+**Wisselsignaal:** verdeel opnieuw als de Silo valt, SAM-druk routes verandert, kernwapens uitstaan of een ander speler veiliger infrastructuur bezit.
+
+**Tegenzet:** zet druk op installaties, spreid waardevolle doelen of dwing de reserve twee dreigingen te beantwoorden. Afschrikking is capaciteit, geen garantie op controle.
+
+## Donatiebesluit: ontvanger, capaciteit, grondstof, afkoeltijd
+
+Beantwoord vier vragen vóór elke urgente transfer. De volgorde helpt diagnose en schrijft geen vaste donatievolgorde voor.
+
+1. **Ontvanger:** leeft de speler, is die friendly en staat deze donatie in de lobby aan?
+2. **Capaciteit:** hoeveel Troop-headroom blijft over en hoeveel kan de zender werkelijk aftrekken?
+3. **Grondstof:** houden Troops nu de lijn, of ontsluit goud het waardevollere gebouw, limiet of antwoord?
+4. **Afkoeltijd:** heeft deze zender in de afgelopen 10 seconden één van beide grondstoffen aan deze ontvanger gegeven?
+
+De keuze van grondstof is tactisch. Afkoeltijd, headroom, leven, friendly-status en configuratieoptie zijn enginegrenzen.
+
+Verschillende donoren houden eigen gegevens bij. Daaruit volgt geen wereldwijde teamafkoeltijd en geen omzeiling door één zender die goud en Troops afwisselt.
+
+Controleer na een Troop-transfer het ontvangen bedrag. Ook een geldige aanvraag kan door headroom of zendercapaciteit worden afgekapt.
+
+### Scenario 1: headroom kapt een Troop-donatie af
+
+Stel dat de ontvanger `maxTroops = 200.000` heeft en momenteel `185.000` Troops bezit. De vrije capaciteit is:
+
+`headroom = 200.000 - 185.000 = 15.000`
+
+Zelfs bij een aanvraag van 30.000 kan de ontvanger in dit voorbeeld maximaal 15.000 krijgen.
+
+Na de transfer gaan zowel goud- als Troop-donaties van deze zender aan deze ontvanger in dezelfde afkoeltijd van 10 seconden.
+
+De les is niet “stuur altijd eerst Troops”. Controleer capaciteit en kies daarna welke grondstof het gedeelde venster verdient.
+
+Bronnen: [DonateTroopExecution.ts][troop-source], [PlayerImpl.ts][player-source] en [officiële donatietests][donation-tests].
+
+### Scenario 2: een kleine transfer blokkeert urgent goud
+
+Stel dat het front zowel een kleine aanvulling Troops als 120.000 goud nodig heeft voor de actie die het team urgenter vindt.
+
+Stuurt één donor eerst de Troops, dan kan die niet direct goud aan dezelfde ontvanger geven. De gedeelde afkoeltijd duurt 10 seconden.
+
+Een andere geschikte donor kan een eigen registratie hebben, maar saldo, friendly-status en modusopties blijven gelden.
+
+Kies de grondstof die in de komende 10 seconden het grootste knelpunt verwijdert. De code schrijft geen universele volgorde voor.
+
+Bronnen: [DonateGoldExecution.ts][gold-source], [DonateTroopExecution.ts][troop-source] en [Donate.test.ts][donation-tests].
+
+## Doeltiming: 10 seconden zichtbaar, 15 seconden geblokkeerd
+
+Zie target als een kort intentiebericht: “richt aandacht nu hier”, niet als “alle informatie over deze speler is gedeeld”.
+
+Op `t = 0` markeert de coördinator een vijand. De marker blijft zichtbaar tot ongeveer `t = 10s`.
+
+De afkoeltijd van dezelfde zender eindigt rond `t = 15s`. Er zijn dus ongeveer 5 seconden zonder oude marker en zonder nieuwe marker van die coördinator.
+
+### Scenario 3: het gat tussen markers
+
+Stel dat de gemarkeerde vijand op `t = 9s` terugtrekt en een grotere dreiging op `t = 11s` verschijnt.
+
+De eerste marker is weg, maar de oorspronkelijke coördinator blijft tot ongeveer `t = 15s` geblokkeerd. Een ander speler of extern kanaal moet de wijziging dragen.
+
+Dat pleit voor wisselende verantwoordelijkheid, niet voor een permanente coördinator. De best geïnformeerde beschikbare speler kan het volgende venster nemen.
+
+De client combineert ally- en teammate-markers. Hij combineert geen oorlogsnevel, eenheidsdetails, goudsaldi of automatische aanvallen.
+
+Bronnen: [TargetPlayerExecution.ts][target-source] en [PlayerView.ts][view-source].
+
+## Train-stops: relatie verandert de basisbetaling
+
+Beoordeel spoorsteun aan werkende stops, niet aan totale spoorlengte. Een voltooide buitenlandse stop betaalt elke partij het bedrag van de relatie.
+
+### Scenario 4: ally-stop tegenover teammate-stop
+
+Neem een goudmultiplier van 1x en geen stopstraf voor een lange route aan.
+
+Bij een teammate-stop ontvangt de Train-eigenaar 25.000 en de stationseigenaar eveneens 25.000.
+
+Bij een ally-stop ontvangt de Train-eigenaar 35.000 en de stationseigenaar eveneens 35.000.
+
+In deze smalle vergelijking levert de ally-stop dus 10.000 meer basisgoud op voor elke partij.
+
+Dit bewijst niet dat allianties beter zijn dan teams. Het beschrijft alleen deze Train-tak; duur, embargo, routeveiligheid en teamdoel blijven afzonderlijk.
+
+Bron: [TrainStation.ts][train-source].
+
+### Scenario 5: other is niet nul
+
+Onder dezelfde aannames betaalt een stop van een other speler 25.000 aan de Train-eigenaar en 25.000 aan de stationseigenaar.
+
+Handelstoestemming blijft tellen. Een embargo in één richting kan de verbinding onbruikbaar maken, hoewel de tabel een other-tak bevat.
+
+Maak van het getal geen belofte dat elk zichtbaar buitenlands station afrekent. Controleer diplomatie en de actieve route.
+
+## Een coördinatiecyclus zonder vaste bouwvolgorde
+
+Doe een korte controle na elke toestandswijziging. De volgende reeks helpt overleg; ze is geen enginetimer of verplicht draaiboek.
+
+### 1. Benoem de druk
+
+Vind de aanval, landing, routebreuk, capaciteitsschaarste of nucleaire dreiging die het volgende onomkeerbare verlies kan veroorzaken.
+
+Verdeel geen zes rollen wanneer slechts twee taken tellen. Lege labels kosten aandacht en verbergen dat niemand het huidige risico bezit.
+
+### 2. Benoem het knelpunt
+
+Kies tussen Troops, goud, headroom, doelduidelijkheid, route, watertoegang of beschermde vuurkracht.
+
+Zo beantwoordt een donor een volle troepenlimiet niet met meer Troops en beschermt een vloot geen water dat geen beweging meer draagt.
+
+### 3. Wijs één eigenaar en één wisselsignaal aan
+
+De eigenaar doet de volgende nuttige actie. Het signaal beëindigt de taak: limiet bereikt, marker verlopen, grens dicht, route doorbroken of installatie verloren.
+
+Zonder wisselsignaal verhardt tijdelijke verantwoordelijkheid tot een klasse en blijft ze na het verdwijnen van haar waarde bestaan.
+
+### 4. Controleer het resultaat
+
+Controleer het ontvangen bedrag, de marker, afgerekende stop, veilige overtocht of bewaarde reactie. Een poging is nog geen voltooid teamresultaat.
+
+## Aanpassingen voor modus en kaart
+
+### Openbaar Team en Ranked 2v2
+
+Goud- en Troop-donaties staan standaard aan. De gedeelde ontvangerafkoeltijd en headroomcontrole blijven gelden.
+
+Meer transfers geven meer opties. Ze laten de donor niet zonder eigen reserve achter op een blootgestelde grens.
+
+### Openbaar FFA en Ranked 1v1
+
+Beide donaties staan standaard uit. Een alliantie maakt spelers friendly, maar overschrijft geen uitgeschakelde Human-donatieoptie.
+
+Aangepaste lobbys kunnen opties wijzigen. Draag de openbare standaard niet zonder controle over op privépartijen.
+
+### Continentale kaarten
+
+Front- en spoorrollen kunnen overheersen wanneer landroutes de meeste doelen verbinden. Verklein marinesteun als water geen beweging verandert.
+
+Lange verbindingen hebben meer breekpunten. Logistiek verdedigt de stop of brug waarvan verlies echte afrekening wijzigt, niet elk decoratief spoorstuk.
+
+### Zeestraten en eilandkaarten
+
+Marinesteun kan centraal worden wanneer één overtocht het team verbindt. Na een geslaagd escorte heeft het front nog genoeg Troops nodig om het venster te benutten.
+
+Beoordeel direct opnieuw als de beslissende Haven valt. Een onbereikbare marinemissie blijven financieren is rolinertie.
+
+### Kernwapens of SAMs uitgeschakeld
+
+Zonder kernwapens heeft nucleaire afschrikking geen normale taak. Verdeel goud en aandacht over een actief knelpunt.
+
+Zijn kernwapens aan maar SAMs uit, dan tellen spreiding en blootstelling. Bouw geen beschermingsrol rond een lanceerder die de lobby verbiedt.
+
+## Fouten en tegenzetten van de tegenstander
+
+### Vaste functietitels
+
+De donor blijft sturen nadat die zelf het open front werd, of de marine blijft schepen bouwen nadat het water niet meer telt.
+
+Koppel elke rol aan een wisselsignaal. De rol beschrijft de volgende verantwoordelijkheid, niet de identiteit van een speler voor de hele partij.
+
+### Doneren aan een volle ontvanger
+
+Het team vraagt veel zonder `maxTroops`-headroom te controleren. Het bedrag wordt afgekapt, maar de zender verbruikt toch het gedeelde venster van 10 seconden.
+
+Lees eerst de capaciteit. Als goud een ander knelpunt oplost, vergelijk dat vóór één van beide donaties.
+
+### Dubbele of verouderde doelen
+
+Meerdere spelers markeren verschillende vijanden, of iedereen volgt een marker nadat de positie veranderde.
+
+Houd één prioriteit per zichtbaar venster. De 15 seconden zenderafkoeltijd en beweging van de vijand vragen om herbeoordeling.
+
+### Een marker als gedeeld zicht lezen
+
+Het team ziet target als volledige inlichtingen en zet kracht in op basis van eenheden of grondstoffen die nooit gedeeld zijn.
+
+Noem de zichtbare reden voor het doel. De code bewijst gezamenlijke markerweergave, geen volledig gedeelde oorlogsnevel.
+
+### De spoorrelatie verkeerd prijzen
+
+Het team neemt 35.000 voor teammate-stops aan of denkt dat buitenlandse partijen één beloning delen.
+
+Gebruik de echte basis: ally elk 35.000; teammate en other elk 25.000; self eenmaal 10.000. Verwerk daarna multiplier en straf.
+
+### Aanval op het steunnetwerk
+
+Een tegenstander kan de donor bedreigen, spoor breken, een Haven innemen, het front splitsen of nucleaire infrastructuur aanvallen.
+
+Deze tegenzetten verslaan het kader niet automatisch. Ze dwingen het team knelpunt en verantwoordelijkheid bij te werken.
+
+## FAQ over teamrollen
+
+### Vergrendelt OpenFront spelers in rollen?
+
+Nee. De zes rollen zijn een redactioneel coördinatiekader. De engine biedt acties en relaties, geen beroepen of rolbonussen.
+
+### Kan elke ally een donatie ontvangen?
+
+Niet altijd. Beide spelers moeten leven en friendly zijn; Human-donaties moeten aanstaan. Openbaar FFA en Ranked 1v1 zetten beide standaard uit.
+
+### Hebben goud en Troops aparte afkoeltijden?
+
+Nee. Beide donaties van dezelfde zender aan dezelfde ontvanger gebruiken dezelfde registratie van 10 seconden.
+
+### Kan een Troop-donatie `maxTroops` overschrijden?
+
+Nee. Headroom bij de ontvanger en capaciteit van de zender begrenzen de transfer. Het ontvangen bedrag kan lager zijn dan gevraagd.
+
+### Deelt target volledig zicht?
+
+Nee. Ally- en teammate-markers zijn 10 seconden zichtbaar, maar tonen niet alle nevel, eenheden of grondstoffen en dwingen geen aanval af.
+
+### Waarom verdwijnt de marker vóór ik opnieuw kan markeren?
+
+Zichtbaarheid duurt 10 seconden en de afkoeltijd van dezelfde zender 15 seconden. De kloof is ongeveer 5 seconden.
+
+### Betaalt een teammate-Train-stop 35.000?
+
+Nee. De basistak betaalt elke partij 25.000. Een ally-stop betaalt elke partij 35.000; multiplier en stopstraf kunnen werkelijke inkomsten wijzigen.
+
+### Bestaat er een beste vaste teamopstelling?
+
+Geen geverifieerde bron bewijst die. Verdeel alleen werk dat grens, netwerk, capaciteit en dreiging vragen, en wissel bij de signalen.
+
+## Bronnen en verder lezen
+
+De huidige grens is de officiële [OpenFront-v0.33.7-release][release]. Alle onderstaande code- en testlinks zijn vastgezet op dezelfde tag.
+
+- [PlayerImpl.ts][player-source] voor friendly, donatieregistratie, handel en troepenlimieten.
+- [MapPlaylist.ts][playlist-source] voor standaardopties van openbare modi.
+- [DonateGoldExecution.ts][gold-source] en [DonateTroopExecution.ts][troop-source] voor geschiktheid en grenzen.
+- [TargetPlayerExecution.ts][target-source] en [PlayerView.ts][view-source] voor timing en gecombineerde ally- of teammate-weergave.
+- [TrainStation.ts][train-source] voor ally-, teammate-, other- en self-betalingen.
+- [Officiële donatietests][donation-tests] en [alliantiedonatietests][alliance-donation-tests] voor gedeelde afkoeltijd en friendly-grenzen.
+
+Lees verder over [Team-zeebeheersing](/nl/strategies/team-naval-control/), [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) en [handelsmechanica](/nl/mechanics/trade/).
+
+Bekijk [allianties en verraad](/nl/mechanics/alliances/) voordat je een ally-route als vaste teaminfrastructuur behandelt.
+
+Stort een teamgenoot al in, begin dan met het [herstelplan](/nl/strategies/recovery-playbook/). Gebruik voor alliantie, embargo en vertrek [diplomatie en verraad](/nl/strategies/diplomacy-betrayal/).
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[gold-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts
+[troop-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts
+[playlist-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts
+[target-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TargetPlayerExecution.ts
+[view-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/view/PlayerView.ts
+[train-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts
+[donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Donate.test.ts
+[alliance-donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceDonation.test.ts

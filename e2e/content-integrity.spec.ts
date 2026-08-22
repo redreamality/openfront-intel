@@ -111,6 +111,8 @@ const privateLobbyCases = [
     facts: ['Host Cheats', 'Random Spawn', '0-15 min custom alliances', 'No saved named preset yet'],
     managedHeading: 'What v33.5 changes for managed lobbies',
     managedFacts: ['Custom label and longer listing window', 'Pinned teams at game creation', 'no pinned-team button', 'x5 ghost badge'],
+    spectatorHeading: 'How spectator join works in v33.7',
+    spectatorFacts: ['Spectate', 'do not spawn', 'cannot switch back to Play', 'opens as a replay'],
   },
   {
     lang: 'zh',
@@ -121,6 +123,8 @@ const privateLobbyCases = [
     facts: ['Host Cheats', 'Random Spawn', '0-15 分钟自定义同盟', '当前没有具名预设'],
     managedHeading: 'v33.5 对受管大厅改变了什么',
     managedFacts: ['自定义标签与更长展示窗口', '创建对局时固定队伍', '没有固定队伍按钮', 'x5 ghost badge'],
+    spectatorHeading: 'v33.7 的旁观加入怎样使用',
+    spectatorFacts: ['Spectate', '不会出生', '不能再切回 Play', '打开回放'],
   },
   {
     lang: 'fr',
@@ -131,6 +135,8 @@ const privateLobbyCases = [
     facts: ['Host Cheats', 'Random Spawn', "alliances 0-15 min", 'Pas encore de preset nommé'],
     managedHeading: 'Ce que v33.5 change pour les salons gérés',
     managedFacts: ['Label personnalisé et liste prolongée', 'Équipes fixées à la création', 'aucun bouton d’équipe fixée', 'Badge fantôme x5'],
+    spectatorHeading: 'Comment rejoindre en spectateur dans la v33.7',
+    spectatorFacts: ['Spectate', 'ne spawnez pas', 'ne peut plus passer vers Play', 'ouvre donc le replay'],
   },
   {
     lang: 'de',
@@ -141,6 +147,8 @@ const privateLobbyCases = [
     facts: ['Host Cheats', 'Random Spawn', 'Bündnisse 0-15 Min.', 'Noch kein benannter Preset'],
     managedHeading: 'Was v33.5 bei verwalteten Lobbys ändert',
     managedFacts: ['Eigenes Label und längeres Listing', 'Fixierte Teams bei Erstellung', 'keinen Fixierknopf', 'x5-Ghost-Badge'],
+    spectatorHeading: 'So funktioniert der Zuschauerbeitritt in v33.7',
+    spectatorFacts: ['Spectate', 'spawnst nicht', 'nicht mehr zu Play wechseln', 'öffnet sich das Replay'],
   },
   {
     lang: 'nl',
@@ -151,6 +159,8 @@ const privateLobbyCases = [
     facts: ['Host Cheats', 'Random Spawn', 'allianties 0-15 min', 'Nog geen benoemde preset'],
     managedHeading: 'Wat v33.5 voor beheerde lobby’s verandert',
     managedFacts: ['Eigen label en langere plaatsing', 'Teams vastzetten bij aanmaak', 'geen vastzetknop', 'x5-ghostbadge'],
+    spectatorHeading: 'Zo werkt deelnemen als toeschouwer in v33.7',
+    spectatorFacts: ['Spectate', 'spawnt niet', 'niet meer naar Play', 'opent de replay'],
   },
 ];
 
@@ -160,13 +170,18 @@ for (const lobbyCase of privateLobbyCases) {
     const main = page.locator('main');
 
     await expect(main).toContainText('v33.5');
+    await expect(main).toContainText('v33.7');
     await expect(main.getByRole('heading', { level: 2, name: lobbyCase.managedHeading })).toBeVisible();
+    await expect(main.getByRole('heading', { level: 2, name: lobbyCase.spectatorHeading })).toBeVisible();
     for (const heading of lobbyCase.headings) {
       await expect(main.getByRole('heading', { level: 3, name: heading })).toBeVisible();
     }
     for (const fact of lobbyCase.facts) await expect(main).toContainText(fact);
     for (const fact of lobbyCase.managedFacts) await expect(main).toContainText(fact);
+    for (const fact of lobbyCase.spectatorFacts) await expect(main).toContainText(fact);
 
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7"]')).toHaveCount(1);
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts"]')).toHaveCount(1);
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts"]')).toHaveCount(1);
@@ -303,7 +318,7 @@ const freshnessLanguages = [
 
 const freshnessPages = [
   { route: '/guides/first-match/', fact: '22' },
-  { route: '/guides/doomsday-clock/', fact: '150' },
+  { route: '/guides/doomsday-clock/', fact: 'v33.7' },
   { route: '/guides/hotkeys/', fact: 'hotkey' },
   { route: '/guides/water-nukes/', fact: 'water-nukes' },
   { route: '/strategies/economy-fundamentals/', fact: 'v32' },
@@ -387,6 +402,8 @@ const doomsdayCases = [
     floor: '5%',
     floorTransition: '40% to 5%',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25%, and 35%',
+    teamThresholds: '3%, 6%, 10%, 15%, 21%, 28%, and 35%',
+    wasteland: 'fallout wasteland',
     rot: 'territory rot',
     deadline: '150 seconds',
     equalSafe: 'equal to or above',
@@ -407,7 +424,9 @@ const doomsdayCases = [
     warshipRate: '50%',
     floor: '5%',
     floorTransition: '40% 降到 5%',
-    thresholds: '2%、4%、7%、11%、17%、25% 和 35%',
+    thresholds: '2%、4%、7%、11%、17%、25%、35%',
+    teamThresholds: '3%、6%、10%、15%、21%、28%、35%',
+    wasteland: 'fallout wasteland',
     rot: '领土腐化',
     deadline: '150 秒',
     equalSafe: '等于或高于',
@@ -429,6 +448,8 @@ const doomsdayCases = [
     floor: '5 %',
     floorTransition: '40 % à 5 %',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %',
+    teamThresholds: '3 %, 6 %, 10 %, 15 %, 21 %, 28 %, puis 35 %',
+    wasteland: 'deviennent du wasteland',
     rot: 'corruption territoriale',
     deadline: '150 secondes',
     equalSafe: 'égal ou supérieur',
@@ -450,6 +471,8 @@ const doomsdayCases = [
     floor: '5 %',
     floorTransition: '40 % auf 5 %',
     thresholds: '2 %, 4 %, 7 %, 11 %, 17 %, 25 % und schließlich 35 %',
+    teamThresholds: '3 %, 6 %, 10 %, 15 %, 21 %, 28 % und 35 %',
+    wasteland: 'werden Wasteland',
     rot: 'Gebietszerfall',
     deadline: '150 Sekunden',
     equalSafe: 'gleich oder größer',
@@ -471,6 +494,8 @@ const doomsdayCases = [
     floor: '5%',
     floorTransition: '40% naar 5%',
     thresholds: '2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%',
+    teamThresholds: '3%, 6%, 10%, 15%, 21%, 28% en 35%',
+    wasteland: 'worden wasteland',
     rot: 'landrot',
     deadline: '150 seconden',
     equalSafe: 'gelijk aan of hoger',
@@ -494,6 +519,8 @@ for (const doomsdayCase of doomsdayCases) {
     await expect(main).toContainText(doomsdayCase.floor);
     await expect(main).toContainText(doomsdayCase.floorTransition);
     await expect(main).toContainText(doomsdayCase.thresholds);
+    await expect(main).toContainText(doomsdayCase.teamThresholds);
+    await expect(main).toContainText(doomsdayCase.wasteland);
     await expect(main).toContainText(doomsdayCase.rot);
     await expect(main).toContainText(doomsdayCase.deadline);
     await expect(main).toContainText(doomsdayCase.equalSafe);
@@ -510,7 +537,7 @@ for (const doomsdayCase of doomsdayCases) {
     await expect(timingTable.locator('tbody tr')).toHaveCount(4);
 
     await expect(
-      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts"]'),
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts"]'),
     ).toHaveCount(1);
   });
 

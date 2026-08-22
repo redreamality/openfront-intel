@@ -1,14 +1,26 @@
 ---
-title: 'v33.6 : replays versionnés, salons featured et commandes v33'
-description: 'Notes OpenFront v33.6 orientées joueur : rejouer les anciennes parties avec le build correspondant, plus les limites des salons v33.5 et des commandes groupées v33.4.'
+title: 'v33.7 : spectateurs, Doomsday en équipe et règles v33'
+description: 'Notes OpenFront v33.7 orientées joueur : regarder sans prendre de place, suivre la barre Doomsday plus haute en équipe et conserver les règles v33 actives.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-20
+updatedDate: 2026-08-22
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Réponse directe : peut-on rejouer une ancienne partie ?
+## Réponse directe : que change v33.7 ?
+
+La Release officielle `v0.33.7` permet de rejoindre une partie en spectateur sans prendre de place de joueur. Saisissez le code du salon puis choisissez **Spectate** : vous ne spawnez pas et ne rejoignez aucune équipe. Une partie terminée s’ouvre toujours en replay.
+
+En équipe, Doomsday monte désormais vers **3 %, 6 %, 10 %, 15 %, 21 %, 28 % et 35 %**. En FFA, la suite reste **2 %, 4 %, 7 %, 11 %, 17 %, 25 % et 35 %**. Le terrain corrompu devient du wasteland à reconquérir.
+
+| Changement v33.7 | Résultat pour le joueur | Limite à retenir |
+|---|---|---|
+| Entrée en spectateur | Regarder sans spawn ni place d’équipe | Le retour vers Play ne fonctionne que dans le salon |
+| Barre d’équipe plus haute | Plus de territoire combiné aux vagues intermédiaires | Le plafond final reste 35 % |
+| Corruption en wasteland | Le terrain perdu doit être repris activement | Le leader territorial ne peut toujours pas être doomed |
+
+## v33.6 : peut-on rejouer une ancienne partie ?
 
 Oui. La Release officielle `v0.33.6` ajoute des shells de replay versionnés. Si le build de l’ancienne partie ne correspond plus au client courant, le jeu vérifie `https://replay.<domain>/<gameId>` puis ouvre le shell construit avec les règles qui ont enregistré la partie.
 
@@ -81,7 +93,7 @@ Consultez les [mécaniques nukes et SAM](/fr/mechanics/nukes/) et la [stratégie
 
 Tous les préréglages commencent par une **grâce de 10 minutes**. La part de territoire requise monte ensuite par vagues vers 2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %.
 
-Une équipe est jugée sur son territoire combiné, avec la même barre qu’un camp solo. Après l’avertissement, son plancher protégé descend de **40 % à 5 %** avant la corruption territoriale ; repasser la barre ou devenir leader arrête toute la séquence.
+Une équipe compare son territoire combiné à la barre plus haute de **3 %, 6 %, 10 %, 15 %, 21 %, 28 %, 35 %**. Après l’avertissement, son plancher protégé descend de **40 % à 5 %**, puis la corruption crée du wasteland.
 
 La règle pratique : conservez une part de terrain connectée et deux expansions peu coûteuses avant la dixième minute. La Clock vérifie un pourcentage territorial, pas la distance au centre. Cette note de version n’est qu’un résumé ; le [guide complet des règles et de la survie Doomsday Clock](/fr/guides/doomsday-clock/) détaille les vitesses, l’avertissement, la récupération et les contres.
 
@@ -118,6 +130,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.6` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.6 à v33.0, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; le replay versionné est un workflow de version, la limite des salons gérés rejoint la réponse modes existante, tandis que les lots restent dans les réponses raccourcis, nukes et Water Nukes.
+GitHub marque la Release officielle `v0.33.7` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.7 à v33.0, pas un placeholder TEST. Cette page reste l’unique vue d’ensemble v33 ; les modes portent les règles spectateur et le guide Doomsday conserve les décisions détaillées.
 
-Sources : [Release officielle v0.33.6](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [URL du replay versionné](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [redirection d’un replay archivé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [gestion du shell de replay](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [fréquence de Luna](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [limiteur des rejoin](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [équipes et anonymat](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [commandes Host ordinaires](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [plafonds et coûts groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [bascule clavier](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [menu radial groupé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [vagues Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) et [corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Sources : [Release officielle v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [parcours spectateur](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [barres Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [corruption en wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [URL du replay versionné](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [redirection d’un replay archivé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [fréquence de Luna](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [plafonds groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) et [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

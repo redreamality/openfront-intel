@@ -1,14 +1,26 @@
 ---
-title: 'v33.6：版本回放、featured 大厅与 v33 操作'
-description: '面向玩家的 OpenFront v33.6 版本笔记：旧对局可用匹配版本回放，同时保留 v33.5 受管大厅和 v33.4 批量操作边界。'
+title: 'v33.7：旁观加入、团队末日时钟与 v33 规则'
+description: '面向玩家的 OpenFront v33.7 版本笔记：不占玩家名额地旁观对局，理解更高的团队末日门槛，并保留仍然生效的 v33 规则。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-20
+updatedDate: 2026-08-22
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：旧对局还能回放吗？
+## 直接答案：v33.7 改了什么？
+
+官方 `v0.33.7` Release 允许玩家以旁观者身份加入对局，不占玩家名额。输入大厅代码后选择 **Spectate** 即可；旁观者不会出生，也不会被分配队伍。若对局已经结束，同一入口仍会打开回放。
+
+团队 Doomsday 门槛现在依次为 **3%、6%、10%、15%、21%、28%、35%**；FFA 仍为 **2%、4%、7%、11%、17%、25%、35%**。被腐化的领土现在会变成 wasteland，不再作为中立地被邻居免费吸收。
+
+| v33.7 变化 | 玩家结果 | 必须记住的边界 |
+|---|---|---|
+| 旁观加入 | 不出生、不占队伍名额地观看 | 只能在大厅阶段从 Spectate 切回 Play |
+| 更高的团队门槛 | 团队中间波次需要更多合计领土 | 最终上限仍是 35% |
+| wasteland 腐化 | 腐化地块必须主动夺回 | 领土第一仍不会进入 doomed |
+
+## v33.6 更新：旧对局还能回放吗？
 
 可以。官方 `v0.33.6` Release 新增了版本化回放。旧对局的构建版本和当前客户端不一致时，游戏会检查 `https://replay.<domain>/<gameId>`，并打开使用该对局原规则构建的回放 shell。
 
@@ -81,7 +93,7 @@ MIRV 载体分裂后，每枚弹头都会成为飞行中的 `MIRVWarhead`。SAM 
 
 所有速度预设都有 **10 分钟宽限期**。之后所需领土占比按波次提高到 2%、4%、7%、11%、17%、25%，最终到 35%。
 
-团队按合计领土计算，与单人阵营面对同一条门槛。进入 doomed 状态后会先收到警告，保护下限再从 **40% 降到 5%**，随后进入领土腐化；过线或成为第一会停止整个过程。
+团队按合计领土对照更高的 **3%、6%、10%、15%、21%、28%、35%** 门槛。进入 doomed 后先收到警告，保护下限再从 **40% 降到 5%**，随后开始 wasteland 腐化。
 
 实战规则是：10 分钟前保有连通领土，并准备两条低成本扩张路线。时钟检查领土占比，不检查你离地图中心多远。本版本笔记只作摘要；完整波次、30 秒警告、恢复和反制见[末日时钟完整规则与生存攻略](/zh/guides/doomsday-clock/)。
 
@@ -118,6 +130,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.6` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.6 至 v33.0 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；版本化回放是版本级工作流，受管大厅边界由既有 modes 主答案承接，批量操作继续由快捷键、核武与 Water Nukes 主答案承接。
+GitHub 将官方 `v0.33.7` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.7 至 v33.0 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；旁观行为由 modes 主答案承接，完整末日时钟决策仍在专门攻略中。
 
-来源：[官方 v0.33.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[旧回放跳转](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts)、[回放 shell 处理](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[rejoin 限流](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[队伍与匿名名称处理](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts)、[普通 Host 控件](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)、[键盘切换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts)、[径向批量菜单](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts)、[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)、[Doomsday 波次](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)与[领土腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)。
+来源：[官方 v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[旧回放跳转](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。

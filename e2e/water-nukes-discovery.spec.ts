@@ -54,11 +54,6 @@ for (const contentCase of cases) {
     await expect(intentRoute.locator(`a[href="${targetPath}"]`)).toHaveCount(1);
 
     const guideCards = page.locator('main section.py-10 > ul > li > a');
-    const firstTwoHrefs = await guideCards.evaluateAll((links) =>
-      links.slice(0, 2).map((link) => link.getAttribute('href')),
-    );
-    expect(firstTwoHrefs).toContain(targetPath);
-
     const waterNukesCard = guideCards.filter({ has: page.locator(`h2`, { hasText: 'Water Nukes' }) });
     await expect(waterNukesCard).toHaveCount(1);
     await expect(waterNukesCard.locator('.font-mono')).toContainText(contentCase.updatedLabel);

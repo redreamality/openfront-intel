@@ -1,0 +1,306 @@
+---
+title: How to Read Any OpenFront Map
+description: Read playable land, connected regions, water networks, impassable terrain, spawns, and Compact differences before choosing an OpenFront opening.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [maps, strategy, naval, spawning]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against formal v33.7 terrain and map assets, with reproducible Svalmel and Dyslexdria topology measurements."
+---
+
+## Direct answer: read the map in five passes
+
+Do not start by asking which visible country looks safest. Read an OpenFront map in this order:
+
+1. **Playable land:** how much territory can actually be owned?
+2. **Land components:** which regions connect by land, and which require transport?
+3. **Water networks:** is there one naval theatre or several disconnected bodies?
+4. **Impassable terrain:** which visible shapes cannot be occupied, attacked, nuked, or crossed by nuke trajectories?
+5. **Spawn and mode:** how do players, Nations, teams, Compact, and modifiers populate that skeleton?
+
+This order separates facts stored in the map from decisions created by a particular lobby.
+
+It prevents common errors such as calling a black background “empty land,” treating five Nations as five player slots, or declaring a chokepoint without checking whether the route is actually passable.
+
+## What the map files can prove
+
+Formal v33.7 terrain stores one byte per grid cell. The land, shoreline, ocean, and magnitude bits determine the tile's type. Land with magnitude 31 is impassable.
+
+The game checks north, south, west, and east neighbors without wrapping across map edges. That lets us reproduce land and water connected components directly from `map.bin`.
+
+Static files can prove dimensions, playable land, impassable cells, components, coast adjacency, Nation definitions, and fixed coordinates.
+
+They cannot prove average match length, best spawn, win rate, or the profitability of a specific Port.
+
+Treat the numbers below as a reading instrument, not a substitute for matches.
+
+## Pass 1: measure playable land
+
+Total grid size includes water and impassable background. Playable land is the part that can contribute to ordinary territorial control and the public player-count formula.
+
+The distinction can reverse a ranking. Sol is the largest grid at 11,204,096 cells, but it has 877,713 playable land tiles. The Box has 4,194,304 playable land tiles because its complete square is land.
+
+For an opening, land share answers a different question from land total:
+
+- **High total, high share:** many land routes and room for territorial growth.
+- **High total, low share:** a large canvas whose strategy may be dominated by water or separation.
+- **Low total, high share:** compact land pressure with fewer naval detours.
+- **Low share with many components:** island transfer and fleet positioning become central.
+
+Do not turn these categories into an automatic tier list. A narrow all-land corridor can be more constrained than a lower-share map with several useful exits.
+
+## Pass 2: find the major land components
+
+A land component is a set of playable land cells linked by four-direction movement. If two regions are in different components, ordinary land expansion cannot join them without a transport or a terrain-changing rule.
+
+Count components, then rank them by land share. The raw count often includes tiny islands, so focus first on the few components containing most playable land.
+
+Ask three questions:
+
+1. Does one component hold most of the map?
+2. Are two to five large theatres competing for control?
+3. How much land remains in small satellites?
+
+One dominant component rewards continuous borders and interior depth. Several large components make regional control easier than global control.
+
+Many small satellites increase the value of staging Ports, transports, and information about distant coasts.
+
+Connected does not mean open. A component can contain a one-tile neck, mountains, or an elongated corridor. Component analysis is the first filter; width and terrain cost require a closer look.
+
+## Pass 3: separate water connectivity from coastline
+
+Water components tell you whether fleets can theoretically move through one continuous body or must be built separately in isolated systems.
+
+One connected water network does not mean every route is short. It only proves a continuous water path exists. Long detours, hostile coasts, pathfinding cost, and naval control still matter.
+
+Since formal v31, Ports, Trade Ships, and Warships can operate on all water bodies, not only ocean-tagged water. An isolated lake can support naval units, but it does not connect them to another lake.
+
+Use coastline as a tactical clue, not a Port counter. A land tile next to water may still be unsuitable for the structure or strategically exposed.
+
+Before choosing a naval opening, identify:
+
+- the water component your starting coast touches;
+- the major land components reachable from that water;
+- whether a second Port would extend access or duplicate the same shoreline;
+- which rival can contest the route before trade or transport repays the investment.
+
+The [team naval control guide](/strategies/team-naval-control/) covers fleet roles after you have identified the theatre.
+
+## Pass 4: mark impassable terrain
+
+In v33.7, impassable terrain is land-bit data with magnitude 31. It cannot be owned, attacked, or nuked, and nuke trajectories cannot cross it.
+
+That is stronger than a defensive bonus or an expensive mountain. It is a hard boundary in the terrain graph.
+
+Use impassable shapes to answer:
+
+- Does a visible region split into separate playable components?
+- Does a corridor end at a true wall rather than wilderness?
+- Can a nuclear line pass across the shape?
+- Is the apparent interior space actually excluded from public capacity?
+
+Do not infer impassable status from colour alone. Graphics settings and map art can change appearance. The terrain data is authoritative.
+
+## Pass 5: add lobby population and spawn rules
+
+Only after reading the skeleton should you add the match configuration.
+
+Public FFA capacity is derived from full-map playable land and selected from three tiers. Compact reduces the chosen tier to 25%. Team modes round for team sizes; Crowded has another path.
+
+Nation entries are AI configuration, not human slots. Random Spawn, fixed team areas, default Nations, custom counts, and bots can place very different pressure on the same terrain.
+
+Use the visible lobby as the final truth for a match. Use the [map size and Compact guide](/guides/map-size-compact-mode/) to understand how the candidate values were produced.
+
+## Case study: Svalmel
+
+Formal v28 describes Svalmel as a Christmas-themed map with five Nations. The current v33.7 manifest keeps all five at fixed coordinates.
+
+![Official OpenFront Svalmel map thumbnail, showing four major island groups and surrounding water](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/svalmel/thumbnail.webp)
+
+*Unmodified Svalmel map asset: OpenFront / OpenFront Inc. and Contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); [source in OpenFrontIO v0.33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/thumbnail.webp).*
+
+### Verified Normal topology
+
+| Metric | Value |
+| --- | ---: |
+| Grid | 1,700 x 1,580 |
+| Playable land | 1,011,623, or 37.66% of grid |
+| Impassable cells | 0 |
+| Land components | 26 |
+| Components at least 1,000 tiles | 13 |
+| Largest component | 35.28% of playable land |
+| Top four components | 91.48% combined |
+| Water components | 1 |
+
+Svalmel is not a uniform cloud of equally small islands. Four main land groups hold 91.48% of playable land. The two largest alone hold 66.21%.
+
+That creates four primary theatres plus satellites. Winning one large island is meaningful, but it does not produce a land border into the other three.
+
+All water cells form one connected network. Transport and fleet movement can link the theatres in principle, while route length and hostile naval control decide whether the link is practical.
+
+The largest two components are 35.28% and 30.93%, so the data does not justify calling the map perfectly symmetric. Test spawn pressure before using it as a balance claim.
+
+### Svalmel opening questions
+
+- Which main island holds your spawn, and how much expansion remains on it?
+- Is your first rival on the same component or across water?
+- Which coast gives access to more than one major theatre?
+- Can you delay a Port without becoming trapped on one island?
+- Which satellite island is a useful staging point rather than an economic distraction?
+
+Compact Svalmel uses 850 x 790 terrain, 248,032 playable land tiles, and 24 land components. The main structure survives while minor island detail is reduced.
+
+## Case study: Dyslexdria
+
+Formal v31 calls Dyslexdria a returning April Fools map based on a recolored World. The current v33.7 asset includes later v33 updates and should be treated as the active version.
+
+![Official OpenFront Dyslexdria map thumbnail, showing a wide fragmented world composition](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/dyslexdria/thumbnail.webp)
+
+*Unmodified Dyslexdria map asset: OpenFront / OpenFront Inc. and Contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); [source in OpenFrontIO v0.33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/thumbnail.webp).*
+
+### Verified Normal topology
+
+| Metric | Value |
+| --- | ---: |
+| Grid | 3,308 x 1,440 |
+| Playable land | 2,103,254, or 44.15% of grid |
+| Impassable land-bit cells | 175,320 |
+| Land components | 224 |
+| Components at least 1,000 tiles | 52 |
+| Largest component | 16.77% of playable land |
+| Top ten components | 85.78% combined |
+| Water components | 1 |
+
+No single landmass dominates Dyslexdria. The largest holds 16.77%, and ten major regions are needed to reach 85.78%.
+
+Regional victory is therefore not global control. A player can become strong inside one theatre while remaining unable to reinforce another without crossing water.
+
+The raw 224-component count contains much small-island noise. Focus on the top ten and use the remaining fragments as staging, escape, or distraction terrain.
+
+The 175,320 impassable cells are excluded from the playable-land capacity input. Black or background regions in the thumbnail must not be counted as empty conquerable land.
+
+Dyslexdria defines 82 main Nations: 69 positioned and 13 without coordinates. It also has 189 additional fallback names. Normal public default can use all 82; Compact default uses 20. None of those numbers is a human cap.
+
+Compact Dyslexdria uses 1,654 x 720 terrain, 508,102 playable land, 43,913 impassable cells, and 142 land components. It keeps the multi-theatre identity while removing many minor fragments.
+
+## Turn map reading into an opening
+
+Use a short decision sequence after spawning.
+
+### 1. Name your land component
+
+Decide whether you are on the main landmass, one of several peers, a peninsula, or a satellite island. This tells you whether land expansion alone can reach the centre of the match.
+
+### 2. Mark the first two exits
+
+Choose a primary expansion lane and a fallback. An apparent exit blocked by impassable terrain is not a fallback.
+
+### 3. Count meaningful neighbors
+
+Ignore distant names that cannot touch your component soon. Prioritize players who share your land, then players who can reach the same coast or narrow passage.
+
+### 4. Decide whether water is access or exposure
+
+A useful coast opens more theatres than it exposes. A bad coast consumes Gold on naval infrastructure while one land rival attacks the only border that matters.
+
+### 5. Set a stop line
+
+Do not expand until every border becomes equally weak. Stop where terrain narrows, defense can overlap, or a Port can connect the next theatre.
+
+The [first-match guide](/guides/first-match/) expands this into a complete spawn and first-expansion workflow.
+
+## Read common topology families
+
+### One dominant landmass
+
+Expect continuous borders and several land neighbors. Interior growth and border shape matter more than early transports.
+
+Do not assume the centre is best. Central land often trades access for a larger number of fronts.
+
+### Several major islands
+
+Treat each island as a regional economy and each coast as a transfer decision. Secure enough local land before funding every possible naval route.
+
+Svalmel is the verified example: four major components contain most land, with one shared water network around them.
+
+### Long corridor or river strip
+
+Front direction is constrained, but distance can be enormous. Depth behind the front matters, and one blocked route can isolate reinforcements.
+
+Grid area alone hides this shape. Passage's 6,000 x 400 dimensions are a clear warning to inspect aspect ratio.
+
+### Fragmented world
+
+Several large components create independent wars. Information and transport timing matter because local strength cannot instantly answer a distant threat.
+
+Dyslexdria is the verified example: the largest component holds less than one sixth of playable land.
+
+### Multiple disconnected waters
+
+Ports in different water components support separate fleets and trade systems. Building strength in one does not protect the other.
+
+Confirm actual water components instead of assuming two blue regions connect beyond the edge; v33.7 maps do not wrap.
+
+## Common mistakes
+
+### Choosing a spawn from visual size alone
+
+A large-looking region may include impassable background or split into several components. Check playable exits before committing.
+
+### Calling every narrow shape a chokepoint
+
+A useful chokepoint needs a passable route, defensible width, relevant traffic, and a position you can actually hold. A thin line in a thumbnail proves none of those by itself.
+
+### Building a Port because water is nearby
+
+Water access has value only when it reaches a useful theatre and you can survive the opportunity cost. Coast adjacency is not a trade-income formula.
+
+### Confusing Nations with players
+
+Nation manifests control AI identities and some fixed spawn coordinates. Human slots come from lobby configuration.
+
+### Reusing a Normal plan on Compact
+
+Major geography remains, but small islands, player tiers, bots, Nations, and distances change. Recheck contact order instead of scaling every timestamp by two.
+
+### Claiming a best spawn without match evidence
+
+Static topology can identify options and risks. It cannot supply win rates or control for player skill, teams, and modifiers.
+
+## FAQ
+
+### What should I check first on an unfamiliar map?
+
+Identify your playable land component and two real exits. Then check which water network your coast touches and whether any visible barrier is impassable.
+
+### Does one water component mean naval play is easy?
+
+No. It means a continuous water path exists. Distance, enemy fleets, Port access, and pathfinding still decide whether the route is useful.
+
+### Are more land components always better for naval play?
+
+They create more reasons to transport, but not necessarily better economics. Tiny islands can add route overhead without enough land to repay infrastructure.
+
+### Can topology tell me the best spawn?
+
+It can rule out false assumptions and describe tradeoffs. A best-spawn ranking needs repeated match evidence under the same mode and population.
+
+### How does Compact affect topology?
+
+It loads half-width, half-height terrain for one-quarter grid size. Major components usually remain, while small islands and fine coastal detail can disappear.
+
+### Why count impassable land separately?
+
+Its land bit can make it look like land in raw counts, but it cannot be owned and is excluded from playable-land capacity. It also blocks attacks, nukes, and nuke trajectories.
+
+## Sources and next reading
+
+- [OpenFront v33.7 formal Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v33.7 tile semantics and neighbor rules](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameMap.ts)
+- [v33.7 Svalmel manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/svalmel/manifest.json)
+- [v33.7 Dyslexdria manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/manifest.json)
+- [Formal v28 Release for Svalmel](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.28.0)
+- [Formal v31 Release for Dyslexdria and inland-water naval play](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Compare exact scaling in [Map sizes and Compact Map mode](/guides/map-size-compact-mode/).

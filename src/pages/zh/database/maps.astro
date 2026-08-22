@@ -6,6 +6,7 @@ import maps from '../../../data/maps.json';
 import { getLangFromUrl, pickI18n } from '../../../i18n';
 
 const lang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
 const order = ['Continental', 'Regional', 'Fantasy', 'Arcade', 'Tournament'] as const;
 const groups = order.map((key) => {
   const cat = maps.meta.categories[key];
@@ -22,6 +23,12 @@ const groups = order.map((key) => {
 <BaseLayout title="地图列表" description="OpenFront.io 全部地图按类别分组：大陆 / 区域 / 幻想 / 街机 / 锦标赛。">
   <PageHeader eyebrow="DATABASE / MAPS" title={`地图列表 · ${maps.meta.total} 张`} lead="按官方仓库 resources/maps 目录扫描，按真实地理与玩法分组。" />
   <section class="container-wide py-10">
+    <section class="mb-8 border-l-2 border-cannon-700 pl-4" aria-labelledby="map-guides-entry" data-map-guides-entry>
+      <h2 id="map-guides-entry" class="text-lg font-semibold text-iron-50">想深读单张地图？</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">
+        本数据库用于完整地图清单与分类。前往<a class="text-cannon-400 underline hover:text-cannon-300" href={`${base}zh/maps/`}>地图攻略索引</a>，深入查看 Svalmel 与 Dyslexdria 的地形、出生、路线和 Compact 决策。
+      </p>
+    </section>
     <nav aria-label="分类导航" class="mb-8 flex flex-wrap gap-2">
       {groups.map((g) => (
         <a class="rounded border border-iron-800 px-3 py-1 text-xs text-iron-300 hover:border-cannon-600 hover:text-cannon-400" href={`#cat-${g.key.toLowerCase()}`}>

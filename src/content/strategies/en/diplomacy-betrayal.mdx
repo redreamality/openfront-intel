@@ -1,0 +1,366 @@
+---
+title: Diplomacy, Embargoes, and Betrayal
+description: A v0.33.7 decision guide to alliance requests, extensions, embargoes, traitor risk, and alliance-breaking nuclear strikes.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [alliances, diplomacy, betrayal, embargoes]
+category: Mid-Late Game
+difficulty: Advanced
+version: v33
+freshnessSummary: "Verified against the official v0.33.7 tag on 2026-08-22: requests, extensions, embargoes, traitor penalties, and nuke alliance-break checks are covered."
+---
+
+## Direct Answer
+
+In v0.33.7, diplomacy is a timer and exit-cost problem. A request lasts 20 seconds, the same player can be asked again after 30 seconds, and the default alliance lasts 300 seconds.
+
+Extensions need both players. Natural expiry is not betrayal. Manual breaking can create a 30-second traitor state, while embargoes and nuclear blast checks can alter trade or end an alliance before your planned attack begins.
+
+## Version Boundary and Terms
+
+Verified for the official v0.33.7 release on 2026-08-22. This guide explains rules and decision costs, not a guaranteed best betrayal time.
+
+An **ally** is a player in an active alliance. A **teammate** belongs to the same fixed team. Both may be friendly, but the game does not treat team membership as a timed alliance.
+
+That distinction matters. An alliance can expire, be extended, or be broken. A team cannot be dissolved with the normal break-alliance action.
+
+The default alliance duration is five minutes. A custom lobby can choose from one to 15 minutes, while a duration of zero disables alliances.
+
+Legacy alliance-disable settings also block requests. Check the lobby rules before building a plan around the default 300-second window.
+
+The mechanics below come from the official [v0.33.7 release][release], fixed-tag source, and official tests. Tactical recommendations are labeled as decisions rather than engine guarantees.
+
+## The Four-Question Diplomacy Check
+
+Before requesting, extending, embargoing, or breaking, answer four questions.
+
+1. **Time:** How long remains on the request, alliance, extension window, temporary embargo, or traitor state?
+2. **Exit cost:** Can you wait for natural expiry, or does an immediate break justify the traitor exposure?
+3. **Network:** Which Port or Train relationships stop working if either side applies an embargo?
+4. **Fire:** Will an in-flight or planned nuke violate the alliance before the ground operation starts?
+
+This check does not choose for you. It exposes the state changes that are easy to overlook when a border suddenly becomes urgent.
+
+Write down the next action the alliance enables. A buffer without a follow-up is still useful, but it should not consume attention that another front needs.
+
+## Alliance Requests: 20 Seconds Inside a 30-Second Cycle
+
+An alliance request remains active for 20 seconds. The cooldown for asking the same player again is 30 seconds from the original request creation time.
+
+The cooldown does not begin when the request expires. If a request starts at `t = 0`, it disappears at about `t = 20s`, and the same target becomes requestable at about `t = 30s`.
+
+That leaves roughly ten seconds between expiry and a legal retry. Treat this as a small observation window, not as a second full 30-second wait.
+
+If another player already sent you an incoming request, sending a counter-request accepts that pending alliance. The engine does not keep two independent requests between the same pair.
+
+### Scenario 1: a missed request
+
+You request an alliance at `12:00`. The offer remains available until about `12:20`. A retry to that player is legal around `12:30`.
+
+If the border cannot survive those ten extra seconds, the request is not immediate defense. You still need enough Troops, terrain, or another exit to cover the gap.
+
+If the other player sends a request during your wait, your counter-request can accept it. That changes the next action from "wait for cooldown" to "verify what the new friendly border enables."
+
+Sources: [AllianceRequestExecution.ts][request-source], [AllianceRequestImpl.ts][request-model], and [official request tests][request-tests].
+
+## Acceptance Changes the Board Immediately
+
+An active alliance makes both players friendly for ordinary land attacks. A current attack between the new allies is recalled without the normal retreat malus.
+
+Acceptance also clears temporary embargoes between the two players. It does not erase manual embargoes.
+
+The game checks relevant in-flight nukes when the alliance is accepted. Nukes between the new allies that would break the alliance are removed.
+
+That protection is specific. It is not a global ceasefire, and it does not remove third-party weapons.
+
+Before accepting, ask whether the agreement preserves a valuable buffer, trade route, or recovery window. Then check whether an in-flight strike will be deleted as part of acceptance.
+
+Do not accept merely to erase a missile unless the resulting friendly border also helps your position. The code proves the removal rule, not that acceptance is strategically profitable.
+
+## Extension Needs Two Decisions
+
+Alliance extension requires both players to agree. One player cannot unilaterally turn a temporary agreement into a longer one.
+
+The client exposes the extension window during the final 30 seconds. Completing the mutual extension resets a full alliance duration from the current tick.
+
+It does not add a small 30-second patch to the old end time. Under the default setting, a successful extension creates another 300-second duration from renewal.
+
+### Scenario 2: renewing the default alliance
+
+Assume a default alliance would expire at `15:00`. Its extension window opens around `14:30`.
+
+Both players approve at `14:42`. The new expiry is approximately `19:42`, because a fresh 300 seconds starts at the renewal tick.
+
+If only one player approves, no extension is completed. The original alliance can still expire naturally at `15:00`.
+
+Use the final 30 seconds to decide whether the buffer and network remain useful. Do not mistake the visible extension control for automatic consent.
+
+Sources: [AllianceExtensionExecution.ts][extension-source], [AllianceImpl.ts][alliance-model], and [official extension tests][extension-tests].
+
+## Natural Expiry Is Not Betrayal
+
+When the alliance duration ends normally, the relation ceases to be an alliance. Natural expiry does not apply the traitor status.
+
+This gives you a low-penalty exit when immediate hostile action is unnecessary. You can let the timer finish, preserve defensive readiness, and reconsider the border after the state changes.
+
+Natural expiry is not permission to ignore the border. The former ally becomes attackable again, and any trade or positioning assumption based on friendly status must be reviewed.
+
+The important distinction is mechanical: expiry ends time; manual breaking is an action with a separate betrayal path.
+
+### Scenario 3: wait or break
+
+Thirty-five seconds remain on an alliance. You do not need to attack immediately, and the other front can hold.
+
+Waiting avoids the manual-break traitor path. Breaking now may expose you for 30 seconds, only five seconds less than the remaining alliance time.
+
+That comparison does not prove waiting is always correct. It shows why the remaining timer belongs in the decision before you pay an avoidable exit cost.
+
+## Embargoes Are Separate from Alliances
+
+Trade permission is blocked if either player embargoes the other. An alliance is not required for trade, and an alliance does not override an active manual embargo.
+
+A normal attack causes the target to create a temporary embargo against the attacker. That temporary state expires after roughly five minutes.
+
+A manual embargo is persistent. It does not use the same automatic expiry path.
+
+When two players accept an alliance, temporary embargoes between them are cleared. Manual embargoes remain, so the new allies may still be unable to trade.
+
+This is why "we allied, therefore trade is fixed" is unsafe. Check the actual trade connection after acceptance.
+
+Embargo All excludes the player using it, Bots, and teammates. It has a ten-second cooldown.
+
+The action can cut several external relationships quickly, but its exclusions and cooldown still matter. It is not a universal permanent lock on every player.
+
+Sources: [EmbargoExecution.ts][embargo-source], [EmbargoAllExecution.ts][embargo-all], [PlayerImpl.ts][player-source], and [GameImpl.ts][game-source].
+
+### Scenario 4: temporary versus manual embargo
+
+Player A attacks Player B at `t = 0`. B's temporary embargo against A is expected to end around `t = 300s` if nothing else changes.
+
+At `t = 120s`, both accept an alliance. The temporary embargo is cleared immediately.
+
+If B had also placed a manual embargo, that persistent state would remain. Trade can stay blocked even though the pair is now allied.
+
+The practical response is to inspect the route, not to infer trade status from the alliance icon alone.
+
+## Manual Breaking and the Traitor Window
+
+Manual breaking follows a different path from expiry. If the betrayed player is connected and not already a traitor, the breaker receives traitor status for 30 seconds.
+
+The betrayed recipient records a `-100` relation change toward the breaker. Nearby players who are not on the recipient's team record `-40`.
+
+Relation values are engine state. They do not guarantee that a human opponent attacks, forgives, or changes plans.
+
+The visible tactical risk comes from combat modifiers. When the defender is a traitor, the attacker's loss multiplier is `0.5`.
+
+Tile processing cost is multiplied by `0.8` against that defender. This means lower processing cost under the same conditions, not a guaranteed completion time.
+
+Path shape, available Troops, counterattacks, and tick order still affect the real advance. Do not translate `0.8` into a promised 20% faster conquest.
+
+Sources: [BreakAllianceExecution.ts][break-source], [execution combat utility][combat-source], and [AttackExecution.ts][attack-source].
+
+### Scenario 5: the 30-second exposure
+
+You manually break at `t = 0` while the other player is connected and eligible for the betrayal path. Your traitor state runs for 30 seconds.
+
+An attacker who fights you during that state receives the `0.5` attacker-loss multiplier and `0.8` tile-processing-cost multiplier.
+
+At `t = 30s`, the traitor timer ends. Damage, lost territory, or changed relations created during the window do not rewind.
+
+The decision is therefore not "Can I win after breaking?" It is "Does immediate action justify a known 30-second vulnerability and the relation changes?"
+
+## Nuclear Strikes Can Break an Alliance First
+
+Nuclear alliance breaking uses two independent triggers. A strike can cross a weighted allied-territory threshold, or it can threaten an allied structure.
+
+The configured threshold is 100. Allied tiles inside the inner blast radius count as `1`; allied tiles in the outer ring count as `0.5`.
+
+The weighted total must be strictly greater than 100. A total equal to 100 does not trigger the tile-count branch.
+
+The structure branch is separate. If an allied structure would be destroyed inside the outer blast radius, the alliance breaks regardless of the weighted tile total.
+
+When a launch is judged to break the alliance, the execution rejects relevant pending requests, breaks the active alliance, and follows the normal break logic for traitor handling.
+
+Sources: [Config.ts][config-source], [NukeExecution.ts][nuke-source], and [official nuke tests][nuke-tests].
+
+### Scenario 6: strict territory threshold
+
+An explosion covers 101 allied tiles in its inner area. The weighted count is 101, so the territory branch breaks the alliance.
+
+Exactly 100 allied inner tiles produce 100. That does not pass the strict `> 100` comparison.
+
+Two hundred allied outer-ring tiles also produce 100 because each counts as `0.5`. Tile count alone still does not trigger.
+
+These examples isolate the weighting rule. A structure in the blast can independently change the result.
+
+### Scenario 7: three tiles and one Port
+
+Suppose only three allied tiles are inside the outer blast radius. Their weighted total is far below 100.
+
+One of those tiles contains an allied Port that the blast would destroy. The structure branch triggers, so the alliance breaks.
+
+Do not use a territory counter alone when aiming near Cities, Ports, Factories, SAM Launchers, or other allied structures.
+
+## The MIRVWarhead Boundary
+
+The v0.33.7 `NukeExecution` path skips this alliance-break check for the `MIRVWarhead` unit type.
+
+That is a local code boundary. It supports a narrow statement: this warhead execution path does not trigger the check at that location.
+
+It does not prove that the MIRV carrier, every stage of a MIRV launch, or every resulting interaction can never break an alliance.
+
+Keep the public wording narrow. "MIRVWarhead skips this check" is supported; "MIRV never breaks alliances" is not.
+
+The same caution applies to teams. Team membership is not an alliance and cannot be removed by the break-alliance action.
+
+That does not prove teammates are immune to every nuclear damage path. This guide makes no teammate nuclear-immunity claim.
+
+## Choosing Between Expiry, Extension, and Break
+
+Choose **natural expiry** when you do not need immediate hostility and want to avoid the manual traitor path.
+
+Choose **extension** when both sides still gain from the buffer, trade access, recovery time, or a shared threat. Confirm both approvals before relying on the new end time.
+
+Consider **manual break** only when acting now is worth the 30-second traitor exposure, relation changes, and loss of a friendly border.
+
+Consider **embargo** when denying trade has value by itself. It need not be paired with an attack, and a manual embargo can outlast later diplomatic changes.
+
+Recheck nuclear plans before every diplomatic transition. Acceptance can remove qualifying in-flight nukes, while a planned blast can break the alliance before impact.
+
+These choices are not a ranking. Map topology, remaining Troops, other neighbors, and the value of connected infrastructure determine which cost matters most.
+
+## Counterplay and Failure Modes
+
+### The ally is buying time
+
+A request may create a buffer, but it also gives the other player time to recover or reposition. Keep enough defense to survive rejection, expiry, or a later break.
+
+Do not empty the shared border merely because ordinary land attacks are blocked during the active alliance. The state has a timer.
+
+### The extension is not mutual
+
+One approval does not complete renewal. If the other player does nothing, plan for the original expiry.
+
+Use the final 30 seconds to shorten exposed fronts, protect infrastructure, and stop creating routes that only work while friendly status remains.
+
+### Trade stays blocked after acceptance
+
+The usual cause is a manual embargo. Alliance acceptance clears temporary embargoes only.
+
+Verify the actual Port or Train relationship. Do not spend on a route until both directional embargo states allow trade.
+
+### The traitor modifier attracts attackers
+
+Other players can exploit the 30-second traitor window. The lower attacker-loss and tile-processing multipliers make you a cheaper defender to attack during that state.
+
+Before breaking, check every border, not only the former ally. Nearby players also receive the relation event unless they are on the betrayed player's team.
+
+### The nuke calculation ignores structures
+
+A weighted total of 100 looks safe only for the tile branch. One allied structure in the outer blast radius is enough to take the other branch.
+
+Inspect structure positions separately from territory coverage. The two checks are joined by OR, not by AND.
+
+### Human behavior is treated like a formula
+
+The relation penalties are game state, not a prediction model for human decisions. A person may retaliate, ignore you, or cooperate later.
+
+Use the numbers to explain the engine consequence. Use map and match context to discuss possible responses without promising one.
+
+## Mode and Map Adjustments
+
+In FFA, timed alliances can reshape several open borders. The 30-second traitor window may matter more when multiple nearby players can reach you.
+
+In team modes, distinguish ally from teammate every time. A teammate is friendly through team membership, not through the temporary alliance lifecycle described here.
+
+On compact maps, a nuclear outer radius can include more allied structures and territory. Inspect the OR check carefully before launching near a dense shared border.
+
+On large maps, a five-minute alliance can create a long repositioning window. Distance may also make a relation change less immediately exploitable.
+
+On trade-heavy maps, manual embargo persistence matters because Port and Train plans may survive longer than one alliance cycle.
+
+None of these map notes changes the timers or multipliers. They change how much positional value each rule carries.
+
+## FAQ
+
+### How long does an alliance request last?
+
+Twenty seconds. The cooldown for requesting the same player again is 30 seconds from the original request creation time.
+
+### How long is a normal alliance?
+
+The default is 300 seconds, or five minutes. Custom lobbies can use one to 15 minutes, and zero disables alliances.
+
+### Does an alliance extend automatically?
+
+No. Both players must approve. The extension window appears during the final 30 seconds, and success resets a full duration from the renewal tick.
+
+### Is natural expiry a betrayal?
+
+No. Natural expiry ends the alliance without creating the manual-break traitor state.
+
+### How long does traitor last?
+
+Thirty seconds when the manual-break eligibility conditions are met. During that state, attackers receive `0.5` loss and `0.8` tile-processing-cost multipliers against the traitor defender.
+
+### Does an alliance clear every embargo?
+
+No. Acceptance clears temporary embargoes between the pair. Manual embargoes persist and can still block trade.
+
+### How long does an attack embargo last?
+
+The temporary embargo created by a normal attack lasts about five minutes. A manually applied embargo is persistent.
+
+### Do exactly 100 weighted allied tiles break an alliance?
+
+No. The tile condition is strictly greater than 100. An allied structure in the outer blast radius can still trigger the separate structure condition.
+
+### Can MIRV never break an alliance?
+
+That broad claim is unsupported. Only the `MIRVWarhead` branch is shown to skip this check in `NukeExecution`; do not generalize it to the whole MIRV sequence.
+
+### Are teammates immune to nuclear damage?
+
+This source set does not prove that. It only shows that team membership is not removed through the normal alliance-break action.
+
+## Next Reading
+
+Use [nuclear deterrence](/strategies/nuclear-deterrence/) before placing a strike near allied territory or structures.
+
+Review [team naval control](/strategies/team-naval-control/) when diplomacy protects Ports, coasts, or shared sea routes.
+
+Use [Port versus Factory](/guides/port-vs-factory/) to understand the trade network an embargo may interrupt.
+
+Return to the [first-match guide](/guides/first-match/) if you need the basic attack, alliance, and map-reading controls before using this decision framework.
+
+If a diplomatic change leaves a player exposed, switch to the [Recovery Playbook](/strategies/recovery-playbook/). For ongoing donations, targets, and logistics, use [Team Roles](/strategies/team-roles/).
+
+## Official Sources
+
+- [OpenFrontIO v0.33.7 release][release]
+- [Alliance request execution][request-source] and [request model][request-model]
+- [Alliance extension execution][extension-source] and [alliance model][alliance-model]
+- [Manual alliance break execution][break-source]
+- [Embargo execution][embargo-source] and [Embargo All execution][embargo-all]
+- [Player trade and friendly-state implementation][player-source]
+- [Game acceptance cleanup][game-source]
+- [Combat modifier utility][combat-source]
+- [Nuke alliance-break execution][nuke-source] and [official tests][nuke-tests]
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[request-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceRequestExecution.ts
+[request-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceRequestImpl.ts
+[request-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceRequestExecution.test.ts
+[extension-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceExtensionExecution.ts
+[extension-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceExtensionExecution.test.ts
+[alliance-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceImpl.ts
+[break-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/BreakAllianceExecution.ts
+[embargo-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoExecution.ts
+[embargo-all]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoAllExecution.ts
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[game-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameImpl.ts
+[combat-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/Util.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[config-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts
+[nuke-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NukeExecution.ts
+[nuke-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/core/executions/NukeExecution.test.ts

@@ -6,15 +6,25 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="游戏模式与私人房设置" description="选择 OpenFront.io v33.5 私人房设置，并分清普通 Host 控件与受管 featured、管理员固定队伍大厅。">
+<BaseLayout title="游戏模式与私人房设置" description="选择 OpenFront.io v33.7 大厅设置，正确使用旁观入口，并分清普通 Host 控件与受管 featured、管理员固定队伍大厅。">
   <PageHeader eyebrow="MECHANICS · 10" title="游戏模式与私人房设置" lead="先确定这局要练什么，再只改为这个目标服务的设置。这样不会误开单边规则，也不会在普通 Host 菜单里寻找并不存在的开关。" />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="适用于 OpenFront v33.5 · 2026-08-16 核验">
+    <Callout type="spec" title="适用于 OpenFront v33.7 · 2026-08-22 核验">
       <p>普通 Host 菜单提供 FFA 或 Team、地图与 AI、出生与时序、同盟、资源、特殊模式、禁用单位、匿名名称、白名单和 Host Cheats。<code>isPeaceTime</code>、<code>isNukesDisabled</code>、<code>isSAMsDisabled</code>、<code>isPortsDisabled</code> 等公开轮换内部字段，不是普通房主界面的可点选控件。</p>
     </Callout>
 
     <h2>直接答案：按对局目标选设置，不要照抄所谓最佳预设</h2>
-    <p>公平朋友局应关闭 Host Cheats，所有全局资源改动都提前公开，需要限制参与者时使用白名单。普通房的固定队友训练应选择 Team、关闭 Random Spawn，并保留自动启用的金币与部队捐赠。Infinite Gold、Instant Build、禁用单位、Water Nukes 或 Doomsday 只用于写清目标的专项练习。赛事或连续多局必须公布规则清单并在每局开打前复核，因为 v33.5 还不能保存具名预设。</p>
+    <p>公平朋友局应关闭 Host Cheats，所有全局资源改动都提前公开，需要限制参与者时使用白名单。普通房的固定队友训练应选择 Team、关闭 Random Spawn，并保留自动启用的金币与部队捐赠。Infinite Gold、Instant Build、禁用单位、Water Nukes 或 Doomsday 只用于写清目标的专项练习。赛事或连续多局必须公布规则清单并在每局开打前复核，因为 v33.7 还不能保存具名预设。</p>
+
+    <h2>v33.7 的旁观加入怎样使用</h2>
+    <table>
+      <thead><tr><th>时机</th><th>正确操作</th><th>边界</th></tr></thead>
+      <tbody>
+        <tr><td>输入大厅代码</td><td>选择 <strong>Spectate</strong>，而不是 Join Lobby。</td><td>旁观者不会出生、不会分配队伍，也不占玩家席位。</td></tr>
+        <tr><td>在大厅等待</td><td>房主开局前可用 Play/Spectate 切换。</td><td>开局后玩家列表冻结，旁观者不能再切回 Play。</td></tr>
+        <tr><td>打开已结束对局</td><td>继续使用同一链接或代码。</td><td>此时没有可旁观的实时大厅，页面会打开回放。</td></tr>
+      </tbody>
+    </table>
 
     <h2>v33.5 对受管大厅改变了什么</h2>
     <table>
@@ -77,7 +87,7 @@ const base = import.meta.env.BASE_URL;
     <h2>按决策分组的当前 Host 控件</h2>
     <table>
       <thead>
-        <tr><th>决策</th><th>v33.5 当前控件</th><th>常见偏差</th></tr>
+        <tr><th>决策</th><th>v33.7 当前控件</th><th>常见偏差</th></tr>
       </thead>
       <tbody>
         <tr><td>对局结构</td><td>地图/随机地图、FFA/Team、队伍、难度、0-400 Bots、0-400 Nations</td><td>AI 过多会掩盖战术对真人是否有效。</td></tr>
@@ -89,7 +99,7 @@ const base = import.meta.env.BASE_URL;
     </table>
 
     <Callout type="warn" title="不要在 Host 菜单里找公开轮换内部字段">
-      <p><code>isPeaceTime</code>、<code>isNukesDisabled</code>、<code>isSAMsDisabled</code>、<code>isPortsDisabled</code> 存在于公开轮换使用的游戏配置中，但 v33.5 没有把它们暴露为普通 Host 控件。管理员固定队伍也是同一边界：普通私人房应以大厅实际显示的选项为准，不要围绕内部字段或 API 输入安排对局。</p>
+      <p><code>isPeaceTime</code>、<code>isNukesDisabled</code>、<code>isSAMsDisabled</code>、<code>isPortsDisabled</code> 存在于公开轮换使用的游戏配置中，但 v33.7 没有把它们暴露为普通 Host 控件。管理员固定队伍也是同一边界：普通私人房应以大厅实际显示的选项为准，不要围绕内部字段或 API 输入安排对局。</p>
     </Callout>
 
     <h2>下一步阅读</h2>
@@ -101,6 +111,7 @@ const base = import.meta.env.BASE_URL;
 
     <h2>来源</h2>
     <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7" target="_blank" rel="noopener">官方 v0.33.7 Release</a>与<a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts" target="_blank" rel="noopener">JoinLobbyModal.ts</a>：核对旁观入口、切换、席位计算与回放回退。</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5" target="_blank" rel="noopener">官方 v0.33.5 Release</a>：四项正式变化。</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts" target="_blank" rel="noopener">AdminBotRoutes.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a>：固定队伍、featured 元数据与匿名队友互见。</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">v0.33.5 HostLobbyModal.ts</a> 与 <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a>：普通可见控件与 Team 行为。</li>

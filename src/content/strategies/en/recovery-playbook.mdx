@@ -1,0 +1,335 @@
+---
+title: "OpenFront Recovery Playbook: Retreat, Regrow, Rebuild"
+description: "Recover from a losing border, troop collapse, nuclear damage, or Doomsday pressure with a source-checked stop-loss, recovery, and rebuild plan."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [recovery, retreat, doomsday, strategy]
+category: Advanced Strategy
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Checked for v0.33.7 on 2026-08-22: retreat returns 75% of surviving attack Troops after 20 ticks, growth depends on cap headroom, and clearing the current Doomsday threshold ends its active drain and rot immediately."
+---
+
+## Direct answer
+
+In OpenFront v0.33.7, recover in three stages: stop losses that are still growing, restore Troop growth and a defendable border, then rebuild the capacity needed for one useful action.
+
+Retreat early when its cost is lower than continued combat. If Doomsday marks your side, reclaim the current land threshold first, because qualifying again clears its active drain and rot immediately.
+
+This page was last verified on **2026-08-22** against the official v0.33.7 tag. Exact timings, formulas, and state changes are engine facts. The order in this playbook is an editorial decision framework.
+
+It is not a promise of a comeback. Map shape, enemy pressure, Gold, diplomacy, disabled options, and player execution can close a recovery window even when every rule below is understood.
+
+## The three-stage recovery model
+
+### 1. Stop the loss
+
+Cancel or finish attacks that keep draining useful Troops. Shorten exposed borders, identify the opponent who can attack next, and measure any Doomsday land deficit before buying a long-term upgrade.
+
+### 2. Restore the engine
+
+Create room below `maxTroops`, preserve enough Troops for the immediate threat, and choose whether friendly support should arrive as Troops or Gold. A larger cap is only useful if you survive long enough to fill it.
+
+### 3. Rebuild one action
+
+Buy or capture only what enables the next defensible move: a border hold, a cheap land claim, a protected City, a reopened route, or a focused counterattack. Do not rebuild every lost system at once.
+
+The stages can overlap, but their priority should not be reversed. A new Factory does not rescue an attack that is still bleeding, and a fast refill does not justify reopening three bad fronts.
+
+## Diagnose the losing position
+
+Start with the failure that is still changing the board. The score alone does not tell you which resource is blocking recovery.
+
+| Failure state    | Immediate question                                     | First evidence to inspect                         |
+| ---------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| Troop collapse   | Which active attack is still consuming Troops?         | Attack lines, remaining force, nearby enemy force |
+| Encirclement     | Which border can be shortened without losing the core? | Land connections, enemy routes, retreat risk      |
+| Gold break       | Is the bottleneck current Troops or future capacity?   | Gold balance, `maxTroops`, build queue            |
+| Nuclear damage   | Which surviving structure or route still matters?      | City, Silo, SAM, Port, connected land             |
+| Doomsday warning | How many usable tiles does this side lack now?         | Current threshold, side total, leader status      |
+
+Do not answer all five with “wait.” Natural growth can solve a Troop deficit, but it cannot reconnect isolated land, cancel an attack, restore a captured structure, or satisfy a land threshold by itself.
+
+## Stop losses before spending
+
+The default land attack for a Human or Nation sends one fifth of current Troops when no manual amount is supplied. Boat attacks use the same default. The Troops are deducted when the attack starts.
+
+That `1/5` is an execution default, not an optimal reserve. It does not prove that 20% is safe, efficient, or appropriate for the next border.
+
+Before buying, list every attack that is still active. Separate attacks that can take valuable land from attacks that only feed a stronger defense or keep your army away from a threatened core.
+
+For each bad attack, compare two costs: the guaranteed retreat malus on surviving attack Troops and the uncertain loss from continuing through combat, interception, or a second enemy.
+
+The current defaults are defined in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts). Deduction and attack execution are visible in [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts).
+
+## Retreat: what comes back
+
+A retreat waits **20 simulation ticks**, about **2 seconds** at normal speed, before it executes. During that window the attack remains exposed to combat and other damage.
+
+Against a player target, retreat then removes 25% of the attack Troops that still exist at execution. The remaining **75% of surviving Troops** returns to the owner.
+
+The calculation does not use the original amount sent. It also does not freeze the number shown when you click retreat. Losses during the 20-tick wait reduce the base used for the return.
+
+Retreating from **Terra Nullius** does not apply this malus. A second exception occurs if the two sides become allied while the attack is active: the attack returns without the retreat malus.
+
+Opposing attacks can meet and cancel each other first. Starting a reverse attack is therefore not a way to create free saved Troops.
+
+These branches come from [RetreatExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts), [AttackImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AttackImpl.ts), and the tagged [attack tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts).
+
+### Retreat checklist
+
+1. Read the attack's current remaining Troops, not its original size.
+2. Check whether 20 more ticks expose it to a major fight or nuclear path.
+3. Confirm whether the target is a player, Terra Nullius, or now an ally.
+4. Compare the 25% malus with likely losses from continuing.
+5. After the return, place the recovered Troops against the next real threat.
+
+Retreat is a loss-control tool, not a reset button. A correct retreat can preserve options while still leaving the position behind.
+
+## Recover through the growth curve
+
+Human natural Troop growth per simulation tick is:
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+A simulation tick is 100 ms, so normal speed runs about 10 ticks each second. The final factor shrinks as current Troops approach `maxTroops`.
+
+Recovery therefore has no fixed completion timer. Changing land, City levels, attacks, donations, speed, or incoming damage changes either the cap, the current force, or the number of effective growth ticks.
+
+Leaving some headroom can increase natural growth, but the immediate defense sets the reserve you can afford. The formula does not define one best holding percentage for every map.
+
+The growth path is implemented in [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts) with current constants from [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+### A 10,000-tile reference position
+
+For a Human with **10,000 tiles**, no City, normal speed, and no other change, `maxTroops` is about **602,377**.
+
+| Current Troops | Share of cap | Approximate growth per second | What it proves                       |
+| -------------: | -----------: | ----------------------------: | ------------------------------------ |
+|        150,594 |          25% |                        11,368 | There is substantial headroom        |
+|        301,189 |          50% |                        12,537 | This example is near its growth high |
+|        542,139 |          90% |                         3,846 | Growth slows sharply near the cap    |
+
+These figures compare states under one unchanged cap. They do not prove that 25%, 50%, or 90% is a universal target, and they do not account for enemy attacks.
+
+### What a City changes
+
+A City increases `maxTroops`. It does **not** heal current Troops, refill the new capacity, or guarantee that the building survives long enough to repay the investment.
+
+After a City raises the cap, the natural formula fills available headroom over time. A City can be a rebuilding tool when the border and Gold budget can protect that delayed value.
+
+If the core is about to fall, current Troops or a cheaper route may matter more than extra capacity. This is a tactical comparison, not a hidden City purchase rule.
+
+## Use friendly support as a branch
+
+The engine treats self, a teammate, and an active alliance player as `friendly`. Donation availability still depends on the mode configuration, so friendliness alone does not guarantee that a button is enabled.
+
+Troop donation cannot push the recipient above `maxTroops`. Gold and Troop donations to the same recipient share a **10-second cooldown** from the sender.
+
+In an emergency, ask one question before using that shared cooldown: does the recipient need Troops that can hold now, or Gold that can unlock capacity, defense, or a route?
+
+A small Troop donation can waste part of its value when the recipient has little cap headroom. A small Gold donation can also delay the Troop transfer that would have held the border.
+
+Support is a condition, not the center of this page. See the dedicated team strategy for role ownership and sequencing once that route is available.
+
+The shared state and cap checks are fixed in [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts), [Gold donation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts), and [Troop donation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts).
+
+## Treat Doomsday as an emergency threshold
+
+The Doomsday Clock is not a geographic circle and not a fixed death timer. It compares each eligible side with the current share of usable land.
+
+For the first 10 minutes the threshold is zero. At normal speed, each later level ramps for 168 seconds, followed by a 54-second pause before the next ramp.
+
+| Step | FFA threshold | Team threshold |
+| ---: | ------------: | -------------: |
+|    1 |            2% |             3% |
+|    2 |            4% |             6% |
+|    3 |            7% |            10% |
+|    4 |           11% |            15% |
+|    5 |           17% |            21% |
+|    6 |           25% |            28% |
+|    7 |           35% |            35% |
+
+FFA evaluates each player's usable-land percentage. Team mode adds the land of the whole team and applies the shared result to every member.
+
+The current **leader side** is exempt. That is a dynamic side result, not a permanent immunity attached to one named player or team.
+
+The current schedules and side aggregation are defined in [DoomsdayClock.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts).
+
+### What happens below the line
+
+Falling below the current threshold first creates a **30-second warning**. Use that period to measure the exact tile gap and choose the cheapest reachable land.
+
+Afterward, Troop drain rises linearly from **2% to 5% of `maxTroops` per second** over **90 seconds**. The Troop floor falls from **40% to 5%** over the same 90 seconds.
+
+Territory rot advances after the skull appears and reaches zero territory at **150 seconds**. These clocks describe a changing penalty state, not a single two-minute deadline.
+
+Reaching the current threshold again **immediately clears** the warning, drain, and rot. The related rot state resets; the side does not need to wait for a fixed recovery timer.
+
+If the threshold rises later, the side can become exposed again. Clearing one state does not remove future land requirements.
+
+The transitions and reset behavior are in [DoomsdayClockExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts) and its [tagged tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts).
+
+## Three numeric recovery scenarios
+
+### Scenario 1: retreating a damaged attack
+
+Assume an attack originally sent **160,000 Troops**. When retreat executes after the 20-tick wait, only **100,000** remain.
+
+```text
+returned = 100,000 * 0.75 = 75,000
+```
+
+The return is 75,000, not 120,000. The original force is irrelevant to the malus calculation once combat has reduced the surviving attack.
+
+If another 10,000 are lost during the wait, the base becomes 90,000 and the return becomes 67,500. That illustrates why the two-second window matters.
+
+### Scenario 2: the same land at two force levels
+
+Keep the 10,000-tile, no-City example unchanged. At 25% of cap, natural growth is about **11,368 Troops per second**. At 90%, it is about **3,846**.
+
+The difference is about 7,522 per second under these assumptions. It shows the cap penalty, but it does not choose a safe reserve against a neighboring army.
+
+### Scenario 3: the first Doomsday step
+
+Assume a map has **1,000,000 usable land tiles** and the first normal-speed ramp has completed.
+
+An FFA player needs 2%, or **20,000 tiles**. A Team side needs 3%, or **30,000 tiles in total across the team**.
+
+Team does not require every member to own 30,000. One member can hold 5,000 and another 25,000 while the team total qualifies, unless the dynamic leader-side exemption already applies.
+
+### Scenario 4: City capacity without healing
+
+Assume current Troops are 200,000 and a protected City increases `maxTroops`. The current value remains 200,000 at completion; only future growth gains more headroom.
+
+If an enemy can remove the City or attack before that headroom fills, the capacity purchase may not solve the immediate defense. The engine gives capacity, not an instant refill.
+
+## Rebuild in dependency order
+
+Recovery ends when the position can take one useful action without reopening the original collapse. It does not require every bar or building to return to its former level.
+
+Use this dependency order as an editorial checklist:
+
+1. **A stable core:** enough connected land and current Troops to survive the next known attack.
+2. **A growth path:** cap headroom and time for natural growth, or correctly sequenced friendly support.
+3. **A route:** neutral land, one weak border, a transport path, or a trade connection that can create value.
+4. **A protected investment:** City, defense, Port, Factory, or nuclear capacity that the shortened border can keep.
+5. **One bounded action:** a claim, relief attack, route reopening, or focused counterattack with a stop condition.
+
+Skip an item only when the map already provides it. A protected island may have a stable core but no immediate land route; a Doomsday side may need tiles before a long-term investment.
+
+### A re-entry gate
+
+Before attacking again, answer four questions. What exact value does the attack create? Which enemy can punish it? What reserve must remain during travel? At what loss or board change will you stop?
+
+If one answer is missing, keep rebuilding or choose a smaller action. This is risk control, not a formula that predicts combat success.
+
+Do not wait for `maxTroops` automatically. Growth slows near cap, and an enemy can use that time to claim land, build, donate, or raise the Doomsday threshold.
+
+Do not attack only because growth is fast. A low force with large headroom can still be eliminated before the formula repays the commitment.
+
+## Adjust for the type of defeat
+
+### After a border collapse
+
+Shorten the contact line before replacing infrastructure. Favor connected land that removes enemy approach angles over isolated tiles that only improve the score.
+
+Expect the opponent to keep pressure on the retreat window. They can attack the returning core, occupy the route, or force another withdrawal before your growth curve matters.
+
+### After a nuclear strike
+
+Inventory what survived: current Troops, `maxTroops`, connected land, Cities, Ports, Silos, and SAM coverage. Rebuild the function that is missing, not a visual copy of the old base.
+
+An opponent can time ground pressure after the blast. Extra cap from a City still needs time to fill, so current defense may come before replacing expensive strategic structures.
+
+### After economic isolation
+
+Separate Gold shortage from Troop shortage. A reopened route or Gold donation can restore options, but a trade investment does not hold a border by itself.
+
+An opponent can embargo, cut a station, or occupy the connecting land again. Protect the minimum network before expanding it.
+
+### Under Doomsday pressure
+
+Convert the percentage deficit into tiles. In Team, use the team total. Prefer land that can be reached and held before warning, drain, and rot erase the force needed to take it.
+
+Opponents can deny cheap Terra Nullius, attack your connecting corridor, or push the threshold while you invest elsewhere. Recalculate after every major land change.
+
+## Common recovery failures and counterplay
+
+### “Retreat always returns 75% of what I sent”
+
+It returns 75% of the surviving attack Troops at execution against a player. The 20-tick wait can reduce that survivor count; Terra Nullius and an alliance formed during the attack are exceptions.
+
+### “I should always hold one exact Troop percentage”
+
+No percentage accounts for every border, travel time, cap, mode, or enemy force. Headroom improves growth, while immediate danger sets the minimum reserve.
+
+### “A City heals the army”
+
+It raises `maxTroops`. Current Troops do not jump when construction or an upgrade completes; the new space must fill through growth or eligible support.
+
+### “Doomsday means fixed death after two minutes”
+
+The state has a 30-second warning, 90-second drain and floor ramps, and a 150-second territory-rot path. Requalifying clears active effects immediately.
+
+### “The leading player is permanently immune”
+
+The exemption belongs to the current leader side. Leadership can change, and Team evaluation uses the current combined side result.
+
+### “Waiting is the safe answer”
+
+Waiting can grow Troops, but it also gives opponents time to take routes, improve capacity, coordinate support, or advance the land requirement. Recovery needs a measurable exit condition.
+
+## Recovery FAQ
+
+### How long does a retreat take?
+
+The execution waits 20 simulation ticks, about two seconds at normal speed. Speed and damage during that window affect what you observe and what remains.
+
+### Does retreat return 75% of the original attack?
+
+No. Against a player it returns 75% of the attack Troops still alive when retreat executes. Terra Nullius has no malus, and a new alliance can return the attack without it.
+
+### What Troop percentage grows fastest?
+
+The growth formula and cap determine the curve, but the fastest mathematical point is not a universal tactical reserve. Enemy force, routes, time, land, and mode still decide safety.
+
+### Does building a City restore Troops?
+
+No. A City increases `maxTroops`; it does not directly heal or fill current Troops. The extra capacity is realized only through later growth or eligible donations.
+
+### Can an ally or teammate rescue me instantly?
+
+Only when donations are enabled and the sender, recipient, cooldown, balance, and troop headroom checks allow it. Gold and Troop donations to one recipient share a 10-second cooldown.
+
+### Does Doomsday recovery require waiting out the timer?
+
+No. Reaching the current threshold again immediately clears the active warning, drain, and rot state. A later threshold increase can create a new risk.
+
+### Is the Team threshold per player?
+
+No. Team mode sums usable land across the side and applies that result to all members. The current leader side is exempt, but that status can change.
+
+### When is recovery complete?
+
+When the position can take a bounded, useful action without reopening the same loss. That can happen below the troop cap and without rebuilding every former structure.
+
+## Sources and next reading
+
+- [Official OpenFront v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Current configuration and growth constants](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
+- [Human growth execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts)
+- [Attack deduction and friendly branches](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts)
+- [Retreat wait and malus](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts)
+- [Doomsday side thresholds](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Doomsday warning, drain, rot, and reset](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Tagged retreat tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts)
+- [Tagged Doomsday tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts)
+
+For the full growth model, read [Population Growth](/guides/population-growth/). For every Doomsday wave and map adjustment, use the [Doomsday Clock guide](/guides/doomsday-clock/).
+
+For spending after the border is stable, continue with [Economy Fundamentals](/strategies/economy-fundamentals/). For a first-match summary, use the [beginner guide](/guides/first-match/).
+
+When the position is stable, use [Team Roles](/strategies/team-roles/) to sequence support and [Diplomacy & Betrayal](/strategies/diplomacy-betrayal/) to price alliance, embargo, and exit risk.

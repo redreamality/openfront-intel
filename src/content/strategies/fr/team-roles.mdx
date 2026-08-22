@@ -1,0 +1,405 @@
+---
+title: "Rôles d'équipe dans OpenFront : un cadre de coordination flexible"
+description: Coordonnez front, dons, cibles, rail, marine et dissuasion nucléaire sans traiter les rôles d'OpenFront comme des classes verrouillées.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [team, roles, donations, coordination]
+category: Team
+difficulty: Avancé
+version: v33
+freshnessSummary: "Vérifié le 2026-08-22 dans le tag officiel v0.33.7 : options de don, délai partagé, timing des cibles, relations amicales et revenus des arrêts Train."
+---
+
+## Réponse directe
+
+Dans la v0.33.7, OpenFront n'impose aucune classe. Traitez les rôles comme un plan modifiable : le front absorbe la pression, le donateur déplace la ressource rare et l'annonceur concentre l'attention.
+
+Rail, marine et dissuasion maintiennent le soutien. Réattribuez ces tâches dès que frontières, capacité, or ou infrastructures changent.
+
+Les dons dépendent du mode, de la capacité du destinataire et d'un délai partagé de 10 secondes. Une cible partage une intention pendant 10 secondes, pas toute la vision. Vérifié le 2026-08-22.
+
+## Des décisions, pas des classes
+
+Le jeu ne désigne aucun joueur comme front, donateur, annonceur, logisticien, marin ou spécialiste nucléaire. Ces six noms forment un cadre éditorial pour parler du travail actuel.
+
+Ils n'accordent ni bonus passif, ni commande exclusive, ni position protégée. Une personne peut cumuler deux responsabilités, puis en céder une avant l'action suivante.
+
+Le cadre répond à une question : qui peut lever le principal goulot d'étranglement de l'équipe au plus faible coût d'opportunité ?
+
+Une composition figée ignore la carte. Le donateur devient le front quand une frontière s'ouvre ; le marin devient logisticien lorsque l'eau décisive ne compte plus.
+
+Le code prouve actions, délais et limites. Il ne prouve pas qu'une composition à six, un ordre de dons ou un partage fixe des rôles procure un taux de victoire.
+
+## Distinguer friendly, teammate et ally
+
+Dans le moteur, **friendly** désigne soi-même, un joueur de la même team ou un joueur lié par une alliance active. Une attaque terrestre ordinaire ne cible pas un friendly.
+
+Un **teammate**, ou coéquipier, appartient à la team définie par le mode. Un **ally**, ou allié, dépend du système d'alliance limitée dans le temps.
+
+Les deux relations se rejoignent pour certains contrôles, comme l'éligibilité aux dons. Elles ne constituent pourtant pas le même état.
+
+L'appartenance à une team n'est pas une alliance chronométrée. Une alliance peut expirer, être renouvelée ou rompue ; routes et promesses de soutien peuvent donc changer en partie.
+
+La distinction modifie aussi le revenu des Trains. Le code actuel ne verse pas la même base à un arrêt ally et à un arrêt teammate.
+
+Sources : [PlayerImpl.ts][player-source], [AttackExecution.ts][attack-source] et [TrainStation.ts][train-source].
+
+## Vérifier l'option avant de nommer un donateur
+
+Les playlists publiques emploient ces valeurs par défaut dans la v0.33.7. Une salle personnalisée peut modifier les options.
+
+| Mode public | Donate Gold | Donate Troops | Conséquence pour le plan |
+| --- | --- | --- | --- |
+| Team | Activé | Activé | Le donateur choisit l'une des deux ressources par défaut. |
+| FFA | Désactivé | Désactivé | Une alliance seule n'active pas les dons par défaut. |
+| Ranked 1v1 | Désactivé | Désactivé | Prévoyez zéro transfert, sauf règle personnalisée. |
+| Ranked 2v2 | Activé | Activé | Les deux dons sont disponibles par défaut. |
+
+N'écrivez pas « tous les alliés peuvent toujours donner ». Émetteur et destinataire doivent être vivants et friendly ; un Human dépend aussi de l'option correspondante.
+
+Dire « les dons sont impossibles en FFA » serait également trop large. Ils sont coupés dans la playlist publique, mais une salle personnalisée peut employer d'autres réglages.
+
+Sources : [MapPlaylist.ts][playlist-source], [DonateGoldExecution.ts][gold-source] et [DonateTroopExecution.ts][troop-source].
+
+## Construire un tableau d'état vivant
+
+Avant d'attribuer les rôles, notez six états. Le tableau doit rester assez court pour être révisé après une rupture de frontière, la perte d'un Port ou un gros transfert.
+
+| Question | Signal utile | Rôle susceptible de changer |
+| --- | --- | --- |
+| Qui absorbe la pression terrestre ? | Attaques, longueur du front, réserve | Front / ancrage |
+| Qui peut recevoir des Troops ? | Troops actuelles et marge de `maxTroops` | Don / économie |
+| Quel ennemi compte maintenant ? | Poussée, bâtiment exposé, débarquement | Annonceur de cible |
+| Quel réseau règle encore ? | Arrêt City ou Port, route, embargo | Rail / logistique commerciale |
+| Quelle eau change les mouvements ? | Transport, Port, passage étroit | Soutien naval |
+| Qui peut répondre au nucléaire ? | Or, Silo, pression SAM, exposition | Dissuasion nucléaire |
+
+Ce tableau est un outil éditorial, pas un écran du jeu. Il empêche l'affectation d'hier de survivre lorsque sa mission a disparu.
+
+Révisez-le quand un destinataire approche son plafond, qu'une route casse, qu'une cible expire ou qu'un ennemi se tourne vers le soutien.
+
+## Rôle 1 : front ou ancrage
+
+Le front absorbe la pression terrestre actuelle et précise quel soutien changerait le combat. Son résultat est une zone de contact stable, pas le plus grand territoire de l'équipe.
+
+Annoncez direction des attaques, Troops utilisables, marge du destinataire et objectif proche. « Envoyez tout » cache le plafond qui peut tronquer le transfert.
+
+Utilisez une cible lorsqu'un seul ennemi mérite la priorité. Ne supposez pas que le marqueur révèle ses unités, son or ou toute sa zone masquée.
+
+**Signal de bascule :** réduisez ou cédez ce rôle lorsque le front raccourcit, que le voisin change ou que le risque Doomsday rend une autre reprise territoriale urgente.
+
+**Contre adverse :** ouvrir deux fronts ou menacer la route de soutien. L'ancrage doit alors désigner le contact réellement décisif.
+
+## Rôle 2 : donateur ou économie
+
+Le donateur demande si l'or ou les Troops lèvent le plus gros blocage pendant les 10 prochaines secondes. Il ne transfère pas tout excédent visible par réflexe.
+
+Un don de Troops est limité par la marge restante sous `maxTroops` et par ce que l'émetteur peut réellement perdre. L'or est borné par son solde disponible.
+
+La demande de Troops par défaut vaut un tiers des Troops actuelles de l'émetteur, mais le transfert réel peut être inférieur. Ce défaut n'est pas un ratio conseillé.
+
+Or et Troops vers le même destinataire partagent un délai de 10 secondes pour un émetteur. Un petit don peut bloquer la ressource réellement urgente.
+
+**Signal de bascule :** arrêtez lorsque le destinataire approche son plafond, que le front tient ou que le donateur devient lui-même une cible.
+
+**Contre adverse :** attaquer le donateur ou faire demander plusieurs destinataires à la fois. Le délai partagé transforme la priorité en décision défensive.
+
+## Rôle 3 : annonceur de cible
+
+L'annonceur utilise un marqueur bref pour désigner une priorité actuelle. Le client affiche ensemble les marqueurs teammate et ally, mais ceux-ci restent de simples signaux.
+
+Une cible reste visible 10 secondes. La capacité du même émetteur possède un délai de récupération de 15 secondes.
+
+Pendant environ 5 secondes, l'ancien marqueur a donc disparu sans que cet émetteur puisse en poser un autre. Voix, ping ou informations déjà visibles doivent couvrir ce vide.
+
+Une cible n'est pas un ordre. Elle ne force aucune attaque, ne transfère aucun contrôle et ne révèle pas les informations cachées complètes de l'ennemi.
+
+**Signal de bascule :** changez d'annonceur si son délai rencontre une urgence ou si un autre joueur comprend mieux le front concerné.
+
+**Contre adverse :** présenter deux menaces crédibles ou reculer après le marquage. L'équipe ne doit pas poursuivre automatiquement une priorité périmée.
+
+## Rôle 4 : rail et logistique commerciale
+
+La logistique garde les liaisons entre Factory, City et Port capables de régler un trajet. Propriété et relation comptent autant que les rails posés.
+
+Avec multiplicateur 1x et sans pénalité d'arrêt long, un arrêt ally verse 35 000 d'or de base au propriétaire du Train et 35 000 au propriétaire étranger de la gare.
+
+Un arrêt teammate verse 25 000 à chaque partie. Un arrêt other verse aussi 25 000 à chaque partie ; un arrêt self ne note qu'un versement de 10 000.
+
+À un arrêt étranger, chacun reçoit la somme complète : ce n'est pas le partage d'une seule cagnotte. Multiplicateur d'or et pénalité de longue route peuvent changer le résultat.
+
+Ne prétendez pas que teammate offre la meilleure base. Dans la branche v0.33.7, les 35 000 correspondent à ally.
+
+**Signal de bascule :** changez lorsque la route est coupée, qu'un embargo bloque le commerce, que la gare change de propriétaire ou que sa défense coûte trop cher.
+
+**Contre adverse :** capturer un arrêt, couper une liaison étroite ou modifier la relation. Recalculez le réseau actif au lieu de défendre une ancienne route.
+
+## Rôle 5 : soutien naval
+
+Le soutien naval protège la voie d'eau qui change les déplacements. Il escorte les Transports, conteste les débarquements et défend un Port utile sans maximiser les Warships.
+
+Demandez si cette eau relie encore des fronts importants. Si la bataille devient continentale ou que le Port tombe, les navires peuvent cesser de résoudre le blocage actuel.
+
+Coordonnez la fenêtre de débarquement avec le front et l'annonceur. Sans Troops terrestres prêtes, une traversée protégée ne donne pas forcément de territoire.
+
+**Signal de bascule :** pivotez si l'ennemi délaisse la voie, si aucun Port valable ne reste ou si un travail terrestre produit plus de valeur immédiate.
+
+**Contre adverse :** feindre une traversée, attaquer la côte de soutien ou éloigner la flotte de son Port. Défendez une route, pas un score abstrait.
+
+## Rôle 6 : dissuasion nucléaire
+
+La dissuasion conserve assez d'or, un Silo accessible et des infrastructures protégées pour répondre à une menace stratégique. Elle n'autorise pas un tir sur toute cible disponible.
+
+Annoncez la réponse vraiment prête et le bâtiment exposé. Ne dépensez pas la réserve sur une cible faible si un contre plus urgent peut apparaître.
+
+Ce rôle coordonne les dons avant qu'ils ne consomment l'or d'une défense ou d'une construction. Il suit aussi la validité d'une relation ally.
+
+**Signal de bascule :** réattribuez si le Silo tombe, si la pression SAM change les trajectoires, si les armes sont coupées ou si un autre joueur possède un site plus sûr.
+
+**Contre adverse :** menacer les bâtiments, disperser les cibles ou obliger la réserve à répondre à deux dangers. La dissuasion est une capacité, pas un contrôle garanti.
+
+## Décider un don : destinataire, capacité, ressource, délai
+
+Posez quatre questions avant chaque transfert urgent. Leur ordre sert au diagnostic ; il ne prescrit aucun ordre fixe de dons.
+
+1. **Destinataire :** est-il vivant, friendly, et le don est-il actif dans cette salle ?
+2. **Capacité :** quelle marge de Troops lui reste-t-il, et quelle quantité l'émetteur peut-il réellement retirer ?
+3. **Ressource :** des Troops tiennent-elles le front, ou l'or débloque-t-il le bâtiment, plafond ou contre le plus utile ?
+4. **Délai :** cet émetteur a-t-il donné l'une des deux ressources à ce destinataire au cours des 10 dernières secondes ?
+
+Le choix de ressource est tactique. Délai, marge, vie, état friendly et option de configuration sont des contraintes du moteur.
+
+Des donateurs différents tiennent leurs propres enregistrements. N'en déduisez pas un délai global, ni la possibilité pour un même émetteur d'alterner or et Troops.
+
+Après un transfert, vérifiez le montant reçu. Une demande valide peut encore être tronquée par la marge ou la capacité de l'émetteur.
+
+### Scénario 1 : la marge tronque un don de Troops
+
+Supposons `maxTroops = 200 000` pour le destinataire et `185 000` Troops actuelles. La capacité disponible est :
+
+`headroom = 200 000 - 185 000 = 15 000`
+
+Même si l'émetteur demande 30 000, le destinataire ne peut recevoir que 15 000 au maximum dans cette hypothèse.
+
+Après le transfert, les dons d'or et de Troops de cet émetteur vers ce destinataire entrent tous deux dans le délai commun de 10 secondes.
+
+La leçon n'est pas « donnez toujours les Troops d'abord ». Vérifiez la capacité, puis choisissez la ressource qui mérite la fenêtre commune.
+
+Sources : [DonateTroopExecution.ts][troop-source], [PlayerImpl.ts][player-source] et [tests officiels des dons][donation-tests].
+
+### Scénario 2 : un petit don bloque l'or urgent
+
+Supposons que le front ait besoin d'un petit complément de Troops et de 120 000 or pour l'action jugée plus urgente par l'équipe.
+
+Si un donateur envoie d'abord les Troops, il ne peut pas envoyer immédiatement l'or au même destinataire. Le délai commun dure 10 secondes.
+
+Un autre donateur éligible peut avoir son propre enregistrement, mais solde, relation friendly et options du mode s'appliquent toujours.
+
+Choisissez la ressource qui lève le plus grand blocage dans les 10 secondes à venir. Le code n'impose aucun ordre universel.
+
+Sources : [DonateGoldExecution.ts][gold-source], [DonateTroopExecution.ts][troop-source] et [Donate.test.ts][donation-tests].
+
+## Timing des cibles : 10 secondes visibles, 15 secondes bloquées
+
+Traitez la cible comme un bref message d'intention : « concentrez-vous ici maintenant », et non « toutes les informations de ce joueur sont partagées ».
+
+À `t = 0`, l'annonceur marque un ennemi. Le marqueur reste visible jusqu'à environ `t = 10s`.
+
+Le délai du même émetteur se termine vers `t = 15s`. Il existe donc environ cinq secondes où cet annonceur ne peut pas remarquer.
+
+### Scénario 3 : le vide entre deux marqueurs
+
+Supposons que l'ennemi marqué recule à `t = 9s`, puis qu'une menace plus forte apparaisse à `t = 11s`.
+
+Le premier marqueur a disparu, mais l'annonceur reste bloqué jusqu'à environ `t = 15s`. Une autre personne ou un canal externe doit transmettre le changement.
+
+C'est une raison de faire tourner la responsabilité, pas la preuve qu'il faut un annonceur permanent. Le joueur disponible le mieux informé peut prendre la fenêtre suivante.
+
+Le client regroupe les marqueurs ally et teammate. Il ne fusionne ni brouillard de guerre, ni détails des unités, ni soldes d'or, ni attaques automatiques.
+
+Sources : [TargetPlayerExecution.ts][target-source] et [PlayerView.ts][view-source].
+
+## Arrêts Train : la relation change le paiement de base
+
+Évaluez le soutien ferroviaire aux arrêts fonctionnels, pas à la longueur totale des rails. Un arrêt étranger terminé verse à chacun le montant lié à la relation.
+
+### Scénario 4 : arrêt ally contre arrêt teammate
+
+Supposons un multiplicateur d'or de 1x et aucune pénalité liée au nombre d'arrêts.
+
+À un arrêt teammate, le propriétaire du Train reçoit 25 000 et celui de la gare reçoit 25 000.
+
+À un arrêt ally, le propriétaire du Train reçoit 35 000 et celui de la gare reçoit 35 000.
+
+Dans cette comparaison précise, l'arrêt ally fournit donc 10 000 or de base supplémentaires à chaque partie.
+
+Cela ne démontre pas la supériorité générale des alliances. Seule cette branche du paiement Train est décrite ; durée, embargo, sécurité et objectif restent séparés.
+
+Source : [TrainStation.ts][train-source].
+
+### Scénario 5 : other ne signifie pas zéro
+
+Avec les mêmes hypothèses, un arrêt appartenant à un joueur other verse 25 000 au propriétaire du Train et 25 000 au propriétaire de la gare.
+
+L'autorisation commerciale compte toujours. Un embargo dans une direction peut rendre la liaison inutilisable malgré l'existence de la branche other dans le tableau.
+
+Ne transformez pas ce nombre en promesse pour toute gare étrangère visible. Vérifiez relation et route active.
+
+## Un cycle de coordination sans ordre de construction
+
+Faites une courte revue après chaque changement d'état. La séquence suivante aide la discussion ; ce n'est ni un timer du moteur ni un scénario obligatoire.
+
+### 1. Nommer la pression
+
+Identifiez attaque, débarquement, rupture de route, manque de capacité ou menace nucléaire susceptible de provoquer la prochaine perte irréversible.
+
+N'attribuez pas six rôles si deux travaux suffisent. Des étiquettes vides consomment l'attention et masquent un risque sans propriétaire.
+
+### 2. Nommer la contrainte
+
+Choisissez entre Troops, or, marge, clarté de cible, route, accès maritime ou puissance protégée.
+
+Ainsi, un donateur ne répond pas à un plafond déjà plein par plus de Troops, et une flotte ne protège pas une eau qui ne transporte plus rien.
+
+### 3. Donner un responsable et un signal de bascule
+
+Le responsable effectue la prochaine action utile. Le signal clôt la tâche : plafond atteint, marqueur expiré, front fermé, route coupée ou bâtiment perdu.
+
+Sans ce signal, une responsabilité temporaire devient une classe et survit après la disparition de sa valeur.
+
+### 4. Vérifier le résultat
+
+Contrôlez montant reçu, état du marqueur, arrêt réglé, traversée sûre ou réponse préservée. Une tentative n'est pas un résultat d'équipe achevé.
+
+## Ajustements de mode et de carte
+
+### Team public et Ranked 2v2
+
+Les dons d'or et de Troops sont activés par défaut. Le délai commun par destinataire et les contrôles de marge restent applicables.
+
+Davantage de transferts créent plus d'options ; ils n'autorisent pas le donateur à vider la réserve de sa propre frontière exposée.
+
+### FFA public et Ranked 1v1
+
+Les deux dons sont désactivés par défaut. Une alliance rend les joueurs friendly, mais ne remplace pas l'option de don Human désactivée.
+
+Une salle personnalisée peut modifier les options. Vérifiez le lobby au lieu d'appliquer le défaut public à toute partie privée.
+
+### Cartes continentales
+
+Front et rail dominent souvent lorsque la terre relie les objectifs. Réduisez le soutien naval si l'eau ne change aucun déplacement.
+
+Les longues liaisons offrent plus de points de coupure. Défendez l'arrêt ou le pont dont la perte change le règlement, pas chaque segment décoratif.
+
+### Détroits et archipels
+
+Le soutien naval peut devenir central lorsqu'une traversée relie l'équipe. Le front doit encore disposer des Troops capables d'exploiter une escorte réussie.
+
+Réévaluez dès que le Port décisif tombe. Financer une mission devenue inaccessible relève de l'inertie de rôle.
+
+### Armes nucléaires ou SAM désactivés
+
+Sans armes nucléaires, la dissuasion n'a plus sa mission normale. Réattribuez or et attention à une contrainte active.
+
+Si les nukes restent actives sans SAM, espacez les bâtiments et gérez leur exposition. Ne protégez pas un lanceur interdit par le lobby.
+
+## Échecs fréquents et contres adverses
+
+### Titres de poste figés
+
+Le donateur continue à transférer après être devenu le front exposé, ou le marin construit encore lorsque l'eau ne compte plus.
+
+Associez un signal de bascule à chaque rôle. Le rôle décrit la prochaine responsabilité, pas l'identité du joueur pour toute la partie.
+
+### Donner à un destinataire plein
+
+L'équipe demande un gros transfert sans vérifier la marge de `maxTroops`. Le montant est tronqué et l'émetteur consomme pourtant sa fenêtre commune de 10 secondes.
+
+Lisez d'abord la capacité. Si l'or lève un autre blocage, comparez-le avant d'engager l'un des deux dons.
+
+### Cibles multiples ou périmées
+
+Plusieurs joueurs marquent des ennemis différents, ou tous poursuivent un marqueur après le changement de position.
+
+Gardez une priorité par fenêtre visible. Le délai de 15 secondes de l'émetteur et le mouvement adverse imposent une nouvelle lecture.
+
+### Supposer une vision partagée
+
+Le marqueur est interprété comme une information complète. L'équipe engage des forces sur des unités ou ressources jamais révélées.
+
+Annoncez la raison observable du choix. Le code prouve l'affichage commun du marqueur, pas le partage intégral du brouillard de guerre.
+
+### Mal évaluer la relation ferroviaire
+
+L'équipe suppose que teammate paie 35 000 ou que les deux parties étrangères partagent une seule récompense.
+
+Employez la table réelle : ally 35 000 chacun ; teammate et other 25 000 chacun ; self 10 000 une fois. Ajoutez ensuite multiplicateur et pénalité.
+
+### Attaque du réseau de soutien
+
+L'adversaire peut presser le donateur, couper le rail, capturer un Port, diviser le front ou menacer l'infrastructure nucléaire.
+
+Ces contres ne battent pas automatiquement le cadre. Ils obligent l'équipe à actualiser son blocage et à déplacer la responsabilité.
+
+## FAQ des rôles d'équipe
+
+### OpenFront verrouille-t-il les rôles ?
+
+Non. Ces six rôles forment un cadre éditorial de coordination. Le moteur fournit des actions et relations, pas des professions ni bonus de classe.
+
+### Tous les allies peuvent-ils recevoir un don ?
+
+Pas toujours. Les deux joueurs doivent être vivants et friendly, et le don Human doit être actif. FFA public et Ranked 1v1 coupent les deux dons par défaut.
+
+### Or et Troops ont-ils des délais distincts ?
+
+Non. Les deux dons du même émetteur vers le même destinataire utilisent le même enregistrement de 10 secondes.
+
+### Un don peut-il dépasser `maxTroops` ?
+
+Non. Le transfert est limité par la marge du destinataire et la capacité de l'émetteur. Le montant reçu peut être inférieur à la demande.
+
+### Une cible partage-t-elle toute la vision ?
+
+Non. Le marqueur ally ou teammate s'affiche 10 secondes, sans révéler tout le brouillard, les unités ou les ressources, et sans forcer une attaque.
+
+### Pourquoi le marqueur disparaît-il avant le prochain envoi ?
+
+La visibilité dure 10 secondes, tandis que le délai du même émetteur dure 15 secondes. Le vide est donc d'environ cinq secondes.
+
+### Un arrêt teammate paie-t-il 35 000 ?
+
+Non. La branche de base lui attribue 25 000 par partie. Ally attribue 35 000 par partie ; multiplicateur et pénalité peuvent modifier le revenu réel.
+
+### Existe-t-il une meilleure composition fixe ?
+
+Aucune source vérifiée ne le prouve. Attribuez les travaux exigés par le front, le réseau, la capacité et la menace, puis changez-les avec les signaux.
+
+## Sources et lectures suivantes
+
+La limite actuelle est la [release officielle OpenFront v0.33.7][release]. Tous les liens de code et de tests ci-dessous sont fixés au même tag.
+
+- [PlayerImpl.ts][player-source] pour friendly, l'historique des dons, le commerce et les plafonds.
+- [MapPlaylist.ts][playlist-source] pour les options par défaut des modes publics.
+- [DonateGoldExecution.ts][gold-source] et [DonateTroopExecution.ts][troop-source] pour l'éligibilité et les limites.
+- [TargetPlayerExecution.ts][target-source] et [PlayerView.ts][view-source] pour le timing et l'affichage ally ou teammate.
+- [TrainStation.ts][train-source] pour les paiements ally, teammate, other et self.
+- [Tests officiels des dons][donation-tests] et [tests des dons en alliance][alliance-donation-tests] pour le délai commun et friendly.
+
+Poursuivez avec le [contrôle naval Team](/fr/strategies/team-naval-control/), la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) et les [mécaniques commerciales](/fr/mechanics/trade/).
+
+Lisez aussi [alliances et trahison](/fr/mechanics/alliances/) avant de traiter une route ally comme une infrastructure de team permanente.
+
+Si un coéquipier s'effondre déjà, commencez par le [guide de récupération](/fr/strategies/recovery-playbook/). Pour gérer alliance, embargo et sortie, continuez avec [diplomatie et trahison](/fr/strategies/diplomacy-betrayal/).
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[gold-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts
+[troop-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts
+[playlist-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts
+[target-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TargetPlayerExecution.ts
+[view-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/view/PlayerView.ts
+[train-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts
+[donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Donate.test.ts
+[alliance-donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceDonation.test.ts

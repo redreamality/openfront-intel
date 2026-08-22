@@ -2,17 +2,19 @@
 title: "OpenFront 末日时钟攻略：波次、掉兵与翻盘"
 description: "OpenFront 的 Doomsday Clock 检查的是领土占比，不是向地图中心收缩的安全圈。这里列出全部波次、30 秒警告、部队与战舰损耗、团队判定、恢复方法和反制。"
 pubDate: 2026-08-04
-updatedDate: 2026-08-09
+updatedDate: 2026-08-22
 tags: [doomsday-clock, territory, endgame, strategy]
 category: 教程
 difficulty: 中级
 version: v33
-freshnessSummary: "v33.2 重做末日时钟终局：七档领土门槛改为 2/4/7/11/17/25/35%，兵力保护下限从 40% 衰减到 5%，持续 doomed 150 秒会因领土腐化被淘汰。"
+freshnessSummary: "v33.7 将团队模式七档门槛提高到 3/6/10/15/21/28/35%，FFA 仍为 2/4/7/11/17/25/35%；腐化领土现在会变成必须主动夺回的 wasteland。"
 ---
 
 ## 直接答案：末日时钟到底做什么？
 
-**Doomsday Clock（末日时钟）**用不断提高的领土占比门槛结束僵局。它不是从地图边缘向中心移动的安全圈，也不会检查你离几何中心有多远。前 10 分钟门槛为 0%，之后依次向 2%、4%、7%、11%、17%、25% 和 35% 上升。
+**Doomsday Clock（末日时钟）**用不断提高的领土占比门槛结束僵局。它不是从地图边缘向中心移动的安全圈，也不会检查你离几何中心有多远。
+
+前 10 分钟门槛为 0%。FFA 之后依次升向 2%、4%、7%、11%、17%、25%、35%；团队模式按相同时刻升向 3%、6%、10%、15%、21%、28%、35%。
 
 非领先阵营低于实时门槛时会出现骷髅，并获得 30 秒恢复时间。仍未回到门槛以上，部队与战舰生命会每秒损失，保护下限在 90 秒内从 40% 降到 5%。如果仍被压在下限，领土开始腐化，并以第一次出现骷髅后的第 150 秒为清零期限。
 
@@ -20,7 +22,7 @@ freshnessSummary: "v33.2 重做末日时钟终局：七档领土门槛改为 2/4
 
 ## 先纠正最常见的误解
 
-游戏只比较 tile 数量，没有隐藏的安全区坐标。FFA 看玩家自己的领土；团队模式把所有存活队友的领土相加，再与单人阵营完全相同的门槛比较。
+游戏只比较 tile 数量，没有隐藏的安全区坐标。FFA 看玩家自己的领土；团队模式把所有存活队友的领土相加，再与更高的团队七档门槛比较。
 
 小领土队友不会单独被判 doomed。只要全队合计占比安全，全员都安全；只要全队低于门槛，每名队员都会一起收到骷髅和损耗。
 
@@ -36,7 +38,9 @@ freshnessSummary: "v33.2 重做末日时钟终局：七档领土门槛改为 2/4
 
 ## 四种速度的完整波次
 
-所有速度都先经历 10 分钟的 0% 宽限。每一轮会从上一个占比平滑上升到新目标，然后短暂停住，并不是瞬间跳到表中的数字。
+所有速度都先经历 10 分钟的 0% 宽限。表格列出 FFA 门槛；团队模式会在相同时刻达到 3/6/10/15/21/28/35%。
+
+每一轮会从上一个占比平滑上升到新目标，然后短暂停住，并不是瞬间跳到表中的数字。
 
 | 速度 | 2% | 4% | 7% | 11% | 17% | 25% | 最终 35% |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -102,7 +106,9 @@ fallout 会改变有效陆地分母，因此同一百分比对应的绝对 tile 
 
 战舰从每秒最大生命的 1% 开始，前段较缓，后段会陡升到 50%。战舰按熟练度修正后的最大生命使用同一条 40%→5% 保护下限，且 doomed 状态下不能回血。
 
-从第一次出现骷髅算起，完整淘汰期限是 150 秒。30 秒警告结束后，下限用 90 秒降到 5%；阵营被压在该下限时，领土腐化会先在内部打开分散孔洞，再沿边缘扩散。失去的 tile 变成无主地，其上的路线和建筑也无法保留；系统会动态调整每秒移除量，确保剩余领土在期限到达时归零。
+从第一次出现骷髅算起，完整淘汰期限是 150 秒。30 秒警告结束后，下限用 90 秒降到 5%；阵营被压在该下限时，领土腐化会先在内部打开分散孔洞，再沿边缘扩散。
+
+失去的 tile 会变成 fallout wasteland，不会作为无主地被邻居免费吸收；其上的路线和建筑无法保留。系统动态调整每秒移除量，使剩余领土在期限到达时归零。
 
 淘汰前仍可恢复。重新达到门槛或成为领土第一，会立刻清除骷髅、停止损耗与腐化；以后再次跌破时，30 秒警告和腐化路径都会重新开始。
 
@@ -222,7 +228,7 @@ Very fast 从 10:00 开始挤压，15:00 已到 35%。每次暂停只有 8 秒�
 
 ## 团队模式的决策规则
 
-全队按合计领土面对与 FFA 单人完全相同的门槛，不会因为人数多而乘倍。
+全队按合计领土面对 3%、6%、10%、15%、21%、28%、35% 七档门槛。它不会按人数乘倍，但中间档位高于 FFA。
 
 30 秒警告出现时应分工。一名队友顶住正面，另一名队友拿便宜陆地。每个人共享全队状态，个人 tile 数不如团队总量重要。
 
@@ -357,6 +363,6 @@ fallout tile 会从有效陆地分母中移除。它不会变成你的领土，�
 
 ## 来源与下一步阅读
 
-当前规则来自[官方 v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)、共享的[波次计算源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)、权威的[阵营、损耗与领土腐化执行](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)、[警告、下限与腐化默认值](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)、[面板实现](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/client/components/DoomsdayClockPanel.ts)以及[公开房修饰符轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/server/MapPlaylist.ts)。
+当前规则来自[官方 v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[FFA 与团队波次源码](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[阵营、损耗与 wasteland 腐化执行](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)以及[警告、下限与腐化默认值](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)。
 
 想了解版本背景，阅读[v33 玩家影响总览](/zh/changelog/v33/)。想建立第一块安全领土缓冲，继续看[第一局教程](/zh/guides/first-match/)。想理解扩张、兵力与金币的取舍，阅读[经济基础策略](/zh/strategies/economy-fundamentals/)。

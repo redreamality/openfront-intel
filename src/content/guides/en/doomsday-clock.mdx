@@ -2,19 +2,21 @@
 title: "OpenFront Doomsday Clock Guide: Waves, Decay & Survival"
 description: "The OpenFront Doomsday Clock is a rising territory-share test, not a moving safe circle. Learn every wave, the 30-second warning, troop and warship decay, team rules, recovery, and counterplay."
 pubDate: 2026-08-04
-updatedDate: 2026-08-09
+updatedDate: 2026-08-22
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Tutorial
 difficulty: Intermediate
 version: v33
-freshnessSummary: "v33.2 changes the Doomsday endgame: seven territory targets now rise through 2/4/7/11/17/25/35%, the troop floor decays from 40% to 5%, and territory rot eliminates a side that stays doomed for 150 seconds."
+freshnessSummary: "v33.7 raises team-mode targets to 3/6/10/15/21/28/35% while FFA keeps 2/4/7/11/17/25/35%; rotted territory now becomes wasteland that must be retaken."
 ---
 
 ## Direct answer: what does the Doomsday Clock do?
 
 The **Doomsday Clock** ends stalled OpenFront matches by making every non-leading side hold a rising share of the map's usable land.
 
-It is not a circle that moves toward the geographic center. After a 10-minute grace period, the required share ramps through 2%, 4%, 7%, 11%, 17%, 25%, and 35%.
+It is not a circle that moves toward the geographic center. After a 10-minute grace period, FFA ramps through 2%, 4%, 7%, 11%, 17%, 25%, and 35%.
+
+Team modes use the same timings but higher intermediate targets: 3%, 6%, 10%, 15%, 21%, 28%, and 35%.
 
 If your side falls below the live bar, a skull appears and you get 30 seconds to recover. After that, troops and Warship health drain each second.
 
@@ -28,7 +30,7 @@ Your practical objective is therefore simple: hold a connected land share with a
 
 There is no hidden safe-zone location and no rule that checks distance from the center. The game compares tile counts.
 
-In FFA, your own territory is your side's territory. In team modes, every living teammate's territory is added together and compared with the same bar used for a solo side.
+In FFA, your own territory is your side's territory. In team modes, every living teammate's territory is added together and compared with the higher team ladder.
 
 A tiny teammate is safe when the team total is safe; if the team total is below the bar, every member receives the skull and decay.
 
@@ -48,7 +50,9 @@ The interface marks you as near danger when your share is within roughly 10% of 
 
 ## Wave schedule and speed presets
 
-Every preset keeps the first ten minutes at 0%. The threshold then rises smoothly during each wave and pauses briefly at its target. It does not jump instantly from one listed percentage to the next.
+Every preset keeps the first ten minutes at 0%. The table shows FFA targets; team modes reach 3/6/10/15/21/28/35% at the same listed times.
+
+The threshold rises smoothly during each wave and pauses briefly at its target. It does not jump instantly from one listed percentage to the next.
 
 | Speed | 2% | 4% | 7% | 11% | 17% | 25% | 35% final |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -126,7 +130,9 @@ Warships use the same falling 40%-to-5% floor against veterancy-adjusted maximum
 
 The skull's full deadline is 150 seconds. After the 30-second warning and 90-second floor-decay window, a side pinned at its floor enters territory rot.
 
-The sim opens scattered holes, then spreads them through owned land. Unowned tiles no longer support routes or structures. The per-second quota adjusts so the remaining territory reaches zero at the deadline.
+The sim opens scattered holes, then spreads them through owned land. Lost tiles become fallout wasteland, not neutral territory a neighbor absorbs for free. Routes and structures on those tiles disappear.
+
+The per-second quota adjusts so the remaining territory reaches zero at the deadline.
 
 This is still recoverable until the side is eliminated. Reaching the bar or becoming the territory leader clears the skull, stops drain and rot immediately, and resets the rot path for a later failure.
 
@@ -250,7 +256,7 @@ When you are leading, keep pressure on challengers without giving away the crown
 
 ## Team-mode decision rules
 
-Teams are judged on combined territory against the same requirement as one FFA player. The threshold is not multiplied by team size.
+Teams are judged on combined territory against 3%, 6%, 10%, 15%, 21%, 28%, and 35%. The threshold is not multiplied by team size, but its intermediate rungs are higher than FFA.
 
 Split roles during a warning. One teammate can hold the enemy front while another captures cheap land. Because every member shares the team's status, personal tile count is less important than the combined total.
 
@@ -391,10 +397,10 @@ No. Two sides can still meet 35% at once. The final bar narrows the field, while
 
 The current rules are documented in these official sources:
 
-- [v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
-- [Wave schedule](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
-- [Side, drain, and territory-rot execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
-- [Default warning, floor, and rot values](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+- [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [FFA and team wave schedules](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Side, drain, and wasteland-rot execution](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Default warning, floor, and rot values](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
 - [HUD panel](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/client/components/DoomsdayClockPanel.ts)
 - [Public modifier rotation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/server/MapPlaylist.ts)
 

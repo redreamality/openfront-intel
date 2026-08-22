@@ -1,0 +1,337 @@
+---
+title: OpenFront 败局恢复手册：撤退、回兵与重建
+description: 遭遇兵力崩盘、夹击、核打击或末日时钟压力后，怎样先止损，再恢复增长，最后重建一次可执行的行动。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [recovery, retreat, doomsday, strategy]
+category: 高阶策略
+difficulty: 进阶
+version: v33
+freshnessSummary: "2026-08-22 按 v0.33.7 核验：撤退等待 20 ticks，并返还执行时剩余攻击 Troops 的 75%；增长取决于上限空间；重新达到当前 Doomsday 门槛会立即清除损耗与腐化。"
+---
+
+## 直接答案
+
+在 OpenFront v0.33.7 的败局里，把恢复分成三段：先停止仍在扩大的损失，再恢复 Troops 增长和可防守的边界，最后重建只够完成下一次有效行动的能力。
+
+当撤退代价低于继续交战时尽早退出。若 Doomsday 已标记你或团队，先夺回当前领土门槛；重新达标会立即清除正在生效的 drain 与 territory rot。
+
+本文最后核验于 **2026-08-22**。精确时间、公式和状态转换来自正式 v0.33.7 tag；“止损、恢复、重建”的顺序是编辑性决策框架。
+
+它不保证翻盘。地图、敌军、金币、外交、禁用设置与执行都可能关闭恢复窗口，即使你完全理解下文规则。
+
+## 三阶段恢复框架
+
+### 第一阶段：止住损失
+
+结束或撤回仍在消耗有效兵力的攻击，缩短暴露边界，确认下一名能进攻你的对手。购买长期建筑前，先量出 Doomsday 领土缺口。
+
+### 第二阶段：恢复引擎
+
+在 `maxTroops` 下留出增长空间，同时保留眼前防守所需兵力。若有友方支援，先判断真正短缺的是 Troops 还是 Gold。
+
+更高上限只有在你能活到填满它时才有价值。当前防线即将崩溃时，新增容量不能替代现有兵力。
+
+### 第三阶段：重建一次行动
+
+只购买或夺取能支持下一步的东西：守住一条边界、吃一块低成本土地、保护一座 City、重开路线，或发起有明确终点的反攻。
+
+三段可以重叠，但不要颠倒优先级。新 Factory 救不了仍在流血的攻击；兵力回升也不等于应该同时重开三条战线。
+
+## 先判断你输在哪一层
+
+先处理仍在改变棋盘的失败。总排名不会告诉你真正卡住恢复的是兵力、上限、路线还是门槛。
+
+| 败局类型      | 立即回答的问题                | 先看什么                        |
+| ------------- | ----------------------------- | ------------------------------- |
+| 兵力崩盘      | 哪条进行中攻击仍在烧 Troops？ | 攻击线、剩余兵力、邻敌兵力      |
+| 被夹击        | 哪条边界可以缩短而不丢核心？  | 陆地连通、敌军路线、撤退风险    |
+| Gold 断裂     | 缺的是现有兵力还是未来容量？  | Gold、`maxTroops`、建造队列     |
+| 遭核打击      | 哪个幸存结构或路线仍有价值？  | City、Silo、SAM、Port、连通地   |
+| Doomsday 警告 | 当前阵营到底差多少可用土地？  | 当前档位、阵营合计、leader 状态 |
+
+不要把五种问题都回答成“等回兵”。自然增长能处理兵力缺口，却不会自动取消攻击、接回孤岛、夺回结构或补足领土门槛。
+
+## 花钱前先止损
+
+Human 或 Nation 在没有手动指定时，默认陆地攻击会派出当前 Troops 的 `1/5`；boat attack 也是 `1/5`。攻击开始时，兵力会从 owner 身上扣除。
+
+`1/5` 只是默认执行参数，不是最佳储备。它不能证明保留 20% 在所有边界上都安全或高效。
+
+购买前盘点所有进行中攻击。把能夺取有价值土地的进攻，与只会向更强防线送兵、让主力远离核心的进攻分开。
+
+对每条坏攻击比较两个成本：执行撤退时对幸存攻击兵力确定扣除的 malus，以及继续经历战斗、核伤或第二名敌人时的不确定损失。
+
+默认值见 [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)，扣兵和攻击执行见 [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts)。
+
+## 撤退到底返还什么
+
+收到撤退后，引擎等待 **20 simulation ticks**，常速约 **2 秒**，再执行返回。这段时间里攻击仍可能继续交战或受到其他伤害。
+
+对玩家目标撤退时，系统从执行时仍存活的攻击 Troops 中扣除 25%，其余 **75% 的幸存兵力**返回 owner。
+
+计算不使用原始出兵量，也不会冻结你点击撤退时看到的数字。20 ticks 内发生的损失会继续缩小返还基数。
+
+从 **Terra Nullius** 撤退不应用这项 malus。另一个例外是双方在攻击期间成为 alliance，此时攻击会无撤退 malus 返回。
+
+相向攻击会先互相抵消，因此另开一条反向攻击不能凭空保存兵力。
+
+这些分支见 [RetreatExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts)、[AttackImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AttackImpl.ts)和固定 tag 的[攻击测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts)。
+
+### 撤退检查表
+
+1. 读取攻击当前剩余 Troops，不要用最初出兵量。
+2. 检查再等 20 ticks 是否会撞上主力、夹击或核武。
+3. 确认目标是玩家、Terra Nullius，还是已经成为盟友。
+4. 比较 25% malus 与继续作战的可能损失。
+5. 兵力返回后，把它放到下一条真实威胁上。
+
+撤退是损失控制，不是重置按钮。正确撤退可以保留选择，但不一定立即扭转落后。
+
+## 用增长曲线恢复
+
+Human 每个 simulation tick 的自然 Troop 增长为：
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+simulation tick 是 100 ms，常速每秒约 10 ticks。最后一项会随当前 Troops 接近 `maxTroops` 而缩小。
+
+因此恢复没有固定完成时间。土地、City 等级、进攻、捐赠、速度和来袭都会改变上限、现有兵力或有效增长 tick 数。
+
+适度留出 headroom 可以提高自然增长，但眼前防守决定你能承受多低的储备。公式没有给所有地图统一的最佳持兵百分比。
+
+增长执行见 [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts)，常量来自 [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)。
+
+### 10,000 tiles 参考局面
+
+假设 Human 有 **10,000 tiles**、没有 City、处于常速，且其他条件不变，`maxTroops` 约为 **602,377**。
+
+| 当前 Troops | 上限占比 | 每秒约增长 | 能证明什么             |
+| ----------: | -------: | ---------: | ---------------------- |
+|     150,594 |      25% |     11,368 | 有较大增长空间         |
+|     301,189 |      50% |     12,537 | 接近本例的增长高位     |
+|     542,139 |      90% |      3,846 | 接近上限时增长明显放慢 |
+
+这些数字只比较同一上限下的状态，不能证明 25%、50% 或 90% 是通用目标，也没有计算敌人的进攻。
+
+### City 改变什么
+
+City 会提高 `maxTroops`，但**不会治疗当前 Troops**，不会立刻填满新增容量，也不保证建筑能存活到收回投资。
+
+City 提高上限后，空余容量仍要通过自然增长逐步填充。只有边界与 Gold 预算能保护这份延迟价值时，它才是可行的恢复工具。
+
+若核心马上要失守，现有 Troops 或更便宜的路线可能比额外容量重要。这是战术比较，不是隐藏的 City 购买规则。
+
+## 把友方支援当成条件分支
+
+引擎把自己、teammate 和处于 active alliance 的玩家都视为 `friendly`。捐赠是否可用仍取决于模式配置，友方关系本身不保证按钮开启。
+
+Troop donation 不能让 recipient 超过 `maxTroops`。同一 sender 向同一 recipient 捐 Gold 或 Troops，共用 **10 秒冷却**。
+
+紧急时先回答一个问题：recipient 缺的是能立即守线的 Troops，还是能解除容量、建防御或重开路线的 Gold？
+
+recipient 的上限空间很小时，小额 Troop donation 也可能浪费容量。先送一笔小 Gold，同样可能延后本可守住边界的 Troop 支援。
+
+恢复页只保留这项动作判断，不复制完整团队分工。角色归属、捐赠顺序和目标协作应由团队策略页承接。
+
+共同状态与上限检查见 [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts)、[Gold 捐赠](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts)和[Troop 捐赠](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts)。
+
+## 把 Doomsday 当成紧急门槛
+
+Doomsday Clock 不是地理安全圈，也不是固定死亡倒计时。它比较每个合格阵营与当前可用土地占比门槛。
+
+前 10 分钟门槛为零。Normal speed 下，之后每档先用 168 秒 ramp，再暂停 54 秒，随后进入下一档 ramp。
+
+| 档位 | FFA 门槛 | Team 门槛 |
+| ---: | -------: | --------: |
+|    1 |       2% |        3% |
+|    2 |       4% |        6% |
+|    3 |       7% |       10% |
+|    4 |      11% |       15% |
+|    5 |      17% |       21% |
+|    6 |      25% |       28% |
+|    7 |      35% |       35% |
+
+FFA 按单个玩家的 usable land percentage 判断。Team 会合计全队土地，并把同一个判断结果应用给每名成员。
+
+当前 **leader side** 永远豁免。这是随局势变化的阵营结果，不是绑定某个玩家或队伍的永久身份。
+
+档位与阵营汇总来自 [DoomsdayClock.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)。
+
+### 低于门槛后会发生什么
+
+低于当前门槛会先出现 **30 秒 warning**。用这段时间计算精确 tile 缺口，并选择能最快到达且守住的土地。
+
+随后 Troop drain 在 **90 秒**内从每秒 `maxTroops` 的 **2% 线性升到 5%**。Troop floor 同期从 **40% 降到 5%**。
+
+skull 出现后，territory rot 继续推进，并在 **150 秒**达到领土归零。这些是逐步变化的状态，不是一条固定“两分钟必死”计时器。
+
+重新达到当前门槛会**立即清除** warning、drain 与 rot，并重置相关 rot 状态，不需要等待固定恢复时间。
+
+若门槛随后继续上升，阵营仍可能再次进入风险。清除一次状态不等于免除后续土地要求。
+
+状态转换和重置见 [DoomsdayClockExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)及其[固定 tag 测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts)。
+
+## 四个数字场景
+
+### 场景一：撤回已经受损的攻击
+
+假设最初派出 **160,000 Troops**，但等待 20 ticks 后，撤退执行时只剩 **100,000**。
+
+```text
+returned = 100,000 * 0.75 = 75,000
+```
+
+返还 75,000，不是 120,000。战斗已经减少幸存攻击兵力后，原始出兵量不再是 malus 的计算基数。
+
+若等待期间又损失 10,000，基数会变成 90,000，返还 67,500。这就是约 2 秒窗口必须纳入判断的原因。
+
+### 场景二：相同土地，不同兵力状态
+
+保持 10,000 tiles、无 City 的条件不变。兵力为上限 25% 时，每秒约增长 **11,368**；达到 90% 时约为 **3,846**。
+
+在这些假设下，两者每秒相差约 7,522。它能说明接近上限的惩罚，却不能替你选择对抗邻军的安全储备。
+
+### 场景三：第一档 Doomsday
+
+假设地图有 **1,000,000 usable land tiles**，并且 Normal speed 第一段 ramp 已经完成。
+
+FFA 玩家需要 2%，即 **20,000 tiles**。Team 阵营需要 3%，即**全队合计 30,000 tiles**。
+
+Team 不是要求每名成员各有 30,000。一个人 5,000、另一个 25,000 也能合格，除非动态 leader side 豁免已经适用。
+
+### 场景四：City 容量不等于治疗
+
+假设当前 Troops 为 200,000，一座受保护的 City 提高了 `maxTroops`。建筑完成时，当前兵力仍是 200,000；改变的只是未来增长空间。
+
+若敌人能在新增空间填满前夺走 City 或继续进攻，这笔容量投资可能无法解决当前防守。引擎给的是上限，不是立即补兵。
+
+## 按依赖顺序重建
+
+恢复结束的标准，是局面已经能完成一次有效行动而不重演原来的崩盘。你不必先把每条资源栏和每座建筑恢复到旧水平。
+
+把下列顺序当作编辑性检查表：
+
+1. **稳定核心：**连通土地与现有 Troops 足以承受下一次已知攻击。
+2. **增长路径：**有上限空间与增长时间，或有顺序正确的友方支援。
+3. **价值路线：**中立地、单一弱边界、运输线或能产生价值的贸易连接。
+4. **受保护投资：**缩短后的边界能守住 City、防御、Port、Factory 或核能力。
+5. **一次有限行动：**夺地、解围、重开路线或集中反攻，并有明确停止条件。
+
+地图已经提供某项时可以跳过。安全岛屿可能已有稳定核心却没有陆路；Doomsday 阵营可能必须先补土地，不能先做长期投资。
+
+### 重新进场的四道 gate
+
+再次攻击前回答四问：它创造什么明确价值？哪名敌人能惩罚它？航行或交战时必须留下多少储备？损失或棋盘怎样变化时停止？
+
+任何一问没有答案，就继续恢复或缩小行动。这是风险控制，不是预测战斗胜率的公式。
+
+不要机械等到 `maxTroops`。接近上限时增长会放慢，对手也能利用等待夺地、扩容、捐赠或推动 Doomsday 门槛。
+
+也不要只因增长快就攻击。低兵力和大 headroom 仍可能在公式回报投入前被消灭。
+
+## 按败局类型调整
+
+### 边界崩盘后
+
+先缩短接触面，再补基础设施。优先拿能减少敌军接近角度的连通土地，不要只为总分去抢孤立 tiles。
+
+对手可能继续压制撤退窗口，攻击返回的核心、占住路线，或在增长曲线生效前迫使你再次退出。
+
+### 核打击后
+
+盘点幸存的现有 Troops、`maxTroops`、连通土地、City、Port、Silo 与 SAM。恢复缺失的功能，不要照着旧基地外观复刻。
+
+对手可能在爆炸后衔接陆攻。City 的额外容量仍需时间填充，所以当前防守可能先于重建昂贵战略结构。
+
+### 经济隔离后
+
+分清 Gold 短缺与 Troop 短缺。重开路线或 Gold donation 能恢复选择，但贸易投资本身不能守边界。
+
+对手可以 embargo、切断站点或再次占领连接地。先保护最小可用网络，再扩大它。
+
+### Doomsday 压力下
+
+把百分比缺口换算成 tiles。Team 使用全队合计。优先选择能在 warning、drain 与 rot 抽走夺地能力前到达并守住的土地。
+
+对手可以抢走便宜 Terra Nullius、攻击连接走廊，或在你投资别处时推动门槛。每次大幅领土变化后重新计算。
+
+## 常见失败与对手反制
+
+### “撤退总会返还原始出兵的 75%”
+
+对玩家撤退时，返还执行时幸存攻击 Troops 的 75%。20 ticks 等待会改变幸存量；Terra Nullius 与攻击期间形成 alliance 是例外。
+
+### “应该固定保留一个 Troop 百分比”
+
+没有一个比例能覆盖所有边界、航程、上限、模式和敌军。headroom 提高增长，而眼前威胁决定最低储备。
+
+### “City 会治疗军队”
+
+它只提高 `maxTroops`。建造或升级完成时，当前 Troops 不会跳升；新增空间必须靠之后的增长或合规支援填充。
+
+### “Doomsday 是两分钟后固定死亡”
+
+状态包含 30 秒 warning、90 秒 drain 与 floor ramp，以及 150 秒 territory rot。重新达标会立即清除正在生效的状态。
+
+### “领先玩家永久免疫”
+
+豁免属于当前 leader side。领先者会随局势变化；Team 还按当前阵营合计判断。
+
+### “等待总是安全答案”
+
+等待能增长 Troops，也给对手时间夺路线、扩容、协调支援或提高领土要求。恢复必须有可衡量的退出条件。
+
+## 败局恢复 FAQ
+
+### 撤退要多久？
+
+执行等待 20 simulation ticks，常速约 2 秒。速度与期间发生的伤害会改变你看到的过程和最终剩余量。
+
+### 撤退会返还原始攻击的 75% 吗？
+
+不会。对玩家目标，它返还执行时仍存活攻击 Troops 的 75%。Terra Nullius 无 malus，新形成的 alliance 也能让攻击无 malus 返回。
+
+### 哪个 Troop 百分比增长最快？
+
+公式与上限决定曲线，但数学高点不是通用战术储备。敌军、路线、时间、土地和模式仍决定安全性。
+
+### 建 City 会恢复 Troops 吗？
+
+不会。City 增加 `maxTroops`，不会直接治疗或填满当前 Troops。额外容量只能通过之后的增长或合规 donation 实现。
+
+### ally 或 teammate 能立即救援吗？
+
+只有捐赠已启用，且 sender、recipient、冷却、余额和 troop headroom 检查都允许。对同一 recipient 的 Gold 与 Troop donation 共用 10 秒冷却。
+
+### 清除 Doomsday 必须等完倒计时吗？
+
+不需要。重新达到当前门槛会立即清除 active warning、drain 与 rot。后续门槛提高仍可能制造新风险。
+
+### Team 门槛是每人单独计算吗？
+
+不是。Team 汇总全队 usable land，并把结果应用给全部成员。当前 leader side 豁免，但该身份会变化。
+
+### 什么时候算恢复完成？
+
+当局面能执行一次有边界、有价值的行动，同时不重开同一种损失。此时可以仍低于 troop cap，也不必重建所有旧结构。
+
+## 一手来源与相邻阅读
+
+- [OpenFront v0.33.7 正式 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [当前配置与增长常量](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
+- [Human 增长执行](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts)
+- [攻击扣兵与 friendly 分支](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts)
+- [撤退等待与 malus](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts)
+- [Doomsday 阵营门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Doomsday warning、drain、rot 与重置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [固定 tag 撤退测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts)
+- [固定 tag Doomsday 测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts)
+
+完整增长模型见[人口增长指南](/zh/guides/population-growth/)。所有 Doomsday 波次、地图差异和反制见[末日时钟攻略](/zh/guides/doomsday-clock/)。
+
+边界稳定后的消费顺序见[经济基本功](/zh/strategies/economy-fundamentals/)。只需要第一局恢复摘要时，回到[新手指南](/zh/guides/first-match/)。
+
+局面稳定后，用[团队角色攻略](/zh/strategies/team-roles/)安排支援顺序；用[外交与背叛](/zh/strategies/diplomacy-betrayal/)比较联盟、禁运与退出代价。

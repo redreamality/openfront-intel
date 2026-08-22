@@ -1,14 +1,26 @@
 ---
-title: 'v33.6: versie-replays, featured lobby’s en v33-bediening'
-description: 'Spelersgerichte OpenFront v33.6-notities: speel oude partijen met de juiste build opnieuw, plus de v33.5-lobby- en v33.4-bundelgrenzen.'
+title: 'v33.7: toeschouwers, Team Doomsday en v33-regels'
+description: 'Spelersgerichte OpenFront v33.7-notities: kijk zonder spelersplek, lees de hogere Team Doomsday-ladder en behoud de actieve v33-regels.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-20
+updatedDate: 2026-08-22
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct antwoord: kun je een oude partij opnieuw spelen?
+## Direct antwoord: wat verandert v33.7?
+
+De officiële Release `v0.33.7` laat je als toeschouwer deelnemen zonder een spelersplek te bezetten. Vul de lobbycode in en kies **Spectate**. Je spawnt niet en krijgt geen team; een al afgelopen partij opent nog steeds als replay.
+
+In teammodi stijgt Doomsday nu naar **3%, 6%, 10%, 15%, 21%, 28% en 35%**. In FFA blijft de reeks **2%, 4%, 7%, 11%, 17%, 25% en 35%**. Verrot gebied wordt wasteland dat actief moet worden heroverd.
+
+| v33.7-wijziging | Resultaat voor spelers | Belangrijke grens |
+|---|---|---|
+| Deelnemen als toeschouwer | Kijken zonder spawn of teamplek | Terug naar Play kan alleen in de lobbyfase |
+| Hogere teamdrempels | Meer gezamenlijk gebied in de tussenfasen | De laatste grens blijft 35% |
+| Wasteland door rot | Verloren tiles moeten actief worden heroverd | De gebiedsleider kan nog steeds niet doomed raken |
+
+## v33.6-update: kun je een oude partij opnieuw spelen?
 
 Ja. De officiële Release `v0.33.6` voegt versie-replay-shells toe. Als de build van een gearchiveerde partij niet bij de huidige client past, controleert het spel `https://replay.<domain>/<gameId>` en opent het de shell die met de regels van die partij is gebouwd.
 
@@ -81,7 +93,7 @@ Lees de bijgewerkte [nuke- en SAM-mechanieken](/nl/mechanics/nukes/) en [strateg
 
 Elke snelheid begint met **10 minuten respijt**. Daarna stijgt het vereiste terreinaandeel in golven naar 2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%.
 
-Een team wordt beoordeeld op gezamenlijk terrein tegen dezelfde grens als een solo-zijde. Na de waarschuwing daalt de beschermde vloer van **40% naar 5%** voordat landrot begint; de grens halen of leider worden stopt de hele reeks.
+Een team vergelijkt gezamenlijk gebied met de hogere ladder **3%, 6%, 10%, 15%, 21%, 28%, 35%**. Na de waarschuwing daalt de beschermde vloer van **40% naar 5%**; daarna maakt landrot wasteland.
 
 De praktische regel: houd vóór minuut tien een verbonden landaandeel en twee goedkope uitbreidingsroutes. De Clock controleert territoriumpercentage, niet afstand tot het kaartmidden. Deze versienotitie is alleen een samenvatting; de [complete Doomsday Clock-regel- en overlevingsgids](/nl/guides/doomsday-clock/) behandelt tempo’s, waarschuwing, herstel en counters.
 
@@ -118,6 +130,6 @@ De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**.
 
 ## Bronstatus
 
-GitHub markeert de officiële Release `v0.33.6` als `draft=false` en `prerelease=false`; de body bevat echte v33.6- tot v33.0-items en geen TEST-placeholder. Deze pagina blijft het enige v33-overzicht; versie-replay is een versie-workflow, de grens van beheerde lobby’s hoort in het bestaande modes-antwoord, bundelbediening in de bestaande sneltoets-, nuke- en Water Nukes-antwoorden.
+GitHub markeert de officiële Release `v0.33.7` als `draft=false` en `prerelease=false`; de body bevat echte v33.7- tot v33.0-items en geen TEST-placeholder. Dit blijft het enige v33-overzicht; spectatorregels horen bij modes en volledige Doomsday-keuzes bij de eigen gids.
 
-Bronnen: [officiële v0.33.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6), [versie-replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [doorsturen van gearchiveerde replays](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [replay-shell-verwerking](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/Main.ts), [Luna-rotatiefrequentie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [rejoin-limiter](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/server/ClientMsgRateLimiter.ts), [adminbot-aanmaak](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [teams en anonieme namen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts), [gewone Host-bediening](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts), [bundellimieten en kosten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), [toetsenbordschakelaar](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/InputHandler.ts), [radiaal bundelmenu](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/client/hud/layers/RadialMenuElements.ts), [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts), [Doomsday-golven](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts) en [landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts).
+Bronnen: [officiële v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator-lobbyflow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday-drempels](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland-rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versie-replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [doorsturen van gearchiveerde replays](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [Luna-rotatiefrequentie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [adminbot-aanmaak](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [bundellimieten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) en [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

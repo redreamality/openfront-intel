@@ -1,0 +1,363 @@
+---
+title: Diplomatie, embargos et trahison
+description: Guide v0.33.7 pour les demandes d'alliance, les prolongations, les embargos, le risque traitor et les frappes nucléaires qui rompent une alliance.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [alliances, diplomacy, betrayal, embargoes]
+category: Milieu-Fin de partie
+difficulty: Avancé
+version: v33
+freshnessSummary: "Vérifié le 2026-08-22 sur le tag officiel v0.33.7 : demandes, prolongations, embargos, pénalités traitor et contrôles nucléaires de rupture."
+---
+
+## Réponse directe
+
+En v0.33.7, la diplomatie consiste à gérer des délais et un coût de sortie. Une demande dure 20 secondes, le même joueur redevient disponible après 30 secondes, et l'alliance standard dure 300 secondes.
+
+La prolongation exige deux accords. L'expiration naturelle n'est pas une trahison. Une rupture manuelle peut créer 30 secondes de statut `traitor`.
+
+Un embargo ou une frappe nucléaire peut aussi modifier la situation avant l'attaque prévue.
+
+## Version et vocabulaire
+
+Ce guide a été vérifié le 2026-08-22. Il décrit des règles et des choix, jamais un moment de trahison garanti optimal.
+
+Un **ally** est lié par une alliance active. Un **teammate** appartient à la même équipe fixe. Les deux peuvent être `friendly`, mais leurs statuts ne sont pas identiques.
+
+Une alliance peut être demandée, prolongée, expirée ou rompue. L'action normale de rupture ne dissout pas une équipe.
+
+La durée par défaut est de cinq minutes. Un lobby personnalisé peut choisir entre une et 15 minutes. Une durée de zéro désactive les alliances.
+
+L'ancien réglage de désactivation bloque également les demandes. Vérifiez donc le lobby avant de bâtir un plan sur les 300 secondes par défaut.
+
+Les faits viennent de la [version officielle v0.33.7][release], de son code figé et des tests officiels. Les conseils tactiques restent des cadres de décision.
+
+## Les quatre questions avant d'agir
+
+Première question : **combien de temps reste-t-il** à la demande, à l'alliance, à la fenêtre de prolongation, à l'embargo temporaire ou au statut traitor ?
+
+Deuxième question : **quel est le coût de sortie** ? Pouvez-vous attendre l'expiration ou devez-vous rompre immédiatement ?
+
+Troisième question : **quel réseau disparaît** si l'un des joueurs applique un embargo aux Ports ou aux Trains de l'autre ?
+
+Quatrième question : **quel tir est déjà en vol** ? Une nuke peut être supprimée à l'acceptation ou rompre l'alliance avant l'impact.
+
+Ces questions ne donnent pas une réponse automatique. Elles rendent visibles les changements d'état qu'une frontière urgente peut masquer.
+
+Nommez aussi le résultat attendu : protéger une reprise, un commerce, une zone tampon ou libérer des Troops pour un autre front.
+
+## Demande d'alliance : 20 secondes dans un cycle de 30
+
+Une `alliance request` reste active pendant 20 secondes. Le cooldown vers le même joueur dure 30 secondes à partir de la création de la première demande.
+
+Le cooldown ne commence pas à l'expiration. Une demande créée à `t = 0` disparaît vers `t = 20s`, puis la même cible redevient disponible vers `t = 30s`.
+
+Il reste donc environ dix secondes après l'expiration, pas 30 secondes supplémentaires. Cette période permet d'observer, mais ne constitue pas une défense instantanée.
+
+Si le joueur a déjà envoyé une demande entrante, lui répondre par une contre-demande accepte cette alliance. Le moteur ne conserve pas deux offres parallèles entre la même paire.
+
+### Scénario 1 : une demande manquée
+
+Vous envoyez la demande à `12:00`. Elle reste disponible jusqu'à environ `12:20`. Une nouvelle demande à cette cible devient possible vers `12:30`.
+
+Si la frontière ne tient pas dix secondes, le bouton diplomatique ne suffit pas. Il faut encore des Troops, du terrain ou une autre voie de sortie.
+
+Si l'autre joueur envoie sa propre demande pendant l'attente, votre contre-demande peut l'accepter. Vérifiez alors ce que la nouvelle frontière friendly libère vraiment.
+
+Sources : [AllianceRequestExecution.ts][request-source], [AllianceRequestImpl.ts][request-model] et les [tests officiels][request-tests].
+
+## L'acceptation modifie immédiatement la carte
+
+Une alliance active rend les deux joueurs friendly pour l'attaque terrestre ordinaire. Une attaque déjà en cours entre eux est rappelée sans le malus normal de retraite.
+
+L'acceptation retire aussi les `temporary embargoes` entre les deux joueurs. Elle ne retire pas les embargos manuels.
+
+Le jeu vérifie les nukes pertinentes déjà en vol. Celles qui rompraient la nouvelle alliance entre ces joueurs sont supprimées.
+
+Cette protection est précise. Ce n'est ni un cessez-le-feu global ni une suppression des armes lancées par un tiers.
+
+Avant d'accepter, demandez ce que l'accord préserve : zone tampon, voie commerciale, temps de reprise ou structure importante.
+
+Vérifiez ensuite si un tir en vol sera effacé. Le code prouve cette suppression, mais pas que l'échange diplomatique est toujours rentable.
+
+## Une prolongation exige deux décisions
+
+Les deux joueurs doivent approuver une prolongation. Un seul ne peut pas transformer l'accord temporaire en nouvelle période complète.
+
+Le client ouvre la fenêtre de prolongation pendant les 30 dernières secondes. Une prolongation mutuelle réinitialise toute la durée depuis le tick actuel.
+
+Elle n'ajoute pas seulement 30 secondes à l'ancienne échéance. Avec le réglage standard, 300 nouvelles secondes commencent au moment de l'accord.
+
+### Scénario 2 : renouveler l'alliance standard
+
+Supposons une expiration prévue à `15:00`. La fenêtre de prolongation s'ouvre vers `14:30`.
+
+Les deux joueurs valident à `14:42`. La nouvelle échéance se situe vers `19:42`, car 300 secondes repartent du tick de renouvellement.
+
+Si un seul accepte, rien n'est prolongé. L'alliance d'origine peut toujours expirer naturellement à `15:00`.
+
+Utilisez les 30 dernières secondes pour confirmer la valeur du tampon, du commerce et de la menace commune. Un bouton visible n'est pas un consentement mutuel.
+
+Sources : [AllianceExtensionExecution.ts][extension-source], [AllianceImpl.ts][alliance-model] et les [tests de prolongation][extension-tests].
+
+## L'expiration naturelle n'est pas une trahison
+
+Lorsque la durée se termine normalement, l'état alliance cesse. L'expiration naturelle n'applique pas le statut traitor.
+
+C'est une sortie à faible pénalité si vous n'avez pas besoin d'attaquer immédiatement. Vous pouvez conserver vos réserves et réévaluer la frontière après la fin.
+
+Cette fin ne rend pas la frontière sûre. L'ancien ally redevient attaquable et tout placement fondé sur le statut friendly doit être revu.
+
+La distinction est mécanique : l'expiration termine un délai, alors que la rupture manuelle lance une voie de trahison séparée.
+
+### Scénario 3 : attendre ou rompre
+
+Il reste 35 secondes. Vous n'avez pas besoin d'attaquer maintenant et l'autre front tient.
+
+Attendre évite la voie traitor. Rompre expose potentiellement pendant 30 secondes, seulement cinq secondes de moins que la durée restante.
+
+Cela ne prouve pas qu'attendre soit toujours meilleur. Le scénario montre pourquoi le temps restant doit être comparé au coût d'une sortie immédiate.
+
+## Embargo et alliance sont deux états distincts
+
+Le commerce est bloqué si l'un des deux joueurs impose un embargo à l'autre. Une alliance n'est pas requise pour commercer et n'annule pas un embargo manuel actif.
+
+Une attaque ordinaire provoque un `temporary embargo` de la cible envers l'attaquant. Cet état expire après environ cinq minutes.
+
+Un embargo posé manuellement est persistent. Il ne suit pas la même expiration automatique.
+
+Lorsqu'une alliance est acceptée, seuls les embargos temporaires entre la paire sont retirés. Un embargo manuel demeure et peut toujours bloquer le commerce.
+
+Ne déduisez donc pas l'état commercial de l'icône d'alliance. Contrôlez la route Port ou Train après l'acceptation.
+
+`Embargo All` exclut le joueur, les Bots et les teammates. Son cooldown est de dix secondes.
+
+Cette action peut couper plusieurs relations externes, mais ce n'est pas un verrou permanent et universel sur tous les joueurs.
+
+Sources : [EmbargoExecution.ts][embargo-source], [EmbargoAllExecution.ts][embargo-all], [PlayerImpl.ts][player-source] et [GameImpl.ts][game-source].
+
+### Scénario 4 : embargo temporaire ou manuel
+
+A attaque B à `t = 0`. Sans autre changement, le temporary embargo de B envers A devrait finir vers `t = 300s`.
+
+À `t = 120s`, les deux acceptent une alliance. L'embargo temporaire est immédiatement effacé.
+
+Si B avait aussi posé un embargo manuel, cet état persistent demeure. Le commerce peut rester coupé entre deux allies.
+
+La bonne réponse consiste à inspecter la connexion réelle, pas à supposer que l'alliance a tout nettoyé.
+
+## Rupture manuelle et fenêtre traitor
+
+La rupture manuelle ne suit pas la voie d'une expiration. Si le joueur trahi est connecté et n'est pas déjà traitor, le joueur qui rompt devient traitor pendant 30 secondes.
+
+Le destinataire trahi enregistre `-100` de relation envers le responsable. Les joueurs proches qui ne sont pas dans l'équipe du destinataire enregistrent `-40`.
+
+La relation est un état du moteur, pas une prévision du comportement humain. Elle ne garantit ni attaque, ni pardon, ni changement de plan.
+
+Le risque tactique visible vient des modificateurs. Contre un defender traitor, les pertes de l'attaquant sont multipliées par `0.5`.
+
+Le coût de traitement des tiles est multiplié par `0.8`. Cela réduit ce coût dans les mêmes conditions, sans promettre une durée de conquête.
+
+La route, les Troops, les contre-attaques et l'ordre des ticks modifient toujours l'avance. `0.8` ne signifie pas « conquête garantie 20 % plus rapide ».
+
+Sources : [BreakAllianceExecution.ts][break-source], [l'utilitaire de combat][combat-source] et [AttackExecution.ts][attack-source].
+
+### Scénario 5 : 30 secondes d'exposition
+
+Vous rompez à `t = 0` et les conditions de trahison sont réunies. Votre statut traitor reste actif jusqu'à environ `t = 30s`.
+
+Pendant cette période, un attaquant bénéficie des multiplicateurs `0.5` pour ses pertes et `0.8` pour le coût de traitement des tiles.
+
+À `t = 30s`, le statut se termine. Les Troops et le territoire déjà perdus, ainsi que les relations modifiées, ne reviennent pas.
+
+La vraie question est de savoir si l'action immédiate vaut cette vulnérabilité connue, pas si la trahison garantit une victoire.
+
+## Une frappe nucléaire peut rompre avant l'impact
+
+Le contrôle nucléaire possède deux déclencheurs indépendants : dépasser un seuil pondéré de territoire allié, ou menacer une structure alliée.
+
+Le seuil configuré vaut 100. Chaque tile alliée dans le rayon inner compte `1`; chaque tile alliée de l'anneau outer compte `0.5`.
+
+Le total doit être strictement supérieur à 100. Un total égal à 100 ne déclenche pas la branche territoriale.
+
+La branche des structures est séparée. Toute structure alliée qui serait détruite dans le rayon outer suffit, quel que soit le nombre pondéré de tiles.
+
+Quand le lancement doit rompre l'alliance, l'exécution refuse les demandes pertinentes, rompt l'alliance active et suit la logique normale du statut traitor.
+
+Sources : [Config.ts][config-source], [NukeExecution.ts][nuke-source] et les [tests nucléaires officiels][nuke-tests].
+
+### Scénario 6 : le seuil strict
+
+Une zone inner couvre 101 tiles alliées. Le total vaut 101 et la branche territoriale rompt l'alliance.
+
+Cent tiles inner donnent exactement 100. La condition stricte `> 100` n'est pas satisfaite.
+
+Deux cents tiles outer donnent aussi 100, car chacune vaut `0.5`. Le territoire seul ne déclenche toujours pas.
+
+Ces exemples isolent la pondération. Une structure présente dans l'explosion peut changer le résultat par l'autre branche.
+
+### Scénario 7 : trois tiles et un Port
+
+Supposons seulement trois tiles alliées dans le rayon outer. Leur poids reste très inférieur à 100.
+
+L'une porte un Port allié que l'explosion détruirait. La branche structure est vraie, donc l'alliance est rompue.
+
+Près d'une City, d'un Port, d'une Factory ou d'un SAM Launcher allié, compter le territoire ne suffit jamais.
+
+## Limite locale de MIRVWarhead
+
+Dans `NukeExecution` v0.33.7, le type `MIRVWarhead` saute ce contrôle de rupture à cet endroit précis.
+
+C'est une limite locale du code. Elle permet seulement d'écrire que ce chemin de l'ogive ne déclenche pas ce contrôle ici.
+
+Elle ne prouve pas que le véhicule MIRV, chaque étape du MIRV ou toutes les interactions qui suivent ne rompent jamais une alliance.
+
+La formulation publique doit rester étroite. « MIRVWarhead saute ce contrôle » est sourcé; « MIRV ne rompt jamais » ne l'est pas.
+
+La même prudence vaut pour les équipes. L'appartenance à une équipe n'est pas une alliance et ne disparaît pas avec l'action de rupture.
+
+Cela ne démontre aucune immunité nucléaire des teammates. Ce guide ne formule pas cette affirmation.
+
+## Choisir expiration, prolongation ou rupture
+
+Choisissez **l'expiration naturelle** si aucune hostilité immédiate n'est nécessaire et si vous voulez éviter la voie traitor.
+
+Choisissez **la prolongation** si les deux côtés profitent encore du tampon, du commerce, de la reprise ou d'une menace commune.
+
+Envisagez **la rupture manuelle** seulement si agir maintenant vaut les 30 secondes d'exposition, les relations modifiées et la perte de frontière friendly.
+
+Envisagez **l'embargo** si la coupure commerciale produit déjà de la valeur. Il n'exige pas une attaque et un embargo manuel peut survivre à l'alliance suivante.
+
+Revérifiez les nukes avant toute transition. Une acceptation peut retirer certains tirs en vol, tandis qu'un futur impact peut rompre l'accord.
+
+Ce cadre ne classe pas les actions. La carte, les Troops, les autres voisins et les structures connectées donnent leur valeur aux coûts.
+
+## Échecs fréquents et contre-jeu
+
+### L'ally gagne du temps
+
+Une alliance protège une frontière mais laisse aussi l'autre joueur récupérer et se repositionner. Gardez une défense pour le rejet, l'expiration ou une rupture future.
+
+Ne videz pas toute la frontière. Le blocage des attaques terrestres ordinaires dépend d'un état chronométré.
+
+### La prolongation reste unilatérale
+
+Une seule approbation ne renouvelle rien. Sans réponse adverse, préparez l'échéance d'origine.
+
+Les 30 dernières secondes servent à raccourcir le front, protéger les structures et éviter de créer une route dépendante d'un statut bientôt terminé.
+
+### Le commerce reste fermé
+
+Cherchez d'abord un embargo manuel. L'acceptation ne retire que les états temporaires.
+
+Vérifiez le Port ou le Train lui-même. N'investissez plus tant que les deux directions n'autorisent pas le commerce.
+
+### Des tiers exploitent le statut traitor
+
+Les autres joueurs peuvent profiter des 30 secondes. Les multiplicateurs rendent le defender traitor moins coûteux à attaquer pendant cette fenêtre.
+
+Contrôlez toutes vos frontières avant de rompre. Les joueurs proches reçoivent aussi l'événement de relation, sauf s'ils partagent l'équipe du joueur trahi.
+
+### Le calcul nucléaire oublie les structures
+
+Un total de 100 ne protège que contre la branche territoriale. Une seule structure alliée dans le rayon outer suffit pour l'autre branche.
+
+Inspectez les structures séparément. Les deux conditions sont reliées par OR, pas par AND.
+
+## Ajustements de mode et de carte
+
+En FFA, plusieurs joueurs proches peuvent exploiter la fenêtre traitor. Vérifiez toutes les voies accessibles, pas uniquement l'ancien ally.
+
+En mode Team, séparez toujours ally et teammate. Le teammate est friendly par l'équipe, sans passer par ce cycle d'alliance temporaire.
+
+Sur une carte compacte, le rayon outer d'une nuke couvre plus facilement plusieurs structures alliées. Contrôlez chaque structure avant le tir.
+
+Sur une grande carte, cinq minutes peuvent donner une longue phase de repositionnement. La distance peut aussi ralentir l'exploitation d'une relation modifiée.
+
+Sur une carte commerciale, la persistance d'un embargo manuel pèse davantage, car les investissements Port et Train dépassent souvent un cycle diplomatique.
+
+Ces adaptations ne changent aucun délai ni multiplicateur. Elles changent seulement leur valeur positionnelle.
+
+## FAQ
+
+### Combien de temps dure une demande ?
+
+20 secondes. Le cooldown vers le même joueur dure 30 secondes depuis la création de la demande initiale.
+
+### Combien de temps dure l'alliance standard ?
+
+300 secondes, soit cinq minutes. Un lobby personnalisé peut choisir une à 15 minutes; zéro désactive les alliances.
+
+### La prolongation est-elle automatique ?
+
+Non. Les deux joueurs doivent accepter. La fenêtre couvre les 30 dernières secondes et le succès relance une durée complète.
+
+### L'expiration naturelle est-elle une trahison ?
+
+Non. Elle termine l'alliance sans créer le statut traitor de la rupture manuelle.
+
+### Combien de temps dure traitor ?
+
+30 secondes si les conditions de rupture sont réunies. Les attaquants obtiennent alors les multiplicateurs `0.5` et `0.8` décrits plus haut.
+
+### Une alliance retire-t-elle tous les embargos ?
+
+Non. Elle retire les embargos temporaires entre les deux joueurs, pas les embargos manuels persistants.
+
+### Une attaque crée-t-elle un embargo permanent ?
+
+Non. Son embargo temporaire dure environ cinq minutes. Seul l'embargo manuel suit la voie persistante.
+
+### Cent tiles pondérées rompent-elles l'alliance ?
+
+Non. Il faut strictement plus de 100. Une structure alliée dans le rayon outer peut néanmoins déclencher l'autre condition.
+
+### Un MIRV ne peut-il jamais rompre une alliance ?
+
+Cette affirmation est trop large. Seule la branche `MIRVWarhead` saute ce contrôle précis dans `NukeExecution`.
+
+### Les teammates sont-ils immunisés contre les nukes ?
+
+Les sources utilisées ne le démontrent pas. Elles montrent seulement que l'action de rupture d'alliance ne dissout pas l'équipe.
+
+## Lecture suivante
+
+Consultez la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) avant de viser près d'un territoire ou d'une structure alliée.
+
+Utilisez le [contrôle naval en équipe](/fr/strategies/team-naval-control/) si la diplomatie protège des Ports, une côte ou une voie maritime.
+
+Lisez [Port ou Factory](/fr/guides/port-vs-factory/) pour comprendre le réseau économique qu'un embargo peut couper.
+
+Revenez au [guide de première partie](/fr/guides/first-match/) si les commandes de base d'attaque, d'alliance ou de lecture de carte manquent encore.
+
+Si un changement diplomatique expose un joueur, passez au [guide de récupération](/fr/strategies/recovery-playbook/). Pour coordonner dons, cibles et logistique, utilisez [les rôles d'équipe](/fr/strategies/team-roles/).
+
+## Sources officielles
+
+- [Release OpenFrontIO v0.33.7][release]
+- [Exécution des demandes][request-source], [modèle][request-model] et [tests][request-tests]
+- [Exécution des prolongations][extension-source], [alliance][alliance-model] et [tests][extension-tests]
+- [Rupture manuelle][break-source]
+- [Embargo][embargo-source] et [Embargo All][embargo-all]
+- [États friendly, commerce et embargo][player-source]
+- [Nettoyage lors de l'acceptation][game-source]
+- [Modificateurs de combat traitor][combat-source]
+- [Contrôle nucléaire de rupture][nuke-source] et [tests officiels][nuke-tests]
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[request-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceRequestExecution.ts
+[request-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceRequestImpl.ts
+[request-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceRequestExecution.test.ts
+[extension-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceExtensionExecution.ts
+[extension-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceExtensionExecution.test.ts
+[alliance-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceImpl.ts
+[break-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/BreakAllianceExecution.ts
+[embargo-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoExecution.ts
+[embargo-all]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoAllExecution.ts
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[game-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameImpl.ts
+[combat-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/Util.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[config-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts
+[nuke-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NukeExecution.ts
+[nuke-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/core/executions/NukeExecution.test.ts

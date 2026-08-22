@@ -5,6 +5,7 @@ import Callout from '../../../components/Callout.astro';
 import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const alliance = formulas.groups.alliance;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Bündnisse und Verrat" description="OpenFront.io: Bündnisdauer, Verlängerung, automatisches Embargo und Verratsdebuffs im Detail.">
@@ -64,5 +65,6 @@ const alliance = formulas.groups.alliance;
       <li>Im Dreierbündnis fällst du zurück und würdest sterben — verrate den großen Verbündeten und nimm dem Dritten Territorium ab.</li>
     </ul>
     <p>In allen anderen Fällen ist es klüger, <strong>das Bündnis natürlich auslaufen zu lassen</strong>: keine Debuffs, kein automatisches Embargo, einfach keine Verlängerung.</p>
+    <p>Gegen eine Nation erklärt der <a href={`${base}de/mechanics/nations/`}>Leitfaden zu Nation-KI-Entscheidungen</a>, wie v0.33.7 Kandidaten für Bündnis und Verrat auswählt.</p>
   </article>
 </BaseLayout>

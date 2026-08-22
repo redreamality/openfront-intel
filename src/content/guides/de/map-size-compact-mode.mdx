@@ -1,0 +1,220 @@
+---
+title: OpenFront-Kartengrößen und Compact Map
+description: Erfahre, welche OpenFront-Karte am größten ist, was Compact Map wirklich lädt, wie Spielerlimits entstehen und wann Normal oder Compact passt.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [karten, compact-map, spielerzahl]
+category: Anleitung
+difficulty: Mittel
+version: v33
+freshnessSummary: "Mit offiziellen v33.7-Assets und Quellcode geprüft: Sol führt beim Gesamtraster, The Box beim spielbaren Land und Compact lädt map4x.bin."
+---
+
+## Direkte Antwort
+
+Es gibt nicht die eine größte OpenFront-Karte. In der offiziellen **v33.7** hat **Sol** mit **4.432 x 2.528 = 11.204.096 Zellen** das größte vollständige Raster.
+
+**The Box** hat mit **4.194.304 Tiles** das meiste spielbare Land, weil das gesamte 2.048 x 2.048 große Raster Land ist.
+
+Beide Antworten messen etwas anderes. Das Raster enthält Wasser und unpassierbaren Hintergrund. Spielbares Land beschreibt den einnehmbaren Raum und dient dem Server als Eingabe für öffentliche Lobbygrößen.
+
+**Compact Map** ist weder ein Ausschnitt noch ein Kamerazoom. Das Spiel lädt `map4x.bin` für die komplette Karte. Breite und Höhe werden halbiert, dadurch bleiben genau ein Viertel der Rasterzellen. Die Minimap verwendet `map16x.bin`.
+
+Öffentliche Compact-Lobbys reduzieren außerdem die gewählte Spielerstufe auf 25 %. Bots, Standard-Nations und feste Koordinaten werden angepasst. Compact ändert den räumlichen Maßstab des Matches.
+
+## Drei Bedeutungen von „größte Karte“
+
+Wähle die Kennzahl passend zur eigentlichen Frage.
+
+| Kennzahl | Spitzenreiter v33.7 | Exakter Wert | Aussage |
+| --- | --- | ---: | --- |
+| Gesamtraster | Sol | 11.204.096 | Simulationsfläche inklusive Wasser und Hintergrund |
+| Spielbares Land | The Box | 4.194.304 | Einnehmbarer Raum und Eingabe für öffentliche Limits |
+| Breite | Passage | 6.000 x 400 | Größte horizontale Ausdehnung |
+| Höhe | Las Vegas Strip | 2.036 x 4.428 | Größte vertikale Ausdehnung |
+| Giant World Map | Raster Rang 3, Land Rang 11 | 8.002.384 / 2.335.403 | Der Name ist keine Rangregel |
+
+Ein langer Korridor und eine quadratische Landkarte können ähnlich viele Zellen haben und völlig anders spielen. Seitenverhältnis, Wassertrennung und Impassable bestimmen die nutzbaren Wege.
+
+Rechne Tiles nicht in Quadratkilometer um. Die Manifeste enthalten keine gemeinsame Projektion oder einheitliche reale Skala.
+
+Die [Kartendatenbank](/de/database/maps/) hilft bei Namen und Auswahl. Dimensionen und Topologie erklärt diese Anleitung.
+
+## Was Compact Map lädt
+
+Jedes aktuelle Manifest stellt drei Terrainstufen bereit.
+
+| Einstellung | Spielterrain | Minimap | Feste Koordinaten |
+| --- | --- | --- | --- |
+| Normal | `map.bin` mit `manifest.map` | `map4x.bin` | Originalwerte |
+| Compact | `map4x.bin` mit `manifest.map4x` | `map16x.bin` | x/y durch 2 |
+
+Bei allen 117 v33.7-Manifesten sind Breite und Höhe von `map4x` exakt halb so groß. Die Gesamtzahl der Zellen beträgt deshalb genau 25 %.
+
+Spielbares Land liegt nur ungefähr bei 25 %. Downsampling verändert schmale Küsten und kleine Inseln. Die offizielle v31-Release nennt zudem die Entfernung kleiner Inseln auf Compact-Karten.
+
+„Ein Viertel des Rasters“ ist exakt. „Ein Viertel jeder Küste und Insel“ ist falsch.
+
+## Zwei geprüfte Vergleiche
+
+Svalmel und Dyslexdria zeigen den Unterschied zwischen Raster und Land.
+
+| Karte | Normal: Raster / Land | Compact: Raster / Land | Land erhalten |
+| --- | ---: | ---: | ---: |
+| Svalmel | 1.700 x 1.580 / 1.011.623 | 850 x 790 / 248.032 | 24,52 % |
+| Dyslexdria | 3.308 x 1.440 / 2.103.254 | 1.654 x 720 / 508.102 | 24,16 % |
+
+Svalmel sinkt von 26 Landkomponenten auf 24. Dyslexdria fällt von 224 auf 142, weil dort viel mehr kleine Fragmente vorkommen.
+
+Die großen Schauplätze bleiben erkennbar, Randinseln nehmen ab. Compact bewahrt das strategische Grundgerüst auf kürzerer Distanz und reduziert feine Küstendetails.
+
+Der [Kartenstrategie-Guide](/de/guides/map-strategy/) zeigt, wie diese Komponenten zu Eröffnungsentscheidungen werden.
+
+## Berechnung öffentlicher Spielerzahlen
+
+OpenFront liest zuerst `map.num_land_tiles` der vollständigen Karte. Pro Million spielbarer Land-Tiles werden 50 Spieler angesetzt, auf den nächsten Fünferschritt gerundet, mindestens 5.
+
+Der Server bildet drei Stufen: 100 %, 75 % und 50 % der Basis. Eine normale öffentliche FFA wählt sie mit Wahrscheinlichkeiten von 30 %, 30 % und 40 %.
+
+Compact berechnet `floor(Stufe x 0,25)`, mindestens 3, bevor das endgültige Leistungslimit von 125 greift. `map4x.num_land_tiles` wird dafür nicht neu eingesetzt.
+
+```text
+Basis = auf-5-runden(spielbares Land / 1.000.000 x 50)
+Normal FFA = Basis / 75 % / 50 %
+Compact FFA = floor(gewählte Normal-Stufe x 0,25)
+```
+
+### Svalmel
+
+Mit 1.011.623 spielbaren Tiles erhält Svalmel **50 / 40 / 25** Kandidaten in Normal und **12 / 10 / 6** in Compact.
+
+Die fünf Manifest-Nations bedeuten nicht fünf menschliche Plätze. NPC-Konfiguration und Lobbylimit sind getrennt.
+
+### Dyslexdria
+
+Mit 2.103.254 spielbaren Tiles erhält Dyslexdria **105 / 80 / 55** in Normal und **26 / 20 / 13** in Compact.
+
+Das Manifest enthält 82 Haupt-Nations. Die menschliche Kapazität folgt trotzdem der Landformel.
+
+### Warum die Lobby andere Werte zeigen kann
+
+Team erhöht zunächst die Basis und rundet anschließend für Duos, Trios, Quads oder feste Teamzahlen. Humans vs Nations gibt die Plätze der menschlichen Seite zurück.
+
+Crowded besitzt einen Sonderpfad. Geeignete kleine Karten können 125 Spieler verwenden, mit Compact und Crowded zusammen 60.
+
+Für ein konkretes Match ist die sichtbare Lobbyzahl die endgültige Wahrheit.
+
+## Weitere Compact-Änderungen
+
+Compact passt Standardwerte an das kleinere Raster an.
+
+- Öffentliche Rotation verwendet **100 Bots** statt 400.
+- Standard-Nations werden auf 25 % reduziert, mindestens eine.
+- Svalmel geht von 5 auf 1 Standard-Nation.
+- Dyslexdria geht von 82 auf 20.
+- Koordinaten von Nations, zusätzlichen Nations, Custom Tribes und Team-Spawns werden skaliert.
+- Team Compact entfällt, wenn nicht zwei Teams mit je zwei Spielern möglich bleiben.
+
+Host- und Einzelspieleroberflächen bewahren manuelle Werte. Nur ein noch unveränderter Standard von 400 Bots wechselt automatisch auf 100.
+
+Zwei Compact-Lobbys können deshalb durch Bots, Nations, Teams, Immunität und Startgold völlig unterschiedlichen Druck erzeugen.
+
+## Wann Normal sinnvoll ist
+
+Nutze Normal, wenn Kartendetails Teil der Aufgabe sind.
+
+- Mehr Zeit zum Lesen mehrerer Fronten ist erwünscht.
+- Kleine Inseln, Halbinseln oder Nebenübergänge sind wichtig.
+- Teamübungen brauchen getrennte Routen.
+- Du vergleichst die vollständige offizielle Topologie.
+- Genug Spieler füllen den größeren Raum.
+
+Normal ist nicht automatisch langsam. Ein schmaler Streifen konzentriert Kontakt, und eine hohe öffentliche Stufe beschleunigt ihn.
+
+## Wann Compact sinnvoll ist
+
+Nutze Compact für dieselbe Kartenidentität auf kürzerer Distanz.
+
+- Kleine Gruppen sollen früher sinnvolle Grenzen bilden.
+- Grenzkontrolle, Reaktion oder Teamkommunikation stehen im Fokus.
+- Randinseln lenken vom Trainingsziel ab.
+- Große Landmassen sollen erhalten bleiben.
+- Feine Küstendetails dürfen verschwinden.
+
+Compact garantiert kein kurzes Match. Allianzen, vorsichtige Teams, Water Nukes und Ressourcen können weiterhin lange Pattlagen erzeugen.
+
+## Checkliste vor der Lobby
+
+Beantworte fünf Fragen:
+
+1. Wie viele Menschen treten wirklich bei?
+2. Hängt die Übung von einer kleinen Insel oder Landbrücke ab?
+3. Bleiben Bots und Nations auf Standardwerten?
+4. Ist es FFA, Team, Humans vs Nations oder Crowded?
+5. Stimmen Spawn, Immunität und Startressourcen überein?
+
+Halte die Antworten bei Eröffnungstests fest. Normal und Compact sind nicht vergleichbar, wenn Bevölkerung und Nations unbemerkt mitgeändert wurden.
+
+Der [Modi-Guide](/de/mechanics/modes/) erklärt Host-Einstellungen. Der [Erste-Partie-Guide](/de/guides/first-match/) behandelt Spawn und Expansion.
+
+## Typische Fehler
+
+### Sol in jedem Sinn als größte Karte nennen
+
+Sol führt beim Raster, besitzt aber nur 877.713 spielbare Tiles. The Box hat fast fünfmal so viel spielbares Land.
+
+Nenne die Kennzahl im selben Satz.
+
+### Compact als Ausschnitt darstellen
+
+Compact lädt eine vorbereitete Version der gesamten Karte. Es behält nicht nur das mittlere Viertel.
+
+### Alle Zahlen durch vier teilen
+
+Rasterzellen teilen sich exakt. Küsten, Inseln, Land und abgerundete Spielerzahlen nicht.
+
+### Spieler aus Nations ableiten
+
+Nations sind KI-Einheiten. Menschenplätze stammen aus Lobby und spielbarem Land.
+
+### Garantiert höhere Dichte versprechen
+
+Das Raster wird kleiner, die öffentliche Bevölkerung ebenfalls. Spawn, Stufe, Bots, Nations und Teams bestimmen den Druck.
+
+Sprich von kürzerem Raummaßstab, nicht von einem garantierten Rush.
+
+## FAQ
+
+### Welche OpenFront-Karte ist am größten?
+
+Sol nach Gesamtraster mit 11.204.096 Zellen. The Box nach spielbarem Land mit 4.194.304 Tiles. Für einnehmbaren Raum gilt die zweite Antwort.
+
+### Was bewirkt Compact Map?
+
+Es lädt `map4x.bin`, halbiert Breite und Höhe und reduziert das Raster auf ein Viertel. Minimap, Koordinaten, öffentliche Stufen und Standardbevölkerung ändern sich ebenfalls.
+
+### Entfernt Compact einen Kartenteil?
+
+Nein. Die ganze Form bleibt in geringerer Auflösung. Kleine Inseln und dünne Küsten können verschwinden.
+
+### Ist Compact exakt 25 % von Normal?
+
+Das Raster ja, spielbares Land nein. Svalmel behält 24,52 %, Dyslexdria 24,16 %.
+
+### Warum gewinnt Giant World Map nicht?
+
+Sie liegt in v33.7 beim Raster auf Rang 3 und beim spielbaren Land auf Rang 11. „Giant“ ist nur der Name.
+
+### Hat eine private Compact-Lobby ein festes Limit?
+
+Aus der Karte allein lässt sich keines ableiten. Host-Konfiguration und sichtbare Lobbyzahl gelten für das Match.
+
+## Quellen und nächste Lektüre
+
+- [Offizielle OpenFront-v33.7-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v33.7-Terrainlader](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [v33.7-Playlist und Kapazitätsformel](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [v33.7-Nation-Erstellung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)
+- [v29-Release zu dynamischen Spielerzahlen](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.29.0)
+- [v31-Release zur Entfernung kleiner Compact-Inseln](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- Weiter mit [OpenFront-Karten richtig lesen](/de/guides/map-strategy/).

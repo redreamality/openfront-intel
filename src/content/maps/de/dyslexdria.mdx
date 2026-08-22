@@ -1,0 +1,210 @@
+---
+title: "Dyslexdria-Strategie: Spawns, Routen und Compact"
+description: Lies Dyslexdrias fragmentierte Welt, Impassable, regionale Kriege, lange Seerouten und Entscheidungen für Normal oder Compact in OpenFront v33.7.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [dyslexdria, karten, impassable, marine, compact-map]
+category: Kartenanleitung
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Mit offiziellem v33.7-Terrain geprüft: Dyslexdria hat 224 Normal-Landkomponenten, 175.320 Impassable-Zellen, ein Wassernetz und keinen Block über 16,77 %."
+---
+
+## Direkte Antwort: Wie spielt man Dyslexdria?
+
+Spiele Dyslexdria als **Netz regionaler Kriege**, nicht als eine durchgehende Weltfront. Die größte Normal-Landkomponente enthält nur 16,77 % des spielbaren Landes. Erst die zehn größten erreichen zusammen 85,78 %.
+
+Sichere zuerst eine tragfähige Region. Baue danach eine Seeroute oder Verbindung zu Verbündeten, damit diese Wirtschaft einen zweiten Schauplatz beeinflusst. Ein regionaler Sieg schafft keinen Landweg zum Großteil der Karte.
+
+Trenne vor dem Spawn spielbares Land von 175.320 Impassable-Land-Bit-Zellen. Eine große sichtbare Form kann eine harte Barriere enthalten, die weder besessen, angegriffen, genuked noch von einer Nuke-Flugbahn überquert werden kann.
+
+Compact bewahrt die Mehrregionen-Identität, verändert aber viele Fragmente. Küsten, Landungen und Barrieren müssen neu geprüft werden.
+
+![Offizielles OpenFront-Dyslexdria-Thumbnail mit breiter fragmentierter Welt](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/dyslexdria/thumbnail.webp)
+
+*Unverändertes Dyslexdria-Asset: OpenFront / OpenFront Inc. and Contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); [Quelle OpenFrontIO v0.33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/thumbnail.webp).*
+
+## Dyslexdria-Daten mit strategischer Wirkung
+
+| Geprüfter Wert | Normal | Compact | Praktische Folge |
+| --- | ---: | ---: | --- |
+| Raster | 3.308 x 1.440 | 1.654 x 720 | In beiden Stufen extrem breit |
+| Spielbares Land | 2.103.254 (44,15 %) | 508.102 (42,67 %) | Compact behält 24,16 % des Normal-Landes |
+| Landkomponenten | 224 | 142 | Viele kleine Fragmente verschwinden oder ändern sich |
+| Komponenten ab 1.000 Tiles | 52 | 24 | Hauptschauplätze vor Rohzahl priorisieren |
+| Größter Block | 16,77 % | 16,78 % | Kein beherrschender Kontinent |
+| Impassable | 175.320 | 43.913 | Harte Barrieren bleiben zentral |
+| Spielbares Land an Wasser | 4,15 % | 7,24 % | Küsten wiegen in Compact relativ stärker |
+| Wasserkomponenten | 1 | 1 | Ein durchgehender Wasserweg existiert |
+
+Die v31-Release beschrieb Dyslexdria als zurückkehrende April-Fools-Karte auf Basis einer umgefärbten World. Spätere v33-Versionen aktualisierten sie; aktuelle Entscheidungen müssen das v33.7-Asset verwenden.
+
+Das Manifest enthält 82 Haupt-Nations: 69 mit Koordinaten, 13 ohne. Weitere 189 unpositionierte additional Nations bilden einen Namensvorrat.
+
+Nation-Koordinaten sind NPC-Anker, keine Menschen-Spawns. Nicht manuell gewählte Menschen-Spawns werden aus gültigem freiem Land gezogen; Dyslexdria definiert keine `teamGameSpawnAreas`.
+
+Das ist keine Menschenkapazität. Öffentliche FFA-Kandidaten sind **105 / 80 / 55** in Normal und **26 / 20 / 13** in Compact.
+
+## Warum die zehn Hauptregionen wichtiger als 224 sind
+
+Die Rohzahl enthält viele Kleinstinseln. Nur 52 Komponenten erreichen 1.000 Tiles; die zehn größten halten schon 85,78 % des Landes.
+
+Plane auf drei Ebenen: aktuelle Landkomponente, regionales Netz naher Küsten und globales Netz aus langen Seerouten, Diplomatie oder Zwischenpunkten.
+
+So vermeidest du, jede Insel gleich zu behandeln oder nach einem lokalen Sieg entfernte Wirtschaften zu ignorieren.
+
+## Sechs Fragen zum Dyslexdria-Spawn
+
+### 1. Ist diese Zelle wirklich spielbar?
+
+Impassable trägt das Land-Bit mit Magnitude 31. Es ist kein neutrales Gebiet. Prüfe echte Expansion statt nur die Farbe.
+
+### 2. Welche Komponente enthält den Spawn?
+
+Sie definiert den ersten Krieg. Eine nahe Flagge über Wasser ist später relevant; eine weiter entfernte Flagge auf demselben Block kann dein direkter Rivale sein.
+
+### 3. Wie viel Tiefe bleibt nach der ersten Grenze?
+
+Eine bekannte Region kann global klein sein. Prüfe, ob lokales Wachstum einen Transfer finanzieren kann.
+
+### 4. Erzeugt Impassable einen falschen Ausgang?
+
+Ein sichtbarer Korridor kann an der Barriere enden. Finde zwei echte Landwege vor einem schmalen Vorstoß.
+
+### 5. Welche Küste erreicht einen nützlichen zweiten Schauplatz?
+
+Das Wasser ist verbunden, doch Normal ist 3.308 Tiles breit. Eine durchgehende Strecke kann für eine frühe Rendite zu lang sein.
+
+### 6. Wer kann das Ziel bestreiten?
+
+Zähle lokale Verteidiger, Flotten und Spieler mit kürzerer Küste.
+
+## Eröffnungsroute: Region aufbauen, dann Brücke schlagen
+
+### Phase 1: Zusammenhängende Position schaffen
+
+Wachse über spielbares Land und prüfe Impassable-Kanten. Vermeide dünne Finger, die an einer Barriere enden.
+
+Die Position braucht genug verbundenes Land für Erholung und Gebäude, auch wenn deine Aufmerksamkeit später wechselt.
+
+### Phase 2: Basis oder Falle?
+
+Eine Basis hat Tiefe, kontrollierbare Rivalen und eine nützliche Küste. Eine Falle ist durch Barrieren oder stärkere Nachbarn geschlossen und besitzt keinen bezahlbaren Ausgang.
+
+Konsolidiere die Basis vor globaler Expansion. Bewahre in der Falle Truppen und suche früher eine Route hinaus.
+
+### Phase 3: Eine Brücke zum zweiten Schauplatz
+
+Die Brücke kann Transport, Zwischeninsel, verbündete Küste oder Positionskette sein. Ein Transport Ship braucht keinen Port, aber eigene Shoreline, eine gültige Zielküste und einen erreichbaren Weg im selben Wasser.
+
+Warships und Trade Ships hängen von einem aktiven fertiggebauten eigenen Port ab. Baue ihn, wenn dauerhafte Flotten- oder Handelswirkung die Optionen erweitert, nicht vor jeder Landung.
+
+## Szenario 1: Führung auf einer großen Komponente
+
+Du führst deine Region, doch sie enthält weniger als ein Sechstel des globalen Landes.
+
+Der typische Fehlschlag ist, den Vorsprung an Kleinsatelliten auszugeben, während ein Rivale einen zweiten Hauptschauplatz konsolidiert.
+
+Verkürze die lokale Grenze, erkenne die wachsende Außenregion und baue einen dauerhaften Brückenkopf. Halte genug Kraft, damit deine Heimat nicht billig fällt.
+
+Kann der Gegner Landung und Heimatküste gleichzeitig belasten, verstärke keine Expedition ohne Weg zu größerem Land. Ziehe Aufmerksamkeit ab, bevor sie den regionalen Vorsprung frisst.
+
+## Szenario 2: Impassable schneidet den sichtbaren Weg
+
+Der Spawn scheint zwei Richtungen zu haben, doch eine endet an Impassable.
+
+Renne nicht zur Barriere. Verbreitere den echten Ausgang und nutze die harte Kante, um die überwachte Grenze zu verkürzen.
+
+Die Barriere blockiert in v33.7 auch Nuke-Flugbahnen. Sie schützt einen Winkel, nicht die ganze Position. Wasser, ein anderer Block oder eine andere Schusslinie können sie umgehen.
+
+## Szenario 3: Kleine Küstenregion in Compact
+
+Compact nutzt 1.654 x 720, 508.102 spielbare Tiles, 43.913 Impassable-Zellen und 142 Komponenten. Nur 24 erreichen 1.000 Tiles.
+
+Entfernungen sinken, doch die gemerkte Insel oder Landung kann fehlen. Der Küstenanteil steigt von 4,15 % auf 7,24 %.
+
+FFA-Kandidaten werden 26 / 20 / 13, öffentliche Standard-Nations sinken von 82 auf 20. Es ist nicht dieselbe Bevölkerung auf einem Viertelraster.
+
+## Ein verbundenes, aber riesiges Meer
+
+Eine Wasserkomponente beweist Kontinuität, keine kurze Route oder Port-Rendite.
+
+Benenne für jeden Plan geschützten Ursprung, wertvolles Ziel, schnellsten Gegenspieler und Ausstieg bei Fehlschlag.
+
+Eine Zwischeninsel lohnt sich, wenn sie Verstärkung verkürzt oder eine neue Küste öffnet. Sonst fügt sie nur Gebäude und Verteidigungspunkt hinzu.
+
+Scanne auf der breiten Karte das Ziel unmittelbar vor Abfahrt. Eine freie Küste kann bis zur Ankunft konsolidiert sein.
+
+## Häufige Fehlschläge und Gegenmaßnahmen
+
+### Sichtbares Land für spielbar halten
+
+Normal hat 175.320 Impassable-Zellen. Prüfe Besitz und Expansion, bevor eine Form in die Planung eingeht.
+
+### Nach regionalem Sieg nicht mehr scannen
+
+Der größte Block hält 16,77 %. Schaffe einen Ausgang, bevor entfernte Führende unerreichbar werden.
+
+### Jede Insel kontrollieren wollen
+
+Die meisten der 224 Komponenten bleiben unter 1.000 Tiles. Priorisiere Hauptregionen und Satelliten mit echter Routen-, Flucht- oder Sperrwirkung.
+
+### Verbundenes Wasser für billige Reise halten
+
+Das Netz überspannt eine 3.308 Tiles breite Karte. Nutze Zwischenpunkte und verlange ein Ziel, das die Entfernung rechtfertigt.
+
+### 82 Nations als 82 Spieler lesen
+
+Nations konfigurieren KI; Menschenkapazität folgt Land und Modus. Lies die Lobby.
+
+### Normal nach Compact kopieren
+
+Komponenten sinken von 224 auf 142, Blöcke ab 1.000 Tiles von 52 auf 24. Prüfe Küsten und Barrieren neu.
+
+## Normal oder Compact auf Dyslexdria?
+
+Wähle **Normal** für 224 Komponenten, lange Transfers, 175.320 Impassable-Zellen und gleichzeitige Regionalkriege.
+
+Wähle **Compact** für dieselbe Mehrregionen-Identität in kleinerer Lobby: 142 Komponenten, 43.913 Impassable-Zellen und 20 öffentliche Standard-Nations.
+
+Keine Stufe garantiert besten Spawn oder feste Kontaktzeit. Bevölkerungsstufe, Teams, Bots, Nations und Spawnverteilung bleiben entscheidend.
+
+Nutze den [Guide zu Größe und Compact](/de/guides/map-size-compact-mode/) sowie die [allgemeine Kartenmethode](/de/guides/map-strategy/).
+
+## Dyslexdria-FAQ
+
+### Ist Dyslexdria ein Kontinent?
+
+Nein. Normal hat 224 Landkomponenten; die größte hält nur 16,77 % des Landes.
+
+### Können Schiffe die ganze Karte queren?
+
+Ein durchgehender Wasserweg existiert. Entfernung, Gegner und Ziel bestimmen seinen Nutzen.
+
+### Was blockiert Impassable?
+
+Es kann nicht besessen, angegriffen oder genuked werden; Nuke-Flugbahnen können es nicht kreuzen.
+
+### Haben alle 82 Nations Koordinaten?
+
+Nein. 69 sind positioniert, 13 nicht; hinzu kommen 189 unpositionierte additional Nations.
+
+### Was ändert Compact am stärksten?
+
+Die Fragmentierung: 224 Komponenten werden 142 und Blöcke ab 1.000 Tiles sinken von 52 auf 24.
+
+### Welche Karte folgt?
+
+Der [Svalmel-Guide](/de/maps/svalmel/) stellt vier große Gruppen der Dyslexdria-Fragmentierung gegenüber.
+
+## Primärquellen
+
+- [Offizielle v0.33.7-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Dyslexdria-Manifest v0.33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/manifest.json)
+- [Dyslexdria-Assets v0.33.7](https://github.com/openfrontio/OpenFrontIO/tree/v0.33.7/resources/maps/dyslexdria)
+- [v0.31.0-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- [TerrainMapLoader.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [GameMap.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameMap.ts)
+- [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TransportShipUtils.ts)
+- [MapPlaylist.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [NationCreation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)

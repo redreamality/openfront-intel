@@ -2,19 +2,21 @@
 title: "OpenFront Doomsday Clock-gids: golven, verval en overleven"
 description: "De OpenFront Doomsday Clock controleert een stijgend landaandeel, niet een bewegende veilige cirkel. Alle golven, de waarschuwing van 30 seconden, troepen- en Warship-verval, teamregels en counters."
 pubDate: 2026-08-04
-updatedDate: 2026-08-09
+updatedDate: 2026-08-22
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Handleiding
 difficulty: Gemiddeld
 version: v33
-freshnessSummary: "v33.2 verandert het Doomsday-eindspel: zeven landdoelen stijgen via 2/4/7/11/17/25/35%, de troepenvloer daalt van 40% naar 5% en landrot elimineert een zijde die 150 seconden doomed blijft."
+freshnessSummary: "v33.7 verhoogt teamdoelen naar 3/6/10/15/21/28/35%, terwijl FFA 2/4/7/11/17/25/35% houdt; verrot gebied wordt wasteland dat actief moet worden heroverd."
 ---
 
 ## Direct antwoord: wat doet de Doomsday Clock?
 
 De **Doomsday Clock** beëindigt vastgelopen OpenFront-partijen door elke niet-leidende zijde een steeds groter aandeel van het bruikbare land te laten houden.
 
-Het is geen cirkel die naar het geografische midden beweegt. Na tien minuten respijt stijgt de grens naar 2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%.
+Het is geen cirkel die naar het geografische midden beweegt. Na tien minuten respijt stijgt FFA naar 2%, 4%, 7%, 11%, 17%, 25% en uiteindelijk 35%.
+
+Teammodi gebruiken dezelfde tijden, maar de hogere doelen 3%, 6%, 10%, 15%, 21%, 28% en 35%.
 
 Zakt jouw zijde onder de live grens, dan verschijnt een schedel en krijg je 30 seconden om te herstellen. Daarna verliezen troepen en Warships elke seconde kracht.
 
@@ -28,7 +30,7 @@ Het praktische doel is dus: houd een verbonden landaandeel met een buffer, bewaa
 
 Er is geen verborgen veilige locatie en geen controle op afstand tot het midden. Het spel vergelijkt aantallen tiles.
 
-In FFA is jouw eigen gebied jouw zijde. In teammodi worden de gebieden van alle levende teamgenoten opgeteld en vergeleken met dezelfde grens als voor een solozijde.
+In FFA is jouw eigen gebied jouw zijde. In teammodi worden de gebieden van alle levende teamgenoten opgeteld en met de hogere teamladder vergeleken.
 
 Een kleine teamgenoot is veilig als het teamtotaal veilig is; zakt het totaal eronder, dan krijgen alle leden de schedel en het verval.
 
@@ -46,7 +48,9 @@ Zie oranje of bijna-gevaar als een bevel om optionele gevechten te stoppen. De i
 
 ## Golfschema en snelheden
 
-Elk tempo houdt de eerste tien minuten op 0%. Daarna groeit de grens tijdens iedere golf geleidelijk naar het doel en blijft kort vlak. Hij springt niet direct van het ene tabelpercentage naar het andere.
+Elk tempo houdt de eerste tien minuten op 0%. De tabel toont FFA-doelen; teams bereiken 3/6/10/15/21/28/35% op dezelfde tijden.
+
+Daarna groeit de grens tijdens iedere golf geleidelijk naar het doel en blijft kort vlak. Hij springt niet direct van het ene tabelpercentage naar het andere.
 
 | Snelheid | 2% | 4% | 7% | 11% | 17% | 25% | 35% eindgrens |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -122,7 +126,9 @@ Ze gebruiken dezelfde dalende 40%-naar-5%-vloer van hun door veterancy aangepast
 
 De volledige deadline vanaf de schedel is 150 seconden. Na de waarschuwing van 30 seconden en 90 seconden dalende vloer gaat een zijde die op 5% vastzit over naar landrot.
 
-De simulatie opent verspreide gaten en verspreidt die door eigen land. Neutraal geworden tiles dragen geen routes of gebouwen meer. Het quota per seconde past zich aan zodat het resterende land op de deadline nul bereikt.
+De simulatie opent verspreide gaten en verspreidt die door eigen land. Verloren tiles worden wasteland, geen neutraal land dat een buur gratis opneemt. Routes en gebouwen op die tiles verdwijnen.
+
+Het quota per seconde past zich aan zodat het resterende land op de deadline nul bereikt.
 
 De situatie blijft herstelbaar tot de zijde is uitgeschakeld. De grens halen of territoriumleider worden wist de schedel, stopt verval en rot direct en reset het rotpad voor een latere mislukking.
 
@@ -246,7 +252,7 @@ Wanneer jij leidt, houd druk op uitdagers zonder de kroon weg te geven. De vrijs
 
 ## Beslisregels voor teams
 
-Teams worden op gezamenlijk gebied beoordeeld met dezelfde grens als één FFA-speler. De eis wordt niet vermenigvuldigd met het aantal leden.
+Teams worden op gezamenlijk gebied beoordeeld tegen 3%, 6%, 10%, 15%, 21%, 28% en 35%. De eis wordt niet met het aantal leden vermenigvuldigd, maar ligt tussentijds hoger dan in FFA.
 
 Verdeel rollen tijdens de waarschuwing. Eén teamgenoot houdt het vijandelijke front vast, een andere pakt goedkoop land. Omdat iedereen dezelfde teamstatus deelt, is het gezamenlijke totaal belangrijker dan individuele tiles.
 
@@ -383,10 +389,10 @@ Nee. Twee zijden kunnen nog 35% halen. Landrot zet de beslissende deadline voor 
 
 De huidige regels staan in deze officiële bronnen:
 
-- [v0.33.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
-- [Gedeeld golfschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
-- [Uitvoering voor zijden, verval en landrot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
-- [Standaardwaarden voor waarschuwing en verval](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+- [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [FFA- en teamgolfschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Uitvoering voor zijden, verval en wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Standaardwaarden voor waarschuwing en verval](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
 
 Lees voor de versiecontext [wat veranderde in v33](/nl/changelog/v33/).
 

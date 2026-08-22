@@ -6,15 +6,25 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Modes de jeu et réglages de salon privé" description="Choisissez les réglages OpenFront.io v33.5 et distinguez le Host ordinaire des salons featured gérés et équipes fixées par admin.">
+<BaseLayout title="Modes de jeu et réglages de salon privé" description="Choisissez les réglages OpenFront.io v33.7, utilisez l’entrée spectateur et distinguez le Host ordinaire des salons featured gérés et équipes fixées par admin.">
   <PageHeader eyebrow="MÉCANIQUES · 10" title="Modes de jeu et réglages de salon privé" lead="Définissez d'abord le but de la partie, puis ne changez que les réglages qui le servent. Vous éviterez ainsi les avantages cachés et les options absentes du menu Host normal." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Vérifié pour OpenFront v33.5 · 16 août 2026">
+    <Callout type="spec" title="Vérifié pour OpenFront v33.7 · 22 août 2026">
       <p>Le menu Host normal propose FFA ou Team, carte et IA, spawn et durée, alliances, ressources, modes spéciaux, unités interdites, noms anonymes, liste blanche et Host Cheats. Les drapeaux internes <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> ne sont pas des commandes du menu Host normal.</p>
     </Callout>
 
     <h2>Réponse directe : choisissez un objectif, pas un faux préréglage idéal</h2>
-    <p>Pour une partie équitable entre amis, désactivez Host Cheats, annoncez toute modification globale des ressources et utilisez une liste blanche si nécessaire. Dans un salon ordinaire, choisissez Team pour entraîner une équipe fixe, désactivez Random Spawn et conservez les dons automatiques. Réservez Infinite Gold, Instant Build, les unités interdites, Water Nukes ou Doomsday à un exercice nommé. Pour un tournoi ou une série, publiez une liste de règles et vérifiez-la avant chaque départ : les préréglages nommés ne sont pas encore disponibles en v33.5.</p>
+    <p>Pour une partie équitable entre amis, désactivez Host Cheats, annoncez toute modification globale des ressources et utilisez une liste blanche si nécessaire. Dans un salon ordinaire, choisissez Team pour entraîner une équipe fixe, désactivez Random Spawn et conservez les dons automatiques. Réservez Infinite Gold, Instant Build, les unités interdites, Water Nukes ou Doomsday à un exercice nommé. Pour un tournoi ou une série, publiez une liste de règles et vérifiez-la avant chaque départ : les préréglages nommés ne sont pas encore disponibles en v33.7.</p>
+
+    <h2>Comment rejoindre en spectateur dans la v33.7</h2>
+    <table>
+      <thead><tr><th>Moment</th><th>Action</th><th>Limite</th></tr></thead>
+      <tbody>
+        <tr><td>Saisie du code du salon</td><td>Choisissez <strong>Spectate</strong> au lieu de Join Lobby.</td><td>Vous ne spawnez pas, ne recevez pas d’équipe et ne prenez aucune place de joueur.</td></tr>
+        <tr><td>Attente dans le salon</td><td>Utilisez le choix Play/Spectate avant le départ.</td><td>Après le départ, la liste est figée et un spectateur ne peut plus passer vers Play.</td></tr>
+        <tr><td>Partie déjà terminée</td><td>Ouvrez le même lien ou code.</td><td>Le salon n’est plus actif ; le jeu ouvre donc le replay.</td></tr>
+      </tbody>
+    </table>
 
     <h2>Ce que v33.5 change pour les salons gérés</h2>
     <table>
@@ -74,7 +84,7 @@ const base = import.meta.env.BASE_URL;
 
     <h2>Commandes Host actuelles, regroupées par décision</h2>
     <table>
-      <thead><tr><th>Décision</th><th>Commandes v33.5</th><th>Risque</th></tr></thead>
+      <thead><tr><th>Décision</th><th>Commandes v33.7</th><th>Risque</th></tr></thead>
       <tbody>
         <tr><td>Structure</td><td>Carte/aléatoire, FFA/Team, équipes, difficulté, 0-400 Bots, 0-400 Nations</td><td>Trop d'IA masque la valeur d'un plan face à des humains.</td></tr>
         <tr><td>Spawn et rythme</td><td>Random Spawn, Compact Map, immunité 0-120 min, limite 1-120 min, délai 0-600 s</td><td>Changer la distance de contact ou l'immunité invalide la comparaison d'une ouverture.</td></tr>
@@ -85,7 +95,7 @@ const base = import.meta.env.BASE_URL;
     </table>
 
     <Callout type="warn" title="Ne cherchez pas les drapeaux de rotation publique dans Host">
-      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> existent dans la configuration des rotations publiques, mais v33.5 ne les expose pas comme commandes Host ordinaires. Les équipes fixées par admin suivent la même limite : ne préparez pas un salon privé ordinaire autour d’un champ interne ou d’une entrée API.</p>
+      <p><code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> existent dans la configuration des rotations publiques, mais v33.7 ne les expose pas comme commandes Host ordinaires. Les équipes fixées par admin suivent la même limite : ne préparez pas un salon privé ordinaire autour d’un champ interne ou d’une entrée API.</p>
     </Callout>
 
     <h2>À lire ensuite</h2>
@@ -97,6 +107,7 @@ const base = import.meta.env.BASE_URL;
 
     <h2>Sources</h2>
     <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7" target="_blank" rel="noopener">Release officielle v0.33.7</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts" target="_blank" rel="noopener">JoinLobbyModal.ts</a> pour l’entrée spectateur, le changement de rôle, les places et le replay.</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.5" target="_blank" rel="noopener">Release officielle v0.33.5</a> pour les quatre changements publiés.</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts" target="_blank" rel="noopener">AdminBotRoutes.ts</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/GameServer.ts" target="_blank" rel="noopener">GameServer.ts</a> pour équipes fixées, featured et anonymat.</li>
       <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/HostLobbyModal.ts" target="_blank" rel="noopener">HostLobbyModal.ts v0.33.5</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/components/GameConfigSettings.ts" target="_blank" rel="noopener">GameConfigSettings.ts</a> pour les commandes ordinaires.</li>

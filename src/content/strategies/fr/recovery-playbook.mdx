@@ -1,0 +1,337 @@
+---
+title: "Guide de récupération OpenFront : retraite, croissance et reconstruction"
+description: "Après un front perdu, un manque de troupes, une frappe nucléaire ou Doomsday : arrêter les pertes, rétablir la croissance et reconstruire une action viable."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [recovery, retreat, doomsday, strategy]
+category: Stratégie avancée
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié pour v0.33.7 le 2026-08-22 : une retraite rend 75 % des Troops survivantes après 20 ticks, la croissance dépend de la marge sous le plafond et retrouver le seuil Doomsday efface aussitôt drain et corruption."
+---
+
+## Réponse directe
+
+Dans OpenFront v0.33.7, récupérez en trois étapes : arrêtez les pertes qui augmentent encore, restaurez la croissance des Troops et une frontière défendable, puis reconstruisez la capacité nécessaire à une seule action utile.
+
+Retirez-vous si son coût reste inférieur au combat. Si Doomsday marque votre camp, reprenez d'abord le seuil territorial actuel : redevenir admissible efface immédiatement le drain et la corruption actifs.
+
+Cette page a été vérifiée le **2026-08-22** avec le tag officiel v0.33.7. Les durées, formules et transitions sont des faits du moteur. L'ordre proposé est un cadre éditorial.
+
+Ce cadre ne garantit aucun retour. La carte, la pression ennemie, l'or, la diplomatie, les options désactivées et l'exécution peuvent fermer la fenêtre de récupération.
+
+## Les trois étapes de la récupération
+
+### 1. Arrêter la perte
+
+Terminez ou retirez les attaques qui consomment encore des Troops utiles. Raccourcissez le front, identifiez la prochaine menace et mesurez le déficit Doomsday avant un achat durable.
+
+### 2. Restaurer le moteur
+
+Créez une marge sous `maxTroops` tout en gardant la réserve exigée par la menace immédiate. Si un soutien ami existe, choisissez d'abord entre Troops et or.
+
+Un plafond supérieur n'aide que si vous survivez assez longtemps pour le remplir. Une capacité future ne remplace pas les troupes présentes sur une frontière qui cède.
+
+### 3. Reconstruire une action
+
+Achetez ou prenez seulement ce qui permet le prochain mouvement défendable : tenir un front, prendre une terre bon marché, protéger une City, rouvrir une route ou contre-attaquer avec une limite.
+
+Les étapes peuvent se chevaucher, mais pas s'inverser. Une Factory ne sauve pas une attaque qui saigne encore. Une recharge rapide ne justifie pas trois nouveaux fronts.
+
+## Diagnostiquer la position perdante
+
+Commencez par la défaillance qui change encore la carte. Le classement ne dit pas si le blocage vient des Troops, du plafond, d'une route ou d'un seuil.
+
+| État                   | Question immédiate                                        | Première preuve à lire                          |
+| ---------------------- | --------------------------------------------------------- | ----------------------------------------------- |
+| Effondrement militaire | Quelle attaque active dépense encore des Troops ?         | Lignes d'attaque, force restante, voisins       |
+| Encerclement           | Quel front peut être raccourci sans perdre le noyau ?     | Connexions, routes ennemies, risque de retraite |
+| Rupture d'or           | Manque-t-il des Troops actuelles ou une capacité future ? | Or, `maxTroops`, file de construction           |
+| Frappe nucléaire       | Quelle structure ou route survivante reste décisive ?     | City, Silo, SAM, Port, terres reliées           |
+| Alerte Doomsday        | Combien de cases utilisables manque-t-il au camp ?        | Seuil, total du camp, statut leader             |
+
+Ne répondez pas « attendre » aux cinq cas. La croissance corrige un déficit de Troops, mais ne retire pas une attaque, ne reconnecte pas une île et ne satisfait pas seule un seuil territorial.
+
+## Arrêter les pertes avant de dépenser
+
+Sans quantité manuelle, une attaque terrestre Human ou Nation envoie par défaut `1/5` des Troops actuelles. Une boat attack utilise aussi `1/5`. Les Troops sont retirées au lancement.
+
+Ce `1/5` est un paramètre d'exécution, pas une réserve optimale. Il ne prouve pas que conserver 20 % soit sûr sur chaque frontière.
+
+Avant tout achat, listez les attaques actives. Séparez celles qui peuvent prendre une terre utile de celles qui nourrissent une meilleure défense ou éloignent l'armée du noyau.
+
+Pour chaque mauvaise attaque, comparez le malus certain sur les survivants lors de la retraite aux pertes incertaines d'un combat prolongé, d'une frappe ou d'un second ennemi.
+
+Les valeurs viennent de [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts). Le retrait initial apparaît dans [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts).
+
+## Retraite : quelles troupes reviennent ?
+
+Une retraite attend **20 simulation ticks**, soit environ **2 secondes** à vitesse normale, avant son exécution. L'attaque reste exposée pendant cette fenêtre.
+
+Contre un joueur, la retraite retire alors 25 % des Troops d'attaque encore vivantes. Les **75 % des Troops survivantes à l'exécution** reviennent au propriétaire.
+
+Le calcul n'utilise ni la force initiale ni une valeur figée au clic. Les pertes subies pendant les 20 ticks réduisent la base du retour.
+
+Une retraite depuis **Terra Nullius** n'applique pas ce malus. Si les deux camps deviennent alliés pendant l'attaque, celle-ci revient aussi sans malus de retraite.
+
+Des attaques opposées peuvent d'abord s'annuler. Lancer une attaque inverse ne crée donc pas gratuitement des Troops sauvegardées.
+
+Ces branches figurent dans [RetreatExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts), [AttackImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AttackImpl.ts) et les [tests d'attaque](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts).
+
+### Liste de contrôle avant retraite
+
+1. Lisez les Troops restantes, pas la quantité envoyée au départ.
+2. Vérifiez si 20 ticks ajoutent un grand combat, une tenaille ou une frappe.
+3. Distinguez joueur, Terra Nullius et nouvel allié.
+4. Comparez le malus de 25 % aux pertes probables en continuant.
+5. Affectez le retour à la prochaine menace réelle.
+
+La retraite limite une perte ; elle ne réinitialise pas la partie. Elle peut préserver des options sans supprimer le retard.
+
+## Récupérer avec la courbe de croissance
+
+La croissance naturelle d'un Human par simulation tick est :
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+Un tick dure 100 ms, soit environ 10 ticks par seconde à vitesse normale. Le dernier facteur diminue à mesure que les Troops approchent `maxTroops`.
+
+Il n'existe donc aucun temps fixe de remplissage. Terre, City, attaques, dons, vitesse et dégâts modifient le plafond, la force actuelle ou le nombre de ticks utiles.
+
+Une marge sous le plafond peut accélérer la croissance, mais la menace fixe la réserve minimale. La formule ne donne pas un pourcentage idéal pour toutes les cartes.
+
+Le calcul est exécuté dans [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts) avec les constantes de [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+### Exemple avec 10,000 cases
+
+Pour un Human avec **10,000 tiles**, aucune City, vitesse normale et aucun autre changement, `maxTroops` vaut environ **602,377**.
+
+| Troops actuelles | Part du plafond | Croissance par seconde | Ce que cela montre                     |
+| ---------------: | --------------: | ---------------------: | -------------------------------------- |
+|          150,594 |            25 % |                 11,368 | Une grande marge existe                |
+|          301,189 |            50 % |                 12,537 | Cet exemple approche son sommet        |
+|          542,139 |            90 % |                  3,846 | La croissance ralentit près du plafond |
+
+Ces nombres comparent un même plafond. Ils ne prouvent pas que 25 %, 50 % ou 90 % soit une cible universelle et n'intègrent aucune attaque ennemie.
+
+### Ce que change une City
+
+Une City augmente `maxTroops`. Elle ne soigne **pas** les Troops actuelles, ne remplit pas aussitôt la nouvelle capacité et ne garantit pas sa propre survie.
+
+Après la hausse du plafond, la formule naturelle remplit la marge avec le temps. La City devient un outil de reconstruction seulement si la frontière protège cette valeur différée.
+
+Si le noyau va tomber, des Troops actuelles ou une route moins chère peuvent compter davantage. C'est une comparaison tactique, pas une règle cachée d'achat.
+
+## Utiliser le soutien ami comme une branche
+
+Le moteur considère self, un coéquipier et un joueur en alliance active comme `friendly`. Les dons dépendent encore de la configuration du mode ; être ami ne suffit pas à activer l'action.
+
+Un don de Troops ne peut pas dépasser `maxTroops` du bénéficiaire. Les dons d'or et de Troops d'un même expéditeur vers ce bénéficiaire partagent un **cooldown de 10 secondes**.
+
+Avant d'occuper ce cooldown, demandez ce qui manque : des Troops capables de tenir maintenant, ou de l'or pour débloquer capacité, défense ou route ?
+
+Un petit don de Troops peut perdre de la valeur si la marge est faible. Un petit don d'or peut retarder les Troops qui auraient tenu le front.
+
+Cette page garde seulement ce choix. La répartition complète des rôles et l'ordre des dons appartiennent à la stratégie d'équipe dédiée.
+
+Les contrôles sont dans [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts), [DonateGoldExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts) et [DonateTroopExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts).
+
+## Traiter Doomsday comme un seuil urgent
+
+La Doomsday Clock n'est ni un cercle géographique ni un compte à rebours de mort fixe. Elle compare chaque camp admissible à la part actuelle de terres utilisables.
+
+Le seuil reste nul pendant 10 minutes. À vitesse normale, chaque niveau suivant monte pendant 168 secondes, puis marque une pause de 54 secondes.
+
+| Niveau | Seuil FFA | Seuil Team |
+| -----: | --------: | ---------: |
+|      1 |       2 % |        3 % |
+|      2 |       4 % |        6 % |
+|      3 |       7 % |       10 % |
+|      4 |      11 % |       15 % |
+|      5 |      17 % |       21 % |
+|      6 |      25 % |       28 % |
+|      7 |      35 % |       35 % |
+
+En FFA, chaque joueur est évalué sur sa part de terres utilisables. En Team, le moteur additionne les terres de toute l'équipe et applique ce résultat à tous ses membres.
+
+Le **leader side** actuel est exempté. C'est un résultat dynamique du camp, pas une immunité permanente liée à un joueur ou une équipe nommée.
+
+Les niveaux et l'agrégation viennent de [DoomsdayClock.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts).
+
+### Sous le seuil
+
+Passer sous le seuil courant déclenche d'abord un **avertissement de 30 secondes**. Mesurez alors l'écart en cases et choisissez une terre atteignable et défendable.
+
+Ensuite, le drain de Troops monte de **2 % à 5 % de `maxTroops` par seconde** pendant **90 secondes**. Le plancher descend de **40 % à 5 %** pendant les mêmes 90 secondes.
+
+La corruption territoriale progresse après le crâne et atteint zéro territoire à **150 secondes**. Ces états évoluent ; ils ne forment pas une mort fixe après deux minutes.
+
+Repasser le seuil courant **efface immédiatement** avertissement, drain et corruption. L'état de corruption est réinitialisé sans délai de récupération fixe.
+
+Une hausse ultérieure du seuil peut exposer de nouveau le camp. Effacer un état ne supprime pas les exigences territoriales futures.
+
+Les transitions sont dans [DoomsdayClockExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts) et ses [tests v0.33.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts).
+
+## Quatre scénarios chiffrés
+
+### Scénario 1 : retirer une attaque endommagée
+
+Une attaque a envoyé **160,000 Troops**. Quand la retraite s'exécute après 20 ticks, il n'en reste que **100,000**.
+
+```text
+returned = 100,000 * 0.75 = 75,000
+```
+
+Le retour vaut 75,000, pas 120,000. Après les pertes, la force initiale ne sert plus de base au malus.
+
+Si 10,000 disparaissent encore pendant l'attente, la base devient 90,000 et le retour 67,500. Voilà pourquoi la fenêtre de deux secondes compte.
+
+### Scénario 2 : même terre, deux forces
+
+Gardez l'exemple de 10,000 tiles sans City. À 25 % du plafond, la croissance vaut environ **11,368 Troops par seconde** ; à 90 %, environ **3,846**.
+
+L'écart vaut environ 7,522 par seconde sous ces hypothèses. Il montre la pénalité du plafond, sans choisir la réserve sûre face au voisin.
+
+### Scénario 3 : premier niveau Doomsday
+
+Supposez **1,000,000 de cases utilisables** et la première montée normale terminée.
+
+Un joueur FFA a besoin de 2 %, soit **20,000 cases**. Un camp Team a besoin de 3 %, soit **30,000 cases cumulées par l'équipe**.
+
+Chaque membre n'a pas besoin de 30,000. L'un peut tenir 5,000 et l'autre 25,000, sauf si l'exemption dynamique du leader side s'applique déjà.
+
+### Scénario 4 : capacité de City sans soin
+
+Supposez 200,000 Troops actuelles. Une City protégée augmente `maxTroops`. À la fin de la construction, la valeur actuelle reste 200,000 ; seule la marge future change.
+
+Si l'ennemi prend la City ou attaque avant son remplissage, cet achat peut échouer à défendre le front. Le moteur accorde une capacité, pas un soin immédiat.
+
+## Reconstruire dans l'ordre des dépendances
+
+La récupération finit quand la position peut accomplir une action utile sans rouvrir l'effondrement initial. Chaque jauge et chaque bâtiment n'ont pas besoin de revenir à leur ancien niveau.
+
+Utilisez cet ordre comme cadre éditorial :
+
+1. **Noyau stable :** des terres reliées et des Troops actuelles capables de survivre à la prochaine attaque connue.
+2. **Chemin de croissance :** de la marge sous le plafond, du temps, ou un soutien ami bien séquencé.
+3. **Route utile :** terre neutre, frontière faible, transport ou commerce qui crée de la valeur.
+4. **Investissement protégé :** City, défense, Port, Factory ou capacité nucléaire que le front raccourci peut garder.
+5. **Action bornée :** prise, secours, réouverture ou contre-attaque avec une condition d'arrêt.
+
+Sautez un élément seulement si la carte le fournit déjà. Une île sûre peut avoir un noyau stable sans route ; un camp Doomsday peut devoir prendre des cases avant d'investir.
+
+### Le contrôle avant le retour au combat
+
+Avant d'attaquer, répondez à quatre questions. Quelle valeur exacte sera créée ? Qui peut punir l'action ? Quelle réserve doit rester ? Quel changement impose l'arrêt ?
+
+S'il manque une réponse, continuez la reconstruction ou réduisez l'action. C'est un contrôle du risque, pas une formule de victoire.
+
+N'attendez pas automatiquement `maxTroops`. La croissance ralentit près du plafond et l'ennemi peut prendre des terres, bâtir, donner ou faire monter Doomsday.
+
+N'attaquez pas uniquement parce que la croissance est rapide. Une faible armée avec une grande marge peut mourir avant que la formule ne rembourse l'engagement.
+
+## Adapter le plan au type de défaite
+
+### Après la rupture d'un front
+
+Raccourcissez le contact avant de remplacer l'infrastructure. Préférez une terre reliée qui retire un angle ennemi à des cases isolées qui améliorent seulement le score.
+
+L'adversaire peut presser la retraite, frapper le noyau au retour ou occuper la route avant que la croissance ne compte.
+
+### Après une frappe nucléaire
+
+Inventoriez Troops, `maxTroops`, terres reliées, Cities, Ports, Silos et SAM survivants. Rétablissez la fonction manquante, pas l'apparence exacte de l'ancienne base.
+
+Une attaque terrestre peut suivre l'explosion. La capacité d'une City demande encore du temps ; la défense actuelle peut passer avant une structure stratégique coûteuse.
+
+### Après un isolement économique
+
+Séparez le manque d'or du manque de Troops. Une route ou un don d'or rend des options, mais un investissement commercial ne tient pas seul une frontière.
+
+L'ennemi peut imposer un embargo, couper une station ou reprendre la connexion. Protégez le réseau minimal avant de l'étendre.
+
+### Sous la pression Doomsday
+
+Convertissez le déficit en cases. En Team, utilisez le total de l'équipe. Visez une terre atteignable avant que l'avertissement, le drain et la corruption ne retirent votre force de prise.
+
+L'ennemi peut prendre Terra Nullius, couper le corridor ou pousser le seuil pendant vos achats. Recalculez après tout grand changement de terrain.
+
+## Échecs fréquents et contre-jeu
+
+### « La retraite rend toujours 75 % de l'envoi »
+
+Contre un joueur, elle rend 75 % des Troops survivantes à l'exécution. L'attente de 20 ticks modifie ce nombre ; Terra Nullius et une alliance créée pendant l'attaque sont des exceptions.
+
+### « Il faut conserver un pourcentage fixe »
+
+Aucun taux ne couvre toutes les frontières, durées, capacités, modes et forces ennemies. La marge accélère la croissance ; la menace impose la réserve minimale.
+
+### « Une City soigne l'armée »
+
+Elle augmente seulement `maxTroops`. Les Troops actuelles ne bondissent pas à la fin des travaux ; la nouvelle marge doit être remplie plus tard.
+
+### « Doomsday tue toujours après deux minutes »
+
+L'état combine 30 secondes d'avertissement, des rampes de 90 secondes et une corruption de 150 secondes. Retrouver le seuil efface aussitôt les effets actifs.
+
+### « Le leader est immunisé pour toujours »
+
+L'exemption appartient au leader side actuel. Il peut changer, et Team utilise le total actuel du camp.
+
+### « Attendre est toujours sûr »
+
+Attendre fait croître les Troops, mais donne aussi du temps pour prendre une route, bâtir, coordonner un don ou augmenter l'exigence territoriale.
+
+## FAQ de récupération
+
+### Combien de temps prend une retraite ?
+
+Elle attend 20 simulation ticks, environ deux secondes à vitesse normale. La vitesse et les dégâts pendant cette fenêtre changent le résultat observé.
+
+### Rend-elle 75 % de l'attaque initiale ?
+
+Non. Contre un joueur, elle rend 75 % des Troops d'attaque encore vivantes à l'exécution. Terra Nullius n'a pas de malus et une nouvelle alliance peut aussi le supprimer.
+
+### Quel pourcentage de Troops croît le plus vite ?
+
+La formule et le plafond déterminent la courbe. Son sommet mathématique n'est pas une réserve tactique universelle ; ennemi, route, temps, terrain et mode restent décisifs.
+
+### Construire une City restaure-t-il les Troops ?
+
+Non. Une City augmente `maxTroops` sans soigner ni remplir les Troops actuelles. La capacité devient réelle par la croissance ou un don admissible.
+
+### Un allié ou coéquipier peut-il me sauver aussitôt ?
+
+Seulement si les dons sont actifs et si expéditeur, bénéficiaire, cooldown, solde et marge passent les contrôles. Or et Troops partagent 10 secondes pour un bénéficiaire.
+
+### Faut-il attendre la fin de Doomsday ?
+
+Non. Repasser le seuil courant efface immédiatement avertissement, drain et corruption actifs. Une hausse ultérieure peut créer un nouveau risque.
+
+### Le seuil Team est-il individuel ?
+
+Non. Team additionne les terres utilisables de tout le camp et applique le résultat à tous. Le leader side actuel est exempté, mais ce statut peut changer.
+
+### Quand la récupération est-elle terminée ?
+
+Quand la position peut accomplir une action utile et bornée sans rouvrir la même perte. Elle peut encore rester sous le plafond et sans certains anciens bâtiments.
+
+## Sources et lectures suivantes
+
+- [Release officielle OpenFront v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Configuration et constantes de croissance](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
+- [Exécution de la croissance Human](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts)
+- [Déduction d'attaque et branches friendly](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts)
+- [Attente et malus de retraite](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts)
+- [Seuils par camp Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Avertissement, drain, corruption et reset](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Tests de retraite du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts)
+- [Tests Doomsday du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts)
+
+Pour la formule complète, lisez le [guide de croissance](/fr/guides/population-growth/). Pour toutes les vagues, utilisez le [guide Doomsday Clock](/fr/guides/doomsday-clock/).
+
+Après stabilisation, consultez les [fondamentaux économiques](/fr/strategies/economy-fundamentals/). Pour le résumé d'une première partie, revenez au [guide débutant](/fr/guides/first-match/).
+
+Une fois le front stable, utilisez [les rôles d'équipe](/fr/strategies/team-roles/) pour séquencer le soutien et [diplomatie et trahison](/fr/strategies/diplomacy-betrayal/) pour évaluer alliance, embargo et sortie.

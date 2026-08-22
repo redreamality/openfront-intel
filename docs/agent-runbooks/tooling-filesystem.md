@@ -15,6 +15,6 @@
 - **自动化环境中 `$CODEX_HOME` 可能未设置**：读取自动化记忆前先检测变量；缺失时使用当前用户已知的 `.codex` 目录（本机为 `C:\\Users\\Remy\\.codex`），不要把空变量直接拼进路径。
 - **审计 MIRV/SAM 旧错误时必须区分“载体免疫”与“弹头免疫”**：载体免疫是正确规则；负向搜索应锁定 `warhead/弹头/ogive/Sprengkopf/kernkop` 与免疫或不可拦截的组合，不能用会跨字段吞到 `carrier immune` 的宽泛正则。
 - **向长 Markdown 账本同时补章节和表格行时不要把整条历史表格行塞进同一份多位置补丁**：表格措辞只差一个词就会使 `apply_patch` 整体回滚。本轮把“回到 main”误作实际的“切回并同步 main”而匹配失败；应先读取精确尾行，再把日期、章节、清单和表格拆成独立短补丁。
-- **给 `rg` 传多个搜索根前先确认每个目录真实存在**：把猜测的 `src/lib` 与有效目录一起传入会让 `rg` 即使找到匹配仍以路径错误退出 2。先用 `rg --files src` 或逐个 `Test-Path` 枚举真实根，再组合搜索；不要把部分输出误当成整条审计成功。
+- **2026-08-22 再次复发：给 `rg` 传多个搜索根前先确认每个目录真实存在**：把猜测的 `src/lib` 与有效目录一起传入会让 `rg` 即使找到匹配仍以路径错误退出 2。先用 `rg --files src` 或逐个 `Test-Path` 枚举真实根，再组合搜索；不要把部分输出误当成整条审计成功。
 - **Node 20/23 不能直接动态导入项目 `.ts` 配置**：纯 Node 审计若要复用 TypeScript 单一来源，应通过项目内 `typescript.transpileModule` 转为 ESM 后加载，或使用项目已有的 TypeScript loader；不要直接 `import('./src/config/*.ts')`。
 - **项目不存在 `src/layouts/GuideLayout.astro`**：当前布局只有 `BaseLayout.astro` 与 `DocLayout.astro`；追踪攻略渲染前先用 `rg --files src/layouts src/pages` 枚举真实入口，不要按组件职责猜文件名。

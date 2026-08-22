@@ -1,0 +1,337 @@
+---
+title: "OpenFront-herstelplan: terugtrekken, aangroeien en herbouwen"
+description: "Herstel na een verloren grens, troepenval, kernaanval of Doomsday-druk door verlies te stoppen, groei te herstellen en één houdbare actie op te bouwen."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [recovery, retreat, doomsday, strategy]
+category: Gevorderde strategie
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Gecontroleerd voor v0.33.7 op 2026-08-22: terugtrekking geeft na 20 ticks 75% van de dan overlevende aanvalstroepen terug, groei vraagt ruimte onder de limiet en opnieuw voldoen aan Doomsday wist actieve drain en rot direct."
+---
+
+## Direct antwoord
+
+Herstel in OpenFront v0.33.7 in drie fasen: stop verliezen die nog groeien, herstel Troop-groei en een verdedigbare grens en bouw daarna alleen de capaciteit voor één nuttige actie terug.
+
+Trek terug wanneer dat goedkoper is dan doorvechten. Markeert Doomsday jouw zijde, herover dan eerst de huidige landdrempel. Opnieuw voldoen wist actieve drain en territory rot onmiddellijk.
+
+Deze pagina is op **2026-08-22** gecontroleerd tegen de officiële v0.33.7-tag. Exacte tijden, formules en statussen zijn enginefeiten. De volgorde is een redactioneel besliskader.
+
+Het kader garandeert geen comeback. Kaartvorm, vijandelijke druk, Gold, diplomatie, uitgeschakelde opties en uitvoering kunnen een herstelvenster sluiten.
+
+## Het herstelmodel in drie fasen
+
+### 1. Stop het verlies
+
+Beëindig of trek aanvallen terug die nog nuttige Troops verbruiken. Verkort de open grens, bepaal de volgende dreiging en meet het Doomsday-tekort vóór een langetermijnaankoop.
+
+### 2. Herstel de motor
+
+Maak ruimte onder `maxTroops` en behoud tegelijk de reserve voor het directe gevaar. Is vriendelijke steun beschikbaar, kies dan eerst tussen Troops en Gold.
+
+Een hogere limiet helpt alleen als je lang genoeg leeft om haar te vullen. Toekomstige capaciteit vervangt geen huidige verdedigers aan een brekende grens.
+
+### 3. Bouw één actie terug
+
+Koop of verover alleen wat de volgende houdbare stap mogelijk maakt: een grens houden, goedkoop land nemen, een City beschermen, een route openen of begrensd terugslaan.
+
+De fasen mogen overlappen, maar niet omkeren. Een nieuwe Factory redt geen bloedende aanval. Snelle aangroei rechtvaardigt geen drie nieuwe fronten.
+
+## Diagnoseer het soort verlies
+
+Begin bij de fout die het bord nog verandert. De ranglijst zegt niet of Troops, limiet, route of landdrempel het herstel blokkeert.
+
+| Situatie       | Directe vraag                                       | Eerste bewijs                               |
+| -------------- | --------------------------------------------------- | ------------------------------------------- |
+| Troepenval     | Welke actieve aanval verbruikt nog Troops?          | Aanvalslijnen, reststerkte, buren           |
+| Omsingeling    | Welke grens kan korter zonder de kern te verliezen? | Verbindingen, vijandroutes, terugtrekrisico |
+| Gold-tekort    | Ontbreken huidige Troops of toekomstige capaciteit? | Gold, `maxTroops`, bouwwachtrij             |
+| Kernaanval     | Welke structuur of route is nog beslissend?         | City, Silo, SAM, Port, verbonden land       |
+| Doomsday-alarm | Hoeveel bruikbare tiles mist de zijde nu?           | Drempel, zijtotaal, leader-status           |
+
+Beantwoord niet alle vijf met “wachten”. Groei kan Troops aanvullen, maar annuleert geen aanval, verbindt geen eiland en haalt zelfstandig geen landdrempel.
+
+## Stop verliezen vóór je uitgeeft
+
+Zonder handmatige hoeveelheid stuurt een landaanval van Human of Nation standaard `1/5` van de huidige Troops. Een boat attack gebruikt ook `1/5`. De Troops worden bij de start afgetrokken.
+
+Deze `1/5` is een uitvoeringswaarde, geen optimale reserve. Het bewijst niet dat 20% aan elke grens veilig is.
+
+Noteer vóór een aankoop alle actieve aanvallen. Scheid waardevolle veroveringen van aanvallen die alleen een sterkere verdediging voeden of je leger van de kern weghouden.
+
+Vergelijk per slechte aanval de zekere terugtrekmalus op overlevenden met onzeker verlies door verder gevecht, nucleaire schade of een tweede vijand.
+
+De waarden staan in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts). Aftrek en uitvoering staan in [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts).
+
+## Terugtrekken: wat keert terug?
+
+Een terugtrekking wacht **20 simulation ticks**, bij normale snelheid ongeveer **2 seconden**, voordat zij wordt uitgevoerd. De aanval blijft in dat venster blootgesteld.
+
+Tegen een speler verwijdert terugtrekking dan 25% van de nog levende aanvalstroepen. **75% van de bij uitvoering overlevende Troops** keert terug.
+
+De berekening gebruikt niet het oorspronkelijke aantal en bevriest de waarde bij de klik niet. Verlies tijdens de 20 ticks verkleint de terugkeerbasis.
+
+Terugtrekken uit **Terra Nullius** heeft deze malus niet. Worden beide zijden tijdens de aanval bondgenoten, dan keert de aanval ook zonder terugtrekmalus terug.
+
+Tegengestelde aanvallen kunnen elkaar eerst opheffen. Een omgekeerde aanval maakt daarom geen gratis geredde Troops.
+
+Deze takken staan in [RetreatExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts), [AttackImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AttackImpl.ts) en de [aanvalstests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts).
+
+### Checklist voor terugtrekking
+
+1. Lees de huidige resterende Troops, niet de oorspronkelijke aanval.
+2. Controleer of 20 ticks nog een hoofdgevecht, tang of kernschade brengen.
+3. Onderscheid speler, Terra Nullius en nieuwe bondgenoot.
+4. Vergelijk de malus van 25% met waarschijnlijk verder verlies.
+5. Zet de terugkeer tegen de volgende echte dreiging in.
+
+Terugtrekking begrenst schade en zet de partij niet terug. Zij kan opties bewaren terwijl je nog steeds achterligt.
+
+## Herstel met de groeicurve
+
+De natuurlijke Troop-groei van een Human per simulation tick is:
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+Een tick duurt 100 ms, dus normale snelheid levert ongeveer 10 ticks per seconde. De laatste factor krimpt wanneer Troops `maxTroops` naderen.
+
+Er is daarom geen vaste vultijd. Land, City-levels, aanvallen, donaties, snelheid en schade veranderen limiet, huidige sterkte of bruikbare groeiticks.
+
+Ruimte onder de limiet kan groei verhogen, maar het directe gevaar bepaalt de reserve. De formule geeft geen beste percentage voor elke kaart.
+
+De uitvoering staat in [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts), met constanten uit [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+### Voorbeeld met 10,000 tiles
+
+Een Human met **10,000 tiles**, zonder City en op normale snelheid heeft bij gelijke omstandigheden ongeveer **602,377 `maxTroops`**.
+
+| Huidige Troops | Deel van limiet | Groei per seconde | Wat dit toont                       |
+| -------------: | --------------: | ----------------: | ----------------------------------- |
+|        150,594 |             25% |            11,368 | Er is veel vrije ruimte             |
+|        301,189 |             50% |            12,537 | Dit voorbeeld zit nabij de top      |
+|        542,139 |             90% |             3,846 | Groei vertraagt sterk bij de limiet |
+
+De getallen vergelijken één onveranderde limiet. Ze bewijzen niet dat 25%, 50% of 90% universeel juist is en bevatten geen vijandelijke aanval.
+
+### Wat een City verandert
+
+Een City verhoogt `maxTroops`. Zij **geneest geen huidige Troops**, vult nieuwe capaciteit niet direct en garandeert niet dat het gebouw lang genoeg overleeft.
+
+Na de verhoging vult de natuurlijke formule de vrije ruimte met tijd. Een City is alleen een herstelmiddel wanneer grens en Gold die vertraagde waarde kunnen beschermen.
+
+Valt de kern bijna, dan kunnen huidige Troops of een goedkopere route belangrijker zijn. Dat is een tactische vergelijking, geen verborgen koopregel.
+
+## Gebruik vriendelijke steun als voorwaarde
+
+De engine behandelt self, teamgenoot en speler in een actieve alliance als `friendly`. Donaties hangen nog van de modusconfiguratie af; de relatie alleen schakelt niets in.
+
+Een Troop-donatie mag de ontvanger niet boven `maxTroops` brengen. Gold- en Troop-donaties van dezelfde afzender aan dezelfde ontvanger delen een **afkoeltijd van 10 seconden**.
+
+Vraag vóór die cooldown: heeft de ontvanger Troops nodig om nu te houden, of Gold om capaciteit, verdediging of een route vrij te maken?
+
+Een kleine Troop-donatie kan bij weinig vrije capaciteit waarde verliezen. Een kleine Gold-donatie kan Troops vertragen die de grens hadden gehouden.
+
+Deze pagina houdt alleen die keuze. Volledige rollen, doelkeuze en donatievolgorde horen bij de aparte teamstrategie.
+
+De controles staan in [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts), [DonateGoldExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts) en [DonateTroopExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts).
+
+## Behandel Doomsday als urgente drempel
+
+De Doomsday Clock is geen geografische cirkel en geen vaste doodsklok. Zij vergelijkt elke geldige zijde met het huidige aandeel bruikbaar land.
+
+De eerste 10 minuten is de drempel nul. Op normale snelheid stijgt elke latere stap 168 seconden en volgt een pauze van 54 seconden.
+
+| Stap | FFA-drempel | Team-drempel |
+| ---: | ----------: | -----------: |
+|    1 |          2% |           3% |
+|    2 |          4% |           6% |
+|    3 |          7% |          10% |
+|    4 |         11% |          15% |
+|    5 |         17% |          21% |
+|    6 |         25% |          28% |
+|    7 |         35% |          35% |
+
+FFA beoordeelt het bruikbare landaandeel van elke speler. Team telt het land van de hele zijde op en past hetzelfde resultaat op alle leden toe.
+
+De huidige **leader side** is vrijgesteld. Dat is een dynamisch zijresultaat, geen blijvende immuniteit van een genoemde speler of ploeg.
+
+Stappen en optelling staan in [DoomsdayClock.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts).
+
+### Onder de drempel
+
+Onder de huidige drempel begint eerst een **waarschuwing van 30 seconden**. Meet in die tijd het exacte tekort in tiles en kies bereikbaar, houdbaar land.
+
+Daarna stijgt Troop-drain in **90 seconden** van **2% naar 5% van `maxTroops` per seconde**. De Troop-floor daalt in dezelfde 90 seconden van **40% naar 5%**.
+
+Territory rot loopt na de skull door en bereikt na **150 seconden** nul gebied. Dit zijn veranderende statussen, geen vaste dood na twee minuten.
+
+Opnieuw aan de huidige drempel voldoen **wist onmiddellijk** waarschuwing, drain en rot. De rotstatus wordt zonder vaste hersteltijd gereset.
+
+Stijgt de drempel later, dan kan de zijde opnieuw risico lopen. Eén gewiste status verwijdert geen toekomstige landeis.
+
+Overgangen en reset staan in [DoomsdayClockExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts) en de [tests van de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts).
+
+## Vier numerieke scenario's
+
+### Scenario 1: een beschadigde aanval terugtrekken
+
+Een aanval begon met **160,000 Troops**. Wanneer terugtrekking na 20 ticks wordt uitgevoerd, blijven **100,000** over.
+
+```text
+returned = 100,000 * 0.75 = 75,000
+```
+
+Er keren 75,000 terug, geen 120,000. Na gevechtsverlies telt het oorspronkelijke aantal niet meer als malusbasis.
+
+Gaan tijdens het wachten nog 10,000 verloren, dan wordt de basis 90,000 en de terugkeer 67,500. Daarom telt het venster van twee seconden.
+
+### Scenario 2: hetzelfde land, andere sterkte
+
+Houd het voorbeeld van 10,000 tiles zonder City gelijk. Op 25% van de limiet groeit het met ongeveer **11,368 Troops per seconde**; op 90% met **3,846**.
+
+Onder deze aannames is het verschil ongeveer 7,522 per seconde. Het toont de limietwerking, maar kiest geen veilige reserve tegen de buur.
+
+### Scenario 3: de eerste Doomsday-stap
+
+Neem **1,000,000 bruikbare landtiles** en een voltooide eerste ramp op normale snelheid aan.
+
+Een FFA-speler heeft 2% nodig, dus **20,000 tiles**. Een Team-zijde heeft 3% nodig, dus **30,000 tiles als totaal van het team**.
+
+Niet elk lid heeft 30,000 nodig. Eén kan 5,000 en een ander 25,000 houden, tenzij de dynamische uitzondering voor de leader side al geldt.
+
+### Scenario 4: City-capaciteit zonder genezing
+
+Neem 200,000 huidige Troops aan. Een beschermde City verhoogt `maxTroops`. Na voltooiing blijven de huidige Troops 200,000; alleen toekomstige ruimte groeit.
+
+Verovert de vijand de City of valt hij vóór het vullen aan, dan lost de aankoop de directe verdediging niet op. De engine geeft capaciteit, geen onmiddellijke genezing.
+
+## Herbouw in afhankelijkheidsvolgorde
+
+Herstel eindigt wanneer de positie één nuttige actie kan uitvoeren zonder dezelfde instorting te heropenen. Niet elke balk en elk gebouw hoeft eerst het oude niveau te bereiken.
+
+Gebruik deze volgorde als redactionele checklist:
+
+1. **Stabiele kern:** verbonden land en huidige Troops overleven de volgende bekende aanval.
+2. **Groeipad:** vrije limiet en tijd, of correct geordende vriendelijke steun.
+3. **Nuttige route:** neutraal land, zwakke grens, transport of handel met duidelijke waarde.
+4. **Beschermde investering:** City, verdediging, Port, Factory of nucleaire capaciteit achter de korte grens.
+5. **Begrensde actie:** claim, ontlasting, routeopening of tegenaanval met een stopvoorwaarde.
+
+Sla iets alleen over wanneer de kaart het al geeft. Een veilig eiland kan een kern zonder landroute hebben; onder Doomsday moet land soms vóór een langetermijnaankoop komen.
+
+### Gate vóór herintrede
+
+Beantwoord vóór een aanval vier vragen. Welke waarde maakt hij? Wie kan hem straffen? Welke reserve blijft? Welke verliezen of bordveranderingen stoppen hem?
+
+Ontbreekt een antwoord, bouw dan door of verklein de actie. Dit begrenst risico en berekent geen winstkans.
+
+Wacht niet automatisch op `maxTroops`. Groei vertraagt bij de limiet, terwijl de vijand land, bouw, donaties of de Doomsday-drempel vooruithelpt.
+
+Val ook niet alleen aan omdat groei snel is. Weinig Troops met veel ruimte kunnen verdwijnen voordat de formule de inzet terugverdient.
+
+## Pas het plan aan het verlies aan
+
+### Na een grensbreuk
+
+Verkort contact voordat je infrastructuur vervangt. Verbonden land dat een vijandhoek verwijdert is nuttiger dan losse tiles die alleen de score verhogen.
+
+De tegenstander kan het terugtrekvenster drukken, de terugkerende kern raken of de route bezetten voordat groei telt.
+
+### Na een kernaanval
+
+Inventariseer overlevende Troops, `maxTroops`, verbonden land, Cities, Ports, Silos en SAMs. Herstel de ontbrekende functie, niet het oude uiterlijk.
+
+Landdruk kan op de explosie volgen. City-capaciteit vraagt vultijd; huidige verdediging kan vóór een dure strategische vervanging komen.
+
+### Na economische isolatie
+
+Scheid gebrek aan Gold van gebrek aan Troops. Een route of Gold-donatie opent opties, maar een handelsinvestering houdt alleen geen grens.
+
+De vijand kan embargo instellen, een station doorsnijden of verbindingsland hernemen. Bescherm eerst het kleinste bruikbare netwerk.
+
+### Onder Doomsday-druk
+
+Reken het procenttekort om naar tiles. Gebruik in Team het zijtotaal. Neem land dat bereikbaar en houdbaar is voordat waarschuwing, drain en rot de aanvalskracht wegnemen.
+
+De vijand kan Terra Nullius nemen, de corridor aanvallen of de drempel verhogen terwijl je elders investeert. Bereken na grote landveranderingen opnieuw.
+
+## Veelgemaakte fouten en tegenspel
+
+### “Terugtrekken geeft altijd 75% van de start terug”
+
+Tegen een speler keert 75% van de bij uitvoering overlevende aanvalstroepen terug. De 20 ticks veranderen dat aantal; Terra Nullius en een nieuwe alliance zijn uitzonderingen.
+
+### “Ik moet één vast Troop-percentage houden”
+
+Geen percentage past bij alle grenzen, reistijden, limieten, modi en vijanden. Vrije ruimte helpt groei; direct gevaar bepaalt de minimumreserve.
+
+### “Een City geneest het leger”
+
+Zij verhoogt alleen `maxTroops`. Huidige Troops springen niet bij voltooiing of upgrade; de nieuwe ruimte moet later worden gevuld.
+
+### “Doomsday doodt altijd na twee minuten”
+
+De status bevat 30 seconden waarschuwing, ramps van 90 seconden en 150 seconden territory rot. Opnieuw voldoen wist actieve effecten direct.
+
+### “De leider is blijvend immuun”
+
+De uitzondering hoort bij de huidige leader side. Die kan wisselen en Team beoordeelt het actuele totaal van de zijde.
+
+### “Wachten is altijd veilig”
+
+Wachten laat Troops groeien, maar geeft vijanden tijd voor routes, capaciteit, steun of een hogere landeis. Herstel vraagt een meetbaar eindpunt.
+
+## FAQ over herstel
+
+### Hoe lang duurt terugtrekken?
+
+Het wacht 20 simulation ticks, bij normale snelheid ongeveer twee seconden. Snelheid en schade in dat venster veranderen het zichtbare proces en resultaat.
+
+### Geeft het 75% van de oorspronkelijke aanval terug?
+
+Nee. Tegen een speler keert 75% van de bij uitvoering levende aanvalstroepen terug. Terra Nullius heeft geen malus en een nieuwe alliance kan die ook verwijderen.
+
+### Welk Troop-percentage groeit het snelst?
+
+Formule en limiet bepalen de curve. De wiskundige top is geen universele reserve; vijand, route, tijd, land en modus blijven veiligheid bepalen.
+
+### Herstelt een City Troops?
+
+Nee. Een City verhoogt `maxTroops` en geneest of vult huidige Troops niet. Extra capaciteit ontstaat pas door groei of een toegestane donatie.
+
+### Kan een bondgenoot of teamgenoot direct redden?
+
+Alleen als donaties aanstaan en afzender, ontvanger, cooldown, saldo en vrije Troop-limiet slagen. Gold en Troops delen voor één ontvanger 10 seconden.
+
+### Moet ik Doomsday uitzitten?
+
+Nee. Opnieuw aan de huidige drempel voldoen wist actieve waarschuwing, drain en rot direct. Een latere verhoging kan nieuw risico maken.
+
+### Geldt de Team-drempel per speler?
+
+Nee. Team telt bruikbaar land van de zijde op en past het resultaat op iedereen toe. De huidige leader side is vrijgesteld, maar die status kan veranderen.
+
+### Wanneer is herstel klaar?
+
+Wanneer de positie een begrensde, waardevolle actie aankan zonder hetzelfde verlies te heropenen. Dat kan onder de Troop-limiet en zonder alle oude gebouwen.
+
+## Bronnen en verder lezen
+
+- [Officiële OpenFront v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Configuratie en groeiconstanten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
+- [Uitvoering van Human-groei](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts)
+- [Troop-aftrek en friendly-takken](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts)
+- [Wachttijd en terugtrekmalus](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/RetreatExecution.ts)
+- [Doomsday-drempels per zijde](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Waarschuwing, drain, rot en reset](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Terugtrektests van de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Attack.test.ts)
+- [Doomsday-tests van de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/DoomsdayClockExecution.test.ts)
+
+Lees voor de hele formule de [gids voor troepengroei](/nl/guides/population-growth/). Gebruik voor alle golven de [Doomsday Clock-gids](/nl/guides/doomsday-clock/).
+
+Lees na stabilisatie de [economische basis](/nl/strategies/economy-fundamentals/). Gebruik voor de korte eerste-partijversie de [beginnersgids](/nl/guides/first-match/).
+
+Is de positie stabiel, orden steun met [teamrollen](/nl/strategies/team-roles/) en beoordeel alliantie, embargo en vertrek met [diplomatie en verraad](/nl/strategies/diplomacy-betrayal/).

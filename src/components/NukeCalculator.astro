@@ -1,0 +1,364 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+
+const copy = {
+  en: {
+    eyebrow: 'v0.33.7 nuclear planning tool',
+    title: 'Nuke cost and launcher calculator',
+    intro: 'Compare exact purchase costs, ready launcher slots, SAM range, and a theoretical interceptor-slot gap.',
+    budget: 'Budget and strike package',
+    gold: 'Current Gold',
+    globalMirvs: 'MIRVs already launched globally',
+    atoms: 'Atom Bombs planned',
+    hydrogens: 'Hydrogen Bombs planned',
+    mirvs: 'MIRVs planned in sequence',
+    launchers: 'Launcher readiness',
+    siloLevel: 'Missile Silo level',
+    siloUsed: 'Silo slots cooling down',
+    samLevel: 'SAM Launcher level',
+    samUsed: 'SAM slots cooling down',
+    incoming: 'Incoming SAM-eligible projectiles',
+    results: 'Calculated results',
+    weaponCost: 'Total weapon cost',
+    remaining: 'Gold after purchases',
+    nextMirv: 'Next MIRV price before this plan',
+    mirvSeries: 'Planned MIRV sequence cost',
+    siloReady: 'Ready Silo tubes',
+    samReady: 'Ready SAM shots',
+    samRange: 'SAM range at this level',
+    slotDelta: 'Theoretical projectile-slot gap',
+    affordable: 'Affordable with entered Gold',
+    shortfall: 'Gold shortfall',
+    positive: 'More eligible projectiles than ready SAM shots',
+    neutral: 'Eligible projectiles equal ready SAM shots',
+    negative: 'More ready SAM shots than eligible projectiles',
+    caveatTitle: 'What this number cannot prove',
+    caveat: 'A positive gap does not guarantee penetration, and a zero or negative gap does not guarantee interception. Geometry, trajectories, targetable flight segments, timing, SAM choice, and MIRV target generation still decide the result.',
+  },
+  zh: {
+    eyebrow: 'v0.33.7 核武规划工具',
+    title: '核武成本与发射器计算器',
+    intro: '比较可精确计算的购买成本、就绪槽位、SAM 射程，以及仅供压力判断的理论拦截槽位差。',
+    budget: '预算与打击编组',
+    gold: '当前 Gold',
+    globalMirvs: '全局已经发射的 MIRV 数',
+    atoms: '计划购买的原子弹数',
+    hydrogens: '计划购买的氢弹数',
+    mirvs: '计划连续购买的 MIRV 数',
+    launchers: '发射器就绪状态',
+    siloLevel: 'Missile Silo 等级',
+    siloUsed: '正在冷却的 Silo 槽位',
+    samLevel: 'SAM Launcher 等级',
+    samUsed: '正在冷却的 SAM 槽位',
+    incoming: '来袭且可被 SAM 瞄准的投射物',
+    results: '计算结果',
+    weaponCost: '武器总成本',
+    remaining: '购买后剩余 Gold',
+    nextMirv: '执行本计划前下一枚 MIRV 的价格',
+    mirvSeries: '计划中 MIRV 序列总价',
+    siloReady: '就绪的 Silo 发射管',
+    samReady: '就绪的 SAM 拦截弹',
+    samRange: '当前等级的 SAM 射程',
+    slotDelta: '理论投射物与拦截槽位差',
+    affordable: '输入的 Gold 足够',
+    shortfall: 'Gold 缺口',
+    positive: '可瞄准投射物多于就绪 SAM',
+    neutral: '可瞄准投射物与就绪 SAM 数量相等',
+    negative: '就绪 SAM 多于可瞄准投射物',
+    caveatTitle: '这个数字不能证明什么',
+    caveat: '槽位差为正不保证突防，为零或负也不保证拦截。地图几何、轨迹、可瞄准飞行段、时序、SAM 选目标以及 MIRV 实际生成目标数仍会决定结果。',
+  },
+  fr: {
+    eyebrow: 'Outil de planification nucléaire v0.33.7',
+    title: 'Calculateur de coût nucléaire et de lanceurs',
+    intro: 'Comparez les coûts exacts, les emplacements prêts, la portée SAM et un écart théorique entre projectiles et intercepteurs.',
+    budget: 'Budget et groupe de frappe',
+    gold: 'Gold disponible',
+    globalMirvs: 'MIRV déjà lancés dans la partie',
+    atoms: 'Bombes atomiques prévues',
+    hydrogens: 'Bombes à hydrogène prévues',
+    mirvs: 'MIRV prévus à la suite',
+    launchers: 'État des lanceurs',
+    siloLevel: 'Niveau du Missile Silo',
+    siloUsed: 'Emplacements Silo en recharge',
+    samLevel: 'Niveau du SAM Launcher',
+    samUsed: 'Emplacements SAM en recharge',
+    incoming: 'Projectiles entrants éligibles au SAM',
+    results: 'Résultats calculés',
+    weaponCost: 'Coût total des armes',
+    remaining: 'Gold restant après achat',
+    nextMirv: 'Prix du prochain MIRV avant ce plan',
+    mirvSeries: 'Coût de la série de MIRV prévue',
+    siloReady: 'Tubes Silo prêts',
+    samReady: 'Tirs SAM prêts',
+    samRange: 'Portée SAM à ce niveau',
+    slotDelta: 'Écart théorique projectiles-emplacements',
+    affordable: 'Le Gold saisi suffit',
+    shortfall: 'Gold manquant',
+    positive: 'Plus de projectiles éligibles que de tirs SAM prêts',
+    neutral: 'Autant de projectiles éligibles que de tirs SAM prêts',
+    negative: 'Plus de tirs SAM prêts que de projectiles éligibles',
+    caveatTitle: 'Ce que ce nombre ne prouve pas',
+    caveat: "Un écart positif ne garantit pas une percée, et un écart nul ou négatif ne garantit pas une interception. Géométrie, trajectoires, segments ciblables, timing, choix du SAM et génération des cibles MIRV décident encore du résultat.",
+  },
+  de: {
+    eyebrow: 'v0.33.7-Werkzeug für Nuklearplanung',
+    title: 'Rechner für Atomwaffenkosten und Werfer',
+    intro: 'Vergleiche exakte Kaufkosten, bereite Slots, SAM-Reichweite und eine theoretische Lücke zwischen Geschossen und Abfangslots.',
+    budget: 'Budget und Angriffspaket',
+    gold: 'Aktuelles Gold',
+    globalMirvs: 'Global bereits gestartete MIRVs',
+    atoms: 'Geplante Atombomben',
+    hydrogens: 'Geplante Wasserstoffbomben',
+    mirvs: 'Nacheinander geplante MIRVs',
+    launchers: 'Bereitschaft der Werfer',
+    siloLevel: 'Stufe des Missile Silo',
+    siloUsed: 'Abklingende Silo-Slots',
+    samLevel: 'Stufe des SAM Launcher',
+    samUsed: 'Abklingende SAM-Slots',
+    incoming: 'Ankommende SAM-fähige Geschosse',
+    results: 'Berechnete Ergebnisse',
+    weaponCost: 'Gesamtkosten der Waffen',
+    remaining: 'Gold nach den Käufen',
+    nextMirv: 'Preis des nächsten MIRV vor diesem Plan',
+    mirvSeries: 'Kosten der geplanten MIRV-Serie',
+    siloReady: 'Bereite Silo-Rohre',
+    samReady: 'Bereite SAM-Schüsse',
+    samRange: 'SAM-Reichweite auf dieser Stufe',
+    slotDelta: 'Theoretische Geschoss-Slot-Lücke',
+    affordable: 'Das eingegebene Gold reicht aus',
+    shortfall: 'Fehlendes Gold',
+    positive: 'Mehr geeignete Geschosse als bereite SAM-Schüsse',
+    neutral: 'Geeignete Geschosse und bereite SAM-Schüsse sind gleich',
+    negative: 'Mehr bereite SAM-Schüsse als geeignete Geschosse',
+    caveatTitle: 'Was diese Zahl nicht beweist',
+    caveat: 'Eine positive Lücke garantiert keinen Durchbruch; null oder negativ garantiert keinen Abschuss. Geometrie, Flugbahnen, zielbare Segmente, Timing, SAM-Zielwahl und MIRV-Zielerzeugung entscheiden weiterhin.',
+  },
+  nl: {
+    eyebrow: 'v0.33.7-hulpmiddel voor nucleaire planning',
+    title: 'Calculator voor kernwapenkosten en lanceerders',
+    intro: 'Vergelijk exacte aankoopkosten, gereedstaande slots, SAM-bereik en een theoretisch verschil tussen projectielen en onderscheppers.',
+    budget: 'Budget en aanvalspakket',
+    gold: 'Huidig Gold',
+    globalMirvs: 'Wereldwijd al gelanceerde MIRVs',
+    atoms: 'Geplande atoombommen',
+    hydrogens: 'Geplande waterstofbommen',
+    mirvs: 'Achtereenvolgens geplande MIRVs',
+    launchers: 'Gereedheid van lanceerders',
+    siloLevel: 'Niveau van de Missile Silo',
+    siloUsed: 'Afkoelende Silo-slots',
+    samLevel: 'Niveau van de SAM Launcher',
+    samUsed: 'Afkoelende SAM-slots',
+    incoming: 'Inkomende projectielen die SAM kan kiezen',
+    results: 'Berekende resultaten',
+    weaponCost: 'Totale wapenkosten',
+    remaining: 'Gold na aankopen',
+    nextMirv: 'Prijs van de volgende MIRV vóór dit plan',
+    mirvSeries: 'Kosten van de geplande MIRV-reeks',
+    siloReady: 'Gereedstaande Silo-buizen',
+    samReady: 'Gereedstaande SAM-schoten',
+    samRange: 'SAM-bereik op dit niveau',
+    slotDelta: 'Theoretisch verschil projectielen-slots',
+    affordable: 'Het ingevoerde Gold is voldoende',
+    shortfall: 'Ontbrekend Gold',
+    positive: 'Meer geschikte projectielen dan gereedstaande SAM-schoten',
+    neutral: 'Evenveel geschikte projectielen als gereedstaande SAM-schoten',
+    negative: 'Meer gereedstaande SAM-schoten dan geschikte projectielen',
+    caveatTitle: 'Wat dit getal niet bewijst',
+    caveat: 'Een positief verschil garandeert geen doorbraak; nul of negatief garandeert geen onderschepping. Geometrie, banen, richtbare vluchtsegmenten, timing, SAM-doelkeuze en MIRV-doelvorming bepalen nog steeds het resultaat.',
+  },
+} as const;
+
+const t = copy[lang];
+---
+
+<section class="not-prose my-10 overflow-hidden rounded-lg border border-iron-700 bg-iron-900/50" data-nuke-calculator data-locale={lang}>
+  <header class="border-b border-iron-700 px-4 py-5 sm:px-6">
+    <p class="font-mono text-xs uppercase text-cannon-400">{t.eyebrow}</p>
+    <h2 class="mt-1 text-xl font-semibold text-iron-50 sm:text-2xl">{t.title}</h2>
+    <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">{t.intro}</p>
+  </header>
+
+  <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.9fr)]">
+    <div class="divide-y divide-iron-800 lg:border-r lg:border-iron-700">
+      <fieldset class="grid gap-4 p-4 sm:grid-cols-2 sm:p-6">
+        <legend class="col-span-full mb-1 text-sm font-semibold text-military-200">{t.budget}</legend>
+        <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
+          <span>{t.gold}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="gold" min="0" max="999999999999" step="250000" value="200000000" data-testid="nuke-gold" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
+          <span>{t.globalMirvs}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="globalMirvs" min="0" max="1000" step="1" value="0" data-testid="nuke-global-mirvs" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.atoms}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="atoms" min="0" max="999" step="1" value="2" data-testid="nuke-atoms" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.hydrogens}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="hydrogens" min="0" max="999" step="1" value="1" data-testid="nuke-hydrogens" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
+          <span>{t.mirvs}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="mirvs" min="0" max="100" step="1" value="3" data-testid="nuke-mirvs" />
+        </label>
+      </fieldset>
+
+      <fieldset class="grid gap-4 p-4 sm:grid-cols-2 sm:p-6">
+        <legend class="col-span-full mb-1 text-sm font-semibold text-military-200">{t.launchers}</legend>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.siloLevel}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="siloLevel" min="1" max="100" step="1" value="5" data-testid="nuke-silo-level" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.siloUsed}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="siloUsed" min="0" max="100" step="1" value="2" data-testid="nuke-silo-used" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.samLevel}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="samLevel" min="1" max="100" step="1" value="5" data-testid="nuke-sam-level" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200">
+          <span>{t.samUsed}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="samUsed" min="0" max="100" step="1" value="2" data-testid="nuke-sam-used" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
+          <span>{t.incoming}</span>
+          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="incoming" min="0" max="10000" step="1" value="5" data-testid="nuke-incoming" />
+        </label>
+      </fieldset>
+    </div>
+
+    <section class="p-4 sm:p-6" aria-live="polite" aria-labelledby={`nuke-results-${lang}`}>
+      <h3 id={`nuke-results-${lang}`} class="text-sm font-semibold text-military-200">{t.results}</h3>
+      <dl class="mt-4 divide-y divide-iron-800 border-y border-iron-800 text-sm">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.weaponCost}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-total-cost"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300" data-balance-label>{t.remaining}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-balance"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.nextMirv}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-next-mirv"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.mirvSeries}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-mirv-series"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.siloReady}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-silo-ready"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.samReady}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-sam-ready"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.samRange}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-sam-range"></dd>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-3">
+          <dt class="text-iron-300">{t.slotDelta}</dt>
+          <dd class="font-mono text-right text-iron-50" data-testid="nuke-slot-delta"></dd>
+        </div>
+      </dl>
+      <p class="mt-3 text-xs text-iron-400" data-testid="nuke-slot-reading"></p>
+
+      <div class="mt-5 border-l-2 border-cannon-500 pl-4">
+        <h4 class="text-sm font-semibold text-iron-100">{t.caveatTitle}</h4>
+        <p class="mt-1 text-xs leading-relaxed text-iron-300" data-testid="nuke-caveat">{t.caveat}</p>
+      </div>
+    </section>
+  </div>
+</section>
+
+<script is:inline define:vars={{ copy }}>
+  const ATOM_COST = 750_000n;
+  const HYDROGEN_COST = 5_000_000n;
+  const MIRV_BASE_COST = 25_000_000n;
+  const MIRV_STEP_COST = 15_000_000n;
+
+  function asInteger(container, name, fallback = 0) {
+    const field = container.querySelector(`[name="${name}"]`);
+    if (!(field instanceof HTMLInputElement)) return fallback;
+    const parsed = Number.parseInt(field.value, 10);
+    if (!Number.isFinite(parsed)) return fallback;
+    const min = field.min === '' ? Number.MIN_SAFE_INTEGER : Number(field.min);
+    const max = field.max === '' ? Number.MAX_SAFE_INTEGER : Number(field.max);
+    return Math.min(max, Math.max(min, parsed));
+  }
+
+  function formatGold(value, locale) {
+    const sign = value < 0n ? '-' : '';
+    const magnitude = value < 0n ? -value : value;
+    return `${sign}${new Intl.NumberFormat(locale).format(magnitude)} Gold`;
+  }
+
+  for (const root of document.querySelectorAll('[data-nuke-calculator]')) {
+    if (!(root instanceof HTMLElement)) continue;
+    const form = root;
+    const localeKey = root.dataset.locale || 'en';
+    const locale = localeKey === 'zh' ? 'zh-CN' : localeKey;
+    const labels = copy[localeKey] ?? copy.en;
+
+    const output = (testId) => root.querySelector(`[data-testid="${testId}"]`);
+
+    const update = () => {
+      const gold = BigInt(asInteger(form, 'gold'));
+      const globalMirvs = BigInt(asInteger(form, 'globalMirvs'));
+      const atoms = BigInt(asInteger(form, 'atoms'));
+      const hydrogens = BigInt(asInteger(form, 'hydrogens'));
+      const mirvs = BigInt(asInteger(form, 'mirvs'));
+      const siloLevel = asInteger(form, 'siloLevel', 1);
+      const siloUsed = asInteger(form, 'siloUsed');
+      const samLevel = asInteger(form, 'samLevel', 1);
+      const samUsed = asInteger(form, 'samUsed');
+      const incoming = asInteger(form, 'incoming');
+
+      const nextMirv = MIRV_BASE_COST + MIRV_STEP_COST * globalMirvs;
+      const mirvSeries = mirvs * nextMirv + 7_500_000n * mirvs * (mirvs - 1n);
+      const totalCost = atoms * ATOM_COST + hydrogens * HYDROGEN_COST + mirvSeries;
+      const balance = gold - totalCost;
+      const siloReady = Math.max(0, siloLevel - Math.min(siloLevel, siloUsed));
+      const samReady = Math.max(0, samLevel - Math.min(samLevel, samUsed));
+      const samRange = 150 - 480 / (samLevel + 5);
+      const slotDelta = incoming - samReady;
+
+      const values = {
+        'nuke-total-cost': [formatGold(totalCost, locale), totalCost.toString()],
+        'nuke-balance': [formatGold(balance, locale), balance.toString()],
+        'nuke-next-mirv': [formatGold(nextMirv, locale), nextMirv.toString()],
+        'nuke-mirv-series': [formatGold(mirvSeries, locale), mirvSeries.toString()],
+        'nuke-silo-ready': [String(siloReady), String(siloReady)],
+        'nuke-sam-ready': [String(samReady), String(samReady)],
+        'nuke-sam-range': [`${new Intl.NumberFormat(locale, { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(samRange)} tiles`, samRange.toFixed(1)],
+        'nuke-slot-delta': [slotDelta > 0 ? `+${slotDelta}` : String(slotDelta), String(slotDelta)],
+      };
+
+      for (const [testId, [text, raw]] of Object.entries(values)) {
+        const target = output(testId);
+        if (target instanceof HTMLElement) {
+          target.textContent = text;
+          target.dataset.value = raw;
+        }
+      }
+
+      const balanceLabel = root.querySelector('[data-balance-label]');
+      if (balanceLabel) balanceLabel.textContent = balance >= 0n ? labels.remaining : labels.shortfall;
+
+      const reading = output('nuke-slot-reading');
+      if (reading) {
+        reading.textContent = slotDelta > 0 ? labels.positive : slotDelta === 0 ? labels.neutral : labels.negative;
+      }
+    };
+
+    root.addEventListener('input', update);
+    update();
+  }
+</script>

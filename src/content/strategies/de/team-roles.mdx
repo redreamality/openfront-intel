@@ -1,0 +1,405 @@
+---
+title: 'OpenFront-Teamrollen: Ein flexibler Koordinationsrahmen'
+description: Koordiniere Front, Spenden, Ziele, Bahn, Marine und nukleare Abschreckung, ohne OpenFront-Rollen als feste Klassen zu behandeln.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [team, roles, donations, coordination]
+category: Team
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Am 2026-08-22 mit dem offiziellen v0.33.7-Tag geprüft: Spendenschalter, gemeinsame Abklingzeit, Zielmarkierungen, friendly-Beziehungen und Train-Erträge."
+---
+
+## Direkte Antwort
+
+In v0.33.7 besitzt OpenFront keine festen Teamklassen. Nutze Rollen als veränderbaren Plan: Die Front nimmt Druck auf, Spender verschieben die knappe Ressource und Zielansager bündeln Aufmerksamkeit.
+
+Bahn, Marine und nukleare Abschreckung halten Unterstützungswege bereit. Teile diese Aufgaben neu zu, sobald Grenzen, Kapazität, Gold oder Infrastruktur wechseln.
+
+Spenden hängen von Modus, Empfängerkapazität und einer gemeinsamen Abklingzeit von 10 Sekunden ab. Eine Zielmarkierung teilt 10 Sekunden Absicht, nicht vollständige Sicht. Geprüft am 2026-08-22.
+
+## Rollen sind Entscheidungen, keine Klassen
+
+Das Spiel bestimmt niemanden als Front, Spender, Ansager, Logistiker, Seefahrer oder Nuklearspezialisten. Diese sechs Namen sind ein redaktioneller Rahmen für aktuelle Arbeit.
+
+Sie geben weder passive Boni noch exklusive Rechte oder eine geschützte Position. Ein Spieler kann zwei Aufgaben tragen und eine vor der nächsten Aktion abgeben.
+
+Rollen beantworten eine Frage: Wer kann den aktuellen Engpass des Teams mit den geringsten Opportunitätskosten lösen?
+
+Eine feste Aufstellung ignoriert die Karte. Öffnet sich eine Grenze, wird der Spender zur Front; verliert das Wasser seine Bedeutung, wird der Seefahrer zum Logistiker.
+
+Der Code belegt Aktionen, Zeiten und Ressourcengrenzen. Er beweist keine feste Sechseraufstellung, Spendenreihenfolge oder Rollenverteilung mit garantierter Siegquote.
+
+## Friendly, Teammate und Ally unterscheiden
+
+Im Engine-Code umfasst **friendly** den eigenen Spieler, Mitglieder desselben Teams und Spieler in einer aktiven Alliance. Gewöhnliche Landangriffe können keinen friendly treffen.
+
+Ein **teammate**, also Teammitglied, gehört zum vom Modus bestimmten Team. Ein **ally**, also Verbündeter, ist über das zeitlich begrenzte Alliance-System verbunden.
+
+Beide Beziehungen laufen bei einigen Prüfungen in friendly zusammen, etwa bei der Spendenberechtigung. Sie sind dennoch nicht derselbe Zustand.
+
+Teamzugehörigkeit ist keine befristete Alliance. Eine Alliance kann ablaufen, verlängert oder gebrochen werden; darauf gebaute Routen und Hilfeannahmen können sich im Match ändern.
+
+Der Unterschied verändert auch Train-Erträge. Ein Ally-Stopp zahlt im aktuellen Code eine andere Basis als ein Teammate-Stopp.
+
+Quellen: [PlayerImpl.ts][player-source], [AttackExecution.ts][attack-source] und [TrainStation.ts][train-source].
+
+## Vor der Spenderrolle den Modusschalter prüfen
+
+Öffentliche Playlists nutzen in v0.33.7 diese Vorgaben. Eine benutzerdefinierte Lobby kann die Funktionsschalter ändern.
+
+| Öffentlicher Modus | Donate Gold | Donate Troops | Folge für die Planung |
+| --- | --- | --- | --- |
+| Team | An | An | Der Spender kann standardmäßig beide Ressourcen wählen. |
+| FFA | Aus | Aus | Eine Alliance allein aktiviert Spenden nicht. |
+| Ranked 1v1 | Aus | Aus | Ohne abweichende Sonderregel keine Transfers einplanen. |
+| Ranked 2v2 | An | An | Beide Spendenarten sind standardmäßig verfügbar. |
+
+Schreibe nicht „Jeder Ally kann immer spenden“. Sender und Empfänger müssen leben und friendly sein; Human-Spieler hängen zusätzlich vom passenden Lobby-Schalter ab.
+
+Auch „FFA-Spenden sind unmöglich“ ist zu pauschal. Die öffentliche FFA-Vorgabe schaltet sie aus, eine benutzerdefinierte Lobby kann anders eingestellt sein.
+
+Quellen: [MapPlaylist.ts][playlist-source], [DonateGoldExecution.ts][gold-source] und [DonateTroopExecution.ts][troop-source].
+
+## Eine aktuelle Teamübersicht führen
+
+Notiere vor der Aufgabenverteilung sechs Zustände. Die Übersicht muss nach Grenzbruch, Port-Verlust oder großem Transfer schnell aktualisierbar bleiben.
+
+| Frage | Nützliches Signal | Wahrscheinlicher Rollenwechsel |
+| --- | --- | --- |
+| Wer nimmt Landdruck auf? | Eingehende Angriffe, Grenzlänge, Reserve | Front / Anker |
+| Wer kann Troops erhalten? | Aktuelle Troops und `maxTroops`-Spielraum | Spende / Wirtschaft |
+| Welcher Gegner zählt jetzt? | Angriff, offenes Gebäude, Landung | Zielansager |
+| Welches Netz rechnet noch ab? | City- oder Port-Stopp, Route, Embargo | Bahn / Handelslogistik |
+| Welches Wasser ändert Bewegung? | Transportweg, Port, Engstelle | Marineunterstützung |
+| Wer kann nuklear reagieren? | Gold, Silo, SAM-Druck, Gefährdung | Nukleare Abschreckung |
+
+Diese Übersicht ist ein redaktionelles Werkzeug, keine Spielanzeige. Sie verhindert, dass eine alte Zuweisung nach Ende ihrer Aufgabe weiterlebt.
+
+Prüfe sie neu, wenn ein Empfänger sein Limit erreicht, eine Route bricht, eine Markierung endet oder der Gegner den Unterstützer angreift.
+
+## Rolle 1: Front oder Anker
+
+Die Front nimmt aktuellen Landdruck auf und meldet, welche Hilfe den Kampf verändert. Ihr Ergebnis ist ein stabiler Kontakt, nicht der größte Gebietsanteil im Team.
+
+Melde Richtung, nutzbare Troops, Spielraum des Empfängers und ein nahes Ziel. „Schickt alles“ verschweigt das Limit, das einen Transfer kürzen kann.
+
+Nutze target, wenn genau ein Feind Priorität hat. Die Markierung zeigt nicht automatisch alle Einheiten, Goldbestände oder verdeckten Gebiete des Gegners.
+
+**Wechselsignal:** Übergib die Rolle, wenn die Grenze kürzer wird, der Nachbar wechselt oder Doomsday-Druck eine andere Gebietserholung dringlicher macht.
+
+**Gegnerischer Konter:** Druck auf zwei Fronten oder ein Angriff auf die Hilfsroute. Der Anker muss dann den wirklich entscheidenden Kontakt benennen.
+
+## Rolle 2: Spender oder Wirtschaft
+
+Der Spender fragt, ob Gold oder Troops in den nächsten 10 Sekunden den größeren Engpass löst. Er verschiebt nicht reflexhaft jeden sichtbaren Überschuss.
+
+Troop-Spenden sind durch den freien Platz bis `maxTroops` und durch den tatsächlich abziehbaren Bestand des Senders begrenzt. Gold ist durch dessen verfügbares Guthaben begrenzt.
+
+Die Standardanforderung für Troops beträgt ein Drittel der aktuellen Sender-Troops, doch der echte Transfer kann kleiner sein. Dieser Standard ist keine empfohlene Reservequote.
+
+Gold und Troops desselben Senders an denselben Empfänger teilen eine Abklingzeit von 10 Sekunden. Eine kleine Spende kann die dringendere Ressource blockieren.
+
+**Wechselsignal:** Stoppe, wenn der Empfänger fast am Limit ist, die Front hält oder der Spender selbst zum Angriffsziel wird und Reserven braucht.
+
+**Gegnerischer Konter:** Den Spender bedrängen oder mehrere Empfänger zugleich Hilfe fordern lassen. Die gemeinsame Abklingzeit erzwingt Prioritäten.
+
+## Rolle 3: Zielansager
+
+Der Zielansager nutzt eine kurze Markierung für eine aktuelle Priorität. Der Client zeigt Markierungen von teammates und allies gemeinsam, doch sie bleiben Koordinationssignale.
+
+Eine Zielmarkierung ist 10 Sekunden sichtbar. Die Fähigkeit desselben Senders hat 15 Sekunden Abklingzeit.
+
+Damit bleiben etwa 5 Sekunden, in denen die alte Markierung weg ist und dieser Sender noch keine neue setzen kann. Sprache, Pings oder sichtbare Lage müssen die Lücke tragen.
+
+Target ist kein Befehl. Es erzwingt keinen Angriff, überträgt keine Kontrolle und zeigt keine vollständigen verborgenen Informationen des Ziels.
+
+**Wechselsignal:** Wechsle den Ansager, wenn seine Abklingzeit eine neue Gefahr blockiert oder ein anderer Spieler die wichtige Front besser überblickt.
+
+**Gegnerischer Konter:** Zwei glaubhafte Gefahren zeigen oder nach der Markierung zurückgehen. Das Team darf einer abgelaufenen Priorität nicht automatisch folgen.
+
+## Rolle 4: Bahn- und Handelslogistik
+
+Logistik hält Verbindungen zwischen Factory, City und Port abrechnungsfähig. Eigentum und Beziehung zählen genauso wie die verlegte Strecke.
+
+Bei 1x-Multiplikator ohne lange Stoppstrafe zahlt ein Ally-Stopp 35.000 Basis-Gold an den Train-Besitzer und 35.000 an den fremden Stationsbesitzer.
+
+Ein Teammate-Stopp zahlt beiden Seiten je 25.000. Ein Other-Stopp zahlt ebenfalls je 25.000; ein Self-Stopp verzeichnet einmal 10.000.
+
+Bei einem fremden Stopp erhält jede Seite den vollen Betrag; sie teilen keinen Topf. Gold-Multiplikator und Stoppstrafe einer langen Route können das Ergebnis ändern.
+
+Behaupte nicht, Teammate-Routen zahlten die höchste Basis. Der v0.33.7-Zweig weist die 35.000 einem Ally-Stopp zu.
+
+**Wechselsignal:** Ändere die Rolle bei unterbrochener Route, Handelsblockade, neuem Stationsbesitzer oder unverhältnismäßigen Verteidigungskosten.
+
+**Gegnerischer Konter:** Einen Stopp erobern, eine schmale Verbindung kappen oder den diplomatischen Zustand ändern. Berechne das aktive Netz neu.
+
+## Rolle 5: Marineunterstützung
+
+Marineunterstützung schützt den Wasserweg, der Teambewegung verändert. Sie eskortiert Transports, verhindert Landungen und schützt einen nützlichen Port, statt Warships zu zählen.
+
+Frage fortlaufend, ob das Wasser wichtige Fronten verbindet. Wird der Kampf kontinental oder fällt der Port, lösen Schiffe den aktuellen Engpass womöglich nicht mehr.
+
+Stimme das Landungsfenster mit Front und Zielansager ab. Ohne bereite Land-Troops kann eine geschützte Überfahrt kein Gebiet gewinnen.
+
+**Wechselsignal:** Wechsle, wenn der Gegner die Route aufgibt, kein brauchbarer Port bleibt oder Bodenarbeit sofort mehr Wert schafft.
+
+**Gegnerischer Konter:** Eine Überfahrt antäuschen, die Stützküste angreifen oder die Flotte vom Port weglocken. Schütze die Route, nicht einen abstrakten Flottenwert.
+
+## Rolle 6: Nukleare Abschreckung
+
+Abschreckung hält genug Gold, Silo-Zugang und geschützte Infrastruktur für eine strategische Antwort bereit. Sie ist keine Erlaubnis, jedes verfügbare Ziel zu beschießen.
+
+Melde, welche Antwort wirklich bereit ist und welche Anlage offenliegt. Verbrauche die Reserve nicht an einem schwachen Ziel, wenn bald ein dringender Konter nötig sein kann.
+
+Diese Rolle stimmt Spenden ab, bevor sie Gold für Verteidigung oder Bau verbrauchen. Sie prüft außerdem, ob ein Ally-Zustand noch aktiv ist.
+
+**Wechselsignal:** Verteile neu, wenn das Silo fällt, SAM-Druck Flugbahnen ändert, Nuklearoptionen aus sind oder ein anderer Spieler sicherere Anlagen besitzt.
+
+**Gegnerischer Konter:** Anlagen bedrängen, wertvolle Ziele verteilen oder die Reserve zu zwei Antworten zwingen. Abschreckung ist Kapazität, keine Kontrollgarantie.
+
+## Spendenentscheidung: Empfänger, Kapazität, Ressource, Abklingzeit
+
+Beantworte vor jedem dringenden Transfer vier Fragen. Ihre Reihenfolge dient der Diagnose und schreibt keine feste Spendenfolge vor.
+
+1. **Empfänger:** Lebt der Zielspieler, ist er friendly und ist diese Spendenart in der Lobby aktiviert?
+2. **Kapazität:** Wie viel Troop-Spielraum bleibt, und wie viel kann der Sender tatsächlich abziehen?
+3. **Ressource:** Halten Troops sofort die Linie, oder ermöglicht Gold das wichtigere Gebäude, Limit oder Gegenmittel?
+4. **Abklingzeit:** Hat dieser Sender dem Empfänger in den letzten 10 Sekunden eine der beiden Ressourcen gespendet?
+
+Die Ressourcenpriorität ist taktisch. Abklingzeit, Spielraum, Lebensstatus, friendly-Zustand und Konfiguration sind Engine-Grenzen.
+
+Verschiedene Spender führen eigene Einträge. Daraus folgt keine globale Teamabklingzeit und kein Umgehen durch Gold-Troops-Wechsel desselben Senders.
+
+Prüfe nach einem Troop-Transfer den erhaltenen Betrag. Auch eine gültige Anforderung kann durch Spielraum oder Senderkapazität gekürzt werden.
+
+### Szenario 1: Spielraum kürzt eine Troop-Spende
+
+Angenommen, der Empfänger besitzt `maxTroops = 200.000` und aktuell `185.000` Troops. Seine freie Kapazität ist:
+
+`headroom = 200.000 - 185.000 = 15.000`
+
+Selbst bei angeforderten 30.000 kann der Empfänger unter dieser Annahme höchstens 15.000 erhalten.
+
+Danach gehen Gold- und Troop-Spenden dieses Senders an diesen Empfänger gemeinsam in die 10-sekündige Abklingzeit.
+
+Die Lehre lautet nicht „immer Troops zuerst“. Prüfe die Kapazität und entscheide dann, welche Ressource das gemeinsame Fenster verdient.
+
+Quellen: [DonateTroopExecution.ts][troop-source], [PlayerImpl.ts][player-source] und [offizielle Spendertests][donation-tests].
+
+### Szenario 2: Kleine Spende blockiert dringendes Gold
+
+Angenommen, die Front braucht eine kleine Troop-Ergänzung und 120.000 Gold für eine Aktion, die das Team für dringender hält.
+
+Sendet ein Spender zuerst die Troops, kann er nicht sofort Gold an denselben Empfänger senden. Die gemeinsame Abklingzeit beträgt 10 Sekunden.
+
+Ein anderer berechtigter Spender kann einen eigenen Eintrag besitzen, doch Guthaben, friendly-Zustand und Modusschalter gelten weiterhin.
+
+Wähle die Ressource, die in den nächsten 10 Sekunden den größeren Engpass löst. Der Code gibt keine allgemeingültige Reihenfolge vor.
+
+Quellen: [DonateGoldExecution.ts][gold-source], [DonateTroopExecution.ts][troop-source] und [Donate.test.ts][donation-tests].
+
+## Zielzeit: 10 Sekunden sichtbar, 15 Sekunden gesperrt
+
+Behandle target als kurzes Absichtssignal: „Jetzt hier konzentrieren“, nicht als Freigabe aller Informationen über den markierten Spieler.
+
+Bei `t = 0` markiert der Ansager einen Feind. Die Markierung bleibt bis ungefähr `t = 10s` sichtbar.
+
+Die Abklingzeit desselben Senders endet etwa bei `t = 15s`. Rund 5 Sekunden lang ist die alte Markierung weg, während dieser Ansager keine neue setzen kann.
+
+### Szenario 3: Die Lücke zwischen Markierungen
+
+Angenommen, der markierte Gegner zieht sich bei `t = 9s` zurück und eine größere Gefahr erscheint bei `t = 11s`.
+
+Die alte Markierung ist verschwunden, doch der ursprüngliche Ansager bleibt bis etwa `t = 15s` gesperrt. Ein anderer Ansager oder externer Kanal muss den Wechsel tragen.
+
+Das spricht für rotierende Verantwortung, nicht für einen permanenten Ansager. Der bestinformierte verfügbare Spieler kann das nächste Fenster übernehmen.
+
+Der Client zeigt Ally- und Teammate-Markierungen gemeinsam. Er vereinigt weder Nebel, Einheitendaten, Goldbestände noch automatische Angriffe.
+
+Quellen: [TargetPlayerExecution.ts][target-source] und [PlayerView.ts][view-source].
+
+## Train-Stopps: Beziehungen ändern die Basiszahlung
+
+Bewerte Bahnhilfe an funktionierenden Stopps, nicht an der gesamten Gleislänge. Ein abgeschlossener Fremdstopp zahlt jeder Seite den Beziehungsbetrag.
+
+### Szenario 4: Ally-Stopp gegen Teammate-Stopp
+
+Angenommen, der Gold-Multiplikator ist 1x und es greift keine Stoppstrafe für lange Routen.
+
+Am Teammate-Stopp erhält der Train-Besitzer 25.000 und der Stationsbesitzer ebenfalls 25.000.
+
+Am Ally-Stopp erhält der Train-Besitzer 35.000 und der Stationsbesitzer ebenfalls 35.000.
+
+In diesem engen Vergleich bringt der Ally-Stopp somit jeder Partei 10.000 Basis-Gold mehr.
+
+Das beweist keine allgemeine Überlegenheit von Alliances. Beschrieben wird nur der Train-Zweig; Dauer, Embargo, Sicherheit und Teamziel bleiben getrennt.
+
+Quelle: [TrainStation.ts][train-source].
+
+### Szenario 5: Other bedeutet nicht null
+
+Unter denselben Annahmen zahlt ein Stopp eines Other-Spielers 25.000 an den Train-Besitzer und 25.000 an den Stationsbesitzer.
+
+Die Handelserlaubnis zählt weiterhin. Ein Embargo in einer Richtung kann die Verbindung unbrauchbar machen, obwohl die Tabelle einen Other-Zweig enthält.
+
+Mache aus der Zahl kein Versprechen für jede sichtbare Fremdstation. Prüfe Diplomatie und aktive Route.
+
+## Koordinationszyklus ohne feste Baureihenfolge
+
+Prüfe nach Zustandsänderungen kurz neu. Die folgende Folge ist ein Gesprächswerkzeug, kein Engine-Timer und keine zwingende Spielanweisung.
+
+### 1. Den Druck benennen
+
+Bestimme Angriff, Landung, Routenbruch, Kapazitätsmangel oder Nukleargefahr, die den nächsten unumkehrbaren Verlust verursachen kann.
+
+Vergib keine sechs Rollen, wenn nur zwei Aufgaben zählen. Leere Etiketten verbrauchen Aufmerksamkeit und verdecken ein unbesetztes Risiko.
+
+### 2. Den Engpass benennen
+
+Wähle zwischen Troops, Gold, Spielraum, Zielklarheit, Route, Wasserzugang oder geschützter Feuerkraft.
+
+So beantwortet der Spender kein volles Truppenlimit mit mehr Troops und die Flotte schützt kein Wasser, das keine Bewegung mehr trägt.
+
+### 3. Einen Besitzer und ein Wechselsignal bestimmen
+
+Der Besitzer erledigt die nächste nützliche Aktion. Das Signal beendet die Aufgabe: Limit erreicht, Marker abgelaufen, Grenze zu, Route gekappt oder Anlage verloren.
+
+Ohne Wechselsignal wird eine vorübergehende Aufgabe zur Klasse und bleibt nach Ende ihres Werts bestehen.
+
+### 4. Das Ergebnis prüfen
+
+Kontrolliere Empfangsbetrag, Markierung, abgerechneten Stopp, sichere Überfahrt oder erhaltene Antwort. Ein Versuch ist noch kein Teamergebnis.
+
+## Anpassungen an Modus und Karte
+
+### Öffentliches Team und Ranked 2v2
+
+Gold- und Troop-Spenden sind standardmäßig an. Gemeinsame Empfängerabklingzeit und Spielraumprüfung bleiben bestehen.
+
+Mehr Transfers schaffen mehr Optionen. Sie erlauben dem Spender nicht, seine eigene offene Grenze ohne Reserve zu lassen.
+
+### Öffentliches FFA und Ranked 1v1
+
+Beide Spendenarten sind standardmäßig aus. Eine Alliance macht Spieler friendly, überschreibt aber keinen deaktivierten Human-Spendenschalter.
+
+Benutzerdefinierte Lobbys können die Schalter ändern. Übertrage öffentliche Vorgaben nicht ungeprüft auf private Matches.
+
+### Kontinentale Karten
+
+Front- und Bahnrollen können dominieren, wenn Landwege die meisten Ziele verbinden. Verringere Marinehilfe, wenn Wasser keine Bewegung ändert.
+
+Lange Verbindungen besitzen mehr Schnittpunkte. Logistik verteidigt den Stopp oder Übergang, dessen Verlust echte Abrechnung ändert, nicht jedes Ziergleis.
+
+### Meerengen und Inselkarten
+
+Marineunterstützung kann zentral werden, wenn eine Überfahrt das Team verbindet. Nach erfolgreicher Eskorte braucht die Front genug Troops zur Nutzung.
+
+Fällt der entscheidende Port, prüfe sofort neu. Eine unerreichbare Marinemission weiter zu finanzieren ist Rollenträgheit.
+
+### Nuklearwaffen oder SAMs deaktiviert
+
+Ohne Nuklearwaffen hat Abschreckung keine normale Aufgabe. Verteile Gold und Aufmerksamkeit an einen aktiven Engpass.
+
+Sind Nukes aktiv, aber SAMs aus, zählen Abstände und Gefährdung. Plane keinen Schutz um einen Launcher, den die Lobby verbietet.
+
+## Fehlerbilder und gegnerische Konter
+
+### Starre Jobtitel
+
+Der Spender überweist weiter, nachdem er selbst zur offenen Front wurde, oder die Marine baut Schiffe, obwohl das Wasser nichts mehr entscheidet.
+
+Verbinde jede Rolle mit einem Wechselsignal. Sie beschreibt die nächste Verantwortung, nicht die Identität eines Spielers für das ganze Match.
+
+### Spende an einen vollen Empfänger
+
+Das Team fordert viel an, ohne `maxTroops`-Spielraum zu prüfen. Die Menge wird gekürzt, doch der Sender verbraucht das gemeinsame 10-Sekunden-Fenster.
+
+Lies zuerst die Kapazität. Wenn Gold einen anderen Engpass löst, vergleiche es vor einer der beiden Spenden.
+
+### Doppelte oder alte Ziele
+
+Mehrere Spieler markieren verschiedene Feinde, oder alle folgen einer Markierung nach einer Lageänderung.
+
+Halte pro sichtbarem Fenster eine Priorität. Die 15 Sekunden Senderabklingzeit und die Bewegung des Gegners verlangen Neubewertung.
+
+### Markierung als gemeinsame Sicht lesen
+
+Das Team versteht target als vollständige Aufklärung und setzt Kräfte aufgrund nie geteilter Einheiten- oder Ressourcendaten ein.
+
+Nenne den sichtbaren Grund für die Wahl. Der Code belegt gemeinsame Markeranzeige, nicht vollständigen gemeinsamen Kriegsnebel.
+
+### Bahnbeziehung falsch bewerten
+
+Das Team nimmt 35.000 für Teammate-Stopps an oder glaubt, zwei Parteien teilten eine Belohnung.
+
+Nutze die Basistabelle: Ally je 35.000; Teammate und Other je 25.000; Self einmal 10.000. Rechne danach Multiplikator und Strafe ein.
+
+### Angriff auf das Unterstützungsnetz
+
+Ein Gegner kann den Spender bedrängen, eine Bahn kappen, einen Port erobern, die Front teilen oder Nuklearanlagen bedrohen.
+
+Diese Konter besiegen den Rahmen nicht automatisch. Sie zwingen das Team, Engpass und Verantwortlichkeit zu aktualisieren.
+
+## FAQ zu Teamrollen
+
+### Sperrt OpenFront Spieler in Rollen?
+
+Nein. Die sechs Rollen sind ein redaktioneller Koordinationsrahmen. Die Engine bietet Aktionen und Beziehungen, keine Berufe oder Rollenboni.
+
+### Kann jeder Ally eine Spende erhalten?
+
+Nicht immer. Beide müssen leben und friendly sein; Human-Spenden müssen aktiviert sein. Öffentliches FFA und Ranked 1v1 schalten beide Arten standardmäßig aus.
+
+### Haben Gold und Troops getrennte Abklingzeiten?
+
+Nein. Beide Spenden desselben Senders an denselben Empfänger nutzen denselben 10-Sekunden-Eintrag.
+
+### Kann eine Troop-Spende `maxTroops` überschreiten?
+
+Nein. Empfängerspielraum und Senderkapazität begrenzen den Transfer. Die angekommene Menge kann kleiner als angefordert sein.
+
+### Teilt target die vollständige Sicht?
+
+Nein. Ally- und Teammate-Marker sind 10 Sekunden sichtbar, zeigen aber nicht allen Nebel, Einheiten oder Ressourcen und erzwingen keinen Angriff.
+
+### Warum verschwindet der Marker vor der nächsten Markierung?
+
+Er ist 10 Sekunden sichtbar, während die Abklingzeit desselben Senders 15 Sekunden dauert. Die Lücke beträgt ungefähr 5 Sekunden.
+
+### Zahlt ein Teammate-Train-Stopp 35.000?
+
+Nein. Der Basiszweig zahlt jeder Seite 25.000. Ein Ally-Stopp zahlt jeder Seite 35.000; Multiplikator und Stoppstrafe ändern mögliche Istwerte.
+
+### Gibt es die beste feste Teamaufstellung?
+
+Keine geprüfte Quelle beweist sie. Vergib nur Aufgaben, die Grenze, Netz, Kapazität und Gefahr verlangen, und wechsle bei den benannten Signalen.
+
+## Quellen und nächste Schritte
+
+Die aktuelle Grenze ist das offizielle [OpenFront-v0.33.7-Release][release]. Alle folgenden Code- und Testlinks sind auf denselben Tag festgelegt.
+
+- [PlayerImpl.ts][player-source] für friendly, Spendeneinträge, Handel und Truppenlimits.
+- [MapPlaylist.ts][playlist-source] für öffentliche Modusvorgaben.
+- [DonateGoldExecution.ts][gold-source] und [DonateTroopExecution.ts][troop-source] für Berechtigung und Grenzen.
+- [TargetPlayerExecution.ts][target-source] und [PlayerView.ts][view-source] für Zeit und kombinierte Ally- oder Teammate-Anzeige.
+- [TrainStation.ts][train-source] für Ally-, Teammate-, Other- und Self-Zahlungen.
+- [Offizielle Spendertests][donation-tests] und [Alliance-Spendertests][alliance-donation-tests] für gemeinsame Abklingzeit und friendly-Grenzen.
+
+Lies weiter bei [Team-Seekontrolle](/de/strategies/team-naval-control/), [nuklearer Abschreckung](/de/strategies/nuclear-deterrence/) und [Handelsmechanik](/de/mechanics/trade/).
+
+Prüfe [Bündnisse und Verrat](/de/mechanics/alliances/), bevor du eine Ally-Route wie feste Team-Infrastruktur behandelst.
+
+Bricht ein Teammitglied bereits ein, beginne mit dem [Recovery-Playbook](/de/strategies/recovery-playbook/). Für Bündnis, Embargo und Ausstieg folgt [Diplomatie und Verrat](/de/strategies/diplomacy-betrayal/).
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[gold-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateGoldExecution.ts
+[troop-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DonateTroopExecution.ts
+[playlist-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts
+[target-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TargetPlayerExecution.ts
+[view-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/view/PlayerView.ts
+[train-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TrainStation.ts
+[donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/Donate.test.ts
+[alliance-donation-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceDonation.test.ts

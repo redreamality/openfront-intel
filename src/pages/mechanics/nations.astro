@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Callout from '../../components/Callout.astro';
+import FreshnessSummary from '../../components/FreshnessSummary.astro';
+
+const base = import.meta.env.BASE_URL;
+const verifiedDate = new Date('2026-08-22T00:00:00Z');
+---
+
+<BaseLayout title="OpenFront Nation AI behavior and counterplay" description="How OpenFront v33.7 Nations expand, choose targets, build, ally, betray, use fleets and nuclear weapons, and how players can respond.">
+  <PageHeader eyebrow="MECHANICS · NATIONS" title="Nation AI behavior and counterplay" lead="Read Nations as conditional decision systems, not fixed scripts. Their difficulty, reserves, relationships, routes, resources, and seeded random stream all change the next action." />
+  <article class="container-prose py-10 prose prose-invert max-w-none">
+    <FreshnessSummary
+      lang="en"
+      version="v33.7"
+      verifiedDate={verifiedDate}
+      summary="Checked against the official v0.33.7 Nation runtime and tagged tests. Exact thresholds are code facts; tactical advice changes eligibility and cost but cannot force one AI response."
+    />
+
+    <h2>Direct answer: what does a Nation actually do?</h2>
+    <p>A Nation is not a fixed build order. After spawning, it combines attack, alliance, construction, Warship, ordinary nuke, and MIRV behaviors.</p>
+    <p>Difficulty changes action timing, target order, troop reserves, alliance rules, building scores, and special counters. Each Nation also receives a seeded deterministic pseudorandom stream.</p>
+    <p>You can influence its candidates through troops, relations, borders, structures, fleets, and incoming attacks. You cannot make it permanently friendly or predict one guaranteed next action.</p>
+
+    <Callout type="info" title="Code thresholds are not match win rates">
+      <p>The v0.33.7 source and tagged tests define candidate rules. They do not provide public match telemetry, player-skill controls, or a best-strategy tier list.</p>
+    </Callout>
+
+    <h2>Nation, Bot, and Tribe are not the same</h2>
+    <table>
+      <thead><tr><th>Actor</th><th>What overlaps</th><th>What matters to the player</th></tr></thead>
+      <tbody>
+        <tr><td>Nation</td><td>Uses shared AI attack utilities</td><td>Adds relationships, alliances, structures, fleets, nukes, MIRV, embargo, betrayal, and Nation-specific signals.</td></tr>
+        <tr><td>Ordinary Bot</td><td>Can share target and attack code</td><td>Does not run the full Nation diplomacy, construction, and nuclear behavior suite described here.</td></tr>
+        <tr><td>Tribe</td><td>Is another non-human map actor</td><td>Do not infer Nation alliances, build ratios, or nuclear choices from Tribe behavior.</td></tr>
+      </tbody>
+    </table>
+    <p>This distinction also changes exceptions. Some FFA reserve rules exclude ordinary Bots, and Team or Humans vs Nations can take separate branches.</p>
+
+    <h2>The Nation decision loop</h2>
+    <ol>
+      <li><strong>Spawn:</strong> initialize a deterministic random stream from game ID and Nation ID, then draw individual thresholds.</li>
+      <li><strong>First expansion:</strong> immediately attack Terra Nullius once, then prefer adjacent non-fallout neutral land in later attack checks.</li>
+      <li><strong>Reserve check:</strong> normally stop regular attacks below the individual 30–39% reserve.</li>
+      <li><strong>Trigger check:</strong> normally choose active targets at 50–59% of maximum troops, with a 1/10 chance to continue below it.</li>
+      <li><strong>Priority queue:</strong> run the first target strategy that finds a valid candidate and completes an action.</li>
+      <li><strong>Parallel systems:</strong> diplomacy, structures, Warships, embargo, nuclear weapons, and signals run at their own points in the cycle.</li>
+    </ol>
+    <p>Neutral expansion and reclaiming Bot land with structures use the lower 10–19% individual expansion reserve. This does not remove route, ownership, or target checks.</p>
+    <p>The random stream is deterministic for a game and Nation, but later draws depend on earlier calls. Similar visible positions do not guarantee identical actions.</p>
+
+    <h2>Four difficulty levels</h2>
+    <table>
+      <thead><tr><th>Difficulty</th><th>Main action interval</th><th>General human attack gate</th><th>Defense and infrastructure</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>65–99 ticks</td><td>25% passes each general check</td><td>No responsive Defense Post, 0% rail scoring, no ship-event counter.</td></tr>
+        <tr><td>Medium</td><td>55–69 ticks</td><td>75% passes</td><td>50% Defense Post gate, at most one per front; 60% rail scoring; 15% ship-counter build gate.</td></tr>
+        <tr><td>Hard</td><td>45–59 ticks</td><td>No extra mercy gate</td><td>75% FFA neighbor floor; 75% rail scoring; 50% ship-counter build gate.</td></tr>
+        <tr><td>Impossible</td><td>30–49 ticks</td><td>No extra mercy gate</td><td>90% FFA neighbor floor; 100% rail scoring; 80% ship-counter build gate.</td></tr>
+      </tbody>
+    </table>
+    <p>The Hard and Impossible troop floor protects against the strongest non-friendly, non-Bot neighbor in ordinary FFA. Team, Bots, and a Nation under attack use exceptions.</p>
+    <p>Easy can still attack humans. The 25% pass is one gate, not a per-turn attack probability, and retaliation, traitor, non-human, or Humans vs Nations paths differ.</p>
+
+    <h2>How Nations choose attacks</h2>
+    <p>The attack behavior scans actual land neighbors and nearby players. If valid neutral land exists, it tries expansion before normal enemy strategies.</p>
+    <p>With no adjacent enemy, there is a 1/5 chance to sample an island attack. With an adjacent enemy, there is a 1/10 chance to try an island route first.</p>
+    <p>A failed category does not force an attack. The queue continues until one strategy succeeds or no candidate remains.</p>
+    <table>
+      <thead><tr><th>Target label</th><th>Code meaning</th><th>Player reading</th></tr></thead>
+      <tbody>
+        <tr><td>Retaliation</td><td>Prioritize the largest incoming attacker</td><td>A superior army is not immunity if you are already sending troops.</td></tr>
+        <tr><td>Very weak</td><td>Target below 15% of its own maximum troops, with an FFA strength bound</td><td>A depleted bar can create a candidate before territory size changes.</td></tr>
+        <tr><td>Victim</td><td>Incoming troops exceed 50% of the target's current troops</td><td>A player already under heavy attack may attract another Nation.</td></tr>
+        <tr><td>Weakest</td><td>Lowest current troops among adjacent enemies</td><td>This is a local border comparison, not the weakest player worldwide.</td></tr>
+        <tr><td>Island</td><td>Choose among two nearest reachable candidates; 1/3 may pick the second</td><td>A continuous route matters, but the nearest coast is not guaranteed.</td></tr>
+      </tbody>
+    </table>
+    <p>Target order changes by difficulty. Impossible starts with retaliation, Bots, and very weak targets; Easy gives nuked land and Bots earlier priority.</p>
+    <p>Bot attack concurrency is Easy 1, Medium randomly 1 or 2, Hard 3, and Impossible 100. This limit is not a promise that enough valid targets exist.</p>
+
+    <h2>Defense Posts, structures, and placement</h2>
+    <h3>Responsive Defense Posts</h3>
+    <p>A responsive Defense Post is never the first Nation structure. Easy does not build this response.</p>
+    <p>Medium uses a 50% gate and limits the front to one. Hard and Impossible require total incoming land troops of at least 35% of the Nation's current troops.</p>
+    <p>At that threshold, the requested count is <code>ceil(incoming / current / 0.4)</code>. Gold, valid positions, and other checks can still prevent construction.</p>
+    <p>Sea attacks do not count toward this 35% structure branch. Smaller land probes still affect relation, retaliation, and other behavior.</p>
+
+    <h3>Regular structure targets</h3>
+    <table>
+      <thead><tr><th>Structure</th><th>Target ratio</th><th>Important boundary</th></tr></thead>
+      <tbody>
+        <tr><td>Port</td><td>0.75 per City</td><td>Needs a valid shared water body and buildable shoreline.</td></tr>
+        <tr><td>Factory</td><td>0.75 per City</td><td>On a coast with Ports enabled, the ratio is multiplied by 0.33.</td></tr>
+        <tr><td>SAM</td><td>0.15 / 0.20 / 0.25 / 0.30 per City</td><td>Easy through Impossible; placement scores protected structures.</td></tr>
+        <tr><td>Missile Silo</td><td>Normally 0.20 per City; first uses 0.40</td><td>Hard cap of three, plus enablement, Gold, space, and saving rules.</td></tr>
+      </tbody>
+    </table>
+    <p>Targets use <code>floor(cityCount × ratio)</code>. They are not a fixed build order or clock.</p>
+    <p>Above one structure per 1,500 tiles, the AI tends to upgrade instead of adding density. Candidate sites are sampled, then scored by terrain, inland depth, spacing, and coverage.</p>
+    <p>With at least 3,000,000 starting Gold, Hard or Impossible can try SAM first when Atom, Silo, and SAM are enabled.</p>
+    <p>At more than one Nation per 7,500 land tiles and no City, the first choice favors Port, or Factory when no shared water qualifies.</p>
+
+    <h2>Ports, Warships, and naval counterplay</h2>
+    <p>A Nation Port needs shoreline on water shared with another player. The ocean always qualifies; inland water needs another player touching the same component.</p>
+    <p>Except on Easy, an inland component below 3,000 water tiles is skipped. A visible coast therefore does not guarantee a Port.</p>
+    <p>The first regular Warship attempt also needs a 1/50 gate, a Port, no current Warship, Gold strictly above cost, and a valid water tile within 250 tiles.</p>
+    <p>Non-Easy Nations with a Port can react to a destroyed transport, captured Trade Ship, or incoming transport. The build gates are 15%, 50%, and 80% from Medium to Impossible.</p>
+    <p>A transport under 20 tiles from landing is considered too close for a new-build response. A friendly Warship or patrol within 90 tiles also suppresses another build.</p>
+    <p>Keep routes short, escort valuable transports, and watch Warship movement. None of those actions guarantees that the random build gate fails.</p>
+
+    <h2>Alliances, embargo, and betrayal</h2>
+    <p>When processing a bordering candidate, an active Nation alliance request first passes a 1/30 gate. A request created during spawn and handled on the first post-spawn tick is rejected.</p>
+    <p>Acceptance considers confusion, traitor status, threat, Team mode, relation, alliance counts, game time, and relative strength. Friendly relation alone is not a contract.</p>
+    <table>
+      <thead><tr><th>Difficulty</th><th>Early acceptance branch</th><th>Team extra refusal</th></tr></thead>
+      <tbody>
+        <tr><td>Easy</td><td>90% in first 5 minutes</td><td>25%</td></tr>
+        <tr><td>Medium</td><td>70% in first 3 minutes</td><td>50%</td></tr>
+        <tr><td>Hard</td><td>50% in first 3 minutes</td><td>75%</td></tr>
+        <tr><td>Impossible</td><td>30% in first minute</td><td>100%</td></tr>
+      </tbody>
+    </table>
+    <p>These values apply only if earlier checks have not returned. A traitor normally fails early, but 10% pass that rejection branch and can still fail later.</p>
+    <p>Hard and Impossible may betray an ally below 20% of its maximum troops when the ally's current troops are lower than the Nation's.</p>
+    <p>Medium may betray at 10× the ally's troops. Non-Easy may also betray a weaker traitor or its only bordering ally when the Nation has over three times the troops.</p>
+    <p>These are candidate rules inside the attack queue. Crossing one threshold does not trigger immediate betrayal.</p>
+    <p>Your embargo gives the Nation's relation toward you a one-time -20. Easy and Medium may auto-remove their embargo at Neutral, Hard at Friendly, while Impossible has no auto-remove branch.</p>
+
+    <h2>Ordinary nukes and MIRV</h2>
+    <p>Ordinary nuclear targeting can prioritize the largest incoming attacker, a crown holder, an ally-marked target, a hostile player, an FFA leader, or a strong Team.</p>
+    <p>Hard and Impossible skip candidate trajectories an enemy SAM can intercept. Impossible may instead try an Atom salvo or upgrade a useful Silo to at most level 5.</p>
+    <p>SAM coverage raises cost and changes candidate paths. SAM is not nuclear immunity.</p>
+    <p>MIRV requires an enabled weapon, a Silo, enough Gold, a target branch, and passing hesitation. Hesitation is 1/2, 1/4, 1/8, and 1/16 from Easy to Impossible.</p>
+    <table>
+      <thead><tr><th>MIRV branch</th><th>Easy</th><th>Medium</th><th>Hard</th><th>Impossible</th></tr></thead>
+      <tbody>
+        <tr><td>Individual land threshold</td><td>75%</td><td>65%</td><td>55%</td><td>40%</td></tr>
+        <tr><td>Team land threshold</td><td>90%</td><td>80%</td><td>70%</td><td>60%</td></tr>
+        <tr><td>City lead: minimum / ratio</td><td>20 / 2.0×</td><td>10 / 1.5×</td><td>10 / 1.25×</td><td>8 / 1.15×</td></tr>
+      </tbody>
+    </table>
+    <p>Other MIRV branches include retaliation against a MIRV sender. Staying below the land threshold does not make a player safe from every nuclear branch.</p>
+    <p>After any Nation targets the same player with MIRV, Nations share a 300-tick cooldown for that target.</p>
+
+    <h2>Three numeric scenarios</h2>
+    <h3>Hard Nation beside a 400,000-troop rival</h3>
+    <p>In ordinary FFA, the Hard floor keeps 75% of that rival's troops. The Nation normally preserves at least 300,000 after an attack.</p>
+    <p>If the Nation is already under attack, the response branch can raise usable troops to at least total incoming troops. The 300,000 floor is not universal.</p>
+
+    <h3>Defense Post pressure at 1,000,000 troops</h3>
+    <p>Combined land attacks of 340,000 are below the 35% Hard/Impossible threshold. At 360,000, the desired count is <code>ceil(0.36 / 0.4) = 1</code>.</p>
+    <p>At 850,000 incoming, the formula asks for three. The Nation can still lack Gold or a valid tile, and the branch can block another regular building for that cycle.</p>
+
+    <h3>Hard MIRV pressure</h3>
+    <p>A player at 55% of individual land qualifies for Hard's victory-prevention branch. A city leader can qualify with at least 10 more Cities and a 1.25× lead over second place.</p>
+    <p>The Hard hesitation is still 1/8, and Silo, Gold, target cooldown, and other checks remain. Qualifying is not the same as being hit immediately.</p>
+
+    <h2>Common failures and counterplay</h2>
+    <ul>
+      <li><strong>“It is below trigger, so it is safe.”</strong> The Nation can pass the 1/10 continuation and retaliation has separate pressure. Keep a reserve near the shared border.</li>
+      <li><strong>“Small probes do nothing.”</strong> They may stay below the Defense Post threshold, but they still change relation, incoming pressure, and retaliation candidates.</li>
+      <li><strong>“A coast means a Port.”</strong> Check shared water and size. Deny buildable shoreline or contest the water before assuming the fleet appears.</li>
+      <li><strong>“Friendly means permanent alliance.”</strong> Avoid traitor state, excessive alliances, and extreme troop weakness. Keep a plan for expiry or betrayal.</li>
+      <li><strong>“SAM ends the nuclear threat.”</strong> Spread high-level structures, vary coverage, and expect high difficulty to seek another path or pressure the SAM.</li>
+      <li><strong>“Impossible is deterministic.”</strong> Its decisions are faster and stricter, but still use individual thresholds, sampling, and random gates.</li>
+    </ul>
+
+    <h2>Nation AI FAQ</h2>
+    <h3>Does a Nation always attack the weakest player?</h3>
+    <p>No. Weakest is one local strategy among retaliation, Bots, ally assistance, traitors, victims, hostile players, islands, and other categories.</p>
+
+    <h3>Can Easy attack a human?</h3>
+    <p>Yes. Its general human check passes 25% of the time, and retaliation, traitor, HvN, and non-human paths have different rules.</p>
+
+    <h3>Can I guarantee an alliance by improving relation?</h3>
+    <p>No. Relation changes eligibility, while traitor status, threat, mode, alliance count, time, strength, and random gates still matter.</p>
+
+    <h3>Will a Nation with a Port build a Warship?</h3>
+    <p>Not necessarily. The regular first ship has a 1/50 gate plus Gold, Port, current-fleet, enablement, and placement requirements.</p>
+
+    <h3>Does Impossible stop being random?</h3>
+    <p>No. Its interval is shorter and its rules are stronger, but thresholds, sampling, hesitation, and build gates remain pseudo-random.</p>
+
+    <h3>Are Nation coordinates fixed human spawns?</h3>
+    <p>No. Manifest coordinates are nearby sampling anchors for Nations. Human spawning follows separate rules.</p>
+
+    <h2>Sources and next reading</h2>
+    <ul>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7" target="_blank" rel="noopener">Official OpenFront v0.33.7 Release</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NationExecution.ts" target="_blank" rel="noopener">NationExecution.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/PseudoRandom.ts" target="_blank" rel="noopener">PseudoRandom.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/utils/AiAttackBehavior.ts" target="_blank" rel="noopener">AiAttackBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationStructureBehavior.ts" target="_blank" rel="noopener">NationStructureBehavior.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationWarshipBehavior.ts" target="_blank" rel="noopener">NationWarshipBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationAllianceBehavior.ts" target="_blank" rel="noopener">NationAllianceBehavior.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationEmojiBehavior.ts" target="_blank" rel="noopener">NationEmojiBehavior.ts</a>.</li>
+      <li><a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationNukeBehavior.ts" target="_blank" rel="noopener">NationNukeBehavior.ts</a> and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/nation/NationMIRVBehavior.ts" target="_blank" rel="noopener">NationMIRVBehavior.ts</a>.</li>
+      <li><a href={`${base}mechanics/alliances/`}>Alliances and betrayal</a>, <a href={`${base}mechanics/nukes/`}>nuclear weapons and SAM</a>, and <a href={`${base}guides/map-strategy/`}>map strategy</a>.</li>
+    </ul>
+  </article>
+</BaseLayout>

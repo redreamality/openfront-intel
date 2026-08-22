@@ -1,0 +1,367 @@
+---
+title: Diplomatie, embargo's en verraad
+description: Een v0.33.7-beslisgids voor alliantieverzoeken, verlengingen, embargo's, traitor-risico en nucleaire aanvallen die een alliantie breken.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [alliances, diplomacy, betrayal, embargoes]
+category: Midden-eindspel
+difficulty: Gevorderd
+version: v33
+freshnessSummary: "Op 2026-08-22 gecontroleerd tegen de officiële tag v0.33.7: verzoeken, verlengingen, embargo's, traitor-straffen en nucleaire alliantiecontroles."
+---
+
+## Direct antwoord
+
+In v0.33.7 draait diplomatie om timers en uitstapkosten. Een verzoek blijft 20 seconden staan, dezelfde speler kan na 30 seconden opnieuw worden gevraagd en de standaardalliantie duurt 300 seconden.
+
+Verlenging vereist beide spelers. Natuurlijk verlopen is geen verraad. Handmatig verbreken kan 30 seconden `traitor` geven, terwijl embargo's en nucleaire controles handel of alliantiestatus vóór de geplande aanval kunnen wijzigen.
+
+## Versiegrens en begrippen
+
+Deze gids is op 2026-08-22 geverifieerd. Hij beschrijft regels en afwegingen, niet één gegarandeerd beste timing voor verraad.
+
+Een **ally** zit in een actieve alliantie. Een **teammate** behoort tot hetzelfde vaste team. Beiden kunnen `friendly` zijn, maar hun status is niet hetzelfde.
+
+Een alliantie kan worden aangevraagd, verlengd, natuurlijk verlopen of handmatig verbroken. De normale break-alliance-actie heft geen team op.
+
+De standaardduur is vijf minuten. Een aangepaste lobby kan één tot 15 minuten kiezen. Een duur van nul schakelt allianties uit.
+
+Ook de oudere instelling om allianties uit te schakelen blokkeert verzoeken. Controleer dus de lobby voordat je op precies 300 seconden plant.
+
+De feiten komen uit de officiële [release v0.33.7][release], vaste tag-broncode en officiële tests. Tactische adviezen blijven besliskaders.
+
+## Vier vragen vóór een diplomatieke actie
+
+Eerste vraag: **hoeveel tijd resteert** voor verzoek, alliantie, verlengingsvenster, temporary embargo of traitor-status?
+
+Tweede vraag: **wat kost de uitstap**? Kun je natuurlijk verloop afwachten, of rechtvaardigt direct verbreken de kwetsbaarheid?
+
+Derde vraag: **welk netwerk valt uit** als één richting een embargo toepast en Ports of Trains niet meer kunnen handelen?
+
+Vierde vraag: **welke nuke vliegt al**? Acceptatie kan een projectiel verwijderen, terwijl een geplande explosie de alliantie kan verbreken.
+
+Deze vragen kiezen niet automatisch. Ze maken toestandswissels zichtbaar die aan een plotseling urgente grens makkelijk worden gemist.
+
+Benoem ook het doel: herstel beschermen, handel openhouden, een buffer maken of Troops naar een ander front verplaatsen.
+
+## Alliantieverzoek: 20 seconden in een cyclus van 30
+
+Een `alliance request` blijft 20 seconden actief. De cooldown voor dezelfde speler duurt 30 seconden vanaf het maken van het oorspronkelijke verzoek.
+
+De cooldown start niet pas na afloop. Een verzoek op `t = 0` verdwijnt rond `t = 20s`; dezelfde speler wordt rond `t = 30s` opnieuw beschikbaar.
+
+Na het verlopen wacht je dus ongeveer tien seconden, geen extra 30. Dat venster kan informatie geven, maar is geen onmiddellijke verdediging.
+
+Heeft de andere speler al een inkomend verzoek gestuurd, dan accepteert jouw tegenverzoek die alliantie. Er blijven geen twee losse verzoeken tussen hetzelfde paar bestaan.
+
+### Scenario 1: een gemist verzoek
+
+Je verstuurt het verzoek om `12:00`. Het blijft tot ongeveer `12:20` beschikbaar. Rond `12:30` mag je dezelfde speler opnieuw vragen.
+
+Houdt de grens die tien seconden niet, dan redt de diplomatieknop je niet. Je hebt nog steeds Troops, ruimte of een andere uitweg nodig.
+
+Stuurt de ander tijdens het wachten zelf een verzoek, dan kan jouw tegenverzoek het accepteren. Controleer daarna wat de nieuwe friendly grens werkelijk vrijmaakt.
+
+Bronnen: [AllianceRequestExecution.ts][request-source], [AllianceRequestImpl.ts][request-model] en [officiële tests][request-tests].
+
+## Acceptatie verandert het bord direct
+
+Een actieve alliantie maakt beide spelers friendly voor gewone landaanvallen. Een lopende aanval tussen de nieuwe allies wordt zonder normale terugtrekkingsstraf teruggehaald.
+
+Acceptatie verwijdert ook temporary embargoes tussen de twee spelers. Handmatige embargo's blijven bestaan.
+
+Het spel controleert relevante nukes die al onderweg zijn. Projectielen tussen de nieuwe allies worden verwijderd als ze de nieuwe alliantie zouden breken.
+
+Die bescherming is specifiek. Het is geen wereldwijde wapenstilstand en verwijdert geen wapens van derden.
+
+Vraag vóór acceptatie wat de overeenkomst bewaart: een buffer, handelsroute, hersteltijd of belangrijke structuur.
+
+Controleer daarna of een lopende aanval wordt gewist. De code bewijst die verwijdering, maar niet dat de diplomatieke ruil altijd gunstig is.
+
+## Een verlenging vereist twee beslissingen
+
+Beide spelers moeten een verlenging goedkeuren. Eén kant kan de tijdelijke alliantie niet alleen in een nieuwe volle periode omzetten.
+
+De client opent het verlengingsvenster tijdens de laatste 30 seconden. Wederzijdse goedkeuring start de volledige duur opnieuw vanaf de huidige tick.
+
+Er worden niet slechts 30 seconden aan het oude einde toegevoegd. Bij de standaardinstelling beginnen op het verlengingsmoment 300 nieuwe seconden.
+
+### Scenario 2: de standaardalliantie verlengen
+
+Stel dat de alliantie om `15:00` afloopt. Het verlengingsvenster opent ongeveer om `14:30`.
+
+Beide spelers keuren om `14:42` goed. Het nieuwe einde ligt rond `19:42`, omdat vanaf die tick 300 seconden opnieuw beginnen.
+
+Keurt maar één kant goed, dan is er geen verlenging. De oorspronkelijke alliantie kan om `15:00` natuurlijk verlopen.
+
+Gebruik de laatste 30 seconden om buffer, handel en gedeelde dreiging opnieuw te waarderen. Een zichtbare knop is nog geen wederzijdse toestemming.
+
+Bronnen: [AllianceExtensionExecution.ts][extension-source], [AllianceImpl.ts][alliance-model] en [officiële verlengingstests][extension-tests].
+
+## Natuurlijk verloop is geen verraad
+
+Wanneer de timer normaal eindigt, stopt alleen de alliantiestatus. Natuurlijk verloop past geen traitor-status toe.
+
+Dit is een uitstap met lagere regelkosten als je niet direct hoeft aan te vallen. Je kunt reserves houden en de grens na afloop opnieuw beoordelen.
+
+De oude ally-grens blijft niet veilig. Aanvallen worden weer mogelijk en elke positie die op friendly berustte moet opnieuw worden gecontroleerd.
+
+Het mechanische verschil is duidelijk: verloop beëindigt tijd; handmatig verbreken start een afzonderlijk verraadspad.
+
+### Scenario 3: wachten of verbreken
+
+De alliantie heeft nog 35 seconden. Je hoeft niet meteen aan te vallen en het andere front houdt stand.
+
+Wachten vermijdt het handmatige traitor-pad. Nu verbreken kan 30 seconden kwetsbaarheid veroorzaken en bespaart in dit geval slechts vijf seconden.
+
+Dit bewijst niet dat wachten altijd beter is. Het toont waarom resterende tijd vóór de uitstapkosten moet worden vergeleken.
+
+## Embargo en alliantie zijn aparte staten
+
+Handel wordt geblokkeerd zodra één richting de andere embargoëert. Handel vereist geen alliantie, en een alliantie overschrijft geen actief handmatig embargo.
+
+Een gewone aanval laat het doel een temporary embargo tegen de aanvaller plaatsen. Die toestand eindigt na ongeveer vijf minuten.
+
+Een handmatig embargo is persistent. Het volgt niet hetzelfde automatische verloop.
+
+Bij acceptatie worden alleen temporary embargoes tussen het paar verwijderd. Een handmatig embargo blijft en kan de handel blokkeren.
+
+Leid handelsstatus dus niet af uit het alliantiepictogram. Controleer de echte Port- of Train-verbinding na acceptatie.
+
+`Embargo All` sluit de speler zelf, Bots en teammates uit. De cooldown is tien seconden.
+
+De actie kan snel meerdere externe relaties afsnijden. Het is geen universeel en permanent slot op iedere speler.
+
+Bronnen: [EmbargoExecution.ts][embargo-source], [EmbargoAllExecution.ts][embargo-all], [PlayerImpl.ts][player-source] en [GameImpl.ts][game-source].
+
+### Scenario 4: tijdelijk of handmatig embargo
+
+A valt B aan op `t = 0`. Zonder andere verandering eindigt B's temporary embargo tegen A ongeveer op `t = 300s`.
+
+Op `t = 120s` accepteren beide spelers een alliantie. Het tijdelijke embargo wordt direct verwijderd.
+
+Had B ook handmatig een embargo gezet, dan blijft die persistente toestand bestaan. Handel kan tussen de nieuwe allies geblokkeerd blijven.
+
+Controleer de werkelijke verbinding. Neem niet aan dat een alliantie ieder soort embargo wist.
+
+## Handmatig verbreken en het traitor-venster
+
+Handmatig verbreken volgt niet het pad van natuurlijk verloop. Is de verraden speler verbonden en niet al traitor, dan wordt de verbreker 30 seconden traitor.
+
+De verraden ontvanger slaat een relatiewijziging van `-100` op. Nabije spelers die niet in het team van de ontvanger zitten, slaan `-40` op.
+
+Relation is een toestand in de engine, geen voorspelling van menselijk gedrag. Het getal garandeert geen wraak, vergeving of doelwissel.
+
+Het directe tactische risico komt van gevechtsmodifiers. Tegen een traitor defender worden de verliezen van de aanvaller met `0.5` vermenigvuldigd.
+
+De tile processing cost wordt met `0.8` vermenigvuldigd. Dat verlaagt onder gelijke omstandigheden kosten, maar belooft geen vaste veroveringstijd.
+
+Route, Troops, tegenaanvallen en tick-volgorde bepalen de echte voortgang. `0.8` betekent niet gegarandeerd 20 procent sneller veroveren.
+
+Bronnen: [BreakAllianceExecution.ts][break-source], [gevechtshulpfunctie][combat-source] en [AttackExecution.ts][attack-source].
+
+### Scenario 5: 30 seconden blootstelling
+
+Je verbreekt op `t = 0` terwijl aan de voorwaarden voor verraad is voldaan. De traitor-status loopt tot ongeveer `t = 30s`.
+
+Tijdens dit venster krijgen aanvallers de modifiers `0.5` voor verlies en `0.8` voor tile processing cost tegen jou.
+
+Op `t = 30s` eindigt de status. Verloren Troops, terrein en gewijzigde relaties uit het venster worden niet teruggedraaid.
+
+De vraag is niet of verraad winst garandeert. Vraag of direct handelen deze bekende kwetsbaarheid en relatiekosten waard is.
+
+## Nukes kunnen vóór de inslag verbreken
+
+De nucleaire alliantiecontrole heeft twee onafhankelijke triggers: gewogen ally-terrein boven een drempel, of een bedreigde ally-structuur.
+
+De ingestelde drempel is 100. Iedere ally-tile in de inner radius telt `1`; iedere tile in de outer ring telt `0.5`.
+
+Het totaal moet strikt groter zijn dan 100. Precies 100 activeert de terreinvertakking niet.
+
+De structuurvertakking staat los. Iedere ally-structuur die in de outer blast radius zou worden vernietigd, is genoeg ongeacht het gewogen aantal tiles.
+
+Wanneer een lancering de alliantie moet breken, wijst de uitvoering relevante verzoeken af, breekt de alliantie en volgt de normale traitor-logica.
+
+Bronnen: [Config.ts][config-source], [NukeExecution.ts][nuke-source] en [officiële nuke-tests][nuke-tests].
+
+### Scenario 6: strikt groter dan 100
+
+Een inner gebied bevat 101 ally-tiles. De som is 101, dus de terreinvertakking breekt de alliantie.
+
+Precies 100 inner ally-tiles leveren 100 op. De strikte voorwaarde `> 100` is niet vervuld.
+
+Tweehonderd outer ally-tiles leveren eveneens 100 op, omdat elke tile `0.5` telt. Terrein alleen activeert nog steeds niets.
+
+Deze voorbeelden isoleren de weging. Een structuur in de explosie kan via de andere vertakking het resultaat veranderen.
+
+### Scenario 7: drie tiles en één Port
+
+Stel dat slechts drie ally-tiles in de outer radius liggen. Hun totale gewicht is ver onder 100.
+
+Op één tile staat een ally-Port die door de explosie zou worden vernietigd. De structuurvertakking geldt en de alliantie breekt.
+
+In de buurt van een ally-City, Port, Factory of SAM Launcher is alleen tiles tellen nooit voldoende.
+
+## De lokale grens van MIRVWarhead
+
+In `NukeExecution` v0.33.7 slaat het type `MIRVWarhead` deze alliantiebreukcontrole op die precieze plek over.
+
+Dat is een lokale codegrens. Alleen de uitspraak dat dit warhead-pad de controle daar niet activeert, is ondersteund.
+
+Het bewijst niet dat de MIRV-drager, iedere MIRV-fase of alle latere interacties nooit een alliantie kunnen breken.
+
+Houd de openbare formulering smal. "MIRVWarhead slaat deze controle over" is onderbouwd; "MIRV breekt nooit" niet.
+
+Dezelfde voorzichtigheid geldt voor teams. Teamlidmaatschap is geen alliantie en verdwijnt niet door de break-alliance-actie.
+
+Dat bewijst geen nucleaire immuniteit van teammates. Deze gids doet die uitspraak niet.
+
+## Kiezen tussen verloop, verlenging en verbreken
+
+Kies **natuurlijk verloop** wanneer directe vijandigheid niet nodig is en je het traitor-pad wilt vermijden.
+
+Kies **verlenging** wanneer beide kanten nog profiteren van buffer, handel, herstel of bescherming tegen een gedeelde dreiging.
+
+Overweeg **handmatig verbreken** alleen als direct handelen 30 seconden blootstelling, relatiewijzigingen en verlies van een friendly grens rechtvaardigt.
+
+Overweeg **embargo** als handel ontzeggen op zichzelf waarde heeft. Het hoeft niet bij een aanval te horen en een handmatig embargo kan latere diplomatie overleven.
+
+Controleer nukes vóór iedere overgang. Acceptatie kan geschikte projectielen verwijderen; een geplande blast kan de alliantie vóór de inslag breken.
+
+Dit is geen ranglijst. Kaart, Troops, andere buren en verbonden infrastructuur bepalen welke prijs het zwaarst weegt.
+
+## Veelgemaakte fouten en tegenspel
+
+### De ally koopt alleen tijd
+
+Een alliantie beschermt een grens, maar geeft de ander ook hersteltijd. Houd verdediging over voor afwijzing, verloop of een latere breuk.
+
+Maak de grens niet volledig leeg. Het blokkeren van gewone landaanvallen hangt aan een getimede toestand.
+
+### De verlenging blijft eenzijdig
+
+Eén goedkeuring verlengt niets. Zonder antwoord moet je op het oorspronkelijke einde voorbereiden.
+
+Gebruik de laatste 30 seconden om het front te verkorten, structuren te beschermen en geen nieuwe route afhankelijk te maken van een aflopende friendly status.
+
+### Handel blijft na acceptatie dicht
+
+Zoek eerst naar een handmatig embargo. Acceptatie verwijdert alleen temporary embargoes.
+
+Controleer de echte Port of Train. Investeer niet verder voordat beide richtingen handel toestaan.
+
+### Derden benutten traitor
+
+Andere spelers kunnen het venster van 30 seconden gebruiken. De lagere modifiers maken een traitor defender tijdelijk goedkoper om aan te vallen.
+
+Controleer vóór de breuk al je grenzen. Nabije spelers krijgen ook het relatie-event, behalve als ze in het team van de verraden speler zitten.
+
+### De nuke-berekening vergeet structuren
+
+Een gewogen totaal van 100 voorkomt alleen de terreinvertakking. Eén ally-structuur in de outer radius is genoeg voor de andere vertakking.
+
+Inspecteer structuren apart van terrein. De twee voorwaarden zijn verbonden met OR, niet met AND.
+
+### Menselijk gedrag wordt een formule
+
+Relationsstraffen zijn engine-status, geen model van echte beslissingen. Een mens kan aanvallen, negeren of later opnieuw samenwerken.
+
+Gebruik cijfers voor het mechanische gevolg. Beschrijf menselijke reacties alleen als mogelijkheden, nooit als zekerheid.
+
+## Aanpassing aan modus en kaart
+
+In FFA kunnen meerdere spelers het traitor-venster benutten. Controleer alle bereikbare grenzen, niet alleen de voormalige ally.
+
+In teammodi moet je ally en teammate altijd scheiden. Een teammate is friendly via het team, niet via deze tijdelijke alliantiecyclus.
+
+Op compacte kaarten omvat een outer radius sneller meerdere ally-structuren. Controleer de OR-vertakking vóór iedere lancering.
+
+Op grote kaarten geven vijf minuten veel tijd voor verplaatsing. Afstand kan ook vertragen hoe snel een relatiewijziging wordt benut.
+
+Op handelsrijke kaarten weegt een persistent handmatig embargo zwaarder, omdat investeringen in Ports en Trains langer dan één alliantiecyclus lopen.
+
+Deze aanpassingen veranderen geen timer of modifier. Ze veranderen alleen de positionele waarde van de regel.
+
+## FAQ
+
+### Hoe lang blijft een alliantieverzoek staan?
+
+20 seconden. De cooldown voor dezelfde speler duurt 30 seconden vanaf het oorspronkelijke verzoek.
+
+### Hoe lang duurt de standaardalliantie?
+
+300 seconden, oftewel vijf minuten. Aangepaste lobby's kiezen één tot 15 minuten; nul schakelt allianties uit.
+
+### Wordt een alliantie automatisch verlengd?
+
+Nee. Beide spelers moeten instemmen. Het venster ligt in de laatste 30 seconden en succes start een volledige duur vanaf de verlengingstick.
+
+### Is natuurlijk verloop verraad?
+
+Nee. Het beëindigt de alliantie zonder de traitor-status van handmatig verbreken.
+
+### Hoe lang duurt traitor?
+
+30 seconden als de handmatige voorwaarden gelden. Aanvallers krijgen dan de beschreven modifiers `0.5` en `0.8`.
+
+### Verwijdert een alliantie alle embargo's?
+
+Nee. Acceptatie verwijdert temporary embargoes tussen beide spelers, niet persistente handmatige embargo's.
+
+### Is een embargo uit een aanval permanent?
+
+Nee. Het temporary embargo uit een gewone aanval duurt ongeveer vijf minuten. Alleen een handmatig embargo is persistent.
+
+### Breken precies 100 gewogen tiles de alliantie?
+
+Nee. De terreinvoorwaarde vereist strikt meer dan 100. Een ally-structuur in de outer radius kan toch de andere voorwaarde activeren.
+
+### Kan een MIRV nooit een alliantie breken?
+
+Die uitspraak is te breed. Alleen `MIRVWarhead` slaat deze specifieke controle in `NukeExecution` over.
+
+### Zijn teammates immuun voor nukes?
+
+De gebruikte bronnen bewijzen dat niet. Ze tonen alleen dat de normale alliantiebreukactie het team niet opheft.
+
+## Verder lezen
+
+Lees [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) voordat je vlak bij ally-terrein of structuren richt.
+
+Gebruik [team-zeebeheersing](/nl/strategies/team-naval-control/) wanneer diplomatie Ports, kusten of gedeelde vaarroutes beschermt.
+
+[Port of Factory](/nl/guides/port-vs-factory/) legt uit welk economisch netwerk een embargo kan onderbreken.
+
+Ga terug naar de [gids voor je eerste match](/nl/guides/first-match/) als basisbesturing voor aanvallen, allianties of kaartlezen nog ontbreekt.
+
+Maakt een diplomatieke wijziging iemand kwetsbaar, ga dan naar het [herstelplan](/nl/strategies/recovery-playbook/). Gebruik voor donaties, doelen en logistiek [teamrollen](/nl/strategies/team-roles/).
+
+## Officiële bronnen
+
+- [OpenFrontIO release v0.33.7][release]
+- [Verzoekuitvoering][request-source], [model][request-model] en [tests][request-tests]
+- [Verlengingsuitvoering][extension-source], [alliantiemodel][alliance-model] en [tests][extension-tests]
+- [Handmatig verbreken][break-source]
+- [Embargo][embargo-source] en [Embargo All][embargo-all]
+- [Friendly-, handels- en embargostatus][player-source]
+- [Opschoning bij acceptatie][game-source]
+- [Traitor-gevechtsmodifiers][combat-source]
+- [Nucleaire alliantiebreuk][nuke-source] en [officiële tests][nuke-tests]
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7
+[request-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceRequestExecution.ts
+[request-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceRequestImpl.ts
+[request-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceRequestExecution.test.ts
+[extension-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/AllianceExtensionExecution.ts
+[extension-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/AllianceExtensionExecution.test.ts
+[alliance-model]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/AllianceImpl.ts
+[break-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/alliance/BreakAllianceExecution.ts
+[embargo-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoExecution.ts
+[embargo-all]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/EmbargoAllExecution.ts
+[player-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts
+[game-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameImpl.ts
+[combat-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/Util.ts
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/AttackExecution.ts
+[config-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts
+[nuke-source]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/NukeExecution.ts
+[nuke-tests]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/tests/core/executions/NukeExecution.test.ts

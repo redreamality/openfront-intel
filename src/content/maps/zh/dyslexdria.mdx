@@ -1,0 +1,220 @@
+---
+title: Dyslexdria 地图攻略：出生、路线与 Compact
+description: 读懂 Dyslexdria 的碎片世界、impassable、区域战争、超长海路，以及 OpenFront v33.7 的 Normal 与 Compact 决策。
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [dyslexdria, 地图, impassable, 海军, compact-map]
+category: 地图攻略
+difficulty: 高级
+version: v33
+freshnessSummary: "已按官方 v33.7 地形核验：Dyslexdria Normal 有 224 个陆块、175,320 个 impassable 格、一个连通水域，最大陆块只占 16.77%。"
+---
+
+## 直接答案：Dyslexdria 应该怎样打？
+
+把 Dyslexdria 当成**相互连接的区域战争网络**，不要当成一条完整 World 大陆前线。Normal 最大陆块只占可通行陆地的 16.77%，需要前十大块才能达到 85.78%。
+
+先拿下一块能持续发展的区域，再建立海路或盟友连接，让区域经济影响第二战区。局部胜利很重要，却不会自动提供通往全图的陆地路线。
+
+出生前还要把可通行陆地与 175,320 个 impassable land-bit 格区分开。一个视觉上很大的形状可能包含无法占领、攻击、核击或被核弹弹道穿越的硬障碍。
+
+Compact 保留多战区身份，但大量小碎片会改变。不能直接复用 Normal 海岸、登陆点或屏障路线。
+
+![OpenFront 官方 Dyslexdria 缩略图，展示超宽碎片世界](https://raw.githubusercontent.com/openfrontio/OpenFrontIO/v0.33.7/resources/maps/dyslexdria/thumbnail.webp)
+
+*未修改的 Dyslexdria 地图资产：OpenFront / OpenFront Inc. and Contributors，[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)；[OpenFrontIO v0.33.7 来源](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/thumbnail.webp)。*
+
+## 会改变决策的 Dyslexdria 数据
+
+| 已核验指标 | Normal | Compact | 实战含义 |
+| --- | ---: | ---: | --- |
+| 网格 | 3,308 x 1,440 | 1,654 x 720 | 两档都极宽 |
+| 可通行陆地 | 2,103,254（44.15%） | 508,102（42.67%） | Compact 保留 Normal 陆地的 24.16% |
+| 陆地连通块 | 224 | 142 | 大量小碎片消失或变化 |
+| 至少 1,000 格的陆块 | 52 | 24 | 优先看主战区，不看原始岛屿总数 |
+| 最大陆块 | 陆地的 16.77% | 16.78% | 没有统治全图的大陆 |
+| impassable | 175,320 | 43,913 | 硬屏障仍是核心地形 |
+| 临水可通行陆地 | 4.15% | 7.24% | Compact 中海岸占比提高 |
+| 水域连通块 | 1 | 1 | 全图存在连续水路 |
+
+官方 v31 Release 把 Dyslexdria 描述为回归的 April Fools 地图，并称它基于重新着色的 World。后续 v33 又更新了该图，因此当前策略应以 v33.7 资产为准。
+
+v33.7 manifest 有 82 个主 Nations，其中 69 个带坐标、13 个不带；另有 189 个无坐标 additional Nations 作为后备名称池。
+
+Nation 坐标是 NPC 锚点，不是人类出生点。未手选位置的人类玩家会从合规空闲陆地抽取出生；Dyslexdria 没有 `teamGameSpawnAreas`。
+
+Nation 数不等于人类容量。普通公开 FFA 的候选人数是 Normal **105 / 80 / 55**，Compact **26 / 20 / 13**。
+
+## 为什么前十大区比 224 更重要
+
+224 个陆块包含大量小岛噪声。只有 52 个达到至少 1,000 格，前十大块已经占 85.78% 可通行陆地。
+
+规划时分成三层：当前陆块、附近区域网络、全图网络。
+
+当前陆块是不经运输即可到达的地形；区域网络是能相互支援的附近海岸与岛屿；全图网络则需要长距离海路、外交或多个中转点。
+
+这个分层能避免两种错误：把每个岛都看成同等重要，或者只盯着当前大区而忽略远处正在成长的经济。
+
+## Dyslexdria 出生六问
+
+### 1. 这块地真的可通行吗？
+
+Impassable 使用 land bit，但 Magnitude 为 31。它不是等待占领的中立地，而是硬阻挡。
+
+根据真实扩张路径和边界判断，不要只依赖缩略图颜色。
+
+### 2. 出生点属于哪个陆块？
+
+本陆块决定第一场战争。隔海的近旗帜属于后续路线；在连通陆地上的远旗帜反而可能是直接竞争者。
+
+### 3. 第一次接壤后还剩多少纵深？
+
+一块熟悉的大区域仍可能只占全图很小份额。判断局部增长能否支付后续转场。
+
+### 4. Impassable 是否制造假出口？
+
+可见走廊可能在硬屏障前终止。投入细长扩张前，先找出两个真实陆地出口。
+
+### 5. 哪段海岸能通向有效第二战区？
+
+水域虽然连通，Normal 横向却有 3,308 格。连续航路仍可能太长，或在早期回不了本。
+
+### 6. 谁能更快反制目的地？
+
+计算当地防守者、敌舰与拥有更短海岸路线的玩家。最诱人的目的地可能正是别人的自然扩张方向。
+
+## 开局路线：先做区域经济，再搭向外桥梁
+
+### 阶段一：完成连贯的本地位置
+
+沿可通行陆地扩张，同时核对 impassable 边缘。不要制造通向硬阻挡的细长触手。
+
+第一目标是获得足够连通陆地，可以恢复兵力和支撑建筑；即使注意力转向远处，本区也不能立刻崩溃。
+
+### 阶段二：判断区域是基地还是陷阱
+
+基地有陆地纵深、可控对手数和至少一个有效海岸。陷阱被屏障或强敌封住，又缺乏付得起的出口。
+
+基地应先巩固再走全图；陷阱要保存兵力并更早寻找出路。
+
+### 阶段三：搭建一条通往第二战区的桥
+
+桥可以是运输登陆、中转岛、盟友海岸或连续占领点。Transport Ship 不要求 Port，但需要己方岸线、合规目标岸线与同一水体中的可达路径。
+
+Warship 与 Trade Ship 才依赖己方已建成且有效的 Port。只有持续舰队或贸易入口能改变选择时，Port 才是这条桥的必要投资。
+
+长路线必须有明确原因：薄弱目的地、盟友、无人陆地，或阻止对手完成区域吞并。
+
+## 场景一：你领先一个主陆块
+
+你已成为本区最强玩家，但该区域仍不到全图可通行陆地的六分之一。
+
+常见失败是把区域优势花在连续清扫小岛，而远处玩家已经吞并第二个主战区。
+
+先缩短剩余本地边界，再观察哪个外区正在形成统治者。选择安全且有价值的出海口，建立一处能持续增援的登陆，同时保留足够力量守住原区。
+
+对手可以同时施压登陆点和本土海岸。若桥头无法展开到更大块，就及时停止增援，别让失败远征吞掉原本的区域优势。
+
+## 场景二：Impassable 切断可见路线
+
+出生点看似有两个方向，其中一条却在 impassable 前结束。其他玩家可能仍把黑色区域当作空地竞争。
+
+不要冲向屏障。先让真实出口变厚，并利用硬边缘减少需要监控的边界。
+
+还要检查屏障是否阻断核弹弹道。v33.7 的 nuke 不能穿越 impassable；屏障背后可能免受某个角度打击，却仍会被海路或另一方向绕开。
+
+反制不是撞向屏障，而是从水域、另一陆块或不同发射线绕行。硬地形减少路线，不会让整个位置无敌。
+
+## 场景三：Compact 的小型海岸区
+
+Compact Dyslexdria 为 1,654 x 720、508,102 个可通行格、43,913 个 impassable 与 142 个陆块，至少 1,000 格的块只剩 24 个。
+
+距离缩短了，但熟悉的小岛或窄登陆点可能已经改变。临水陆地占比从 4.15% 升至 7.24%，海岸决定会占据更多剩余空间。
+
+普通公开 FFA 候选变成 26 / 20 / 13，默认公开 Nations 从 82 降为 20。Compact 并不是把同一人口机械压进四分之一网格。
+
+重新判断本区是否仍有两个出口，以及最近主块是否还能从同一海岸抵达。
+
+## 一个连通但巨大的水域怎样规划
+
+单一水域连通块只证明存在连续路径，不证明航线短，也不证明 Port 能回本。
+
+每次海上计划都明确四项：受保护的起点、能改变全局的目的地、最可能反制的玩家，以及首次登陆失败后的退出方案。
+
+中转岛只有在缩短增援或打开新海岸时才有价值。若它只增加一栋建筑和一个防守点，就是负担。
+
+Dyslexdria 极宽，情报与航程同样重要。发船前重新扫描目的地；规划时无人争夺的海岸，抵达时可能已经完成整合。
+
+## 常见失败与反制
+
+### 把视觉陆地当成可通行陆地
+
+Normal 有 175,320 个 impassable 格。通过它们规划会产生假出口和假容量。先用实际占领与扩张行为确认地形。
+
+### 赢下一区就停止观察
+
+最大块也只有 16.77%。在远处经济不可触及时之前，至少建立一条向外路线。
+
+### 试图管理每座小岛
+
+224 个 Normal 陆块中多数不到 1,000 格。优先主战区，以及确实能提供路线、避难或封锁价值的卫星。
+
+### 把水域连通理解成廉价航行
+
+水路跨越 3,308 格宽的地图，仍可能很长且难以增援。使用中转点，并要求目的地价值足以支付距离。
+
+### 把 82 个 Nations 当成 82 名玩家
+
+Nations 配置 AI 身份，人类容量由可通行陆地和模式规则决定。以实际 lobby 为准。
+
+### 把 Normal 路线复制到 Compact
+
+陆块从 224 降为 142，大块从 52 降为 24。出发前重新扫描海岸与 impassable 边缘。
+
+## Dyslexdria 该选 Normal 还是 Compact？
+
+选择 **Normal**，如果你要完整碎片世界：224 陆块、长距离跨海、175,320 个 impassable 与多个同时发生的区域战争。
+
+选择 **Compact**，如果较小房间想保留多战区身份，同时缩短距离并减少小碎片。预期 142 个陆块、43,913 个 impassable 与 20 个默认公开 Nations。
+
+两档都不会产生固定接敌时间或最佳出生。人口档、队伍、Bots、Nations 与出生分布仍会改变压力。
+
+加载规则见[地图尺寸与 Compact 指南](/zh/guides/map-size-compact-mode/)，跨图比较方法见[地图战略指南](/zh/guides/map-strategy/)。
+
+## Dyslexdria 常见问题
+
+### Dyslexdria 是一块大陆吗？
+
+不是。Normal 有 224 个陆地连通块，最大块只占 16.77% 可通行陆地。
+
+### 舰船能横穿全图吗？
+
+全部水域形成一个连通块，存在连续航路；距离、路线成本、敌人和目的地仍决定它是否有用。
+
+### Impassable 会阻挡什么？
+
+它不能被占领、攻击或核击，核弹弹道也不能穿越。它能缩短边界，也可能迫使陆军、舰队与核武绕行。
+
+### 82 个主 Nations 都有坐标吗？
+
+不是。69 个带坐标，13 个不带；manifest 另有 189 个无坐标 additional Nations。
+
+### Compact 最大变化是什么？
+
+小碎片减少。陆块从 224 降到 142，至少 1,000 格的块从 52 降到 24，可通行陆地保留率为 24.16%。
+
+### 下一张该看什么？
+
+阅读 [Svalmel 地图攻略](/zh/maps/svalmel/)，对比 Dyslexdria 的前十大碎片战区与四大岛群结构。
+
+## 一手来源
+
+- [OpenFront v0.33.7 正式 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [v0.33.7 Dyslexdria manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/manifest.json)
+- [v0.33.7 Dyslexdria 地图资产](https://github.com/openfrontio/OpenFrontIO/tree/v0.33.7/resources/maps/dyslexdria)
+- [正式 v0.31.0 Dyslexdria 与内陆水域说明](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
+- [TerrainMapLoader.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/TerrainMapLoader.ts)
+- [GameMap.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/GameMap.ts)
+- [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/TransportShipUtils.ts)
+- [MapPlaylist.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/server/MapPlaylist.ts)
+- [NationCreation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/NationCreation.ts)

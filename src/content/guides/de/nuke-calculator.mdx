@@ -1,0 +1,321 @@
+---
+title: "OpenFront-Nuklearrechner: Gold, MIRV-Preise, Silo-Slots und SAM-Reichweite"
+description: "Berechne Nuklearwaffenkosten, die globale MIRV-Preisleiter, bereite Silo- und SAM-Slots, exakte SAM-Reichweite und eine klar begrenzte Sättigungsschätzung."
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [rechner, nuklearwaffen, mirv, sam, missile-silo]
+category: Anleitung
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Bis zur formellen Version v0.33.7 geprüft. Die aus dem v0.33.6-Code belegten v33-Formeln für Kosten, Silo und SAM wurden in v0.33.7 nicht geändert."
+---
+
+import NukeCalculator from '../../../components/NukeCalculator.astro';
+
+## Direkte Antwort: Was kann dieser Rechner?
+
+Der Rechner liefert exakte Arithmetik für normale Gold-Kosten, globale MIRV-Serien, bereite Missile-Silo-Rohre, bereite SAM-Schüsse und die SAM-Reichweite pro Stufe.
+
+Er zeigt außerdem `geeignete Projektile - bereite SAM-Schüsse`. Dieser letzte Wert ist eine theoretische Druckmessung, keine Prognose der Einschläge.
+
+Ohne Live-Karte und vollständigen Zustand kann das Werkzeug Flugbahnen, Abfänge, MIRV-Sprengkopfzahl, Gebietsverlust oder Opfer nicht exakt simulieren.
+
+Nutze es vor dem Start für Budget und Kapazität. Nutze es nicht als Zusage für einen Durchbruch oder eine perfekte Abwehr.
+
+Die formelle Spielergrenze ist [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Sie änderte die im v0.33.6-Code geprüften v33-Formeln nicht.
+
+<NukeCalculator />
+
+## Angriffspaket korrekt eingeben
+
+Beginne mit deinem aktuellen Gold. Der Rechner zieht alle geplanten Atom, Hydrogen und die vollständige MIRV-Serie ab.
+
+Trage die Zahl der **global** bereits gestarteten MIRVs ein. Sie umfasst die Starts aller Spieler, nicht nur deine eigenen.
+
+Gib dann die geplanten Mengen von Atom, Hydrogen und MIRV ein. MIRVs werden nacheinander teurer, weil jeder Erfolg die gemeinsame Leiter bewegt.
+
+Für die Launcher brauchst du Stufe und Zahl der noch kühlenden Slots. Die Stufe beschreibt Kapazität, nicht den aktuellen Ladezustand.
+
+Zähle bei der theoretischen Lücke nur Ziele, die ein SAM anvisieren kann. Der MIRV-Träger ist ausgeschlossen, jeder getrennte Warhead kann jedoch geeignet sein.
+
+Die Eingaben sind nicht mit einem Match verbunden. Aktualisiere sie nach einem fremden MIRV-Start oder dem Ende einer Nachladung.
+
+## Exakte Gold-Kosten
+
+Unter normalen Regeln kostet eine Atom Bomb 750.000 Gold und eine Hydrogen Bomb 5.000.000.
+
+MIRV beginnt bei 25.000.000. Jeder erfolgreiche MIRV-Start eines beliebigen Spielers erhöht den nächsten Preis um 15.000.000.
+
+Die gesamten Waffenkosten lauten:
+
+```text
+Kosten = 750.000 × Atom
+       + 5.000.000 × Hydrogen
+       + Kosten der MIRV-Serie
+```
+
+Der angezeigte Rest ist `aktuelles Gold - Kosten`. Ein negatives Ergebnis ist eine Fehlmenge, keine Kredit- oder Warteschlangenprognose.
+
+Das Werkzeug rechnet Gold als Ganzzahl. Es rundet große Summen nicht zuerst auf Millionen und vermeidet so Darstellungsfehler.
+
+Infinite Gold ist eine Lobby-Ausnahme. Der Rechner modelliert normale Regeln, weil Budgetvergleiche sonst keinen Sinn haben.
+
+Baukosten für Silo und SAM sind nicht in der Waffensumme enthalten. Addiere sie separat, wenn die Anlagen noch fehlen.
+
+## MIRV-Serie und globaler Zähler
+
+Wenn `g` bereits global gestartet wurde, kostet der nächste MIRV:
+
+```text
+nächster MIRV = 25.000.000 + 15.000.000 × g
+```
+
+Für `k` aufeinanderfolgende MIRVs gilt exakt:
+
+```text
+MIRV-Serie = k × (25.000.000 + 15.000.000 × g)
+             + 7.500.000 × k × (k - 1)
+```
+
+Bei `g = 0` kostet einer 25M, zwei zusammen 65M, drei 120M, vier 190M und fünf 275M.
+
+Bei `g = 4` liegt der Sofortpreis bei 85M. Drei weitere kosten 85M + 100M + 115M, also 300M.
+
+Die Serie setzt deine erfolgreichen Starts ohne fremden Zwischenstart voraus. Im Match kann ein Gegner den Zähler vor deinem nächsten Klick verändern.
+
+Das normale Menü zeigt MIRV als Einzelaktion. Eine größere Menge im Rechner beschreibt eine Budgetfolge, keinen öffentlichen x5-Befehl.
+
+## Missile-Silo-Stufe und bereite Rohre
+
+Ein Missile Silo kostet 1.000.000 Gold und baut normalerweise 100 Ticks oder 10 Sekunden. Jede Stufe bietet ein unabhängiges Rohr.
+
+Jeder Atom-, Hydrogen- oder MIRV-Trägerstart setzt ein Rohr für 90 Ticks oder 9 Sekunden in den Cooldown.
+
+Der Rechner verwendet:
+
+```text
+bereite Rohre = max(0, Stufe - kühlende Slots)
+```
+
+Ein Level-5-Silo mit zwei kühlenden Slots hat drei bereite Rohre. Ein Level-2-Silo mit zwei kühlenden Slots hat keines.
+
+Ein Upgrade fügt einen Slot hinzu, verkürzt aber die 9 Sekunden nicht. Der neue Slot beginnt mit seiner eigenen Ladephase.
+
+Das Spiel wählt nach Manhattan-Distanz das nächste bereite Silo. Der aktuelle Code definiert keine maximale Nuklearreichweite.
+
+Ein einzelnes Silo versetzt mehrere Starts um mindestens einen Tick. Verschiedene bereite Silos können im selben Tick feuern.
+
+## SAM-Stufe, geladene Schüsse und Reichweite
+
+Die SAM-Stufe steuert zwei Ressourcen: die Zahl der Raketenslots und die echte Feuerreichweite.
+
+Die erste SAM-Stufe kostet 1.500.000 Gold. Spätere Neubauten oder Upgrades kosten durch die gedeckelte Formel normalerweise 3.000.000.
+
+Jede Stufe fügt einen Slot hinzu. Nach einem Schuss lädt dieser 90 Ticks oder 9 Sekunden nach.
+
+Die aktuelle Bereitschaft lautet:
+
+```text
+bereite SAM-Schüsse = max(0, Stufe - kühlende Slots)
+```
+
+Die exakte Reichweite lautet:
+
+```text
+SAM-Reichweite = 150 - 480 / (Stufe + 5)
+```
+
+Sie beträgt 70 auf Stufe 1, 90 auf Stufe 3, 102 auf Stufe 5, 118 auf Stufe 10 und 130,8 auf Stufe 20.
+
+Sie nähert sich 150, erreicht den Wert aber auf keiner endlichen Stufe. Ein Upgrade liefert damit parallel mehr Slots und bessere Geometrie.
+
+Der neue Slot startet 90 Ticks ungeladen. Gib ihn direkt nach dem Upgrade nicht als bereiten Schuss ein.
+
+## Bedeutung der theoretischen Slot-Lücke
+
+Der Rechner zieht bereite SAM-Schüsse von den eingegebenen geeigneten Projektilen ab.
+
+```text
+Slot-Lücke = geeignete ankommende Projektile - bereite SAM-Schüsse
+```
+
+Ein positiver Wert bedeutet, dass in diesem Moment mehr Projektile als geladene Schüsse gelistet sind. Er nennt nicht die spätere Einschlagzahl.
+
+Null bedeutet gleiche Mengen. Es beweist nicht, dass jede Flugbahn rechtzeitig erreicht werden kann.
+
+Ein negativer Wert bedeutet mehr geladene Raketen. Er garantiert keinen Abfang, weil Geometrie und Timing jeden Start begrenzen.
+
+Der Vergleich ignoriert auch Slots, die während einer langen Welle fertig laden.
+
+Eine positive Lücke garantiert keinen Durchbruch. Null oder negativ garantiert keinen Abfang.
+
+Verwende die Zahl nur zum Vergleich von Szenarien unter denselben Annahmen.
+
+## Warum ein SAM-Kreis keine Sicherheitszone ist
+
+Der SAM liest die zukünftige Nuke-Flugbahn und sucht einen Punkt, der anvisierbar ist und innerhalb der echten Stufenreichweite liegt.
+
+Eine Nuke ist nur strikt innerhalb 150 Tiles vom Start oder Ziel anvisierbar. Eine lange Bahn kann ein nicht anvisierbares Mittelstück besitzen.
+
+Die SAM Missile fliegt mit 12 Tiles pro Tick. Es müssen genug Ticks übrig sein, damit sie den Abfangpunkt erreicht.
+
+Der Suchradius von 600 Tiles dient der frühen Entdeckung. Er ist keine Feuerreichweite und ersetzt nicht die Stufenformel.
+
+Hydrogen erhält einen Prioritätsbonus. Entfernung und Dringlichkeit verändern ebenfalls, welches Projektil zuerst einen freien Slot beansprucht.
+
+Sobald ein SAM ein Ziel reserviert, filtern andere Anlagen es aus. Die Verteilung hängt daher von möglichen Treffpunkten und Ausführungsreihenfolge ab.
+
+Eine treue Simulation braucht Koordinaten, Bahnen, Cooldown-Warteschlangen und Ticks. Wenige Zahlenfelder können das nicht leisten.
+
+## Warum die MIRV-Sprengkopfzahl eine Eingabe bleibt
+
+Ein MIRV versucht höchstens 350 Ziele zu erzeugen. Der Mittelpunkt ist gesetzt, doch jedes Zusatzziel durchläuft Live-Kartenprüfungen.
+
+Es muss Land des Zielspielers sein, höchstens 1.500 euklidische Tiles entfernt und mindestens 55 Manhattan-Tiles von früheren Zielen getrennt.
+
+Kartenränder, Wasser, unpassierbares Gebiet, gemischter Besitz und schmale Streifen entfernen Kandidaten. Die begrenzte Suche kann früh enden.
+
+Der Rechner verlangt deshalb eine Schätzung geeigneter Projektile, statt ein scheinbar exaktes Ergebnis von 350 zu erfinden.
+
+Für einen breiten Kontinent kannst du Annahmen wie 50, 150 und 300 vergleichen. Das ist Sensitivitätsanalyse, keine Prognose.
+
+Für Inseln oder schmale Küsten zählt Geometrie noch stärker. Exaktheit erfordert Live-Karte und den seeded Zielgenerator.
+
+## Warum exakte ETA und Opfer fehlen
+
+Nuklearwaffen folgen gekrümmten Bahnen. Die exakte Zeit kommt aus dem formellen Parabel-Pathfinder, nicht aus Luftlinie geteilt durch Tempo.
+
+Atom und Hydrogen fliegen 10 Tiles pro Tick, der Träger 15 und Warheads 22 bis 26 mit je 0 bis 14 Ticks Wartezeit.
+
+Diese Werte erklären relative Abläufe, liefern aus einer einzelnen Entfernung aber keine exakte ETA.
+
+Gebiet im Außenradius verschwindet nicht gleichmäßig. Der normale Ring ist seeded, unregelmäßig und überspringt unpassierbare Tiles.
+
+Opfer hängen zusätzlich von wirklich getroffenen Tiles, Gebiet, maximalen und aktuellen Truppen, Angriffen und Transporten ab.
+
+Ein glaubwürdiger Simulator braucht Karte und vollständigen Spielerzustand. Dieses Werkzeug endet bei durch seine Eingaben belegbaren Größen.
+
+## Vollständiges Budgetbeispiel
+
+Angenommen, du besitzt 200M Gold. Global gab es keinen MIRV. Du planst zwei Atom, einen Hydrogen und drei MIRVs.
+
+Die Atoms kosten 1,5M, Hydrogen 5M und die MIRV-Serie 120M. Gesamt sind es 126,5M, übrig bleiben 73,5M.
+
+Ein Level-5-Silo mit zwei kühlenden Slots bietet drei bereite Rohre. Die drei Träger passen also in die momentane Kapazität.
+
+Ein Level-5-SAM mit zwei kühlenden Slots bietet ebenfalls drei Schüsse. Seine exakte Reichweite beträgt 102 Tiles.
+
+Bei fünf geeigneten Projektilen beträgt die theoretische Lücke +2. Sie bedeutet nur fünf minus drei.
+
+Einige Projektile können unerreichbar sein, ein Slot kann nachladen oder ein anderes Ziel kann höhere Priorität erhalten.
+
+Setze den globalen Zähler von 0 auf 4. Dieselbe Dreierserie steigt von 120M auf 300M und überschreitet schon das 200M-Budget.
+
+Hier liegt der Hauptnutzen: Eine falsche Kosten- oder Kapazitätsannahme fällt auf, bevor du eine Strategie darauf baust.
+
+## Offensive Checkliste
+
+- Prüfe den globalen MIRV-Zähler unmittelbar vor dem Kauf.
+- Berechne die ganze arithmetische Serie.
+- Zähle bereite Silo-Rohre statt nur Stufen.
+- Halte Gold für ausnutzende Truppen zurück.
+- Schätze Warheads aus der Gebietsform statt pauschal 350.
+- Behandle die SAM-Differenz nur als Druckwert.
+- Beachte Hydrogen-Priorität bei gemischten Angriffen.
+- Rechne nach jedem wichtigen Start oder Cooldown neu.
+
+Der billigste Plan ist nicht automatisch der beste. Ein 25M-MIRV in schlechter Geometrie kann weniger leisten als mehrere gut getimte normale Nukes.
+
+Auch eine große positive Lücke ist wertlos, wenn du das getroffene Gebiet nicht erobern oder halten kannst.
+
+## Defensive Checkliste
+
+- Erfasse Stufe, Ort und Cooldown jedes SAM.
+- Nutze die Reichweitenformel statt des 600er Suchradius.
+- Behandle einen neuen Slot 90 Ticks als ungeladen.
+- Schließe den Träger aus und zähle Warheads einzeln.
+- Plane für gemischte Atom-, Hydrogen- und MIRV-Priorität.
+- Verteile Standorte auf unterschiedliche Anflüge.
+- Halte Rückeroberungskräfte außerhalb erwarteter Krater.
+- Aktualisiere Bereitschaft nach jedem Abfang.
+
+Abwehr ist ein Netzwerk über Zeit. Hohe Stufen weit weg sind weniger wert als eine geladene Rakete mit einer echten Abfanggeometrie.
+
+## Häufige Rechenfehler
+
+### Nur eigene MIRVs zählen
+
+Die Leiter ist global. Jeder erfolgreiche Start erhöht den nächsten Preis für alle um 15M.
+
+### Silo-Stufe mit Bereitschaft verwechseln
+
+Kühlende Slots sind nicht verfügbar. Ziehe sie ab und denke daran, dass ein Upgrade ungeladen beginnt.
+
+### Den MIRV-Träger als SAM-Ziel zählen
+
+Der Träger ist ausgeschlossen. Schätze getrennte Warheads, die tatsächlich geeignet werden könnten.
+
+### Die Lücke als Durchbruchprognose bezeichnen
+
+Sie simuliert keine Geometrie, Zielsegmente, Priorität, Abfangzeit oder Nachladung während der Welle.
+
+### Jeden MIRV mit 350 ansetzen
+
+350 ist das Maximum. Kleine, küstennahe, fragmentierte oder randnahe Gebiete liefern weniger legale Ziele.
+
+### Eine Luftlinien-ETA ergänzen
+
+Die Bahnen sind gekrümmt, Warheads haben versetzte Geschwindigkeiten und Wartezeiten. Eine einfache Division wäre falsch genau.
+
+## FAQ zum Nuklearrechner
+
+### Enthält die Summe Silo- und SAM-Baukosten?
+
+Nein. Sie enthält geplante Atom, Hydrogen und MIRV. Notwendige Anlagen musst du separat addieren.
+
+### Warum ist der nächste MIRV billiger als der letzte der Serie?
+
+„Nächster“ zeigt den Sofortpreis vor dem Plan. Jeder Erfolg erhöht danach den Preis innerhalb der Serie um 15M.
+
+### Haben Hydrogen und MIRV im normalen Menü x5?
+
+Nein. Das Radialmenü bietet Mengen für Atom. Größere Mengen sind hier eine geplante Folge.
+
+### Bedeutet Stufe 5 fünf bereite SAM-Schüsse?
+
+Nur bei voller Ladung. Mit zwei kühlenden Slots hat ein Level-5-SAM drei bereite Schüsse.
+
+### Warum zeigt Stufe 5 genau 102 Tiles?
+
+Mit Stufe 5 ergibt `150 - 480 / (Stufe + 5)` den Wert `150 - 48 = 102`.
+
+### Garantiert eine positive Lücke wenigstens einen Einschlag?
+
+Nein. Manche eingegebenen Ziele können unerreichbar sein, während Nachladen oder andere SAMs zusätzliche Schüsse liefern.
+
+### Garantiert eine negative Lücke vollständigen Abfang?
+
+Nein. Jede bereite Rakete braucht weiterhin einen rechtzeitig erreichbaren, anvisierbaren Punkt.
+
+### Wo steht das vollständige MIRV-Zielmodell?
+
+Lies den [MIRV-Guide](/de/guides/mirv/) für 1.500 Radius, 55 Abstand, Trennung, Warhead-Timing sowie Angriffs- und Abwehrabläufe.
+
+## Formelle Quellen und Prüfgrenze
+
+Die aktuelle Grenze ist das [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Seine Hinweise ändern keine Formel dieses Werkzeugs.
+
+Die Berechnungen bleiben durch unveränderten v0.33.6-Code und formelle Tests belegt:
+
+- [Config.ts: Kosten, Cooldowns, Tempo, Radien und SAM-Reichweite](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: globale Preise und Zielerzeugung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: Kurvenflug, Zielsegmente und Einschlag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: Abfangplanung und Priorität](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: Zielliste und Raketenverhalten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: Kosten und Silo-Auswahl](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: unabhängige Slot-Warteschlangen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
+- [MIRV-Tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
+- [SAM-Tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile-Silo-Tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+
+Nutze [die Nuklearmechanik](/de/mechanics/nukes/) für die Grenzen und [Nuklearabschreckung](/de/strategies/nuclear-deterrence/), um Kosten und Slots mit Einsatz und Vergeltung zu verbinden.

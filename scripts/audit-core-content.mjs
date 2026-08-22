@@ -7,14 +7,26 @@ const CORE_PAGES = [
   { collection: 'guides', slug: 'doomsday-clock', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'guides', slug: 'hotkeys', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'guides', slug: 'water-nukes', latinMin: 1_500, hanMin: 2_500 },
+  { collection: 'guides', slug: 'mirv', latinMin: 1_500, hanMin: 2_000 },
+  { collection: 'guides', slug: 'nuke-calculator', latinMin: 1_500, hanMin: 2_000 },
+  { collection: 'guides', slug: 'population-growth', latinMin: 1_500, hanMin: 2_000 },
+  { collection: 'guides', slug: 'port-vs-factory', latinMin: 1_500, hanMin: 2_000 },
+  { collection: 'guides', slug: 'map-size-compact-mode', latinMin: 1_200, hanMin: 2_000 },
+  { collection: 'guides', slug: 'map-strategy', latinMin: 1_200, hanMin: 2_000 },
+  { collection: 'maps', slug: 'svalmel', latinMin: 1_200, hanMin: 2_000 },
+  { collection: 'maps', slug: 'dyslexdria', latinMin: 1_200, hanMin: 2_000 },
   { collection: 'strategies', slug: 'economy-fundamentals', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'strategies', slug: 'ffa-opening', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'strategies', slug: 'nuclear-deterrence', latinMin: 1_500, hanMin: 2_500 },
   { collection: 'strategies', slug: 'team-naval-control', latinMin: 1_500, hanMin: 2_500 },
+  { collection: 'strategies', slug: 'recovery-playbook', latinMin: 1_500, hanMin: 2_500 },
+  { collection: 'strategies', slug: 'team-roles', latinMin: 1_500, hanMin: 2_500 },
+  { collection: 'strategies', slug: 'diplomacy-betrayal', latinMin: 1_500, hanMin: 2_500 },
 ];
 
 const strict = process.argv.includes('--strict');
 const CURRENT_VERSION = 'v33';
+const CURRENT_VERSION_PATTERN = new RegExp(`\\bv(?:0\\.)?${CURRENT_VERSION.slice(1)}(?:\\.\\d+)?\\b`);
 const FRESHNESS_BASELINE = '2026-08-02';
 
 function splitDocument(source) {
@@ -51,7 +63,7 @@ function longParagraphs(markdown) {
     .split(/\r?\n\s*\r?\n/)
     .map((block) => block.trim())
     .filter(Boolean)
-    .filter((block) => !/^(---|#{1,6}\s|```|>|[-*+]\s|\d+[.)]\s|\|)/.test(block))
+    .filter((block) => !/^(---|#{1,6}\s|```|>|[-*+]\s|\d+[.)]\s|\||\[[^\]]+\]:\s+\S+)/.test(block))
     .map((block) => plainText(block))
     .filter((block) => [...block].length > 240);
 }
@@ -82,7 +94,7 @@ async function auditPage(page, lang) {
   const hasCurrentVerification = updatedDate >= FRESHNESS_BASELINE;
   const freshnessMinimum = lang === 'zh' ? 20 : 40;
   const hasFreshnessSummary = [...freshnessSummary].length >= freshnessMinimum
-    && freshnessSummary.includes(CURRENT_VERSION);
+    && CURRENT_VERSION_PATTERN.test(freshnessSummary);
   return {
     relative,
     lang,

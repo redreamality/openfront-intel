@@ -1,0 +1,300 @@
+---
+title: Guide de la croissance, des troupes et des Cities dans OpenFront
+description: Comprenez les formules de limite et de croissance des troupes, le vrai sens de Workers et le bon moment pour construire ou améliorer une City.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [population, troupes, city, economie]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié sur le tag officiel v0.33.7 : Workers n'est pas une population distincte, chaque niveau de City achevé ajoute 250 000 à la limite de troupes et les Cities n'ont pas de limite stricte de quatre niveaux."
+---
+
+## Réponse directe : comment la population augmente-t-elle ?
+
+OpenFront ne divise pas votre population entre ouvriers et soldats. La simulation conserve les Troops, le Gold, le territoire et les bâtiments.
+
+La colonne **Workers** de l'écran de résultats désigne le Gold passif fixe. Ce n'est pas une réserve de population qui baisse lorsque vous attaquez.
+
+La limite des Troops combine une formule territoriale à rendement décroissant et 250 000 points pour chaque niveau de City terminé.
+
+La croissance est rapide quand il reste de la place, puis ralentit jusqu'à zéro à l'approche de la limite.
+
+Construisez ou améliorez une City si la limite bloque votre récupération ou la réserve prévue. Des Troops faibles ne signifient pas forcément que la limite est trop basse.
+
+Si vous êtes loin de la limite actuelle, une nouvelle City achète une capacité inutilisée sans réparer vos pertes militaires.
+
+La méthode courte comporte quatre étapes :
+
+1. Calculez les Troops actuelles en pourcentage de la limite.
+2. Distinguez une limite trop basse de pertes ou dépenses excessives.
+3. Achetez une capacité de City seulement si la limite est le vrai blocage.
+4. Améliorez pour un effet immédiat, ou construisez pour créer un autre arrêt ferroviaire protégé.
+
+## Formule exacte de la limite de troupes
+
+Pour un joueur Human normal, le code v0.33.7 utilise :
+
+```text
+maxTroops = 2 * (tiles^0.6 * 1 000 + 50 000)
+          + 250 000 * somme des niveaux de City achevés
+```
+
+Une City en chantier ne compte pas. Une City de niveau 3 apporte trois niveaux, soit 750 000. Trois Cities de niveau 1 apportent la même limite.
+
+Le terme territorial emploie l'exposant 0.6. Plus de terres augmente toujours la limite, mais chaque nouveau bloc identique apporte moins que le précédent.
+
+| Tiles possédées | Sans City | Avec un niveau de City | Gain relatif |
+| ---: | ---: | ---: | ---: |
+| 1 | 102 000 | 352 000 | +245 % |
+| 100 | environ 131 697 | environ 381 697 | +190 % |
+| 1 000 | environ 226 191 | environ 476 191 | +111 % |
+| 10 000 | environ 602 377 | environ 852 377 | +41,5 % |
+| 50 000 | environ 1 419 507 | environ 1 669 507 | +17,6 % |
+| 100 000 | environ 2 100 000 | environ 2 350 000 | +11,9 % |
+| 200 000 | environ 3 131 433 | environ 3 381 433 | +8,0 % |
+
+Le bonus absolu ne diminue jamais : chaque niveau vaut toujours 250 000. Son impact relatif baisse seulement parce qu'un grand empire a déjà une forte limite territoriale.
+
+Les Bots et Nations appliquent d'autres modificateurs. Un Bot reçoit un tiers de la base.
+
+La difficulté d'une Nation multiplie ensuite le résultat par 0,5 en Easy, 0,75 en Medium, 1 en Hard et 1,25 en Impossible.
+
+Les décisions de ce guide utilisent la formule Human normale.
+
+## Formule exacte de croissance
+
+Le gain d'un Human normal à chaque tick de simulation est :
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+Le résultat est plafonné afin qu'un tick ne dépasse pas le maximum. Un tick normal dure 100 ms, soit environ dix calculs par seconde.
+
+Le premier terme augmente avec les Troops actuelles. Le facteur de place disponible baisse lorsque la jauge se remplit.
+
+Leur combinaison crée un maximum de croissance assez large. La règle « moins de troupes signifie toujours plus de croissance » est donc fausse.
+
+Exemple pour un Human avec 10 000 tiles, aucune City et une limite proche de 602 377 :
+
+| Troops actuelles | Part de la limite | Gain par tick | Gain par seconde estimé |
+| ---: | ---: | ---: | ---: |
+| 60 238 | 10 % | 703 | 7 032 |
+| 150 594 | 25 % | 1 137 | 11 368 |
+| 252 998 | 42 % | 1 281 | 12 812 |
+| 301 189 | 50 % | 1 254 | 12 537 |
+| 451 783 | 75 % | 842 | 8 419 |
+| 542 139 | 90 % | 385 | 3 846 |
+| 572 258 | 95 % | 200 | 2 000 |
+
+Le maximum mathématique de cet exemple se situe près de 42 %. Utilisez-le comme signal d'efficacité, pas comme réserve obligatoire.
+
+À 42 %, un joueur exposé peut rester une cible facile. À 65 %, il grandit moins vite mais dispose de plus de force immédiatement.
+
+La bonne réserve dépend des frontières, alliances, terrains et de la prochaine attaque prévue.
+
+## Ce que Workers signifie réellement
+
+La simulation actuelle ne possède aucune quantité indépendante d'ouvriers. Chaque joueur vivant non-Bot reçoit 100 Gold par tick avant le multiplicateur du lobby.
+
+Un Bot reçoit 50. Le moteur inscrit ce revenu passif dans la statistique `GOLD_INDEX_WORK`, d'où le libellé **Workers** dans les résultats.
+
+À dix ticks par seconde et avec un multiplicateur 1x, un Human reçoit environ :
+
+- 1 000 Gold par seconde ;
+- 60 000 Gold par minute ;
+- 125 000 Gold en environ 2 min 5 s ;
+- 250 000 Gold en environ 4 min 10 s.
+
+Envoyer ou perdre des Troops et relever leur limite ne change pas ce taux. Une City ne crée pas plus de Workers et ne multiplie pas ce revenu passif.
+
+Trade Ships, Trains, conquêtes, commerce capturé, Gold initial et multiplicateurs de lobby sont des sources séparées.
+
+Consultez le [guide Port ou Factory](/fr/guides/port-vs-factory/) si votre contrainte est le flux de Gold plutôt que la capacité militaire.
+
+## Coût et efficacité d'une City
+
+City possède son propre compteur de niveaux. Elle ne partage pas son échelle de coût avec Port ou Factory.
+
+```text
+coût du prochain niveau de City
+  = min(1 000 000, 2^n * 125 000)
+```
+
+`n` représente le nombre effectif de niveaux de City déjà construits. Une nouvelle City comme une amélioration fait avancer ce compteur d'un niveau.
+
+| Niveau marginal de City | Coût | Limite ajoutée | Capacité par Gold |
+| ---: | ---: | ---: | ---: |
+| 1er | 125 000 | 250 000 | 2,00 |
+| 2e | 250 000 | 250 000 | 1,00 |
+| 3e | 500 000 | 250 000 | 0,50 |
+| 4e et suivants | 1 000 000 | 250 000 | 0,25 |
+
+Il n'existe pas de limite stricte à quatre niveaux dans la v0.33.7. Le quatrième niveau total atteint le plafond de prix ; les niveaux suivants restent disponibles à ce prix marginal.
+
+Ne présentez pas cet achat comme un retour en Gold. Une City convertit du Gold liquide en capacité militaire, récupération et station ferroviaire potentielle.
+
+## Construire une City ou en améliorer une ?
+
+Les deux options ajoutent 250 000 et avancent la même échelle de coût. La différence concerne le délai, l'emplacement et le réseau.
+
+### Améliorez une City existante si
+
+- la capacité doit être disponible immédiatement ;
+- la City actuelle se trouve au fond d'un noyau sûr ;
+- un nouveau bâtiment exposé ajouterait un risque de capture ;
+- le réseau ferroviaire possède déjà assez de positions.
+
+Une amélioration prend effet dès que l'action passe ses vérifications. Elle ne lance pas un nouveau chantier de 20 ticks.
+
+### Construisez une nouvelle City si
+
+- un deuxième arrêt de Train protégé est nécessaire ;
+- sa position améliore la topologie ou la redondance du rail ;
+- concentrer toute la valeur sur une City rendrait une nuke trop rentable ;
+- le site peut survivre aux 20 ticks de construction.
+
+Une City ne devient station que lorsqu'une Factory est à portée ou qu'une Factory ultérieure l'intègre au réseau.
+
+Le niveau de la City n'augmente ni le paiement d'un arrêt ni son poids comme destination.
+
+## Vérifier que la limite est le vrai blocage
+
+### 1. Êtes-vous souvent proche du maximum ?
+
+Au-dessus de 80 % durant les périodes calmes, la croissance naturelle est fortement réduite. Plus de terrain ou un niveau de City crée de la place utilisable.
+
+Si la jauge atteint rarement 50 %, la limite n'est probablement pas le problème immédiat.
+
+### 2. La prochaine armée utilisera-t-elle cette capacité ?
+
+Une City est forte avant une réserve planifiée, un goulet disputé ou la récupération suivant une expansion rentable.
+
+Elle est plus faible si aucun front ni plan ne demande ces Troops. Une capacité vide jusqu'à la fin de la partie reste une option très coûteuse.
+
+### 3. Le bâtiment peut-il survivre ?
+
+Une City capturée transfère sa valeur à l'occupant. Placez l'infrastructure de population derrière une frontière que vous pouvez tenir.
+
+Sous pression immédiate, la défense minimale efficace vaut souvent plus qu'un maximum que vous n'aurez pas le temps de remplir.
+
+## Trois décisions chiffrées
+
+### Scénario A : 10 000 tiles à 90 %
+
+Sans City, la limite est proche de 602 377. À 90 %, le joueur possède environ 542 139 et gagne seulement 3 846 par seconde.
+
+Un niveau de City porte la limite à environ 852 377. Les mêmes Troops ne représentent plus que 63,6 %, ce qui rouvre fortement la croissance.
+
+C'est un bon achat si le site est sûr et si le Gold n'est pas requis pour une défense urgente.
+
+### Scénario B : 10 000 tiles à 25 %
+
+Le joueur possède environ 150 594 Troops et en gagne déjà près de 11 368 par seconde. Une City agrandit la limite sans remplacer l'armée dépensée.
+
+Arrêtez les attaques facultatives et récupérez d'abord. Achetez la capacité plus tard si la jauge commence réellement à bloquer.
+
+### Scénario C : noyau ferroviaire protégé
+
+Le joueur veut 250 000 de capacité et possède une Factory. Une amélioration fournit la capacité immédiatement.
+
+Une nouvelle City apporte la même capacité après deux secondes et ajoute un arrêt commercial potentiel.
+
+Choisissez le nouveau site seulement si sa position et sa redondance justifient un bâtiment supplémentaire sur la carte.
+
+## Décider selon le pourcentage de la jauge
+
+### Sous 30 %
+
+Préservez les Troops et supprimez les attaques inutiles. Prenez seulement les terres peu coûteuses qui améliorent la position.
+
+Une nouvelle City ne résout généralement pas cet état.
+
+### Entre 35 % et 50 %
+
+La croissance naturelle brute est efficace. Étendez-vous par actions courtes et sûres en conservant une réserve adaptée aux ennemis visibles.
+
+### Entre 50 % et 70 %
+
+La croissance reste utile et la défense immédiate est plus forte. Cette zone est souvent pratique avant une bataille ou une possible trahison.
+
+### Au-dessus de 80 %
+
+Le facteur de place disponible vaut 0,2 ou moins. Si les frontières sont sûres, utilisez une partie de la réserve ou relevez la limite avec une City protégée.
+
+### Près de 100 %
+
+La croissance naturelle est presque arrêtée. Rester plein n'est logique qu'avant une attaque précise, une dissuasion ou une action d'équipe coordonnée.
+
+## Erreurs fréquentes
+
+### Traiter Workers comme des Troops disponibles
+
+Il n'existe ni jauge ni réserve d'ouvriers. Ne déduisez pas le revenu en Gold de la barre de Troops.
+
+### Acheter une City après chaque défaite
+
+Des Troops faibles et une limite faible sont deux problèmes différents. Une pénurie causée par les pertes demande récupération et combats plus sûrs.
+
+### Croire que City s'arrête au niveau 4
+
+Le prix cesse de doubler à partir du quatrième niveau total. La possibilité d'améliorer ne disparaît pas.
+
+### Comparer uniquement la capacité absolue
+
+Les mêmes 250 000 transforment un petit territoire mais représentent une part moindre d'un grand empire.
+
+Comparez le bonus au maximum actuel et à la réserve prévue.
+
+### Construire sur la frontière active
+
+La capacité n'a de valeur que tant que vous la contrôlez. Une première City bon marché peut devenir un cadeau coûteux si elle tombe.
+
+### Optimiser les 42 % en plein danger
+
+Le maximum de croissance ne connaît pas les attaques ennemies. Gardez davantage si le coût tactique de la faiblesse dépasse le gain naturel perdu.
+
+## Questions fréquentes
+
+### Attaquer réduit-il le revenu Workers ?
+
+Non. La dépense de Troops et le Gold passif étiqueté Workers sont calculés séparément.
+
+### Une City augmente-t-elle le revenu en Gold ?
+
+Pas directement. Elle augmente la limite et peut servir d'arrêt commercial lorsqu'une Factory la relie au rail.
+
+### Combien apporte une amélioration de City ?
+
+Chaque niveau terminé ajoute exactement 250 000 au calcul normal de la limite.
+
+### Le niveau 4 est-il le maximum ?
+
+Non. Les vérifications v0.33.7 ne montrent aucune limite stricte. Le quatrième niveau total est seulement celui où le coût marginal atteint 1 000 000.
+
+### Nouvelle City ou amélioration ?
+
+Pour la capacité brute, elles sont identiques. Une nouvelle City ajoute un emplacement ; une amélioration agit immédiatement et concentre la valeur en zone sûre.
+
+### Pourquoi la croissance ralentit-elle près du maximum ?
+
+La formule multiplie le gain par `1 - troops / maxTroops`. Ce facteur tend vers zéro lorsque les Troops approchent la limite.
+
+## Sources officielles et limite de version
+
+Ce guide prend la [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) et son tag comme frontière officielle du comportement actuel.
+
+Les formules, le coût des Cities et le Gold passif viennent de [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+L'exécution par tick se trouve dans [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts).
+
+Le comptage des niveaux et les améliorations sont dans [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts).
+
+Le libellé Workers est défini par [StatsSchemas.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/StatsSchemas.ts) et [StatsImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/StatsImpl.ts).
+
+Les données générées du site enregistrent séparément le checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` et la série éditoriale `v33`.
+
+Ce checkout sert à la reproductibilité de l'extraction ; ce n'est pas le tag v0.33.7.
+
+Pour la décision économique suivante, comparez [Port et Factory](/fr/guides/port-vs-factory/). Pour le budget global, consultez les [bases de l'économie](/fr/strategies/economy-fundamentals/).

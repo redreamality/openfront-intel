@@ -2,19 +2,21 @@
 title: "Guide Doomsday Clock OpenFront : vagues, attrition et survie"
 description: "La Doomsday Clock d’OpenFront vérifie une part de terrain croissante, pas un cercle sûr mobile. Toutes les vagues, l’avertissement de 30 secondes, l’attrition des troupes et Warships, les équipes et les contres."
 pubDate: 2026-08-04
-updatedDate: 2026-08-09
+updatedDate: 2026-08-22
 tags: [doomsday-clock, territory, endgame, strategy]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v33
-freshnessSummary: "La v33.2 transforme la fin de partie Doomsday : sept seuils montent à 2/4/7/11/17/25/35 %, le plancher des troupes descend de 40 % à 5 %, puis la corruption territoriale élimine un camp doomed pendant 150 secondes."
+freshnessSummary: "La v33.7 relève les seuils d’équipe à 3/6/10/15/21/28/35 %, tandis que le FFA garde 2/4/7/11/17/25/35 % ; le terrain corrompu devient du wasteland à reprendre."
 ---
 
 ## Réponse directe : que fait la Doomsday Clock ?
 
 La **Doomsday Clock** termine les parties bloquées en imposant à chaque camp non leader une part croissante des terres utilisables.
 
-Ce n’est pas un cercle qui se referme vers le centre géographique. Après dix minutes de grâce, la barre monte vers 2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %.
+Ce n’est pas un cercle qui se referme vers le centre géographique. Après dix minutes de grâce, le FFA monte vers 2 %, 4 %, 7 %, 11 %, 17 %, 25 %, puis 35 %.
+
+Les modes en équipe gardent les mêmes horaires, mais visent 3 %, 6 %, 10 %, 15 %, 21 %, 28 %, puis 35 %.
 
 Si votre camp passe sous la barre, un crâne apparaît et vous avez 30 secondes pour récupérer. Ensuite, les troupes et la santé des Warships diminuent chaque seconde.
 
@@ -28,7 +30,7 @@ L’objectif pratique est donc de conserver une part de terrain connectée avec 
 
 Il n’existe ni position cachée de zone sûre, ni règle fondée sur la distance au centre. Le jeu compare des nombres de tiles.
 
-En FFA, votre territoire est celui de votre camp. En mode équipe, les territoires de tous les coéquipiers vivants sont additionnés et comparés à la même barre qu’un camp solo.
+En FFA, votre territoire est celui de votre camp. En équipe, les territoires de tous les coéquipiers vivants sont additionnés et comparés à la barre d’équipe plus haute.
 
 Un petit allié reste sûr si le total d’équipe est sûr ; si ce total passe sous la barre, tous les membres reçoivent le crâne et l’attrition.
 
@@ -50,7 +52,9 @@ L’interface signale déjà le danger lorsque votre part se trouve à environ 1
 
 ## Calendrier des vagues et vitesses
 
-Tous les préréglages gardent les dix premières minutes à 0 %. Chaque vague monte progressivement jusqu’à sa cible, puis marque une courte pause. La barre ne saute pas instantanément d’un pourcentage du tableau au suivant.
+Tous les préréglages gardent les dix premières minutes à 0 %. Le tableau montre les cibles FFA ; les équipes atteignent 3/6/10/15/21/28/35 % aux mêmes horaires.
+
+Chaque vague monte progressivement jusqu’à sa cible, puis marque une courte pause. La barre ne saute pas instantanément d’un pourcentage du tableau au suivant.
 
 | Vitesse | 2 % | 4 % | 7 % | 11 % | 17 % | 25 % | 35 % final |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -126,7 +130,9 @@ Les Warships utilisent le même plancher descendant de 40 % à 5 % de leur sant�
 
 L’échéance complète du crâne est de 150 secondes. Après les 30 secondes d’avertissement et les 90 secondes de baisse du plancher, un camp bloqué à 5 % entre en corruption territoriale.
 
-La simulation ouvre des trous dispersés puis les propage. Les tiles redevenues neutres ne soutiennent plus routes ni structures. Le quota par seconde s’ajuste pour que le territoire restant atteigne zéro à l’échéance.
+La simulation ouvre des trous dispersés puis les propage. Les tiles perdues deviennent du wasteland, pas du terrain neutre absorbé gratuitement par un voisin. Leurs routes et structures disparaissent.
+
+Le quota par seconde s’ajuste pour que le territoire restant atteigne zéro à l’échéance.
 
 La situation reste récupérable jusqu’à l’élimination. Repasser la barre ou devenir leader retire le crâne, arrête immédiatement l’attrition et la corruption, puis réinitialise leur tracé pour un échec ultérieur.
 
@@ -250,7 +256,7 @@ Lorsque vous menez, maintenez la pression sans céder la couronne. L’exemption
 
 ## Règles de décision en équipe
 
-Une équipe est jugée sur son territoire combiné avec la même exigence qu’un joueur FFA. La barre n’est pas multipliée par le nombre de membres.
+Une équipe compare son territoire combiné à 3 %, 6 %, 10 %, 15 %, 21 %, 28 % et 35 %. La barre n’est pas multipliée par le nombre de membres, mais ses étapes intermédiaires dépassent celles du FFA.
 
 Répartissez les rôles pendant l’avertissement. Un allié tient le front tandis qu’un autre prend les tiles faciles. Comme tout le monde partage l’état de l’équipe, le total commun compte plus que le score individuel.
 
@@ -387,10 +393,10 @@ Non. Deux camps peuvent encore atteindre 35 %. La corruption crée la limite dé
 
 Les règles actuelles sont confirmées par ces sources officielles :
 
-- [Release v0.33.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.2)
-- [Calendrier des vagues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/game/DoomsdayClock.ts)
-- [Exécution des camps, de l’attrition et de la corruption](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/execution/DoomsdayClockExecution.ts)
-- [Valeurs de l’avertissement et du drain](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.2/src/core/configuration/Config.ts)
+- [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)
+- [Calendriers FFA et équipe](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)
+- [Exécution des camps, de l’attrition et du wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)
+- [Valeurs de l’avertissement et du drain](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts)
 
 Pour le contexte complet, lisez [les changements de la v33](/fr/changelog/v33/).
 

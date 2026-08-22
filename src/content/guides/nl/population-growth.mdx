@@ -1,0 +1,304 @@
+---
+title: OpenFront-gids voor bevolkingsgroei, troepen en Cities
+description: Begrijp de exacte troepenlimiet, groeiformule, de echte betekenis van Workers en wanneer je een City moet bouwen of upgraden.
+pubDate: 2026-08-22
+updatedDate: 2026-08-22
+tags: [population, troepen, city, economie]
+category: Handleiding
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Gecontroleerd tegen de officiële v0.33.7-tag: Workers is geen aparte bevolkingspool, elk voltooid City-level voegt 250.000 troepenlimiet toe en Cities hebben geen harde limiet van vier levels."
+---
+
+## Direct antwoord: hoe groeit je bevolking?
+
+OpenFront verdeelt je bevolking niet in arbeiders en soldaten. De simulatie bewaart Troops, Gold, gebied en gebouwen.
+
+De kolom **Workers** op het eindscherm is het label voor vast passief Gold. Het is geen bevolkingsvoorraad die daalt wanneer je aanvalt.
+
+Je maximale Troops bestaat uit een gebiedsformule met afnemende opbrengst plus 250.000 voor elk voltooid City-level.
+
+Troops groeien snel als er genoeg ruimte is. Dicht bij de limiet vertraagt de groei geleidelijk tot nul.
+
+Bouw of upgrade een City wanneer de limiet herstel of een geplande reserve blokkeert.
+
+Weinig Troops betekent niet automatisch dat de limiet te laag is. Ver eronder koopt een City alleen ongebruikte ruimte en herstelt zij geen verliezen.
+
+Gebruik deze vier stappen:
+
+1. Bereken je huidige Troops als percentage van de limiet.
+2. Onderscheid druk op de limiet van uitgaven en gevechtsverliezen.
+3. Koop City-capaciteit alleen als het maximum werkelijk knelt.
+4. Upgrade voor direct effect of bouw nieuw voor een extra beschermde treinhalte.
+
+## De exacte formule voor maximale Troops
+
+Voor een normale Human-speler berekent v0.33.7:
+
+```text
+maxTroops = 2 * (tiles^0.6 * 1.000 + 50.000)
+          + 250.000 * som van voltooide City-levels
+```
+
+Een City in aanbouw telt niet mee. Een City van level 3 levert drie levels, dus 750.000. Drie Cities van level 1 leveren dezelfde limiet.
+
+De gebiedsterm gebruikt een exponent van 0,6. Meer land verhoogt de limiet altijd, maar elk gelijk extra gebiedsblok levert minder dan het vorige.
+
+| Eigen tiles | Zonder City | Met één City-level | Relatieve stijging |
+| ---: | ---: | ---: | ---: |
+| 1 | 102.000 | 352.000 | +245% |
+| 100 | ongeveer 131.697 | ongeveer 381.697 | +190% |
+| 1.000 | ongeveer 226.191 | ongeveer 476.191 | +111% |
+| 10.000 | ongeveer 602.377 | ongeveer 852.377 | +41,5% |
+| 50.000 | ongeveer 1.419.507 | ongeveer 1.669.507 | +17,6% |
+| 100.000 | ongeveer 2.100.000 | ongeveer 2.350.000 | +11,9% |
+| 200.000 | ongeveer 3.131.433 | ongeveer 3.381.433 | +8,0% |
+
+De absolute bonus wordt niet kleiner. Elk level blijft 250.000 waard.
+
+Het percentage daalt alleen omdat een groot rijk al een hogere gebiedslimiet heeft.
+
+Bots en Nations gebruiken extra modifiers. Een Bot krijgt een derde van het basisresultaat.
+
+De moeilijkheid van een Nation vermenigvuldigt dit met 0,5 op Easy, 0,75 op Medium, 1 op Hard en 1,25 op Impossible.
+
+Deze gids gebruikt de normale Human-formule voor spelersbeslissingen.
+
+## De exacte groeiformule
+
+Een normale Human krijgt per simulatietick:
+
+```text
+growth = (10 + troops^0.73 / 4) * (1 - troops / maxTroops)
+```
+
+Het resultaat wordt begrensd zodat één tick het maximum niet overschrijdt. Een normale tick duurt 100 ms, dus er zijn ongeveer tien berekeningen per seconde.
+
+De eerste term stijgt met de huidige Troops. De laatste factor daalt wanneer de balk volloopt.
+
+Samen vormen ze een brede groeipiek. De eenvoudige regel 'hoe minder troepen, hoe sneller de groei' klopt dus niet.
+
+Voorbeeld: een Human met 10.000 tiles, geen City en een limiet van ongeveer 602.377:
+
+| Huidige Troops | Deel van limiet | Groei per tick | Ongeveer per seconde |
+| ---: | ---: | ---: | ---: |
+| 60.238 | 10% | 703 | 7.032 |
+| 150.594 | 25% | 1.137 | 11.368 |
+| 252.998 | 42% | 1.281 | 12.812 |
+| 301.189 | 50% | 1.254 | 12.537 |
+| 451.783 | 75% | 842 | 8.419 |
+| 542.139 | 90% | 385 | 3.846 |
+| 572.258 | 95% | 200 | 2.000 |
+
+De wiskundige piek ligt in dit voorbeeld rond 42%. Gebruik dat als groeisignaal, niet als verplichte reserve.
+
+Een blootgestelde speler kan bij 42% nog steeds een makkelijk doelwit zijn. Bij 65% groeit hij langzamer, maar heeft hij direct meer kracht.
+
+De juiste reserve hangt af van grenzen, bondgenoten, terrein en je volgende aanval.
+
+## Wat Workers werkelijk betekent
+
+De huidige simulatie heeft geen aparte hoeveelheid arbeiders. Elke levende niet-Bot-speler ontvangt vóór de lobby-multiplier 100 Gold per tick.
+
+Bots ontvangen 50. De engine boekt dat inkomen onder `GOLD_INDEX_WORK`; daarom heet de resultaatkolom **Workers**.
+
+Bij tien ticks per seconde en een 1x-multiplier krijgt een Human ongeveer:
+
+- 1.000 Gold per seconde;
+- 60.000 Gold per minuut;
+- 125.000 Gold in ongeveer 2 minuten en 5 seconden;
+- 250.000 Gold in ongeveer 4 minuten en 10 seconden.
+
+Troops versturen of verliezen en de limiet verhogen verandert deze basis niet.
+
+Een City maakt geen extra Workers en vermenigvuldigt het passieve Gold niet.
+
+Trade Ships, Trains, verovering, buitgemaakte handel, startgold en lobby-multipliers zijn aparte bronnen.
+
+Gebruik de [Port-of-Factory-gids](/nl/guides/port-vs-factory/) als Goldstroom en niet capaciteit je knelpunt is.
+
+## Kosten en capaciteit van een City
+
+City heeft een eigen levelteller. De kostenladder wordt niet gedeeld met Port of Factory.
+
+```text
+kosten van het volgende City-level
+  = min(1.000.000, 2^n * 125.000)
+```
+
+`n` is het effectieve aantal al gebouwde City-levels. Zowel een nieuwe City als een upgrade schuift dezelfde teller één stap door.
+
+| Extra City-level | Kosten | Extra limiet | Capaciteit per Gold |
+| ---: | ---: | ---: | ---: |
+| 1e | 125.000 | 250.000 | 2,00 |
+| 2e | 250.000 | 250.000 | 1,00 |
+| 3e | 500.000 | 250.000 | 0,50 |
+| 4e en later | 1.000.000 | 250.000 | 0,25 |
+
+Er is geen harde grens van vier levels in v0.33.7. Het vierde totale level bereikt het prijsplafond; latere upgrades blijven mogelijk tegen die marginale prijs.
+
+Noem dit geen rendement in Gold. Een City zet liquide Gold om in militaire capaciteit, herstelruimte en een mogelijke treinstationlocatie.
+
+## Een nieuwe City bouwen of upgraden?
+
+Beide keuzes voegen 250.000 toe en schuiven dezelfde kostenladder door. Het verschil zit in tijd, positie en netwerkwaarde.
+
+### Upgrade een bestaande City als
+
+- je de capaciteit direct nodig hebt;
+- de City veilig in je kern ligt;
+- een extra gebouw veroveringsrisico toevoegt;
+- het spoornet al genoeg locaties heeft.
+
+De upgrade werkt direct nadat de actiecontroles slagen. Er start geen nieuwe bouwtijd van 20 ticks.
+
+### Bouw een nieuwe City als
+
+- je een tweede beschermde Train-halte nodig hebt;
+- de plek topologie of redundantie verbetert;
+- één City een te waardevol nucleair doelwit wordt;
+- de plek de bouwtijd van 20 ticks kan overleven.
+
+Een City wordt alleen station wanneer een Factory binnen bereik staat of haar later in het netwerk trekt.
+
+Het City-level verhoogt de betaling of bestemmingskans van een Train niet.
+
+## Controleer of de limiet echt knelt
+
+### 1. Zit je vaak dicht bij het maximum?
+
+Boven 80% tijdens rustige perioden wordt natuurlijke groei sterk afgeremd.
+
+Meer land of een City-level creëert bruikbare ruimte. Bereik je zelden 50%, dan is de limiet waarschijnlijk niet het directe probleem.
+
+### 2. Zal het volgende leger de ruimte gebruiken?
+
+Een City is sterk vóór een geplande reserve, een betwist knelpunt of herstel na een grote succesvolle uitbreiding.
+
+Zonder front of plan blijft de extra capaciteit leeg. Capaciteit die de hele match ongebruikt blijft, was dure optionaliteit.
+
+### 3. Kan het gebouw overleven?
+
+Een veroverde City draagt haar waarde over aan de bezetter. Zet bevolkingsinfrastructuur achter een grens die je kunt houden.
+
+Onder directe druk is de kleinste effectieve verdediging vaak meer waard dan een limiet die je niet kunt vullen.
+
+## Drie doorgerekende beslissingen
+
+### Scenario A: 10.000 tiles op 90%
+
+Zonder City is het maximum ongeveer 602.377. Op 90% heeft de speler circa 542.139 en groeit hij met ongeveer 3.846 per seconde.
+
+Eén City-level verhoogt het maximum tot circa 852.377. Dezelfde Troops vormen direct nog maar 63,6%, waardoor veel herstelruimte ontstaat.
+
+Dit is een sterke aankoop als de plek veilig is en het Gold niet voor een noodverdediging nodig is.
+
+### Scenario B: 10.000 tiles op 25%
+
+De speler heeft ongeveer 150.594 Troops en groeit al met circa 11.368 per seconde.
+
+Een City verhoogt de limiet, maar vervangt het uitgegeven leger niet. Stop optionele aanvallen en herstel eerst.
+
+### Scenario C: beschermde spoorkern
+
+De speler wil 250.000 extra en bezit een Factory. Een upgrade levert de capaciteit direct.
+
+Een nieuwe City levert dezelfde capaciteit na twee seconden en voegt een mogelijke handelshalt toe.
+
+Kies nieuwbouw alleen als de locatie en redundantie een extra gebouw op de kaart waard zijn.
+
+## Beslissen op basis van het percentage
+
+### Onder 30%
+
+Spaar Troops en verwijder onnodige aanvallen. Pak alleen goedkoop land dat je positie verbetert.
+
+Een nieuwe City lost deze toestand meestal niet op.
+
+### Tussen 35% en 50%
+
+Ruwe natuurlijke groei is efficiënt. Breid uit met veilige, korte acties en houd genoeg reserve voor zichtbare vijanden.
+
+### Tussen 50% en 70%
+
+De groei blijft bruikbaar en directe verdediging is sterker. Dit is vaak een praktisch bereik vóór een gevecht of mogelijk verraad.
+
+### Boven 80%
+
+De vrije-ruimtefactor is 0,2 of lager. Zijn de grenzen veilig, gebruik dan reserve voor nuttig land of verhoog de limiet met een beschermde City.
+
+### Dicht bij 100%
+
+Natuurlijke groei is bijna gestopt. Vol blijven is alleen logisch vóór een gerichte aanval, afschrikking of gecoördineerde teamactie.
+
+## Veelgemaakte fouten
+
+### Workers als beschikbare Troops behandelen
+
+Er is geen arbeidersschuif of aparte pool. Leid je Goldinkomen niet af uit de troepenbalk.
+
+### Na elke nederlaag een City kopen
+
+Weinig Troops en een lage limiet zijn verschillende problemen. Een tekort door verliezen vraagt herstel en veiligere gevechten.
+
+### Denken dat City stopt op level 4
+
+De prijs stopt na het vierde totale level met verdubbelen. De mogelijkheid tot upgraden stopt niet.
+
+### Alleen absolute capaciteit vergelijken
+
+Dezelfde 250.000 verandert een klein gebied sterk en is een kleiner percentage van een groot rijk.
+
+Vergelijk de bonus met je huidige maximum en geplande reserve.
+
+### Op de actieve grens bouwen
+
+Capaciteit heeft alleen waarde zolang jij haar bezit. Een goedkope eerste City wordt een duur cadeau als de locatie valt.
+
+### Tijdens gevaar voor 42% optimaliseren
+
+De groeipiek houdt geen rekening met een aanval. Houd meer reserve wanneer tactische zwakte duurder is dan verloren groei.
+
+## Veelgestelde vragen
+
+### Verlaagt aanvallen het Workers-inkomen?
+
+Nee. Uitgaven van Troops en het passieve Gold met label Workers worden apart berekend.
+
+### Verhoogt een City het Goldinkomen?
+
+Niet direct. Zij verhoogt de limiet en kan een handelshalt zijn als een Factory haar met het spoor verbindt.
+
+### Hoeveel voegt een City-upgrade toe?
+
+Elk voltooid level voegt exact 250.000 toe aan de normale limietberekening.
+
+### Is level 4 het maximum?
+
+Nee. De v0.33.7-upgradecontroles tonen geen harde grens. Het vierde totale level bereikt alleen de marginale prijs van 1.000.000.
+
+### Is nieuwbouw beter dan een upgrade?
+
+Voor ruwe capaciteit zijn ze gelijk. Nieuwbouw voegt een locatie toe; upgraden werkt direct en houdt de waarde in één veilig gebouw.
+
+### Waarom vertraagt groei dicht bij de limiet?
+
+De formule vermenigvuldigt met `1 - troops / maxTroops`. Die factor nadert nul wanneer huidige Troops het maximum bereiken.
+
+## Officiële bronnen en versiegrens
+
+Deze gids gebruikt de officiële [v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7) en tag als grens voor huidig gedrag.
+
+Formules, City-kosten en passief Gold staan in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/configuration/Config.ts).
+
+De uitvoering per tick staat in [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/PlayerExecution.ts).
+
+Leveltelling en upgrades staan in [PlayerImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/PlayerImpl.ts).
+
+Het Workers-label staat in [StatsSchemas.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/StatsSchemas.ts) en [StatsImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/StatsImpl.ts).
+
+De gegenereerde sitegegevens registreren extract-checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` en redactiereeks `v33` apart.
+
+Die checkout is metadata voor reproduceerbaarheid en niet de v0.33.7-tag.
+
+Vergelijk voor de volgende economische keuze [Port en Factory](/nl/guides/port-vs-factory/). Lees voor het totaalbudget de [economische basis](/nl/strategies/economy-fundamentals/).
