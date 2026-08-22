@@ -18,3 +18,4 @@
 - **2026-08-22 再次复发：给 `rg` 传多个搜索根前先确认每个目录真实存在**：把猜测的 `src/lib` 与有效目录一起传入会让 `rg` 即使找到匹配仍以路径错误退出 2。先用 `rg --files src` 或逐个 `Test-Path` 枚举真实根，再组合搜索；不要把部分输出误当成整条审计成功。
 - **Node 20/23 不能直接动态导入项目 `.ts` 配置**：纯 Node 审计若要复用 TypeScript 单一来源，应通过项目内 `typescript.transpileModule` 转为 ESM 后加载，或使用项目已有的 TypeScript loader；不要直接 `import('./src/config/*.ts')`。
 - **项目不存在 `src/layouts/GuideLayout.astro`**：当前布局只有 `BaseLayout.astro` 与 `DocLayout.astro`；追踪攻略渲染前先用 `rg --files src/layouts src/pages` 枚举真实入口，不要按组件职责猜文件名。
+- **读取 Markdown 直接链接的来源包时必须相对当前文档目录解析路径**：例如 `docs/whats-new-content-plan.md` 中的 `research/...` 实际位于 `docs/research/...`，不是仓库根 `research/...`。先用 `rg --files docs` 核对真实文件，再读取，避免把正确的相对链接误判为缺失。

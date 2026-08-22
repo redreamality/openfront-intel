@@ -2,6 +2,13 @@
 
 本文件回答三个问题：OpenFrontIO 的 GitHub Issues、PR 与 Releases 中，哪些信号值得面向玩家披露；如何避免把开发进度误写成已上线功能；如何把这条来源接入 `content-loop.md` 的每日执行账本。调查只使用 [`openfrontio/OpenFrontIO`](https://github.com/openfrontio/OpenFrontIO) 的官方 Issue、PR、Release、commit、milestone 与源码记录。
 
+## 2026-08-23 增量核验
+
+- 最新正式版本已推进到 [`v0.33.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)，tag commit 为 `3229956f09a0307c7ed1d31e07aed9a9f9356cbd`。v0.33.8 只修正游戏服务器 HTTP API 的配置 host 路由，v0.33.9 只增加桌面客户端 release descriptor；两者都没有宣布新操作、平衡值或地图规则。
+- 上游 `main` 从 `9c97e01` 推进到 `0ffff961`，共有 18 个提交；它与 v0.33.9 tag 仍为分叉历史。主线提交只能用于预发布核验，不能被写成当前能力。
+- 已跟踪的地图预加载与外观 loadout 实现分别在 #5046、#5050 合并。地图预加载可以进入 v34 预览，但只描述把加载提前到出生窗口前的目标，不承诺固定秒数；loadout 先保留在内部 canonical 账本，等待正式 UI 与账号行为。
+- v0.33.7 已正式发布 spectator 与 Team Doomsday 变化，因此它们从 v34 预览撤下，继续由 v33 系列总览和对应常青主答案承接。SAM 动态射程、联盟操作盘、可区分颜色、商店预览和固定 2v2 队友仍未达到正式发布边界。
+
 ## 编辑结论
 
 - 建议在每日账本新增内部 section `What's New 上游雷达`，再由 `WN-01` 按 [`whats-new-content-plan.md`](../whats-new-content-plan.md) 实现五语公共 `/whats-new/`。公共页是经过筛选的状态视图，不是把所有开放 Issue 自动发布到站点的 GitHub 活动流。

@@ -81,6 +81,7 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /versioned replay shells/i],
+      ['v33.8/v33.9 boundary', /v33\.8.*(?:reliability|connection reliability)/is],
       ['spectator join', /without taking a player slot/i],
       ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
       ['wasteland rot', /wasteland rather than neutral land/i],
@@ -112,6 +113,7 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /版本化 replay shell/i],
+      ['v33.8/v33.9 boundary', /v33\.8.*(?:可靠性|连接可靠性)/s],
       ['spectator join', /不占玩家名额/],
       ['team Doomsday ladder', /3%、6%、10%、15%、21%、28%.*35%/],
       ['wasteland rot', /变成 wasteland/],
@@ -143,6 +145,7 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /shells de replay versionnés/i],
+      ['v33.8/v33.9 boundary', /v33\.8.*(?:fiabilité|connexion)/is],
       ['spectator join', /sans prendre de place de joueur/i],
       ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
       ['wasteland rot', /devient du wasteland/i],
@@ -174,6 +177,7 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /versionierte Replay-Shells/i],
+      ['v33.8/v33.9 boundary', /v33\.8.*(?:Zuverlässigkeit|Verbindungsfix)/is],
       ['spectator join', /ohne einen Spielerplatz zu belegen/i],
       ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
       ['wasteland rot', /wird zu Wasteland/i],
@@ -205,6 +209,7 @@ const contracts = [
     ],
     bodyPatterns: [
       ['versioned replay', /Versie-replay-shells/i],
+      ['v33.8/v33.9 boundary', /v33\.8.*(?:betrouwbaarheid|verbindingsfix)/is],
       ['spectator join', /zonder een spelersplek te bezetten/i],
       ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
       ['wasteland rot', /wordt wasteland/i],
