@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-08-22。
+更新日期：2026-08-23。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -29,12 +29,12 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.33.7`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)，tag commit `2d5baafdd0cc3f38ee1805d07ef15c1bc5bce09b`。
-- 上游 `main` 增量：`0b0c765 → 9c97e01`，8 个合并提交。
-- 历史边界：`v0.33.6...main` 已分叉，不能把 ahead/behind 当成线性“版本后新增”。
-- GSC 7 天：2026-08-11..17，971 Query / 1,942 Query × Page。
-- GSC 28 天：2026-07-21..08-17，1,429 Query / 3,738 Query × Page。
-- 需求源：站点开放 Issues/PR 为 0；Feedlog 只有 1 帖、0 票、0 评论；上游 #4237 无新讨论。
+- 正式 Release：[`v0.33.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)，tag commit `3229956f09a0307c7ed1d31e07aed9a9f9356cbd`；v33.8/v33.9 只含网络与桌面交付可靠性变化，没有新玩法规则。
+- 上游 `main` 增量：`9c97e01 → 0ffff961`，18 个提交；地图预加载与外观 loadout 已合并，仍不能越过正式 Release 边界。
+- 历史边界：`v0.33.9...main` 已分叉（ahead 122 / behind 33），不能把 ahead/behind 当成线性“版本后新增”。
+- GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
+- GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
+- 需求源：站点开放 Issues/PR 为 0；Feedlog 按自动化策略不访问；上游 #4237 无新讨论。
 - 详细来源与排除项：[`2026-08-20-whats-new-upstream-source-plan.md`](research/2026-08-20-whats-new-upstream-source-plan.md)。
 
 ## What's New 跟踪摘要
@@ -47,7 +47,9 @@
 | Clan Treasury 捐赠 | `Merged` | P1；必须保留永久且不可退款警告 | Release 后核对货币 UI 与权限 |
 | Spectator mode | `Released` | v0.33.7：可经大厅代码选择 Spectate，不出生、不占玩家席位 | 已同步五语 modes；后续核对正式入口变化 |
 | SAM 动态升级射程 | `In development` | 内部重点观察；#5040 blocked | 解除阻塞并合并后准备核武机制同步 |
-| Loadout、地图预加载、联盟操作盘、可区分颜色 | `In development` | P1 观察 | 评审稳定或合并后才占公共位置 |
+| 地图预加载 | `Merged` | v34 预览只说明把加载提前，不承诺固定秒数 | Release 后核对实际出生窗口、失败回退与设备差异 |
+| 外观 loadout | `Merged` | 内部账本记录十个槽与 Unequip all；尚未写成已上线能力 | Release 后核对最终选择器与账号行为 |
+| 联盟操作盘、可区分颜色、商店预览 | `In development` | P1/P2 观察 | 评审稳定或合并后再判断玩家价值 |
 | Ranked 2v2 固定队友 | `In development` | 外部依赖不可验证，只内部观察 | 依赖与服务端状态公开可验证后再判断 |
 | 安全、滥用、私有依赖、未批准/DevOps/重构 | `Suppressed` | 不公开 | 正式安全修复发布后才重新评估 |
 
@@ -66,11 +68,10 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-08-23 | v33.9 Release response + `WN-01` 事实修正 | 五语 v33 总览升级到 v33.9 并明确 v33.8/v33.9 不改变对局规则；v34 预览撤下已随 v33.7 发布的 spectator/Team Doomsday，改为不承诺固定秒数的地图预加载；loadout 与预加载进入内部 canonical 账本 | release contract 5/5；严格审计 95/95 + 8 internal/280 public；Astro check 0 errors；build 305 页；links 12,719；定向 e2e 149/149；合并即继续 Monitoring，正式 Release 前不改常青规则 |
 | 2026-08-22 | 13 个长文主题全部交付 | A–E 五批完成五语主答案、五份来源包、核弹计算器、两张单图页、自然入口与相邻互链；全部退出活动 Production | 严格审计 95/95；Astro check 0 errors；build 305 页；links 12,719；完整 e2e 371/371；后续只在正式变化或事实错误时重开 |
 | 2026-08-21 | `WN-01` 公共文章 MVP | What's New 改为五语版本文章索引；新增 v34 `Not released yet` 文章，复用 `/changelog/v34/` 稳定 URL；首页只展示文章摘要，RSS 过滤预发布版本，Issue/PR 仅留内部账本 | `pnpm content:audit -- --strict`、`pnpm check`、`pnpm build`、`pnpm check:links`、文章 e2e；正式 v34 发布时只切换 `releaseStatus` |
 | 2026-08-20 | `DOOM-SEO-01` | 五语主攻略获得路径级 SEO title，五语教程索引和 v33 摘要明确导向完整攻略；新增路由契约 e2e | 定向 e2e 15/15；完整 e2e 272/272；Astro check 0 errors；build 230 页；links 9,319；合并即转 Monitoring |
 | 2026-08-20 | `WN-01` 来源规划 | 建立 Released/Merged/In development/Watching 合同、双锚点和首批候选；没有提前改写正式机制 | 58 个官方来源链接；下一批实施公共 MVP |
-| 2026-08-20 | `FRESH-01` v33.6 | 五语 v33 总览与首页回答版本化 replay shell；不建回放薄页；PR #36 已合并 | audit 40/40；Astro check 0 errors；build 230 页；links 9,314；e2e 257/257 |
-| 2026-08-19 | `NUKE-01` | 主攻略承接主要 Water Nukes 意图并退出 Monitoring；没有重复改稿 | 7 天 97 展现/3 点击，高于 hotkeys 64/0；后续只在异常时重开 |
 
 以后只保留最近 3–5 个改变活动通道、公共来源锚点或决策门槛的有效运行；被替换的行移入月度归档。无变化运行不得写入本文件。

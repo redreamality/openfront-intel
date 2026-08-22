@@ -1,14 +1,26 @@
 ---
-title: 'v33.7: Spectator Join, Team Doomsday & v33 Rules'
-description: 'Player-focused OpenFront v33.7 notes: watch without a player slot, use the higher team Doomsday ladder, and understand the v33 rules still in force.'
+title: 'v33.9: Desktop & Server Reliability, plus v33 Rules'
+description: 'Player-focused OpenFront v33.9 notes: understand the desktop and server reliability patches, plus the v33.7 gameplay rules still in force.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-22
+updatedDate: 2026-08-23
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in v33.7?
+## Direct answer: what changed in v33.9 and v33.8?
+
+The official `v0.33.9` Release adds the release descriptor used by the desktop client. The preceding `v0.33.8` patch routes the game server's HTTP API through its configured host. Both are delivery and reliability changes; neither Release declares a new control, balance value, map rule, or match decision.
+
+For your next game, the latest player-facing changes remain the spectator and Team Doomsday rules released in v0.33.7. You do not need to change a build order or combat timing just because the displayed patch moved from v33.7 to v33.9.
+
+| Patch | What changed | Player decision |
+|---|---|---|
+| v33.9 | Desktop clients can read a release descriptor | Keep the desktop client current; match rules are unchanged |
+| v33.8 | The game server HTTP API follows the configured host | Treat it as a connection reliability fix, not a gameplay rule |
+| v33.7 | Spectator join, higher Team Doomsday rungs, and wasteland rot | Use the gameplay guidance below |
+
+## v33.7 gameplay update: spectators and Team Doomsday
 
 The official `v0.33.7` Release lets you join a game as a spectator without taking a player slot. Enter a lobby code and choose **Spectate**; you do not spawn or receive a team, while a finished game still opens as a replay.
 
@@ -130,6 +142,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.7` Release `draft=false` and `prerelease=false`; its body contains real v33.7 through v33.0 entries rather than TEST placeholder text. This remains the single v33 series overview; spectator behavior belongs in modes, while full Doomsday decisions stay in the dedicated guide.
+GitHub labels the official `v0.33.9` Release `draft=false` and `prerelease=false`; its body contains real v33.9 through v33.0 entries rather than TEST placeholder text. The v33.9 and v33.8 entries are reliability patches, while the v0.33.7 tag remains the source for the latest gameplay changes. This remains the single v33 series overview.
 
-Sources: [official v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator lobby flow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday ladders](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versioned replay URL helper](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [archived replay redirect](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [Luna rotation frequency](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), and [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
+Sources: [official v0.33.9 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9), [official v0.33.7 gameplay Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator lobby flow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday ladders](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versioned replay URL helper](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [archived replay redirect](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [Luna rotation frequency](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), and [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

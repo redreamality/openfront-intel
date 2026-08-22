@@ -1,14 +1,26 @@
 ---
-title: 'v33.7：旁观加入、团队末日时钟与 v33 规则'
-description: '面向玩家的 OpenFront v33.7 版本笔记：不占玩家名额地旁观对局，理解更高的团队末日门槛，并保留仍然生效的 v33 规则。'
+title: 'v33.9：桌面端与服务器可靠性，以及 v33 规则'
+description: '面向玩家的 OpenFront v33.9 版本笔记：理解桌面端与服务器可靠性补丁，以及仍然生效的 v33.7 玩法规则。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-22
+updatedDate: 2026-08-23
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：v33.7 改了什么？
+## 直接答案：v33.9 与 v33.8 改了什么？
+
+官方 `v0.33.9` Release 增加了桌面客户端读取的 release descriptor；此前的 `v0.33.8` 补丁让游戏服务器 HTTP API 通过配置的 host 路由。两者都属于交付与可靠性调整，没有宣布新的操作、平衡数值、地图规则或对局决策。
+
+对下一局而言，最近一次影响玩家操作的更新仍是 v0.33.7 上线的旁观模式与 Team Doomsday 规则。显示版本从 v33.7 变为 v33.9，并不要求你改变建造顺序或战斗时机。
+
+| 补丁 | 变化 | 玩家决策 |
+|---|---|---|
+| v33.9 | 桌面客户端可读取 release descriptor | 保持桌面客户端为最新；对局规则不变 |
+| v33.8 | 游戏服务器 HTTP API 遵循配置的 host | 把它视为连接可靠性修复，不是玩法规则 |
+| v33.7 | 旁观加入、更高的 Team Doomsday 门槛与 wasteland 腐化 | 按下文玩法建议行动 |
+
+## v33.7 玩法更新：旁观与 Team Doomsday
 
 官方 `v0.33.7` Release 允许玩家以旁观者身份加入对局，不占玩家名额。输入大厅代码后选择 **Spectate** 即可；旁观者不会出生，也不会被分配队伍。若对局已经结束，同一入口仍会打开回放。
 
@@ -130,6 +142,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.7` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.7 至 v33.0 条目，不是 TEST 占位。本页继续作为唯一 v33 系列总览；旁观行为由 modes 主答案承接，完整末日时钟决策仍在专门攻略中。
+GitHub 将官方 `v0.33.9` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.9 至 v33.0 条目，不是 TEST 占位。v33.9 与 v33.8 属于可靠性补丁，最近的玩法变化仍以 v0.33.7 tag 为来源。本页继续作为唯一 v33 系列总览。
 
-来源：[官方 v0.33.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[旧回放跳转](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。
+来源：[官方 v0.33.9 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)、[官方 v0.33.7 玩法 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[旧回放跳转](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。
