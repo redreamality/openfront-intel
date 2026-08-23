@@ -1,12 +1,12 @@
 # OpenFront Intel 内容战略
 
-更新日期：2026-08-22。规划窗口：未来 8–12 周。
+更新日期：2026-08-23。规划窗口：未来 8–12 周。
 
 本文只回答“为什么做、当前做什么、何时晋级或停止”。实时状态与指标见 [`content-loop.md`](content-loop.md)；Search Console 获取规则见 [`search-console-content-workflow.md`](search-console-content-workflow.md)；`What's New` 的字段与披露合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-08-20 前的完整叙事见 [归档](archive/content-strategy-through-2026-08-20.md)，不属于定时任务热上下文。
 
 ## 北极星
 
-访问者应在 20 秒内知道：当前版本最影响实战的变化、这一局该怎么做、答案最后何时核验。页面数、字数、PR 数和连续发布天数都不是目标。
+访问者应在 20 秒内知道：当前版本最影响实战的变化、这一局该怎么做、答案最后何时核验。页面数、PR 数和连续发布天数都不是目标；1000 个英文正文词是定时任务新长文的最低交付门槛，不替代独立意图、事实准确性和决策价值等质量判断。
 
 主要结果指标：
 
@@ -30,7 +30,7 @@
 | 通道 | 当前项 | 结论与下一门槛 |
 |---|---|---|
 | Monitoring | `WN-01` | 五语版本文章、v34 预发布稳定 URL、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付；详细合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。Issue/PR 只作内部证据，正式机制页只在 Release 后更新。 |
-| Production | 暂无活动主题 | 本轮 A–E 五批 13 个主题已全部交付并退出队列。下一主题必须先满足唯一玩家意图、成熟证据、自然入口和可验证完成定义；不得退回以 freshness 审计填充日程。完整交付记录见 [`long-form-content-program.md`](long-form-content-program.md)。 |
+| Production | `LF-COMMUNITY-ROLLING` | 每次定时循环从 Reddit 与 YouTube 的真实玩家问题中选出一个成熟意图，并在同轮完成至少一篇 1000 个英文正文词的五语 guide、来源包、自然入口和验证。旧 A–E 五批 13 个主题仍保持完成状态；滚动规则见 [`long-form-content-program.md`](long-form-content-program.md)。 |
 | Parked | `ATTACK-01` | 默认 20%、范围 1%–100%、步进 10% 已核验，但高比例同 tick 双击风险未定、28 天精确需求仅 1 次展现。只有上游 #4237 状态变化或真实重复需求才恢复。 |
 | Parked | `MAP-01` | Caribbean 与 Danish Straits 的地形差异已成立，但连续有效窗口中 GSC/Issues 精确需求为 0。只有真实问题、搜索意图或新的地图专属来源才恢复。 |
 
@@ -45,6 +45,9 @@
 3. 新建页时能说明为什么现有页无法完整承接。
 4. 有可验证完成定义，而非“增加字数”或“多做一页”。
 5. 不依赖未合并前置，不与进行中 PR 争夺同一意图。
+6. 本轮实际打开并分析至少 3 个相关 Reddit 讨论和 3 个相关 YouTube 视频或可核验字幕；每个来源在来源包记录玩家问题、可用观察、局限与访问日期。搜索结果摘要、标题列表和无法核验的转述不计数。
+
+Reddit 与 YouTube 用来识别玩家语言、困惑、实战情境和反复问题，不单独作为玩法事实依据。规则、数字与版本边界仍须由正式 Release、对应 tag 源码、生成数据或官方测试核验；主题需要更多视角时可补充 GSC、GitHub、Feedlog、Discord、Steam、Twitch 或其他可追溯社区来源。
 
 优先级依次是：事实错误、正式 Release、当前 Production 的退出条件、有排名基础的答案/入口问题、已批准长文计划中的成熟主题、反复出现但无主答案的玩家问题。用户明确改变口径、事实错误或正式 Release 可立即打断；其他重排只在周/月校准发生。
 
@@ -57,7 +60,7 @@
 
 ## 度量与复盘
 
-- 每日：先用不超过生产预算 10% 的时间扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和事实错误；Issue/PR 不直接生成公共条目，无打断项时默认推进当前长文的来源、母稿、场景、五语、入口或验证阶段。
+- 每日：先用不超过生产预算 10% 的时间扫描正式 Release、`What's New` 双锚点增量、已跟踪状态转换和事实错误；Issue/PR 不直接生成公共条目。门禁后必须完成 `LF-COMMUNITY-ROLLING` 的一个完整 guide 交付，不再把来源、母稿、本地化或验证拆到后续循环。正式 Release 响应可以同轮优先处理，但不能替代本轮 guide。
 - 每周：围绕一个玩家结果校准 Production；检查错落地、依赖与退出条件，并确保至少一个已批准长文主题持续前进。
 - 每月：比较 GSC 7/28 天意图、落地页、CTR、Feedlog/Issues；选择下月主题并记录拒绝原因。
 - 每季度：清理过时版本、重复页面和低点击入口；决定地图试点是否继续。
@@ -67,6 +70,7 @@
 ## 交付与状态收口
 
 - 自动化可在完整本地验证、最新 `main` 基线、远端 head 一致、PR 可合并、无未解决评论/重叠/依赖后直接 squash merge；不再等待人工审阅。状态不确定或门禁失败时保留 PR 并报告。
+- 每轮结束报告必须列出全部受影响的公开 URL，区分新增、正文更新和入口/互链更新，并同时列出本轮 guide 的正文词数、Reddit/YouTube 有效来源数、来源包、验证与交付状态。没有公开页面变更时仍须明确写“无”，并说明阻塞阶段；不得用 `NO_CHANGE` 掩盖未完成的长文目标。
 - 内容 PR 创建前就在 `content-loop.md` 写入“本 PR 合并即完成/转入 Monitoring/Parked”的目标状态、验证和下一触发点。合并后不再为补完成勾选、merge SHA 或纯运行叙事创建第二个 PR。
 - PR 合并状态、SHA、网络重试和无变化扫描只写 automation memory；只有它改变活动通道、公共来源锚点或后续决策时，才随下一个有实质内容的 PR 更新账本。
 - 定时任务提示词只保留 Scout / Production / Delivery 阶段接口和自动发布门禁，并指向 `AGENTS.md`、本文件、`content-loop.md` 与当前 Production 计划；不得复制当前候选、运行历史或平台避坑。提示词与三份热文件合计保持小而稳定。
