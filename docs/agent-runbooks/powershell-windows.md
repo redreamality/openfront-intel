@@ -52,9 +52,9 @@
 - **PowerShell 经 pnpm 传递 Playwright `--grep` 时不要用反斜杠转义标题里的方括号**：`Water Nukes\\[fr\\]` 可能以双反斜杠到达 Playwright 并导致 `No tests found`；改用不含方括号的稳定标题子串，或用 `Water Nukes.*fr.*` 这类无需反斜杠的正则。
 - **命令工具超时终止外层 `pnpm` 不保证回收 Node/Python 子进程**：GSC 等长请求超时后先用 `Get-CimInstance Win32_Process` 核对命令行和父子链，只终止本轮精确 PID，再确认残留为 0 后重试；不要让旧请求与唯一重试同时写同一缓存。
 - **按 CommandLine 清理进程时必须排除当前 PowerShell，且进程退出存在竞态**：宽泛匹配会把清理命令自身纳入并自终止；应先只读记录精确 PID，再逐个 `Stop-Process`，并把“检查后已自然退出”的 `ProcessCommandException` 视为 `ALREADY_EXITED` 后复核残留，而不是让清理脚本失败。
-- **2026-08-20 再次复发：PowerShell 的 `foreach (...) { ... }` 结果不能在同一语句末尾直接接管道**：先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`；否则解析器会报 `An empty pipe element is not allowed`。
+- **2026-08-23 再次复发：PowerShell 的 `foreach (...) { ... }` 结果不能在同一语句末尾直接接管道**：路由和五语事实审计也必须先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`；否则解析器会报 `An empty pipe element is not allowed`。
 - **PowerShell 用 `Select-String` 检查字符串数组时，应通过管道逐行传入**：`Select-String -InputObject $lines` 可能把整个数组作为单个输入对象，导致存在的行首模式仍返回空；使用 `$lines | Select-String -Pattern ...`，再把结果收集为数组并显式选择目标匹配。
 - **2026-08-20 再次复发：Windows 下即使只读 `docs/archive/*.md` 也不能把 `*` 放进 `rg` 路径参数**：从真实目录 `docs/archive` 搜索，并用 `--glob '*.md'` 过滤；否则 `rg` 会报 `os error 123`。
-- **2026-08-22 再次复发：Windows 下盘点 Astro/MDX 时不要把 `src/pages/*/mechanics/modes.astro`、`src/content/strategies/en/*.mdx` 等通配表达式作为 `rg` 路径参数**：应传真实目录，再用 `--glob 'modes.astro'` 或 `--glob '*.mdx'` 限定文件；否则会报 `os error 123`。
+- **2026-08-23 再次复发：Windows 下不要把 `src/pages/*/mechanics/modes.astro`、`src/content/strategies/en/*.mdx`、`e2e/*guide*`、`.env*` 等通配表达式作为 `rg` 路径参数**：应传真实目录，再用 `--glob 'modes.astro'`、`--glob '*.mdx'`、`--glob '*guide*'` 或 `--glob '.env*'` 限定文件；否则会报 `os error 123`。
 - **核验新 Release 时不要假设相邻的上游 clone 已抓取最新 tag**：先用 `git tag --list <tag>` 或 `git rev-parse --verify <tag>` 确认；本地缺失时改读 GitHub 官方 Release、tag ref 与 raw content API，不为只读核验擅自 fetch。PowerShell 中需要 annotated-tag peel 时把 `<tag>^{}` 整体加引号，否则 `{}` 可能被解析为脚本块。
 - **PowerShell 下 `gh ... --json` 的逗号字段列表必须整体引用**：例如写成 `gh pr list --json 'number,title,headRefName'`；未引用的逗号会被 PowerShell 当成参数数组分隔，导致 `gh` 收到错误字段或额外参数。

@@ -26,7 +26,7 @@
 - **Feedlog v0.4.0 在 pnpm 严格依赖布局下缺少直接的 `@nuxt/kit` 声明**：其 `nuxt.config.ts` 顶层 `import { createResolver } from '@nuxt/kit'` 会让 `pnpm install` 的 `nuxt prepare` 报 `Cannot find module '@nuxt/kit'`。部署该版本时先添加与 Nuxt 匹配的精确 `@nuxt/kit` devDependency，再更新锁文件和构建。
 - **e2e 已限定到某个 section 后，后代 `h2` 仍可能命中嵌套组件标题**：例如数值参考区内还包含来源面板，`[data-home-reference] h2` 会触发 strict-mode。断言区块自身标题时使用 `getByRole('heading', { level: 2, name, exact: true })` 或 `:scope > h2`，不要假设 section 内只有一个同级标题。
 - **完整 Playwright 的 `browserContext.newPage` 资源争用在 `--workers=2` 下也可能换一批用例复发**：失败仍发生在 fixture 建页、且单线程定向用例通过时，不要继续试不同的中间并发；直接用 `pnpm test:e2e --workers=1` 做最终全套，避免反复生成随机三项超时。
-- **`pnpm check:links` 只审计已有的 `dist/`，不会自动构建**：新工作树或清理产物后必须先运行 `pnpm build`，否则会以 `dist/ does not exist` 退出；不要把它误判为链接内容失败。
+- **2026-08-23 复发：`pnpm check:links` 只审计已经完成的 `dist/`，不会自动构建**：长构建仍运行时它可能对空目录报告 `0 HTML files` 且退出 0，这不算通过。必须先轮询构建到最终退出，再确认 HTML 数量大于 0 后运行链接审计；新工作树或清理产物后同样不能直接检查链接。
 - **多语 e2e 核验严格数值或否定边界时要允许该语种的明确同义表达**：例如德语 `< 50` 可写 `weniger als 50` 或 `unter 50`；“不保证同一动作”也可能因单复数、`same` / `identical`、本地化词序或直/弯撇号而变化。用有限的本地化正则枚举等价表达，同时保留数字、比较或否定语义，不要为满足单一字面断言改坏自然正文。
 - **`pnpm content:audit -- --strict` 的 240 字符限制按空行分隔的 Markdown 段落块计算**：仅插入软换行不会缩短审计段落；新增五语核心内容后若 `>240` 失败，应在自然句界处加入真正的空行拆段，并保留完整事实与断言。
 - **MDX 渲染会把部分直撇号转换成弯引号**：Playwright 对法语 `d'abord` 等带撇号整句做 `toContainText` 精确字符串断言时，源码 ASCII 撇号可能渲染为 `d’abord` 而失败。优先断言不跨撇号的稳定语义片段，仍保留关键事实保护。
