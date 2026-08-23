@@ -6,6 +6,7 @@ import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="军事：攻防与战斗" description="OpenFront.io 攻防 mag/speed 系数、防御工事增益、大军减益、背叛惩罚公式。">
@@ -21,7 +22,7 @@ const troops = formulas.groups.troops;
 
     <h2>防御工事（DefensePost）</h2>
     <Callout type="spec" title="范围 30 tiles 内">
-      <p>mag ×5、speed ×3——一座 DefensePost 几乎能让一段平原变成山地。<strong>瓶颈位（海峡、地峡）放 1~2 座足以拖住一个对手</strong>。</p>
+      <p>已建成且属于防守方的工事会应用 mag ×5、speed ×3；多座工事重叠时不叠乘这组倍率。覆盖能显著拖慢瓶颈推进，但不存在保证守住的固定工事数量。</p>
     </Callout>
 
     <h2>大军减益（防守方人口越多越弱）</h2>
@@ -35,7 +36,7 @@ const troops = formulas.groups.troops;
     <p>这是 OpenFront「不会有永远赢的大国」的核心机制——领土滚大后吃不动也守不住。</p>
 
     <h2>攻方大规模加成</h2>
-    <p>当攻击方 tiles > 100k 时：<code>bonus = (100k / tiles)^0.7</code>。本质是给大势力加一点 <strong>边际推进力</strong>，让他们能压住小势力，但同时 maxTroops 不会爆炸增长。</p>
+    <p>攻击方超过 100k tiles 后，损失修正为 <code>sqrt(100k / tiles)^0.7</code>，等价于 <code>(100k / tiles)^0.35</code>。它只在边际上降低大国攻方损失；实际投入、地形、工事与防守方仍决定战斗。</p>
 
     <h2>背叛减益</h2>
     <Callout type="warn" title="撕毁同盟的代价">
@@ -68,8 +69,9 @@ const troops = formulas.groups.troops;
     <ul>
       <li>📍 攻击前看地形：尽量挑平原边缘下手。</li>
       <li>🏰 看对方 DefensePost：覆盖瓶颈时换路。</li>
-      <li>📊 看双方 tiles：你 100k vs 对方 200k，你享有攻方加成，但他防御已衰减；正面战<strong>反而对你有利</strong>。</li>
+      <li>📊 把领土规模视为一项修正，不能当胜负判决：100k tiles 进攻 200k tiles，并不自动代表正面战有利。</li>
       <li>🤝 别背刺：除非能 30 秒打死对方，背刺通常自损更大。</li>
     </ul>
+    <p>实战判断顺序、反推数字案例与停手条件见<a href={`${base}zh/guides/land-combat/`}>陆战指南</a>。</p>
   </article>
 </BaseLayout>

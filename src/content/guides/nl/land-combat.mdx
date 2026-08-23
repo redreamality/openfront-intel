@@ -1,0 +1,152 @@
+---
+title: "Landgevechten in OpenFront: aanvallen, houden en counteren"
+description: "Begrijp waarom meer Troops geen doorbraak garanderen, hoe terrein en Defense Posts een grens veranderen en wanneer je versterkt, stopt of tegenaanvalt."
+pubDate: 2026-08-23
+updatedDate: 2026-08-23
+tags: [gevecht, verdediging, terrein, strategie]
+category: Handleiding
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Op 2026-08-23 gecontroleerd tegen de formele v0.33.9-tag: landverliezen, terrein, Defense Post-dekking en het wegstrepen van tegengestelde aanvallen."
+---
+
+## Direct antwoord: lees de grens, niet alleen de totalen
+
+Meer Troops garanderen geen doorbraak in OpenFront. Vergelijk de kracht die echt aan de aanval is toegewezen, Troops van de verdediger per eigen tile, doelterrein, dekking van Defense Posts, territoriumgrootte van beide spelers en een aanval die al in de omgekeerde richting loopt. Versterk alleen zolang die voorwaarden de kosten rechtvaardigen; stop anders, kies een andere route of val gericht terug aan.
+
+Deze gids is op **2026-08-23** gecontroleerd tegen de formele **v0.33.9**-tag. De coëfficiënten en aanvalsinteracties zijn feiten uit de engine. Het raamwerk met vier controles en de stopregels zijn een redactionele beslismethode, geen voorspelling van de winnaar.
+
+## Waarom het grotere leger toch vastloopt
+
+Het getal boven een land is niet het aantal dat aan één grens vecht. Een landaanval heeft een eigen resterende troepenmacht. Aan de andere kant leidt de engine het verlies van de verdediger per verloren tile af uit actuele Troops en het aantal eigen tiles. Elke veroverde tile kost de aanvaller daarnaast volgens terrein en lokale modifiers.
+
+Daaruit volgen bekende verrassingen:
+
+- Een grote speler stuurt een klein deel en verwart nationale reserve met lokale aanvalskracht.
+- De opmars bereikt bergen of Defense Post-dekking en wordt plots veel duurder.
+- Een verdediger start een tegengestelde aanval die de inkomende kracht wegstreept voordat een normale tegenopmars begint.
+- Een geslaagde aanval loopt voorbij zijn doel en verbruikt de reserve die elders nodig is.
+- Een modifier voor territoriumgrootte wordt ten onrechte als de hele gevechtsuitslag gelezen.
+
+De juiste vraag is niet: "Wie heeft meer Troops?" Vraag: "Wat kost de volgende nuttige tile, en kan ik daarna de reactie van de tegenstander nog opvangen?"
+
+## Het raamwerk met vier controles
+
+Herhaal deze controles aan iedere landgrens. Zodra er één verandert, beoordeel je de aanval opnieuw in plaats van een beslissing van tien seconden geleden te blijven volgen.
+
+### 1. Controleer de lokale kracht
+
+Lees de Troops die in de actieve aanval overblijven, niet alleen het totaal van je land. Vergelijk die met het huidige leger en territorium van de verdediger. De engine gebruikt `defender Troops / defender owned tiles` voor verlies van de verdediger per tile. Twee gelijke totale legers gedragen zich dus anders wanneer ze over verschillende oppervlaktes zijn verspreid.
+
+Houd een reserve buiten de aanval voor een tweede front, verraad of een tegenstoot. De interface laat je een percentage kiezen, maar geen enkel percentage is altijd juist. Een veilig aandeel aan een rustige grens kan fataal zijn als twee buren je kern kunnen bereiken.
+
+### 2. Controleer terrein en Defense Posts
+
+De huidige constanten zijn Plains `mag 80 / speed 16.5`, Highland `100 / 20` en Mountain `120 / 25`. Hogere `mag` verhoogt het verlies van de aanvaller; hogere `speed` vertraagt in deze formule de verovering. Mountain is daarom al duurder dan Plains voordat een gebouw wordt meegerekend.
+
+Een Defense Post van de verdediger dekt doel-tiles binnen **30 tiles**. De post vermenigvuldigt `mag` met **5** en `speed` met **3**. De zoeklus stopt na de eerste geldige post, waardoor overlappende posten deze gevechtsmodifier niet stapelen. De post moet van de verdediger zijn; een nabije post van een bondgenoot leent het voordeel niet uit.
+
+Een tweede post kan nog steeds nuttig zijn. Hij kan een andere nadering dekken, een tweede lijn bewaren nadat de eerste valt of een andere grens beschermen. Hij maakt alleen geen `mag x25` van een tile die al dekking heeft.
+
+### 3. Controleer de vorm van het contact
+
+Een brede grens opent meerdere routes en tegenaanvallen. Een smalle landengte concentreert het gevecht en maakt een goed geplaatste Defense Post extra waardevol. Diezelfde beschermde doorgang kan juist reden zijn om te stoppen en een andere route te zoeken.
+
+Bekijk niet alleen de eerste tile, maar het volgende nuttige deel van het pad. Een goedkope Plains-rand vlak voor beschermde bergen laat het begin eenvoudig lijken terwijl het echte doel duur blijft. Bepaal vooraf de stoplijn: rivier, korte grens, City, knooppunt of genoeg land om een concrete dreiging weg te nemen.
+
+### 4. Controleer tijd en tegenaanval
+
+Een nieuwe aanval op precies de speler die jou aanvalt, streept eerst beide actieve krachten **Troop voor Troop** tegen elkaar weg. Dat is een echt verdedigingsmiddel, maar het kost echte Troops en levert geen gratis schade op.
+
+Controleer ook de tijd tot het doel. Een trage opmars geeft een derde speler tijd om je reserve aan te vallen, of de verdediger tijd om de route te versterken. Arriveert de reactie van het bord vóór de opbrengst, dan was de aanval strategisch te groot, ook als hij lokaal wint.
+
+## Geverifieerde vergelijking van terrein en posten
+
+De tabel past alleen de v0.33.9-terreinwaarden en bewezen Defense Post-modifiers toe. Hij belooft geen universeel verlies per tile of tijd tot doorbraak. Een volledige berekening vereist ook veranderende aanvalskracht, verdedigerdichtheid, territoriumgrootte, aangrenzende fronttiles, verraad of fallout en de volgorde van ticks.
+
+| Toestand van doel | Effectieve `mag` | Effectieve `speed` | Betekenis voor de beslissing |
+| --- | ---: | ---: | --- |
+| Plains zonder post | 80 | 16.5 | Laagste basispaar van deze vier toestanden |
+| Mountain zonder post | 120 | 25 | Meer verlies en tragere verovering dan Plains |
+| Plains onder één of meer posten | 400 | 49.5 | Dekking verandert de route sterker dan terrein alleen |
+| Mountain onder één of meer posten | 600 | 75 | Duurste basispaar in deze vergelijking |
+
+Mountain begint hoger dan Plains. Daarna vermenigvuldigt een geldige post `mag` met vijf en `speed` met drie. Om de dekking heen gaan kan daarom beter zijn dan iets meer kracht in dezelfde route sturen.
+
+## Scenario 1: 200k tegen 100k kan beginnen als 40k tegen 100k
+
+Stel dat je **200.000 Troops** totaal hebt en de standaard landaanval van een Human of Nation gebruikt tegen een verdediger met **100.000**. Standaard wordt één vijfde verzonden. De actieve aanval begint dus rond **40.000**, terwijl **160.000** reserve blijft. De gevechtsformule ziet de actieve 40.000, niet de opvallende 200.000.
+
+Neem ook aan dat de Plains-route is gedekt. Het ruwe paar verandert van `80 / 16.5` naar `400 / 49.5`. Dat berekent geen winnaar, maar bewijst waarom "mijn getal is dubbel zo groot" het verkeerde model is: slechts één vijfde vecht en de route heeft een sterke lokale modifier.
+
+Versterk niet automatisch. Controleer of het doel binnen dezelfde dekking ligt. Zoek een andere rand, bedreig de post vanuit een open richting of wacht tot een teamgenoot een tweede drukpunt maakt. Is de post zelf essentieel, begroot de beschermde nadering dan bewust en stop zodra je een verdedigbare lijn bezit.
+
+De verdediger houdt de post in leven, verkort de beschermde grens en bedreigt de open flank. De aanvaller creëert beter een tweede strategisch probleem dan steeds meer aan de dure hoofdroute toe te voegen.
+
+## Scenario 2: tegengestelde aanvallen strepen eerst weg
+
+Een vijand heeft een actieve aanval van **180.000 Troops**. Jij start **120.000** terug tegen dezelfde speler. De twee aanvalspools worden één voor één verrekend. Jouw nieuwe aanval verdwijnt en de inkomende kracht zakt naar **60.000**.
+
+Start je in plaats daarvan **220.000**, dan verdwijnen de inkomende 180.000 en gaat jouw tegenaanval door met **40.000**. Die 40.000 garanderen geen nuttig gebied. Terrein, posten, resterende Troops van de verdediger en de route gelden na het wegstrepen nog steeds.
+
+Val terug aan wanneer het verwijderen van de inkomende kracht de ingezette reserve waard is. In het eerste geval koop je rust, maar geen offensief. In het tweede kan het kleine restant enkele goedkope tiles pakken of moet het vóór duur terrein worden gestopt.
+
+## Versterken, stoppen, omleiden of counteren
+
+### Versterken
+
+Versterk wanneer het volgende doel waardevol blijft, het terrein aanvaardbaar is, postdekking afwezig of bewust begroot is en je reserve de sterkste geloofwaardige reactie overleeft. Voeg alleen genoeg toe voor de gekozen stoplijn.
+
+### Stoppen
+
+Stop wanneer de aanval zonder passend doel duur terrein ingaat, de gewenste lijn bereikt, een tweede grens opent of het voordeel verliest dat hem rechtvaardigde. Een groene lijn die beweegt is op zichzelf geen plan.
+
+### Omleiden
+
+Verander van route wanneer de beschermde doorgang niet essentieel is, de volgende tiles veel slechter worden of een andere grens hetzelfde doel goedkoper bereikt. Vergelijk het hele pad, de tijd en de blootstelling.
+
+### Counteren
+
+Counter wanneer één-op-één wegstrepen de directe dreiging echt vermindert en een verdedigbare reserve overlaat. Bepaal vooraf of je alleen wilt annuleren, kort wilt heroveren of wilt doorstoten. Dat zijn drie verschillende budgetten.
+
+## Verdedigen met diepte
+
+De eerste Defense Post kost **50.000 Gold**. De formule `min(250.000, (n + 1) x 50.000)` geeft 50k, 100k, 150k, 200k en vanaf de vijfde 250k. De bouw duurt **50 ticks**. Een post die pas wordt gestart wanneer het front arriveert, kan te laat gereed zijn.
+
+Plaats hem waar zijn bereik van 30 tiles een route dekt die de tegenstander echt moet nemen: een korte grens, belangrijke structuur of kruising. Houd daarachter een reserve die het restant kan wegstrepen en een tweede geografische lijn voor wanneer de post valt.
+
+De gids [Economische basis](/nl/strategies/economy-fundamentals/) vergelijkt dit Gold met andere investeringen. Het [herstelplan](/nl/strategies/recovery-playbook/) neemt over wanneer de lijn al is gebroken.
+
+## Aanpassingen voor modus en kaart
+
+In **FFA** kan een lokaal goede aanval een derde speler uitnodigen. Neem iedere buur met een route naar je kern op in het budget. In **teamspellen** kan een partner een tweede front openen, maar zijn Defense Post geeft jouw tiles geen geleend verdedigingsvoordeel.
+
+Op **Compact** zijn reactieroutes korter. Houd meer direct bruikbare reserve en kies kortere doelen. Bij beschermd Mountain of een landengte ga je eromheen als dat kan. Is het de enige landverbinding, vergelijk dan een zeeroute, diplomatie, geduldige groei en gelijktijdige teamdruk.
+
+Water Nukes kan land in water veranderen en structuren verwijderen. Doomsday kan territoriumaandeel belangrijker maken dan de efficiëntste lokale ruil. Lees [Water Nukes](/nl/guides/water-nukes/) en [Doomsday Clock](/nl/guides/doomsday-clock/) voordat je normale stopregels ongewijzigd toepast.
+
+## Veelgemaakte fouten en reacties van de tegenstander
+
+Wie alleen landtotalen vergelijkt, kan op lokaal terrein worden leeggetrokken. Steeds meer naar dezelfde gedekte berg sturen verlengt vaak alleen het verlies. Denken dat twee posten hun modifier stapelen, laat verdedigers Gold verspillen en aanvallers de echte dekking verkeerd lezen.
+
+Je kunt ook de grens winnen en de partij verliezen. Een tegenstander geeft goedkope randtiles op terwijl een derde speler je lege kern binnengaat. Modifiers voor territoriumgrootte bestaan, maar bewijzen nooit dat een aanvaller met 100k tiles automatisch een verdediger met 200k verslaat. Toegewezen kracht, terrein, posten, tegengestelde aanvallen en frontvorm blijven beslissend.
+
+## Grenschecklist van tien seconden
+
+1. Hoeveel Troops zitten in de aanval en hoeveel blijven in reserve?
+2. Welk terrein ligt in het volgende nuttige deel van de route?
+3. Staat een Defense Post van de verdediger binnen 30 tiles?
+4. Wordt de grens breder of opent hij een route voor een derde speler?
+5. Is al een tegengestelde aanval actief tussen deze spelers?
+6. Welke tile, structuur of lijn maakt de aanval precies af?
+7. Overleeft de reserve de sterkste geloofwaardige reactie?
+
+Kun je 2, 3 en 6 niet beantwoorden, gebruik de schuifregelaar dan niet om onzekerheid te verbergen.
+
+## Bronnen en verder lezen
+
+- [Formele OpenFront-release v0.33.9](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)
+- [Gevechts- en Defense Post-configuratie in v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/configuration/Config.ts)
+- [Aanvalsuitvoering en wegstrepen in v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/execution/AttackExecution.ts)
+- Gebruik [Militair: aanval en verdediging](/nl/mechanics/military/) als compacte formulebron.
+- Lees [Iedere OpenFront-kaart lezen](/nl/guides/map-strategy/) voor routes en knelpunten vóór het gevecht.

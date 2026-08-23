@@ -6,6 +6,7 @@ import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Militär: Angriff, Verteidigung, Kampf" description="OpenFront.io: mag/speed-Koeffizienten, DefensePost-Bonus, Großarmee-Debuff und Verratsstrafe.">
@@ -21,7 +22,7 @@ const troops = formulas.groups.troops;
 
     <h2>Verteidigungsposten (DefensePost)</h2>
     <Callout type="spec" title="Im Radius von 30 tiles">
-      <p>mag ×5, speed ×3 — ein DefensePost verwandelt eine Ebene praktisch in Gebirge. <strong>1–2 Posten an einem Engpass (Meerenge, Landenge) halten meist einen kompletten Gegner auf</strong>.</p>
+      <p>Ein fertiger Posten des Verteidigers wendet mag ×5 und speed ×3 an. Überlappende Posten stapeln diesen Multiplikator nicht. Abdeckung bremst einen Engpass stark, aber keine feste Anzahl garantiert das Halten.</p>
     </Callout>
 
     <h2>Großarmee-Debuff (Verteidigung schwächer bei mehr tiles)</h2>
@@ -35,7 +36,7 @@ const troops = formulas.groups.troops;
     <p>Das ist der Kernmechanismus, warum es in OpenFront „keine ewig dominanten Großreiche" gibt — gewaltige Territorien kann man weder angreifen noch effektiv verteidigen.</p>
 
     <h2>Großarmee-Bonus für Angreifer</h2>
-    <p>Wenn die Angreifer-tiles > 100k: <code>bonus = (100k / tiles)^0.7</code>. Im Kern bekommt eine Großmacht etwas <strong>marginale Vorwärtskraft</strong>, sodass sie kleine Mächte überrollen kann, ohne dass maxTroops explodiert.</p>
+    <p>Ab 100k Angreifer-tiles lautet der Verlustmodifikator <code>sqrt(100k / tiles)^0.7</code>, also <code>(100k / tiles)^0.35</code>. Er senkt Verluste eines großen Angreifers am Rand; eingesetzte Truppe, Gelände, Abdeckung und Verteidiger entscheiden weiterhin.</p>
 
     <h2>Verratsdebuff</h2>
     <Callout type="warn" title="Der Preis des Bündnisbruchs">
@@ -68,8 +69,9 @@ const troops = formulas.groups.troops;
     <ul>
       <li>📍 Vor dem Angriff Gelände prüfen: möglichst an Ebenenränder.</li>
       <li>🏰 DefensePost des Gegners scouten: bei Engpass-Abdeckung Route ändern.</li>
-      <li>📊 tiles vergleichen: Du 100k vs. Gegner 200k? Du erhältst Angreifer-Bonus, sein Defense-Debuff ist aktiv — direkte Konfrontation ist <strong>für dich vorteilhaft</strong>.</li>
+      <li>📊 Gebietsgröße ist nur ein Modifikator: 100k angreifende gegen 200k verteidigende tiles entscheiden einen direkten Kampf nicht allein.</li>
       <li>🤝 Kein Hinterhältchen-Spiel: außer du kannst den Gegner in 30 Sekunden ausschalten, schadet Verrat meist mehr.</li>
     </ul>
+    <p>Die Live-Entscheidungsfolge, Zahlenbeispiele für Gegenangriffe und Stopregeln stehen im <a href={`${base}de/guides/land-combat/`}>Landkampf-Guide</a>.</p>
   </article>
 </BaseLayout>

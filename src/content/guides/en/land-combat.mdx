@@ -1,0 +1,195 @@
+---
+title: "OpenFront Land Combat: Push, Hold, and Counterattack"
+description: "Understand why troop leads fail, how terrain and Defense Posts change a border, and when to reinforce, stop, reroute, or counterattack in OpenFront."
+pubDate: 2026-08-23
+updatedDate: 2026-08-23
+tags: [combat, defense, terrain, strategy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal v0.33.9 tag on 2026-08-23: land losses depend on local terrain, Defense Post coverage, forces, territory scale, and active opposing attacks."
+---
+
+## Direct answer: read the border, not only the troop totals
+
+Having more Troops does not guarantee an OpenFront push. Before committing, compare the force actually assigned to the attack, the defender's Troops per owned tile, target terrain, nearby Defense Post coverage, both players' territory scale, and any attack already coming back across the same border. Reinforce only while those conditions still justify the cost; otherwise stop, reroute, or counterattack.
+
+This guide was last verified on **2026-08-23** against the formal **v0.33.9** tag. The coefficients and attack interactions below are engine facts. The four-read framework and stop rules are an editorial way to turn those facts into decisions, not a guaranteed outcome predictor.
+
+## Why the larger army can still stall
+
+The number above a country is not the number fighting on one border. A land attack has its own remaining force. Meanwhile, the defender's total Troops are spread through a per-owned-tile term, and every captured tile charges the attacker according to the terrain and other modifiers at that location.
+
+That produces several common surprises:
+
+- A large player sends too small a fraction and mistakes national reserves for local force.
+- A push reaches mountain tiles or Defense Post coverage and suddenly becomes expensive.
+- A defender launches a reverse attack, canceling the incoming force before either line continues normally.
+- A successful attack keeps running after its original objective and spends the reserve needed elsewhere.
+- Territory-scale modifiers help or hurt at the margin, but are treated as if they decide the battle by themselves.
+
+The correct question is not "Who has more Troops?" It is "What does the next useful tile cost, and can I still afford the next enemy response?"
+
+## The four-read combat framework
+
+Use the same four reads every time you inspect a land border. If one read changes, reassess the attack instead of relying on the decision you made ten seconds ago.
+
+### 1. Read the local force
+
+Look at the Troops remaining in the active attack, not only your country's total. Then compare that force with the defender's present army and territorial size. The code charges defender losses per lost tile using `defender Troops / defender owned tiles`; this is why identical total armies can behave differently when spread across different amounts of land.
+
+Keep a reserve outside the attack for a second front, a betrayal, or a reverse push. The interface lets you choose an attack percentage, but no percentage is universally correct. A safe amount on one quiet border can be fatal when two neighbors can reach your core.
+
+### 2. Read terrain and Defense Posts
+
+The current terrain constants are Plains `mag 80 / speed 16.5`, Highland `100 / 20`, and Mountain `120 / 25`. Higher `mag` increases attacker losses; higher `speed` makes territorial advance slower in this formula. Mountain is therefore costlier than Plains before any building is considered.
+
+A defending player's Defense Post covers target tiles within **30 tiles**. Coverage multiplies `mag` by **5** and `speed` by **3**. The current check stops after finding one qualifying post, so overlapping posts do not stack that combat multiplier. The post must belong to the defender; an ally's nearby post does not lend its bonus.
+
+Do not interpret "non-stacking" as "the second post is useless." A second post can cover another approach, preserve coverage after one is captured, or protect a different border. It simply does not turn one already covered tile into `x25 mag`.
+
+### 3. Read the contact shape
+
+A wide border can consume force across many possible tiles and expose you to more than one counterattack. A narrow neck concentrates the fight, which makes a correctly placed Defense Post especially valuable. On the other hand, a narrow defended neck may be a reason to stop attacking and open another route.
+
+Inspect where the attack will move next, not only the first tile. A Plains edge followed immediately by mountains or protected territory can make an opening look cheap while the useful objective remains expensive. Set the desired line before clicking: a river edge, a short frontier, a City, a route junction, or enough land to remove an immediate threat.
+
+### 4. Read the clock and the counter
+
+An active attack is not isolated. A reverse attack across the same player pair first cancels the opposing attack **one Troop for one Troop**. That can be a deliberate defensive tool, but it consumes real Troops and does not create free damage.
+
+Also watch the time needed for the push to reach its objective. A slow advance gives other players time to attack your reserve, build on the route, or enter through a different border. If the board response arrives before the payoff, the attack was strategically too large even if it was locally winning.
+
+## Verified terrain and post comparison
+
+The table below applies only the v0.33.9 terrain constants and the verified Defense Post multipliers. It deliberately does not claim a universal loss per tile or seconds to break through. A complete calculation would also need the changing attack force, defender Troops per tile, territory-size modifiers, border adjacency, traitor or fallout state, and tick order.
+
+| Target state | Effective mag | Effective speed | Decision meaning |
+| --- | ---: | ---: | --- |
+| Plains, no post | 80 | 16.5 | Lowest base cost of these four states |
+| Mountain, no post | 120 | 25 | Higher losses and slower capture than Plains |
+| Plains, covered by one or more defender posts | 400 | 49.5 | Post changes the route more than terrain alone |
+| Mountain, covered by one or more defender posts | 600 | 75 | Most expensive base pair in this comparison |
+
+Two lessons matter. First, Mountain starts at higher `mag` and `speed` than Plains. Second, valid Defense Post coverage multiplies `mag` by five and `speed` by three, so routing around coverage can matter more than sending a slightly larger force into it.
+
+The `speed` value affects how quickly tiles advance in the engine; it is not a movement bonus. Higher effective speed here means a slower capture cadence.
+
+## Scenario 1: 200k versus 100k may start as 40k versus 100k
+
+Assume you have **200,000 total Troops**, use the default Human/Nation land-attack amount, and attack a defender with **100,000**. The default sends one fifth of current Troops, so the active attack begins near **40,000** while **160,000** remains in your reserve. The combat formula sees the active 40,000, not the headline 200,000.
+
+Now assume the route is covered Plains. Its raw terrain pair changes from `80 / 16.5` to `400 / 49.5`. That does not by itself calculate the outcome, but it proves why "my number is twice theirs" is the wrong starting model: only one fifth entered the attack, and the route has a large local modifier.
+
+Decision: do not automatically feed the attack because your country still shows 160,000 in reserve. Pause and ask whether the objective lies inside the same coverage. If it does, scout another edge, threaten the post from an uncovered approach, or wait until a teammate creates a second pressure point. If the post itself is the essential objective, budget for the protected approach and stop immediately after securing a defensible line.
+
+Defender counterplay: keep the post alive, shorten the protected border, and attack the invader's exposed flank. Attacker counter-counterplay: widen the strategic problem without widening the costly attack, for example by opening a separate route or forcing the defender to move attention.
+
+## Scenario 2: reverse attacks cancel before they advance
+
+Assume an enemy has an active **180,000-Troop** attack against you. You launch **120,000** back at that same player. Before a normal reverse push develops, the two attacks cancel one for one. Your new attack is removed and the incoming attack falls to **60,000**.
+
+If you instead launch **220,000**, the incoming 180,000 is removed and your reverse attack continues with **40,000**. This does not mean the 40,000 will take useful land. Terrain, Defense Posts, remaining defender Troops, territory scale, and the route still apply after cancellation.
+
+Decision: use a reverse attack when neutralizing the incoming force is worth the committed Troops, not because the outgoing line looks like free offense. In the first case, you bought relief but did not create an attack. In the second, the small remainder may be useful for a few cheap tiles or may be better stopped before it reaches expensive terrain.
+
+Attacker counterplay: avoid leaving an oversized attack exposed if the defender has enough reserve to erase it and still hold. Defender counterplay: do not counter with every Troop; a third player can exploit the empty reserve immediately.
+
+## When to reinforce, stop, reroute, or counterattack
+
+Use four commands rather than one vague instruction to "push harder."
+
+### Reinforce
+
+Reinforce when the next objective is still valuable, the attack remains on acceptable terrain, Defense Post coverage is absent or intentionally budgeted, and your reserve survives the strongest credible reply. Add only enough force to reach the stop line; a larger active number is not a reward by itself.
+
+### Stop
+
+Stop when the attack enters expensive terrain without a matching objective, reaches the line you wanted, exposes a second border, or loses the force advantage that justified it. A stopped attack preserves optionality. Continuing because the line is green is not a plan.
+
+### Reroute
+
+Reroute when a post-protected neck is not itself essential, when the next tiles sharply worsen, or when another border leads to the same objective at lower cost. Compare the whole path, including time and exposure, rather than selecting the first Plains tile you can click.
+
+### Counterattack
+
+Counterattack when one-for-one cancellation meaningfully reduces an incoming threat and leaves a defendable reserve. Decide beforehand whether the goal is cancellation, a short reclaim, or a continuing invasion. Those are three different troop budgets.
+
+## Defense: build depth instead of trusting one number
+
+The first Defense Post costs **50,000 Gold**. Costs rise as `min(250,000, (n + 1) x 50,000)`, so the sequence is 50k, 100k, 150k, 200k, then 250k for the fifth and every later post. Construction takes **50 ticks**. A post begun after the attack reaches its tile may simply be too late.
+
+Place the first post where its 30-tile range covers a route the opponent must actually use. Prefer a short frontier, important structure, or junction over a visually central point with no useful contact. Then keep enough territory behind it that losing one edge tile does not expose every structure at once.
+
+Posts are strongest as part of depth:
+
+- a protected first line that makes the attacker spend;
+- a reserve able to cancel or punish the remaining attack;
+- a second geographic line if the first post falls;
+- diplomacy or team pressure that prevents the attacker from concentrating forever.
+
+The [economy fundamentals guide](/strategies/economy-fundamentals/) helps compare that Gold with Cities and other investments. The [recovery playbook](/strategies/recovery-playbook/) covers retreat and rebuilding after the line has already failed.
+
+## Mode and map adjustments
+
+### Free-for-all
+
+Reserve matters more because a locally correct attack can invite a third player. Treat every visible neighbor with a route to your core as part of the combat budget. A cheap capture that doubles your exposed border may be strategically expensive.
+
+### Team games
+
+One player can hold a protected neck while a teammate creates the alternate route. Allied pressure is useful, but an ally's Defense Post does not provide the defender-only coverage bonus to your tiles. Coordinate roles and actual ownership rather than assuming nearby team buildings stack.
+
+### Compact maps
+
+Shorter distances compress response time. A reverse attack or second front can arrive before a long push pays back. Keep a larger immediately usable reserve and choose shorter stop lines.
+
+### Mountains and chokepoints
+
+Mountain plus Defense Post is the most expensive row in the fixed comparison above. If the neck is optional, route around it. If it controls the only land connection, decide whether naval access, diplomacy, patient economic growth, or synchronized team pressure is cheaper than repeatedly feeding the same line.
+
+### Water Nukes and Doomsday
+
+Special modes can change the objective around land combat. Water Nukes may create water and remove structures, changing whether the defended route remains relevant. Doomsday may make territory share more urgent than an efficient local trade. Read the [Water Nukes guide](/guides/water-nukes/) or [Doomsday Clock guide](/guides/doomsday-clock/) before carrying normal-match stop rules over unchanged.
+
+## Common failures and opponent responses
+
+### Comparing only the two country totals
+
+The opponent can exploit this by holding with local terrain while your active force drains. Compare the attack force, reserve, and next-tile cost separately.
+
+### Sending more into unchanged bad terrain
+
+A defender wants you to keep reinforcing the covered mountain. Break that loop by changing route, timing, or objective. More Troops can extend the loss without improving the result.
+
+### Assuming two posts stack on one tile
+
+They do not stack the current multiplier. Attackers should still verify whether another post extends coverage farther along the route. Defenders should spread redundant coverage according to geography rather than pile buildings on one point for an imagined multiplication.
+
+### Winning the border and losing the match
+
+An opponent may concede cheap edge tiles while another player attacks your empty core. Define the stop line and reserve before the first click. Land gained is useful only if you can hold it and still answer the board.
+
+### Treating territory-scale modifiers as destiny
+
+The large-player adjustments are real, but they do not prove that a 100k-tile attacker automatically beats a 200k-tile defender. Assigned force, Troops per tile, terrain, posts, active counters, and contact shape remain decisive inputs. Use scale as one modifier, never as the verdict.
+
+## A ten-second border checklist
+
+1. How many Troops are in this attack, and how many remain outside it?
+2. What terrain lies under the next useful section of the route?
+3. Is a defender-owned Defense Post within 30 tiles?
+4. Does the border widen, narrow, or expose another player?
+5. Is an opposing attack already active between these players?
+6. What exact tile, structure, or line makes the push complete?
+7. Can the reserve survive the strongest credible response?
+
+If you cannot answer items 2, 3, and 6, do not solve the uncertainty by increasing the slider.
+
+## Sources and next reading
+
+- [OpenFront v0.33.9 formal Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)
+- [v0.33.9 combat and Defense Post configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/configuration/Config.ts)
+- [v0.33.9 attack execution and reverse-attack cancellation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/execution/AttackExecution.ts)
+- Use [Military: Combat & Defense](/mechanics/military/) as the compact formula reference.
+- Use [How to Read Any OpenFront Map](/guides/map-strategy/) to identify terrain routes and chokepoints before choosing the fight.

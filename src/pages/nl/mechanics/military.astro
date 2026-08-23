@@ -6,6 +6,7 @@ import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Militair: aanval en verdediging" description="OpenFront.io aanval en verdediging: mag/speed-coëfficiënten, DefensePost-bonus, grote-legerstraf en verraadboete.">
@@ -21,7 +22,7 @@ const troops = formulas.groups.troops;
 
     <h2>DefensePost</h2>
     <Callout type="spec" title="Binnen 30 tiles">
-      <p>mag ×5, speed ×3 — één DefensePost maakt van een vlakte bijna een berg. <strong>1 à 2 stuks op een knooppunt (zeestraat, landengte) zijn voldoende om één tegenstander op te houden</strong>.</p>
+      <p>Een voltooide post van de verdediger past mag ×5 en speed ×3 toe. Overlappende posten stapelen deze modifier niet. Dekking vertraagt een knelpunt sterk, maar geen vast aantal posten garandeert dat de grens houdt.</p>
     </Callout>
 
     <h2>Grote-legerstraf (hoe meer bevolking de verdediger heeft, hoe zwakker)</h2>
@@ -35,7 +36,7 @@ const troops = formulas.groups.troops;
     <p>Dit is de kernmechaniek waarom in OpenFront "geen enkele grootmacht eeuwig wint" — wie te groot wordt, kan niet meer aanvallen noch verdedigen.</p>
 
     <h2>Bonus voor grote aanvallers</h2>
-    <p>Wanneer de aanvaller meer dan 100k tiles heeft: <code>bonus = (100k / tiles)^0.7</code>. Dit geeft grote spelers een lichte <strong>marginale opmarsbonus</strong>, waardoor ze kleine spelers kunnen drukken, terwijl maxTroops niet ongelimiteerd blijft groeien.</p>
+    <p>Boven 100k aanvallende tiles is de verliesmodifier <code>sqrt(100k / tiles)^0.7</code>, gelijk aan <code>(100k / tiles)^0.35</code>. Hij verlaagt verliezen voor een grote aanvaller aan de marge; ingezette kracht, terrein, dekking en verdediger blijven bepalend.</p>
 
     <h2>Verraadstraf</h2>
     <Callout type="warn" title="Kosten van een verbroken alliantie">
@@ -68,8 +69,9 @@ const troops = formulas.groups.troops;
     <ul>
       <li>📍 Bekijk het terrein vóór de aanval: probeer aan te vallen via de rand van een vlakte.</li>
       <li>🏰 Kijk naar de DefensePost van de tegenstander: vermijd dekkingsgebieden bij knooppunten.</li>
-      <li>📊 Vergelijk de tiles: jij 100k vs hij 200k — jij krijgt de aanvallersbonus terwijl zijn verdediging al verzwakt is; een frontaal gevecht <strong>valt zelfs in jouw voordeel uit</strong>.</li>
+      <li>📊 Behandel territoriumgrootte als één modifier: 100k aanvallende tegen 200k verdedigende tiles beslist een frontaal gevecht niet vanzelf.</li>
       <li>🤝 Geen messteken in de rug: tenzij je je tegenstander binnen 30 seconden kunt vellen, doet verraad meestal meer kwaad aan jezelf.</li>
     </ul>
+    <p>Lees voor de live beslisvolgorde, cijfermatige tegenaanvallen en stopregels de <a href={`${base}nl/guides/land-combat/`}>gids voor landgevechten</a>.</p>
   </article>
 </BaseLayout>
