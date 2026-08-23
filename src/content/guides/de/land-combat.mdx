@@ -1,0 +1,152 @@
+---
+title: "OpenFront-Landkampf: Angreifen, halten und kontern"
+description: "Verstehe, warum mehr Troops keinen Durchbruch garantieren, wie Gelände und Defense Posts wirken und wann du verstärkst, stoppst oder konterst."
+pubDate: 2026-08-23
+updatedDate: 2026-08-23
+tags: [kampf, verteidigung, gelände, strategie]
+category: Tutorial
+difficulty: Mittel
+version: v33
+freshnessSummary: "Am 2026-08-23 gegen den formalen Tag v0.33.9 geprüft: Landverluste, Gelände, Defense-Post-Abdeckung und die Aufhebung gegenläufiger Angriffe."
+---
+
+## Direkte Antwort: Lies die Grenze, nicht nur die Gesamtzahlen
+
+Mehr Troops garantieren in OpenFront keinen Durchbruch. Vergleiche die tatsächlich dem Angriff zugeteilte Truppe, die Troops des Verteidigers pro eigener tile, Zielgelände, Defense-Post-Abdeckung, Gebietsgröße beider Spieler und einen bereits entgegenlaufenden Angriff. Verstärke nur, solange diese Bedingungen den Preis rechtfertigen. Sonst stoppst du, wechselst die Route oder setzt einen gezielten Gegenangriff.
+
+Dieser Guide wurde am **2026-08-23** mit dem formalen Tag **v0.33.9** geprüft. Koeffizienten und Angriffsinteraktionen sind Fakten der Engine. Das Vier-Prüfungen-Modell und die Stopregeln sind ein redaktioneller Entscheidungsrahmen, keine Ergebnisgarantie.
+
+## Warum die größere Armee steckenbleiben kann
+
+Die Zahl über einem Land ist nicht die Truppe an einer einzelnen Grenze. Ein Landangriff führt seinen eigenen verbleibenden Bestand. Auf der Gegenseite werden die Verluste pro verlorener tile aus aktuellen Verteidiger-Troops und eigenen tiles abgeleitet. Jede eroberte tile kostet den Angreifer zusätzlich nach Gelände und lokalen Modifikatoren.
+
+So entstehen typische Überraschungen:
+
+- Ein großer Spieler sendet nur einen kleinen Anteil und verwechselt Landesreserve mit Fronttruppe.
+- Der Angriff erreicht Gebirge oder Defense-Post-Abdeckung und wird plötzlich teuer.
+- Der Verteidiger startet einen Gegenangriff, der die eingehende Truppe aufhebt, bevor eine normale Gegenoffensive beginnt.
+- Ein erfolgreicher Angriff läuft über sein Ziel hinaus und verbraucht die Reserve für eine andere Grenze.
+- Gebietsgrößen-Modifikatoren werden als vollständiges Kampfurteil missverstanden.
+
+Die nützliche Frage lautet nicht: „Wer hat mehr Troops?“, sondern: „Was kostet die nächste wichtige tile, und kann ich danach noch die Antwort des Gegners bezahlen?“
+
+## Der Rahmen aus vier Prüfungen
+
+Wiederhole diese Prüfungen an jeder Landgrenze. Ändert sich eine davon, prüfst du den Angriff neu, statt einer zehn Sekunden alten Entscheidung blind zu folgen.
+
+### 1. Lokale Truppe prüfen
+
+Lies die verbleibenden Troops im aktiven Angriff, nicht nur den Gesamtbestand deines Landes. Vergleiche sie mit der aktuellen Armee und Gebietsgröße des Verteidigers. Die Engine verwendet `defender Troops / defender owned tiles` für Verteidigerverluste pro tile. Deshalb verhalten sich gleiche Gesamtarmeen auf verschieden großen Gebieten nicht gleich.
+
+Behalte eine Reserve außerhalb des Angriffs: für eine zweite Front, Verrat oder einen Gegenstoß. Der Regler erlaubt einen Prozentsatz, aber kein Wert ist immer richtig. Was an einer ruhigen Grenze sicher ist, kann tödlich sein, wenn zwei Nachbarn deinen Kern erreichen.
+
+### 2. Gelände und Defense Posts prüfen
+
+Die aktuellen Konstanten lauten Plains `mag 80 / speed 16.5`, Highland `100 / 20` und Mountain `120 / 25`. Höheres `mag` erhöht Angreiferverluste; höheres `speed` verlangsamt in dieser Formel den Gebietsvormarsch. Gebirge ist daher bereits ohne Gebäude teurer als Ebene.
+
+Ein Defense Post des Verteidigers deckt Ziel-tiles innerhalb von **30 tiles**. Er multipliziert `mag` mit **5** und `speed` mit **3**. Die Suche endet nach dem ersten gültigen Posten. Überlappende Posten stapeln den Kampf-Multiplikator nicht. Der Posten muss dem Verteidiger gehören; ein nahes Gebäude des Verbündeten leiht den Bonus nicht aus.
+
+Ein zweiter Posten kann trotzdem sinnvoll sein. Er deckt eine andere Zufahrt, hält nach dem Verlust des ersten eine zweite Linie oder schützt eine andere Grenze. Er macht aus einer bereits gedeckten tile lediglich kein `mag x25`.
+
+### 3. Kontaktform prüfen
+
+Eine breite Grenze öffnet mehr Wege und Gegenangriffe. Ein enger Hals konzentriert den Kampf und macht einen passend platzierten Defense Post besonders wertvoll. Ein geschützter Engpass kann aber ebenso ein Grund sein, den Angriff zu stoppen und einen anderen Weg zu öffnen.
+
+Schau auf den gesamten nächsten Abschnitt. Ein günstiger Ebenenrand direkt vor geschütztem Gebirge kann den Einstieg billig aussehen lassen, während das eigentliche Ziel teuer bleibt. Definiere vor dem Klick eine Stoplinie: Fluss, kurze Grenze, City, Kreuzung oder genug Land, um eine konkrete Bedrohung zu entfernen.
+
+### 4. Zeit und Gegenangriff prüfen
+
+Ein Gegenangriff gegen genau den Spieler, der dich angreift, hebt zunächst beide aktiven Truppen **Troop für Troop** auf. Das ist ein echtes Verteidigungswerkzeug, kostet aber echte Troops und erzeugt keinen kostenlosen Schaden.
+
+Prüfe außerdem die Zeit bis zum Ziel. Ein langsamer Vormarsch lässt einem dritten Spieler Zeit, deine Reserve anzugreifen, oder dem Verteidiger, die Route auszubauen. Trifft die Reaktion der Karte vor dem Nutzen ein, war der Angriff strategisch zu groß, auch wenn er lokal gewinnt.
+
+## Geprüfter Gelände- und Postenvergleich
+
+Die Tabelle wendet nur die v0.33.9-Geländewerte und die verifizierten Defense-Post-Multiplikatoren an. Sie verspricht weder allgemeine Verluste pro tile noch eine Durchbruchszeit. Eine vollständige Rechnung braucht veränderliche Angriffstruppe, Verteidigerdichte, Gebietsgröße, Nachbarschaft, Verrat oder Fallout und die Tick-Reihenfolge.
+
+| Zielzustand | Effektives `mag` | Effektives `speed` | Bedeutung für die Entscheidung |
+| --- | ---: | ---: | --- |
+| Plains ohne Posten | 80 | 16.5 | Niedrigstes Basispaar dieser vier Zustände |
+| Mountain ohne Posten | 120 | 25 | Mehr Verlust und langsamer als Plains |
+| Plains unter einem oder mehreren Posten | 400 | 49.5 | Abdeckung verändert die Route stärker als Gelände allein |
+| Mountain unter einem oder mehreren Posten | 600 | 75 | Teuerstes Basispaar dieses Vergleichs |
+
+Mountain beginnt höher als Plains. Ein gültiger Posten multipliziert danach `mag` mit fünf und `speed` mit drei. Um die Abdeckung herumzulaufen kann deshalb mehr bringen, als etwas mehr Truppe in dieselbe Route zu schicken.
+
+## Szenario 1: 200k gegen 100k kann als 40k gegen 100k starten
+
+Nehmen wir **200.000 Troops** insgesamt an. Du verwendest den Standardwert für einen Landangriff von Human oder Nation gegen einen Verteidiger mit **100.000**. Standardmäßig wird ein Fünftel gesendet: Der aktive Angriff beginnt bei etwa **40.000**, während **160.000** Reserve bleiben. Die Formel sieht die aktiven 40.000, nicht die plakative 200.000.
+
+Nehmen wir zusätzlich gedeckte Plains an. Das rohe Wertepaar springt von `80 / 16.5` auf `400 / 49.5`. Daraus folgt noch kein Sieger. Es beweist aber, warum „meine Zahl ist doppelt so groß“ das falsche Modell ist: Nur ein Fünftel kämpft, und die Route besitzt einen starken lokalen Modifikator.
+
+Verstärke nicht automatisch. Prüfe, ob das Ziel weiter in derselben Abdeckung liegt. Suche einen anderen Rand, bedrohe den Posten aus einer offenen Richtung oder warte auf eine zweite Front des Teams. Ist der Posten selbst unverzichtbar, plane den geschützten Weg bewusst ein und stoppe nach einer verteidigbaren Linie.
+
+Der Verteidiger hält den Posten, verkürzt die geschützte Grenze und bedroht die offene Flanke. Der Angreifer sollte ein zweites strategisches Problem erzeugen, ohne den teuren Hauptangriff immer weiter zu füttern.
+
+## Szenario 2: Gegenläufige Angriffe heben sich zuerst auf
+
+Ein Gegner greift aktiv mit **180.000 Troops** an. Du startest **120.000** zurück gegen denselben Spieler. Beide Angriffspools werden eins zu eins verrechnet. Dein neuer Angriff verschwindet, der eingehende fällt auf **60.000**.
+
+Startest du stattdessen **220.000**, verschwinden die eingehenden 180.000 und dein Gegenangriff läuft mit **40.000** weiter. Diese 40.000 garantieren keine brauchbare Eroberung. Gelände, Posten, verbleibende Verteidiger-Troops und Route gelten nach der Aufhebung weiterhin.
+
+Nutze einen Gegenangriff, wenn die Entfernung der eingehenden Truppe den Einsatz wert ist. Im ersten Fall kaufst du Entlastung, aber keine Offensive. Im zweiten kann der kleine Rest einige billige tiles nehmen oder sollte vor teurem Gelände gestoppt werden.
+
+## Verstärken, stoppen, umlenken oder kontern
+
+### Verstärken
+
+Verstärke, wenn das nächste Ziel wertvoll bleibt, das Gelände akzeptabel ist, Posten-Abdeckung fehlt oder bewusst eingepreist wurde und deine Reserve die stärkste glaubwürdige Antwort übersteht. Sende nur genug bis zur Stoplinie.
+
+### Stoppen
+
+Stoppe, wenn der Angriff ohne passendes Ziel in teures Gelände läuft, die gewünschte Linie erreicht, eine zweite Grenze öffnet oder den Vorteil verliert, der ihn begründet hat. Eine grüne Linie ist allein noch kein Plan.
+
+### Umlenken
+
+Wechsle die Route, wenn der geschützte Engpass nicht wesentlich ist, die nächsten tiles deutlich schlechter werden oder eine andere Grenze dasselbe Ziel günstiger erreicht. Vergleiche den ganzen Weg, seine Dauer und die entstehende Angriffsfläche.
+
+### Kontern
+
+Kontere, wenn die Eins-zu-eins-Aufhebung die unmittelbare Gefahr wirklich reduziert und eine haltbare Reserve übrig lässt. Entscheide vorher, ob du nur aufheben, kurz zurückerobern oder weiter einmarschieren willst. Das sind drei verschiedene Budgets.
+
+## Verteidigung braucht Tiefe
+
+Der erste Defense Post kostet **50.000 Gold**. `min(250.000, (n + 1) x 50.000)` ergibt 50k, 100k, 150k, 200k und ab dem fünften 250k. Der Bau dauert **50 ticks**. Ein erst nach Eintreffen der Front begonnener Posten kann zu spät fertig werden.
+
+Platziere ihn dort, wo sein 30-tile-Radius eine tatsächlich notwendige Route deckt: kurze Grenze, wichtige Struktur oder Knotenpunkt. Halte dahinter eine Reserve zum Aufheben des Restangriffs und eine zweite geografische Linie für den Fall, dass der Posten fällt.
+
+Der Guide [Grundlagen der Wirtschaft](/de/strategies/economy-fundamentals/) vergleicht das Gold mit anderen Investitionen. Das [Recovery-Playbook](/de/strategies/recovery-playbook/) übernimmt, wenn die Linie bereits gebrochen ist.
+
+## Anpassung an Modus und Karte
+
+In **FFA** kann ein lokal guter Angriff einen dritten Spieler einladen. Rechne jeden Nachbarn mit Kernroute in dein Budget ein. Im **Teamspiel** kann ein Partner die zweite Front öffnen, aber sein Defense Post verleiht deinen tiles keinen fremden Verteidigerbonus.
+
+Auf **Compact** sind Reaktionswege kürzer. Halte mehr sofort nutzbare Reserve und setze kürzere Ziele. Bei geschütztem Gebirge oder Engpass solltest du umlaufen. Ist es die einzige Landverbindung, vergleiche Seeroute, Diplomatie, geduldiges Wachstum und synchronisierten Teamdruck.
+
+Water Nukes kann den Landweg in Wasser verwandeln und Gebäude entfernen. Doomsday kann Gebietsanteil dringender machen als den effizientesten lokalen Tausch. Lies [Water Nukes](/de/guides/water-nukes/) und [Doomsday Clock](/de/guides/doomsday-clock/), bevor du normale Stopregeln unverändert übernimmst.
+
+## Häufige Fehler und gegnerische Antworten
+
+Wer nur Landesgesamtzahlen vergleicht, lässt sich auf lokalem Gelände ausbluten. Wer immer mehr in dasselbe gedeckte Gebirge sendet, verlängert häufig nur den Verlust. Wer stapelnde Posten annimmt, verschwendet als Verteidiger Gold und liest als Angreifer die tatsächliche Abdeckung falsch.
+
+Du kannst auch die Grenze gewinnen und das Match verlieren: Der Gegner gibt billige Rand-tiles ab, während ein Dritter in deinen leeren Kern läuft. Gebietsgrößen-Modifikatoren sind real, beweisen aber nie, dass ein 100k-tile-Angreifer automatisch einen 200k-tile-Verteidiger schlägt. Zugewiesene Truppe, Gelände, Posten, Gegenangriffe und Frontform bleiben entscheidend.
+
+## Zehn-Sekunden-Checkliste
+
+1. Wie viele Troops sind im Angriff, wie viele in Reserve?
+2. Welches Gelände liegt im nächsten nützlichen Routenabschnitt?
+3. Gehört dem Verteidiger ein Defense Post innerhalb von 30 tiles?
+4. Wird die Grenze breiter oder öffnet sie einen Weg für einen Dritten?
+5. Läuft bereits ein Gegenangriff zwischen den Spielern?
+6. Welche tile, Struktur oder Linie beendet die Offensive genau?
+7. Übersteht die Reserve die stärkste glaubwürdige Antwort?
+
+Kannst du 2, 3 und 6 nicht beantworten, sollte der Regler die Unsicherheit nicht verdecken.
+
+## Quellen und nächste Schritte
+
+- [Formales OpenFront-Release v0.33.9](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)
+- [Kampf- und Defense-Post-Konfiguration in v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/configuration/Config.ts)
+- [Angriffsausführung und Gegenangriff-Aufhebung in v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/execution/AttackExecution.ts)
+- [Militär: Angriff und Verteidigung](/de/mechanics/military/) dient als kurze Formelreferenz.
+- [OpenFront-Karten lesen](/de/guides/map-strategy/) hilft bei Routen und Engpässen vor dem Kampf.

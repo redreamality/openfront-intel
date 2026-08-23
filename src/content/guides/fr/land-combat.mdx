@@ -1,0 +1,152 @@
+---
+title: "Combat terrestre OpenFront : pousser, tenir et contre-attaquer"
+description: "Comprenez pourquoi un avantage de Troops peut échouer, comment terrain et Defense Posts changent une frontière, et quand renforcer, arrêter ou contre-attaquer."
+pubDate: 2026-08-23
+updatedDate: 2026-08-23
+tags: [combat, défense, terrain, stratégie]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié sur le tag formel v0.33.9 le 2026-08-23 : pertes terrestres, terrain, couverture des Defense Posts et annulation des attaques opposées."
+---
+
+## Réponse directe : lisez la frontière, pas seulement les totaux
+
+Avoir plus de Troops ne garantit pas une percée. Comparez la force réellement affectée à l'attaque, les Troops du défenseur par tile possédée, le terrain, la couverture des Defense Posts, la taille territoriale des deux joueurs et toute attaque déjà lancée en sens inverse. Renforcez tant que ces conditions justifient le coût ; sinon, arrêtez, changez de route ou contre-attaquez.
+
+Ce guide a été vérifié le **2026-08-23** sur le tag formel **v0.33.9**. Les coefficients et interactions sont des faits du moteur. Le cadre en quatre lectures et les règles d'arrêt sont une méthode éditoriale, jamais une promesse de victoire.
+
+## Pourquoi la plus grande armée peut bloquer
+
+Le nombre affiché sur un pays n'est pas la force qui combat sur une frontière. Une attaque terrestre possède son propre solde. Le défenseur, lui, perd des Troops par tile selon ses Troops actuelles divisées par le nombre de tiles possédées. Chaque tile conquise coûte aussi à l'attaquant selon le terrain et les autres modificateurs locaux.
+
+Plusieurs surprises deviennent alors logiques :
+
+- un grand joueur envoie une petite fraction et confond réserve nationale et force locale ;
+- la poussée atteint des montagnes ou la couverture d'un Defense Post et devient brusquement chère ;
+- une attaque inverse annule l'attaque entrante avant que l'une des lignes continue normalement ;
+- une offensive réussie dépasse son objectif et consomme la réserve nécessaire ailleurs ;
+- un modificateur de grande puissance est pris pour le verdict complet du combat.
+
+La bonne question n'est donc pas « qui possède le plus de Troops ? », mais « combien coûte la prochaine tile utile, et puis-je encore répondre à la réaction adverse ? »
+
+## Le cadre des quatre lectures
+
+Répétez ces quatre contrôles sur chaque frontière. Si l'un change, réévaluez l'offensive au lieu de rester fidèle à une décision vieille de dix secondes.
+
+### 1. Force locale
+
+Lisez les Troops restantes dans l'attaque active, pas seulement le total du pays. Comparez-les avec l'armée actuelle et le territoire du défenseur. Le moteur utilise `defender Troops / defender owned tiles` pour la perte du défenseur par tile ; deux armées totales identiques ne se comportent donc pas pareil sur des territoires de tailles différentes.
+
+Gardez une réserve hors de l'attaque pour une seconde frontière, une trahison ou une contre-poussée. Le curseur permet de choisir un pourcentage, mais aucun pourcentage n'est toujours correct. Une valeur raisonnable sur une frontière calme peut être fatale lorsque deux voisins atteignent votre cœur.
+
+### 2. Terrain et Defense Posts
+
+Les constantes actuelles sont Plains `mag 80 / speed 16.5`, Highland `100 / 20` et Mountain `120 / 25`. Un `mag` supérieur accroît les pertes de l'attaquant ; un `speed` supérieur ralentit la conquête dans cette formule. Une montagne est donc plus coûteuse qu'une plaine avant même de considérer un bâtiment.
+
+Le Defense Post du défenseur couvre les tiles situées à **30 tiles** ou moins. Il multiplie `mag` par **5** et `speed` par **3**. La recherche s'arrête au premier poste valide : plusieurs zones superposées ne cumulent pas le multiplicateur. Le poste doit appartenir au défenseur ; celui d'un allié ne prête pas ce bonus.
+
+Un second poste n'est pas forcément inutile. Il peut couvrir une autre approche, maintenir une seconde ligne après la chute du premier ou protéger une autre frontière. Il ne transforme simplement pas une tile déjà couverte en `mag x25`.
+
+### 3. Forme du contact
+
+Une frontière large ouvre plusieurs routes et plusieurs contre-attaques. Un passage étroit concentre le combat et augmente la valeur d'un poste bien placé. Mais ce même goulet protégé peut aussi être la raison de cesser l'attaque et de chercher une autre route.
+
+Regardez la suite du chemin. Une bordure en plaine suivie immédiatement de montagnes protégées donne une première impression bon marché, alors que l'objectif utile reste coûteux. Définissez avant le clic une ligne d'arrêt : rivière, frontière courte, City, jonction ou quantité de terrain suffisante pour neutraliser une menace.
+
+### 4. Temps et riposte
+
+Une nouvelle attaque contre le joueur qui vous attaque annule d'abord les deux réserves actives **une Troop pour une Troop**. C'est un outil défensif réel, mais il consomme de vraies Troops et ne crée pas de dégâts gratuits.
+
+Évaluez aussi le délai jusqu'à l'objectif. Une progression lente laisse à un tiers le temps d'attaquer votre réserve, au défenseur le temps de construire sur la route, ou à une autre frontière le temps de s'effondrer. Si la réponse de la carte arrive avant le bénéfice, l'offensive est stratégiquement trop grande même si elle gagne localement.
+
+## Comparaison vérifiée du terrain et des postes
+
+Le tableau applique uniquement les constantes v0.33.9 et les multiplicateurs vérifiés du Defense Post. Il ne promet ni pertes universelles par tile ni durée de percée. Un calcul complet exige aussi la force changeante, la densité défensive, la taille des territoires, l'adjacence, la trahison ou les fallout, et l'ordre des ticks.
+
+| État de la cible | `mag` effectif | `speed` effectif | Sens décisionnel |
+| --- | ---: | ---: | --- |
+| Plains sans poste | 80 | 16.5 | Coût de base le plus faible des quatre états |
+| Mountain sans poste | 120 | 25 | Plus de pertes et conquête plus lente que Plains |
+| Plains couverte par un ou plusieurs postes | 400 | 49.5 | La couverture change davantage la route que le terrain seul |
+| Mountain couverte par un ou plusieurs postes | 600 | 75 | Paire de base la plus coûteuse de cette comparaison |
+
+Deux conclusions comptent. Mountain commence au-dessus de Plains. Puis un poste valide multiplie `mag` par cinq et `speed` par trois. Contourner sa zone peut donc valoir davantage que verser une force légèrement supérieure dans la même route.
+
+## Scénario 1 : 200k contre 100k peut commencer à 40k contre 100k
+
+Supposons **200 000 Troops** au total. Vous utilisez l'envoi terrestre par défaut d'un Human ou d'une Nation contre un défenseur à **100 000**. Le défaut envoie un cinquième : l'attaque commence vers **40 000**, tandis que **160 000** restent en réserve. La formule voit 40 000 actifs, pas le titre rassurant de 200 000.
+
+Supposons aussi une route de Plains couverte. La paire brute passe de `80 / 16.5` à `400 / 49.5`. Cela ne calcule pas le vainqueur, mais prouve pourquoi « mon nombre vaut deux fois le sien » est un mauvais modèle : seule une fraction combat et la route porte un fort modificateur local.
+
+Décision : ne renforcez pas automatiquement. Vérifiez si l'objectif reste dans la couverture. Cherchez un autre bord, menacez le poste depuis une approche découverte ou attendez qu'un coéquipier ouvre une seconde pression. Si le poste est l'objectif essentiel, financez consciemment l'approche et arrêtez-vous sur une ligne défendable.
+
+Riposte du défenseur : conserver le poste, raccourcir le front protégé et menacer le flanc exposé. Réponse de l'attaquant : créer un autre problème stratégique sans élargir la coûteuse attaque principale.
+
+## Scénario 2 : les attaques inverses s'annulent d'abord
+
+Un ennemi lance une attaque active de **180 000 Troops**. Vous en lancez **120 000** contre ce même joueur. Les deux réserves s'annulent une pour une : votre nouvelle attaque disparaît et l'attaque entrante tombe à **60 000**.
+
+Avec **220 000** en contre-attaque, les 180 000 entrants disparaissent et votre ligne continue avec **40 000**. Ces 40 000 ne garantissent aucune conquête utile. Terrain, postes, Troops restantes du défenseur et route s'appliquent après l'annulation.
+
+Utilisez donc la contre-attaque lorsque supprimer la force entrante vaut la réserve engagée. Dans le premier cas, vous avez acheté du répit sans créer d'offensive. Dans le second, le petit reste peut prendre quelques tiles faciles ou doit être arrêté avant une zone chère.
+
+## Renforcer, arrêter, changer de route ou contrer
+
+### Renforcer
+
+Renforcez si le prochain objectif reste précieux, le terrain acceptable, la couverture absente ou déjà budgétée, et si votre réserve résiste encore à la meilleure réponse crédible. Ajoutez seulement la force nécessaire à la ligne d'arrêt.
+
+### Arrêter
+
+Arrêtez lorsque l'attaque entre dans un terrain cher sans objectif correspondant, atteint la ligne voulue, expose une seconde frontière ou perd l'avantage qui la justifiait. Une ligne verte qui avance n'est pas à elle seule un plan.
+
+### Changer de route
+
+Contournez un goulet protégé s'il n'est pas essentiel, si les prochaines tiles deviennent nettement pires ou si une autre frontière mène au même objectif à moindre coût. Comparez tout le chemin, son temps et son exposition.
+
+### Contre-attaquer
+
+Contrez lorsque l'annulation une pour une réduit réellement la menace et laisse une réserve défendable. Fixez le but avant le clic : annuler, reprendre brièvement ou envahir. Ces trois buts exigent trois budgets différents.
+
+## Défendre avec de la profondeur
+
+Le premier Defense Post coûte **50 000 Gold**. La formule `min(250 000, (n + 1) x 50 000)` donne 50k, 100k, 150k, 200k, puis 250k dès le cinquième. La construction prend **50 ticks**. Un poste commencé après l'arrivée du front peut finir trop tard.
+
+Placez-le là où son rayon de 30 tiles couvre un trajet que l'adversaire doit réellement emprunter : courte frontière, structure importante ou jonction. Gardez ensuite une réserve capable d'annuler le reste et une seconde ligne géographique si le poste tombe.
+
+Le guide [Fondamentaux de l'économie](/fr/strategies/economy-fundamentals/) compare ce Gold aux autres investissements. Le [plan de récupération](/fr/strategies/recovery-playbook/) prend le relais après la rupture de la ligne.
+
+## Ajustements selon le mode et la carte
+
+En **FFA**, une bonne attaque locale peut inviter un troisième joueur : incluez chaque voisin capable d'atteindre votre cœur dans le budget. En **équipe**, un partenaire peut ouvrir une seconde route, mais son Defense Post ne donne pas son bonus aux tiles qui vous appartiennent.
+
+Sur une carte **Compact**, les réponses arrivent plus vite. Gardez une réserve immédiatement disponible et choisissez des objectifs plus courts. Sur une montagne ou un goulet protégé, contournez si possible ; si c'est l'unique connexion terrestre, comparez accès naval, diplomatie, croissance patiente et pression synchronisée.
+
+Water Nukes peut transformer la route en eau et détruire des structures. Doomsday peut rendre la part territoriale plus urgente que l'échange local idéal. Consultez les guides [Water Nukes](/fr/guides/water-nukes/) et [Doomsday Clock](/fr/guides/doomsday-clock/) avant de réutiliser sans adaptation les règles d'un match normal.
+
+## Erreurs fréquentes et réponses adverses
+
+Comparer uniquement les deux totaux permet au défenseur de vous user sur le terrain local. Envoyer toujours plus dans la même montagne couverte prolonge souvent la perte. Imaginer que deux postes cumulent leur multiplicateur conduit le défenseur à gaspiller du Gold et l'attaquant à mal lire la portée réelle.
+
+On peut aussi gagner la frontière et perdre la partie : un adversaire abandonne des tiles périphériques pendant qu'un tiers entre dans votre cœur vide. Enfin, les modificateurs de taille territoriale sont réels, mais ne prouvent jamais qu'un attaquant à 100k tiles bat automatiquement un défenseur à 200k. Force engagée, terrain, postes, contre-attaques et forme du front restent déterminants.
+
+## Checklist de frontière en dix secondes
+
+1. Combien de Troops sont dans l'attaque et combien restent en réserve ?
+2. Quel terrain compose la prochaine partie utile du trajet ?
+3. Un Defense Post appartenant au défenseur se trouve-t-il à 30 tiles ?
+4. La frontière s'élargit-elle ou expose-t-elle un autre joueur ?
+5. Une attaque opposée est-elle déjà active entre ces joueurs ?
+6. Quelle tile, structure ou ligne termine précisément la poussée ?
+7. La réserve résiste-t-elle à la meilleure réponse crédible ?
+
+Si vous ne savez pas répondre aux points 2, 3 et 6, n'utilisez pas le curseur pour masquer l'incertitude.
+
+## Sources et suite
+
+- [Release formelle OpenFront v0.33.9](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)
+- [Configuration combat et Defense Post v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/configuration/Config.ts)
+- [Exécution et annulation des attaques v0.33.9](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.9/src/core/execution/AttackExecution.ts)
+- Utilisez [Militaire : attaque et défense](/fr/mechanics/military/) comme référence compacte des coefficients.
+- Lisez [Comment lire une carte](/fr/guides/map-strategy/) pour identifier routes et goulets avant le combat.

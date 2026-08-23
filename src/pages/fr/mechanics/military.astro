@@ -6,6 +6,7 @@ import FormulaBlock from '../../../components/FormulaBlock.astro';
 import formulas from '../../../data/formulas.json';
 const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Militaire : attaque, défense et combat" description="Coefficients mag/speed d'attaque/défense, bonus des DefensePost, malus de population, formule de pénalité de trahison dans OpenFront.io.">
@@ -21,7 +22,7 @@ const troops = formulas.groups.troops;
 
     <h2>Postes de défense (DefensePost)</h2>
     <Callout type="spec" title="Dans un rayon de 30 tiles">
-      <p>mag ×5, speed ×3 — un DefensePost transforme presque une plaine en montagne. <strong>1 à 2 sur un goulet (détroit, isthme) suffisent à freiner un adversaire</strong>.</p>
+      <p>Un poste terminé appartenant au défenseur applique mag ×5 et speed ×3. Les zones superposées ne cumulent pas ce multiplicateur. La couverture ralentit fortement un goulet, mais aucun nombre fixe de postes ne garantit de tenir.</p>
     </Callout>
 
     <h2>Malus de grande armée (plus le défenseur a de population, plus il est faible)</h2>
@@ -35,7 +36,7 @@ const troops = formulas.groups.troops;
     <p>C'est la mécanique cœur qui empêche qu'« une grande puissance gagne pour toujours » dans OpenFront — une fois le territoire trop gros, on ne peut plus l'attaquer mais on ne peut plus le défendre non plus.</p>
 
     <h2>Bonus pour attaquant massif</h2>
-    <p>Quand l'attaquant a > 100k tiles : <code>bonus = (100k / tiles)^0.7</code>. Cela donne aux grosses puissances un peu de <strong>force de pénétration marginale</strong> pour qu'elles puissent dominer les petits, sans que maxTroops n'explose.</p>
+    <p>Au-delà de 100k tiles, le modificateur de pertes vaut <code>sqrt(100k / tiles)^0.7</code>, soit <code>(100k / tiles)^0.35</code>. Il réduit marginalement les pertes d'un grand attaquant ; force engagée, terrain, couverture et défenseur restent décisifs.</p>
 
     <h2>Malus de trahison</h2>
     <Callout type="warn" title="Le prix de la rupture d'alliance">
@@ -68,8 +69,9 @@ const troops = formulas.groups.troops;
     <ul>
       <li>📍 Examinez le terrain avant l'attaque : visez les bords de plaine.</li>
       <li>🏰 Regardez les DefensePost adverses : si le goulet est couvert, changez de route.</li>
-      <li>📊 Comparez les tiles : vous 100k vs adversaire 200k, vous profitez du bonus attaquant pendant que sa défense est en décroissance ; un assaut frontal <strong>vous avantage</strong>.</li>
+      <li>📊 Traitez la taille comme un modificateur, jamais comme un verdict : 100k tiles contre 200k ne décide pas à lui seul un affrontement frontal.</li>
       <li>🤝 Ne trahissez pas : sauf à pouvoir tuer en 30 secondes, la trahison coûte généralement plus qu'elle ne rapporte.</li>
     </ul>
+    <p>Pour la séquence de décision en direct, les exemples chiffrés de contre-attaque et les règles d'arrêt, consultez le <a href={`${base}fr/guides/land-combat/`}>guide du combat terrestre</a>.</p>
   </article>
 </BaseLayout>

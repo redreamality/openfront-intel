@@ -21,3 +21,5 @@
 - **读取 Markdown 直接链接的来源包时必须相对当前文档目录解析路径**：例如 `docs/whats-new-content-plan.md` 中的 `research/...` 实际位于 `docs/research/...`，不是仓库根 `research/...`。先用 `rg --files docs` 核对真实文件，再读取，避免把正确的相对链接误判为缺失。
 - **一次 `apply_patch` 不能同时对同一路径执行 `Delete File` 和 `Add File`**：验证器会以 `multiple operations target` 拒绝整份补丁，且不会写入任何内容。整文件替换应优先使用单个 `Update File`；确需删除重建时拆成两次调用，并在两步之间立即恢复目标文件。
 - **Astro 内容集合配置位于 `src/content/config.ts`，不是仓库级 `src/content.config.ts`**：检查 schema 或 collection 前先用 `rg --files src | rg 'content.*config|config.*content'` 定位，避免把其他 Astro 版本的约定路径套到本项目。
+- **2026-08-23 再次复发：读取源码、内容页或审计器前不得猜路径或文件名**：本轮先后误用不存在的 `src/content/mechanics/en`、错误的 guide 审计脚本名与 SAM 文件名。先从最近的真实目录运行 `rg --files`，再把返回路径传给 `Get-Content` 或 `rg`；不要把猜测路径与有效路径放在同一命令中。
+- **长命令返回 `exec_command` session ID 后必须用 `write_stdin` 轮询**：`wait` 只接受 yielded exec cell ID，把 PTY/session ID 传给它会立即报 `exec cell not found`。先辨认返回字段，再选择对应的等待接口，避免把仍正常运行的构建误判为失败。

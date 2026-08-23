@@ -6,6 +6,7 @@ import FormulaBlock from '../../components/FormulaBlock.astro';
 import formulas from '../../data/formulas.json';
 const def = formulas.groups.defense;
 const troops = formulas.groups.troops;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Military: Combat & Defense" description="OpenFront.io attack/defense mag/speed modifiers, defense post bonuses, large army penalties, betrayal debuffs.">
@@ -21,7 +22,7 @@ const troops = formulas.groups.troops;
 
     <h2>Defense Posts</h2>
     <Callout type="spec" title="Within 30 tiles range">
-      <p>mag ×5, speed ×3—a single DefensePost can turn plains into effective mountains. <strong>1-2 posts at chokepoints (straits, isthmuses) can hold off an entire opponent</strong>.</p>
+      <p>A completed, defender-owned post applies mag ×5 and speed ×3. Overlapping posts do not stack this multiplier. Coverage can slow a chokepoint sharply, but no fixed number of posts guarantees a hold.</p>
     </Callout>
 
     <h2>Large Army Penalty (Defender)</h2>
@@ -35,7 +36,7 @@ const troops = formulas.groups.troops;
     <p>This is OpenFront's core "no permanent superpower" mechanic—grow too large and you can't push or hold.</p>
 
     <h2>Large Army Bonus (Attacker)</h2>
-    <p>When attacker tiles > 100k: <code>bonus = (100k / tiles)^0.7</code>. Gives large powers slight <strong>marginal push advantage</strong> to pressure smaller opponents, while maxTroops doesn't explode.</p>
+    <p>When attacker tiles exceed 100k, the loss modifier is <code>sqrt(100k / tiles)^0.7</code>, equivalent to <code>(100k / tiles)^0.35</code>. It reduces losses at the margin for a large attacker; committed force, terrain, coverage, and the defender still determine the fight.</p>
 
     <h2>Betrayal Debuffs</h2>
     <Callout type="warn" title="Cost of Breaking Alliance">
@@ -68,8 +69,9 @@ const troops = formulas.groups.troops;
     <ul>
       <li>📍 Check terrain before attacking: target plains edges.</li>
       <li>🏰 Check enemy DefensePosts: if covering chokepoint, find another route.</li>
-      <li>📊 Compare tiles: you 100k vs them 200k means you get attacker bonus while their defense is decayed; head-on <strong>actually favors you</strong>.</li>
+      <li>📊 Treat territory size as one modifier, never a verdict: 100k attacking tiles versus 200k defending tiles does not by itself decide a head-on fight.</li>
       <li>🤝 Don't betray: unless you can kill them in 30 seconds, betrayal usually hurts you more.</li>
     </ul>
+    <p>For the live decision sequence, numeric counterattack examples, and stop rules, read the <a href={`${base}guides/land-combat/`}>land combat guide</a>.</p>
   </article>
 </BaseLayout>

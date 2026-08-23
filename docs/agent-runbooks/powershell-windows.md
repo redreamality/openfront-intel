@@ -57,3 +57,4 @@
 - **2026-08-20 再次复发：Windows 下即使只读 `docs/archive/*.md` 也不能把 `*` 放进 `rg` 路径参数**：从真实目录 `docs/archive` 搜索，并用 `--glob '*.md'` 过滤；否则 `rg` 会报 `os error 123`。
 - **2026-08-22 再次复发：Windows 下盘点 Astro/MDX 时不要把 `src/pages/*/mechanics/modes.astro`、`src/content/strategies/en/*.mdx` 等通配表达式作为 `rg` 路径参数**：应传真实目录，再用 `--glob 'modes.astro'` 或 `--glob '*.mdx'` 限定文件；否则会报 `os error 123`。
 - **核验新 Release 时不要假设相邻的上游 clone 已抓取最新 tag**：先用 `git tag --list <tag>` 或 `git rev-parse --verify <tag>` 确认；本地缺失时改读 GitHub 官方 Release、tag ref 与 raw content API，不为只读核验擅自 fetch。PowerShell 中需要 annotated-tag peel 时把 `<tag>^{}` 整体加引号，否则 `{}` 可能被解析为脚本块。
+- **PowerShell 下 `gh ... --json` 的逗号字段列表必须整体引用**：例如写成 `gh pr list --json 'number,title,headRefName'`；未引用的逗号会被 PowerShell 当成参数数组分隔，导致 `gh` 收到错误字段或额外参数。

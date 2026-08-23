@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 活动中；每个 schedule 循环必须交付一个新的成熟玩家 guide 主题 | Reddit 与 YouTube 各分析至少 3 个有效来源，必要时补充其他社区；用正式 Release、tag 源码、生成数据或官方测试核验事实；完成 1000+ 英文正文词、五语、入口、审计与受影响页面报告。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/land-combat/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把陆战总兵力、地形、工事与反推意图换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -31,7 +31,7 @@
 ## 最新来源锚点
 
 - 正式 Release：[`v0.33.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)，tag commit `3229956f09a0307c7ed1d31e07aed9a9f9356cbd`；v33.8/v33.9 只含网络与桌面交付可靠性变化，没有新玩法规则。
-- 上游 `main` 增量：`9c97e01 → 0ffff961`，18 个提交；地图预加载与外观 loadout 已合并，仍不能越过正式 Release 边界。
+- 上游 `main` 游标：`b47aaafb0eeeacb53a357b5cbc97c29ea295490d`；SAM 动态升级射程已合并，地图预加载与外观 loadout 仍保持 Merged，全部不能越过正式 Release 边界。
 - 历史边界：`v0.33.9...main` 已分叉（ahead 122 / behind 33），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
 - GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
@@ -47,7 +47,7 @@
 | 完整大厅 Detailed View | `Merged` | P1 首发候选 | Release 后核对最终入口、筛选与公开队列行为 |
 | Clan Treasury 捐赠 | `Merged` | P1；必须保留永久且不可退款警告 | Release 后核对货币 UI 与权限 |
 | Spectator mode | `Released` | v0.33.7：可经大厅代码选择 Spectate，不出生、不占玩家席位 | 已同步五语 modes；后续核对正式入口变化 |
-| SAM 动态升级射程 | `In development` | 内部重点观察；#5040 blocked | 解除阻塞并合并后准备核武机制同步 |
+| SAM 动态升级射程 | `Merged` | 内部账本已记录；动态射程与预览尚未由正式 Release 确认，常青核武页不提前改写 | Release 收录后核对最终升级过程、范围预览与性能边界 |
 | 地图预加载 | `Merged` | v34 预览只说明把加载提前，不承诺固定秒数 | Release 后核对实际出生窗口、失败回退与设备差异 |
 | 外观 loadout | `Merged` | 内部账本记录十个槽与 Unequip all；尚未写成已上线能力 | Release 后核对最终选择器与账号行为 |
 | 联盟操作盘、可区分颜色、商店预览 | `In development` | P1/P2 观察 | 评审稳定或合并后再判断玩家价值 |
@@ -69,10 +69,10 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-08-23 | `LF-COMMUNITY-ROLLING` 陆战决策 | 新建五语 `/guides/land-combat/`，用实际攻击兵力、地形、Defense Post、接触面与反推抵消回答“兵多为何仍推不动”；同时修正五语军事短页的绝对化结论并接通恢复手册 | 4 Reddit、4 YouTube、7 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题，滚动 Production 继续从新意图选择 |
 | 2026-08-23 | v33.9 Release response + `WN-01` 事实修正 | 五语 v33 总览升级到 v33.9 并明确 v33.8/v33.9 不改变对局规则；v34 预览撤下已随 v33.7 发布的 spectator/Team Doomsday，改为不承诺固定秒数的地图预加载；loadout 与预加载进入内部 canonical 账本 | release contract 5/5；严格审计 95/95 + 8 internal/280 public；Astro check 0 errors；build 305 页；links 12,719；定向 e2e 149/149；合并即继续 Monitoring，正式 Release 前不改常青规则 |
 | 2026-08-22 | 13 个长文主题全部交付 | A–E 五批完成五语主答案、五份来源包、核弹计算器、两张单图页、自然入口与相邻互链；全部退出活动 Production | 严格审计 95/95；Astro check 0 errors；build 305 页；links 12,719；完整 e2e 371/371；后续只在正式变化或事实错误时重开 |
 | 2026-08-21 | `WN-01` 公共文章 MVP | What's New 改为五语版本文章索引；新增 v34 `Not released yet` 文章，复用 `/changelog/v34/` 稳定 URL；首页只展示文章摘要，RSS 过滤预发布版本，Issue/PR 仅留内部账本 | `pnpm content:audit -- --strict`、`pnpm check`、`pnpm build`、`pnpm check:links`、文章 e2e；正式 v34 发布时只切换 `releaseStatus` |
-| 2026-08-20 | `DOOM-SEO-01` | 五语主攻略获得路径级 SEO title，五语教程索引和 v33 摘要明确导向完整攻略；新增路由契约 e2e | 定向 e2e 15/15；完整 e2e 272/272；Astro check 0 errors；build 230 页；links 9,319；合并即转 Monitoring |
 | 2026-08-20 | `WN-01` 来源规划 | 建立 Released/Merged/In development/Watching 合同、双锚点和首批候选；没有提前改写正式机制 | 58 个官方来源链接；下一批实施公共 MVP |
 
 以后只保留最近 3–5 个改变活动通道、公共来源锚点或决策门槛的有效运行；被替换的行移入月度归档。无变化运行不得写入本文件。
