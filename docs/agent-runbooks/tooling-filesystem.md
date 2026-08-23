@@ -20,3 +20,4 @@
 - **项目不存在 `src/layouts/GuideLayout.astro`**：当前布局只有 `BaseLayout.astro` 与 `DocLayout.astro`；追踪攻略渲染前先用 `rg --files src/layouts src/pages` 枚举真实入口，不要按组件职责猜文件名。
 - **读取 Markdown 直接链接的来源包时必须相对当前文档目录解析路径**：例如 `docs/whats-new-content-plan.md` 中的 `research/...` 实际位于 `docs/research/...`，不是仓库根 `research/...`。先用 `rg --files docs` 核对真实文件，再读取，避免把正确的相对链接误判为缺失。
 - **一次 `apply_patch` 不能同时对同一路径执行 `Delete File` 和 `Add File`**：验证器会以 `multiple operations target` 拒绝整份补丁，且不会写入任何内容。整文件替换应优先使用单个 `Update File`；确需删除重建时拆成两次调用，并在两步之间立即恢复目标文件。
+- **Astro 内容集合配置位于 `src/content/config.ts`，不是仓库级 `src/content.config.ts`**：检查 schema 或 collection 前先用 `rg --files src | rg 'content.*config|config.*content'` 定位，避免把其他 Astro 版本的约定路径套到本项目。

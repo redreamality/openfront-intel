@@ -9,19 +9,20 @@
 - 自动化：`openfront`，启用，每天本地时间 09:00，在当前项目目录运行。
 - Scout：始终只读仓库；即使工作区脏也完成 Release、到期 GSC、Issues/Feedlog、现有自有 PR 与输入指纹核验，缓存写入 automation 自有目录。
 - Monitoring：每日固定检查 `What's New` 的 Release/tag 与 upstream `main` 双游标、已跟踪 Issue/PR、`verifiedAt` / `reviewBy` 和状态转换；Issue/PR 只用于内部证据，不直接出现在公共文章；无实质变化时只写 automation memory，不刷新公共日期或制造内容 PR。
-- Production：正式 Release 与事实错误门禁后，默认推进 [`long-form-content-program.md`](long-form-content-program.md) 中当前批次的一个实质阶段；不再要求当天出现新信号。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠，不创建 worktree，也不自动 stash/reset/clean。
+- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`。每轮必须实际分析至少 3 个 Reddit 讨论和 3 个 YouTube 视频或字幕，选出一个成熟玩家问题，并在同轮交付一篇英文正文至少 1000 词的五语 guide、来源包、自然入口和验证；不得把来源、写作、本地化或验证推迟到下一轮。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠，不创建 worktree，也不自动 stash/reset/clean。
 - 热上下文：项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md)、本文件，以及当前 Production 项直接链接的计划。提示词只保留短门禁、长文阶段接口与自动发布门禁，不复制候选、历史或平台避坑。
 - 交付：同一主题的内容、测试与预期完成状态进入同一个 PR。PR 内预先写明“合并即完成/转入 Monitoring/Parked”及下一触发点；合并后不为勾选完成、补 SHA 或记录运行再开收口 PR。
 - 纯运行记录：PR 状态、merge SHA、网络重试、无变化扫描和完整命令日志只写 automation memory，不追加到本文件。
+- 结束报告：每轮必须列出全部受影响公开 URL，并按新增、正文更新、入口/互链更新说明原因；同时报告本轮 guide 英文正文词数、Reddit/YouTube 有效来源数、来源包路径和验证结果。硬阻塞时页面列表写“无”并明确阻塞阶段，不能返回 `NO_CHANGE`。
 
 ## 当前活动队列
 
-本轮 13 个长文主题已经全部完成并退出活动 Production。版本监控继续作为短门禁，不占用主要生产预算；新的 Production 主题必须经过唯一意图、来源成熟度与自然入口门槛后进入队列。
+本轮 13 个长文主题已经全部完成并退出原 A–E 队列。版本监控继续作为短门禁，不占用主要生产预算；`LF-COMMUNITY-ROLLING` 现在是持续活动 Production，每轮从社区需求中批准并完成一个新主题。
 
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | — | 当前没有活动主题；`LF-NUKE/ECON/MAP/LOBBY/AI/PLAY` 共 13 个主题已完成 | 下一轮校准时从成熟玩家问题中批准新主题；不得把已完成页重新包装成 freshness 工作。 |
+| Production | `LF-COMMUNITY-ROLLING` | 活动中；每个 schedule 循环必须交付一个新的成熟玩家 guide 主题 | Reddit 与 YouTube 各分析至少 3 个有效来源，必要时补充其他社区；用正式 Release、tag 源码、生成数据或官方测试核验事实；完成 1000+ 英文正文词、五语、入口、审计与受影响页面报告。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
