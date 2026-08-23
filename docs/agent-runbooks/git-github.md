@@ -83,3 +83,5 @@
 - **跨仓库依赖出现 `Could not resolve to a Repository` 时不能判定依赖不存在**：它也可能表示仓库私有、当前凭据无权访问或仓库名已变化。只读 REST 最多复核一次；仍不可见就把依赖标为“未验证”，不得把私有仓库名、Issue/PR 标题、URL 或实现细节写入公共内容，也不得宣称功能已完整交付。
 - **GitHub milestone 列表端点瞬时 `EOF` 时优先复用 Issue/PR 已返回的 milestone 字段**：保留失败端点和退出码，只在确实需要全量 milestone 元数据时重试一次；不要让一个辅助列表失败清空已成功取得的候选状态，也不要把 `EOF` 解释成“没有 milestone”。
 - **同一轮不要并发多个 `gh api` 大列表或 compare 请求**：本环境并发访问 GitHub API 会让原本可用的端点一起报 `TLS handshake timeout`。改为逐个顺序调用，每个端点只重试一次，并在 PowerShell 管道后立即保存、检查 `$LASTEXITCODE`；任一请求失败时保留旧游标，不能把缺失输出解释为 0 条 Issue / PR / commit。
+- **GitHub REST 的单个 ref 读取与删除端点单复数不同**：读取使用 `GET /repos/{owner}/{repo}/git/ref/heads/{branch}`，删除使用 `DELETE /repos/{owner}/{repo}/git/refs/heads/{branch}`。不要把已成功的读取路径原样改成 DELETE，否则会得到误导性的 404。
+- **REST squash merge 后本地主题提交通常不是 merge commit 的祖先**：即使内容与 tree 完全一致，`git branch -d <topic>` 仍会报 `not fully merged`。只有在 PR 已确认 merged、远端 main 与本地 main 都等于已核验 merge SHA、远端精确主题 ref 已删除后，才对该精确本地分支执行 `git branch -D <topic>`；不得扩大到其他分支。
