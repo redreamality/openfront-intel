@@ -16,7 +16,7 @@
 - **PowerShell 变量名不区分大小写，`$home` 会与只读自动变量 `$HOME` 冲突**：HTTP 首页响应等临时变量不要命名为 `home`；使用 `$homeResponse`、`$rootPage` 等明确名称，避免 `Cannot overwrite variable HOME`。
 - **不要在 PowerShell 单引号命令字符串里再直接嵌入含单引号的复杂正则/源码**：内层引号会提前结束字符串并造成解析失败。优先把正则赋给双引号变量、使用 here-string，或拆成更简单的多步命令；跨工具传递时先验证最终参数文本。
 - **PowerShell 双引号插值中变量后紧跟冒号时必须用 `${name}:`**：写成 `$line:` 会被解析为作用域变量并报 `Variable reference is not valid`。日志位置、行号等字符串统一使用 `${line}:$value` 或格式化运算符 `-f`。
-- **长时间 `exec_command` 返回 `session_id` 时，外层工具调用结束不代表命令完成**：必须用 `write_stdin` 持续轮询到返回 `exit_code`，再检查 `dist` 等产物；不要因为首个输出块只到 `astro build` 就误判失败，也不要在前一个构建未结束时重复启动构建。
+- **长时间 `exec_command` 返回 `session_id` 时，外层工具调用结束不代表命令完成**：必须让 `functions.exec` 转发嵌套结果中的 `session_id`，再用 `write_stdin` 持续轮询到返回 `exit_code` 后检查 `dist` 等产物；只转发首个空 `output` 会丢失后续结果，也不要在前一个命令未结束时重复启动。
 - **Windows PowerShell 5 所用 .NET 可能没有 `[System.IO.Path]::GetRelativePath()`**：做 `dist` 审计时先解析根目录绝对路径，再对文件绝对路径安全调用 `Substring($root.Length)`；不要依赖较新 .NET API，否则循环会逐文件报 `MethodNotFound` 且仍可能以退出码 0 结束。
 - **`gsc-cli` 通过 Windows 用户代理访问 Google API 时，虚拟环境必须安装 `PySocks`**：`googleapiclient` 底层 `httplib2` 在缺少该包时会静默忽略代理并直连，最终报 `WinError 10060`。用 `uv pip install --python .venv/Scripts/python.exe PySocks` 安装；桥接脚本应从 `urllib.request.getproxies()` 读取系统代理并把 `localhost` 规范为 `127.0.0.1`。
 - **GSC 经本地代理偶尔会报 `SSL: UNEXPECTED_EOF_WHILE_READING`**：把它视为瞬时代理断流，只重试一次，并验证命令退出码及输出确实以 JSON 数组开头；不要让 PowerShell 后续管道把 CLI 的错误文本掩盖成退出码 0。
@@ -24,7 +24,7 @@
 - **命令工具名称必须以当前会话实际暴露的能力为准**：部分运行时只有 `shell_command`，调用不存在的 `exec_command` 会在命令执行前报 `TypeError: tools.exec_command is not a function`。先检查工具声明，并在本会话统一使用已暴露的命令接口，不要沿用上一轮的工具名假设。
 - **PowerShell 的 `foreach (...) { ... }` 结果不要在同一语句末尾直接接管道**：` } | Format-Table` 会报 `An empty pipe element is not allowed`，本项目审计中已多次复现；一律先赋给 `$results = foreach (...) { ... }`，再单独执行 `$results | Format-Table`。
 - **用 `shell_command` 跑完整 `pnpm build` 等长任务时不要设置秒级 `timeout_ms`**：该接口会在超时后终止进程，而不是保证返回可继续轮询的会话；生产构建至少预留 120 秒，并以最终退出码和 `dist` 产物为准。
-- **PowerShell 审计可选产物目录时不要把存在与不存在的多个路径一次性交给 `Get-ChildItem`**：即使使用 `-ErrorAction SilentlyContinue`，缺失的 `playwright-report/` 等路径仍可能让命令以退出码 1 结束。先对每个候选路径执行 `Test-Path`，只对存在的目录调用 `Get-ChildItem`。
+- **PowerShell 审计可选路径或进程时不要把存在与不存在的目标混在一次查询里**：即使使用 `-ErrorAction SilentlyContinue`，`Get-ChildItem` 遇缺失的 `playwright-report/`，或 `Get-Process -Name rg,pwsh` 中任一进程名不存在，都可能在输出有效结果后仍以退出码 1 结束。先用 `Test-Path` 筛选路径；进程查询则读取实际进程列表后再按名称过滤，并显式区分“部分目标不存在”与真正查询失败。
 - **并行执行多个只读探测时不要让 `Promise.all` 直接承接可能以 1 表示“零匹配”的 `rg`**：任一零匹配会让整个编排被判失败，其他结果也无法回传。先在每条 PowerShell 命令里把 `rg` 的退出码 1 显式转换为正常审计结果，或使用能保留各子任务结果的 settled 模式。
 - **Neon CLI 的浏览器授权不要依赖默认 60 秒命令超时**：交互登录应在用户可见的 PowerShell 中运行并预留足够时间完成浏览器确认；超时退出不等同于账号或授权本身失败。
 - **从非交互 shell 用 `Start-Process powershell.exe -Wait` 启动 gopass 解锁窗口不保证用户能看到或操作**：子进程可能一直等待 pinentry/`Read-Host` 直到外层超时。连续解密失败时让用户在自己的可见 PowerShell 中执行输出重定向到 `$null` 的 `gopass show -o` 来预热 gpg-agent，再继续自动化。

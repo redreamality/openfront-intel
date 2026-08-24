@@ -76,5 +76,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout site automation
+        uses: actions/checkout@v4
+
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Submit deployed sitemap to IndexNow
+        run: node scripts/submit-indexnow.mjs --submit --sitemap-url https://openfront.fyi/sitemap-0.xml

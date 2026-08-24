@@ -11,11 +11,14 @@
     "build": "astro build",
     "content:audit": "node scripts/audit-core-content.mjs --strict && node scripts/audit-whats-new.mjs",
     "guide:audit": "node scripts/audit-guide-delivery.mjs",
+    "generate:social-card": "node scripts/generate-social-card.mjs",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "release:audit": "node scripts/audit-latest-release.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
     "check:links": "node scripts/check-internal-links.mjs",
+    "seo:audit": "node scripts/audit-seo.mjs",
     "extract": "node scripts/extract-game-data.mjs",
     "gsc:queries": "node scripts/fetch-search-console.mjs",
     "test:e2e": "playwright test"
@@ -33,6 +36,7 @@
     "typescript": "^5.9.2"
   },
   "devDependencies": {
-    "@playwright/test": "1.57.0"
+    "@playwright/test": "1.57.0",
+    "parse5": "7.3.0"
   }
 }

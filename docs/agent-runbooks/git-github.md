@@ -26,7 +26,7 @@
 - **Windows PowerShell 把原生命令 stderr 合并进变量时，`$ErrorActionPreference='Stop'` 可能把 pnpm 进度行升级成 `NativeCommandError`**：外层脚本会提前终止，但子命令可能已经完成外部写入。运行 `pnpm dlx`/Wrangler 时用 `Continue` 并检查 `$LASTEXITCODE`；遇异常后先查询远端资源再重试。
 - **GitHub Release 的 `codeload.github.com` 压缩包下载若 TLS handshake timeout，不要循环重试整包**：改用 `gh api` 查询目标 tag 的递归 tree，再只读取任务需要的 content/blob；既减少传输量，也能保留来源 commit 与文件路径证据。
 - **PowerShell 一段脚本里调用 `gh`、`git`、`pnpm` 等原生命令后，应立即保存并检查 `$LASTEXITCODE`**：后续成功命令会覆盖退出码，导致前面的网络或 CLI 失败最终显示为 exit 0；需要继续收集其他结果时，把各命令退出码分别存入任务专用变量并在结尾统一判定。
-- **`git push` 若报 `OpenSSL SSL_connect: SSL_ERROR_SYSCALL`，按 GitHub HTTPS 瞬时断流处理**：先用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch>` 核对远端 ref；远端 SHA 已更新则视为成功，分支不存在或仍为旧 SHA 时才使用相同低速保护参数重试一次，连续失败则停止。
+- **`git fetch` / `git push` 若报 `OpenSSL SSL_connect: SSL_ERROR_SYSCALL`，按 GitHub HTTPS 瞬时断流处理**：先用 `gh api repos/<owner>/<repo>/git/ref/heads/<branch>` 核对对应远端 ref；fetch 时若本地 `origin/main` 已与 API 返回 SHA 一致，则直接使用已验证基线，push 时远端 SHA 已更新则视为成功。只有 ref 仍旧或缺失时才使用相同低速保护参数重试一次，连续失败则停止。
 - **2026-08-01 复发：Windows `rg` 的路径参数绝不含 `*`，即使通配目标看似简单**：`src/pages/*/mechanics`、`src/content/guides/*/first-match.mdx` 都会触发 `os error 123`；固定从 `src/pages`、`src/content/guides` 等真实目录根搜索，并把筛选写进 `--glob`。
 - **2026-08-01 复发：PowerShell 中所有含 `^{tree}` / `^{commit}` 的 Git revision 都必须从一开始整体单引号包裹**：包括 `HEAD^{tree}` 和 `origin/main^{tree}`；不要等报错后再补引号，否则 PowerShell 可能插入 `-encodedCommand` 并产生误导性的 Git revision 错误。
 - **2026-08-01 复发：`git push` 命中 `Operation too slow` 后不要立即重复**：先用真实 owner/repo 的 Git ref API 查询完整分支路径；本轮确认远端分支不存在后才允许按相同低速参数重试一次。核对脚本本身应以 0 正常返回状态文本，不要用人为非零退出码表达“需要重试”。
@@ -43,14 +43,14 @@
 - **同一轮里 `gh pr view` 成功不代表后续 GitHub API 调用不会瞬断**：本环境可能先出现 `gh api ... TLS handshake timeout`，随后 GraphQL `EOF`，而 `git fetch origin` 仍可成功。远端核验优先保留每一步独立结果；API/GraphQL 瞬断只重试一次，必要时改用 REST `gh api repos/<owner>/<repo>/pulls/<number>` 或已成功的 `git fetch` + 远端 ref 交叉确认，不要把单个端点失败误判为 PR 未合并或 main 未更新。
 - **在 linked worktree 中运行 `gh pr merge --delete-branch` 可能已完成远端合并，却因本地 `main` 被另一个 worktree 占用而以退出码 1 结束**：看到 `fatal: 'main' is already used by worktree` 时先用 REST 核对 PR 的 `merged`、`merge_commit_sha` 与远端 main；确认已合并后不要重跑 merge，只通过 GitHub ref API 删除已核准的远端主题分支，本地 worktree/分支另行清理。该规则仅用于仍存在的手动/历史 linked worktree；`openfront` 定时任务不再创建或使用 worktree。
 - **`openfront` 定时任务只在项目目录的本地分支中执行**：启动时使用 `git status --porcelain --untracked-files=all`；只允许未跟踪的 `.cache/**` 本地缓存存在，并且绝不能 stage、commit、删除或顺带改写与本轮无关的缓存。出现任何已修改/暂存文件，或 `.cache/**` 以外的未跟踪文件时停止并报告，禁止自动 stash/reset/clean；门禁通过后切到并 fast-forward-only 同步 `main`，再从 main 创建 `codex/daily-content-YYYY-MM-DD-<topic>`。PR 经 REST squash 合入并核对远端后，必须在同一目录切回并同步 `main`；未回到最新干净 main 前不得开始下一个任务。
-- **临时 worktree 安装依赖后，`git worktree remove --force` 可能已注销 worktree、却因忽略的 `node_modules` 等残留目录非空而返回失败**：先用 `git worktree list` 确认已注销，再校验残留路径确实位于 `%TEMP%` 且名称匹配；若命令安全策略仍阻止 `Remove-Item -Recurse -Force`，不要改用其他 shell 绕过或扩大删除范围，保留精确路径并报告人工清理。
+- **2026-08-24 复发：worktree 安装依赖后，`git worktree remove` 可能已注销 worktree、却因忽略的 `node_modules` 等残留目录非空而返回失败**：先用 `git worktree list` 确认已注销，再校验残留绝对路径位于明确允许的 workspace 或 `%TEMP%` 根下、删除前状态干净且没有关联进程。若命令安全策略阻止 `Remove-Item -Recurse -Force`，不要改用其他 shell 绕过；用明确的 `Move-Item -LiteralPath` 把残留移到同一 workspace 的 `_` 隔离目录，并报告其可恢复位置。
 - **`gh pr checks` 在 PR 没有配置任何检查时会输出 `no checks reported` 并返回退出码 1**：先用 `gh pr view --json mergeable,mergeStateStatus,statusCheckRollup` 区分“无检查”与“检查失败”；`statusCheckRollup` 为空且 PR 为 `CLEAN / MERGEABLE` 时，不要把退出码 1 误判为 CI 阻塞。
 - **PowerShell 中使用 `stash@{0}`、`stash@{1}` 等 Git stash 引用时必须整体加引号**：未加引号的 `git stash pop stash@{0}` 会被 PowerShell 拆解并让 Git 报 `unknown switch`；统一写成 `git stash pop 'stash@{0}'`。
 - **PowerShell 下不要把 `git diff` 的原生输出直接管道给 `git apply`**：原生命令管道的编码和换行可能破坏补丁。优先使用 `apply_patch`；确需传递补丁时先写成 UTF-8 无 BOM 文件并检查内容，再执行 `git apply <path>`。
 - **调用 GitHub Contents API 时不要预先把路径中的 `/` 编码为 `%2F`**：API 路由需要保留目录分隔符；只对各路径段中的特殊字符编码，否则会得到误导性的 404。
 - **独立 Git worktree 不会自动共享主工作树的 `node_modules`**：若 `pnpm build` 报 `'astro' is not recognized` 且提示本地 `node_modules` 缺失，先在该 worktree 设置 `CI=true` 并执行 `pnpm install --frozen-lockfile`，再运行构建与 Playwright。
 - **独立 Git worktree 不会带入原工作树未跟踪的 `.cache` 文件**：需要读取 GSC 或研究报告时先确认它实际位于哪个工作树；不要根据前一步相对路径假设缓存已复制。
-- **PowerShell 不要在类型转换或布尔表达式的括号里混入原生命令和分号**：例如 `[bool](git cat-file ...; $LASTEXITCODE -eq 0)` 会在解析阶段报 `Missing closing ')'`。先单独执行原生命令并保存 `$LASTEXITCODE`，再在下一条语句计算布尔值。
+- **2026-08-24 复发：PowerShell 不要在类型转换或布尔表达式的括号里混入原生命令和分号**：例如 `[bool](git cat-file ...; $LASTEXITCODE -eq 0)` 或 `[bool](git show-ref ...; $LASTEXITCODE -eq 0)` 会在解析阶段报 `Missing closing ')'`。先单独执行原生命令并保存 `$LASTEXITCODE`，再在下一条语句计算布尔值。
 - **受限沙箱里 `gh` 可能先因无法读取 `%APPDATA%\GitHub CLI\config.yml` 报 Access denied**：需要 GitHub 查询时按工具要求申请提升后重试；若提升后对 `api.github.com` 连续两次 `TLS handshake timeout`，立即停止，不把网络失败解释为“没有 Release / Issue / PR”，改为记录未确认状态并等待下一轮刷新。
 - **读取同级目录的上游 Git clone 时，每个 `git -C` 子命令都要显式带单次 `-c safe.directory='C:/absolute/path'`**：沙箱用户会触发 `detected dubious ownership`；不要修改全局 safe.directory，也不要只给脚本中的第一条 Git 命令加覆盖。
 - **主工作树落后远端且存在独立最新 worktree 时，不要默认新合并文件在当前目录可读**：先用 `git status --branch`、`git worktree list` 和 `git ls-tree origin/main` 确认文件属于哪个基线，再从对应 worktree 读取；否则会把“当前 main 尚未包含”误报成路径不存在。

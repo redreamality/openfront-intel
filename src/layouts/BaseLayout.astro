@@ -9,7 +9,7 @@ import ProvenancePanel from '../components/ProvenancePanel.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import { getAdSenseScriptUrl } from '../config/adsense';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
-import { getSeoTitle } from '../i18n/seo';
+import { getSeoDescription, getSeoTitle } from '../i18n/seo';
 
 export interface Props {
   title: string;
@@ -43,6 +43,8 @@ const pathSegments = Astro.url.pathname.replace(base, '').split('/').filter(Bool
 if (pathSegments[0] && pathSegments[0] in languages) pathSegments.shift();
 const contentSection = pathSegments[0];
 const fullTitle = getSeoTitle(lang, Astro.url.pathname, title);
+const seoDescription = getSeoDescription(lang, description);
+const socialImage = new URL(ogImage ?? '/openfront-intel-social.png', Astro.site ?? Astro.url).toString();
 const readingSections = new Set(['mechanics', 'database', 'guides', 'strategies', 'changelog']);
 const isReadingPage = contentSection !== undefined && readingSections.has(contentSection) && pathSegments.length > 1;
 const googleCmpEnabled = import.meta.env.PUBLIC_GOOGLE_CMP_ENABLED === 'true';
@@ -68,21 +70,25 @@ const provenanceSources = contentSection === 'database'
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={seoDescription} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={seoDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${siteName} — OpenFront.io mechanics, maps, and strategy`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={`${siteName} — OpenFront.io mechanics, maps, and strategy`} />
 
     {alternates.map(({ lang: altLang, href }) => (
       <link rel="alternate" hreflang={getHtmlLang(altLang)} href={new URL(href, Astro.site ?? Astro.url).toString()} />

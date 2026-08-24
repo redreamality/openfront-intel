@@ -29,7 +29,7 @@ export default defineConfig({
           fr: 'fr',
           nl: 'nl',
           de: 'de',
-          zh: 'zh',
+          zh: 'zh-CN',
         },
       },
       serialize: (item) => ({
