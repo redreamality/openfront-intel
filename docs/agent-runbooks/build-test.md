@@ -37,3 +37,4 @@
 - **多语浏览器断言要以渲染后的排版字符为准**：Astro 的 Markdown 排版可能把法语源码中的直撇号 `'` 转成 `’`；Playwright 的 `toContainText()` 读取的是渲染文本，新增精确断言前先核对浏览器输出，避免把正确内容误报为回归。
 - **局部 Astro 语法验证不要假设 Prettier 或传递依赖可直接使用**：本项目未配置 Astro Prettier parser，pnpm 也不会在根目录暴露传递依赖 `@astrojs/compiler`。优先用 `pnpm check` 或 `pnpm build` 验证 `.astro`；只有诊断脚本确有必要时才从已确认的 `.pnpm` 实际路径导入 compiler。
 - **`astro dev` 首次请求若报 `Cannot split a chunk that has already been edited (... "import.meta")`，先区分开发态转换器与生产产物**：若同一工作树的 `pnpm check`、`pnpm build` 和 Playwright 生产预览均通过，这是 Astro/Vite 的按需转换故障，不是内容或静态构建失败。最终验收改用新鲜 `dist/` 上的 `pnpm preview`；只有任务明确要求修复开发服务器时，才单独诊断插件/缓存，不要为此改写正文或回滚有效内容。
+- **`pnpm guide:audit` 不是全站攻略审计**：`scripts/audit-guide-delivery.mjs` 必须同时提供 `--slug` 与 `--source-pack`，缺参退出 1 属调用方式错误。全站内容和 SEO 收口分别使用 `pnpm content:audit`、`pnpm seo:audit`；只有核验单篇交付包时才运行 `pnpm guide:audit -- --slug <slug> --source-pack <path>`。

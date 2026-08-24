@@ -35,6 +35,14 @@ const seoCopy: Record<Lang, SeoCopy> = {
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Rules, Waves & Survival',
+      'guides/building-timing': 'OpenFront Building Timing: Cities, Factories, Ports & Defense',
+      'guides/hotkeys': 'OpenFront Hotkey Practice: Faster Keyboard & Mouse Control',
+      'guides/map-size-compact-mode': 'OpenFront Map Sizes: Compact Scale & Player Counts',
+      'guides/population-growth': 'OpenFront Population Growth: Troops, Cities & Timing',
+      'mechanics/economy': 'OpenFront Economy Guide: Troop Growth, Cities & Trains',
+      'mechanics/nations': 'OpenFront Nation AI: Behavior, Diplomacy & Counterplay',
+      'strategies/diplomacy-betrayal': 'OpenFront Diplomacy: Alliances, Embargoes & Betrayal',
+      'strategies/nuclear-deterrence': 'OpenFront Nuclear Deterrence: SAM Defense & Counterplay',
     },
   },
   fr: {
@@ -57,6 +65,15 @@ const seoCopy: Record<Lang, SeoCopy> = {
     },
     specialPaths: {
       'guides/doomsday-clock': 'Doomsday Clock OpenFront : règles, vagues et survie',
+      'guides/building-timing': 'Bâtiments OpenFront : quand construire City, Port et Factory',
+      'guides/hotkeys': 'Raccourcis OpenFront : entraînement clavier et souris',
+      'guides/map-size-compact-mode': 'Tailles de cartes OpenFront : mode Compact et joueurs',
+      'guides/population-growth': 'Population OpenFront : croissance, plafond et timing',
+      'guides/water-nukes': 'Water Nukes OpenFront : règles, portée et défense',
+      'mechanics/economy': 'Économie OpenFront : troupes, City, Port et trains',
+      'mechanics/modes': 'Modes OpenFront : salons privés, équipes et spectateurs',
+      'strategies/ffa-opening': 'Ouverture FFA OpenFront : spawn, expansion et frontières',
+      'strategies/nuclear-deterrence': 'Dissuasion nucléaire OpenFront : défense SAM et riposte',
     },
   },
   nl: {
@@ -79,6 +96,10 @@ const seoCopy: Record<Lang, SeoCopy> = {
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: regels, golven & overleven',
+      'guides/population-growth': 'OpenFront bevolkingsgroei: troepen, steden en timing',
+      'mechanics/economy': 'OpenFront economie: troepen, steden, havens en treinen',
+      'mechanics/modes': "OpenFront spelmodi: privélobby's, teams en spectators",
+      'strategies/nuclear-deterrence': 'OpenFront nucleaire afschrikking: SAM-verdediging en counters',
     },
   },
   de: {
@@ -101,6 +122,13 @@ const seoCopy: Record<Lang, SeoCopy> = {
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Regeln, Wellen & Überleben',
+      'guides/building-timing': 'OpenFront Gebäude-Timing: City, Hafen, Fabrik und Abwehr',
+      'guides/hotkeys': 'OpenFront Hotkey-Training: Tastatur und Maus schneller nutzen',
+      'guides/map-size-compact-mode': 'OpenFront Kartengrößen: Compact-Modus und Spielerzahl',
+      'guides/population-growth': 'OpenFront Truppenwachstum: Limit, Städte und Timing',
+      'mechanics/economy': 'OpenFront Wirtschaft: Truppen, Städte, Häfen und Züge',
+      'mechanics/modes': 'OpenFront Spielmodi: Private Lobbys, Teams und Zuschauer',
+      'strategies/nuclear-deterrence': 'OpenFront Nuklearabschreckung: SAM-Abwehr und Konter',
     },
   },
   zh: {
@@ -123,6 +151,9 @@ const seoCopy: Record<Lang, SeoCopy> = {
     },
     specialPaths: {
       'guides/doomsday-clock': 'OpenFront 末日时钟：规则、波次与生存攻略',
+      'guides/map-size-compact-mode': 'OpenFront 地图尺寸：Compact 模式、规模与人数',
+      'guides/population-growth': 'OpenFront 人口增长：兵力上限、City 与扩张时机',
+      'mechanics/nations': 'OpenFront Nation AI：扩张、外交与反制',
     },
   },
 };
@@ -164,6 +195,67 @@ const shortSeoCopy: Record<Lang, Record<SeoSection, (title: string) => string>> 
     changelog: (title) => `${title}：OpenFront.io 版本说明`,
   },
 };
+
+const seoDescriptionSuffixes: Record<Lang, string[]> = {
+  en: [
+    ' Checked against the current release.',
+    ' Use this source-checked current-version reference to compare rules, timing, costs, and practical OpenFront.io decisions.',
+    ' This current-version OpenFront.io reference checks rules, numbers, timing, and edge cases against official releases and source data so you can compare options, avoid outdated advice, and make a clear plan before your next match.',
+  ],
+  fr: [
+    ' Vérifié sur la version actuelle.',
+    ' Utilisez cette référence de version vérifiée pour comparer règles, timing, coûts et décisions pratiques dans OpenFront.io.',
+    ' Cette référence OpenFront.io vérifie règles, chiffres, timing et cas limites avec les releases officielles et les données source afin de comparer les options, éviter les conseils périmés et préparer un plan clair avant la prochaine partie.',
+  ],
+  nl: [
+    ' Gecontroleerd voor de huidige versie.',
+    ' Gebruik deze brongecontroleerde versiereferentie om regels, timing, kosten en praktische keuzes in OpenFront.io te vergelijken.',
+    ' Deze OpenFront.io-referentie controleert regels, cijfers, timing en uitzonderingen aan officiële releases en brondata, zodat je opties kunt vergelijken, verouderd advies vermijdt en met een helder plan aan je volgende partij begint.',
+  ],
+  de: [
+    ' Für die aktuelle Version geprüft.',
+    ' Nutze diese quellengestützte Versionsreferenz, um Regeln, Timing, Kosten und praktische Entscheidungen in OpenFront.io zu vergleichen.',
+    ' Diese OpenFront.io-Referenz prüft Regeln, Zahlen, Timing und Grenzfälle anhand offizieller Releases und Quelldaten, damit du Optionen vergleichen, veraltete Ratschläge vermeiden und die nächste Partie mit einem klaren Plan beginnen kannst.',
+  ],
+  zh: [
+    ' 内容已按当前正式版本核验。',
+    ' 本文按当前正式版本核验规则、数值与操作边界，帮助你比较时机、成本和实战选择。',
+    ' 本文按当前正式版本核验规则、数值、时机与操作边界，并结合正式发布说明和源码数据交叉检查，帮助你比较开局扩张、经济投入、战斗节奏、地图路线与反制选择，避开已经过时的说法，在下一局开始前快速找到可执行的结论和相关资料。',
+  ],
+};
+
+function clipDescription(description: string, maximum: number, lang: Lang) {
+  const characters = [...description];
+  if (characters.length <= maximum) return description;
+
+  const budget = maximum - 1;
+  let clipped = characters.slice(0, budget).join('').trim();
+  const sentenceMarks = lang === 'zh' ? ['。', '！', '？', '；'] : ['. ', '! ', '? ', '; '];
+  const sentenceBoundary = Math.max(...sentenceMarks.map((mark) => clipped.lastIndexOf(mark)));
+  if (sentenceBoundary >= 109) {
+    clipped = clipped.slice(0, sentenceBoundary + 1).trim();
+  } else if (lang !== 'zh') {
+    const wordBoundary = clipped.lastIndexOf(' ');
+    if (wordBoundary >= 109) clipped = clipped.slice(0, wordBoundary).trim();
+  }
+
+  return `${clipped.replace(/[\s,，、;；:：-]+$/u, '')}…`;
+}
+
+export function getSeoDescription(lang: Lang, description: string) {
+  const normalized = description.replace(/\s+/g, ' ').trim();
+  const length = [...normalized].length;
+  if (length > 160) return clipDescription(normalized, 160, lang);
+  if (length >= 110) return normalized;
+
+  for (const suffix of seoDescriptionSuffixes[lang]) {
+    const candidate = `${normalized}${suffix}`;
+    const candidateLength = [...candidate].length;
+    if (candidateLength >= 110 && candidateLength <= 160) return candidate;
+  }
+
+  return clipDescription(`${normalized}${seoDescriptionSuffixes[lang].at(-1)}`, 160, lang);
+}
 
 function trimLanguagePrefix(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
