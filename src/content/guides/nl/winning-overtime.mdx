@@ -1,0 +1,130 @@
+---
+title: "OpenFront Overtime-gids: windrempel en eindspel"
+description: "Leer hoe Overtime de FFA-windrempel na minuut 30 verlaagt, wanneer een voorsprong een overwinning wordt en hoe je vóór de volgende stap aanvalt, verdedigt of omleidt."
+pubDate: 2026-08-25
+updatedDate: 2026-08-25
+tags: [overtime, winvoorwaarde, gebied, eindspel]
+category: Tutorial
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Gecontroleerd met v0.33.11: een kwart van de openbare FFA-partijen gebruikt Overtime vanaf minuut 30 en verlaagt de 80%-windrempel elke 30 seconden met 1 punt."
+---
+
+## Direct antwoord: hoe win je een Overtime-partij?
+
+In v0.33.11 verschijnt Overtime in een kwart van de openbare FFA-partijen. De normale gebiedsdrempel van 80% blijft tot minuut 30 vast en daalt daarna elke 30 seconden met 1 procentpunt. Je wint wanneer je aandeel van het bruikbare land strikt boven de live drempel ligt. Bescherm een winnende voorsprong of pak vóór de volgende stap de goedkoopste veilige tiles.
+
+## Versiegrens en partijen met Overtime
+
+De officiële v0.33.11 Release introduceert Overtime als anti-patstellingmodus. Deze gids is op 25 augustus 2026 gecontroleerd tegen tag `v0.33.11`. Latere wijzigingen op upstream `main` worden niet als live regels voorgesteld.
+
+De gepubliceerde playlist activeert Overtime in **25% van de openbare FFA-partijen**. Openbare Team- en Special-playlists krijgen de modifier niet automatisch. Private Host- en Singleplayer-instellingen bieden wel een Overtime-schakelaar en een startminuut van **1 tot 120**, standaard 30. Een aangepaste Team-partij kan Overtime dus gebruiken, ook al rolt openbare Team het niet vanzelf.
+
+Zoek vóór de partij naar de Overtime-modifier en na de startminuut naar het Overtime-paneel. Ontbreken beide signalen, dan blijft de normale windrempel vast. Plan niet elke FFA-partij alsof de balk zeker zal dalen.
+
+Dezelfde Release gebruikt een binair formaat om websocketverkeer te verminderen. Die leveringswijziging verandert de gebiedsberekening, het gevecht en de timing hieronder niet.
+
+## Het tijdschema van de drempel
+
+Openbare Overtime begint bij de FFA-basis van **80%**, start standaard om **30:00** en daalt **2 punten per minuut**. Het spel verwerkt dit in hele stappen: elke 30 seconden 1 punt. Precies om 30:00 staat de drempel nog op 80%.
+
+| Partijtijd | Live drempel | Wat de leider nodig heeft |
+| --- | ---: | --- |
+| 30:00 | 80% | Meer dan 80% |
+| 30:30 | 79% | Meer dan 79% |
+| 35:00 | 70% | Meer dan 70% |
+| 38:30 | 63% | Meer dan 63% |
+| 39:00 | 62% | Meer dan 62% |
+| 39:30 | 61% | Meer dan 61% |
+| 40:00 | 60% | Meer dan 60% |
+| 45:00 | 50% | Meer dan 50% |
+
+“Meer dan” is belangrijk. Precies 60,0% voldoet niet aan een drempel van 60%; 60,1% wel. Het paneel toont hele percentages voor leesbaarheid. Gebruik de afstand tot de balk als beslissignaal, maar behandel een weergegeven gelijkstand niet als een al behaalde overwinning.
+
+Er is geen verborgen ondergrens. De drempel blijft richting 0% dalen, waardoor de leider bij een volledig vastgelopen kaart uiteindelijk kwalificeert. Een aparte harde limiet van 170 minuten of een ingestelde wedstrijdtimer kan de partij ook eerder stoppen. Een normale openbare Overtime-strategie hoort daar niet op te wachten.
+
+## Wat gebiedspercentage werkelijk meet
+
+De noemer is bruikbaar land: alle landtiles min de tiles die op dat moment fallout zijn. In FFA is de teller het aantal tiles van de speler op de eerste plaats. Het spel vergelijkt het grootste actuele aandeel met de Overtime-drempel.
+
+Twee snelle schattingen zijn fout. De zichtbare kleur op de minimap is geen exact percentage, want kustlijnen, smalle gangen, eilanden en tiledichtheid vervormen de vorm. Daarnaast kan fallout de noemer veranderen zonder dat een grens beweegt. Lees het paneel en de ranglijst in plaats van alleen het gekleurde oppervlak.
+
+Overtime verandert de winvoorwaarde. Het geeft geen troepen, verwijdert geen Defense Posts en maakt een tile niet goedkoper. De normale [landgevechtsregels](/nl/guides/land-combat/) bepalen nog steeds of de volgende verovering betaalbaar is.
+
+## Gebruik het LEAD-kader
+
+Pas bij elke dalende stap **LEAD** toe:
+
+1. **Lokaliseren:** bevestig modifier, tijd, live drempel en of je leidt of achtervolgt.
+2. **Evalueren:** vergelijk het echte aandeel van de leider met de volgende twee stappen en verwerk actieve fallout.
+3. **Acteren:** kies de goedkoopste beslissende verschuiving, zoals open land, een kortere gevaarlijke grens of een aanval die de rangorde verandert.
+4. **Defenderen:** zodra de volgende stap jouw aandeel winnend maakt, bescherm reserve, routes en verbonden gebied in plaats van een optionele oorlog te beginnen.
+
+Het kader is bewust asymmetrisch. Een leider dicht bij de balk wil toeval beperken; een achtervolger wil beweging veroorzaken. Vraag wie wint als tot de volgende stap van 30 seconden geen enkele tile wisselt.
+
+## Scenario 1: 62,4% beslist om 39:00
+
+Neem een openbare FFA-partij met Overtime, zonder extra timer, stabiel bruikbaar land en een leider met **62,4%**. Om 38:30 is de drempel 63%, dus dat aandeel is onvoldoende. Om 39:00 wordt de balk 62%; 62,4% ligt er strikt boven en kwalificeert bij de volgende wincontrole.
+
+De taak van de leider om 38:30 is niet “verover de hele kaart”, maar “verlies ongeveer 0,4 punt niet in 30 seconden”. Trek een blootgestelde aanval terug, houd troepen achter de grens en vermijd onnodig verraad. De achtervolgers moeten juist genoeg leiderstiles afpakken, de noemer wijzigen of vóór 39:00 de eerste plaats overnemen.
+
+Aannames: het getoonde aandeel weerspiegelt de huidige tiles en geen gelijktijdige uitvoering verandert eigendom vóór de controle.
+
+## Scenario 2: 30 seconden tegen een leider met 60,2%
+
+Neem een leider met **60,2%**, een achtervolger met **59,8%** en een klok op 39:30. De drempel is 61%, dus niemand heeft gewonnen. Om 40:00 zakt hij naar 60%, waarna 60,2% voldoende is als de kaart gelijk blijft.
+
+De achtervolger heeft een exact doel: duw de leider naar 60% of lager, of neem zelf de eerste plaats. Troepen in een gedekte berg sturen die binnen 30 seconden geen tile zal veranderen is geen bruikbare druk. Een open kust, dunne corridor of neutraal gebied dat de rangorde kan verplaatsen is beter.
+
+De leider hoeft niet op elke aanval te reageren. Bescherm vooral de tiles die het aandeel boven 60% houden en verbindingen tussen grote blokken. Een afgelegen strook verliezen en op 60,05% blijven kan aanvaardbaar zijn; de reserve verbranden en het kernfront laten instorten niet.
+
+Aannames: bruikbaar land en beide aandelen blijven verder stabiel, zonder eerdere eliminatie of timerafloop.
+
+## Scenario 3: fallout verandert de noemer
+
+Stel dat een kaart **100.000 landtiles** had, **10.000** nu fallout zijn en de leider **54.000 bruikbare tiles** bezit. De noemer is 90.000, dus het aandeel is `54.000 / 90.000 = 60%`, niet 54%.
+
+Bij een drempel van 60% wint precies 60% nog niet door de strikte vergelijking. Eén extra bruikbare tile zou het aandeel iets boven 60% brengen, wanneer noemer en ander eigendom vast blijven. Dit laat zien waarom een afgerond paneelgetal de exacte overgang niet bewijst.
+
+Het is geen advies om willekeurig te nukken. Fallout kan je eigen route vernietigen, tegenstanders verenigen of het aandeel van de leider sterker verbeteren. Lees de [nucleaire afschrikkingsstrategie](/nl/strategies/nuclear-deterrence/) voordat je een wijziging van de noemer als plan gebruikt.
+
+## Als leider sluiten zonder weg te gooien
+
+De leider wint de wachtrace en betaalt alleen voor acties die het binnenkort winnende aandeel beschermen. Noteer de volgende staptijd, schat het minimale verlies waardoor je eronder valt en bewaar genoeg reserve op die route.
+
+Een korte verbonden grens is beter dan decoratieve uitbreiding. Een verre uitstulping vergroot het percentage, maar kan meerdere spelers een goedkope manier geven om je onder de balk te trekken. Als de volgende stap al genoeg is, voegt een riskante invasie of onverwacht verraad meestal meer faalroutes dan waarde toe.
+
+Diplomatie blijft gelden. Tegenstanders kunnen tegen de leider samenwerken zonder één teamtotaal te delen. Vertrouw niet op een alliantie wanneer elke partner ziet dat jouw passieve klok een overwinning oplevert.
+
+## Als achtervolger een echte stop maken
+
+Val de winvoorwaarde aan, niet de grootste zichtbare kleurvlek. Je moet de eerste plaats wijzigen of de leider onder de volgende balk houden. Dat kan rechtstreeks leiderstiles nemen, een nabije rivaal helpen passeren of meerdere goedkope fronten openen betekenen.
+
+Tel de tijd tot de eerste tile van eigenaar wisselt. Een efficiënte campagne met pas na 45 seconden resultaat stopt geen overwinning over 30 seconden. Het [kaartstrategiekader](/nl/guides/map-strategy/) helpt kiezen tussen open land, knelpunt, eiland en zeetoegang.
+
+Wanneer meerdere achtervolgers hetzelfde verdedigde front aanvallen, kunnen zij allemaal hun reserve verliezen terwijl de leider wacht. Spreid druk alleen wanneer elke route gebied kan verplaatsen of een structuur bedreigt die de verdediging werkelijk verandert.
+
+## Fouten en tegenmaatregelen
+
+- **Wachten op de tweede plaats:** de dalende balk helpt de huidige leider, niet alle overlevenden.
+- **60% als genoeg lezen bij een balk van 60%:** de vergelijking is strikt en de weergave afgerond.
+- **De volgende stap negeren:** een aanval met 45 seconden resultaat beantwoordt geen deadline van 30 seconden.
+- **Overtime en Doomsday verwarren:** Overtime verlaagt de windrempel van de leider; [Doomsday Clock](/nl/guides/doomsday-clock/) verhoogt een overlevingsdrempel en kan gebied laten verrotten.
+- **Als leider te veel inzetten:** tegenstanders willen je reserve legen of een tweede front openen.
+- **Nukes zonder noemerberekening:** minder bruikbaar land kan het verkeerde aandeel verbeteren.
+
+Tegenspel draait om timing. De leider kan onbelangrijke randen opgeven en de kern beschermen die het percentage bewaart. Achtervolgers kunnen aanvallen vlak vóór een stap synchroniseren. Bereken opnieuw na elke eigendoms- of falloutwijziging.
+
+## Aanpassingen voor modus en kaart
+
+Openbare Team- en Special-playlists krijgen in v0.33.11 niet de Overtime-worp van 25%. Als een eigen Team-configuratie Overtime activeert, begint de drempel bij 95% en wordt teamgebied opgeteld. Projecteer dit aangepaste geval niet op gewone openbare Team-partijen. De getagde openbare FFA-bron bewijst evenmin dat Overtime een Ranked-matchmakingregel is.
+
+Op Compact-kaarten geldt bij beide modifiers dezelfde klok, maar korte fronten maken 30 seconden krapper. Op grote kaarten kan verre uitbreiding te laat aankomen. Op archipels tellen transportroutes en kusten meer dan rechte afstand. Op knelpuntkaarten kan de leider een smalle percentagekern verdedigen, dus achtervolgers moeten vroeg meerdere routes voorbereiden.
+
+Overtime verandert terreinprijs, Defense Post-dekking en scheepsbeweging niet. Het verandert het resultaat dat vóór een bekend tijdstip nodig is.
+
+## Volgende gidsen en bronnen
+
+Begin met de [eerste partij](/nl/guides/first-match/) als gebiedsaandeel, reserve en grensvorm nog onduidelijk zijn. Gebruik [modi en lobbyinstellingen](/nl/mechanics/modes/) om de openbare start op 30 minuten te vergelijken met de instelbare Host- en Singleplayer-start. Ga naar [landgevechten](/nl/guides/land-combat/) voor de beslissende tile en het [herstelplan](/nl/strategies/recovery-playbook/) wanneer je kern al gebroken is.
+
+Primaire feiten zijn gecontroleerd met de [officiële v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), getagde [Overtime-configuratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [wincontrole](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), [openbare playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts) en [Overtime-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Communitydiscussies en video's tonen de eindspelvragen, maar bepalen geen regels of getallen.

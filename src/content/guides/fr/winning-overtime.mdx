@@ -1,0 +1,130 @@
+---
+title: "Guide OpenFront Overtime : seuil de victoire et fin de partie"
+description: "Comprenez comment Overtime abaisse le seuil FFA après la 30e minute, quand une avance devient une victoire et comment attaquer, défendre ou changer de route avant le prochain palier."
+pubDate: 2026-08-25
+updatedDate: 2026-08-25
+tags: [overtime, condition-de-victoire, territoire, fin-de-partie]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié avec v0.33.11 : un quart des parties FFA publiques utilisent Overtime dès la 30e minute, avec un seuil de 80 % qui baisse de 1 point toutes les 30 secondes."
+---
+
+## Réponse directe : comment gagner une partie Overtime ?
+
+En v0.33.11, Overtime apparaît dans un quart des parties FFA publiques. Le seuil normal de 80 % reste fixe jusqu'à la 30e minute, puis baisse de 1 point toutes les 30 secondes. Vous gagnez lorsque votre part du terrain utilisable est strictement supérieure au seuil en direct. Protégez une avance gagnante ou prenez les cases sûres les moins coûteuses avant le prochain palier.
+
+## Version vérifiée et parties concernées
+
+La Release officielle v0.33.11 introduit Overtime comme mécanisme anti-impasse. Ce guide a été vérifié le 25 août 2026 avec le tag `v0.33.11`. Les changements présents uniquement sur la branche amont `main` ne sont pas décrits comme des règles en ligne.
+
+Dans le code publié, **25 % des parties FFA publiques** reçoivent Overtime. Les playlists publiques Team et Special ne l'activent pas. Les réglages Host privé et Singleplayer proposent bien un interrupteur Overtime et une minute de départ de **1 à 120**, avec 30 par défaut. Une partie Team personnalisée peut donc l'utiliser même si la rotation Team publique ne l'active pas automatiquement.
+
+Repérez le modificateur Overtime avant le départ, puis le panneau Overtime lorsque la minute de départ est atteinte. Sans ce signal, le seuil normal reste fixe. Ne construisez donc pas chaque plan FFA autour d'une baisse automatique.
+
+La même Release adopte un format binaire pour le trafic websocket. Cette optimisation de transfert ne change ni le calcul territorial, ni les combats, ni le calendrier expliqué ici.
+
+## Calendrier exact du seuil
+
+La rotation publique part du seuil FFA de **80 %**, commence par défaut à **30:00** et retire **2 points par minute**. Le jeu applique cette vitesse par paliers entiers : 1 point toutes les 30 secondes. À 30:00 exactement, le seuil vaut encore 80 %.
+
+| Temps de partie | Seuil en direct | Condition du leader |
+| --- | ---: | --- |
+| 30:00 | 80 % | Plus de 80 % |
+| 30:30 | 79 % | Plus de 79 % |
+| 35:00 | 70 % | Plus de 70 % |
+| 38:30 | 63 % | Plus de 63 % |
+| 39:00 | 62 % | Plus de 62 % |
+| 39:30 | 61 % | Plus de 61 % |
+| 40:00 | 60 % | Plus de 60 % |
+| 45:00 | 50 % | Plus de 50 % |
+
+La formule exige bien « plus de ». Un joueur à exactement 60,0 % ne franchit pas un seuil de 60 % ; à 60,1 %, oui. Le panneau arrondit l'affichage en pourcentage entier. Servez-vous de l'écart pour décider, sans considérer une égalité affichée comme une victoire déjà acquise.
+
+Le seuil n'a pas de plancher caché et continue vers 0 %. Si la carte reste figée, le leader finit donc par remplir la condition. Une limite dure séparée à 170 minutes et une éventuelle minuterie configurée peuvent aussi terminer la partie, mais un plan Overtime public ne doit pas compter sur elles.
+
+## Ce que mesure réellement le pourcentage
+
+Le dénominateur est le terrain utilisable : toutes les cases terrestres moins celles actuellement sous fallout. En FFA, le numérateur est le nombre de cases du joueur en tête. Le jeu compare la plus grande part actuelle au seuil Overtime.
+
+Deux raccourcis sont trompeurs. La surface colorée de la minicarte n'est pas une mesure précise : côtes, corridors, îles et densité des cases peuvent déformer l'impression. Ensuite, le fallout peut modifier le dénominateur sans mouvement de frontière. Lisez le panneau et le classement plutôt que la seule forme des couleurs.
+
+Overtime change la condition de victoire. Il ne donne pas de troupes, ne retire pas les Defense Posts et ne rend pas les cases moins coûteuses. Les règles du [combat terrestre](/fr/guides/land-combat/) déterminent toujours si la prochaine capture est abordable.
+
+## Cadre de décision LEAD
+
+À chaque baisse du seuil, appliquez **LEAD** :
+
+1. **Localiser** la règle : confirmez le modificateur, l'heure, le seuil et votre position de leader ou de poursuivant.
+2. **Estimer** le croisement : comparez la part du leader aux deux prochains paliers, en tenant compte du fallout actif.
+3. **Agir** pour le changement décisif le moins coûteux : prendre une zone exposée, raccourcir une frontière dangereuse ou frapper le leader là où une opération change le classement.
+4. **Défendre** l'état gagnant : lorsque le prochain palier suffit, conservez réserve, routes et territoire connecté au lieu d'ouvrir une guerre facultative.
+
+Le cadre est volontairement asymétrique. Le leader proche du seuil doit réduire le risque ; le poursuivant doit en créer. La bonne question est : qui gagne si personne ne modifie la carte avant le prochain palier de 30 secondes ?
+
+## Scénario 1 : 62,4 % devient gagnant à 39:00
+
+Supposons une partie FFA publique avec Overtime, sans minuterie configurée, un terrain utilisable stable et un leader à **62,4 %**. À 38:30, le seuil vaut 63 %, donc cette part ne suffit pas. À 39:00, il passe à 62 % ; 62,4 % est strictement supérieur et le leader remplit la condition au prochain contrôle de victoire.
+
+À 38:30, le leader ne doit pas « conquérir toute la carte ». Il doit éviter de perdre environ 0,4 point pendant 30 secondes. Il peut annuler une attaque exposée, garder sa réserve et refuser une trahison inutile. Les poursuivants doivent au contraire retirer assez de cases au leader, modifier le terrain utilisable ou prendre la première place avant 39:00.
+
+Hypothèses : la part affichée correspond à l'état actuel des cases et aucune action simultanée ne change la propriété avant le contrôle.
+
+## Scénario 2 : 30 secondes pour arrêter un leader à 60,2 %
+
+Supposons le leader à **60,2 %**, son rival à **59,8 %**, et l'horloge à 39:30. Le seuil vaut 61 %, donc personne n'a gagné. À 40:00, il tombe à 60 % et les 60,2 % du leader suffiront si la carte ne change pas.
+
+L'objectif du poursuivant devient précis : ramener le leader à 60 % ou moins, ou prendre lui-même la première place. Envoyer toutes ses troupes dans une montagne couverte qui ne changera aucune case en 30 secondes n'est pas une pression utile. Une côte ouverte, un corridor fin ou du terrain neutre capable de changer le classement vaut mieux.
+
+Le leader ne doit pas répondre partout. Il protège les cases qui gardent sa part au-dessus de 60 %, surtout les jonctions entre grands blocs. Perdre un bord lointain tout en restant à 60,05 % peut être acceptable ; épuiser la réserve et faire tomber le front central ne l'est pas.
+
+Hypothèses : le terrain utilisable et les parts sont stables, sans élimination ni fin par minuterie plus tôt.
+
+## Scénario 3 : le fallout change le dénominateur
+
+Supposons une carte de **100 000 cases terrestres**, dont **10 000** sont désormais en fallout, et un leader qui possède **54 000 cases utilisables**. Le dénominateur vaut 90 000, donc sa part est `54 000 / 90 000 = 60 %`, et non 54 %.
+
+Avec un seuil de 60 %, ces 60 % exacts ne gagnent toujours pas. Une seule case utilisable supplémentaire placerait la part légèrement au-dessus, si le dénominateur et les autres propriétés restaient fixes. Ce cas montre pourquoi un affichage arrondi ne prouve pas le franchissement exact.
+
+Il ne justifie pas de lancer une bombe au hasard. Le fallout peut détruire votre route, provoquer les autres joueurs ou améliorer davantage la fraction du leader. Consultez la [stratégie de dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) avant de transformer le dénominateur en plan.
+
+## Fermer la partie sans jeter son avance
+
+Le leader gagne la course d'attente. Il ne dépense donc que pour protéger la part qui deviendra gagnante. Notez l'heure du prochain palier, estimez la perte minimale qui vous ferait repasser dessous, puis gardez assez de réserve sur cette route.
+
+Préférez une frontière courte et connectée à une expansion décorative. Une extension éloignée augmente le pourcentage, mais offre parfois à plusieurs adversaires un moyen bon marché de vous faire repasser sous la barre. Si le prochain palier suffit, une invasion navale ou une trahison risquée ajoute souvent plus d'échecs possibles que de valeur.
+
+La diplomatie reste active. Les adversaires peuvent se coordonner contre le leader sans partager un total d'équipe. Une alliance fragile tient rarement si tous ses membres voient que votre attente mène à la victoire.
+
+## Créer un véritable arrêt quand on poursuit
+
+Attaquez la condition de victoire, pas la plus grande tache visuelle. Il faut changer la première place ou garder le leader sous le prochain seuil. Cela peut vouloir dire prendre directement ses cases, aider un rival plus proche à le dépasser ou ouvrir plusieurs routes abordables.
+
+Comptez le délai avant la première case gagnée. Une campagne rentable en 45 secondes ne bloque pas une victoire qui arrive dans 30. Le [cadre de lecture des cartes](/fr/guides/map-strategy/) aide à choisir entre terrain ouvert, goulet, île et accès maritime.
+
+Plusieurs poursuivants qui s'empilent sur le même front défendu peuvent tous vider leur réserve pendant que le leader attend. Divisez la pression seulement si chaque route peut déplacer le territoire ou menacer une structure qui change réellement la défense.
+
+## Erreurs fréquentes et contre-jeu
+
+- **Attendre en deuxième position :** la barre descendante aide le leader actuel, pas tous les survivants.
+- **Lire 60 % comme suffisant sur une barre à 60 % :** le test exige une valeur strictement supérieure et l'affichage est arrondi.
+- **Ignorer le prochain palier :** une attaque efficace en 45 secondes ne répond pas à une échéance de 30 secondes.
+- **Confondre Overtime et Doomsday :** Overtime abaisse la barre de victoire du leader ; [Doomsday Clock](/fr/guides/doomsday-clock/) relève une barre de survie et peut détruire du territoire.
+- **Surinvestir en étant leader :** les adversaires veulent vider votre réserve ou ouvrir un deuxième front.
+- **Utiliser le nucléaire sans calcul :** retirer du terrain utilisable peut améliorer la part du mauvais joueur.
+
+Le contre-jeu vise le timing. Le leader peut abandonner les marges peu utiles et concentrer sa défense sur le noyau qui préserve son pourcentage. Les poursuivants peuvent synchroniser plusieurs attaques juste avant une baisse. Recalculez après chaque changement de propriété ou de fallout.
+
+## Ajustements selon le mode et la carte
+
+Les playlists publiques Team et Special ne reçoivent pas le tirage Overtime de 25 % en v0.33.11. Si une configuration serveur l'active en équipe, la base est 95 % et le territoire des membres est additionné. N'appliquez pas ce cas particulier aux parties Team publiques ordinaires. Les preuves de la playlist FFA publique ne suffisent pas non plus à présenter Overtime comme une règle du matchmaking Ranked.
+
+Une carte Compact utilise le même calendrier lorsque les deux modificateurs coexistent, mais le contact rapide rend 30 secondes plus courtes. Sur une grande carte, une expansion éloignée arrive parfois trop tard. Dans un archipel, les transports et les côtes comptent davantage que la distance brute. Sur une carte à goulets, le leader peut défendre un noyau étroit ; les poursuivants doivent préparer plusieurs routes avant l'urgence.
+
+Overtime ne modifie ni le coût du terrain, ni la couverture des Defense Posts, ni les déplacements navals. Il change le résultat à obtenir avant une heure connue.
+
+## Lectures suivantes et sources
+
+Commencez par le [premier match](/fr/guides/first-match/) si part territoriale, réserve et forme de frontière restent floues. Lisez les [modes et réglages de salon](/fr/mechanics/modes/) pour comparer la rotation publique à 30 minutes avec le départ configurable en Host et Singleplayer. Utilisez ensuite le [combat terrestre](/fr/guides/land-combat/) pour chiffrer la capture décisive et le [plan de reprise](/fr/strategies/recovery-playbook/) si votre position est déjà brisée.
+
+Les faits primaires ont été vérifiés avec la [Release officielle v0.33.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), la [configuration Overtime du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), le [contrôle de victoire](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), la [playlist publique](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts) et les [tests Overtime](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Les discussions et vidéos communautaires servent à identifier les questions de fin de partie, pas à définir les nombres.

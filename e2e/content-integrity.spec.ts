@@ -317,7 +317,7 @@ const freshnessLanguages = [
 ] as const;
 
 const freshnessPages = [
-  { route: '/guides/first-match/', fact: '22' },
+  { route: '/guides/first-match/', fact: 'v33.11' },
   { route: '/guides/doomsday-clock/', fact: 'v33.7' },
   { route: '/guides/hotkeys/', fact: 'hotkey' },
   { route: '/guides/water-nukes/', fact: 'water-nukes' },
@@ -368,11 +368,11 @@ for (const v32Case of v32Cases) {
 }
 
 const latestReleaseSsrCases = [
-  { lang: 'en', path: '/', signal: 'versioned replay shells' },
-  { lang: 'zh', path: '/zh/', signal: '版本化 replay shell' },
-  { lang: 'fr', path: '/fr/', signal: 'shells de replay versionnés' },
-  { lang: 'de', path: '/de/', signal: 'versionierte Replay-Shells' },
-  { lang: 'nl', path: '/nl/', signal: 'Versie-replay-shells' },
+  { lang: 'en', path: '/', signal: 'one quarter of public FFA games' },
+  { lang: 'zh', path: '/zh/', signal: '四分之一的公开 FFA 对局' },
+  { lang: 'fr', path: '/fr/', signal: 'un quart des parties FFA publiques' },
+  { lang: 'de', path: '/de/', signal: 'einem Viertel der öffentlichen FFA-Partien' },
+  { lang: 'nl', path: '/nl/', signal: 'een kwart van de openbare FFA-partijen' },
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {

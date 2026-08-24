@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-08-23。
+更新日期：2026-08-25。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/land-combat/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把陆战总兵力、地形、工事与反推意图换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/winning-overtime/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把 Overtime 门槛、僵局收尾与领先/追赶决策换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,18 +30,19 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.33.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)，tag commit `3229956f09a0307c7ed1d31e07aed9a9f9356cbd`；v33.8/v33.9 只含网络与桌面交付可靠性变化，没有新玩法规则。
-- 上游 `main` 游标：`b47aaafb0eeeacb53a357b5cbc97c29ea295490d`；SAM 动态升级射程已合并，地图预加载与外观 loadout 仍保持 Merged，全部不能越过正式 Release 边界。
-- 历史边界：`v0.33.9...main` 已分叉（ahead 122 / behind 33），不能把 ahead/behind 当成线性“版本后新增”。
+- 正式 Release：[`v0.33.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)，tag commit `0cb90ccb74787e8384f030517423826fe9f607a9`；Overtime 已正式上线，公开 FFA 独立 25% 随机，默认第 30 分钟后每 30 秒降低 1 个百分点。
+- 上游 `main` 游标：`b71656c70fbc9773883668274fcc0e0b480988f2`；SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
+- 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
 - GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
 - 需求源：站点开放 Issues/PR 为 0；Feedlog 按自动化策略不访问；上游 #4237 无新讨论。
-- 详细来源与排除项：[`2026-08-20-whats-new-upstream-source-plan.md`](research/2026-08-20-whats-new-upstream-source-plan.md)。
+- 本轮 Overtime 社区与 tag 核验：[`2026-08-25-winning-overtime-community-source-pack.md`](research/2026-08-25-winning-overtime-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
 | 玩家主题 | 当前状态 | 公开边界 | 下一转换 |
 |---|---|---|---|
+| Overtime 胜利门槛 | `Released` | v0.33.11：公开 FFA 25% 随机；默认 30:00 后每 30 秒降低 1 点，严格高于门槛才获胜；Host/Singleplayer 可设 1–120 分钟 | 已同步五语 v33 总览、modes 与主攻略；后续只随正式规则变化更新 |
 | Team Doomsday 门槛 + wasteland | `Released` | v0.33.7：团队使用 3/6/10/15/21/28/35% 七档门槛，腐化地变为 wasteland | 已同步五语 v33 总览与 Doomsday 主答案；后续只随正式规则变化更新 |
 | Water Nukes 运输船寻路 | `Merged` | P0；现有攻略仍正确标为未发布修复 | Release 收录后转 `Released`，移除旧绕路警告 |
 | 完整大厅 Detailed View | `Merged` | P1 首发候选 | Release 后核对最终入口、筛选与公开队列行为 |
@@ -69,10 +70,10 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-08-25 | v33.11 Release response + `LF-COMMUNITY-ROLLING` Overtime 决策 | 五语 v33 总览升级到 v33.11；新建五语 `/guides/winning-overtime/`，回答门槛、严格比较、fallout 分母、领先防守与追赶截止点，并接通 Guides、modes 与 first-match | 4 Reddit、3 YouTube、20 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题并继续 Monitoring / 滚动 Production |
 | 2026-08-23 | `LF-COMMUNITY-ROLLING` 陆战决策 | 新建五语 `/guides/land-combat/`，用实际攻击兵力、地形、Defense Post、接触面与反推抵消回答“兵多为何仍推不动”；同时修正五语军事短页的绝对化结论并接通恢复手册 | 4 Reddit、4 YouTube、7 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题，滚动 Production 继续从新意图选择 |
 | 2026-08-23 | v33.9 Release response + `WN-01` 事实修正 | 五语 v33 总览升级到 v33.9 并明确 v33.8/v33.9 不改变对局规则；v34 预览撤下已随 v33.7 发布的 spectator/Team Doomsday，改为不承诺固定秒数的地图预加载；loadout 与预加载进入内部 canonical 账本 | release contract 5/5；严格审计 95/95 + 8 internal/280 public；Astro check 0 errors；build 305 页；links 12,719；定向 e2e 149/149；合并即继续 Monitoring，正式 Release 前不改常青规则 |
 | 2026-08-22 | 13 个长文主题全部交付 | A–E 五批完成五语主答案、五份来源包、核弹计算器、两张单图页、自然入口与相邻互链；全部退出活动 Production | 严格审计 95/95；Astro check 0 errors；build 305 页；links 12,719；完整 e2e 371/371；后续只在正式变化或事实错误时重开 |
 | 2026-08-21 | `WN-01` 公共文章 MVP | What's New 改为五语版本文章索引；新增 v34 `Not released yet` 文章，复用 `/changelog/v34/` 稳定 URL；首页只展示文章摘要，RSS 过滤预发布版本，Issue/PR 仅留内部账本 | `pnpm content:audit -- --strict`、`pnpm check`、`pnpm build`、`pnpm check:links`、文章 e2e；正式 v34 发布时只切换 `releaseStatus` |
-| 2026-08-20 | `WN-01` 来源规划 | 建立 Released/Merged/In development/Watching 合同、双锚点和首批候选；没有提前改写正式机制 | 58 个官方来源链接；下一批实施公共 MVP |
 
 以后只保留最近 3–5 个改变活动通道、公共来源锚点或决策门槛的有效运行；被替换的行移入月度归档。无变化运行不得写入本文件。

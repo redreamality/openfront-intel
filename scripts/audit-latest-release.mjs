@@ -80,6 +80,8 @@ const contracts = [
       /^Source status$/i,
     ],
     bodyPatterns: [
+      ['Overtime public rotation', /one quarter of public FFA games/i],
+      ['Overtime schedule', /minute 30.*1 percentage point every 30 seconds/is],
       ['versioned replay', /versioned replay shells/i],
       ['v33.8/v33.9 boundary', /v33\.8.*(?:reliability|connection reliability)/is],
       ['spectator join', /without taking a player slot/i],
@@ -112,6 +114,8 @@ const contracts = [
       /^来源状态$/,
     ],
     bodyPatterns: [
+      ['Overtime public rotation', /四分之一的公开 FFA 对局/],
+      ['Overtime schedule', /第 30 分钟.*每 30 秒降低 1 个百分点/s],
       ['versioned replay', /版本化 replay shell/i],
       ['v33.8/v33.9 boundary', /v33\.8.*(?:可靠性|连接可靠性)/s],
       ['spectator join', /不占玩家名额/],
@@ -144,6 +148,8 @@ const contracts = [
       /^Statut de la source$/i,
     ],
     bodyPatterns: [
+      ['Overtime public rotation', /un quart des parties FFA publiques/i],
+      ['Overtime schedule', /30e minute.*1 point toutes les 30 secondes/is],
       ['versioned replay', /shells de replay versionnés/i],
       ['v33.8/v33.9 boundary', /v33\.8.*(?:fiabilité|connexion)/is],
       ['spectator join', /sans prendre de place de joueur/i],
@@ -176,6 +182,8 @@ const contracts = [
       /^Quellenstatus$/i,
     ],
     bodyPatterns: [
+      ['Overtime public rotation', /einem Viertel der öffentlichen FFA-Partien/i],
+      ['Overtime schedule', /Minute 30.*alle 30 Sekunden um 1 Prozentpunkt/is],
       ['versioned replay', /versionierte Replay-Shells/i],
       ['v33.8/v33.9 boundary', /v33\.8.*(?:Zuverlässigkeit|Verbindungsfix)/is],
       ['spectator join', /ohne einen Spielerplatz zu belegen/i],
@@ -208,6 +216,8 @@ const contracts = [
       /^Bronstatus$/i,
     ],
     bodyPatterns: [
+      ['Overtime public rotation', /een kwart van de openbare FFA-partijen/i],
+      ['Overtime schedule', /minuut 30.*elke 30 seconden met 1 procentpunt/is],
       ['versioned replay', /Versie-replay-shells/i],
       ['v33.8/v33.9 boundary', /v33\.8.*(?:betrouwbaarheid|verbindingsfix)/is],
       ['spectator join', /zonder een spelersplek te bezetten/i],

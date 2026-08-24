@@ -1,21 +1,23 @@
 ---
-title: 'v33.9: Desktop & Server Reliability, plus v33 Rules'
-description: 'Player-focused OpenFront v33.9 notes: understand the desktop and server reliability patches, plus the v33.7 gameplay rules still in force.'
+title: 'v33.11: Overtime Ends FFA Stalemates'
+description: 'Player-focused OpenFront v33.11 notes: learn when Overtime lowers the FFA win threshold, how to read the new race, and what v33 rules remain in force.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-23
+updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in v33.9 and v33.8?
+## Direct answer: what changed in v33.11?
 
-The official `v0.33.9` Release adds the release descriptor used by the desktop client. The preceding `v0.33.8` patch routes the game server's HTTP API through its configured host. Both are delivery and reliability changes; neither Release declares a new control, balance value, map rule, or match decision.
+The official `v0.33.11` Release adds **Overtime**, an anti-stalemate modifier used in one quarter of public FFA games. The normal 80% territory win threshold stays fixed through minute 30, then falls by 1 percentage point every 30 seconds. The leading player wins when their share is strictly greater than the live threshold, so a stalled leader must protect territory rather than wait for 80% forever.
 
-For your next game, the latest player-facing changes remain the spectator and Team Doomsday rules released in v0.33.7. You do not need to change a build order or combat timing just because the displayed patch moved from v33.7 to v33.9.
+The same Release also moves game traffic to a custom binary format that reduces websocket transfer, while v0.33.10 adds the press site. Those delivery changes do not alter a build order. Overtime does: read the lobby modifier, compare your share with the orange threshold, and decide whether to defend a winning lead or take the cheapest land before the next step.
 
 | Patch | What changed | Player decision |
 |---|---|---|
+| v33.11 | Overtime lowers the public FFA win threshold after minute 30 | Protect or overtake the live territory lead; use the [complete Overtime guide](/guides/winning-overtime/) |
+| v33.10 | Press site entry | No match-rule change |
 | v33.9 | Desktop clients can read a release descriptor | Keep the desktop client current; match rules are unchanged |
 | v33.8 | The game server HTTP API follows the configured host | Treat it as a connection reliability fix, not a gameplay rule |
 | v33.7 | Spectator join, higher Team Doomsday rungs, and wasteland rot | Use the gameplay guidance below |
@@ -142,6 +144,6 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 
 ## Source status
 
-GitHub labels the official `v0.33.9` Release `draft=false` and `prerelease=false`; its body contains real v33.9 through v33.0 entries rather than TEST placeholder text. The v33.9 and v33.8 entries are reliability patches, while the v0.33.7 tag remains the source for the latest gameplay changes. This remains the single v33 series overview.
+GitHub labels the official `v0.33.11` Release `draft=false` and `prerelease=false`; its body contains real v33.11 through v33.0 entries rather than TEST placeholder text. The v0.33.11 tag is the formal source for Overtime. The v33.10, v33.9, and v33.8 entries cover press, desktop delivery, and connection reliability rather than new match rules. This remains the single v33 series overview.
 
-Sources: [official v0.33.9 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9), [official v0.33.7 gameplay Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator lobby flow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday ladders](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versioned replay URL helper](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [archived replay redirect](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [Luna rotation frequency](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [adminbot game creation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), and [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
+Sources: [official v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [tagged Overtime thresholds](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [tagged public FFA rotation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), [official v0.33.7 gameplay Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator lobby flow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday ladders](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versioned replay URL helper](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Luna rotation frequency](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [bulk limits and costs](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts), and [same-Silo launch scheduling](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
