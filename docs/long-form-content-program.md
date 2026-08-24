@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-08-23。规划窗口：未来 8–12 周。
+更新日期：2026-08-25。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -30,6 +30,7 @@
 | `LF-PLAY-02` | `/strategies/team-roles/` | 团队中前线、经济、海军和核威慑角色怎样协作 | naval-control 只承接海军角色；本页承接团队分工 |
 | `LF-PLAY-03` | `/strategies/diplomacy-betrayal/` | 什么时候结盟、续约、禁运或背叛 | alliances 页讲规则；本页讲时机、风险与反制 |
 | `LF-COMMUNITY-2026-08-23` | `/guides/land-combat/` | 为什么兵更多仍可能推不动或守不住，以及何时增兵、停手、换路或反推 | military 页只保留公式速查；recovery-playbook 从边境已经失守后开始；本页独占实时陆战决策意图，不再换标题复制 |
+| `LF-COMMUNITY-2026-08-25` | `/guides/winning-overtime/` | Overtime 的实时领土门槛何时让领先转化为胜利，领先者与追赶者下一步分别该做什么 | modes 只解释房间设置；Doomsday 处理生存与腐化；本页独占门槛下降、严格比较、fallout 分母与终局截止点决策，不再换标题复制 |
 
 ## 生产批次
 
@@ -40,7 +41,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-08-23 陆战主题已达到内容与来源门槛，合并即完成本次主题 | 一轮一个独立意图；同轮完成调研、1000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-08-25 Overtime 终局决策已达到内容与来源门槛，合并即完成本次主题 | 一轮一个独立意图；同轮完成调研、1000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 

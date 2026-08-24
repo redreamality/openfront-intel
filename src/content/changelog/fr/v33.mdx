@@ -1,21 +1,23 @@
 ---
-title: 'v33.9 : fiabilité desktop et serveur, plus les règles v33'
-description: 'Notes OpenFront v33.9 orientées joueur : comprendre les correctifs desktop et serveur, ainsi que les règles de jeu v33.7 toujours actives.'
+title: 'v33.11 : Overtime met fin aux impasses en FFA'
+description: 'Notes OpenFront v33.11 orientées joueur : comprendre quand Overtime abaisse le seuil FFA, comment lire la course finale et quelles règles v33 restent actives.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-23
+updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Réponse directe : que changent v33.9 et v33.8 ?
+## Réponse directe : que change v33.11 ?
 
-La Release officielle `v0.33.9` ajoute le descripteur de version utilisé par le client desktop. Le correctif `v0.33.8` précédent fait passer l'API HTTP du serveur de jeu par l'hôte configuré. Ce sont deux changements de distribution et de fiabilité, sans nouvelle commande, valeur d'équilibrage, règle de carte ou décision de partie.
+La Release officielle `v0.33.11` ajoute **Overtime**, un modificateur anti-impasse présent dans un quart des parties FFA publiques. Le seuil normal de victoire à 80 % reste fixe jusqu'à la 30e minute, puis baisse de 1 point toutes les 30 secondes. Le leader gagne quand sa part est strictement supérieure au seuil en direct : il doit donc protéger son territoire au lieu d'attendre 80 % indéfiniment.
 
-Pour votre prochaine partie, les derniers changements visibles restent le mode spectateur et les règles Team Doomsday publiés en v0.33.7. Le passage de v33.7 à v33.9 n'impose donc aucun nouvel ordre de construction ni timing de combat.
+La même Release adopte un format binaire réduisant le transfert websocket, tandis que v0.33.10 ajoute le site presse. Ces changements de distribution ne modifient pas un build order. Overtime, lui, impose de lire le modificateur, de comparer sa part à la barre orange, puis de défendre l'avance ou de prendre le terrain le moins coûteux avant le palier suivant.
 
 | Correctif | Changement | Décision du joueur |
 |---|---|---|
+| v33.11 | Overtime abaisse le seuil FFA public après la 30e minute | Défendez ou dépassez le leader territorial ; consultez le [guide Overtime complet](/fr/guides/winning-overtime/) |
+| v33.10 | Entrée vers le site presse | Aucune règle de partie ne change |
 | v33.9 | Le client desktop peut lire un descripteur de version | Gardez le client à jour ; les règles de partie ne changent pas |
 | v33.8 | L'API HTTP du serveur suit l'hôte configuré | Traitez-le comme un correctif de connexion, pas comme une règle de jeu |
 | v33.7 | Spectateur, seuils Team Doomsday plus hauts et corruption en wasteland | Suivez les conseils de jeu ci-dessous |
@@ -142,6 +144,6 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 
 ## Statut de la source
 
-GitHub marque la Release officielle `v0.33.9` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.9 à v33.0, pas un placeholder TEST. Les entrées v33.9 et v33.8 concernent la fiabilité ; le tag v0.33.7 reste la source des derniers changements de jeu. Cette page reste l'unique vue d'ensemble v33.
+GitHub marque la Release officielle `v0.33.11` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.11 à v33.0, pas un placeholder TEST. Le tag v0.33.11 est la source formelle d'Overtime ; v33.10, v33.9 et v33.8 concernent la presse, la distribution desktop et la fiabilité de connexion. Cette page reste l'unique vue d'ensemble v33.
 
-Sources : [Release officielle v0.33.9](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9), [Release gameplay officielle v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [parcours spectateur](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [barres Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [corruption en wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [URL du replay versionné](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [redirection d’un replay archivé](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts), [fréquence de Luna](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [création adminbot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts), [plafonds groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) et [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
+Sources : [Release officielle v0.33.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [seuils Overtime du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [rotation FFA publique du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), [Release gameplay officielle v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [parcours spectateur](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [barres Doomsday](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [corruption en wasteland](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [URL du replay versionné](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [fréquence de Luna](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [plafonds groupés](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) et [rythme par Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

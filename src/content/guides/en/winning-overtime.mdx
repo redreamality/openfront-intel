@@ -1,0 +1,130 @@
+---
+title: "OpenFront Overtime Guide: Win Threshold & Endgame"
+description: "Learn how OpenFront Overtime lowers the FFA win threshold after minute 30, when a lead becomes a win, and how to attack, defend, or reroute before the next step."
+pubDate: 2026-08-25
+updatedDate: 2026-08-25
+tags: [overtime, win-condition, territory, endgame]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against v0.33.11: one quarter of public FFA games use Overtime, starting at minute 30 and lowering the 80% win threshold by 1 point every 30 seconds."
+---
+
+## Direct answer: how do you win an Overtime game?
+
+In v0.33.11, Overtime appears in one quarter of public FFA games. The normal 80% territory threshold stays fixed through minute 30, then falls by 1 percentage point every 30 seconds. You win when your usable-land share is strictly greater than the live threshold. Protect a winning lead, or take the cheapest safe tiles before the next drop lets the leader close the game.
+
+## Version boundary and where Overtime appears
+
+The official v0.33.11 Release introduced Overtime as an anti-stalemate game mode. This guide was last checked against the `v0.33.11` tag on 25 August 2026. It does not treat later upstream `main` changes as live rules.
+
+The tagged public playlist enables Overtime in **25% of public FFA games**. It does not enable the modifier in the public Team or Special playlists. Private Host and Singleplayer settings do expose an Overtime switch and a start-minute input from **1 to 120 minutes**, with 30 minutes as the default. A custom Team game can therefore use Overtime even though public Team does not roll it automatically.
+
+Look for the Overtime modifier before the match and for the Overtime panel once the start minute arrives. If neither is present, the normal threshold remains fixed. Do not plan every FFA as though the bar must fall.
+
+The same Release changed websocket delivery to a binary format. That may affect transfer size, but it does not alter the territory calculation, combat formula, or timing described here.
+
+## The threshold schedule you can plan around
+
+Public Overtime uses the FFA base of **80%**, a default start at **30:00**, and a decline of **2 percentage points per minute**. The game applies that rate as one whole-point step every 30 seconds. At exactly 30:00 the threshold is still 80%.
+
+| Match time | Live threshold | What a leader needs |
+| --- | ---: | --- |
+| 30:00 | 80% | More than 80% |
+| 30:30 | 79% | More than 79% |
+| 35:00 | 70% | More than 70% |
+| 38:30 | 63% | More than 63% |
+| 39:00 | 62% | More than 62% |
+| 39:30 | 61% | More than 61% |
+| 40:00 | 60% | More than 60% |
+| 45:00 | 50% | More than 50% |
+
+“More than” matters. A player on exactly 60.0% does not satisfy a 60% threshold. A player on 60.1% does. The panel shows whole percentages for readability, so use its gap as a decision signal rather than assuming a displayed tie has already won.
+
+There is no secret floor. The threshold continues toward 0%, which guarantees that the leading side eventually qualifies if the match remains stalled. A separate hard limit at 170 minutes and any configured match timer can also end a game, but those are not shortcuts a public Overtime plan should rely on.
+
+## What territory percentage actually means
+
+The denominator is usable land: total land tiles minus tiles currently covered by fallout. In FFA, the numerator is the leading player's owned tiles. The game compares the largest current share with the live Overtime threshold.
+
+That makes two common shortcuts wrong. First, the minimap's visual area is not a precise percentage. Coastlines, narrow corridors, islands, and tile density can make equal-looking regions contain different tile counts. Second, fallout can change the denominator while no border moves. Read the panel and ranking instead of estimating from color alone.
+
+Overtime changes the condition for winning; it does not grant troops, remove defenses, cancel alliances, or make a tile cheaper. Normal [land-combat rules](/guides/land-combat/) still decide whether the next capture is affordable.
+
+## Use the LEAD decision framework
+
+Use **LEAD** every time the threshold steps down:
+
+1. **Locate** the rule: confirm the Overtime modifier, current time, live threshold, and whether you are first or chasing.
+2. **Estimate** the crossing: compare the leader's real share with the next one or two threshold steps, including any active fallout change.
+3. **Act** for the cheapest decisive swing: capture exposed land, shorten a dangerous border, or hit the leader where one operation changes the ranking.
+4. **Defend** the state that wins: once your share will cross soon, preserve reserve, key routes, and connected territory instead of starting an optional war.
+
+The framework has a deliberate asymmetry. A leader near the bar should reduce variance; a challenger should create it. The correct action depends on who wins if nobody changes the map before the next 30-second step.
+
+## Scenario 1: a 62.4% lead becomes decisive at 39:00
+
+Assume a public FFA Overtime game, no configured timer, stable usable land, and a leader holding **62.4%**. At 38:30 the threshold is 63%, so 62.4% is not enough. At 39:00 the bar becomes 62%; 62.4% is strictly greater and the leader qualifies on the next win check.
+
+The leader's decision at 38:30 is not “conquer the whole map.” It is “avoid losing roughly 0.4 percentage points for 30 seconds.” Cancel an exposed attack, keep troops behind the border, and refuse an unnecessary alliance break. The challenger's decision is the reverse: flip enough tiles from the leader, create fallout that changes the usable-land calculation, or overtake first place before 39:00.
+
+This scenario assumes the displayed share accurately reflects the current tile state and that no simultaneous execution changes ownership before the win check. Real matches can resolve several actions in the same interval.
+
+## Scenario 2: 30 seconds to stop a 60.2% leader
+
+Assume the leader has **60.2%**, the challenger has **59.8%**, and the clock reads 39:30. The threshold is 61%, so neither share has won. At 40:00 the threshold falls to 60%, and 60.2% will qualify if the map remains unchanged.
+
+The challenger has a defined objective: remove at least enough of the leader's share to keep it at or below 60%, or take enough land to become the higher side before the deadline. Feeding troops into a covered mountain that cannot move the percentage in 30 seconds is not pressure; it is a distraction. An exposed coast, a thin corridor, or neutral land that changes the ranking is the better target.
+
+The leader should not answer every attack. Protect the tiles that keep the share above 60%, especially bridges between large regions. Losing a remote sliver that leaves 60.05% can be acceptable; spending the reserve and collapsing a core front is not.
+
+Assumptions: usable land is stable, both percentages are current, and the match has no earlier elimination or timer result.
+
+## Scenario 3: fallout changes the denominator
+
+Assume the map began with **100,000 land tiles**, **10,000 are now fallout**, and the leader owns **54,000 usable tiles**. The denominator is 90,000, so the share is `54,000 / 90,000 = 60%`, not 54%.
+
+At a 60% threshold, exactly 60% still does not win because the check is strict. One additional usable tile would put the share slightly above 60%, assuming the denominator and all other ownership remain fixed. The example shows why a rounded panel value cannot prove an exact crossing and why nuclear play can alter the race even when it does not hand the attacker territory.
+
+Do not turn this into advice to nuke randomly. Fallout may destroy the land you needed, provoke opponents, consume a strategic weapon, or improve the leader's fraction more than yours. Use the [nuclear deterrence guide](/strategies/nuclear-deterrence/) before treating denominator change as a plan.
+
+## How leaders should close without throwing
+
+A leader wins the waiting race, so spend only for actions that protect the qualifying share. Mark the next threshold time, identify the smallest territory loss that would put you below it, and preserve a reserve large enough to cover that route.
+
+Prefer short, connected borders over decorative expansion. A distant appendage can inflate the percentage but can also give several opponents a cheap way to pull you below the bar. If you already cross at the next step, a risky naval invasion or betrayal usually adds more failure paths than value.
+
+Diplomacy still matters. Opponents can coordinate against the leader even if they cannot share a formal team total. Do not assume one alliance will survive when every partner sees that your passive clock leads to victory.
+
+## How challengers create a real stop
+
+Attack the winning condition, not the largest visual blob. Your task is to change first place or keep the leader below the next bar. That can mean taking leader-owned tiles, helping a closer rival overtake, opening several cheap fronts, or forcing the leader to withdraw from a fragile extension.
+
+Count the time needed to make the first tile change. A theoretically efficient campaign that starts after the next threshold is irrelevant. Use the [map-strategy framework](/guides/map-strategy/) to distinguish open land, chokepoints, islands, and maritime access before choosing the route.
+
+If several challengers pile into the same defended border, they may all lose reserves while the leader waits. Split pressure only when each route can move territory or threaten a structure that materially changes the defense.
+
+## Failure modes and opponent counterplay
+
+- **Waiting while second:** the falling bar helps the current leader, not every survivor. Without a ranking change, patience loses.
+- **Reading 60% as enough at a 60% bar:** the rule is strictly greater, and the panel rounds for display.
+- **Ignoring the next step:** a good attack with a 45-second payoff cannot stop a win in 30 seconds.
+- **Confusing Overtime with Doomsday:** Overtime lowers the win threshold for the leader; [Doomsday Clock](/guides/doomsday-clock/) raises a survival threshold for non-leaders and can rot territory.
+- **Overcommitting as leader:** opponents want you to drain the reserve, expose a second front, or break a stabilizing alliance.
+- **Nuking without denominator math:** removing usable land can improve the wrong player's share and eliminate your own capture route.
+
+Expect counterplay to focus on timing. A leader may abandon low-value edges, stack troops on the percentage-preserving core, and offer diplomacy until the next step. Challengers may synchronize attacks just before a threshold change so the leader cannot repair every border. Recalculate after each ownership or fallout change; a plan based on the previous denominator is already stale.
+
+## Mode and map adjustments
+
+Public Team and Special playlists do not receive the 25% Overtime roll in v0.33.11. If a custom or server-managed team configuration enables it, the base threshold is 95% and team territory is combined, but do not project that edge case onto ordinary public Team games. The tagged public FFA evidence also does not establish Overtime as a Ranked matchmaking rule.
+
+Compact maps use the same Overtime clock when both modifiers appear, but shorter fronts and faster contact make a 30-second response harder. On large maps, travel time makes remote expansion less useful near a crossing. On archipelagos, transport paths and coastal ownership can matter more than raw distance. On chokepoint maps, the leader can often defend a narrow percentage-preserving core, so challengers need multiple reachable routes before the clock becomes urgent.
+
+Overtime does not change terrain cost, Defense Post coverage, naval movement, or combat cancellation. It changes which result must happen before a known time.
+
+## Next reading and source boundary
+
+Start with [first-match fundamentals](/guides/first-match/) if territory share, reserve, and border shape are still unfamiliar. Use [game modes and lobby settings](/mechanics/modes/) to compare the public 30-minute roll with the configurable Host and Singleplayer start. Move to [land combat](/guides/land-combat/) for the cost of taking a decisive tile and [recovery playbook](/strategies/recovery-playbook/) when the leader has already broken your position.
+
+Primary facts were checked against the [official v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), tagged [Overtime configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), tagged [win check](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), tagged [public playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), and tagged [Overtime tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Community discussions and videos identify the stalemate and closing questions; they do not define these rules or numbers.

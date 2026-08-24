@@ -6,15 +6,18 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="游戏模式与私人房设置" description="选择 OpenFront.io v33.7 大厅设置，正确使用旁观入口，并分清普通 Host 控件与受管 featured、管理员固定队伍大厅。">
+<BaseLayout title="游戏模式与私人房设置" description="选择 OpenFront.io v33.11 大厅设置，配置 Overtime，正确使用旁观入口，并分清 Host 控件与公开轮换修正器。">
   <PageHeader eyebrow="MECHANICS · 10" title="游戏模式与私人房设置" lead="先确定这局要练什么，再只改为这个目标服务的设置。这样不会误开单边规则，也不会在普通 Host 菜单里寻找并不存在的开关。" />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="适用于 OpenFront v33.7 · 2026-08-22 核验">
+    <Callout type="spec" title="适用于 OpenFront v33.11 · 2026-08-25 核验">
       <p>普通 Host 菜单提供 FFA 或 Team、地图与 AI、出生与时序、同盟、资源、特殊模式、禁用单位、匿名名称、白名单和 Host Cheats。<code>isPeaceTime</code>、<code>isNukesDisabled</code>、<code>isSAMsDisabled</code>、<code>isPortsDisabled</code> 等公开轮换内部字段，不是普通房主界面的可点选控件。</p>
     </Callout>
 
     <h2>直接答案：按对局目标选设置，不要照抄所谓最佳预设</h2>
-    <p>公平朋友局应关闭 Host Cheats，所有全局资源改动都提前公开，需要限制参与者时使用白名单。普通房的固定队友训练应选择 Team、关闭 Random Spawn，并保留自动启用的金币与部队捐赠。Infinite Gold、Instant Build、禁用单位、Water Nukes 或 Doomsday 只用于写清目标的专项练习。赛事或连续多局必须公布规则清单并在每局开打前复核，因为 v33.7 还不能保存具名预设。</p>
+    <p>公平朋友局应关闭 Host Cheats，所有全局资源改动都提前公开，需要限制参与者时使用白名单。普通房的固定队友训练应选择 Team、关闭 Random Spawn，并保留自动启用的金币与部队捐赠。Infinite Gold、Instant Build、禁用单位、Water Nukes、Doomsday 或 Overtime 只用于写清目标的专项练习。赛事或连续多局必须公布规则清单并在每局开打前复核，因为 v33.11 还不能保存具名预设。</p>
+
+    <h2>公开局、Host 与 Singleplayer 的 Overtime 边界</h2>
+    <p>v33.11 中，四分之一的公开 FFA 对局会自动出现 Overtime，公开 Team 与 Special 轮换不会出现。私人 Host 与 Singleplayer 可手动启用，并把开始时间设为 1 至 120 分钟，默认 30 分钟。开始后，FFA 的 80% 胜利门槛每 30 秒下降 1 个百分点；Team 配置从 95% 开始。调整时间前先阅读 <a href={`${base}zh/guides/winning-overtime/`}>Overtime 完整攻略</a>，因为实时判定要求占比严格高于显示门槛。</p>
 
     <h2>v33.7 的旁观加入怎样使用</h2>
     <table>

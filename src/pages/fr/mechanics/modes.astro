@@ -6,15 +6,18 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Modes de jeu et réglages de salon privé" description="Choisissez les réglages OpenFront.io v33.7, utilisez l’entrée spectateur et distinguez le Host ordinaire des salons featured gérés et équipes fixées par admin.">
+<BaseLayout title="Modes de jeu et réglages de salon privé" description="Choisissez les réglages OpenFront.io v33.11, configurez Overtime, utilisez l'entrée spectateur et distinguez les contrôles Host des modificateurs publics.">
   <PageHeader eyebrow="MÉCANIQUES · 10" title="Modes de jeu et réglages de salon privé" lead="Définissez d'abord le but de la partie, puis ne changez que les réglages qui le servent. Vous éviterez ainsi les avantages cachés et les options absentes du menu Host normal." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Vérifié pour OpenFront v33.7 · 22 août 2026">
+    <Callout type="spec" title="Vérifié pour OpenFront v33.11 · 25 août 2026">
       <p>Le menu Host normal propose FFA ou Team, carte et IA, spawn et durée, alliances, ressources, modes spéciaux, unités interdites, noms anonymes, liste blanche et Host Cheats. Les drapeaux internes <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> et <code>isPortsDisabled</code> ne sont pas des commandes du menu Host normal.</p>
     </Callout>
 
     <h2>Réponse directe : choisissez un objectif, pas un faux préréglage idéal</h2>
-    <p>Pour une partie équitable entre amis, désactivez Host Cheats, annoncez toute modification globale des ressources et utilisez une liste blanche si nécessaire. Dans un salon ordinaire, choisissez Team pour entraîner une équipe fixe, désactivez Random Spawn et conservez les dons automatiques. Réservez Infinite Gold, Instant Build, les unités interdites, Water Nukes ou Doomsday à un exercice nommé. Pour un tournoi ou une série, publiez une liste de règles et vérifiez-la avant chaque départ : les préréglages nommés ne sont pas encore disponibles en v33.7.</p>
+    <p>Pour une partie équitable entre amis, désactivez Host Cheats, annoncez toute modification globale des ressources et utilisez une liste blanche si nécessaire. Dans un salon ordinaire, choisissez Team pour entraîner une équipe fixe, désactivez Random Spawn et conservez les dons automatiques. Réservez Infinite Gold, Instant Build, les unités interdites, Water Nukes, Doomsday ou Overtime à un exercice nommé. Pour un tournoi ou une série, publiez une liste de règles et vérifiez-la avant chaque départ : les préréglages nommés ne sont pas encore disponibles en v33.11.</p>
+
+    <h2>Overtime dans les parties publiques, Host et Singleplayer</h2>
+    <p>En v33.11, un quart des parties FFA publiques reçoivent automatiquement Overtime, contrairement aux playlists Team et Special publiques. Un Host privé ou Singleplayer peut l'activer et choisir un départ de 1 à 120 minutes, avec 30 par défaut. Ensuite, le seuil FFA de 80 % baisse de 1 point toutes les 30 secondes ; une configuration Team part de 95 %. Consultez le <a href={`${base}fr/guides/winning-overtime/`}>guide Overtime complet</a> avant de régler l'heure, car la part doit être strictement supérieure au seuil affiché.</p>
 
     <h2>Comment rejoindre en spectateur dans la v33.7</h2>
     <table>

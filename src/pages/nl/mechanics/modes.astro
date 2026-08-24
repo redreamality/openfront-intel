@@ -6,15 +6,18 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Spelmodi en instellingen voor privélobby's" description="Kies OpenFront.io v33.7-instellingen, gebruik de spectator-ingang en onderscheid gewone Host-bediening van beheerde featured lobby’s en adminteams.">
+<BaseLayout title="Spelmodi en instellingen voor privélobby's" description="Kies OpenFront.io v33.11-instellingen, configureer Overtime, gebruik de spectator-ingang en onderscheid Host-bediening van openbare modifiers.">
   <PageHeader eyebrow="MECHANIEK · 10" title="Spelmodi en instellingen voor privélobby's" lead="Bepaal eerst het doel van de partij en wijzig alleen instellingen die dat doel dienen. Zo voorkom je verborgen voordelen en schakelaars die niet in het normale Host-menu bestaan." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Gecontroleerd voor OpenFront v33.7 · 22 augustus 2026">
+    <Callout type="spec" title="Gecontroleerd voor OpenFront v33.11 · 25 augustus 2026">
       <p>Het normale Host-menu biedt FFA of Team, kaart en AI, spawn en tijd, allianties, grondstoffen, speciale modi, verboden eenheden, anonieme namen, whitelist en Host Cheats. Interne openbare-playlistvelden zoals <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> en <code>isPortsDisabled</code> zijn geen normale Host-schakelaars.</p>
     </Callout>
 
     <h2>Direct antwoord: kies een doel, geen zogenaamd beste preset</h2>
-    <p>Houd Host Cheats uit voor een eerlijk spel met vrienden, meld elke wereldwijde grondstoffenwijziging en gebruik een whitelist als alleen genodigden mogen meedoen. Kies in een gewone lobby Team voor training met vaste teams, zet Random Spawn uit en laat automatische donaties aan. Gebruik Infinite Gold, Instant Build, verboden eenheden, Water Nukes of Doomsday alleen voor een benoemde oefening. Publiceer voor een toernooi of reeks een regelslijst en controleer die voor elke start, want benoemde opgeslagen presets bestaan nog niet in v33.7.</p>
+    <p>Houd Host Cheats uit voor een eerlijk spel met vrienden, meld elke wereldwijde grondstoffenwijziging en gebruik een whitelist als alleen genodigden mogen meedoen. Kies in een gewone lobby Team voor training met vaste teams, zet Random Spawn uit en laat automatische donaties aan. Gebruik Infinite Gold, Instant Build, verboden eenheden, Water Nukes, Doomsday of Overtime alleen voor een benoemde oefening. Publiceer voor een toernooi of reeks een regelslijst en controleer die voor elke start, want benoemde opgeslagen presets bestaan nog niet in v33.11.</p>
+
+    <h2>Overtime in openbaar, Host en Singleplayer</h2>
+    <p>In v33.11 krijgt een kwart van de openbare FFA-partijen automatisch Overtime; openbare Team- en Special-playlists niet. Private Host- en Singleplayer-instellingen kunnen het inschakelen en een starttijd van 1 tot 120 minuten kiezen, standaard 30. Daarna daalt de FFA-drempel van 80% elke 30 seconden met 1 punt; Team-configuraties beginnen bij 95%. Lees de <a href={`${base}nl/guides/winning-overtime/`}>volledige Overtime-gids</a> voordat je de tijd wijzigt, want het aandeel moet strikt boven de weergegeven drempel liggen.</p>
 
     <h2>Zo werkt deelnemen als toeschouwer in v33.7</h2>
     <table>

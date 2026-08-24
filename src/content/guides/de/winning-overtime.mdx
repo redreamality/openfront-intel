@@ -1,0 +1,130 @@
+---
+title: "OpenFront Overtime-Guide: Sieggrenze und Endspiel"
+description: "So senkt Overtime die FFA-Sieggrenze nach Minute 30. Erfahre, wann eine Führung gewinnt und wie du vor der nächsten Stufe angreifst, verteidigst oder die Route wechselst."
+pubDate: 2026-08-25
+updatedDate: 2026-08-25
+tags: [overtime, siegbedingung, gebiet, endspiel]
+category: Tutorial
+difficulty: Mittel
+version: v33
+freshnessSummary: "Mit v0.33.11 geprüft: Ein Viertel der öffentlichen FFA-Partien nutzt Overtime ab Minute 30 und senkt die 80-%-Sieggrenze alle 30 Sekunden um 1 Punkt."
+---
+
+## Direkte Antwort: Wie gewinnt man eine Overtime-Partie?
+
+In v0.33.11 erscheint Overtime in einem Viertel der öffentlichen FFA-Partien. Die normale Gebietsgrenze von 80 % bleibt bis Minute 30 fest und sinkt danach alle 30 Sekunden um 1 Prozentpunkt. Du gewinnst, sobald dein Anteil am nutzbaren Land strikt über der Live-Grenze liegt. Sichere eine bald siegreiche Führung oder erobere vor der nächsten Stufe die billigsten sicheren Tiles.
+
+## Versionsgrenze und betroffene Partien
+
+Das offizielle Release v0.33.11 führt Overtime als Anti-Patt-Modus ein. Dieser Guide wurde am 25. August 2026 mit dem Tag `v0.33.11` geprüft. Spätere Änderungen auf Upstream-`main` werden nicht als aktive Regeln ausgegeben.
+
+Die veröffentlichte Playlist aktiviert Overtime in **25 % der öffentlichen FFA-Partien**. Öffentliche Team- und Special-Playlists erhalten den Modifikator nicht automatisch. In privaten Host- und Singleplayer-Einstellungen gibt es jedoch einen Overtime-Schalter und eine Startminute von **1 bis 120**, Standard ist 30. Deshalb kann eine eigene Team-Partie Overtime nutzen, obwohl öffentliche Team-Spiele es nicht zufällig erhalten.
+
+Achte vor dem Start auf den Overtime-Modifikator und nach Erreichen der Startminute auf das Overtime-Panel. Fehlen beide Hinweise, bleibt die normale Sieggrenze fest. Plane nicht jede FFA-Partie so, als müsse die Grenze sinken.
+
+Dasselbe Release stellt Websocket-Verkehr auf ein binäres Format um. Diese Übertragungsoptimierung ändert weder die Gebietsberechnung noch Kampf oder Zeitplan.
+
+## Der planbare Grenzverlauf
+
+Öffentliches Overtime beginnt mit **80 %**, startet standardmäßig bei **30:00** und senkt die Grenze um **2 Punkte pro Minute**. Das Spiel setzt dies in ganzzahligen Stufen um: alle 30 Sekunden 1 Punkt. Bei genau 30:00 beträgt die Grenze weiterhin 80 %.
+
+| Spielzeit | Live-Grenze | Was der Führende braucht |
+| --- | ---: | --- |
+| 30:00 | 80 % | Mehr als 80 % |
+| 30:30 | 79 % | Mehr als 79 % |
+| 35:00 | 70 % | Mehr als 70 % |
+| 38:30 | 63 % | Mehr als 63 % |
+| 39:00 | 62 % | Mehr als 62 % |
+| 39:30 | 61 % | Mehr als 61 % |
+| 40:00 | 60 % | Mehr als 60 % |
+| 45:00 | 50 % | Mehr als 50 % |
+
+„Mehr als“ ist entscheidend. Genau 60,0 % reichen bei einer 60-%-Grenze nicht; 60,1 % schon. Das Panel zeigt zur besseren Lesbarkeit ganze Prozentwerte. Nutze den Abstand als Entscheidungssignal, aber behandle eine angezeigte Gleichheit nicht als bereits sicheren Sieg.
+
+Es gibt keinen versteckten Mindestwert. Die Grenze sinkt weiter bis 0 %, weshalb der Führende bei einem vollständigen Stillstand irgendwann qualifiziert ist. Zusätzlich können eine konfigurierte Match-Zeit oder die separate harte Grenze bei 170 Minuten das Spiel beenden. Darauf sollte sich eine normale öffentliche Overtime-Strategie nicht verlassen.
+
+## Was der Gebietsanteil wirklich misst
+
+Der Nenner ist nutzbares Land: sämtliche Land-Tiles abzüglich der Tiles unter Fallout. Im FFA ist der Zähler die Tile-Zahl des führenden Spielers. Das Spiel vergleicht den größten aktuellen Anteil mit der Overtime-Grenze.
+
+Zwei Abkürzungen führen in die Irre. Die sichtbare Fläche auf der Minimap ist kein exaktes Maß, weil Küsten, Korridore, Inseln und Tile-Dichte die Form verzerren. Außerdem kann Fallout den Nenner verändern, ohne dass sich eine Grenze bewegt. Lies Panel und Rangliste statt nur die Farbflecken.
+
+Overtime ändert die Siegbedingung. Es schenkt keine Truppen, entfernt keine Defense Posts und macht kein Tile billiger. Ob die nächste Eroberung bezahlbar ist, entscheiden weiterhin die Regeln des [Landkampfs](/de/guides/land-combat/).
+
+## Das LEAD-Entscheidungsmodell
+
+Wende bei jeder sinkenden Stufe **LEAD** an:
+
+1. **Lokalisieren:** Bestätige Modifikator, Zeit, Live-Grenze und ob du führst oder jagst.
+2. **Einschätzen:** Vergleiche den echten Anteil des Führenden mit den nächsten ein bis zwei Stufen und berücksichtige aktiven Fallout.
+3. **Agieren:** Suche die billigste entscheidende Verschiebung, etwa offenes Land, eine kürzere gefährliche Grenze oder einen Angriff, der die Rangfolge ändert.
+4. **Defend, also verteidigen:** Sobald die nächste Stufe zum Sieg reicht, bewahre Reserve, Schlüsselrouten und zusammenhängendes Gebiet, statt einen optionalen Krieg zu beginnen.
+
+Das Modell ist absichtlich asymmetrisch. Ein Führender nahe der Grenze sollte Schwankungen vermeiden; ein Verfolger muss sie erzeugen. Frage immer, wer gewinnt, wenn bis zur nächsten 30-Sekunden-Stufe kein Tile wechselt.
+
+## Szenario 1: 62,4 % entscheidet bei 39:00
+
+Angenommen, eine öffentliche FFA-Partie mit Overtime hat keinen zusätzlichen Timer, das nutzbare Land bleibt stabil und der Führende hält **62,4 %**. Bei 38:30 liegt die Grenze bei 63 %, also reicht der Anteil nicht. Bei 39:00 fällt sie auf 62 %. 62,4 % liegt strikt darüber und qualifiziert beim nächsten Siegcheck.
+
+Die Aufgabe des Führenden bei 38:30 lautet nicht „die ganze Karte erobern“, sondern „30 Sekunden lang weniger als etwa 0,4 Punkte verlieren“. Breche einen offenen Angriff ab, behalte Truppen an der Grenze und vermeide einen unnötigen Verrat. Verfolger müssen dem Führenden Tiles abnehmen, den Nenner verändern oder vor 39:00 selbst Platz eins übernehmen.
+
+Annahmen: Die angezeigten Anteile entsprechen dem aktuellen Tile-Zustand und keine gleichzeitige Ausführung ändert vor dem Siegcheck das Eigentum.
+
+## Szenario 2: 30 Sekunden gegen 60,2 %
+
+Angenommen, der Führende hält **60,2 %**, der Verfolger **59,8 %**, und die Uhr zeigt 39:30. Die Grenze liegt bei 61 %, daher hat noch niemand gewonnen. Bei 40:00 sinkt sie auf 60 %, und 60,2 % qualifiziert, wenn sich die Karte nicht ändert.
+
+Der Verfolger hat nun ein messbares Ziel: den Führenden auf höchstens 60 % drücken oder selbst die Führung übernehmen. Truppen in einen gedeckten Berg zu schicken, der innerhalb von 30 Sekunden kein Tile bewegt, ist keine wirksame Gegenwehr. Eine offene Küste, ein dünner Korridor oder neutrales Land mit Einfluss auf die Rangfolge ist besser.
+
+Der Führende muss nicht auf jeden Angriff reagieren. Er schützt jene Tiles, die ihn über 60 % halten, besonders Verbindungen zwischen großen Blöcken. Einen entfernten Rand zu verlieren und bei 60,05 % zu bleiben kann tragbar sein; die Reserve zu verbrennen und die Kernfront zu verlieren nicht.
+
+Annahmen: Nutzbares Land und Anteile bleiben bis auf die beschriebenen Aktionen stabil, ohne frühere Eliminierung oder Timer-Ende.
+
+## Szenario 3: Fallout verändert den Nenner
+
+Angenommen, die Karte hatte **100.000 Land-Tiles**, davon sind **10.000** nun Fallout, und der Führende besitzt **54.000 nutzbare Tiles**. Der Nenner beträgt 90.000, also ist sein Anteil `54.000 / 90.000 = 60 %`, nicht 54 %.
+
+Bei einer Grenze von 60 % gewinnen genau 60 % wegen des strikten Vergleichs noch nicht. Ein einziges zusätzliches nutzbares Tile würde den Anteil leicht über 60 % heben, sofern Nenner und sonstiges Eigentum fest bleiben. Das Beispiel zeigt, warum ein gerundeter Panelwert keinen exakten Übergang beweist.
+
+Es ist kein Rat für zufällige Nukes. Fallout kann deine eigene Route zerstören, Gegner vereinen oder den Anteil des Führenden stärker verbessern. Lies die [Strategie zur nuklearen Abschreckung](/de/strategies/nuclear-deterrence/), bevor du eine Nenneränderung als Plan nutzt.
+
+## Als Führender ohne Wurf schließen
+
+Der Führende gewinnt das Warten und sollte nur für Aktionen ausgeben, die den bald qualifizierten Anteil schützen. Markiere die nächste Stufenzeit, schätze den kleinsten Verlust unter die Grenze und halte genug Reserve auf dieser Route.
+
+Eine kurze zusammenhängende Grenze ist wertvoller als dekorative Expansion. Ein ferner Ausläufer erhöht zwar den Anteil, kann aber mehreren Gegnern eine billige Möglichkeit zum Absenken geben. Wenn die nächste Stufe ohnehin reicht, schaffen eine riskante Seeinvasion oder ein Verrat oft mehr Fehlerpfade als Nutzen.
+
+Diplomatie bleibt wichtig. Gegner können sich gegen den Führenden koordinieren, ohne eine gemeinsame Teamsumme zu haben. Verlasse dich nicht auf ein Bündnis, wenn alle Partner sehen, dass dein passives Warten gewinnt.
+
+## Als Verfolger einen echten Stopp schaffen
+
+Greife die Siegbedingung an, nicht den größten sichtbaren Farbblock. Du musst Platz eins ändern oder den Führenden unter der nächsten Grenze halten. Das kann direkte Tile-Gewinne, Unterstützung eines näheren Rivalen oder mehrere billige Fronten bedeuten.
+
+Zähle die Zeit bis zum ersten Eigentumswechsel. Eine langfristig effiziente Kampagne mit 45 Sekunden Vorlauf stoppt keinen Sieg in 30 Sekunden. Das [Kartenstrategie-Modell](/de/guides/map-strategy/) hilft bei der Wahl zwischen offenem Land, Engpass, Insel und Seezugang.
+
+Wenn mehrere Verfolger dieselbe befestigte Grenze angreifen, können alle ihre Reserven verlieren, während der Führende wartet. Teile Druck nur dann auf, wenn jede Route Gebiet bewegen oder eine verteidigungsrelevante Struktur bedrohen kann.
+
+## Fehler und Gegenmaßnahmen
+
+- **Als Zweiter warten:** Die sinkende Grenze hilft dem aktuellen Führenden, nicht allen Überlebenden.
+- **60 % bei 60 % als ausreichend lesen:** Der Vergleich ist strikt und die Anzeige gerundet.
+- **Die nächste Stufe ignorieren:** Ein Angriff mit 45 Sekunden Wirkung löst keine 30-Sekunden-Frist.
+- **Overtime mit Doomsday verwechseln:** Overtime senkt die Sieggrenze des Führenden; die [Doomsday Clock](/de/guides/doomsday-clock/) erhöht eine Überlebensgrenze und kann Gebiet verrotten lassen.
+- **Als Führender überinvestieren:** Gegner wollen deine Reserve leeren oder eine zweite Front öffnen.
+- **Nukes ohne Nennerrechnung:** Weniger nutzbares Land kann den falschen Anteil verbessern.
+
+Gegenmaßnahmen drehen sich um Timing. Der Führende kann unwichtige Ränder aufgeben und den prozenterhaltenden Kern befestigen. Verfolger können Angriffe kurz vor einer Stufe synchronisieren. Rechne nach jeder Eigentums- oder Fallout-Änderung neu.
+
+## Anpassungen an Modus und Karte
+
+Öffentliche Team- und Special-Playlists erhalten in v0.33.11 nicht den 25-%-Overtime-Wurf. Wird Overtime in einer eigenen Team-Konfiguration aktiviert, startet die Grenze bei 95 % und Teamgebiet wird addiert. Übertrage diesen Sonderfall nicht auf normale öffentliche Team-Partien. Die getaggte Public-FFA-Quelle beweist Overtime außerdem nicht als Ranked-Matchmaking-Regel.
+
+Auf Compact-Karten gilt bei gleichzeitigem Modifikator derselbe Zeitplan, doch kurze Fronten machen 30 Sekunden knapper. Auf großen Karten kommt entfernte Expansion nahe am Übergang oft zu spät. Auf Archipelen zählen Transportwege und Küsten. In Engpässen kann der Führende einen schmalen prozenterhaltenden Kern halten, weshalb Verfolger früh mehrere Routen vorbereiten müssen.
+
+Overtime verändert weder Geländekosten, Defense-Post-Abdeckung noch Seebewegung. Es verändert das Ergebnis, das vor einem bekannten Zeitpunkt nötig ist.
+
+## Nächste Guides und Quellen
+
+Beginne mit dem [ersten Match](/de/guides/first-match/), wenn Gebietsanteil, Reserve und Grenzform noch unklar sind. Die Seite zu [Modi und Lobby-Einstellungen](/de/mechanics/modes/) vergleicht den öffentlichen 30-Minuten-Wurf mit dem konfigurierbaren Start in Host und Singleplayer. Nutze dann [Landkampf](/de/guides/land-combat/) für die entscheidende Eroberung und das [Recovery Playbook](/de/strategies/recovery-playbook/) nach einem bereits gebrochenen Kern.
+
+Primärfakten stammen aus dem [offiziellen v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), der getaggten [Overtime-Konfiguration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), dem [Siegcheck](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), der [öffentlichen Playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts) und den [Overtime-Tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Community-Diskussionen und Videos zeigen die Fragen zum Endspiel, definieren aber keine Regeln oder Zahlen.

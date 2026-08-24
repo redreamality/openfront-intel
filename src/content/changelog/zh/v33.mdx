@@ -1,21 +1,23 @@
 ---
-title: 'v33.9：桌面端与服务器可靠性，以及 v33 规则'
-description: '面向玩家的 OpenFront v33.9 版本笔记：理解桌面端与服务器可靠性补丁，以及仍然生效的 v33.7 玩法规则。'
+title: 'v33.11：Overtime 终结 FFA 僵局'
+description: '面向玩家的 OpenFront v33.11 版本笔记：了解 Overtime 何时降低 FFA 胜利门槛、怎样读终局竞赛，以及仍然生效的 v33 规则。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-23
+updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：v33.9 与 v33.8 改了什么？
+## 直接答案：v33.11 改了什么？
 
-官方 `v0.33.9` Release 增加了桌面客户端读取的 release descriptor；此前的 `v0.33.8` 补丁让游戏服务器 HTTP API 通过配置的 host 路由。两者都属于交付与可靠性调整，没有宣布新的操作、平衡数值、地图规则或对局决策。
+官方 `v0.33.11` Release 新增 **Overtime** 反僵局修正器，四分之一的公开 FFA 对局会启用它。普通 80% 领土胜利门槛在第 30 分钟结束前保持不变，之后每 30 秒降低 1 个百分点。领土第一必须“严格高于”实时门槛才会获胜，因此领先者不能再无限等待 80%，而要守住当前领土。
 
-对下一局而言，最近一次影响玩家操作的更新仍是 v0.33.7 上线的旁观模式与 Team Doomsday 规则。显示版本从 v33.7 变为 v33.9，并不要求你改变建造顺序或战斗时机。
+同一 Release 还用自定义二进制格式降低 websocket 传输量，v0.33.10 则加入 press 站点入口；这些交付变化不影响建造顺序。Overtime 会改变终局决策：先看大厅修正器，再比较自己的占地与橙色门槛，判断应该守住领先还是在下一档下降前夺取最低成本的领土。
 
 | 补丁 | 变化 | 玩家决策 |
 |---|---|---|
+| v33.11 | Overtime 在第 30 分钟后降低公开 FFA 胜利门槛 | 守住或反超实时领土第一；阅读 [Overtime 完整攻略](/zh/guides/winning-overtime/) |
+| v33.10 | Press 站点入口 | 不改变对局规则 |
 | v33.9 | 桌面客户端可读取 release descriptor | 保持桌面客户端为最新；对局规则不变 |
 | v33.8 | 游戏服务器 HTTP API 遵循配置的 host | 把它视为连接可靠性修复，不是玩法规则 |
 | v33.7 | 旁观加入、更高的 Team Doomsday 门槛与 wasteland 腐化 | 按下文玩法建议行动 |
@@ -142,6 +144,6 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-GitHub 将官方 `v0.33.9` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.9 至 v33.0 条目，不是 TEST 占位。v33.9 与 v33.8 属于可靠性补丁，最近的玩法变化仍以 v0.33.7 tag 为来源。本页继续作为唯一 v33 系列总览。
+GitHub 将官方 `v0.33.11` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.11 至 v33.0 条目，不是 TEST 占位。v0.33.11 tag 是 Overtime 的正式来源；v33.10、v33.9 与 v33.8 分别属于 press、桌面交付和连接可靠性变化。本页继续作为唯一 v33 系列总览。
 
-来源：[官方 v0.33.9 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.9)、[官方 v0.33.7 玩法 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[旧回放跳转](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/JoinLobbyModal.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[adminbot 创建对局](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/server/AdminBotRoutes.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。
+来源：[官方 v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、[tagged Overtime 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts)、[tagged 公开 FFA 轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts)、[官方 v0.33.7 玩法 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。

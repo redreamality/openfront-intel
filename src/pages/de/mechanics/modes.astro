@@ -6,15 +6,18 @@ import Callout from '../../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Spielmodi und private Lobby-Einstellungen" description="OpenFront.io-v33.7-Einstellungen wählen, als Zuschauer beitreten und normale Host-Regler von verwalteten Featured-Lobbys und Admin-Teams unterscheiden.">
+<BaseLayout title="Spielmodi und private Lobby-Einstellungen" description="OpenFront.io-v33.11-Einstellungen wählen, Overtime konfigurieren, als Zuschauer beitreten und Host-Regler von öffentlichen Modifikatoren unterscheiden.">
   <PageHeader eyebrow="MECHANIK · 10" title="Spielmodi und private Lobby-Einstellungen" lead="Lege zuerst das Ziel der Partie fest und ändere nur Einstellungen, die diesem Ziel dienen. So vermeidest du versteckte Vorteile und Schalter, die es im normalen Host-Menü nicht gibt." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Für OpenFront v33.7 geprüft · 22. August 2026">
+    <Callout type="spec" title="Für OpenFront v33.11 geprüft · 25. August 2026">
       <p>Das normale Host-Menü bietet FFA oder Team, Karte und KI, Spawn und Zeit, Bündnisse, Ressourcen, Spezialmodi, gesperrte Einheiten, anonyme Namen, Whitelist und Host Cheats. Interne Public-Playlist-Felder wie <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code> und <code>isPortsDisabled</code> sind keine normalen Host-Schalter.</p>
     </Callout>
 
     <h2>Direkte Antwort: Wähle ein Ziel, keinen angeblich besten Preset</h2>
-    <p>Für eine faire Freundesrunde bleiben Host Cheats aus, jede globale Ressourcenänderung wird offengelegt und eine Whitelist begrenzt bei Bedarf den Zutritt. Für festes Teamtraining in einer normalen Lobby wählst du Team, deaktivierst Random Spawn und lässt die automatischen Spenden an. Infinite Gold, Instant Build, gesperrte Einheiten, Water Nukes oder Doomsday gehören in eine klar benannte Übung. Für Turniere oder Serien braucht es vor jedem Start eine Checkliste, denn benannte, speicherbare Presets gibt es in v33.7 noch nicht.</p>
+    <p>Für eine faire Freundesrunde bleiben Host Cheats aus, jede globale Ressourcenänderung wird offengelegt und eine Whitelist begrenzt bei Bedarf den Zutritt. Für festes Teamtraining in einer normalen Lobby wählst du Team, deaktivierst Random Spawn und lässt die automatischen Spenden an. Infinite Gold, Instant Build, gesperrte Einheiten, Water Nukes, Doomsday oder Overtime gehören in eine klar benannte Übung. Für Turniere oder Serien braucht es vor jedem Start eine Checkliste, denn benannte, speicherbare Presets gibt es in v33.11 noch nicht.</p>
+
+    <h2>Overtime in Public, Host und Singleplayer</h2>
+    <p>In v33.11 erhält ein Viertel der öffentlichen FFA-Partien Overtime automatisch; öffentliche Team- und Special-Playlists nicht. Private Host- und Singleplayer-Einstellungen können es einschalten und eine Startzeit von 1 bis 120 Minuten wählen, Standard ist 30. Danach sinkt die FFA-Grenze von 80 % alle 30 Sekunden um 1 Punkt; Team-Konfigurationen starten bei 95 %. Lies den <a href={`${base}de/guides/winning-overtime/`}>vollständigen Overtime-Guide</a>, bevor du die Zeit änderst, denn der Anteil muss strikt über der angezeigten Grenze liegen.</p>
 
     <h2>So funktioniert der Zuschauerbeitritt in v33.7</h2>
     <table>

@@ -6,15 +6,18 @@ import Callout from '../../components/Callout.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Game Modes & Private Lobby Settings" description="Choose OpenFront.io v33.7 lobby settings, join as a spectator, and distinguish ordinary Host controls from managed featured and admin-pinned lobbies.">
+<BaseLayout title="Game Modes & Private Lobby Settings" description="Choose OpenFront.io v33.11 lobby settings, configure Overtime, join as a spectator, and distinguish Host controls from public playlist modifiers.">
   <PageHeader eyebrow="MECHANICS · 10" title="Game Modes & Private Lobby Settings" lead="Choose the purpose of the match first, then change only the settings that serve it. This avoids accidental one-sided rules and settings that do not exist in the normal Host menu." />
   <article class="container-prose py-10 prose prose-invert max-w-none">
-    <Callout type="spec" title="Verified for OpenFront v33.7 · 22 August 2026">
+    <Callout type="spec" title="Verified for OpenFront v33.11 · 25 August 2026">
       <p>The normal Host menu offers FFA or Team, map and AI choices, spawn and timing rules, alliances, resources, special modes, disabled units, anonymous names, a whitelist, and Host Cheats. Internal public-playlist flags such as <code>isPeaceTime</code>, <code>isNukesDisabled</code>, <code>isSAMsDisabled</code>, and <code>isPortsDisabled</code> are not normal Host-menu controls.</p>
     </Callout>
 
     <h2>Direct answer: choose a goal, not a preset name</h2>
-    <p>For a fair game with friends, keep Host Cheats off, disclose every global resource change, and use a whitelist if the link must stay private. For fixed-team practice in an ordinary room, choose Team, keep Random Spawn off, and leave automatic gold and troop donations enabled. Use Infinite Gold, Instant Build, disabled units, Water Nukes, or Doomsday only for a named drill. For tournaments or repeated rooms, publish a rules checklist and recheck the lobby before every start because named reusable presets are not available in v33.7.</p>
+    <p>For a fair game with friends, keep Host Cheats off, disclose every global resource change, and use a whitelist if the link must stay private. For fixed-team practice in an ordinary room, choose Team, keep Random Spawn off, and leave automatic gold and troop donations enabled. Use Infinite Gold, Instant Build, disabled units, Water Nukes, Doomsday, or Overtime only for a named drill. For tournaments or repeated rooms, publish a rules checklist and recheck the lobby before every start because named reusable presets are not available in v33.11.</p>
+
+    <h2>Overtime in public, Host, and Singleplayer games</h2>
+    <p>In v33.11, one quarter of public FFA games receive Overtime automatically. Public Team and Special playlists do not. A private Host or Singleplayer setup can enable it manually and choose a start from 1 to 120 minutes; the default is 30. After that time, the FFA win threshold falls from 80% by 1 point every 30 seconds. Team configurations start from 95%. Read the <a href={`${base}guides/winning-overtime/`}>complete Overtime guide</a> before changing the timer, because the live check requires a share strictly above the displayed threshold.</p>
 
     <h2>How spectator join works in v33.7</h2>
     <table>
