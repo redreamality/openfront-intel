@@ -7,7 +7,7 @@
 ## 规则
 
 - **PowerShell 读取含 `[` / `]` 的动态路由文件必须使用 `Get-Content -LiteralPath`**：例如 `src/pages/guides/[...slug].astro` 会被普通 `-Path` 当成通配表达式，导致“对象不存在”错误。
-- **Windows 下不要把 `src/pages/*/about.astro`、`src/data/legal.*.ts` 等通配符直接作为 `rg` 的路径参数**：Windows 会把它视为非法文件名并报 `os error 123`。应从真实目录根搜索，例如 `rg PATTERN src/pages --glob 'about.astro'`。
+- **2026-08-25 再次复发：Windows 下不要把 `src/pages/*/about.astro`、`src/data/legal.*.ts`、`src/content/guides/*/winning-overtime.mdx` 等通配符直接作为 `rg` 的路径参数**：Windows 会把它视为非法文件名并报 `os error 123`。应从真实目录根搜索，例如 `rg PATTERN src/pages --glob 'about.astro'`，或 `rg PATTERN src/content/guides --glob 'winning-overtime.mdx'`。
 - **沙箱用户运行 Git 若报 `detected dubious ownership`，不要改全局配置**：为单次命令添加 `git -c safe.directory='C:/absolute/workspace/path' ...`；若同时看到用户级 ignore 权限警告，可再按命令覆盖不可读的全局/排除配置。
 - **PowerShell 下不要把包含多层字符串比较或正则的复杂表达式直接交给 `gh api --jq`**：引号可能在原生参数传递时被剥离，出现 `function not defined: v24/0` 等 jq 误解析。优先让 `gh api` 输出原始 JSON，再用 `ConvertFrom-Json` + `Where-Object` 过滤。
 - **OpenFront changelog 的站内简写 `vXX` 不是 GitHub Release tag**：官方正式 Release URL 使用 `v0.XX.0`（如 `v24` → `v0.24.0`）。构造来源链接时必须规范化，并通过 `gh api repos/openfrontio/OpenFrontIO/releases/tags/<tag>` 验证正文不是 TEST 占位。

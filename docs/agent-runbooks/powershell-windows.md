@@ -12,7 +12,7 @@
 - **受限用户直接运行 Astro 若因创建 `%APPDATA%/astro/Config` 报 `EPERM`，先设置 `ASTRO_TELEMETRY_DISABLED=1`**，再调用 `node_modules/.bin/astro.cmd`；否则检查尚未进入项目类型分析阶段。
 - **PowerShell 不要在带空格的括号表达式后直接调用 `.Substring()` 等方法**：`(...) .Substring(...)` 会报 `Unexpected token '.Substring'`。先把表达式结果赋给中间变量，再调用实例方法。
 - **`rg` 在“零匹配”时会返回退出码 1，即使零匹配正是审计目标**：检查旧路径为 0 等场景不要把裸 `rg` 当成必须成功的命令；用 PowerShell 条件捕获退出码，或让脚本显式把 0/1 都解释为有效审计结果，避免把“未找到”误报成命令故障。
-- **PowerShell 外层双引号中不要直接嵌入含 `|`、反引号或复杂字符类的 `rg` 正则**：转义稍有偏差时，`|` 会被当成管道，反引号会吞掉后续字符并形成残缺正则。优先把模式放进单引号、拆成多个 `-e` 简单模式，或先赋给变量再传给 `rg`。
+- **2026-08-25 复发：PowerShell 外层双引号中不要直接嵌入含 `|`、内层引号、反引号或复杂字符类的 `rg` 正则**：转义稍有偏差时，原生命令序列化会剥掉内层引号，`|` 可能被当成管道，最终形成 `unclosed group` 等残缺正则。优先使用 `-F` 固定字符串、把模式放进单引号、拆成多个 `-e` 简单模式，或先赋给变量再传给 `rg`。
 - **PowerShell 变量名不区分大小写，`$home` 会与只读自动变量 `$HOME` 冲突**：HTTP 首页响应等临时变量不要命名为 `home`；使用 `$homeResponse`、`$rootPage` 等明确名称，避免 `Cannot overwrite variable HOME`。
 - **不要在 PowerShell 单引号命令字符串里再直接嵌入含单引号的复杂正则/源码**：内层引号会提前结束字符串并造成解析失败。优先把正则赋给双引号变量、使用 here-string，或拆成更简单的多步命令；跨工具传递时先验证最终参数文本。
 - **PowerShell 双引号插值中变量后紧跟冒号时必须用 `${name}:`**：写成 `$line:` 会被解析为作用域变量并报 `Variable reference is not valid`。日志位置、行号等字符串统一使用 `${line}:$value` 或格式化运算符 `-f`。
