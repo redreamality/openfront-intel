@@ -1,0 +1,146 @@
+---
+title: "Warship-veteran in OpenFront: ervaring, reparatie en terugtrekken"
+description: "Lees de gele ervaringsbalk, de gedeelde Transport- en Trade-voortgang, de gezondheids- en schietbonussen en het juiste moment om een ervaren schip te behouden."
+pubDate: 2026-08-26
+updatedDate: 2026-08-26
+tags: [warship, veterancy, naval, repair, transport]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Gecontroleerd tegen de officiële v0.33.11-tag: maximaal niveau 3, per niveau 20% basisgezondheid en 20% gerolde schietschade, gedeelde civiele voortgang, reset na een Warship-kill en terugtrekking op 75% van de aangepaste maximale gezondheid."
+---
+
+## Direct antwoord: wat betekent de gele balk?
+
+De gele balk toont de veterancy van een Warship. Het is geen timer en geen teller van alle schade die je hebt gedaan. In v0.33.11 kan een schip niveau 3 bereiken. Het schot dat een vijandelijk Warship als laatste raakt, geeft meteen een niveau, tot aan dat maximum. Vernietigde Transport Ships en gevangen Trade Ships vullen samen één civiele voortgangsbalk: tien transports of 25 captures leveren één niveau als je maar één bron gebruikt. Gemengde voortgang telt op. Vijf transports plus dertien captures is `5/10 + 13/25 = 1,02`, genoeg voor niveau 1. Vraag daarom niet alleen “hoe vol is de balk?”, maar “welke doelsoort maakt het volgende niveau af en wat verlies ik door van doel te wisselen?”.
+
+Een niveau verhoogt de maximale gezondheid en de schietschade, maar geneest geen gezondheid die al ontbreekt. De officiële configuratie gebruikt 1.000 basisgezondheid. Elk niveau voegt 20% van die basis toe, afgerond naar beneden. De maxima zijn dus 1.000, 1.200, 1.400 en 1.600. Ook de schade krijgt per niveau 20% na de normale willekeurige worp. Snelheid, patrouillebereik, vuursnelheid en doelprioriteit veranderen niet door veterancy.
+
+Reparatie is een apart systeem. Binnen 150 tegels van een actieve eigen Port geneest een Warship passief 1 punt per tick. Binnen 5 tegels van het dok komt een actieve pool erbij: vijf punten per Port-niveau per tick, gedeeld door de geschikte gedockte Warships. Een Port van niveau 2 geeft dus in totaal 10 punten, niet 10 aan elk schip. Automatische terugtrekking begint op of onder 75% van de veterancy-aangepaste maximale gezondheid, zolang de eigenaar niet onder Doomsday staat en minstens één eigen Port heeft.
+
+Lees balk en romp samen. Een niveau-3-schip met 1.184 van 1.600 zit al onder zijn terugtrekgrens van 1.200. Controleer vóór je jaagt de watercomponent, een bereikbare Port, het volgende transportvenster en de reactie van de tegenstander. De [team-naval-control-gids](/nl/strategies/team-naval-control/) behandelt vlootrollen; deze pagina behandelt de keuze voor één schip.
+
+Deze combinatie voorkomt twee te simpele opdrachten. “De balk is geel, dus aanvallen” negeert de romp en de terugweg; “de romp is laag, dus naar huis” kan een landing missen die over enkele ticks beslist wordt. Noteer niveau en huidige gezondheid vóór elk gevecht en controleer beide na ieder kill. Een level-up vult het nieuwe maximum niet aan. Een Port van een teamgenoot is evenmin automatisch een geldige reparatieplek: de eigenaar, watercomponent en bereikbare route moeten kloppen. Op een grote kaart kan een korte rechte afstand naar de verkeerde zee wijzen. Wie niveau, romp, waterverbinding en transporttijd samen leest, neemt een herhaalbare beslissing. Wie alleen de kleur volgt, reageert op een zichtbaar signaal dat misschien niets met de echte doelkeuze te maken heeft.
+
+Deze lezing voorkomt twee tegengestelde fouten. Een bijna volle balk maakt een kwetsbare romp niet onkwetsbaar, en een niveau-0-schip is niet waardeloos wanneer het de enige route dekt. Formuleer voor elke opdracht één korte bedoeling: onderscheppen, escorteren, vangen of repareren. Vergelijk daarna de tijd tot het doel met de tijd tot de Port. Veterancy is informatie over tempo, geen vervanging voor de kaart. Als terrein, een veroverde Port of een embargo de route verandert, klopt de oude berekening niet meer, ook al blijft het niveau hetzelfde. Daarom noemt deze gids controleerbare waarden en expliciete aannames.
+
+## Hoe ervaring wordt verdiend, gemengd en kwijtgeraakt
+
+Een Warship-kill is een directe beloning. Het schip dat de laatste treffer geeft, krijgt één niveau. Voorwerk van een bondgenoot verandert die toewijzing niet. Boven niveau 3 wordt geen verborgen reserve opgeslagen. Transports en captures zijn breuken van een niveau: één transport is een tiende en één capture een vijfentwintigste. Negen transports zijn 0,9; 24 captures zijn 0,96.
+
+De gemengde balk wordt opgeteld. Vijf transports en twaalf captures vormen `0,5 + 0,48 = 0,98`; één extra capture voltooit het niveau. Overschot schuift door: 26 captures geven niveau 1 en bewaren de waarde van de 26e voor niveau 2, waardoor daar 24 extra captures volstaan. Een veilige handelsroute kan dus nuttig blijven, ook als de aantallen niet rond lijken.
+
+De belangrijke reset gebeurt bij een kill van een vijandelijk Warship. Je krijgt het niveau meteen, maar onafgemaakte Transport/Trade-voortgang wordt gewist. Negen transports en daarna een Warship-kill geven niveau 1, niet niveau 2. Het volgende transport start een nieuwe civiele balk. Neem de kill als het vijandelijke schip de enige landingsroute gaat afsluiten; kies het veilige transport als dat de balk afrondt en het duel slechts een kans is.
+
+Tijd naast een Port, afgevuurde schoten, ontvangen schade en patrouilleafstand zijn geen bevestigde ervaringsbronnen. De officiële tests noemen doelgebeurtenissen, geen passieve klok. Noteer “niveau 1, vijf transports, twaalf captures” in plaats van “balk halfvol”. De transportbediening staat in de [hotkey-gids](/nl/guides/hotkeys/), maar die rekent de voortgang niet voor je uit.
+
+Houd de breuk als een eenvoudige notitie bij. Eén transport voegt 0,10 toe, één capture 0,04; een Warship-kill geeft direct een niveau en wist de onvoltooide civiele breuk. Vier transports plus vijftien captures is `0,40 + 0,60 = 1,00`, terwijl acht transports plus vier captures `0,80 + 0,16 = 0,96` is. Dit helpt wanneer twee schepen dezelfde route bedienen en maar één schip de laatste treffer krijgt. Spreek de toewijzing vóór het schot af, zodat voorbereidend vuur niet tot een verkeerde verwachting leidt. Na niveau 3 kun je gebeurtenissen nog tellen om druk op de vijand te meten, maar er bestaat geen verborgen vierde verbetering. Tijd bij een Port, veel schoten of een lange patrouille mogen nooit als stilzwijgende ervaring worden geboekt.
+
+Schrijf de tellers op wanneer het schip van taak wisselt. Na een Warship-kill wis je de civiele rest onmiddellijk; na een extra capture bewaar je het overschot voor het volgende niveau. Dat is vooral in teamwedstrijden nuttig: een teamgenoot ziet dat er nog maar één Transport ontbreekt en stuurt de veteraan niet naar een duel dat het werk reset. De cijfers bepalen het volgende risico, niet de uitslag. Een veilige route die langzaam vordert kan beter zijn dan een actie die een niveau oplevert maar de enige landing verliest.
+
+## Wat elk niveau in een gevecht verandert
+
+De gezondheidsbonus wordt telkens uit de basis berekend, niet uit het vorige maximum. Met 1.000 basisgezondheid zijn de maxima 1.200, 1.400 en 1.600 voor niveau 1 tot en met 3. Als de normale worp 250 schade oplevert, geven de multipliers ongeveer 250, 300, 350 en 400. De worp wisselt per tick; de bonus is betrouwbaar over meerdere schoten, maar geen gegarandeerde kritieke treffer.
+
+Het nieuwe maximum is geen directe genezing. Een schip met 900 gezondheid dat een kill maakt en niveau 1 wordt, blijft op 900 terwijl het maximum 1.200 wordt. Het moet de oude 100 ontbrekende punten en de nieuwe 200 ruimte gewoon genezen. Komt het daarna onder 75%, dan kan de terugtreklogica in de volgende tick een Port kiezen. Een handmatige patrouilleopdracht geeft 50 ticks uitstel voordat de routine die opdracht overschrijft.
+
+Een veteraan heeft meer tijdswaarde: hij vernietigt transports sneller, overleeft langer in een uitwisseling en kan een landing forceren. Een geïsoleerd niveau-3-schip zonder bereikbare Port kan echter slechter zijn dan een gerepareerd niveau-1-schip in de beslissende corridor. Gebruik niveau samen met positie, gezondheid en reserve, niet als bevel om elke rode markering te achtervolgen.
+
+| Niveau | Max. gezondheid bij basis 1.000 | Schietmultiplier | Gebruikelijke rol |
+| ---: | ---: | ---: | --- |
+| 0 | 1.000 | 100% | Verkenner, scherm, laag-risico patrouille |
+| 1 | 1.200 | 120% | Transports onderscheppen en zwakke handel testen |
+| 2 | 1.400 | 140% | Een route met reparatietoegang houden |
+| 3 | 1.600 | 160% | Een beslissende landing beschermen |
+
+De tabel komt uit de tag. Positie, doelkeuze, timing en reparatie beslissen nog steeds elke uitwisseling.
+
+De schadebonus wordt toegepast op de echte willekeurige worp. Twee losse screenshots zijn dus geen vaste schadewaarden. De gezondheidsbonus blijft wel gekoppeld aan de basisgezondheid en hangt niet af van eerdere upgrades. Daardoor kun je de terugtrekgrens precies berekenen, maar niet de uitkomst van een duel voorspellen. Een gewonde veteraan kan sterven voordat hij zijn grotere maximum benut; een vers, ondersteund schip kan precies lang genoeg standhouden. De rol in de laatste kolom is een startpunt. Verander hem wanneer route, Port of teamreserve verandert.
+
+Gebruik de tabel als marge-inschatting, niet als uitslag. Een niveau-2-schip kan een treffer meer verdragen dan niveau 1, maar wordt zonder waterroute nog steeds geïsoleerd. De schadebonus maakt meerdere schoten sterker, maar verwijdert de willekeurige worp of reistijd niet. Stuur niveau 0 op een riskante handelsverkenning als verlies aanvaardbaar is en bewaar niveau 2 voor de corridor die een landing beslist. Als Water Nukes een kanaal opent of sluit, moet je positie eerst opnieuw worden gelezen. De multipliers blijven binnen deze versie gelijk, maar hun praktische waarde hangt af van afstand, Port-aantal, reserve en derde spelers. Veterancy beschrijft de capaciteit van de romp, niet automatisch de uitkomst van een duel.
+
+## Reparatie, dokken en automatisch terugtrekken
+
+Passieve genezing is 1 punt per tick binnen 150 tegels van een actieve eigen Port. Een schip kan dus een corridor bewaken en langzaam herstellen. Om te dokken moet het in dezelfde watercomponent blijven en binnen 5 tegels komen. Daarna maakt de Port een pool van vijf punten per niveau per tick. Alle geschikte schepen delen die pool; een niveau-1-Port geeft niet vijf punten aan elk van vier wachtende schepen.
+
+De terugtrekgrens is bij basis 1.000: 750, 900, 1.050 en 1.200 voor niveau 0 tot en met 3. Een level-up kan dus direct een terugtocht uitlokken, ook al is de huidige gezondheid niet veranderd. Na een handmatige patrouillewijziging voorkomt de 50-tick-grace een onmiddellijke overname. Tijdens de reis vuurt het schip nog steeds bij voorkeur op Transport Ships en vijandelijke Warships.
+
+Als de gekozen Port wordt vernietigd, vol raakt of door nieuwe topologie onbereikbaar wordt, zoekt de routine opnieuw. Een wissel naar een veel dichtere Port gebruikt de afstandsfactor 0,75. Tel eerst hoeveel schepen al in het dok wachten. Onder Doomsday kan je kant de marine niet repareren; een zinloze terugtocht wordt beëindigd en het schip gaat patrouilleren.
+
+De economische waarde van een extra reparatieanker hoort bij de hele planning. De [Port-versus-Factory-gids](/nl/guides/port-vs-factory/) helpt inkomen, vervanging en redundantie samen te vergelijken. Veterancy vervangt geen waterverbinding en geen veilige kade.
+
+Bekijk ook de terugweg, niet alleen de cirkel rond de Port. Honderdtwintig tegels kunnen onmogelijk zijn wanneer ze in een andere watercomponent liggen. Een vrije maar al bezette Port levert niet de verwachte snelheid, en een veroverde Port is geen eigen anker meer. Als de routine een nieuwe bestemming kiest, controleer je welk schip bij de capaciteitscontrole wordt uitgesloten en welk schip moet wachten. Reparatie is een gedeelde stroom: een hoger Port-niveau verhoogt die stroom, maar haalt het gevaar van een zichtbare kust niet weg. De beste kade is de kade die de tegenstander duur moet aanvallen.
+
+Reparatie is daarom ook een wachtrijprobleem. Twee veteranen die tegelijk een niveau-2-Port bereiken delen 10 punten per tick; vier schepen wachten langer en vormen een duidelijk doelwit. Laat eventueel één schip binnen 150 tegels patrouilleren voor het passieve punt terwijl één veteraan de actieve pool gebruikt. De 50-tick-grace na een handmatige opdracht kan een laatste transportvenster beschermen voordat de routine terugtrekken overneemt. Als een kanaal door een Water Nuke wordt verbroken, is de oude afstand niet meer relevant. Onder Doomsday levert terugtrekken geen genezing op, dus vergelijk het verlies van positie met de waarde van de volgende target. De beste Port is degene die de romp binnen de beschikbare tijd herstelt, niet per se degene die op de kaart het dichtst lijkt.
+
+Controleer vóór aankomst ook de vrije plaatsen. Een korte route naar een volle Port kan slechter zijn dan een langere route naar een lege Port of enkele ticks passief herstel op de lijn. Kijk wie eigenaar is, of de watercomponent nog verbonden is en of een vijand de kade kan beschieten. De formule blijft gelijk, maar de wachtrij verandert de beslissing.
+
+## Scenario één: bewaar de veteraan voor het transportvenster
+
+Stel: een niveau-2-Warship heeft 1.020 van 1.400 gezondheid, vijf vernietigde transports en twaalf captures, dus 0,98 civiele voortgang. Over 20 ticks komt een vijandelijk transport; een niveau-0-Warship staat op 80 tegels; een eigen niveau-1-Port is 120 tegels weg; er is geen reserve. In deze situatie is het transportvenster urgenter dan een onzeker duel.
+
+De vijand achtervolgen kan meteen niveau 3 geven, maar wist 0,98. De huidige gezondheid springt niet naar 1.600, en de veteraan kan tijdens het volgende transport moeten repareren. Blijf je in de corridor en vernietig je het transport, dan blijft de voortgang staan en krijg je niveau 3 zonder reset. Houd het schip binnen de doelafstand van 130 tegels en gebruik de Port als terugtrekanker zolang de route dat toelaat.
+
+De tegenstander kan een zwak Warship als lokaas gebruiken of het transport escorteren zodat jij geen veilige laatste treffer krijgt. Zet een vers schip als scherm, laat de veteraan de corridor bewaken en neem het duel pas na het transport of bij echte landingsdreiging. Wordt de Port aangevallen, reken dan opnieuw: passieve genezing, de actieve pool en de waterroute kunnen tegelijk verdwijnen.
+
+Hetzelfde principe geldt bij andere waarden. Een niveau-3-schip met 1.190 gezondheid zit onder de grens van 1.200. Een niveau-2-Port heeft in totaal 10 punten, die gedeeld worden. De bruikbare opdracht is “transport beschermen, 0,98 bewaren, daarna dokken”, niet “elk vijandelijk schip jagen”.
+
+Zeg de aannames hardop voordat je klikt. Met een tweede escorte kan de veteraan na een beveiligde route nog het duel nemen; zonder reserve kost twintig ticks positie de volledige transportkans. De Port op 120 tegels telt alleen als hij van de eigenaar is en dezelfde zee bereikt. Als een derde speler al op het transport afkomt, kan de laatste Warship-treffer belangrijker zijn dan de bijna volle civiele balk. Heeft de vijand geen route naar de landing, dan is een reset voor een gelegenheidskill verspilling. Reken opnieuw wanneer het transport aankomt, de Port wordt geraakt, een embargo eindigt of een escorte verschijnt. Zo wordt het voorbeeld een methode om onzekerheid zichtbaar te maken in plaats van een vaste regel die op elke kaart hetzelfde zou zijn.
+
+Vergelijk ook andere aankomsttijden. Bij een transport over 40 ticks kan de veteraan eerst volledig herstellen; bij een venster over 8 ticks weegt positie zwaarder dan de bijna voltooide balk. Een Warship-kill is alleen een zekere beloning als jouw schip de laatste treffer kan maken. Anders riskeer je romp, route en voortgang tegelijk. Noteer daarom steeds welk doel het bord verandert en welk doel alleen aantrekkelijk lijkt.
+
+Wordt het venster van 20 ticks op een compacte kaart korter, dan wordt deze keuze nog sterker. Is het op een grote kaart langer, dan kan terugtrekken juist zijn wanneer het transport geen alternatieve route heeft. Houd in beide gevallen reserve voor de onzichtbare prijs: een dode veteraan verliest niet alleen zijn bouwwaarde, maar ook de doelen die het volgende niveau hadden kunnen geven. Neem huidige gezondheid, blootstellingstijd en de kans om na reparatie weer op tijd te patrouilleren mee.
+
+Zeg de aannames hardop. Met een tweede escorte kan de veteraan na een beveiligde route nog het duel nemen; zonder reserve kosten 20 ticks verlies van positie de volledige transportkans. De Port op 120 tegels telt alleen als hij van de eigenaar is en dezelfde zee bereikt. Komt een derde speler al op het transport af, dan kan de laatste Warship-treffer belangrijker zijn dan de bijna volle balk. Heeft de vijand geen route naar de landing, dan is een reset voor een gelegenheidskill verspilling. Reken opnieuw na elk evenement: het transport arriveert, de Port wordt geraakt, een embargo eindigt of een escorte verschijnt. Zo wordt het scenario een methode om onzekerheid te tonen in plaats van een vaste regel.
+
+## Scenario twee: een bijna volle gemengde balk en de reset
+
+Neem een niveau-1-Warship met negen Transport-kills en volle 1.200 gezondheid. Een vijandelijk Warship heeft 600 gezondheid, een Trade Ship ligt 90 tegels weg en een tweede vers schip kan de handelsroute escorteren. Negen transports zijn 0,9; de tiende geeft niveau 2 zonder reset. Een Warship-kill geeft ook niveau 2, maar wist 0,9. Daarna zijn opnieuw tien transports of 25 captures nodig voor niveau 3.
+
+Is de vijand de enige blokkade voor een landing, dan is de directe kill verstandig: het stoppen van de dreiging is meer waard dan de verloren balk. Vaart hij alleen voorbij, houd de veteraan op de lijn en stuur het verse schip naar de handel. Eén capture is maar 1/25 en rechtvaardigt niet dat je een nabij transport laat lopen. Zeg vóór het schot wat je doel is: “niveau 2 met één transport” of “deze brug beschermen”.
+
+De tegenstander zal een zwakke romp binnen bereik brengen zodat je automatisch volgt. Laat de gele balk niet beslissen. Controleer na elke level-up de romp: 1.200 huidige gezondheid op niveau 2 ligt boven 1.050 en kan patrouilleren; 900 ligt eronder en vraagt een Port.
+
+De volgorde van schieten hoort bij dezelfde keuze. Een vers schip kan het eerste contact nemen en de veteraan het veilige laatste schot op het transport laten, maar mag hem niet uit de passieve genezingszone trekken. Een Trade Ship op 90 tegels kost beweging en maakt de route zichtbaar; het is alleen nuttig als het venster rustig is of de capture de drempel echt haalt. Zet na een gekozen kill bewust het patrouillepunt, zodat de routine niet vanzelf een tweede doel volgt. Meld daarna maximum en 75%-grens aan het team: 1.200 gezondheid op niveau 2 is niet kritiek, 900 wel. De balk is een middel; gedeelde informatie bepaalt de kaartcontrole.
+
+Beoordeel het risico na de keuze. Een zekere Transport-kill houdt de civiele rekening voorspelbaar, terwijl een onzekere Warship-kill romp, positie en resterende voortgang kan kosten. Controleer na de level-up opnieuw gezondheid, grens en vrije dokplaatsen in plaats van de nieuwe kleur als bescherming te behandelen.
+
+Dit voorbeeld scheidt directe controle van groei. De kill stopt een dreiging; het tiende transport maakt groei voorspelbaar. Beide geven hetzelfde niveau, maar de kaart die achterblijft is anders. Als niet duidelijk is wie de laatste treffer krijgt, tel het niveau pas nadat het schip dit bevestigt. Verliest het verse escorte-schip, dan kan handel minder belangrijk zijn dan kustverdediging. Zolang het schot niet is afgevuurd, kun je de keuze nog omkeren; daarna moet de nieuwe gezondheid en positie opnieuw worden beoordeeld.
+
+Ook de volgorde van schoten telt. Een vers schip kan het eerste contact nemen en de veteraan het veilige laatste schot op het transport laten, maar mag hem niet uit de passieve genezingszone trekken. Een Trade Ship op 90 tegels kost beweging en maakt de route zichtbaar; het is alleen nuttig als het venster rustig is of de capture de drempel echt haalt. Zet na een gekozen kill bewust het patrouillepunt, zodat de routine niet vanzelf een tweede doel volgt. Meld daarna maximum en 75%-grens aan het team. 1.200 gezondheid op niveau 2 is niet kritiek; 900 wel. De balk is een middel, terwijl gedeelde informatie de kaartcontrole bepaalt.
+
+Beoordeel ten slotte het risico. Een zekere Transport-kill houdt de civiele rekening voorspelbaar; een onzekere Warship-kill kan romp, positie en resterende voortgang tegelijk kosten. Controleer daarom na het level-up opnieuw gezondheid, grens en beschikbare dokplaatsen.
+
+## Fouten, tegenspel en aanpassingen aan kaart en modus
+
+De kernfouten zijn schade verwarren met ervaring, twee civiele tellers gebruiken en verwachten dat een Warship-kill de restbalk behoudt. Tel doelgebeurtenissen en gebruik `transports/10 + captures/25`. Stop niet alle schepen in één Port, want de pool wordt gedeeld en de helingscapaciteit hangt van het Port-niveau af. Trek onder Doomsday niet terug voor reparatie.
+
+Een tegenstander kan een lokaasduel aanbieden, een transport achter je terugtocht sturen, het Port-netwerk met een embargo blokkeren of de kade zelf aanvallen. Splits rollen: verse schepen nemen goedkope doelen, de veteraan houdt de beslissende corridor, de reserve bewaakt de Port. De motorprioriteit is Transport, vijandelijk Warship, Trade Ship; het patrouillepunt bepaalt de strategische positie.
+
+Op compacte kaarten kan een omweg van 20 ticks de hele kans kosten. Op grote kaarten kan een korte rechte afstand naar een andere watercomponent leiden. In teammodi telt de Port van de eigenaar van het schip; een teamgenoot-Port vervangt die niet automatisch. Controleer na Water Nukes de waterverbinding opnieuw. In FFA blijft reserve belangrijk omdat een veteraanduel een derde speler aantrekt.
+
+Pas de communicatie aan het speltype aan. In een team zijn een Port-verantwoordelijke, een schermschip en een transportjager nodig; anders vragen meerdere spelers dezelfde pool en blijft de kade ongedekt. In FFA verraadt een lange achtervolging de positie van de veteraan terwijl een derde speler wacht. Markeer op kleine kaarten vooraf een korte terugtocht. Noteer op grote kaarten de overgangen tussen watercomponenten, want een korte landlijn is geen scheepsroute. Bij een speciale configuratie blijft v0.33.11 de grens van deze tekst; onbekende afwijkingen moet je controleren, niet invullen. De levelconstanten veranderen niet door de kaart, maar zichtbaarheid, dichtheid en reactietijd veranderen het aanvaardbare risico.
+
+Houd per Port een korte lijst bij van passieve zone, actieve capaciteit, watercomponent en eigenaar. Schrap een oude route zodra een embargo of terreinwijziging hem ongeldig maakt. De formule blijft daarmee stabiel; alleen de prioriteit van het doel wordt aangepast aan de modus en de actuele dreiging.
+
+Diplomatie verandert ook de waarde van de route. Een embargo verwijdert geen verdiende veterancy, maar kan wel de handel stoppen die de balk of de Port moest financieren. Een tijdelijke alliantie maakt een vreemde Port niet automatisch tot reparatiepunt voor jouw schip. Gebruik alleen Ports van de eigenaar en controleer de watercomponent na elke terreinverandering. Op een kaart met twee eilanden kan één patrouille genoeg zijn; op een kaart met veel zeestraten ontstaan met hetzelfde aantal schepen gaten. De modus verandert de prijs van een fout, niet de voortgangsregel.
+
+Pas de communicatie aan het speltype aan. In een team zijn een Port-verantwoordelijke, een schermschip en een transportjager nodig; anders vragen meerdere spelers dezelfde pool en blijft de kade ongedekt. In FFA verraadt een lange achtervolging de positie van de veteraan terwijl een derde speler wacht. Markeer op kleine kaarten vooraf een korte terugtocht. Noteer op grote kaarten de overgangen tussen watercomponenten, want een korte landlijn is geen scheepsroute. Bij een speciale configuratie blijft v0.33.11 de grens van deze tekst; onbekende afwijkingen moet je controleren, niet invullen. De levelconstanten veranderen niet door de kaart, maar zichtbaarheid, dichtheid en reactietijd veranderen het aanvaardbare risico.
+
+Houd per Port een eenvoudige lijst bij: passieve zone, actieve capaciteit, watercomponent en eigenaar. Schrap een oude route zodra een embargo of terreinwijziging hem ongeldig maakt. Zo blijft de formule stabiel en wordt alleen de prioriteit van het doel aangepast aan de modus.
+
+## Herhaalbare beslissing en officiële bronnen
+
+Noteer niveau, huidige gezondheid, maximum en “transports/captures”. Benoem dan het doel: onderscheppen, doden, het niveau afmaken of handel beschermen. Controleer bereik, embargo, tijdvenster en de prijs van een reset. Voor reparatie vergelijk je 750, 900, 1.050 of 1.200, controleer je 150 tegels passief, 5 tegels dok, watercomponent en bezette plaatsen. Een niveau-2-Port geeft 10 punten per tick in totaal.
+
+Vergelijk reistijd met vervangingswaarde. Niveau 3 betekent 1.600 maximum en 160% schietmultiplier, maar geen directe genezing. Lees [team naval control](/nl/strategies/team-naval-control/), [Port versus Factory](/nl/guides/port-vs-factory/) en [Eerste wedstrijd](/nl/guides/first-match/) voor context. De regels komen uit de officiële [v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [Veterancy.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/game/Veterancy.ts), [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts), [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts) en de [veterancy-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/WarshipVeterancy.test.ts). Bij een latere versie moeten grens en tabel opnieuw worden gecontroleerd.
+
+Voor een snelle controle vergelijk je eerst niveau en maximum, daarna de civiele balk en ten slotte de kaart. Als die drie gegevens niet hetzelfde verhaal vertellen, pauzeer je de opdracht en vraag je om nieuwe informatie. Deze gids belooft geen exacte genezingstijd: het aantal schepen, afronding, afstand en gevechten veranderen de uitkomst. Hij geeft wel een herhaalbare methode uit code en tests, zodat je na een match kunt uitleggen waarom de veteraan bleef, dokte of van route wisselde.
+
+Sluit elk gebruik af met een controleerbare zin: “ik blijf tot het transport”, “ik dok omdat 1.020 onder 1.050 ligt”, of “ik neem de kill omdat hij de landing blokkeert”. Verandert de situatie, verander dan de zin en niet alleen het patrouillepunt. Controleer in de volgende tick niveau, bewaarde of gewiste civiele voortgang, werkelijk herstelde gezondheid en vrije Port-plaatsen. Houd de releasegrens naast je notities. Als een volgende tag de 150 tegels, de pool of de 50-tick-grace wijzigt, update dan grens, tabel, scenario’s en links tegelijk. Tot die tijd zijn de genoemde waarden uitsluitend v0.33.11. Deze discipline voorkomt zowel een opgegeven veteraan die nog een venster kon redden als een roekeloze chase om een bijna volle balk.
+
+Herhaal de vragen bij elk belangrijk event, niet pas na het gevecht. Een nieuw transport, een vernietigde Port of een geopende waterverbinding kan de beste keuze meteen veranderen. Leg de antwoorden kort vast zodat de volgende patrouille op feiten start en niet op de kleur van de meter. Zo blijft de pagina een praktisch besluitinstrument en geen lijst losse statistieken.
+
+Sluit elk gebruik af met een controleerbare zin: “ik blijf tot het transport”, “ik dok omdat 1.020 onder 1.050 ligt”, of “ik neem de kill omdat hij de landing blokkeert”. Verandert de situatie, verander dan de zin en niet alleen het patrouillepunt. Controleer in de volgende tick niveau, bewaarde of gewiste civiele voortgang, werkelijk herstelde gezondheid en vrije Port-plaatsen. Houd de releasegrens naast je notities. Als een volgende tag de 150 tegels, de pool of de 50-tick-grace wijzigt, update dan grens, tabel, scenario’s en links tegelijk. Tot die tijd zijn de genoemde waarden uitsluitend v0.33.11. Deze discipline voorkomt zowel een opgegeven veteraan die nog een venster kon redden als een roekeloze chase om een bijna volle balk.
+
+Herhaal de vragen bij elk belangrijk event, niet pas na het gevecht. Een nieuw transport, een vernietigde Port of een geopende waterverbinding kan de beste keuze meteen veranderen. Leg de antwoorden kort vast zodat de volgende patrouille op feiten start en niet op de kleur van de meter.
