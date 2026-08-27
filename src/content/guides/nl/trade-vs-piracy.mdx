@@ -1,0 +1,170 @@
+---
+title: "OpenFront Handel of Piraterij: Wanneer je economie wisselen"
+description: "Een v0.33.11-beslisgids voor legale handel, het kapen van vijandelijke handelsschepen, handelsstops en de overstap naar veilig landinkomen."
+pubDate: 2026-08-27
+updatedDate: 2026-08-27
+tags: [trade, piracy, warship, port, diplomacy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Gecontroleerd tegen de officiële v0.33.11-tag: Ports proberen elke 10 ticks een Handelsschip te spawnen, geldige routes delen een watercomponent en staan handel toe, korte routes onder ongeveer 300 tegels betalen weinig, en een gekaapt schip kan naar een bereikbare Port van de kaper worden omgeleid."
+---
+
+## Direct antwoord: eerst handel, dan een piratenvenster, daarna omschakelen
+
+De eerste keuze blijft voorlopig: na één volledige cyclus kun je nog steeds sluiten, openen of naar landinkomen gaan. Dat maakt de beslissing controleerbaar in plaats van dogmatisch.
+
+Dit antwoord zegt wat je nu doet en wanneer je opnieuw kijkt. Het is geen vaste tierlijst: kaart, diplomatie en lobby-instellingen veranderen de uitkomst. Houd daarom altijd een route, reservepatrouille en meetmoment over.
+
+Dit korte antwoord is een werkfilter, geen vaste speelstijl. Als je de volgende aankomst, de terugtrek-Port en de eigenaar van het risico niet kunt benoemen, is het piratenplan nog niet klaar. Houd Gold achter voor een vervangend Warship en een landreactie. Een omkeerbaar besluit laat een route, een reservepatrouille en een vast meetmoment open. Vervang de voorbeelden hieronder door de waarden van jouw kaart, multiplier en lobby.
+
+Kies gewone handel wanneer je een lange verbonden waterroute, een betrouwbare partner en te weinig Warships voor veilige onderschepping hebt. Kies piraterij wanneer vijandelijke Handelsschepen zichtbaar door je patrouille varen, de komende vangsten de militaire kosten kunnen betalen en je een bereikbare Port hebt om de buit te ontvangen. Stop zodra verkeer opdroogt, een Warship of SAM de route duur maakt, of een City/Factory veiliger grondgebied oplevert. Deze pagina gebruikt de op 27-08-2026 gecontroleerde v0.33.11-regels.
+
+Zie het niet als een vaste speelstijl. Bij legale handel krijgen bron- en doelport hetzelfde berekende Gold. Bij een kaping vaart het schip eerst naar jouw bereikbare Port en wordt pas daarna uitbetaald; intussen wordt je Warship zichtbaar en verslechtert je diplomatie. De praktische vraag is: “wat levert de volgende cyclus van 60 ticks op na verliezen en gemiste handel?” De [Port-versus-Factory-gids](/nl/guides/port-vs-factory/) behandelt gebouwen; [team naval control](/nl/strategies/team-naval-control/) behandelt vlootrollen.
+
+Maak de beslissing omkeerbaar. Houd Gold achter voor een nood-Warship, een Port-upgrade en een kleine landreactie. Noteer wie beide havens bezit, want een eigenaarswissel maakt dezelfde watertegel een andere economische route. Een stille zee bewijst niet dat piraterij mislukt; de wereldwijde vloot kan verzadigd zijn. Formuleer daarom een voorwaardelijke conclusie: bij 1x Gold, 420 tegels en geen escorte staat handel voor; met escorte en 20 ticks kustveiligheid staat een vangst achter. Zo kan een teamgenoot één aanname controleren zonder over een hele bouwvolgorde te discussiëren.
+
+Scheid economisch en tactisch succes. Eén kaping kan een landing stoppen hoewel de uiteindelijke Gold klein is. Een legale route kan winst geven en tegelijk je Port aan een Silo tonen. Het model hieronder houdt beide effecten bij zodat je kunt kiezen voor overleven, druk of inkomen.
+
+## Lees de route voordat je Gold uitgeeft
+
+Kun je deze vier waarden niet snel vinden, stel de aankoop dan één cyclus uit. Na verovering, embargo of kustverdediging moet je de kaartnotitie opnieuw maken; een oude route blijft niet automatisch geldig.
+
+Dat korte uitstel is een meetbesluit, geen verlies van tempo.
+
+Als je eigenaren, watercomponent, afstand en actieve schepen niet snel kunt controleren, koop je beter nog geen extra niveau. Eén observatiecyclus levert vaak meer informatie dan een onomkeerbare investering. De kaartnotitie moet elke keer worden vernieuwd na verovering, embargo of nieuwe kustverdediging.
+
+Maak vóór elke aankoop een korte kaartnotitie. Schrijf eigenaren, watercomponent, echte vaarafstand en actieve schepen op. Bij verovering, embargo of een nieuwe kustveiligheidszone vervalt de oude berekening. Een Port-niveau verhoogt pogingen, maar niet automatisch de wereldwijde vloot; dat verschil verklaart veel teleurstellende upgrades.
+
+Lees vóór elke aankoop de kaart en diplomatie samen. Controleer twee eigenaren, één watercomponent, de echte waterafstand en hoeveel schepen werkelijk varen. Als een eigenaar valt, een bondgenootschap breekt of een baai onbruikbaar wordt, is de oude berekening voorbij. Deze routine voorkomt dat een hoger Port-niveau wordt verward met een grotere wereldvloot.
+
+De waterkaart is belangrijker dan het aantal Ports. Elke Port doet elke 10 ticks een spawnpoging; elk niveau voegt een poging toe. Het doel moet van een andere speler zijn, dezelfde verbonden watercomponent delen en handel aan beide kanten toestaan. Controleer eigenaar, component, embargo en “stop handel met iedereen”. Een Port aan een afgesloten baai zonder geldig doel verdient niets.
+
+De werkelijke waterafstand bepaalt de opbrengst:
+
+```text
+G(d) = floor((75.000 / (1 + exp(-0.03 * (d - 300))) + 50d) * goldMultiplier)
+```
+
+De sigmoid maakt routes onder ongeveer 300 tegels zwak. Een lange route kan toch slechter zijn als Warships schepen onderscheppen. Tel voltooide aankomsten, niet alleen de formulewaarde. Ook vertraagt wereldwijde spawn rond 400 actieve Handelsschepen. Gestapelde Ports bereiken lokale straffen sneller. Upgrade een werkende hub alleen als doorvoer het knelpunt is; een nieuwe Port moet een nieuwe watercomponent, een veel langere route of redundantie openen.
+
+| Controle | Groen signaal | Rood signaal | Actie |
+| --- | --- | --- | --- |
+| Water | Buitenlandse Port verbonden | Geen bestemming | Port uitstellen |
+| Afstand | Ongeveer 300+ veilige tegels | Korte baai | Niet opschalen |
+| Diplomatie | Open relatie | Embargo of oorlog | Gold bewaren |
+| Aanbod | Weinig schepen, vaste aankomsten | Wereldwijde verzadiging | Alleen bewezen hub upgraden |
+| Dekking | Patrouille en terugtocht mogelijk | Geen reparatie | Piraterij vermijden |
+
+## Waarom legale handel meestal de beste opening is
+
+Noteer ook welke speler de route nodig heeft. Een politiek betrouwbare partner kan meer waard zijn dan een theoretisch hogere maar kwetsbare opbrengst. De eerste handel is een goedkope test van diplomatie en doorvoer, geen eindbouw die automatisch wordt herhaald.
+
+Een betrouwbare opening bouwt informatie en opties. Vraag de partner naar grens- en handelsplannen, kijk of een Port als militaire basis dient en wacht op meerdere aankomsten. Een City die door een middelmatige route wordt betaald, kan meer land openen dan een tweede Port die dezelfde schepen deelt. Zie de eerste cyclus daarom als goedkope test, niet als eindbouw.
+
+Gebruik de opening om beleid te testen. Vraag of de partner na het eerste contact een grens sluit, of diens Port al een militaire basis is en of het team later één handelsregel gebruikt. Een kleine betrouwbare route kan een City betalen die meer land opent; een grote onveilige route blijft een proef. Wacht op meerdere volledige aankomsten voordat je een tweede upgrade koopt.
+
+Aan een nieuwe kust, op een eiland of in een team zonder vaste rollen houdt legale handel opties open. Beide haveneigenaars verdienen en een verrijkte partner heeft minder reden om meteen je kust aan te vallen. Bouw klein: Port niveau 1 of 2, een City voor capaciteit en genoeg reserve voor een vervangend Warship. Neem als aanname 420 tegels afstand, 18.000 Gold per aankomst en 45 ticks reistijd. Dan zijn ongeveer zeven aankomsten nodig om 125.000 terug te verdienen zonder verliezen; meet daarna je eigen route.
+
+Gebruik deze meetfase ook voor diplomatie. Vraag of de partner na het eerste contact een grens sluit, of diens Port als militaire basis dient en of het team later een gezamenlijke handelsregel kiest. Een kleine betrouwbare route kan een City betalen die meer land opent; een spectaculaire route die politiek onmogelijk is blijft op bewijsniveau. Koop geen tweede upgrade voordat meerdere volledige aankomsten bevestigen dat de eerste investering echt werkt.
+
+Handel spaart aandacht. Een piratenpatrouille moet doel, component, bereik en terugweg tegelijk volgen. Gebruik de [Warship-veterancy- en reparatiegids](/nl/guides/warship-veterancy/) om te beoordelen of een beschadigde veteraan kan uitvaren. In de opening kan het onderscheppen van een Transport zowel land als handelsroute beschermen, terwijl een willekeurige kaping alleen een vijand wakker maakt.
+
+In Team mode is de handelsstatus een teamknop. Standaard is brede handel mogelijk; via Information kun je “stop handel met iedereen” kiezen en daarna alleen bondgenoten openen. Sluit de relatie wanneer een vijand jouw Port gebruikt om Warships te kopen, en open opnieuw wanneer het front Gold nodig heeft. Spreek dit af zodat één speler niet de inkomsten van een andere sector verbreekt.
+
+## Wanneer piraterij het risico betaalt
+
+De vangst is pas winst wanneer de omgeleide boot aankomt. Bescherm daarom eerst de terugweg en annuleer een aanval die de tijd- of gezondheidsgrens overschrijdt. Zo blijft de vloot beschikbaar voor transporten en landverdediging.
+
+Een weigering om te schieten kan tactische winst zijn: je houdt zicht op de corridor en behoudt de mogelijkheid om een Transport te beschermen. De hele cyclus, inclusief terugtocht, bepaalt de waarde.
+
+De waarde zit in een volledig cyclus: patrouille, aanval, omleiding, aankomst en reparatie. Als het Warship lang jaagt, verliest het een Transport en een tweede corridor. Stel vóór vertrek een maximumtijd en gezondheidsgrens in; bij geen treffer na tien ticks of bij het terugtreksignaal ga je terug. Een afgebakende opdracht beschermt je veteraan tegen lokaas.
+
+Beperk elke uitvaart in tijd en gezondheid. Een Warship dat 50 ticks één buit achtervolgt, beschermt geen Transport en ziet geen tweede corridor. De vijand kan een goedkoop schip als lokaas sturen. Raak je na tien ticks niets, of passeer je de terugtreklijn, annuleer dan. Piraterij blijft zo een afgebakende herhaalbare opdracht in plaats van een dure achtervolging.
+
+Een rood icoon is niet genoeg. Het Handelsschip moet van een vijandelijke Port naar een vijandelijke Port varen, binnen patrouillebereik zijn en dezelfde watercomponent als je Warship hebben. Schepen naar jouw of een bondgenoot-Port zijn niet te kapen. Na kustcontact blijft het schip 20 ticks veilig; patrouilleer dus in open water.
+
+De kaping betaalt pas na omleiding naar de dichtstbijzijnde bereikbare eigen Port. Een Warship dat 50 ticks één buit begeleidt, mist mogelijk twee nieuwe doelen. Reken aanval, omleiding, aankomst, reparatie en gemiste legale handel samen. Bij vier doelen in 60 ticks, 60% kans en 8.000 Gold per voltooide kaping is de verwachting 19.200 Gold. Als risico en herstel 20.000 kosten, is het venster negatief. Meer verkeer of een tweede Warship kan het positief maken.
+
+Gebruik piraterij als kort venster: begin voordat de vijand escorte bouwt en stop bij minder verkeer of een beschadigde veteraan. Een basis zonder [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) is zichtbaar voor een Silo. Houd Gold voor SAM, vervanging en landverdediging apart.
+
+Beperk ook tijd en gezondheid. Een Warship dat 50 ticks één buit achtervolgt, beschermt geen Transport en ziet geen tweede lijn. Een tegenstander kan een goedkoop schip als lokaas sturen; de patrouillepositie behouden kan dan meer waard zijn. Als de aanval na tien ticks niet raakt of de romp de terugtreklijn passeert, annuleer je. Zo blijft piraterij een herhaalbare opdracht in plaats van een emotionele achtervolging.
+
+## De diplomatieke schakelaar
+
+Een heropende relatie is een proef, geen vredesgarantie. Stuur één schip, wacht op de aankomst en bepaal pas daarna of de hele route weer mag opschalen. Dit koppelt de knop aan een meetbaar resultaat.
+
+Zonder deze proef kan een lokmanoeuvre van de tegenstander je vloot terug de corridor in trekken.
+
+Dezelfde afspraak beschermt bovendien de landverdediging terwijl de eerste nieuwe aankomst wordt gemeten.
+
+Heropenen is een test met één schip, geen garantie van vrede. Wacht op de aankomst voordat je de hele route weer opschaalt. De bediener van de knop en de bediener van de patrouille moeten dezelfde duur en reden kennen.
+
+De handelsknop verandert toekomstige bestemmingen, niet schepen die al varen. Spreek af wie hem bedient en hoe lang de sluiting duurt. Bij heropenen noteer je de reden, bijvoorbeeld vertrokken escorte of voltooide Factory. Zo blijft een diplomatieke actie gekoppeld aan patrouille en reserve-Gold en snijdt niemand per ongeluk de inkomsten van een teamgenoot af.
+
+Schrijf de reden voor de wissel in één controleerbare zin: “de volgende aankomst betaalt een vijandelijk Warship” is bruikbaar, “de speler voelt gevaarlijk” niet. Noteer bij heropenen wat veranderde, zoals een vertrokken escorte, nieuwe Factory of verplaatste grens. Laat één teamgenoot de knop bedienen en een andere de patrouille, anders openen en sluiten twee spelers dezelfde route tegelijk.
+
+Legale handel financiert ook de tegenstander. Een embargo of algemene handelsstop haalt bestemmingen uit toekomstige pogingen, maar geeft geen terugbetaling en geen piratenbonus. Sluit wanneer de volgende aankomst een aanval sneller zou financieren dan jouw verdediging.
+
+In FFA houd je rustige buren open en sluit je de speler die jouw route voor Warships gebruikt. In Team mode werkt de regel “open voor team en neutrale partners, gesloten voor de speler met een Warship in de corridor”. Na een piratenfase kan heropenen een vredesignaal zijn. Stuur eerst één schip en houd een escorte tussen Port en vijand. Lees [diplomatie en verraad](/nl/strategies/diplomacy-betrayal/) voor allianties; hier volgen we de Gold-stroom.
+
+Schrijf de reden voor iedere wissel in een controleerbare zin: “de volgende aankomst financiert een vijandelijk Warship” is beter dan “de speler voelt gevaarlijk”. Als je heropent, vermeld wat veranderde, bijvoorbeeld een vertrokken escorte of een nieuwe Factory. Zo voorkomt het team dat één speler een route sluit die een ander voor een gezamenlijke aanval nodig heeft. De diplomatieke knop hoort altijd bij patrouille en reserve-Gold.
+
+## Scenario 1: veilige eilandopening
+
+Vergelijk bovendien verloren verdedigingstijd met verdiend Gold. Als de Warship telkens van de kust wordt weggetrokken, is de route geen veilige opening meer. Kies dan een City, dekking of landroute in plaats van nog een Port.
+
+Na drie aankomsten vergelijk je de replay met je aannames. Tel niet alleen Gold, maar ook onderscheppingen, reparatietijd en de zichtbaarheid van het eiland. De volgende aankoop kan een City, dekking of één Port-niveau zijn; dezelfde stap herhalen zonder deze meting maakt een veilige opening kwetsbaar.
+
+Bekijk na drie aankomsten de replay. Was de route nog open, hoeveel schepen bereikten de kust en moest het Warship landverdediging verlaten? Deze antwoorden bepalen of de volgende aankoop een niveau, City of dekking is. Het doel is niet de hoogste Gold-piek, maar een eiland dat na het eerste contact meerdere opties behoudt.
+
+Stel een kaart met 55 spelers voor. Je start-Port bereikt een buitenlandse Port op 420 watertegels, er is geen vijandelijk Warship zichtbaar en twee buren zijn bondgenoten. Met 150.000 Gold, City niveau 1 en geen Factory upgrade je de Port één keer, houd je 50.000 voor Warship of SAM en bekijk je drie aankomsten. Bij 18.000 Gold per 45 ticks betalen zeven aankomsten ongeveer 125.000 terug zonder verliezen.
+
+Jaag het eerste rode schip niet meteen na. De route verraadt je eiland en kan een landing uitlokken. Gebruik de eerste Warship als transportscherm; kaap pas wanneer er minstens drie geschikte doelen in de volgende 60 ticks zijn en je een reserve hebt. Sluit de buur de handel, ga dan naar City of Factory. De tegenstander kan escorteren, 20 ticks langs de kust veilig blijven of een embargo plaatsen. Een korte patrouille en een vers schip voor verkenning houden je opties open.
+
+**Scenario 2: verzadigde zee en het uitstapsignaal.**
+
+Neem een late FFA met 420 actieve Handelsschepen, drie vijandelijke Ports in één component en jouw niveau-2 Warship op 110 tegels van de corridor. Je ziet vijf schepen in 60 ticks, maar een niveau-1 Warship en twee SAMs beschermen het doel. Je veteraan heeft 1.020 HP; 75% van het niveau-2 maximum is 1.050. City plus Factory kosten op de volgende gedeelde stap 375.000 Gold.
+
+Bij 35% vangstkans en 12.000 Gold leveren twee voltooide vangsten slechts 8.400 verwacht Gold vóór reparatie. Trek terug en investeer in landcapaciteit. Sluit de relatie die de vijand financiert, houd een neutrale partner open en test opnieuw na reparatie. De tegenstander kan handel heropenen als lokmiddel; eis twee waarnemingen zonder escorte, een bereikbare Port en een vervangingsreserve voordat je terugkeert.
+
+## Fouten, tegenmaatregelen, kaarten, modi en het omschakelmodel
+
+Vergelijk de notitie met de replay: kwam het legale schip aan, was de kaping toegestaan, hoeveel ticks repareerde de romp en opende de nieuwe Port een extra route? Zo scheid je een verkeerd begrepen regel van slechte meting of goed tegenspel. Gebruik de tabel als teamoproep met observator, escorte en landconversie. Bij tegenstrijdige signalen stel je een dure aankoop één cyclus uit; dat is goedkoper dan een verloren veteraan of een Port zonder dekking.
+
+De klassieke fouten zijn elk rood schip aanvallen, opbrengst vóór aankomst tellen, wereldwijde verzadiging negeren en vrede beloven terwijl je de vijand financiert. Controleer oorsprong, bestemming, water, bereik en kustveiligheid. Op een archipel spreid je Ports en houd je een reserve-Warship; op een continentaal slagveld kunnen beschermde City en Factory beter zijn dan een open zeestraat. In een nauwe zeestraat patrouilleer je na de veiligheidszone en bedek je de landroute naar de Port met een Defense Post. In teams scheid je observatie, escorte en landconversie.
+
+Aangepaste lobby's kunnen Factory uitschakelen, Gold-multipliers wijzigen of het aantal schepen veranderen. Behandel elk voorbeeld als een nieuwe aanname. Een video toont beslissingen, geen universeel winstpercentage.
+
+Noteer elke 60 ticks legale aankomsten, geschikte vijandelijke schepen, echte vangstkans, afstand tot een veilige Port en onbesteed defensie-Gold. Kies handel bij stabiele aankomsten en lage diplomatieke kosten. Kies piraterij bij hoog verkeer, veilige terugtocht en een verwachting boven reparatie plus gemiste handel. Schakel na twee zwakke controles, een escorte/SAM of een betere City/Factory-conversie.
+
+Vergelijk bij een replay de notitie met de uitkomst: kwam het legale schip aan, was de kaping toegestaan, hoeveel ticks repareerde de romp en opende de nieuwe Port een extra route? Zo onderscheid je een verkeerde regel, een slechte meting en goed tegenspel. Gebruik de tabel als teamoproep met observator, escorte en landconversie. Bij tegenstrijdige signalen stel je de dure aankoop één cyclus uit; dat is meestal goedkoper dan een verloren veteraan.
+
+| Waarneming | Standaardbesluit | Opnieuw bekijken |
+| --- | --- | --- |
+| Route 300+ tegels, geen escorte | Legale handel | 3 aankomsten |
+| 3+ geschikte doelen per 60 ticks | Kort piratenvenster | 60 ticks of escorte |
+| Vloot rond 400, lege Ports | Niet verder stapelen | Nieuwe route |
+| Veteraan onder 75% of geen reparatie | Terugtrekken | Port hersteld |
+| Vijandelijk Warship/SAM of financiering van aanval | Sluiten en wisselen | 2 veilige observaties |
+
+**Volgende leesroute.**
+Lees [Port versus Factory](/nl/guides/port-vs-factory/), [Warship-veterancy en reparatie](/nl/guides/warship-veterancy/), [team naval control](/nl/strategies/team-naval-control/) en [diplomatie en verraad](/nl/strategies/diplomacy-betrayal/). Bij een bedreigde kust volgt [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/). Het doel is het volgende winstgevende en overleefbare venster herkennen, niet een vast piratenbouwplan onthouden.
+
+## Officiële bronnen en versielimiet
+
+Deze bronvolgorde houdt de vijf talen gelijk: tien ticks per spawncontrole, twintig ticks kustveiligheid, de curve rond 300 tegels en het wereldwijde middelpunt rond 400 schepen. Een replay toont een keuze, maar alleen getagde code kan een regel wijzigen.
+
+Deze bronvolgorde voorkomt dat oude video's of vertaalde tips nieuwe regels worden. Controleer altijd de tag voordat je een getal uit deze gids opnieuw gebruikt. De versiegrens geldt even sterk voor alle vijf talen en voor elke berekening in het beslisschema.
+
+Dezelfde waarden moeten in alle vertalingen staan: tien ticks per spawncontrole, twintig ticks kustveiligheid, ongeveer 300 tegels voor de afstandscurve en een wereldwijde vertraging rond 400 schepen. Een video met drie Ports bewijst geen drievoudige opbrengst. Alleen een formele release, de getagde bron en de officiële test kunnen de grens verleggen. Werk bij een nieuwe tag formule, voorbeelden, vertalingen en freshnessSummary samen bij. Het community-pakket blijft bewijs voor spelersvragen en taal, niet voor een universeel winstpercentage.
+
+Lees de bronnenketen opnieuw wanneer een release de economie wijzigt. De release bepaalt de publieke versie. PortExecution bepaalt doel, watercomponent, niveau, afstand en afwijzingen. TradeShipExecution beschrijft beweging, eigendom, omleiding en betaling. WarshipExecution verklaart bereik en 20 ticks kustveiligheid. Config levert de curve die 100 van 420 tegels onderscheidt; de getagde test bevestigt kaping en afrekening. Reddit en YouTube leveren taal en context, geen universeel winstpercentage.
+
+Werk bij een nieuwe tag formule, voorbeelden, vertalingen en freshnessSummary tegelijk bij. Neem geen v0.33.11-drempel stil mee naar een nieuwe patch en schrijf geen gemergde maar nog niet gereleasete verandering als live. Zo blijft de audit reproduceerbaar en wordt één video geen garantie.
+
+De openbare grens is de [OpenFrontIO v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11). Port-pogingen staan in [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts), omleiding in [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/TradeShipExecution.ts), filters in [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts), constanten in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts) en tests in [TradeShipExecution.test.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/TradeShipExecution.test.ts). Het community-bronnenpakket levert taal en situaties, geen afwijkende regels.
+
+Lees deze bronnenketen in deze volgorde wanneer een release de economie wijzigt. De release bepaalt de publieke versie. PortExecution bepaalt of een doel bestaat en hoe niveau, afstand, vriendelijkheid en afwijzingen wegen. TradeShipExecution beschrijft beweging, omleiding, eigendom en het betalingsmoment. WarshipExecution verklaart bereik, watercomponent en de 20 ticks kustveiligheid. Config levert de curve die 100 van 420 tegels onderscheidt. De getagde test bevestigt kaping en afrekening. Communityvideo's leveren spelerswoorden, geen universeel winstpercentage.
+
+Werk bij een toekomstige wijziging checklist, voorbeelden en freshnessSummary tegelijk bij. Neem geen v0.33.11-drempel stil mee naar een nieuwe patch en publiceer geen gemergde maar nog niet gereleasete verandering als live vaardigheid. Zo blijft de audit reproduceerbaar en wordt één video geen garantie.

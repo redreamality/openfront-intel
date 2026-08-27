@@ -1,0 +1,206 @@
+---
+title: "OpenFront Handel oder Piraterie: Wann du die Wirtschaft wechselst"
+description: "Ein v0.33.11-Entscheidungsleitfaden für legalen Handel, das Kapern feindlicher Handelsschiffe, Handelsstopps und den Wechsel zu sicherem Landeinkommen."
+pubDate: 2026-08-27
+updatedDate: 2026-08-27
+tags: [trade, piracy, warship, port, diplomacy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Mit dem offiziellen v0.33.11-Tag geprüft: Ports versuchen alle 10 Ticks einen Handelsschiff-Spawn, gültige Routen brauchen dieselbe Wasserkomponente und offenen Handel, kurze Routen unter etwa 300 Feldern zahlen wenig, und gekaperte Schiffe können zu einem erreichbaren Port des Piraten umgeleitet werden."
+---
+
+## Direkte Antwort: erst handeln, ein Piratenfenster nutzen, dann wechseln
+
+Die Kurzantwort ist ein Arbeitsfilter. Wenn du den nächsten Ankunftszeitpunkt, den Rückzugshafen und den Besitzer des Risikos nicht nennen kannst, ist der Piratenplan noch nicht reif. Halte eine Reserve für ein Ersatz-Warship und eine Landreaktion zurück. Eine umkehrbare Entscheidung lässt eine Route, eine Reservepatrouille und eine feste Prüfzeit offen. Die folgenden Werte sind Annahmen, die du mit deiner Karte, deinem Multiplikator und dem Lobbytyp ersetzen musst.
+
+Nutze normalen Handel, wenn eine lange verbundene Wasserroute, ein stabiler Partner und zu wenig Warships für eine sichere Kaperzone vorhanden sind. Starte Piraterie, wenn feindliche Handelsschiffe sichtbar durch deine Patrouille laufen, die nächsten Kaperungen den militärischen Aufwand bezahlen und ein eigener Port die Prise aufnehmen kann. Beende sie, sobald der Verkehr sinkt, ein Warship oder SAM die Route teuer macht oder City/Factory sicherer Gebietsertrag liefern. Diese Anleitung gilt für die am 27.08.2026 geprüften v0.33.11-Regeln.
+
+Das ist keine dauerhafte Identität. Bei einer legalen Fahrt erhalten Start- und Ziel-Port das berechnete Gold. Bei einer Kaperung wird das Schiff zu deinem erreichbaren Port umgeleitet; das Gold kommt aber erst nach Abschluss der neuen Fahrt und deine Flotte wird sichtbar und diplomatisch verdächtig. Frage daher: „Was bringt der nächste 60-Tick-Zyklus nach Verlusten und Opportunitätskosten?“ Die [Port-gegen-Factory-Anleitung](/de/guides/port-vs-factory/) erklärt den Bau, der [Team-Naval-Control-Leitfaden](/de/strategies/team-naval-control/) die Rollen.
+
+Die Entscheidung muss umkehrbar bleiben. Halte einen Goldboden für ein Notfall-Warship, eine Port-Stufe und eine kleine Landreaktion zurück. Notiere, wem beide Endpunkte gehören, denn ein Besitzerwechsel macht aus derselben Wasserfläche eine andere wirtschaftliche Route. Eine stille See beweist keinen Fehlschlag; sie kann auch bedeuten, dass die globale Flotte gesättigt ist. Formuliere die Entscheidung deshalb bedingt: Bei 1x Gold, 420 Feldern und keiner Eskorte liegt Handel vorne; bei Eskorte und 20 Ticks Küstensicherheit liegt die Kaperung hinten. So kann ein Teammitglied eine einzelne Annahme prüfen, ohne über einen ganzen Build zu streiten.
+
+Trenne wirtschaftlichen und taktischen Erfolg. Eine kleine Kaperung kann eine Landung verhindern, auch wenn ihr späteres Gold gering ist. Eine legale Route kann Gold bringen und gleichzeitig deinen Port für ein Silo verraten. Das folgende Modell zeichnet beide Wirkungen auf, damit du je nach Matchziel Überleben, Druck oder Einkommen wählen kannst.
+
+Beginne mit einer Beobachtung über 60 Ticks, bevor du einen teuren Befehl gibst. So siehst du Ankünfte, feindliche Eskorte und den Zustand deines eigenen Rumpfs im selben Zeitfenster.
+
+Ein Wechsel braucht einen Auslöser und eine Rückkehrbedingung. Schreibe beides auf, zum Beispiel „drei freie Ziele“ und „sofort zurück bei Eskorte“. Das macht die Entscheidung im Team prüfbar.
+
+Behandle Gold in drei Töpfen: Route, Verteidigung und Landkonversion. Wenn der Verteidigungstopf leer ist, darf eine rechnerisch gute Kaperung trotzdem nicht starten.
+
+Vergleiche immer die nächste vollständige Fahrt. Ein rotes Schiff im Sichtfeld ist noch kein Ertrag, solange Umleitung, Ankunft oder Reparatur nicht gesichert sind.
+
+Die Version zählt dabei mit. Diese Seite beschreibt den offiziellen v0.33.11-Stand; eine spätere Änderung an Reichweite, Spawn oder Kosten verlangt eine neue Messung.
+
+## Route lesen, bevor du Gold ausgibst
+
+Vor jedem Kauf liest du Karte und Diplomatie zusammen. Prüfe zwei Eigentümer, eine Wasserkomponente, die wirkliche Wasserentfernung und die Zahl der Schiffe, die tatsächlich unterwegs sind. Wenn ein Eigentümer fällt, eine Allianz bricht oder eine Bucht durch einen Angriff unbrauchbar wird, ist die alte Rechnung veraltet. Diese kurze Routine verhindert, dass ein höheres Port-Level mit einer größeren globalen Flotte verwechselt wird.
+
+Der Wassergraph zählt mehr als die Port-Anzahl. Jeder Port prüft alle 10 Ticks; jedes Level fügt einen Versuch hinzu. Ein Ziel muss einem anderen Spieler gehören, dieselbe verbundene Wasserkomponente teilen und Handel in beide Richtungen erlauben. Prüfe Besitzer, Komponente, Embargo und den Befehl zum Handelsstopp. Ein Port an einer isolierten Bucht ohne Ziel ist kein Einkommen.
+
+Die tatsächliche Wasserentfernung bestimmt den Ertrag:
+
+```text
+G(d) = floor((75.000 / (1 + exp(-0.03 * (d - 300))) + 50d) * goldMultiplier)
+```
+
+Die Sigmoidkurve bestraft Routen unter ungefähr 300 Feldern. Eine lange Route kann trotzdem schlechter sein, wenn Warships sie abfangen. Zähle abgeschlossene Ankünfte, nicht nur den Formelwert. Zusätzlich wird der globale Spawn bei ungefähr 400 aktiven Handelsschiffen langsamer. Gestapelte Ports erreichen lokale Strafen früher. Werte einen funktionierenden Hub nur auf, wenn Durchsatz der Engpass ist; ein neuer Port muss eine neue Wasserkomponente, eine deutlich längere Route oder Redundanz bringen.
+
+| Prüfung | Grünes Signal | Rotes Signal | Entscheidung |
+| --- | --- | --- | --- |
+| Wasser | Fremder Port verbunden | Kein Ziel | Port verschieben |
+| Entfernung | Etwa 300+ sichere Felder | Kurze Bucht | Nicht skalieren |
+| Diplomatie | Offene Beziehung | Embargo oder Krieg | Gold zurückhalten |
+| Angebot | Wenige Schiffe, regelmäßige Ankünfte | Globale Sättigung | Nur bewährten Hub verbessern |
+| Deckung | Patrouille und Rückzug möglich | Keine Reparatur | Piraterie vermeiden |
+
+Markiere beide Ports auf der Karte und verfolge die Wasserkomponente bis zum Ziel. Ein kurzer Landsteg oder eine getrennte Bucht kann die sichtbare Linie unterbrechen.
+
+Prüfe die Beziehung direkt vor dem Upgrade. Ein Handelspartner kann seit der letzten Beobachtung Embargo gesetzt oder den Befehl zum Stoppen mit allen aktiviert haben.
+
+Miss die Entfernung als gefahrene Wasserfelder, nicht als Luftlinie. Die Kurve nutzt die echte Reise, daher kann ein scheinbar naher Umweg wirtschaftlich lang sein.
+
+Ein Port-Level erzeugt mehr Versuche, aber keine Garantie. Wenn jeder Versuch dasselbe ungültige Ziel wählt, kaufst du nur zusätzliche Ablehnungen.
+
+Bei globaler Sättigung konkurrieren mehrere Spieler um dieselbe Flotte. Ein neuer Hub steigert dann nicht automatisch deinen Anteil an fertigen Fahrten.
+
+Verteile Ports, wenn die Karte mehrere sichere Komponenten besitzt. Staple nur, wenn ein Hub geschützt ist und seine Ankünfte den lokalen Durchsatz tatsächlich begrenzen.
+
+Halte drei Messwerte getrennt: Versuche, gestartete Schiffe und abgeschlossene Ankünfte. Nur die letzte Zahl lässt sich direkt gegen eine Goldinvestition rechnen.
+
+## Warum legaler Handel am Anfang meist gewinnt
+
+Baue zuerst Informationen statt nur Gebäude. Frage den Partner, ob er nach dem ersten Kontakt schließt, ob sein Port bereits als Militärbasis dient und ob das Team später eine gemeinsame Handelsregel will. Eine kleine, zuverlässige Route kann eine City finanzieren, die mehr Land öffnet; eine große, ungeschützte Route bleibt ein Test. Warte mehrere vollständige Ankünfte, bevor du den zweiten Ausbau kaufst.
+
+An einer neuen Küste, auf einer Insel oder in einem Team ohne Rollen hält legaler Handel Optionen offen. Beide Portbesitzer verdienen, und ein bereicherter Partner greift deine Küste weniger wahrscheinlich sofort an. Baue ein kleines Netz: Port-Level 1 oder 2, eine City für Kapazität und genug Reserve für ein Ersatz-Warship. Beispielannahme: 420 Felder Entfernung, 18.000 Gold pro Ankunft, 45 Ticks Reisezeit. Dann braucht die erste Investition von 125.000 ungefähr sieben Ankünfte, also 315 Ticks, ohne Verluste. Ersetze die Beispielwerte durch deine Beobachtung.
+
+Nutze diese Messphase auch für die Politik. Frage, ob der Partner seine Grenze nach dem ersten Kontakt schließt, ob sein Port als Militärbasis dient und ob das Team eine gemeinsame Handelsregel plant. Eine kleine, zuverlässige Route kann eine City finanzieren, die später mehr Land erschließt; eine spektakuläre, politisch unmögliche Route bleibt auf Beweisstufe. Kaufe keine zweite Verbesserung, bevor mehrere vollständige Ankünfte bestätigt haben, dass der erste Kauf wirklich arbeitet.
+
+Handel spart Aufmerksamkeit. Eine Piratenpatrouille muss Ziel, Wasserkomponente, Reichweite und Rückweg prüfen. Der [Warship-Veterancy-und-Reparatur-Leitfaden](/de/guides/warship-veterancy/) hilft zu entscheiden, ob ein beschädigter Veteran auslaufen darf. In der Eröffnung schützt ein abgefangener Transport oft Territorium und Handelsroute zugleich, während eine zufällige Kaperung nur einen Gegner sichtbar macht.
+
+Im Team ist der Handelsstatus eine gemeinsame Variable. Standardmäßig ist breiter Handel möglich; über Information kannst du „Handel mit allen stoppen“ und danach nur Verbündete freigeben. Schließe, wenn ein Gegner deine Route für Warships nutzt, und öffne wieder, wenn die Front Gold braucht. Kommuniziere die Änderung, damit ein Spieler nicht die Versorgung des anderen abschneidet.
+
+Ein legaler Start gibt dir Zeit, die Front zu lesen. Während die ersten Schiffe fahren, kannst du City, Verteidigung und Truppenreserve ausbauen.
+
+Kaufe die nächste Port-Stufe erst nach drei bestätigten Ankünften. So vermeidest du, dass ein einziger Glückstreffer eine falsche Skalierung auslöst.
+
+Wenn ein Partner nur eine kurze Bucht anbietet, ist sein guter Wille kein Ersatz für Distanz. Verschiebe die Ausgabe auf einen Hub mit stabiler Wasserverbindung.
+
+Ein Warship als Eskorte hat einen sichtbaren Opportunitätswert. Es schützt Transport und Port, verdient aber in derselben Zeit keine Kaperprämie.
+
+Im FFA reicht ein offener Nachbar oft als Test. In einem Team muss der Beobachter melden, ob die Route dem Frontspieler oder dem Hafenbesitzer gehört.
+
+Lege eine Stoppuhr für die 45-Tick-Beispielfahrt an und ersetze sie durch deine echte Reisezeit. Erst dann lässt sich die Amortisation sinnvoll vergleichen.
+
+## Wann Piraterie das Risiko bezahlt
+
+Setze für jede Ausfahrt eine Zeit- und Gesundheitsgrenze. Ein Warship, das 50 Ticks eine einzelne Prise verfolgt, schützt keinen Transport und verliert die Sicht auf eine zweite Linie. Der Gegner kann ein billiges Schiff als Köder senden. Wenn nach zehn Ticks kein Treffer gelingt oder die Rückzugslinie überschritten ist, brich ab. So bleibt Piraterie eine begrenzte Operation statt einer teuren Verfolgung.
+
+Ein rotes Symbol genügt nicht. Das Handelsschiff muss von einem feindlichen Port zu einem feindlichen Port unterwegs sein, in Patrouillenreichweite liegen und dieselbe Wasserkomponente wie dein Warship nutzen. Ziele zu deinem oder einem verbündeten Port sind nicht kaperbar. Nach einem Küstenkontakt gilt 20 Ticks Küstensicherheit; patrouilliere daher auf offenem Wasser.
+
+Die Kaperung zahlt erst nach dem Umleiten zum nächsten erreichbaren eigenen Port. Ein Warship, das 50 Ticks eine einzelne Prise begleitet, verpasst womöglich zwei neue Ziele. Rechne Angriff, Umleitung, Ankunft, Reparatur und entgangenen legalen Handel zusammen. Bei vier Zielen in 60 Ticks, 60 % Erfolg und 8.000 Gold pro fertiger Kaperung sind es 19.200 erwartetes Gold. Sind Aufwand und Verlust 20.000 wert, ist das Fenster negativ. Mehr Verkehr oder ein zweites Warship kann es positiv machen.
+
+Piraterie funktioniert als kurzes Fenster: beginne vor der feindlichen Eskorte und höre bei sinkendem Verkehr oder beschädigtem Veteran auf. Eine Piratenbasis ohne [nukleare Abschreckung](/de/strategies/nuclear-deterrence/) ist ein sichtbares Ziel. Halte Gold für SAM, Ersatzschiff und Landreaktion zurück.
+
+Begrenze zusätzlich Zeit und Gesundheit. Ein Warship, das 50 Ticks eine einzelne Prise verfolgt, schützt keinen Transport und sieht keine zweite Linie. Der Gegner kann ein wertloses Schiff als Köder schicken; die Patrouillenposition zu halten kann dann mehr wert sein. Wenn nach zehn Ticks kein Treffer gelingt oder der Veteran die Rückzugslinie überschreitet, brich den Angriff ab. So bleibt Piraterie eine wiederholbare Operation und keine emotionale Verfolgungsjagd.
+
+Prüfe die Zielrichtung vor dem Angriff. Ein Handelsschiff zwischen zwei feindlichen Ports ist relevant; ein Schiff zu deinem Port ist nur eine legale Lieferung.
+
+Die 20 Ticks Küstensicherheit sind eine Sperrfrist, keine langsamere Trefferchance. Warte im offenen Wasser, statt die Patrouille am Strand zu verschwenden.
+
+Nach einer Kaperung beginnt eine neue Reise. Setze die Belohnung erst an, wenn der umgeleitete Rumpf deinen Port erreicht und nicht vorher zerstört wird.
+
+Ein zweites Warship erhöht nicht automatisch den Gewinn. Es kann die Chance verbessern, bindet aber Gold und muss ebenfalls repariert und geschützt werden.
+
+Wähle einen klaren Abbruchpunkt. Eine Eskorte, ein SAM oder zwei leere Prüfungen sind stärkere Signale als ein einzelnes sichtbares rotes Schiff.
+
+Schütze den Rückweg mit einem Reservehafen. Wenn der Zielport fällt oder die Wasserkomponente bricht, kann ein scheinbar sicherer Fang wertlos werden.
+
+Melde dem Team genau, ob du blockierst, fängst oder nur aufklärst. Diese drei Aufgaben brauchen verschiedene Positionen und dürfen nicht dieselbe Patrouille voraussetzen.
+
+## Der Diplomatie-Schalter
+
+Schreibe den Grund für den Wechsel in einem prüfbaren Satz: „Die nächste Ankunft bezahlt ein feindliches Warship“ ist besser als „der Spieler wirkt gefährlich“. Beim Öffnen notierst du, was sich geändert hat, etwa eine abgezogene Eskorte, eine neue Factory oder eine verschobene Grenze. Ein Teammitglied bedient den Schalter, ein anderes die Patrouille; sonst öffnen und schließen zwei Spieler dieselbe Route im selben Zyklus.
+
+Eine legale Route finanziert auch den Gegner. Embargo oder globaler Handelsstopp entfernt Ziele aus künftigen Versuchen, erstattet aber keine Schiffe auf See und erzeugt keine Piratenprämie. Schließe, wenn die nächste Ankunft einen Angriff schneller bezahlt als deine Verteidigung.
+
+Im FFA bleiben respektvolle Nachbarn offen; schließe den Spieler, der deine Route für Warships nutzt. In Team-Spielen sollte die Regel lauten: offen für Team und neutrale Partner, geschlossen für den Spieler mit Warship im Korridor. Nach einer Piratenphase kann Wiederöffnen Frieden signalisieren. Sende zuerst nur ein Schiff und halte eine Eskorte zwischen Port und Feind. [Diplomatie und Verrat](/de/strategies/diplomacy-betrayal/) behandelt Allianzen; hier geht es um den Goldfluss.
+
+Schreibe den Grund für jeden Wechsel in einem überprüfbaren Satz: „Die nächste Ankunft finanziert ein feindliches Warship“ ist besser als „der Spieler wirkt gefährlich“. Wenn du wieder öffnest, nenne die Änderung, etwa eine abgezogene Eskorte oder eine neue Factory. Diese Gewohnheit verhindert, dass ein Spieler eine Route kappt, die ein anderer für einen gemeinsamen Angriff eingeplant hat. Der diplomatische Schalter gehört immer zur Patrouille und zur Goldreserve.
+
+Ein Embargo stoppt künftige Ziele, aber es löscht keine Schiffe aus dem Wasser. Prüfe deshalb zuerst, wie viele Lieferungen bereits unterwegs sind.
+
+Schließe eine Beziehung nicht nur aus Ärger. Berechne, ob die nächste Ankunft dem Gegner ein Warship oder dir eine notwendige City bezahlt.
+
+Im FFA kann ein begrenzter Stopp die Front beruhigen. Ein globaler Stopp nimmt dir jedoch auch sichere neutrale Einnahmen und erschwert die spätere Wiederöffnung.
+
+Im Team braucht die Information-Aktion einen Sprecher. Alle Beteiligten müssen wissen, ob der Befehl nur einen Nachbarn oder den gesamten Handel betrifft.
+
+Eine Wiederöffnung ist ein Test, kein Vertrag. Lasse zunächst eine Lieferung zu und beobachte Ziel, Küste und begleitende Schiffe.
+
+Kopple den diplomatischen Schritt an die Position des Warships. Ein geschlossener Handel ohne Patrouille lässt den Port trotzdem als Angriffsziel stehen.
+
+Wenn der Gegner die Handelsroute als Köder öffnet, verlange zwei ruhige Beobachtungen. Ein einzelner sicherer Tick beweist keine stabile Beziehung.
+
+Notiere die Zeit des Wechsels im Replay. So kann das Team später sehen, ob der Verlust vor oder nach dem Embargo entstand.
+
+## Szenario 1: sichere Inseleröffnung
+
+Die Messung ist abgeschlossen, sobald drei volle Fahrten sichtbar sind. Vergleiche dann nicht nur das Gold, sondern auch Sichtbarkeit, Reparaturweg und die Reaktion der Nachbarn. So bleibt die Entscheidung an die Insel gebunden und wird nicht als allgemeiner Piraten-Bauplan missverstanden.
+
+Nach den ersten drei Ankünften prüfst du das Replay. War die Route noch offen, wie viele Schiffe erreichten die Küste und musste dein Warship dafür eine Landverteidigung aufgeben? Diese Antworten entscheiden zwischen weiterem Port-Level, City oder Deckung. Das Ziel ist nicht der höchste einzelne Goldwert, sondern eine Insel, die nach dem ersten Kontakt mehrere Optionen behält.
+
+Prüfe nach den ersten drei Ankünften das Replay. War die Route offen, wie viele Schiffe erreichten die Küste und musste das Warship eine Landverteidigung aufgeben? Diese Antworten bestimmen, ob der nächste Kauf ein Level, eine City oder eine Deckung sein muss. Der Zweck des Szenarios ist nicht der maximale Goldwert, sondern eine Insel, die nach dem ersten Kontakt noch mehrere Optionen besitzt.
+
+Nimm eine 55-Spieler-Inselkarte an. Dein Start-Port erreicht einen fremden Port in 420 Wasserfeldern, kein Warship ist sichtbar und zwei Nachbarn sind verbündet. Du hast 150.000 Gold, eine City Level 1 und keine Factory. Werte den Port einmal auf, halte 50.000 für Warship oder SAM zurück und beobachte drei Ankünfte. Bei 18.000 Gold je 45 Ticks amortisieren sieben Ankünfte die 125.000 ohne Verluste.
+
+Verfolge das erste rote Schiff nicht. Die Route verrät die Insel und kann eine Landung einladen. Nutze das erste Warship als Transportschutz; piratisiere erst bei drei geeigneten Zielen in den nächsten 60 Ticks und einer Ersatzreserve. Schließt der Nachbar den Handel, wechsle zu City oder Factory. Der Gegner kann eskortieren, 20 Ticks an der Küste sicher bleiben oder ein Embargo setzen. Eine kurze Patrouille und ein frisches Aufklärungsschiff bewahren Optionen.
+
+**Szenario 2: gesättigte See und Ausstieg.**
+
+In einem späten FFA gibt es 420 aktive Handelsschiffe. Drei feindliche Ports liegen in einer Komponente; dein Warship Level 2 ist 110 Felder vom Korridor entfernt. Fünf Schiffe erscheinen in 60 Ticks, aber ein Warship Level 1 und zwei SAM schützen das Ziel. Dein Veteran hat 1.020 HP, während 75 % seines Maximums 1.050 sind. City plus Factory kosten auf der nächsten gemeinsamen Stufe 375.000 Gold.
+
+Bei 35 % Kaperchance und 12.000 Gold bringen zwei fertige Kaperungen nur 8.400 erwartetes Gold vor Reparatur. Ziehe dich zurück und investiere in Landkapazität. Schließe die Beziehung, die den Gegner finanziert, halte einen neutralen Partner offen und prüfe nach der Reparatur neu. Öffnet der Gegner den Handel als Köder, verlange zwei sichere Beobachtungen, einen erreichbaren Port und Ersatzreserve, bevor du zurückkehrst.
+
+## Fehler, Gegenwehr, Karten, Modi und Umschaltmodell
+
+Für eine Replay-Prüfung vergleichst du deine Notiz mit dem tatsächlichen Ergebnis: Kam das legale Schiff an, war die Kaperung erlaubt, wie lange reparierte der Rumpf und schuf der neue Port eine weitere Route? Dadurch erkennst du, ob eine Regel falsch verstanden, eine Messung unvollständig oder ein Konter einfach gut war. Nutze den Entscheidungsplan als Teamruf mit einem Verkehrsbeobachter, einem Eskorte-Spieler und einer Person für Landkonversion. Wenn ihre Signale nicht übereinstimmen, verschiebe den teuren Kauf um einen Zyklus. Diese kleine Verzögerung kostet fast immer weniger als ein verlorener Veteran, ein gekapptes Bündnis oder ein Port, den niemand sicher verteidigen kann.
+
+Typische Fehler sind das Kappen jedes roten Schiffs, das Zählen vor der Ankunft, das Ignorieren globaler Sättigung und „Frieden“, der den Gegner finanziert. Prüfe Herkunft, Ziel, Wasser, Reichweite und Küstensicherheit. Auf Inselkarten verteile Ports und halte ein Reserve-Warship; auf kontinentalen Karten schlagen geschützte City und Factory oft einen offenen Seeweg. In einer Meerenge patrouilliere nach der Sicherheitszone und lege den Defense Post auf den Landweg zum Port. Im Team trenne Beobachtung, Eskorte und Landkonversion.
+
+Benutzerdefinierte Lobbys können Factory deaktivieren, Multiplikatoren ändern oder die Schiffszahl verändern. Behandle jede Einstellung als neue Annahme. Ein Video liefert Kontext, aber keine universelle Profitrate.
+
+Alle 60 Ticks notierst du legale Ankünfte, geeignete Feindschiffe, echte Kaperchance, Entfernung zum sicheren Port und ungenutztes Verteidigungsgold. Wähle Handel bei stabilen Ankünften und geringer Diplomatiegefahr. Wähle Piraterie bei hohem Verkehr, sicherer Rückkehr und erwarteten Einnahmen über Reparatur und entgangenem Handel. Wechsle nach zwei schwachen Prüfungen, einer Eskorte/SAM oder einer besseren City/Factory-Umwandlung.
+
+Vergleiche in einer Replay-Prüfung die Notiz mit dem Ergebnis: Kam das legale Schiff an, war die Kaperung wirklich erlaubt, wie viele Ticks reparierte der Rumpf und schuf der neue Port eine zusätzliche Route? So unterscheidest du eine falsch verstandene Regel, eine schlechte Messung und gutes Gegen-Spiel. Nutze die Tabelle als Team-Aufruf mit Beobachter, Eskorte und Landkonversion. Wenn zwei Signale widersprechen, verschiebe den teuren Kauf um einen Zyklus; das ist meist billiger als ein verlorener Veteran.
+
+| Beobachtung | Standardentscheidung | Neu prüfen |
+| --- | --- | --- |
+| 300+ Felder, keine Eskorte | Legal handeln | 3 Ankünfte |
+| 3+ geeignete Ziele je 60 Ticks | Kurzes Piratenfenster | 60 Ticks oder Eskorte |
+| Flotte nahe 400, leere Ports | Nicht weiter stapeln | Neue Route |
+| Veteran unter 75 % oder ohne Reparatur | Zurückziehen | Port wieder sicher |
+| Feindliches Warship/SAM oder Finanzierung seines Angriffs | Schließen und wechseln | 2 sichere Beobachtungen |
+
+**Weiterführende Lektüre.**
+Lies [Port gegen Factory](/de/guides/port-vs-factory/), [Warship-Veterancy und Reparatur](/de/guides/warship-veterancy/), [Team Naval Control](/de/strategies/team-naval-control/) und [Diplomatie und Verrat](/de/strategies/diplomacy-betrayal/). Bei einer bedrohten Küste folgt [nukleare Abschreckung](/de/strategies/nuclear-deterrence/). Entscheidend ist das Erkennen des nächsten rentablen und überlebbaren Fensters.
+
+## Offizielle Quellen und Versionsgrenze
+
+Diese Reihenfolge hält außerdem alle fünf Sprachversionen gleich: zehn Ticks Spawnprüfung, 20 Ticks Küstensicherheit, die Kurve um 300 Felder und der globale Mittelpunkt bei 400 Schiffen. Ein Replay illustriert eine Entscheidung, aber nur der getaggte Code kann eine Regel ändern.
+
+Diese Versionsgrenze gilt für alle Beispiele und den Audit dieser Seite.
+
+Sie verhindert, dass ein altes Replay versehentlich als aktuelle Regel gelesen wird.
+
+Auch die fünf Sprachversionen müssen dieselben Werte behalten: zehn Ticks für den Spawnversuch, 20 Ticks Küstensicherheit, die Kurve um 300 Felder und das globale Sättigungszentrum bei 400 Schiffen. Ein Unterhaltungs-Replay kann drei Ports zeigen, beweist aber keine dreifache Flotte. Nur ein formaler Release mit Tag-Code und Test darf die Versionsgrenze verschieben. Bei einem Wechsel erneuerst du deshalb Formel, Szenarien und FreshnessSummary in einem Durchgang. Das Community-Paket bleibt als Nachweis für Spielerfragen erhalten, nicht als alternative Regelquelle.
+
+Diese Quellenkette schützt auch die Übersetzungen. Die Werte für zehn Ticks, 20 Ticks Küstensicherheit, etwa 300 Felder und die globale Kurve um 400 Schiffe müssen in allen fünf Sprachen identisch bleiben. Ein Video mit drei Ports beweist nicht, dass drei Ports dreimal so viele Schiffe erzeugen. Nur Release, Tag-Code und offizieller Test dürfen die Versionsgrenze ändern. Bei einer Änderung aktualisierst du Formel, Szenarien und FreshnessSummary gemeinsam und führst den Liefer-Audit erneut aus.
+
+Die Community-Beiträge hinter dieser Seite erklären Wortwahl und Situationen, keine festen Profitraten. Diese Trennung lässt Maintainer eine einzelne Regel korrigieren, ohne die Leser mit internen Quellen zu überladen, und verhindert, dass eine alte Aufnahme als Garantie weiterlebt.
+
+Lies die Quellenkette, wenn ein neuer Release die Wirtschaft ändert. Der Release bestimmt die öffentliche Version. PortExecution entscheidet über Ziel, Wasserkomponente, Level, Entfernung, Freundlichkeit und Ablehnungen. TradeShipExecution erklärt Bewegung, Eigentum, Umleitung und Zahlungszeitpunkt. WarshipExecution erklärt Reichweite und die 20 Ticks Küstensicherheit. Config liefert die Kurve, die 100 von 420 Feldern trennt; der getaggte Test bestätigt Kaperung und Abrechnung. Reddit und YouTube zeigen Spielerwortschatz und Situationen, legen aber keine universelle Profitrate fest.
+
+Aktualisiere bei jeder Änderung Formel, Szenarien, Übersetzungen und FreshnessSummary gemeinsam. Übernimm keinen v0.33.11-Schwellenwert still in einen späteren Patch und veröffentliche keine nur gemergte Änderung als Live-Fähigkeit. Die Trennung zwischen Communitybedarf und offizieller Regel hält den Audit reproduzierbar und verhindert, dass ein einzelnes Video zur Garantie wird.
+
+Die öffentliche Grenze ist der [OpenFrontIO v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11). Port-Versuche stehen in [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts), Umleitung in [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/TradeShipExecution.ts), Filter in [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts), Konstanten in [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts) und Tests in [TradeShipExecution.test.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/TradeShipExecution.test.ts). Das Community-Quellenpaket liefert Sprache und Situationen, nicht konkurrierende Regeln.
