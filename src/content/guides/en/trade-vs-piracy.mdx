@@ -1,0 +1,146 @@
+---
+title: "OpenFront Trade vs Piracy: When to Switch Your Economy"
+description: "A practical v0.33.11 decision guide for choosing legal Trade Ships, capturing enemy trade, closing trade relationships, and pivoting back to safer land income."
+pubDate: 2026-08-27
+updatedDate: 2026-08-27
+tags: [trade, piracy, warship, port, diplomacy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal v0.33.11 tag: Ports spawn Trade Ships on ten-tick trials, eligible routes need a shared water component and open trade, short routes below the 300-tile curve pay poorly, and a captured ship can be redirected to the captor's reachable Port."
+---
+
+## Direct answer: trade first, pirate on a window, then pivot
+
+Run ordinary trade with a long connected route, a stable partner, and too few Warships to protect a capture lane. Pirate when enemy Trade Ships use a patrol you can hold, the next captures cover military risk, and a reachable Port can receive them. Stop when traffic dries up, an escort or SAM makes the lane costly, or City/Factory income is safer. This guide uses v0.33.11, checked 2026-08-27.
+
+Do not treat the choice as a permanent identity. Trade is a compounding network: both Ports receive the computed Gold when a legal voyage arrives, while global ship supply and route distance decide how often that happens. Piracy is a conversion: one eligible enemy ship becomes your Gold after capture and redirection, but the same action exposes your Warship, damages diplomacy, and can fund an opponent's retaliation. The right question is “what will the next 60 ticks produce after risk and opportunity cost,” not “which strategy is strongest in a vacuum?”
+
+The [Port versus Factory guide](/guides/port-vs-factory/) covers the construction choice. The [team naval control guide](/strategies/team-naval-control/) covers fleet assignments. This page joins those pieces at the moment a player must change modes.
+
+The safest habit is to make the decision reversible. Keep a cash floor that is large enough for one emergency Warship, a replacement Port level, and a small land counterattack. Mark the route on the map and write down which player owns each endpoint. If the endpoint changes hands, the route is no longer the same economic asset even if the water tiles are unchanged. Likewise, a “quiet” sea is not proof that piracy failed; it may mean the opponent stopped spawning because the global fleet is saturated. Give every decision a recheck time, and cancel an order when its assumptions expire.
+
+Players often ask for a single break-even number, but the engine does not expose one. Gold multiplier, Port level, pity rejections, route length, travel time, target density, and repair access all move the result. A useful report to yourself is therefore conditional: “At 1x Gold, 420 tiles, three arrivals in 135 ticks, and no escort, legal trade is ahead; with one escort and a 20-tick shoreline delay, piracy is behind.” This language keeps a replay honest and makes it easy for a teammate to challenge one assumption without arguing about a whole build order.
+
+Finally, separate economic success from tactical success. Capturing one ship can be a tactical win because it denies an enemy shipment even when its eventual Gold is small. A legal route can be an economic win while being a tactical loss if it reveals your Port to a bomber. The switch framework below deliberately records both outcomes so that a player can choose survival, pressure, or income according to the current match objective.
+
+## Read the route before spending Gold
+
+Start with the water graph, not the Port count. A Port's spawn trial runs every 10 ticks, and each level contributes another trial, but a trial can fail when no valid destination exists. The destination must belong to another player, share the same connected water component, and allow trade in both directions. A beautiful Port beside a one-tile pond is an economic decoration; it is not a route. Check the destination's owner, the water component, and whether either side has used an embargo or a stop-trading command before buying another level.
+
+Distance is the second gate. The v0.33.11 Gold function is based on the actual water distance travelled:
+
+```text
+G(d) = floor((75,000 / (1 + exp(-0.03 * (d - 300))) + 50d) * goldMultiplier)
+```
+
+The sigmoid makes routes under roughly 300 tiles particularly weak. A 100-tile voyage produces far less than a 400-tile voyage, even though both consume a spawn opportunity and a ship's travel time. The distance is not a promise of profit: a long route that is intercepted, embargoed, or forced through a hostile shoreline can have a lower realized return than a shorter safe route. Measure completed arrivals over several checks rather than reading the formula as an income-per-second guarantee.
+
+Third, inspect saturation. The global Trade Ship count slows new spawning around the v32/v33 sigmoid midpoint of 400 active ships. Adding a fourth Port to a crowded map can therefore move ships between owners without increasing the total fleet quickly. Stacked Port levels also reach local penalties earlier than separated hubs. Upgrade a working route when throughput is the bottleneck; build a new Port only when its location adds a new water component, a materially longer route, or redundancy against capture.
+
+Use this pre-purchase table as a 30-second checklist:
+
+| Check | Green signal | Red signal | Action |
+| --- | --- | --- | --- |
+| Water component | Two foreign Ports are connected | No foreign destination | Delay Port; fund land income |
+| Route distance | About 300+ tiles with safe transit | Tiny bay or repeated short trips | Do not scale this route |
+| Diplomacy | Both sides can trade and need Gold | Embargo, betrayal, or imminent war | Keep cash for defense |
+| Ship supply | Few active ships and steady arrivals | Crowded global fleet and empty docks | Upgrade only a proven hub |
+| Naval cover | Warship can patrol and retreat | No Port repair or enemy screen | Trade cautiously; avoid piracy |
+
+## When legal trade is the better opening
+
+Legal trade is usually the correct first branch for a new coast, an island with uncertain neighbors, or a team lobby where partners still need to build. Your Port generates options without immediately declaring a target. Both owners receive the same route Gold on arrival, so an early agreement can make a distant partner richer while giving you the cash to buy Cities, Factories, or a first Warship. The diplomatic benefit is real even though the engine does not label it as a bonus: a partner who needs your route is less likely to spend the opening minute attacking your shoreline.
+
+Build the smallest network that proves the route. One Port with one or two levels, one City for capacity, and enough Gold to replace a Warship is a healthier opening than four exposed Ports. Watch two or three completed voyages. If the route takes 40 ticks to travel and returns 10,000 Gold to you, the observed cadence is roughly 15,000 Gold per 60 ticks before losses; if an enemy Warship removes one in every three ships, the realized cadence falls to about 10,000. Those numbers are an example assumption, not a promise, but they show why arrival logs beat a theoretical payout.
+
+Use the observation period to test diplomacy as well as income. Ask the partner whether their Port is being used as a staging point, whether they intend to embargo a neighbor, and whether a team rule will change after the first border contact. A route that is profitable for three trips but politically impossible after the next expansion should not receive the second upgrade. Conversely, a modest route with a dependable ally can finance a City that unlocks more territory and becomes the real return on investment. The opening is therefore a measurement phase: build enough to collect evidence, but keep enough Gold to change direction before the evidence becomes a sunk cost.
+
+Legal trade also protects your attention. A Warship assigned to piracy needs a patrol target, a safe water component, and a retreat path. A fresh player who is still defending land borders cannot monitor a red ship, an enemy screen, an embargo, and a Port queue at once. Keep the route open while you secure a border and use [Warship veterancy and repair](/guides/warship-veterancy/) to decide whether a veteran hull can afford a patrol. When the first enemy transport arrives, a defensive interception can be more valuable than a speculative trade capture because it protects territory and keeps your route alive.
+
+In Team mode, legal trade is especially useful while roles are forming. The default relationship permits broad trading, but teammates can use the in-game Information action to stop trading with all and then reopen only the relationships they want. That switch is a defensive tool, not a profit button. Close it when an enemy is using your Port as a cash source during an attack; reopen it when the lane is safe and your team needs pooled Gold. Coordinate the change so one player does not accidentally cut a route that another player is using to fund the front.
+
+## When piracy earns its risk
+
+Piracy starts with eligibility, not a red icon. A Warship can capture a Trade Ship only when the ship is travelling between enemy-owned Ports, the target is inside patrol range, and the route shares the Warship's connected water component. A ship heading to your Port or an ally's Port is not a legal capture target. The shoreline safety state also matters: after a Trade Ship touches a shoreline tile, the engine marks it safe from pirates for 20 ticks. Patrol the open-water segment where targets are actually vulnerable, and do not waste a veteran hull circling a protected harbor.
+
+The payout arrives only after the capture is resolved. The ship redirects toward the nearest reachable Port owned by the captor, and the captor receives the route's computed Gold when it completes. This creates a timing trap. A capture can look profitable while the redirected ship is travelling through a water component you cannot defend. A Warship that spends 50 ticks escorting one captured ship may miss two fresh targets and expose its own Port. Count the whole cycle: patrol, attack, redirect, arrival, and repair.
+
+Use an expected-value test before committing. Suppose a route shows four enemy Trade Ships in 60 ticks. You estimate a 60% capture chance for each, 8,000 Gold per completed capture, and 20,000 Gold of expected repair, replacement, and lost legal trade value. Expected piracy return is `4 × 0.6 × 8,000 = 19,200`; after risk it is negative 800. The same lane becomes positive if six ships appear or if a second Warship raises capture chance without doubling cost. These are explicit assumptions so you can replace them with your own observation.
+
+Piracy is strongest as a window. Start after an enemy builds a Port network but before they add a screening Warship. Stop when the lane is empty, the opponent changes the route, or a veteran reaches a dangerous health threshold. The [nuclear deterrence guide](/strategies/nuclear-deterrence/) is relevant because a pirate base that cannot protect its Port from a Silo is not an economy; it is a visible target. Reserve enough Gold for SAMs, a replacement Warship, and a land response before buying another patrol hull.
+
+There is also a tempo cost that a Gold ledger can hide. A Warship on a long pursuit cannot escort your own Transport, answer a landing, or maintain vision over a second lane. If the opponent deliberately sends a low-value ship as bait, the correct response can be to ignore it and keep the patrol tile. Treat a capture as an order with a maximum time and health budget: if the attack has not connected after ten ticks, or if the hull crosses the retreat line, cancel it. This turns piracy from an emotional chase into a bounded operation that can be repeated without donating your navy.
+
+## The diplomacy switch changes who funds whom
+
+Trade relationships are part of the economy. A legal route pays both owners, so an open relationship can unintentionally finance an enemy's City and Warship production. An embargo or stop-trading action removes that destination from future eligibility; it does not create a pirate payout and it does not magically refund ships already at sea. Make the change when the next arrivals would fund an attack sooner than they would fund your defense.
+
+In a free-for-all, use a narrow rule: keep trade open with a neighbor who is not contesting your coast, close it with a player who is buying ships from your own route, and avoid closing every relationship at once unless you are prepared to lose legal income. In Team mode, ask for one shared policy: “open with teammates and neutral partners; close with the player whose Warship is camping our corridor.” This avoids four players making contradictory switches and gives the team a visible reason for the change.
+
+The reverse switch is equally important. After a pirate run, reopening a route can be a peace signal and a way to turn a surviving Port into stable income. Do it only after checking that the target cannot use the arrival window to launch a landing. A two-minute truce is not a rule; it is a testable assumption. Send one route, watch the destination, and keep a Warship between the Port and the opponent's approach.
+
+Embargoes also alter your opponent's incentives. If you close trade but leave a valuable Port exposed, they may send Warships to capture your redirected ships or attack the hub directly. Pair the diplomatic action with a military message: a patrol, a Defense Post on the coastal land path, or an allied screen. Read [diplomacy and betrayal](/strategies/diplomacy-betrayal/) for alliance timing; this guide focuses on the Gold flow that makes the decision urgent.
+
+Record the reason for every switch in one sentence. “Closed because their next arrival funds a Warship” is testable; “closed because they feel dangerous” is not. The sentence also prevents a common team error: one player closes trade to deny an enemy while another expects the same route to pay for a joint push. If a relationship is reopened, state what changed: an escort left, a border moved, or a new Factory replaced the exposed income. Diplomatic clarity is part of the economy because it changes whether your ships arrive, whether your partner keeps a Port alive, and whether a retaliatory Warship appears on the map.
+
+## Scenario one: a safe island opening
+
+Assume a 55-player island map. Your starting Port can reach a foreign Port 420 water tiles away, no Warship is visible in that component, and two neighbors have accepted alliances. You have 150,000 Gold, a City at level 1, and no Factory. The route formula suggests a strong payout, but the real question is whether the network survives long enough to pay back the first Port level.
+
+The plan is legal trade first. Add one Port level, keep 50,000 Gold unspent for a Warship or SAM, and record the next three arrivals. If each trip pays 18,000 to your Port and completes every 45 ticks, the 125,000 first-level spend takes about seven arrivals, or 315 ticks, to repay before losses. If an ally's route is the only reason the destination remains open, send a message before upgrading again. A second Port is justified only if it reaches a different long route or gives the Warship a repair anchor.
+
+The temptation is to pirate a red ship as soon as one appears. Do not do that while the island is still undefended. A capture may redirect to your Port, but the Warship's patrol path can reveal the island and invite a landing. Instead, use the first hull to screen the transport approach, then pirate only when the route shows at least three vulnerable ships in the next 60 ticks and the island has a replacement reserve. If the neighbor stops trading, the legal route disappears; pivot to a Factory or inland City rather than forcing a Port upgrade.
+
+The counterplay is simple: an opponent can send a Warship escort, hug the shoreline for 20 safe ticks, or embargo you before a ship reaches open water. Your response is to shorten the patrol, keep the veteran inside passive repair range, and let a fresh ship inspect the lane. A peaceful opening succeeds when it preserves options; it fails when one capture turns every economic asset into a naval fight.
+
+**Scenario two: late crowded sea and the exit signal.**
+
+Assume a late FFA with 420 active Trade Ships globally, three enemy Ports in one water component, and your level-2 Warship 110 tiles from their main corridor. You observe five enemy ships in 60 ticks, but an enemy level-1 Warship and two SAMs now protect the destination. Your own Port is level 2 and a City/Factory pair can be built for 375,000 combined Gold. You have 600,000 Gold, but only 1,020 health on the veteran hull.
+
+The global supply is crowded, so adding another Port is unlikely to create five more ships for you. The expected piracy return may still be attractive: assume a 35% capture chance, 12,000 Gold per completed capture, and two captures per 60 ticks after escort losses. That is 8,400 Gold before repair. Your veteran is below the 75% retreat trigger of 1,050 for a level-2 ship, and the protected corridor makes the repair trip dangerous. The correct call is to stop piracy, retreat to the Port, and spend on land capacity or a Factory route that the enemy cannot intercept.
+
+You can leave legal trade open with a neutral partner while closing the relationship that feeds the protected enemy. Reopen it after your land network is active and the Warship has repaired. If the enemy chases the retreat, the route has done its job: it forced them to spend a Warship turn while you converted Gold into safer production. If they do not chase, your legal route can resume without another risky capture.
+
+The opponent's counterplay is to let your Warship retreat, then reopen trade to bait it forward. Do not accept the bait automatically. Require two consecutive observations of unescorted traffic, a reachable Port, and a reserve above the replacement threshold before returning. A lane that becomes safe again is a new window, not proof that the old pirate plan was always correct.
+
+## Failure modes, counters, mode adjustments, and the repeatable switch
+
+The most common failure is counting red ships instead of eligible ships. Verify origin, destination, water component, patrol range, and shoreline safety. The second is counting payout instead of completed payout: a captured ship that is destroyed before redirection pays nothing. The third is ignoring shared global supply; extra Ports can compete for the same slow-growing fleet. The fourth is leaving a Port open to an enemy while claiming to be at peace. If the route funds their next Warship, your own legal income is part of the problem.
+
+Map topology changes the threshold. On an archipelago, long open-water corridors make both trade and piracy visible; use distributed Ports and a reserve Warship rather than one giant stack. On a land-heavy map, a Factory and protected City cluster can beat an exposed Port even when the formula says a distant route pays more. On a narrow strait, place the patrol where ships leave shoreline safety, and place the coastal Defense Post over the land route to the Port. In a team lobby, assign one player to route observation, one to escort, and one to land conversion; do not let every player buy a Warship for the same lane.
+
+Modes also change diplomacy. Public FFA makes a pirate target easy to identify but gives no teammate to cover a retreat. Team mode can make open trade efficient while roles are stable, then dangerous when one enemy breaks the line. Special or custom lobbies may disable Factories, change Gold multipliers, or alter ship availability. Treat those settings as new assumptions and rerun the checklist; never transplant the examples as fixed rates.
+
+Every 60 ticks, write down five values: completed legal arrivals, eligible enemy ships, observed capture chance, nearest safe Port distance, and unspent defensive Gold. Choose trade when legal arrivals are steady, the route is long, and the diplomatic cost is low. Choose piracy when eligible traffic is high, a Warship can capture and retreat, and the expected captured Gold exceeds repair plus missed legal income. Choose a pivot when traffic falls for two checks, an escort or SAM changes capture chance, or a City/Factory purchase creates a safer conversion path.
+
+The framework is intentionally reversible. Do not ask whether you are a trader or pirate; ask which action improves the next window while preserving the following one. Keep one route open when possible, one Warship in reserve, and one clear message for allies. When the answer changes, change the relationship and the patrol order together, then observe one complete cycle before scaling.
+
+For a replay review, compare the written decision with what actually happened. Did the legal ship arrive, and did both owners receive Gold? Was the target truly between enemy Ports, or did shoreline protection explain the failed capture? Did the Warship spend more ticks repairing than fighting? Did a new Port add a route, or merely compete for the same global fleet? These questions expose whether a bad result came from a wrong rule, a wrong measurement, or an opponent's counterplay. Correct the category before changing the build. A player who labels every loss “bad luck” will repeat an eligibility error; a player who labels every low payout “bad Port” may ignore saturation or diplomacy.
+
+Use the table as a team callout rather than a rigid script. One teammate can report arrivals, another can report enemy escorts, and a third can verify the nearest safe Port. If two signals disagree, delay the expensive purchase for one observation cycle. The delay is often cheaper than a level, a dead veteran, or an embargo that cannot be undone before the next landing. A good switch is therefore a small operational order with a time limit, an owner, and a named fallback.
+
+| Situation observed | Default decision | Recheck after |
+| --- | --- | --- |
+| 300+ tile route, no escort, stable partner | Legal trade and small Port upgrade | 3 completed arrivals |
+| 3+ eligible enemy ships per 60 ticks, safe patrol and reserve | Short piracy window | 60 ticks or one escort sighting |
+| Global fleet near 400, empty docks, stacked hubs | Stop adding Ports | One new route or population need |
+| Veteran below 75% adjusted health or no repair path | Retreat and preserve hull | Port restored or reserve arrives |
+| Enemy protected by Warship/SAMs or route funds attack | Close relationship and pivot land | Two safe observations |
+
+**Next reading path.**
+Use [Port versus Factory](/guides/port-vs-factory/) for the next structure and shared cost ladder. Use [Warship veterancy and repair](/guides/warship-veterancy/) when a veteran's health, experience, or dock capacity changes the patrol decision. Use [team naval control](/strategies/team-naval-control/) to turn one route into a team assignment, and [diplomacy and betrayal](/strategies/diplomacy-betrayal/) for alliance and embargo timing. For a threatened coastal economy, continue to [nuclear deterrence](/strategies/nuclear-deterrence/). The goal is not to memorize a pirate build; it is to recognize the next profitable and survivable window.
+
+## Official sources and version boundary
+
+This evidence order also keeps every localization equivalent: the ten-tick check, 20-tick shoreline safety, 300-tile curve, and 400-ship midpoint must not drift between languages. A replay can illustrate a decision, but only the tagged implementation can change the rule.
+
+That is the boundary used by this page's examples and audit.
+
+This guide uses the formal [OpenFrontIO v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11) as its public boundary. Port trials, destination eligibility, global spawning, and weighting are in the tagged [PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts). Capture redirection and settlement are in [TradeShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/TradeShipExecution.ts). Target filters and shoreline safety are in [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts). The distance curve and constants are in tagged [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), with capture behavior covered by the official [TradeShipExecution tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/TradeShipExecution.test.ts). Community Reddit and YouTube sources in the research pack provide player language and scenarios; they do not override the tagged rules.
+
+Read the source chain in order when a future release changes the balance. The Release establishes which version is public. `PortExecution.ts` explains when a Port even gets a candidate destination and how level, distance, friendliness, and rejection pity affect that candidate. `TradeShipExecution.ts` explains movement, capture ownership, redirection, and the moment Gold is settled. `WarshipExecution.ts` explains why a visible red ship can still be untargetable because of range, water component, destination ownership, or the 20-tick shoreline safety state. `Config.ts` supplies the curve and constants that make a 100-tile example different from a 420-tile example. The tagged test is the final check for capture redirection and settlement behavior; it is not a substitute for reading the route filters.
+
+This ordering protects the guide from stale community lore. Reddit and YouTube discussions explain what players notice: “piracy pays late,” “stacked Ports slow down,” or “the red ship cannot be captured.” They cannot establish a universal rate, because their maps, multipliers, opponents, and dates differ. When a new Release arrives, rerun the route and capture checklist against the new tag, then update the numbers, examples, and freshness summary together. Do not silently carry a v0.33.11 threshold into a later balance patch. Conversely, do not pre-announce a merged or development change as live until a formal Release and tagged source confirm it.
+
+The research pack behind this page records four opened Reddit discussions and three caption-verified YouTube videos. It is retained as editorial evidence for the player question and vocabulary, while the official files above remain the authority for rules. That separation is deliberate: it lets the guide stay readable for players and still gives maintainers a reproducible audit trail when the economy changes.

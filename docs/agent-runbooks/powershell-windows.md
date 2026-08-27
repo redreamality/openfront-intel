@@ -58,3 +58,4 @@
 - **2026-08-23 再次复发：Windows 下不要把 `src/pages/*/mechanics/modes.astro`、`src/content/strategies/en/*.mdx`、`e2e/*guide*`、`.env*` 等通配表达式作为 `rg` 路径参数**：应传真实目录，再用 `--glob 'modes.astro'`、`--glob '*.mdx'`、`--glob '*guide*'` 或 `--glob '.env*'` 限定文件；否则会报 `os error 123`。
 - **核验新 Release 时不要假设相邻的上游 clone 已抓取最新 tag**：先用 `git tag --list <tag>` 或 `git rev-parse --verify <tag>` 确认；本地缺失时改读 GitHub 官方 Release、tag ref 与 raw content API，不为只读核验擅自 fetch。PowerShell 中需要 annotated-tag peel 时把 `<tag>^{}` 整体加引号，否则 `{}` 可能被解析为脚本块。
 - **PowerShell 下 `gh ... --json` 的逗号字段列表必须整体引用**：例如写成 `gh pr list --json 'number,title,headRefName'`；未引用的逗号会被 PowerShell 当成参数数组分隔，导致 `gh` 收到错误字段或额外参数。
+- **PowerShell 路径参数不支持 Bash 花括号扩展**：`src/content/guides/{en,zh,...}/...` 会在执行前触发解析错误；改用语言数组循环或逐个传入明确路径，并对含方括号的路径使用 `-LiteralPath`。
