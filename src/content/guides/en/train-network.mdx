@@ -1,0 +1,134 @@
+---
+title: "OpenFront Train Network Guide: Connect Factories, Cities, and Ports"
+description: "A v0.33.12 decision guide for building rail networks that actually pay: ranges, path limits, stop payouts, hub layouts, scenarios, and exit signals."
+pubDate: 2026-08-28
+updatedDate: 2026-08-28
+tags: [trains, factory, city, port, economy]
+category: Tutorial
+difficulty: Advanced
+version: v33
+freshnessSummary: "Verified against the formal v0.33.12 Release and tagged train code: Factories roll train attempts from the shared count, stations search within 110 tiles, links skip gaps below 15 tiles, segments stay below about 155.6 tiles, and the station-stop payout falls after ten stops."
+---
+
+## Direct answer: build a connected rail loop, not a pile of Factories
+
+Build a Factory when it can reach at least one controlled City or Port within 110 tiles and the rail path can be split into segments below about 155.6 tiles. Start with one compact cluster, observe completed stops for 60–120 ticks, then add a level or second branch only when a real station is the bottleneck. A disconnected station can no longer block every spawn in v0.33.12, but it still produces no useful payout.
+
+The most important distinction is between **spawning** and **earning**. Factory levels add train-generation attempts, while Cities and Ports are the stations that settle Gold when a Train visits them. A Factory beside an empty coast can produce moving trains that have no eligible destination. A long chain can also look active while its eleventh and later stops lose 5,000 Gold each, down to a 5,000 floor. Count completed, valuable stops rather than counting buildings or watching a train icon.
+
+Make the first check reproducible for a teammate. Put a marker on the Factory, name every nearby City or Port, and write the expected owner beside it. Then state one invalidating event: capture, embargo, impassable terrain, or a path longer than the segment cap. This small note prevents a common argument in team chat, where one player sees a moving Train and another assumes that movement equals income. It also gives you a clean replay question: which node changed, at what tick, and how many completed stops followed? When you can answer those three questions, an upgrade has a measurable purpose. When you cannot, hold Gold and inspect the graph again. A rail plan should survive a handoff between players; if only its builder understands the route, it is already a fragile investment. Keep a fallback City inside the hub, reserve replacement Gold, and decide in advance how many ticks you will wait before calling the route unproductive. That discipline makes the rest of this guide practical rather than theoretical.
+
+Use this page when your question is “where should the next rail station go, and when should I stop scaling it?” The [Port versus Factory guide](/guides/port-vs-factory/) compares the first investment. [Economy Fundamentals](/strategies/economy-fundamentals/) handles the wider budget, troop cap, and defensive trade-off. The [team naval-control guide](/strategies/team-naval-control/) matters when a Port is also a naval base. This page owns the rail topology and the moment-to-moment switch between a hub, a branch, and a safer land economy.
+
+Treat every network as a measured experiment. Write down the Factory count, level, reachable station count, route shape, and the last three arrival times. Recheck after an enemy captures a City, an ally changes diplomacy, or an impassable tile cuts a corridor. A route is not permanent simply because rails are drawn: ownership, station eligibility, path geometry, and stop order can change during a fight. Keep enough Gold for a replacement Warship or land counterattack before turning a working loop into a grand hub.
+
+## Read station geometry before buying the next level
+
+Open the map and mark the Factory's 110-tile search radius. The radius is a local station test, not a promise that every tile inside it becomes a profitable route. The Factory must belong to a rail network that can find a City or Port station with trade available. A City under an embargo, a recently captured Port, or a settlement on the other side of impassable terrain may be visible but unavailable. Place the first Factory where at least two useful stations are plausible, then use a second Factory to extend a measured corridor rather than to decorate a blank region.
+
+Rail links also have a geometry constraint. The automatic connection logic ignores gaps shorter than 15 tiles, so a tiny separation does not create a meaningful new segment. Conversely, a single segment cannot reach forever: the path must remain below roughly 155.6 tiles. If two stations are farther apart, insert an intermediate station or a Factory whose path can be built as two short pieces. This is why a hub at the exact midpoint often outperforms a level-up at one endpoint. The hub creates a legal path and a fallback destination at the same time.
+
+Use ownership as a deliberate part of the map read. A Train can pay at a self City or Port for 10,000 Gold, at a teammate or other-player station for 25,000, and at an ally station for 35,000 before the stop penalty. The largest number is not automatically best: an ally can break the relationship, and an exposed foreign station can be captured during the travel window. A safe self stop at 10,000 repeated every 30 ticks can beat a theoretical ally stop that is visited once and then lost.
+
+Make a quick geometry table before spending:
+
+| Observation | Green signal | Red signal | Decision |
+| --- | --- | --- | --- |
+| Local reach | A City or Port is inside 110 tiles | Only Factory tiles are nearby | Delay the level or move the next build |
+| Segment length | Every hop is below about 155.6 tiles | One straight gap exceeds the cap | Add an intermediate station |
+| Gap handling | Short gaps under 15 tiles are absorbed | A supposed bridge leaves a long break | Reposition; do not assume auto-linking |
+| Station status | Owner can trade and is reachable | Embargo, capture, or impassable barrier | Treat the station as unavailable |
+| Exit path | A Train can return to a safe hub | The only destination is on the frontline | Build redundancy before scaling |
+
+Do this read again after every conquest. A train route is a graph with changing node owners, not a permanent road painted on the map.
+
+## Understand Factory count, level, and the shared spawn curve
+
+The current Factory generation rule uses the total Factory count: `trainSpawnRate = (factoryCount + 10) * 15`. The exact implementation rolls generation chances in the execution loop, so this number is a rate parameter, not a guaranteed timetable. Each Factory level contributes another attempt. A level-3 Factory in a network with four Factories therefore has more local attempts than a level-1 Factory, but all of those attempts still need an eligible station and a path that can complete.
+
+This creates three different bottlenecks. If you see no trains at all, inspect the station graph and ownership first. If trains spawn but arrive rarely, inspect path length, travel time, and whether the destination is being captured. If arrivals are frequent but Gold is disappointing, inspect stop order and relation payout. Upgrading a Factory only solves the third problem when generation attempts are genuinely scarce; it does nothing for a broken graph.
+
+Because the cost ladder is shared with Ports, the next level has an opportunity cost. A first Port or Factory is 125,000 Gold, the next combined level is 250,000, then 500,000 and 1,000,000. Before upgrading, compare one additional rail attempt with a City that raises troop capacity, a Port that opens a new water route, or a Defense Post that keeps the hub alive. [Port versus Factory](/guides/port-vs-factory/) is the right cross-check when the choice is between a new sea income and a rail branch.
+
+Use a small observation window. Record the tick when a Train leaves, the stations it visits, the tick when it settles, and the relation at each stop. Three completed arrivals are more informative than a screenshot of five idle trains. If a level-up changes zero completed stops over 120 ticks, do not immediately buy another level; find the missing node. If it increases arrivals but every train visits the same low-value self station, add a reachable ally or teammate City only when the diplomatic and defensive assumptions are explicit.
+
+There is also a global tempo problem. More Factories add attempts, but they do not guarantee that every attempt creates a new Train at the same moment. A crowded network can produce a queue that looks like underperformance while the real issue is travel time. Treat the shared count as a reason to improve route quality and redundancy before buying a fifth structure. The winning rail build is the one that converts attempts into completed, protected station stops.
+
+## Choose a hub, a chain, or two short branches
+
+A **hub** places one Factory cluster near several Cities and Ports. It is efficient when the map has a protected interior, because one short path can visit multiple settlement stations. The danger is concentration: one capture or impassable tile can remove the only profitable node. Keep at least one secondary City or Port within a legal segment and avoid putting every station on the same exposed coast. A hub is strongest when it can continue paying even after one node changes owner.
+
+A **chain** inserts stations along a corridor. It solves the segment-length cap and can reach a distant port, but every additional stop changes the payout order. The first ten stop indexes receive the full relation-based base. Starting with stop index ten, each later stop loses 5,000, with a minimum of 5,000. A chain of fifteen friendly stops is not fifteen full payouts. Use a chain when its travel time opens a genuinely valuable destination, not because a longer line looks impressive.
+
+Two **short branches** are often the safest team design. One branch links the Factory to self Cities for predictable 10,000-Gold stops; the other reaches an ally or teammate station for 35,000 or 25,000 when the relationship is stable. If the foreign branch is cut, the self branch keeps trains useful. Assign one player to watch the hub and another to watch the branch endpoint. This division matches the player problem seen in community discussions: teammates need a route that can be explained in one sentence and repaired without rebuilding the whole economy.
+
+Do not overbuild a loop just to make the train pass a station twice. Repeated stops consume travel time and can push later visits into the penalty band. Prefer a route that visits four valuable stations once over a route that visits two stations four times. If the map forces a loop, calculate the first ten stops explicitly and mark which stop is the first penalized one. A visible table on a shared team note is more useful than a vague “long trains are better” call.
+
+Use map topology to choose the shape. On a continent with a protected inland basin, a hub plus two short branches is resilient. On an archipelago, separate hubs near each island avoid one sea crossing becoming a single point of failure. On a map with impassable mountain strips, build on the side with two legal exits rather than the geometric center. On Compact maps, travel time is short enough that a chain can be viable, but the same compactness also puts enemy cities and capture routes close together. The shape is a risk decision, not a cosmetic preference.
+
+## Read the payout and stop penalty as a route ledger
+
+Each Train stop at a City or Port settles Gold according to the station relationship. The verified base values are 10,000 for your own station, 25,000 for a teammate or other player, and 35,000 for an ally. The station owner also receives a corresponding foreign-stop payout when applicable; this is a network that grows both sides, not a private transfer. A teammate should therefore understand that accepting your train can finance their defense while also making the route a tempting target.
+
+The stop penalty is independent of rail distance. Stop indexes 0 through 9 pay the full base. Beginning with index 10, each additional stop subtracts 5,000, and the result cannot fall below 5,000. A simple route ledger makes this visible:
+
+| Stop index | Self base | Ally base | Teammate/other base | Penalty |
+| ---: | ---: | ---: | ---: | ---: |
+| 0–9 | 10,000 | 35,000 | 25,000 | 0 |
+| 10 | 5,000 | 30,000 | 20,000 | -5,000 |
+| 11 | 5,000 floor | 25,000 | 15,000 | -10,000 total |
+| 12+ | 5,000 floor | down to 5,000 | down to 5,000 | -5,000 per stop |
+
+The table is a planning aid, not an income guarantee. Travel time, random destination choice, destroyed trains, ownership changes, and lobby Gold multipliers all alter realized income. A four-stop ally route can look amazing on paper, but if it takes 80 ticks to complete and a self route completes twice in that time, the ledger must include cadence. Compare Gold per 60 ticks after the route has actually run, not Gold per stop in isolation.
+
+When a route visits both self and foreign stations, record the order. The tenth stop is not “the tenth building you own”; it is the tenth settlement station visited by that Train. A long chain can push a high-value ally station into the penalty band while a short branch keeps it in the first ten. If you can choose among layouts, place the valuable foreign nodes earlier and use low-value self nodes as late fallback stops. Verify the actual engine path after construction because destination selection is not a promise to choose the most profitable node.
+
+Use the ledger to decide whether an upgrade is worth it. Suppose a level adds one completed Train every 40 ticks, with six self stops and two ally stops, and the ally relationship remains open. The marginal value is the sum of those stop payouts for each completion, less the value of a City, Port, or defense you did not buy. If a captured station removes the ally branch, recalculate immediately; do not keep a level because it was profitable five minutes ago. This habit turns the formula into a repeatable economic report instead of a slogan.
+
+## Scenario one: early inland hub with a safe foreign branch
+
+Assumptions: an eight-player Team map has a protected inland basin, your Factory is level 1, two self Cities are 70 and 95 tiles away, and an allied Port is 130 tiles away through one intermediate City. The intermediate hop is 90 tiles and the second hop is 80, both below the roughly 155.6-tile segment cap. You have 425,000 Gold after the opening City and a reserve requirement of 125,000 for an emergency structure. No enemy Warship can reach the allied Port in the next 120 ticks.
+
+Start with the hub, not a second Factory. The level-1 Factory can reach the self Cities and the intermediate station, so the graph is useful before scaling. Mark the ally branch as conditional: it pays 35,000 at the foreign stop while the relationship remains an ally, but the partner may be attacked or may close trade. Observe three arrivals. If each Train reaches four settlement stops in 36 ticks, the network produces a cadence of roughly 6.7 completions per 60 ticks. A route with two self stops and one ally stop would show a base of 10,000 + 10,000 + 35,000 before any later stop, but the actual Gold is only realized when those stops complete.
+
+If the first three trains all choose the self branch and never reach the ally, do not assume the Factory is bugged. Inspect eligible destinations and route selection. Add a second short branch only after confirming that it creates a legal path. Buying a Factory level to increase attempts can be correct when the graph is healthy; buying it before fixing the missing endpoint only creates more wasted attempts. Keep the 125,000 reserve and use the next 250,000 step only when completed arrivals, not idle trains, prove that generation is the bottleneck.
+
+The opponent's counterplay is to capture the intermediate City or force the ally to embargo you. Your response is to preserve two self Cities within the same hub and move a Defense Post to the land approach. If the ally branch disappears, recalculate the ledger at 10,000 per self stop and decide whether the route still beats a Factory-to-City expansion. If the hub remains safe, a second Factory can be placed near the opposite self City to create redundancy rather than stacking every level on the original tile.
+
+The success condition is explicit: after 120 ticks, at least three Trains have completed, each has a legal station path, and the realized Gold per 60 ticks is positive after reserve spending. If that condition fails, stop upgrading, record the missing assumption, and switch to a City or [Port versus Factory](/guides/port-vs-factory/) decision. A successful early hub is a measured foundation, not a commitment to build rails forever.
+
+## Scenario two: late crowded map and the safe exit
+
+Assumptions: a late FFA has six Factories across the map, your level-2 Factory sits 40 tiles from a self City, the only ally Port is 145 tiles away, and one enemy has captured the intermediate station. Your network still spawns trains, but the path now detours through a 150-tile segment and a second 140-tile segment. You have 680,000 Gold, a damaged Warship at 72% health, and a frontline City that needs a Defense Post. Global fights are moving faster than a long train can travel.
+
+Do not read continued spawning as proof that the old route is healthy. The v0.33.12 fix prevents a disconnected station from blocking every spawn, so a Factory may keep rolling attempts even while the useful destination is gone. Measure completed stops for 60 ticks. If only one self stop completes and the ally stop is captured, a second Factory level increases activity without restoring value. The correct first action is to secure the frontline City and retain the damaged Warship reserve, not to chase a theoretical 35,000 ally payout that no longer exists.
+
+Suppose the old route produced four completions per 60 ticks with two self stops and one ally stop. Before the capture, its observed base per completion was roughly 55,000. After the capture, it produces one self stop at 10,000 and spends additional travel time on the detour. Even without exact travel simulation, the direction is clear: realized Gold has fallen while military risk has risen. Close or pause the foreign relationship if the enemy can use the same station to fund a push, then build the Defense Post or City that removes the immediate bottleneck. The [warship veterancy guide](/guides/warship-veterancy/) explains why a veteran hull should not be sacrificed to escort a low-value train.
+
+The opponent can counter your exit by reopening the route as bait or by capturing the self City while you spend on land. Use a two-check return rule: require two consecutive observations of a reachable foreign station, a segment plan under the path cap, and a reserve above the replacement threshold. Until all three are true, keep the short self branch and invest in land. If the enemy leaves the corridor, add an intermediate station only when it creates two legal exits; do not restore the exact vulnerable chain.
+
+The success condition here is survival plus optionality. After 120 ticks, the frontline City is protected, the Warship has a repair path, and the rail network either completes a positive self route or is intentionally left at minimum spend. A late game does not reward loyalty to a dead graph. The right exit is to convert the remaining Factory into a small, safe income loop while your main Gold buys time and territory elsewhere.
+
+## Failure modes, counters, and mode or map adjustments
+
+The first failure is the **busy but empty Factory**: trains roll, but no City or Port is eligible. Check ownership, diplomacy, water or land connectivity, and station range before changing the level. The second is the **overlong segment**: a route looks visually connected but exceeds roughly 155.6 tiles. Insert an intermediate station and verify both resulting segments. The third is **false redundancy**: three Factories share one captured City, so the network has three sources and one fragile sink. Build a second settlement branch, not merely another source.
+
+The fourth is **late-stop dilution**. A route with more than ten stops pays a 5,000 reduction for each later stop, down to a 5,000 floor. Shorten the route, move valuable ally stations earlier, or split the chain into two trains. The fifth is **ownership drift**: a teammate becomes an ally, an ally becomes another player, or an embargo removes a station. Recompute relation payout at the moment the diplomacy changes. The sixth is **travel-time blindness**: a high payout that completes once per 120 ticks can lose to a lower payout that completes every 30 ticks.
+
+In Team mode, name one rail coordinator and one defender. The coordinator records arrivals and station ownership; the defender protects the hub and reports captures. In FFA, keep the hub near self Cities and treat foreign stations as opportunistic. In a lobby with disabled Factories or Trains, the guide does not apply: use [Economy Fundamentals](/strategies/economy-fundamentals/) and [Port versus Factory](/guides/port-vs-factory/) to choose available income. In Doomsday, a rail route does not replace the territory share you need; move before the clock makes the hub irrelevant.
+
+Map topology changes the safe shape. Compact maps favor short branches but increase enemy contact. Archipelagos make rail hubs independent from sea routes, so a coastal Port can be a valuable station only if land access remains protected. Impassable terrain turns the geometric midpoint into a trap; build on the side with two exits and a City behind the front. On large continental maps, a central hub can pay over time, but the travel delay makes a second local branch valuable during a push.
+
+Use this repeatable switch: **read the graph, test three arrivals, ledger the first ten stops, protect the hub, then scale only the measured bottleneck**. If the graph breaks, repair the node. If the payout dilutes, shorten the route. If the front moves, preserve Gold and leave. This is the decision that community players are asking for when they say their team “never builds trains properly.”
+
+## Official sources and v0.33.12 boundary
+
+This guide is verified against the formal [OpenFrontIO v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), checked 2026-08-28. That Release includes a fix for a disconnected station preventing a Train from spawning. It does not change the economic interpretation in this page: a spawned Train still needs a usable station path to produce settlement payouts, and a route can remain strategically dead even when spawning continues.
+
+The numeric facts come from the tagged [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts), and [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts). Those files establish the shared Factory count rate `(factoryCount + 10) * 15`, one generation attempt per Factory level, the 110-tile station search, the 15-tile gap behavior, the approximately 155.6-tile segment limit, station-only settlement payouts, and the ten-stop penalty schedule.
+
+The source does not promise a fixed income per second, a deterministic destination order, or a universal break-even time. Gold multipliers, lobby settings, route travel time, destruction, ownership, diplomacy, and map geometry remain match variables. The two scenarios therefore label assumptions and define success with observed arrivals. Recheck this page after a future Release changes Factory execution, rail pathing, station payout, or the train-disconnect fix.
+
+For a final audit, copy the route into a short ledger: Factory level, station owners, segment lengths, stop indexes, departure tick, arrival tick, and Gold actually settled. Compare that ledger with the purchase you skipped. If the next Factory level costs 250,000, the evidence must show what extra completed stops can repay it and how long the reserve remains protected. If an enemy can remove the only foreign station in one attack, price that loss before you call the route safe. The v0.33.12 fix changes the failure signal from “nothing spawns” to “spawns continue but useful stops vanish”; your audit must therefore check both signals. This is also the correct boundary for future updates: preserve the player-facing decision, replace only the numeric rows that a new tagged source changes, and mark every new assumption in the scenario notes.
+
+For the next decision, compare [Port versus Factory](/guides/port-vs-factory/), review [Economy Fundamentals](/strategies/economy-fundamentals/), and coordinate naval protection with [Team Naval Control](/strategies/team-naval-control/). If your veteran Warship is escorting a coastal hub, use [Warship veterancy and repair](/guides/warship-veterancy/) before committing it to a long patrol.

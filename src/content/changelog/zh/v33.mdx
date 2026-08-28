@@ -1,12 +1,23 @@
 ---
-title: 'v33.11：Overtime 终结 FFA 僵局'
-description: '面向玩家的 OpenFront v33.11 版本笔记：了解 Overtime 何时降低 FFA 胜利门槛、怎样读终局竞赛，以及仍然生效的 v33 规则。'
+title: 'v33.12：断开车站不再阻塞列车生成'
+description: '面向玩家的 OpenFront v33.12 版本笔记：理解铁路车站修复、铁路网络决策，以及仍然生效的 v33 规则。'
 pubDate: 2026-07-31
 updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
+
+## v33.12 更新：断开的车站不再卡住所有列车生成
+
+官方 `v0.33.12` Release 修复了断开车站阻止 Train 生成的故障。即使一个车站失去连接，Factory 现在仍会继续进行生成尝试。这是可靠性修复，不代表每一列生成的 Train 都有收益：范围、路段长度、所有权、外交、旅行时间和十站后的收益惩罚仍决定线路是否赚钱。
+
+如果占领或地图断点后铁路看起来停摆，请在 v0.33.12 重新观察 60–120 tick 的 City 与 Port 到站次数，然后修复缺失节点或缩短线路。阅读[铁路网络攻略](/zh/guides/train-network/)，了解 110 格搜索范围、约 155.6 格路段边界、Factory 数量生成率和停站账本。
+
+| v33.12 变化 | 玩家结果 | 必须记住的边界 |
+|---|---|---|
+| 断开车站生成修复 | 一个坏站不再阻塞所有 Factory 尝试 | 生成的列车仍需可用车站路径才会结算 |
+| 铁路经济决策 | 按实测枢纽、分支和停站数量行动 | 这是策略响应，不是新的收益公式 |
 
 ## 直接答案：v33.11 改了什么？
 
@@ -143,6 +154,8 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 - doomed 阵营的战舰会继续巡逻，同时承受生命衰减。
 
 ## 来源状态
+
+最新正式来源是[官方 v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)，上文说明了车站修复；其余 v33 条目继续作为 Overtime、Doomsday、回放、战舰熟练度和批量控制的规则边界。
 
 GitHub 将官方 `v0.33.11` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.11 至 v33.0 条目，不是 TEST 占位。v0.33.11 tag 是 Overtime 的正式来源；v33.10、v33.9 与 v33.8 分别属于 press、桌面交付和连接可靠性变化。本页继续作为唯一 v33 系列总览。
 

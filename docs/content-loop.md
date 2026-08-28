@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/trade-vs-piracy/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把贸易/海盗模式切换换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/train-network/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把铁路拓扑与停站收益换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,13 +30,13 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.33.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)，tag commit `0cb90ccb74787e8384f030517423826fe9f607a9`；Overtime 已正式上线，公开 FFA 独立 25% 随机，默认第 30 分钟后每 30 秒降低 1 个百分点。
+- 正式 Release：[`v0.33.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)；车站断开不再阻塞列车生成，铁路收益公式和 v33.11 Overtime 边界继续有效。
 - 上游 `main` 游标：`630d269fcd6a809ee0ba8a4480c1c804524e1115`；相对上一游标新增 11 个提交。SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
 - GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
 - 需求源：站点开放 Issues/PR 为 0；Feedlog 按自动化策略不访问；上游 #4237 无新讨论。
-- 本轮贸易与海盗社区及 tag 核验：[`2026-08-27-trade-vs-piracy-community-source-pack.md`](research/2026-08-27-trade-vs-piracy-community-source-pack.md)。
+- 本轮铁路网络社区及 tag 核验：[`2026-08-28-train-network-community-source-pack.md`](research/2026-08-28-train-network-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -74,6 +74,7 @@
 | 2026-08-25 | v33.11 Release response + `LF-COMMUNITY-ROLLING` Overtime 决策 | 五语 v33 总览升级到 v33.11；新建五语 `/guides/winning-overtime/`，回答门槛、严格比较、fallout 分母、领先防守与追赶截止点，并接通 Guides、modes 与 first-match | 4 Reddit、3 YouTube、20 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题并继续 Monitoring / 滚动 Production |
 | 2026-08-26 | `LF-COMMUNITY-ROLLING` Warship veterancy 与维修决策 | 新建五语 `/guides/warship-veterancy/`，解释三档经验、混合进度、升级不治疗、150 格被动维修、港口主动维修池、75% 返航线，并接通五语 Guides、Team naval-control 与 nuclear-deterrence | 6 Reddit、5 YouTube、5 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并转入 Monitoring |
 | 2026-08-27 | `LF-COMMUNITY-ROLLING` Trade versus Piracy 决策 | 新建五语 `/guides/trade-vs-piracy/`，解释路线距离、港口生成、捕获资格、外交开关、两个数字场景与退出条件，并接通五语 Guides、Port-vs-Factory 与 Team naval-control | 4 Reddit、3 YouTube、6 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并转入 Monitoring；下一触发为新的社区唯一意图或正式规则变化 |
+| 2026-08-28 | `LF-COMMUNITY-ROLLING` 铁路网络决策 | 新建五语 `/guides/train-network/`，解释 Factory 生成尝试、110 格搜索、155.6 格路段上限、十站惩罚、枢纽与分支场景，并接通五语 Guides、Port-vs-Factory 与 Economy Fundamentals | 3 Reddit、3 YouTube、8 个官方来源；guide audit 五语与研究门槛通过后，合并即完成本轮主题并转入 Monitoring |
 | 2026-08-23 | `LF-COMMUNITY-ROLLING` 陆战决策 | 新建五语 `/guides/land-combat/`，用实际攻击兵力、地形、Defense Post、接触面与反推抵消回答“兵多为何仍推不动”；同时修正五语军事短页的绝对化结论并接通恢复手册 | 4 Reddit、4 YouTube、7 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题，滚动 Production 继续从新意图选择 |
 | 2026-08-23 | v33.9 Release response + `WN-01` 事实修正 | 五语 v33 总览升级到 v33.9 并明确 v33.8/v33.9 不改变对局规则；v34 预览撤下已随 v33.7 发布的 spectator/Team Doomsday，改为不承诺固定秒数的地图预加载；loadout 与预加载进入内部 canonical 账本 | release contract 5/5；严格审计 95/95 + 8 internal/280 public；Astro check 0 errors；build 305 页；links 12,719；定向 e2e 149/149；合并即继续 Monitoring，正式 Release 前不改常青规则 |
 | 2026-08-22 | 13 个长文主题全部交付 | A–E 五批完成五语主答案、五份来源包、核弹计算器、两张单图页、自然入口与相邻互链；全部退出活动 Production | 严格审计 95/95；Astro check 0 errors；build 305 页；links 12,719；完整 e2e 371/371；后续只在正式变化或事实错误时重开 |
