@@ -1,12 +1,23 @@
 ---
-title: 'v33.11: Overtime Ends FFA Stalemates'
-description: 'Player-focused OpenFront v33.11 notes: learn when Overtime lowers the FFA win threshold, how to read the new race, and what v33 rules remain in force.'
+title: 'v33.12: Train Stations Recover from Disconnects'
+description: 'Player-focused OpenFront v33.12 notes: understand the train-station spawn fix, rail-network decisions, and the v33 rules that remain in force.'
 pubDate: 2026-07-31
 updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.12 update: disconnected stations no longer stop every train spawn
+
+The official `v0.33.12` Release fixes a failure where a disconnected train station could prevent a Train from spawning. A Factory may now continue its generation attempts when one station has lost its connection. This is a reliability fix, not a promise that every spawned Train has a profitable destination: range, segment length, ownership, diplomacy, travel time, and the ten-stop payout penalty still decide whether the route earns Gold.
+
+If a rail network looked idle after a capture or map cut, test it again in v0.33.12. Count completed City and Port stops for 60–120 ticks, then repair the missing node or shorten the route. Read the [train network guide](/guides/train-network/) for the 110-tile station search, approximately 155.6-tile segment boundary, Factory-count rate, and stop ledger.
+
+| v33.12 change | Player result | Boundary to remember |
+|---|---|---|
+| Disconnected train-station spawn fix | One broken station no longer blocks every Factory attempt | A spawned Train still needs a usable station path to pay |
+| Rail economy guidance | Use the measured hub, branch, and stop-count decisions | This is a strategy response, not a new payout formula |
 
 ## Direct answer: what changed in v33.11?
 
@@ -143,6 +154,8 @@ Use the updated [map database](/database/maps/) to confirm the full **117-map** 
 - Warships from doomed sides keep patrolling while their health decays.
 
 ## Source status
+
+The latest formal source is the [official v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), whose train-station fix is described above. Earlier v33 entries remain the rule boundary for Overtime, Doomsday, replay, naval veterancy, and bulk controls.
 
 GitHub labels the official `v0.33.11` Release `draft=false` and `prerelease=false`; its body contains real v33.11 through v33.0 entries rather than TEST placeholder text. The v0.33.11 tag is the formal source for Overtime. The v33.10, v33.9, and v33.8 entries cover press, desktop delivery, and connection reliability rather than new match rules. This remains the single v33 series overview.
 

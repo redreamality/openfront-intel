@@ -1,12 +1,23 @@
 ---
-title: 'v33.11 : Overtime met fin aux impasses en FFA'
-description: 'Notes OpenFront v33.11 orientées joueur : comprendre quand Overtime abaisse le seuil FFA, comment lire la course finale et quelles règles v33 restent actives.'
+title: 'v33.12 : les stations déconnectées ne bloquent plus les trains'
+description: 'Notes OpenFront v33.12 orientées joueur : comprendre le correctif des stations ferroviaires et les règles v33 qui restent actives.'
 pubDate: 2026-07-31
 updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.12 : une station déconnectée ne bloque plus tous les spawns
+
+La Release officielle `v0.33.12` corrige un cas où une station ferroviaire déconnectée empêchait tout Train de naître. Une Factory peut désormais continuer ses essais lorsqu'un nœud perd sa connexion. C'est un correctif de fiabilité, pas une garantie de revenu : portée, longueur des segments, propriétaire, diplomatie, temps de trajet et pénalité après dix arrêts restent déterminants.
+
+Après une capture ou une coupure de carte, mesurez les arrêts de City et de Port pendant 60 à 120 ticks. Réparez le nœud manquant ou raccourcissez la route. Consultez le [guide du réseau ferroviaire](/fr/guides/train-network/) pour la recherche à 110 cases, la limite d'environ 155,6 cases et le registre des arrêts.
+
+| Changement v33.12 | Résultat joueur | Limite |
+|---|---|---|
+| Correctif de spawn station | Un nœud cassé ne bloque plus chaque essai | Le Train doit toujours atteindre une station utile |
+| Décision ferroviaire | Hub, branche et registre mesuré | Pas une nouvelle formule de paiement |
 
 ## Réponse directe : que change v33.11 ?
 
@@ -143,6 +154,8 @@ La [base de cartes](/fr/database/maps/) répertorie maintenant les **117 cartes*
 - Les navires d’un camp doomed continuent leur patrouille pendant la perte de santé.
 
 ## Statut de la source
+
+La source formelle la plus récente est la [Release officielle v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12). Les autres entrées v33 gardent les limites pour Overtime, Doomsday, replay, vétéran naval et actions groupées.
 
 GitHub marque la Release officielle `v0.33.11` comme `draft=false` et `prerelease=false`, avec de vraies entrées v33.11 à v33.0, pas un placeholder TEST. Le tag v0.33.11 est la source formelle d'Overtime ; v33.10, v33.9 et v33.8 concernent la presse, la distribution desktop et la fiabilité de connexion. Cette page reste l'unique vue d'ensemble v33.
 

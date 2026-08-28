@@ -1,12 +1,23 @@
 ---
-title: 'v33.11: Overtime beëindigt FFA-patstellingen'
-description: 'Spelersgerichte OpenFront v33.11-notities: wanneer Overtime de FFA-windrempel verlaagt, hoe je de eindrace leest en welke v33-regels blijven gelden.'
+title: 'v33.12: losse treinstations blokkeren geen spawns meer'
+description: 'Spelersgerichte OpenFront v33.12-notities: de fix voor treinstations, railnetwerkkeuzes en de v33-regels die blijven gelden.'
 pubDate: 2026-07-31
 updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.12-update: een los station stopt niet langer elke treinspawn
+
+De officiële `v0.33.12` Release repareert een fout waarbij een losgekoppeld station elke Train-spawn kon blokkeren. Een Factory blijft nu pogingen doen wanneer een knoop zijn verbinding verliest. Dit is een betrouwbaarheidsfix, geen garantie op Gold: bereik, segmentlengte, eigenaar, diplomatie, reistijd en de straf na tien stops blijven de opbrengst bepalen.
+
+Na een verovering of kaartbreuk meet je City- en Port-stops gedurende 60–120 ticks. Herstel de ontbrekende knoop of verkort de route. Lees de [gids voor treinnetwerken](/nl/guides/train-network/) voor het bereik van 110 tegels, de segmentgrens van circa 155,6 en het stopboek.
+
+| v33.12-wijziging | Spelersresultaat | Grens |
+|---|---|---|
+| Fix voor los station | Eén kapotte knoop blokkeert geen pogingen meer | De Train heeft nog steeds een bruikbaar stationpad nodig |
+| Railbeslissing | Gemeten hub, tak en stops | Geen nieuwe uitbetalingsformule |
 
 ## Direct antwoord: wat verandert v33.11?
 
@@ -143,6 +154,8 @@ De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**.
 - Warships van een doomed zijde blijven patrouilleren terwijl hun HP afneemt.
 
 ## Bronstatus
+
+De nieuwste formele bron is de [officiële v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12). De andere v33-items blijven de grens voor Overtime, Doomsday, replays, Warship-veterancy en bulkacties.
 
 GitHub markeert de officiële Release `v0.33.11` als `draft=false` en `prerelease=false`; de body bevat echte v33.11- tot v33.0-items en geen TEST-placeholder. De v0.33.11-tag is de formele bron voor Overtime; v33.10, v33.9 en v33.8 gaan over pers, desktopdistributie en verbindingsbetrouwbaarheid. Dit blijft het enige v33-overzicht.
 

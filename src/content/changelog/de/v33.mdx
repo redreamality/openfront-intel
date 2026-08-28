@@ -1,12 +1,23 @@
 ---
-title: 'v33.11: Overtime beendet FFA-Pattsituationen'
-description: 'Spielerorientierte OpenFront-v33.11-Notizen: wann Overtime die FFA-Sieggrenze senkt, wie du das Endspiel liest und welche v33-Regeln weiter gelten.'
+title: 'v33.12: Getrennte Zugstationen blockieren keine Spawns mehr'
+description: 'Spielerorientierte OpenFront-v33.12-Notizen: Zugstations-Fix, Railnetz-Entscheidungen und weiterhin geltende v33-Regeln.'
 pubDate: 2026-07-31
 updatedDate: 2026-08-25
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.12-Update: Getrennte Stationen stoppen keine Zug-Spawns mehr
+
+Das offizielle `v0.33.12`-Release behebt einen Fehler, bei dem eine getrennte Zugstation jeden Train-Spawn verhindern konnte. Eine Factory würfelt nun weiter, wenn ein Knoten seine Verbindung verliert. Das ist ein Zuverlässigkeitsfix, keine Einkommensgarantie: Reichweite, Segmentlänge, Besitz, Diplomatie, Reisezeit und die Strafe nach zehn Stopps bestimmen weiterhin den Ertrag.
+
+Nach Eroberung oder Kartenbruch misst du fertige City- und Port-Stopps 60 bis 120 Ticks. Repariere den fehlenden Knoten oder kürze die Strecke. Der [Zugnetz-Guide](/de/guides/train-network/) erklärt 110 Felder Reichweite, etwa 155,6 Felder Segmentgrenze und das Stoppbuch.
+
+| Änderung v33.12 | Spielergebnis | Grenze |
+|---|---|---|
+| Fix für getrennte Station | Ein kaputter Knoten blockiert keine Versuche mehr | Der Train braucht weiterhin eine nutzbare Station |
+| Rail-Entscheidung | Gemessener Hub, Zweig und Stopps | Keine neue Auszahlungsformel |
 
 ## Direkte Antwort: Was ändert v33.11?
 
@@ -143,6 +154,8 @@ Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Kart
 - Warships doomed Seiten patrouillieren weiter, während ihre LP sinken.
 
 ## Quellenstatus
+
+Die neueste formale Quelle ist das [offizielle v0.33.12-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12). Die übrigen v33-Einträge bleiben die Grenze für Overtime, Doomsday, Replays, Warship-Veteranenstatus und Bulk-Aktionen.
 
 GitHub markiert das offizielle Release `v0.33.11` als `draft=false` und `prerelease=false`; der Text enthält echte v33.11- bis v33.0-Einträge statt eines TEST-Platzhalters. Der Tag v0.33.11 ist die formale Quelle für Overtime; v33.10, v33.9 und v33.8 behandeln Presse, Desktop-Auslieferung und Verbindungszuverlässigkeit. Diese Seite bleibt die einzige v33-Übersicht.
 
