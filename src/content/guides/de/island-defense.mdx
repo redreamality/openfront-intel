@@ -1,0 +1,212 @@
+---
+title: "Inselverteidigung in OpenFront: Hafen halten, Landung stoppen oder ausweichen"
+description: "Ein v0.33.12-Entscheidungsrahmen für Inseln und schmale Küsten gegen Transportschiffe, Kriegsschiffe, Piraten und Druck aus zwei Richtungen."
+pubDate: 2026-08-29
+updatedDate: 2026-08-29
+tags: [Insel, Marine, Verteidigung, Hafen, Transport]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Gegen v0.33.12 geprüft: erreichbare Küsten, 130-Tile-Zielsuche, 30-Tile-Verteidigungsposten, Reparatur auf derselben Wasserkomponente und drei Transporte."
+---
+
+## Direkte Antwort: Was macht ein Inselspieler?
+
+Eine Insel ist nur dann sicher, wenn die nächste Landung eine sichtbare Antwort hat. Baue zuerst einen verbundenen Landkern, gib dem ersten Port einen klaren Zweck und setze den Patrouillenpunkt eines Warships auf die wahrscheinlichste Zufahrt.
+
+Ein Transport Ship innerhalb von 130 Tiles muss zuerst sterben. Wenn der Gegner die Wasserkomponente kontrolliert oder kein eigener Port das Schiff reparieren kann, beende die Marineinvestition und kaufe Kapazität, Reserve und eine kürzere Landgrenze.
+
+Nach jedem Kartencheck nenne den Zustand **sicher**, **abgeschirmt** oder **Rückzug**. Sicher bedeutet, dass der Port nicht die einzige Einnahme ist. Abgeschirmt bedeutet, dass ein Warship die Route erreicht und ein zweiter Winkel Zeit kauft. Rückzug bedeutet, dass die Route getrennt ist oder Landgold mehr Überleben bringt.
+
+Triff die erste Entscheidung so, dass sie umkehrbar bleibt. Zoome weit genug heraus, um beide Küsten zu sehen, und zähle danach die Tiles der wahrscheinlichsten Transportroute. Notiere die nächste eigene City, den neutralen Verbinder und den Port, der ein Schiff reparieren kann. Eine Minute Kartenarbeit zeigt Pläne, die nur wegen der Kameraposition reich wirken.
+
+Die Reserve ist ein Werkzeug und keine magische Prozentzahl. Bei 420.000 Kapazität bedeuten 30 % etwa 126.000 Truppen, doch entscheidend ist, welche Felder diese Reserve vor der Landung erreicht. Muss sie eine schmale Brücke überqueren, zählt diese Brücke als eigenes Risiko. Ein Verbündeter sollte eine klare Dauer für seine Deckung nennen.
+
+Berechne die Grenze nach jeder Eroberung, jedem Upgrade und jedem Diplomatiewechsel neu. Eine alte Quote beschreibt die neue Geometrie nicht zuverlässig. Wenn die Antwort beim Drehen der Karte wechselt, ist der Zustand abgeschirmt und nicht sicher. So bleibt Gold verfügbar, ohne dass du eine offene Küste schönredest.
+
+Eine gute Entscheidung nennt Ziel, Frist und Ausweg. Das Ziel kann der nächste Transport, der Verbinder hinter der City oder der Reparaturport sein. Die Frist ist die Zahl der Ticks bis zum Kontakt. Der Ausweg ist das Feld, auf dem die Armee auch nach dem Strandverlust zusammenbleibt. Schreibe diese drei Angaben vor dem Klick auf.
+
+Diese Methode gilt auch bei unvollständigen Meeren. Ein isolierter See kann optisch nahe, aber technisch unerreichbar sein. Eine offene Bucht kann drei Angriffsrichtungen bieten. Die Antwort lautet daher nicht „Wasser gesehen, Schiff bauen“, sondern zuerst Wasserbesitz, Route und akzeptierbaren Verlust prüfen.
+
+Prüfe zum Abschluss des ersten Scans noch die Zeit bis zum nächsten Kontakt. Eine scheinbar sichere Küste kann in 20 Ticks offen sein, wenn ein Transport um eine Landzunge fährt. Schreibe die erwartete Ankunft neben den Reservewert. Dann weißt du, ob du sofort bauen, den Post beginnen oder einfach Truppen auf das Rückzugsfeld stellen musst.
+
+## Küste lesen, bevor Gold ausgegeben wird
+
+Beginne mit der Geografie. Finde die Landkomponente deines Spawns, ihre passierbaren Ausgänge und jede Wasserkomponente an deiner Küste. Blau auf der Minimap bedeutet nicht automatisch einen nutzbaren Seeweg.
+
+Der Transport-Helfer aus v0.33.12 wählt nur ein tatsächlich erreichbares Ufer. Ein getrenntes Binnengewässer wird abgelehnt. Ein offener Ozean kann eine kleine Insel dagegen aus mehreren Richtungen erreichbar machen.
+
+Markiere ein Landungsfeld und ein Rückzugsfeld. Das Landungsfeld ist der breite Strand, ein Portfeld oder die kürzeste Küste vom gegnerischen Port. Das Rückzugsfeld liegt dahinter und hält City, Factories und Restküste verbunden, falls der Strand fällt.
+
+Drei Entfernungen sind verschieden: Warship-Zielsuche 130 Tiles, Patrouillenbereich 100 Tiles, passive Reparatur 150 Tiles vom eigenen aktiven Port und Andocken innerhalb von 5 Tiles auf derselben Wasserkomponente. Sichtweite ist nicht gleich Reparaturweg.
+
+| Prüfung | Ja | Nein |
+| --- | --- | --- |
+| Teilt der Port die bedrohte Wasserkomponente? | Ein Warship-Schirm ist möglich | Port bleibt lokale Wirtschaft |
+| Gibt es ein erreichbares Rückzugsufer? | Landreserve behalten | Kern vor Upgrade verlegen |
+| Deckt ein Patrouillenpunkt die Zufahrt? | Ein Schiff kann die erste Welle stoppen | Zweiten Winkel planen oder aufgeben |
+| Schützt der nächste Bau eine Route? | Nach Frontcheck ausgeben | Gold und Optionen behalten |
+
+Prüfe die Lobby. Ports, Transporte, Warships und Allianzen können deaktiviert sein. Im Team repariert der Port des Partners dein Warship nicht; der Code verlangt einen aktiven Port desselben Eigentümers auf derselben Wasserkomponente. Nach Water Nukes muss die Küste neu gelesen werden.
+
+Führe einen zweiten Durchgang nur für Eigenschaften aus. Ein erreichbares Ufer kann für eine Abfangaktion zu weit entfernt sein. Ein anderes liegt näher, führt aber direkt zur City. Miss die Wasserroute und danach den Landweg zwischen Strand und Kern. Diese beiden Zahlen bestimmen Patrouille und Reserve besser als die Minimapfarbe.
+
+Wiederhole die Tabelle als Ritual. Nach neutraler Eroberung, fertigem Defense Post und jeder Explosion, die Gelände verändert, prüfst du alle vier Zeilen erneut. Die Wasserkomponente kann wechseln, ohne dass sich die Inselform sichtbar ändert. Sicher bei Tick 100 kann bei Tick 140 nur noch abgeschirmt sein.
+
+Prüfe außerdem, wie viel Land zwischen Strand und Kern liegt. Ein kurzer Weg verlangt eine höhere Reserve, weil der Gegner nach der Landung sofort die City berührt. Ein längerer Weg gibt Zeit für Gegenangriffe, kann aber mehrere Frontfelder erzeugen. Die beste Position ist jene, die beide Wege mit einer einzigen Reserve kontrolliert.
+
+Halte diese Messung in einem kleinen Spielprotokoll fest. Notiere Wasserkomponente, erwartete Ankunft, Reparaturport und Rückzugsfeld. Nach einem Terrainwechsel vergleichst du die neuen Werte mit dem Protokoll. So wird eine plötzliche Route nicht als Zufall erlebt, sondern als überprüfbare Änderung des Graphen.
+
+## Einen Kern bauen, der zurückweichen kann
+
+Der erste Port kostet bei Zählerstand null 125.000 Gold und benötigt ohne Sofortbau 50 Ticks. Er erzeugt Handels-, Transport- und Kriegsschiffe, wird aber auch zum wertvollen Eroberungsziel.
+
+Baue ihn nur für eine benannte Aufgabe: sicheren Handelspartner, Transportbrücke oder Patrouillenkorridor. Wasser in der Nähe ist kein Auftrag. Eine City oder eine Truppenreserve ist auf einer exponierten Insel oft besser.
+
+Eine City gibt pro abgeschlossenem Level 250.000 Truppenlimit und kann im Inland stehen. Setze sie hinter den Strand statt auf das Portfeld. Kapazität hilft nur, wenn die Insel lange genug lebt, um sie zu füllen.
+
+Port und Factory teilen die Kostenleiter 125.000, 250.000, 500.000 und 1.000.000. Vergleiche das nächste Upgrade mit einem Defense Post für zunächst 50.000 oder dem zweiten Warship für 500.000 nach dem ersten Kauf.
+
+Ein Defense Post deckt 30 Tiles ab, vervielfacht mag mit 5 und speed mit 3 und stapelt sich nicht. Platziere ihn auf dem Landweg zum Port oder zur City. Er braucht 50 Ticks und wird bei Eroberung seines Feldes zerstört.
+
+Die sichere Reihenfolge lautet: neutrales Land, hintere City, nützlicher Port, Defense Post am Engpass, Warship bei echtem Verkehr. Halte bei einer aktiven Feindgrenze ungefähr 30 % des Truppenlimits zurück. Auf ruhigem Wasser darf die Reserve kleiner sein.
+
+Vergleiche jeden Bau mit seiner unmittelbaren Alternative. Ein Port für 125.000 Gold ist 50 Ticks lang auch Gold, das nicht an der Grenze steht. Eine City hilft nur, wenn sie verteidigt werden kann. Ein Post fertig in 50 Ticks verändert dagegen den Wert eines Engpasses. Entscheidend ist die nächste beobachtbare Gefahr, nicht der langfristige Wunsch nach mehr Einkommen.
+
+Trenne Produktion und Schutz. Ein Port am Strand produziert, schenkt dem Gegner bei einer Eroberung aber auch eine neue Basis. Die hintere City behält Kapazität, wenn das Ufer den Besitzer wechselt. Der Defense Post hält länger auf, verschwindet jedoch mit seinem Feld. Der Kern muss deshalb den Verlust jedes einzelnen Bauteils überstehen.
+
+Setze eine schriftliche Stopplinie. „Kein zweiter Port unter 30 % Reserve bei aktiver Grenze“ funktioniert als Standard. Auf ruhigem Wasser ohne sichtbaren Transport kann die Reserve sinken. Sobald eine feindliche Transportspur erscheint, steigt sie wieder. Eine bedingte Regel passt sich der Partie an und ersetzt keine Beobachtung durch Routine.
+
+Nutze für jede Stufe eine kurze Begründung. „City, weil der Kern sonst keinen Rückzug hat“ ist besser als „City, weil sie immer gut ist“. „Post, weil der Gegner genau dieses Feld überqueren muss“ zeigt, ob die 30-Tile-Zone wirklich wirkt. Diese Sätze verhindern, dass ein günstiger Bau nur aus Gewohnheit wiederholt wird.
+
+## Warships als Schirm statt als Jagdbefehl
+
+Die Zielpriorität von v0.33.12 ist Transport Ship, feindliches Warship, dann Trade Ship. Ein Treffer auf einen Transport verhält sich beim Nachladen besonders günstig, danach patrouilliert das Schiff weiter. Ein richtiger Punkt ist mehr wert als drei Schiffe am falschen Ufer.
+
+Ein frisches Warship hat 1.000 Grundgesundheit und 250 Schaden pro Shell. Ein zweites Schiff lohnt sich bei zwei erreichbaren Küsten, bei notwendiger Reparatur des ersten oder bei gegnerischer Eskorte.
+
+Innerhalb von 150 Tiles eines aktiven eigenen Ports heilt das Schiff 1 pro Tick. Angedockt innerhalb von 5 Tiles teilt es einen Pool von 5 pro Port-Level. Ein Level-2-Port liefert insgesamt 10 pro Tick, nicht 10 für jedes Schiff.
+
+Die automatische Rückkehr beginnt bei 75 % der durch Veterancy angepassten Maximalgesundheit, außer unter Doomsday. Nach einer manuellen Patrouillenänderung gelten 50 Ticks Gnadenfrist. Ein Reparaturport muss dieselbe Wasserkomponente haben.
+
+Gib jeder Patrouille ein Ziel: nächsten Transport stoppen, Portzufahrt decken oder 30 Ticks für die Landreserve kaufen. Verfolge kein Trade Ship, wenn dadurch der Strand offen bleibt. Für gelbe Streifen siehe den [Warship-Veterancy-Guide](/de/guides/warship-veterancy/).
+
+Der Patrouillenpunkt gehört auf die Verkehrslinie und nicht in die optische Mitte der Insel. Die Routine sucht zuerst Transport Ships, dann feindliche Warships und zuletzt Trade Ships. Ein Schiff am richtigen Punkt gewinnt mehrere Dutzend Ticks. Drei Schiffe am falschen Ufer kommen gemeinsam zu spät.
+
+Reparatur ist eine Zeitbedingung. Passive Heilung in 150 Tiles ersetzt nicht das Andocken auf fünf Tiles, und der Pool eines Level-2-Ports wird geteilt. Wenn zwei Warships zurückkehren, wird die Gesamtmenge verteilt. Entscheide daher, welches Schiff vorne bleiben muss und welches warten darf.
+
+Die automatische Rückkehr ist kein Hinweis, den man einfach ignoriert. Bei 75 % der angepassten Maximalgesundheit sucht das Schiff eine gültige Ankerstelle. Eine manuelle Änderung gewährt 50 Ticks, aber diese Zeit soll eine Abfangaktion beenden und keine Handelsschiffjagd verlängern. Unter Doomsday bleibt nur der Bildschirmdienst, weil Reparatur ausfällt.
+
+Formuliere jedes Patrouillenziel als prüfbares Ergebnis. „30 Ticks kaufen“ heißt, dass die Landreserve den Post fertigstellt oder das Rückzugsfeld erreicht. „Port decken“ heißt, dass der Transport noch auf der Abfanglinie liegt. Fehlt dieser Satz, ist die Bewegung wahrscheinlich eine reflexhafte Jagd.
+
+Kontrolliere vor dem Start einer Patrouille außerdem den Eigentümer des Reparaturports. Ein Partnerport sieht auf der Karte freundlich aus, zählt aber nicht für die Routine. Liegt die Route auf einer anderen Wasserkomponente, ist die erwartete Heilung null. Dann muss das Patrouillenziel ein kurzer Schirm sein, der rechtzeitig zum eigenen Ufer zurückkehrt.
+
+Wenn ein Veteran und ein frisches Schiff verfügbar sind, trenne ihre Aufgaben. Das frische Schiff nimmt den ersten billigen Transport, während der Veteran den Engpass hält. So verliert eine einzelne Ablenkung nicht gleichzeitig Schaden, Erfahrung und die einzige Reparaturchance.
+
+## Landungsrechnung: Distanz in Zeit verwandeln
+
+Ein Transport Ship kostet kein Gold, trägt aber Truppen des Angreifers. Pro Spieler sind drei aktive Transporte erlaubt; die Standardladung ist ein Fünftel der Angreifertruppen. Das Boot bewegt sich eine Tile pro Tick.
+
+Bei Ankunft erobert es das Zielfeld und löst den Angriff aus. Wird das Ziel zu Wasser, zieht es sich zu einer gültigen Quelle zurück und verliert 25 % der Ladung. Eine lange Route schenkt dem Warship also mehr Such- und Schussticks.
+
+Bei 500.000 gegnerischen Truppen trägt ein Boot etwa 100.000. Eine 80-Tile-Route und 130-Tile-Zielsuche ergeben ungefähr 50 Reaktionsticks, ohne Umwege. Ein zweites Boot verdoppelt nicht die Zeit, sondern erzeugt eine Zielschlange.
+
+Geometrie ist oft besser als eine größere Armee. Schließe das Feld, das die hintere Grenze verkürzt, verstecke den Port hinter dem Defense Post und vermeide Eroberungen, die zwei neue Fronten öffnen. Erreichbar bedeutet nicht kurz oder sicher.
+
+Verwandle Entfernung in ein Reaktionsbudget. Bei 500.000 gegnerischen Truppen trägt ein Transport ungefähr 100.000. Auf 80 Tiles ergeben 130 Tiles Zielsuche rund 50 Ticks, doch Kurven, Schüsse und Drehzeit verkleinern den nutzbaren Puffer. Setze den Patrouillenpunkt deshalb an den ersten Knick der Route und nicht direkt neben den Port.
+
+Ein zweites Boot verdoppelt die Reaktionszeit nicht. Es erzeugt eine Zielschlange, während das erste Ziel Priorität erhält. Die Landarmee muss den langsameren Transport aufnehmen können. Bereite ein Feld vor, auf dem die Landung die City nicht sofort berührt und ein Gegenangriff möglich bleibt.
+
+Nach Portverlust oder Water Nuke wird der Küstengraph neu berechnet. Ein Kanal kann eine Route öffnen oder die einzige legale Küste entfernen. Bei abgebrochener Rückkehr gehen 25 % der Ladung verloren. Dieser Preis kann besser sein als eine zweite Grenze, muss aber bewusst angenommen und im Spielprotokoll festgehalten werden.
+
+Die wichtige Zahl ist nicht der Radius allein, sondern die Differenz zwischen Erkennung und Strandkontakt. Diese Marge muss einen Schuss, einen Umweg und die menschliche Entscheidung tragen. Liegt sie unter 20 Ticks, gilt die Route als dringend, auch wenn noch keine Warnung blinkt.
+
+Behandle die Zeit wie ein begrenztes Budget. Zähle vom Erkennungspunkt bis zur letzten sicheren Abfangposition und ziehe die notwendige Kursänderung ab. Bleiben weniger als 20 Ticks, verschiebe keine City und keinen Post mehr. Halte die Reserve auf dem Rückzugsfeld und lass die Struktur erst beginnen, wenn der Landweg tatsächlich geschützt werden kann.
+
+Ein Wasserweg darf außerdem nicht nur kurz, sondern muss reparierbar sein. Nach einer Eroberung kann der Port zwar näher aussehen, aber der Eigentümer oder die Komponente kann falsch sein. Prüfe deshalb Reichweite, Besitzer und Zielkachel zusammen. Erst wenn alle drei stimmen, zählt die Strecke als nutzbare Verteidigung.
+
+## Szenario eins: ein Port, zwei feindliche Küsten
+
+Annahme: 420.000 Truppen, City Level 1, Port Level 1 und ein Level-0-Warship mit 930 Gesundheit. Der Port ist 90 Tiles westlich und 140 Tiles östlich. Ein Gegner mit 600.000 Truppen schickt ein Boot nach Osten, ein zweiter steht an der Westgrenze.
+
+930 liegt unter dem 75-%-Rückzugspunkt, doch ein sofortiger Rückzug öffnet die einzige aktive Route. Das Schiff ist noch innerhalb von 130 Tiles und kann nach dem Abschuss im 150-Tile-Kreis reparieren. Der Zustand ist **abgeschirmt**: Ostpunkt halten, Transport zuerst treffen, Reserve über 30 % lassen.
+
+Kaufe in diesem Fenster keinen zweiten Port. Wird das Boot zerstört, bewege das Warship Richtung Reparatur, ohne die Westreserve zu räumen. Bei einer Eskorte kommt der Warshipkampf erst nach der unmittelbaren Landungsgefahr. Zwei gleichzeitige Boote können den Verzicht auf den äußeren Port zugunsten der hinteren City rechtfertigen.
+
+Das Beispiel zeigt, warum 75 % allein nicht entscheiden. Bei 930 Gesundheit darf das Schiff zwar zurückkehren, liegt aber noch im 130-Tile-Fenster und sieht ein priorisiertes Ziel. Verlierst du diese einzige Abfangmöglichkeit, bekommt eine Ladung von 100.000 Truppen einen kostenlosen Strand. Halte deshalb bis zum Schuss und nutze danach den 150-Tile-Heilkreis.
+
+Die Westgrenze braucht eine zweite Uhr. Wenn der Post 50 Ticks baut, der Gegner aber in 30 Ticks durchquert, ist ein später Baubeginn nur teures Warten. Halte in diesem Fall Truppen auf dem Feld und verschiebe die Struktur. Ein unfertiger Post liefert die Multiplikatoren nicht.
+
+Bei zwei Booten wählst du, welches der Warship behandelt und welches der Boden abfängt. Lass die langsamere Route ein opferbares Feld erreichen und stoße dann von der City aus vor. Eine gewonnene Insel bewahrt keine einzelne Tile um jeden Preis, sondern eine Grenze, die ihre Reserve noch laufen kann.
+
+Melde dem Team vier Werte: Warship-Gesundheit, Zielentfernung, aktuelle Reserve und Rückzugsfeld. So beobachtet ein Partner die zweite Küste, statt drei Schiffe auf derselben Linie zu stapeln. Klare Aufgaben sparen mehr Gold als ein Panikkauf.
+
+Wenn der Gegner die Eskorte zuerst zeigt, bleibe bei der Reihenfolge. Das Transportziel ist die unmittelbare Gefahr, solange es noch landen kann. Erst nach seinem Verlust lohnt sich der Schuss auf das feindliche Warship. Ein manuelles Umschalten kann sonst genau die 50 Ticks verschenken, die der Boden für den Post braucht.
+
+Prüfe nach jedem Schuss vier Dinge: Transport zerstört, Abstand zur Reparatur, Westreserve und offene City-Verbindung. Ein positives Ergebnis muss in der nächsten Aktion sichtbar werden. Wenn nur das Schiff Schaden verursacht hat, aber die Reserve unter die Linie fiel, war die Interception trotzdem zu teuer.
+
+## Szenario zwei: reicher Port, verlorenes Wasser
+
+Annahme: 900.000 Truppen, zwei Ports, drei Handelsrouten und ein Level-1-Warship mit 880 Gesundheit. Der Gegner erobert das erste Ufer; der verbleibende Port liegt auf einer anderen Binnenwasserkomponente. Das nächste Port/Factory-Level kostet 500.000.
+
+Der Zustand ist **Rückzug**. 880 liegt unter 75 %, und der überlebende Port kann dieses Schiff nicht reparieren. Ein neues Warship oder ein Port-Upgrade verbindet die Komponente nicht. Kaufe City, Defense Post oder Landreserve hinter dem bedrohten Verbinder.
+
+Der Gegner glaubt vielleicht, ein eroberter Port kontrolliere die ganze Insel. Verkürze die Grenze, warte auf seine Eskorte und nimm das Landverbindungsfeld zurück. Öffnet Water Nukes einen Kanal, prüfe Ufer und 25-%-Rückzugsverlust neu.
+
+Der Zeitcheck ist absichtlich streng. Bei 880 Gesundheit liegt das Schiff unter dem normalen Rückkehrpunkt, und jeder Tick außerhalb eines gültigen Reparaturkreises ist verloren. Markiere, wann das gegnerische Warship die Route verlässt. Vorher verbindet weder ein neues Schiff noch ein Upgrade die getrennte Wasserkomponente.
+
+Level 3 des reichen Ports verbindet keinen isolierten See. Die 500.000 Gold können eine hintere City und einen Post am Landverbinder finanzieren. Das bringt kein sofortiges Seeeinkommen, macht aus einer verlorenen Position aber eine kurze Grenze. Miss den Landweg, bevor die Wirtschaft wieder Vorrang bekommt.
+
+Wenn der Gegner glaubt, der Port kontrolliere die Mitte, lass ihn eine leere Handelsroute bewachen. Ein Angriff von zwei Landfeldern kann den Verbinder zurückholen, während sein Bildschirm ein Trade Ship verfolgt. Nach einem Water-Nuke-Treffer akzeptierst du lieber 25 % Ladungsverlust, als ein unreparierbares Boot zu jagen.
+
+Der Zustand darf erst wieder abgeschirmt heißen, wenn drei Fakten bestätigt sind: erreichbares Ufer, Reparaturanker auf derselben Wasserkomponente und Landreserve über der Linie. Fehlt einer, bleibt Rückzug korrekt, auch wenn der Goldzähler wächst.
+
+Der Verlust des ersten Ufers ist deshalb kein sofortiges Ende. Er wird erst kritisch, wenn die zweite Küste keine Verbindung zur City mehr hat. Sichere zunächst das Landfeld, das beide Hälften verbindet, und lasse den Gegner den reichen Port bewachen. Ein Warship ohne gültige Ankerstelle ist wertvoll, aber nicht unbegrenzt einsetzbar.
+
+Setze für den Rückzug eine klare Reihenfolge: City schützen, Post am Verbinder fertigstellen, Reserve auffüllen, dann den Port zurückerobern. Ein neues Schiff kommt erst danach. Diese Reihenfolge verhindert, dass du 250.000 Gold in eine Hülle investierst, die auf der falschen Wasserkomponente festsitzt.
+
+Wenn Water Nukes einen Kanal öffnen, prüfe auch die neue Angriffsrichtung. Eine ehemals sichere Rückseite kann zur kürzesten feindlichen Route werden. Markiere den neuen Strand und berechne die Zeit bis zum Kontakt erneut. Der Statuswechsel zu abgeschirmt ist erst verdient, wenn die drei Bestätigungen im Spiel sichtbar sind.
+
+## Fehler, Konter und Kartenanpassung
+
+Alle Gebäude am Strand machen ein einzelnes lohnendes Ziel. Ein fixes Angriffsverhältnis ersetzt keine Reserve. Ein Warship schützt keine abstrakte Fläche, sondern eine Route. Eine Trade-Ship-Jagd kann den entscheidenden Transport passieren lassen.
+
+Der Gegner kann eine Ablenkung schicken, eskortieren, den Port angreifen, den Defense Post erobern oder erst verlängern und dann verraten. Trenne Rollen: frisches Schiff für billige Transporte, Veteran für den entscheidenden Korridor, Landarmee für die City, Verbündeter für die zweite Küste.
+
+Auf Compact zählen 20 Umweg-Ticks oft als die ganze Seeroute. Auf Archipelen braucht jede Wasserkomponente einen eigenen Rückzug. In einer Meerenge entscheidet ein Patrouillenpunkt, doch sein Verlust öffnet alle Ports. Auf Kontinenten bleibt die Inselwirtschaft zweitrangig.
+
+Führe nach der Partie ein Protokoll mit Entscheidung, verfügbarer Information und Ergebnis. Wenn du ein Trade Ship gejagt hast, zähle die Ticks, die der Transport gewann. Wenn zwei Posts nebeneinander standen, prüfe, dass ihre Zonen nicht stapelten. So werden Gefühle mit veröffentlichten Regeln verglichen.
+
+Die häufigste Gegenmaßnahme ist Ablenkung. Ein billiges Boot zieht den Blick zur falschen Küste, dann kommt das zweite am Port an. Markiere jede Wasserkomponente und bestimme einen Spieler für die zweite. Ein frisches Schiff behandelt die Ablenkung, während der Veteran die entscheidende Route hält.
+
+Diplomatie verändert die Verteidigung. Eine verlängerte Allianz senkt deine Reserve, dann öffnet ein Verrat zwei Fronten, während Schiffe reparieren. Vor der Verlängerung frage, welches Landfeld der Partner in 20 Ticks erreichen kann. Ruhe in den Verhandlungen ist keine sichere Route.
+
+Auf einem Kontinent misst du den Inselwert gegen den Umweg der Hauptarmee. Kostet die Rettung des Ports 300.000 Truppen und öffnet die Hauptstadt, lass ihn fallen. Sperrt er dagegen den einzigen Sund, wird er Priorität. Die Form entscheidet, nicht das Wort Insel.
+
+In Modi ohne Transporte wandelst du den Plan ausdrücklich um. Jeder geplante Schiffskauf wird zu City, Defense Post oder Bodenmobilität. Reserve und Geometrie bleiben dabei dieselben Entscheidungskriterien, obwohl keine Marineeinheit existiert.
+
+Nutze dieselbe Rollenaufteilung auf jeder Karte. Ein Spieler beobachtet die zweite Küste, ein anderer zählt die Landticks und ein dritter hält die Reparaturinformation aktuell. Im Solo-Spiel übernimmst du diese drei Aufgaben nacheinander. Die Struktur ist einfach, verhindert aber, dass ein sichtbares Handelsschiff die gesamte Aufmerksamkeit bindet.
+
+Ein guter Gegenangriff beginnt erst, wenn der Gegner seine Eskorte verschiebt. Beobachte nicht nur seine Position, sondern auch die Richtung, in der er den eigenen Port schützen muss. Der kurze Moment zwischen zwei Patrouillen ist oft die beste Zeit, den Landverbinder zurückzunehmen und den Inselkern wieder zusammenzuschließen.
+
+## Nächste Lektüre und Versionsgrenze
+
+Schreibe nach jedem Kontakt einen prüfbaren Satz: „Transport in 130 Tiles, deshalb bleibe ich“, „880 unter 75 % ohne gleichen Port, deshalb Rückzug“ oder „Port eröffnet eine zweite Front, deshalb Landplan“.
+
+Lies [First-Match-Grundlagen](/de/guides/first-match/), [Team Naval Control](/de/strategies/team-naval-control/), [Landkampf](/de/guides/land-combat/) und [Port oder Factory](/de/guides/port-vs-factory/). Details stehen bei [Units](/de/mechanics/units/), [Structures](/de/mechanics/structures/) und [Trade](/de/mechanics/trade/).
+
+Die veröffentlichten Grenzen von v0.33.12 sind: 1.000 Gesundheit, 250 Shell-Schaden, Zielsuche 130, Patrouille 100, passive Heilung 150, Andocken 5, Rückzug 75 %, Defense Post 30 mit mag×5 und speed×3, drei Transporte und Bootsangriff standardmäßig ein Fünftel der Truppen.
+
+Quellen: [OpenFront Release v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/WarshipExecution.ts), [TransportShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TransportShipExecution.ts), [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TransportShipUtils.ts) und [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts).
+
+Halte die Versionsgrenze in jedem geteilten Replay sichtbar. Der Satz „Ostküste 50 Ticks halten“ ist nur verständlich, wenn Sofortbau, Doomsday und der Eigentümer des Reparaturports bekannt sind. Schreibe diese Annahmen neben das Ergebnis, damit ein anderer Spieler die Prüfung wiederholen kann.
+
+Die praktische Zusammenfassung passt in vier Zeilen: Zustand, bedrohte Tile, Reservelinie und nächste Prüfung. Beispiel: „abgeschirmt; Oststrand; 126.000 Truppen; Transport in 20 Ticks prüfen“. Meldet die Prüfung getrenntes Wasser, wechselst du sofort zu Rückzug und Landinvestition.
+
+Wenn ein Release Reichweite oder Kosten ändert, aktualisiere Tabelle, Szenarien und Entscheidungssätze gemeinsam. Eine Korrektur nur im letzten Absatz lässt einen alten Rat im ersten Bildschirm stehen. Genau diese Kopplung hält die Anleitung nach einem Patch überprüfbar.
+
+Halte die Annahmen bei jedem geteilten Replay sichtbar. Der Satz „Ostküste 50 Ticks halten“ ist nur verständlich, wenn Sofortbau, Doomsday und der Eigentümer des Reparaturports bekannt sind. Schreibe diese Angaben neben den Screenshot oder die Notiz, damit ein anderer Spieler die Prüfung wiederholen kann.
+
+Die praktische Zusammenfassung passt in vier Zeilen: Zustand, bedrohte Tile, Reservelinie und nächste Prüfung. Beispiel: „abgeschirmt; Oststrand; 126.000 Truppen; Transport in 20 Ticks prüfen“. Meldet die Prüfung getrenntes Wasser, wechselst du sofort zu Rückzug und Landinvestition.
+
+Nach einem Patch prüfst du zuerst die Zahlen, dann die Konsequenzen. Eine geänderte Reichweite verändert den Alarm, eine geänderte Heilung verändert die Patrouillendauer und eine geänderte Kostenleiter verändert den Vergleich mit City und Post. So bleibt die Anleitung praktisch statt nur formal aktuell.
