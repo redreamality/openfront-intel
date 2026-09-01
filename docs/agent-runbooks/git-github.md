@@ -87,3 +87,4 @@
 - **REST squash merge 后本地主题提交通常不是 merge commit 的祖先**：即使内容与 tree 完全一致，`git branch -d <topic>` 仍会报 `not fully merged`。只有在 PR 已确认 merged、远端 main 与本地 main 都等于已核验 merge SHA、远端精确主题 ref 已删除后，才对该精确本地分支执行 `git branch -D <topic>`；不得扩大到其他分支。
 - **手工裁剪 `git diff --unified=0` 生成的零上下文补丁时，`git apply` 必须显式使用 `--unidiff-zero`**：否则即使旧行与索引完全一致，也会报 `patch does not apply`。用于部分暂存时写成 `git apply --cached --unidiff-zero <patch>`，应用后立即用 `git diff --cached -- <path>` 核对目标 hunk。
 - **2026-08-27 复发：创建 PR 时不要假设仓库存在 `codex` 或 `codex-automation` 标签**：`gh pr create --label <name>` 会在标签不存在时直接失败且不创建 PR；先用 `gh label list` 核验可用标签，标签仅为可选元数据，缺失时去掉 `--label` 重试并核对 PR 是否已创建。
+- **2026-09-01 复发：Git Data API 脚本的只读 commit/tree 查询不能附加 `--input -`**：`gh api` 在带 stdin 时可能改变请求方法并返回误导性的 404；GET 查询必须省略 `--input -`，只有 POST/PATCH 的 JSON 请求才通过显式 stdin 发送，并分别保存退出码。
