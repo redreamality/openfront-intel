@@ -25,6 +25,10 @@ Das ist die Kurzantwort für **v0.33.12**, geprüft am **2026-09-02**. Ein Post 
 
 Für die allgemeine Kampfrechnung lies [Landkampf: Vorrücken, halten, Gegenangriff](/de/guides/land-combat/). Den Vergleich mit City, Factory, Port, Silo und SAM findest du bei [Gebäude-Timing](/de/guides/building-timing/).
 
+Eine weitere Unterscheidung hilft im laufenden Spiel: Ein Post schützt ein **Zeitfenster für Entscheidungen**, nicht die endgültige Grenze. Wenn dieses Fenster dir erlaubt, eine City fertigzustellen, einen Factory-Train umzuleiten oder einen Verbündeten zu rufen, hat das Gebäude bereits Wert geschaffen, selbst wenn die äußere Kachel später fällt. Kannst du keine Aktion nennen, die du in dieser Zeit ausführst, sind die Gold wahrscheinlich als mobile Truppen besser aufgehoben. Deshalb beginnt die direkte Antwort mit Route und Ziel statt mit dem Gebäudesymbol.
+
+Prüfe zusätzlich, ob dein Ziel während dieses Fensters überhaupt erreichbar bleibt. Ein Gegner kann den Kern ignorieren und deine Wirtschaft an einer anderen Seite treffen. Dann ist ein Post nicht automatisch falsch, aber sein Wert verschiebt sich von „halten“ zu „zwingen“: Er zwingt den Angreifer, eine teure Route zu wählen, während du die mobile Reserve an den neuen Schwerpunkt bringst. Ohne diesen zweiten Schritt bleibt die Konstruktion nur ein passives Versprechen.
+
 ## Was ein fertiger Defense Post tatsächlich verändert
 
 Der offizielle Tag liefert drei entscheidende Werte. Der Suchradius beträgt **30 Felder**. Wird ein eigener Post in der Nähe des angegriffenen Feldes gefunden, multipliziert die Angriffslogik den Verteidigungsmagnituden-Term mit **5** und den Geschwindigkeits-Term mit **3**. Praktisch trifft die angreifende Armee dort auf eine viel stärkere und schnellere lokale Antwort als auf einem ungeschützten Feld. Der Post fügt nicht einfach eine sichtbare Truppenreserve zum Landeswert hinzu; er verändert den lokalen Kampf, während das Feld angegriffen wird.
@@ -93,6 +97,8 @@ Bei 100.000 Gold schützt der zweite Post den Ausgang zur City oder den Umweg, n
 
 Das Szenario erklärt, warum eine Reihe von Posts gegen eine viel größere Armee enttäuschen kann. Sie löschen den Populationsvorteil nicht; sie kaufen ein Fenster. Nutze dieses Fenster für Auffüllen, Gegenangriff, Routenwechsel oder Diplomatie. Passives Warten verliert trotz mehrerer Gebäude.
 
+Nach jedem größeren Gebietserwerb musst du die Eigentumsgrenzen erneut lesen. Wenn deine eigene Front über den Kreis hinausgeht, gehört der Post nicht mehr zu dem Kampf, den du eigentlich gewinnen willst. Lass dich vom bereits bezahlten Gebäude nicht dazu verleiten, das alte Ziel zu verteidigen. Route, neue wertvolle Kachel und Reserve sind wichtiger als die ursprüngliche Platzierung.
+
 ## Szenario zwei: Insel-Landung und bewusste Rückzugslinie
 
 **Annahmen:** Auf einer kompakten Inselkarte machen ein gegnerischer Port und Transporte einen Strand wahrscheinlich. Der Strand ist schnell verloren, die zentrale City liegt 25 Felder landeinwärts, eine zweite Küste 60 Felder entfernt. Du hast 150.000 Gold, brauchst aber auch Truppen. Der erste Post kostet 50.000, der zweite 100.000, beide benötigen 50 normale Ticks.
@@ -105,6 +111,10 @@ Beginne bei Tick 0 nur, wenn die 50-Tick-Fenster real ist. Landet der Transport 
 
 Das ist die praktische Bedeutung von „Survivability“ aus den Community-Videos. Ein paar äußere Kacheln aufzugeben kann richtig sein, wenn die kürzeste Route verschwindet und City, Port und Wirtschaft verbunden bleiben. Lies danach [Inselverteidigung](/de/guides/island-defense/) und [Port oder Factory](/de/guides/port-vs-factory/).
 
+Bei einer Landung sollte die Entscheidung außerdem im Team ausgesprochen werden: „Strand verloren, City gehalten.“ So wissen Verstärkungen, welche Kacheln absichtlich aufgegeben werden und wo sie die zweite Linie unterstützen sollen. Das ist besonders wichtig, wenn der Angreifer nach dem ersten Kontakt einen anderen Strand wählt; ein Post kann die neue Route nicht automatisch abdecken.
+
+Wenn der zweite Strand außerhalb des Kreises liegt, muss die Truppenbewegung früher beginnen als der Gebäudekauf. Markiere die neue Küste, prüfe ihre Entfernung und entscheide, ob 100.000 Gold dort wirklich länger wirken als eine mobile Abfanggruppe. Diese Gegenüberstellung verhindert, dass die erste erfolgreiche Verzögerung zu einem starren Plan für eine völlig andere Landung wird.
+
 ## Fehler, Gegenmaßnahmen und Anpassungen an Karte oder Modus
 
 Der erste Fehler ist der späte Bau. Der Angriff steht bereits im Kreis, während der Post noch arbeitet. Beginne, sobald die Route wahrscheinlich ist, nicht erst bei der Warnung. Der zweite Fehler ist der Post auf dem äußersten Grenzfeld. Rücke ihn hinter den Erstkontakt, auch wenn das äußere Land verloren geht.
@@ -116,6 +126,12 @@ Der vierte Fehler ist Komfort-Stapeln. Der Tag-Code rechtfertigt keine wiederhol
 Die Kartenform entscheidet stark. Pässe, Brücken, Landungen und Bahnkor­ridore machen den Post verlässlich; riesige offene Karten senken seinen Wert. In einem schnellen Kontaktmodus können 50 Ticks zu lang sein. In einem langsamen Spiel schützt derselbe Post einen Produktionstakt. Im Team sollte der Kreis kommuniziert werden, damit ein Verbündeter den Gegner nicht aus der Zone zieht. Im Free-for-all kann ein sichtbarer Post abschrecken, aber auch den Schwerpunkt deiner Wirtschaft verraten.
 
 Die v0.33.12-Grenze verhindert außerdem ein falsches Seeversprechen. Der getaggte Code bestätigt keinen automatischen Beschuss von Warships oder Transports. An der Küste schützt der Post die Landroute; Ports und Warships bleiben für die See zuständig. Modus und Karte ändern den Entscheidungsrahmen, nicht heimlich die Koeffizienten.
+
+Gegen einen sichtbaren Post kann der Angreifer warten, außerhalb des Kreises kämpfen, die Attacke teilen oder eine diplomatische Öffnung erzwingen. Halte deshalb einen Teil der Truppen außerhalb der Zone und beobachte die Kachel, die nach einem Umweg zum neuen Ziel würde. Ein statisches Gebäude liefert nur dann Wert, wenn du seine gekaufte Zeit in eine Bewegung, Produktion oder Verhandlung übersetzt.
+
+Auch der Verteidiger kann bewusst abbrechen. Wenn das geschützte Ziel bereits evakuiert ist oder ein dritter Spieler die offene Flanke übernimmt, sollte kein weiterer Post folgen. Nimm die Information aus dem aktiven Kreis, ziehe die Reserve zurück und investiere erst wieder, wenn ein neuer Weg eindeutig ist. So bleibt der Preisdeckel von 250.000 eine Entscheidungshilfe statt eine Einladung zum Nachkaufen.
+
+Ein weiterer Fehler ist, den Post als Ersatz für Aufklärung zu behandeln. Ohne Sicht auf die nächste Kachel weißt du nicht, ob die gegnerische Armee wartet, abbiegt oder nur einen Angriff vortäuscht. Halte deshalb eine kleine mobile Reserve außerhalb des Kreises und plane eine klare Abbruchbedingung: Ziel gerettet, Route gewechselt oder dritter Spieler gefährlicher geworden. Diese Bedingung verhindert, dass der Bauplan deine Aufmerksamkeit bindet, nachdem die Karte sich geändert hat.
 
 ## Checkliste, Datentabelle und nächste Lektüre
 
@@ -132,5 +148,11 @@ Vor dem Bau sage: „Route vorhersehbar, Ziel wertvoll, Post vor Kontakt fertig,
 | Naval-Shell-Block kommentiert | Kein automatisches Feuer versprechen | Der Post ist an der Küste wertlos |
 
 Die Kurz-Wiederholung lautet: Ziel finden, Route zeichnen, eine Linie hinter den Kontakt setzen, Reserve halten, nach dem ersten Commit neu lesen. Weicht der Gegner aus, folge dem Ziel statt dem Gebäude. Fällt die erste Linie, kaufe die zweite nur für die nächste Route. Ist die Armee zu groß, verwende die Zeit für Kern, Produktion, Auffüllen oder einen Gegenangriff.
+
+Für ein reproduzierbares Training machst du drei mentale Schnappschüsse: beim Baubeginn, bei Tick 50 und direkt nach dem ersten Umweg. Schreibe jeweils Route, bewusst verlorene Kachel und geschützte Ressource auf. Ändert sich eine Antwort, folgt der nächste Kauf der neuen Karte und nicht dem alten Plan. So bleibt die Regel in einer echten Partie prüfbar statt ein allgemeiner Slogan zu werden.
+
+Nach der Partie kannst du noch eine einfache Bilanz erstellen: Wie viele echte Reaktionsfenster wurden gewonnen, und welche Ressource blieb dadurch erhalten? Ein einziges fertiggestelltes City-Level oder ein geretteter Silo kann 50.000 Gold rechtfertigen; mehrere unangegriffene Posts zeigen dagegen, dass die Route nie wichtig war. Diese Bilanz schärft die nächste Eröffnung ohne eine Videorunde als allgemeine Regel zu behandeln.
+
+Notiere außerdem, ob der Gegner wegen des Kreises tatsächlich eine andere Route wählen musste. Eine Umleitung, die den Kern nie bedroht, ist kein voller Erfolg; eine kurze Verzögerung, die einen Verbündeten oder eine Produktion rettet, kann dagegen sehr wertvoll sein. Mit dieser kleinen Nachbesprechung bleibt die Datentabelle ein Werkzeug für echte Entscheidungen und keine Sammlung isolierter Zahlen.
 
 Lies als Nächstes [Landkampf](/de/guides/land-combat/), [Gebäude-Timing](/de/guides/building-timing/) und [Inselverteidigung](/de/guides/island-defense/). Die offizielle Grenze ist der [OpenFront-Release v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), geprüft mit [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [DefensePostExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/DefensePostExecution.ts) und [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/AttackExecution.ts). Bei einer späteren Regeländerung müssen Radius, Preis, Bauzustand und Angriffssuche neu geprüft werden.
