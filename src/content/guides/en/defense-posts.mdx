@@ -27,6 +27,8 @@ Use this quick test before clicking build:
 
 The rest of this guide explains why this test works, how to measure a placement without pretending to predict every tick, and how to change the plan for different maps and modes. For the wider combat calculation, pair it with [Land combat: push, hold, and counterattack](/guides/land-combat/). For the opportunity-cost check before any structure purchase, read [Building timing](/guides/building-timing/).
 
+One more practical distinction helps in live play: a post protects a **decision window**, not a promise about the final border. If the window lets you finish a City, move a Factory train, or call an ally, the building has already produced value even if the outer tile is later lost. If you cannot name the action you will take during that window, the Gold is probably better held as mobile force. That is why the direct answer starts with a route and an objective rather than with the building's icon.
+
 ## What a finished Defense Post actually changes
 
 The formal tag gives the post three numbers that matter to a defender. Its search radius is **30 tiles**. When a defender-owned post is found near the tile being attacked, the attack logic multiplies the defender-side combat magnitude by **5** and the movement-speed term by **3**. In plain language, an attacking force that enters the defended area meets a much stronger and faster local response than the same force would meet on an uncovered tile. This is why a post can turn a narrow approach into a delay even though it does not add a visible Troop stack to the country total.
@@ -38,6 +40,8 @@ The v0.33.12 attack code also checks for a qualifying post and stops after findi
 The post has another often-missed state: construction. In normal settings the duration is **50 ticks**. While construction is in progress, the tagged `DefensePostExecution` returns without providing the reliable finished behavior. Treat a half-built post as an unprotected project. Start it while the border is quiet, not after the enemy's attack marker is already moving through the circle. This is also why a cheap first post can be strong in the middle game but weak as an emergency purchase during an active breach.
 
 The post's current automatic-fire boundary matters too. The tagged execution includes a shell-attack path whose current naval target block is commented out. Do not tell yourself that building a post will automatically kill Warships or Transports. Its verified value in this guide is the local land-defense multiplier and the time it buys; naval interception still requires the structures and units that the current rules actually provide.
+
+The same rule applies when your own army is attacking. If your front advances beyond the circle, the post is no longer attached to the fight you are trying to win. Do not let the presence of a completed building convince you to defend yesterday's objective. Re-read ownership, route length, and the next valuable tile after every major capture.
 
 Finally, separate the mechanic from the interpretation. `×5` and `×3` are engine facts for the tagged version. “This post protects my economy” is a player conclusion that depends on whether the protected route reaches a Factory, City, Port, or core. The conclusion is sound only when the route is likely to be used. A post is strongest where the enemy has to make a costly choice, not where the map gives them a free detour.
 
