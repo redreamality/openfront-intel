@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-01。规划窗口：未来 8–12 周。
+更新日期：2026-09-02。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -35,6 +35,7 @@
 | `LF-COMMUNITY-2026-08-27` | `/guides/trade-vs-piracy/` | 什么时候跑合法贸易、什么时候捕获敌方贸易船、何时关闭贸易关系，以及何时放弃海盗转回安全陆地收入 | port-vs-factory 只比较建筑投资；team-naval-control 只分配团队海军任务；warship-veterancy 只解释经验与维修；本页独占贸易/海盗收益模式切换与退出条件，不再换标题复制 |
 | `LF-COMMUNITY-2026-08-28` | `/guides/train-network/` | 如何连接 Factory、City 和 Port，减少断线与无效线路，判断枢纽、链路和分支何时值得升级 | port-vs-factory 只比较建筑投资；economy-fundamentals 只处理总预算；本页独占铁路拓扑、停站收益、路段上限和铁路退出信号，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-01` | `/guides/threat-assessment/` | 开局后如何扫描全图、选择安全的下一个目标、保留应急储备，并判断何时停止扩张 | ffa-opening 只处理出生与前五分钟；land-combat 只处理已接触战斗；diplomacy-betrayal 只处理关系操作；本页独占全局威胁扫描、外部受益者与扩张停止线，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-02` | `/guides/defense-posts/` | Defense Post 何时值得建、30 格范围怎样覆盖路线、50 ticks 与 50,000–250,000 Gold 如何预算、同格为何不重复叠乘，以及大人口推进时何时退到第二层 | `land-combat` 只处理已接触战斗的兵力、地形与反推；`island-defense` 只处理整体岛屿、港口与登陆；`building-timing` 只给通用建筑时机；本页独占 Defense Post 的部署几何、施工节奏、预算、纵深与绕路反制，不再换标题复制 |
 
 ## 生产批次
 
@@ -45,7 +46,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-01 Threat Assessment 已完成五语内容、来源包、入口、相邻回链、本地审计、PR #53/#54 合并和 Pages 发布 | 一轮一个独立意图；同轮完成调研、1000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-02 Defense Posts 已完成五语内容、来源包、入口、相邻回链与本地验证，PR 合并即完成并进入 Monitoring | 一轮一个独立意图；同轮完成调研、2000+ 英文正文词（通常 3000–5000）、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 

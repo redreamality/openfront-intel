@@ -1,0 +1,136 @@
+---
+title: "OpenFront : postes de défense, placement, timing et profondeur"
+description: "Décidez quand un poste de défense mérite 50 000 Gold, où son rayon de 30 cases compte et quand une seconde ligne vaut mieux qu'un empilement."
+pubDate: 2026-09-02
+updatedDate: 2026-09-02
+tags: [defense, buildings, combat, strategy]
+category: Tutoriel
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié contre la release officielle OpenFront v0.33.12 et son tag le 2026-09-02 : rayon de 30 cases, défense multipliée par 5, vitesse par 3, coût de 50 000 à 250 000 et 50 ticks de construction normale."
+---
+
+## Réponse directe : construisez pour gagner du temps sur une route importante
+
+Construisez un poste de défense quand l'adversaire doit emprunter une route prévisible et que le bâtiment peut être terminé avant le contact. Le premier poste coûte 50 000 Gold, couvre un rayon de 30 cases et rend une case défendue beaucoup plus difficile à traverser, mais il ne rend pas tout votre pays invulnérable. Placez-le une ligne derrière le front probable, gardez le combat dans son cercle et utilisez les postes suivants sur une autre entrée ou une ligne de repli plutôt que sur la même case.
+
+C'est la réponse courte pour **v0.33.12**, vérifiée le **2026-09-02**. Le poste est un investissement de route et de temps, pas un achat d'ouverture universel, un remplacement des Troupes ou une garantie contre une armée plus nombreuse. Demandez-vous si le bâtiment forcera l'attaquant à dépenser assez de temps ou de force sur une route qui protège quelque chose de plus précieux que les Gold dépensés. Un poste au centre vide ne ralentit personne. Un poste posé sur la frontière exposée peut être capturé avant d'avoir servi. Un poste derrière un col, une entrée de voie ferrée ou l'accès à votre cœur de pays peut rendre les mêmes 50 000 Gold décisifs pendant tout un engagement.
+
+| Question | Construire maintenant si | Économiser ou déplacer si |
+| --- | --- | --- |
+| La route est-elle prévisible ? | Un seul col, pont, débarquement ou accès ferroviaire existe | Le terrain ouvert offre plusieurs routes équivalentes |
+| Le poste sera-t-il terminé ? | Les 50 ticks finissent avant le premier contact sérieux | La frontière s'effondre déjà ou la case va être capturée |
+| Le cercle protège-t-il une valeur ? | Il couvre un cœur, une retraite, une production ou un débarquement | Il ne couvre que des terres que vous acceptez de perdre |
+| Quel est le travail du second poste ? | Une autre entrée ou une ligne de repli crée une nouvelle fenêtre | Il ne ferait que chevaucher la première case |
+
+Pour les calculs de combat plus larges, lisez [Combat terrestre : avancer, tenir, contre-attaquer](/fr/guides/land-combat/). Pour comparer le poste avec les autres bâtiments, utilisez [Timing des bâtiments](/fr/guides/building-timing/).
+
+## Ce que change réellement un poste terminé
+
+Le tag officiel donne trois chiffres utiles. Le rayon de recherche est de **30 cases**. Lorsqu'un poste appartenant au défenseur est trouvé près de la case attaquée, la logique d'attaque multiplie par **5** le terme de puissance défensive et par **3** le terme de vitesse. Dit simplement, une force qui entre dans la zone rencontre une réponse locale bien plus forte et plus rapide que sur une case non couverte. Le bâtiment ne crée pas une réserve visible de Troupes dans le total national ; il change le calcul local au moment où la case est attaquée.
+
+« Près de la case attaquée » signifie que le rayon est une géométrie locale, pas une aura nationale. Le poste doit appartenir au défenseur. Si l'attaquant contourne le cercle, le bonus ne le suit pas. Si la case du poste est capturée, le bâtiment est détruit au lieu de devenir un bâtiment ennemi. Ces limites expliquent pourquoi le placement et le moment comptent davantage que le nombre brut de postes.
+
+Le code d'attaque v0.33.12 cherche un poste admissible puis s'arrête après le premier. C'est la limite pertinente pour la question « est-ce que les postes se cumulent ? » : superposer deux postes ne multiplie pas encore par 5 la même case, ni encore par 3 sa vitesse. Un second poste peut néanmoins être utile s'il couvre une case différente de la même approche, une sortie ou une ligne de repli si le premier tombe. Il paie alors pour une nouvelle décision, pas pour une multiplication infinie d'une seule case.
+
+L'état de construction est souvent oublié. En réglage normal, la durée est de **50 ticks**. Pendant la construction, l'exécution officielle retourne sans fournir le comportement terminé. Considérez un poste à moitié construit comme un projet sans défense fiable. Lancez-le lorsque la frontière est calme, et non quand le marqueur d'attaque traverse déjà le cercle. Les salons avec construction instantanée peuvent changer la durée, mais pas la nécessité de vérifier la route.
+
+La limite de tir automatique est tout aussi importante. Dans l'exécution taguée, la partie de tir d'obus contre les cibles navales est commentée. Ne promettez donc pas qu'un poste détruira automatiquement des Warships ou des Transports. La valeur vérifiée ici est le multiplicateur terrestre local et le temps acheté ; la maîtrise navale passe par les Ports, les Warships et les autres systèmes réellement actifs.
+
+Séparez toujours le mécanisme de l'interprétation. `×5` et `×3` sont des faits de moteur pour cette version. « Ce poste protège mon économie » dépend de la route vers une Ville, une Usine, un Port ou le cœur du pays. La conclusion n'est solide que si l'ennemi est susceptible d'emprunter cette route. Un poste est meilleur là où l'adversaire doit choisir, pas là où il peut contourner gratuitement.
+
+## Dessinez la couverture avant de choisir la case
+
+Partez de l'objectif adverse, pas du menu de construction. Marquez la case que l'attaquant doit atteindre : une Ville qui augmente le plafond de Troupes, une Usine ou un Port qui maintient les revenus, un passage qui relie deux moitiés de votre pays, ou un rivage dont la prise couperait votre économie. Tracez ensuite les accès plausibles. Le poste doit être assez en arrière pour survivre au premier échange, tout en gardant dans son rayon de 30 cases les endroits où le combat principal devrait se dérouler. « Une ligne derrière » est une règle visuelle : reculez davantage sur une frontière large, avancez davantage quand un col ou un pont rend la route certaine.
+
+Un cercle sur la carte n'est pas une promesse sur tout le front. Il peut toucher une voie ferrée et laisser la plaine voisine libre. Un attaquant qui se divise au bord du cercle peut éviter le bonus et transformer votre bâtiment en objet isolé. Avant de payer, déplacez la caméra et répondez à trois questions : où finit le cercle, quelle case voisine offre un détour, et que se passe-t-il si la première case défendue tombe ? Si la réponse est « le cœur est immédiatement exposé », placez la première ligne plus profondément ou gardez des Gold pour une seconde entrée.
+
+| Situation de carte | Emplacement du premier poste | Travail du second | Risque principal |
+| --- | --- | --- | --- |
+| Col montagneux ou pont étroit | Derrière l'entrée du col, dans l'axe d'approche | Couvrir la sortie vers le cœur ou un col parallèle | Une case latérale contourne la bouche |
+| Longue frontière terrestre | Derrière la route la plus précieuse | Protéger l'approche suivante ou le repli | Dépenser sur chaque frontière vide les réserves |
+| Île ou péninsule | Une ligne derrière le débarquement, près du cœur | Couvrir une seconde plage ou l'accès au Port | La plage est prise avant la fin |
+| Corridor ferroviaire | Là où le rail entre dans l'intérieur sûr | Garder une route vers une Ville ou un Port | La route n'a plus de valeur si l'économie a bougé |
+| Carte compacte et contacts courts | Seulement si l'attaque est lisible tôt | Garder des troupes pour contre-attaquer | 50 ticks occupent une grande part du combat |
+
+Incluez la cible finale dans votre mesure, pas seulement la première case frontalière. Si l'ennemi peut capturer une case extérieure, s'arrêter, puis choisir un autre chemin, un poste sur le bord ne protège peut-être que des terres que vous vouliez abandonner. Un poste plus profond transforme ces terres en échange acceptable contre un trajet plus long dans la zone renforcée. C'est la logique d'une ligne de repli : acheter une décision future, pas conserver chaque pixel.
+
+Vérifiez aussi la propriété et la sécurité de construction. Le poste doit rester à vous pour produire son effet. Évitez une case que votre propre attaque va rapidement dépasser, ou un emplacement que vous allez posséder puis quitter en quelques instants. Si votre armée avance déjà dans la zone candidate, investissez plutôt sur la prochaine ligne stable.
+
+Le guide [Défense des îles](/fr/guides/island-defense/) applique la même lecture aux débarquements. Une péninsule peut avoir une plage et un accès au Port ; un seul poste ne couvrira les deux que sur une carte compacte. Deux postes ne valent leur prix que si ces deux entrées sont réellement importantes.
+
+## Budgétez le premier poste, la construction et la profondeur
+
+La progression officielle est claire : **50 000 Gold**, puis **100 000**, **150 000**, **200 000** et **250 000**, avec un plafond à 250 000. La formule est `min(250000, (numUnits + 1) * 50000)`. Cette progression crée une règle saine : testez une route à bas prix, puis exigez une raison distincte pour chaque poste supplémentaire. Pouvoir payer ne prouve pas que la route comptera encore après la construction.
+
+La durée normale est **50 ticks**. L'interface peut donner l'impression d'environ cinq secondes selon la vitesse de partie, mais le fait de version est le nombre de ticks. Pensez en séquence : commencer quand l'attaque se forme, terminer avant son arrivée, conserver une réserve pendant la construction. Les réglages instantanés changent la durée, pas le besoin de vérifier la valeur de la route.
+
+Répartissez votre budget en trois enveloppes :
+
+1. **Survie immédiate.** Gardez les Troupes et les Gold nécessaires pour répondre au prochain assaut ou battre en retraite. Un poste qui laisse la frontière vide peut se retourner contre vous.
+2. **Objectif défendu.** Chiffrez ce que la route protège : amélioration de Ville, réseau d'Usines, Port, Silo ou temps d'arrivée d'un allié. Si la perte dépasse le prix du poste et que la route est prévisible, l'investissement est plus facile à défendre.
+3. **Profondeur.** Réservez le prix suivant seulement si son rôle est différent. À 100 000 Gold, le second poste doit couvrir une autre entrée ou garder le cœur dans un nouveau cercle après la chute de la première ligne.
+
+Cette méthode évite de copier sans réflexion les vidéos de « defensemaxxing ». Une vidéo peut volontairement consacrer tout son budget à la survie parce que c'est le défi. Dans une partie normale, ces Gold peuvent être nécessaires à une Ville, un Silo, un Port ou aux Troupes qui rendent le premier poste utile. Utilisez la vidéo pour comprendre le compromis, jamais comme une liste d'achats.
+
+Le poste bon marché est souvent un outil de tempo : il retarde la première poussée, vous laisse remplir vos réserves, déplacer un rail, finir un SAM ou négocier. Le poste cher est un outil de profondeur : il attend sur la ligne que l'ennemi atteindra après la perte de la frontière. Si aucun de ces deux rôles n'existe, économisez.
+
+Ne comptez pas un bâtiment simplement parce que la barre a démarré. Un poste partiellement construit n'offre pas le comportement terminé. Dites-vous : « Il n'est utile que si je garde la case pendant 50 ticks. » Si l'ennemi l'atteint en 20 ticks, ce n'est pas une réponse défensive mais une cible coûteuse.
+
+Après la construction, réévaluez. L'ennemi peut changer de frontière, choisir une plage, attaquer par l'air ou rendre l'objectif inutile. Vous ne récupérez pas le prix, mais vous pouvez cesser d'ajouter de la profondeur. La limite de cumul rend particulièrement dangereux les achats motivés par le seul coût déjà dépensé.
+
+## Scénario 1 : un col qui achète un tour de production
+
+**Hypothèses :** salon normal v0.33.12, un col montagneux est l'unique route vers votre Usine et votre Ville, le premier poste coûte 50 000 Gold, la construction prend 50 ticks et l'attaque arrivera au col extérieur vers le tick 70. Votre force locale est plus petite, mais vous pouvez garder la case jusqu'à la fin de la construction. L'adversaire ne possède pas de détour immédiat.
+
+Placez le poste derrière la bouche du col afin que son cercle de 30 cases couvre les premières cases montagneuses et l'entrée ferroviaire. Au tick 0, lancez la construction. Pendant 50 ticks, le bâtiment est un projet : vos unités doivent tenir sans s'y sacrifier. Vers le tick 50, le multiplicateur devient actif. L'ennemi arrive vers le tick 70 et dépense alors davantage de temps et de force avant d'atteindre la production. Les pertes exactes ne sont pas promises ; l'affirmation testable est que la route locale est plus coûteuse qu'une plaine non couverte.
+
+Au tick 90, relisez la situation. Si l'ennemi reste dans le col, les 50 000 Gold ont acheté le temps d'achever un trajet d'Usine, de remplir le plafond d'une Ville ou de faire arriver un allié. S'il cherche la case latérale, le poste a déjà provoqué une décision. Ne posez pas automatiquement un second bâtiment sur la même case : protégez le détour ou gardez les Gold pour les Troupes.
+
+Le raisonnement se récite ainsi : « une route, un objectif, un poste terminé avant le contact ». L'achat est bon parce que la route est prévisible, le résultat économique vaut plus que 50 000 et la fenêtre de 50 ticks existe. Il serait mauvais si l'Usine était déjà abandonnée, si deux plaines équivalentes entouraient le col ou si vos Troupes ne pouvaient pas tenir la case.
+
+À 100 000 Gold, le second poste doit garder la sortie vers la Ville ou le détour, pas ajouter une seconde multiplication à la même case. Les deux postes forment une séquence de décisions. Si le premier tombe, le second a encore une fonction. C'est ce qui transforme la profondeur en investissement.
+
+Le scénario explique aussi pourquoi une rangée de postes peut décevoir contre une armée très supérieure. Les postes n'effacent pas l'écart de population ; ils achètent une fenêtre. Il faut utiliser cette fenêtre pour remplir, contre-attaquer, changer de route ou demander de l'aide. Une défense qui attend passivement finit par perdre même avec plusieurs bâtiments.
+
+## Scénario 2 : débarquement insulaire et repli volontaire
+
+**Hypothèses :** sur une carte insulaire compacte, un Port ennemi et ses transports rendent une plage probable. La plage peut être capturée vite ; la Ville centrale est à 25 cases et une seconde côte à 60 cases. Vous avez 150 000 Gold, mais devez garder des Troupes pour le débarquement. Le premier poste coûte 50 000, le second 100 000, chacun prenant 50 ticks.
+
+Ne posez pas le premier poste sur la plage. Si elle tombe avant la fin, le bâtiment est détruit. Placez-le sur la première case stable derrière le sable, avec le cercle touchant l'axe de débarquement et la route vers la Ville. Vous acceptez de perdre la frange extérieure pour rendre la progression suivante coûteuse. Le temps gagné peut servir à contre-débarquer, réparer le Port, déplacer l'Usine ou préserver l'économie.
+
+Le second poste doit couvrir une seconde plage si elle est crédible. S'il n'y a qu'une plage, placez-le sur le coude de la route vers la Ville, hors de la case d'attaque exacte du premier. Vous créez une profondeur : première ligne pour ralentir, seconde pour garder le cœur cher à atteindre.
+
+Au tick 0, ne commencez que si la fenêtre de 50 ticks est réelle. Si le transport débarque dans 20 ticks, dépensez les 150 000 en Troupes ou en déplacement qui agit immédiatement. S'il arrive dans 80 ticks, lancez le premier poste et gardez les 100 000 jusqu'à confirmation de la seconde entrée. Au tick 55, le premier est actif ; au tick 80, la route est renforcée. Supposons 400 000 Troupes ennemies contre 250 000 locales : ce sont des hypothèses, pas des seuils universels. Le poste ne garantit pas la victoire, mais il offre une fenêtre pour sauver la Ville ou finir le second poste.
+
+Cette logique donne un sens pratique à la « survivabilité » des vidéos. Perdre quelques cases peut être correct si cela retire la route la plus courte tout en maintenant la Ville, le Port et l'économie connectés. Le poste sert à choisir la terre que vous échangez et la terre qui doit rester coûteuse. Continuez avec [Défense des îles](/fr/guides/island-defense/) et [Port ou Usine](/fr/guides/port-vs-factory/) pour les décisions de débarquement et de revenus.
+
+## Échecs, contre-jeu et adaptation aux cartes ou modes
+
+Le premier échec est la construction tardive : le marqueur est déjà dans le cercle et le poste reste en chantier. La règle corrective est de commencer quand la route devient probable, pas quand l'alerte apparaît. Le deuxième est le poste exposé sur la première frontière. Reculez-le derrière le premier contact, même si cela concède des cases.
+
+Le troisième est le contournement. Un rayon de 30 cases ne couvre pas un front continental. L'attaquant peut changer de col, débarquer ailleurs ou attaquer une plaine voisine. Contrez en dessinant les accès adjacents avant l'achat. Si une autre route est réellement importante, le second poste y a sa place. Sinon, les Troupes mobiles ont plus de valeur.
+
+Le quatrième est l'empilement de confort. Le code tagué ne justifie pas une multiplication répétée sur la même case. Posez le second seulement s'il protège une sortie, un coude ou une retraite distincte. L'attaquant peut aussi attendre que la réserve de Troupes baisse, forcer le combat hors du cercle, diviser son attaque ou capturer la case du poste.
+
+La géométrie change la valeur : cols, ponts, plages et corridors ferroviaires la rendent fiable ; grandes cartes ouvertes la diminuent. Dans un mode à contact court, 50 ticks peuvent rendre l'achat tardif inutile. Dans un salon lent, il peut protéger un tour complet de production. En équipe, annoncez le cercle afin qu'un allié ne fasse pas sortir l'ennemi de la zone au moment où le poste devient actif. En chacun pour soi, un poste visible peut décourager une attaque mais révèle aussi où votre économie est concentrée.
+
+Enfin, ne promettez pas de tir naval automatique. Pour une côte, le poste protège la terre d'un débarquement ; les Ports et Warships restent les systèmes à choisir pour la mer. Un réglage de mode ou une carte change le cadre de décision, pas les coefficients officiels.
+
+## Checklist, tableau de données et prochaines lectures
+
+Avant de construire, dites : « route prévisible, objectif précieux, poste fini avant le contact, case tenable pendant la construction, second poste avec un autre rôle ». Si une clause est fausse, attendez. Cette phrase reste utile quand la carte, la vitesse ou la taille de l'adversaire changent.
+
+| Valeur v0.33.12 vérifiée | Conséquence pratique | Ce que cela ne signifie pas |
+| --- | --- | --- |
+| Rayon de 30 cases | Dessiner un cercle local | Tout le pays est protégé |
+| Défense `×5` | Réponse locale beaucoup plus forte | Toutes les batailles sont gagnées |
+| Vitesse `×3` | Le mouvement défensif change aussi | L'ennemi ne peut pas contourner |
+| Coût 50 000 à 250 000 | Tester une route, puis exiger une fonction distincte | Chaque frontière mérite un poste |
+| 50 ticks normaux | Commencer avant le contact | Un chantier est déjà actif |
+| Premier poste admissible trouvé | Le chevauchement n'est pas infini | Un second poste sur une autre entrée est inutile |
+| Tir naval commenté | Ne pas promettre d'attaque automatique | Le poste ne sert jamais sur une côte |
+
+Le replay rapide est : trouver l'objectif, tracer la route, placer une ligne derrière le premier contact, garder une réponse et relire la carte après l'engagement. Si l'ennemi contourne, suivez l'objectif plutôt que le bâtiment. Si la première ligne tombe, la seconde n'existe que si elle protège la route suivante. Si l'armée ennemie est trop grande, utilisez le temps acheté pour sauver le cœur, déplacer la production, remplir les Troupes ou contre-attaquer ailleurs.
+
+Lisez ensuite [Combat terrestre](/fr/guides/land-combat/), [Timing des bâtiments](/fr/guides/building-timing/) et [Défense des îles](/fr/guides/island-defense/). La limite officielle est la [release OpenFront v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), vérifiée avec [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [DefensePostExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/DefensePostExecution.ts) et [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/AttackExecution.ts). Une nouvelle release qui change le rayon, le coût, la construction ou la recherche d'attaque exige une nouvelle vérification.
