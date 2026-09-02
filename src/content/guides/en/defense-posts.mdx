@@ -1,0 +1,144 @@
+---
+title: "OpenFront Defense Posts: Placement, Timing, and Depth"
+description: "Decide when a Defense Post is worth 50,000 Gold, where its 30-tile coverage matters, and when a second line beats stacking one location."
+pubDate: 2026-09-02
+updatedDate: 2026-09-02
+tags: [defense, buildings, combat, strategy]
+category: Tutorial
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the formal OpenFront v0.33.12 release and tag on 2026-09-02: Defense Posts search 30 tiles, multiply defended attack power by 5 and speed by 3, cost 50,000 to 250,000, and need 50 normal ticks to finish."
+---
+
+## Direct answer: build a post to buy time on a route that matters
+
+Build a Defense Post when an opponent must cross a predictable route and you can finish the building before contact. The first post costs 50,000 Gold, covers a 30-tile radius, and makes a defended tile much harder to cross, but it does not make your whole country invulnerable. Put it one step behind the likely front, keep the fight inside its circle, and use later posts on another entrance or a retreat line instead of stacking one tile.
+
+That is the short answer for **v0.33.12**, checked on **2026-09-02**. The post is a route-and-time investment. It is not a universal opening purchase, a replacement for Troops, or a guarantee that a larger enemy cannot advance. The practical question is whether the building will force the attacker to spend enough time or force on a route that protects something more valuable than the Gold you spend. A post in an empty centre has no opponent to slow. A post directly on the exposed border can be captured before it pays for itself. A post behind a pass, rail entrance, or capital approach can make the same 50,000 Gold matter for a full engagement.
+
+Use this quick test before clicking build:
+
+| Question | Build now when | Save or move the post when |
+| --- | --- | --- |
+| Is the route predictable? | The enemy has one pass, bridge, island landing, or rail approach | Open ground gives the attacker several equally short routes |
+| Will it finish? | The 50-tick construction window ends before the first serious contact | The border is already collapsing or the tile is being captured |
+| Does the circle protect value? | The covered tiles include a core, retreat line, production route, or naval landing | The circle covers only empty territory that you are happy to lose |
+| What is the second post for? | Another entrance or a fallback line buys a new decision window | It only overlaps the first post and adds no new route control |
+
+The rest of this guide explains why this test works, how to measure a placement without pretending to predict every tick, and how to change the plan for different maps and modes. For the wider combat calculation, pair it with [Land combat: push, hold, and counterattack](/guides/land-combat/). For the opportunity-cost check before any structure purchase, read [Building timing](/guides/building-timing/).
+
+## What a finished Defense Post actually changes
+
+The formal tag gives the post three numbers that matter to a defender. Its search radius is **30 tiles**. When a defender-owned post is found near the tile being attacked, the attack logic multiplies the defender-side combat magnitude by **5** and the movement-speed term by **3**. In plain language, an attacking force that enters the defended area meets a much stronger and faster local response than the same force would meet on an uncovered tile. This is why a post can turn a narrow approach into a delay even though it does not add a visible Troop stack to the country total.
+
+The wording “near the tile being attacked” is important. The radius is local geometry, not a country-wide aura. The post belongs to the defender, and the tagged attack path looks for a qualifying defender post before applying the modifiers. If the attacker goes around the circle, the bonus does not follow the army like a national buff. If the defender loses the post tile, the post is destroyed rather than becoming an enemy asset. Those boundaries explain why placement and timing are more important than raw post count.
+
+The v0.33.12 attack code also checks for a qualifying post and stops after finding one. That is the relevant practical boundary for the community stacking question: overlapping two posts does not keep multiplying the same defended tile by 5 again and again. Overlap can still be useful for continuity, because a second post may cover a different tile on the same approach or preserve coverage if the first one falls, but the guide should not promise a second `×5` or `×3` for the identical attack tile. A second post earns its cost by creating another protected route or a fallback decision, not by making one square mathematically infinite.
+
+The post has another often-missed state: construction. In normal settings the duration is **50 ticks**. While construction is in progress, the tagged `DefensePostExecution` returns without providing the reliable finished behavior. Treat a half-built post as an unprotected project. Start it while the border is quiet, not after the enemy's attack marker is already moving through the circle. This is also why a cheap first post can be strong in the middle game but weak as an emergency purchase during an active breach.
+
+The post's current automatic-fire boundary matters too. The tagged execution includes a shell-attack path whose current naval target block is commented out. Do not tell yourself that building a post will automatically kill Warships or Transports. Its verified value in this guide is the local land-defense multiplier and the time it buys; naval interception still requires the structures and units that the current rules actually provide.
+
+Finally, separate the mechanic from the interpretation. `×5` and `×3` are engine facts for the tagged version. “This post protects my economy” is a player conclusion that depends on whether the protected route reaches a Factory, City, Port, or core. The conclusion is sound only when the route is likely to be used. A post is strongest where the enemy has to make a costly choice, not where the map gives them a free detour.
+
+## Draw the coverage before you choose the tile
+
+Start from the opponent's objective, not from the build menu. Mark the tile the attacker must reach: a City that raises your Troop cap, a Factory or Port that keeps income alive, a crossing that joins two halves of your country, or a shoreline where a landing would split your economy. Then trace the shortest plausible approaches. The post should sit far enough behind the expected first contact that it survives the opening exchange, while its 30-tile circle still includes the tiles on which you expect the main fight. “One step behind” is a useful visual rule, not a fixed number of tiles: move it farther back when the border is wide or unstable, and closer when a mountain pass or island bridge makes the route certain.
+
+Coverage is a shape on the map, not a promise about the whole front. A circle may touch a road or rail entrance while leaving the neighbouring plain uncovered. An attacker who can split around the edge may avoid the bonus and turn your expensive building into an isolated object. Before committing, pan the camera and ask three questions: where does the circle end, which adjacent tile gives the enemy a bypass, and what happens if the first defended tile is lost? If the answer to the third question is “the core is exposed immediately,” place the post one line deeper or reserve Gold for a second entrance.
+
+Use the following placement table as a repeatable map read:
+
+| Map situation | First post location | Second-post job | Main risk |
+| --- | --- | --- | --- |
+| Mountain pass or narrow bridge | Behind the mouth of the pass, inside the approach | Cover the exit toward the core or a parallel pass | A side tile lets the enemy walk around the mouth |
+| Long land border | Behind the most valuable route, not the geometric centre | Protect the next likely approach or a retreat line | Spending on every border tile drains Troops and Gold |
+| Island or peninsula | One line behind the landing tile and near the core | Cover the second landing or port approach | A post on the beach is captured before completion |
+| Railway or production corridor | Where the rail enters the safe interior | Keep a fallback route to a City or Port | The route is irrelevant if the economy already moved |
+| Compact map with short contacts | Only if the battle is telegraphed early | Hold reserve for units or a quick counterattack | Fifty ticks is a large fraction of the battle |
+
+When measuring a route, include the attacker's likely target and not just the first border tile. If the attacker can capture an outer tile, pause, and then choose a fresh route, a post at the outer edge may only protect land you intended to abandon. A deeper post lets you trade that outer land for a longer approach through the multiplier. This is the same logic as a retreat line: you are buying a future decision window, not trying to preserve every square.
+
+Placement should also respect ownership and construction safety. The post must remain yours for its effect to matter. Do not spend on a tile that a neutral or allied border rule can change unexpectedly, and do not place a post where your own attack path will immediately move the front outside its circle. If your army is already attacking through the candidate area, you may be paying to defend a tile that you are about to own and then leave behind. In that case, a post on the next stable line is often better.
+
+The [island defense guide](/guides/island-defense/) shows the same principle in a more maritime setting: a landing is a route, and a route can be delayed. Keep the link in mind when a peninsula has both a beach and a port approach. A single post rarely covers both unless the map is compact; two posts earn their cost only when the attacker truly has two meaningful entrances.
+
+## Budget the first post, the build window, and depth
+
+The cost ladder is explicit in the formal configuration: the first Defense Post costs **50,000 Gold**, then **100,000**, **150,000**, **200,000**, and **250,000**, with later purchases capped at 250,000 under the same formula. The exact expression is `min(250000, (numUnits + 1) * 50000)`. The ladder creates a sensible default: test one route cheaply, then demand a stronger reason before buying the second or third. “I can afford it” is not the same as “the route will still matter after it is built.”
+
+The normal construction duration is **50 ticks**. The game may display time in a way that feels like roughly five seconds under ordinary speed, but the tick value is the version-bound fact. Plan around the event sequence rather than a stopwatch: start while scouting sees the attack forming, finish before the attack reaches the candidate area, and keep a Troop reserve for the interval when the post is still under construction. Instant-build or custom-lobby settings can change the duration; they do not change the need to check whether the post's circle covers a route worth holding.
+
+Use an opportunity-cost budget with three envelopes:
+
+1. **Immediate survival.** Keep enough Troops and Gold to answer the next attack, retreat, or counterattack. A post that leaves the border empty can make the purchase self-defeating.
+2. **The defended objective.** Price the thing the route protects: a City upgrade, a Factory network, a Port, a Silo, or the time needed for an ally to arrive. If losing the objective costs more than the post and the route is predictable, the investment is easier to justify.
+3. **Depth.** Reserve the next post's price only when it has a distinct job. At 100,000 Gold, a second post should either cover a different approach or keep the core inside a fallback circle after the first line is lost.
+
+This budget prevents the common “defensemaxxing” mistake of copying a video challenge. A creator can deliberately spend on many posts because the point of the match is to test survivability. In a normal lobby, the same Gold may be needed for a City, a Silo, a Port, or the Troops that make the first post relevant. Treat the video as a vocabulary for tradeoffs, not as a purchase order.
+
+The cheapest post is often a timing tool. Build it before a war, let the opponent waste the first push against a strengthened tile, and use the delay to refill, reroute a railway, complete a SAM, or negotiate. The expensive post is usually a depth tool. It belongs where the first line is expected to fall but the game remains winnable if the core survives. If neither of those jobs exists, save the Gold.
+
+Do not count a building as completed merely because the construction bar started. A partially built post provides no reliable finished defense under the tagged execution. Announce the assumption in your own plan: “The post is useful only if I can hold the tile for 50 ticks.” That sentence exposes bad purchases early. If an enemy can reach and capture the tile in 20 ticks, the first post is not a defensive response; it is an expensive demolition target.
+
+When a post is already active, compare its benefit with the opportunity cost again. The enemy may switch to artillery, a different border, a naval landing, or a diplomatic deal that makes the route irrelevant. You cannot refund the Gold, but you can stop adding depth to a line that no longer protects anything. This is where the non-stacking boundary matters: overlapping posts are a sunk-cost trap unless the overlap also covers a distinct exit or fallback tile.
+
+## Scenario one: a pass that buys a production turn
+
+**Assumptions:** a normal v0.33.12 lobby, a mountain pass is the only land route to your inland Factory and City, the first post costs 50,000 Gold, construction takes 50 ticks, and the opponent's attack will reach the outer pass in about 70 ticks. Your army is smaller locally, but you still have enough Troops to hold the first tile while the post finishes. The opponent can spend time on the pass but cannot instantly open a second route.
+
+Place the post just behind the pass mouth so its 30-tile circle includes the first mountain tiles and the rail entrance leading to the Factory. Start construction at tick 0 of the scenario. For the first 50 ticks, the post is only a project, so your units must avoid a reckless all-in and keep the candidate tile yours. At roughly tick 50 the finished multiplier becomes relevant. The attacker arrives around tick 70 and now meets the strengthened route instead of an uncovered plain. The exact number of casualties or seconds is not promised by the guide; the decision claim is narrower and testable: the enemy must spend more of its attack budget before reaching the production route.
+
+At tick 90, evaluate the new state. If the enemy is still committed to the pass, your 50,000 Gold has bought time for a Factory train to complete, for a City to refill the cap, or for an ally to move into the same corridor. If the enemy has stopped and is probing the side tile, the post still did its job by forcing a route choice. If the attacker has already found a bypass outside the circle, do not build a second post on the first tile. Move the next investment to the bypass or save it for the core line.
+
+The decision framework can be replayed verbally: “One route, one objective, one finished post before contact.” The post is justified because the Factory and City are worth more than 50,000 Gold, the pass makes the route predictable, and the 50-tick window is available. It would be a bad purchase if the Factory had already been abandoned, if the opponent had two equally short plains around the mountain, or if your remaining Troops were too low to keep the tile during construction.
+
+Suppose the second post becomes available at 100,000 Gold. Its best job is not to add another multiplier to the same mountain tile. Put it near the rail exit toward the City, or on the side route the first post forced the enemy to consider. Now the two buildings create a sequence: the first delays the pass, the second protects the valuable fallback. If the first post falls, the second still changes the next decision. That is a meaningful depth purchase.
+
+The scenario also explains why a row of posts may disappoint against a larger army. If the opponent can keep feeding the same route, the posts do not erase the population difference. They buy a window. You must spend that window on a refill, a counterattack, a route change, or a diplomatic action. If you simply watch the bar while the opponent keeps pressure, the building has no independent win condition. Defense is successful when it changes what you can do next, not when the structure survives forever.
+
+## Scenario two: an island landing and a deliberate fallback
+
+**Assumptions:** on a compact island map, an enemy Port and transport route make one beach the likely landing. The beach tile is exposed and can be captured quickly; the core City is 25 tiles inland from the beach and a second shoreline is 60 tiles away. You have 150,000 Gold, but you also need Troops to contest the landing. The first post costs 50,000, the second 100,000, and both require 50 normal ticks to complete.
+
+Do not put the first post on the beach simply because that is where the enemy will appear. If the beach is captured before construction finishes, the post is destroyed and the 50,000 is gone. Put it on the first stable tile behind the beach, where the circle still reaches the landing approach and the route to the City. This placement accepts that the outer beach may be lost. The goal is to make the next 30-tile route expensive enough to buy time for a counter-landing, a Port repair, a diplomatic request, or a safe evacuation of the Factory.
+
+The second post has a different choice. If the enemy has a second viable beach, 100,000 Gold on that entrance is stronger than overlap. If there is only one beach but the first fallback route leads directly to the City, place the second post near the City-side bend, outside the first post's exact attack tile. That creates depth. The first line delays the landing push; the second line keeps the core inside a new defended circle after the outer line is abandoned.
+
+At tick 0, start both only if scouting shows the 50-tick window is real. If the enemy transport is already unloading in 20 ticks, finish neither as an emergency fantasy. Spend the 150,000 on Troops, a Port decision, or a relocation that works immediately. If the landing is still 80 ticks away, start the first post and keep the second 100,000 in reserve until the second entrance is confirmed. This avoids locking the whole island budget into a spectacle build.
+
+At tick 55, the first post is active. At tick 80, the enemy reaches the defended route. Assume the enemy has 400,000 Troops and you have 250,000 in the local defense; these numbers are scenario assumptions, not universal thresholds. The post does not guarantee a win, but it gives the defender a stronger local response and a longer decision window. Use that window to prevent the enemy from reaching the City while the second post finishes, or choose to lose a few outer tiles and preserve the core. If the enemy changes to the far shoreline, cancel the mental plan for the first beach and move units; the post cannot defend a route outside its circle.
+
+This is the practical meaning of “survivability” in the community videos. Accepting some lost land can be correct when the loss removes the attacker's shortest route but leaves your economy, City, and Port connected. A post is not an oath to defend every tile. It is a way to decide which tile you are willing to trade and which tile must remain expensive. For detailed landing and port trade choices, continue to [Island defense](/guides/island-defense/) and [Port versus Factory](/guides/port-vs-factory/).
+
+## Failure, counterplay, and mode or map adjustments
+
+The first failure mode is a late build. The enemy is already inside the intended circle, the post is still under construction, and the defender has spent Gold without changing the current fight. The fix is a timing rule: build when the route is probable, not when the warning is visible. The second failure mode is the exposed post. If the building sits on the first border tile, the attacker can capture or destroy the object before its area matters. Move it behind the first contact, even if that means conceding outer land.
+
+The third failure mode is a bypass. A 30-tile circle cannot cover a continent-wide front. Attackers can split around the edge, use a second pass, land at another beach, or turn a railway pressure point into a plain attack. Counter this by checking adjacent approaches before buying and by assigning a second post a new route. If no second route is worth 100,000 Gold, keep the reserve for mobile Troops. Static defense cannot solve a map-reading problem.
+
+The fourth failure mode is stacking as comfort. Players see the first post survive and assume a second copy on the same tile must be twice as strong. The tagged attack logic does not support repeated multiplication of the same defended tile. The counterplay is simple: ask what new tile the second post protects. If the answer is “none,” do not buy it. Overlap is acceptable only when it keeps a nearby exit, bend, or retreat tile covered.
+
+Attackers have their own answers. They can force a fight outside the circle, switch to a less defended border, split the attack so the post protects only one group, or wait until the defender's Troop reserve is gone. They can also capture the post's tile, which destroys the building. A defender should therefore watch the route after construction. If the opponent changes the objective, stop treating the old circle as the centre of the plan.
+
+Map geometry changes the value sharply. Mountain passes, narrow bridges, island landings, and compact rail corridors make a post more reliable because the attacker has fewer exits. Huge open maps lower the value of a single post because the circle covers a smaller fraction of the strategic front. In a short-contact mode, 50 ticks may be too long for a late purchase; in a slower lobby, the same post can protect a production turn. In team modes, communicate the defended route so an ally does not pull the enemy outside the circle just as your building becomes active. In free-for-all, remember that a visible post can make you look expensive to attack but can also signal where your economy is concentrated.
+
+The current v0.33.12 boundary also prevents a false naval promise. The tagged post execution does not give this guide a verified automatic Warship or Transport attack claim. On a coastal map, use the post to defend the land route from a landing, then choose Ports, Warships, or other verified systems for sea control. A mode or map adjustment is a change in the decision frame, not a hidden change to the post's coefficients.
+
+## Checklist, data table, and next reading path
+
+Before building, say the following out loud or in team chat: “The route is predictable; the objective is valuable; the post finishes before contact; I can hold its tile during construction; and the next post, if any, has a different job.” If one clause is false, wait. This sentence is intentionally more useful than a universal build order because it survives changes in map shape, opponent size, and lobby speed.
+
+| Verified v0.33.12 value | What it means for a decision | What it does not mean |
+| --- | --- | --- |
+| 30-tile search radius | Draw a local circle around the candidate route | The whole country is protected |
+| Defense magnitude `×5` | A qualifying defended attack tile receives a much stronger local response | Every nearby battle is automatically won |
+| Speed term `×3` | The defended response changes movement as well as force | An attacker cannot route around the circle |
+| Cost ladder 50,000 to 250,000 | Test one route cheaply; demand a distinct job from depth | Every border deserves a post |
+| 50 normal ticks | Construction must begin before contact | A half-built post is already active |
+| One qualifying post found in attack logic | Overlap is not an infinite repeated multiplier | A second post is useless when it covers another entrance |
+| Current naval shell block commented out | Do not promise automatic fire at Warships or Transports | The post has no value on a coastal land route |
+
+The fast replay is: locate the objective, trace the likely route, place one line behind first contact, reserve the first response, then reassess after the enemy commits. If the attacker goes around, follow the objective rather than defending the old building. If the first line falls, use a second post only when it protects the next route. If the opponent is too large to stop, use the bought time to preserve the core, move production, refill, or counterattack elsewhere. That is a successful defensive decision even when the outer border changes hands.
+
+For the next step, read [Land combat](/guides/land-combat/) for local force, terrain, and counterattack choices; return to [Building timing](/guides/building-timing/) when comparing a post with a City, Factory, Port, Silo, or SAM; and use [Island defense](/guides/island-defense/) when a landing and a port make the route two-dimensional. The official boundary for this article is [OpenFront v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), checked against [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [DefensePostExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/DefensePostExecution.ts), and [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/AttackExecution.ts). If a later formal release changes the range, cost, construction state, or attack lookup, re-run this framework instead of carrying the old numbers forward.

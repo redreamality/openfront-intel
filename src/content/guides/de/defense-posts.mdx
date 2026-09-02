@@ -1,0 +1,136 @@
+---
+title: "OpenFront Defense Posts: Platzierung, Timing und zweite Linie"
+description: "Entscheide, wann ein Defense Post 50.000 Gold wert ist, wo sein Radius von 30 Feldern zählt und wann Tiefe besser ist als Stapeln."
+pubDate: 2026-09-02
+updatedDate: 2026-09-02
+tags: [defense, buildings, combat, strategy]
+category: Tutorial
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Am 2026-09-02 gegen den offiziellen OpenFront-Release v0.33.12 und den Tag geprüft: 30 Felder Reichweite, Verteidigung mal 5, Geschwindigkeit mal 3, Kosten von 50.000 bis 250.000 und 50 normale Ticks Bauzeit."
+---
+
+## Direkte Antwort: Baue für Zeit auf einer wichtigen Route
+
+Baue einen Defense Post, wenn der Gegner eine vorhersehbare Route nehmen muss und das Gebäude vor dem Kontakt fertig wird. Der erste Post kostet 50.000 Gold, deckt einen Radius von 30 Feldern ab und macht ein verteidigtes Feld deutlich schwerer passierbar. Er schützt aber nicht das ganze Land. Setze ihn eine Linie hinter die erwartete Front, halte den Kampf in seinem Kreis und verwende weitere Posts an einem anderen Eingang oder auf einer Rückzugslinie statt auf demselben Feld.
+
+Das ist die Kurzantwort für **v0.33.12**, geprüft am **2026-09-02**. Ein Post ist eine Investition in Route und Zeit, kein automatischer Eröffnungskauf, kein Ersatz für Truppen und kein Versprechen, dass eine größere Armee nicht vorrücken kann. Die entscheidende Frage lautet: Muss der Angreifer auf dieser Route genug Zeit oder Truppen verlieren, damit ein wertvolleres Ziel geschützt wird? Ein Post im leeren Zentrum bremst niemanden. Ein Post auf dem ersten Grenzfeld wird womöglich vor seiner Fertigstellung erobert. Hinter einem Pass, einem Bahneingang oder dem Zugang zum Kern kann derselbe Betrag dagegen einen ganzen Gefechtstakt kaufen.
+
+| Frage | Jetzt bauen, wenn | Sparen oder verschieben, wenn |
+| --- | --- | --- |
+| Ist die Route vorhersehbar? | Ein Pass, eine Brücke, eine Landung oder ein Bahneingang dominiert | Offenes Land mehrere gleich kurze Wege bietet |
+| Wird er fertig? | Die 50 Ticks vor dem ersten Kontakt enden | Die Grenze bereits fällt oder das Feld sofort verloren geht |
+| Schützt der Kreis einen Wert? | Kern, Rückzug, Produktion oder Landung liegen darin | Nur Land geschützt wird, das du ohnehin aufgibst |
+| Wozu dient der zweite Post? | Ein anderer Eingang oder eine zweite Linie schafft ein neues Zeitfenster | Er nur den ersten Angriffspunkt überlagert |
+
+Für die allgemeine Kampfrechnung lies [Landkampf: Vorrücken, halten, Gegenangriff](/de/guides/land-combat/). Den Vergleich mit City, Factory, Port, Silo und SAM findest du bei [Gebäude-Timing](/de/guides/building-timing/).
+
+## Was ein fertiger Defense Post tatsächlich verändert
+
+Der offizielle Tag liefert drei entscheidende Werte. Der Suchradius beträgt **30 Felder**. Wird ein eigener Post in der Nähe des angegriffenen Feldes gefunden, multipliziert die Angriffslogik den Verteidigungsmagnituden-Term mit **5** und den Geschwindigkeits-Term mit **3**. Praktisch trifft die angreifende Armee dort auf eine viel stärkere und schnellere lokale Antwort als auf einem ungeschützten Feld. Der Post fügt nicht einfach eine sichtbare Truppenreserve zum Landeswert hinzu; er verändert den lokalen Kampf, während das Feld angegriffen wird.
+
+„In der Nähe“ bedeutet lokale Geometrie, keine nationale Aura. Der Post muss dem Verteidiger gehören. Wenn der Gegner um den Kreis herumläuft, folgt der Bonus nicht. Wird das Feld des Posts erobert, wird das Gebäude zerstört und nicht zum feindlichen Gebäude. Deshalb sind Platzierung und Zeitpunkt wichtiger als die rohe Anzahl der Posts.
+
+Der Angriffscode von v0.33.12 sucht einen passenden Post und beendet die Suche nach dem ersten Treffer. Das ist die relevante Grenze für die Spielerfrage nach dem Stapeln: Zwei Posts auf derselben Angriffskachel multiplizieren nicht noch einmal mit 5 oder mit 3. Überlappung kann trotzdem sinnvoll sein, wenn der zweite Post einen anderen Abschnitt des Weges, eine Kurve oder eine Rückzugslinie schützt, die nach dem Fall des ersten aktiv wird. Er bezahlt dann für eine neue Entscheidung, nicht für eine unendliche Verstärkung derselben Kachel.
+
+Der Bauzustand wird oft übersehen. Unter normalen Einstellungen dauert der Bau **50 Ticks**. Während der Bau läuft, kehrt die offizielle Ausführung zurück, ohne den fertigen Effekt bereitzustellen. Ein halb fertiger Post ist also ein Projekt ohne verlässliche Verteidigung. Starte ihn, solange die Grenze ruhig ist, nicht erst wenn der Angriffsmarker bereits durch den Kreis läuft. Instant-Build-Lobbys können die Dauer ändern, aber nicht die Pflicht, die Route zu prüfen.
+
+Auch die automatische Waffen-Grenze gehört in die Erklärung. Im getaggten Code ist der Shell-Angriff gegen maritime Ziele auskommentiert. Behaupte deshalb nicht, ein Defense Post schieße automatisch Warships oder Transports ab. Der geprüfte Nutzen dieser Seite ist der lokale Landbonus und die gewonnene Zeit; Seeherrschaft braucht Ports, Warships und andere tatsächlich aktive Systeme.
+
+Trenne Mechanik und Interpretation. `×5` und `×3` sind Engine-Fakten dieser Version. „Der Post schützt meine Wirtschaft“ hängt davon ab, ob die Route zu einer City, Factory, einem Port oder zum Kern führt. Das Ergebnis ist nur dann belastbar, wenn der Gegner diese Route wahrscheinlich benutzt. Der Post ist dort stark, wo der Gegner eine teure Wahl treffen muss, nicht dort, wo ein kostenloser Umweg offensteht.
+
+## Zeichne die Abdeckung, bevor du das Feld wählst
+
+Beginne beim Ziel des Gegners, nicht beim Baumenü. Markiere die Kachel, die er erreichen muss: eine City für mehr Truppenlimit, eine Factory oder ein Port für Einkommen, eine Verbindung zwischen zwei Landesteilen oder eine Küste, deren Verlust die Wirtschaft trennt. Zeichne danach die plausiblen Wege. Der Post muss weit genug hinter dem ersten Kontakt stehen, um den Eröffnungstausch zu überleben, aber sein 30-Felder-Kreis muss die erwarteten Hauptkampffelder erreichen. „Eine Linie dahinter“ ist eine Sichtregel: Auf einer breiten Front weiter zurück, an einem Pass oder einer Brücke näher heran.
+
+Ein Kreis auf der Karte ist keine Zusage für die gesamte Front. Er kann einen Bahneingang berühren und die benachbarte Ebene offenlassen. Ein Gegner, der am Rand aufteilt, umgeht den Bonus und macht dein teures Gebäude isoliert. Bewege vor dem Kauf die Kamera und beantworte drei Fragen: Wo endet der Kreis? Welche Nachbarkachel erlaubt einen Umweg? Was passiert, wenn die erste verteidigte Kachel fällt? Wenn dann der Kern sofort offenliegt, setze die Linie tiefer oder spare Gold für den zweiten Eingang.
+
+| Kartensituation | Ort des ersten Posts | Aufgabe des zweiten | Hauptrisiko |
+| --- | --- | --- | --- |
+| Bergpass oder schmale Brücke | Hinter dem Passmund im Anmarschkorridor | Ausgang zum Kern oder parallelen Pass decken | Seitliches Feld umgeht den Eingang |
+| Lange Landgrenze | Hinter der wertvollsten Route | Nächsten Ansatz oder Rückzug schützen | Jeder Grenzpost leert Gold und Truppen |
+| Insel oder Halbinsel | Eine Linie hinter der Landung, nahe am Kern | Zweiten Strand oder Port-Zugang decken | Strand wird vor Fertigstellung erobert |
+| Bahn- und Produktionskorridor | Wo die Schiene ins sichere Innere kommt | Route zu City oder Port offenhalten | Route verliert Wert, wenn Produktion umzieht |
+| Kompakte Karte mit kurzem Kontakt | Nur bei früh erkennbarer Attacke | Reserve für Truppen und Gegenstoß halten | 50 Ticks sind ein großer Teil des Kampfes |
+
+Miss nicht nur das Grenzfeld, sondern das Endziel. Wenn der Gegner außen eine Kachel nimmt, pausiert und dann neu wählt, schützt ein Post am Rand vielleicht nur Land, das du bewusst preisgeben wolltest. Ein tieferer Post tauscht dieses Land gegen einen längeren Weg durch die Verstärkung. Das ist eine Rückzugslinie: Du kaufst eine spätere Entscheidung, nicht jedes Pixel.
+
+Achte auf Eigentum und Bau-Sicherheit. Der Post muss dir gehören, damit sein Effekt gilt. Vermeide ein Feld, das dein eigener Angriff gleich überholt, oder einen Ort, den du kurz besitzt und sofort hinter dir lässt. Wenn deine Armee bereits durch den Kandidatenbereich marschiert, ist die nächste stabile Linie meistens der bessere Platz.
+
+Der [Inselverteidigungs-Guide](/de/guides/island-defense/) zeigt dasselbe Prinzip bei Landungen. Eine Halbinsel kann Strand und Port-Zugang haben; ein Post deckt beides nur auf einer kompakten Geometrie. Zwei Posts sind nur dann gerechtfertigt, wenn beide Eingänge wirklich spielentscheidend sind.
+
+## Plane Kosten, Bauzeit und Tiefe
+
+Die Kostenleiter ist offiziell: **50.000 Gold**, dann **100.000**, **150.000**, **200.000** und **250.000**, danach bleibt der Betrag bei 250.000. Die Formel lautet `min(250000, (numUnits + 1) * 50000)`. Daraus folgt eine klare Standardregel: Teste eine Route günstig und verlange für jeden weiteren Post eine eigene Aufgabe. Bezahlbarkeit beweist nicht, dass die Route nach dem Bau noch wichtig ist.
+
+Die normale Bauzeit beträgt **50 Ticks**. Die Anzeige kann sich je nach Spieltempo wie ungefähr fünf Sekunden anfühlen, aber der Versionsfakt ist die Tickzahl. Plane als Ereigniskette: beginnen, wenn der Angriff entsteht; fertig werden, bevor er eintrifft; während des Baus Truppenreserve behalten. Eigene Lobby-Einstellungen können die Dauer ändern, nicht aber die Notwendigkeit einer wertvollen Route.
+
+Teile dein Budget in drei Umschläge:
+
+1. **Sofortiges Überleben.** Behalte genug Truppen und Gold für den nächsten Angriff, Rückzug oder Gegenstoß. Ein Post, der die Grenze leer lässt, schadet dir.
+2. **Geschütztes Ziel.** Bewerte City-Upgrade, Factory-Netz, Port, Silo oder die Zeit bis ein Verbündeter eintrifft. Ist der Verlust teurer als der Post und der Weg vorhersehbar, spricht das für den Bau.
+3. **Tiefe.** Reserviere den nächsten Preis nur mit eigener Aufgabe. Bei 100.000 Gold muss der zweite Post einen anderen Eingang schützen oder den Kern nach dem Fall der ersten Linie in einen neuen Kreis bringen.
+
+So vermeidest du, eine „Defensemaxxing“-Videorunde blind zu kopieren. Im Video kann der gesamte Kaufplan ein Überlebens-Experiment sein. In einer normalen Lobby brauchst du dasselbe Gold vielleicht für City, Silo, Port oder die Truppen, die den ersten Post erst relevant machen. Nimm die Videos als Sprache für Opportunitätskosten, nicht als Baufolge.
+
+Der billige Post ist oft ein Tempo-Werkzeug. Er verzögert den ersten Stoß, damit du auffüllst, eine Schiene umleitest, ein SAM fertigstellst oder verhandelst. Der teure Post ist ein Tiefen-Werkzeug für die Linie, die nach dem Fall der Grenze hält. Gibt es keine dieser Aufgaben, spare.
+
+Ein gestarteter Bau ist kein fertiges Gebäude. Unter dem offiziellen Tag gibt ein halb fertiger Post keinen verlässlichen Effekt. Formuliere die Annahme: „Er ist nur nützlich, wenn ich das Feld 50 Ticks halten kann.“ Erreicht der Gegner es in 20 Ticks, kaufst du eine teure Zielscheibe statt Verteidigung.
+
+Nach Fertigstellung musst du neu bewerten. Der Gegner kann die Front wechseln, einen anderen Strand nehmen oder das ursprüngliche Ziel aufgeben. Das Geld ist weg, aber du musst nicht automatisch weitere Tiefe kaufen. Gerade wegen der Nicht-Stapel-Grenze wird ein zweiter Post aus versunkenen Kosten schnell zur Falle.
+
+## Szenario eins: Ein Pass kauft einen Produktionstakt
+
+**Annahmen:** normale v0.33.12-Lobby, ein Bergpass ist der einzige Landweg zu deiner Factory und City, der erste Post kostet 50.000 Gold, braucht 50 Ticks und die gegnerische Attacke erreicht den äußeren Pass etwa bei Tick 70. Deine lokale Armee ist kleiner, kann das Feld aber bis zur Fertigstellung halten. Der Gegner hat keinen sofortigen Umweg.
+
+Setze den Post hinter den Passmund, sodass der 30-Felder-Kreis die ersten Bergkacheln und den Bahneingang zur Factory umfasst. Starte bei Tick 0. Während der ersten 50 Ticks ist das Gebäude nur ein Projekt; opfere deine Armee nicht. Ab ungefähr Tick 50 gilt der fertige Bonus. Der Gegner kommt bei Tick 70 und muss mehr Zeit und Kraft investieren, bevor die Produktionsroute erreicht wird. Exakte Verluste verspricht der Guide nicht; die prüfbare Aussage lautet nur, dass der lokale Weg teurer wird als eine offene Ebene.
+
+Bei Tick 90 liest du die neue Lage. Bleibt der Gegner im Pass, hat der Kauf Zeit für einen Factory-Zug, die Auffüllung über die City oder den Marsch eines Verbündeten gekauft. Sucht er das Seitenfeld, hat der Post bereits eine Entscheidung erzwungen. Baue nicht automatisch auf derselben Kachel weiter; schütze den Umweg oder spare für mobile Truppen.
+
+Das Entscheidungsformat ist wiederholbar: „Eine Route, ein Ziel, ein fertiger Post vor Kontakt.“ Der Kauf ist gut, weil die Route sicher, das Ziel teurer als 50.000 und das 50-Tick-Fenster vorhanden ist. Er wäre schlecht, wenn die Factory bereits aufgegeben wurde, zwei Ebenenwege gleich kurz sind oder du das Feld im Bau nicht halten kannst.
+
+Bei 100.000 Gold schützt der zweite Post den Ausgang zur City oder den Umweg, nicht die gleiche Angriffskachel noch einmal. Nach dem Fall der ersten Linie besitzt er weiter einen Zweck. Genau das macht Tiefe zu einer Investition.
+
+Das Szenario erklärt, warum eine Reihe von Posts gegen eine viel größere Armee enttäuschen kann. Sie löschen den Populationsvorteil nicht; sie kaufen ein Fenster. Nutze dieses Fenster für Auffüllen, Gegenangriff, Routenwechsel oder Diplomatie. Passives Warten verliert trotz mehrerer Gebäude.
+
+## Szenario zwei: Insel-Landung und bewusste Rückzugslinie
+
+**Annahmen:** Auf einer kompakten Inselkarte machen ein gegnerischer Port und Transporte einen Strand wahrscheinlich. Der Strand ist schnell verloren, die zentrale City liegt 25 Felder landeinwärts, eine zweite Küste 60 Felder entfernt. Du hast 150.000 Gold, brauchst aber auch Truppen. Der erste Post kostet 50.000, der zweite 100.000, beide benötigen 50 normale Ticks.
+
+Setze den ersten Post nicht auf den Strand. Wird der Strand vor Fertigstellung erobert, ist das Gebäude zerstört. Platziere ihn auf der ersten stabilen Kachel dahinter, sodass der Kreis die Landungsroute und den Weg zur City erreicht. Du akzeptierst äußeres Landverlust, um den nächsten Vorstoß teuer zu machen. Die gewonnene Zeit kann einen Gegenangriff, Port-Reparatur, Produktionsumzug oder eine diplomatische Bitte ermöglichen.
+
+Der zweite Post gehört an einen zweiten plausiblen Strand. Gibt es nur einen, setze ihn an die Kurve Richtung City, außerhalb der exakten Angriffskachel des ersten. So entsteht Tiefe: erste Linie verzögert, zweite Linie hält den Kern teuer erreichbar.
+
+Beginne bei Tick 0 nur, wenn die 50-Tick-Fenster real ist. Landet der Transport in 20 Ticks, investiere 150.000 in Truppen oder eine sofort wirksame Bewegung. Kommt er in 80 Ticks, starte den ersten und halte die 100.000 bis der zweite Eingang bestätigt ist. Bei Tick 55 ist die erste Linie aktiv, bei Tick 80 trifft der Gegner auf sie. Angenommen, der Gegner hat 400.000 und du 250.000 lokale Truppen; das sind Szenariozahlen, keine Schwellenwerte. Der Post garantiert keinen Sieg, aber er schafft Zeit, die City zu retten oder den zweiten Post fertigzustellen.
+
+Das ist die praktische Bedeutung von „Survivability“ aus den Community-Videos. Ein paar äußere Kacheln aufzugeben kann richtig sein, wenn die kürzeste Route verschwindet und City, Port und Wirtschaft verbunden bleiben. Lies danach [Inselverteidigung](/de/guides/island-defense/) und [Port oder Factory](/de/guides/port-vs-factory/).
+
+## Fehler, Gegenmaßnahmen und Anpassungen an Karte oder Modus
+
+Der erste Fehler ist der späte Bau. Der Angriff steht bereits im Kreis, während der Post noch arbeitet. Beginne, sobald die Route wahrscheinlich ist, nicht erst bei der Warnung. Der zweite Fehler ist der Post auf dem äußersten Grenzfeld. Rücke ihn hinter den Erstkontakt, auch wenn das äußere Land verloren geht.
+
+Der dritte Fehler ist der Umweg. Ein Radius von 30 Feldern deckt keine Kontinentalfront. Der Gegner kann den Nachbarpass, einen zweiten Strand oder eine offene Ebene wählen. Zeichne die angrenzenden Wege vor dem Kauf. Ist ein anderer Weg wirklich wichtig, gehört der zweite Post dorthin; sonst sind mobile Truppen wertvoller.
+
+Der vierte Fehler ist Komfort-Stapeln. Der Tag-Code rechtfertigt keine wiederholte Multiplikation derselben Kachel. Frage beim zweiten Kauf: Welches neue Feld wird geschützt? Wenn die Antwort „keines“ lautet, spare. Der Angreifer kann außerhalb des Kreises kämpfen, die Truppenreserve abwarten, die Attacke teilen oder das Postfeld erobern.
+
+Die Kartenform entscheidet stark. Pässe, Brücken, Landungen und Bahnkor­ridore machen den Post verlässlich; riesige offene Karten senken seinen Wert. In einem schnellen Kontaktmodus können 50 Ticks zu lang sein. In einem langsamen Spiel schützt derselbe Post einen Produktionstakt. Im Team sollte der Kreis kommuniziert werden, damit ein Verbündeter den Gegner nicht aus der Zone zieht. Im Free-for-all kann ein sichtbarer Post abschrecken, aber auch den Schwerpunkt deiner Wirtschaft verraten.
+
+Die v0.33.12-Grenze verhindert außerdem ein falsches Seeversprechen. Der getaggte Code bestätigt keinen automatischen Beschuss von Warships oder Transports. An der Küste schützt der Post die Landroute; Ports und Warships bleiben für die See zuständig. Modus und Karte ändern den Entscheidungsrahmen, nicht heimlich die Koeffizienten.
+
+## Checkliste, Datentabelle und nächste Lektüre
+
+Vor dem Bau sage: „Route vorhersehbar, Ziel wertvoll, Post vor Kontakt fertig, Feld während des Baus haltbar, zweiter Post mit eigener Aufgabe.“ Fehlt ein Teil, warte. Die Regel funktioniert auch bei anderer Karte, Spielgeschwindigkeit oder Gegnergröße.
+
+| Geprüfter v0.33.12-Wert | Praktische Bedeutung | Bedeutet nicht |
+| --- | --- | --- |
+| 30-Felder-Radius | Lokalen Kreis zeichnen | Das ganze Land ist geschützt |
+| Verteidigung `×5` | Viel stärkere lokale Antwort | Jede Schlacht ist gewonnen |
+| Geschwindigkeit `×3` | Auch Bewegung wird verändert | Der Gegner kann nicht umgehen |
+| Kosten 50.000 bis 250.000 | Route testen, Tiefe begründen | Jede Grenze verdient einen Post |
+| 50 normale Ticks | Vor Kontakt starten | Baustelle ist aktiv |
+| Erster passender Post | Überlappung ist kein Endlos-Multiplikator | Ein anderer Eingang wäre nutzlos |
+| Naval-Shell-Block kommentiert | Kein automatisches Feuer versprechen | Der Post ist an der Küste wertlos |
+
+Die Kurz-Wiederholung lautet: Ziel finden, Route zeichnen, eine Linie hinter den Kontakt setzen, Reserve halten, nach dem ersten Commit neu lesen. Weicht der Gegner aus, folge dem Ziel statt dem Gebäude. Fällt die erste Linie, kaufe die zweite nur für die nächste Route. Ist die Armee zu groß, verwende die Zeit für Kern, Produktion, Auffüllen oder einen Gegenangriff.
+
+Lies als Nächstes [Landkampf](/de/guides/land-combat/), [Gebäude-Timing](/de/guides/building-timing/) und [Inselverteidigung](/de/guides/island-defense/). Die offizielle Grenze ist der [OpenFront-Release v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), geprüft mit [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [DefensePostExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/DefensePostExecution.ts) und [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/AttackExecution.ts). Bei einer späteren Regeländerung müssen Radius, Preis, Bauzustand und Angriffssuche neu geprüft werden.
