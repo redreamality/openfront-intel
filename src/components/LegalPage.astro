@@ -7,6 +7,7 @@ import {
   type LegalLang,
   type LegalPageKey,
 } from '../data/legal';
+import { socialLinks, socialLinksCopy } from '../config/social-links';
 
 export interface Props {
   lang: LegalLang;
@@ -24,6 +25,8 @@ const relatedPages = (Object.keys(legalPagePaths) as LegalPageKey[])
     title: legalDocuments[lang][key].title,
     description: legalDocuments[lang][key].description,
   }));
+const additionalSocialLinks = page === 'contact' ? socialLinks.filter((link) => !link.footer) : [];
+const socialCopy = socialLinksCopy[lang];
 ---
 
 <BaseLayout
@@ -78,6 +81,27 @@ const relatedPages = (Object.keys(legalPagePaths) as LegalPageKey[])
         )}
       </section>
     ))}
+
+    {additionalSocialLinks.length > 0 && (
+      <section aria-labelledby="legal-social-links">
+        <h2 id="legal-social-links">{socialCopy.title}</h2>
+        <p>{socialCopy.lead}</p>
+        <ul class="not-prose my-6 grid list-none gap-3 p-0 sm:grid-cols-2">
+          {additionalSocialLinks.map((link) => (
+            <li class="m-0">
+              <a
+                class="card block h-full no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cannon-500"
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="font-semibold text-cannon-400">{link.labels[lang]} ↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <nav class="not-prose mt-12 border-t border-iron-800 pt-8" aria-label={document.relatedHeading}>
       <h2 class="text-xl">{document.relatedHeading}</h2>

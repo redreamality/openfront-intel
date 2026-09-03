@@ -2,6 +2,7 @@
 import { useTranslations, type Lang } from '../i18n';
 import meta from '../data/_meta.json';
 import { feedbackIntegration } from '../config/feedback';
+import { socialLinks } from '../config/social-links';
 
 interface Props {
   lang: Lang;
@@ -25,7 +26,7 @@ const legal = transparencyCopy[lang];
 ---
 
 <footer class="mt-24 border-t border-iron-800 bg-iron-950/80 py-10 text-sm text-iron-400">
-  <div class="container-wide grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+  <div class="container-wide grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
     <div>
       <div class="text-iron-100 font-semibold">{t('footer.title')}</div>
       <p class="mt-2 text-iron-400 leading-relaxed">{t('footer.description')}</p>
@@ -74,6 +75,16 @@ const legal = transparencyCopy[lang];
             {legal.cookies}
           </button>
         </li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-iron-100 font-semibold">{t('footer.community')}</div>
+      <ul class="mt-2 space-y-1">
+        {socialLinks.filter((link) => link.footer).map((link) => (
+          <li>
+            <a class="nav-link" href={link.href} rel="noopener noreferrer" target="_blank">{link.labels[lang]}</a>
+          </li>
+        ))}
       </ul>
     </div>
     <div>
