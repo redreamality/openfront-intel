@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-02。
+更新日期：2026-09-03。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/defense-posts/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把 Defense Post 部署与陆战、岛屿防守或建筑时机换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/four-islands-team-coordination/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把四岛路线协同与地图策略、岛屿防守或团队角色换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -31,7 +31,7 @@
 ## 最新来源锚点
 
 - 正式 Release：[`v0.33.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)；车站断开不再阻塞列车生成，铁路收益公式和 v33.11 Overtime 边界继续有效。
-- 上游 `main` 游标：`edb14a5fd9adbeabcb523948054ece35de3e65e9`；本轮已用 `git ls-remote` 核验。SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
+- 上游 `main` 游标：`709cb8ad756f190cc44094d5dd90b957b228faa4`；本轮已用 `git ls-remote` 核验。SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
 - GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
@@ -39,6 +39,7 @@
 - 本轮铁路网络社区及 tag 核验：[`2026-08-28-train-network-community-source-pack.md`](research/2026-08-28-train-network-community-source-pack.md)。
 - 本轮全局威胁评估社区及 tag 核验：[`2026-09-01-threat-assessment-community-source-pack.md`](research/2026-09-01-threat-assessment-community-source-pack.md)。
 - 本轮 Defense Post 社区及 tag 核验：[`2026-09-02-defense-posts-community-source-pack.md`](research/2026-09-02-defense-posts-community-source-pack.md)。
+- 本轮 Four Islands 团队协同社区及 tag 核验：[`2026-09-03-four-islands-team-coordination-community-source-pack.md`](research/2026-09-03-four-islands-team-coordination-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -79,6 +80,7 @@
 | 2026-08-28 | `LF-COMMUNITY-ROLLING` 铁路网络决策 | 新建五语 `/guides/train-network/`，解释 Factory 生成尝试、110 格搜索、155.6 格路段上限、十站惩罚、枢纽与分支场景，并接通五语 Guides、Port-vs-Factory 与 Economy Fundamentals | 3 Reddit、3 YouTube、8 个官方来源；guide audit 五语与研究门槛通过后，合并即完成本轮主题并转入 Monitoring |
 | 2026-09-01 | `LF-COMMUNITY-ROLLING` 全局威胁评估 | 新建五语 `/guides/threat-assessment/`，回答开局后如何扫描全图、选择安全目标、保留应急储备并在新边界变成侧翼前停止；接通五语 Guides、FFA opening 与 Economy fundamentals | 3 Reddit、4 YouTube、7 个官方来源；guide audit 五语与研究门槛通过；PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-02 | `LF-COMMUNITY-ROLLING` Defense Post 部署与纵深 | 新建五语 `/guides/defense-posts/`，回答 30 格范围、50 ticks 施工、50,000–250,000 费用阶梯、同格不重复叠乘、两类数字场景与绕路反制；接通五语 Guides、building-timing 与 land-combat | 3 Reddit、3 YouTube、4 个官方来源；guide audit 五语与研究门槛通过；PR 合并即完成本轮主题并继续滚动 Production |
+| 2026-09-03 | `LF-COMMUNITY-ROLLING` Four Islands 团队协同 | 新建五语 `/guides/four-islands-team-coordination/`，回答四岛分区、路线账本、桥梁/锚点/压力/储备职责、运输窗口、双队与四队核防守场景；接通五语 Guides、island-defense 与 team-roles | 5 Reddit、3 YouTube、10 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并继续滚动 Production |
 | 2026-08-23 | `LF-COMMUNITY-ROLLING` 陆战决策 | 新建五语 `/guides/land-combat/`，用实际攻击兵力、地形、Defense Post、接触面与反推抵消回答“兵多为何仍推不动”；同时修正五语军事短页的绝对化结论并接通恢复手册 | 4 Reddit、4 YouTube、7 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题，滚动 Production 继续从新意图选择 |
 | 2026-08-23 | v33.9 Release response + `WN-01` 事实修正 | 五语 v33 总览升级到 v33.9 并明确 v33.8/v33.9 不改变对局规则；v34 预览撤下已随 v33.7 发布的 spectator/Team Doomsday，改为不承诺固定秒数的地图预加载；loadout 与预加载进入内部 canonical 账本 | release contract 5/5；严格审计 95/95 + 8 internal/280 public；Astro check 0 errors；build 305 页；links 12,719；定向 e2e 149/149；合并即继续 Monitoring，正式 Release 前不改常青规则 |
 | 2026-08-22 | 13 个长文主题全部交付 | A–E 五批完成五语主答案、五份来源包、核弹计算器、两张单图页、自然入口与相邻互链；全部退出活动 Production | 严格审计 95/95；Astro check 0 errors；build 305 页；links 12,719；完整 e2e 371/371；后续只在正式变化或事实错误时重开 |
