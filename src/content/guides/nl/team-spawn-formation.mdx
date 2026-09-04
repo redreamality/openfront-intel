@@ -1,0 +1,142 @@
+---
+title: "OpenFront-teamspawn: groepeer zonder teamgenoten te blokkeren"
+description: "Kies een Team-spawnformatie: herken teamringen, balanceer een gedeeld front met expansieruimte en pas je aan handmatige of willekeurige spawns aan."
+pubDate: 2026-09-05
+updatedDate: 2026-09-05
+tags: [team, spawn, formation, opening, coordination]
+category: Strategie
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Op 2026-09-05 gecontroleerd tegen de officiële v0.33.14-bronnen voor timer, plaatsing, teamindeling, playlist en spawn-overlay; de Release repareert modaal scrollen, niet de spawnregels."
+---
+
+## Direct antwoord: vorm één regio, maar geef iedere teamgenoot een uitgang
+
+Gebruik bij een handmatige Team-spawn de ademende ringen van teamgenoten om één herkenbare regio te vormen zonder allemaal dezelfde pocket aan te klikken. Kies liefst een rand of brede boog met gedeelde vijandrichtingen, geef iedereen een eigen neutrale expansielane en vermijd een blootgesteld centrum. Verplaats vóór het einde een ring zonder uitgang. Bij Random Spawn accepteer je de toegewezen plek en coördineer je de eerste grenzen. Dit is de gepubliceerde v0.33.14-grens.
+
+Een bruikbare formatie is geen hoop en geen verspreiding. In een hoop concurreren meerdere teamgenoten om hetzelfde neutrale land, precies de bron die de ploeg moet laten groeien. Bij te grote afstand worden donaties, doelmarkeringen, gezamenlijke grenzen en reddingsroutes traag of onduidelijk. Een verbonden boog werkt beter: dicht genoeg om later bevriende grenzen en steun te vormen, open genoeg zodat ieder vrij land bereikt zonder door een teamgenoot te gaan. Er bestaat geen verborgen formatiebonus. De waarde komt uit minder interne blokkade, kortere steunroutes en duidelijke taken vóór het eerste grensgevecht.
+
+Beoordeel een start daarom niet alleen met afstand tussen markeringen. Stel vier vragen. Is de ring werkelijk een teamgenoot? Heeft elke speler een bereikbare neutrale lane? Welke positie kan vijanden uit meerdere richtingen ontmoeten? Is er na verlies van de eerste route een tweede richting of steunplan? Onthoud Ring, Lane, Front, Fallback: R-L-F-F. Zolang het team niet alle vier in een korte zin kan beantwoorden, is de spawnbeslissing niet af.
+
+Dit verklaart ook waarom “iedereen in een hoek” geen universele regel is. Een rand vermindert vaak het aantal vijandrichtingen, maar een smalle landstrook, gesloten zee of enkele bergpas verandert veiligheid in uitgestelde opstopping. Een centrum kan meerdere neutrale routes bieden als één speler bewust de ankerlast draagt en reserve houdt. Het doel is niet een mooie tekening. Groei, eerste contact en terugtocht moeten tijdens de eerste minuut leesbaar zijn.
+
+Definieer “dichtbij” als later verbinding kunnen maken, niet als overlappende ringen. Definieer “gespreid” als verschillende taken, niet als elkaar niet kunnen zien. Een bruikbare call luidt: “noordrand, ik groei westwaarts; binnen neemt het eerste contact; zuid houdt de tweede route.” Die zin noemt plaats, richting en vervanging. “Blijf bij elkaar” bevat geen van drieën en valt uiteen zodra een tegenstander de eerste corridor wint.
+
+Controleer dezelfde uitspraak na de eerste zichtbare expansie. Een aanvankelijk vrije waaier kan door snelle groei van een teamgenoot dichtlopen, terwijl een verwachte vijandzijde leeg blijft. De formatie is dus geen contract voor de hele partij, maar een gedeeld vertrekpunt. Wie de positie opnieuw benoemt, verwerpt het plan niet. Die speler bewaart juist het doel: eigen werk, bereikbare steun en een begrijpelijke reactie op de eerste echte zet van de tegenstander.
+
+## Lees de spawnstatus voordat je de kaartpositie beoordeelt
+
+De v0.33.14-code onderscheidt spawnstatussen helder. De normale handmatige multiplayerfase duurt 300 ticks, ongeveer 30 seconden op standaardsnelheid. Met Random Spawn duurt zij 150 ticks, circa 15 seconden. De uitvoering eindigt zodra de huidige tick groter is dan de ingestelde fase. Lees de teller dus als beslisvenster, niet als extra aanvalsimmuniteit. Handmatig mag een speler gedurende de fase een geldige plek insturen en verplaatsen. Willekeurig zoekt de uitvoering zelf een kandidaat; het resultaat is geen markering die nog gesleept kan worden.
+
+De willekeurige plaatsing probeert maximaal 1.000 kandidaten. Een kandidaat moet geldige, onbezette landgrond zijn, voldoende ver van de absolute kaartrand liggen en de ingestelde Manhattan-minimumafstand tot geplaatste spelers houden. De huidige grens is 30 tegels. Manhattan telt horizontale en verticale verschillen op en is geen rechte pixelafstand op je scherm. Dertig voorkomt directe overlap, maar garandeert geen eigen lane, hoeveelheid grond of veilige flank. Het is een motorvoorwaarde, geen ideale tactische tussenruimte.
+
+Als een kaart voor het huidige aantal teams een `teamSpawnArea` definieert, bemonstert Random Spawn eerst binnen het teamrechthoek. Zonder passend gebied valt de zoekactie terug op de hele kaart. Het rechthoek wordt geen bezit, muur, beschermingszone of automatische steunafstand. Bij Compact-terrein halveert de loader zowel coördinaten als afmetingen. Een ruime Normal-uitgang kan daardoor kort of nauw worden, terwijl kleine doorgangen in de geladen geometrie hun bruikbaarheid verliezen. Controleer bereikbare routes opnieuw nadat de spelers verschijnen.
+
+Teamidentiteit mag evenmin uit vergelijkbare kleuren worden geraden. Een door de server vastgezette `teamIndex` is leidend. Clanleden blijven bij elkaar zolang capaciteit bestaat; gewone vrienden zijn slechts een zachte voorkeur. Teamcapaciteit is het naar boven afgeronde aantal spelers gedeeld door het aantal teams. De spawn-overlay tekent eerst vijandelijke invloed, daarna de ademende teamringen en ten slotte de eigen ring. Gebruik de ring als identiteitsbewijs en voeg een ruimtelijke naam toe, zoals “binnenkust” of “zuidelijke achterlijn”.
+
+Playlists zetten aanvullende grenzen. Standaard openbaar Team gebruikt normaal handmatige plaatsing en staat Gold- en Troop-donaties toe. Sommige Special Team-configuraties kunnen Random Spawn bevatten, maar Duos, Trios en Quads sluiten het uit omdat willekeur het doel van die formaten zou ondermijnen. Ranked 2v2 gebruikt vier spelers, twee teams, handmatige spawns en 60 seconden PvP-spawnimmuniteit. Die minuut hoort specifiek bij Ranked 2v2; een selectiefase van 300 ticks geeft gewoon Team niet automatisch dezelfde bescherming.
+
+De leesvolgorde wordt dus: controleer modus en modifiers, identificeer ringen, bepaal of de markering nog beweegt en beoordeel daarna land en water. Pas dan worden uitspraken als “de hoek is veiliger”, “de kust geeft een uitgang” of “we moeten dichterbij” toetsbaar. In een aangepaste lobby noem je eerst Random Spawn, teams, units, Peace Time en donaties voordat je een formatie kiest.
+
+## Gebruik de R-L-F-F-check: Ring, Lane, Front, Fallback
+
+R-L-F-F comprimeert de korte aftelling tot vier herhaalbare controles. Het is geen ingebouwde functie en levert geen numerieke bonus. Ring bevestigt echte teamgenoten. Lane geeft iedere speler een neutrale waaier. Front herkent de start die waarschijnlijk meerdere contacten krijgt. Fallback bewaart een tweede plaats, andere expansierichting of expliciet plan voor een ingesloten speler. De gedeelde woorden voorkomen dat vier spelers alleen “slechte spawn” zeggen zonder aan te wijzen wat moet veranderen.
+
+| Controle | Geslaagd wanneer | Signaal om te bewegen of plannen |
+|---|---|---|
+| Ring | Ademende ringen en teamidentiteit zijn bevestigd | De keuze rust alleen op kleur, naam of aanname |
+| Lane | Iedereen bereikt neutraal land zonder een teamgenoot te kruisen | Twee spelers hangen af van dezelfde nauwe gang of pocket |
+| Front | De gedeelde vijandzijde is bekend of toegewezen | De centrumspeler kan meerdere losse richtingen ontmoeten |
+| Fallback | Een tweede plek of richting behoudt de formatie | Eén bezette kust of gesloten pas maakt de start waardeloos |
+
+**Ring** is de identiteitscontrole. Zoom uit om het team te zien en weer in voordat een ring op water, onbegaanbaar terrein, een dun schiereiland of invloed van een andere speler blijft staan. Noem teamgenoten op een drukke kaart relatief: noordrand, binnenkust, zuidachter. Zo'n label helpt in dertig seconden meer dan een debat over wie de beste speler is en voorkomt dat een vergelijkbare kleur voor bewijs doorgaat.
+
+**Lane** is de kanscontrole. Teken denkbeeldig vanaf elke markering een waaier naar neutraal land. Waaiers mogen elkaar raken, maar niet van dezelfde eerste corridor afhangen. Gelijke oppervlakte is niet het doel. Een achterspeler mag minder vroeg land accepteren als de plek het binnengebied beschermt en een City-locatie bewaart; een randspeler neemt een breder buitenfront. Falen is stille uithongering: één speler kan pas groeien wanneer een ander stopt.
+
+**Front** is de verplichtingscontrole. Tel richtingen waarlangs niet-teamgenoten de geplande regio bereiken, niet alle gekleurde stippen. Randen verminderen dat aantal vaak. Een centrum ruilt toegang voor contacten. Een centrale start kan als de speler de ankerlast kent, vroeg korter groeit en bevriende lanes achter hem samenkomen in plaats van door hem. Hij is slecht wanneer iedereen veronderstelt dat iemand anders hem zal verdedigen.
+
+**Fallback** maakt de keuze omkeerbaar. Houd handmatig een tweede kandidaat zichtbaar en verplaats vóór het einde van de 300-turn-fase. Na Random Spawn volgt geen nieuwe worp. Vervanging betekent een tweede richting, vroege donatie of toestemming compact te blijven terwijl een teamgenoot ruimte opent. Een Port is geen universele uitgang: het water moet nuttig verbonden zijn, de units moeten aanstaan en de kosten mogen een noodzakelijke City of Factory niet verdringen.
+
+Herhaal R-L-F-F direct nadat de kaart echt begint. Vijandmarkeringen worden expansie, bevriende lanes kunnen botsen en het geplande front kan leeg blijven. De tweede ronde vertaalt het spawnbeeld naar tijdelijke lasten: groei, reserve, anker en reserveweg. Niemand wordt er permanent in een rol mee vastgezet.
+
+## Scenario één: vier teamgenoten aan een drukke continentale rand
+
+Neem een handmatige Team-lobby met vier teamgenoten, de normale 300-turn-selectie en een continentale kaart waarvan de oostrand één brede binnenvlakte en twee nauwe kustpockets heeft. Dit is een leerscenario, geen bewering over een genoemde kaart of gegarandeerde openbare teamgrootte. Met twintig seconden over staan drie teamringen in de vlakte. De vierde speler overweegt exact het midden van de cluster omdat die plek beschermd lijkt.
+
+Voer R-L-F-F uit. Ring slaagt: de drie markeringen zijn teamgenoten. Lane faalt voor het centrum omdat zijn neutrale waaier twee andere overlapt en de buitenwereld alleen bereikt via land dat zij waarschijnlijk nemen. Front lijkt eerst veilig maar misleidt. De centrumspeler kan op tick één geen vijand hebben en toch de route worden waarlangs beide buitenspelers verbinden. Fallback faalt wanneer de kust een dood waterbekken of een strook van één tegel is.
+
+De betere zet is niet automatische afzondering. Verplaats de vierde markering naar de zuidelijke schouder van dezelfde regionale boog, ver genoeg voor een eigen waaier en dicht genoeg voor latere bevriende grenzen. De starts krijgen verschillende lasten: noordrand groeit langs de kaartrand, noordbinnen neemt het eerste centrale contact, zuidbinnen groeit erachter en zuidschouder beschermt het tweede uiteinde. Dit zijn startlasten, geen vaste klassen; zichtbare vijanden kunnen ze veranderen.
+
+Vergelijk met expliciete aannames. Het centrum lijkt 40 eenheden neutrale ruimte te bieden, maar 30 liggen in teamwaaiers. De schouder toont slechts 28, waarvan 24 bij een eigen lane horen, en stelt de speler bloot aan twee aannemelijke vijandrichtingen in plaats van drie. De waarden zijn een planningsschets, geen motormetriek, winstformule of verborgen tegelregel. Ze tonen waarom kleinere onbetwiste toegang waardevoller kan zijn dan een grote gedeelde pocket.
+
+De tegenstander kan aan één booguiteinde massa plaatsen of de opening tussen noordbinnen en zuidbinnen racen. Het team mag niet iedereen op die bedreigde tegel stapelen. Het anker verkort zijn grens. De achterspeler houdt Troops en Gold voor een gerichte donatie of nuttig gebouw. Een randspeler blijft groeien zodat niet alle ontwikkeling voor verdediging wordt geruild. Zodra een grens actief is, neemt de [landgevechtgids](/nl/guides/land-combat/) over; [Defense Posts](/nl/guides/defense-posts/) bepalen of een zone van 30 tegels de route dekt.
+
+De voltooiing is concreet. Voor het einde kan elke speler een eigen neutrale lane en waarschijnlijke vijandzijde noemen. Bij de eerste teamscan hoeft niemand door een teamgenoot om vrij land te bereiken en weet de blootgestelde binnenspeler wie steun kan geven. Als één uitspraak onwaar is, vereist de formatie nog beweging of een nieuwe taakverdeling.
+
+## Scenario twee: Random Spawn verdeelt een team binnen een kaartgebied
+
+Stel dat een Special Team-lobby Random Spawn trekt, de kaart een rechthoek definieert voor het huidige aantal teams en drie teamgenoten binnen die regio worden toegewezen. De fase duurt 150 turns, ongeveer 15 seconden, en spelers kunnen hun plek niet opnieuw laten loten. De routine weigert nog steeds een kandidaat binnen 30 Manhattan-tegels van een geplaatste speler. Ook moet de grond geldig, onbezet en weg van de absolute kaartrand zijn. Dit zijn benoemde motoraannames; terrein en rechthoek blijven bewust algemeen.
+
+Speler A verschijnt aan de binnenzijde, B bij een kust en C achter een schijnbaar onbegaanbare rug met maar één bevestigde uitgang. Alle drie starten legaal in het teamgebied, maar zijn niet even verbonden. R-L-F-F wordt nu een richtingscontrole. De Rings zijn bekend. A's Lane wijst naar breed neutraal binnenland. B's water telt nog niet als Port totdat watercomponent en lobbyunits zijn gecontroleerd. C vormt het knelpunt, omdat een rivaal zijn enige uitgang kan sluiten.
+
+De eerste onomkeerbare actie moet C's toegang oplossen. C claimt de pas zonder de reserve leeg te trekken. A groeit naar de binnenkant van de pas in plaats van weg van het team, waardoor later een bevriende grens kan ontstaan. B neemt genoeg kust maar geeft het eerste Gold niet uit alleen omdat er water zichtbaar is. Verliest C de race, dan is Fallback geen verboden herloting. C houdt een compacte kern, ontvangt indien toegestaan een donatie en A wordt eigenaar van de verbindingsroute.
+
+Voeg een numerieke planningsschets toe. A en B hebben ieder twee geloofwaardige richtingen, C slechts één. Het commando “iedereen naar buiten” opent vijf lanes tegelijk en kan C's enige uitgang onbezet laten. Een gewogen plan heet 2-1-2: A bekijkt twee richtingen maar kiest die naar C; C kiest de ene pas; B houdt twee opties tot de kust geclassificeerd is. De 2-1-2-labels tellen routes in dit scenario, geen aanvalspercentages, teambonussen of officiële waarden.
+
+De tegenstander kan de pas drukken en tegelijk een tweede speler naar B's kust sturen. Daardoor blijkt waarom een teamrechthoek geen fort is. Als het bestaat, beperkt het de generatie van kandidaten; het creëert geen bezeten muren, gedeeld land of automatische versterking. De reactie bewaart één werkende verbinding, niet elke zijde van de rechthoek even sterk. Bereikt A speler C, dan kan B economisch onafhankelijk blijven. Valt de pas, dan kan B's kustroute het vervangende front worden.
+
+Compact verandert het beeld opnieuw. De loader halveert coördinaten en afmetingen van het gebied, terwijl kleine doorgangen kunnen krimpen of verdwijnen. Tel uitgangen opnieuw op de geladen kaart in plaats van Normal-labels te kopiëren. Het scenario is klaar wanneer het team de toegangskritieke spawn, de eigenaar van de tweede route en het werk van de ingesloten speler zonder herloting kan uitleggen.
+
+## Veelgemaakte fouten en de beste counters van de tegenstander
+
+De eerste fout is **ringen najagen**: iedereen klikt zo dicht mogelijk bij de eerste bevriende ring. De tegenstander heeft geen mechanische counter nodig, want het team heeft zijn eigen concurrentie gemaakt. Meerdere spelers betreden dezelfde neutrale pocket, buitenste vijanden krijgen gratis grond en de achterlijn heeft geen onafhankelijke route. Behoud één regionale identiteit maar draai iedere lane als een waaier naar buiten. Nabijheid helpt alleen als aangrenzende spelers niet om hetzelfde werk strijden.
+
+De tweede fout is **een lijn over de kaart schilderen**. Een lange nette lijn raakt veel tegenstanders en laat elk deel visueel even belangrijk lijken. De vijand kiest de zwakke schakel, terwijl het verre uiteinde blijft groeien omdat nooit een anker is aangewezen. Vervang de lijn door een boog rond een verdedigbare regio. Noem één binnenscharnier waarvan verlies het team splitst en één buitenkant die veilig mag terugtrekken.
+
+De derde fout is het **heroïsche centrum**. Een zelfverzekerde speler kiest het midden en verwacht dat teamgenoten hem omringen en redden. Vijanden kunnen meerdere richtingen belasten, terwijl de rest geen Troop-ruimte of aandacht heeft. Een centraal anker werkt alleen met expliciete lasten: kortere vroege expansie, reactiereserve en bevriende lanes die achter hem samenkomen in plaats van door hem. Ontbreekt dit, verplaats dan naar een rand.
+
+De vierde fout is **kustverering**. Spelers waarderen water zonder te controleren of het dezelfde nuttige component is, of er genoeg land ligt en of een Port concurreert met City of Factory. De vijand kan hen redundante marine-infrastructuur laten kopen en de binnenroutes winnen. De formatiecheck vraagt alleen of de kust een eigen optie levert. Na de spawn rekent [Port versus Factory](/nl/guides/port-vs-factory/) de investering door.
+
+De vijfde fout is **willekeur ontkennen**. Een speler behandelt een slechte toewijzing alsof de timer nog beweging toestaat en verspilt de eerste minuut aan klikken of klagen. Na Random Spawn is geen herloting mogelijk. Verander Fallback van locatie naar taak: claim de uitgang, houd compact, markeer het knelpunt of laat een teamgenoot verbinden. De plek staat vast, maar het teamplan niet.
+
+De zesde fout is **immuniteit verwarren**. De selectie van 300 turns wordt ten onrechte een aanvalsschild van 30 seconden, of de 60 seconden van Ranked 2v2 worden op gewoon Team toegepast. Een tegenstander straft vertraagde expansie zodra de echte bescherming eindigt. Lees de lobby en houd faseduur en immuniteitsduur als twee aparte variabelen.
+
+De beste counter tegen elke formatie dwingt twee urgente beslissingen aan tegengestelde uiteinden. Het antwoord is geen perfecte symmetrie. Behoud één groeifront, één anker en één reserveroute. Als beide dreigingen echt zijn, ordenen [teamrollen](/nl/strategies/team-roles/) donaties, doelmarkeringen en overdrachten. Formatie verlaagt coördinatiekosten maar vervangt communicatie niet.
+
+## Pas de formatie aan modus en kaart aan
+
+In een regulier openbaar Team-spel gebruikt de basisconfiguratie handmatige plaatsing in plaats van Random Spawn. Behandel de ongeveer 30 seconden als toestemming om te corrigeren, niet als reden om tot de laatste seconde te wachten. Plaats een geldige voorlopige markering, zoom uit en beweeg alleen wanneer R-L-F-F een concreet gebrek toont. Een ongeplaatste cursor is aan het einde erger dan een onvolmaakte start met bekende lane.
+
+Special Team-partijen kunnen modifiers bevatten. Random Spawn verschijnt bij sommige numerieke teamconfiguraties, maar wordt voor Duos, Trios en Quads uitgesloten omdat willekeur hun doel zou tegengaan. Vertrouw de getoonde lobbystatus en niet een onthouden rotatie. Staat Random aan, dan begint de formatie bij het motorresultaat. Staat het uit, dan draagt het team verantwoordelijkheid voor de handmatige indeling.
+
+Ranked 2v2 heeft een eigen smalle grens. De v0.33.14-playlist zet vier spelers, twee teams, handmatige spawn, geen Nations, Gold- en Troop-donaties en 60 seconden spawnimmuniteit na selectie. Deze feiten bewijzen geen universele ranked tactiek. Gebruik de bescherming om twee losse lanes te verbinden en spreek af wie de eerste vijand ontmoet. Bezet niet dezelfde pocket alleen omdat er twee ringen zijn.
+
+Op één continent kies je een randboog wanneer die binnendiepte bewaart. Een centrumcluster kan toegang winnen, maar accepteert doorgaans meer contactrichtingen. Tel bereikbare uitgangen in plaats van geografische labels. Bergen en onbegaanbaar terrein kunnen een visueel centrum tot echte rand maken. Een rivier of dunne neutrale gang kan een buitenpositie juist tot teamscharnier maken.
+
+Op zeestraat- en eilandkaarten beslis je of teamgenoten één watergebied delen of verschillende landcomponenten bedekken. Iedereen op één eiland vormt een sterke regionale kern, maar kan andere componenten weggeven. Eén speler per eiland krijgt eigen lanes, terwijl gezamenlijke landdruk duurder wordt. [Kaartstrategie](/nl/guides/map-strategy/) behandelt componenten; [eilandverdediging](/nl/guides/island-defense/) beslist daarna over Haven, blokkade, houden en vertrekken.
+
+Bij ingestelde teamgebieden controleer je of het huidige aantal teams een ingang heeft. De bron gebruikt dat aantal als sleutel. Ontbreekt de ingang, dan valt Random Spawn terug op de hele kaart. In Compact worden positie en grootte van de rechthoek gehalveerd. Die feiten vereisen inspectie van echte starts en bewijzen nooit dat een team altijd een vaste kompasrichting bezit.
+
+Humans versus Nations heeft andere kanten en immuniteitsgrenzen; Nations kunnen naar het passende teamgebied worden gestuurd. Menselijke spelers hebben nog steeds losse lanes nodig. Een aangepaste host kan Random Spawn, teams, units en Peace Time veranderen. Noem eerst de instellingen. R-L-F-F blijft bruikbaar doordat het echte ringen, bereikbaar land, aantal fronten en reserve bekijkt in plaats van één preset te onthouden.
+
+## Een callsheet van 30 seconden en de voltooiingstest
+
+Gebruik bij een handmatige Team-aftelling dit schema. **30–20 seconden**: plaats een geldige voorlopige markering en zoom uit. Herken teamringen, grote landcomponenten, nuttige kusten en duidelijke obstakels. Zeg alleen locatie plus probleem: “noordrand, geen tweede lane” is uitvoerbaar; “slechte spawn” niet. **20–10 seconden**: teken per speler een neutrale waaier, verplaats markeringen die dezelfde nauwe pocket delen en benoem het anker als de indeling centraal contact heeft.
+
+**10–5 seconden**: controleer Fallback. Iedereen houdt een richting als de tegenstander de eerste race wint. Beslis welke kust een echte teamoptie is en welke decoratie. Open een stabiele positie niet opnieuw voor een minieme visuele verbetering. **5–0 seconden**: stop met bewegen tenzij de markering ongeldig of volledig ingesloten is. Noem de eerste gezamenlijke scan na de start: pas, buitenrand, vijandcluster of kust.
+
+Bij Random Spawn wordt dezelfde logica observatie in plaats van plaatsing. Ringen en lanes blijven in de kortere fase benoembaar, maar het resultaat kan niet worden herhaald. Wijs de toegangskritieke speler, de groeispeler en de reserveroute aan. Dit zijn tijdelijke lasten. Beoordeel opnieuw zodra echte expansie de eerste grens laat zien.
+
+De gids is voltooid wanneer vijf uitspraken kloppen. Ten eerste onderscheidt de speler handmatige en willekeurige plaatsing. Ten tweede gebruikt hij echte teamringen in plaats van kleurverwachtingen. Ten derde heeft iedereen een genoemde neutrale lane of expliciet compact steunplan. Ten vierde herkent het team de positie met meerdere vijandrichtingen. Ten vijfde weet iedereen of Fallback nu een markerverplaatsing of na Random Spawn een andere expansierichting betekent.
+
+De officiële bewijzen zijn de [v0.33.14 Release][release], [tijd- en afstandsconfiguratie][config], [plaatsingsroutine][spawn], [spawn-overlay][overlay], [teamtoewijzing][assignment], [openbare playlist][playlist] en [loader voor teamgebieden][loader]. De Release zelf repareert het scrollen van modals en geeft dus een versiegrens, geen nieuwe spawnmechaniek. De tagcode stelt de regels vast; communitydiscussies en video's leveren het spelersprobleem en de taal.
+
+Ga verder met de [eerste-partijgids](/nl/guides/first-match/) om de plek in een stabiele opening om te zetten. Gebruik [kaartstrategie](/nl/guides/map-strategy/) wanneer de lane afhangt van land- of waterverbindingen en daarna [teamrollen](/nl/strategies/team-roles/) voor donaties, doelen, logistiek en overdrachten. Voor gescheiden eilanden levert de [Four Islands-teamgids](/nl/guides/four-islands-team-coordination/) het kaartplan. De formatie slaagt wanneer latere keuzes vanuit één samenhangende regio beginnen en niet vanuit losse noodgevallen.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/configuration/Config.ts
+[spawn]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/execution/SpawnExecution.ts
+[overlay]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/render/gl/passes/SpawnOverlayPass.ts
+[assignment]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TeamAssignment.ts
+[playlist]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/server/MapPlaylist.ts
+[loader]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TerrainMapLoader.ts

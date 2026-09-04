@@ -1,12 +1,24 @@
 ---
-title: 'v33.12: losse treinstations blokkeren geen spawns meer'
-description: 'Spelersgerichte OpenFront v33.12-notities: de fix voor treinstations, railnetwerkkeuzes en de v33-regels die blijven gelden.'
+title: 'v33.14: modals scrollen weer en Overtime staat standaard aan'
+description: 'Spelersgerichte OpenFront v33.14-notities: modals scrollen weer, openbaar FFA gebruikt standaard Overtime en eerdere v33-regels blijven gelden.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-25
+updatedDate: 2026-09-05
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.14 en v33.13: scrollende modals en Overtime in openbaar FFA
+
+De officiële `v0.33.14` Release repareert problemen in de advertentie-indeling die scrollen in modals blokkeerden. Kon je in een lang instellingen-, account-, profiel- of lobbypaneel de onderste bediening niet bereiken, probeer het opnieuw op v33.14. Dit is herstel van de interface, geen nieuwe unit-, economie-, spawn- of gevechtsregel.
+
+De voorgaande `v0.33.13` Release maakt Overtime standaard voor openbare FFA-partijen. De mechaniek blijft die uit v0.33.11: de normale 80%-grens blijft tot minuut 30 staan, daalt daarna elke 30 seconden met 1 procentpunt en vereist een aandeel dat strikt groter is dan de live grens. De playlist ging van een kans van één op vier bij introductie naar standaard aan in openbaar FFA; Team en Special nemen die standaard niet over.
+
+| Huidige patch | Zichtbaar resultaat | Beslisgrens |
+|---|---|---|
+| v33.14 | Lange modals scrollen met de advertentie-indeling | Probeer geblokkeerde bediening opnieuw; matchstrategie blijft gelijk |
+| v33.13 | Openbaar FFA gebruikt standaard Overtime | Lees na minuut 30 de oranje live grens |
+| v33.12 | Eén los station blokkeert niet elke Train-poging | De route vereist nog bruikbare stops |
 
 ## v33.12-update: een los station stopt niet langer elke treinspawn
 
@@ -19,14 +31,16 @@ Na een verovering of kaartbreuk meet je City- en Port-stops gedurende 60–120 t
 | Fix voor los station | Eén kapotte knoop blokkeert geen pogingen meer | De Train heeft nog steeds een bruikbaar stationpad nodig |
 | Railbeslissing | Gemeten hub, tak en stops | Geen nieuwe uitbetalingsformule |
 
-## Direct antwoord: wat verandert v33.11?
+## Direct antwoord: Overtime-geschiedenis van v33.11 tot v33.13
 
-De officiële Release `v0.33.11` voegt **Overtime** toe, een anti-patstellingmodifier in een kwart van de openbare FFA-partijen. De normale windrempel van 80% blijft tot minuut 30 vast en daalt daarna elke 30 seconden met 1 procentpunt. De leider wint pas wanneer het aandeel strikt boven de live drempel ligt. Gebied vasthouden vervangt dus eindeloos wachten op 80%.
+De officiële Release `v0.33.11` voegt **Overtime** toe, bij introductie een anti-patstellingmodifier in een kwart van de openbare FFA-partijen. De normale windrempel van 80% blijft tot minuut 30 vast en daalt daarna elke 30 seconden met 1 procentpunt. De leider wint pas wanneer het aandeel strikt boven de live drempel ligt. Gebied vasthouden vervangt dus eindeloos wachten op 80%. Sinds v0.33.13 staat Overtime standaard aan voor openbaar FFA en vervalt die kans van één op vier.
 
 Dezelfde Release gebruikt een binair formaat voor minder websocketverkeer; v0.33.10 voegt de perssite toe. Die leveringswijzigingen veranderen geen bouwvolgorde. Overtime wel: lees de modifier, vergelijk je aandeel met de oranje drempel en kies tussen de voorsprong verdedigen en goedkoop land pakken vóór de volgende stap.
 
 | Patch | Wijziging | Spelersbeslissing |
 |---|---|---|
+| v33.14 | Modals scrollen met de huidige advertentie-indeling | Probeer onbereikbare onderste bediening opnieuw; matchregels blijven gelijk |
+| v33.13 | Overtime wordt standaard in openbaar FFA | Verwacht de dynamische grens in openbaar FFA; Team en Special blijven apart |
 | v33.11 | Overtime verlaagt de openbare FFA-windrempel na minuut 30 | Verdedig of passeer de gebiedsleider; lees de [volledige Overtime-gids](/nl/guides/winning-overtime/) |
 | v33.10 | Ingang naar de perssite | Geen matchregel verandert |
 | v33.9 | De desktopclient kan een releasebeschrijving lezen | Houd de client actueel; matchregels blijven gelijk |
@@ -155,8 +169,8 @@ De bijgewerkte [kaartendatabase](/nl/database/maps/) bevat alle **117 kaarten**.
 
 ## Bronstatus
 
-De nieuwste formele bron is de [officiële v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12). De andere v33-items blijven de grens voor Overtime, Doomsday, replays, Warship-veterancy en bulkacties.
+De nieuwste formele bron is de [officiële v0.33.14 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14). Die bevat de modalscroll-fix en de verzamelde v33.13-regel voor Overtime; oudere v33-items blijven de grens voor railbetrouwbaarheid, Overtime, Doomsday, replays, Warship-veterancy en bulkacties.
 
-GitHub markeert de officiële Release `v0.33.11` als `draft=false` en `prerelease=false`; de body bevat echte v33.11- tot v33.0-items en geen TEST-placeholder. De v0.33.11-tag is de formele bron voor Overtime; v33.10, v33.9 en v33.8 gaan over pers, desktopdistributie en verbindingsbetrouwbaarheid. Dit blijft het enige v33-overzicht.
+GitHub markeert deze Releases als `draft=false` en `prerelease=false`; de v0.33.14-body bevat echte v33.14- tot v33.0-items en geen TEST-placeholder. De v0.33.11-tag blijft de bron voor de Overtime-mechaniek, terwijl v0.33.13 de standaard voor openbaar FFA wijzigt. v33.10, v33.9 en v33.8 gaan over pers, desktopdistributie en verbindingsbetrouwbaarheid. Dit blijft het enige v33-overzicht.
 
-Bronnen: [officiële v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [Overtime-drempels uit de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [openbare FFA-rotatie uit de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), [officiële v0.33.7 gameplay-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator-lobbyflow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday-drempels](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland-rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versie-replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Luna-rotatiefrequentie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [bundellimieten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) en [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
+Bronnen: [officiële v0.33.14 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14), [officiële v0.33.13 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [officiële v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [Overtime-drempels uit de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [openbare FFA-rotatie uit de tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/server/MapPlaylist.ts), [officiële v0.33.7 gameplay-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [spectator-lobbyflow](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday-drempels](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [wasteland-rot](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versie-replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Luna-rotatiefrequentie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [bundellimieten](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) en [Silo-lanceringsschema](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

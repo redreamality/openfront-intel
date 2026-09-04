@@ -1,0 +1,140 @@
+---
+title: "Formation de spawn en équipe dans OpenFront : restez groupés sans bloquer vos alliés"
+description: "Choisissez une formation de spawn Team : repérez les anneaux alliés, équilibrez front commun et espace d'expansion, puis adaptez-vous au placement manuel ou aléatoire."
+pubDate: 2026-09-05
+updatedDate: 2026-09-05
+tags: [team, spawn, formation, opening, coordination]
+category: Stratégie
+difficulty: Intermédiaire
+version: v33
+freshnessSummary: "Vérifié le 2026-09-05 sur les sources officielles v0.33.14 du minuteur, du placement, des équipes, de la playlist et de l'overlay de spawn ; la Release corrige le défilement des fenêtres, pas les règles de spawn."
+---
+
+## Réponse directe : formez une région commune, mais laissez une sortie à chacun
+
+Pendant un spawn Team manuel, utilisez les anneaux respirants des coéquipiers pour former une région reconnaissable sans cliquer tous dans la même poche. Préférez un bord ou un arc large, partagez les directions ennemies, attribuez à chaque joueur un couloir neutre et évitez un centre exposé. Déplacez un marqueur sans sortie avant la fin du compte à rebours. Avec Random Spawn, acceptez la position et coordonnez plutôt les premières frontières. Cette réponse correspond à la version publiée v0.33.14.
+
+Une bonne formation n'est ni un tas ni une dispersion. Un tas oblige plusieurs coéquipiers à se battre pour la même terre neutre, donc pour la ressource qui devrait faire grandir l'équipe. Une dispersion rend les dons, les marqueurs de cible, les frontières communes et les secours lents ou ambigus. La forme utile est un arc connecté : assez proche pour créer plus tard des frontières amies et du soutien, assez ouvert pour que chacun atteigne une terre libre sans traverser un allié. Il n'existe pas de bonus secret de formation. La valeur vient de la réduction des blocages internes, de routes d'aide plus courtes et de responsabilités lisibles avant le premier combat.
+
+Ne jugez donc pas le départ avec la seule distance entre deux marqueurs. Posez quatre questions. L'anneau appartient-il réellement à un coéquipier ? Chaque joueur possède-t-il un couloir neutre praticable ? Quelle position risque de rencontrer plusieurs directions hostiles ? Si le premier trajet échoue, reste-t-il un second trajet ou un plan de soutien ? Retenez Ring, Lane, Front, Fallback, soit R-L-F-F. Une formation n'est pas terminée tant que l'équipe ne peut pas répondre aux quatre questions en une phrase courte.
+
+Ce cadre explique aussi pourquoi « tous dans un coin » n'est pas une règle universelle. Un bord réduit souvent le nombre de directions ennemies, mais un bord trop étroit, une mer fermée ou un unique col transforme la sécurité en embouteillage retardé. Une position centrale peut offrir plusieurs couloirs neutres, à condition qu'un joueur accepte explicitement le rôle d'ancre et garde une réserve. Le but n'est pas de dessiner une figure élégante. Il est de rendre la croissance, le premier contact et la retraite compréhensibles pendant la première minute.
+
+Définissez « proche » comme la possibilité de construire une connexion, pas comme des anneaux superposés. Définissez « séparé » comme des tâches distinctes, pas comme l'impossibilité de se voir. Une équipe devrait pouvoir annoncer : « bord nord, j'expands vers l'ouest ; l'intérieur prend le premier contact ; le sud conserve la deuxième route ». Cette phrase change une décision réelle, car elle nomme une zone, une direction et un remplacement. « Restons groupés » ne fournit aucun de ces trois éléments et échoue dès qu'un adversaire gagne le premier couloir.
+
+## Lisez l'état du spawn avant de juger la carte
+
+Le code v0.33.14 distingue nettement les états de spawn. La phase multijoueur manuelle dure 300 ticks, soit environ 30 secondes à vitesse normale. Avec Random Spawn, elle dure 150 ticks, soit environ 15 secondes. L'exécution se termine lorsque le tick courant dépasse la durée configurée. Il faut donc lire le compte à rebours comme une fenêtre de décision, pas comme une immunité de combat supplémentaire. En manuel, un joueur peut soumettre puis déplacer un emplacement valide pendant la phase. En aléatoire, l'exécution choisit un candidat ; le résultat n'est pas un marqueur encore déplaçable.
+
+Le placement aléatoire essaie jusqu'à 1 000 candidats. Un candidat doit être une case terrestre valide et non possédée, suffisamment loin du bord absolu de la carte et séparée des joueurs déjà placés par la distance de Manhattan configurée. La valeur actuelle est 30 cases. Cette distance additionne les écarts horizontaux et verticaux ; ce n'est pas une mesure en pixels à l'écran. Elle empêche une superposition immédiate, mais elle ne promet ni couloir indépendant, ni quantité de terre, ni flanc sûr. Trente est une contrainte du moteur, pas l'espacement tactique idéal.
+
+Si une carte définit une `teamSpawnArea` pour le nombre actuel d'équipes, Random Spawn échantillonne d'abord dans le rectangle de l'équipe. Sans zone correspondante, il revient à la carte entière. Ce rectangle n'est ni un territoire possédé, ni un mur, ni une protection, ni une portée de soutien. En terrain Compact, le chargeur divise par deux les coordonnées et les dimensions de la zone. Une sortie confortable en Normal peut donc devenir courte ou étroite, et un petit passage peut disparaître dans la géométrie réellement chargée. Relisez toujours les routes après l'apparition des joueurs.
+
+L'identité alliée ne doit pas être déduite d'une couleur proche. Un `teamIndex` imposé par le serveur est prioritaire. Les membres d'un clan restent ensemble lorsque la capacité le permet, tandis qu'un ami ordinaire n'est qu'une préférence souple. La capacité d'équipe est l'arrondi supérieur du nombre de joueurs divisé par le nombre d'équipes. Dans l'overlay, l'influence ennemie est dessinée d'abord, les anneaux respirants des coéquipiers ensuite, puis l'anneau local. Utilisez cet anneau comme registre d'identité et ajoutez un nom spatial, par exemple « côte intérieure » ou « arrière sud ».
+
+Les playlists imposent aussi des limites. Le Team public standard emploie normalement le placement manuel et autorise les dons de Gold et de Troops. Certaines configurations Special Team peuvent inclure Random Spawn, mais Duos, Trios et Quads l'excluent, car un placement aléatoire détruirait l'objectif de ces formats. Ranked 2v2 utilise quatre joueurs, deux équipes, un spawn manuel et 60 secondes d'immunité PvP. Ces 60 secondes sont propres à ce mode ; la phase de sélection de 300 ticks n'accorde pas automatiquement une protection équivalente au Team ordinaire.
+
+L'ordre de lecture devient donc simple : vérifiez le mode et ses modificateurs, identifiez les anneaux, déterminez si le marqueur peut encore bouger, puis examinez terre et eau. Ce n'est qu'après ces contrôles que « le coin est plus sûr », « la côte offre une sortie » ou « rapprochons-nous » devient une affirmation testable. Dans une salle personnalisée, annoncez Random Spawn, équipes, unités, Peace Time et dons avant d'appliquer une formation.
+
+## Utilisez le contrôle R-L-F-F : Ring, Lane, Front, Fallback
+
+R-L-F-F condense le compte à rebours en quatre contrôles répétables. Ce n'est pas une mécanique intégrée et cela n'accorde aucun bonus. Ring confirme les vrais coéquipiers. Lane donne à chacun un coin de terre neutre. Front identifie la position qui recevra probablement plusieurs contacts. Fallback garde un autre emplacement, une seconde direction d'expansion ou un plan explicite pour soutenir un joueur enfermé. Le vocabulaire commun évite que quatre personnes disent simplement « mauvais spawn » sans indiquer ce qui doit changer.
+
+| Contrôle | Condition de réussite | Signal pour bouger ou changer le plan |
+|---|---|---|
+| Ring | Les anneaux respirants et l'identité d'équipe sont confirmés | La décision repose seulement sur une couleur, un nom ou une supposition |
+| Lane | Chacun atteint une terre neutre sans traverser un allié | Deux joueurs dépendent du même petit passage ou de la même poche |
+| Front | La direction ennemie commune est connue ou attribuée | Le joueur central peut rencontrer plusieurs côtés sans rapport |
+| Fallback | Une seconde case ou direction préserve la formation | Une côte occupée ou un col fermé rend tout le départ inutile |
+
+**Ring** est le contrôle d'identité. Dézoomez pour voir l'équipe, puis zoomez avant de confirmer qu'un anneau n'est pas sur l'eau, un terrain infranchissable, une péninsule fine ou l'influence d'un autre joueur. Sur une carte dense, nommez les alliés par position relative : bord nord, côte intérieure, arrière sud. Ce libellé transmet davantage pendant trente secondes qu'un débat sur le meilleur joueur et évite de traiter une couleur voisine comme une preuve.
+
+**Lane** est le contrôle d'opportunité. Imaginez un éventail de chaque marqueur vers le neutre. Deux éventails peuvent se toucher, mais ne doivent pas dépendre du même premier corridor. L'objectif n'est pas une surface identique. Un arrière peut accepter moins de terre précoce si son départ protège l'intérieur et conserve un site de City ; un joueur de bord peut prendre un front plus large. L'échec est la famine silencieuse : un coéquipier ne peut croître que lorsque l'autre s'arrête.
+
+**Front** est le contrôle de passif. Comptez les directions par lesquelles des non-coéquipiers peuvent atteindre la région, pas tous les points colorés de l'écran. Les bords réduisent souvent ce nombre. Le centre échange plus de contacts contre plus d'accès. Un centre reste acceptable si le joueur connaît sa charge d'ancre, limite son expansion initiale et reçoit des routes amies derrière lui. Il devient mauvais lorsque chacun suppose que quelqu'un d'autre le défendra.
+
+**Fallback** rend la décision réversible. En placement manuel, gardez un deuxième candidat visible et bougez avant la fin des 300 tours. Après Random Spawn, il n'y a pas de nouveau tirage : le remplacement devient une autre direction, un don précoce ou la permission de rester compact pendant qu'un allié ouvre l'espace. Un Port n'est pas une sortie universelle. L'eau doit rejoindre un théâtre utile, les unités doivent être actives et le coût ne doit pas sacrifier une City ou une Factory nécessaire.
+
+Répétez R-L-F-F dès le début réel de la carte. Les marqueurs ennemis deviennent des expansions, deux lanes amies peuvent se heurter et le front prévu peut rester vide. Le second passage transforme une image de spawn en charges temporaires : qui grandit, qui garde la réserve, qui tient la charnière et qui possède la route de secours. Il ne verrouille personne dans une profession permanente.
+
+## Scénario un : quatre coéquipiers sur le bord d'un continent encombré
+
+Supposons une salle Team manuelle avec quatre coéquipiers, la phase normale de 300 tours et une carte continentale dont le bord est possède une vaste plaine intérieure plus deux poches côtières étroites. C'est un scénario pédagogique, pas une promesse sur une carte nommée ni sur la taille d'une partie publique. À vingt secondes de la fin, trois anneaux alliés sont déjà dans la plaine. Le quatrième joueur envisage le milieu exact du groupe parce qu'il paraît protégé.
+
+Appliquez R-L-F-F. Ring réussit : les trois marqueurs sont bien alliés. Lane échoue pour le centre, car son éventail neutre recouvre ceux de deux voisins et ne rejoint l'extérieur que par une terre qu'ils prendront probablement. Front paraît sûr, mais trompe : ce joueur peut n'avoir aucun ennemi au premier tick tout en devenant le passage obligé lorsque les deux joueurs extérieurs cherchent à se connecter. Fallback échoue si la côte proche appartient à une eau fermée ou à une bande terrestre d'une case.
+
+La meilleure correction n'est pas l'isolement automatique. Déplacez le quatrième marqueur vers l'épaule sud du même arc, assez loin pour obtenir son propre éventail, assez proche pour former plus tard une frontière amie. Les quatre départs ont alors des charges distinctes : le bord nord suit la limite de carte ; l'intérieur nord reçoit le premier contact central ; l'intérieur sud croît derrière ce contact ; l'épaule sud protège la seconde extrémité. Ce sont des charges initiales, pas des classes permanentes.
+
+Utilisons des hypothèses chiffrées. Le centre semble offrir 40 unités d'espace neutre, mais 30 se trouvent dans les éventails alliés. L'épaule n'en montre que 28, dont 24 appartiennent à une lane distincte, et elle expose deux directions hostiles plausibles au lieu de trois. Ces valeurs illustrent un dessin de planification ; elles ne sont ni des cases mesurées par le moteur, ni une formule de victoire. Elles montrent pourquoi un espace modeste non disputé vaut parfois davantage qu'une grande poche partagée.
+
+Le meilleur contre adverse consiste à masser sur une extrémité de l'arc ou à courir vers l'intervalle entre les deux joueurs intérieurs. L'équipe ne doit pas empiler tout le monde sur la case menacée. L'ancre raccourcit sa frontière ; l'arrière conserve Troops et Gold pour un don ou un bâtiment utile ; un joueur extérieur continue à grandir afin que toute l'économie ne soit pas échangée contre la défense. Dès qu'une frontière existe, le [guide du combat terrestre](/fr/guides/land-combat/) prend la décision ; les [postes de défense](/fr/guides/defense-posts/) indiquent si une zone de 30 cases couvre l'approche.
+
+Le test de fin est concret. Avant la fin du compte à rebours, les quatre joueurs savent nommer leur lane neutre et un côté hostile probable. Au premier scan d'équipe, personne ne doit traverser un allié pour atteindre du terrain libre, et le joueur intérieur exposé connaît le coéquipier qui peut l'aider. Si une seule de ces phrases est fausse, la formation doit encore bouger ou redistribuer les charges.
+
+## Scénario deux : Random Spawn divise une équipe dans une zone de carte
+
+Supposons qu'une salle Special Team tire Random Spawn, que la carte définisse une zone rectangulaire pour le nombre actuel d'équipes et que trois coéquipiers soient attribués dans cette zone. La phase dure 150 tours, environ 15 secondes, et les joueurs ne peuvent pas relancer leurs positions. La routine refuse toujours un candidat situé à moins de 30 cases de Manhattan d'un joueur déjà placé. Elle exige aussi une terre libre, praticable et éloignée du bord absolu. Ces éléments sont des hypothèses moteur ; terrain et rectangle restent volontairement génériques.
+
+Le joueur A apparaît du côté intérieur de la zone, B près d'une côte et C derrière une crête apparemment infranchissable, avec une seule sortie vérifiée. Les trois départs sont légalement dans la zone Team, mais ils ne sont pas également connectés. R-L-F-F devient ici un contrôle de direction. Les Rings sont connus. La Lane de A vise un vaste neutre intérieur. B peut atteindre l'eau, mais cette eau ne vaut pas encore un Port sans vérifier sa composante et les unités de la salle. C est le goulet, car un rival peut fermer son unique passage.
+
+La première action irréversible doit répondre au problème de C. C prend le col sans vider sa réserve. A se développe vers le côté intérieur du col au lieu de fuir l'équipe, ce qui prépare une frontière amie. B sécurise juste assez de côte sans dépenser son premier Gold uniquement parce que la mer est visible. Si C perd la course, le Fallback n'est pas un bouton de relance interdit : C tient un noyau compact, reçoit un don si la configuration le permet et A devient propriétaire de la route de reconnexion.
+
+Ajoutons un croquis numérique. A et B disposent chacun de deux directions crédibles, C d'une seule. L'ordre « tous vers l'extérieur » ouvre cinq lanes simultanées et laisse potentiellement la seule sortie de C libre. Un plan pondéré se note 2-1-2 : A inspecte deux directions mais s'engage vers C ; C prend le col unique ; B conserve deux options jusqu'à la classification de la côte. Les nombres 2-1-2 comptent des routes dans ce scénario, pas un pourcentage d'attaque, un bonus d'équipe ou une statistique officielle.
+
+L'adversaire peut presser le col et envoyer un autre joueur vers la côte de B. Ce test révèle pourquoi une zone Team n'est pas une forteresse. Lorsqu'elle existe, elle contraint la génération de candidats ; elle ne crée ni murs possédés, ni terrain partagé, ni renfort automatique. La réponse vise une connexion fonctionnelle, pas la défense uniforme de chaque bord du rectangle. Si A atteint C, B peut garder une économie indépendante. Si le col tombe, la route côtière de B peut devenir le front de remplacement.
+
+Compact modifie encore la lecture. Le chargeur réduit de moitié coordonnées et dimensions de la zone, tandis qu'un petit passage peut rétrécir ou disparaître. Recomptez les sorties sur la carte chargée au lieu de recopier les étiquettes de Normal. Le scénario est terminé lorsque l'équipe sait dire quel spawn contrôle l'accès, quel joueur conserve la seconde route et ce que fait le joueur enfermé sans nouveau tirage.
+
+## Échecs courants et meilleurs contres adverses
+
+Le premier échec est la **chasse aux anneaux** : chacun clique aussi près que possible du premier allié visible. L'adversaire n'a même pas besoin d'un contre mécanique, car l'équipe a déjà créé sa concurrence interne. Plusieurs joueurs pénètrent la même poche neutre, les ennemis extérieurs gagnent gratuitement du terrain et l'arrière n'a pas de route indépendante. Conservez l'identité régionale, mais faites pivoter les lanes vers l'extérieur comme un éventail. La proximité n'est utile que si les tâches restent distinctes.
+
+Le deuxième échec est le **dessin d'une ligne** à travers la carte. Une longue ligne touche de nombreux adversaires et donne la même importance visuelle à chaque segment. L'ennemi choisit le maillon faible pendant que l'extrémité lointaine continue à grandir, car personne n'a nommé l'ancre. Remplacez la ligne par un arc autour d'une région défendable. Nommez une charnière intérieure dont la perte séparerait l'équipe et une extrémité extérieure qui peut reculer sans briser le noyau.
+
+Le troisième est le **héros central**. Un joueur sûr de lui prend le milieu et attend que ses coéquipiers l'entourent puis le sauvent. Plusieurs directions ennemies peuvent le presser, tandis que les autres manquent de Troops, de Gold ou d'attention. Une ancre centrale fonctionne seulement lorsque sa charge est explicite : expansion courte, réserve de réponse et lanes alliées qui convergent derrière elle plutôt qu'à travers elle. Sinon, déplacez le marqueur vers un bord.
+
+Le quatrième est le **culte de la côte**. Plusieurs joueurs valorisent l'eau sans vérifier si elle appartient à une composante utile, si le sol côtier suffit ou si un Port concurrence une City ou une Factory. Un adversaire peut les laisser payer des infrastructures navales redondantes puis gagner l'intérieur. La formation demande seulement si la côte offre une option distincte. Le [guide Port contre Factory](/fr/guides/port-vs-factory/) évalue l'investissement après le spawn.
+
+Le cinquième est le **refus du hasard**. Un joueur traite un mauvais départ attribué comme si le minuteur permettait encore de bouger, puis gaspille la première minute à cliquer ailleurs ou se plaindre. Une fois Random Spawn établi, le moteur ne relance pas. Changez le Fallback de lieu en charge : prendre la sortie, tenir compact, signaler le goulet ou confier la connexion à un allié. Le lieu est fixe, le plan ne l'est pas.
+
+Le sixième est la **confusion d'immunité**. La phase de sélection de 300 tours devient à tort un bouclier de 30 secondes, ou les 60 secondes PvP de Ranked 2v2 sont appliquées au Team ordinaire. L'adversaire punit l'expansion tardive dès que la vraie protection prend fin. Lisez la salle et séparez toujours durée de phase et durée d'immunité.
+
+Le meilleur contre à toute formation force deux décisions urgentes aux extrémités opposées. La réponse n'est pas une symétrie parfaite. Gardez un front de croissance, une ancre et une route de secours. Si les deux menaces sont réelles, les [rôles d'équipe](/fr/strategies/team-roles/) organisent dons, marqueurs et relais. La formation réduit le coût de coordination ; elle ne remplace pas la communication.
+
+## Adaptez la formation au mode et à la carte
+
+Dans une partie Team publique standard, la configuration de base utilise le placement manuel plutôt que Random Spawn. Traitez les quelque 30 secondes comme une permission de corriger, pas comme une raison d'attendre la dernière seconde. Posez un marqueur provisoire valide, dézoomez, puis bougez seulement si R-L-F-F révèle un défaut précis. Un curseur non placé à la fin est plus dangereux qu'un départ imparfait avec une lane connue.
+
+Les parties Special Team peuvent avoir des modificateurs. Random Spawn apparaît dans certaines configurations numériques, mais la playlist l'exclut pour Duos, Trios et Quads, car il contredirait le but de ces formats. Faites confiance à l'état affiché de la salle, pas à une rotation mémorisée. S'il est actif, la formation commence avec le résultat du moteur. S'il est absent, l'équipe décide réellement de sa disposition manuelle.
+
+Ranked 2v2 possède une limite particulière. En v0.33.14, la playlist fixe quatre joueurs, deux équipes, un spawn manuel, aucune Nation, les dons de Gold et de Troops, puis 60 secondes d'immunité après la sélection. Ces faits ne suffisent pas à inventer une tactique universelle. Utilisez la protection pour relier deux lanes distinctes et convenir du joueur qui rencontrera le premier adversaire. Ne partagez pas une poche uniquement parce que deux anneaux sont visibles.
+
+Sur un continent unique, préférez un arc de bord lorsqu'il conserve une profondeur intérieure. Un groupe central gagne parfois de l'accès au prix de contacts plus nombreux. Comptez les sorties praticables plutôt que les noms géographiques. Des montagnes ou du terrain infranchissable peuvent transformer un centre visuel en bord réel ; une rivière ou un fin corridor neutre peut transformer une position extérieure en charnière.
+
+Sur une carte de détroits ou d'îles, décidez si les coéquipiers partagent un théâtre maritime ou couvrent plusieurs composantes terrestres. Tous sur une île créent un noyau régional fort, mais abandonnent potentiellement les autres. Un joueur par île obtient des lanes indépendantes, mais rend la pression terrestre coordonnée plus coûteuse. Le [guide des cartes](/fr/guides/map-strategy/) traite les composantes ; la [défense insulaire](/fr/guides/island-defense/) traite ensuite Port, blocus, maintien et retrait.
+
+Avec des zones Team configurées, vérifiez qu'une entrée existe pour le nombre d'équipes. La recherche utilise ce nombre comme clé. Sans entrée, le placement aléatoire revient à la carte entière. En Compact, position et taille du rectangle sont divisées par deux. Ces faits imposent d'inspecter les départs réels ; ils ne prouvent jamais qu'une équipe possède toujours une direction cardinale.
+
+Humans versus Nations suit d'autres côtés et limites d'immunité, et les Nations peuvent être dirigées vers la zone correspondante. Les humains conservent néanmoins des lanes séparées. Un hôte personnalisé peut changer Random Spawn, équipes, unités et Peace Time. Énoncez la configuration avant le plan. R-L-F-F reste robuste parce qu'il observe anneaux, terre accessible, nombre de fronts et secours, au lieu de mémoriser un preset.
+
+## Feuille d'appel de 30 secondes et test de fin
+
+Pendant un compte à rebours Team manuel, suivez cette feuille. **30–20 secondes** : posez un marqueur provisoire valide et dézoomez. Repérez anneaux alliés, grandes composantes terrestres, côtes utiles et obstacles évidents. Dites un lieu et un problème : « bord nord, aucune seconde lane » guide une action ; « spawn mauvais » non. **20–10 secondes** : tracez un éventail neutre par joueur, déplacez les marqueurs qui partagent une poche étroite et nommez l'ancre si la disposition possède un contact central.
+
+**10–5 secondes** : contrôlez Fallback. Chacun doit garder une direction si l'adversaire gagne la première course. Décidez quelle côte est une option réelle et laquelle est décorative. Ne rouvrez pas une position stable pour une amélioration visuelle minime. **5–0 secondes** : arrêtez de bouger, sauf marqueur invalide ou totalement enfermé. Nommez le premier scan commun après le début : col, bord extérieur, groupe ennemi ou côte.
+
+Avec Random Spawn, compressez le même raisonnement en observation plutôt qu'en placement. Les Rings et Lanes restent nommables pendant la phase courte, mais le résultat ne peut pas être relancé. Désignez le joueur critique pour l'accès, celui qui entretient la croissance et la route de secours. Ces charges sont temporaires ; réévaluez dès que l'expansion révèle une vraie frontière.
+
+Le guide est acquis lorsque cinq phrases sont vraies. Premièrement, le joueur distingue manuel et aléatoire. Deuxièmement, il utilise les anneaux réels plutôt que les couleurs supposées. Troisièmement, chaque coéquipier possède une lane neutre nommée ou un plan compact explicite. Quatrièmement, l'équipe identifie la position exposée à plusieurs directions. Cinquièmement, chacun sait si Fallback signifie déplacer le marqueur maintenant ou réorienter l'expansion après un tirage aléatoire.
+
+Les preuves officielles sont la [Release v0.33.14][release], la [configuration du temps et de l'espacement][config], la [routine de placement][spawn], l'[overlay de spawn][overlay], l'[assignation des équipes][assignment], la [playlist publique][playlist] et le [chargeur des zones Team][loader]. La Release elle-même corrige le défilement d'une fenêtre : elle fournit la limite de version, pas une nouvelle mécanique de spawn. Le code du tag établit les règles ; Reddit et YouTube établissent la question et le langage des joueurs.
+
+Continuez avec le [guide de première partie](/fr/guides/first-match/) pour transformer le placement en ouverture stable. Utilisez le [guide des cartes](/fr/guides/map-strategy/) si la lane dépend des connexions de terre ou d'eau, puis les [rôles d'équipe](/fr/strategies/team-roles/) pour dons, cibles, logistique et relais. Sur des îles séparées, le [guide Four Islands](/fr/guides/four-islands-team-coordination/) fournit le plan spécifique. La formation a réussi lorsque ces décisions partent d'une région cohérente plutôt que de plusieurs urgences indépendantes.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/configuration/Config.ts
+[spawn]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/execution/SpawnExecution.ts
+[overlay]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/render/gl/passes/SpawnOverlayPass.ts
+[assignment]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TeamAssignment.ts
+[playlist]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/server/MapPlaylist.ts
+[loader]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TerrainMapLoader.ts

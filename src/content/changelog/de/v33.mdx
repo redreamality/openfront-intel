@@ -1,12 +1,24 @@
 ---
-title: 'v33.12: Getrennte Zugstationen blockieren keine Spawns mehr'
-description: 'Spielerorientierte OpenFront-v33.12-Notizen: Zugstations-Fix, Railnetz-Entscheidungen und weiterhin geltende v33-Regeln.'
+title: 'v33.14: Modal-Scrolling repariert und Overtime standardmäßig aktiv'
+description: 'Spielerorientierte OpenFront-v33.14-Notizen: Modals scrollen wieder, öffentliches FFA nutzt Overtime standardmäßig und frühere v33-Regeln gelten weiter.'
 pubDate: 2026-07-31
-updatedDate: 2026-08-25
+updatedDate: 2026-09-05
 version: v33
 tags: [changelog, balance, features]
 category: Release Notes
 ---
+
+## v33.14 und v33.13: Modals scrollen, öffentliches FFA erwartet Overtime
+
+Das offizielle `v0.33.14`-Release behebt Probleme im Werbelayout, die das Scrollen in Modals verhinderten. Wenn ein langes Einstellungs-, Konto-, Profil- oder Lobbyfenster seine unteren Bedienelemente nicht erreichbar machte, versuche es in v33.14 erneut. Das ist eine Reparatur der Oberfläche, keine neue Einheiten-, Wirtschafts-, Spawn- oder Kampfregel.
+
+Das vorherige `v0.33.13`-Release macht Overtime zum Standard für öffentliche FFA-Partien. Die Mechanik bleibt jene aus v0.33.11: 80 % gelten bis Minute 30, dann sinkt die Grenze alle 30 Sekunden um 1 Prozentpunkt, und der Anteil muss strikt über der Live-Grenze liegen. Die Playlist wechselte vom Viertel-Wurf beim Start zur Standardaktivierung in Public FFA; Team und Special übernehmen diesen Standard nicht.
+
+| Aktueller Patch | Sichtbares Ergebnis | Entscheidungsgrenze |
+|---|---|---|
+| v33.14 | Lange Modals scrollen trotz Werbelayout | Blockierte Bedienelemente erneut versuchen; Matchstrategie bleibt gleich |
+| v33.13 | Öffentliches FFA aktiviert Overtime standardmäßig | Nach Minute 30 die orange Live-Grenze lesen |
+| v33.12 | Eine getrennte Station blockiert nicht jeden Train-Versuch | Die Strecke braucht weiter nutzbare Stopps |
 
 ## v33.12-Update: Getrennte Stationen stoppen keine Zug-Spawns mehr
 
@@ -19,14 +31,16 @@ Nach Eroberung oder Kartenbruch misst du fertige City- und Port-Stopps 60 bis 12
 | Fix für getrennte Station | Ein kaputter Knoten blockiert keine Versuche mehr | Der Train braucht weiterhin eine nutzbare Station |
 | Rail-Entscheidung | Gemessener Hub, Zweig und Stopps | Keine neue Auszahlungsformel |
 
-## Direkte Antwort: Was ändert v33.11?
+## Direkte Antwort: Overtime-Verlauf von v33.11 bis v33.13
 
-Das offizielle Release `v0.33.11` ergänzt **Overtime**, einen Anti-Patt-Modifikator in einem Viertel der öffentlichen FFA-Partien. Die normale 80-%-Sieggrenze bleibt bis Minute 30 unverändert und sinkt danach alle 30 Sekunden um 1 Prozentpunkt. Der Führende gewinnt erst, wenn sein Anteil strikt über der Live-Grenze liegt. Er muss sein Gebiet also sichern, statt endlos auf 80 % zu warten.
+Das offizielle Release `v0.33.11` ergänzt **Overtime**, beim Start einen Anti-Patt-Modifikator in einem Viertel der öffentlichen FFA-Partien. Die normale 80-%-Sieggrenze bleibt bis Minute 30 unverändert und sinkt danach alle 30 Sekunden um 1 Prozentpunkt. Der Führende gewinnt erst, wenn sein Anteil strikt über der Live-Grenze liegt. Er muss sein Gebiet also sichern, statt endlos auf 80 % zu warten. Seit v0.33.13 aktiviert Public FFA Overtime standardmäßig statt durch diesen Viertel-Wurf.
 
 Dasselbe Release nutzt ein binäres Format für weniger Websocket-Transfer; v0.33.10 ergänzt die Presseseite. Diese Auslieferungsänderungen beeinflussen keine Baureihenfolge. Overtime schon: lies den Modifikator, vergleiche deinen Anteil mit der orangefarbenen Grenze und entscheide zwischen Verteidigen der Führung und dem billigsten Landgewinn vor der nächsten Stufe.
 
 | Patch | Änderung | Spielerentscheidung |
 |---|---|---|
+| v33.14 | Modals scrollen mit dem aktuellen Werbelayout | Unerreichbare untere Bedienelemente erneut versuchen; Matchregeln bleiben gleich |
+| v33.13 | Overtime wird Public-FFA-Standard | Dynamische Grenze in Public FFA erwarten; Team und Special bleiben getrennt |
 | v33.11 | Overtime senkt die öffentliche FFA-Sieggrenze nach Minute 30 | Sichere oder überhole die Gebietsführung; nutze den [vollständigen Overtime-Guide](/de/guides/winning-overtime/) |
 | v33.10 | Einstieg zur Presseseite | Keine Match-Regel ändert sich |
 | v33.9 | Desktop-Clients können einen Release-Deskriptor lesen | Halte den Client aktuell; Match-Regeln bleiben gleich |
@@ -155,8 +169,8 @@ Die aktualisierte [Kartendatenbank](/de/database/maps/) enthält alle **117 Kart
 
 ## Quellenstatus
 
-Die neueste formale Quelle ist das [offizielle v0.33.12-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12). Die übrigen v33-Einträge bleiben die Grenze für Overtime, Doomsday, Replays, Warship-Veteranenstatus und Bulk-Aktionen.
+Die neueste formale Quelle ist das [offizielle v0.33.14-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14). Es enthält den Modal-Scrolling-Fix und den kumulierten v33.13-Eintrag zum Overtime-Standard; ältere v33-Einträge bleiben die Grenze für Rail-Zuverlässigkeit, Overtime, Doomsday, Replays, Warship-Veteranenstatus und Bulk-Aktionen.
 
-GitHub markiert das offizielle Release `v0.33.11` als `draft=false` und `prerelease=false`; der Text enthält echte v33.11- bis v33.0-Einträge statt eines TEST-Platzhalters. Der Tag v0.33.11 ist die formale Quelle für Overtime; v33.10, v33.9 und v33.8 behandeln Presse, Desktop-Auslieferung und Verbindungszuverlässigkeit. Diese Seite bleibt die einzige v33-Übersicht.
+GitHub markiert diese Releases als `draft=false` und `prerelease=false`; der v0.33.14-Text enthält echte v33.14- bis v33.0-Einträge statt eines TEST-Platzhalters. v0.33.11 bleibt die Mechanikquelle für Overtime, während v0.33.13 den Public-FFA-Standard ändert. v33.10, v33.9 und v33.8 behandeln Presse, Desktop-Auslieferung und Verbindungszuverlässigkeit. Diese Seite bleibt die einzige v33-Übersicht.
 
-Quellen: [offizielles v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [Overtime-Grenzen im Tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [öffentliche FFA-Rotation im Tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), [offizielles v0.33.7 Gameplay-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [Zuschauerablauf](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday-Stufen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [Wasteland-Zerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versionierte Replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Luna-Rotationsfrequenz](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [Mengenlimits](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) und [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).
+Quellen: [offizielles v0.33.14 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14), [offizielles v0.33.13 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [offizielles v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), [Overtime-Grenzen im Tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [öffentliche FFA-Rotation im Tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/server/MapPlaylist.ts), [offizielles v0.33.7 Gameplay-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7), [Zuschauerablauf](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts), [Doomsday-Stufen](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts), [Wasteland-Zerfall](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts), [versionierte Replay-URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts), [Luna-Rotationsfrequenz](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts), [Mengenlimits](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts) und [Silo-Startplanung](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts).

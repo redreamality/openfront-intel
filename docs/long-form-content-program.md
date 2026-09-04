@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-02。规划窗口：未来 8–12 周。
+更新日期：2026-09-05。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -37,6 +37,7 @@
 | `LF-COMMUNITY-2026-09-01` | `/guides/threat-assessment/` | 开局后如何扫描全图、选择安全的下一个目标、保留应急储备，并判断何时停止扩张 | ffa-opening 只处理出生与前五分钟；land-combat 只处理已接触战斗；diplomacy-betrayal 只处理关系操作；本页独占全局威胁扫描、外部受益者与扩张停止线，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-02` | `/guides/defense-posts/` | Defense Post 何时值得建、30 格范围怎样覆盖路线、50 ticks 与 50,000–250,000 Gold 如何预算、同格为何不重复叠乘，以及大人口推进时何时退到第二层 | `land-combat` 只处理已接触战斗的兵力、地形与反推；`island-defense` 只处理整体岛屿、港口与登陆；`building-timing` 只给通用建筑时机；本页独占 Defense Post 的部署几何、施工节奏、预算、纵深与绕路反制，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-04` | `/guides/annexation-enclosure/` | 如何用小额推进建立外部支点、关闭内陆敌方口袋、确认活动攻击归属，并在新边界上保留第二条路线 | `threat-assessment` 只负责全图扫描；`land-combat` 只负责已接触战斗；`population-growth` 只负责增长曲线；`island-defense` 只负责海岸登陆与撤离；本页独占包围判定、口袋节奏、形状收益与闭合后的持守，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-05` | `/guides/team-spawn-formation/` | 倒计时内如何识别队友、在抱团与分散之间选择、给每人保留扩张路线并避免多线受敌 | `first-match` 只负责落点后的完整开局；`team-roles` 只负责对局中的动态分工；`four-islands-team-coordination` 只负责指定地图路线；本页独占手动/随机出生布局、R-L-F-F 检查与倒计时决策，不再换标题复制 |
 
 ## 生产批次
 
@@ -47,7 +48,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-02 Defense Posts 已完成五语内容、来源包、入口、相邻回链与本地验证，PR 合并即完成并进入 Monitoring | 一轮一个独立意图；同轮完成调研、2000+ 英文正文词（通常 3000–5000）、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-05 Team Spawn Formation 已完成五语内容、来源包、入口与相邻回链，完整验证与 PR 合并后进入 Monitoring | 一轮一个独立意图；同轮完成调研、2000+ 英文正文词（通常 3000–5000）、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 

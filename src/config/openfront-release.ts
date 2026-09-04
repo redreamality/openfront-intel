@@ -18,4 +18,4 @@ function defineOpenFrontRelease(tag: `v0.${number}.${number}`): OpenFrontRelease
   };
 }
 
-export const latestOpenFrontRelease = defineOpenFrontRelease('v0.33.12');
+export const latestOpenFrontRelease = defineOpenFrontRelease('v0.33.14');

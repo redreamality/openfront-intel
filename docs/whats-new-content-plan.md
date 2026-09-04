@@ -56,7 +56,7 @@
 
 ## 2026-08-20 来源快照
 
-- 最新正式非 TEST Release 是 [`v0.33.6`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.6)，发布于 2026-08-19。
+- 最新正式非 TEST Release 是 [`v0.33.14`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14)，发布于 2026-09-04；它修复模态框滚动，且累计记录 v0.33.13 将 Overtime 设为公开 FFA 默认。
 - 上一轮内容账本记录的上游 `main` 是 `0b0c765`；本轮核验到 `9c97e01`。这段增量只有 8 个合并提交，适合作为每日差量。
 - `v0.33.6...main` 返回 `diverged`，`main` ahead 104 / behind 20。禁止把这 104 个提交解释成“v33.6 之后新增”。
 - 当前开放 PR 约 27 个，开放 Issue 约 132 个。数量不是发布队列；绝大多数应被状态和玩家价值门槛过滤。

@@ -1,12 +1,24 @@
 ---
-title: 'v33.12：断开车站不再阻塞列车生成'
-description: '面向玩家的 OpenFront v33.12 版本笔记：理解铁路车站修复、铁路网络决策，以及仍然生效的 v33 规则。'
+title: 'v33.14：模态框恢复滚动，公开 FFA 默认启用 Overtime'
+description: '面向玩家的 OpenFront v33.14 版本笔记：模态框可再次滚动，公开 FFA 默认启用 Overtime，早期 v33 玩法规则继续有效。'
 pubDate: 2026-07-31
-updatedDate: 2026-08-25
+updatedDate: 2026-09-05
 version: v33
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
+
+## v33.14 与 v33.13：恢复模态框滚动，公开 FFA 默认进入 Overtime
+
+官方 `v0.33.14` Release 修复了广告布局导致模态框无法滚动的问题。如果较长的设置、账号、个人资料或大厅面板无法到达底部控件，请在 v33.14 重试。这是界面可用性恢复，不是新单位、经济、出生或战斗规则。
+
+此前的 `v0.33.13` Release 把 Overtime 设为公开 FFA 默认。具体机制仍沿用 v0.33.11：普通 80% 门槛保持到第 30 分钟，之后每 30 秒降低 1 个百分点；领土占比必须严格高于实时门槛才会获胜。变化的是播放列表边界：从上线时四分之一概率，改为公开 FFA 默认启用；Team 与 Special 不继承这个默认值。
+
+| 当前补丁 | 玩家可见结果 | 决策边界 |
+|---|---|---|
+| v33.14 | 广告布局下的长模态框可以滚动 | 重试此前无法到达的控件；对局策略不变 |
+| v33.13 | 公开 FFA 默认启用 Overtime | 第 30 分钟后读取实时橙色门槛 |
+| v33.12 | 断开车站不再阻塞每次 Train 尝试 | 线路仍需有效车站与连接 |
 
 ## v33.12 更新：断开的车站不再卡住所有列车生成
 
@@ -19,14 +31,16 @@ category: 版本笔记
 | 断开车站生成修复 | 一个坏站不再阻塞所有 Factory 尝试 | 生成的列车仍需可用车站路径才会结算 |
 | 铁路经济决策 | 按实测枢纽、分支和停站数量行动 | 这是策略响应，不是新的收益公式 |
 
-## 直接答案：v33.11 改了什么？
+## 直接答案：Overtime 从 v33.11 到 v33.13 的历史边界
 
-官方 `v0.33.11` Release 新增 **Overtime** 反僵局修正器，四分之一的公开 FFA 对局会启用它。普通 80% 领土胜利门槛在第 30 分钟结束前保持不变，之后每 30 秒降低 1 个百分点。领土第一必须“严格高于”实时门槛才会获胜，因此领先者不能再无限等待 80%，而要守住当前领土。
+官方 `v0.33.11` Release 新增 **Overtime** 反僵局修正器，上线时四分之一的公开 FFA 对局会启用它。普通 80% 领土胜利门槛在第 30 分钟结束前保持不变，之后每 30 秒降低 1 个百分点。领土第一必须“严格高于”实时门槛才会获胜，因此领先者不能再无限等待 80%，而要守住当前领土。从 v0.33.13 起，公开 FFA 默认启用 Overtime，不再采用上线时的四分之一抽取。
 
 同一 Release 还用自定义二进制格式降低 websocket 传输量，v0.33.10 则加入 press 站点入口；这些交付变化不影响建造顺序。Overtime 会改变终局决策：先看大厅修正器，再比较自己的占地与橙色门槛，判断应该守住领先还是在下一档下降前夺取最低成本的领土。
 
 | 补丁 | 变化 | 玩家决策 |
 |---|---|---|
+| v33.14 | 当前广告布局下模态框可正常滚动 | 重试此前到不了的底部控件；对局规则不变 |
+| v33.13 | Overtime 成为公开 FFA 默认 | 公开 FFA 应预期实时门槛；Team 与 Special 独立 |
 | v33.11 | Overtime 在第 30 分钟后降低公开 FFA 胜利门槛 | 守住或反超实时领土第一；阅读 [Overtime 完整攻略](/zh/guides/winning-overtime/) |
 | v33.10 | Press 站点入口 | 不改变对局规则 |
 | v33.9 | 桌面客户端可读取 release descriptor | 保持桌面客户端为最新；对局规则不变 |
@@ -155,8 +169,8 @@ Ranked 现在有独立的 2v2 天梯，并优先把同 clan 玩家配成队友�
 
 ## 来源状态
 
-最新正式来源是[官方 v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)，上文说明了车站修复；其余 v33 条目继续作为 Overtime、Doomsday、回放、战舰熟练度和批量控制的规则边界。
+最新正式来源是[官方 v0.33.14 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14)，上文说明了模态框滚动修复和累计的 v33.13 Overtime 默认变化；更早的 v33 条目继续作为铁路可靠性、Overtime 机制、Doomsday、回放、战舰熟练度和批量控制边界。
 
-GitHub 将官方 `v0.33.11` Release 标记为 `draft=false`、`prerelease=false`，正文包含真实 v33.11 至 v33.0 条目，不是 TEST 占位。v0.33.11 tag 是 Overtime 的正式来源；v33.10、v33.9 与 v33.8 分别属于 press、桌面交付和连接可靠性变化。本页继续作为唯一 v33 系列总览。
+GitHub 将这些正式 Release 标记为 `draft=false`、`prerelease=false`；v0.33.14 正文包含真实 v33.14 至 v33.0 条目，不是 TEST 占位。v0.33.11 tag 仍是 Overtime 机制来源，v0.33.13 则改变公开 FFA 的选择默认值；v33.10、v33.9 与 v33.8 分别属于 press、桌面交付和连接可靠性变化。本页继续作为唯一 v33 系列总览。
 
-来源：[官方 v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、[tagged Overtime 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts)、[tagged 公开 FFA 轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts)、[官方 v0.33.7 玩法 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。
+来源：[官方 v0.33.14 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14)、[官方 v0.33.13 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13)、[官方 v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、[tagged Overtime 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts)、[tagged 公开 FFA 轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/server/MapPlaylist.ts)、[官方 v0.33.7 玩法 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7)、[旁观大厅流程](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/client/JoinLobbyModal.ts)、[Doomsday 门槛](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/game/DoomsdayClock.ts)、[wasteland 腐化](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/src/core/execution/DoomsdayClockExecution.ts)、[版本化回放 URL](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/client/VersionedReplay.ts)、[Luna 轮换频率](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/Maps.gen.ts)、[批量上限与成本](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/game/Game.ts)与[同 Silo 发射调度](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts)。
