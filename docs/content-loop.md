@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-04。
+更新日期：2026-09-05。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/annexation-enclosure/` 已达到五语内容与来源门槛；合并即完成本次滚动主题并继续活动 | 下一轮重新从社区信号批准唯一意图；不得把兼并包围与威胁评估、陆战或四岛路线协同换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/team-spawn-formation/` 已完成五语正文、来源包、入口与相邻回链；通过完整验证并合并即完成本次滚动主题 | 下一轮重新从社区信号批准唯一意图；不得把出生布局与 first-match、team-roles、四岛协同或既有开局主题换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,8 +30,8 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.33.13`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13)；公开 FFA 默认启用 Overtime，未新增兼并规则；车站断开修复与铁路收益边界继续有效。
-- 上游 `main` 游标：`a59ded2977490c3d482d2f65bb248d90f26bfd3f`；本轮已用 `git ls-remote` 核验。SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
+- 正式 Release：[`v0.33.14`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14)，tag commit `577819ba0e1e13ecdbc8dede2ba33de542c88a67`；仅修复广告布局阻止模态框滚动，v0.33.13 的公开 FFA 默认 Overtime 继续有效，未新增出生机制。
+- 上游 `main` 游标：`cdf410937044f79193abbd5d79e07fd136f7ff05`；本轮已用 `git ls-remote` 核验。SAM 动态升级射程、地图预加载与外观 loadout 仍保持 Merged，不能越过正式 Release 边界。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-14..20，918 Query / 1,864 Query × Page。
 - GSC 28 天：2026-07-24..08-20，1,465 Query / 3,928 Query × Page。
@@ -41,12 +41,13 @@
 - 本轮 Defense Post 社区及 tag 核验：[`2026-09-02-defense-posts-community-source-pack.md`](research/2026-09-02-defense-posts-community-source-pack.md)。
 - 本轮 Four Islands 团队协同社区及 tag 核验：[`2026-09-03-four-islands-team-coordination-community-source-pack.md`](research/2026-09-03-four-islands-team-coordination-community-source-pack.md)。
 - 本轮兼并与包围社区及 tag 核验：[`2026-09-04-annexation-enclosure-community-source-pack.md`](research/2026-09-04-annexation-enclosure-community-source-pack.md)。
+- 本轮团队出生布局社区及 tag 核验：[`2026-09-05-team-spawn-formation-community-source-pack.md`](research/2026-09-05-team-spawn-formation-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
 | 玩家主题 | 当前状态 | 公开边界 | 下一转换 |
 |---|---|---|---|
-| Overtime 胜利门槛 | `Released` | v0.33.11：公开 FFA 25% 随机；默认 30:00 后每 30 秒降低 1 点，严格高于门槛才获胜；Host/Singleplayer 可设 1–120 分钟 | 已同步五语 v33 总览、modes 与主攻略；后续只随正式规则变化更新 |
+| Overtime 胜利门槛 | `Released` | v0.33.11 上线时公开 FFA 为 25% 随机；v0.33.13 起公开 FFA 默认启用；30:00 后每 30 秒降低 1 点，严格高于门槛才获胜；Host/Singleplayer 可设 1–120 分钟 | 已同步五语 v33 总览与主攻略；后续只随正式规则变化更新 |
 | Team Doomsday 门槛 + wasteland | `Released` | v0.33.7：团队使用 3/6/10/15/21/28/35% 七档门槛，腐化地变为 wasteland | 已同步五语 v33 总览与 Doomsday 主答案；后续只随正式规则变化更新 |
 | Water Nukes 运输船寻路 | `Merged` | P0；现有攻略仍正确标为未发布修复 | Release 收录后转 `Released`，移除旧绕路警告 |
 | 完整大厅 Detailed View | `Merged` | P1 首发候选 | Release 后核对最终入口、筛选与公开队列行为 |
@@ -75,6 +76,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-05 | v33.14 Release response + `LF-COMMUNITY-ROLLING` 团队出生布局 | 五语 v33 总览同步模态框滚动修复与 v33.13 Overtime 默认边界；新建五语 `/guides/team-spawn-formation/`，回答队友圆环、独立路线、共同战线、手动与随机出生，并接通 Guides、first-match 与 team-roles | 3 个核心 Reddit、3 个已核验字幕的 YouTube、7 个官方来源；guide audit 五语与研究门槛通过后，合并即完成本轮主题并继续滚动 Production |
 | 2026-08-25 | v33.11 Release response + `LF-COMMUNITY-ROLLING` Overtime 决策 | 五语 v33 总览升级到 v33.11；新建五语 `/guides/winning-overtime/`，回答门槛、严格比较、fallout 分母、领先防守与追赶截止点，并接通 Guides、modes 与 first-match | 4 Reddit、3 YouTube、20 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题并继续 Monitoring / 滚动 Production |
 | 2026-08-26 | `LF-COMMUNITY-ROLLING` Warship veterancy 与维修决策 | 新建五语 `/guides/warship-veterancy/`，解释三档经验、混合进度、升级不治疗、150 格被动维修、港口主动维修池、75% 返航线，并接通五语 Guides、Team naval-control 与 nuclear-deterrence | 6 Reddit、5 YouTube、5 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并转入 Monitoring |
 | 2026-08-27 | `LF-COMMUNITY-ROLLING` Trade versus Piracy 决策 | 新建五语 `/guides/trade-vs-piracy/`，解释路线距离、港口生成、捕获资格、外交开关、两个数字场景与退出条件，并接通五语 Guides、Port-vs-Factory 与 Team naval-control | 4 Reddit、3 YouTube、6 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并转入 Monitoring；下一触发为新的社区唯一意图或正式规则变化 |

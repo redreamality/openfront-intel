@@ -1,0 +1,142 @@
+---
+title: "OpenFront Team Spawn Formation: Group Without Blocking Teammates"
+description: "Choose a Team spawn formation in OpenFront: read teammate rings, balance a shared front against expansion room, and adapt manual or random spawns."
+pubDate: 2026-09-05
+updatedDate: 2026-09-05
+tags: [team, spawn, formation, opening, coordination]
+category: Strategy
+difficulty: Intermediate
+version: v33
+freshnessSummary: "Verified against the official v0.33.14 spawn timer, placement, team-assignment, map-playlist, and spawn-overlay sources on 2026-09-05; the release itself changes modal scrolling, not spawn rules."
+---
+
+## Direct answer: form one region, but leave every teammate an exit
+
+In a manual Team spawn, use the breathing teammate rings to build one recognizable region without clicking on the same pocket. Prefer an edge or broad arc with shared enemies, give every teammate one neutral expansion lane, and keep one player from becoming the exposed center. Reposition during the countdown when a ring has no exit. In Random Spawn, accept the assigned start and coordinate the first borders instead. This is the released v0.33.14 boundary.
+
+The useful formation is neither a pile nor a scatter. A pile puts several teammates beside the same neutral land and makes them compete for the resource that should fund their openings. A scatter gives opponents isolated targets and makes the team solve several unrelated wars. The stronger default is a **connected arc**: teammates occupy the same side or region of the map, but each start points toward a different wedge of open land. Their future borders can meet without requiring two players to expand through one another.
+
+Use a four-part call before the timer expires: **ring, lane, front, fallback**. Ring means you have identified the animated markers that belong to your team rather than guessing from nearby colors. Lane means your start has enough reachable neutral land to grow without crossing a teammate's intended path. Front means you can name the enemy side that this position will probably face first. Fallback means you know where to move the spawn marker, or where to turn the first expansion, if another teammate claims the same pocket.
+
+This is an editorial decision framework, not a hidden formation bonus. The engine does not award extra troops for standing in a line, a corner, or a cluster. It supplies team identity, the spawn phase, placement rules, and visual rings; players create the tactical shape. A formation is good when it reduces simultaneous hostile contacts while preserving separate growth lanes. It is bad when its attractive symmetry hides that one teammate has no land, no useful coast, or three likely fronts.
+
+The v0.33.14 Release contains an advertising-layout fix that restores modal scrolling. It does not announce a spawn balance change. The current facts below therefore come from the same official tag's code. Manual multiplayer selection lasts 300 turns, approximately 30 seconds at the game's normal ten ticks per second. Random Spawn lasts 150 turns, approximately 15 seconds. Random starts enforce at least 30 Manhattan tiles between already placed players, but that spacing rule applies to players generally; it is not proof that teammates will be adjacent.
+
+Use [First Match](/guides/first-match/) for the general opening after the spawn, [Map Strategy](/guides/map-strategy/) for topology, and [Team Roles](/strategies/team-roles/) once the team must donate, mark targets, or assign a front. This guide owns the decision before those jobs begin: where the team should appear and which opening burden each position creates.
+
+## Read the spawn state before judging the map
+
+First identify whether the lobby uses manual placement or Random Spawn. In manual placement, the player sends a selected tile and may relocate during the spawn phase; the engine relinquishes the earlier starting tiles and creates the new start when the candidate is valid. Once play has begun, a later spawn intent cannot teleport an already spawned player. That makes the countdown a real planning window: place a provisional marker early, inspect the team's pattern, then move it before the phase closes if the position is redundant or trapped.
+
+Random Spawn behaves differently. The selected tile is ignored, and an already spawned player cannot reroll the result. The engine makes up to 1,000 attempts to find a land tile that is unowned, is not on the map border, and is not within the 30-tile Manhattan spacing floor of an existing player's spawn. The random sequence is seeded from game and player identity. Those are placement facts, not a fairness score. A legally separated start can still be strategically poor because it faces the wrong coast, has only one narrow land exit, or sits far from the rest of the team.
+
+Some maps provide team-specific rectangular spawn areas for particular team counts. When Random Spawn is active and such an area exists, a player's random candidate is drawn inside the rectangle assigned to that team. If the map has no matching area, the candidate comes from the full map. Compact loading halves the rectangle's coordinates and dimensions. Do not turn the presence of an area into a promise that teammates form a tight cluster: the 30-tile player spacing and valid-land checks still operate, terrain inside the rectangle can be fragmented, and the resulting starts can face different routes.
+
+The spawn overlay gives the most useful visual evidence during the countdown. The official renderer distinguishes enemy human spawn influence, the local player's breathing ring, and teammate breathing rings. It draws enemy instances first, teammates next, and the local marker last so the friendly rings remain readable. Use those rings as the team ledger. Color themes and crowded maps can make territory shades hard to compare, while the teammate classification is derived from the actual team relationship.
+
+Team assignment is already decided before this spatial choice. Matchmade pinned slots take priority. Clan groups are then kept on one team when capacity permits, while friend relationships are a soft placement preference and can spill to another non-full team. This matters because a familiar name is not the authoritative signal. Read the current lobby and ring state, especially when a friend group is larger than a team or when a managed match pins positions.
+
+Finally separate the selection clock from protection after the match starts. A normal manual multiplayer spawn phase uses about 30 seconds; that does not mean every lobby grants 30 seconds of PvP immunity afterward. Standard public configurations normally use a separate five-second default, while ranked 2v2 uses 60 seconds and some starting-Gold or Peace Time settings use other values. Formation decides access and front shape. Immunity only changes how much time the team has to convert that shape into owned land.
+
+## Use the R-L-F-F formation check
+
+The reusable check is **Ring, Lane, Front, Fallback**, abbreviated R-L-F-F. Run it from left to right because each answer changes the next. A perfect coastline is irrelevant if the ring belongs to an opponent. A clear teammate ring is not enough if both players need the same neutral corridor. A wide lane can still be a bad start if it creates the team's only central three-front position. A safe-looking edge can still fail when there is no fallback after an opponent claims the first neck.
+
+| Check | Commit the spawn when | Move or redirect when |
+| --- | --- | --- |
+| Ring | Actual teammate rings define a coherent region | You are grouping around a similar color or familiar name only |
+| Lane | Every teammate has a distinct reachable neutral wedge | Two starts point into the same small pocket or one player has no exit |
+| Front | The likely hostile side is shared or can be handed off | One central player will meet enemies on several unrelated sides |
+| Fallback | A second tile or opening direction preserves the formation | One blocked neck or occupied coast makes the start useless |
+
+**Ring** is an identity check. Zoom out far enough to see the team, but zoom back in before committing so a ring is not sitting on water, impassable terrain, a thin peninsula, or another player's influence. If the map is crowded, name teammates by relative position: north edge, inner coast, south rear. A short spatial label is more useful during a countdown than a debate about who is the strongest player.
+
+**Lane** is an opportunity check. Draw an imaginary wedge from each marker into neutral land. Two wedges may touch, but they should not depend on the same first corridor. The goal is not equal tile counts. A rear player may accept less early land if that start protects the interior and preserves a City site, while an edge player takes a broader frontier. The failure condition is silent starvation: one teammate cannot grow unless another stops.
+
+**Front** is a liability check. Count the directions from which non-team starts can reach the proposed region, not every colored dot on the screen. Edge formations often reduce directions, while a central formation offers access at the cost of multiple contacts. A central start is acceptable when the player knowingly owns the early anchor role and nearby teammates can expand outward. It is poor when everyone assumes somebody else will defend it.
+
+**Fallback** makes the decision reversible. During manual placement, keep a second candidate visible and move before the 300-turn phase ends. After Random Spawn, the start cannot be rerolled, so fallback means a second expansion direction, an early donation plan, or permission for the trapped player to remain compact while another teammate opens space. Do not promise a Port as the universal escape. Water must connect to a useful theatre, Ports must be enabled, and the team must afford the opportunity cost.
+
+Repeat R-L-F-F once more immediately after the map begins. Enemy markers become real expansion, team lanes can collide, and a planned front may remain empty. The second pass converts a spawn picture into assignments without freezing players into permanent roles.
+
+## Scenario one: four teammates on a crowded continental edge
+
+Assume a manual Team lobby with four teammates, the normal 300-turn selection phase, and a continental map whose east edge has one broad inland plain plus two narrow coastal pockets. This is a teaching scenario, not a claim about a named map or a guaranteed public team size. At 20 seconds remaining, three teammate rings already sit in the broad plain. A fourth player is considering the exact center of that cluster because it looks protected.
+
+Run R-L-F-F. The ring check passes: all three visible markers are teammates. The lane check fails for the center candidate because its neutral wedge overlaps two other wedges and reaches the exterior only through land those players will probably claim. The front check appears safe at first, but it is misleading. The center player may have no enemy on tick one, yet will become the route through which the two outer players try to connect. The fallback check fails if the nearby coast is a dead-end water body or a one-tile strip.
+
+The better move is not automatic isolation. Move the fourth marker to the southern shoulder of the same regional arc, far enough that it has its own neutral wedge while close enough that future friendly borders can meet. The four openings now have different jobs: north edge expands along the map boundary, north interior owns the first central contact, south interior grows behind that contact, and south shoulder protects the second edge. These are starting burdens, not permanent classes. The players should switch as the actual enemies reveal themselves.
+
+Use explicit assumptions to compare the choices. Suppose the center candidate gives access to 40 visually nearby neutral units of space but 30 of them lie in teammates' wedges. The shoulder candidate shows only 28 nearby units, yet 24 belong to a distinct lane and the position exposes two likely hostile directions rather than three. Those figures are a planning sketch, not engine metrics. They illustrate why uncontested access can be more valuable than a larger-looking shared pocket.
+
+An opponent's counter is to mass against the arc's outer end or race the gap between north interior and south interior. The team should not react by collapsing every player into the threatened tile. The anchor shortens the border, the rear player preserves troops and Gold for a donation or purposeful building, and one edge player keeps expanding so the team does not trade all growth for defense. [Land Combat](/guides/land-combat/) owns the fight once a border is active; [Defense Posts](/guides/defense-posts/) explains whether a 30-tile defensive zone answers the route.
+
+The scenario's completion test is concrete. Before the spawn clock ends, all four players can name a unique neutral lane and one likely hostile side. At the first team scan after spawn, no player must cross a teammate to reach open land, and the exposed interior player knows which teammate can support rather than assuming the whole team will notice. If those statements are false, the formation still needs a move.
+
+## Scenario two: Random Spawn divides one team across a map area
+
+Assume a Special Team lobby rolls Random Spawn, the map defines a rectangular area for the current number of teams, and three teammates are assigned inside that region. The selection phase is 150 turns, approximately 15 seconds, and the players cannot reroll their starts. The placement routine still rejects candidates closer than 30 Manhattan tiles to an already placed player. It also needs unowned land away from the absolute map border. These are stated engine assumptions; the exact terrain and rectangle are deliberately left open.
+
+Player A appears on the region's inland side, Player B near a coast, and Player C behind an impassable-looking ridge with only one verified passable exit. The three starts are legally inside one team area, but that does not make them equally connected. R-L-F-F now becomes an opening-direction check. The rings are known. A's lane points toward a broad neutral interior. B's lane can reach water but should not be valued as a Port until the water component and lobby units are checked. C's lane is the bottleneck because a rival can close the single exit.
+
+The team should assign the first irreversible action to C's access problem. C claims the neck without draining the reserve. A expands toward the inside of that neck rather than away from the team, creating a future friendly boundary. B takes enough land to secure the coast but does not spend the first Gold merely because the sea is visible. If C loses the race, the fallback is not a forbidden spawn reroll. The team can let C hold a compact core, donate when the public Team configuration allows it, and make A the route owner that reconnects the regional position.
+
+Now add a numeric planning sketch. Suppose A and B each have two credible expansion directions, while C has one. An equal instruction such as “everyone expand outward” creates five simultaneous lanes and leaves C's only exit unowned. A weighted plan spends the first attention budget as 2-1-2: A checks two directions but commits to the one facing C, C commits to the single neck, and B preserves two options until the coast is classified. The 2-1-2 labels are scenario counts, not attack percentages or engine bonuses.
+
+The opposing team can counter by pressing the neck and sending a separate player toward B's coast. That test exposes why a map rectangle is not a fortress. A team area constrains random candidate generation when it exists; it does not create owned walls, shared territory, or automatic reinforcement. The response is to preserve one working connection, not to defend every edge of the rectangle. If A reaches C, B may remain economically independent. If the neck is lost, B's coastal route may become the alternative front.
+
+Compact mode changes the picture again. The loader halves configured team-area coordinates and dimensions for Compact terrain, while minor passages can shrink or disappear. Re-run the route read on the loaded map. Do not copy Normal-mode labels onto a smaller rectangle and assume the same three exits survived. The scenario is complete when the team can explain which start is access-critical, which player holds a second route, and what the trapped player does without a reroll.
+
+## Failure modes and the opponent's best counters
+
+The first failure is **ring chasing**: every player clicks as close as possible to the first friendly ring. The opponent does not need a mechanical counter because the team has already created internal competition. Several teammates enter the same neutral pocket, outer enemies take uncontested land, and the rear player has no independent path. Fix it by preserving one regional identity but rotating each lane outward like a fan. Adjacency is useful only when the adjacent players still have work that does not conflict.
+
+The second failure is **map painting**: the team tries to create a pretty line across the entire map. A long line touches many opponents and gives every point equal visual importance. The enemy chooses one weak segment, while teammates at the far end continue expanding because the formation never named an anchor. Replace the line with an arc around a defensible region. Name one interior hinge whose loss splits the team and one outer end that may safely retreat.
+
+The third failure is **the heroic center**. A confident player chooses the middle, expecting teammates to surround and rescue them. Opponents can attack from several directions, and the rest of the team may not have the troop headroom or attention to answer. A central anchor can work, but only when its burden is explicit: shorter early expansion, a response reserve, and teammates whose lanes converge behind rather than through the anchor. Otherwise move the start toward an edge.
+
+The fourth failure is **coast worship**. Several players value water access without checking whether they share one useful water component, whether the coast offers enough land, or whether a Port competes with a City or Factory. Opponents can let the team spend on redundant naval infrastructure and win the inland routes. Use [Port versus Factory](/guides/port-vs-factory/) after the spawn; the formation check only asks whether the coast creates a distinct option.
+
+The fifth failure is **random-spawn denial**. Players treat an assigned bad start as if the timer still allowed a move, then waste the first minute complaining or clicking elsewhere. The engine blocks rerolls once a random start exists. Switch the fallback from location to role: claim the only exit, hold compactly, signal the bottleneck, or make another teammate the route owner. The spawned player can still change the team's plan even when they cannot change the spawn.
+
+The sixth failure is **immunity confusion**. Players conflate 300 spawn-selection turns with a 30-second attack shield, or see ranked 2v2's 60-second PvP immunity and apply it to ordinary Team. An opponent punishes the delayed expansion as soon as the actual protection ends. Read the lobby, and separate phase duration from immunity duration.
+
+The best opponent counter to any formation is to force two urgent decisions at opposite edges. Your answer is not perfect symmetry. Keep one front as the team's growth engine, one as the anchor, and one fallback route. When both threats are genuine, [Team Roles](/strategies/team-roles/) supplies the donation, target-marker, and handoff rules. Formation should reduce the cost of coordination; it cannot replace it.
+
+## Adjust the formation for mode and map
+
+In a standard scheduled public Team game, the base configuration uses manual placement rather than Random Spawn. Treat the approximately 30-second selection window as permission to revise, not a reason to wait until the last second. Put down a valid provisional marker, scan teammate rings, and move only when R-L-F-F identifies a specific defect. A late unplaced cursor is worse than an imperfect start with a known lane.
+
+Special Team games may include modifiers. Random Spawn can appear for some numeric-team configurations, but the public playlist explicitly excludes it for Duos, Trios, and Quads because random placement would defeat those formats' purpose. Always trust the displayed lobby state over a remembered rotation. If Random Spawn is active, formation begins with the engine's result; if it is off, the team owns the manual layout decision.
+
+Ranked 2v2 has its own narrow boundary. The v0.33.14 playlist sets four players, two teams, manual spawn, no Nations, Gold and Troop donation enabled, and 60 seconds of spawn immunity after the selection phase. The guide does not claim a universal ranked tactic from those facts. Use the longer protection to connect two distinct lanes and agree which player meets the first opponent. Do not occupy the same pocket merely because there are only two rings.
+
+On a one-landmass continental map, prefer an edge arc when it preserves interior depth. A center cluster may gain access but usually accepts more contact directions. Count reachable exits rather than map labels. Mountains and impassable terrain can turn a central-looking start into an edge, while a river or thin neutral corridor can turn an outer position into a hinge.
+
+On strait and island maps, decide whether teammates should share a water theatre or cover separate land components. Putting everyone on one island can create a strong regional core but concede the other components. Spreading one player per island creates independent lanes but raises the cost of coordinated land pressure. Use [Map Strategy](/guides/map-strategy/) for connected-component reasoning and [Island Defense](/guides/island-defense/) for the later hold-or-leave decision.
+
+On a map with configured team spawn areas, verify whether the current number of teams has a matching rectangle. The source lookup uses the number of player teams as the key. If no area exists, Random Spawn falls back to the full map. If Compact is loaded, the rectangle is scaled by half in both position and size. Those facts are reasons to inspect the actual starts, not reasons to infer that a particular team always owns a compass direction.
+
+In Humans versus Nations, the sides and immunity boundary differ, and Nation spawning may be redirected into the appropriate configured team area. Human players should still preserve separate lanes. In a custom room, the host can alter Random Spawn, teams, units, Peace Time, and other assumptions. State the configuration first, then choose the formation. A good decision framework survives settings changes because it asks about actual rings, reachable land, front count, and fallback rather than memorizing one public preset.
+
+## A 30-second call sheet and completion test
+
+Use this call sheet in a manual Team countdown. **At 30-20 seconds**, place a provisional valid marker and zoom out. Identify teammate rings, the broad land components, useful coasts, and any obvious impassable barriers. Say only a location and problem: “north edge, no second lane” is actionable; “bad spawn” is not. **At 20-10 seconds**, draw one neutral wedge per teammate. Move markers that overlap the same narrow pocket, and name the likely anchor if the formation has a central contact.
+
+**At 10-5 seconds**, check the fallback. Confirm that each player has another direction if an opponent wins the first race. Decide which coast is a genuine team option and which is decorative. Do not reopen a settled position for a tiny visual improvement. **At 5-0 seconds**, stop moving unless the marker is invalid or completely trapped. Name the first shared scan after the map starts: neck, outer edge, enemy cluster, or coast.
+
+For Random Spawn, compress the same logic into observation rather than placement. The rings and lanes can still be named during the shorter phase, but the engine result cannot be rerolled. Assign the access-critical player, the growth player, and the fallback route. These are temporary burdens. Re-evaluate as soon as actual expansion reveals which border exists.
+
+The guide is complete for a player when five statements are true. First, they can distinguish manual and random placement. Second, they use actual teammate rings instead of color guesses. Third, every teammate has a named neutral lane or an explicit compact-support plan. Fourth, the team can identify the position most likely to face multiple enemy directions. Fifth, everyone knows whether fallback means moving the marker now or redirecting expansion after a random start.
+
+The official evidence is the [v0.33.14 Release][release], [spawn timer and spacing configuration][config], [spawn placement routine][spawn], [spawn overlay renderer][overlay], [team assignment routine][assignment], [public map playlist][playlist], and [team-area scaling loader][loader]. The Release itself changes modal scrolling, so it is a version boundary rather than proof of a new spawn mechanic. The tagged code supplies the mechanics; community discussions and videos supply the recurring player problem.
+
+Continue with [First Match](/guides/first-match/) to convert the chosen position into a stable opening. Use [Map Strategy](/guides/map-strategy/) when the lane depends on land or water connectivity. Then move to [Team Roles](/strategies/team-roles/) for donations, target markers, logistics, and role handoffs. On a separated island team, [Four Islands Team Coordination](/guides/four-islands-team-coordination/) provides the map-specific route plan. A spawn formation has done its job when those later decisions start from a coherent region instead of six unrelated emergencies.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/configuration/Config.ts
+[spawn]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/execution/SpawnExecution.ts
+[overlay]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/render/gl/passes/SpawnOverlayPass.ts
+[assignment]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TeamAssignment.ts
+[playlist]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/server/MapPlaylist.ts
+[loader]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TerrainMapLoader.ts

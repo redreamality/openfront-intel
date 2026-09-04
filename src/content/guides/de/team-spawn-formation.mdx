@@ -1,0 +1,146 @@
+---
+title: "OpenFront-Teamspawn: Gemeinsam starten, ohne Mitspieler zu blockieren"
+description: "Wähle eine Teamspawn-Formation: erkenne Mitspielerringe, gleiche gemeinsame Front und Expansionsraum aus und passe dich an manuelle oder zufällige Starts an."
+pubDate: 2026-09-05
+updatedDate: 2026-09-05
+tags: [team, spawn, formation, opening, coordination]
+category: Strategie
+difficulty: Mittel
+version: v33
+freshnessSummary: "Am 2026-09-05 gegen die offiziellen v0.33.14-Quellen für Timer, Platzierung, Teamzuweisung, Playlist und Spawn-Overlay geprüft; der Release selbst behebt Modal-Scrolling, keine Spawnregel."
+---
+
+## Direkte Antwort: Bildet eine Region, aber lasst jedem Mitspieler einen Ausgang
+
+Nutze beim manuellen Teamspawn die pulsierenden Mitspielerringe, um eine erkennbare Region zu bilden, ohne dieselbe Tasche anzuklicken. Bevorzuge einen Rand oder breiten Bogen mit gemeinsamen Feindrichtungen, gib jedem Spieler eine eigene neutrale Expansionslane und vermeide ein ungeschütztes Zentrum. Verschiebe einen Ring ohne Ausgang noch im Countdown. Bei Random Spawn akzeptiert ihr die Zuteilung und koordiniert stattdessen die ersten Grenzen. Das ist die veröffentlichte v0.33.14-Grenze.
+
+Eine brauchbare Formation ist weder ein Haufen noch eine Zerstreuung. Im Haufen konkurrieren mehrere Mitspieler um dasselbe neutrale Land und damit um die Ressource, die das Team wachsen lassen soll. Große Abstände machen Spenden, Zielmarkierungen, gemeinsame Grenzen und Hilfe langsam oder unklar. Die bessere Form ist ein verbundener Bogen: nah genug für spätere freundliche Grenzen und Unterstützung, weit genug für einen freien Weg ins Neutrale, der nicht durch einen Mitspieler führt. Es gibt keinen versteckten Formationsbonus. Der Wert entsteht durch weniger interne Blockaden, kürzere Hilfswege und verständliche Aufgaben vor dem ersten Grenzkampf.
+
+Beurteile den Start deshalb nicht nur anhand der Distanz zwischen Markern. Stelle vier Fragen. Gehört der Ring wirklich zu einem Mitspieler? Hat jeder eine erreichbare neutrale Lane? Welche Position kann aus mehreren feindlichen Richtungen getroffen werden? Gibt es nach dem Verlust der ersten Route eine zweite Richtung oder einen Unterstützungsplan? Merke dir Ring, Lane, Front, Fallback, kurz R-L-F-F. Solange das Team eine der vier Antworten nicht in einem kurzen Satz benennen kann, ist die Spawnentscheidung unvollständig.
+
+Das erklärt auch, warum „alle in die Ecke“ keine Universalregel ist. Ein Kartenrand reduziert oft Kontaktseiten, doch ein zu schmaler Landstreifen, ein abgeschlossenes Meer oder ein einziger Pass verwandelt Sicherheit in einen späteren Stau. Ein zentraler Start kann mehrere neutrale Wege bieten, wenn ein Spieler bewusst die frühe Ankerlast übernimmt und eine Reserve behält. Das Ziel ist kein hübsches Muster. Wachstum, erster Kontakt und Rückzug müssen in der ersten Minute lesbar sein.
+
+„Nah“ bedeutet, später eine Teamverbindung herstellen zu können, nicht überlappende Ringe. „Getrennt“ bedeutet verschiedene Aufgaben, nicht fehlende Sicht. Ein nützlicher Call lautet: „Nordrand, ich expandiere westwärts; innen übernimmt den ersten Kontakt; Süden hält die zweite Route.“ Er nennt Raum, Richtung und Ersatz. „Bleibt zusammen“ enthält keine dieser Entscheidungen und zerfällt, sobald ein Gegner den ersten Korridor gewinnt.
+
+Prüfe diese Aussage außerdem nach dem ersten sichtbaren Wachstum. Ein zunächst freier Keil kann durch einen schnell expandierenden Mitspieler enger werden, während eine vermeintliche Feindseite leer bleibt. Die Formation ist deshalb kein Vertrag für die ganze Partie, sondern ein gemeinsamer Ausgangspunkt. Wer die Lage neu benennt, bricht den Plan nicht, sondern hält seinen Zweck aufrecht: eigene Arbeit, gemeinsame Unterstützung und eine verständliche Reaktion auf den ersten gegnerischen Zug.
+
+## Lies den Spawnzustand, bevor du die Kartenposition bewertest
+
+Der Code von v0.33.14 trennt die Spawnzustände klar. Eine normale manuelle Mehrspielerphase dauert 300 Ticks, bei Standardgeschwindigkeit ungefähr 30 Sekunden. Mit Random Spawn sind es 150 Ticks oder etwa 15 Sekunden. Die Ausführung endet, sobald der aktuelle Tick die konfigurierte Phasenlänge überschreitet. Lies den Countdown daher als Entscheidungsfenster, nicht als zusätzliche Angriffsimmunität. Manuell darfst du während der Phase einen gültigen Ort senden und ändern. Beim Zufallsstart sucht die Ausführung selbst einen Kandidaten; das Ergebnis ist kein verschiebbarer Marker.
+
+Die Zufallssuche probiert höchstens 1.000 Kandidaten. Ein Kandidat muss unbesessenes, gültiges Land sein, ausreichend weit vom absoluten Kartenrand entfernt liegen und den konfigurierten Manhattan-Mindestabstand zu bereits platzierten Spielern einhalten. Der aktuelle Wert beträgt 30 Felder. Manhattan-Distanz addiert horizontale und vertikale Unterschiede; sie ist keine Pixelgerade auf dem Bildschirm. Dreißig verhindert unmittelbare Überlagerung, verspricht aber weder eigene Lane noch ausreichendes Land oder eine sichere Flanke. Es ist eine Motorbedingung, kein optimaler Teamabstand.
+
+Definiert eine Karte für die aktuelle Teamanzahl eine `teamSpawnArea`, zieht Random Spawn zuerst aus diesem Rechteck. Fehlt ein passender Eintrag, fällt die Suche auf die ganze Karte zurück. Das Rechteck ist kein eigener Besitz, keine Mauer, keine Schutzzone und keine automatische Unterstützungsreichweite. Im Compact-Terrain halbiert der Loader sowohl Koordinaten als auch Abmessungen. Ein großzügiger Normal-Ausgang kann dadurch kurz oder eng werden; kleine Durchgänge können in der geladenen Geometrie ihre Bedeutung verlieren. Prüfe erreichbare Wege nach dem Start erneut.
+
+Auch Teamidentität darf nicht aus ähnlichen Farben geraten werden. Ein serverseitig gesetzter `teamIndex` hat Vorrang. Clanmitglieder bleiben zusammen, soweit die Kapazität reicht; normale Freunde sind nur eine weiche Präferenz. Die Teamkapazität ist die aufgerundete Spielerzahl geteilt durch die Teamzahl. Das Spawn-Overlay zeichnet zuerst feindlichen Einfluss, danach die pulsierenden Ringe der Mitspieler und zuletzt den eigenen Ring. Benutze den Ring als Identitätsbeleg und ergänze räumliche Namen wie „Innenküste“ oder „Südrückraum“.
+
+Playlists setzen weitere Grenzen. Das öffentliche Standard-Team nutzt normalerweise manuelle Platzierung und erlaubt Gold- sowie Truppenspenden. Manche Special-Team-Konfigurationen können Random Spawn enthalten, doch Duos, Trios und Quads schließen ihn aus, weil Zufall den Zweck dieser Formate brechen würde. Ranked 2v2 hat vier Spieler, zwei Teams, manuelle Starts und 60 Sekunden PvP-Spawnimmunität. Diese Minute gehört nur zu dieser Rangliste. Eine Auswahlphase von 300 Ticks bedeutet im gewöhnlichen Team nicht automatisch denselben Schutz.
+
+Die Lesereihenfolge lautet somit: Modus und Modifikatoren prüfen, Ringe identifizieren, Beweglichkeit des Markers klären, dann Land und Wasser bewerten. Erst danach werden Aussagen wie „Ecke ist sicherer“, „Küste ist ein Ausweg“ oder „wir müssen näher“ überprüfbar. In einem Custom Room nennst du Random Spawn, Teams, Einheiten, Peace Time und Spenden, bevor du die Formation festlegst.
+
+## Nutze den R-L-F-F-Check: Ring, Lane, Front, Fallback
+
+R-L-F-F verdichtet den kurzen Countdown zu vier wiederholbaren Prüfungen. Es ist kein eingebautes System und gibt keinen Zahlenbonus. Ring bestätigt echte Mitspieler. Lane weist jedem einen neutralen Keil zu. Front erkennt den Start mit mehreren wahrscheinlichen Kontakten. Fallback behält einen zweiten Ort, eine andere Expansionsrichtung oder einen klaren Plan für einen eingeschlossenen Spieler. Gemeinsame Begriffe verhindern, dass vier Menschen nur „schlechter Spawn“ sagen, ohne eine Änderung zu nennen.
+
+| Prüfung | Bestanden, wenn | Signal zum Verschieben oder Umplanen |
+|---|---|---|
+| Ring | Pulsierende Ringe und Teamidentität sind bestätigt | Die Zuordnung beruht nur auf Farbe, Name oder Vermutung |
+| Lane | Jeder erreicht Neutralland ohne einen Mitspieler zu kreuzen | Zwei Spieler brauchen denselben Engpass oder dieselbe Tasche |
+| Front | Die gemeinsame Feindseite ist bekannt oder übergeben | Die Mitte kann mehrere unabhängige Seiten treffen |
+| Fallback | Ein zweiter Ort oder Weg erhält die Formation | Eine belegte Küste oder ein geschlossener Pass zerstört den Start |
+
+**Ring** prüft Identität. Zoome weit genug heraus, um das Team zu sehen, dann wieder hinein, bevor ein Ring auf Wasser, unpassierbarem Gelände, einer dünnen Halbinsel oder fremdem Einfluss bestätigt wird. Auf einer dichten Karte benennst du Mitspieler relativ: Nordrand, Innenküste, Südrückraum. Diese Bezeichnung hilft während des Countdowns mehr als eine Debatte über Spielstärke und schützt vor Farbverwechslung.
+
+**Lane** prüft Gelegenheit. Zeichne gedanklich von jedem Marker einen Keil ins neutrale Land. Keile dürfen sich berühren, aber nicht vom gleichen ersten Korridor abhängen. Gleiche Startfläche ist nicht das Ziel. Ein hinterer Spieler darf weniger frühes Land nehmen, wenn er das Innere schützt und einen City-Ort bewahrt; ein Randspieler übernimmt eine breitere Außengrenze. Der Fehler ist stiller Hunger: Ein Spieler kann nur wachsen, wenn ein anderer aufhört.
+
+**Front** prüft Verpflichtung. Zähle Richtungen, aus denen Nicht-Mitspieler die geplante Region erreichen, nicht jeden farbigen Punkt. Ein Rand senkt diese Zahl oft. Die Mitte tauscht Zugang gegen Kontakte. Ein zentraler Start ist tragbar, wenn der Spieler seine Ankerlast kennt, kürzer expandiert und freundliche Lanes hinter statt durch ihn zusammenlaufen. Er ist schlecht, wenn jeder annimmt, jemand anderes werde ihn verteidigen.
+
+**Fallback** macht die Entscheidung umkehrbar. Bei manueller Wahl bleibt ein zweiter Kandidat sichtbar, und du wechselst vor Ende der 300-Turn-Phase. Nach Random Spawn gibt es keinen neuen Wurf. Der Ersatz ist eine zweite Expansionsrichtung, eine frühe Spende oder die Erlaubnis, kompakt zu bleiben, während ein Mitspieler Raum öffnet. Ein Port ist kein Universalausgang: Das Wasser muss nützlich verbunden sein, die Einheiten müssen aktiv sein, und die Kosten dürfen eine benötigte City oder Factory nicht verdrängen.
+
+Wiederholt R-L-F-F unmittelbar nach Kartenstart. Feindmarker werden zu echter Expansion, freundliche Lanes können kollidieren und die geplante Front kann leer bleiben. Der zweite Durchgang übersetzt das Spawnbild in vorläufige Lasten: Wachstum, Reserve, Anker und Ersatzroute. Er sperrt niemanden dauerhaft in eine Rolle.
+
+## Szenario eins: vier Mitspieler an einem überfüllten Kontinentalrand
+
+Angenommen, eine manuelle Teamlobby hat vier Mitspieler, die normale 300-Turn-Phase und eine Kontinentalkarte, deren Ostrand eine breite Binnenebene sowie zwei enge Küstentaschen enthält. Dies ist ein Lehrszenario, keine Behauptung über eine benannte Karte oder garantierte öffentliche Teamgröße. Zwanzig Sekunden vor Ende liegen drei Teamringe in der Ebene. Der vierte Spieler erwägt genau die Mitte des Clusters, weil sie geschützt aussieht.
+
+Führe R-L-F-F aus. Ring besteht: Alle drei Marker sind Mitspieler. Lane scheitert für die Mitte, weil ihr Neutralkeil zwei andere überlappt und das Äußere nur über Land erreicht, das diese Spieler wahrscheinlich nehmen. Front wirkt zunächst sicher, täuscht aber. Der zentrale Spieler kann bei Tick eins keinen Gegner haben und trotzdem zur Route werden, durch die sich beide Außenspieler verbinden wollen. Fallback scheitert, wenn die Küste zu einem toten Wasserbecken oder einem Ein-Feld-Streifen gehört.
+
+Die bessere Bewegung ist keine automatische Isolation. Setze den vierten Marker auf die südliche Schulter desselben regionalen Bogens: weit genug für einen eigenen Keil, nah genug für spätere freundliche Grenzen. Nun tragen die Starts verschiedene Lasten. Nordrand expandiert an der Kartengrenze, Nordinnen übernimmt den ersten Zentralkontakt, Südinnen wächst dahinter und Südschulter schützt das zweite Ende. Das sind Startlasten, keine festen Klassen; nach sichtbarer Feindexpansion werden sie neu verteilt.
+
+Vergleiche mit expliziten Zahlenannahmen. Die Mitte zeigt scheinbar 40 Einheiten neutrales Umfeld, davon liegen 30 in freundlichen Keilen. Die Schulter zeigt nur 28, doch 24 gehören zu einer eigenen Lane, und sie öffnet zwei wahrscheinliche Feindrichtungen statt drei. Diese Werte sind eine Planungsskizze, keine Engine-Metrik, Siegformel oder versteckte Feldzählung. Sie zeigen, warum kleiner, unbestrittener Zugriff wertvoller als eine große gemeinsame Tasche sein kann.
+
+Der Gegner kontert, indem er ein Bogenende massiert oder in die Lücke zwischen Nordinnen und Südinnen läuft. Das Team darf nicht jeden Spieler auf das bedrohte Feld stapeln. Der Anker verkürzt seine Grenze. Der Rückraum behält Troops und Gold für eine gezielte Spende oder ein notwendiges Gebäude. Ein Randspieler wächst weiter, damit nicht die gesamte Entwicklung gegen Verteidigung getauscht wird. Sobald eine Grenze aktiv ist, übernimmt der [Landkampf-Guide](/de/guides/land-combat/); [Defense Posts](/de/guides/defense-posts/) klären eine 30-Feld-Zone.
+
+Der Abschluss ist prüfbar. Vor Ablauf der Uhr kann jeder eine eigene neutrale Lane und eine wahrscheinliche Feindseite nennen. Beim ersten Teamscan muss niemand einen Mitspieler durchqueren, um freies Land zu erreichen, und der exponierte Innenspieler kennt seinen konkreten Helfer. Ist eine Aussage falsch, braucht die Formation noch eine Bewegung oder neue Lastverteilung.
+
+Ein weiterer Kontrollpunkt folgt nach der ersten neutralen Eroberung. Die vier tatsächlichen Grenzen sollten dem beschriebenen Bogen noch ähneln, ohne identisch sein zu müssen. Ist ein Spieler bereits hinter freundlichem Besitz eingeschlossen oder berühren drei Spieler denselben Engpass, war der optische Spawn besser als seine reale Route. Korrigiert dann die Expansionsrichtungen sofort, statt die ursprüngliche Skizze aus Gewohnheit zu verteidigen.
+
+## Szenario zwei: Random Spawn verteilt ein Team innerhalb eines Kartenbereichs
+
+Angenommen, eine Special-Team-Lobby würfelt Random Spawn, die Karte definiert für die aktuelle Teamzahl ein Rechteck, und drei Mitspieler werden darin platziert. Die Phase dauert 150 Turns, etwa 15 Sekunden, und ein neuer Wurf ist nicht möglich. Die Routine lehnt weiterhin Kandidaten ab, die weniger als 30 Manhattan-Felder von einem platzierten Spieler entfernt sind. Sie verlangt unbesessenes, gültiges Land abseits des absoluten Kartenrands. Das sind benannte Engine-Annahmen; Gelände und Rechteck bleiben bewusst offen.
+
+Spieler A erscheint an der Binnenseite, B nahe einer Küste und C hinter einem scheinbar unpassierbaren Rücken mit nur einem bestätigten Ausgang. Alle drei Starts liegen legal im Teambereich, sind aber nicht gleich verbunden. R-L-F-F wird jetzt zur Richtungsprüfung. Die Ringe sind bekannt. As Lane zeigt in ein breites neutrales Binnenland. Bs Wasserzugang zählt nicht als Port, bevor Wasserkomponente und Lobbyeinheiten geprüft sind. Cs Lane ist der Engpass, weil ein Rivale den einzigen Ausgang schließen kann.
+
+Die erste unumkehrbare Aktion muss Cs Zugang lösen. C beansprucht den Pass, ohne die Reserve zu leeren. A expandiert zur Innenseite dieses Passes statt vom Team weg und bereitet eine freundliche Grenze vor. B sichert genug Küste, gibt aber das erste Gold nicht allein wegen sichtbaren Wassers aus. Verliert C das Rennen, ist Fallback kein verbotener Reroll. C hält einen kompakten Kern, empfängt bei erlaubter Spende Hilfe, und A übernimmt die Verbindung der Region.
+
+Füge eine numerische Planungsskizze hinzu. A und B besitzen je zwei glaubwürdige Richtungen, C nur eine. Der Befehl „alle nach außen“ öffnet fünf Lanes gleichzeitig und lässt womöglich Cs einzigen Ausgang unbesetzt. Ein gewichteter Plan heißt 2-1-2: A prüft zwei Richtungen, bindet sich aber an C; C nimmt den einzelnen Pass; B hält zwei Optionen, bis die Küste klassifiziert ist. 2-1-2 zählt Wege in dieser Annahme, keine Angriffsprozente, Teamboni oder Enginewerte.
+
+Der Gegner kann den Pass drücken und zugleich einen Spieler an Bs Küste schicken. Dadurch zeigt sich, dass ein Teamrechteck keine Festung ist. Es beschränkt vorhandene Zufallskandidaten, erzeugt jedoch keine besessene Mauer, kein gemeinsames Land und keine automatische Verstärkung. Die Antwort schützt eine funktionsfähige Verbindung, nicht jede Rechteckkante gleich. Erreicht A den C, kann B wirtschaftlich unabhängig bleiben. Fällt der Pass, kann Bs Küstenroute die Ersatzfront werden.
+
+Compact verändert die Lage erneut. Der Loader halbiert Koordinaten und Ausmaße des Bereichs; kleine Durchgänge können schrumpfen oder verschwinden. Zähle auf der geladenen Karte neu, statt drei Normal-Ausgänge zu übernehmen. Das Szenario ist abgeschlossen, wenn das Team den zugangskritischen Start, den Besitzer der zweiten Route und die Aufgabe des eingeschlossenen Spielers ohne Reroll erklären kann.
+
+## Häufige Fehler und die besten gegnerischen Gegenmaßnahmen
+
+Der erste Fehler ist **Ringjagd**: Jeder klickt möglichst nah an den ersten freundlichen Ring. Der Gegner benötigt keinen mechanischen Konter, denn das Team erzeugt seine Konkurrenz selbst. Mehrere Spieler betreten dieselbe neutrale Tasche, äußere Gegner nehmen kostenlos Land, und der Rückraum hat keinen eigenen Weg. Erhalte eine gemeinsame Region, aber drehe jede Lane wie einen Fächer nach außen. Nähe hilft nur, solange benachbarte Spieler konfliktfreie Arbeit besitzen.
+
+Der zweite Fehler ist **Kartenmalerei**: Eine lange, hübsche Linie soll die ganze Karte abdecken. Sie berührt viele Gegner und lässt optisch jedes Segment gleich wichtig erscheinen. Der Feind wählt eine schwache Stelle, während das entfernte Ende weiterwächst, weil nie ein Anker benannt wurde. Ersetze die Linie durch einen Bogen um eine verteidigbare Region. Benenne ein inneres Scharnier, dessen Verlust das Team trennt, und ein äußeres Ende, das sicher zurückgehen darf.
+
+Der dritte Fehler ist das **heroische Zentrum**. Ein selbstbewusster Spieler startet in der Mitte und erwartet Umringung sowie Rettung. Gegner können aus mehreren Richtungen drücken, während Mitspieler weder Truppenüberschuss noch Aufmerksamkeit besitzen. Ein zentraler Anker funktioniert nur mit offener Last: kürzere Expansion, Reaktionsreserve und freundliche Lanes, die hinter ihm statt durch ihn zusammenlaufen. Fehlen diese Bedingungen, muss der Marker an den Rand.
+
+Der vierte Fehler ist **Küstenverehrung**. Mehrere Spieler bewerten Wasser positiv, ohne eine nützliche Wasserkomponente, genug Land oder den Zielkonflikt zwischen Port, City und Factory zu prüfen. Ein Gegner lässt sie redundante Marineinfrastruktur kaufen und gewinnt die Binnenwege. Der Spawncheck fragt nur nach einer eigenen Option. Nach dem Start bewertet [Port gegen Factory](/de/guides/port-vs-factory/) die tatsächliche Investition.
+
+Der fünfte Fehler ist **Zufallsverweigerung**. Spieler behandeln eine schlechte Zuteilung wie einen beweglichen Cursor und verschwenden die erste Minute mit Beschwerden oder Klicks anderswo. Nach dem Zufallsstart gibt es keinen Reroll. Ändere den Fallback vom Ort zur Aufgabe: Ausgang nehmen, kompakt halten, Engpass markieren oder einen Mitspieler zur Verbindung machen. Der Spawn ist fix; der Teamplan bleibt veränderlich.
+
+Der sechste Fehler ist **Immunitätsverwechslung**. Die 300-Turn-Auswahl wird als 30-Sekunden-Angriffsschutz gelesen oder die 60 Sekunden aus Ranked 2v2 werden auf gewöhnliches Team übertragen. Der Gegner bestraft die verspätete Expansion nach dem tatsächlichen Schutzende. Lies die Lobby und behandle Phasendauer und Immunitätsdauer als getrennte Werte.
+
+Der stärkste Gegenplan zwingt an entgegengesetzten Enden zwei dringende Entscheidungen. Die Antwort ist nicht perfekte Symmetrie. Halte eine Wachstumsfront, einen Anker und einen Ersatzweg. Sind beide Gefahren echt, ordnen [Teamrollen](/de/strategies/team-roles/) Spenden, Zielmarker und Übergaben. Formation senkt Koordinationskosten, ersetzt aber keine Kommunikation.
+
+## Passe die Formation an Modus und Karte an
+
+In einem regulären öffentlichen Teamspiel nutzt die Basiskonfiguration manuelle Platzierung statt Random Spawn. Verstehe die etwa 30 Sekunden als Erlaubnis zur Korrektur, nicht als Grund, bis zur letzten Sekunde zu warten. Setze einen gültigen vorläufigen Marker, zoome heraus und bewege ihn nur bei einem klaren R-L-F-F-Fehler. Ein unplatzierter Cursor ist am Ende schlechter als ein unperfekter Start mit bekannter Lane.
+
+Special-Team-Partien können Modifikatoren enthalten. Random Spawn erscheint in einigen numerischen Konfigurationen, wird aber für Duos, Trios und Quads ausgeschlossen, weil Zufall deren Zweck durchkreuzt. Vertraue dem angezeigten Lobbyzustand statt einer erinnerten Rotation. Ist Random aktiv, beginnt die Formation mit dem Engine-Ergebnis. Ist er aus, trägt das Team die Verantwortung für sein manuelles Muster.
+
+Ranked 2v2 hat eine enge eigene Grenze. Die v0.33.14-Playlist setzt vier Spieler, zwei Teams, manuelle Starts, keine Nations, Gold- und Truppenspenden sowie 60 Sekunden Spawnimmunität nach der Auswahl. Daraus folgt keine universelle Rangtaktik. Nutzt den Schutz, um zwei eigene Lanes zu verbinden und den ersten Gegnerkontakt zuzuweisen. Besetzt nicht dieselbe Tasche, nur weil es zwei Ringe gibt.
+
+Auf einem einzelnen Kontinent ist ein Randbogen gut, wenn er Innentiefe erhält. Ein Zentrum kann mehr Zugang gewinnen, akzeptiert aber meist mehr Kontaktrichtungen. Zähle erreichbare Ausgänge statt Kartennamen. Berge und unpassierbares Gelände können eine visuelle Mitte zum echten Rand machen. Ein Fluss oder dünner neutraler Korridor kann einen äußeren Start zum Teamgelenk machen.
+
+Auf Insel- und Meerengekarten entscheidet ihr, ob Mitspieler ein Wassergebiet teilen oder getrennte Landkomponenten abdecken. Alle auf einer Insel erzeugen einen starken Kern, können aber andere Komponenten aufgeben. Ein Spieler pro Insel besitzt eigene Lanes, verteuert jedoch gemeinsamen Landdruck. [Kartenstrategie](/de/guides/map-strategy/) behandelt Komponenten; [Inselverteidigung](/de/guides/island-defense/) entscheidet danach über Port, Blockade, Halten und Abzug.
+
+Bei konfigurierten Teambereichen prüfst du einen Eintrag für die aktuelle Teamzahl. Diese Zahl ist der Schlüssel der Suche. Fehlt er, fällt Random Spawn auf die ganze Karte zurück. In Compact werden Rechteckposition und -größe halbiert. Die Fakten verlangen Beobachtung der wirklichen Starts und beweisen nie einen festen Kompassbereich für ein Team.
+
+Humans versus Nations hat andere Seiten und Immunitätsgrenzen; Nations können in den passenden Teambereich umgelenkt werden. Menschen benötigen trotzdem getrennte Lanes. Ein Custom Host kann Random Spawn, Teams, Einheiten und Peace Time ändern. Nenne zuerst die Einstellungen. R-L-F-F bleibt brauchbar, weil es echte Ringe, erreichbares Land, Frontanzahl und Ersatz beobachtet statt ein Preset auswendig zu lernen.
+
+Auch die Kartenansicht beeinflusst den ersten Eindruck. Weit herausgezoomt wirkt ein schmaler Küstenstreifen oft geräumig, während unpassierbare Kanten und einzelne Übergänge kaum sichtbar sind. Bestätige deshalb den regionalen Bogen in großer Ansicht und jede persönliche Lane in näherer Ansicht. Eine Formation besteht erst, wenn sowohl das Team als Ganzes als auch der konkrete erste Weg sinnvoll aussehen.
+
+## 30-Sekunden-Callsheet und Abschlussprüfung
+
+Nutze im manuellen Teamcountdown diesen Ablauf. **30–20 Sekunden**: Setze einen gültigen vorläufigen Marker und zoome heraus. Erkenne Mitspielerringe, große Landkomponenten, brauchbare Küsten und offensichtliche Hindernisse. Sage Ort plus Problem: „Nordrand, kein zweiter Weg“ ist umsetzbar; „schlechter Spawn“ nicht. **20–10 Sekunden**: Zeichne pro Spieler einen neutralen Keil, verschiebe überlappende Engpasstmarker und benenne bei einem Zentralkontakt den Anker.
+
+**10–5 Sekunden**: Prüfe Fallback. Jeder braucht eine Richtung, falls der Gegner das erste Rennen gewinnt. Entscheidet, welche Küste eine echte Option und welche Dekoration ist. Öffnet eine stabile Position nicht für eine winzige optische Verbesserung. **5–0 Sekunden**: Stoppt Bewegungen, außer der Marker ist ungültig oder vollständig gefangen. Nennt den ersten gemeinsamen Scan nach Start: Pass, Außenrand, Feindcluster oder Küste.
+
+Bei Random Spawn wird derselbe Ablauf zur Beobachtung statt Platzierung. Ringe und Lanes lassen sich in der kürzeren Phase benennen, das Ergebnis lässt sich nicht neu würfeln. Bestimmt den zugangskritischen Spieler, den Wachstumsspieler und die Ersatzroute. Diese Lasten sind vorläufig. Bewertet neu, sobald echte Expansion die erste Grenze zeigt.
+
+Der Guide ist gelernt, wenn fünf Aussagen stimmen. Erstens kann der Spieler manuelle und zufällige Platzierung trennen. Zweitens nutzt er echte Teamringe statt Farbraten. Drittens besitzt jeder eine benannte neutrale Lane oder einen ausdrücklichen Kompaktplan. Viertens erkennt das Team den Start mit mehreren Feindrichtungen. Fünftens weiß jeder, ob Fallback jetzt eine Markerbewegung oder nach Random Spawn eine neue Expansionsrichtung bedeutet.
+
+Die offiziellen Belege sind der [v0.33.14-Release][release], die [Konfiguration für Zeit und Abstand][config], die [Platzierungsroutine][spawn], das [Spawn-Overlay][overlay], die [Teamzuweisung][assignment], die [öffentliche Playlist][playlist] und der [Loader für Teambereiche][loader]. Der Release selbst behebt Modal-Scrolling und setzt nur die Versionsgrenze; die Mechanik stammt aus dem Tagcode. Community-Diskussionen und Videos liefern Problem und Spielersprache, keine Regeln.
+
+Gehe anschließend zum [Guide für die erste Partie](/de/guides/first-match/), um den Ort in eine stabile Eröffnung zu übersetzen. Nutze [Kartenstrategie](/de/guides/map-strategy/) für Land- und Wasserverbindungen und danach [Teamrollen](/de/strategies/team-roles/) für Spenden, Ziele, Logistik und Übergaben. Für getrennte Inseln gibt der [Four-Islands-Teamguide](/de/guides/four-islands-team-coordination/) den kartenspezifischen Plan. Die Formation ist erfolgreich, wenn spätere Entscheidungen in einer zusammenhängenden Region statt in unabhängigen Notfällen beginnen.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/configuration/Config.ts
+[spawn]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/execution/SpawnExecution.ts
+[overlay]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/render/gl/passes/SpawnOverlayPass.ts
+[assignment]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TeamAssignment.ts
+[playlist]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/server/MapPlaylist.ts
+[loader]: https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/core/game/TerrainMapLoader.ts
