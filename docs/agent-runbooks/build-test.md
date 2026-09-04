@@ -15,7 +15,7 @@
 - **`pnpm <script> -- --flag` 可能把独立的 `--` 原样传给 Node 脚本**：自有 CLI 的参数解析应容忍独立 `--`；验证时也可用 `pnpm run <script> --flag`，不要假设分隔符一定会被 pnpm 吃掉。
 - **Astro 内联脚本若渲染在目标 DOM 之前，不能立即 `querySelector` 后据此自删或绑定行为**：组件放在 `<main>`/`<article>` 前时，脚本会先执行并把“尚未解析”误判为“不存在”。统一在 `DOMContentLoaded` 后初始化，或把脚本移到目标 DOM 之后；对应 e2e 必须覆盖组件实际出现和交互绑定。
 - **多语 SEO title 的长度保护不能直接回退到原始 H1，或把点击利益点一起丢掉**：长标题先去掉破折号/冒号后的副标题，再重新套用对应栏目模板；e2e 同时断言本地化利益短语和最大长度，避免“长度合格但搜索意图退化”。
-- **MDX frontmatter 的纯文本值只要包含冒号加空格，就必须用引号包裹**：例如法语 `description: "... trains : ..."`；否则 YAML 会把冒号后的内容解析成嵌套映射，`astro check` 报 `bad indentation of a mapping entry`。
+- **2026-09-03 复发：MDX frontmatter 的纯文本值只要包含冒号加空格，就必须用引号包裹**：例如英文 `description: "... guide: ..."`；否则 YAML 会把冒号后的内容解析成嵌套映射，`astro check` 报 `bad indentation of a mapping entry`。
 - **本环境访问 `support.google.com` 可能在浏览器和 `curl.exe` 两条链路同时超时**：做 AdSense/Publisher 政策审计时先使用短超时探测；若重复超时，不要循环重试，明确记录无法在线刷新官方正文，并使用项目内最近一次注明日期的官方来源快照，提醒申请前在可访问网络中复核。
 - **临时 Node 调试代码不能用 `eval()` 执行静态 `import`**：`eval` 不支持模块级静态导入；改用 `await import()`，并从项目实际安装的 `@playwright/test` 导入浏览器能力，不要假设存在可直接导入的顶层 `playwright` 包。
 - **Playwright webServer 不要复用本机通用 `localhost:4321`**：IPv4 与 IPv6 可能各被不同项目监听，测试会在错误页面、正确页面和 `ERR_CONNECTION_REFUSED` 之间漂移。使用项目专用的 `127.0.0.1` 端口（默认 4327，可用 `PLAYWRIGHT_PORT` 覆盖），并令 `reuseExistingServer: false`，确保每次测试启动自己的生产预览。
@@ -38,4 +38,4 @@
 - **局部 Astro 语法验证不要假设 Prettier 或传递依赖可直接使用**：本项目未配置 Astro Prettier parser，pnpm 也不会在根目录暴露传递依赖 `@astrojs/compiler`。优先用 `pnpm check` 或 `pnpm build` 验证 `.astro`；只有诊断脚本确有必要时才从已确认的 `.pnpm` 实际路径导入 compiler。
 - **`astro dev` 首次请求若报 `Cannot split a chunk that has already been edited (... "import.meta")`，先区分开发态转换器与生产产物**：若同一工作树的 `pnpm check`、`pnpm build` 和 Playwright 生产预览均通过，这是 Astro/Vite 的按需转换故障，不是内容或静态构建失败。最终验收改用新鲜 `dist/` 上的 `pnpm preview`；只有任务明确要求修复开发服务器时，才单独诊断插件/缓存，不要为此改写正文或回滚有效内容。
 - **`pnpm guide:audit` 不是全站攻略审计**：`scripts/audit-guide-delivery.mjs` 必须同时提供 `--slug` 与 `--source-pack`，缺参退出 1 属调用方式错误。全站内容和 SEO 收口分别使用 `pnpm content:audit`、`pnpm seo:audit`；只有核验单篇交付包时才运行 `pnpm guide:audit -- --slug <slug> --source-pack <path>`。
-- **2026-09-01 复发：`pnpm seo:audit` 可能因脚本依赖 `parse5` 未在 pnpm 依赖树中而以 `ERR_MODULE_NOT_FOUND` 失败**：先保留构建成功的 `dist/`，用不依赖该包的静态 HTML 检查核验 canonical/hreflang，并在依赖补齐前记录该失败；不要把它误判为页面 SEO 内容回归。
+- **2026-09-01、2026-09-03 复发：`pnpm seo:audit` 可能因脚本依赖 `parse5` 未在 pnpm 依赖树中而以 `ERR_MODULE_NOT_FOUND` 失败**：先运行 `pnpm install --frozen-lockfile` 恢复根级链接，再保留构建成功的 `dist/` 并运行审计；若依赖仍缺失，才用不依赖该包的静态 HTML 检查核验 canonical/hreflang，不要把它误判为页面 SEO 内容回归。
