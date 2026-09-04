@@ -36,6 +36,7 @@
 | `LF-COMMUNITY-2026-08-28` | `/guides/train-network/` | 如何连接 Factory、City 和 Port，减少断线与无效线路，判断枢纽、链路和分支何时值得升级 | port-vs-factory 只比较建筑投资；economy-fundamentals 只处理总预算；本页独占铁路拓扑、停站收益、路段上限和铁路退出信号，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-01` | `/guides/threat-assessment/` | 开局后如何扫描全图、选择安全的下一个目标、保留应急储备，并判断何时停止扩张 | ffa-opening 只处理出生与前五分钟；land-combat 只处理已接触战斗；diplomacy-betrayal 只处理关系操作；本页独占全局威胁扫描、外部受益者与扩张停止线，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-02` | `/guides/defense-posts/` | Defense Post 何时值得建、30 格范围怎样覆盖路线、50 ticks 与 50,000–250,000 Gold 如何预算、同格为何不重复叠乘，以及大人口推进时何时退到第二层 | `land-combat` 只处理已接触战斗的兵力、地形与反推；`island-defense` 只处理整体岛屿、港口与登陆；`building-timing` 只给通用建筑时机；本页独占 Defense Post 的部署几何、施工节奏、预算、纵深与绕路反制，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-04` | `/guides/annexation-enclosure/` | 如何用小额推进建立外部支点、关闭内陆敌方口袋、确认活动攻击归属，并在新边界上保留第二条路线 | `threat-assessment` 只负责全图扫描；`land-combat` 只负责已接触战斗；`population-growth` 只负责增长曲线；`island-defense` 只负责海岸登陆与撤离；本页独占包围判定、口袋节奏、形状收益与闭合后的持守，不再换标题复制 |
 
 ## 生产批次
 
