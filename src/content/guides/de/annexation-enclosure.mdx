@@ -1,0 +1,125 @@
+---
+title: "OpenFront: Annexieren und Kessel schliessen ohne Ueberdehnung"
+description: "So nimmst du kleine Brueckenköpfe, schliesst einen Feindkessel und behältst nach der Eroberung eine zweite Route."
+pubDate: 2026-09-04
+updatedDate: 2026-09-04
+tags: [annexion, kessel, expansion, strategie, kampf]
+category: Strategie
+difficulty: Fortgeschritten
+version: v33
+freshnessSummary: "Gegen den offiziellen OpenFront-v0.33.13-Release sowie getaggte PlayerExecution-, AttackExecution- und Config-Quellen am 2026-09-04 geprueft: Inlandcluster koennen durch den aktiven Grenzangriff uebertragen werden, Kuesten- und Kartenrandcluster nicht."
+---
+
+## Direkte Antwort: Nimm die Kante, die den Kessel kleiner macht
+
+Behandle Annexion zuerst als Formproblem und erst danach als Truppenproblem. Nimm die erreichbare Kante mit dem besten Grenzgewinn, halte eine Reaktionsreserve und zeichne die Grenze nach jeder Eroberung neu. Schließe einen Kessel nur, wenn ein einziger nichtfreundlicher Besitzer ein Binnencluster umgibt und du den neuen Rand halten kannst. Ein kleiner Test ist gut, wenn er die Form veraendert. Der normale Angriff ist gut, wenn der Kessel sofort geschlossen werden muss. Erzeugt die Eroberung eine lange, offene Zunge, bleibt der Kessel offen und du baust einen zweiten Winkel auf.
+
+Diese Seite gilt fuer **v0.33.13** und wurde am **2026-09-04** geprueft. Overtime ist im oeffentlichen FFA jetzt standardmaessig aktiv. Das erhoeht den Wert einer sauberen spaeten Eroberung, aendert aber nicht die Kesselpruefung. Die Regeln kommen aus Tick- und Angriffscode. Communityzahlen wie 1 %, 10 %, 35 % oder 42 % sind Replay-Annahmen, keine Befehle fuer jede Partie.
+
+| Frage | Jetzt festlegen, wenn | Testen oder warten, wenn |
+| --- | --- | --- |
+| Wird die Grenze kuerzer? | Eine Kante entfernt eine Route oder verbindet Teile | Der neue Rand wird laenger und offener |
+| Ist der Kessel schliessbar? | Ein nichtfreundlicher Besitzer kann alle Binnenfelder umgeben | Meer oder Kartenrand bleiben Teil der Gruppe |
+| Welche Reserve bleibt? | Verrat, Rueckzug oder Nuke sind beantwortbar | Der Vorstoss die Haltekraft verbraucht |
+| Wer bekommt das Cluster? | Dein aktiver Angriff ist klar der groesste | Zwei Angreifer sind gleich stark |
+| Was folgt danach? | City, Port, Factory oder zweiter Frontwinkel werden erreichbar | Das Feld bleibt isoliert |
+
+Nutze [Bedrohungsanalyse](/de/guides/threat-assessment/) fuer den ersten Scan, [Landkampf](/de/guides/land-combat/) fuer die Front, [Bevoelkerungswachstum](/de/guides/population-growth/) fuer die Reserve und [Inselverteidigung](/de/guides/island-defense/) bei Wasser. Du sollst keine Siegerquote auswendig lernen. Du sollst wissen, welche Entscheidung dein eingesetzter Prozentsatz gekauft hat.
+
+## Was der v0.33.13-Code als Kessel erkennt
+
+PlayerExecution prueft beim Spielertick die Gebiete und sucht Grenzcluster. Ein Kandidat wird verworfen, wenn er eine Meereskueste oder den Kartenrand beruehrt. Er wird ebenfalls verworfen, wenn mehrere Aussenbesitzer den Ring bilden. Gueltig ist ein Binnencluster, das vollstaendig von genau einem nichtfreundlichen Besitzer umgeben ist. Eine fast geschlossene Farbe auf der Minimap reicht nicht.
+
+Die praktische Uebersetzung lautet: Zeichne keinen Kreis fuer eine Belohnung. Mache die Restfelder des Verteidigers zu einer Binneninsel mit einem einzigen Feindring. Ein Strand, eine Ecke oder die Naht zweier Gegner kann gefangen aussehen und trotzdem die Enginebedingung verfehlen. Haelt der Gegner eine Kuestenverbindung, nimm den Port, trenne die Landbruecke oder zwinge ihn im normalen Kampf aus der Position.
+
+Die Bereinigung laeuft beim Spielertick. Sie ist eine Zustandsaenderung nach der Grenzaenderung, nicht automatisch der Bonus fuer den Klick auf die letzte sichtbare Kachel. Warte einen Tick und pruefe den Besitzer. Wenn nichts uebertragen wurde, schiesse nicht blind weiter. Finde die fehlende Landkante, die zweite Farbe, den Strand oder die Diplomatiebedingung. So wird keine zweite Armee in einen unmoeglichen Ring geschickt.
+
+Bei einem gueltigen Cluster sucht der Code den groessten aktiven Angriff gegen diese Gruppe. Gibt es keinen aktiven Angriff, wird der Gegner mit der groessten Grenzbeziehung verwendet. Der erste Spieler, der eine Kachel beruehrt hat, bekommt also nicht automatisch den Besitz. Zwei Verbundete koennen ein anderes Ergebnis erwarten als die Engine. Schreibe vor dem zweiten Angriff in den Chat, wer Besitzer werden soll.
+
+Ist der Kessel das letzte Land des Verteidigers, kann `conquerPlayer` den Spieler vollstaendig besiegen. Bei einem Nebencluster ist es nur eine lokale Uebertragung, und der Gegner kann eine zweite Wirtschaft behalten. Nenne eine lokale Eroberung erst dann Eliminierung, wenn Rangliste und Grenze sie bestaetigen. Diese Unterscheidung gehoert in jeden Replay-Vermerk.
+
+## Baue den Kessel in vier bewussten Zustaenden
+
+Arbeite mit den Zustaenden **offen**, **enger**, **geschlossen** und **gehalten**. Offen bedeutet mehrere unabhaengige Ausgaenge. Suche zuerst die Kante mit dem groessten Formwert, nicht die Kachel mit den wenigsten Truppen. Enger bedeutet, dass ein oder mehrere Vorstoesse Routen entfernt haben. Hier kann ein 1–10-%-Test als Annahme sinnvoll sein: Reichweite und Reaktion werden geprueft, waehrend die Reserve bleibt.
+
+Geschlossen bedeutet, dass die Enginebedingung nach einem Tick stimmen kann. Gehalten bedeutet, dass die Uebertragung erfolgt ist und der neue Rand den ersten Gegenangriff ueberlebt. Im offenen Zustand markierst du zwei Kandidaten und einen Rueckzug. Im engeren Zustand sendest du die kleinste Kraft, die deine Informationsfrage beantwortet. Zeigt der Test einen Defense Post, einen zweiten Besitzer oder eine Kueste, wechselst du den Winkel.
+
+Ein menschlicher Angriff und ein Bootangriff nutzen als konfigurierte Menge ein Fuenftel der aktuellen Truppen. Das Fuenftel ist keine universelle Loesung. Erreichbare Grenzfelder, Terrain, benachbarte Gegner, Spielergroesse und parallele Angriffe veraendern den Ausgang. Eine kleinere Sonde ist eine Spielerentscheidung unterhalb der Konfiguration, keine zweite Engineformel.
+
+Fuehre ein Routenbuch. Schreibe Besitzer, naechste City oder Port, Zahl der Ausgaenge, Kuestenkontakt, Defense-Post-Abdeckung und den naechsten Nutzniesser auf. Fuege einen Stoppsatz hinzu: „Nach dieser Kachel schliesse ich den Graphen oder falle auf die zweite Route zurueck.“ Ohne Stoppsatz ist die Annexion nur Landhunger. Ein nicht schliessbarer Vorposten vergroessert die Grenze, die du beobachten musst.
+
+Diplomatie verschiebt den Graphen. Alliierte und Teamkameraden sind fuer die Kesselpruefung freundlich. Ein Allianzbruch erzeugt vielleicht eine neue Grenze, macht den alten Ring aber nicht sofort gueltig. Warte auf den neuen Beziehungszustand und scanne erneut. [Diplomatie und Verrat](/de/strategies/diplomacy-betrayal/) gehoert zur politischen Aktion; diese Seite beschreibt die neue Geometrie.
+
+## Szenario eins: 42-%-Reserve und zwei Landwege
+
+**Annahmen:** normales FFA, noch kein Overtime-Countdown, Kapazitaet 20.000 und aktuelle Truppen 8.400. Die 42 % sind eine Community-Heuristik. Ein schwacher Nachbar besitzt ein zwoelf Felder grosses Binnencluster zwischen deiner Westgrenze und einer neutralen Nation. Eine City liegt darin, ein zweiter Ausgang fuehrt nach Norden und ein Defense Post deckt diese Nordroute.
+
+Sende nicht automatisch das konfigurierte Fuenftel von 8.400, nur weil die Tasche billig aussieht. Frage zuerst, was die Kante aendert. Eine kleine Suedsonde zeigt Reichweite, trennt die neutrale Nation vom Nachbarn und verraet eine Nordreaktion. Aendert sie einen Besitzer, aber bleiben zwei Ausgaenge, ist der Kessel enger und nicht geschlossen. Notiere das und beobachte einen Zyklus.
+
+Nehmen wir an, die Sonde laesst 7.600 Truppen und der Nachbar greift im Westen an. Die Reserve hat jetzt eine Aufgabe. Ziehe den Kampf auf die Route, die du behalten willst, und laufe nicht in den Nord-Post. Der Post ist ein Grund fuer einen zweiten Winkel, kein Signal, eine ganze Armee in seinen Kreis zu werfen.
+
+Nach der zweiten Kante wartest du auf den Bereinigungstick. Sind die Binnenfelder von dir und keinem freundlichen Besitzer umgeben, kann die Engine sie uebertragen. Verbindet noch eine Kachel nach Norden, bleibt der Transfer aus. Nimm diese Kachel nur, wenn die Hauptstadt sicher bleibt. Sonst nutzt du den Suedvorposten als Basis und haeltst den Ring offen.
+
+Die Lehre lautet nicht „halte 42 %“. Sie lautet: Gib genug fuer Information aus, schuetze Wachstum bei geringer Dringlichkeit und committe die groessere Welle, wenn eine Kante den Graphen wirklich schliesst. Die Reserve ist die Kraft fuer die naechsten zwei Entscheidungen, keine heilige Zahl.
+
+## Szenario zwei: Ein Boot baut einen Aussenposten
+
+**Annahmen:** Kuestenkarte mit 55 Spielern, Heimatinsel mit Port und Factory, Festlandgegner mit zwei Cities und langer Grenze, ein zweiter Gegner ist abgelenkt. Die Seeroute ist offen, der Landeplatz wird nach der Strandkachel binnenliegend, und du hast 15.000 von 30.000 Truppen. 1-%- und 10-%-Bootsstoesse aus Videos bleiben Replay-Annahmen.
+
+Die erste Aufgabe des Boots ist eine Entscheidung ausserhalb der Insel. Es ist noch kein automatischer Kesselversuch. Waehle eine Landung, die eine City erreicht, eine Landbruecke trennt oder einem anderen Angreifer einen Rueckenwinkel gibt. Eine Strandkachel beruehrt das Meer und kann allein kein gueltiges Binnencluster sein. Drei Boote in einen Kuestenring zu schicken ist daher Verschwendung.
+
+Hat der Festlandspieler bereits den groessten aktiven Angriff auf das Cluster, synchronisiere dein Boot. AttackExecution gibt die Gruppe dem dominanten aktiven Angriff. Ein kleiner Treffer gefolgt vom grossen Angriff des Teamkameraden kann ihm die Tasche geben. Im Team ist das korrekt, im FFA eine Ueberraschung. Vereinbart den Besitzer vor dem zweiten Angriff.
+
+Bringt die Landung 2.000 Positionswert, aber kein Einkommen, bleiben Port und Factory Prioritaet. Werte den Vorposten nicht auf, bevor die Festlandroute haltbar ist. Kommt ein Warship oder Verrat, darf der Strandposten fallen. Verbindet er dagegen zwei feindliche Cluster und entfernt eine Cityroute, kann der volle Angriff schon vor dem Transfer sinnvoll sein.
+
+Pruefe danach drei Ergebnisse. Ein Binnen-Transfer bestaetigt den Weg. Lokale Eroberung ohne Transfer zeigt zweiten Besitzer oder Kuestenkontakt. Eine gescheiterte Landung zeigt unerreichbare Route oder Ziel. Aktualisiere das Routenbuch und waehle Truppen, City, Defense Post oder zweites Boot. Boote vermehren Winkel, nicht automatisch dauerhaftes Land.
+
+## Terrain, Grenzen und den naechsten Besitzer lesen
+
+Die v0.33.13-Konfiguration macht Terrain relevant. Vor Modifikatoren sind Plains guenstiger als Highland, und Mountain kostet noch mehr. Die getaggten Terme lauten Plains 80/16,5, Highland 100/20 und Mountain 120/25. Das sind Engineeingaben, keine Garantie, dass ein Bergfeld immer gewinnt. Defense Posts, Fallout, Nachbarzahl und Spielergroesse koennen den lokalen Wert ueberstimmen.
+
+Vergleiche ganze Wege. Ein Bergpass kann teuer sein, aber drei Ausgaenge entfernen. Eine billige Ebene kann hinter deiner Factory eine neue Grenze oeffnen. Zeichne zwei Eroberungen voraus. Markiere feindlichen Rueckzug, deine Rueckkehr und den dritten Besitzer, der das Cluster beruehren kann. Die beste Annexion kostet manchmal mehr, weil sie spaetere Grenzen spart.
+
+Zaehle nach jeder Eroberung die angrenzenden Besitzer. Beruehren zwei Gegner die Tasche, macht dein Angriff gegen nur einen Gegner das Cluster nicht zu deinem. Du brauchst vielleicht Waffenruhe, Synchronangriff oder ein anderes Ziel. Wasserkanäle und unpassierbares Terrain taeuschen die Farbe. Der Besitzergraph ist die eigentliche Karte.
+
+Frage vor jedem Bau, wer nach dem naechsten Tick Besitzer ist. Das Cluster kann an deinen Teamkameraden oder an den groessten aktiven Angreifer gehen. Eine Factory ohne Route, ein Port ohne Wasserkomponente oder eine offene City verwandelt Annexion in Schuld.
+
+Auch der Rueckzug hat Kosten. AttackExecution gibt ueberlebenden Angriffstruppen bei einem Rueckzug gegen einen Spieler einen Malus von 25 %. Wenn der Schluss nicht mehr moeglich ist, ziehe dich vor dem Zwangskampf zurueck. Halte den Rueckweg offen und lies [Landkampf](/de/guides/land-combat/) fuer die Frontdetails. Annexion bestimmt das Ziel, Kampf bestimmt den Preis.
+
+## Fehlerbilder und Gegenwehr
+
+Die Kuestenillusion ist am haeufigsten. Der Ring sieht geschlossen aus, beruehrt aber das Meer. Die Engine lehnt ihn ab. Nimm den Port oder trenne das Binnenland, bevor du von Kessel sprichst. Eine Blockade kann stark sein, ist aber kein automatischer Transfer.
+
+Der Ring mit zwei Besitzern ist der zweite Fehler. Du haeltst drei Seiten, ein anderer Gegner die vierte. Der Cluster ist nicht von einem einzigen Nichtfreund umgeben. Aendere die Zielreihenfolge oder akzeptiere den fremden Captor. Eine Armee fuer einen schlechteren Ring zu opfern ist kein Gewinn.
+
+Die lange Zunge entsteht, wenn die billigste Kachel die Grenze verdoppelt. Nutze einen Stoppsatz. Ein Defense Post kauft Zeit auf einer vorhersehbaren Route, loescht aber keine Laenge. Ein zweiter Winkel oder mobile Reserve ist oft besser als eine dritte Annexion.
+
+Die Credit-Ueberraschung kommt, wenn ein Teamkamerad den groessten aktiven Angriff hat. Bestimmt den Captor vor der Sonde. Im FFA schiesst du nicht in eine bereits dominierte Tasche, wenn dir der Transfer nicht passt. Im Team wird notiert, ob sie Staging oder permanente Wirtschaft ist.
+
+Die Wachstumsfalle funktioniert in beide Richtungen. Wer jede kleine Chance verweigert, verpasst das sichere Fenster. Wer waehrend der Nachbar sammelt zu tief ausgibt, verliert die Antwort. Wachstum und Bedrohung muessen gemeinsam gelesen werden. Reserve ist ein Werkzeug, kein fester Prozentsatz.
+
+MIRV, Water Nuke, Allianzbruch oder Koalition koennen den Graphen neu schreiben. Scanne nach dem Ereignis. Wenn Kueste, Fallout oder Besitzer wechseln, ist der alte Plan veraltet. [Nukleare Abschreckung](/de/strategies/nuclear-deterrence/) behandelt Waffen und SAM; diese Seite fordert nur, keine nicht mehr existierende Karte zu schliessen.
+
+## Anpassungen fuer Karte und Modus
+
+Auf Compact Maps kommt Kontakt schnell. 50 oder 100 Ticks koennen die ganze Schlacht umfassen. Nutze weniger Sonden und bevorzuge eine Sequenz, die in einer Welle schliesst. Eine kleine Annexion, die eine Grenze hinzufuegt, kostet sonst mehr Aufmerksamkeit als sie einbringt. Vergleiche Distanz mit [Kartengroessen](/de/guides/map-size-compact-mode/).
+
+Auf langen Kontinenten kann ein gueltiger Kessel zu weit vom Kern entfernt sein. Mache City, Factory oder Schiene zum Zwischenziel. Ein geschlossener Cluster ohne Einkommen und Rueckzug ist ein Trophäe, keine stabile Expansion. [Kartenstrategie](/de/guides/map-strategy/) liefert Topologie; hier kommt der Schliessungstest hinzu.
+
+Auf Inseln und in Meerengen trennst du Landkessel und Seeverweigerung. Strandfelder bestehen den automatischen Test nicht, das Land dahinter schon. Port, Warship und Transport gehoeren in den Seeplan, der Binnenweg ins Routenbuch. Ist die Wasserkomponente getrennt, geh zur Landbruecke oder sicheren Wirtschaft zurueck.
+
+Im Team ist ein geometrischer Erfolg nicht automatisch dein individueller Besitz. Teamkameraden sind freundlich, und ihr aktiver Angriff kann den Transfer erhalten. Bestimmt einen Route-Caller, eine Reserve und einen Captor. [Teamrollen](/de/strategies/team-roles/) beschreibt Rotation; diese Seite beschreibt den Uebergabepunkt.
+
+Im oeffentlichen FFA von v0.33.13 ist Overtime Standard. Die Clusterbereinigung bleibt gleich, aber eine spaete Binnenuebertragung kann vor dem naechsten Schwellencheck Gebiet bringen. Opfere keine Hauptstadt fuer einen Punkt. Vergleiche Gebietsgewinn und die Zeit, die der neue Rand halten muss.
+
+## Schliess-Checkliste und naechste Lektuere
+
+Vor der Sonde notierst du Ziel, Besitzer, naechsten Wirtschaftsknoten und die zwei zu entfernenden Ausgaenge. Markiere Meer und Kartenrand. Wenn einer beruehrt wird, heisst der Plan normale Eroberung oder Blockade. Halte eine echte Reserve aus Truppen, Gold fuer ein schnelles Gebaeude oder geschuetzter Seeroute.
+
+Nach jeder Kante wartest du einen Tick und pruefst Besitzer, Kueste, aktive Angriffsgroessen, Rueckweg und Wert der naechsten Kachel. Aendert sich ein Punkt, zeichnest du neu. Stuetzen alle fuenf die Schliessung, committe den grossen Angriff. Scheitert der Transfer, stoppst du bis die fehlende Bedingung bekannt ist.
+
+Drei Signale reichen: **Weiter**, wenn die Kante die Grenze kuerzt und City, Port, Factory oder Eliminierung oeffnet. **Halten**, wenn der Kessel geschlossen ist und der Konter kommt. **Gehen**, wenn Meer, zwei Besitzer, fehlender Rueckweg oder ein neuer Schwachpunkt den Preis zu hoch machen.
+
+Fuer einen Replay erstellst du eine Tabelle aus Tick, Besitzer, Reserve, aktivem Angreifer, Ausgaengen und Aktion. Markiere jede Zahl als Fakt oder Annahme. So erkennst du Terrain-, Reichweiten-, Credit-, Diplomatie- und Reservefehler. Du wiederholst die Form, nicht den Prozent-Slogan.
+
+Lies danach [Bedrohungsanalyse](/de/guides/threat-assessment/), [Landkampf](/de/guides/land-combat/), [Bevoelkerungswachstum](/de/guides/population-growth/), [Diplomatie](/de/strategies/diplomacy-betrayal/), [Inselverteidigung](/de/guides/island-defense/) und [Recovery](/de/strategies/recovery-playbook/). Die offizielle Grenze sind die [v0.33.13-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/PlayerExecution.ts), [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/AttackExecution.ts) und [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/configuration/Config.ts). Pruefe sie erneut, wenn Clusterbereinigung, Angriff, Terrain oder Overtime geaendert werden.

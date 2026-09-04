@@ -1,0 +1,125 @@
+---
+title: "OpenFront : annexions et encerclement sans surextension"
+description: "Apprenez a prendre de petits appuis, fermer une poche ennemie et garder une seconde route apres la capture."
+pubDate: 2026-09-04
+updatedDate: 2026-09-04
+tags: [annexion, encerclement, expansion, strategie, combat]
+category: Strategie
+difficulty: Avance
+version: v33
+freshnessSummary: "Verifie contre la release officielle OpenFront v0.33.13 et les sources PlayerExecution, AttackExecution et Config le 2026-09-04 : une poche interieure peut etre transferee par l'attaque active, mais une poche au bord de la carte ou sur la cote ne passe pas le test."
+---
+
+## Reponse directe : prenez le bord qui reduit la poche
+
+Une annexion est d'abord un probleme de forme. Prenez le bord accessible le moins cher qui supprime une sortie, gardez une reserve et redessinez la frontiere apres chaque capture. Fermez une poche seulement lorsqu'un seul proprietaire non-ami entoure un groupe interieur et que vous pouvez tenir le nouveau perimetre. Une petite sonde sert a changer la forme et a lire la reponse. Une attaque normale sert a fermer tout de suite. Si la capture cree une longue langue exposee, gardez la poche ouverte et ouvrez un second angle.
+
+Cette page decrit **v0.33.13**, verifiee le **2026-09-04**. La release rend Overtime actif par defaut dans le FFA public, ce qui augmente la valeur d'une capture propre en fin de partie. Elle n'ajoute pas une nouvelle regle d'annexion. Les regles viennent du code de tick et des attaques. Les nombres 1 %, 10 %, 35 % ou 42 % vus dans la communaute sont des hypotheses de partie, jamais des ordres universels.
+
+| Question | Engagez quand | Sondez ou attendez quand |
+| --- | --- | --- |
+| La capture raccourcit-elle la frontiere ? | Elle retire une route ou relie deux morceaux | Elle ajoute un grand arc expose |
+| La poche peut-elle etre fermee ? | Un seul proprietaire non-ami peut l'entourer | Elle touche la mer ou le bord de carte |
+| Quelle est la reserve ? | Vous pouvez repondre a une trahison ou un repli | L'attaque consomme la force de tenue |
+| Qui recevra la poche ? | Votre attaque active est clairement la plus forte | Deux attaquants sont proches |
+| Que faites-vous ensuite ? | Une Ville, un Port, une Factory ou un second front devient accessible | La terre reste isolee |
+
+Lisez [evaluation des menaces](/fr/guides/threat-assessment/) pour choisir le bord, [combat terrestre](/fr/guides/land-combat/) pour l'affrontement, [croissance de population](/fr/guides/population-growth/) pour la reserve et [defense insulaire](/fr/guides/island-defense/) quand la mer touche la poche. Le but n'est pas de retenir un pourcentage gagnant. Le but est de savoir quelle decision le pourcentage a achetee.
+
+## Ce que le moteur appelle un encerclement
+
+Le code officiel de PlayerExecution examine les territoires a chaque tick du joueur et cherche des clusters de frontiere. Un cluster est rejete s'il touche une rive oceanique ou le bord de la carte. Il est aussi rejete si plusieurs proprietaires exterieurs sont necessaires pour decrire l'anneau. Le cas valide est un groupe interieur complet entoure par un seul proprietaire non-ami. Une couleur presque fermee sur la minimap ne suffit donc pas.
+
+La lecture pratique est nette. Vous ne dessinez pas un cercle pour obtenir une recompense. Vous rendez les cases restantes interieures a un seul ennemi. Une plage, un coin de carte ou une jointure entre deux adversaires reste visuellement prisonniere, mais ne passe pas la condition. Si l'adversaire garde une connexion a la cote, prenez le Port, coupez le pont terrestre ou forcez une sortie par le combat classique.
+
+Le nettoyage vient du tick du joueur. C'est une transition apres la modification de frontiere, pas un gain attache au clic qui prend la derniere case visible. Attendez un tick de verification. Si la poche n'a pas bouge, identifiez la condition manquante au lieu de tirer encore sur la meme couleur. Une pause evite de depenser une seconde armee dans une poche que le moteur ne transferera jamais.
+
+Lorsque le cluster est valide, le code cherche le plus grand assaut actif contre lui. Sans assaut actif, il utilise l'ennemi qui partage la plus grande frontiere. Le credit n'appartient donc pas au premier joueur qui a touche la poche. Deux allies peuvent produire un resultat surprenant. Ecrivez dans le chat qui attaque, qui recevra la terre et a quel tick vous verifiez.
+
+Si le cluster est toute la terre restante du defenseur, `conquerPlayer` peut terminer ce joueur. Pour une poche laterale, le transfert est local et l'ennemi peut garder une seconde economie. N'appelez jamais cela une elimination avant de verifier le classement et la frontiere. Cette difference entre capture locale et conquete totale doit rester visible dans vos notes de replay.
+
+## Construisez la poche en quatre etats
+
+Utilisez quatre etats : **ouverte**, **resserree**, **fermee** et **tenue**. Ouverte signifie que plusieurs sorties existent. Cherchez alors le bord qui a le plus de valeur geometrique, pas seulement la case avec le moins de troupes. Resserree signifie qu'une ou plusieurs captures ont retire des routes. Une sonde de 1 a 10 % peut etre utile comme hypothese, car elle teste la portee et la reaction tout en gardant la reserve.
+
+Fermee signifie que la condition du moteur peut etre vraie apres un tick. Tenue signifie que le transfert est arrive et que la contre-attaque n'a pas brise votre nouvelle frontiere. Dans l'etat ouvert, marquez deux bords possibles et un repli. Dans l'etat resserre, envoyez la plus petite force qui repond a votre question. Si la sonde revele un Poste defensif, un second proprietaire ou une cote, changez d'angle.
+
+L'attaque humaine et l'attaque par bateau utilisent une quantite configuree egale a un cinquieme des troupes actuelles. Ce cinquieme n'est pas une bonne reponse dans chaque situation. Les cases accessibles, le terrain, les voisins ennemis, la taille des joueurs et les assauts simultanes modifient le resultat. Une sonde inferieure est un choix du joueur, pas une seconde formule du moteur.
+
+Tenez un registre de route. Notez le proprietaire, la Ville ou le Port le plus proche, le nombre de sorties, la cote, les Postes defensifs et le prochain joueur qui profiterait de votre attaque. Ajoutez une phrase d'arret : « Apres cette case, je ferme le graphe ou je retourne a la seconde route. » Sans cette phrase, l'annexion n'est que de la faim de terrain.
+
+La diplomatie change le graphe. Un allie ou un coequipier est ami pour le test d'encerclement. Rompre une alliance peut creer une nouvelle frontiere, mais ne rend pas l'ancien anneau valide instantanement. Attendez que l'etat relationnel soit applique, puis rescanez. [Diplomatie et trahison](/fr/strategies/diplomacy-betrayal/) couvre l'action politique ; cette page couvre sa consequence geometrique.
+
+## Scenario 1 : reserve a 42 % avec deux sorties terrestres
+
+**Hypotheses :** FFA normal, pas encore de compte a rebours Overtime, capacite de 20 000 troupes et stock actuel de 8 400. Le chiffre 42 % est une heuristique communautaire, pas une regle. Un voisin faible possede une poche interieure de douze cases entre votre frontiere ouest et une Nation neutre. Il a une Ville dans la poche et une seconde sortie au nord. Un Poste defensif couvre la route nord.
+
+Ne lancez pas automatiquement le cinquieme configure de 8 400 parce que la poche semble bon marche. Demandez ce que la case change. Une petite sonde au sud verifie la portee, distingue la Nation du voisin et montre si le voisin repond au nord. Si la sonde change un proprietaire mais laisse deux sorties, la poche est resserree et non fermee. Notez le resultat et attendez un cycle d'observation.
+
+Supposons que la sonde vous laisse environ 7 600 troupes et que le voisin attaque votre bord ouest. La reserve a maintenant une fonction. Ramenez le combat vers la route que vous voulez garder et ne poursuivez pas la route nord dans le Poste defensif. Le Poste est une raison de prendre un autre angle, pas une raison d'envoyer une armee complete dans son cercle.
+
+Apres le second bord, attendez le tick du nettoyage. Si les cases interieures sont entourees par vous et aucun proprietaire ami n'est dans l'anneau, le moteur peut transferer la poche. Si une case relie encore le nord, le transfert est impossible. Prenez cette case seulement si elle ne met pas votre capitale en danger. Sinon, utilisez l'appui sud comme base et gardez l'anneau ouvert.
+
+La lecon n'est pas « gardez 42 % ». La lecon est de depenser assez pour apprendre, de preserver la croissance lorsque l'urgence est faible et de lancer la poussee complete quand une case ferme vraiment le graphe. La reserve est la force necessaire aux deux prochaines decisions, pas un nombre sacre.
+
+## Scenario 2 : un bateau cree un appui exterieur
+
+**Hypotheses :** carte cotiere a 55 joueurs, ile d'origine avec Port et Factory, adversaire continental avec deux Villes et une longue frontiere, second adversaire occupe ailleurs. La route maritime est ouverte. Le point de debarquement devient interieur apres la premiere plage. Vous avez 15 000 troupes pour une capacite de 30 000. Les poussées a 1 % ou 10 % vues dans les videos restent des hypotheses de replay.
+
+Le premier travail du bateau est de creer une decision hors de l'ile. Ce n'est pas encore une tentative d'encerclement. Choisissez un debarquement qui atteint une Ville, coupe une liaison ou donne un angle arriere a un autre attaquant. Une case de plage touche la mer et ne peut pas former seule un cluster interieur valide. Ne depensez donc pas trois bateaux a fermer un anneau de rivage.
+
+Si un adversaire a deja le plus grand assaut actif sur le cluster, synchronisez votre bateau. AttackExecution attribue le cluster a l'attaque active dominante. Une petite touche suivie de la grosse attaque d'un coequipier peut donc lui donner la poche. C'est correct dans un plan d'equipe, mais une mauvaise surprise en FFA. Convenez du proprietaire avant le second assaut.
+
+Supposons que le debarquement vous apporte 2 000 troupes de position mais aucun revenu. Gardez le Port et la Factory. N'upgradez pas l'avant-poste avant de savoir si la route continentale tient. Si un Warship ou une trahison arrive, le point avance est sacrifiable. A l'inverse, s'il relie deux clusters ennemis et retire une route de Ville, l'attaque complete peut etre rentable avant tout transfert.
+
+Apres la capture, testez trois sorties. Un transfert interieur confirme la route. Une capture locale sans transfert signale un second proprietaire ou une cote. Un echec signale une route maritime ou une cible inaccessible. Dans chaque cas, actualisez le registre et choisissez entre troupes, Ville, Poste defensif ou second bateau. Un bateau multiplie les angles ; toutes les plages ne deviennent pas permanentes.
+
+## Lisez le terrain, les frontieres et le prochain proprietaire
+
+La configuration v0.33.13 donne au terrain un poids reel. Avant les modificateurs, les Plaines ont des couts de mouvement et d'attaque plus bas que les Hautes terres, et les Montagnes sont plus cheres. Les valeurs taguees sont Plaines 80/16,5, Hautes terres 100/20 et Montagnes 120/25 pour les termes concernes. Ce sont des entrees moteur, pas une promesse qu'une montagne gagne toujours.
+
+Comparez des routes entieres. Un col montagneux peut couter plus cher, mais supprimer trois sorties. Une plaine bon marche peut ouvrir une nouvelle frontiere derriere votre Factory. Dessinez deux captures en avance. Marquez le repli ennemi, votre retour, et le joueur tiers qui peut toucher le cluster. Une annexion plus chere peut etre meilleure si elle retire davantage de frontieres futures.
+
+Comptez les proprietaires adjacents apres chaque capture. Si deux adversaires touchent la poche, votre attaque contre un seul ne rend pas le cluster a vous. Vous aurez peut-etre besoin d'une treve, d'un assaut coordonne ou d'une autre cible. Les canaux et les terrains infranchissables rendent la couleur visuelle trompeuse. Le graphe de proprietaires est la vraie carte.
+
+Posez la question du prochain proprietaire avant chaque batiment. Qui possedera la terre apres le tick suivant ? Le cluster peut aller a votre coequipier ou au joueur dont l'assaut actif est le plus grand. Une Factory sans route, un Port sans composante maritime ou une Ville exposee transforme l'annexion en dette.
+
+Le repli compte aussi. AttackExecution applique une penalite de 25 % aux troupes survivantes lors d'un repli contre un joueur. Si la fermeture n'est plus possible, repliez-vous avant le combat force. Gardez une route de retour et utilisez [combat terrestre](/fr/guides/land-combat/) pour le detail du push. L'annexion definit l'objectif ; le combat decide si vous l'atteignez.
+
+## Echecs et contre-jeu de l'adversaire
+
+L'illusion de rive est la plus frequente. La poche ressemble a un anneau, mais elle touche l'ocean. Le moteur la rejette. Prenez le Port ou coupez l'interieur avant de parler d'encerclement. Une blockade peut etre excellente, mais nommez-la blockade afin de ne pas promettre un transfert automatique.
+
+Le deuxieme echec est l'anneau a deux proprietaires. Vous avez trois cotes, un autre joueur la quatrieme. Le cluster n'est pas entoure par un seul non-ami. Changez l'ordre de cible ou acceptez que l'autre joueur recoive le credit. Ne depensez pas une armee pour reparer un anneau qui ouvre une frontiere pire.
+
+Le troisieme est la longue langue. Vous prenez la case la moins chere et doublez la longueur de votre bord. Gardez une phrase d'arret. Un Poste defensif peut acheter du temps sur une route previsible, mais il ne supprime pas la longueur. Une seconde route ou une reserve mobile est souvent superieure a une troisieme annexion.
+
+Le credit surprise arrive quand le coequipier a l'assaut actif le plus grand. Definissez le captor avant la sonde. En FFA, evitez de tirer dans une poche deja dominee par un autre joueur sauf si le transfert vous convient. En equipe, notez si la poche est une base temporaire ou une economie permanente.
+
+Le piege de croissance apparait dans les deux sens. Refuser toute petite capture peut faire perdre l'unique fenetre sure. Depenser trop bas pendant qu'un voisin assemble son armee peut laisser la capitale sans reponse. La croissance et la menace se lisent ensemble. La reserve est un outil, pas un taux fixe.
+
+Enfin, une MIRV, un Water Nuke, une rupture d'alliance ou une coalition peut refaire le graphe. Rescannez apres l'evenement. Si la cote, le fallout ou le proprietaire change, l'ancien plan est perime. [Dissuasion nucleaire](/fr/strategies/nuclear-deterrence/) traite les armes et les SAM ; ici, la regle est de ne jamais fermer une carte qui n'existe plus.
+
+## Ajustements selon la carte et le mode
+
+Sur une carte compacte, le contact arrive vite et 50 ou 100 ticks peuvent occuper toute la bataille. Utilisez moins de sondes et privilegiez une suite qui ferme en une seule poussee. Une petite annexion qui ajoute un bord peut couter plus d'attention qu'elle ne rapporte. Comparez la distance visuelle avec [tailles de cartes](/fr/guides/map-size-compact-mode/).
+
+Sur un continent long, une poche valide peut etre trop loin du coeur pour etre tenue. Faites de la Ville, de la Factory ou du rail un objectif intermediaire. Une poche fermee sans revenu ni repli est un trophee, pas une expansion stable. [Strategie de carte](/fr/guides/map-strategy/) explique la topologie ; cette page ajoute le test de fermeture.
+
+Sur les iles et les detroits, separez encerclement terrestre et deni naval. La plage ne passe pas le test automatique, mais la terre derriere le debarquement peut le passer. Placez Port, Warship et Transport dans le plan maritime, puis utilisez le registre interieur. Si la composante d'eau est coupee, revenez a un pont terrestre ou a l'economie sure.
+
+En equipe, un resultat geometrique n'est pas automatiquement un resultat individuel. Les coequipiers sont amis pour le test, et l'assaut d'un coequipier peut recevoir le credit. Nommez un caller de route, un joueur de reserve et un captor explicite. [Roles d'equipe](/fr/strategies/team-roles/) couvre la rotation ; cette page couvre le passage de poche.
+
+Dans le FFA public de v0.33.13, Overtime est le reglage par defaut. Le nettoyage des clusters ne change pas, mais une capture interieure tardive peut augmenter votre territoire avant le prochain seuil. Ne sacrifiez pas une capitale pour un point de score. Comparez le gain de territoire au temps pendant lequel la nouvelle frontiere doit survivre.
+
+## Checklist de fermeture et lectures suivantes
+
+Avant la sonde, ecrivez la cible, le proprietaire, le noeud economique le plus proche et les deux sorties a retirer. Notez la mer et le bord de carte. Si l'un est touche, nommez le plan capture ordinaire ou blockade. Gardez une reserve reelle : troupes, Gold pour une structure rapide ou route maritime deja protegee.
+
+Apres chaque capture, attendez un tick et verifiez cinq choses : proprietaires adjacents, cote, taille des assauts actifs, route de repli et valeur de la prochaine case. Si une seule change, redessinez. Si toutes soutiennent la fermeture, engagez la poussee complete. Si le transfert echoue, arretez la depense jusqu'a comprendre la condition manquante.
+
+Utilisez trois signaux. **Continuer** quand la case raccourcit le bord et ouvre une Ville, un Port, une Factory ou une elimination. **Tenir** quand la poche est fermee mais que la contre-attaque arrive. **Partir** quand la mer, deux proprietaires, une route impossible ou une nouvelle faiblesse rend la capture mauvaise.
+
+Pour revoir un replay, creez un tableau tick, proprietaire, reserve, assaillant actif, sorties et action. Marquez chaque nombre comme fait ou hypothese. Vous saurez si l'echec venait du terrain, de la portee, du credit, de la diplomatie ou de la reserve. Vous repeterez la forme, pas un slogan de pourcentage.
+
+Pour continuer, lisez [evaluation des menaces](/fr/guides/threat-assessment/), [combat terrestre](/fr/guides/land-combat/), [croissance de population](/fr/guides/population-growth/), [diplomatie](/fr/strategies/diplomacy-betrayal/), [defense insulaire](/fr/guides/island-defense/) et [plan de recuperation](/fr/strategies/recovery-playbook/). La frontiere officielle est la [release v0.33.13](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/PlayerExecution.ts), [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/AttackExecution.ts) et [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/configuration/Config.ts). Recontrolez ces sources si une release change le nettoyage, les attaques, le terrain ou le reglage Overtime.

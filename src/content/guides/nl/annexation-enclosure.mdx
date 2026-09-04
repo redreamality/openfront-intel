@@ -1,0 +1,125 @@
+---
+title: "OpenFront annexeren en omsluiten zonder overrek"
+description: "Neem kleine steunpunten, sluit een vijandelijke pocket en houd na de verovering een tweede route open."
+pubDate: 2026-09-04
+updatedDate: 2026-09-04
+tags: [annexatie, omsluiting, expansie, strategie, gevecht]
+category: Strategie
+difficulty: Gevorderd
+version: v33
+freshnessSummary: "Gecontroleerd tegen de officiele OpenFront v0.33.13-release en getagde PlayerExecution-, AttackExecution- en Config-bronnen op 2026-09-04: een omsloten binnencluster kan door de actieve grensaanval worden overgedragen, maar een kust- of kaart randcluster niet."
+---
+
+## Direct antwoord: neem de rand die de pocket kleiner maakt
+
+Behandel annexatie eerst als een vormprobleem en daarna pas als een troepenprobleem. Neem de bereikbare rand die een uitgang verwijdert, houd een antwoordreserve en teken na elke verovering de grens opnieuw. Sluit een pocket alleen als een enkele niet-vriendelijke eigenaar een binnencluster omringt en je de nieuwe rand kunt houden. Een kleine probe is goed als hij de vorm en reactie test. Een normale aanval is goed als de sluiting meteen nodig is. Maakt de verovering een lange blootgestelde uitloper, laat de pocket dan open en bouw een tweede hoek.
+
+Deze gids geldt voor **v0.33.13** en is gecontroleerd op **2026-09-04**. Overtime staat nu standaard aan in openbare FFA. Dat maakt een nette late omsluiting waardevoller, maar verandert de omsluitingscontrole niet. De regels komen uit de tick- en aanvalsbroncode. Gemeenschapsgetallen zoals 1%, 10%, 35% of 42% zijn replay-aannames, geen universele opdrachten.
+
+| Vraag | Doorgaan wanneer | Proben of wachten wanneer |
+| --- | --- | --- |
+| Wordt de grens korter? | Een rand verwijdert een route of verbindt stukken | De nieuwe rand wordt langer en opener |
+| Kan de pocket sluiten? | Een niet-vriendelijke eigenaar kan alle binnenvelden omringen | Zee of kaart rand blijft onderdeel van de groep |
+| Welke reserve blijft? | Verraad, terugtrekken of een nuke is beantwoordbaar | De aanval de houdkracht opeet |
+| Wie krijgt de cluster? | Jouw actieve aanval is duidelijk de grootste | Twee aanvallers zijn ongeveer gelijk |
+| Wat volgt er? | City, Port, Factory of een tweede front wordt bereikbaar | Het veld blijft geisoleerd |
+
+Gebruik [dreigingsanalyse](/nl/guides/threat-assessment/) voor de eerste scan, [landgevecht](/nl/guides/land-combat/) voor de frontlijn, [bevolkingsgroei](/nl/guides/population-growth/) voor de reserve en [eilandverdediging](/nl/guides/island-defense/) wanneer water de pocket raakt. Het doel is geen winnend percentage uit het hoofd leren. Het doel is weten welke beslissing je percentage heeft gekocht.
+
+## Wat de v0.33.13-engine een omsluiting noemt
+
+PlayerExecution controleert bij elke speler-tick de gebieden en zoekt grensclusters. Een kandidaat wordt afgewezen wanneer hij een oceaankust of de kaart rand raakt. Ook wanneer meerdere buitenbezitters nodig zijn om de ring te beschrijven, faalt de kandidaat. Geldig is een binnencluster dat volledig door precies een niet-vriendelijke eigenaar is omringd. Een kleur die op de minimap bijna dicht lijkt, is dus niet genoeg.
+
+De praktische vertaling is duidelijk. Je tekent geen cirkel voor een beloning. Je maakt de resterende tegels van de verdediger tot een binnengebied met een enkele vijandelijke ring. Een strand, een hoek of een naad tussen twee vijanden kan gevangen lijken maar toch de enginevoorwaarde missen. Houdt de tegenstander een kustverbinding, neem dan de Port, snijd de landbrug af of dwing hem via normaal gevecht naar buiten.
+
+De opruiming loopt tijdens de speler-tick. Het is een toestandsovergang na een grenswijziging, niet automatisch een bonus op de klik die de laatste zichtbare tegel pakt. Wacht een tick en controleer de eigenaar. Is er niets overgedragen, schiet dan niet blind door. Zoek de ontbrekende rand, tweede kleur, kust of diplomatievoorwaarde. Zo stuur je geen tweede leger in een ring die nooit kan sluiten.
+
+Bij een geldige cluster zoekt de code de grootste actieve aanval tegen die groep. Zonder actieve aanval gebruikt hij de vijand met de grootste grensrelatie. De eerste speler die een tegel raakte, krijgt dus niet automatisch het bezit. Twee bondgenoten kunnen een ander resultaat verwachten. Schrijf voor de tweede aanval in de chat wie eigenaar moet worden.
+
+Is de cluster al het resterende land van de verdediger, dan kan `conquerPlayer` die speler volledig uitschakelen. Bij een zijpocket is het slechts een lokale overdracht en kan de vijand een tweede economie houden. Noem een lokale verovering pas eliminatie na controle van ranglijst en grens. Zet dit verschil in elk replay-logboek.
+
+## Bouw de pocket in vier bewuste toestanden
+
+Gebruik de toestanden **open**, **smaller**, **closed** en **holding**. Open betekent meerdere onafhankelijke uitgangen. Zoek daar de rand met de hoogste vormwaarde, niet alleen de tegel met de minste troepen. Smaller betekent dat een of meer veroveringen routes hebben verwijderd. Een probe van 1-10% kan hier als aanname nuttig zijn: hij test bereik en reactie terwijl de reserve blijft.
+
+Closed betekent dat de enginevoorwaarde na een tick waar kan zijn. Holding betekent dat de overdracht is gebeurd en de nieuwe rand de eerste tegenaanval overleeft. In de open toestand markeer je twee kandidaten en een terugval. In de smallere toestand stuur je de kleinste kracht die je informatievraag beantwoordt. Zie je een Defense Post, tweede eigenaar of kust, wissel je hoek.
+
+Een menselijke aanval en een bootaanval gebruiken als geconfigureerde hoeveelheid een vijfde van de huidige troepen. Dat vijfde is geen universele oplossing. Bereikbare randtegels, terrein, nabije vijanden, spelersgrootte en gelijktijdige aanvallen veranderen de uitkomst. Een kleinere probe is een spelerskeuze onder de configuratie, geen tweede engineformule.
+
+Houd een routeboek bij. Noteer eigenaar, dichtstbijzijnde City of Port, aantal uitgangen, kustcontact, Defense-Post-dekking en de volgende speler die voordeel heeft van jouw aanval. Schrijf ook een stopzin: “Na deze tegel sluit ik de grafiek of val ik terug naar de tweede route.” Zonder die zin is annexatie alleen landhonger. Een niet-sluitbare voorpost maakt jouw grens groter.
+
+Diplomatie verschuift de grafiek. Een bondgenoot of teamgenoot is vriendelijk voor de omsluitingstest. Een verbroken alliantie kan een nieuwe grens maken, maar maakt de oude ring niet direct geldig. Wacht op de nieuwe relatie en scan opnieuw. [Diplomatie en verraad](/nl/strategies/diplomacy-betrayal/) behandelt de politieke actie; deze gids behandelt de geografische consequentie.
+
+## Scenario een: 42%-reserve met twee landuitgangen
+
+**Aannames:** normale FFA, nog geen Overtime-aftelling, maximale troepen 20.000 en huidige troepen 8.400. De 42% is een community-heuristiek. Een zwakke buur bezit een binnenpocket van twaalf tegels tussen jouw westgrens en een neutrale Nation. Er is een City in de pocket, een tweede uitgang naar het noorden en een Defense Post op die noordroute.
+
+Stuur niet automatisch het geconfigureerde vijfde van 8.400 omdat de pocket goedkoop lijkt. Vraag eerst wat de rand verandert. Een kleine zuidprobe toont bereik, scheidt de neutrale Nation van de buur en laat een noordreactie zien. Verandert hij een eigenaar maar blijven twee uitgangen, dan is de pocket smaller en niet closed. Noteer het en observeer een cyclus.
+
+Stel dat de probe je op ongeveer 7.600 troepen laat en de buur je westkant aanvalt. De reserve heeft nu een echte taak. Trek het gevecht naar de route die je wilt houden en loop niet in de noordelijke Post. De Post is een reden voor een tweede hoek, niet voor een volledig leger in zijn cirkel.
+
+Na de tweede rand wacht je op de opruimingstik. Zijn de binnenvelden door jou en geen vriendelijke eigenaar omringd, dan kan de engine ze overdragen. Verbindt een tegel nog naar het noorden, dan komt er geen transfer. Neem die tegel alleen als je hoofdstad veilig blijft. Anders gebruik je het zuidelijke steunpunt en houd je de ring open.
+
+De les is niet “houd 42%”. De les is genoeg uitgeven om informatie te krijgen, groei bewaren als de urgentie laag is en de grote push sturen wanneer een tegel de grafiek echt sluit. De reserve is de kracht voor de volgende twee beslissingen, geen heilig getal.
+
+## Scenario twee: een boot bouwt een buitensteunpunt
+
+**Aannames:** kustkaart met 55 spelers, thuiseiland met Port en Factory, een vastelandtegenstander met twee Cities en een lange grens, en een tweede vijand die elders bezig is. De zeeroute is open. Na de strandtegel wordt de landingscluster binnenland. Je hebt 15.000 van 30.000 troepen. Video-percentages van 1% of 10% zijn replay-aannames.
+
+De eerste taak van de boot is een beslissing buiten het eiland maken. Het is nog geen automatische omsluitingspoging. Kies een landing die een City bereikt, een landbrug breekt of een achterhoek opent. Een strandtegel raakt de zee en kan alleen geen geldig binnencluster zijn. Stuur daarom geen drie boten om een kustcirkel te sluiten.
+
+Heeft de tegenstander al de grootste actieve aanval op dezelfde cluster, synchroniseer dan je boot. AttackExecution geeft de groep aan de dominante actieve aanval. Een kleine tik gevolgd door de grote aanval van een teamgenoot kan die teamgenoot de pocket geven. In teamspel is dat goed, in FFA een verrassing. Spreek de eigenaar af voor de tweede aanval.
+
+Levert de landing 2.000 positionele waarde maar geen inkomen, dan blijven Port en Factory prioriteit. Upgrade de voorpost niet voordat de route op het vasteland houdbaar is. Komt een Warship of verraad, dan mag het strandpunt vallen. Verbindt het twee vijandelijke clusters en verwijdert het een Cityroute, dan kan de volledige aanval al voor de transfer de moeite waard zijn.
+
+Test na de verovering drie uitkomsten. Een binnenlandse transfer bevestigt de route. Lokale verovering zonder transfer toont een tweede eigenaar of kust. Een mislukte landing toont onbereikbare route of doel. Werk het routeboek bij en kies troepen, City, Defense Post of tweede boot. Boten vermenigvuldigen hoeken, niet automatisch blijvend land.
+
+## Lees terrein, grenzen en de volgende eigenaar
+
+De configuratie van v0.33.13 maakt terrein belangrijk. Voor modifiers zijn Plains goedkoper dan Highland en kost Mountain meer. De getagde termen zijn Plains 80/16,5, Highland 100/20 en Mountain 120/25. Dit zijn engine-inputs, geen garantie dat een bergtegel altijd wint. Defense Posts, fallout, buren en spelersgrootte kunnen het lokale resultaat veranderen.
+
+Vergelijk volledige routes. Een bergpas kan duur zijn maar drie uitgangen verwijderen. Een goedkope vlakte kan achter jouw Factory een nieuwe grens openen. Teken twee veroveringen vooruit. Markeer de terugtocht van de vijand, jouw terugkeer en de derde eigenaar die de cluster kan raken. Een duurdere annexatie kan beter zijn wanneer zij latere grenzen bespaart.
+
+Tel na elke verovering de aangrenzende eigenaren. Raken twee vijanden de pocket, dan maakt jouw aanval op slechts een van hen de cluster niet van jou. Misschien heb je een wapenstilstand, gecoördineerde aanval of ander doel nodig. Waterkanalen en onbegaanbaar terrein misleiden de kleur. De eigenaarsgrafiek is de echte kaart.
+
+Vraag voor elk gebouw wie na de volgende tick eigenaar is. De cluster kan naar een teamgenoot of de grootste actieve aanvaller gaan. Een Factory zonder route, een Port zonder watercomponent of een open City maakt van annexatie een schuld.
+
+Ook terugtrekken kost. AttackExecution geeft overlevende aanvalstroepen een malus van 25% bij terugtrekken tegen een speler. Is de sluiting niet meer mogelijk, trek dan terug vóór het geforceerde gevecht. Houd de route naar achteren open en lees [landgevecht](/nl/guides/land-combat/) voor de push. Annexatie bepaalt het doel; gevecht bepaalt de prijs.
+
+## Fouten en tegenplay
+
+De kustillusie komt het meest voor. De ring lijkt gesloten maar raakt de zee. De engine wijst hem af. Neem de Port of snijd het binnenland af voordat je van omsluiting spreekt. Een blokkade kan sterk zijn, maar is geen automatische transfer.
+
+De ring met twee eigenaren is de tweede fout. Jij bezit drie zijden, een andere vijand de vierde. De cluster is niet door een enkele niet-vriendelijke eigenaar omringd. Verander de doelvolgorde of accepteer de vreemde captor. Een leger opofferen voor een slechtere ring is geen winst.
+
+De lange uitloper ontstaat wanneer de goedkoopste tegel jouw grens verdubbelt. Gebruik een stopzin. Een Defense Post koopt tijd op een voorspelbare route, maar verwijdert geen lengte. Een tweede hoek of mobiele reserve is vaak beter dan een derde annexatie.
+
+De credit-verrassing komt wanneer een teamgenoot de grootste actieve aanval heeft. Bepaal de captor vóór de probe. Schiet in FFA niet op een al gedomineerde pocket als je de transfer niet wilt. Noteer in teams of het een tijdelijke stagingplek of permanente economie is.
+
+De groeival werkt twee kanten op. Wie elke kleine kans weigert, mist het veilige venster. Wie tijdens het verzamelen van de buur te diep uitgeeft, heeft geen antwoord. Lees groei en dreiging samen. Reserve is gereedschap, geen vast percentage.
+
+Een MIRV, Water Nuke, alliantiebreuk of coalitie kan de grafiek opnieuw tekenen. Scan na het evenement. Veranderen kust, fallout of eigenaar, dan is het oude plan verouderd. [Nucleaire afschrikking](/nl/strategies/nuclear-deterrence/) behandelt wapens en SAM; deze pagina eist alleen dat je geen kaart sluit die niet meer bestaat.
+
+## Aanpassingen per kaart en modus
+
+Op Compact Maps komt contact snel. 50 of 100 ticks kunnen de hele strijd duren. Gebruik minder probes en kies een reeks die in een push sluit. Een kleine annexatie die een grens toevoegt kan meer aandacht kosten dan zij oplevert. Vergelijk afstand met [kaartgroottes](/nl/guides/map-size-compact-mode/).
+
+Op lange continenten kan een geldige pocket te ver van de kern liggen om te houden. Maak City, Factory of spoor het tussenobject. Een gesloten cluster zonder inkomen of terugval is een trofee, geen stabiele expansie. [Kaartstrategie](/nl/guides/map-strategy/) levert de topologie; deze pagina voegt de sluitingstest toe.
+
+Op eilanden en in zeestraten scheid je land-omsluiting van maritieme ontzegging. Strandtegels slagen niet voor de automatische test, land erachter wel. Port, Warship en Transport horen in het zeeplan, de binnenroute in het routeboek. Is de watercomponent gescheiden, ga terug naar een landbrug of veilige economie.
+
+In teamspel is een geometrisch succes niet automatisch jouw bezit. Teamgenoten zijn vriendelijk en hun actieve aanval kan de transfer krijgen. Wijs een routecaller, reserve en captor aan. [Teamrollen](/nl/strategies/team-roles/) beschrijft rotatie; deze gids beschrijft het overdrachtsmoment.
+
+In openbare FFA van v0.33.13 staat Overtime standaard aan. De clusteropruiming blijft gelijk, maar een late binnenlandse transfer kan gebied geven vóór de volgende drempelcontrole. Offer geen hoofdstad voor een punt. Vergelijk gebiedswinst met de tijd die de nieuwe grens moet overleven.
+
+## Sluitchecklist en verder lezen
+
+Voor de probe noteer je doel, eigenaar, dichtstbijzijnde economisch knooppunt en de twee uitgangen die moeten verdwijnen. Markeer zee en kaart rand. Als een ervan wordt geraakt, heet het plan gewone verovering of blokkade. Houd een echte reserve van troepen, Gold voor een snelle structuur of beschermde zeeroute.
+
+Na elke rand wacht je een tick en controleer je eigenaren, kust, actieve aanvalsgroottes, terugvalroute en waarde van de volgende tegel. Verandert er een punt, teken je opnieuw. Steunen alle vijf de sluiting, stuur dan de grote aanval. Mislukt de transfer, stop tot de ontbrekende voorwaarde duidelijk is.
+
+Drie signalen volstaan: **Doorgaan** als de rand korter wordt en City, Port, Factory of eliminatie opent. **Houden** als de pocket gesloten is maar de tegenaanval komt. **Vertrekken** als zee, twee eigenaren, een onmogelijke route of een nieuw zwak punt de prijs te hoog maakt.
+
+Maak voor een replay een tabel met tick, eigenaar, reserve, actieve aanvaller, uitgangen en actie. Markeer elk getal als feit of aanname. Zo zie je of het probleem terrein, bereik, credit, diplomatie of reserve was. Je herhaalt de vorm, niet de percentag slogan.
+
+Lees daarna [dreigingsanalyse](/nl/guides/threat-assessment/), [landgevecht](/nl/guides/land-combat/), [bevolkingsgroei](/nl/guides/population-growth/), [diplomatie](/nl/strategies/diplomacy-betrayal/), [eilandverdediging](/nl/guides/island-defense/) en [herstelplan](/nl/strategies/recovery-playbook/). De officiele grens zijn de [v0.33.13-release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/PlayerExecution.ts), [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/AttackExecution.ts) en [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/configuration/Config.ts). Controleer ze opnieuw wanneer clusteropruiming, aanval, terrein of Overtime verandert.

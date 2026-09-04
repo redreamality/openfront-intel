@@ -1,0 +1,127 @@
+---
+title: "OpenFront Annexation and Enclosure: Close Pockets Without Overextending"
+description: "Learn how to take small footholds, close an enemy pocket, and keep a second route after the capture instead of turning a lead into a fragile border."
+pubDate: 2026-09-04
+updatedDate: 2026-09-04
+tags: [annexation, enclosure, expansion, strategy, combat]
+category: Strategy
+difficulty: Advanced
+version: v33
+freshnessSummary: "Checked against the official OpenFront v0.33.13 release and tagged PlayerExecution, AttackExecution, and Config sources on 2026-09-04: enclosed inland clusters can be reassigned by the active border attack, while shore and map-edge clusters do not qualify."
+---
+
+## Direct answer: take the edge that makes the pocket smaller
+
+Treat annexation as a shape problem before treating it as a troop problem. Take the cheapest reachable edge that reduces the defender's escape routes, keep a response reserve, and stop to redraw the border after every capture. Close a pocket only when one non-friendly owner surrounds an inland cluster and you can hold the new perimeter. A small probe is useful when it changes the shape; a normal attack is better when the opening must be closed immediately. If the capture leaves one long exposed tendril, keep the pocket open and spend on a second angle instead.
+
+This guide is for released **v0.33.13**, checked on **2026-09-04**. The update makes Overtime the default for public FFA, which makes a late clean enclosure more valuable, but it does not create a new annexation rule. The enclosure behavior comes from the tagged player tick and attack code. Community examples use 1%, 10%, 35%, and 42% as conversation shorthand. They are not universal orders. Use them only as labeled assumptions inside a live decision.
+
+Use this five-question test before sending troops or a boat:
+
+| Question | Commit when | Wait or probe when |
+| --- | --- | --- |
+| Can the capture shorten the border? | One edge removes a route or joins two pieces | The new edge creates a longer exposed arc |
+| Is the pocket closable? | One non-friendly owner can surround inland tiles | Ocean shore or map edge remains part of the cluster |
+| What is the reserve? | You can answer a betrayal, retreat, or nuke | The push spends the force needed to hold the result |
+| Who receives the enclosure? | Your largest active attack clearly owns the contest | Two attackers are tied and the credit is uncertain |
+| What follows the capture? | A City, Port, Factory route, or second front becomes reachable | The tile is isolated and produces no next action |
+
+The rest of the article turns that test into a repeatable loop. It links to [Threat assessment](/guides/threat-assessment/) for the board scan, [Land combat](/guides/land-combat/) for a live border fight, [Population growth](/guides/population-growth/) for the cap, and [Island defense](/guides/island-defense/) when the supposed pocket touches water. The point is not to memorize a winning percentage. The point is to know what changed when the percentage was spent.
+
+## What the v0.33.13 engine calls an enclosure
+
+The official PlayerExecution code checks a player's territory during the player tick and looks for border clusters. A candidate cluster is rejected when it touches an ocean shore or the map edge. It is also rejected when more than one outside owner is needed to describe the surrounding boundary. A valid candidate is an inland group fully surrounded by one non-friendly owner. That is stricter than “the colour looks almost closed.” A beach, a corner, or a seam between two enemies can remain visually trapped while still failing the engine's condition.
+
+The practical reading is simple. Your objective is not to paint a ring on the minimap. Your objective is to make the defender's remaining tiles a single inland component with one hostile owner around it. A pocket beside the sea has an escape definition that the cleanup code deliberately refuses. A pocket on the world edge is likewise not a free transfer. If the enemy can keep a shoreline connection, you need a different attack plan: take the port, cut the land bridge, or force the opponent to leave the pocket through ordinary combat.
+
+The cleanup runs from the player's tick, so it is a state transition after the border has changed, not an instant reward attached to the click that captured the last visible tile. Plan one verification tick after the capture. If the pocket did not transfer, do not keep firing at the same colour blindly. Re-read the cluster, identify the remaining outside owner, and decide whether the missing edge is land, diplomacy, or water. This one-tick pause prevents a common waste pattern in which a player spends a second army to “finish” a pocket that the rules can never transfer.
+
+When a valid cluster is removed, the code chooses a capturing player from the largest active attack against that cluster. If no active attack is available, it falls back to the enemy with the largest border relationship. That means credit is connected to the current contest, not to the player who first touched the pocket ten minutes earlier. Two allies can therefore create a confusing result if both have active attacks. Keep the attack owner, target, and expected completion in team chat. If you need the territory, make your attack the clearly largest live claim, then verify the new owner after the tick.
+
+The final boundary matters as much as the transfer. If the enclosed cluster is the defender's remaining land, `conquerPlayer` can finish that player rather than merely moving a few tiles. If it is a side pocket, the result is a local transfer and the defender may still have a second economy. Never call a capture a full elimination until the leaderboard and border both confirm it. This distinction is why the article uses “pocket” for a local cluster and “conquest” only for the remaining-land case.
+
+## Build the pocket in four deliberate states
+
+Read the border in four states: **open**, **narrowing**, **closed**, and **holding**. Open means the defender still has several independent exits. Your job is to find the edge with the highest shape value, not the tile with the lowest troop count. Narrowing means one or more captures have removed routes. This is where a 1–10% probe can be sensible as an assumption: it tests whether the edge is reachable and whether the defender reacts, while preserving the reserve for the actual close. Closed means the engine condition may be satisfied after a tick. Holding means the transfer happened and your new border has survived the first counterattack.
+
+The state model keeps small annexations from becoming random clicking. In the open state, mark two candidate edges and one fallback. In the narrowing state, send the smallest force that answers the information question. If the probe reveals a Defense Post, a second enemy, or a map-edge shoreline, change the plan rather than adding another probe to the same tile. In the closed state, stop expanding for one observation cycle. In the holding state, spend only after you know whether the captured cluster reaches an economic node or creates a front that must be defended.
+
+The attack code supplies a useful version boundary for the loop. A human attack and a boat attack use one fifth of the current troops as the configured attack amount. That does not mean one fifth is always correct, because reachable border tiles, terrain, adjacent enemy tiles, player-size modifiers, and simultaneous attacks change the result. A smaller probe is a player choice below that configured amount; it is not a second engine formula. Phrase the decision as “I am spending enough to test this edge” rather than “the game says 10% wins.”
+
+Use a written route ledger. For each candidate, record current owner, nearest City or Port, number of exits, shoreline contact, Defense Post coverage, and the next enemy who benefits if you attack. Then write the stop sentence: “After this tile, I will either close the inland cluster or retreat to the second route.” If you cannot write that sentence, the annexation is only land hunger. A pocket that cannot be closed or connected is a liability that raises the number of borders you must watch.
+
+The four states also clarify diplomacy. An ally or teammate is a friendly owner for the enclosure test, so a colourful ring around allied land is not a valid hostile enclosure. Breaking an alliance can change the border graph, but it does not make the old visual shape instantly safe. Allow the relationship state to settle, then scan again. Read [Diplomacy and betrayal](/strategies/diplomacy-betrayal/) for the relationship action itself. This guide owns the geographic consequence: every diplomatic change can move a pocket from open to narrowing or remove it from the enclosure candidate list.
+
+## Scenario one: a 42% reserve with two land exits
+
+**Assumptions:** normal FFA, no active Overtime countdown yet, your country has 20,000 maximum troops, current troops are 8,400, and a weak neighbour has a 12-tile inland pocket between your western border and a neutral Nation. The 42% figure is a community growth heuristic, not a rule. The neighbour owns one City in the pocket, has no shoreline connection, and has a second exit to the north. Your army can reach the southern edge, but a Defense Post covers the northern road.
+
+Do not open by sending the full configured fifth of 8,400 into the southern edge just because the pocket looks cheap. First ask what the capture changes. A small southern probe can reveal whether the border is reachable, whether the neutral Nation is actually a separate owner, and whether the neighbour answers with a northern attack. If the probe changes ownership but leaves two exits, the pocket is narrowing, not closed. Record the new owner and stop for one observation cycle. The useful result is information and a shorter route, not immediate completion.
+
+Suppose the probe leaves you at roughly 7,600 troops and the neighbour attacks your western border. Your reserve is now doing real work. Pull the fight toward the route you want to keep and avoid chasing the northern Defense Post. The post is a reason to choose a second angle, not a reason to spend another army into its circle. If the neighbour's northern exit remains open, take the neutral edge only when it joins your southern capture to the western border. If it does not join, save Gold for a City or a second attack direction.
+
+After the second edge, wait for the tick that runs the cluster check. If the inland tiles are fully surrounded by you and no friendly owner is part of the ring, the engine may transfer them. If the cluster still touches the northern owner through one tile, the transfer cannot happen. The correct response is to name that tile and decide whether it is worth the normal attack amount. If taking it exposes your capital, leave the pocket open and use the existing foothold as a staging point instead.
+
+The scenario's lesson is the reserve loop: spend below the configured fifth to learn, protect the 42% growth position only when the next action is not urgent, and commit the larger push when one tile actually closes the graph. The final number is not 42%, 35%, or 20%. The final test is whether the next capture removes an exit without removing your ability to answer the counterattack.
+
+## Scenario two: a boat creates an outside foothold
+
+**Assumptions:** a 55-player coastal map, your home island has a Port and one Factory, the nearest mainland opponent has two Cities and a long land border, and a second opponent is distracted on the far side. The boat route is open water, the landing cluster is inland after the first beach tile, and your current troops are 15,000 with a 30,000 cap. Community videos often describe 1% or 10% boat pushes in this kind of situation. Treat those values as replay assumptions, not guaranteed attack sizes.
+
+The boat's first job is to create a decision outside the island. It is not automatically an enclosure attempt. Choose a landing that reaches a City, cuts a land bridge, or gives a second attacker a route into the opponent's back. A beach tile touching the ocean cannot become a valid enclosed cluster by itself, so do not spend three boats trying to close a shoreline ring. Land, connect the foothold to an inland component, and then re-evaluate which owner surrounds the remaining pocket.
+
+If the mainland opponent has one active attack against the same cluster, coordinate your boat timing. AttackExecution credits the largest active attack when removeClusters chooses a captor. A tiny hit followed by a teammate's much larger attack can therefore give the teammate the enclosure. That may be correct in a team plan, but it is a bad surprise in a solo alliance. Use a named owner in the ledger and agree who is supposed to receive the pocket before the second attack starts.
+
+Suppose the landing gives you 2,000 troops of positional value but no immediate income. Keep the Port and Factory safe, and do not upgrade the outpost until the mainland route can be held. If the distracted opponent returns with a Warship or a betrayal, the foothold is expendable. Retreating from an isolated beach can preserve the island economy. Conversely, if the foothold joins two enemy clusters and removes a City route, it can be worth the full one-fifth attack amount even before the engine transfers any pocket.
+
+After the capture, test for three outcomes. A valid inland transfer means the outside route worked. A local capture without transfer means the pocket still has another owner or a shoreline edge. A failed landing means the water path or target was not reachable. In each case, update the route ledger and choose whether the next Gold goes to troops, a City, a Defense Post, or a second boat. The boat is valuable because it multiplies angles; it is not valuable because every beach tile is permanent territory.
+
+## Read terrain, borders, and the next owner
+
+The v0.33.13 configuration makes terrain a real part of the annexation decision. Before modifiers, Plains use lower movement and attack costs than Highland, and Mountain costs more again. The exact tagged values are Plains 80/16.5, Highland 100/20, and Mountain 120/25 for the relevant terrain terms. These are engine inputs, not a promise that a mountain tile always wins. Defense Posts, fallout, adjacent enemy count, and player-size effects can dominate the local result.
+
+Use terrain to compare routes, not to rank tiles in isolation. A mountain pass may be expensive to cross but valuable because it removes three exits. A cheap plain may be a trap if it opens a second border behind your Factory. Draw the route two captures ahead. Mark where the defender can retreat, where your own troops can return, and where a third player can touch the same cluster. The best annexation often has a slightly higher first cost because it removes more future borders.
+
+Border ownership also changes the enclosure candidate. PlayerExecution rejects a cluster when the surrounding boundary is not one non-friendly owner. If two opponents each touch the pocket, your attack against one does not make the cluster yours. You may need a temporary truce, a synchronized hit, or a different target. Do not assume the largest colour owns the ring. Count the actual adjacent owners after each capture, especially on maps with narrow water channels and impassable terrain.
+
+The next owner question prevents premature investment. A captured pocket can be transferred to you, to a teammate, or to the player with the largest active attack. It can also remain under the original owner if the cluster is invalid. Before building a Factory, ask which player will own the connected land after the next tick. Before building a Port, ask whether the water component remains reachable. Before building a City, ask whether the pocket is a defendable core or only a forward tile.
+
+The same scan applies to a retreat. AttackExecution can apply a 25% malus to surviving attack troops when an attack against a player retreats. That makes a failed close more expensive than a quiet probe. If the route is no longer closable, retreat before the fight becomes a forced retreat. Keep enough troops to return to the second line, and use [Land combat](/guides/land-combat/) for the moment-to-moment push and hold calculation. Annexation decides the border objective; combat decides whether you can reach it without losing the reserve.
+
+## Failure modes and opponent counterplay
+
+The first failure is the **shoreline illusion**. The map looks like a ring, but the candidate cluster touches an ocean shore. The engine rejects it, so repeated attacks only buy a longer coast. Counter it by taking the port or cutting inland before trying to close. If the coast is the defender's only income, a blockade may still be valuable, but call it a blockade rather than an enclosure.
+
+The second failure is the **two-owner ring**. You surround the target on three sides, while another non-friendly player owns the fourth. The cluster is not fully surrounded by one owner. Counter it by changing the target order. Take the other owner's border only if it improves your own shape, or let that player commit an active attack and coordinate the credited captor. Do not spend a full army to repair a ring that creates a new front against the wrong opponent.
+
+The third failure is the **long tendril**. You capture the cheapest tile and discover that the new border is twice as long. The land is yours, but every neighbour now has a new route. Counter it with a stop sentence and a second angle. If no second route exists, consolidate a City or Defense Post behind the tendril and keep mobile troops. [Defense Posts](/guides/defense-posts/) buy time on a predictable route; they do not make a stretched border disappear.
+
+The fourth failure is the **credit surprise**. A teammate or temporary ally has the larger active attack, so the engine gives them the enclosed tiles. Counter it with explicit attack ownership. In solo FFA, avoid firing at a pocket while another player is already the dominant attacker unless the transfer is acceptable. In team games, assign the captor before the first probe and write down whether the pocket is a staging area or a permanent economy.
+
+The fifth failure is the **growth trap**. You hold troops near a community growth heuristic, refuse every small annexation, and lose the only safe window. Growth is valuable only when it becomes a future action. Conversely, spending down to a low percentage while a neighbour is assembling can leave no answer. Read [Population growth](/guides/population-growth/) for the curve, then combine it with the threat scan. A reserve is not a sacred number; it is the force needed for the next two decisions.
+
+The sixth failure is the **nuke or betrayal reset**. A MIRV, Water Nuke, alliance break, or coalition attack can change the graph after you have drawn it. Re-scan after the event. If the pocket now touches fallout, water, or a new owner, the old enclosure plan is stale. [Nuclear deterrence](/strategies/nuclear-deterrence/) covers weapon and SAM choices. This guide's rule is narrower: never continue a closure from a map state that no longer exists.
+
+## Map and mode adjustments
+
+On compact maps, contact happens quickly and 50 or 100 ticks can be a large share of the engagement. Use fewer probes and prefer a route that closes in one committed sequence. A tiny annexation that creates a new border may cost more attention than it returns. Pair the pocket test with [Map sizes and Compact Map mode](/guides/map-size-compact-mode/) so the same visual gap is not treated as the same tactical distance.
+
+On long continental maps, the problem reverses. A pocket can be valid but too far from your core to hold. Use a City, Factory, or rail route as the intermediate objective, and reserve a second attack direction before the first capture. A closed cluster with no income or retreat path is a trophy, not a stable expansion. [Map strategy](/guides/map-strategy/) explains topology; this page adds the closure test after you choose a topology.
+
+On island and strait maps, separate land enclosure from naval denial. A shoreline candidate cannot satisfy the automatic transfer rule, but the land behind a landing can. Put the Port, Warship, and Transport decisions in the maritime plan, then use the inland route ledger for the captured component. If the water route is disconnected, abandon the closure and invest in a land bridge or a safe home economy. [Island defense](/guides/island-defense/) owns the landing screen and retreat decision.
+
+In team modes, the enclosure is a team result only after ownership and friendly status are checked. Teammates cannot be hostile owners for the valid-cluster test, and a teammate's active attack can receive the credit. Use one player as route caller, one as reserve, and one as the explicit captor. [Team roles](/strategies/team-roles/) covers donations and task rotation; this guide supplies the geometric handoff that tells the team when a pocket is actually closed.
+
+In public FFA under v0.33.13, Overtime is the default. That does not change removeClusters, but it changes the value of a late closure. A clean inland transfer can move the territory share and remove a rival before the threshold falls again. Do not chase a pocket solely for the scoreboard if the attack opens a fatal flank. In late game, compare the closure's territory gain with the time your new border must survive before the next Overtime check.
+
+## A repeatable closure checklist and next reading
+
+Before the first probe, write the target, its current owner, the nearest valuable node, and the two exits you expect to remove. Mark whether the cluster touches ocean or map edge. If it does, label the plan “ordinary capture” or “blockade,” not “automatic enclosure.” Keep a reserve that can answer the nearest live threat. The reserve can be troops, Gold for a fast structure, or a transport route that is already protected; it is not useful if it exists only on paper.
+
+After each capture, pause for one tick and repeat five checks: owner count around the cluster, shoreline contact, active attack sizes, reachable retreat route, and the value of the next tile. If one check changed, redraw the plan. If all five still support the close, commit the larger attack. If the engine transfers the cluster, verify the owner and immediately protect the new edge. If it does not, identify the exact failed condition and stop spending until that condition can be changed.
+
+Use three exit signals. **Continue** when the next edge shortens the border and leads to a City, Port, Factory, or opponent elimination. **Hold** when the pocket is closed but the counterattack is assembling. **Leave** when the cluster touches shore, two owners remain, the route cannot be held, or the capture creates more valuable enemy access than it removes. These signals are portable across maps because they describe the decision, not a fixed troop percentage.
+
+For a quick replay review, create a tiny table with columns for tick, owner, troop reserve, active attacker, exits, and next action. Add one sentence for every number that is an assumption. This turns a community heuristic into a falsifiable plan. If the route fails, you can see whether the problem was terrain, reachability, credit, diplomacy, or reserve. If it works, you can repeat the shape rather than blindly repeating the percentage.
+
+Read [Threat assessment](/guides/threat-assessment/) before choosing the first edge, [Land combat](/guides/land-combat/) during the contested push, [Population growth](/guides/population-growth/) when deciding how much reserve to keep, and [Diplomacy and betrayal](/strategies/diplomacy-betrayal/) when another owner touches the ring. For boats, use [Island defense](/guides/island-defense/); for a stretched fallback, use [Recovery playbook](/strategies/recovery-playbook/). The official boundary for this article is the [v0.33.13 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.13), [PlayerExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/PlayerExecution.ts), [AttackExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/execution/AttackExecution.ts), and [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.13/src/core/configuration/Config.ts). Recheck those sources after a release changes cluster cleanup, attack amounts, terrain terms, or the public Overtime default.
