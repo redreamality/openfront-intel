@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-05。
+更新日期：2026-09-06。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/team-spawn-formation/` 已完成五语正文、来源包、入口与相邻回链；通过完整验证并合并即完成本次滚动主题 | 下一轮重新从社区信号批准唯一意图；不得把出生布局与 first-match、team-roles、四岛协同或既有开局主题换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/tall-vs-wide/` 已完成五语正文、来源包、入口与相邻回链；通过完整验证并合并即完成本次滚动主题 | 下一轮重新从社区信号批准唯一意图；不得把集中转扩张与 economy-fundamentals、island-defense、threat-assessment 或 winning-overtime 换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -42,6 +42,7 @@
 - 本轮 Four Islands 团队协同社区及 tag 核验：[`2026-09-03-four-islands-team-coordination-community-source-pack.md`](research/2026-09-03-four-islands-team-coordination-community-source-pack.md)。
 - 本轮兼并与包围社区及 tag 核验：[`2026-09-04-annexation-enclosure-community-source-pack.md`](research/2026-09-04-annexation-enclosure-community-source-pack.md)。
 - 本轮团队出生布局社区及 tag 核验：[`2026-09-05-team-spawn-formation-community-source-pack.md`](research/2026-09-05-team-spawn-formation-community-source-pack.md)。
+- 本轮集中发展与扩张转换社区及 tag 核验：[`2026-09-06-tall-vs-wide-community-source-pack.md`](research/2026-09-06-tall-vs-wide-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -76,6 +77,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-06 | `LF-COMMUNITY-ROLLING` 集中发展与扩张转换 | 新建五语 `/guides/tall-vs-wide/`，回答安全核心何时应建立第二支点、L-A-N-D 转换检查、岛屿登陆、Overtime 截止点、失败反制与模式调整；接通五语 Guides、economy-fundamentals 与 island-defense | 3 个 Reddit、4 个已核验完整自动字幕的 YouTube、10 个官方来源；guide audit 五语与研究门槛通过；完整验证与 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-05 | v33.14 Release response + `LF-COMMUNITY-ROLLING` 团队出生布局 | 五语 v33 总览同步模态框滚动修复与 v33.13 Overtime 默认边界；新建五语 `/guides/team-spawn-formation/`，回答队友圆环、独立路线、共同战线、手动与随机出生，并接通 Guides、first-match 与 team-roles | 3 个核心 Reddit、3 个已核验字幕的 YouTube、7 个官方来源；guide audit 五语与研究门槛通过后，合并即完成本轮主题并继续滚动 Production |
 | 2026-08-25 | v33.11 Release response + `LF-COMMUNITY-ROLLING` Overtime 决策 | 五语 v33 总览升级到 v33.11；新建五语 `/guides/winning-overtime/`，回答门槛、严格比较、fallout 分母、领先防守与追赶截止点，并接通 Guides、modes 与 first-match | 4 Reddit、3 YouTube、20 个官方来源；guide audit 五语与研究门槛通过；本批次合并即完成本轮主题并继续 Monitoring / 滚动 Production |
 | 2026-08-26 | `LF-COMMUNITY-ROLLING` Warship veterancy 与维修决策 | 新建五语 `/guides/warship-veterancy/`，解释三档经验、混合进度、升级不治疗、150 格被动维修、港口主动维修池、75% 返航线，并接通五语 Guides、Team naval-control 与 nuclear-deterrence | 6 Reddit、5 YouTube、5 个官方来源；guide audit 五语与研究门槛通过；合并即完成本轮主题并转入 Monitoring |
