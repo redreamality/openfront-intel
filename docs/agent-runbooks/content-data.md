@@ -15,3 +15,4 @@
 - **GSC OAuth `token.json` 缺失时不要在无头自动化中反复触发交互授权**：确认 token 不存在后立即回退最后有效缓存，明确记录截止日与未刷新状态；授权必须由用户在可见终端运行 `gsc_cli.py auth` 完成，后续自动化再恢复刷新。
 - **版本边界审计不能只搜索能力词组合而忽略否定语境**：例如“普通 Host UI 没有固定队伍按钮”是正确边界，粗糙正则会把它误报为能力声明；应只匹配明确的错误肯定陈述，或先排除 `没有`、`未`、`does not`、`no` 等否定上下文。
 - **最新正式 Release 只在 `src/config/openfront-release.ts` 写一次 tag**：series、展示版本、Release URL、五语首页 Hero/优先路径和来源面板都必须从该配置派生；升级后运行 `pnpm release:audit`，用静态契约核验五语 frontmatter、核心章节、事实信号、官方来源与 `{series}` 占位。
+- **2026-09-06 复发：写入五语正文链接前先从现有内容文件确认集合与公开路由**：例如 `population-growth.mdx` 位于 `src/content/guides/<lang>/`，公开路径是 `/guides/population-growth/`，不能根据主题属性猜成 `/strategies/`；用 `rg --files src/content` 找到文件，再按对应 collection 路由写五语链接。
