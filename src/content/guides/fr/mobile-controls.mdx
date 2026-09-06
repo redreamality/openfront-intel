@@ -1,0 +1,189 @@
+---
+title: "Commandes mobiles OpenFront : toucher, attaquer, construire et diriger la flotte"
+description: "Jouez à OpenFront sur téléphone sans attaque accidentelle : gestes tactiles, menu radial, ratio, construction, armes nucléaires et sélection des Warships."
+pubDate: 2026-09-07
+updatedDate: 2026-09-07
+tags: [mobile, controls, touch, radial-menu, warships]
+category: Guide
+difficulty: Beginner
+version: v33
+freshnessSummary: "Vérifié le 2026-09-07 avec la Release officielle v0.33.14, les entrées tactiles taguées, l'aide du menu radial, le contrôleur des Warships et les tests d'entrée."
+---
+
+## Réponse directe : transformez chaque commande mobile en trois gestes volontaires
+
+Après le spawn, touchez la terre ou l'eau sans navire sélectionné pour ouvrir le menu radial, glissez pour déplacer, pincez pour zoomer et maintenez 800 ms avant la boîte de Warships. Pendant le spawn manuel, touchez proprement une terre valide et libre. Avant d'attaquer, appliquez **TAP** : vérifiez **Target**, **Amount**, puis faites une **Pause** devant l'aperçu.
+
+OpenFront fonctionne dans un navigateur mobile moderne sans téléchargement distinct. Sur iOS, l'interface officielle peut proposer **Add to Home Screen** afin d'ouvrir le jeu en plein écran sans barre d'adresse. Cette présentation augmente la place disponible, mais ne modifie aucune règle. Attaques, bâtiments, diplomatie, déplacements navals et conditions de victoire restent les mêmes que sur ordinateur. La différence importante vient des entrées : le téléphone ne dispose ni du survol constant d'une souris ni des raccourcis clavier, donc le joueur doit séparer plus clairement observation, choix et engagement.
+
+Considérez un toucher normal comme une demande d'actions contextuelles, et non comme un bouton d'attaque universel. Pendant un spawn manuel, seul un toucher valide sur une terre libre peut soumettre le départ ; Random Spawn n'utilise pas ce choix. Après le spawn, le client tagué ouvre les actions de la tile terrestre. Sur l'eau, le menu s'ouvre si aucun Warship n'est sélectionné ; avec un navire sélectionné, l'eau devient une destination. Le sens dépend donc de la phase, du terrain, du propriétaire et de la sélection active.
+
+Un déplacement de caméra doit être un glissement net. Dans v0.33.14, le gestionnaire emploie une distance de Manhattan de 10 pixels dans les coordonnées client du navigateur : mouvement horizontal plus vertical sous 10 pixels client reste un toucher. Ce ne sont pas des pixels physiques de l'écran ni une distance à mesurer en partie. Glissez franchement pour observer et touchez proprement pour choisir.
+
+Le pincement à deux doigts sert au zoom. Lorsque le deuxième contact arrive, le client annule l'appui long en attente ; le zoom ne devrait donc pas déclencher soudainement la sélection de flotte. Zoomez avant de viser une structure minuscule, un littoral étroit, un groupe serré ou une frontière d'une tile. Dézoomez après la résolution de la commande. Un objet caché par le pouce ou un panneau n'est pas prêt à recevoir une action irréversible.
+
+Le cadre réutilisable est **TAP : Target, Amount, Pause**. Target nomme le joueur, la tile, la structure, la route ou le groupe. Amount contrôle le ratio d'attaque, le coût en Gold, le nombre d'améliorations, le don ou la portée de la boîte navale. Pause vérifie le menu, l'aperçu armé, la cible ou les Warships sélectionnés avant le dernier toucher. TAP ne ralentit pas la partie entière ; il ajoute un battement seulement lorsque Troops, Gold, confiance diplomatique ou lancement nucléaire sont en jeu.
+
+Cette page possède l'exécution tactile et la récupération après erreur sur petit écran. Le guide des [raccourcis](/fr/guides/hotkeys/) reste le parcours clavier. La [première partie](/fr/guides/first-match/) enseigne l'ouverture générale sur tous les appareils. Le [combat terrestre](/fr/guides/land-combat/) décide si l'attaque est bonne, et l'[expérience des Warships](/fr/guides/warship-veterancy/) décide si un navire doit continuer ou rentrer. Décidez d'abord, puis utilisez ce guide pour empêcher le téléphone de transformer le bon plan en mauvaise commande.
+
+## Lisez l'état tactile avant de lever le doigt
+
+Le contrôle mobile commence par un état, car une même coordonnée peut produire quatre résultats. Au spawn manuel, un toucher propre sur une terre valide et libre peut proposer le départ ; l'eau et Random Spawn n'utilisent pas ce chemin. Ensuite, il ouvre les actions de la tile. Avec un Warship sélectionné, il donne une destination sur l'eau. Après 800 ms, un déplacement peut tracer une boîte de sélection.
+
+Le geste d'observation le plus sûr est un glissement visible commencé dans une zone ouverte sans importance. Ne commencez pas exactement sur la City, le Port, le Silo, la frontière ou le Warship que vous inspectez. Si le mouvement reste sous 10 pixels, le client peut le classer comme toucher et ouvrir le menu local. Ce menu peut être fermé, mais il vole de l'attention et place une action sous le prochain mouvement du pouce. Commencez plus loin, glissez assez, relâchez, puis commencez le geste suivant.
+
+Un toucher propre fait l'inverse. Arrêtez la caméra, posez le doigt sur une tile visuellement séparée et relevez-le sans glisser. Si le menu correspond au mauvais propriétaire ou terrain, touchez hors du menu, zoomez et recommencez. Ne compensez pas une première imprécision en touchant plus vite le secteur voulu. La cible initiale reste fausse ; la vitesse ne fait que convertir une erreur de visée en action exécutée.
+
+Le pincement est un état à deux pointeurs. Le code suit distance et centre, transforme un changement utile en zoom et annule l'appui long lorsque le second doigt arrive. Placez vos doigts autour de la zone à conserver, pincez jusqu'à séparer côte, frontière ou flotte, puis relevez les deux. Ne gardez pas un doigt au sol en touchant une action avec l'autre. Terminez la caméra, attendez une vue stable et lancez une nouvelle commande.
+
+L'appui long sert à la boîte de Warships. Le code v0.33.14 démarre ce mode après 800 ms ; un réticule apparaît, puis le glissement dessine la zone. Un déplacement d'au moins 10 pixels avant la fin du délai annule l'appui et devient un pan. Un maintien sans boîte supprime aussi le toucher suivant pour éviter un menu parasite. Ces sécurités ne choisissent toutefois pas les bons navires. La boîte doit toujours exclure la flotte nécessaire à l'autre côte.
+
+<div class="my-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="États tactiles mobiles OpenFront">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Toucher</strong><p class="mt-2 text-sm text-iron-300">Choisit une terre valide et libre en spawn manuel, puis les actions de la tile.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Glisser</strong><p class="mt-2 text-sm text-iron-300">Déplace la carte ; sous 10 pixels client, le geste peut rester un toucher.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Pincer</strong><p class="mt-2 text-sm text-iron-300">Zoome à deux doigts et annule un appui long encore en attente.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Maintenir + glisser</strong><p class="mt-2 text-sm text-iron-300">Après 800 ms, sélectionne seulement les Warships de la mission.</p></div>
+</div>
+
+L'interface est elle aussi un état. Le ratio définit la part engagée dans l'attaque ou le don de Troops. Le client peut restaurer la préférence enregistrée ; 20 % n'est que le fallback sans réglage, pas une valeur imposée. Un bâtiment armé ou une flotte sélectionnée change le toucher. Le panneau des événements recentre une action et offre un X rouge, mais la retraite tue 25 % des attaquants ; un nuke lancé est irrévocable.
+
+Avant chaque relâchement, demandez : **est-ce que je regarde, sélectionne ou engage ?** Regarder utilise glissement ou pincement. Sélectionner ouvre un menu, marque une unité ou choisit une action. Engager dépense ratio, Gold, relation ou lancement. Si l'état n'est pas nommable, relevez le doigt loin des contrôles, fermez le menu et repartez d'un état connu. Cette remise à zéro coûte moins qu'une guerre accidentelle.
+
+## Utilisez TAP pour rendre un petit écran fiable
+
+TAP réduit toute action irréversible à trois vérifications réalisables sur téléphone. Ce n'est ni un ordre de construction figé ni un pourcentage universel. C'est une méthode de contrôle du contexte. Les erreurs mobiles arrivent lorsque le joueur ne voit qu'une partie de la carte, touche avant de relire le curseur ou laisse l'état précédent déborder sur le suivant. **Target, Amount, Pause** ferme ces trois brèches dans cet ordre.
+
+**Target** vient d'abord : une quantité parfaite envoyée au mauvais endroit reste perdue. Centrez le front, zoomez jusqu'à distinguer propriétaires et terrain, puis nommez la tile ou l'unité exacte. Une attaque doit nommer le défenseur et la forme après capture. Un transport doit nommer la plage et la prochaine tile. Une construction doit nommer le site protégé et sa route. Une action diplomatique doit nommer le joueur. Un nuke doit nommer arme, Silo, cible et exploitation.
+
+**Amount** représente ce que l'action consomme ou englobe. Une attaque terrestre et un don de Troops lisent le ratio. Une structure lit Gold et quantité d'améliorations. Une boîte navale lit les coques dans le rectangle. Un don de Gold lit sa valeur. Un nuke consomme un lancement impossible à rappeler. Relisez le contrôle immédiatement avant le menu ; la valeur retenue du front précédent n'est pas une preuve.
+
+**Pause** constitue l'image de vérification. Après l'ouverture du menu, regardez centre et secteurs disponibles. Après avoir armé un bâtiment, vérifiez aperçu et coût. Après une boîte, contrôlez quels Warships réagissent avant de toucher l'eau. Dans Info, confirmez nom et relation avant don, commerce ou alliance. La pause dure le temps d'énoncer le résultat. Si l'interface ne correspond pas, fermez-la au lieu d'improviser.
+
+| Action mobile | Contrôle Target | Contrôle Amount | Signal Pause | Abandon |
+| --- | --- | --- | --- | --- |
+| Attaque terrestre | Bon défenseur et bonne frontière | Curseur du ratio | L'épée appartient à ce joueur | Fermer et zoomer |
+| Transport | Destination légale et plage utile | Troops du ratio actuel | Action Boat et route visibles | Fermer, garder la réserve |
+| Construction | Tile protégée et mission nommée | Gold et état x1/x5 | Aperçu valide au bon site | Annuler avant de déplacer |
+| Don | Bon allié | Ratio ou curseur Gold | Nom et relation concordent | Fermer Info |
+| Warships | Flotte locale et eau de patrouille | Portée de la boîte | Seuls les bons navires réagissent | Annuler puis recibler |
+| Nuke | Arme, Silo, cible, suite | Arme disponible et un lancement | Cible finale sans ambiguïté | Annuler avant, jamais après |
+
+Appliquez TAP deux fois aux actions en deux étapes. Le transport possède départ et arrivée ; le nucléaire, arme et cible ; la flotte, sélection et destination ; le bâtiment, choix et placement. Le premier cycle confirme l'outil actif, le second son lieu de résolution. C'est plus rapide qu'une récupération après l'hypothèse erronée d'une seule étape.
+
+Créez une remise à zéro neutre : touchez hors du menu, annulez l'aperçu avant de déplacer la carte, relevez les deux doigts après le pincement, désélectionnez la flotte avant d'inspecter une autre eau, utilisez le panneau d'événements pour retrouver une attaque. Un reset fiable donne un départ connu au cycle suivant.
+
+TAP protège aussi l'attention. Sur ordinateur, survol, clavier et grand écran permettent d'inspecter un secteur en préparant un autre. Le mobile compresse ces tâches. Donnez une courte fenêtre de commande à un front, puis revenez à la vue stratégique. Ne restez pas au zoom de placement pendant qu'un deuxième adversaire avance. Une fois la commande vérifiée, dézoomez et utilisez l'[évaluation des menaces](/fr/guides/threat-assessment/).
+
+Le test final est oral : un autre joueur doit pouvoir prédire le résultat visible. « Cible : Bot occidental ; Amount : 20 % affichés ; Pause : l'attaque apparaît dans les événements » est vérifiable. « Touche vite près de la frontière » ne l'est pas. La précision mobile vient du résultat nommé avant le doigt, pas d'un pouce plus rapide.
+
+## Gérez attaques terrestres, diplomatie et menu radial sans précipitation
+
+Après le spawn, un toucher terrestre ouvre le menu radial de la tile. Ce menu est contextuel : le jeu demande quelles actions votre joueur possède à cet endroit, puis affiche les chemins disponibles vers attaque, transport, construction, information, diplomatie, don ou communication. Il est donc dangereux de mémoriser la position d'un secteur. Le même angle peut disparaître, être désactivé ou ouvrir un sous-menu lorsque propriétaire, relation, terrain, modificateur ou ressources changent.
+
+Pour attaquer, choisissez un zoom où la frontière dépasse nettement la largeur du doigt. Target vérifie le défenseur et la forme attendue. Une tile faible à une jonction de trois joueurs peut ouvrir une guerre supplémentaire. Amount relit le ratio. L'aide officielle le décrit comme la part de Troops engagée et précise que l'avantage de pertes obtenu en dépassant le défenseur cesse de progresser au-delà de 2:1. Ce fait ne donne pas un ratio universel : terrain, Defense Post, largeur de contact, autres attaques et réserve modifient toujours la décision.
+
+Pause commence lorsque le menu apparaît. L'icône centrale change sur une cible amie et les actions viennent de la tile touchée. Si le nom, la relation ou le contexte épée/don est faux, fermez. Ne glissez pas vers une attaque parce que le secteur ressemble à celui d'avant. Le [combat terrestre](/fr/guides/land-combat/) décide si l'engagement est rentable ; TAP garantit seulement que le ratio choisi atteint la frontière choisie.
+
+Le panneau d'événements permet de reprendre une attaque déjà envoyée. L'aide officielle indique qu'un événement recentre attaque, nuke ou transport. Le X rouge peut retirer une attaque conventionnelle au prix de 25 % des Troops attaquants. Un transport rappelé retourne vers son départ et peut y attaquer si la propriété a changé. Un nuke ne revient jamais. Une erreur faible et sans conséquence peut coûter moins cher si elle se résout ; une attaque qui vide la réserve ou déclenche une guerre désastreuse justifie souvent la retraite immédiate.
+
+La diplomatie exige la même discipline. Touchez profondément dans le territoire visé, ouvrez Info ou la relation, puis confirmez le nom avant alliance, arrêt du commerce, marque ou don. Sur une frontière serrée, zoomer n'est pas du temps perdu. Un don de Gold erroné est irrécupérable. Un don de Troops utilise le ratio d'attaque : une valeur élevée laissée après un assaut peut vider la défense pour un simple soutien.
+
+Employez un rythme à deux fenêtres. Dézoomez d'abord pour décider quelle relation améliore la carte : frontière calme, ennemi partagé, route commerciale ou secours. Zoomez ensuite sur une tile intérieure sûre du destinataire et appliquez TAP. N'ouvrez pas la diplomatie depuis une zone disputée qui peut changer de propriétaire pendant le geste. Si le destinataire se déconnecte ou si l'action disparaît, fermez et réévaluez au lieu de toucher le voisin.
+
+Le mobile incite aux attaques répétées parce que la cible précédente reste sous le pouce. Refusez la cadence sans observation. Après chaque ordre, élargissez la vue : un tiers a-t-il gagné, une nouvelle frontière existe-t-elle, la réserve est-elle encore suffisante ? Relisez le ratio. Le haut niveau mobile n'est pas le plus grand nombre de touches par seconde ; c'est le délai fiable le plus court entre une carte modifiée et une décision corrigée.
+
+Un adversaire exploite l'attention avec une petite pression opposée, une demande d'alliance ou un message pendant votre zoom. Répondez par un cycle nommé, pas par une succession de touches. Si une interruption arrive, fermez menus et états armés, recentrez l'événement réel, puis reconstruisez Target. L'adversaire ne profite plus du petit écran dès que chaque commande repart d'un contexte prouvé.
+
+## Séparez l'état armé des bâtiments et celui des armes nucléaires
+
+Construire sur mobile demande deux étapes : choisir Build, puis placer ou confirmer. L'aperçu armé est un état actif qui doit être résolu ou annulé avant une nouvelle observation. L'erreur classique consiste à choisir City ou Defense Post, vouloir inspecter ailleurs et glisser alors que l'aperçu reste armé. Le toucher propre suivant peut placer au lieu d'inspecter. Terminez TAP au site prévu ou annulez explicitement avant de changer de tâche.
+
+Target s'examine à deux échelles. À l'échelle stratégique, nommez le travail : capacité de Troops, route commerciale protégée, accès au rail, approche défensive, couverture nucléaire ou arme précise. À l'échelle du placement, zoomez jusqu'à voir le bâtiment derrière la ligne qu'il soutient. Une City sur le nouveau bord peut offrir sa capacité à l'assaillant. Un Port sur un corridor fragile devient une base ennemie. Un Defense Post hors de l'approche n'achète aucune fenêtre. La commodité du petit écran ne justifie jamais la première tile vide.
+
+Amount vérifie Gold, coût et quantité. Les prix progressent, certaines améliorations acceptent x1/x5 alors qu'une nouvelle structure reste unique. Le menu mobile n'annule ni prérequis ni prix. Si une action manque ou reste grise, diagnostiquez option du lobby, terrain, portée, infrastructure et solde. Toucher plus vite ne valide pas un placement interdit et augmente le risque de choisir le secteur voisin.
+
+Pause se fait sur l'aperçu. Vérifiez structure, site et compte. Si l'aperçu touche le bord de l'écran, annulez avant de déplacer la caméra, puis recommencez. La séquence sûre est caméra puis construction : centrez l'emplacement, pincez jusqu'au zoom utile, relevez les deux doigts, ouvrez les actions, choisissez Build et la structure, contrôlez l'aperçu, placez, fermez. N'entrelacez pas geste de caméra et achat armé.
+
+Le nucléaire demande deux TAP encore plus stricts. Le premier confirme arme et Silo prêt ; le second confirme cible finale et action terrestre après impact. L'aide officielle distingue les attaques conventionnelles rappelables des nukes irréversibles. Une cible partiellement cachée par doigt, panneau ou bord d'écran n'est pas une cible valable. Fermez, recentrez et repartez au lieu de deviner.
+
+La cible tactique a besoin d'une phrase stratégique. « Détruire ce groupe de Cities afin que l'attaque ouest prenne le corridor » est complet ; « frapper la grande couleur » ne l'est pas. Water Nuke, arme normale, Hydrogen Bomb et MIRV changent différemment terrain, bâtiments, menaces et routes. Choisissez avec la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) et le [guide MIRV](/fr/guides/mirv/), puis utilisez TAP pour ne pas changer de Silo ou de tile.
+
+La pression adverse rend le reset essentiel. Une notification peut arriver pendant un état armé. N'allez pas directement vers l'alerte. Annulez l'état, utilisez les événements pour vous centrer, puis décidez si l'achat garde sa valeur. Un Defense Post prévu avant l'attaque peut rester correct ; une City ou un Port dont la route tombe peut ne plus l'être. La carte a changé, donc l'ancien Target et l'ancienne Pause sont caducs, même si Amount n'a pas bougé.
+
+Terminez par un contrôle d'espace : dézoomez jusqu'à voir route, menace et réserve ensemble. L'achat n'est pas fini quand l'icône apparaît, mais lorsque vous savez quelle action il ouvre et quelle condition impose défense ou abandon. Cette conclusion empêche le zoom de placement de devenir une vision stratégique en tunnel.
+
+## Commandez les Warships par toucher, contexte de l'eau et boîte de 800 ms
+
+Les Warships créent le changement d'état mobile le plus dangereux. Sans navire sélectionné, toucher l'eau ouvre le menu radial. Avec un ou plusieurs navires sélectionnés, toucher l'eau peut ordonner un déplacement. Un toucher près de votre coque peut la sélectionner ; maintien et glissement sélectionnent un groupe. Il faut donc contrôler l'état de flotte avant d'interpréter l'eau suivante. Cherchez le retour visuel et demandez quelle côte sera abandonnée.
+
+Pour un navire, zoomez jusqu'à séparer sa coque des unités proches et touchez proprement. Appliquez TAP à la destination : Target est la patrouille ou la ligne d'interception ; Amount vaut une coque ; Pause confirme la sélection et l'eau sans obstacle. Ne touchez pas l'eau derrière en traversant le sprite. À faible zoom, une tentative sur l'eau peut choisir un navire, et une tentative sur le navire peut ouvrir des actions d'eau.
+
+La recherche d'un seul navire emploie un autre rayon de Manhattan de 10 tiles de carte : sans flotte sélectionnée, un toucher d'eau choisit le Warship actif possédé le plus proche dans ce rayon ; sans candidat, le chemin du menu contextuel reste actif. Ce rayon n'est pas le seuil gestuel de 10 pixels client. Après sélection, le prochain toucher d'eau envoie le mouvement et efface la sélection.
+
+Pour plusieurs navires, maintenez un doigt immobile 800 ms jusqu'au réticule, puis tracez un rectangle clair. La sélection se termine lorsque déplacement horizontal plus vertical atteint au moins 10 pixels ; une boîte plus petite est annulée. Ce sont des seuils du client tagué, pas des objectifs de réflexe. Donnez du temps et de la distance au geste. Commencer sur l'eau libre près du groupe évite de cacher une coque essentielle.
+
+Dessinez selon la mission, pas selon l'amas visible. Deux navires peuvent garder le Port, trois escorter une route et un réparer dans un même groupe apparent. Incluez seulement ceux dont la mission est remplacée. Après la boîte, faites Pause. Si les navires de l'autre côte réagissent, annulez et redessinez. Envoyer tout le monde peut gagner le contact et exposer deux Ports.
+
+Pincement et maintien sont volontairement incompatibles dans le temps. Le deuxième doigt annule le maintien en attente, ce qui convient au zoom. Si la flotte est trop dense, pincez d'abord, relevez les deux doigts, attendez, puis commencez un nouveau maintien de 800 ms. N'ajoutez pas un deuxième doigt pendant l'appui en espérant continuer la sélection : le client reconnaît correctement un autre état.
+
+Le déplacement naval exige une sortie nommée : route de retour, Port de réparation ou remplaçant. Le guide d'[expérience des Warships](/fr/guides/warship-veterancy/) explique progression, réparation et retraite. Le mobile ajoute une règle étroite : préservez le propriétaire de chaque mission locale. Un navire expérimenté qui protège un Port endommagé ne doit pas partir parce que son sprite chevauche le groupe offensif.
+
+Le contre adverse le plus simple est la distraction. Un petit transport ou une capture attire caméra et flotte, puis le vrai débarquement arrive ailleurs. Le petit écran renforce ce contre. Utilisez les événements, déplacez le minimum nécessaire et revenez à la vue générale. Deux composants d'eau séparés restent deux flottes, même si un rectangle lointain pourrait prendre les deux.
+
+En Team, annoncez l'eau visée, pas seulement la sélection. Sur Four Islands, une boîte peut contenir l'unique protection du pont. En FFA, changez une patrouille locale au lieu d'afficher le départ de toute la flotte. En solo, entraînez maintien, boîte, annulation et mouvement à vitesse réduite si le lobby l'autorise. Le multijoueur public n'offre ni pause ni vitesse, donc le geste doit être acquis avant l'urgence.
+
+## Scénario un : une attaque de frontière à 20 % sur un téléphone de 390 px
+
+Supposons une FFA publique v0.33.14 sur un téléphone dont le viewport CSS mesure 390 pixels. Vous avez 600 000 Troops, le ratio affiche 20 %, un Bot occidental partage une plaine étroite et un Human touche le sud-est. Vous voulez envoyer 120 000 Troops vers l'ouest tout en conservant le reste pour récupération et dissuasion. Écran, joueurs, terrain et forces sont des hypothèses pédagogiques, pas les propriétés d'une carte nommée.
+
+Commencez par Target. À vue générale, identifiez le Bot, le Human et la forme des bords, sans attaquer. Faites un glissement clair depuis le cœur sûr, largement supérieur au seuil tactile de 10 pixels. Pincez autour du contact occidental jusqu'à séparer visuellement la tile du Bot de toute tile humaine, puis relevez les deux doigts. Une cible cachée sous le pouce n'est pas séparée.
+
+Vérifiez Amount. Vingt pour cent de 600 000 donne 120 000, mais le moteur utilise la force disponible au moment de la résolution, pas l'arithmétique figée ici. Attaque entrante, croissance, ordre antérieur ou changement du curseur peuvent modifier le résultat. Lisez l'écran juste avant le menu. S'il affiche 50 %, le plan de 120 000 n'est plus armé : corrigez d'abord.
+
+Touchez nettement du côté du Bot. Le menu s'ouvre pour cette tile. Pause : propriétaire et action doivent viser le Bot, pas votre terre ni le Human. Choisissez l'attaque et attendez son apparition dans les événements. Dézoomez ensuite pour restaurer les deux fronts. Le succès n'est pas « le toucher a répondu », mais « l'ouest a reçu l'ordre prévu et la réserve sud-est reste disponible ».
+
+Si le doigt dérive de 6 pixels, le gestionnaire tagué peut toujours classer le geste comme toucher, car la somme reste sous 10 ; le menu est acceptable si la cible est bonne. À 14 pixels, la carte se déplace. Ne touchez pas immédiatement l'ancien emplacement du Bot. Recentrez, relisez le propriétaire et recommencez Target. Le seuil explique le comportement, mais ne rend pas les anciennes coordonnées valides.
+
+Supposons que l'événement montre une attaque du Human. Comparez avant le X rouge. L'aide annonce 25 % de pertes sur les attaquants retirés. Pour 120 000, l'estimation simple est 30 000, même si combat concurrent et état réel peuvent modifier l'affichage. Ce coût peut rester inférieur à une mauvaise guerre. Si la sonde est minuscule et sans danger, une retraite peut être pire ; arrêtez les touches, communiquez et gardez les 480 000 restants.
+
+Le contre adverse consiste à pousser au sud-est pendant votre zoom occidental. Revenez à la vue générale après un seul cycle. Ne répétez pas parce que le Bot demeure sous le pouce. Rejouez TAP avec Troops, ratio et fronts actualisés. Sur Compact, le Human atteint plus vite le cœur : réduisez Amount ou reportez le Bot. En Team, un allié peut couvrir, mais vérifiez ce rôle au lieu de prendre la couleur d'équipe pour une réserve automatique.
+
+La décision modifiée est nette : 20 % n'est pas un rythme répétable, mais l'Amount d'une Target nommée dans un instant donné. La fiabilité mobile vient du retour stratégique après l'ordre, pas de la vitesse de clic reproduite sur un écran plus petit.
+
+## Scénario deux : choisir trois Warships sur cinq sans abandonner le Port
+
+Supposons cinq Warships en deux groupes visibles. Trois navires sains patrouillent le détroit central ; deux navires à 62 % et 71 % de leur maximum ajusté gardent et réparent près du Port oriental. Une alerte de transport apparaît 140 pixels d'écran à l'ouest du groupe central. Vous voulez envoyer les trois sains et laisser les deux endommagés. Santé, distance, route et nombre sont des hypothèses explicites.
+
+Target commence en vue générale. Identifiez alerte, groupe central, Port et composant d'eau. Utilisez l'événement pour centrer le transport si nécessaire, mais ne touchez pas immédiatement l'eau tant qu'une sélection peut rester active. Si les navires se chevauchent, pincez autour du centre, relevez les deux doigts et attendez. Le second doigt annule l'appui long, donc la boîte sera un nouveau geste.
+
+Posez un doigt sur l'eau libre à côté des trois navires et restez immobile. Après 800 ms, le client entre en sélection longue et affiche le réticule. Tracez un rectangle autour des trois sains avec plus de 10 pixels de déplacement, arrêtez avant les deux orientaux, puis relevez. Amount n'est pas un pourcentage : ce sont exactement trois coques.
+
+Si seulement deux navires réagissent, annulez et recommencez. Si un réparateur oriental est inclus, recommencez aussi. Le transport reste menaçant, mais une réponse à quatre navires crée une nouvelle faiblesse au Port. Ne transformez pas une interception bornée en ordre global parce que la première boîte était imprécise. Une seconde tentative propre est plus rapide qu'un long retour.
+
+Une fois la sélection prouvée, touchez une destination occidentale donnant un angle d'interception au lieu d'empiler les navires sur l'icône. Observez leur réponse, puis cadrez Port et route ensemble. Les trois sélectionnés possèdent l'interception ; les deux autres possèdent réparation et défense. Si le transport change de route, mettez à jour la même sélection au lieu de redessiner sur cinq navires.
+
+L'adversaire peut envoyer un second transport vers le Port. Les deux navires restés sur place fournissent réponse et rappel visuel. Si la seconde vague apporte des Warships, n'offrez pas les coques endommagées à un combat perdu ; appelez un allié, respectez la décision de réparation ou renvoyez un navire sain. La boîte donne le contrôle, pas l'invulnérabilité.
+
+Sur Four Islands, les deux groupes peuvent protéger des traversées Team différentes : annoncez le mouvement. Sur Compact, 140 pixels peuvent représenter un trajet court ; pré-classez les missions avant l'alerte. En solo, utilisez la vitesse réduite si disponible. En public, l'aide désactive pause et vitesse, donc la réponse sûre repose sur une portée plus petite et une détection plus tôt.
+
+Le test est observable : trois navires sains vont à l'ouest, deux endommagés restent au Port, et la vue permet de suivre les deux missions. « Tous les navires bougent » n'est pas forcément une réussite. La compétence mobile consiste à conserver celui qui ne devait pas répondre.
+
+## Récupérez les erreurs tactiles et adaptez-vous au mode, à la carte et à l'appareil
+
+Premier échec : **ambiguïté toucher-glisser**. Un petit mouvement reste un toucher, un plus grand déplace la carte. Faites des glissements évidents pour observer et des touches propres pour agir. N'apprenez pas 10 pixels comme exercice gestuel ; utilisez le chiffre pour comprendre, puis réinitialisez caméra et cible. L'adversaire gagne surtout si vous attaquez d'anciennes coordonnées après le pan.
+
+Deuxième échec : **état armé résiduel**. Bâtiment, arme, flotte ou sous-menu survit à votre attention. Après chaque commande, fermez, annulez l'aperçu, relevez les deux doigts, vérifiez la flotte et dézoomez. Une notification peut interrompre ; elle ne doit pas hériter d'un état coûteux.
+
+Troisième échec : **mémoire du ratio**. Le 20 %, 50 % ou 100 % précédent semble familier, donc Amount est sauté. Relisez avant attaque et don. L'adversaire crée plusieurs pressions pour provoquer des touches répétées. Ralentissez seulement l'instant irréversible : Target, Amount, Pause, exécution. Réparer le mauvais ratio prend plus de temps que le contrôle.
+
+Quatrième échec : **cible cachée par le pouce**. Zoomez avant, touchez une tile intérieure sûre et utilisez les événements. Sur une carte longue, déplacez-vous en vue générale puis zoomez à la frontière. Sur un archipel, gardez côte de départ et ligne d'arrivée visibles. Sur une carte européenne dense, ouvrez la diplomatie à l'intérieur du joueur plutôt qu'à une jonction.
+
+Cinquième échec : **réflexe de toute la flotte**. Une alerte fait partir tous les Warships. Répondez par boîte de 800 ms et propriété des missions. Un adversaire peut envoyer un premier contact bon marché comme leurre. Déplacez le minimum, gardez le retour et restaurez l'autre côte. Si les coques sont impossibles à séparer, choisissez-les une à une ou attendez une géométrie claire.
+
+Le mode change le coût. La FFA publique exige de surveiller les tiers et ne propose ni pause ni vitesse. Team offre une couverture alliée, mais dons et flottes communes rendent destinataire et portée cruciaux. Solo et lobby privé peuvent offrir vitesse, pause, unités désactivées ou multiplicateurs ; entraînez-vous sans les supposer en public. Le spawn manuel n'accepte qu'une terre valide et libre, tandis que Random Spawn saute ce choix. Terminez la [formation de spawn Team](/fr/guides/team-spawn-formation/) ou la [première partie](/fr/guides/first-match/) avant le décompte.
+
+La disposition de l'appareil change le flux, pas les règles. Sur iOS, les chaînes officielles v0.33.14 proposent l'ajout à l'écran d'accueil pour le plein écran. L'espace vertical réduit les recouvrements, mais ne valide pas une cible cachée. Une tablette montre davantage, avec la même sémantique tactile. Masquez un panneau seulement si vous savez restaurer son information ; un écran propre sans événements n'offre pas une meilleure lecture.
+
+La frontière v0.33.14 est précise. La [Release v0.33.14](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14) corrige le défilement de modale sans changer les règles. Les gestes viennent d'[InputHandler.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/InputHandler.ts), le contexte eau/terre et flotte de [WarshipSelectionController.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/src/client/controllers/WarshipSelectionController.ts), le menu et iOS des [chaînes anglaises](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/resources/lang/en.json), et les seuils des [tests d'entrée](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.14/tests/InputHandler.test.ts). Le `main` non publié n'est pas présenté comme disponible.
+
+Poursuivez selon l'intention : [raccourcis](/fr/guides/hotkeys/) sur ordinateur, [combat terrestre](/fr/guides/land-combat/) avant la force, [Defense Posts](/fr/guides/defense-posts/) avant une ligne fixe, [expérience des Warships](/fr/guides/warship-veterancy/) avant de risquer la flotte et [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) avant d'armer. Le guide est accompli lorsque regarder, sélectionner, engager, vérifier et remettre à zéro n'entremêlent plus les gestes.
