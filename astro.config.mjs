@@ -32,10 +32,16 @@ export default defineConfig({
           zh: 'zh-CN',
         },
       },
-      serialize: (item) => ({
-        ...item,
-        priority: new URL(item.url).pathname === '/' ? 1.0 : 0.7,
-      }),
+      serialize: (item) => {
+        const pathname = new URL(item.url).pathname;
+        const isGuideRoute = /(?:^|\/)guides(?:\/|$)/.test(pathname);
+
+        return {
+          ...item,
+          changefreq: isGuideRoute ? 'daily' : item.changefreq,
+          priority: pathname === '/' ? 1.0 : 0.7,
+        };
+      },
     }),
     robotsTxt({
       policy: [{ userAgent: '*', allow: '/', crawlDelay: 10 }],

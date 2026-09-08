@@ -847,6 +847,11 @@ test('sitemap omits fabricated lastmod values and contains every legal route', a
     for (const page of ['privacy', 'contact', 'editorial-policy']) {
       expect(xml).toContain(`<loc>https://openfront.fyi/${langPrefix}${page}/</loc>`);
     }
+
+    expect(xml).toContain(`<loc>https://openfront.fyi/${langPrefix}guides/</loc><changefreq>daily</changefreq>`);
+    expect(xml).toContain(
+      `<loc>https://openfront.fyi/${langPrefix}guides/first-match/</loc><changefreq>daily</changefreq>`,
+    );
   }
 });
 
