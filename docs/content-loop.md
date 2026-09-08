@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-08。
+更新日期：2026-09-09。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/transport-landings/` 已完成五语正文、社区来源包、Guides 入口及 Island Defense/Team Naval Control 回链；通过完整验证并合并即完成本次滚动主题 | 下一轮重新从社区信号批准唯一意图；不得把海岸选择、波次分配、Warship 护航、滩头纵深与取消条件换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/team-economy-space/` 已完成五语正文、社区与官方来源包、Guides 入口及 Port-vs-Factory/Train Network/Team Roles 回链；待完整验证和交付闭环 | 合并即完成本轮主题并继续滚动 Production；下一轮重新从社区信号批准唯一意图，不得把团队空间、付款人和铁路/港口协调换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -45,6 +45,7 @@
 - 本轮集中发展与扩张转换社区及 tag 核验：[`2026-09-06-tall-vs-wide-community-source-pack.md`](research/2026-09-06-tall-vs-wide-community-source-pack.md)。
 - 本轮移动端触控执行社区及 tag 核验：[`2026-09-07-mobile-controls-community-source-pack.md`](research/2026-09-07-mobile-controls-community-source-pack.md)。
 - 本轮运输船登陆社区及 tag 核验：[`2026-09-08-transport-landings-community-source-pack.md`](research/2026-09-08-transport-landings-community-source-pack.md)。
+- 本轮团队经济空间社区、官方及 tag 核验：[`2026-09-09-team-economy-space-community-source-pack.md`](research/2026-09-09-team-economy-space-community-source-pack.md)；官方事实补充见 [`2026-09-09-team-economy-official-notes.md`](research/2026-09-09-team-economy-official-notes.md)。
 
 ## What's New 跟踪摘要
 
@@ -79,6 +80,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-09 | `LF-COMMUNITY-ROLLING` 团队经济空间决策 | 新建五语 `/guides/team-economy-space/`，用 SPACE 框架回答如何为 City、Factory、Port 与铁路预留空间、按付款人计算成本、验证停站/海贸路线、分配捐赠与保护责任，并在路线失效时退出；接通五语 Guides、Port-vs-Factory、Train Network 与 Team Roles | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、v0.33.14 官方 Release/tag、Config、执行逻辑与测试；待 guide audit、content audit、check、build、links 及交付闭环完成 |
 | 2026-09-08 | `LF-COMMUNITY-ROLLING` 运输船登陆决策 | 新建五语 `/guides/transport-landings/`，用 COAST 框架回答可达海岸、最多三艘活动运输船、递减余额波次、Warship 护航、滩头纵深和取消条件；接通五语 Guides、Island Defense 与 Team Naval Control | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、9 个官方来源；guide audit 五语与研究门槛通过并合并即完成本轮主题，继续滚动 Production |
 | 2026-09-07 | `LF-COMMUNITY-ROLLING` 移动端触控执行 | 新建五语 `/guides/mobile-controls/`，用 TAP 框架回答手动出生、点击/平移/缩放、动态环形菜单、攻击比例、建造/核武状态、单舰与 800 ms 框选；接通五语 Guides、Hotkeys 与 FAQ | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、13 个官方来源；guide audit 五语与研究门槛通过；完整验证与 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-06 | `LF-COMMUNITY-ROLLING` 集中发展与扩张转换 | 新建五语 `/guides/tall-vs-wide/`，回答安全核心何时应建立第二支点、L-A-N-D 转换检查、岛屿登陆、Overtime 截止点、失败反制与模式调整；接通五语 Guides、economy-fundamentals 与 island-defense | 3 个 Reddit、4 个已核验完整自动字幕的 YouTube、10 个官方来源；guide audit 五语与研究门槛通过；完整验证与 PR 合并即完成本轮主题并继续滚动 Production |
