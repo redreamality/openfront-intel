@@ -1,0 +1,171 @@
+---
+title: "OpenFront-landingen: kies de kust, scherm de route en houd het bruggenhoofd"
+description: "Plan OpenFront-landingen met COAST: bereikbare kust, maximaal drie transportschepen, Warship-scherm en een duidelijke terugroepregel."
+pubDate: 2026-09-08
+updatedDate: 2026-09-08
+tags: [transportschepen, invasie, warships, kust, bruggenhoofd]
+category: Gids
+difficulty: Gemiddeld
+version: v33
+freshnessSummary: "Op 2026-09-08 geverifieerd tegen de officiële v0.33.14-grens, getagde transportroute en terugtocht, Warship-doelkeuze en gegenereerde eenheidsdata."
+---
+
+## Direct antwoord: voer COAST uit voordat een transport vertrekt
+
+Kies een bereikbare **Coast** (kust), lees de **Opposition**, bepaal de troepen-**Allocation**, leg een Warship-**Screen** neer en benoem de **Termination**-voorwaarde. Vertrek alleen wanneer de landing een nuttig tweede front opent en thuis verdedigbaar blijft. Een transportschip kost geen Gold, maar trekt zijn troepen direct af, stelt ze op zee bloot en verliest bij een normale terugroepactie 25 procent.
+
+Deze vijf **COAST**-controles scheiden een sterke zeesnelweg van een reserve die op het water wordt weggegooid. Coast vraagt niet alleen of het verre gebied zichtbaar is. De klik moet een vijandelijke of neutrale kust opleveren die via hetzelfde verbonden water bereikbaar is. Opposition omvat vijandelijke Warships, kusttroepen, Defense Posts en derde spelers die jouw lege vertrekrand kunnen aanvallen. Allocation legt verhouding, maximaal aantal golven en thuisminimum vast voordat boot een vertrekt. Screen geeft de escorte een concreet patrouillevak in plaats van de losse opdracht "bescherm de boot". Termination koppelt een zichtbaar feit aan een actie: terugroepen wanneer een vijandelijke Warship eerder in de eindroute komt, of golf twee stoppen wanneer golf een geen tweede nuttige tile kan nemen.
+
+Binnen de uitgebrachte v0.33.14-grens mag iedere speler maximaal drie actieve transportschepen hebben. De client gebruikt voor elk bevel het getoonde aanvalspercentage van de troepen die op dat moment beschikbaar zijn. 20 procent is de normale fallback als geen expliciete waarde wordt gestuurd, niet gegarandeerd jouw opgeslagen instelling. Zodra de boot verschijnt, verdwijnen de troepen uit het thuistotaal. Drie opeenvolgende bevelen van 20 procent nemen dus delen van een krimpende reserve en niet drie gelijke vijfden van het oorspronkelijke leger. Het transport kost 0 Gold en vereist geen Port, maar een eigen kust moet via water verbonden zijn met een bereikbare kust van het aangeklikte doel.
+
+| COAST-controle | Bewijs voor vertrek | Doorgaan | Stoppen |
+| --- | --- | --- | --- |
+| Coast | Hetzelfde verbonden water en een nuttige landingskust | Strand opent een tweede route of bereikt een bloot doel | Geen boot, waardeloze kust of afgesloten binnenmeer |
+| Opposition | Vijandelijke Warships, kustleger en nabije derden | Escorte arriveert eerst en de landing overleeft contact | Vrije vijandelijke patrouille of concentratie voor aankomst |
+| Allocation | Huidige troepen, slider, thuisminimum en actieve boten | Benoemde golfgrens houdt thuis stabiel | Derde boot vervangt oordeel door extra blootstelling |
+| Screen | Patrouillepunt, vaargeul en aankomstvolgorde | Eindtraject is al onder controle | Escorte repareert, zit in ander water of jaagt handelsschepen |
+| Termination | Zichtbare terugroep- of stopregel | Eerste golf neemt een tweede tile en krijgt steun | Route verandert, bruggenhoofd stagneert of reserve breekt |
+
+Deze pagina bezit de aanvallersbeslissing van lancering tot strand. [Eilandverdediging](/nl/guides/island-defense/) legt uit hoe je een inkomende boot stopt. [Marinecontrole in teams](/nl/strategies/team-naval-control/) verdeelt vlootrollen. [Warship-veterancy](/nl/guides/warship-veterancy/) bepaalt wanneer een beschadigde escorte moet herstellen. Voor de klik moet je kunnen zeggen: "westkust, maximaal twee golven, minstens de helft blijft thuis, escorte dekt de laatste 130 tiles, en golf twee vervalt als golf een geen landgrens opent." Zonder kust, limiet, reserve, scherm en stopsignaal is de operatie nog niet gepland.
+
+## Kies een bereikbare kust, niet alleen een zichtbaar doel
+
+Een transportbevel begint bij het aangeklikte gebied, maar belooft niet op precies die binnenlandse tile te landen. De uitgebrachte logica zoekt eerst een bereikbare kust in bezit van het doel en daarna jouw dichtstbijzijnde vertrekpunt via water. Dit verklaart veel meldingen dat een verre klik "niets doet" of een onverwachte zijde kiest. Er moeten een geldige aanvalsrelatie, bereikbare doelkust, verbonden eigen kust en vrije transportplek bestaan. Een grote zichtbare kleur aan de andere kant van de kaart is niet voldoende.
+
+Controleer eerst de watercomponent. Volg de zee, het meer of kanaal tussen jouw gebied en het doel. Twee wateroppervlakken die naast elkaar lijken te liggen, kunnen door een smalle landbrug, onbegaanbaar terrein of kaartrand gescheiden zijn. Wanneer een speler aan één zijde de oceaan raakt en elders een binnenmeer omsluit, kan een oceaanvloot niet door land varen omdat beide kusten dezelfde eigenaar hebben. De huidige code filtert zo'n onbereikbare meerkust bewust weg. Heeft het doel meerdere kusten, dan beïnvloedt de klik welke doelkust als nabij wordt gekozen. Klik daarom dicht bij het gewenste strand en niet midden in een groot rijk.
+
+Vraag vervolgens wat de eerste landing koopt. Een goede kust is niet alleen zwak. Zij maakt een bruikbare landgrens, bedreigt een structuur, verbindt met een teamgenoot of dwingt de verdediger zijn krachten te splitsen. Een kleine landtong kan de boot accepteren maar de troepen tussen sterkere vijanden opsluiten. Een neutraal eiland kan goedkoop zijn zonder de partij te veranderen. Een blootgestelde Port is aantrekkelijk omdat een structuur met veroverd land kan overgaan. Een voorbereide kust kan juist de volledige lading vernietigen voordat er diepte ontstaat.
+
+Ook de bronkust telt. Een Port is geen voorwaarde: het transport kost 0 Gold en kan vanaf een geschikte eigen kust verschijnen. Dat maakt vroege en noodoversteken mogelijk, maar niet elke kust veilig. Het systeem kiest de via water dichtstbijzijnde eigen kust ten opzichte van de bestemming, niet noodzakelijk de plek waar jouw reserve het veiligst is. Bekijk de waarschijnlijke bron. Staat daar al landdruk, dan kan de onmiddellijke troepenaftrek thuis een breuk veroorzaken, ook wanneer het verre doel zwak lijkt.
+
+Gebruik de test van drie tiles. Tile een is het strand dat wordt veroverd of aangevallen. Tile twee geeft het bruggenhoofd meer dan één kwetsbare stip. Tile drie leidt naar versterking, een bondgenoot of het benoemde doel. Ze hoeven niet recht achter elkaar te liggen, maar moeten drie opeenvolgende beslissingen vormen. Zonder legale tweede actie is de landing een raid zonder uitgang. Wanneer de tweede tile twee extra vijanden opent, kan de nieuwe vorm slechter zijn. Wanneer de derde stap geen steun bereikt, leeft het bruggenhoofd alleen van al verscheepte troepen.
+
+Het spel kan een bevel weigeren voordat een boot ontstaat als je jezelf kiest, de relatie geen aanval toestaat, doel- of bronkust onbereikbaar is, transports zijn uitgeschakeld of alle drie plekken bezet zijn. Gebruik de weigering als diagnose. Controleer uitgaande boten, relatie en waterverbinding in die volgorde. Sneller klikken of een hoger percentage herstelt geen ongeldige route. Op telefoon helpt de doelcontrole uit [Mobiele besturing](/nl/guides/mobile-controls/); zoom op ieder apparaat ver genoeg in om de bedoelde kust van een naburige eigenaar te onderscheiden.
+
+Deze HTML-schets toont de aannames en doet niet alsof zij een screenshot is:
+
+<div class="my-8 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch" aria-label="Transportroute van thuisreserve naar bruggenhoofd">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Thuisreserve</strong><p class="mt-2 text-sm text-iron-300">De lading verdwijnt zodra iedere boot verschijnt uit dit totaal.</p></div>
+  <div class="self-center text-center text-iron-500" aria-hidden="true">-&gt;</div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Afgeschermde vaarroute</strong><p class="mt-2 text-sm text-iron-300">Eén tile per tick; vijandelijke Warships prioriteren transporten.</p></div>
+  <div class="self-center text-center text-iron-500" aria-hidden="true">-&gt;</div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Bruggenhoofd van drie tiles</strong><p class="mt-2 text-sm text-iron-300">Land, win diepte en bereik daarna steun of het doel.</p></div>
+</div>
+
+## Lees de tegenstand voordat troepen het water opgaan
+
+Opposition heeft drie lagen: onderschepping op zee, weerstand op het strand en uitbuiting door een derde speler. De zeelaag komt eerst omdat een transportschip geen gevechtsschip is. Een uitgebrachte Warship zoekt vijandelijke eenheden en geeft transportschepen de hoogste prioriteit, voor vijandelijke Warships en Trade Ships. Bij een transportdoel wacht zij niet op het normale herlaadpad dat voor andere scheepsdoelen geldt. Een grote lading maakt een route door het werkgebied van een vijandelijke Warship dus niet veilig.
+
+Gebruik de huidige geometrie als planningsmiddel, niet als onzichtbare garantie. Binnen v0.33.14 patrouilleert een Warship 100 tiles rond haar punt en zoekt zij doelen tot 130 tiles. Kustvorm en verbonden water bepalen nog steeds of het schip de juiste geul kan innemen. Teken mentaal een gevaarstrook van 130 tiles rond de laatste benadering. Moet jouw transport die strook binnen voordat de escorte haar betwist, neem dan aan dat de verdediger als eerste nuttig reageert. De doelspeler krijgt bij vertrek bovendien een melding van de marine-invasie. Reistijd is geen verborgen voorbereiding.
+
+De landlaag wordt vóór aankomst berekend. Vergelijk de lading met de huidige troepen van de verdediger, hun groei tijdens de overtocht, Defense Post-dekking en het aantal landgrenzen dat kan tegenaanvallen. Bij aankomst verovert de boot de bestemming en start tegen een vijandelijke eigenaar een normale landaanval met de vervoerde troepen. Zij verspreidt zich niet vanzelf over de kust en omzeilt geen gewone gevechtsregel. De golf moet het eerste contact overleven en de volgende tile kunnen nemen. Gebruik [Landgevecht](/nl/guides/land-combat/) voor die berekening in plaats van een verzonnen marinebonus.
+
+De derde laag maakt van veel succesvolle landingen een verloren partij. In FFA is het verwijderen van 20 procent of meer zichtbaar in jouw totale kracht. Een buur die de boot niet kan bereiken, kan wel de lege vertrekrand aanvallen. Een andere speler kan de andere zijde van het doel nemen terwijl jouw lading zijn verdediging absorbeert. Voer vóór vertrek de volledige scan uit [Bedreigingen beoordelen](/nl/guides/threat-assessment/) uit en herhaal hem halverwege of wanneer een belangrijk event verandert.
+
+Een escorte is geen bodyguard die aan de boot vastzit. De Warship volgt eigen patrouille-, pad- en doelregels. Geef haar een punt waarvan de 130-tile doelafstand het verwachte pad van de onderschepper raakt. Verplaats haar eerst, wacht totdat de patrouille staat en vertrek dan. Zit zij onder haar reparatiedrempel, vaart zij terug naar een Port of bevindt zij zich in ander water, dan vormt haar zichtbare pictogram geen Screen.
+
+De verdediger kan goedkoop reageren: een Warship in de geul zetten, troepen op de verwachte kust stapelen, het strand voor aankomst veroveren, de bestemming met een nuke in water veranderen of jouw start aanvallen nadat de lading vertrekt. Hij kan een kleine eerste golf laten landen en op land vernietigen om twee grotere golven uit te lokken. De Opposition-controle moet de verwachte reactie en het feit dat die verwachting ongeldig maakt benoemen.
+
+Werk met twee scans. De eerste direct vóór vertrek controleert Warships, eigendom en thuisdreigingen. De tweede komt halverwege of bij een materiële verandering. Verbetert de tegenstand sneller dan het scherm, dan geldt Termination. Een gezonken eerste boot bewijst niet dat golf twee meer troepen verdient; zij bewijst dat de route verkeerd geprijsd was.
+
+## Verdeel golven uit een krimpende reserve
+
+Het centrale Allocation-feit is dat het percentage geldt voor de troepen die bij elk afzonderlijk bevel bestaan. De client vermenigvuldigt de huidige troepen met het getoonde percentage. De server kent ook 20 procent als standaardbedrag wanneer geen expliciete waarde binnenkomt en beperkt de hoeveelheid tot wat nog beschikbaar is. Bij de bouw worden de troepen direct verwijderd. Dezelfde percentages leveren later dus kleinere boten op, tenzij groei tussen de klikken het verschil vervangt.
+
+Stel dat je 900.000 troepen hebt, de slider 20 procent toont, er tijdens de bevelen geen groei is en alle drie plaatsen vrij zijn. Boot een neemt 180.000 en laat 720.000. Boot twee neemt daarna 144.000 en laat 576.000. Boot drie neemt 115.200 en laat 460.800. De vloot draagt samen 439.200 en niet 540.000. De aflopende golven kunnen nuttig zijn, maar vormen geen reservebeleid: 48,8 procent van het beginleger staat in drie afzonderlijk onderschepbare eenheden.
+
+Bepaal eerst het thuisminimum en leid daaruit de golfgrens af. Heeft de vertrekrand 500.000 nodig tegen de sterkste aannemelijke buur, dan is boot drie in het voorbeeld verboden hoewel de engine hem toestaat. Twee golven laten 576.000, slechts net boven de bodem. Heeft de verdediger een Warship en is jouw scherm onzeker, dan kan één proef van 180.000 de hele operatie zijn. Het maximum van drie actieve boten beperkt gelijktijdigheid en beveelt niets aan.
+
+Kies tussen proef, paar en drie-golvenverplichting. Een proef test kustselectie, onderschepping en weerstand met de kleinste nog informatieve kracht. Een paar verdeelt het werk: golf een opent de landgrens, golf twee versterkt pas na gewonnen diepte. Drie golven zijn alleen gerechtvaardigd als de geul al onder controle staat, thuis na de samengestelde percentages veilig blijft en de derde golf een aparte taak heeft, zoals een doel bereiken in plaats van een mislukking herhalen.
+
+Vertrek niet met alle golven op basis van dezelfde observatie. De verdediger ontvangt bij boot een een waarschuwing en kan bewegen. Een legale route kan ondertussen dodelijk worden. Spreiding maakt een nieuw beslismoment. Laat de eerste boot het gevaarlijke deel passeren of het strand veiligstellen en voer Opposition en Allocation opnieuw uit. De prijs is tijd; de winst is dat niet drie ladingen dezelfde val binnenvaren.
+
+Allocation bevat ook Gold, hoewel het transport gratis is. Een geloofwaardig Screen kan een eerste Warship van 250.000 Gold vereisen; elke volgende kost 250.000 meer tot het plafond van 1.000.000. Het bruggenhoofd kan daarna een City, Port of Defense Post vragen. Een operatie die de troepen van een dure kern verwijdert en het bouwbudget voor de kust bindt, is niet gratis. Vergelijk de volledige kansprijs met een landaanval, thuisverdediging of wachten op betere timing.
+
+Houd een eenvoudig logboek bij: begintroepen, thuisminimum, percentage, maximale golven, escortestatus en strandbudget. Bereken na elke start opnieuw. Groei boven de bodem kan de volgende golf betalen, maar bewijst niet met terugwerkende kracht dat de eerste veilig was. Begint thuis een landgevecht, dan daalt de golfgrens onmiddellijk. De zee reserveert jouw recht om het oorspronkelijke plan af te maken niet.
+
+## Scherm de overtocht en bouw het bruggenhoofd in volgorde
+
+Screening is een volgorde en geen telling van eenheden. De escorte moet de betwiste geul voor het transport bereiken, een punt vasthouden dat de vijandelijke benadering dekt en gezond genoeg blijven totdat de boot passeert. Omdat vijandelijke Warships transports prioriteren, kan een escorte achter de boot nog granaten wisselen terwijl het echte prioriteitsdoel al wordt vernietigd. Verkrijg eerst controle en stel daarna de kwetsbare kracht bloot.
+
+Splits de route in drie tijdzones. De vertrekzone bevat bronkust en eerste waterstrook; daar mag een vijandelijke Warship de boot niet direct vinden. De transitzone is open water waar terugroepen nog mogelijk is tegen de normale 25 procent. De eindzone omvat de laatste 130 tiles rond waarschijnlijke vijandelijke posities en het strand. Daar tellen doelprioriteit en korte reactietijd het meest. Het patrouillepunt van de escorte hoort in de eindzone, niet enkel naast de vertrekplaats.
+
+Een transportschip beweegt één watertile per simulatietick. De officiële configuratie behandelt een tick als 100 ms. Een pad van 240 stappen heeft daarom een basis van ongeveer 240 ticks, of 24 seconden, als de route geldig blijft en de simulatie normaal loopt. Padlengte is geen rechte afstand; kustvorm en obstakels voegen stappen toe. Gebruik deze som om het reactievenster te schatten, niet als secondegarantie van de interface. De bij vertrek gewaarschuwde verdediger kan de hele reis troepen en schepen verplaatsen.
+
+Bij aankomst wordt de zeefase snel een landgevecht. De bestemmings-tile wordt genomen en tegen een vijandelijke eigenaar begint een gewone aanval met de lading. Het bruggenhoofd heeft daarom direct een tweede keuze nodig. Verbreed alleen wanneer de gevechtsrekensom dat ondersteunt. Trek naar binnen als dit niet meerdere nieuwe vijanden opent. Verbind een bondgenoot of ander bezit als versterking vóór de tegenaanval komt. Eén kusttile die wacht totdat de verdediger concentreert, is geen voltooid bruggenhoofd.
+
+Rangschik in Team acties rond de aankomst. Eén speler schermt, één landt en een derde zet waar mogelijk elders druk. De escorte mag de eindroute niet verlaten om een Trade Ship te achtervolgen. Transportprioriteit helpt alleen als de onderschepper in bereikbare doelgeometrie komt. De lander kondigt kust en golfgrens voor vertrek aan. De drukspeler valt laat genoeg aan om aandacht te splitsen, niet zo vroeg dat het gevecht klaar is voor de boot arriveert.
+
+In FFA is verbergen beperkt: het doel krijgt een melding en buren zien jouw kracht afnemen. Bewaar in plaats daarvan route-onzekerheid. Bereid twee bereikbare kusten voor, plaats de escorte zodat beide worden bedreigd en klik pas bij vertrek dicht bij de definitieve kust. Een ten dode opgeschreven nepboot is geen gratis afleiding. Zij verbruikt echte troepen en één van de drie plekken.
+
+Het bruggenhoofd slaagt wanneer het diepte, versterking of een onmiddellijk doel heeft. Diepte is meer dan één kwetsbare stip. Versterking betekent dat tweede golf, landverbinding of teamgenoot eerder arriveert dan de tegenaanval. Een onmiddellijk doel verandert het gevecht, bijvoorbeeld een knooppunt of blootgestelde structuur. Zodra één voorwaarde geldt, schakel je over naar [Landgevecht](/nl/guides/land-combat/) en bescherm je de route terug naar zee.
+
+## Roep bewust terug en onderscheid fouttoestanden
+
+Termination moet vóór vertrek worden geschreven, omdat de eerste investering steeds meer uitlokt. Een normale handmatige annulering markeert het actieve transport als terugtrekkend. Daarna zoekt het een bevriende kust die vanuit zijn positie bereikbaar is. Bij succesvolle terugkeer sterft 25 procent van de lading en keert 75 procent terug naar de eigenaar. Van 180.000 komen onder deze aannames ongeveer 135.000 terug. Dat kan goedkoper zijn dan totale vernietiging, maar maakt terugroepen nooit gratis verkenning.
+
+Gebruik vier triggers. Annuleer wegens **onderschepping** wanneer een vijandelijke Warship eerder dan jouw scherm de eindzone binnenkomt. Annuleer wegens **eigendom** wanneer het gekozen strand niet meer het nuttige doel is. Annuleer wegens een **thuisbreuk** wanneer een buur aanvalt en de resterende reserve onder de bodem brengt. Stop latere golven wegens **mislukt bruggenhoofd** wanneer golf een geen tweede nuttige tile of tijdige verbinding kan krijgen. De eerste drie kunnen een boot op zee terugroepen; bij de vierde kan de bestaande golf uitspelen zonder opvolger.
+
+De code kent verschillende uitgangen die niet tot één terugbetalingsbelofte mogen worden samengevoegd. Een bevel dat vóór het verschijnen wordt geweigerd, verwijdert geen lading. Een handmatig teruggeroepen actieve boot betaalt normaal 25 procent. Een bestemming die door een nuke in water verandert, activeert automatisch de terugtochtlogica. Een actief pad dat volledig onvindbaar wordt, kan een aparte padfout volgen die troepen teruggeeft en de boot verwijdert. Probeer die terugbetaling niet te bouwen. Zij hangt van de padstatus af en is geen betrouwbare spelersuitgang.
+
+Is de bestemming bij aankomst al jouw eigen gebied geworden, dan wordt de afhandeling als terugkeer behandeld en kan de terugtrekverliesregel gelden. Een teamgenoot of andere aanval kan het strand vlak voor aankomst hebben genomen. Coördineer dus de volgorde in plaats van aan te nemen dat een inmiddels vriendelijke kleur de hele lading zonder verlies samenvoegt. Eigendom en relatie kunnen tijdens de reis veranderen; de kaart bij vertrek is niet de eindstatus.
+
+De slechtste reactie op een mislukte klik is snelle herhaling. Geen boot kan drie bezette plekken, een onaanvalbaar doel, geen bereikbare doelkust in dit water, geen geschikte eigen bron of uitgeschakelde transports betekenen. Controleer de uitgaande lijst, relatie en watercomponent in die volgorde. Een hoger percentage herstelt de route niet en zorgt alleen dat het eerstvolgende geldige bevel meer reserve meeneemt.
+
+Werk na een terugroepactie het logboek bij. Trek 25 procent verlies af, bereken het thuisminimum opnieuw en vraag of de escorte nog een aparte marinemissie heeft. Stuur de 75 procent overlevenden niet direct langs dezelfde route. De tegenstand die de annulering veroorzaakte bestaat nog, terwijl de volgende boot kleiner begint. Alleen een nieuwe COAST-controle kan verdediging, andere kust of landaanval vrijgeven.
+
+In teams moet duidelijk zijn wie terugroept. De transporteigenaar bestuurt de boot; de escortespeler kan dat niet doen. "Rode Warship in het eindtraject, annuleer golf twee" koppelt observatie aan actie. "Dit ziet er slecht uit" verspilt het venster. In solo gebruik je de rij uitgaande boten om de eenheid te focussen, doel en ETA te controleren en terug te roepen zolang een bevriende kust bereikbaar is.
+
+## Test het plan met twee numerieke scenario's
+
+**Scenario één neemt aan:** een normale v0.33.14-Teamwedstrijd, 900.000 begintroepen, een getoonde verhouding van 20 procent, geen groei tijdens drie beslissingen, drie vrije plekken en een waterpad van 240 stappen. Het doel is een licht verdedigde eilandkust. Een bevriende Warship kan het eindscherm vóór de eerste aankomst leggen. Het thuisminimum is 500.000.
+
+Boot een neemt 180.000 en laat 720.000. Boot twee neemt 144.000 en laat 576.000. Boot drie zou 115.200 nemen en 460.800 laten. Zij schendt dus de bodem; de geschreven grens is twee, hoewel de engine drie toestaat. Met één tile per tick en 100 ms per tick is de basisduur ongeveer 24 seconden. De escorte beweegt eerst. Golf een vertrekt pas wanneer haar patrouille de eindroute dekt; golf twee wacht totdat golf een het gevaar passeert.
+
+Landt boot een en neemt zij een tweede tile, dan versterkt boot twee. Komt een vijandelijke Warship eerder in de laatste 130 tiles, dan vertrekt twee niet en keert één terug. Een normale terugtocht van 180.000 levert ongeveer 135.000 op. Zonder groei of ander gevecht zijn daarna circa 855.000 troepen beschikbaar: 720.000 thuis plus 135.000 terug. De 45.000 is de prijs van de verkeerde lezing. Alle drie starten zou 439.200 blootstellen en het thuisminimum breken voordat de vijand beslist.
+
+**Scenario twee neemt aan:** FFA op een compacte zeestraat, 600.000 begintroepen, een 30-procentslider, één reeds actieve boot elders, 90 padstappen, geen escorte en een vijandelijke Warship bij het enige nuttige strand. Een derde speler grenst aan de vertrekrand. De landing opent twee nieuwe landgrenzen en de verdediger kan een kleine golf opvangen.
+
+Een nieuwe boot neemt 180.000 en laat 420.000. De basisroute duurt slechts ongeveer negen seconden, maar kort is niet veilig. De Warship prioriteert het transport zonder op haar gewone herlaadpad te wachten. Het doel krijgt een waarschuwing en de derde ziet de thuissterkte vallen. Het strand maakt twee grenzen in plaats van een smalle kop. COAST faalt op Opposition, Screen en de drie-tiletest.
+
+De juiste beslissing is niet vertrekken. Leg eerst een scherm, kies een andere kust, zet landdruk of wacht tot het vijandelijke schip repareert. Was de boot al onderweg, dan zou een normale terugroepactie van 180.000 ongeveer 135.000 terugbrengen. Dat doet pijn, maar is beter dan een tweede golf van 30 procent. Die neemt uit de resterende 420.000 nog 126.000 en laat slechts 294.000 tegenover de derde speler.
+
+De scenario's tonen dat percentage, plekken en afstand verschillende vragen beantwoorden. Het percentage bepaalt de lading per bevel. Drie boten begrenzen gelijktijdigheid. Padstappen bepalen reactietijd. Warship-geometrie bepaalt onderscheppingsrisico. Geen enkel getal beslist alleen. De keuze ontstaat uit thuisreserve, route, tegenstand, scherm en strandvorm.
+
+Wijzig de aannames en bereken opnieuw. Groei tussen bevelen maakt latere boten groter. Een beschadigde escorte kan naar reparatie vertrekken. Een lange kust biedt mogelijk een alternatief strand. Landdruk van een teamgenoot verlaagt de weerstand. Een Water Nuke kan de bestemming wissen en terugtocht starten. Herbruikbaar zijn de COAST-zin en het logboek, nooit "twee boten van 20 procent werken altijd".
+
+## Pas COAST aan kaart, modus en tegenmaatregel aan
+
+Op archipelkaarten domineren Coast en Screen. Water is de hoofdroute; een bruggenhoofd kan de partij veranderen, maar iedereen volgt dezelfde kanalen. Vestig Warship-controle voordat de reserve instapt. Geef voorkeur aan een landing die eilanden verbindt of een Port bedreigt boven decoratief randgebied. Bestaat maar één kanaal, neem dan aan dat het bekeken wordt en gebruik de eerste vijandelijke Warship erin als Termination-trigger.
+
+Op zeestraten en binnenzeeën kan het pad kort en de benadering extreem voorspelbaar zijn. Een oversteek van 90 stappen geeft minder tijd dan 240, maar beide partijen kennen het waarschijnlijke strand. Gebruik landdruk om kusttroepen weg te trekken en plaats de escorte zodat haar 130-tile doelafstand de versmalling dekt. Controleer de echte watercomponent: een smalle landstrook of onbegaanbaar terrein kan zichtbaar aangrenzend water scheiden.
+
+Op continentkaarten is een transportlanding meestal een optioneel tweede front en moet zij meer opleveren. Kan land hetzelfde doel bereiken zonder een vijfde van de reserve bloot te stellen, dan moet de boot verrassing, kortere route, blootgestelde structuur of verlichting van een geblokkeerde grens kopen. Open geen verre kust alleen omdat de knop verschijnt. De verdediger kan een onbelangrijk strand negeren terwijl jouw nabije landbuur de ontbrekende troepen benut.
+
+Compacte kaarten verkorten zowel invasie- als tegenaanvalstijd. Verlaag de golfgrens, omdat een buur ook sneller de vertrekrand bereikt. Grote kaarten vergroten reistijd en onzekerheid; spreid sterker en scan halverwege. Four Islands beloont toegewezen routes, maar algemene rolverdeling hoort bij [Four Islands-teamcoördinatie](/nl/guides/four-islands-team-coordination/), niet bij deze ene startbeslissing.
+
+Team-modus kan Screen, landing en druk over spelers verdelen. Maak kust, golfgrens, thuisminimum en annuleringsoproep vooraf bekend. Laat niet twee teamgenoten hetzelfde doel vlak voor aankomst nemen, want de eindstatus kan versterking in een terugkeerachtige afhandeling veranderen. FFA vraagt een hoger minimum en directer doel. In beide modi heeft iedere speler zijn eigen drie plaatsen, maar een vrije plek geeft geen strategische toestemming.
+
+Water Nukes voegt een speciale fout toe: wordt de bestemming water, dan schakelt de actieve boot automatisch naar terugtocht. Laat boot en geplande terreinverandering niet naar dezelfde tile lopen; laat de nuke eerst oplossen en kies daarna de nieuwe kust. Doomsday geeft een bewegende gebiedsdeadline; vermijd een lange reis naar een strand dat snel waarde verliest. Overtime beloont gebied, maar een onhoudbare stip voedt de leider. Bereken de drempel met [Overtime winnen](/nl/guides/winning-overtime/).
+
+Elke tegenmaatregel moet het plan veranderen. Tegen onderschepping komt het scherm eerst of wisselt de route. Tegen kuststapeling land je waar de verdediger moet splitsen of begin je gelijktijdige landdruk. Tegen derden verhoog je het thuisminimum en verlaag je de golven. Tegen een speler die een proef laat landen en daarna vernietigt, eis je diepte vóór golf twee. Tegen kustveranderende nukes wacht je tot de geometrie stabiel is.
+
+De laatste beslisboom is kort. Geen bereikbare nuttige kust betekent geen start. Bezit Opposition het eindtraject, win dan een scherm of wissel route. Breekt Allocation de thuisverdediging, verlaag dan verhouding of golven. Kan de boot oversteken maar heeft het strand geen tweede tile, kies dan een ander doel. Als alle vier slagen, stuur één golf en pas Termination vóór iedere volgende opnieuw toe.
+
+## Verifieer de versiegrens en lees de juiste vervolggids
+
+Deze gids is op 8 september 2026 geverifieerd voor de officiële grens `v0.33.14`. Die Release repareerde advertentie-layout en introduceerde geen nieuwe transportregel. De landingsfeiten komen uit de bijbehorende getagde spelcode en gegenereerde data: 0 Gold, maximaal drie actieve boten, huidig percentage met 20-procentfallback, bereikbare kustselectie, één tile per tick, normale terugroepverlies van 25 procent en Warship-prioriteit. Latere wijzigingen op `main` gelden niet als uitgebracht gedrag.
+
+De grens is belangrijk omdat marinepathfinding eerder veranderde. De huidige logica vermijdt expliciet een onbereikbare binnenmeerkust en kan het pad van een actieve boot herbouwen. Verandert een toekomstige formele Release aantal, snelheid, selectie, terugroepkosten, melding of Warship-doelkeuze, bereken dan COAST-tabel en scenario's opnieuw. Een gemergde commit of open issue is bewijs voor monitoring, geen toestemming om een live regel te beloven.
+
+De [eenhedendatabase](/nl/database/units/) geeft een compacte feitencontrole, maar ruwe waarden vormen geen plan. [Warship-veterancy](/nl/guides/warship-veterancy/) legt schade, reparatie en blijven op station uit. [Marinecontrole in teams](/nl/strategies/team-naval-control/) verdeelt verkenning, scherm, escorte en havenretour. Die pagina's beantwoorden vlootsamenstelling; COAST beantwoordt of deze ene landing nu moet vertrekken.
+
+Verdedig je de doelkust, ga dan naar [Eilandverdediging](/nl/guides/island-defense/) voor inkomende routes, Warship-positie en kustreserve. Is de boot al geland, gebruik dan [Landgevecht](/nl/guides/land-combat/) voor troepen, terrein, Defense Post en stopregel. Is de operatie onderdeel van een achterstand, dan bepaalt het [Herstelplan](/nl/strategies/recovery-playbook/) of het tweede front echt redt of nog meer reserve verbruikt.
+
+Houd tijdens het spel vijf regels bij: gekozen kust, waargenomen tegenstand, percentage en thuisminimum, patrouillepunt en Termination-trigger. Voeg het echte resultaat toe. Herhaling onthult de fout. Verkeerde zijde betekent een betere Coast-klik. Gezonken boten betekenen vroeger Screen. Ingestort thuis betekent hoger minimum. Vastgelopen strand betekent strengere drie-tiletest. Veel terugroepacties betekenen een eerdere Opposition-scan.
+
+De gids is voltooid wanneer een andere speler zowel vertrek als stop kan voorspellen. Die kent de bedoelde kust, maximale lading, achterblijvende reserve, voorafgaande escorteplaats, afhandeling op land en het event dat de volgende golf annuleert. Het transport is krachtig omdat het een grens maakt waar geen grens bestond. Hetzelfde maakt het gevaarlijk: het schept verplichtingen aan twee kusten tegelijk.
+
+Controleer na de partij ook of het resultaat werkelijk door de boot kwam of door gelijktijdige landdruk. Een transport dat alleen aankomt doordat een teamgenoot alle verdediging bindt, bewijst geen veilige soloroute. Een gezonken boot bewijst evenmin dat iedere kust slecht is; misschien stond het scherm alleen te laat. Scheid daarom routefout, verdelingsfout en uitvoeringsfout. Zo blijft de volgende aanpassing klein en toetsbaar, in plaats van na één resultaat het volledige marineplan om te gooien.
+
+Keer voor elke operatie terug naar het directe antwoord: **Coast, Opposition, Allocation, Screen, Termination**. Heeft één woord geen observeerbaar antwoord, houd de troepen op land. Zijn alle vijf concreet, stuur de eerste boot, volg de route en laat iedere volgende golf opnieuw haar beslissing verdienen.

@@ -22,6 +22,6 @@
 - **一次 `apply_patch` 不能同时对同一路径执行 `Delete File` 和 `Add File`**：验证器会以 `multiple operations target` 拒绝整份补丁，且不会写入任何内容。整文件替换应优先使用单个 `Update File`；确需删除重建时拆成两次调用，并在两步之间立即恢复目标文件。
 - **2026-08-23 复发：Astro 内容集合配置位于 `src/content/config.ts`，不是仓库级 `src/content.config.ts`**：检查 schema 或 collection 前先用 `rg --files src | rg 'content.*config|config.*content'` 定位，避免把其他 Astro 版本的约定路径套到本项目。
 - **Codex `automation_update` 不支持 `mode=run`，也不要用 `FREQ=MINUTELY` 模拟单次试跑**：分钟 recurrence 可能在恢复原频率前排入多个独立任务，导致它们竞争同一项目目录。单次试跑应使用应用提供的正式运行入口；触发后立即核对只出现一个新任务，再开始跟踪。
-- **2026-09-07 再次复发：读取源码、内容页、配置或审计器前不得猜路径或文件名**：除本地 `src/i18n/utils.ts` 等旧例外，本轮核验官方 tag 又猜错 `TransformHandler` / `UserSettings` 路径。先从最近的真实目录运行 `rg --files`，远端 tag 则先读取官方 tree，再把返回路径传给 `Get-Content`、`rg` 或 blob API；不要把猜测路径与有效路径放在同一命令中。若搜索表达式以 `-` 开头，在选项后加 `--` 终止参数解析。
+- **2026-09-07、2026-09-08 再次复发：读取源码、内容页、配置或审计器前不得猜路径或文件名**：除本地 `src/i18n/utils.ts` 等旧例外，核验官方 tag 曾猜错 `TransformHandler` / `UserSettings` 路径；实际用户设置界面文件为 `src/client/UserSettingModal.ts`。先从最近的真实目录运行 `rg --files`，远端 tag 则先读取官方 tree，再把返回路径传给 `Get-Content`、`rg` 或 blob API；不要把猜测路径与有效路径放在同一命令中。若搜索表达式以 `-` 开头，在选项后加 `--` 终止参数解析。
 - **Windows PowerShell 的 `System.Drawing.Image.FromFile()` 不能可靠解码 WebP**：出现 `invalid input` 或疑似内存错误时不能据此判定图片损坏；使用浏览器 `naturalWidth`、项目现有图像工具或支持 WebP 的解码器验证实际文件。
 - **2026-08-24 再次复发：长命令返回 `exec_command` session ID 后必须保留该 ID 并用 `write_stdin` 轮询**：经 `functions.exec` 包装时也要显式输出嵌套结果的 `session_id`，不能只转发 `output`；`wait` 只接受 yielded exec cell ID。先辨认返回字段，再选择对应接口，避免丢失最终输出、把空 `dist` 当成最终产物或重复启动构建。
