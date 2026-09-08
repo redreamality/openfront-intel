@@ -1,0 +1,171 @@
+---
+title: "OpenFront-Transportlandungen: Küste wählen, Route sichern, Brückenkopf halten"
+description: "Plane OpenFront-Landungen mit COAST: erreichbare Küste, bis zu drei Transporter, Kriegsschiff-Sicherung und klare Abbruchregel."
+pubDate: 2026-09-08
+updatedDate: 2026-09-08
+tags: [transportschiffe, marineinvasion, kriegsschiffe, kueste, brueckenkopf]
+category: Anleitung
+difficulty: Mittel
+version: v33
+freshnessSummary: "Am 2026-09-08 gegen die offizielle v0.33.14-Grenze, den getaggten Transportpfad und Rückzug, die Kriegsschiff-Zielwahl und generierte Einheitsdaten geprüft."
+---
+
+## Direkte Antwort: Prüfe COAST vor jedem Transportstart
+
+Wähle eine erreichbare **Coast** (Küste), erkenne die **Opposition**, bestimme die Truppen-**Allocation**, richte einen Kriegsschiff-**Screen** ein und benenne die **Termination**-Bedingung. Starte nur, wenn die Landung eine nützliche zweite Front öffnet und die Heimat verteidigbar bleibt. Ein Transportschiff kostet kein Gold, zieht seine Truppen aber sofort ab, ist auf See verwundbar und verliert bei normalem Rückruf 25 Prozent.
+
+Diese fünf **COAST**-Prüfungen trennen eine brauchbare Abkürzung von einer Reserve, die auf dem Wasser festsitzt. Coast fragt nicht nur, ob du ein entferntes Gebiet sehen kannst. Der Klick muss eine feindliche oder neutrale Küste ergeben, die über dasselbe zusammenhängende Gewässer erreichbar ist. Opposition umfasst gegnerische Kriegsschiffe, Küstentruppen, Verteidigungsposten und Dritte, die deine geleerte Startküste ausnutzen können. Allocation legt Verhältnis, maximale Wellenzahl und Heimatreserve fest, bevor das erste Boot ablegt. Screen gibt dem Begleitschiff einen konkreten Patrouillenraum. Termination verbindet eine sichtbare Änderung mit einer Handlung: zurückrufen, wenn ein feindliches Kriegsschiff zuerst in den Anflug kommt, oder weitere Wellen stoppen, wenn die erste Landung kein zweites nützliches Tile gewinnt.
+
+An der veröffentlichten Grenze v0.33.14 darf jeder Spieler höchstens drei aktive Transportschiffe besitzen. Der Client verwendet beim einzelnen Befehl den angezeigten Angriffsanteil der dann verfügbaren Truppen. 20 Prozent sind der normale Fallback, wenn kein expliziter Wert übermittelt wird, aber nicht zwingend deine gespeicherte Einstellung. Beim Erscheinen des Bootes werden die Truppen sofort aus dem Heimatbestand entfernt. Drei 20-Prozent-Befehle nehmen deshalb Anteile aus einer schrumpfenden Reserve, nicht drei gleich große Fünftel des Anfangsheers. Das Boot kostet 0 Gold und braucht keinen Hafen. Es braucht jedoch eine eigene Küste, die über Wasser mit einer erreichbaren Küste des angeklickten Ziels verbunden ist.
+
+| COAST-Prüfung | Sichtbarer Beleg vor dem Start | Startsignal | Stoppsignal |
+| --- | --- | --- | --- |
+| Coast | Gleiches verbundenes Gewässer und eine nützliche Landeküste | Strand öffnet eine zweite Route oder erreicht ein exponiertes Ziel | Kein Boot, wertlose Küste oder getrenntes Binnengewässer |
+| Opposition | Feindschiffe, Küstenarmee und nahe Dritte | Begleitschutz kommt zuerst und Landetruppe übersteht den Kontakt | Freie feindliche Patrouille oder Konzentration vor Ankunft |
+| Allocation | Aktuelle Truppen, Regler, Heimatminimum und aktive Boote | Benannte Wellenobergrenze hält die Heimat stabil | Das dritte Boot ersetzt Urteil durch mehr Risiko |
+| Screen | Patrouillenpunkt, Fahrwasser und Reihenfolge | Der letzte Abschnitt ist vor dem Boot kontrolliert | Eskorte repariert, ist im falschen Gewässer oder jagt Handelsschiffe |
+| Termination | Sichtbare Rückruf- oder Stoppregel | Erste Welle gewinnt ein zweites Tile und Unterstützung | Route ändert sich, Landung steckt fest oder Reserve bricht |
+
+Diese Seite besitzt die Angreiferentscheidung vom Start bis zum Strand. [Inselverteidigung](/de/guides/island-defense/) erklärt, wie du ein ankommendes Boot stoppst. [Marinekontrolle im Team](/de/strategies/team-naval-control/) verteilt Flottenrollen. [Kriegsschiff-Veteranenstatus](/de/guides/warship-veterancy/) entscheidet, wann eine beschädigte Eskorte reparieren muss. Vor dem Klick solltest du sagen können: "Westküste, höchstens zwei Wellen, die Hälfte bleibt zu Hause, Eskorte deckt die letzten 130 Tiles, zweite Welle entfällt ohne zweiten Landkontakt." Fehlen Küste, Obergrenze, Reserve, Screen oder Abbruchsignal, ist die Operation noch nicht geplant.
+
+## Wähle eine erreichbare Küste statt nur eines sichtbaren Ziels
+
+Ein Transportbefehl beginnt mit dem angeklickten Gebiet, verspricht aber keine Landung auf genau diesem inneren Tile. Die veröffentlichte Logik sucht zunächst eine erreichbare Küste im Besitz des Ziels und danach deine über Wasser nächstgelegene Startküste. Dieser Unterschied erklärt viele Berichte, nach denen ein entfernter Klick "nichts macht" oder eine unerwartete Seite auswählt. Erforderlich sind eine angreifbare Beziehung, eine erreichbare Zielküste, ein verbundener eigener Strand und ein freier Transportplatz. Eine große Farbe auf der anderen Kartenseite allein reicht nicht.
+
+Prüfe zuerst das Gewässer als zusammenhängende Komponente. Verfolge Meer, See oder Kanal zwischen deinem Gebiet und dem Ziel. Zwei optisch benachbarte Wasserflächen können durch einen schmalen Landsteg, unpassierbares Terrain oder einen Kartenrand getrennt sein. Grenzt ein Spieler auf einer Seite ans Meer und umschließt auf der anderen einen Binnensee, kann eine Ozeanflotte nicht durch Land zum See fahren, nur weil beide Küsten denselben Besitzer haben. Der aktuelle Code schließt eine unerreichbare Binnenküste gezielt aus. Besitzt das Ziel mehrere Küsten, beeinflusst dein Klick, welche davon als nahe gilt. Klicke daher in die Nähe des gewünschten Strands statt in die Mitte eines riesigen Reichs.
+
+Frage dann, was das erste Landetile kauft. Eine gute Küste ist nicht nur schwach verteidigt. Sie eröffnet einen nutzbaren Landkontakt, bedroht eine Struktur, verbindet sich mit einem Teamkameraden oder zwingt den Verteidiger zur Aufteilung. Eine winzige Halbinsel kann das Boot annehmen und die Truppe dennoch zwischen stärkeren Gegnern einsperren. Eine neutrale Insel kann leicht sein, ohne das Spiel zu verändern. Ein exponierter Hafen kann wertvoll sein, weil Strukturen mit erobertem Gebiet den Besitzer wechseln können. Eine vorbereitete Küste kann dagegen die gesamte Fracht vernichten, bevor Tiefe entsteht.
+
+Auch die Startküste ist eine Entscheidung. Ein Hafen ist keine Voraussetzung: Der Transport kostet 0 Gold und kann an einer geeigneten eigenen Küste erscheinen. Das ermöglicht frühe oder improvisierte Überfahrten, macht aber nicht jedes Ufer sicher. Das System nimmt die über Wasser zur Zielküste nächste Quelle, nicht unbedingt die Stelle, an der deine Reserve am sichersten liegt. Prüfe den wahrscheinlichen Start. Steht dort bereits eine Landfront unter Druck, kann der sofortige Truppenabzug die Heimat brechen, obwohl das entfernte Ziel schwach aussieht.
+
+Nutze den Drei-Tile-Test. Tile eins ist der Strand, den das Boot erobert oder angreift. Tile zwei gibt dem Brückenkopf mehr als einen fragilen Punkt. Tile drei führt zur Verstärkung, zum Verbündeten oder zum benannten Operationsziel. Die Tiles müssen keine gerade Linie bilden, aber drei aufeinanderfolgende Entscheidungen darstellen. Ohne legale zweite Aktion ist die Landung ein Überfall ohne Ausgang. Öffnet die zweite Aktion Grenzen zu zwei weiteren Feinden, kann die neue Form schlechter sein. Gibt es auf Schritt drei keine Verstärkung, lebt der Brückenkopf allein von bereits verschifften Truppen.
+
+Das Spiel kann den Befehl vor dem Bootsbau ablehnen, wenn du dich selbst anklickst, die Beziehung keinen Angriff erlaubt, Ziel- oder Startküste nicht erreichbar sind, Transporte deaktiviert wurden oder alle drei Plätze belegt sind. Verwende die Ablehnung als Diagnose. Prüfe zuerst die Liste ausgehender Boote, dann die Beziehung und schließlich die Wasserverbindung. Schnelleres Klicken oder ein höherer Anteil repariert keine ungültige Route. Auf dem Telefon hilft die Zielbestätigung aus [Mobile Steuerung](/de/guides/mobile-controls/); auf jedem Gerät solltest du so weit hineinzoomen, dass Zielküste und Nachbarbesitzer klar getrennt sind.
+
+Diese HTML-Skizze macht Annahmen sichtbar, statt einen erfundenen Screenshot zu zeigen:
+
+<div class="my-8 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch" aria-label="Transportroute von der Heimatreserve zum Brückenkopf">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Heimatreserve</strong><p class="mt-2 text-sm text-iron-300">Die Fracht verschwindet beim Erscheinen jedes Bootes sofort aus diesem Bestand.</p></div>
+  <div class="self-center text-center text-iron-500" aria-hidden="true">-&gt;</div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Gesicherte Wasserroute</strong><p class="mt-2 text-sm text-iron-300">Ein Tile pro Tick; feindliche Kriegsschiffe priorisieren Transporte.</p></div>
+  <div class="self-center text-center text-iron-500" aria-hidden="true">-&gt;</div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">Drei-Tile-Brückenkopf</strong><p class="mt-2 text-sm text-iron-300">Landen, Tiefe gewinnen, dann Unterstützung oder Ziel erreichen.</p></div>
+</div>
+
+## Lies die Opposition, bevor du Truppen aufs Wasser stellst
+
+Opposition hat drei Ebenen: Abfangen auf See, Widerstand am Strand und Ausnutzung durch Dritte. Die Seeebene kommt zuerst, weil ein Transportschiff kein Kampfschiff ist. Ein veröffentlichtes Kriegsschiff sucht feindliche Einheiten und gibt Transporten höchste Priorität, noch vor Kriegsschiffen und Handelsschiffen des Gegners. Beim Schuss auf einen Transport wartet es nicht auf den normalen Nachladepfad, der bei anderen Schiffszielen gilt. Eine große Fracht schützt daher keine Route, die durch den wirksamen Raum eines feindlichen Kriegsschiffs läuft.
+
+Verwende die aktuelle Geometrie als Planungshilfe, nicht als unsichtbare Garantie. An der Grenze v0.33.14 patrouilliert ein Kriegsschiff in 100 Tiles um seinen Punkt und sucht Ziele bis 130 Tiles. Küstenform und zusammenhängendes Wasser entscheiden weiterhin, ob es die richtige Route besetzen kann. Zeichne gedanklich ein 130-Tile-Gefahrenband um den letzten Anflug. Muss dein Transport dort hinein, bevor deine Eskorte den Raum bestreiten kann, plane mit der ersten sinnvollen Reaktion des Verteidigers. Der Zielspieler erhält beim Start außerdem eine Warnung vor der Marineinvasion. Reisezeit ist keine geheime Vorbereitungszeit.
+
+Die Strandebene wird vor Ankunft gerechnet. Vergleiche die Fracht mit den aktuellen Truppen des Verteidigers, ihrem Wachstum während der Fahrt, der Abdeckung durch einen Verteidigungsposten und der Zahl möglicher Landkontakte. Bei Ankunft erobert das Boot das Ziel-Tile und erzeugt gegen einen feindlichen Besitzer einen normalen Landangriff mit den transportierten Truppen. Es breitet sich nicht automatisch über die Küste aus und umgeht keine Kampfregel. Die Landetruppe muss den ersten Kontakt überstehen und ein zweites Tile nehmen können. Verwende für diese Rechnung [Landkampf](/de/guides/land-combat/) statt einen imaginären Marinebonus.
+
+Die Ebene der Dritten macht viele gelungene Landungen zum verlorenen Gesamtspiel. Im FFA ist der Abzug von 20 Prozent oder mehr in deiner Gesamtstärke sichtbar. Ein Nachbar, der das Boot nie erreicht, kann die geleerte Startküste angreifen. Ein anderer Spieler kann die Rückseite des Ziels erobern, während deine Fracht dessen Verteidigung bindet. Führe die globale Prüfung aus [Bedrohungsbewertung](/de/guides/threat-assessment/) vor dem Start und erneut auf halber Strecke oder bei einer wichtigen Meldung aus.
+
+Eine Eskorte ist kein an das Boot gebundener Leibwächter. Das Kriegsschiff folgt eigener Patrouillen-, Pfad- und Zielwahl. Setze seinen Punkt so, dass 130 Tiles Zielreichweite den wahrscheinlichen Weg eines Abfangschiffs schneiden. Bewege es zuerst, warte auf die etablierte Patrouille und starte dann. Liegt es unter der Reparaturschwelle, fährt zum Hafen oder befindet sich im falschen Gewässer, bildet sein sichtbares Symbol keinen Screen.
+
+Der Verteidiger hat billige Gegenmaßnahmen: Kriegsschiff in die Route ziehen, Truppen am erwarteten Strand bündeln, den Zielstrand vor Ankunft einnehmen, das Ziel mit einer Nuke zu Wasser machen oder nach dem Abzug deine Heimat angreifen. Er kann eine kleine erste Welle landen lassen und an Land vernichten, um zwei größere Wellen anzulocken. Deine Opposition-Prüfung muss die erwartete Antwort und das sichtbare Widerlegungssignal benennen.
+
+Arbeite mit zwei Scans. Der erste unmittelbar vor dem Start prüft Kriegsschiffe, Besitzer und Heimatbedrohungen. Der zweite folgt auf halber Fahrt oder bei einer materiellen Änderung. Verbessert sich die Opposition schneller als der Screen, greift Termination. Ein versenktes erstes Boot ist kein Beleg für mehr Truppen in Boot zwei. Es zeigt, dass die Route falsch bewertet wurde.
+
+## Teile Wellen aus einer schrumpfenden Reserve zu
+
+Der zentrale Allocation-Fakt lautet: Der Prozentsatz gilt für die beim jeweiligen Befehl verfügbaren Truppen. Der Client multipliziert die aktuelle Truppenzahl mit dem angezeigten Anteil. Der Server besitzt außerdem einen 20-Prozent-Standard, wenn keine explizite Menge übermittelt wird, und begrenzt die Menge auf den vorhandenen Rest. Beim Bootsbau werden die Truppen sofort entfernt. Gleiche Prozentbefehle werden deshalb nacheinander kleiner, sofern Wachstum zwischen den Klicks die Differenz nicht ersetzt.
+
+Angenommen, du besitzt 900.000 Truppen, der Regler zeigt 20 Prozent, zwischen den Befehlen wächst nichts und alle drei Plätze sind frei. Boot eins nimmt 180.000 und lässt 720.000. Boot zwei nimmt danach 144.000 und lässt 576.000. Boot drei nimmt 115.200 und lässt 460.800. Die Flotte trägt zusammen 439.200 statt 540.000. Die Verkleinerung späterer Wellen kann nützlich sein, ist aber keine Reservepolitik: 48,8 Prozent der Anfangsarmee stehen in drei getrennten, abfangbaren Einheiten.
+
+Lege das Heimatminimum zuerst fest und leite daraus die Wellenobergrenze ab. Braucht die Startküste 500.000 Truppen gegen den stärksten plausiblen Nachbarangriff, ist das dritte Boot im Beispiel verboten, obwohl das Spiel es zulässt. Zwei Wellen lassen 576.000 und damit nur wenig Puffer. Besitzt das Ziel ein Kriegsschiff und dein Screen ist unsicher, kann eine einzelne 180.000er Sonde die ganze Operation sein. Drei aktive Boote sind ein technisches Maximum, keine Empfehlung.
+
+Wähle zwischen Sonde, Paar und Drei-Wellen-Bindung. Eine Sonde prüft Küstenwahl, Abfangen und Strandwiderstand mit der kleinsten noch aussagekräftigen Truppe. Ein Paar teilt die Aufgabe: Welle eins öffnet den Landkontakt, Welle zwei verstärkt erst nach gewonnener Tiefe. Drei Wellen sind nur gerechtfertigt, wenn die Route bereits kontrolliert wird, das Heimatminimum auch nach der Prozentfolge hält und die dritte Welle eine eigene Aufgabe erfüllt, etwa ein klares Ziel statt die Wiederholung eines Fehlschlags.
+
+Starte nicht alle Wellen auf derselben Beobachtung. Der Verteidiger erhält beim ersten Boot eine Warnung und kann sich bewegen. Eine weiterhin legale Route kann inzwischen tödlich sein. Staffelung schafft einen neuen Entscheidungspunkt. Lass das erste Boot die gefährliche Strecke passieren oder den Strand sichern und prüfe dann Opposition und Allocation erneut. Der Preis ist Zeit; der Gewinn ist, nicht drei Frachten in dieselbe Falle zu schicken.
+
+Allocation umfasst auch Gold, obwohl das Transportboot kostenlos ist. Ein glaubwürdiger Screen kann das erste Kriegsschiff für 250.000 Gold verlangen; jedes weitere kostet 250.000 mehr bis zur Grenze von 1.000.000. Der Brückenkopf kann eine Stadt, einen Hafen oder einen Verteidigungsposten brauchen. Eine Operation ist nicht kostenlos, wenn sie die Truppen eines teuren Kerns entfernt und das Budget zur Stabilisierung des Strands bindet. Vergleiche die volle Gelegenheit mit Landangriff, Verteidigungsbau oder besserem Timing.
+
+Führe ein einfaches Ledger: Anfangstruppen, Heimatminimum, Verhältnis, maximale Wellen, Eskortenzustand und Brückenkopfbudget. Rechne nach jedem Start neu. Wachstum über dem Minimum kann die nächste Welle finanzieren, beweist aber nicht rückwirkend die Sicherheit der ersten. Beginnt zu Hause ein Landkampf, sinkt die Wellenobergrenze sofort. Der Plan auf See reserviert kein Recht auf seine Fertigstellung.
+
+## Sichere die Überfahrt und baue den Brückenkopf in Reihenfolge
+
+Screening ist eine Reihenfolge, keine Einheitenzahl. Die Eskorte muss den umkämpften Korridor vor dem Transport erreichen, einen Punkt über dem gegnerischen Anflug halten und bis zur Passage gesund bleiben. Weil feindliche Kriegsschiffe Transporte priorisieren, kann eine Eskorte hinter dem Boot noch Schüsse austauschen, während das eigentliche Hochprioritätsziel bereits zerstört wird. Kontrolliere zuerst, dann schicke die verwundbare Truppe.
+
+Teile die Route in drei Zeitzonen. Die Abfahrtszone umfasst Startküste und erste Wasserstrecke; ein Feindschiff darf das Boot dort nicht sofort erfassen. Die Transitzone ist offenes Wasser, in dem du noch zurückrufen und den normalen Verlust von 25 Prozent akzeptieren kannst. Die Terminalzone umfasst die letzten 130 Tiles um wahrscheinliche feindliche Positionen und den Strand. Dort wirken Priorität und kurze Reaktion am stärksten. Der Patrouillenpunkt gehört in diese Terminalzone, nicht nur an den Ausgangshafen.
+
+Ein Transport bewegt sich ein Wassertile pro Simulationstick. Die offizielle Konfiguration behandelt einen Tick als 100 ms. Ein Pfad mit 240 Schritten hat daher eine Basis von 240 Ticks oder ungefähr 24 Sekunden, wenn der Pfad gültig bleibt und die Simulation normal läuft. Pfadlänge ist nicht Luftlinie; Küsten und Hindernisse verlängern sie. Verwende die Rechnung als Reaktionsfenster, nicht als sekundengenaue UI-Zusage. Der beim Start gewarnte Verteidiger kann während der gesamten Fahrt Armee und Flotte verschieben.
+
+Bei Ankunft wird aus der Marinephase rasch Landkampf. Das Ziel-Tile wird erobert und gegen einen feindlichen Besitzer beginnt ein normaler Angriff mit der Fracht. Der Brückenkopf braucht sofort die zweite Entscheidung. Verbreitere ihn nur, wenn die Kampfrechnung stimmt. Dringe zum Ziel vor, wenn dadurch nicht mehrere neue Feinde entstehen. Verbinde einen Verbündeten oder weiteren Besitz, wenn Verstärkung vor dem Gegenangriff ankommt. Ein einzelnes Küstentile, das auf die Konzentration des Gegners wartet, ist kein fertiger Brückenkopf.
+
+Im Team ordnest du Handlungen um die Ankunft. Ein Spieler screennt, einer landet, ein dritter übt nach Möglichkeit anderswo Druck aus. Die Eskorte darf die Terminalroute nicht für ein Handelsschiff verlassen. Transportpriorität hilft nur, wenn der Abfänger in erreichbarer Zielgeometrie liegt. Der Landungsspieler nennt Küste und Wellenzahl vor dem ersten Start. Der Druckspieler greift spät genug an, um Aufmerksamkeit zu teilen, aber nicht so früh, dass der Gegner vor der Ankunft fertig ist.
+
+Im FFA ist Verbergen begrenzt: Das Ziel erhält eine Warnung und Nachbarn sehen die Stärke sinken. Bewahre stattdessen Routenmehrdeutigkeit. Bereite zwei erreichbare Küsten vor, positioniere die Eskorte als Drohung gegen beide und klicke erst beim Start nahe der endgültigen Küste. Ein zum Sterben bestimmtes Scheinboot ist kein kostenloser Bluff. Es verbraucht Truppen und einen der drei Plätze.
+
+Der Brückenkopf besteht, wenn er Tiefe, Verstärkung oder ein sofortiges Ziel erreicht. Tiefe bedeutet mehr als einen zerbrechlichen Punkt. Verstärkung bedeutet, dass zweite Welle, Landverbindung oder Teamkamerad vor dem Gegenangriff eintreffen. Ein sofortiges Ziel verändert den Kampf, etwa eine Kreuzung oder exponierte Struktur. Sobald eine Bedingung erfüllt ist, wechsle zu [Landkampf](/de/guides/land-combat/) und schütze den Weg zurück zur Küste.
+
+## Brich bewusst ab und unterscheide die Fehlerzustände
+
+Termination muss vor dem Start feststehen, weil die erste Investition zu weiteren verleitet. Ein normaler manueller Abbruch markiert den aktiven Transport als zurückweichend. Er sucht eine von seiner Position erreichbare freundliche Küste. Nach der Rückkehr sterben 25 Prozent der Fracht, 75 Prozent gehen an den Besitzer zurück. Von 180.000 kommen unter diesen Annahmen etwa 135.000 zurück. Der Verlust kann billiger sein als die vollständige Vernichtung, macht Rückruf aber nie zu kostenloser Aufklärung.
+
+Verwende vier Auslöser. Brich wegen **Abfangen** ab, wenn ein Feindschiff vor deinem Screen in die Terminalzone kommt. Brich wegen **Besitzwechsel** ab, wenn der Strand nicht mehr das Ziel ist, das die Operation rechtfertigte. Brich wegen **Heimatbruch** ab, wenn ein Nachbar angreift und die Restreserve unter das Minimum fällt. Stoppe spätere Wellen wegen **Brückenkopffehlers**, wenn die erste kein zweites nützliches Tile oder keine rechtzeitige Verbindung gewinnt. Die ersten drei können einen Rückruf verlangen; beim vierten kann die laufende Welle enden, ohne weitere zu erhalten.
+
+Der Code besitzt mehrere Ausgänge, die nicht als ein Rückerstattungsversprechen beschrieben werden dürfen. Ein vor Bootserzeugung abgelehnter Befehl entfernt keine Fracht. Ein manuell zurückgerufenes aktives Boot zahlt gewöhnlich 25 Prozent. Wird das Ziel durch eine Nuke zu Wasser, startet automatisch Rückzugslogik. Wird ein aktiver Pfad später unmöglich, kann ein separater Pfadfehler die Truppen zurückgeben und das Boot löschen. Versuche nicht, diese Rückgabe zu erzeugen. Sie hängt vom Pfadzustand ab und ist kein zuverlässig steuerbarer Ausstieg.
+
+Ist das Ziel bei Ankunft bereits dein Gebiet, wird die Auflösung wie eine Rückkehr behandelt und kann den Rückzugsverlust anwenden. Ein Teamkamerad oder ein anderer Angriff könnte den Strand kurz zuvor genommen haben. Koordiniere die Ankunftsreihenfolge, statt vollständige Verschmelzung bei freundlicher Farbe anzunehmen. Besitz und Beziehung können sich während der Fahrt ändern. Die Startkarte ist nicht der endgültige Auflösungszustand.
+
+Die schlechteste Antwort auf einen fehlgeschlagenen Klick ist Wiederholung. Kein Boot kann drei belegte Plätze, ein nicht angreifbares Ziel, keine erreichbare Zielküste in diesem Gewässer, keine geeignete eigene Quelle oder deaktivierte Transporte bedeuten. Prüfe Ausgangsliste, Beziehung und Gewässer in dieser Reihenfolge. Ein höheres Verhältnis repariert keinen Pfad und lässt nur den nächsten erfolgreichen Befehl mehr Reserve entfernen.
+
+Aktualisiere nach dem Rückruf dein Ledger. Ziehe den Verlust ab, berechne das Heimatminimum neu und frage, ob die Eskorte noch eine Marineaufgabe hat. Schicke die 75 Prozent Überlebenden nicht sofort über dieselbe Route. Die Ursache des Abbruchs ist noch da, während das nächste Boot kleiner beginnt. Erst ein neuer COAST-Check darf Verteidigung, andere Küste oder Landangriff freigeben.
+
+Im Team muss klar sein, wer abbrechen kann. Der Transportbesitzer steuert das Boot; der Eskortenspieler kann es nicht zurückrufen. "Rotes Kriegsschiff im letzten Anflug, Welle zwei abbrechen" verbindet Beobachtung und Aktion. "Sieht schlecht aus" verbraucht Zeit. Im Solospiel fokussierst du das Boot in der Ausgangsanzeige, prüfst Ziel und ETA und rufst zurück, solange eine freundliche Küste erreichbar bleibt.
+
+## Prüfe den Plan an zwei Zahlenszenarien
+
+**Szenario eins nimmt an:** normales Teamspiel unter v0.33.14, 900.000 Anfangstruppen, angezeigte 20 Prozent, kein Wachstum während der drei Startentscheidungen, drei freie Plätze und ein Wasserpfad mit 240 Schritten. Das Ziel ist eine schwach gehaltene Inselküste. Ein freundliches Kriegsschiff kann den Terminalscreen vor der ersten Ankunft einrichten. Das Heimatminimum beträgt 500.000.
+
+Boot eins nimmt 180.000 und lässt 720.000. Boot zwei nimmt 144.000 und lässt 576.000. Boot drei nähme 115.200 und ließe 460.800. Es verletzt damit das Minimum, also lautet die Obergrenze zwei, obwohl die Engine drei erlaubt. Bei einem Tile pro Tick und 100 ms pro Tick liegt die Pfadbasis bei rund 24 Sekunden. Die Eskorte fährt zuerst. Welle eins startet erst bei abgedeckter Terminalroute; Welle zwei wartet, bis eins die Gefahrenzone passiert hat.
+
+Landet Boot eins und gewinnt ein zweites Tile, verstärkt Boot zwei. Betritt ein Feindschiff zuerst die letzten 130 Tiles, startet zwei nicht und eins wird zurückgerufen. Ein normaler Rückzug von 180.000 bringt ungefähr 135.000 heim. Ohne Wachstum oder andere Kämpfe sind danach etwa 855.000 vorhanden: 720.000 zu Hause plus 135.000 Rückkehrer. 45.000 sind der Preis der Fehleinschätzung. Drei gleichzeitige Boote hätten 439.200 exponiert und das Heimatminimum vor jeder Gegnerentscheidung gebrochen.
+
+**Szenario zwei nimmt an:** FFA auf einer kompakten Meerenge, 600.000 Anfangstruppen, 30-Prozent-Regler, ein bereits anderweitig aktiver Transport, 90 Pfadschritte, keine Eskorte und ein feindliches Kriegsschiff an der einzigen nützlichen Küste. Ein dritter Spieler grenzt an die Heimat. Die Landung würde zwei neue Landgrenzen öffnen und der Verteidiger kann eine kleine Welle aufnehmen.
+
+Ein neues Boot nähme 180.000 und ließe 420.000. Die Basisfahrt dauert nur etwa neun Sekunden, doch kurz bedeutet nicht sicher. Das Kriegsschiff priorisiert Transporte und wartet dort nicht auf den normalen Nachladepfad. Das Ziel erhält eine Warnung, während der Dritte den Abzug sieht. Der Strand öffnet zwei Grenzen statt eines schmalen Brückenkopfs. COAST scheitert an Opposition, Screen und Drei-Tile-Test.
+
+Die richtige Entscheidung lautet: nicht starten. Richte zuerst einen Screen ein, wähle eine andere Küste, erzeuge Landdruck oder warte auf die Reparatur des Feindschiffs. Wäre das Boot bereits unterwegs, brächte sein Rückruf von 180.000 normal etwa 135.000 zurück. Das ist schmerzhaft, aber besser als eine zweite 30-Prozent-Welle. Sie würde aus den verbleibenden 420.000 noch 126.000 nehmen und nur 294.000 gegen den dritten Spieler lassen.
+
+Die Szenarien zeigen, dass Prozentsatz, Plätze und Entfernung verschiedene Fragen beantworten. Der Anteil bestimmt die einzelne Fracht. Drei Boote begrenzen Gleichzeitigkeit. Pfadschritte bestimmen Reaktionszeit. Kriegsschiffgeometrie bestimmt Abfangen. Keine Zahl entscheidet allein. Die Entscheidung entsteht aus Heimatreserve, Route, Opposition, Screen und Strandform.
+
+Ändere die Annahmen und rechne neu, statt Ergebnisse auswendig zu lernen. Wachstum macht spätere Boote größer. Eine beschädigte Eskorte kann zur Reparatur abdrehen. Eine lange Küste kann einen anderen Strand bieten. Landdruck des Teams reduziert Widerstand. Eine Water Nuke kann das Ziel löschen und Rückzug auslösen. Wiederverwendbar sind COAST-Satz und Ledger, nicht "zwei Boote mit 20 Prozent funktionieren immer".
+
+## Passe COAST an Karte, Modus und Gegenwehr an
+
+Auf Archipelkarten dominieren Coast und Screen. Wasser ist die Hauptverbindung; ein Brückenkopf kann das Spiel drehen, aber alle beobachten dieselben Kanäle. Kontrolliere die See, bevor du die Reserve lädst. Bevorzuge eine Landung, die Inseln verbindet oder einen Hafen bedroht, gegenüber einem dekorativen Rand. Existiert nur ein Kanal, behandle ihn als beobachtet und das erste feindliche Kriegsschiff darin als Termination-Auslöser.
+
+Auf Meerengen und Binnenmeeren kann der Pfad kurz und der Anflug extrem vorhersehbar sein. Eine 90-Schritt-Fahrt lässt weniger Zeit als 240 Schritte, doch beide Seiten kennen die wahrscheinliche Küste. Landdruck soll Verteidiger abziehen, während 130 Tiles Zielreichweite der Eskorte den Engpass abdecken. Prüfe die tatsächliche Wasserkomponente: Ein dünner Landstreifen oder unpassierbares Terrain kann optisch benachbartes Wasser trennen.
+
+Auf Kontinentalkarten ist eine Transportlandung meist eine optionale zweite Front und muss mehr leisten. Erreicht Land dasselbe Ziel ohne ein Fünftel der Reserve zu exponieren, muss das Boot Überraschungsgeometrie, kürzere Route, exponierte Struktur oder Entlastung kaufen. Öffne keine entfernte Küste nur wegen des Buttons. Der Verteidiger kann einen irrelevanten Strand ignorieren, während dein nächster Landnachbar die fehlenden Truppen nutzt.
+
+Kompakte Karten verkürzen die Reaktionszeit für Landung und Gegenangriff. Senke die Wellenobergrenze, weil ein Nachbar die Startküste ebenfalls schneller erreicht. Große Karten erhöhen Reisezeit und Unsicherheit; staffele stärker und scanne auf halber Strecke. Four Islands belohnt zugewiesene Wege, doch die allgemeine Rollenplanung gehört zu [Four Islands Teamkoordination](/de/guides/four-islands-team-coordination/), nicht zu diesem einzelnen Start.
+
+Im Team lassen sich Screen, Landung und Druck aufteilen. Veröffentliche Küste, Wellenzahl, Heimatminimum und Abbruchruf. Verhindere, dass Teamkameraden dasselbe Ziel kurz vor dem Boot nehmen, weil der Ankunftszustand eine Verstärkung in rückzugsartige Auflösung verwandeln kann. Im FFA brauchst du ein höheres Heimatminimum und ein klareres Sofortziel. In beiden Modi besitzt jeder Spieler seine drei Plätze, doch ein freier Platz ist keine strategische Erlaubnis.
+
+Water Nukes erzeugt einen Sonderfall: Wird das Ziel zu Wasser, wechselt der aktive Transport automatisch in Rückzug. Schicke Boot und geplante Terrainumwandlung nicht gleichzeitig auf dasselbe Tile. Zünde zuerst und prüfe danach die neue Küste. Doomsday setzt eine bewegliche Gebietsfrist; eine lange Fahrt zu einem bald wertlosen Strand ist schlecht. Overtime belohnt Gebiet, aber ein unhaltbarer Punkt füttert den Führenden. Berechne die Schwelle mit [Overtime gewinnen](/de/guides/winning-overtime/).
+
+Jede Gegenmaßnahme muss den Plan ändern. Gegen Abfangen kommt der Screen zuerst oder die Route wechselt. Gegen Küstenstapel landest du an einer Teilungsstelle oder erzeugst parallelen Landdruck. Gegen Dritte steigt das Heimatminimum und sinkt die Wellenzahl. Gegen einen Verteidiger, der Sonden landen lässt und vernichtet, braucht Welle eins Tiefe vor Welle zwei. Gegen küstenverändernde Nukes wartest du auf stabile Geometrie.
+
+Der letzte Entscheidungsbaum ist kurz. Keine erreichbare nützliche Küste: kein Start. Opposition besitzt die Terminalroute: Screen gewinnen oder Route ändern. Allocation bricht die Heimat: Anteil oder Wellen reduzieren. Überfahrt gelingt, Strand hat aber kein zweites Tile: anderes Ziel. Bestehen alle vier, starte eine Welle und wende Termination vor jeder weiteren neu an.
+
+## Prüfe die Versionsgrenze und lies an der richtigen Stelle weiter
+
+Diese Anleitung wurde am 8. September 2026 für die offizielle Grenze `v0.33.14` geprüft. Das Release selbst behob ein Werbelayout und führte keine neue Transportregel ein. Die Landefakten stammen aus dem passenden getaggten Gameplay-Code und generierten Daten: 0 Gold, höchstens drei aktive Boote, aktueller Anteil mit 20-Prozent-Fallback, erreichbare Küstenwahl, ein Tile pro Tick, normal 25 Prozent Rückzugsverlust und Transportpriorität der Kriegsschiffe. Spätere Änderungen auf `main` gelten hier nicht als veröffentlicht.
+
+Die Grenze ist wichtig, weil Marinepfade bereits geändert wurden. Die aktuelle Logik vermeidet ausdrücklich unerreichbare Binnenküsten und kann den Pfad eines aktiven Boots neu bauen. Ändert ein künftiges formelles Release Zahl, Geschwindigkeit, Küstenwahl, Rückrufkosten, Warnung oder Zielwahl, müssen COAST-Tabelle und Szenarien neu gerechnet werden. Ein gemergter Commit oder ein offenes Issue ist ein Überwachungssignal, kein Beleg für eine Live-Regel.
+
+Die [Einheitendatenbank](/de/database/units/) liefert einen kompakten Faktencheck, aber Rohwerte sind kein Plan. [Kriegsschiff-Veteranenstatus](/de/guides/warship-veterancy/) erklärt Schaden, Reparatur und Stationsentscheidung. [Marinekontrolle im Team](/de/strategies/team-naval-control/) verteilt Aufklärung, Screen, Eskorte und Hafenrückkehr. Diese Seiten beantworten Flottenzusammenstellung; COAST beantwortet, ob genau diese Landung jetzt abfahren soll.
+
+Verteidigst du die Zielküste, wechsle zu [Inselverteidigung](/de/guides/island-defense/) für ankommende Routen, Kriegsschiffposition und Küstenreserve. Ist das Boot bereits gelandet, verwende [Landkampf](/de/guides/land-combat/) für Truppen, Terrain, Verteidigungsposten und Stoppregel. Ist die Operation Teil einer schlechten Lage, entscheidet der [Erholungsplan](/de/strategies/recovery-playbook/), ob die zweite Front wirklich rettet oder nur weiter verbraucht.
+
+Führe im Spiel fünf Zeilen: gewählte Küste, beobachtete Opposition, Anteil und Heimatminimum, Patrouillenpunkt, Termination-Auslöser. Ergänze das echte Ergebnis. Wiederholte Fehler werden sichtbar. Falsche Seite bedeutet besseren Coast-Klick. Versenkte Boote bedeuten früheren Screen. Zusammenbrechende Heimat bedeutet höheres Minimum. Steckengebliebene Strände bedeuten strengeren Drei-Tile-Test. Häufige Rückrufe bedeuten frühere Opposition-Prüfung.
+
+Die Anleitung ist erfüllt, wenn ein anderer Spieler Start und Stopp vorhersagen kann. Er kennt gewünschte Küste, maximale Fracht, Heimatreserve, vorherige Eskortenposition, Landauflösung und das Ereignis, das die nächste Welle verhindert. Der Transport ist mächtig, weil er eine neue Grenze erzeugt. Genau deshalb ist er gefährlich: Er schafft Pflichten an zwei Küsten gleichzeitig.
+
+Prüfe nach einem Match außerdem, ob das Ergebnis wirklich durch den Transport oder durch eine gleichzeitige Landfront entstand. Ein Boot, das nur ankommt, nachdem ein Teamkamerad die gesamte Verteidigung gebunden hat, beweist keine sichere Alleinroute. Ein versenktes Boot beweist umgekehrt nicht, dass jede Küste unbrauchbar ist; vielleicht lag nur der Screen zu spät. Trenne deshalb Routenfehler, Zuteilungsfehler und Ausführungsfehler. Diese Einordnung hält die nächste Anpassung klein und überprüfbar, statt nach einem einzelnen Ergebnis das gesamte Marinekonzept umzudrehen.
+
+Kehre vor jeder Operation zur direkten Antwort zurück: **Coast, Opposition, Allocation, Screen, Termination**. Hat ein Wort keine beobachtbare Antwort, bleiben die Truppen an Land. Sind alle fünf konkret, starte das erste Boot, beobachte die Route und verlange für jede weitere Welle eine neue Entscheidung.
