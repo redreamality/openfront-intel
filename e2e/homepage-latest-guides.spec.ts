@@ -9,11 +9,11 @@ const homepageCases = [
 ] as const;
 
 const latestGuideSlugs = [
-  'transport-landings',
+  'mobile-alternatives',
+  'mobile-app-download',
   'mobile-controls',
-  'tall-vs-wide',
-  'first-match',
-  'team-spawn-formation',
+  'mobile-reddit-community',
+  'transport-landings',
 ] as const;
 
 for (const homepageCase of homepageCases) {

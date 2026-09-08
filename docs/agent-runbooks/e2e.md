@@ -17,3 +17,4 @@
 - **静态 Astro 页的语言切换若要保留 query/hash，必须在客户端点击时从 `window.location` 补回**：构建阶段的 `Astro.url.search` 不包含用户运行时查询串；只在模板里拼接会丢失 query。相关 e2e 用 `toHaveURL()` 断言 URL，再等待 `domcontentloaded`，避免受第三方脚本阻塞。
 - playwright 产物已 gitignore：`test-results/`、`playwright-report/`、`.playwright/`。
 - **首页 Hero 的链接数量不是固定契约**：除主要两个 CTA 外还可能有其他入口；e2e 应按目标 `href` 定位并断言唯一，不要用总链接数或固定索引表达业务目标。
+- **新增或更新攻略会改变首页“最新五篇”的排序契约**：`HomeLatestGuides` 先按 `updatedDate ?? pubDate` 降序、同日再按去语言前缀后的 slug 升序。内容交付后若 `homepage-latest-guides.spec.ts` 五语同时失败，先按该规则核对并更新预期列表，再做完整回归；不要把正确的新文章降级或改日期来迁就旧断言。

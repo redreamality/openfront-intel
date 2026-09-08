@@ -61,3 +61,4 @@
 - **2026-09-08 复发：PowerShell 路径参数不支持 Bash 花括号扩展**：`src/content/guides/{en,zh,...}/...` 会在执行前触发解析错误；改用语言数组循环或逐个传入明确路径，并对含方括号的路径使用 `-LiteralPath`。
 - **2026-08-27 复发：PowerShell 外层单引号包裹的 `node -e` 内联正则可能因反斜杠重写而报 `Invalid regular expression flags`**：发布 URL 等诊断优先使用无正则字符串查找，或改用项目内 UTF-8 脚本文件；失败后保留原始退出码并用简化脚本重跑，不能把解析错误当作站点响应失败。
 - **PowerShell 双引号命令中的 JavaScript 替换串 `$1` 会先被 PowerShell 插值**：传给 `node -e` 后可能变成空替换并让词数等审计错误地归零。优先运行项目已有审计脚本；确需内联 Node 时使用不会插值的安全编码或项目内临时脚本，并先用已知小样本验证输出。
+- **`Get-ChildItem -Filter` 只接受单个字符串，不接受文件名数组**：传入 `'a.mdx','b.mdx'` 会对每个目录报 `Cannot convert System.Object[] to System.String`。多个精确文件名应先枚举目录，再用 `Where-Object { $_.Name -in $targetNames }` 过滤，或逐个使用 `-LiteralPath`。

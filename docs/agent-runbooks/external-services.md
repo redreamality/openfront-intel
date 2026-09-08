@@ -14,4 +14,6 @@
 
 ## 复发记录
 
+- **2026-09-08 本轮官方来源核验记录**：GitHub 与 openfront.io 的初次 HTTPS 请求出现 TLS/EOF；同一来源用 `curl.exe --ssl-no-revoke` 成功。按 Windows Schannel 吊销检查链路的瞬时故障处理，不替换官方来源或把失败误判为内容缺证。
+
 - **2026-09-01 Codex Desktop 更新通道**：MSIX 内置 CLI 执行 `codex update` 可能报“Could not detect the Codex installation method”，因为 Desktop 由 Windows Store 管理；随后 `winget ... --source msstore` 若报 `WinHttpSendRequest: 12029` / `0x80072efd`，以及 `codex doctor` 报 `desktop update and runtime CDN is unreachable`，应判定为商店/CDN 网络不可达，不能误判为仓库或 schedule 脚本失败。npm registry 仍可单独核验 CLI 版本，但全局 CLI 升级不会替换 Desktop 内置运行时。

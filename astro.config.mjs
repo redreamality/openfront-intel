@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 
 export default defineConfig({
@@ -38,7 +38,7 @@ export default defineConfig({
 
         return {
           ...item,
-          changefreq: isGuideRoute ? 'daily' : item.changefreq,
+          changefreq: isGuideRoute ? ChangeFreqEnum.DAILY : item.changefreq,
           priority: pathname === '/' ? 1.0 : 0.7,
         };
       },

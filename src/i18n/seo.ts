@@ -34,6 +34,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'whats-new': "OpenFront.io What's New: Releases, Merged Changes & Development",
     },
     specialPaths: {
+      'guides/mobile-app-download': 'OpenFront Mobile App, Download & APK: Official Browser Guide',
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Rules, Waves & Survival',
       'guides/building-timing': 'OpenFront Building Timing: Cities, Factories, Ports & Defense',
       'guides/hotkeys': 'OpenFront Hotkey Practice: Faster Keyboard & Mouse Control',
@@ -64,6 +65,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'whats-new': 'Nouveautés OpenFront.io : releases, changements et développement',
     },
     specialPaths: {
+      'guides/mobile-app-download': 'OpenFront mobile : application, téléchargement et APK',
       'guides/doomsday-clock': 'Doomsday Clock OpenFront : règles, vagues et survie',
       'guides/building-timing': 'Bâtiments OpenFront : quand construire City, Port et Factory',
       'guides/hotkeys': 'Raccourcis OpenFront : entraînement clavier et souris',
@@ -98,6 +100,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'whats-new': 'OpenFront.io Wat is er nieuw: releases, wijzigingen en ontwikkeling',
     },
     specialPaths: {
+      'guides/mobile-app-download': 'OpenFront mobiele app, download en APK: officiële browsergame',
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: regels, golven & overleven',
       'guides/population-growth': 'OpenFront bevolkingsgroei: troepen, steden en timing',
       'mechanics/economy': 'OpenFront economie: troepen, steden, havens en treinen',
@@ -125,6 +128,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'whats-new': 'OpenFront.io Neuigkeiten: Releases, Änderungen und Entwicklung',
     },
     specialPaths: {
+      'guides/mobile-app-download': 'OpenFront Mobile-App, Download & APK: offizielles Browserspiel',
       'guides/doomsday-clock': 'OpenFront Doomsday Clock: Regeln, Wellen & Überleben',
       'guides/building-timing': 'OpenFront Gebäude-Timing: City, Hafen, Fabrik und Abwehr',
       'guides/hotkeys': 'OpenFront Hotkey-Training: Tastatur und Maus schneller nutzen',
@@ -155,6 +159,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'whats-new': 'OpenFront.io 最新动态：已上线、已合并与开发中',
     },
     specialPaths: {
+      'guides/mobile-app-download': 'OpenFront 手机版 App、下载与 APK：官方浏览器入口',
       'guides/doomsday-clock': 'OpenFront 末日时钟：规则、波次与生存攻略',
       'guides/map-size-compact-mode': 'OpenFront 地图尺寸：Compact 模式、规模与人数',
       'guides/population-growth': 'OpenFront 人口增长：兵力上限、City 与扩张时机',

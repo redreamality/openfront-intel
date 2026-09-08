@@ -1,5 +1,7 @@
 # 构建、Astro 与 Playwright runbook
 
+- **2026-09-08 本轮 SEO 审计记录**：修正移动安装页的五语专用标题后，`audit-seo` 仍报告两个既有页面的生成省略号（`fr/team-spawn-formation`、`nl/annexation-enclosure`）；它们不属于本轮移动意图改动，当前按基线保留并在交付报告中明确列出。
+
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
 
 来源范围：`路径与验证` 原章节。
@@ -40,3 +42,5 @@
 - **`pnpm guide:audit` 不是全站攻略审计**：`scripts/audit-guide-delivery.mjs` 必须同时提供 `--slug` 与 `--source-pack`，缺参退出 1 属调用方式错误。全站内容和 SEO 收口分别使用 `pnpm content:audit`、`pnpm seo:audit`；只有核验单篇交付包时才运行 `pnpm guide:audit -- --slug <slug> --source-pack <path>`。
 - **来源包研究与五语正文并行时，只在写作方确认所有目标文件完整后运行整套 `guide:audit`**：审计会同时读取五语页面；在某语言仍分批写入时启动会以标题/链接不足退出 1，即使 Research 子门禁已经 PASS。中途只记录研究子结果，最终必须在文件稳定后从头重跑完整命令。
 - **2026-09-01、2026-09-03 复发：`pnpm seo:audit` 可能因脚本依赖 `parse5` 未在 pnpm 依赖树中而以 `ERR_MODULE_NOT_FOUND` 失败**：先运行 `pnpm install --frozen-lockfile` 恢复根级链接，再保留构建成功的 `dist/` 并运行审计；若依赖仍缺失，才用不依赖该包的静态 HTML 检查核验 canonical/hreflang，不要把它误判为页面 SEO 内容回归。
+- **搜索意图标题不能只以“没有省略号”为通过标准**：`getSeoTitle()` 会按冒号等分隔符压缩长标题，可能在法语等页面静默删掉 App、download、APK 之类的核心检索词。对明确承接查询的页面应检查最终构建 HTML 的 `<title>`；通用模板无法保留关键词时，在 `src/i18n/seo.ts` 的五语 `specialPaths` 中配置短而完整的专用标题，并用 e2e 锁定。
+- **`@astrojs/sitemap` 的 `serialize()` 返回值必须使用插件导出的枚举**：在当前依赖版本中，裸字符串 `'daily'` 不能赋给 `SitemapItem.changefreq`，会让 `astro check` 报 `EnumChangefreq` 类型错误；导入 `ChangeFreqEnum` 并返回 `ChangeFreqEnum.DAILY`，不要用类型断言掩盖。
