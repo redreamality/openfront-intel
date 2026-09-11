@@ -1,40 +1,60 @@
 ---
-title: 'v34-Vorschau: Was die nächste OpenFront-Version ändern könnte'
-description: 'Eine spielerorientierte Vorschau auf wichtige v34-Änderungen; der Veröffentlichungsstatus bleibt unabhängig von der Artikel-URL.'
-pubDate: 2026-08-21
-updatedDate: 2026-08-23
+title: 'OpenFront v34.0-beta1: Angriffe, MIRV, Lobbys und Karten'
+description: 'Was das offizielle OpenFront-v34.0-beta1-Release für Kampf, MIRV, Nations, Lobbys, Water Nukes, Karten, Steam und das nächste Match ändert.'
+pubDate: 2026-09-10
+updatedDate: 2026-09-11
 version: v34
-releaseStatus: not-released
-tags: [changelog, features, preview]
+releaseStatus: released
+tags: [changelog, balance, features]
 category: Versionsnotizen
 ---
 
-Dies ist der v34-Artikel für Spieler. Die Änderungen sind weit genug, um ihre Auswirkungen zu erklären. Der Status oben entscheidet jedoch über die Veröffentlichung, und das endgültige Verhalten kann sich noch ändern.
+## Direkte Antwort: Was ändert OpenFront v34.0-beta1?
 
-## Water Nukes: Transportrouten sollen wieder stimmen
+Der offizielle OpenFront-Eintrag [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) wurde am 10. September 2026 veröffentlicht. GitHub kennzeichnet ihn weder als Entwurf noch als Prerelease, und sein Text enthält vollständige v0.34.0-Notizen statt des `TEST ONLY`-Texts des getrennten Test-Releases. Diese Website behandelt ihn deshalb als aktuelle formale Nicht-TEST-Grenze für Spieler und bewahrt zugleich den exakten beta1-Tag. Steam ist nur ein Teil: Landverluste, MIRV-Timing, Nation-Druck, Team-Sieg, Wasserwege, Schienen, Lobbywahl und Karten verändern konkrete Entscheidungen im nächsten Match.
 
-Wenn ein Water Nuke die Küste verändert, sollen Transportschiffe künftig durch das neue Wasser routen, statt veraltete Minimap-Daten zu verwenden. Irreführende Umwege sollten damit verschwinden.
+Landangriffe verwenden ein neu aufgebautes Verlustmodell mit zwei Kerneingaben: dem troop ratio des Angreifers und der troop density des Verteidigers. Ein größerer Einsatz kann an einer dünn gehaltenen Front weniger pro Tile kosten, während eine hohe Dichte auf kompaktem Gebiet teuer bleibt. Die Anpassung für große Territorien ist geglättet und begrenzt. Laut Release verändert sie Positionen unter 100.000 Tiles nicht. Das ist keine Aufforderung zum Full-Send. Routenform, Gelände, Defense Posts, Gegenangriffe und die zurückbleibende Reserve entscheiden weiterhin, ob ein Vorstoß hält. Eine alte feste Verlustschätzung ist lediglich kein verlässlicher Rechner mehr.
 
-Bis v34 veröffentlicht ist, gilt die Warnung im [Water-Nukes-Guide](/de/guides/water-nukes/). Prüfe vor einer langen Überfahrt die tatsächliche Route.
+Ein MIRV kostet jetzt fest 25 Millionen Gold. Die globale Preisleiter wurde entfernt. Nach einem erfolgreichen Start sperrt ein globaler Cooldown 60 Sekunden lang alle anderen Spieler; das Baumenü zeigt ihnen den Timer. Der letzte Schütze ist ausgenommen: Mit einem weiteren bereiten Silo kann er erneut starten und die Wartezeit aller anderen neu beginnen. Das Silo eines Teammitglieds umgeht die Sperre nicht. Nuklearplanung wechselt damit vom Wettlauf vor der nächsten Preiserhöhung zur Entscheidung, ob der aktuelle Schütze die Initiative behalten soll. Dasselbe Release normalisiert die Geschwindigkeit der Warheads, entfernt Vorteile am Kartenrand, verbessert nahe SAM-Ziele und die Abfanganzeige, bricht fliegende Nuklearwaffen bei Annahme einer Allianz ab und sperrt Starts in der halben Sekunde danach.
 
-## Detailed View: öffentliche Lobbys vor dem Beitritt vergleichen
+Hard- und Impossible-Nations suchen nun einen wertvollen angrenzenden Gegner, den sie sicher schlagen können. Beim Angriff auf TerraNullius oder Fallout ignorieren sie ihr troop cap nicht mehr. Team-Partien verwenden wie FFA eine normale Siegschwelle von 80 % statt 95 %. Transportschiffe können durch von Water Nukes erzeugtes Wasser routen. Trains verschwinden nicht mehr wegen einer Gleisverzweigung, doch Railroad darf unpassierbares Gelände nicht kreuzen. Ein Sieger deaktiviert außerdem die Doomsday Clock.
 
-Die kommende Lobbyansicht soll die öffentliche Warteschlange besser lesbar machen. Modus, Teamaufstellung und Spielerzahl lassen sich dann vor dem Öffnen eines Raums vergleichen.
+Außerhalb der Simulation bringt v34 ein Tutorial mit 20 Schritten, regelmäßig eingestreute trusted-only Lobbys mit weiterhin verfügbaren offenen Runden, Spielermeldungen, den Detailed-View-Lobbybrowser, Karten-Vorladen, Clan-Treasury-Spenden, Clan-Tags als Teamnamen, Kosmetikinventar und Loadouts, Steam-Anmeldung und Desktop-Unterstützung sowie eine Optimierung, deren offizieller World-Benchmark 39 % niedrigere Tick-Kosten nennt. Yangtze River ist neu. China nutzt moderne Grenzen; das frühere Layout bleibt als Qing China erhalten. Diese Fähigkeiten sind im Tag veröffentlicht und keine Vorschau mehr.
 
-Das beschleunigt die Auswahl, macht aber nicht jede Lobby zu einem Featured-Event. Prüfe die Raumeinstellungen vor dem Beitritt.
+Die wichtigste Versionsregel lautet deshalb: Verwende v33-Zahlen nicht weiter, nur weil die Oberfläche vertraut aussieht. Der Release-Name, die sichtbaren Timer und die tatsächliche Karte müssen gemeinsam zur Planung passen. Ein neuer Clientzugang oder eine flüssigere Simulation ersetzt keine erneute Prüfung der Ressourcenentscheidung.
 
-## Karten-Vorladen: Wartezeit vor das Spawn-Fenster verschieben
+## Was solltest du im nächsten Match anders entscheiden?
 
-Die nächste Lobby-Version bereitet das Laden der gewählten Karte vor dem Matchstart vor. Damit soll nach dem Startsignal weniger Wartezeit entstehen und auf großen Karten das Risiko sinken, das Spawn-Fenster zu verpassen.
+Beginne mit Angriffsdisziplin. Der angezeigte Prozentsatz beschreibt den Einsatz, nicht garantierte eroberte Tiles. Das neue ratio-mal-density-Modell kann einen größeren Vorstoß gegen eine dünne Linie effizienter machen. Er scheitert trotzdem an hoher Dichte, engem Zugang, Defense-Post-Deckung oder einem Gegenangriff, der deine Reserve leert. Vergleiche vor Verstärkung mindestens vier Punkte: tatsächlich eingesetzte Truppen, Dichte im Zielgebiet, Breite und Gelände der Route sowie die verbleibende Heimatreserve. Kauft die erste Welle keine haltbare Form, wiederhole nicht blind denselben Prozentsatz. Verstärke nur, wenn Geometrie, Dichte oder verbündeter Druck verändert sind; sonst halte, wechsle die Route oder warte.
 
-Gerät, Netzwerk und Kartengröße beeinflussen die Ladezeit weiterhin; diese Vorschau verspricht daher keine feste Sekundenzahl. Wähle erst Gebiet, wenn das echte Spawn-Overlay aktiv ist. Ein Lobby-Thumbnail bedeutet nicht, dass die Matchkarte bereit ist.
+Gegen Hard- oder Impossible-Nations musst du den Wert deiner Grenze berücksichtigen. Eine Nation ist nicht mehr nur ein gleichmäßig expandierender Hintergrundgegner. Wenn du ein wertvolles angrenzendes Ziel darstellst, das sie sicher besiegen kann, kannst du zur Priorität werden. Ein kompakter Wirtschaftskern hinter einem verteidigten Kontakt ist meist sicherer als drei offene hochwertige Grenzen. Teste mit einer begrenzten Aktion, behalte genug Reserve für die Antwort und expandiere nicht weiter auf die Nation zu, wenn eine andere sichere Route existiert. Eine ausgelastete oder anderswo kämpfende Nation öffnet ein Fenster, aber garantiert keinen dauerhaften Frieden.
 
-## Clan Treasury: Einzahlungen als dauerhaft behandeln
+Ersetze bei MIRVs die alte Preisleiter durch ein Cooldown-Protokoll. Plane 25 Millionen pro Carrier und notiere den letzten Schützen. Dieser Spieler kann ein weiteres bereites Silo nutzen und die 60-Sekunden-Wartezeit aller anderen neu starten; Teammitglieder und Gegner müssen den Timer abwarten. Diese Asymmetrie verlangt eine Entscheidung, ob der Schütze die Initiative für ein Ziel behalten soll, das weitere 25 Millionen wert ist. Gesperrte Spieler nutzen das Intervall, um Gold zurückzugewinnen, das Ziel zu wechseln, SAM-Deckung durch konventionellen Druck aufzudecken oder Bodenangriffe zu koordinieren. Eine angenommene Allianz ist nun ein echter nuklearer Knotenpunkt, weil sie fliegende Warheads abbricht und eine kurze Startsperre den sofortigen Verrat verhindert. Akzeptiere trotzdem nicht nur zum Löschen einer Salve, wenn die neue Beziehung strategisch schadet.
 
-Clanmitglieder sollen normale oder Premiumwährung in eine gemeinsame Treasury einzahlen können. Die wichtigste Regel ist die Irreversibilität: Eine Einzahlung bleibt bestehen, besonders bei Premiumwährung.
+Team-Spieler müssen die alte normale 95-%-Marke streichen. Der Ausgangswert beträgt nun wie in FFA 80 %. Bei aktiviertem Overtime bleibt dessen Zeitplan wichtig, doch eine Planung mit fünfzehn zusätzlichen Prozentpunkten ist veraltet. Nähert sich ein Gegner 80 %, sichere zuerst seine leichteste weitere Expansionsroute, bevor du ein Nebenprojekt bezahlst. Nach dem festgestellten Sieg stoppt der Gewinner die Doomsday Clock; ein Rennen nach dem Ergebnis ist nicht mehr Teil des Plans.
 
-Die [Wirtschaftsreferenz](/de/mechanics/economy/) hilft, Treasury-Ausgaben von normalen Produktionsentscheidungen zu trennen.
+Bei Water Nukes ändert sich die Warnung. Das neue Wasser bleibt dauerhaft, aber der alte sichtbare Umweg von Transportschiffen ist nicht mehr die aktuelle Grenze. Prüfe die Route weiterhin, denn Distanz, feindliche Warships, Zugang am Ziel und Heimatreserve können einen technisch gültigen Weg schlecht machen. Pathfinding durch das neue Wasser ist repariert; eine schlechte Landung nicht. Schienen haben die umgekehrte Grenze. Unpassierbares Gelände wirkt wie der Kartenrand und darf nicht überquert werden. Eine Verzweigung soll den Train nicht mehr löschen, doch ein legaler Pfad bleibt Voraussetzung.
 
-## So liest du diese Vorschau
+Nutze die neuen Lobbyinformationen vor dem Spawn. Detailed View zeigt angekündigte Lobbys nach Modus in Tabs und bietet direkte Links. Ein Schloss bezeichnet trusted-only; ausgeloggte Spieler müssen sich eventuell anmelden, während offene geplante Partien zwischen diesen Runden bleiben. Vergleiche Modus, Teams, Karte und Spielerzahl vor dem Beitritt. Das Vorladen senkt die Gefahr, während des Spawn-Fensters zu warten, aber Gerät und Netzwerk bleiben relevant. Warte auf die tatsächliche Spawn-Oberfläche. Das Tutorial erklärt Bedienung, wählt jedoch keine sichere Grenze für dich.
 
-Bereite dich auf die Auswirkungen für Spieler vor, nicht auf ein exaktes Implementierungsversprechen. Nach dem offiziellen v34-Release behält dieser Artikel seine URL `/de/changelog/v34/`; nach der Faktenprüfung wechselt nur der Status zu **Veröffentlicht**.
+Trenne Clan- und Kontoaktionen vom Gold im Match. Eine Treasury-Spende verschiebt Spielerwährung in das Clan-Guthaben. Das Release bestätigt die Funktion, macht sie aber nicht zu einem reversiblen Test. Prüfe Währung, Betrag und Clan. Zehn nummerierte Loadouts, Unequip All, Vorschauen, Bundles und wiederhergestellte Auswahl verändern Aussehen statt Kampfkraft. Steam-Anmeldung, Kontoverknüpfung, Rich Presence, Einladungen, Käufe und Desktop-Update-Gates ändern Zugang und Sozialfluss, nicht Kampfkoeffizienten.
+
+Lies zuletzt die Karte neu. Yangtze River besitzt eine röhrenartige Flusstopologie. Modernes China und Qing China sind zwei verschiedene Layouts; ein vertrauter Name reicht nicht. Labyrinth erscheint seltener in öffentlichen Rotationen, Luna wurde daraus entfernt, und Karten können je Modus andere Gewichte oder Modifikatoren haben. Entscheide nach der sichtbaren Land-Wasser-Form, den Ausgängen und dem tatsächlichen Modus.
+
+## Quellenstatus, Grenzen und nächste Lektüre
+
+Die öffentliche Autorität dieses Artikels ist das offizielle [OpenFront-Release `v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) mit dem unveränderlichen Tag-Commit `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`. Der Tag ist wichtig, weil sich `main` nach der Veröffentlichung weiterentwickelt hat. Spätere Commits sind Hinweise für eine künftige Grenze und kein Beweis für den Inhalt dieses Releases. Die Seite nennt ihren Text v0.34.0, während der Tag `-beta1` behält. Der Artikel erhält absichtlich beide Tatsachen.
+
+Für Kampfregeln dienen die getaggten Dateien [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) und [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Sie sichern Funktion und Szenarien, liefern aber keine universelle Truppen-pro-Tile-Zahl ohne ratio und density. Die redaktionelle Antwort ist ein begrenzter Probeangriff mit anschließender Grenzprüfung, keine erfundene deterministische Tabelle aus fehlenden Eingaben.
+
+Für Nations bestätigt der Tag Schwierigkeitsmodifikatoren, troop cap und Zielwahl. [Nation-Mechanik](/de/mechanics/nations/) erklärt, wie die KI Aktionen erzeugt. Der [Nation-Druck-Guide](/de/guides/nations-pressure/) entscheidet, wann ein Spieler Expansion stoppt, verteidigt oder Druck umlenkt. Ein bereits aktiver Menschenkampf gehört in [Landkampf](/de/guides/land-combat/). Die Seiten besitzen verschiedene Fragen: Gegnerverhalten, strategische Exposition und konkrete Kampfauflösung.
+
+Für Nuklearspiel verankern [`MIRVExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts), [`SAMLauncherExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts) und [`MirvCooldown.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts) den Preis von 25 Millionen, die globale 60-Sekunden-Sperre und den Abfangvorgang. Der [MIRV-Guide](/de/guides/mirv/) überträgt das in Angriffs- und Verteidigungstiming. Das Wort „test“ in der MIRV-Überschrift der Release ist nicht der `TEST ONLY`-Platzhalter; Gameplay-Liste und Tag-Tests bestätigen die veröffentlichte Implementierung.
+
+Für Gelände und Bewegung ist das Release die öffentliche Quelle für Water-Nuke-Pathfinding, Schienenverzweigungen und unpassierbares Gelände. Lies [Water Nukes](/de/guides/water-nukes/) vor der Küstenänderung, [Zugnetz](/de/guides/train-network/) vor dem Streckenbau und [Kartenstrategie](/de/guides/map-strategy/) bei einem neuen Layout. Die generierte Datenbank wurde vom exakten Tag neu extrahiert und enthält 119 Karten einschließlich Yangtze River und Qing China.
+
+Der Artikel veröffentlicht keine privaten Moderationswerkzeuge, Zahlungsinternas oder Serverarchitektur. Er macht aus dem 39-%-Benchmark auch kein garantiertes Framerate-Plus für jedes Gerät. Formale Notizen belegen Verfügbarkeit und erklärte Spielerwirkung; lokale Leistung, Kontoberechtigung, öffentliche Rotation und Gegnerverhalten variieren weiterhin. Nach dem nächsten Nicht-TEST-Release müssen diese Grenzen erneut geprüft werden.
+
+Als Abschlussprüfung sollte ein Spieler vier alte Annahmen ausdrücklich ersetzen: Team gewinnt nicht mehr erst bei 95 %, MIRV wird nicht mehr nach einer steigenden globalen Preisleiter berechnet, Water-Nuke-Wasser ist nicht mehr wegen des früheren Minimapfehlers grundsätzlich zu meiden, und Hard oder Impossible Nations wählen nicht immer einfach den schwächsten Nachbarn. Danach müssen weiterhin Live-Daten entscheiden. Die Release bestätigt Regeln, aber nicht den aktuellen Truppenstand, die Stellung gegnerischer SAMs, die Sicherheit einer Küste oder die Verfügbarkeit einer bestimmten öffentlichen Karte.
+
+Die verlinkten Hauptantworten sind deshalb Teil der Quellenkette. Der Changelog sagt, was veröffentlicht wurde. Der jeweilige Guide übersetzt die Änderung in einen Ablauf mit Stoppsignal. Die Mechanikseite hält Zahlen und Begriffe nachprüfbar. Wenn diese Ebenen bei einem späteren Update auseinanderlaufen, gilt zuerst der neue offizielle Tag; die redaktionellen Seiten müssen dann erneut synchronisiert werden, bevor eine alte Empfehlung weiterverwendet wird.

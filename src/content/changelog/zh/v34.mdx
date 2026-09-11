@@ -1,40 +1,54 @@
 ---
-title: 'v34 预览：下一版 OpenFront 可能带来的变化'
-description: '面向玩家的 v34 预览，先解释值得准备的玩法变化；正式发布状态与文章 URL 分开维护。'
-pubDate: 2026-08-21
-updatedDate: 2026-08-23
+title: 'OpenFront v34.0-beta1：攻击、MIRV、大厅与地图'
+description: 'OpenFront 正式 v34.0-beta1 Release 对陆战、MIRV、Nation、大厅、Water Nukes、地图、Steam 与下一局决策的影响。'
+pubDate: 2026-09-10
+updatedDate: 2026-09-11
 version: v34
-releaseStatus: not-released
-tags: [changelog, features, preview]
+releaseStatus: released
+tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-这是一篇面向玩家的 v34 文章。内容已经足够解释玩家影响，但顶部状态才决定版本是否上线；正式发布前，最终行为仍可能变化。
+## 直接答案：OpenFront v34.0-beta1 改了什么？
 
-## Water Nukes：运输船路线应恢复正常
+OpenFront 官方 [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) 条目发布于 2026 年 9 月 10 日。GitHub 把它标为非草稿、非 prerelease，正文也是完整的 v0.34.0 版本说明，不是另一个只有 `TEST ONLY` 的占位 Release。因此本站把它作为最新的正式非 TEST 玩家边界，同时保留 tag 中的 beta1 原名，不把它悄悄改写成不存在的 `v0.34.0` tag。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射节奏、高难度 Nation 选目标、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图池都发生了会改变操作的变化。
 
-Water Nuke 改变海岸线后，运输船正在准备改用新的水域寻路，不再依赖过时的小地图数据。这应能消除有效路线被显示成绕路或像是被堵住的误导。
+陆地攻击现在使用重建后的损耗模型，两个核心输入是进攻方的 troop ratio 与防守方的 troop density。投入更大的有效进攻，在薄弱边境上可能不再支付旧模型那样高的每格代价；紧凑领土上的高密度防守仍然昂贵。大领土修正改成平滑且有上限的函数，Release 明确说明 100,000 tiles 以下不会因为这项大领土修正而变化。这不是鼓励 full-send：路线宽度、地形、Defense Post、反向攻击和留在本土的预备队仍会决定推进能否站住。它只意味着旧版固定损耗估算已经不能当成精确计算器。
 
-在 v34 发布前，仍要遵守 [Water Nukes 攻略](/zh/guides/water-nukes/)中的警告。让运输船长距离穿越前，先检查实际路线。
+MIRV 现在固定花费 25,000,000 Gold，旧的全局涨价阶梯已经移除。新的约束是一次成功 MIRV 发射后，其他玩家进入 60 秒锁定，建造菜单会向被锁定者显示计时。最近一次发射者本人豁免；只要另一座 Silo 已就绪，他可以再次发射，并重新开始其他玩家的等待。队友的 Silo 不能绕过锁定，所以核战从“抢在价格上涨前买”变成“判断是否让当前发射者继续掌握主动”。同一版本还统一了 MIRV warhead 速度、移除地图边缘优势、修复过近弹头的 SAM 目标选择与拦截提示；接受联盟时会取消在途核弹，并在接受后的半秒内禁止新发射。
 
-## Detailed View：加入前先比较公开大厅
+Hard 与 Impossible Nations 会寻找相邻、价值高且它能够安全击败的对手，不再只是均匀向外扩张；它们攻击 TerraNullius 或 fallout 时也不能忽略 troop cap。普通 Team 胜利阈值从 95% 降为与 FFA 相同的 80%。Water Nuke 产生的新水域现在能被运输船正确寻路；铁路分叉不再让 Train 无故消失，但 Railroad 不能跨越 impassable terrain。对局出现获胜者后，Doomsday Clock 会停止。
 
-即将到来的大厅视图计划让公开队列更容易扫描。玩家可以在打开房间前比较模式、队伍设置和人数。
+模拟之外，v34 上线了 20 步局内教程、定时出现且仍穿插开放房间的 trusted-only lobby、玩家举报、Detailed View 大厅浏览器、地图预加载、Clan treasury 捐赠、以 Clan tag 组成 Team 名、外观库存与 loadout、Steam 登录/绑定/桌面支持，以及官方基准中完整 World 对局 tick cost 降低 39% 的性能优化。新地图是 Yangtze River；China 改为现代边界，旧布局保留为 Qing China。这些在当前 tag 中已经发布，不再是预览。
 
-这会让加入决定更快，但不会让所有房间都变成 featured event。进入对局前仍要检查房间设置。
+## 下一局应该怎样改变决策？
 
-## 大厅地图预加载：把等待移到出生窗口之前
+先改变陆战纪律。把界面中的攻击百分比理解为“这次愿意投入多少”，而不是“必然拿下多少 tiles”。新 ratio × density 模型允许大额推进在稀薄边境更有效率，但大数字进入高密度、小接触面、Defense Post 范围或对手反推时仍会失败。追加兵力前至少检查四项：实际扣除并投入的数量、目标领土的防守密度、路线宽度与地形、留守预备队。第一次推进没有买到能守住的形状时，不要重复同一个百分比。只有路线、密度或协同压力已经变化才增援，否则应停手、换路或等待。
 
-下一版大厅正在准备于对局开始前加载所选地图。目标是减少开始信号后的等待，并降低玩家在大型地图上错过出生窗口的风险。
+面对 Hard 或 Impossible Nation 时，要把边境价值纳入判断。高难度 Nation 不再适合被当作无方向的背景扩张者。如果你与它接壤、目标价值高，而它判断能够安全击败你，你就可能成为下一目标。一个只有单一受保护接触面的紧凑经济核心，通常比三个暴露的高价值边境安全。先用有上限的小额行动测试，保留能承受反击的兵力；地图有别的低风险方向时，不要为了多拿一条 Nation 边界继续扩张。看到 Nation 碰到 cap 或正在别处作战，只能把它当成短暂窗口，不能当成永久和平。
 
-设备、网络与地图大小仍会影响加载时间，因此这篇预览不承诺固定秒数。看到实际出生覆盖层后再选领土，不要把大厅缩略图当作对局地图已经就绪。
+使用 MIRV 时，删除旧的涨价表，改做 cooldown 账本。每枚 carrier 都按 25M 预算，同时记录是谁完成了最近一次成功发射。该玩家可从另一座已就绪 Silo 再射一枚，并重置其他玩家的 60 秒等待；队友或对手必须等界面计时归零。这个不对称规则要求团队明确是否继续保留发射主动权，而不是误以为第二座队友 Silo 能接力。被锁定者可用间隔恢复 Gold、更换目标、用常规攻击暴露 SAM，或同步地面压力。接受联盟现在会取消在途 warhead，半秒发射保护也会阻止“刚接受就立刻偷袭”；这让联盟成为真实的核外交节点，但接受关系本身仍有战略代价，不能只为了清掉一波弹头就盲点同意。
 
-## Clan treasury：把捐赠当作永久支出
+Team 玩家必须抛弃旧的 95% 普通胜利基线。v34 中正常 Team 与 FFA 一样以 80% 为起点；若房间启用 Overtime，配置时间和下降节奏仍要看实时规则，但“还有 15 个百分点空间”的旧计划已经过期。对手接近 80% 时，先保护其最容易继续吃地的路线，再考虑旁支建筑或远征。获胜后 Doomsday Clock 会关闭，不需要设计一个结果已经成立后的赛后抢钟方案。
 
-Clan 成员正在准备把普通或 premium currency 捐入共享 treasury。最重要的玩家规则是不可逆：捐赠永久有效，因此处理 premium currency 时要像处理其他不可退款消费一样谨慎。
+Water Nukes 的警告也换了重点。新水域仍是永久地形变化，但 v33 中“运输船可能绕开已转换水域”的旧限制不再是当前边界。你仍要检查路线，因为距离、敌方 Warship、落点可达性和本土预备队会让一条技术上有效的航线成为坏投资。需要分清：通过新水域的 pathfinding 已修复，糟糕的登陆决策没有被修复。铁路边界相反：impassable terrain 现在像地图边缘，铁路不能跨过；看起来很近的两点也可能没有合法路段。分叉不再导致 Train 消失，但合法连接仍是前提。
 
-可用[经济机制参考](/zh/mechanics/economy/)区分 treasury 支出和普通对局生产决策。
+出生前就使用大厅改进。Detailed View 会把 advertised lobbies 按模式分栏并提供 deep link；锁形图标表示 trusted-only，未登录玩家可能需要先登录，而 Release 说明开放的定时房间仍会穿插存在。加入前比较模式、Team 结构、地图和人数。地图预加载会降低出生阶段仍在等待的风险，但设备与网络仍会影响结果，必须等真实 spawn UI 出现。20 步教程适合学习按钮与流程，却不会替你决定安全边境和预备队。
 
-## 如何阅读这篇预览
+Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把玩家货币转入 clan balance；Release 确认能力上线，但没有把捐赠变成可随意撤回的练习动作。确认货币种类、数量与 Clan 后再提交。十个编号外观 loadout、Unequip All、商店预览、bundle 与登录后恢复选择只改变展示，不增加对局战力。Steam 登录、绑定、rich presence、邀请、购买与桌面更新门禁也改变访问和社交流程，不改变陆战系数。
 
-请先准备应对玩家影响，不要把实现细节当成最终承诺。v34 正式发布并完成事实核验后，文章仍保留 `/zh/changelog/v34/` URL，只需把顶部状态改为**已发布**。
+最后，不能继续按昨天的轮换印象读地图。Yangtze River 是管道式河流拓扑，现代 China 与 Qing China 是两个不同布局；熟悉的名称或缩略图不足以制定路线。Labyrinth 在公开轮换中频率降低，Luna 被移出公开轮换，不同模式还可以有各自的地图权重与 modifier。按眼前地图的水陆形状、出口和模式选择，而不是按旧地图池背答案。
+
+## 来源状态、适用边界与下一步阅读
+
+本文的公开权威来源是官方 [OpenFront `v0.34.0-beta1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1)，不可变 tag commit 为 `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`。tag 很重要，因为上游 `main` 在发布后继续变化；后续提交只能作为未来版本线索，不能反向证明已经进入这个 Release。发布正文自称 v0.34.0，tag 仍带 `-beta1`，本站同时保留这两个事实，不擅自重命名版本。
+
+陆战事实可由 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)、[`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) 与 [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts) 复核。它们确定了实际损耗函数和受保护场景，却不能给出一个脱离 ratio 与 density 的通用“每格损失”。正确编辑结论是用有边界的 probe 观察结果，而不是从不完整输入伪造确定表格。
+
+Nation 的 tag 源码与配置负责确认 difficulty modifier、troop cap 和选目标逻辑。阅读 [Nations 机制](/zh/mechanics/nations/)了解 AI 如何产生动作，再用 [Nations 压力攻略](/zh/guides/nations-pressure/)决定玩家何时停扩、筑防与引流；已经形成玩家边境战时转到[陆战攻略](/zh/guides/land-combat/)。三页职责不同：机制页解释对手，压力页管理战略暴露，陆战页解决已经发生的接触。
+
+核武事实由 tag 中的 [`MIRVExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts)、[`SAMLauncherExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts) 与 [`MirvCooldown.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts) 支撑，覆盖 25M 固定价格、全局 60 秒发射锁定与拦截边界。具体进攻/防守节奏见 [MIRV 攻略](/zh/guides/mirv/)。Release 概览里的 MIRV 小标题保留了 “test” 一词，但它不是 `TEST ONLY` 占位版本；同一正式 Release 的 gameplay 清单和 tag 测试共同确认了实现。
+
+地形与移动以 Release 对 Water Nuke pathfinding、铁路分叉和 impassable terrain 的正式描述为公开边界。改变海岸前读 [Water Nukes](/zh/guides/water-nukes/)，铺线前读[铁路网络](/zh/guides/train-network/)，新布局改变扩张时读[地图策略](/zh/guides/map-strategy/)。本站生成数据库已经从准确 tag 重新提取，当前列出 119 张地图，包括 Yangtze River 与 Qing China。
+
+本文不会复述私有审核工具、支付内部实现或服务器架构，也不会把 World 基准的 39% tick cost 下降换算成每台设备必然得到的帧率提升。正式 Release 只确认能力可用及官方声明的玩家影响；设备性能、账号资格、公开轮换与对手行为仍会变化。下一个非 TEST Release 改变版本边界后，应重新核对本文及相邻攻略。

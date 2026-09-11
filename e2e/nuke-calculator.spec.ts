@@ -7,32 +7,30 @@ test('nuke calculator computes exact costs, ready slots, range, and updates live
   await expect(page.getByRole('heading', { level: 3, name: 'Calculated results' })).toBeVisible();
 
   await expect(page.getByLabel('Current Gold')).toHaveValue('200000000');
-  await expect(page.getByLabel('MIRVs already launched globally')).toHaveValue('0');
   await expect(page.getByLabel('Atom Bombs planned')).toHaveValue('2');
   await expect(page.getByLabel('Hydrogen Bombs planned')).toHaveValue('1');
-  await expect(page.getByLabel('MIRVs planned in sequence')).toHaveValue('3');
+  await expect(page.getByLabel('MIRVs planned at the fixed price')).toHaveValue('3');
 
   await expect(page.getByTestId('nuke-next-mirv')).toHaveAttribute('data-value', '25000000');
-  await expect(page.getByTestId('nuke-mirv-series')).toHaveAttribute('data-value', '120000000');
-  await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '126500000');
-  await expect(page.getByTestId('nuke-balance')).toHaveAttribute('data-value', '73500000');
+  await expect(page.getByTestId('nuke-mirv-series')).toHaveAttribute('data-value', '75000000');
+  await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '81500000');
+  await expect(page.getByTestId('nuke-balance')).toHaveAttribute('data-value', '118500000');
   await expect(page.getByTestId('nuke-silo-ready')).toHaveAttribute('data-value', '3');
   await expect(page.getByTestId('nuke-sam-ready')).toHaveAttribute('data-value', '3');
   await expect(page.getByTestId('nuke-sam-range')).toHaveAttribute('data-value', '102.0');
   await expect(page.getByTestId('nuke-slot-delta')).toHaveAttribute('data-value', '2');
 
-  await page.getByLabel('MIRVs already launched globally').fill('4');
   await page.getByLabel('Atom Bombs planned').fill('0');
   await page.getByLabel('Hydrogen Bombs planned').fill('0');
-  await page.getByLabel('MIRVs planned in sequence').fill('1');
+  await page.getByLabel('MIRVs planned at the fixed price').fill('1');
   await page.getByLabel('Silo slots cooling down').fill('5');
   await page.getByLabel('SAM slots cooling down').fill('1');
   await page.getByLabel('Incoming SAM-eligible projectiles').fill('2');
 
-  await expect(page.getByTestId('nuke-next-mirv')).toHaveAttribute('data-value', '85000000');
-  await expect(page.getByTestId('nuke-mirv-series')).toHaveAttribute('data-value', '85000000');
-  await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '85000000');
-  await expect(page.getByTestId('nuke-balance')).toHaveAttribute('data-value', '115000000');
+  await expect(page.getByTestId('nuke-next-mirv')).toHaveAttribute('data-value', '25000000');
+  await expect(page.getByTestId('nuke-mirv-series')).toHaveAttribute('data-value', '25000000');
+  await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '25000000');
+  await expect(page.getByTestId('nuke-balance')).toHaveAttribute('data-value', '175000000');
   await expect(page.getByTestId('nuke-silo-ready')).toHaveAttribute('data-value', '0');
   await expect(page.getByTestId('nuke-sam-ready')).toHaveAttribute('data-value', '4');
   await expect(page.getByTestId('nuke-slot-delta')).toHaveAttribute('data-value', '-2');
@@ -105,7 +103,7 @@ for (const locale of localeCases) {
     await expect(page.locator('main')).toContainText(locale.carrier);
     await expect(page.locator('main')).toContainText(locale.warheads);
     await expect(page.locator('main')).toContainText(locale.ceiling);
-    await expect(page.locator('main')).toContainText('v0.33.7');
+    await expect(page.locator('main')).toContainText('v0.34.0-beta1');
 
     await page.goto(`${locale.prefix}/guides/nuke-calculator/`, { waitUntil: 'domcontentloaded' });
 
@@ -113,6 +111,6 @@ for (const locale of localeCases) {
     await expect(page.locator('main')).toContainText(locale.uncertainty);
     await expect(page.getByTestId('nuke-caveat')).toContainText(locale.caveat);
     await expect(page.locator('[data-nuke-calculator]')).toHaveAttribute('data-locale', locale.lang);
-    await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '126500000');
+    await expect(page.getByTestId('nuke-total-cost')).toHaveAttribute('data-value', '81500000');
   });
 }

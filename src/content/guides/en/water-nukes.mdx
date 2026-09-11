@@ -2,12 +2,12 @@
 title: What Are Water Nukes in OpenFront?
 description: Water Nukes in OpenFront is a v31 option that permanently turns destroyed land into water. Learn the blast result, terrain conversion, counters, and whether you can reclaim the ground.
 pubDate: 2026-06-03
-updatedDate: 2026-08-13
+updatedDate: 2026-09-11
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
-version: v33
-freshnessSummary: "In v33.5 the new water works, but ship routes can still detour around Water-Nuked areas; an upstream fix is merged but not yet in a formal Release."
+version: v34
+freshnessSummary: "v0.34.0-beta1 formally releases ship routing through Water-Nuked areas and fixes MIRV cost at 25M with an asymmetric 60-second global cooldown."
 ---
 
 ## Direct answer: what are Water Nukes in OpenFront?
@@ -16,7 +16,7 @@ freshnessSummary: "In v33.5 the new water works, but ship routes can still detou
 
 The new water is functional terrain, so ships can use water created during the match.
 
-In v33.5, however, the minimap can still keep the wrong depth and ocean metadata after conversion. A transport works, but its route may take a strange detour around the Water-Nuked area.
+In v0.34.0-beta1, the route graph is rebuilt after conversion. Transports now include water created during the match instead of following stale terrain metadata.
 
 The mode is off by default. A host can enable it in the game-options panel. Public games that use it display a **Water Nukes** modifier badge before players spawn.
 
@@ -24,13 +24,13 @@ The most important defensive answer is speed. Conversion is batched after the st
 
 After a tile becomes water, ordinary land expansion cannot restore it. You can still exploit the new water with Ports, transports, Warships, and trade ships where the current rules allow them.
 
-v33.4 changes the tempo, not the conversion rule. Atom Bombs can be launched in x2/x5/xMax batches from the radial menu, or x5 by pressing `8` twice.
+v34 keeps the batch tempo without changing the conversion rule. Atom Bombs can be launched in x2/x5/xMax batches from the radial menu, or x5 by pressing `8` twice.
 
 One Silo releases queued bombs one tick apart; separate ready Silos can launch on the same tick. That can create several small craters faster, but each impact still enters the same reclaim-before-conversion check.
 
-## Known v33.5 ship-route limitation
+## v34 ship-route fix
 
-Do not assume that a channel's shortest visible line is the route a transport will take in v33.5. The converted water remains navigable, but Water-Nuked minimap tiles can stay at magnitude 0 and lose their ocean flag.
+Do not treat old detour screenshots as guaranteed v34 behavior. The released fix rebuilds the route graph after a strike and includes new water; coast shape, obstacles, and destination still determine the resulting path.
 
 The water pathfinder then charges three times the normal step cost near those tiles. It also rejects some line-of-sight smoothing, so the route can bend around the crater instead of crossing it directly.
 
@@ -38,17 +38,15 @@ This is a routing defect, not evidence that the crater stayed land. Before relyi
 
 A working but indirect route can expose the ship for longer than the map shape suggests.
 
-The current production behavior is a routing defect: minimap ocean flags and depth can remain stale after conversion. The upcoming fix rebuilds those values, but it is not part of the formal release yet.
-
-Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) is merged into `main`, but it is still newer than the latest formal `v0.33.5` Release. Treat it as an upcoming fix until a Release includes it.
+The Water Nuke ship-routing fix is included in the formal [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) release. Transports rebuild their path graph with water created during the match; this is no longer a main-only change.
 
 ![Official upstream v33.4 production screenshot showing a transport route detouring around Water-Nuked Africa](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
 *v33.4 production behavior: the route avoids much of the converted water.*
 
-![Official upstream screenshot after the unreleased Water Nukes pathfinding fix showing the direct route through converted water](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+![Official upstream screenshot of the Water Nukes pathfinding fix showing the direct route through converted water before its formal release](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 
-*Upstream `main` after `c5c7d74`: ocean flags and minimap depth are rebuilt, producing the direct route. This screenshot does not claim the fix is released yet.*
+*Historical upstream `main` after `c5c7d74`: ocean flags and minimap depth are rebuilt, producing the direct route. The fix is now released in v0.34.0-beta1.*
 
 ## Concepts and prerequisites
 
@@ -98,7 +96,7 @@ Do not read “permanent” as “the match can never use that area again.” It
 | --- | ---: | --- | --- |
 | Atom Bomb | 750,000 | Inner 12 / outer 30 tiles | Interceptable |
 | Hydrogen Bomb | 5,000,000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | 25M + 15M per prior launch | Splits into MIRV warheads | Carrier not targeted; launch triggers Silo cooldown |
+| MIRV | Fixed 25M | Splits into MIRV warheads | Carrier not targeted; other players enter a 60-second launch cooldown |
 | MIRV warhead | Included with MIRV | Inner 12 / outer 18 tiles | Normal in-flight SAM target |
 | SAM Launcher | First costs 1,500,000 | Starts at 70 tiles, scales upward | 90-tick cooldown |
 
@@ -106,7 +104,7 @@ An Atom Bomb is the cheaper terrain-editing attempt, but its footprint is far sm
 
 A MIRV can create several smaller affected areas. Its carrier crosses SAM targeting, but separated warheads can be intercepted when their trajectories and timing allow.
 
-Its starting cost is five times a Hydrogen Bomb, every prior launch adds another 15,000,000 Gold, and firing starts the Silo cooldown.
+Its fixed cost is five times a Hydrogen Bomb. Firing starts the local Silo-tube reload and blocks every other player from MIRV launches for 60 seconds; the last launcher is exempt.
 
 The correct choice depends on shape, not only damage. Decide whether you need a small breach, a wide cut, several scattered craters, or simply troop destruction.
 
@@ -234,11 +232,13 @@ A default SAM starts at 70-tile range. That exceeds an Atom Bomb's documented ou
 
 A Hydrogen Bomb has outer reach 100. One successful strike can affect a much wider area than an Atom, which is why spreading critical structures matters even behind SAM coverage.
 
-### MIRV escalation
+### MIRV fixed cost and initiative
 
-The first MIRV costs 25,000,000 Gold. The second costs 40,000,000 because one prior launch adds 15,000,000. The third costs 55,000,000.
+Every MIRV costs 25,000,000 Gold in v34. Two cost 50,000,000 and three cost 75,000,000.
 
-Carrier immunity is strategically important, but local warhead interception and the escalating price mean each use needs a map-changing objective rather than a vague desire to create more water.
+Carrier immunity is strategically important, but local warhead interception and the 60-second block on every other player mean each use needs a map-changing objective rather than a vague desire to create more water.
+
+The last launcher can fire again from a ready Silo and restart that block.
 
 ## Common failure modes
 

@@ -25,8 +25,10 @@ const CORE_PAGES = [
 ];
 
 const strict = process.argv.includes('--strict');
-const CURRENT_VERSION = 'v33';
-const CURRENT_VERSION_PATTERN = new RegExp(`\\bv(?:0\\.)?${CURRENT_VERSION.slice(1)}(?:\\.\\d+)?\\b`);
+// v34.0.0-beta1 is the current release boundary, while untouched evergreen
+// pages remain correctly verified against the still-supported v33 series.
+const ACCEPTED_VERSIONS = new Set(['v33', 'v34']);
+const CURRENT_VERSION_PATTERN = /\bv(?:0\.)?(?:33|34)(?:\.\d+)?\b/;
 const FRESHNESS_BASELINE = '2026-08-02';
 
 function splitDocument(source) {
@@ -90,7 +92,7 @@ async function auditPage(page, lang) {
   const updatedDate = frontmatterValue(frontmatter, 'updatedDate');
   const version = frontmatterValue(frontmatter, 'version');
   const freshnessSummary = frontmatterValue(frontmatter, 'freshnessSummary');
-  const hasCurrentVersion = version === CURRENT_VERSION;
+  const hasCurrentVersion = ACCEPTED_VERSIONS.has(version);
   const hasCurrentVerification = updatedDate >= FRESHNESS_BASELINE;
   const freshnessMinimum = lang === 'zh' ? 20 : 40;
   const hasFreshnessSummary = [...freshnessSummary].length >= freshnessMinimum

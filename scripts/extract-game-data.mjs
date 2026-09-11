@@ -6,7 +6,7 @@
  *     <sandbox>/OpenFrontIO/    (cloned source)
  *     <sandbox>/openfront-intel/ (this site — runs the script from here)
  *
- * Writes JSON to ./src/data/. Falls back to a built-in v33 snapshot when the
+ * Writes JSON to ./src/data/. Falls back to a built-in v34 snapshot when the
  * source repo is not present, so the site can still build (e.g. on a CI box
  * that only has this repo checked out).
  *
@@ -26,7 +26,7 @@ const SOURCE_DIR = resolve(ROOT, '..', 'OpenFrontIO');
 mkdirSync(OUT_DIR, { recursive: true });
 
 const HAS_SOURCE = existsSync(SOURCE_DIR);
-const SNAPSHOT_VERSION = 'v33';
+const SNAPSHOT_VERSION = 'v34';
 
 function readUpstreamCommit() {
   if (!HAS_SOURCE) return null;
@@ -42,7 +42,7 @@ function readUpstreamCommit() {
 
 const meta = {
   generatedAt: new Date().toISOString(),
-  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v33',
+  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v34',
   // The structured fallback model and editorial notes were validated against
   // v33. A newer checkout does not automatically make every snapshot field a
   // newer-version claim, so keep the version explicit and record the commit
@@ -257,11 +257,11 @@ const UNIT_SNAPSHOT = [
     constructionDuration: null,
     upgradable: false,
     i18n: {
-      en: { name: 'MIRV', role: 'Long-range multi-warhead vehicle; splits into multiple MIRV Warheads on arrival.', costFormula: '25,000,000 + 15,000,000 × launches fired', notes: ['Major v24 nerf: craters can be quickly conquered', 'v33 warheads fly as normal nukes and the launch puts the Missile Silo on cooldown'] },
-      zh: { name: 'MIRV 多弹头', role: '远程多弹头载具,到达目标后分裂为多枚 MIRVWarhead。', costFormula: '25,000,000 + 15,000,000 × 已发射数', notes: ['v24 大幅削弱：陨石坑可被快速征服', 'v33 弹头按普通核弹飞行，发射 MIRV 也会让 Missile Silo 进入冷却'] },
-      fr: { name: 'MIRV', role: "Véhicule longue portée à têtes multiples ; se divise en plusieurs têtes MIRV à l'arrivée.", costFormula: '25 000 000 + 15 000 000 × lancements effectués', notes: ['Gros nerf v24 : les cratères peuvent être conquis rapidement', 'En v33, les ogives volent comme des nukes normales et le tir met le Silo en cooldown'] },
-      de: { name: 'MIRV', role: 'Langstrecken-Mehrkopfraketenträger; teilt sich bei Ankunft in mehrere MIRV-Sprengköpfe.', costFormula: '25.000.000 + 15.000.000 × Anzahl Starts', notes: ['Großer v24-Nerf: Krater können schnell erobert werden', 'In v33 fliegen die Sprengköpfe wie normale Nukes und der Start löst Silo-Cooldown aus'] },
-      nl: { name: 'MIRV', role: 'Langeafstandsvoertuig met meerdere kernkoppen; splitst bij aankomst in meerdere MIRV-kernkoppen.', costFormula: '25.000.000 + 15.000.000 × aantal lanceringen', notes: ['Grote v24-nerf: kraters kunnen snel veroverd worden', 'In v33 vliegen kernkoppen als normale nukes en zet de lancering de Silo op cooldown'] },
+      en: { name: 'MIRV', role: 'Long-range multi-warhead vehicle; splits into multiple MIRV Warheads on arrival.', costFormula: 'Fixed 25,000,000', notes: ['Major v24 nerf: craters can be quickly conquered', 'v34 blocks other players for 60 seconds after launch; the last launcher is exempt and can restart their wait'] },
+      zh: { name: 'MIRV 多弹头', role: '远程多弹头载具,到达目标后分裂为多枚 MIRVWarhead。', costFormula: '固定 25,000,000', notes: ['v24 大幅削弱：陨石坑可被快速征服', 'v34 发射后会锁定其他玩家 60 秒；最近发射者豁免，并可再次发射以重置等待'] },
+      fr: { name: 'MIRV', role: "Véhicule longue portée à têtes multiples ; se divise en plusieurs têtes MIRV à l'arrivée.", costFormula: 'Fixe 25 000 000', notes: ['Gros nerf v24 : les cratères peuvent être conquis rapidement', "En v34, le tir bloque les autres joueurs pendant 60 secondes ; le dernier tireur est exempté et peut relancer leur attente"] },
+      de: { name: 'MIRV', role: 'Langstrecken-Mehrkopfraketenträger; teilt sich bei Ankunft in mehrere MIRV-Sprengköpfe.', costFormula: 'Fest 25.000.000', notes: ['Großer v24-Nerf: Krater können schnell erobert werden', 'In v34 sperrt ein Start andere Spieler 60 Sekunden; der letzte Schütze ist ausgenommen und kann ihre Wartezeit neu starten'] },
+      nl: { name: 'MIRV', role: 'Langeafstandsvoertuig met meerdere kernkoppen; splitst bij aankomst in meerdere MIRV-kernkoppen.', costFormula: 'Vast 25.000.000', notes: ['Grote v24-nerf: kraters kunnen snel veroverd worden', 'In v34 blokkeert een lancering andere spelers 60 seconden; de laatste schutter is vrijgesteld en kan hun wachttijd herstarten'] },
     },
   },
   {
@@ -473,7 +473,7 @@ const FORMULAS_SNAPSHOT = {
       { i18n: { en: { name: 'Default nuke speed', expr: '10 tiles/tick (v33)' }, zh: { name: '默认核弹速度', expr: '10 tiles/tick (v33)' }, fr: { name: 'Vitesse par défaut des nukes', expr: '10 tiles/tick (v33)' }, de: { name: 'Standard-Nuke-Geschwindigkeit', expr: '10 Tiles/Tick (v33)' }, nl: { name: 'Standaardsnelheid van nukes', expr: '10 tiles/tick (v33)' } } },
       { i18n: { en: { name: 'SAM range formula', expr: 'samRange(level) = 150 - 480 / (level + 5); default 70, top ≈ 140, cap 150' }, zh: { name: 'SAM 射程公式', expr: 'samRange(level) = 150 - 480 / (level + 5); 默认 70, 顶级 ≈ 140, 上限 150' }, fr: { name: 'Formule de portée SAM', expr: 'samRange(level) = 150 - 480 / (level + 5) ; défaut 70, max ≈ 140, plafond 150' }, de: { name: 'SAM-Reichweiten-Formel', expr: 'samRange(level) = 150 - 480 / (level + 5); Standard 70, Top ≈ 140, Max 150' }, nl: { name: 'SAM-bereik-formule', expr: 'samRange(level) = 150 - 480 / (level + 5); standaard 70, top ≈ 140, max 150' } } },
       { i18n: { en: { name: 'SAM intercept targets', expr: 'AtomBomb / HydrogenBomb / in-flight MIRVWarhead (v33 trajectory targeting)' }, zh: { name: 'SAM 拦截目标', expr: 'AtomBomb / HydrogenBomb / 飞行中的 MIRVWarhead（v33 弹道选目标）' }, fr: { name: "Cibles d'interception SAM", expr: 'AtomBomb / HydrogenBomb / MIRVWarhead en vol (ciblage de trajectoire v33)' }, de: { name: 'SAM-Abfangziele', expr: 'AtomBomb / HydrogenBomb / fliegender MIRVWarhead (v33-Flugbahnziel)' }, nl: { name: 'SAM-onderscheppingsdoelen', expr: 'AtomBomb / HydrogenBomb / vliegende MIRVWarhead (v33-baanselectie)' } } },
-      { i18n: { en: { name: 'MIRV silo cooldown', expr: 'Launching MIRV calls MissileSilo.launch() and blocks an immediate follow-up nuke' }, zh: { name: 'MIRV 发射井冷却', expr: '发射 MIRV 会调用 MissileSilo.launch()，不能立刻从同一发射井补第二枚核弹' }, fr: { name: 'Cooldown du silo après MIRV', expr: 'Le tir d’un MIRV appelle MissileSilo.launch() et bloque une nuke immédiate' }, de: { name: 'Silo-Cooldown nach MIRV', expr: 'Ein MIRV-Start ruft MissileSilo.launch() auf und verhindert einen sofortigen zweiten Nuke' }, nl: { name: 'Silo-cooldown na MIRV', expr: 'Een MIRV-lancering roept MissileSilo.launch() aan en blokkeert een directe tweede nuke' } } },
+      { i18n: { en: { name: 'MIRV global cooldown', expr: '600 ticks (60s) for every other player; the last launcher is exempt and a relaunch restarts their timer' }, zh: { name: 'MIRV 全局冷却', expr: '其他玩家等待 600 ticks（60s）；最近发射者豁免，再次发射会重置其他人的计时' }, fr: { name: 'Cooldown global MIRV', expr: '600 ticks (60 s) pour les autres joueurs ; le dernier tireur est exempté et relance leur compteur' }, de: { name: 'Globaler MIRV-Cooldown', expr: '600 Ticks (60 s) für andere Spieler; der letzte Schütze ist ausgenommen und startet ihre Zeit neu' }, nl: { name: 'Wereldwijde MIRV-cooldown', expr: '600 ticks (60 s) voor andere spelers; de laatste schutter is vrijgesteld en herstart hun timer' } } },
       { i18n: { en: { name: 'Pre-fire window', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, zh: { name: '提前射击窗口', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, fr: { name: 'Fenêtre de tir anticipé', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, de: { name: 'Vorab-Feuer-Fenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' }, nl: { name: 'Voor-vuurvenster', expr: 'tickBeforeShooting = nukeReachTick − samReachTick ≥ 0' } } },
     ],
   },
@@ -513,7 +513,7 @@ const FORMULAS_SNAPSHOT = {
 
 const MAP_CATEGORIES = {
   Continental: ['africa', 'asia', 'australia', 'europe', 'europeclassic', 'giantworldmap', 'northamerica', 'oceania', 'southamerica', 'world'],
-  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'balkans', 'balkhash', 'baltics', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caribbean', 'caspiansea', 'caucasus', 'china', 'clearwaterlakes', 'conakry', 'crimea', 'danishstraits', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fingerlakes', 'fourislands', 'france', 'gatewaytotheatlantic', 'germany', 'greatlakes', 'gulfofguinea', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'hecatestrait', 'hongkong', 'iceland', 'indiansubcontinent', 'irishsea', 'italia', 'japan', 'juandefucastrait', 'korea', 'lasvegasstrip', 'lemnos', 'levant', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'mississippiriver', 'montreal', 'newyorkcity', 'niledelta', 'northwestpassage', 'passage', 'russia', 'sanfrancisco', 'scandinavia', 'southeastasia', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'tierradelfuego', 'tradersdream', 'twolakes', 'unitedstates', 'venice', 'vietnam', 'yellowsea', 'yenisei'],
+  Regional: ['achiran', 'aegean', 'alps', 'amazonriver', 'antarctica', 'archipelagosea', 'arctic', 'baikal', 'baikalnukewars', 'bajacalifornia', 'balkans', 'balkhash', 'baltics', 'beringsea', 'beringstrait', 'betweentwoseas', 'blacksea', 'bosphorusstraits', 'britannia', 'britanniaclassic', 'caribbean', 'caspiansea', 'caucasus', 'china', 'clearwaterlakes', 'conakry', 'crimea', 'danishstraits', 'deglaciatedantarctica', 'didier', 'didierfrance', 'dyslexdria', 'eastasia', 'falklandislands', 'faroeislands', 'fingerlakes', 'fourislands', 'france', 'gatewaytotheatlantic', 'germany', 'greatlakes', 'gulfofguinea', 'gulfofstlawrence', 'halkidiki', 'hawaii', 'hecatestrait', 'hongkong', 'iceland', 'indiansubcontinent', 'irishsea', 'italia', 'japan', 'juandefucastrait', 'korea', 'lasvegasstrip', 'lemnos', 'levant', 'lisbon', 'losangeles', 'manicouagan', 'marenostrum', 'mena', 'middleeast', 'mississippiriver', 'montreal', 'newyorkcity', 'niledelta', 'northwestpassage', 'passage', 'qingchina', 'russia', 'sanfrancisco', 'scandinavia', 'southeastasia', 'straitofgibraltar', 'straitofhormuz', 'straitofmalacca', 'svalmel', 'taiwanstrait', 'tierradelfuego', 'tradersdream', 'twolakes', 'unitedstates', 'venice', 'vietnam', 'yangtzeriver', 'yellowsea', 'yenisei'],
   Fantasy: ['luna', 'mars', 'milkyway', 'pangaea', 'pluto', 'sol', 'surrounded', 'titan'],
   Arcade: ['branchingpaths', 'choppingblock', 'labyrinth', 'morethanluck', 'onion', 'sierpinski', 'thebox', 'warshipwarship', 'worldinverted'],
   Tournament: ['tourney1', 'tourney2', 'tourney3', 'tourney4'],
@@ -602,6 +602,9 @@ const MAP_I18N = {
   tierradelfuego: { enName: 'Tierra del Fuego', en: 'Tierra del Fuego', zh: '火地岛', fr: 'Terre de Feu', de: 'Feuerland', nl: 'Vuurland' },
   unitedstates: { enName: 'United States', en: 'United States', zh: '美国', fr: 'États-Unis', de: 'Vereinigte Staaten', nl: 'Verenigde Staten' },
   vietnam: { enName: 'Vietnam', en: 'Vietnam', zh: '越南', fr: 'Viêt Nam', de: 'Vietnam', nl: 'Vietnam' },
+  // --- v34 新增或重命名地图 ---
+  qingchina: { enName: 'Qing China', en: 'Qing China', zh: '清朝中国', fr: 'Chine des Qing', de: 'Qing-China', nl: 'Qing-China' },
+  yangtzeriver: { enName: 'Yangtze River', en: 'Yangtze River', zh: '长江', fr: 'Fleuve Yangtsé', de: 'Jangtsekiang', nl: 'Jangtsekiang' },
   // --- 既有地图 ---
   africa: { enName: 'Africa', en: 'Africa', zh: '非洲', fr: 'Afrique', de: 'Afrika', nl: 'Afrika' },
   asia: { enName: 'Asia', en: 'Asia', zh: '亚洲', fr: 'Asie', de: 'Asien', nl: 'Azië' },
@@ -773,11 +776,11 @@ const mapsByCategory = Object.fromEntries(
 const formulasPayload = {
   meta: {
     i18n: {
-      en: { description: 'Core formulas validated against OpenFrontIO v33 (numeric values/coefficients shown as strings).' },
-      zh: { description: '按 OpenFrontIO v33 核验的核心公式（数值/系数以字符串展示）。' },
-      fr: { description: "Formules clés vérifiées sur OpenFrontIO v33 (valeurs et coefficients sous forme de chaînes)." },
-      de: { description: 'Mit OpenFrontIO v33 abgeglichene Kernformeln (Werte/Koeffizienten als Strings).' },
-      nl: { description: 'Kernformules gecontroleerd aan de hand van OpenFrontIO v33 (waarden/coëfficiënten als tekst).' },
+      en: { description: 'Core formulas validated against OpenFrontIO v34 (numeric values/coefficients shown as strings).' },
+      zh: { description: '按 OpenFrontIO v34 核验的核心公式（数值/系数以字符串展示）。' },
+      fr: { description: "Formules clés vérifiées sur OpenFrontIO v34 (valeurs et coefficients sous forme de chaînes)." },
+      de: { description: 'Mit OpenFrontIO v34 abgeglichene Kernformeln (Werte/Koeffizienten als Strings).' },
+      nl: { description: 'Kernformules gecontroleerd aan de hand van OpenFrontIO v34 (waarden/coëfficiënten als tekst).' },
     },
   },
   groups: FORMULAS_SNAPSHOT,

@@ -5,15 +5,14 @@ const lang = getLangFromUrl(Astro.url) as Lang;
 
 const copy = {
   en: {
-    eyebrow: 'v0.33.7 nuclear planning tool',
+    eyebrow: 'v0.34.0-beta1 nuclear planning tool',
     title: 'Nuke cost and launcher calculator',
     intro: 'Compare exact purchase costs, ready launcher slots, SAM range, and a theoretical interceptor-slot gap.',
     budget: 'Budget and strike package',
     gold: 'Current Gold',
-    globalMirvs: 'MIRVs already launched globally',
     atoms: 'Atom Bombs planned',
     hydrogens: 'Hydrogen Bombs planned',
-    mirvs: 'MIRVs planned in sequence',
+    mirvs: 'MIRVs planned at the fixed price',
     launchers: 'Launcher readiness',
     siloLevel: 'Missile Silo level',
     siloUsed: 'Silo slots cooling down',
@@ -23,8 +22,8 @@ const copy = {
     results: 'Calculated results',
     weaponCost: 'Total weapon cost',
     remaining: 'Gold after purchases',
-    nextMirv: 'Next MIRV price before this plan',
-    mirvSeries: 'Planned MIRV sequence cost',
+    nextMirv: 'Fixed MIRV unit price',
+    mirvSeries: 'Planned MIRV total cost',
     siloReady: 'Ready Silo tubes',
     samReady: 'Ready SAM shots',
     samRange: 'SAM range at this level',
@@ -38,15 +37,14 @@ const copy = {
     caveat: 'A positive gap does not guarantee penetration, and a zero or negative gap does not guarantee interception. Geometry, trajectories, targetable flight segments, timing, SAM choice, and MIRV target generation still decide the result.',
   },
   zh: {
-    eyebrow: 'v0.33.7 核武规划工具',
+    eyebrow: 'v0.34.0-beta1 核武规划工具',
     title: '核武成本与发射器计算器',
     intro: '比较可精确计算的购买成本、就绪槽位、SAM 射程，以及仅供压力判断的理论拦截槽位差。',
     budget: '预算与打击编组',
     gold: '当前 Gold',
-    globalMirvs: '全局已经发射的 MIRV 数',
     atoms: '计划购买的原子弹数',
     hydrogens: '计划购买的氢弹数',
-    mirvs: '计划连续购买的 MIRV 数',
+    mirvs: '按固定价格计划购买的 MIRV 数',
     launchers: '发射器就绪状态',
     siloLevel: 'Missile Silo 等级',
     siloUsed: '正在冷却的 Silo 槽位',
@@ -56,8 +54,8 @@ const copy = {
     results: '计算结果',
     weaponCost: '武器总成本',
     remaining: '购买后剩余 Gold',
-    nextMirv: '执行本计划前下一枚 MIRV 的价格',
-    mirvSeries: '计划中 MIRV 序列总价',
+    nextMirv: 'MIRV 固定单价',
+    mirvSeries: '计划中 MIRV 总价',
     siloReady: '就绪的 Silo 发射管',
     samReady: '就绪的 SAM 拦截弹',
     samRange: '当前等级的 SAM 射程',
@@ -71,15 +69,14 @@ const copy = {
     caveat: '槽位差为正不保证突防，为零或负也不保证拦截。地图几何、轨迹、可瞄准飞行段、时序、SAM 选目标以及 MIRV 实际生成目标数仍会决定结果。',
   },
   fr: {
-    eyebrow: 'Outil de planification nucléaire v0.33.7',
+    eyebrow: 'Outil de planification nucléaire v0.34.0-beta1',
     title: 'Calculateur de coût nucléaire et de lanceurs',
     intro: 'Comparez les coûts exacts, les emplacements prêts, la portée SAM et un écart théorique entre projectiles et intercepteurs.',
     budget: 'Budget et groupe de frappe',
     gold: 'Gold disponible',
-    globalMirvs: 'MIRV déjà lancés dans la partie',
     atoms: 'Bombes atomiques prévues',
     hydrogens: 'Bombes à hydrogène prévues',
-    mirvs: 'MIRV prévus à la suite',
+    mirvs: 'MIRV prévus au prix fixe',
     launchers: 'État des lanceurs',
     siloLevel: 'Niveau du Missile Silo',
     siloUsed: 'Emplacements Silo en recharge',
@@ -89,8 +86,8 @@ const copy = {
     results: 'Résultats calculés',
     weaponCost: 'Coût total des armes',
     remaining: 'Gold restant après achat',
-    nextMirv: 'Prix du prochain MIRV avant ce plan',
-    mirvSeries: 'Coût de la série de MIRV prévue',
+    nextMirv: 'Prix unitaire fixe du MIRV',
+    mirvSeries: 'Coût total des MIRV prévus',
     siloReady: 'Tubes Silo prêts',
     samReady: 'Tirs SAM prêts',
     samRange: 'Portée SAM à ce niveau',
@@ -104,15 +101,14 @@ const copy = {
     caveat: "Un écart positif ne garantit pas une percée, et un écart nul ou négatif ne garantit pas une interception. Géométrie, trajectoires, segments ciblables, timing, choix du SAM et génération des cibles MIRV décident encore du résultat.",
   },
   de: {
-    eyebrow: 'v0.33.7-Werkzeug für Nuklearplanung',
+    eyebrow: 'v0.34.0-beta1-Werkzeug für Nuklearplanung',
     title: 'Rechner für Atomwaffenkosten und Werfer',
     intro: 'Vergleiche exakte Kaufkosten, bereite Slots, SAM-Reichweite und eine theoretische Lücke zwischen Geschossen und Abfangslots.',
     budget: 'Budget und Angriffspaket',
     gold: 'Aktuelles Gold',
-    globalMirvs: 'Global bereits gestartete MIRVs',
     atoms: 'Geplante Atombomben',
     hydrogens: 'Geplante Wasserstoffbomben',
-    mirvs: 'Nacheinander geplante MIRVs',
+    mirvs: 'Zum Festpreis geplante MIRVs',
     launchers: 'Bereitschaft der Werfer',
     siloLevel: 'Stufe des Missile Silo',
     siloUsed: 'Abklingende Silo-Slots',
@@ -122,8 +118,8 @@ const copy = {
     results: 'Berechnete Ergebnisse',
     weaponCost: 'Gesamtkosten der Waffen',
     remaining: 'Gold nach den Käufen',
-    nextMirv: 'Preis des nächsten MIRV vor diesem Plan',
-    mirvSeries: 'Kosten der geplanten MIRV-Serie',
+    nextMirv: 'Fester MIRV-Stückpreis',
+    mirvSeries: 'Gesamtkosten der geplanten MIRVs',
     siloReady: 'Bereite Silo-Rohre',
     samReady: 'Bereite SAM-Schüsse',
     samRange: 'SAM-Reichweite auf dieser Stufe',
@@ -137,15 +133,14 @@ const copy = {
     caveat: 'Eine positive Lücke garantiert keinen Durchbruch; null oder negativ garantiert keinen Abschuss. Geometrie, Flugbahnen, zielbare Segmente, Timing, SAM-Zielwahl und MIRV-Zielerzeugung entscheiden weiterhin.',
   },
   nl: {
-    eyebrow: 'v0.33.7-hulpmiddel voor nucleaire planning',
+    eyebrow: 'v0.34.0-beta1-hulpmiddel voor nucleaire planning',
     title: 'Calculator voor kernwapenkosten en lanceerders',
     intro: 'Vergelijk exacte aankoopkosten, gereedstaande slots, SAM-bereik en een theoretisch verschil tussen projectielen en onderscheppers.',
     budget: 'Budget en aanvalspakket',
     gold: 'Huidig Gold',
-    globalMirvs: 'Wereldwijd al gelanceerde MIRVs',
     atoms: 'Geplande atoombommen',
     hydrogens: 'Geplande waterstofbommen',
-    mirvs: 'Achtereenvolgens geplande MIRVs',
+    mirvs: 'MIRVs gepland tegen de vaste prijs',
     launchers: 'Gereedheid van lanceerders',
     siloLevel: 'Niveau van de Missile Silo',
     siloUsed: 'Afkoelende Silo-slots',
@@ -155,8 +150,8 @@ const copy = {
     results: 'Berekende resultaten',
     weaponCost: 'Totale wapenkosten',
     remaining: 'Gold na aankopen',
-    nextMirv: 'Prijs van de volgende MIRV vóór dit plan',
-    mirvSeries: 'Kosten van de geplande MIRV-reeks',
+    nextMirv: 'Vaste stukprijs van een MIRV',
+    mirvSeries: 'Totale kosten van geplande MIRVs',
     siloReady: 'Gereedstaande Silo-buizen',
     samReady: 'Gereedstaande SAM-schoten',
     samRange: 'SAM-bereik op dit niveau',
@@ -188,10 +183,6 @@ const t = copy[lang];
         <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
           <span>{t.gold}</span>
           <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="gold" min="0" max="999999999999" step="250000" value="200000000" data-testid="nuke-gold" />
-        </label>
-        <label class="grid gap-1.5 text-sm text-iron-200 sm:col-span-2">
-          <span>{t.globalMirvs}</span>
-          <input class="min-h-11 w-full rounded border border-iron-600 bg-iron-950 px-3 text-iron-50 focus:border-cannon-400 focus:outline-none" type="number" name="globalMirvs" min="0" max="1000" step="1" value="0" data-testid="nuke-global-mirvs" />
         </label>
         <label class="grid gap-1.5 text-sm text-iron-200">
           <span>{t.atoms}</span>
@@ -282,7 +273,6 @@ const t = copy[lang];
   const ATOM_COST = 750_000n;
   const HYDROGEN_COST = 5_000_000n;
   const MIRV_BASE_COST = 25_000_000n;
-  const MIRV_STEP_COST = 15_000_000n;
 
   function asInteger(container, name, fallback = 0) {
     const field = container.querySelector(`[name="${name}"]`);
@@ -311,7 +301,6 @@ const t = copy[lang];
 
     const update = () => {
       const gold = BigInt(asInteger(form, 'gold'));
-      const globalMirvs = BigInt(asInteger(form, 'globalMirvs'));
       const atoms = BigInt(asInteger(form, 'atoms'));
       const hydrogens = BigInt(asInteger(form, 'hydrogens'));
       const mirvs = BigInt(asInteger(form, 'mirvs'));
@@ -321,8 +310,8 @@ const t = copy[lang];
       const samUsed = asInteger(form, 'samUsed');
       const incoming = asInteger(form, 'incoming');
 
-      const nextMirv = MIRV_BASE_COST + MIRV_STEP_COST * globalMirvs;
-      const mirvSeries = mirvs * nextMirv + 7_500_000n * mirvs * (mirvs - 1n);
+      const nextMirv = MIRV_BASE_COST;
+      const mirvSeries = mirvs * MIRV_BASE_COST;
       const totalCost = atoms * ATOM_COST + hydrogens * HYDROGEN_COST + mirvSeries;
       const balance = gold - totalCost;
       const siloReady = Math.max(0, siloLevel - Math.min(siloLevel, siloUsed));

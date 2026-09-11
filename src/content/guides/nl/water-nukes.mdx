@@ -6,15 +6,15 @@ updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Gevorderd
-version: v33
-freshnessSummary: "In v33.5 is nieuw water bevaarbaar, maar schepen kunnen nog om Water-Nukes-kraters varen; de fix staat op main en nog niet in een Release."
+version: v34
+freshnessSummary: "v0.34.0-beta1 brengt de Water-Nukes-routefix uit en zet MIRV op een vaste 25M met 60 seconden blokkade voor andere spelers."
 ---
 
 ## Direct antwoord: wat Water Nukes doen
 
 **Water Nukes** is een optionele v31-modus waarin kernwapens vernietigd land permanent in water veranderen. De krater wordt onderdeel van de kaart in plaats van bestraald land te blijven.
 
-Het nieuwe water is echt terrein en schepen kunnen het gebruiken. In v33.5 kan de minimap na conversie nog verkeerde diepte- en oceaanwaarden houden. Een transport werkt, maar kan een lange omweg rond de Water-Nukes-krater nemen.
+Het nieuwe water is echt terrein en schepen kunnen het gebruiken. v0.34.0-beta1 bouwt de routegraaf na conversie opnieuw op en neemt water mee dat tijdens de partij door Water Nukes is gemaakt.
 
 De modus staat standaard uit. Een host activeert hem in de spelopties. Openbare partijen tonen vóór het spawnen een **Water Nukes**-badge.
 
@@ -22,13 +22,13 @@ De belangrijkste verdediging is snelheid. Conversie gebeurt gebundeld na de insl
 
 Na de omzetting kan normale landexpansie het water niet herstellen. Je kunt het wel benutten met Havens, transportschepen, oorlogsschepen en handel.
 
-v33.4 verandert het tempo, niet de omzetting. Het radiale menu biedt Atom Bombs x2/x5/xMax en tweemaal `8` kiest x5.
+v34 behoudt het bundeltempo en verandert de omzetting niet. Het radiale menu biedt Atom Bombs x2/x5/xMax en tweemaal `8` kiest x5.
 
 Dezelfde Silo vuurt per tick; verschillende gereedstaande Silos kunnen samen starten. Meerdere kleine kraters ontstaan sneller, maar iedere inslag houdt dezelfde heroveringscontrole vóór conversie.
 
-## Bekende beperking van scheepsroutes in v33.5
+## Scheepsroutefix in v34
 
-Neem niet aan dat de kortste zichtbare lijn door een nieuw kanaal ook de transportroute wordt. Omgezet water blijft bevaarbaar, maar Water-Nukes-tiles op de minimap kunnen magnitude 0 houden en hun ocean-markering verliezen.
+Gebruik oude omwegbeelden niet als gegarandeerd v34-gedrag. De fix bouwt de routegraaf na een inslag opnieuw op en neemt nieuw water mee; kustvorm, obstakels en bestemming bepalen de route nog steeds.
 
 De routezoeker rekent daar drie keer de normale stapkosten. Hij weigert ook sommige rechte afsnijdingen en kan daardoor om de krater varen.
 
@@ -36,17 +36,15 @@ Dit is een routefout, geen bewijs dat de krater land bleef. Bekijk de eerste tra
 
 Een werkende omweg stelt het schip langer bloot dan de kaartvorm doet vermoeden.
 
-Het huidige productiegedrag is een routefout: ocean-markeringen en minimapdiepte kunnen na conversie verouderd blijven. De komende fix bouwt die gegevens opnieuw op, maar zit nog niet in de formele release.
-
-Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) staat in `main`, maar is nog nieuwer dan de laatste formele Release `v0.33.5`. Behandel dit als een komende fix totdat een Release hem bevat.
+De fix zit in de formele Release [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1). Transportschepen bouwen hun routegraaf opnieuw met water dat Water Nukes maakte; dit is niet langer alleen een wijziging op `main`.
 
 ![Officiele upstream v33.4-productiescreenshot: de transportroute vaart om het door Water Nukes veranderde Afrika](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
 *v33.4-productie: de route vermijdt een groot deel van het omgezette water.*
 
-![Officiele upstream screenshot na de nog niet uitgebrachte Water-Nukes-fix: de route gaat direct door het omgezette water](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+![Officiele upstream screenshot van de Water-Nukes-fix vóór de formele release: de route gaat direct door het omgezette water](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 
-*Upstream `main` na `c5c7d74`: ocean-markeringen en minimapdiepte worden herbouwd. De afbeelding beweert niet dat de fix al is uitgebracht.*
+*Historische upstream-status van `main` na `c5c7d74`: ocean-markeringen en minimapdiepte worden herbouwd. De fix is nu uitgebracht in v0.34.0-beta1.*
 
 ## Begrippen en voorwaarden
 
@@ -96,7 +94,7 @@ Die vorm telt. Een gladde krater gedraagt zich eerder als één samenhangend wat
 | --- | ---: | --- | --- |
 | Atoombom | 750.000 | Inner 12 / outer 30 tiles | Onderschepbaar |
 | Waterstofbom | 5.000.000 | Inner 80 / outer 100 tiles | Onderschepbaar |
-| MIRV | 25M + 15M per eerdere lancering | Splitst in koppen | Drager geen doel; lancering activeert Silo-cooldown |
+| MIRV | Vast 25M | Splitst in koppen | Drager geen doel; andere spelers worden 60 seconden geblokkeerd, laatste launcher uitgezonderd |
 | MIRV-kop | Inbegrepen | Inner 12 / outer 18 tiles | Normaal SAM-doel tijdens de vlucht |
 | SAM-lanceerinstallatie | Eerste 1.500.000 | Begint op 70 tiles | Cooldown 90 ticks |
 
@@ -104,7 +102,7 @@ Een Atoombom is de goedkopere terreinaanpassing, maar de voetafdruk is veel klei
 
 Een MIRV maakt meerdere kleinere zones. De drager passeert SAM-doelselectie, maar afgesplitste kernkoppen kunnen bij passende baan en timing worden onderschept.
 
-De startprijs is vijf Waterstofbommen, iedere eerdere MIRV voegt 15.000.000 toe en het schot activeert de Silo-cooldown.
+Elke MIRV kost vijf Waterstofbommen, dus vast 25.000.000 Gold. Een geslaagde lancering blokkeert andere spelers 60 seconden; de laatste launcher kan vanuit een gereedstaande Silo opnieuw starten en hun wachttijd opnieuw beginnen.
 
 De juiste keuze draait om vorm, niet alleen schade. Bepaal of je een kleine opening, brede snede, meerdere kraters of alleen troepenvernietiging nodig hebt.
 
@@ -232,11 +230,11 @@ Een standaard-SAM begint op 70 tiles. Dat is meer dan outer 30 van Atoom, maar o
 
 Waterstof heeft outer 100. Eén geslaagde inslag kan een veel groter gebied raken, daarom blijft spreiding achter SAM belangrijk.
 
-### MIRV-escalatie
+### Vaste MIRV-prijs en initiatief
 
-De eerste MIRV kost 25.000.000. De tweede kost 40.000.000 en de derde 55.000.000 door de opslag van 15.000.000 per eerdere lancering.
+Elke MIRV kost vast 25.000.000. Een geslaagde lancering blokkeert andere spelers 60 seconden; de laatste launcher blijft vrijgesteld en kan de wachttijd vanuit een gereedstaande Silo opnieuw starten.
 
-Immuniteit is waardevol, maar de oplopende prijs vraagt een duidelijk kaartdoel in plaats van alleen meer water willen maken.
+De immuniteit van de drager is waardevol, maar afgesplitste koppen blijven onderschepbaar en de blokkade van 60 seconden vraagt een duidelijk kaartdoel in plaats van alleen meer water willen maken.
 
 ## Veelgemaakte fouten
 
@@ -351,6 +349,6 @@ Nee. Dunne kusten worden riskanter, maar nieuw water ondersteunt ook Havens, sch
 - Lees het systeem van [kernwapens en SAM](/nl/mechanics/nukes/).
 - Bekijk de [v31-release-notes](/nl/changelog/v31/).
 - Gebruik de [sneltoetsengids](/nl/guides/hotkeys/) voor herhaald vuren.
-- Lees het [v33-overzicht](/nl/changelog/v33/) voor de officiële bronnen van bundels en Silo-timing.
+- Lees het [v34-overzicht](/nl/changelog/v34/) voor de officiële bronnen van bundels, routing en MIRV-cooldown.
 - Plan verdediging met [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/).
 - Benut nieuwe routes met [teamcontrole op zee](/nl/strategies/team-naval-control/).

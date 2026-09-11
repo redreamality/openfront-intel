@@ -1,0 +1,137 @@
+---
+title: "OpenFront Nation 压力攻略：Hard 与 Impossible 下何时扩张、停手和反击"
+description: "读懂 Hard 与 Impossible Nation 的高价值目标压力，提前设定停手线，并在扩张、回兵、防守、经济和有限反击之间切换。"
+pubDate: 2026-09-11
+updatedDate: 2026-09-11
+tags: [策略, Nation, AI, 扩张, 防守]
+category: 策略
+difficulty: 高级
+version: v34
+freshnessSummary: "2026-09-11 按正式 v0.34.0-beta1 Release、精确 tag commit 的 Nation 攻击源码与官方测试核验。"
+---
+
+## 直接答案：不要把自己扩成最安全、最值钱的奖品
+
+面对 Hard 或 Impossible Nation，只有当下一次占领能改善边界、又不会让你成为它最安全的高价值目标时才继续扩张。尽量保留一个可守的接触面，等 Nation 把兵投入别处，再用留有明确预备队的有限攻击拿一个目标。兵力跌到停手线、重要建筑暴露或出现第二条敌对边界时，立即停止增援，转为回兵、防御、经济或换路。
+
+这条结论在 OpenFront `v0.34.0-beta1` 尤其重要。正式 Release 新增了 `juicy()` 攻击策略：Hard 与 Impossible Nation 不再只会按当前兵力寻找最弱邻居，而能在相邻敌人中寻找“有价值且可以安全击败”的目标。候选首先必须满足当前 Troops 不高于 Nation 当前 Troops 的 75%。通过后再比较三项等权相加、在候选内部做最小最大归一化的信号：可夺建筑的等级总量、目标尚未填满的 troop cap 空间，以及目标拥有的 tiles。Defense Post 与 Missile Silo 不算进建筑奖品分。游戏不会向玩家显示一个“juicy 分数”，所以这些输入只能组成风险面板，不能当作能预言下一次点击的计算器。
+
+`juicy()` 只是完整优先级中的一环。Hard 会先检查 Bot、反击、帮助盟友、背叛、fallout、traitor、断线玩家、敌对关系和 very weak 目标；Impossible 则先看反击、Bot、very weak、背叛、援助和已经承受重压的 victim。Terra Nullius 甚至更早处理。因此 Nation 可能暂时跳过看起来最肥的奖品，因为另一个分支先成功。它也可能等待：每个 Nation 创建时会生成 30%–39% maximum Troops 的 reserve ratio，以及 50%–59% 的正常 trigger ratio。低于 reserve 时不会进入普通目标选择；低于 trigger 时通常等待，但仍有十分之一的继续机会。
+
+实战用 **P-R-E-S-S：Pressure 压力、Reward 奖品、Exposure 暴露、Stop line 停手线、Switch 切换**。Pressure 判断 Nation 现在能否合法地派出有意义兵力；Reward 比较你的建筑、cap 空间与土地是否显得值钱；Exposure 数清占领后会出现多少可惩罚路线；Stop line 预先写下结束扩张的可见信号；Switch 在回兵、经济、Defense Post、外交、换路和有限反击中选下一步。改变边界前跑一遍，第一块土地造成新接触后再跑一遍。
+
+本页只承接玩家如何应对 Nation 压力的决策。[Nation AI 机制](/zh/mechanics/nations/)仍是行为树、建筑、联盟、舰船和核武分支的完整速查；[威胁评估](/zh/guides/threat-assessment/)负责扫描所有对手；[陆战攻略](/zh/guides/land-combat/)解释选定战斗后的推进结果。本页的完成标准更具体：你能说出下一步为何不会把自己变成最安全的高价值相邻目标，而且已经知道出现什么信号就停。
+
+## 读懂 v34 压力，但不要假装它是确定脚本
+
+先看 Nation 实际可以接触谁。`juicy()` 的候选是相邻敌人，来源包括直接陆地边界与引擎维护的 nearby-player 关系。隔着开阔海面的富裕岛屿不会自动进入这个相邻候选池，但随机运输船和 island 策略仍可能形成海上压力。处于友好关系中的玩家会从当前敌人列表中过滤掉；联盟到期、敌对关系、背叛规则与 Team 阵营却会改变分类。地图不是一张固定热力图，每次占领都可能新增一个候选、移除一个缓冲区，或把紧凑边缘变成两条活跃接触线。
+
+然后必须把“有资格”与“被偏好”分开。如果 Nation 有 1,000,000 当前 Troops，`juicy()` 只接纳 750,000 或更低的相邻敌人。760,000 的玩家即使拥有很多 City，也不符合这个分支；700,000 的玩家虽然符合，却不保证得分最高。建筑按等级累计，三座 level 3 City 比三座 level 1 City 提供更多奖品信号。未填满 cap 的信号为 `1 - current Troops / maximum Troops`，土地直接使用 owned tiles。三项只在当次合格候选内部归一化后相加，官方没有给出跨局通用的“一座 City 等于多少 tiles”。
+
+其他分支让“卡线规避”失效。低于自身 maximum Troops 15% 的对手可能进入 very-weak 搜索，只要它相对 Nation 又不至于太强。正在承受总计超过自身当前 Troops 一半的 incoming attacks 的对手可能成为 victim，同样还有 FFA 强度边界。hostile、traitor、断线、盟友请求或 retaliation 会根据难度在 `juicy` 前后被检查。不要为了不 juicy 而死守 Nation 的 76%，同时却让自己相对自身 cap 极低，或正在主动攻击它。
+
+最后读派兵上限。在普通 FFA 中，Hard 通常会保留等于最强非友好相邻人类 75% 的 Troops；Impossible 保留 90%。Hard 与 Impossible 还会拒绝“上限后可派兵力低于目标当前 Troops 20%”的普通攻击。这是 Nation 的自我约束，不是推荐给玩家的预备队比例。Team 模式不使用这两项 FFA 保护；Nation 正在受到攻击时，也可以把可用反击兵力提高到至少等于 incoming 总量。v34 同时修复了进攻 Terra Nullius 或 fallout 时忽略 troop cap 的问题。
+
+因此正确读法是概率式的。Nation 未达到 reserve、有值得拿的中立地，或正在别处出兵时，标为 **cold**；你已经符合候选且边界价值持续上升时，标为 **warm**；你既符合 75% 候选，又明显未填满 cap、建筑等级高、土地多，而 Nation 有兵又有直线路径时，标为 **hot**。这些标签不揭示随机数，只决定下一步需要多强的可撤销性：cold 可以小额探路，warm 必须先写停手线，hot 应先缩短边界或等压力降温，再放永久投资。
+
+## 每次改变边界前后都运行 P-R-E-S-S
+
+**Pressure** 看的是 Nation 此刻能不能行动，而不只是难度标签。记下它可见的当前 Troops、是在回兵还是已经有 outgoing attack、是否还接触 free land、是否正被别人攻击。Hard 的攻击行为间隔是生成的 45–59 ticks，Impossible 是 30–49 ticks。这个数字说明 Impossible 反应更快，却不是可以安全抢跑的倒计时，因为初始偏移也是生成的，而且同一周期还有其他行为。看到 Nation 已经出兵时，只能按实际投入兵力判断窗口，不要换算成固定秒数。
+
+**Reward** 是 v34 新增的重要输入。统计除 Defense Post 与 Missile Silo 外暴露的建筑等级，估算自己相对 maximum Troops 有多空，再把土地与其他合格邻居比较。正确动作不是拆掉有用建筑，也不是为了操控 AI 而强行把兵填满；而是避免把下一座 City、Factory 或 Port 放到暴露的 Nation 边界上，如果同一投资可以放在有纵深的位置。已有高价值建筑暴露时，应靠边界形状、预备队与覆盖提高进入成本，而不是相信建筑能吓退 Nation。
+
+**Exposure** 数清反制路线。写下拟占领后会新增多少直接敌对接触、是否有水路绕过陆线、哪一段联盟到期会暴露侧翼。一条中立地带看起来免费，却可能移除最后缓冲，使高价值核心与 Nation 直接相邻。优先让扩张终点落在窄而可覆盖的边界。两个中立区域面积相近时，选择能让 Nation 先接触低价值外层的那个，而不是开一条通向升级 City 的直线。
+
+**Stop line** 必须是对局中可看见的事件或数字，例如“剩 650,000 Troops 就停”“拿完西部中立口袋就停”“Nation 结束另一场攻击就停”或“出现第二个敌对邻居就停”。通用百分比较弱，因为地图、cap、建筑和对手压力都不同。第一下之前写好停手线；跨线后即使前几格土地看起来便宜，也要取消后续增援。
+
+**Switch** 决定下一种姿态。低 current Troops 是主要风险时回兵；只有建筑在可守线后方、并能在下一次需要行动前完工时才转经济；Defense Post 的 30-tile 区域必须覆盖真实接触口，而不是装饰核心；另一条路线暴露更少时就换路；外交必须能移除边界足够久，以完成一个命名动作，但友好图标不是永久免疫；只有 Nation 的投入或形状提供有限目标时才反击。
+
+<div class="my-8 grid gap-3 md:grid-cols-5" aria-label="PRESS Nation 压力决策循环">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">P · 压力</strong><p class="mt-2 text-sm text-iron-300">Nation 现在能派出有意义兵力吗？</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">R · 奖品</strong><p class="mt-2 text-sm text-iron-300">建筑、cap 空间和土地是否抬高价值？</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">E · 暴露</strong><p class="mt-2 text-sm text-iron-300">新增哪些边界和绕路？</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">S · 停手线</strong><p class="mt-2 text-sm text-iron-300">哪个可见事件结束推进？</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">S · 切换</strong><p class="mt-2 text-sm text-iron-300">回兵、防守、换路、外交还是反击？</p></div>
+</div>
+
+第一次接触后把五项全部重跑。一个 tile 就可能同时改变 Reward 与 Exposure，outgoing attack 的开始和结束会改变 Pressure。计划提前停手不代表计划失败；它的目的本来就是用有限成本买信息，并保留再次选择的权利。
+
+## 场景一：更富裕的目标先于最弱邻居受到攻击
+
+假设 `v0.34.0-beta1` 普通 FFA 中，一名 Hard Nation 有 1,200,000 当前 Troops。它与你的 780,000、一个较小对手的 420,000，以及第三名非友好人类的 1,000,000 接壤。你拥有 18,000 tiles，接触线附近有三座 level 3 City；maximum Troops 为 1,800,000，所以只有约 43% 填充。420,000 的对手有 6,000 tiles、没有完成建筑，并达到自身 cap 的 70%。假设 Nation 不接触中立地、无人进攻它、没有更高优先级分支成功，所列玩家都是可达敌人。这些数字是教学假设，不是某张地图的预测。
+
+你与较小对手都通过 `juicy()` 的安全过滤，因为两者都不高于 900,000，也就是 Nation 1,200,000 的 75%。较小对手当前兵更少，但你在另外三项奖品信号占优：九级 City 总量对零、更大的未填充 troop-cap 空间、以及更多土地。官方端到端测试固定了同样的定性结论：Hard 与 Impossible 的 `juicy` 分支实际运行时，建筑丰富、cap 未填满、土地更多的目标，可以排在纯数字最弱邻居前面。
+
+再算 Hard FFA 的派兵约束。假设中最强的非友好相邻人类有 1,000,000 Troops，所以 Hard 通常至少保留 750,000；从 1,200,000 中最多留下 450,000 给普通派兵上限。攻击你 780,000 的 20% 下限是 156,000，因此这个上限不会阻止行动。这不证明 Nation 会恰好派 450,000，因为 reserve、具体攻击比例、其他 active attacks 和执行时机仍会改变实际值；它只证明“较弱邻居一定先挨打”不是安全计划。
+
+运行 P-R-E-S-S：Pressure 为 hot，Nation 能分配有意义攻击；Reward 很高，因为边界旁有等级、土地与 cap 空间；Exposure 很差，因为 City 就在唯一线路附近。继续拿中立地前先设停手线：不要跨过会暴露 City 群的那格，并在剩余 900,000 Troops 时停止任何扩张。Switch 转为回兵和缩短接触。如果 Defense Post 可以覆盖真实路线，就放在有纵深且能完工的位置；否则保留 Gold，让低价值外层成为第一层奖品。
+
+人类对手的最佳反制是同时攻击你，继续压低 cap 填充，使你既像 juicy 候选，又可能成为承受重压的 victim。不要为了逃离分数而对 Nation full-send，这会触发 retaliation、可能绕过正常约束，还会抽空预备队。应尽量脱离第三人的战斗，等待 Nation 选择或投入，再只为有限目标反击。成功标准是 City 仍有补给、你还能做下一次选择，并不要求立刻消灭 Nation。
+
+## 场景二：等 Nation 投入后，只拿一个有限目标
+
+假设一名 Impossible Nation 有 1,500,000 当前 Troops，并与两名人类接壤。你有 1,050,000，正好是 Nation 的 70%；位置紧凑，拥有 12,000 tiles、一座在边界后方的 level 2 City，以及 600,000 Gold。另一名人类有 1,300,000。中立走廊已经耗尽。Nation 开始用 500,000 Troops 攻击另一人，在战斗继续改变数字前可见约 1,000,000 留存。你的目标不是消灭它，而是拿下一段 2,500-tile 的颈部，让边界缩短，并让 City 退到前线后两层。假设为普通 FFA、无联盟变化、无其他 incoming attack、陆路没有 impassable terrain。
+
+Nation 投入前，你通过 75% `juicy` 候选线，因为 1,050,000 低于 1,125,000。你不保证被选中，但建筑、土地与 headroom 让纯粹等待有风险。Impossible 的普通 FFA 约束会参考最强相关相邻人类，并尝试保留其 90%。另一人有 1,300,000，所以保留线为 1,170,000；Nation 当前 1,500,000 时通常约有 330,000 可派。攻击你的 1,050,000 至少要有 210,000 才通过 20% weak-attack 检查，因此在这些假设下压力存在，却有边界。
+
+看到 500,000 的投入后，不要简单做减法然后 full-send。outgoing attack 会结算，另一人的兵力会下降，而 Nation 上限会按实时状态重算。应把这个投入当成“执行固定目标”的触发器。第一波只投入能让本土至少保留 800,000 的数量，拿到颈部就停，即使旁边仍有空地。800,000 是本场景为了回答一次反推而声明的预备队，不是通用比例。试探期间不建新 City，也不增加其他暴露建筑；随着线路远离已有 City，Reward 应下降而不是继续上升。
+
+停手线有三项：Nation 取消或结束另一场攻击、你的预备队到 800,000，或颈部打开第二条敌对接触。任何一项出现就 Switch。颈部已经稳住则持守回兵；它只是突出部则放弃继续占领，不因沉没成本增援；另一名人类继续反攻并让 Nation 忙碌时，也只补足完成短线所需的兵。每次重大变化后重看 Nation 当前 Troops，因为 75% 合格线会一起移动。
+
+Team 模式不能照搬这套算术。官方测试表明，最强邻居 reserve floor 与低于 20% 的拒绝都是 FFA 专属；Nation 被攻击时还可以把反击提高到至少 incoming 总量。团队协调 full-send 可能激起比单人 FFA 窗口大得多的答案。场景的完成标准是拿到或主动放弃颈部，同时核心仍能回应压力。是否消灭 Nation 属于下一次 P-R-E-S-S，而不是本轮目标的延长。
+
+## 常见失败，以及 Nation 与人类对手如何惩罚
+
+第一种失败是把 75% 当成玩家安全线。它只是 `juicy()` 相对 Nation 当前 Troops 的候选上限。在 76% 可能暂时避开这一分支，但 retaliation、hostile、victim、very-weak、betray 或 weakest 逻辑仍可能选择你；Nation 自身兵力变化也会让线移动。恢复方式是跟踪可见投入、关系和边界形状，不是在一个比例上扎营。
+
+第二种失败是用糟糕消费降低表面价值。为了填 troop cap 乱打、在暴露处建 Defense Post，或攻击无关邻居去改变比例，都可能让真实位置更弱。Defense Post 与 Missile Silo 不加入 juicy 建筑奖品分，但它们仍消耗 Gold、需要施工，也可能被夺取或绕开。Defense Post 只有在 30-tile 影响区覆盖真实接触、而核心能保护施工时才值得；Silo 是战略系统，不是 AI 诱饵按钮。先减少 Exposure，再考虑无法看见的分数。
+
+第三种失败是为了“让 Nation 忙起来”而主动攻击。incoming pressure 会激活 retaliation，并可能放宽普通上限。官方 v34 测试证明，当 Hard Nation 的普通 cap 本应为零时，它仍可用至少 incoming 总量反击；Team 中更没有 FFA floor 和 weak-attack 拒绝来保护进攻者。人类对手会等你挑起 Nation 后，从抽空的侧翼进入。更安全的做法是等已存在的可见投入，再拿一个有停手线的有限目标。
+
+第四种失败是把暂停当友好。Nation 低于生成的 30%–39% reserve 会等，低于 50%–59% trigger 时通常会等，有中立地时可能先扩张，有高优先级目标时也会暂时跳过你。这些都不是长期休战。联盟可以把你移出当前敌人列表，但到期与背叛另有检查。利用安静期完成一个命名改进，然后在关系或地图改变前重新判断。
+
+第五种失败是在奖品走廊过度建设。City、Factory 与 Port 通常应放在它们支援的防线后方。Nation 分数会累计可夺建筑等级，但排除 Defense Post 与 Silo；人类对手又不遵循完全相同的评分，可能重视任何基础设施。正确结论不是“隐藏所有建筑”，而是让投资在丢掉外层边界后仍能产生回报。
+
+| 错误捷径 | v34 中为何失败 | 可恢复的替代动作 |
+|---|---|---|
+| “高于 75% 就安全” | 只适用于 juicy，随 Nation 兵力移动，其他分支仍存在 | 跟踪投入、关系、cap 填充和边界形状 |
+| “最弱邻居一定先挨打” | 土地、建筑等级和 headroom 可以超过纯当前兵力 | 比较全部合格邻居并降低暴露奖品 |
+| “先挑起小反击” | retaliation 与 Team 例外会绕过普通约束 | 等现有投入，再拿一个有限目标 |
+| “边界越多选择越多” | 新接触会暴露经济核心并增加攻击者 | 在窄线结束扩张，提前写停手条件 |
+
+## 按地图、FFA、Team 与 Humans versus Nations 调整
+
+在拥挤大陆图上，Exposure 权重最高。Italy、中欧、India 一类枢纽可能让一次小型中立占领变成多个 Nation 接触。不要把社区地图经验写成保证出生建议，因为地图版本、人数、Nation 落点和设置都会变化；只保留拓扑结论：优先边缘或 choke point，限制可达敌人，并在扩张抹掉高价值 City 周围最后缓冲前停手。两个中立区域面积相近时，选会留下更少直接敌对邻居的路线。
+
+岛屿和半岛的 Pressure 到达方式不同。没有陆地接触会移除眼前的 bordering pool，却不会禁用随机运输船或独立 island 策略。安全岛屿只有在经济能生产出路、海岸能扛住 Transport Ship 时才真正买到时间。不要因为社区视频从 Australia、New Zealand、Greenland 或 Antarctica 获胜，就自动再投一座 Port；必须核对实际 water component、可登陆海岸、Warship 屏护与后续路线。[岛屿防守](/zh/guides/island-defense/)处理海岸层，首次陆地接触后再运行 P-R-E-S-S。
+
+普通 FFA 中，Hard 的 75%、Impossible 的 90% 最强邻居保留线，加上 20% minimum-send 检查，确实提供可读约束。强大的相邻玩家有时像锚，限制 Nation 平常向别处派多少兵，但它绝不是保护：retaliation、兵力变化、锚点死亡或结盟、多个攻击状态都会改变计算。把 floor 当成“大型战斗后必须重算”的理由，而不是另一名玩家送你的永久护盾。
+
+Team 中应从表格删掉这两个 FFA 假设。官方测试显示 weak attack 可以执行，neighbor-based troop floor 也不适用。Team 关系还会改变谁是 friendly、谁是有效相邻敌人、哪一个援助请求会被处理。与队友共同写停手线：一个人承接 Nation 接触，一个人保留反击兵力；没有人负责覆盖前，不要再开一条线。v34 已把普通 Team 胜利阈值从旧 95% 改成与 FFA 相同的 80%，所以漫长清理 Nation 不应遮住更近的领土胜利。
+
+在 Humans versus Nations 或大量 Nation 的自定义局中，并行压力会让固定 build order 更不可靠。每个 Nation 都只在自己的相邻合格候选中比较 juicy，Impossible 还能并行攻击大量 Bots。同一位置可能对一个 Nation 是低优先，对另一个却是高优先。每个接触单独写一行 P-R-E-S-S，尽量一次压缩一条前线。400 Nation 挑战视频可以证明玩家确实需要预备队、等待、备用基地和单线纪律，却不能证明普通公共地图的固定解法；规则仍以当前 tag 为准。
+
+地图大小改变反应时间，不改变核心检查。小地图上，Impossible 30–49 ticks 的行为间隔和短边界会迅速惩罚暴露施工；大地图也许有更长路线时间，但新增接触更难关闭。应调整的是 Stop line 的保守程度，而不是五个问题本身。每项输入要么可见，要么明确标为 unknown，这样才能在下一局复盘。
+
+## 记录压力账本，并守住版本证据边界
+
+可重复练习是一份三行账本：扩张前、第一次接触后、Nation 投入后。扩张前写 Nation 当前 Troops、你的当前/maximum Troops、暴露建筑等级、现有接触、计划新增接触和停手事件。接触后把 Pressure 标为 cold、warm 或 hot，并记录边界是否真的改善。Nation 投入后写目标与可见兵力，再判断窗口只够回兵，还是能完成一个有限目标。短记录能暴露错误假设，又不会假装看见内部随机状态。
+
+| 账本时点 | 记录内容 | 只有这样才继续 | 出现这些就停或切换 |
+|---|---|---|---|
+| 扩张前 | Nation 兵力、你的兵力/cap、奖品等级、边界、停手线 | 占领改善形状并留下命名预备队 | 暴露经济核心或新增无人覆盖接触 |
+| 首次接触后 | 合格线估计、新路线、新邻居、当前压力 | 边界更短且下一步仍可撤销 | Reward 增长快于安全，或 Nation 变 hot |
+| Nation 投入后 | 目标、可见投入、剩余路线、反击目标 | 一个有限目标能在响应重置前完成 | 投入结束、预备队跨线或侧翼打开 |
+
+证据边界是 2026-09-11 核验的 OpenFront `v0.34.0-beta1`。正式 [Release][release] 明确点名 `juicy()` 新策略和 Terra Nullius/fallout troop-cap 修复；精确 [AiAttackBehavior 源码][attack-source] 定义候选、三项得分、优先顺序、reserve floor、weak-attack 拒绝和例外；[NationExecution][nation-source] 定义生成的 trigger、reserve、expand ratios 以及不同难度反应间隔；官方 [AiAttackBehavior 测试][attack-tests] 证明富裕且未填满的目标可以排在最弱目标前，固定 FFA Hard 75%、Impossible 90%、20% 拒绝，以及 Team 与 retaliation 例外。
+
+来源包中的社区帖子和视频回答的是另一件事：玩家实际注意到什么，哪些决策反复失败。它们支持“留兵、等对方先出兵、减少接触、准备备用基地、一次只打一条线”的玩家语言，却不证明当前比例、保证出生点或通用 build order。两类证据必须分开。未来 Release 若改变 Nation 得分或派兵约束，保留 P-R-E-S-S，再按新 tag 重算门槛。
+
+按失败字母继续阅读。Pressure 和完整行为树回到 [Nation AI 机制](/zh/mechanics/nations/)；Reward 与 cap 恢复看[人口增长](/zh/guides/population-growth/)和[建筑时机](/zh/guides/building-timing/)；Exposure 看[威胁评估](/zh/guides/threat-assessment/)与[集中还是扩张](/zh/guides/tall-vs-wide/)；活跃战斗中的 Stop line 切到[陆战](/zh/guides/land-combat/)或[Defense Post](/zh/guides/defense-posts/)。下一页只修复一个决策输入，不要重新开始一篇笼统 Impossible walkthrough。
+
+最后规则可以直接检验：改变 Nation 边界前，确认当前 Pressure，比较可见 Reward，数清占领后的 Exposure，命名 Stop line，并选好下一次 Switch。第一步必须小到足以观察回应；信号出现时，即使仍有土地也要停；只有新一轮 P-R-E-S-S 通过才恢复。这无法消除随机性，却能避免最常见的战略错误：把强大经济扩成 Nation 边界上最富裕、最安全的目标。
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[attack-source]: https://github.com/openfrontio/OpenFrontIO/blob/5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293/src/core/execution/utils/AiAttackBehavior.ts
+[nation-source]: https://github.com/openfrontio/OpenFrontIO/blob/5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293/src/core/execution/NationExecution.ts
+[attack-tests]: https://github.com/openfrontio/OpenFrontIO/blob/5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293/tests/AiAttackBehavior.test.ts

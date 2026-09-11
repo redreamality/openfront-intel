@@ -2,12 +2,12 @@
 title: "OpenFront MIRV Guide: Cost, Warheads, SAM Defense, and Tactics"
 description: "Learn how OpenFront MIRVs split, what each launch costs, why 350 warheads is only a ceiling, how SAMs intercept warheads, and how to plan attacks and defenses."
 pubDate: 2026-08-22
-updatedDate: 2026-08-22
+updatedDate: 2026-09-11
 tags: [mirv, nukes, sam, missile-silo, strategy]
 category: Tutorial
 difficulty: Advanced
-version: v33
-freshnessSummary: "Verified through the formal v0.33.7 boundary. The v33 MIRV, Silo, and SAM mechanics cited from v0.33.6 code were not changed by v0.33.7."
+version: v34
+freshnessSummary: "Verified against v0.34.0-beta1: MIRVs cost a fixed 25M, a launch blocks every other player for 60 seconds, and the last launcher remains exempt."
 ---
 
 ## Direct answer: how does a MIRV work in OpenFront?
@@ -22,34 +22,29 @@ The game attempts to choose as many as 350 targets. Only the clicked center targ
 
 A MIRV is therefore a territory-shaped saturation weapon, not a guaranteed package of 350 hits. Its value depends on the target's land geometry and the ready SAM network when the warheads appear.
 
-The current formal release boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). That release did not change these nuclear mechanics.
+The current formal release boundary is [v0.34.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1). It replaces the old global price ladder with a fixed price and an asymmetric global launch cooldown.
 
-The exact rules below are linked to the fixed v0.33.6 source and tests that introduced or verified the current v33 behavior.
+The exact rules below are linked to the immutable v0.34.0-beta1 source and tests.
 
-## Price ladder: the whole match raises your cost
+## Fixed price and global launch cooldown
 
-The first MIRV in an ordinary Gold match costs 25,000,000 Gold. Every MIRV already launched by any player adds 15,000,000 Gold to the next successful launch.
-
-Let `g` be the number already launched globally. The immediate price is:
+Every MIRV costs a fixed 25,000,000 Gold in v0.34.0-beta1. Previous launches no longer increase the purchase price. For `k` planned MIRVs, the weapon budget is:
 
 ```text
-next price = 25,000,000 + 15,000,000 × g
+MIRV budget = 25,000,000 × k
 ```
 
-This is a match-wide counter, not your personal purchase history. An opponent's launch makes your next MIRV more expensive too.
+A successful launch instead records the launcher and starts a 600-tick, 60-second cooldown for every other player.
 
-The first five prices are 25M, 40M, 55M, 70M, and 85M. Waiting can preserve your troops, but it can also let another player move the shared ladder before you buy.
+The most recent launcher is exempt and can fire again from another ready Silo; that relaunch restarts the wait for everyone else.
 
-For `k` consecutive launches beginning after `g` global launches, use:
+Three MIRVs therefore cost 75M and five cost 125M. Fixed pricing does not mean three teammates can launch together. After the first successful execution, only that launcher remains exempt until the global timer expires.
 
-```text
-series cost = k × (25,000,000 + 15,000,000 × g)
-            + 7,500,000 × k × (k - 1)
-```
+The global cooldown is separate from the 90-tick reload of each Missile Silo tube. The last launcher still needs another ready tube or must wait for one to reload. A teammate's ready Silo does not inherit the exemption.
 
-Three MIRVs from a fresh ladder cost 25M + 40M + 55M = 120M. If four have already flown, the next three cost 85M + 100M + 115M = 300M.
+Use the timer shown in the build menu when another player launched most recently. If you fired last, the menu does not show that block; decide whether another 25M strike is worth resetting every other player's full wait.
 
-The counter advances after a successful MIRV construction. A failed attempt should not make the next one dearer.
+A launch blocked by the cooldown creates no unit and applies no betrayal side effect. Only a successful spawned MIRV changes the recorded launcher and timer.
 
 Infinite Gold is a special lobby exception. All planning examples on this page assume ordinary Gold rules.
 
@@ -67,7 +62,7 @@ When one Silo receives a batch, its nukes begin at least one tick apart. Separat
 
 The normal radial menu exposes x1, x2, x5, and xMax only for Atom Bombs. Hydrogen Bombs and MIRVs remain single actions in the ordinary interface.
 
-For a MIRV plan, count ready tubes before counting money. A 120M budget for three MIRVs is not a three-MIRV volley if only one Silo slot is ready.
+For a MIRV plan, count ready tubes and launcher identity as well as money. A 75M budget for three MIRVs is not a three-MIRV sequence if another player owns the active cooldown or only one Silo slot is ready.
 
 ## Carrier flight and separation
 
@@ -151,11 +146,13 @@ A positive result does not guarantee that many penetrations. A zero or negative 
 
 ## Offensive workflow: prepare the strike
 
-### Step 1: read the global price before committing
+### Step 1: read launcher identity and cooldown before committing
 
-Check how many MIRVs have already launched and calculate the immediate price. Reserve Gold for the Silo network and the conventional war that follows.
+Budget 25M for each planned MIRV, then identify the most recent launcher.
 
-Do not price a series as `k × current price`. Every successful MIRV in the sequence moves the ladder by another 15M.
+If it was another player, read the remaining global timer. If it was you, count other ready Silo tubes and decide whether retaining launch initiative justifies another strike.
+
+Do not confuse fixed price with simultaneous access. Every successful MIRV by the exempt launcher restarts the 60-second wait imposed on everyone else.
 
 ### Step 2: inspect the target's shape
 
@@ -209,7 +206,7 @@ The defense succeeds when you retain an army, launch capacity, and connected lan
 
 ## Worked scenario: three MIRVs against level-5 SAMs
 
-Assume no MIRV has yet launched globally. An attacker plans three successful launches, so the weapon bill is 25M + 40M + 55M = 120M.
+Assume no MIRV has yet launched. One attacker plans three successful launches, so the weapon bill is 25M × 3 = 75M.
 
 The attacker owns two level-2 Silos. If all four slots are loaded, four launches can be issued without waiting for a reload.
 
@@ -229,9 +226,9 @@ The true result still depends on how many targets each MIRV generated, which war
 
 Wrong. The carrier is excluded, but every spawned warhead is an eligible SAM target with its own trajectory.
 
-### “I bought three at 25M each”
+### “Three teammates can each fire one because all three cost 25M”
 
-Wrong under ordinary rules. From a fresh match the three prices are 25M, 40M, and 55M because the global count rises after each success.
+Wrong under v34. The first successful launch blocks the other two teammates for 60 seconds. The same launcher may fire again from a different ready Silo and restart their timers, but the team cannot pass the exemption between players.
 
 ### “The menu says 350, so the map gets 350 impacts”
 
@@ -259,9 +256,9 @@ No. The carrier is not in the SAM target whitelist. SAMs can engage the individu
 
 It is the maximum requested target count, not a usual or guaranteed result. Actual count depends on valid enemy land, spacing, map bounds, water, ownership, and random search.
 
-### Does each player have a separate MIRV price?
+### Does each player have a separate MIRV cooldown?
 
-No. The ladder uses the number launched globally during the match. Any player's successful launch raises the next price for everyone.
+No. Every MIRV costs 25M, but the launch record is global. A successful launch blocks all other players for 60 seconds; the most recent launcher is exempt, and firing again restarts the others' wait.
 
 ### Does MIRV use a Missile Silo slot?
 
@@ -269,7 +266,7 @@ Yes. The carrier launch consumes one ready Silo slot and that slot reloads for 9
 
 ### Can one SAM missile destroy several warheads?
 
-No under current v33 behavior. Each interceptor claims and destroys one eligible nuclear projectile.
+No under current v34 behavior. Each interceptor claims and destroys one eligible nuclear projectile.
 
 ### Is a higher SAM level only extra range?
 
@@ -281,24 +278,25 @@ No. You need the generated targets, irregular impact tiles, ownership, troop sta
 
 ### Where can I calculate the exact costs and ready slots?
 
-Use the [OpenFront nuke calculator](/guides/nuke-calculator/) for Gold, the global MIRV ladder, Silo slots, SAM slots, range, and a labeled pressure estimate.
+Use the [OpenFront nuke calculator](/guides/nuke-calculator/) for fixed Gold costs, Silo slots, SAM slots, range, and a labeled pressure estimate.
 
 ## Formal sources and verification boundary
 
-The player-facing release boundary is [v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Its formal notes do not introduce a new MIRV, Silo, or SAM rule.
+The player-facing release boundary is [v0.34.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1).
 
-The mechanics on this page remain grounded in the unchanged v0.33.6 tagged implementation and tests:
+The mechanics on this page are grounded in the exact v0.34.0-beta1 tagged implementation and tests:
 
-- [Config.ts: costs, speeds, radii, cooldowns, and SAM range](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/configuration/Config.ts)
-- [MIRVExecution.ts: carrier and target generation](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/MIRVExecution.ts)
-- [NukeExecution.ts: trajectories, targetable segments, and impacts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/NukeExecution.ts)
-- [SAMLauncherExecution.ts: discovery, priority, and intercept timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMLauncherExecution.ts)
-- [SAMMissileExecution.ts: eligible projectile types and hits](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/execution/SAMMissileExecution.ts)
-- [PlayerImpl.ts: costs and nearest ready Silo selection](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/PlayerImpl.ts)
-- [UnitImpl.ts: Silo and SAM slot queues](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/src/core/game/UnitImpl.ts)
-- [MIRV execution tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/MIRVExecution.test.ts)
-- [SAM launcher tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/core/executions/SAMLauncherExecution.test.ts)
-- [Missile Silo tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.6/tests/MissileSilo.test.ts)
+- [Config.ts: fixed cost, speeds, radii, cooldowns, and SAM range](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: carrier, launch recording, and target generation](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: trajectories, targetable segments, and impacts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: discovery, priority, and intercept timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: eligible projectile types and hits](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: costs and nearest ready Silo selection](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: Silo and SAM slot queues](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/UnitImpl.ts)
+- [MIRV execution tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/MIRVExecution.test.ts)
+- [SAM launcher tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile Silo tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MissileSilo.test.ts)
+- [MIRV cooldown tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts)
 
 For broader strategic restraint and retaliation planning, continue with [nuclear deterrence](/strategies/nuclear-deterrence/).
 

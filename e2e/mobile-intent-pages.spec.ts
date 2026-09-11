@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { latestOpenFrontRelease } from '../src/config/openfront-release';
 
 const localeCases = [
   { lang: 'en', prefix: '', seoTitle: 'OpenFront Mobile App, Download & APK: Official Browser Guide' },
@@ -38,11 +39,11 @@ for (const localeCase of localeCases) {
     );
     await expect(page).toHaveTitle(localeCase.seoTitle);
     const appMain = page.locator('main');
-    await expect(appMain).toContainText('v0.33.14');
+    await expect(appMain).toContainText(latestOpenFrontRelease.tag);
     await expect(appMain).toContainText('APK');
     await expect(appMain.locator('a[href="https://openfront.io/"]')).toHaveCount(2);
     await expect(
-      appMain.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.14"]'),
+      appMain.locator(`a[href="${latestOpenFrontRelease.releaseUrl}"]`),
     ).toHaveCount(2);
 
     await page.goto(`${localeCase.prefix}/guides/mobile-alternatives/`, {

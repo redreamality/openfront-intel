@@ -17,11 +17,16 @@ async function loadTypeScriptModule(modulePath) {
     fileName: modulePath,
     reportDiagnostics: true,
   });
-  const errors = output.diagnostics?.filter(
-    (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
-  ) ?? [];
+  const errors =
+    output.diagnostics?.filter(
+      (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
+    ) ?? [];
   if (errors.length > 0) {
-    throw new Error(`${modulePath} could not be loaded: ${errors.map(({ messageText }) => messageText).join('; ')}`);
+    throw new Error(
+      `${modulePath} could not be loaded: ${errors
+        .map(({ messageText }) => messageText)
+        .join('; ')}`,
+    );
   }
 
   const moduleUrl = `data:text/javascript;base64,${Buffer.from(output.outputText).toString('base64')}`;
@@ -45,11 +50,23 @@ function parseLevelTwoSections(body) {
   const headings = [...body.matchAll(/^##\s+(.+)$/gm)];
   return headings.map((match, index) => ({
     heading: match[1].trim(),
-    content: body.slice(
-      match.index + match[0].length,
-      headings[index + 1]?.index ?? body.length,
-    ).trim(),
+    content: body
+      .slice(match.index + match[0].length, headings[index + 1]?.index ?? body.length)
+      .trim(),
   }));
+}
+
+function countLatinWords(value) {
+  return (
+    value
+      .replace(/https?:\/\/\S+/g, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .match(/[\p{L}\p{N}]+(?:['’.-][\p{L}\p{N}]+)*/gu)?.length ?? 0
+  );
+}
+
+function countHanCharacters(value) {
+  return value.match(/[\p{Script=Han}]/gu)?.length ?? 0;
 }
 
 function hasMatch(value, pattern) {
@@ -57,184 +74,106 @@ function hasMatch(value, pattern) {
   return pattern.test(value);
 }
 
-function findSection(sections, headingPattern) {
-  return sections.find(({ heading }) => hasMatch(heading, headingPattern));
-}
-
 const contracts = [
   {
     lang: 'en',
-    headingPatterns: [
-      /^Direct answer:/i,
-      /^v33\.6 /i,
-      /^v33\.5 /i,
-      /^v33\.4 /i,
-      /^v33\.3 /i,
-      /^v33\.2 /i,
-      /^v33\.1 /i,
-      /^MIRV and SAM:/i,
-      /^Doomsday Clock:/i,
-      /^Ranked 2v2:/i,
-      /^Warship veterancy:/i,
-      /22 new maps$/i,
-      /^Source status$/i,
-    ],
-    bodyPatterns: [
-      ['Overtime public rotation', /one quarter of public FFA games/i],
-      ['Overtime schedule', /minute 30.*1 percentage point every 30 seconds/is],
-      ['versioned replay', /versioned replay shells/i],
-      ['v33.8/v33.9 boundary', /v33\.8.*(?:reliability|connection reliability)/is],
-      ['spectator join', /without taking a player slot/i],
-      ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
-      ['wasteland rot', /wasteland rather than neutral land/i],
-      ['managed-lobby boundary', /ordinary Host UI/i],
-      ['bulk controls', /x5 ghost badge/i],
-      ['same-Silo timing', /same-Silo/i],
-      ['territory thresholds', /2%, 4%, 7%, 11%, 17%, 25%, and 35%/i],
-      ['replay hotfix', /replay desync errors/i],
-      ['map pool', /117-map/i],
-      ['warship veterancy', /3 veterancy levels/i],
+    headings: [/^Direct answer:/i, /^What should you change/i, /^Source status/i],
+    facts: [
+      ['attack ratios and density', /troop ratio.*troop density/is],
+      ['large-territory boundary', /100,000 tiles/i],
+      ['MIRV price and cooldown', /25 million.*60-second/is],
+      ['Nation target strategy', /Hard and Impossible Nations.*valuable bordering rival/is],
+      ['Team threshold', /Team games.*80%.*95%/is],
+      ['Water Nuke routing', /Water-Nuked.*pathfinding/is],
+      ['rail boundary', /rails cannot cross impassable terrain/i],
+      ['tutorial', /20-step in-game tutorial/i],
+      ['trusted and Detailed View', /trusted-only.*Detailed View/is],
+      ['map preloading', /map preloading/i],
+      ['clan and cosmetics', /clan treasury.*cosmetic inventory/is],
+      ['performance', /39% lower tick cost/i],
+      ['maps', /Yangtze River.*Qing China/is],
     ],
   },
   {
     lang: 'zh',
-    headingPatterns: [
-      /^直接答案[：:]/,
-      /^v33\.6 更新[：:]/i,
-      /^v33\.5 更新[：:]/i,
-      /^v33\.4 更新[：:]/i,
-      /^v33\.3 修复[：:]/i,
-      /^v33\.2 更新[：:]/i,
-      /^v33\.1 热修[：:]/i,
-      /^MIRV 与 SAM[：:]/i,
-      /^Doomsday Clock[：:]/i,
-      /^Ranked 2v2[：:]/i,
-      /^战舰熟练度[：:]/,
-      /22 张新地图$/,
-      /^来源状态$/,
-    ],
-    bodyPatterns: [
-      ['Overtime public rotation', /四分之一的公开 FFA 对局/],
-      ['Overtime schedule', /第 30 分钟.*每 30 秒降低 1 个百分点/s],
-      ['versioned replay', /版本化 replay shell/i],
-      ['v33.8/v33.9 boundary', /v33\.8.*(?:可靠性|连接可靠性)/s],
-      ['spectator join', /不占玩家名额/],
-      ['team Doomsday ladder', /3%、6%、10%、15%、21%、28%.*35%/],
-      ['wasteland rot', /变成 wasteland/],
-      ['managed-lobby boundary', /普通 Host UI/i],
-      ['bulk controls', /x5 ghost badge/i],
-      ['same-Silo timing', /同一 Silo 内逐 tick/i],
-      ['territory thresholds', /2%、4%、7%、11%、17%、25%.*35%/],
-      ['replay hotfix', /回放 desync 错误/i],
-      ['map pool', /117 张地图/],
-      ['warship veterancy', /3 级熟练度/],
+    headings: [/^直接答案：/, /^下一局应该怎样改变决策/, /^来源状态/],
+    facts: [
+      ['attack ratios and density', /troop ratio.*troop density/is],
+      ['large-territory boundary', /100,000 tiles/i],
+      ['MIRV price and cooldown', /25,000,000 Gold.*60 秒/is],
+      ['Nation target strategy', /Hard 与 Impossible Nations.*价值高/is],
+      ['Team threshold', /Team.*95%.*80%/is],
+      ['Water Nuke routing', /Water Nuke.*正确寻路/is],
+      ['rail boundary', /Railroad 不能跨越 impassable terrain/i],
+      ['tutorial', /20 步局内教程/i],
+      ['trusted and Detailed View', /trusted-only lobby.*Detailed View/is],
+      ['map preloading', /地图预加载/i],
+      ['clan and cosmetics', /Clan treasury.*外观库存/is],
+      ['performance', /tick cost 降低 39%/i],
+      ['maps', /Yangtze River.*Qing China/is],
     ],
   },
   {
     lang: 'fr',
-    headingPatterns: [
-      /^Réponse directe\s*:/i,
-      /^v33\.6\s*:/i,
-      /^v33\.5\s*:/i,
-      /v33\.4\s*:/i,
-      /v33\.3\s*:/i,
-      /v33\.2\s*:/i,
-      /v33\.1\s*:/i,
-      /^MIRV et SAM\s*:/i,
-      /^Doomsday Clock\s*:/i,
-      /^Ranked 2v2\s*:/i,
-      /^Vétérance navale\s*:/i,
-      /22 nouvelles cartes$/i,
-      /^Statut de la source$/i,
-    ],
-    bodyPatterns: [
-      ['Overtime public rotation', /un quart des parties FFA publiques/i],
-      ['Overtime schedule', /30e minute.*1 point toutes les 30 secondes/is],
-      ['versioned replay', /shells de replay versionnés/i],
-      ['v33.8/v33.9 boundary', /v33\.8.*(?:fiabilité|connexion)/is],
-      ['spectator join', /sans prendre de place de joueur/i],
-      ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
-      ['wasteland rot', /devient du wasteland/i],
-      ['managed-lobby boundary', /Host ordinaire/i],
-      ['bulk controls', /fantôme x5/i],
-      ['same-Silo timing', /même Silo.*tick/i],
-      ['territory thresholds', /2 %, 4 %, 7 %, 11 %, 17 %, 25 %.*35 %/i],
-      ['replay hotfix', /erreurs de desync des replays/i],
-      ['map pool', /117 cartes/i],
-      ['warship veterancy', /3 niveaux de vétérérance/i],
+    headings: [/^Réponse directe/i, /^Que faut-il changer/i, /^Sources, limites/i],
+    facts: [
+      ['attack ratios and density', /troop ratio.*troop density/is],
+      ['large-territory boundary', /100 000 tiles/i],
+      ['MIRV price and cooldown', /25 millions.*60 secondes/is],
+      ['Nation target strategy', /Nations Hard et Impossible.*rival frontalier/is],
+      ['Team threshold', /Team.*80 %.*95 %|Team.*95 %.*80 %/is],
+      ['Water Nuke routing', /Water Nuke.*pathfinding/is],
+      ['rail boundary', /rails ne peuvent pas traverser un terrain impassable/i],
+      ['tutorial', /tutoriel en 20 étapes/i],
+      ['trusted and Detailed View', /trusted-only.*Detailed View/is],
+      ['map preloading', /préchargement des cartes/i],
+      ['clan and cosmetics', /clan treasury.*inventaire cosmétique/is],
+      ['performance', /39 % de coût de tick en moins/i],
+      ['maps', /Yangtze River.*Qing China/is],
     ],
   },
   {
     lang: 'de',
-    headingPatterns: [
-      /^Direkte Antwort:/i,
-      /^v33\.6-Update:/i,
-      /^v33\.5:/i,
-      /^v33\.4-Update:/i,
-      /^v33\.3-Fixes:/i,
-      /^v33\.2-Update:/i,
-      /^v33\.1-Hotfix:/i,
-      /^MIRV und SAM:/i,
-      /^Doomsday Clock:/i,
-      /^Ranked 2v2:/i,
-      /^Warship-Veteranenstatus:/i,
-      /22 neue Karten$/i,
-      /^Quellenstatus$/i,
-    ],
-    bodyPatterns: [
-      ['Overtime public rotation', /einem Viertel der öffentlichen FFA-Partien/i],
-      ['Overtime schedule', /Minute 30.*alle 30 Sekunden um 1 Prozentpunkt/is],
-      ['versioned replay', /versionierte Replay-Shells/i],
-      ['v33.8/v33.9 boundary', /v33\.8.*(?:Zuverlässigkeit|Verbindungsfix)/is],
-      ['spectator join', /ohne einen Spielerplatz zu belegen/i],
-      ['team Doomsday ladder', /3 %, 6 %, 10 %, 15 %, 21 %, 28 %.*35 %/i],
-      ['wasteland rot', /wird zu Wasteland/i],
-      ['managed-lobby boundary', /normalen Host-UI/i],
-      ['bulk controls', /x5-Ghost-Badge/i],
-      ['same-Silo timing', /desselben Silos.*Tick/i],
-      ['territory thresholds', /2 %, 4 %, 7 %, 11 %, 17 %, 25 %.*35 %/i],
-      ['replay hotfix', /Desync-Fehler in Replays/i],
-      ['map pool', /117 Karten/i],
-      ['warship veterancy', /3 Veteranenstufen/i],
+    headings: [/^Direkte Antwort/i, /^Was solltest du/i, /^Quellenstatus/i],
+    facts: [
+      ['attack ratios and density', /troop ratio.*troop density/is],
+      ['large-territory boundary', /100\.000 Tiles/i],
+      ['MIRV price and cooldown', /25 Millionen.*60 Sekunden/is],
+      ['Nation target strategy', /Hard- und Impossible-Nations.*wertvollen angrenzenden Gegner/is],
+      ['Team threshold', /Team.*80 %.*95 %|Team.*95 %.*80 %/is],
+      ['Water Nuke routing', /Water Nukes.*routen/is],
+      ['rail boundary', /Railroad darf unpassierbares Gelände nicht kreuzen/i],
+      ['tutorial', /Tutorial mit 20 Schritten/i],
+      ['trusted and Detailed View', /trusted-only.*Detailed View/is],
+      ['map preloading', /Karten-Vorladen/i],
+      ['clan and cosmetics', /Clan-Treasury.*Kosmetikinventar/is],
+      ['performance', /39 % niedrigere Tick-Kosten/i],
+      ['maps', /Yangtze River.*Qing China/is],
     ],
   },
   {
     lang: 'nl',
-    headingPatterns: [
-      /^Direct antwoord:/i,
-      /^v33\.6-update:/i,
-      /^v33\.5:/i,
-      /^v33\.4-update:/i,
-      /^v33\.3-fixes:/i,
-      /^v33\.2-update:/i,
-      /^v33\.1-hotfix:/i,
-      /^MIRV en SAM:/i,
-      /^Doomsday Clock:/i,
-      /^Ranked 2v2:/i,
-      /^Warship-veterancy:/i,
-      /22 nieuwe kaarten$/i,
-      /^Bronstatus$/i,
-    ],
-    bodyPatterns: [
-      ['Overtime public rotation', /een kwart van de openbare FFA-partijen/i],
-      ['Overtime schedule', /minuut 30.*elke 30 seconden met 1 procentpunt/is],
-      ['versioned replay', /Versie-replay-shells/i],
-      ['v33.8/v33.9 boundary', /v33\.8.*(?:betrouwbaarheid|verbindingsfix)/is],
-      ['spectator join', /zonder een spelersplek te bezetten/i],
-      ['team Doomsday ladder', /3%, 6%, 10%, 15%, 21%, 28%.*35%/i],
-      ['wasteland rot', /wordt wasteland/i],
-      ['managed-lobby boundary', /gewone Host-UI/i],
-      ['bulk controls', /x5-ghostbadge/i],
-      ['same-Silo timing', /dezelfde Silo.*tick/i],
-      ['territory thresholds', /2%, 4%, 7%, 11%, 17%, 25%.*35%/i],
-      ['replay hotfix', /desyncfouten in replays/i],
-      ['map pool', /117 kaarten/i],
-      ['warship veterancy', /3 veterancy-niveaus/i],
+    headings: [/^Direct antwoord/i, /^Wat moet je/i, /^Bronstatus/i],
+    facts: [
+      ['attack ratios and density', /troop ratio.*troop density/is],
+      ['large-territory boundary', /100\.000 tiles/i],
+      ['MIRV price and cooldown', /25 miljoen.*60 seconden/is],
+      ['Nation target strategy', /Hard en Impossible Nations.*waardevolle aangrenzende rivaal/is],
+      ['Team threshold', /Team.*80%.*95%|Team.*95%.*80%/is],
+      ['Water Nuke routing', /Water Nuke.*pathfinding/is],
+      ['rail boundary', /Railroad kan onbegaanbaar terrein niet kruisen/i],
+      ['tutorial', /tutorial met 20 stappen/i],
+      ['trusted and Detailed View', /trusted-only.*Detailed View/is],
+      ['map preloading', /vooraf laden van kaarten/i],
+      ['clan and cosmetics', /clan treasury.*cosmetische inventory/is],
+      ['performance', /39% lagere tickkosten/i],
+      ['maps', /Yangtze River.*Qing China/is],
     ],
   },
 ];
 
-const { latestOpenFrontRelease: release } = await loadTypeScriptModule(RELEASE_CONFIG_PATH);
+const { latestOpenFrontRelease: release } =
+  await loadTypeScriptModule(RELEASE_CONFIG_PATH);
 const { ui } = await loadTypeScriptModule(UI_CONFIG_PATH);
 const failures = [];
 
@@ -246,29 +185,33 @@ for (const contract of contracts) {
   const title = frontmatterValue(frontmatter, 'title');
   const description = frontmatterValue(frontmatter, 'description');
   const version = frontmatterValue(frontmatter, 'version');
-  const sourceSection = findSection(
-    sections,
-    contract.headingPatterns[contract.headingPatterns.length - 1],
+  const releaseStatus = frontmatterValue(frontmatter, 'releaseStatus');
+  const tags = frontmatterValue(frontmatter, 'tags');
+  const sectionCounts = sections.map(({ content }) =>
+    contract.lang === 'zh'
+      ? countHanCharacters(content)
+      : countLatinWords(content),
   );
 
   const checks = [
     ['home CTA {series} placeholder', ui[contract.lang]['home.cta.latest'].includes('{series}')],
     ['frontmatter version', version === release.series],
+    ['frontmatter release status', releaseStatus === 'released'],
+    ['frontmatter tags', tags === '[changelog, balance, features]'],
     ['title display version', title.includes(release.displayVersion)],
     ['description display version', description.includes(release.displayVersion)],
-    ['official tag', body.includes(`\`${release.tag}\``)],
-    [
-      'official Release source',
-      sourceSection?.content.includes(`](${release.releaseUrl})`) ?? false,
-    ],
-    ...contract.headingPatterns.map((pattern) => [
+    ['official tag', body.includes(`${release.tag}`)],
+    ['official Release source', body.includes(`](${release.releaseUrl})`)],
+    ['exactly three level-two sections', sections.length === 3],
+    ...contract.headings.map((pattern) => [
       `section ${pattern}`,
-      Boolean(findSection(sections, pattern)),
+      sections.some(({ heading }) => hasMatch(heading, pattern)),
     ]),
-    ...contract.bodyPatterns.map(([label, pattern]) => [
-      label,
-      hasMatch(body, pattern),
+    ...sectionCounts.map((count, index) => [
+      `section ${index + 1} has 401+ ${contract.lang === 'zh' ? 'Han characters' : 'words'} (found ${count})`,
+      count >= 401,
     ]),
+    ...contract.facts.map(([label, pattern]) => [label, hasMatch(body, pattern)]),
   ];
 
   const failedChecks = checks.filter(([, passes]) => !passes).map(([label]) => label);
@@ -276,7 +219,9 @@ for (const contract of contracts) {
     failures.push({ relativePath, failedChecks });
     console.error(`FAIL ${relativePath}: ${failedChecks.join(', ')}`);
   } else {
-    console.log(`PASS ${relativePath} (${sections.length} sections)`);
+    console.log(
+      `PASS ${relativePath} (${sections.length} sections; counts ${sectionCounts.join('/')})`,
+    );
   }
 }
 
@@ -284,5 +229,7 @@ if (failures.length > 0) {
   console.error(`\n${failures.length}/${contracts.length} latest-release contracts failed.`);
   process.exitCode = 1;
 } else {
-  console.log(`\n${contracts.length}/${contracts.length} latest-release contracts pass for ${release.tag}.`);
+  console.log(
+    `\n${contracts.length}/${contracts.length} latest-release contracts pass for ${release.tag}.`,
+  );
 }

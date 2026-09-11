@@ -8,13 +8,10 @@ const homepageCases = [
   { lang: 'nl', path: '/nl/', prefix: '/nl/' },
 ] as const;
 
-const latestGuideSlugs = [
-  'mobile-alternatives',
-  'mobile-app-download',
-  'mobile-controls',
-  'mobile-reddit-community',
-  'transport-landings',
-] as const;
+const latestGuideSlugs = {
+  en: ['hotkeys', 'land-combat', 'mirv', 'mobile-app-download', 'nations-pressure'],
+  localized: ['land-combat', 'mirv', 'mobile-app-download', 'nations-pressure', 'nuke-calculator'],
+} as const;
 
 for (const homepageCase of homepageCases) {
   test(`homepage[${homepageCase.lang}] features the five newest guides`, async ({ page }) => {
@@ -24,10 +21,11 @@ for (const homepageCase of homepageCases) {
     await expect(section).toBeVisible();
 
     const links = section.locator('[data-home-latest-guide]');
-    await expect(links).toHaveCount(latestGuideSlugs.length);
+    const expectedSlugs = homepageCase.lang === 'en' ? latestGuideSlugs.en : latestGuideSlugs.localized;
+    await expect(links).toHaveCount(expectedSlugs.length);
     await expect(section.locator(`a[href="${homepageCase.prefix}guides/"]`)).toHaveCount(1);
 
-    for (const [index, slug] of latestGuideSlugs.entries()) {
+    for (const [index, slug] of expectedSlugs.entries()) {
       const link = links.nth(index);
       await expect(link).toHaveAttribute('data-guide-slug', slug);
       await expect(link).toHaveAttribute('href', `${homepageCase.prefix}guides/${slug}/`);
