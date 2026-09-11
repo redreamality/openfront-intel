@@ -6,8 +6,8 @@ updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
-version: v33
-freshnessSummary: "En v33.5, la nouvelle eau est navigable, mais les navires peuvent encore contourner un cratère Water Nukes ; le correctif est sur main, pas encore dans une Release."
+version: v34
+freshnessSummary: "La v0.34.0-beta1 publie la correction de route des Water Nukes et fixe le MIRV à 25M avec un blocage de 60 secondes pour les autres joueurs."
 ---
 
 ## Réponse directe : l'effet des Water Nukes
@@ -16,7 +16,7 @@ freshnessSummary: "En v33.5, la nouvelle eau est navigable, mais les navires peu
 
 Cette eau est un vrai terrain et les navires peuvent l'utiliser.
 
-En v33.5, la minicarte peut encore garder une profondeur et un marquage d'océan erronés après la conversion. Le transport fonctionne, mais sa route peut contourner largement le cratère Water Nukes.
+La v0.34.0-beta1 reconstruit le graphe de route après la conversion. Le transport inclut désormais l'eau créée pendant la partie au lieu de suivre un état de terrain périmé.
 
 Le mode est désactivé par défaut. L'hôte peut l'activer dans les options. Les parties publiques concernées affichent un badge **Water Nukes** avant l'apparition des joueurs.
 
@@ -24,13 +24,15 @@ La réponse défensive la plus importante est la vitesse. La conversion est grou
 
 Après la transformation en eau, l'expansion terrestre normale ne peut pas la restaurer. Vous pouvez toutefois exploiter ce nouvel espace avec Ports, transports, navires de guerre et commerce.
 
-La v33.4 change le rythme, pas la conversion. Le menu radial propose des Atom Bombs x2/x5/xMax, et deux pressions sur `8` choisissent x5.
+La v34 conserve le rythme des lots, sans changer la conversion. Le menu radial propose des Atom Bombs x2/x5/xMax, et deux pressions sur `8` choisissent x5.
 
 Un même Silo espace les bombes d’un tick ; plusieurs Silos prêts peuvent tirer ensemble. Plusieurs petits cratères arrivent donc plus vite, mais chaque impact garde la même fenêtre de reconquête avant conversion.
 
-## Limite connue des routes navales en v33.5
+## Correction des routes navales en v34
 
-Ne supposez pas que la ligne visible la plus courte dans un nouveau chenal sera la route du transport. L'eau convertie reste navigable, mais les tiles Water Nukes de la minicarte peuvent rester à magnitude 0 et perdre leur marqueur ocean.
+Ne prenez pas les anciennes captures de détour pour le comportement garanti de v34. La correction reconstruit le graphe de route après une frappe et inclut l'eau nouvelle.
+
+La côte, les obstacles et la destination continuent toutefois de déterminer le chemin.
 
 Le pathfinding applique alors un coût trois fois supérieur près de ces tiles. Il refuse aussi certains raccourcis en ligne droite et peut donc contourner le cratère.
 
@@ -38,17 +40,15 @@ C'est un défaut de route, pas la preuve que le cratère est resté terrestre. A
 
 Une route fonctionnelle mais longue expose le navire plus longtemps que ne le suggère la carte.
 
-Le comportement actuel en production est un défaut de route : les marqueurs d'océan et la profondeur peuvent rester périmés après conversion. Le correctif à venir reconstruit ces données, mais n'est pas encore dans la release formelle.
-
-Le commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) est fusionné dans `main`, mais il reste postérieur à la dernière Release formelle `v0.33.5`. Traitez-le comme un correctif à venir jusqu'à sa publication.
+La correction est incluse dans la Release formelle [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1). Les transports reconstruisent leur graphe avec l'eau créée par les Water Nukes ; ne la présentez plus comme une modification limitée à `main`.
 
 ![Capture officielle en production v33.4 : le transport contourne l'Afrique transformée par Water Nukes](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
 *Production v33.4 : la route évite une grande partie de l'eau convertie.*
 
-![Capture officielle après le correctif Water Nukes non publié : la route traverse directement l'eau convertie](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+![Capture officielle du correctif Water Nukes avant sa publication formelle : la route traverse directement l'eau convertie](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 
-*`main` après `c5c7d74` : les marqueurs ocean et la profondeur sont reconstruits. Cette image ne signifie pas encore que le correctif est publié.*
+*État historique de `main` après `c5c7d74` : les marqueurs ocean et la profondeur sont reconstruits. Le correctif est désormais publié dans v0.34.0-beta1.*
 
 ## Concepts et prérequis
 
@@ -98,7 +98,7 @@ La forme compte. Un cratère lisse devient plus facilement un plan d'eau cohére
 | --- | ---: | --- | --- |
 | Bombe atomique | 750 000 | Inner 12 / outer 30 tiles | Interceptable |
 | Bombe à hydrogène | 5 000 000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | 25M + 15M par tir antérieur | Se divise en ogives | Véhicule non ciblé ; le tir déclenche le cooldown du Silo |
+| MIRV | 25M fixe | Se divise en ogives | Véhicule non ciblé ; les autres joueurs sont bloqués 60 secondes, sauf le dernier lanceur |
 | Ogive MIRV | Incluse avec le MIRV | Inner 12 / outer 18 tiles | Cible SAM normale en vol |
 | Lanceur SAM | Premier à 1 500 000 | Débute à 70 tiles | Cooldown de 90 ticks |
 
@@ -106,7 +106,7 @@ Atom est la tentative de modification la moins chère, mais son empreinte est bi
 
 Un MIRV crée plusieurs zones plus petites. Son véhicule traverse le ciblage SAM, mais les ogives séparées peuvent être interceptées si trajectoire et timing le permettent.
 
-Son prix de départ vaut cinq Hydrogen, chaque lancement antérieur ajoute 15 000 000 d'or et le tir déclenche le cooldown du Silo.
+Chaque MIRV coûte cinq Hydrogen, soit 25 000 000 d'or fixes. Un tir réussi bloque les autres joueurs pendant 60 secondes ; le dernier lanceur peut repartir depuis un autre Silo prêt et relancer leur attente.
 
 Le choix dépend de la forme, pas seulement des dégâts. Décidez s'il faut une petite brèche, une coupure large, plusieurs cratères ou simplement détruire des troupes.
 
@@ -234,11 +234,11 @@ Un SAM par défaut commence à 70 tiles. C'est plus que l'outer 30 d'Atom, mais 
 
 Hydrogen possède outer 100. Une frappe réussie peut toucher une zone bien plus large, ce qui justifie de répartir les structures même derrière des SAM.
 
-### Escalade du MIRV
+### Prix fixe et initiative du MIRV
 
-Le premier MIRV coûte 25 000 000. Le deuxième coûte 40 000 000, car un tir antérieur ajoute 15 000 000. Le troisième coûte 55 000 000.
+Chaque MIRV coûte 25 000 000. Un tir réussi bloque les autres joueurs pendant 60 secondes ; le dernier lanceur reste exempté et peut relancer l’attente depuis un Silo prêt.
 
-L'immunité du véhicule est importante, mais l'interception locale des ogives et le prix croissant exigent un objectif de carte précis plutôt qu'une simple envie de créer davantage d'eau.
+L'immunité du véhicule est importante, mais l'interception locale des ogives et le blocage de 60 secondes exigent un objectif de carte précis plutôt qu'une simple envie de créer davantage d'eau.
 
 ## Erreurs fréquentes
 
@@ -355,6 +355,6 @@ Non. Les bandes côtières fines deviennent plus risquées, mais la nouvelle eau
 - Étudiez le système des [armes nucléaires et SAM](/fr/mechanics/nukes/).
 - Relisez le résumé officiel dans les [notes v31](/fr/changelog/v31/).
 - Utilisez le [guide des raccourcis](/fr/guides/hotkeys/) pour les tirs répétés.
-- Consultez la [vue d’ensemble v33](/fr/changelog/v33/) pour les sources du groupement et du rythme des Silos.
+- Consultez la [vue d’ensemble v34](/fr/changelog/v34/) pour les sources du groupement, du routage et du cooldown MIRV.
 - Planifiez la défense avec la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/).
 - Exploitez les voies d'eau avec le [contrôle naval en équipe](/fr/strategies/team-naval-control/).

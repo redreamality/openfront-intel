@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test';
 
 const cases = [
-  { path: '/whats-new/', nav: "What's New", title: "What's New", live: 'Released articles', upcoming: 'Coming in a future release', read: 'Read the version article' },
-  { path: '/fr/whats-new/', nav: 'Nouveautés', title: 'Nouveautés', live: 'Versions publiées', upcoming: 'À venir dans une prochaine release', read: "Lire l'article de version" },
-  { path: '/nl/whats-new/', nav: 'Wat is er nieuw', title: 'Wat is er nieuw', live: 'Uitgebrachte artikelen', upcoming: 'Komt in een volgende release', read: 'Lees het versieartikel' },
-  { path: '/de/whats-new/', nav: 'Neuigkeiten', title: 'Neuigkeiten', live: 'Veröffentlichte Artikel', upcoming: 'Kommt mit einer künftigen Release', read: 'Versionsartikel lesen' },
-  { path: '/zh/whats-new/', nav: '最新动态', title: '最新动态', live: '已发布文章', upcoming: '即将发布', read: '阅读版本文章' },
+  { path: '/whats-new/', nav: "What's New", title: "What's New", live: 'Released articles', read: 'Read the version article' },
+  { path: '/fr/whats-new/', nav: 'Nouveautés', title: 'Nouveautés', live: 'Versions publiées', read: "Lire l'article de version" },
+  { path: '/nl/whats-new/', nav: 'Wat is er nieuw', title: 'Wat is er nieuw', live: 'Uitgebrachte artikelen', read: 'Lees het versieartikel' },
+  { path: '/de/whats-new/', nav: 'Neuigkeiten', title: 'Neuigkeiten', live: 'Veröffentlichte Artikel', read: 'Versionsartikel lesen' },
+  { path: '/zh/whats-new/', nav: '最新动态', title: '最新动态', live: '已发布文章', read: '阅读版本文章' },
 ];
 
 for (const item of cases) {
@@ -16,8 +16,8 @@ for (const item of cases) {
     await expect(page).toHaveTitle(new RegExp(item.title));
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.locator('[data-whats-new-group="released"] h2')).toHaveText(item.live);
-    await expect(page.locator('[data-whats-new-group="not-released"] h2')).toHaveText(item.upcoming);
-    await expect(page.locator('[data-whats-new-status="not-released"]')).toHaveCount(1);
+    await expect(page.locator('[data-whats-new-group="not-released"]')).toHaveCount(0);
+    await expect(page.locator('[data-whats-new-status="not-released"]')).toHaveCount(0);
     await expect(page.locator('[data-whats-new-status="released"]').first()).toBeVisible();
     await expect(page.locator('a[href*="/issues/"], a[href*="/pull/"]')).toHaveCount(0);
 
@@ -32,21 +32,22 @@ for (const item of cases) {
   });
 }
 
-test("v34 keeps its article URL and marks the preview as not released", async ({ page }) => {
+test("v34 keeps its article URL and marks the formal release as published", async ({ page }) => {
   await page.goto('/zh/changelog/v34/', { waitUntil: 'domcontentloaded' });
   await expect(page).toHaveURL(/\/zh\/changelog\/v34\/$/);
-  await expect(page.getByText('尚未发布', { exact: true })).toBeVisible();
+  await expect(page.getByText('已发布', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('v34');
   await expect(page.locator('a[href*="/issues/"], a[href*="/pull/"]')).toHaveCount(0);
 });
 
-test("homepage promotes the upcoming v34 article without treating it as a live release", async ({ page }) => {
+test("homepage promotes the released v34 article at its stable URL", async ({ page }) => {
   await page.goto('/zh/', { waitUntil: 'domcontentloaded' });
   const strip = page.locator('[data-home-whats-new]');
   await expect(strip).toBeVisible();
   await expect(strip.locator('li')).toHaveCount(3);
   await expect(strip.getByRole('link', { name: '查看全部最新动态' })).toHaveAttribute('href', '/zh/whats-new/');
   await expect(strip.getByRole('link', { name: /v34/ })).toHaveAttribute('href', /\/zh\/changelog\/v34\/$/);
+  await expect(strip.getByText('已发布', { exact: true }).first()).toBeVisible();
 });
 
 test.describe("mobile What's New navigation", () => {

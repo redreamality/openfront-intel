@@ -69,21 +69,20 @@ for (const path of publicFiles) {
   }
 }
 
-const previewContracts = [
-  { lang: 'en', required: /^## Lobby map preload:/m, shipped: [/^## Doomsday teams:/m, /^## Spectating:/m] },
-  { lang: 'fr', required: /^## Préchargement de la carte\s*:/m, shipped: [/^## Doomsday en équipe\s*:/m, /^## Spectateur\s*:/m] },
-  { lang: 'de', required: /^## Karten-Vorladen:/m, shipped: [/^## Doomsday im Team:/m, /^## Zuschauen:/m] },
-  { lang: 'nl', required: /^## Kaart vooraf laden:/m, shipped: [/^## Doomsday in teams:/m, /^## Toeschouwen:/m] },
-  { lang: 'zh', required: /^## 大厅地图预加载[：:]/m, shipped: [/^## Doomsday 团队模式[：:]/m, /^## 旁观模式[：:]/m] },
+const releaseContracts = [
+  { lang: 'en', required: /map preloading/i },
+  { lang: 'fr', required: /préchargement des cartes/i },
+  { lang: 'de', required: /Karten-Vorladen/i },
+  { lang: 'nl', required: /vooraf laden van kaarten/i },
+  { lang: 'zh', required: /地图预加载/ },
 ];
 
-for (const contract of previewContracts) {
+for (const contract of releaseContracts) {
   const relative = `src/content/changelog/${contract.lang}/v34.mdx`;
   const source = await readFile(resolve(relative), 'utf8');
-  if (!contract.required.test(source)) fail(relative, 'v34 preview must explain lobby map preloading');
-  if (contract.shipped.some((pattern) => pattern.test(source))) {
-    fail(relative, 'v34 preview must not list v0.33.7 shipped themes as upcoming');
-  }
+  if (!/^releaseStatus: released$/m.test(source)) fail(relative, 'v34 must be marked released');
+  if (!/v0\.34\.0-beta1/.test(source)) fail(relative, 'v34 must cite the exact formal tag');
+  if (!contract.required.test(source)) fail(relative, 'v34 must explain released lobby map preloading');
 }
 
 console.log(`What's New audit: ${files.length} internal entries, ${publicFiles.length} public files`);

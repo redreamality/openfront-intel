@@ -6,8 +6,8 @@ updatedDate: 2026-08-13
 tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Fortgeschritten
-version: v33
-freshnessSummary: "In v33.5 ist neues Wasser befahrbar, doch Schiffe können Water-Nukes-Krater weiterhin umfahren; der Fix liegt auf main, aber noch in keinem Release."
+version: v34
+freshnessSummary: "v0.34.0-beta1 veröffentlicht die Water-Nukes-Routenreparatur und setzt MIRVs auf feste 25M mit 60-Sekunden-Sperre für andere Spieler."
 ---
 
 ## Direkte Antwort: Was Water Nukes bewirken
@@ -16,7 +16,7 @@ freshnessSummary: "In v33.5 ist neues Wasser befahrbar, doch Schiffe können Wat
 
 Das neue Wasser ist echtes Gelände und kann von Schiffen genutzt werden.
 
-In v33.5 kann die Minimap nach der Umwandlung weiterhin falsche Tiefen- und Ozeanwerte behalten. Ein Transport funktioniert, nimmt aber unter Umständen einen langen Umweg um den Water-Nukes-Krater.
+v0.34.0-beta1 baut das Routendiagramm nach der Umwandlung neu auf. Transporte beziehen während der Partie erzeugtes Wasser nun ein, statt einem veralteten Geländestatus zu folgen.
 
 Der Modus ist standardmäßig aus. Hosts aktivieren ihn in den Spieloptionen. Öffentliche Partien zeigen vor dem Spawn ein **Water Nukes**-Abzeichen.
 
@@ -24,13 +24,13 @@ Die wichtigste defensive Antwort ist Tempo. Die Umwandlung erfolgt gesammelt nac
 
 Nach der Umwandlung kann normale Landexpansion das Tile nicht zurückbringen. Neues Wasser lässt sich aber mit Ports, Transporten, Warships und Handelsschiffen nutzen, sofern die Regeln es erlauben.
 
-v33.4 ändert das Tempo, nicht die Geländeumwandlung. Das Radialmenü bietet Atom Bombs x2/x5/xMax, zweimal `8` wählt x5.
+v34 behält das Pakettempo bei und ändert nicht die Geländeumwandlung. Das Radialmenü bietet Atom Bombs x2/x5/xMax, zweimal `8` wählt x5.
 
 Dasselbe Silo feuert im Tick-Abstand; getrennte bereite Silos können gemeinsam starten. Mehrere kleine Krater entstehen schneller, doch jeder Einschlag behält dieselbe Rückeroberungsfrist vor der Umwandlung.
 
-## Bekannte Schiffsweg-Einschränkung in v33.5
+## Schiffsweg-Reparatur in v34
 
-Verlasse dich nicht darauf, dass die kürzeste sichtbare Linie durch einen neuen Kanal auch die Transportroute ist.
+Nimm alte Umweg-Screenshots nicht als garantiertes v34-Verhalten. Die Reparatur baut das Routendiagramm nach einem Schlag neu auf und nimmt neues Wasser auf; Küstenform, Hindernisse und Ziel bestimmen den Weg weiterhin.
 
 Umgewandeltes Wasser bleibt befahrbar, doch Water-Nukes-Tiles der Minimap können magnitude 0 behalten und ihre ocean-Markierung verlieren.
 
@@ -40,17 +40,15 @@ Das ist ein Routenfehler und kein Zeichen dafür, dass der Krater Land geblieben
 
 Ein funktionierender Umweg setzt das Schiff länger einer Abwehr aus, als die Kartenform vermuten lässt.
 
-Das aktuelle Produktionsverhalten ist ein Routenfehler: Ocean-Markierung und Minimap-Tiefe können nach der Umwandlung veraltet bleiben. Der kommende Fix baut diese Daten neu auf, ist aber noch nicht im formalen Release.
-
-Commit [`c5c7d74`](https://github.com/openfrontio/OpenFrontIO/commit/c5c7d74c6f7b687ca9c72fe0570a26469913b8d2) ist in `main` zusammengeführt, aber weiterhin neuer als das letzte formale Release `v0.33.5`. Bis zu einem Release bleibt er ein kommender Fix.
+Die Reparatur ist in der formellen Release [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) enthalten. Transporte bauen ihr Routendiagramm mit dem von Water Nukes erzeugten Wasser neu auf; sie ist nicht mehr nur eine Änderung auf `main`.
 
 ![Offizieller v33.4-Produktionsvergleich: Die Transportroute umfährt das durch Water Nukes umgewandelte Afrika](https://github.com/user-attachments/assets/13fd48ae-f538-45a7-ace2-e1b9583c5337)
 
 *v33.4-Produktion: Die Route meidet einen großen Teil des neuen Wassers.*
 
-![Offizieller Vergleich nach dem unveröffentlichten Water-Nukes-Fix: Die Route führt direkt durch das umgewandelte Wasser](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
+![Offizieller Vergleich des Water-Nukes-Fixes vor seiner formellen Veröffentlichung: Die Route führt direkt durch das umgewandelte Wasser](https://github.com/user-attachments/assets/bf6fecee-8096-4871-a87d-b1b0032fdbb0)
 
-*Upstream `main` nach `c5c7d74`: ocean-Markierung und Minimap-Tiefe werden neu aufgebaut. Das Bild behauptet keine Veröffentlichung des Fixes.*
+*Historischer Upstream-Stand von `main` nach `c5c7d74`: ocean-Markierung und Minimap-Tiefe werden neu aufgebaut. Der Fix ist nun in v0.34.0-beta1 veröffentlicht.*
 
 ## Konzepte und Voraussetzungen
 
@@ -100,7 +98,7 @@ Die Form zählt taktisch. Ein glatter Krater verhält sich eher wie ein geschlos
 | --- | ---: | --- | --- |
 | Atombombe | 750.000 | Inner 12 / outer 30 Tiles | Abfangbar |
 | Wasserstoffbombe | 5.000.000 | Inner 80 / outer 100 Tiles | Abfangbar |
-| MIRV | 25M + 15M je früherem Start | Spaltet sich in MIRV-Sprengköpfe | Träger kein Ziel; Start löst Silo-Cooldown aus |
+| MIRV | Fest 25M | Spaltet sich in MIRV-Sprengköpfe | Träger kein Ziel; andere Spieler werden 60 Sekunden gesperrt, der letzte Launcher bleibt ausgenommen |
 | MIRV-Sprengkopf | In MIRV enthalten | Inner 12 / outer 18 Tiles | Normales SAM-Ziel im Flug |
 | SAM Launcher | Erster kostet 1.500.000 | Beginnt bei 70 Tiles und skaliert | 90 Ticks Cooldown |
 
@@ -108,7 +106,7 @@ Eine Atombombe ist der billigere Versuch zur Geländeänderung, ihr Fußabdruck 
 
 Eine MIRV erzeugt mehrere kleinere Flächen. Der Träger durchquert die SAM-Zielerfassung, getrennte Sprengköpfe können bei passender Flugbahn und Zeit jedoch abgefangen werden. Der Start löst auch den Silo-Cooldown aus.
 
-Ihr Startpreis beträgt das Fünffache einer Wasserstoffbombe, jeder frühere Start addiert 15.000.000 Gold.
+Jede MIRV kostet das Fünffache einer Wasserstoffbombe, also fest 25.000.000 Gold. Ein erfolgreicher Start sperrt andere Spieler 60 Sekunden; der letzte Launcher darf aus einem bereiten Silo erneut starten und ihre Wartezeit neu beginnen.
 
 Die richtige Wahl hängt von der Form ab, nicht nur vom Schaden. Entscheide zwischen kleiner Bresche, breitem Schnitt, mehreren Kratern oder reiner Truppenvernichtung.
 
@@ -236,11 +234,11 @@ Ein Standard-SAM startet bei 70 Tiles. Das übersteigt outer 30 einer Atombombe,
 
 Eine Wasserstoffbombe besitzt outer 100. Ein Treffer betrifft viel mehr Fläche, weshalb verteilte Schlüsselgebäude selbst hinter SAM-Abdeckung wichtig sind.
 
-### MIRV-Preisanstieg
+### MIRV-Festpreis und Initiative
 
-Die erste MIRV kostet 25.000.000 Gold. Die zweite kostet 40.000.000, weil ein früherer Start 15.000.000 addiert. Die dritte kostet 55.000.000.
+Jede MIRV kostet fest 25.000.000 Gold. Ein erfolgreicher Start sperrt andere Spieler 60 Sekunden; der letzte Launcher bleibt ausgenommen und kann die Wartezeit aus einem bereiten Silo neu starten.
 
-SAM-Immunität ist strategisch wichtig. Der steigende Preis verlangt jedoch ein kartengestaltendes Ziel statt des vagen Wunsches nach mehr Wasser.
+Die Träger-Immunität ist strategisch wichtig. Getrennte Sprengköpfe bleiben abfangbar, und die 60-Sekunden-Sperre verlangt ein kartengestaltendes Ziel statt des vagen Wunsches nach mehr Wasser.
 
 ## Häufige Fehlermuster
 
@@ -353,6 +351,6 @@ Nein. Dünne Küsten werden riskanter, doch neues Wasser unterstützt auch Ports
 - Lerne das ganze [Atomwaffen- und SAM-System](/de/mechanics/nukes/).
 - Lies die offizielle Zusammenfassung in den [v31-Release-Notes](/de/changelog/v31/).
 - Nutze den [Hotkeys-Guide](/de/guides/hotkeys/) für Wiederholungssteuerung.
-- Lies die [v33-Übersicht](/de/changelog/v33/) für die offiziellen Quellen zu Paket und Silo-Taktung.
+- Lies die [v34-Übersicht](/de/changelog/v34/) für die offiziellen Quellen zu Paket, Routenkorrektur und MIRV-Cooldown.
 - Plane Abwehr mit [nuklearer Abschreckung und SAM-Netzwerken](/de/strategies/nuclear-deterrence/).
 - Nutze neue Wasserwege mit dem [Guide zur Team-Seekontrolle](/de/strategies/team-naval-control/).

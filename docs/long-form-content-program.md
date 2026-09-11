@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-09。规划窗口：未来 8–12 周。
+更新日期：2026-09-11。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -10,7 +10,7 @@
 
 玩家不只看到机制定义，而是能在具体局势中回答：现在该建什么、该攻击谁、哪条路线值得投资、怎样防住核打击，以及地图形状如何改变计划。
 
-长文不以凑字数交付，但定时任务的新 guide 必须达到 1000 个英文正文词的最低门槛。每篇还必须提供独立搜索意图、当前版本边界、一手来源、决策框架、至少两个可核验场景、失败与反制，以及清晰的下一步阅读路径。
+长文不以凑字数交付，但定时任务的新 guide 必须达到 2000 个英文正文词的最低门槛（通常 3000–5000）。每篇还必须提供独立搜索意图、当前版本边界、一手来源、决策框架、至少两个可核验场景、失败与反制，以及清晰的下一步阅读路径。
 
 ## 路由与唯一意图
 
@@ -42,6 +42,7 @@
 | `LF-COMMUNITY-2026-09-07` | `/guides/mobile-controls/` | 手机上如何区分出生、点按、平移、缩放与长按状态，核对攻击比例、建造/核武装填和战舰范围，并从误触恢复 | `hotkeys` 只负责桌面键盘和鼠标；`first-match` 只负责跨设备开局；FAQ 只确认浏览器可玩；本页独占 v0.33.14 触控状态、TAP 执行框架、10 client px 与 10 map tiles 边界及小屏恢复，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-08` | `/guides/transport-landings/` | 进攻方如何选择可达海岸、限制运输波次、安排 Warship 护航、建立有纵深的滩头，并在本土被抽空前取消失败行动 | `island-defense` 只负责守方预警与岛屿持守；`team-naval-control` 只负责团队舰队分工；`land-combat` 从运输船落地后的边境战开始；本页独占 COAST 检查、递减余额分配、进场护航与登陆终止条件，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-09` | `/guides/team-economy-space/` | Team 对局如何为 City、Factory、Port 与铁路预留空间，按付款人计算成本，分配路线保护和捐赠，并在共享路线失效时止损 | `team-roles` 只负责动态分工；`train-network` 只负责铁路拓扑与停站；`port-vs-factory` 只比较单个收入引擎；本页独占团队地理、所有权、付款人和复合投资的先决合同，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-11` | `/guides/nations-pressure/` | Nation AI 何时是可利用的压力阀、何时只是诱饵，以及何时停止扩张、改打真人或保留 MIRV 反制 | `threat-assessment` 只负责全图扫描；`land-combat` 只负责已接触战斗；`nuclear-deterrence` 只负责核网络；本页独占 Nation 目标筛选、Hard/Impossible 75% 候选上限、P-R-E-S-S 停止线与模式/地图调整，不再换标题复制 |
 
 ## 生产批次
 
@@ -52,7 +53,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-09 Team Economy Space 已完成五语内容、社区/官方来源包、Guides 入口及 Port-vs-Factory/Train Network/Team Roles 回链，待完整验证与 PR 合并 | 一轮一个独立意图；同轮完成调研、2000+ 英文正文词（通常 3000–5000）、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-11 Nations Pressure 已完成五语内容、社区/官方来源包、Guides 入口及 Threat Assessment/Land Combat/Nuclear Deterrence 回链与交付闭环 | 一轮一个独立意图；同轮完成调研、2000+ 英文正文词（通常 3000–5000）、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 

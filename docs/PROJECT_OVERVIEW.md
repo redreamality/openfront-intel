@@ -41,7 +41,7 @@
 3. **military** — 地形 mag/speed、防御工事 ×5/×3、大军减益
 4. **structures** — City/Port/Factory/DefensePost/SAM/Silo
 5. **units** — 运输船/战舰/贸易船/火车/炮弹
-6. **nukes** — AtomBomb 750k / HydrogenBomb 5M / MIRV 25M+15M·n
+6. **nukes** — AtomBomb 750k / HydrogenBomb 5M / MIRV fixed 25M + asymmetric 60s launch lock
 7. **alliances** — 3000 ticks 同盟、背叛 ×0.5/×0.8
 8. **trains** — Factory→Train、铁路 120 tiles、盟友 35k/站
 9. **trade** — 贸易船 cap 150、距离收益曲线
@@ -90,7 +90,7 @@ src/data/
 |------|-----|
 | AtomBomb | 750,000 G |
 | HydrogenBomb | 5,000,000 G |
-| MIRV | 25M + 15M × 已发射数 |
+| MIRV | 固定 25M；成功发射后其他玩家锁定 60 秒，最近发射者豁免 |
 | SAM 射程 | 70 → 150 tiles (按等级) |
 | SAM 冷却 | 90 ticks |
 | 同盟时长 | 3000 ticks ≈ 5 分钟 |

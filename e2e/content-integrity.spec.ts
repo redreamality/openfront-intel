@@ -23,8 +23,8 @@ const v33MapIds = [
   'lasvegasstrip', 'levant', 'tierradelfuego', 'branchingpaths', 'morethanluck',
 ];
 
-test('v33 map extraction contains the 117-map pool and all 22 additions', () => {
-  expect(maps.meta.total).toBe(117);
+test('v34 map extraction contains the 119-map pool and all v33 additions', () => {
+  expect(maps.meta.total).toBe(119);
   const extractedIds = new Set(maps.list.map((map) => map.id));
   for (const id of v33MapIds) expect(extractedIds.has(id), `missing map id: ${id}`).toBe(true);
 });
@@ -68,7 +68,7 @@ test('provenance distinguishes the extraction checkout from the editorial snapsh
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toContainText('generated from the recorded upstream checkout');
-  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v33');
+  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v34');
 });
 
 const aboutCases = [
@@ -283,48 +283,48 @@ const freshnessLanguages = [
     lang: 'en',
     prefix: '',
     labels: ['Applies to', 'Last verified', 'What changed in this version'],
-    hotkeyFact: 'x1/x5',
-    waterNukeFact: 'detour',
+    hotkeyFact: '25M',
+    waterNukeFact: 'ship routing',
   },
   {
     lang: 'zh',
     prefix: '/zh',
     labels: ['适用版本', '最后核验', '本版本关键变化'],
-    hotkeyFact: 'x1/x5',
-    waterNukeFact: '绕开',
+    hotkeyFact: '25M',
+    waterNukeFact: '舰船寻路修复',
   },
   {
     lang: 'fr',
     prefix: '/fr',
     labels: ['Version applicable', 'Dernière vérification', 'Changement clé de cette version'],
-    hotkeyFact: 'x1/x5',
-    waterNukeFact: 'contourner',
+    hotkeyFact: '25M',
+    waterNukeFact: 'correction de route',
   },
   {
     lang: 'de',
     prefix: '/de',
     labels: ['Gilt für', 'Zuletzt geprüft', 'Wichtigste Änderung dieser Version'],
-    hotkeyFact: 'x1/x5',
-    waterNukeFact: 'umfahren',
+    hotkeyFact: '25M',
+    waterNukeFact: 'Routenreparatur',
   },
   {
     lang: 'nl',
     prefix: '/nl',
     labels: ['Geldt voor', 'Laatst gecontroleerd', 'Belangrijkste wijziging in deze versie'],
-    hotkeyFact: 'x1/x5',
-    waterNukeFact: 'om',
+    hotkeyFact: '25M',
+    waterNukeFact: 'routefix',
   },
 ] as const;
 
 const freshnessPages = [
-  { route: '/guides/first-match/', fact: 'v33.11' },
-  { route: '/guides/doomsday-clock/', fact: 'v33.7' },
-  { route: '/guides/hotkeys/', fact: 'hotkey' },
-  { route: '/guides/water-nukes/', fact: 'water-nukes' },
-  { route: '/strategies/economy-fundamentals/', fact: 'v32' },
-  { route: '/strategies/ffa-opening/', fact: '22' },
-  { route: '/strategies/nuclear-deterrence/', fact: 'MIRV' },
-  { route: '/strategies/team-naval-control/', fact: '3' },
+  { route: '/guides/first-match/', version: 'v33', fact: 'v33.11' },
+  { route: '/guides/doomsday-clock/', version: 'v33', fact: 'v33.7' },
+  { route: '/guides/hotkeys/', version: 'v34', fact: 'hotkey' },
+  { route: '/guides/water-nukes/', version: 'v34', fact: 'water-nukes' },
+  { route: '/strategies/economy-fundamentals/', version: 'v33', fact: 'v32' },
+  { route: '/strategies/ffa-opening/', version: 'v33', fact: '22' },
+  { route: '/strategies/nuclear-deterrence/', version: 'v34', fact: 'MIRV' },
+  { route: '/strategies/team-naval-control/', version: 'v33', fact: '3' },
 ] as const;
 
 for (const language of freshnessLanguages) {
@@ -335,7 +335,7 @@ for (const language of freshnessLanguages) {
       const freshness = page.locator('[data-freshness-summary]');
       await expect(freshness).toBeVisible();
       await expect(freshness.locator('dd')).toHaveCount(3);
-      await expect(freshness).toContainText('v33');
+      await expect(freshness).toContainText(freshnessPage.version);
       await expect(freshness).toContainText('2026');
       for (const label of language.labels) await expect(freshness).toContainText(label);
       const expectedFact = freshnessPage.fact === 'hotkey'
@@ -368,11 +368,11 @@ for (const v32Case of v32Cases) {
 }
 
 const latestReleaseSsrCases = [
-  { lang: 'en', path: '/', signal: 'one quarter of public FFA games' },
-  { lang: 'zh', path: '/zh/', signal: '四分之一的公开 FFA 对局' },
-  { lang: 'fr', path: '/fr/', signal: 'un quart des parties FFA publiques' },
-  { lang: 'de', path: '/de/', signal: 'einem Viertel der öffentlichen FFA-Partien' },
-  { lang: 'nl', path: '/nl/', signal: 'een kwart van de openbare FFA-partijen' },
+  { lang: 'en', path: '/', signal: 'MIRVs now cost a flat 25 million Gold' },
+  { lang: 'zh', path: '/zh/', signal: 'MIRV 现在固定花费 25,000,000 Gold' },
+  { lang: 'fr', path: '/fr/', signal: '25 millions de Gold' },
+  { lang: 'de', path: '/de/', signal: 'Ein MIRV kostet jetzt fest 25 Millionen Gold' },
+  { lang: 'nl', path: '/nl/', signal: 'Een MIRV kost nu altijd 25 miljoen Gold' },
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {
@@ -557,7 +557,7 @@ const mirvSamCases = [
     strategyPath: '/strategies/nuclear-deterrence/',
     carrier: 'carrier remains outside the SAM target list',
     warhead: 'normal NukeExecution and SAM trajectory checks',
-    cooldown: 'Missile Silo on cooldown',
+    cooldown: 'blocks every other player for 60 seconds',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'One Silo releases queued bombs one tick apart',
     strategy: 'trajectory, range, timing, ready-shot, and cooldown logic',
@@ -568,7 +568,7 @@ const mirvSamCases = [
     strategyPath: '/zh/strategies/nuclear-deterrence/',
     carrier: 'MIRV 载体仍不在 SAM 目标列表中',
     warhead: '接受 SAM 弹道检查',
-    cooldown: 'Missile Silo 进入冷却',
+    cooldown: '其他玩家锁定 60 秒',
     batch: '原子弹 x1/x2/x5/xMax',
     timing: '同一 Silo 的核弹每隔 1 tick 发出一枚',
     strategy: '按弹道、射程、时机、可用弹量与冷却检查',
@@ -579,7 +579,7 @@ const mirvSamCases = [
     strategyPath: '/fr/strategies/nuclear-deterrence/',
     carrier: 'le véhicule reste hors de la liste SAM',
     warhead: 'contrôle de trajectoire normal',
-    cooldown: 'Missile Silo en cooldown',
+    cooldown: 'bloque les autres joueurs pendant 60 secondes',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Un même Silo espace ses bombes d’un tick',
     strategy: 'selon la trajectoire, la portée, le timing, les tirs prêts et le cooldown',
@@ -590,7 +590,7 @@ const mirvSamCases = [
     strategyPath: '/de/strategies/nuclear-deterrence/',
     carrier: 'Der Träger bleibt außerhalb der SAM-Zielliste',
     warhead: 'normale Flugbahnprüfung',
-    cooldown: 'Missile Silo auf Cooldown',
+    cooldown: 'blockiert alle anderen Spieler 60 Sekunden',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Dasselbe Silo startet seine Bomben mit je einem Tick Abstand',
     strategy: 'nach Flugbahn, Reichweite, Timing, bereiten Schüssen und Cooldown',
@@ -601,7 +601,7 @@ const mirvSamCases = [
     strategyPath: '/nl/strategies/nuclear-deterrence/',
     carrier: 'de drager blijft buiten de SAM-doellijst',
     warhead: 'normale baancontrole',
-    cooldown: 'Missile Silo op cooldown',
+    cooldown: 'blokkeert alle andere spelers 60 seconden',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Dezelfde Silo lanceert bommen met telkens één tick ertussen',
     strategy: 'op baan, bereik, timing, gereed schot en cooldown',
@@ -620,10 +620,10 @@ for (const mirvSamCase of mirvSamCases) {
     await expect(main).toContainText(mirvSamCase.timing);
     await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
       'href',
-      'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/SAMLauncherExecution.ts',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts',
     );
     await expect(
-      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.33.4/src/core/execution/NukeExecution.ts"]'),
+      main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts"]'),
     ).toHaveCount(1);
   });
 
@@ -694,42 +694,42 @@ const waterNukeBatchCases = [
   {
     lang: 'en',
     path: '/guides/water-nukes/',
-    unchanged: 'changes the tempo, not the conversion rule',
+    unchanged: 'without changing the conversion rule',
     batch: 'Atom Bombs can be launched in x2/x5/xMax batches',
     timing: 'One Silo releases queued bombs one tick apart',
   },
   {
     lang: 'zh',
     path: '/zh/guides/water-nukes/',
-    unchanged: '改变的是打击节奏，不是地形转换机制',
+    unchanged: '不改变地形转换机制',
     batch: '径向菜单可选原子弹 x2/x5/xMax',
     timing: '同一 Silo 的核弹逐 tick 发出',
   },
   {
     lang: 'fr',
     path: '/fr/guides/water-nukes/',
-    unchanged: 'change le rythme, pas la conversion',
+    unchanged: 'conserve le rythme des lots',
     batch: 'Atom Bombs x2/x5/xMax',
     timing: 'Un même Silo espace les bombes d’un tick',
   },
   {
     lang: 'de',
     path: '/de/guides/water-nukes/',
-    unchanged: 'ändert das Tempo, nicht die Geländeumwandlung',
+    unchanged: 'ändert nicht die Geländeumwandlung',
     batch: 'Atom Bombs x2/x5/xMax',
     timing: 'Dasselbe Silo feuert im Tick-Abstand',
   },
   {
     lang: 'nl',
     path: '/nl/guides/water-nukes/',
-    unchanged: 'verandert het tempo, niet de omzetting',
+    unchanged: 'verandert de omzetting niet',
     batch: 'Atom Bombs x2/x5/xMax',
     timing: 'Dezelfde Silo vuurt per tick',
   },
 ] as const;
 
 for (const waterNukeCase of waterNukeBatchCases) {
-  test(`Water Nukes[${waterNukeCase.lang}] applies v33.4 timing without changing conversion`, async ({ page }) => {
+  test(`Water Nukes[${waterNukeCase.lang}] applies v34 timing without changing conversion`, async ({ page }) => {
     await page.goto(waterNukeCase.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(waterNukeCase.unchanged);
@@ -742,42 +742,42 @@ const waterNukePathfindingCases = [
   {
     lang: 'en',
     path: '/guides/water-nukes/',
-    limitation: 'Known v33.5 ship-route limitation',
-    cost: 'three times the normal step cost',
-    release: 'upcoming fix until a Release includes it',
+    limitation: 'v34 ship-route fix',
+    cost: 'rebuilds the route graph after a strike',
+    release: 'included in the formal',
   },
   {
     lang: 'zh',
     path: '/zh/guides/water-nukes/',
-    limitation: 'v33.5 已知舰船绕路问题',
-    cost: '单步成本提高到正常值的 3 倍',
-    release: '只能把它视为即将发布的修复',
+    limitation: 'v34 已发布的舰船寻路修复',
+    cost: '重建运输船路径图',
+    release: '修复已包含在正式的',
   },
   {
     lang: 'fr',
     path: '/fr/guides/water-nukes/',
-    limitation: 'Limite connue des routes navales en v33.5',
-    cost: 'un coût trois fois supérieur',
-    release: 'Traitez-le comme un correctif à venir jusqu’à sa publication',
+    limitation: 'Correction des routes navales en v34',
+    cost: 'reconstruit le graphe de route',
+    release: 'La correction est incluse dans la Release formelle',
   },
   {
     lang: 'de',
     path: '/de/guides/water-nukes/',
-    limitation: 'Bekannte Schiffsweg-Einschränkung in v33.5',
-    cost: 'dreifachen Schrittkostenwert',
-    release: 'Bis zu einem Release bleibt er ein kommender Fix',
+    limitation: 'Schiffsweg-Reparatur in v34',
+    cost: 'baut das Routendiagramm nach der Umwandlung neu auf',
+    release: 'Die Reparatur ist in der formellen Release',
   },
   {
     lang: 'nl',
     path: '/nl/guides/water-nukes/',
-    limitation: 'Bekende beperking van scheepsroutes in v33.5',
-    cost: 'drie keer de normale stapkosten',
-    release: 'Behandel dit als een komende fix totdat een Release hem bevat',
+    limitation: 'Scheepsroutefix in v34',
+    cost: 'bouwt de routegraaf na conversie opnieuw op',
+    release: 'De fix zit in de formele Release',
   },
 ] as const;
 
 for (const pathfindingCase of waterNukePathfindingCases) {
-  test(`Water Nukes[${pathfindingCase.lang}] separates the v33.5 detour from the unreleased fix`, async ({ page }) => {
+  test(`Water Nukes[${pathfindingCase.lang}] documents the released v34 route fix`, async ({ page }) => {
     await page.goto(pathfindingCase.path, { waitUntil: 'domcontentloaded' });
     const main = page.locator('main');
     await expect(main).toContainText(pathfindingCase.limitation);
