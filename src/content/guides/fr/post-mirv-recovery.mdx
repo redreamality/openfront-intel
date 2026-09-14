@@ -1,0 +1,124 @@
+---
+title: "OpenFront : récupération après MIRV — stopper l'hémorragie et timez votre contre-attaque"
+description: "Après qu'un MIRV a touché votre territoire, dans v0.34.0-beta1, décidez quoi préserver, à quelle vitesse votre armée repousse et quand la contre-attaque devient réellement possible."
+pubDate: 2026-09-14
+updatedDate: 2026-09-14
+tags: [mirv, récupération, contre-attaque, nucléaire, tactique]
+category: stratégie
+difficulty: avancé
+version: v34
+freshnessSummary: "Vérifié le 2026-09-14 : basé sur la Release officielle v0.34.0-beta1, son test de cooldown MIRV, la source Config de croissance et de plafond de troupes, et la source NukeExecution de fallout et de vitesse."
+---
+
+## Réponse directe : sauvegardez les villes, puis contre-attaquez pendant la fenêtre
+
+Quand un MIRV vous a touché, votre armée est au plus bas, mais votre vitesse de récupération est la plus forte *en relatif*. Ne coursez pas chaque tuile détruite. Sauvegardez les villes déjà construites qui vous survivent — elles portent votre plafond de troupes et pilotent votre croissance —, acceptez les pertes de tuiles, laissez la saturation travailler, et saisissez la contre-attaque pendant les 60 secondes de cooldown de tir global de l'attaquant, avant qu'il ne puisse relancer. Cette fenêtre est réelle : un MIRV de relance se déplace à 22 cases/seconde (22 cases par tick) — plus lent que vous ne le pensez — et l'attaquant ne peut pas relancer tant que son cooldown global de 600 ticks n'est pas réinitialisé.
+
+Ce guide ne traite que de la décision *après* la scission, pas du MIRV lui-même. Le [guide des mécaniques MIRV](/fr/guides/mirv/) couvre l'enveloppe de 350 têtes, l'interception SAM et le `MIRV INBOUND` ; le [manuel de récupération](/fr/strategies/recovery-playbook/) couvre l'hémorragie et la reconstruction générales après *tout* événement nucléaire. La question ici est plus étroite et décisionnelle : vous avez été MIRV, votre carte semble morte, et vous devez savoir exactement quoi garder, à quelle vitesse vous repoussez, et quand frapper. Chaque chiffre ci-dessous vient de la source officielle taguée `v0.34.0-beta1`, pas de réponses communautaires.
+
+## Lisez d'abord la mathématique de croissance
+
+Le fait le plus utile est la fonction de croissance de troupes. Dans `troopIncreaseRate()`, le gain de base par tick est `10 + (troupes ^ 0.73) / 4`, multiplié par le facteur de saturation `(1 − troupes_actuelles / plafond_de_troupes)`, puis ajusté par la difficulté et d'autres correctifs, plafonné pour ne jamais dépasser `maxTroops`.
+
+L'exposant `^ 0.73` est le cœur décisionnel. Parce que l'exposant est inférieur à 1, le terme de base croît plus lentement que les troupes : quand vous êtes bas, votre gain relatif par troupe restante est plus grand qu'en approche du plafond. Un joueur réduit à 40 000 troupes a un facteur de saturation proche de 1, donc le terme de base entier s'applique. Un joueur qui était à 90 % de son plafond et a perdu un tiers a un facteur de saturation proche de 0,1, donc la majeure partie du terme de base est multipliée à zéro. Le même MIRV tue moins relativement le joueur bas-capacité, parce que le facteur de saturation travaille pour lui.
+
+L'autre moitié est `maxTroops` lui-même, votre *cible* de récupération. Pour un joueur humain c'est `2 · ((tuiles^0.6 · 1000) + 50000) + (niveaux_de_villes_construites) · cityTroopIncrease`, où `cityTroopIncrease` est un `250 000` fixe par niveau de ville construite. Deux conclusions directes. Premièrement, chaque ville construite survivante vaut 250 000 de votre plafond — une ville de niveau 3 vaut 750 000 — donc garder un niveau de ville vaut bien plus que récupérer un nombre équivalent de tuiles nues. Deuxièmement, vos tuiles entrent au dénominateur seulement via `tuiles^0.6`, aussi sublinéaire : passer de 3 000 à 6 000 tuiles ne double pas votre contribution plafond. Voilà pourquoi la bonne première intuition est « garder les villes, lâcher les tuiles », pas « récupérer chaque tuile ».
+
+Un exemple chiffré avec la source taguée. Vous MIRV avec 40 000 troupes actuelles, 3 200 tuiles, deux villes construites de niveau 3. Votre `maxTroops` est `2 · ((3200^0.6 · 1000) + 50000) + (3 + 3) · 250000`. Le terme de tuiles est `3200^0.6 ≈ 104.5`, donc `2 · (104500 + 50000) = 309 000` ; le terme de villes est `6 · 250000 = 1 500 000` ; votre plafond est environ `1 809 000`. Votre facteur de saturation est `1 − 40000 / 1809000 ≈ 0.978`. Votre terme de base est `10 + 40000^0.73 / 4 ≈ 10 + 5946/4 ≈ 1506`. Votre gain net par tick est environ `1506 · 0.978 ≈ 1472`. Avec `msPerTick = 100` (10 ticks/s), vous gagnez environ 14 720 troupes par seconde au début, décroissant vers le plafond. C'est une armée récupérable, pas une carte morte — c'est précisément le « ma carte est morte » que décrivent les posts communautaires.
+
+## L'attaquant ne peut pas relancer pendant 60 secondes
+
+Le deuxième cœur décisionnel est la fenêtre de relance de l'attaquant, fixée par le cooldown MIRV de v34. Le cooldown de tir global est `600` ticks, soit `60` secondes à `10` ticks/s. La règle est confirmée par le test officiel `MirvCooldown.test.ts` et asymétrique : le joueur venant de tirer est exempt du cooldown qu'il a lui-même déclenché, et un *nouveau* tir du même joueur réinitialise le minuteur. En pratique, l'attaquant qui vient de vous MIRV vient de payer `25 M` (le prix plat du MIRV en v34) et ne peut pas relancer pendant 60 secondes — c'est votre fenêtre.
+
+Deux chiffres de plus façonnent cette fenêtre. Le porteur MIRV se déplace à `15` cases/tick dans `nukeSpeed()`, tandis que les `MIRVWarhead` séparées se déplacent à `22` cases/tick. La relance arrive donc plus lentement qu'un simple missile, vous laissant réagir. Et le tir brise l'alliance à `−100` pour les deux camps, donc vous entrez dans un nouvel état hostile dès l'instant où vous survivez. Le bandeau `MIRV INBOUND` est votre seule alerte, donc les deux horloges sont les 60 secondes de cooldown et le vol de la tête.
+
+La lecture concrète est un problème à deux horloges. Horloge un : les 60 secondes de re-tir de l'attaquant, qu'il ne réinitialise pas s'il n'a aucune raison de le faire. Horloge deux : votre récupération — la mathématique de saturation dit combien de ticks avant d'avoir une force digne d'être engagée. Vous contre-attaquez quand votre horloge franchit un seuil : une frappe qui atterrit avant la fin de la fenêtre de l'attaquant. S'il a un deuxième silo armé et une raison de tirer, il réinitialise son minuteur et votre fenêtre se referme plus tôt — c'est le mode d'échec de la section suivante.
+
+## Exécutez SAVE–SAT–COOL–COUNTER après chaque frappe
+
+**SAVE** est garder les villes. Pendant les dix premières secondes après la dernière tête, ne dépensez pas d'or pour reconstruire des tuiles nues ni commencer de nouveaux bâtiments au front. Repérez chaque ville construite qui vous survit et gardez vos troupes connectées. Chacune vaut 250 000 de plafond par niveau, et une ville en construction *ne compte pas*, donc une reconstruction inachevée n'est pas un actif — terminez ce qui est construit avant d'en ouvrir de nouveaux.
+
+**SAT** est la lecture de saturation. Regardez vos troupes actuelles contre `maxTroops` et confirmez que vous êtes dans la zone à basse saturation où `^ 0.73` et le facteur proche de 1 vous donnent le meilleur gain relatif. Si vous étiez proche du plafond avant le MIRV, acceptez une récupération plus lente et planifiez une défense plus longue plutôt qu'une contre-attaque immédiate. Écrivez le nombre : « je suis à X % du plafond, donc mon gain net est environ Y par tick. »
+
+**COOL** est l'horloge de cooldown. Notez quand l'attaquant a tiré (le bandeau est votre zéro) et comptez la fenêtre de 600 ticks. S'il construit ou se déplace vers un deuxième silo, supposez qu'il réinitialisera et traitez la fenêtre comme plus courte que 60 s. S'il est inactif, la pleine 60 s est disponible.
+
+**COUNTER** est la frappe limitée. Engagez seulement si votre nombre SAT plus l'horloge COOL disent qu'une frappe peut atterrit avant la fin de la fenêtre, et que cette frappe est un *objectif déclaré* — raccourcir votre frontière, prendre une ville exposée, bloquer l'approche de l'attaquant — pas un all-in. Gardez une réserve pour un second MIRV. Le test est le même qu'une ligne d'arrêt dans [combat terrestre](/fr/guides/land-combat/) : vous savez avant de frapper quel signal termine le mouvement.
+
+<div class="my-8 grid gap-3 md:grid-cols-4" aria-label="Boucle de récupération après MIRV">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">1 - SAVE</strong><p class="mt-2 text-sm text-iron-300">Gardez les villes construites ; chacune vaut 250 000 de plafond par niveau.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">2 - SAT</strong><p class="mt-2 text-sm text-iron-300">Lisez troupes actuelles contre plafond ; basse saturation = meilleure récupération relative.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Comptez le cooldown global de 600 ticks (60 s) ; un second silo raccourcit.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Frappez un objectif limité dans la fenêtre ; gardez une réserve pour un second MIRV.</p></div>
+</div>
+
+Refaites les quatre étapes après chaque changement majeur. Une tête pendant la récupération réinitialise SAT ; un second silo réinitialise COOL et le plan entier. Une bonne récupération peut finir tôt et gagner ; son but n'est pas la panique mais une décision bornée dans le temps.
+
+## Scénario 1 : contre-attaque dans la fenêtre de 60 secondes (FFA)
+
+Vous êtes en FFA v0.34.0-beta1. Après le MIRV d'un adversaire, vous avez 3 200 tuiles, deux villes construites de niveau 3, 40 000 troupes. L'adversaire a 1 100 000 troupes et un second silo inactif. Il vient de payer 25 M et est dans le cooldown de 600 ticks. Votre `maxTroops` est environ 1 809 000 (calculé ci-dessus), donc votre facteur SAT est environ 0.978 et votre gain net environ 1 472/tick, soit environ 14 700/s. Vous avez 600 000 d'or et un couloir terrestre vers l'unique ville de niveau 1 exposée de l'adversaire, 1 500 cases derrière sa ligne. Votre objectif est de la prendre avant que l'horloge de 600 ticks de l'adversaire ne réinitialise et que son second silo ne relance.
+
+Vérification de la frappe. Prendre une ville à 1 500 cases demande une force capable d'y survivre ; supposons 90 000 troupes engagées plus 50 000 de réserve. Vous êtes à 40 000, donc il faut d'abord pousser de 50 000. À environ 14 700/s net au début, cela prend environ 4 s en croissance pure — mais le gain décroît en montant, donc le nombre réaliste est 25 à 35 s de récupération active en gardant les villes. C'est bien dans la fenêtre de 60 s : la contre-attaque est faisable. La contrainte décisive est le second silo inactif : s'il tire pendant vos 30 s, il réinitialise son minuteur et la relance à 22 cases/tick atteint votre aile exposée avant la fin de la prise. Hypothèses : l'adversaire n'a pas d'objectif plus fort, pas d'alliance à proximité, pas de terrain impraticable. Si l'une échoue, la fenêtre n'est pas de 60 s.
+
+Exécutez SAVE–SAT–COOL–COUNTER. SAVE : les deux villes de niveau 3 sont gardées et connectées, gardant 1 500 000 de plafond. SAT : vous êtes à 2,2 % du plafond, la meilleure zone. COOL : le bandeau est votre zéro ; le seul raccourcisseur est le second silo. COUNTER : à 30 s, engagez 90 000 pour la prise, tenez 50 000 de réserve derrière, et fixez la ligne d'arrêt — si le second silo s'illumine, annulez la prise et repliez derrière vos villes, pas à mi-chemin sans réserve.
+
+La contre-mesure de l'adversaire est exactement la réinitialisation par le second silo. S'il peut payer 25 M, il utilise vos 30 s de récupération, et parce que les têtes sont lentes (22 cases/tick), la relance arrive pendant votre prise. Votre défense est la réserve : elle est la différence entre « une contre-attaque limitée qui finit avec une ville » et « un all-in qui finit avec vos deux villes prises ». La réussite signifie prendre la ville, garder la réserve, et finir avant que l'adversaire ne re-entre en cooldown ; elle ne demande pas de le détruire.
+
+## Scénario 2 : toutes vos villes perdues, reconstruction depuis les tuiles
+
+Même FFA, mais le MIRV a pris toutes vos villes. Vous avez 6 000 tuiles, 0 ville construite, 60 000 troupes, 400 000 d'or. Votre `maxTroops` est maintenant `2 · ((6000^0.6 · 1000) + 50000) = 2 · (134400 + 50000) = 368 800`. Votre facteur SAT est `1 − 60000 / 368800 ≈ 0.837`. Votre terme de base est `10 + 60000^0.73 / 4 ≈ 10 + 6605/4 ≈ 1661`. Votre gain net par tick est environ `1661 · 0.837 ≈ 1390`, soit environ 13 900/s.
+
+C'est le « ma carte est morte » des posts, et le nombre dit que ce n'est pas le cas : vous avez encore un plafond d'environ 369 000 et une forte récupération relative. La décision n'est pas *comment repousser plus vite* — la saturation est déjà à votre avantage — mais *où reconstruire*. Parce que chaque niveau de ville vaut 250 000 et qu'une ville en construction ne compte pas, le meilleur investissement unique est *une* ville derrière une ligne défendable, pas une rangée de usines au front. Une ville de niveau 3 ajoute 750 000 de plafond, passant de 369 000 à environ 1 119 000. Ici, la contre-attaque est retardée : vous n'avez pas la force pour frapper dans la fenêtre, donc la bonne action est une construction SAVE-d'abord (une ville, en profondeur), une re-lecture de SAT après achèvement, et un œil sur COOL pour le second tir. Si l'adversaire réinitialise avant l'achèvement et re-tire, vous avez besoin d'une ligne arrière — un flanc que 60 000 troupes peuvent tenir — sinon le second MIRV finit la partie. Ce scénario se résout quand votre ville est construite et le plafond sauté.
+
+## Modes d'échec et comment l'attaquant les punit
+
+Le premier est la reconstruction panique. Dépenser l'or pour reprendre des tuiles exposées ou ouvrir des bâtiments au front paraît produire mais ne le fait pas : chaque tuile investie là est une cible de relance, et une ville en construction ajoute zéro de plafond. L'attaquant punit par réinitialisation du second silo, posant une tête sur votre reconstruction exposée pendant que votre réserve est engagée.
+
+Le deuxième est ignorer le second silo. La fenêtre de 60 s n'est réelle que si l'attaquant ne peut pas relancer. Un adversaire avec un second silo armé et assez d'or réinitialise, et votre fenêtre est le temps de vol de sa tête, pas 60 s. Lisez COOL contre ce que vous pouvez réellement voir.
+
+Le troisième est la contre-attaque all-in. Engager toute l'armée ne laisse aucune réserve, et la relance prend vos villes désormais vides, fin de partie. Ne contre-attaquez que si une réserve déclarée peut survivre ; sinon, tenez.
+
+Le quatrième est mal lire le fallout. `falloutDefenseModifier` est `5 − falloutRatio · 2`, ce qui réduit votre puissance d'attaque et votre coût de déplacement sur les tuiles de fallout, mais affaiblit aussi la relance de l'attaquant qui tombe sur les mêmes tuiles. Si vos villes sont dans du fallout, construisez derrière, sur des tuiles plus propres.
+
+Le cinquième est traiter la récupération comme une course au plafond. Vous n'avez pas besoin d'être au plafond pour contre-attaquer ; il faut la force déclarée plus la réserve. Être au plafond est l'objectif de la *prochaine* phase. Poursuivre le dernier pourcentage pendant la contre-attaque est la même erreur que l'all-in.
+
+| Mauvaise ruse | Pourquoi elle échoue en v34 | Alternative récupérable |
+|---|---|---|
+| « Je reconstruis tout maintenant » | La reconstruction exposée est une cible ; les villes inachevées n'ajoutent pas de plafond | Gardez les villes construites, reconstruisez une ville en profondeur |
+| « J'ai la pleine 60 s » | Le second silo réinitialise le minuteur de l'attaquant | Comptez COOL contre les silos visibles, pas l'idéal |
+| « Contre-attaque all-in » | Sans réserve, la relance prend vos villes | Engagez une force limitée, tenez la réserve, fixez la ligne d'arrêt |
+| « Je tiens sur du fallout dense » | `5 − falloutRatio·2` réduit votre attaque et augmente le coût | Reconstruisez derrière le fallout, sur des tuiles plus propres |
+| « Je monte au plafond avant de frapper » | Le plafond est la prochaine phase ; la frappe force+réserve, pas la valeur max | Frappez au seuil déclaré, re-lisez SAT ensuite |
+
+## Ajustez la boucle selon la carte, l'FFA, l'équipe et le Nation
+
+Sur les petites cartes, le vol de tête est court et le second silo réinitialise vite, donc COOL est la contrainte dure. Préférez une contre-attaque qui se termine sur votre propre territoire (raccourcir la frontière) plutôt qu'une avancée dans celui de l'adversaire : le retour est là que la relance vous rattrape. Sur les grandes cartes, les têtes à 22 cases/tick arrivent plus lentement, donc la fenêtre est plus longue, mais un second contact hostile peut couper votre route ; comptez vos flancs exposés comme une [évaluation de menace](/fr/guides/threat-assessment/).
+
+En équipe, la rupture d'alliance à `−100` est plus forte : un coéquipier MIRV perd l'alliance et peut exposer un flanc dont vous dépendez. Coordonnez l'horloge COOL — un tient les villes, un garde la réserve, personne n'ouvre un second front sans savoir qui répond. Le seuil de victoire d'équipe en v34 est 80 %, donc une longue nettoyage nucléaire ne doit pas vous faire manquer la fin de territoire plus proche.
+
+Contre un Nation, le Nation qui vous MIRV obéit au même cooldown global de 600 ticks et aux mêmes règles de second silo, mais a aussi un comportement AI parallèle. Traitez COOL comme un plancher : le Nation peut avoir un autre silo armé, réinitialiser, et envoyer une attaque conventionnelle dans la même fenêtre. Les étapes SAVE et SAT ne changent ; la lecture COOL est plus prudente.
+
+La leçon d'échelle de carte est la même que dans le guide de pression : elle change le temps de réaction disponible, pas les quatre contrôles. Les chiffres — 600 ticks de cooldown, 10 ticks/s, 250 000 par niveau de ville, `^ 0.73` de croissance — sont stables par version, donc la boucle est rejouable tant qu'un Release à venir ne les modifie pas.
+
+## Gardez un journal et vérifiez la frontière de version
+
+La pratique reproductible est trois lignes de journal : à zéro, à mi-récupération, et à la décision. À zéro, notez troupes actuelles et plafond, niveaux de villes qui vous survivent, état des silos de l'adversaire, et le marqueur du bandeau. À mi-récupération, notez votre facteur SAT et gain net par tick, et si l'adversaire a réinitialisé COOL. À la décision, notez la force déclarée, la réserve et la ligne d'arrêt. Un journal court montre quelle hypothèse échoue.
+
+| Moment du journal | Noter | Continuer seulement si | Arrêter/chauffer si |
+|---|---|---|---|
+| Impact (0 s) | Troupes/plafond, niveaux de villes vivants, état des silos, marqueur du bandeau | Villes construites connectées, réserve intacte | Une ville attaquée ou réserve engagée |
+| Mi-récupération | Facteur SAT, gain net/tick, état de réinitialisation de COOL | Gain net positif et fenêtre toujours ouverte | Attaquant réinitialise ou SAT sous le plan |
+| Décision | Force déclarée, réserve, ligne d'arrêt | La frappe atterrit avant la fin de la fenêtre | Second silo s'illumine ou réserve sous le plan |
+
+La frontière de preuve est OpenFront `v0.34.0-beta1`, vérifié le 14 septembre 2026. La [Release officielle][release] est la frontière de version. Le [test de cooldown MIRV][cooldown-test] exact fixe le cooldown global de 600 ticks, l'exemption du lanceur et la réinitialisation par re-tir. La [source Config][config] définit `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. La [source NukeExecution][nuke] définit les vitesses du porteur et des têtes et l'impact du fallout. La [MIRVExecution][mirvexec] fixe le prix plat de 25 M, l'enveloppe de 350 têtes, l'écart minimum de 55 cases, la portée de 1500 et la rupture d'alliance.
+
+Les posts communautaires et vidéos du pack de recherche répondent à une autre question : ce que les joueurs remarquent et quelles décisions échouent en répétition. Ils soutiennent le langage du « ma carte est morte », la confusion de contre-attaquer ou non, et l'inquiétude d'un second MIRV. Ils ne prouvent pas le taux actuel, ne garantissent pas la survie et ne fournissent pas un ordre de construction. Cette séparation est délibérée. Si un Release à venir modifie le cooldown MIRV, la fonction de croissance ou le bonus de troupes de ville, gardez la boucle SAVE–SAT–COOL–COUNTER et recalculez les chiffres depuis le nouveau tag.
+
+Continuez par le contrôle qui échoue. Pour le MIRV lui-même et la scission, le [guide des mécaniques MIRV](/fr/guides/mirv/). Pour le modèle de dégâts derrière les têtes, la [calculatrice nucléaire](/fr/guides/nuke-calculator/). Pour savoir comment se règle la contre-attaque une fois engagée, le [combat terrestre](/fr/guides/land-combat/). Pour l'horloge de fin qui peut terminer la partie pendant la récupération, l'[horloge de l'apocalypse](/fr/guides/doomsday-clock/). Pour la logique de dissuasion qui empêche le prochain MIRV, la [dissuasion nucléaire](/fr/strategies/nuclear-deterrence/). Chaque page suivante répare un seul input de décision.
+
+La règle finale est testable : après qu'un MIRV a touché, gardez les villes construites, lisez votre saturation, comptez le cooldown de 600 ticks contre les silos que vous pouvez voir, et frappez un objectif limité avec une réserve tenue pendant la fenêtre. Faites du premier mouvement petit assez pour observer la réponse. Arrêtez quand le signal déclaré arrive, même s'il reste du terrain. Ne repartez que si une nouvelle SAVE–SAT–COOL–COUNTER passe. Cette discipline n'élimine pas l'aléa d'un second tir ; elle empêche l'erreur post-MIRV la plus courante : traiter une frappe dévastatrice comme un verdict de mort au lieu d'une décision bornée dans le temps avec une fenêtre réelle.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts

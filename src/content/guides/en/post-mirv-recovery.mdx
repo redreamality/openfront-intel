@@ -1,0 +1,124 @@
+---
+title: "OpenFront Post-MIRV Recovery: Stop the Bleed and Time Your Counterattack"
+description: "After a MIRV has landed on your territory, decide what to preserve, how fast your army regrows, and when a counterattack is actually possible in v0.34.0-beta1."
+pubDate: 2026-09-14
+updatedDate: 2026-09-14
+tags: [mirv, recovery, counterattack, nuclear, strategy]
+category: Strategy
+difficulty: Advanced
+version: v34
+freshnessSummary: "Verified on 2026-09-14 against the official v0.34.0-beta1 Release, its tagged MIRV cooldown test, Config growth and troop-cap source, and NukeExecution fallout/speed source."
+---
+
+## Direct answer: preserve the cities, then strike inside the cooldown
+
+When a MIRV has landed on you, your army is at its weakest but your recovery is fastest in relative terms. Do not chase every fallen tile. Preserve your surviving completed Cities — they carry your troop capacity and drive your regrowth — accept the tile loss, let the saturation math work for you, and time a counterattack inside the attacker's 60-second global launch cooldown before they can follow up. The window is real: a follow-up MIRV warhead moves at 22 tiles per tick, slower than you expect, and the attacker cannot re-launch until the 600-tick global cooldown resets.
+
+This guide owns the decision *after* the split, not the mechanics of the MIRV itself. The [MIRV mechanics guide](/guides/mirv/) covers the 350-warhead envelope, SAM interception, and `MIRV INBOUND`; the [recovery playbook](/strategies/recovery-playbook/) covers generic stop-loss and rebuild after any nuclear event. Here the question is narrower and decision-changing: you have been MIRVed, your map looks dead, and you need to know exactly what to hold, how fast you recover, and when to hit back. Every number below is from the official `v0.34.0-beta1` tagged source, not from a community answer.
+
+## Read the regrowth math before you touch the map
+
+The single most useful fact in a post-MIRV situation is the troop growth function. In `troopIncreaseRate()`, the base gain per tick is `10 + (troops ^ 0.73) / 4`, then it is multiplied by the saturation factor `(1 − current Troops / maximum Troops)`, then adjusted by difficulty and other modifiers, then capped so your count never exceeds `maxTroops`.
+
+The `^ 0.73` exponent is the decision core. Because the exponent is below 1, the base term grows more slowly than the troop count, which means the *relative* gain per remaining troop is larger when you are low than when you are near your cap. A player who is MIRVed down to 40,000 Troops has a saturation factor near 1, so the full base term applies. A player who was sitting at 90% of cap and lost a third of their force has a saturation factor near 0.1, so most of the base term is multiplied away. The same MIRV that is devastating in absolute numbers is less devastating in relative terms to the low-capacity player, because the saturation factor is doing the work for them.
+
+The other half of the formula is `maxTroops` itself, which is what you are regrowing *toward*. For a human player it is `2 · (tiles^0.6 · 1000 + 50000) + (sum of completed City levels) · cityTroopIncrease`, where `cityTroopIncrease` is a flat `250,000` per completed City level. Two consequences follow directly. First, each surviving completed City is worth `250,000` of your maximum — a level-3 City is worth 750,000 — so preserving City level is worth far more to your recovery than reclaiming an equal number of bare tiles. Second, your tile count feeds the base term only through `tiles^0.6`, which also grows sub-linearly: going from 3,000 to 6,000 tiles does not double your cap contribution. This is why the correct first instinct is "hold the cities, let the tiles go" rather than "re-take everything."
+
+Worked example, all numbers from the tagged source. You survive a MIRV with 40,000 current Troops, 3,200 owned tiles, and two completed level-3 Cities. Your `maxTroops` is `2 · (3200^0.6 · 1000 + 50000) + (3 + 3) · 250,000`. The tile term is `3200^0.6 ≈ 104.5`, so `2 · (104.5 · 1000 + 50000) = 309,000`; the City term is `6 · 250,000 = 1,500,000`; your cap is about `1,809,000`. Your saturation factor is `1 − 40000 / 1809000 ≈ 0.978`. Your base term is `10 + 40000^0.73 / 4 ≈ 10 + 5946 / 4 ≈ 1506`. Your net gain per tick is about `1506 · 0.978 ≈ 1472`. At `msPerTick = 100` (10 ticks per second), you gain roughly 14,720 Troops per second early in the recovery, tapering as you climb toward cap. That is a recoverable army, not a dead map — and it is exactly the "why is my map dead" confusion the community threads describe.
+
+## The attacker cannot re-launch for 60 seconds
+
+The second decision core is the attacker's follow-up window, and it is fixed by the v34 MIRV cooldown. The global launch cooldown is `600` ticks, which at `10` ticks per second is `60` seconds. The rule, confirmed by the official `MirvCooldown.test.ts`, is asymmetric: the player who just launched is exempt from the cooldown they triggered, and a *new* launch by the same player restarts the timer. In practice this means the attacker who MIRVed you has just spent `25M` (the fixed flat MIRV cost in v34) and cannot fire another MIRV for a full 60 seconds, during which your counterattack window is open.
+
+Two more numbers shape that window. First, the MIRV carrier moves at `15` tiles per tick while the split `MIRVWarhead` moves at `22` tiles per tick, both from `nukeSpeed()`. The follow-up warhead is therefore slower to arrive than a single nuke, buying you reaction time. Second, the moment a MIRV launches it breaks the alliance at `−100` to both sides, so the instant you survive you are in a fresh hostile state with no friendly buffer. The `MIRV INBOUND` banner you see is the only warning, so the 60-second clock and the warhead travel time are the only timing tools you have.
+
+The practical read is a two-clock problem. Clock one is the attacker's 60-second re-launch cooldown: if they have no reason to reset it, they are locked out. Clock two is your own recovery: the saturation math above tells you how many ticks until you have a force worth committing. The counterattack is taken when your clock crosses the threshold where a strike lands before the attacker's clock resets and their follow-up warhead can intercept. If the attacker has another Missile Silo ready and a reason to fire, they will reset their own timer and your window closes early — that is the failure mode the next section covers.
+
+## Run SAVE–SAT–COOL–COUNTER after every strike
+
+**SAVE** is the preserve-cities step. In the first ten seconds after the last warhead lands, do not spend Gold rebuilding bare tiles or starting new construction on exposed ground. Identify every completed City you still own and keep it connected to your force. Each one is worth `250,000` of your `maxTroops` per level, and a City under construction is not counted, so a half-finished rebuild is not a recovery asset — finish the ones you have before starting new ones.
+
+**SAT** is the saturation read. Look at your current Troops relative to your `maxTroops` and confirm you are in the low-saturation zone where the `^ 0.73` term and the near-1 saturation factor give you your best relative regen. If you were already near cap before the MIRV, accept that your regen is slower and plan a longer hold rather than an immediate counter. Write the number: "I am at X% of cap, so my net gain is about Y per tick."
+
+**COOL** is the cooldown clock. Note when the attacker launched (the `MIRV INBOUND` banner is your start marker) and count the 600-tick window. If you can see them building or moving toward another Silo, assume they will reset the timer and treat your window as shorter than 60 seconds. If they are idle, the full 60 seconds is available.
+
+**COUNTER** is the bounded strike. Commit a force only when your SAT number plus the COOL clock say a strike lands before the window closes, and make that strike a declared objective — a shortening of your border, a capture of an exposed City, a denial of the attacker's approach — not a full-send. Keep a reserve that can answer a second MIRV. The test is the same as the [land combat](/guides/land-combat/) stop line: you know in advance what signal ends the counter.
+
+<div class="my-8 grid gap-3 md:grid-cols-4" aria-label="Post-MIRV recovery loop">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">1 - SAVE</strong><p class="mt-2 text-sm text-iron-300">Hold completed Cities; each is worth 250,000 cap per level. Finish before you build.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">2 - SAT</strong><p class="mt-2 text-sm text-iron-300">Read current vs maximum Troops; low saturation means the best relative regen.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Clock the 600-tick (60s) global launch cooldown; a second Silo shortens it.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Strike a bounded objective inside the window; keep a reserve for a second MIRV.</p></div>
+</div>
+
+Rerun all four after every material change. A warhead landing mid-recovery resets SAT; a second Silo resetting COOL resets the whole plan. A good recovery can finish early and be a win; its purpose is to convert a devastating event into a timed decision instead of a panic.
+
+## Scenario one: mid-FFA counter inside the 60-second window
+
+Assume a v0.34.0-beta1 FFA. You own 3,200 tiles, two completed level-3 Cities, and 40,000 current Troops after a MIRV from a rival who has 1,100,000 Troops and a second idle Missile Silo. The rival just spent 25M and is now inside the 600-tick cooldown. Your `maxTroops` is about 1,809,000 (computed above), so your SAT factor is about 0.978 and your net gain is about 1,472 per tick, or roughly 14,700 per second. You have 600,000 Gold and a land route that touches the rival's only exposed level-1 City, 1,500 tiles behind their front. Your objective is to capture that City before the rival's 600-tick clock resets and their second Silo can re-launch.
+
+The timing check. To capture a 1,500-tile City you need a force that survives the return trip; assume you need at least 90,000 Troops committed plus a 50,000 reserve. You are at 40,000, so you need to grow 50,000 before you can move. At your early net gain of about 14,700 per second, that takes roughly 4 seconds of pure growth if nothing else changes — but the gain tapers as you climb, so a realistic figure is about 25 to 35 seconds of active regrowth while you also hold the Cities. That is comfortably inside the 60-second window, so the counter is feasible. The decisive constraint is that the rival's second Silo is idle: if they launch it during your 30-second recovery, they reset their own timer and a follow-up warhead at 22 tiles per tick can reach your exposed flank before your capture resolves. The assumptions that matter: the rival has no higher-priority target, no alliance just expired on their side, and your land route has no impassable terrain. If any of those fail, the window is not 60 seconds.
+
+Run SAVE–SAT–COOL–COUNTER. SAVE: both level-3 Cities are held and connected, so you keep 1,500,000 of cap. SAT: you are at 2.2% of cap, the best-case regen zone. COOL: the banner is your zero mark; the rival's second Silo is the only thing that shortens the 60 seconds. COUNTER: at the 30-second mark, commit 90,000 to the City capture, hold the 50,000 reserve behind your two Cities, and set the stop line — if the second Silo lights up, cancel the capture and fall back behind the Cities rather than being caught mid-strike with no reserve.
+
+The opponent counterplay is exactly the second-Silo reset. If the rival can afford the 25M again, they will use the 30 seconds you spent recovering to launch a follow-up, and because the warhead is slower (22 tiles per tick) it will arrive at your flank around the time your capture resolves. Your defense is the reserve: it is the difference between a bounded counter that ends in a new City and a full-send that ends in your two Cities captured. Success means you take the City, hold the reserve, and finish the move while the rival is again in cooldown; it does not require eliminating them.
+
+## Scenario two: you lost every City and must rebuild from tiles
+
+Assume the same FFA, but the MIRV took all of your Cities. You have 6,000 tiles, 0 completed Cities, 60,000 Troops, and 400,000 Gold. Your `maxTroops` is now `2 · (6000^0.6 · 1000 + 50000) = 2 · (134.4 · 1000 + 50000) = 368,800`. Your SAT factor is `1 − 60000 / 368800 ≈ 0.837`. Your base term is `10 + 60000^0.73 / 4 ≈ 10 + 6605 / 4 ≈ 1661`. Your net gain is about `1661 · 0.837 ≈ 1390` per tick, or about 13,900 per second.
+
+This is the case the community threads describe as "my map is dead," and the math shows it is not: you still have a cap of about 369,000 and a strong relative regen. The decision is not how to recover faster — the saturation math already favors you — but where to rebuild. Because City level is worth `250,000` of cap per level and a City under construction does not count, the single best investment is one completed City placed behind a defensible line, not a scatter of factories on the front. A single level-3 City would add 750,000 to your cap, taking you from 369,000 to roughly 1,119,000 and making your next recovery an order of magnitude faster. The counterattack in this scenario is deferred: you do not have the force to strike inside the 60-second window, so the correct move is a SAVE-first build (one City, behind depth), a SAT re-read once it completes, and a COOL watch for the rival's second launch. If the rival resets their timer and fires again before your City completes, you must have a fallback line — a defensible edge you can hold at 60,000 Troops — or the second MIRV ends the game. The scenario is complete when your City is finished and your cap has jumped, because that is the point at which the counter becomes feasible again.
+
+## Failure modes and how the attacker punishes them
+
+The first failure is panic rebuilding. Spending Gold on exposed tile captures or starting new construction on the front in the first ten seconds looks productive and is not: every tile you commit there is a target for the follow-up, and a City under construction adds zero to your cap. The attacker punishes this with the second-Silo reset, landing a warhead on your exposed rebuild while your reserve is committed to the front.
+
+The second failure is ignoring the second Silo. The 60-second window is real only if the attacker cannot re-launch. A rival with a charged second Silo and enough Gold will reset their own timer, and your window is then however long it takes their warhead to reach you, not 60 seconds. Read the COOL clock against what you can actually see, not against the ideal number.
+
+The third failure is the full-send counter. Committing your entire force to the counter leaves no reserve for a second MIRV, so a follow-up warhead captures your now-empty Cities and the game is over. The counter is only worth taking if the declared reserve survives; if it does not, hold.
+
+The fourth failure is misreading fallout. The `falloutDefenseModifier` is `5 − falloutRatio · 2`, which scales both your attack magnitude and the tile cost on fallen-out ground. Standing on heavy fallout to "hold a line" means you fight with degraded attack and pay more to move, while the attacker's follow-up is partially blunted by the same fallout. If your Cities sit in fallout, plan the rebuild on cleaner ground behind them.
+
+The fifth failure is treating the recovery as a race to cap. You do not need to be at cap to counter; you need the declared force plus reserve. Reaching cap is the goal of the *next* phase, not this one. Chasing the last few percent of regen after a bounded counter is the same error as the full-send: it commits the reserve to a number instead of to an objective.
+
+| Bad shortcut | Why it fails in v34 | Recoverable replacement |
+|---|---|---|
+| "Rebuild every tile right now" | Exposed rebuilds are follow-up targets; unfinished Cities add no cap | Hold completed Cities, rebuild one City behind depth |
+| "I have the full 60 seconds" | A second Silo resets the attacker's timer | Clock COOL against visible Silo state, not the ideal |
+| "Full-send the counter" | No reserve means a follow-up captures your Cities | Commit a bounded force, hold a reserve, set a stop line |
+| "Hold the line on heavy fallout" | `5 − falloutRatio·2` degrades your attack and raises tile cost | Rebuild on cleaner ground behind the fallout |
+| "Race to full cap before hitting back" | Cap is the next phase; the counter needs force + reserve, not max | Strike at the declared threshold, re-read SAT after |
+
+## Adjust the loop for maps, FFA, Team, and Nations
+
+On a small map, the warhead travel time is short and the second-Silo reset is fast, so the COOL clock is the binding constraint. Prefer a counter that ends inside your own territory (a shortening of the border) over one that advances onto the attacker's, because the return trip is where a follow-up warhead catches you. On a large map, the 22 tiles-per-tick warhead is slower to arrive, so the window is longer, but a second hostile contact on another edge can close your route; count your exposures the way [threat assessment](/guides/threat-assessment/) does before committing.
+
+In Team, the alliance break at `−100` on a MIRV launch matters more: a MIRVed teammate drops the alliance, which can expose a flank you were relying on. Coordinate the COOL clock — one teammate holds the Cities, one preserves the reserve, and nobody opens a second front without naming who covers it. The v34 Team win threshold is 80%, so a long nuclear cleanup should not distract from a nearer territory finish.
+
+In Humans versus Nations, a Nation that has MIRVed you is subject to the same 600-tick global cooldown and the same second-Silo rule, but it also has the Nation AI's parallel behavior. Treat the COOL clock as a lower bound: the Nation may have another Silo ready, may reset the timer, and may send a normal attack in the same window. The SAVE and SAT steps are unchanged; only the COOL read is more conservative.
+
+The map-scale lesson is the same as the pressure guide: it changes the time available to react, not the four checks. The numbers — 600-tick cooldown, `10` ticks per second, `250,000` per City level, `^ 0.73` growth — are version-stable, so the loop is re-runnable whenever a later Release changes them.
+
+## Keep a recovery ledger and verify the version boundary
+
+The repeatable practice is a three-line ledger taken at zero seconds, at the recovery midpoint, and at the counter decision. At zero, record your current and maximum Troops, the completed City levels you still own, the attacker's visible Silo state, and the `MIRV INBOUND` start mark. At the midpoint, record your SAT factor and net gain per tick, and whether the attacker reset the COOL clock. At the decision, record the declared force, the reserve, and the stop line. Short records expose which assumption failed without pretending that internal random state was observable.
+
+| Ledger moment | Record | Continue only when | Stop or switch when |
+|---|---|---|---|
+| At impact (0s) | Troops/cap, surviving City levels, attacker Silo state, banner mark | Completed Cities are connected and the reserve is intact | A City is under attack or the reserve is already committed |
+| At midpoint | SAT factor, net gain per tick, COOL reset state | Net gain is positive and the COOL clock is still open | The attacker reset the timer or SAT dropped below plan |
+| At decision | Declared force, reserve, stop line | The strike lands before the window closes | The second Silo lights up or the reserve falls below plan |
+
+The evidence boundary is OpenFront `v0.34.0-beta1`, checked on 14 September 2026. The official [Release][release] is the version boundary. The exact [MIRV cooldown test][cooldown-test] pins the 600-tick global cooldown, the launcher exemption, and the re-launch reset. The [Config source][config] defines `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, and `nukeSpeed`. The [NukeExecution source][nuke] defines the carrier and warhead speeds and the fallout impact. [MIRVExecution][mirvexec] defines the fixed 25M cost, the 350-warhead envelope, the 55-tile minimum spread, the 1500 range, and the alliance break.
+
+Community posts and videos in the linked research pack answer a different question: what players notice and which decisions repeatedly fail. They support the language of "my map is dead," the confusion about whether to counter, and the concern about a second MIRV. They do not prove current ratios, guaranteed survival, or a universal build order. That separation is deliberate. If a later Release changes the MIRV cooldown, the growth function, or the City troop bonus, preserve the SAVE–SAT–COOL–COUNTER loop and recompute the numbers from the new tag.
+
+Continue according to the failed check. For the MIRV mechanics and the split, use the [MIRV mechanics guide](/guides/mirv/). For the damage model behind the warheads, use the [nuke calculator](/guides/nuke-calculator/). For how the counter resolves once you commit, use [land combat](/guides/land-combat/). For the endgame clock that can end the game during recovery, use [Doomsday Clock](/guides/doomsday-clock/). For the deterrence logic that prevents the next MIRV, use [nuclear deterrence](/strategies/nuclear-deterrence/). Each next page repairs one decision input rather than restarting a generic nuclear walkthrough.
+
+The final rule is testable: after a MIRV lands, preserve the completed Cities, read your saturation, clock the 600-tick cooldown against the visible Silo state, and strike a bounded objective with a held reserve inside the window. Make the first move small enough to observe the response. Stop when the declared signal appears even if land remains. Resume only after a new SAVE–SAT–COOL–COUNTER pass. That discipline cannot remove the randomness of a second launch, but it prevents the most common post-MIRV error: treating a devastating strike as a death sentence instead of a timed decision with a real counter window.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
