@@ -35,8 +35,28 @@ test('utility pages use specific search-intent titles', async ({ page }) => {
   await page.goto('/glossary/', { waitUntil: 'domcontentloaded' });
   await expect(page).toHaveTitle('OpenFront.io Glossary: Units, Modes & Strategy Terms');
 
-  await page.goto('/zh/shortcuts/', { waitUntil: 'domcontentloaded' });
-  await expect(page).toHaveTitle('OpenFront.io 快捷键大全：键盘、鼠标与高效操作');
+  const shortcutTitles = [
+    ['/shortcuts/', 'OpenFront.io Shortcuts Reference: Keyboard & Mouse Controls'],
+    ['/fr/shortcuts/', 'Référence des raccourcis OpenFront.io : commandes clavier et souris'],
+    ['/nl/shortcuts/', 'OpenFront.io-sneltoetsenreferentie: toetsenbord- en muisbediening'],
+    ['/de/shortcuts/', 'OpenFront.io Tastenkürzel-Referenz: Tastatur- und Maussteuerung'],
+    ['/zh/shortcuts/', 'OpenFront.io 快捷键速查表：键盘、鼠标与建造键'],
+  ] as const;
+
+  for (const [path, title] of shortcutTitles) {
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    await expect(page).toHaveTitle(title);
+  }
+
+  const intentTitles = [
+    ['/fr/guides/team-spawn-formation/', 'Formation spawn en équipe OpenFront : rôles et espace'],
+    ['/nl/guides/annexation-enclosure/', 'OpenFront annexeren en omsluiten: timing en routes'],
+  ] as const;
+
+  for (const [path, title] of intentTitles) {
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    await expect(page).toHaveTitle(title);
+  }
 });
 
 test('long visible headings still receive a concise SEO title', async ({ page }) => {

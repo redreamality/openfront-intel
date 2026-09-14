@@ -27,3 +27,4 @@
 - **2026-09-07、2026-09-08 再次复发：读取源码、内容页、配置或审计器前不得猜路径或文件名**：除本地 `src/i18n/utils.ts` 等旧例外，核验官方 tag 曾猜错 `TransformHandler` / `UserSettings` 路径；实际用户设置界面文件为 `src/client/UserSettingModal.ts`。先从最近的真实目录运行 `rg --files`，远端 tag 则先读取官方 tree，再把返回路径传给 `Get-Content`、`rg` 或 blob API；不要把猜测路径与有效路径放在同一命令中。若搜索表达式以 `-` 开头，在选项后加 `--` 终止参数解析。
 - **Windows PowerShell 的 `System.Drawing.Image.FromFile()` 不能可靠解码 WebP**：出现 `invalid input` 或疑似内存错误时不能据此判定图片损坏；使用浏览器 `naturalWidth`、项目现有图像工具或支持 WebP 的解码器验证实际文件。
 - **2026-08-24 再次复发：长命令返回 `exec_command` session ID 后必须保留该 ID 并用 `write_stdin` 轮询**：经 `functions.exec` 包装时也要显式输出嵌套结果的 `session_id`，不能只转发 `output`；`wait` 只接受 yielded exec cell ID。先辨认返回字段，再选择对应接口，避免丢失最终输出、把空 `dist` 当成最终产物或重复启动构建。
+- **2026-09-14 复发：本地保留的研究报告可能只存在于未合入的分支/提交**：若当前工作树按报告路径读取失败，先用 `git log --all -- <path>` 和 `git show <commit>:<path>` 核对本地对象；确认报告内容后继续执行任务，不要创建同名副本或误判为报告丢失。本轮报告位于保留提交 `edf8cd22f3d80bca5bcafb01ae01ed921ff11ebc`。

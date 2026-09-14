@@ -1,6 +1,6 @@
 ---
-title: "Inselverteidigung in OpenFront: Hafen halten, Landung stoppen oder ausweichen"
-description: "Ein v0.33.12-Entscheidungsrahmen für Inseln und schmale Küsten gegen Transportschiffe, Kriegsschiffe, Piraten und Druck aus zwei Richtungen."
+title: "OpenFront Island Defense: Küste halten, Landing stoppen oder gehen"
+description: "Ein v0.33.12-Island-Defense-Rahmen für Coast-Checks, Landing-Abwehr und schmale Küsten gegen Transport Ships, Warships und Druck aus zwei Richtungen."
 pubDate: 2026-08-29
 updatedDate: 2026-08-29
 tags: [Insel, Marine, Verteidigung, Hafen, Transport]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "Gegen v0.33.12 geprüft: erreichbare Küsten, 130-Tile-Zielsuche, 30-Tile-Verteidigungsposten, Reparatur auf derselben Wasserkomponente und drei Transporte."
 ---
 
-## Direkte Antwort: Was macht ein Inselspieler?
+## Direkte Antwort: Was macht Island Defense an der Coast?
 
-Eine Insel ist nur dann sicher, wenn die nächste Landung eine sichtbare Antwort hat. Baue zuerst einen verbundenen Landkern, gib dem ersten Port einen klaren Zweck und setze den Patrouillenpunkt eines Warships auf die wahrscheinlichste Zufahrt.
+Eine Insel ist nur dann sicher, wenn das nächste Coast-Landing eine sichtbare Antwort hat. Baue zuerst einen verbundenen Landkern, gib dem ersten Port einen klaren Zweck und setze den Patrouillenpunkt eines Warships auf die wahrscheinlichste Zufahrt. Dieser Island-Defense-Check trennt erreichbare Küste von bloß sichtbarem Wasser.
 
 Ein Transport Ship innerhalb von 130 Tiles muss zuerst sterben. Wenn der Gegner die Wasserkomponente kontrolliert oder kein eigener Port das Schiff reparieren kann, beende die Marineinvestition und kaufe Kapazität, Reserve und eine kürzere Landgrenze.
 
@@ -30,7 +30,7 @@ Diese Methode gilt auch bei unvollständigen Meeren. Ein isolierter See kann opt
 
 Prüfe zum Abschluss des ersten Scans noch die Zeit bis zum nächsten Kontakt. Eine scheinbar sichere Küste kann in 20 Ticks offen sein, wenn ein Transport um eine Landzunge fährt. Schreibe die erwartete Ankunft neben den Reservewert. Dann weißt du, ob du sofort bauen, den Post beginnen oder einfach Truppen auf das Rückzugsfeld stellen musst.
 
-## Küste lesen, bevor Gold ausgegeben wird
+## Coast und Landing-Route lesen, bevor Gold ausgegeben wird
 
 Beginne mit der Geografie. Finde die Landkomponente deines Spawns, ihre passierbaren Ausgänge und jede Wasserkomponente an deiner Küste. Blau auf der Minimap bedeutet nicht automatisch einen nutzbaren Seeweg.
 
@@ -199,7 +199,7 @@ Ist die Insel schon sicher, erreicht aber noch kein Siegesland, nutze als Nächs
 
 Die veröffentlichten Grenzen von v0.33.12 sind: 1.000 Gesundheit, 250 Shell-Schaden, Zielsuche 130, Patrouille 100, passive Heilung 150, Andocken 5, Rückzug 75 %, Defense Post 30 mit mag×5 und speed×3, drei Transporte und Bootsangriff standardmäßig ein Fünftel der Truppen.
 
-Für die Angreiferseite desselben Duells führt der [Guide zu Transportlandungen](/de/guides/transport-landings/) durch Küstenwahl, Wellenzuteilung, Warship-Schirm, Tiefe des Brückenkopfs und eine klare Abbruchregel.
+Für die Angreiferseite desselben Duells führt der [Guide zu Transportlandungen](/de/guides/transport-landings/) durch Küstenwahl, Wellenzuteilung, Warship-Schirm, Tiefe des Brückenkopfs und eine klare Abbruchregel. Für Erfahrung und Reparatur des Eskortschiffs folgt [Warship Veterancy](/de/guides/warship-veterancy/).
 
 Quellen: [OpenFront Release v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/WarshipExecution.ts), [TransportShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TransportShipExecution.ts), [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TransportShipUtils.ts) und [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts).
 

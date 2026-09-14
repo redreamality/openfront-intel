@@ -1,6 +1,6 @@
 ---
-title: "OpenFront Train Network Guide: Connect Factories, Cities, and Ports"
-description: "A v0.33.12 decision guide for building rail networks that actually pay: ranges, path limits, stop payouts, hub layouts, scenarios, and exit signals."
+title: "OpenFront Train Network: Rail Range, Stops, and Payback"
+description: "Build a connected OpenFront rail network with the 110-tile station search, 155.6-tile segment limit, stop payouts, and clear exit signals."
 pubDate: 2026-08-28
 updatedDate: 2026-08-28
 tags: [trains, factory, city, port, economy]
@@ -11,6 +11,10 @@ freshnessSummary: "Verified against the formal v0.33.12 Release and tagged train
 ---
 
 ## Direct answer: build a connected rail loop, not a pile of Factories
+
+This page owns the **railway network**: station range, segment geometry, hubs, branches, stop payouts, and the point where another Factory stops being justified. It is not a generic Factory build order and it does not replace the Port-versus-Factory payback comparison.
+
+The result is simple: build only when a connected graph can produce repeated paying stops, then scale the measured bottleneck. A moving Train is not proof of income; a completed settlement at a valid City or Port is.
 
 Build a Factory when it can reach at least one controlled City or Port within 110 tiles and the rail path can be split into segments below about 155.6 tiles. Start with one compact cluster, observe completed stops for 60–120 ticks, then add a level or second branch only when a real station is the bottleneck. A disconnected station can no longer block every spawn in v0.33.12, but it still produces no useful payout.
 
@@ -122,6 +126,13 @@ Map topology changes the safe shape. Compact maps favor short branches but incre
 Use this repeatable switch: **read the graph, test three arrivals, ledger the first ten stops, protect the hub, then scale only the measured bottleneck**. If the graph breaks, repair the node. If the payout dilutes, shorten the route. If the front moves, preserve Gold and leave. This is the decision that community players are asking for when they say their team “never builds trains properly.”
 
 For the team-space decision before a Factory purchase, continue with the [Team economy space guide](/guides/team-economy-space/) to reserve the corridor, assign the payer, and verify who protects each station.
+
+## Train network FAQ
+
+- **What does this page answer?** It answers how a railway network connects Factory sources to paying City and Port stations, how to measure stops, and when to stop investing. It does not promise a universal Factory build order.
+- **What distances must I check?** Stations search within 110 tiles, gaps below 15 tiles are skipped, and each usable segment must stay below about 155.6 tiles. Measure the actual path, not only a straight line.
+- **Why can Trains move without earning Gold?** A Train can spawn while ownership, diplomacy, route geometry, or station validity prevents a paying stop. Count completed settlements, not moving icons.
+- **When should I stop upgrading?** Stop after the test window if three complete arrivals do not materialize, if the next stop is diluted after ten, or if one capture or embargo can remove the only paying station. Repair the graph or leave with reserve Gold.
 
 ## Official sources and v0.33.12 boundary
 

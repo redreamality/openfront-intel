@@ -1,6 +1,6 @@
 ---
-title: "OpenFront 战舰熟练度：经验、维修与撤退决策"
-description: "理解 OpenFront 战舰黄色经验条、运输船与贸易船共享进度、等级带来的生命与炮击收益，以及港口维修和撤退时机。"
+title: "OpenFront 战舰经验与熟练度：如何使用 Warships"
+description: "理解 OpenFront 的 warship experience、veterancy、如何使用 Warships、运输船与贸易船共享进度，以及港口维修。"
 pubDate: 2026-08-26
 updatedDate: 2026-08-26
 tags: [warship, veterancy, naval, repair, transport]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "已按正式 v0.33.11 tag 核验：战舰最高 3 级，每级增加基础生命 20% 和炮击滚动伤害 20%；运输船击杀与贸易船捕获共享进度，击杀敌方战舰会清空未完成的民用目标进度，维修阈值按熟练度后的最大生命计算。"
 ---
 
-## 直接答案：黄色经验条到底表示什么？
+## 直接答案：Warship experience 与 veterancy 到底表示什么？
 
-黄色条是战舰的熟练度进度，不是计时器，也不是造成伤害的累计条，更不是下一发炮弹必定升级的提示。在 v0.33.11 中，一艘战舰最多达到 3 级。击毁敌方战舰的最后一击会直接让它升一级，但不会超过 3 级。击毁运输船和捕获贸易船则会进入同一个民用目标进度池：只做运输船时，10 艘升一级；只做贸易捕获时，25 艘升一级。两种行为可以混合计算，所以 5 艘运输船加 13 艘贸易船等于 `5/10 + 13/25 = 1.02`，已经完成一级。你真正要读的是“哪一种目标距离下一等级最近，以及为了换目标会丢掉什么”，而不是只看黄色条大概有多长。
+黄色条是战舰的熟练度和 Warship experience 进度，不是计时器，也不是造成伤害的累计条，更不是下一发炮弹必定升级的提示。在 v0.33.11 中，一艘战舰最多达到 3 级。击毁敌方战舰的最后一击会直接让它升一级，但不会超过 3 级。击毁运输船和捕获贸易船则会进入同一个民用目标进度池：只做运输船时，10 艘升一级；只做贸易捕获时，25 艘升一级。两种行为可以混合计算，所以 5 艘运输船加 13 艘贸易船等于 `5/10 + 13/25 = 1.02`，已经完成一级。你真正要读的是“哪一种目标距离下一等级最近、如何使用这艘 Warship，以及为了换目标会丢掉什么”，而不是只看黄色条大概有多长。
 
 升级会提高最大生命和炮击伤害，却不会把当前缺失的生命瞬间补满。当前配置把每一级的生命加成定义为基础最大生命的 20%，每次向下取整。普通战舰基础最大生命是 1,000，因此 0、1、2、3 级的最大生命分别是 1,000、1,200、1,400、1,600。炮击伤害同样按每级 20% 乘在正常随机滚动结果上；它不是固定伤害，也不会让射程、移动速度、巡逻半径或目标优先级自动改变。
 
@@ -20,7 +20,7 @@ freshnessSummary: "已按正式 v0.33.11 tag 核验：战舰最高 3 级，每�
 
 因此要把经验条和船体一起看。三级船最大生命是 1,600，生命 1,184 时已经低于 75% 的 1,200 撤退线；零级船 1,000 生命的 760 也在危险区，但两者的绝对生命、炮击收益和维修价值不同。发送战舰前先确认水域连通分量、最近可用港口、下一个运输船窗口和对手能否在返航路上逼你接战。[团队海军控制攻略](/zh/strategies/team-naval-control/) 讲舰队分工；本页专门解决单艘战舰该继续、维修还是换线。
 
-## 经验如何获得、混合与丢失
+## Warship experience 如何获得、混合与丢失
 
 战舰击杀和民用目标进度是两个入口，却在界面上共同表现为熟练度。击杀敌方战舰属于离散奖励：造成最后一击的那艘战舰立刻获得一级。目标之前被队友削弱并不影响奖励归属。达到 3 级后再击杀不会储存隐藏经验，也不会转成额外生命或伤害。于是，未满级时击杀既有成长价值也有阻止敌舰的战术价值；满级后，击杀的主要价值是清除威胁和打开运输路线。
 
@@ -30,7 +30,7 @@ freshnessSummary: "已按正式 v0.33.11 tag 核验：战舰最高 3 级，每�
 
 不要把靠近港口的时间、发射炮弹次数、受到的伤害或巡逻距离当成经验来源。官方测试只确认上述目标事件，没有“挂机计时升级”。记录具体状态比描述颜色可靠，例如“一级、5 运输、12 捕获”可以直接用于决策，“黄色条约一半”无法判断下一步。运输船的操作可以查看[快捷键攻略](/zh/guides/hotkeys/)，但快捷键页不会替你计算目标优先级。
 
-## 每个等级在战斗中改变什么
+## 如何使用 Warships：每个等级在战斗中改变什么
 
 等级只直接改变两个战斗量：最大生命和炮击滚动伤害。它不会提高移动速度、巡逻半径、每 tick 炮弹数量，也不会强迫引擎选择某一种目标。每级生命仍按基础 1,000 的 20% 增加，而不是在上一级最大值上复利。因此等级 0 到 3 的上限是 1,000、1,200、1,400、1,600，线性增加 200。炮击在普通随机结果之后乘以每级 20%：若同一 tick 的基础滚动结果是 250，一级约 300，二级约 350，三级约 400；实际滚动会变化，不能把每一发都当成固定数字。
 
@@ -91,7 +91,7 @@ freshnessSummary: "已按正式 v0.33.11 tag 核验：战舰最高 3 级，每�
 
 再计算维修：把当前生命与 750、900、1,050、1,200 四条等级阈值比较；确认己方不在末日、港口在同一水域、船是否在 150 格被动范围、5 格停靠路线是否可达，并数清港口已经服务几艘船。二级港口是每 tick 总共 10 点，不是每艘 10 点。然后比较时间和替代价值：三级船有 1,600 上限和 160% 炮击滚动倍率，却不会返还缺失生命；如果运输船马上到达，远行维修可能比留线更糟，若窗口较晚，保住老兵通常更值。
 
-最后按需要继续阅读[团队海军控制](/zh/strategies/team-naval-control/)、[港口与工厂](/zh/guides/port-vs-factory/)、[第一次对局](/zh/guides/first-match/)。规则来源是官方 [v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、[Veterancy.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/game/Veterancy.ts)、[WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts)、[PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts) 与[熟练度测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/WarshipVeterancy.test.ts)。若上游修改这些常量，先更新版本边界和表格，再重新作出决策。
+最后按需要继续阅读[团队海军控制](/zh/strategies/team-naval-control/)、[岛屿防守](/zh/guides/island-defense/)、[港口与工厂](/zh/guides/port-vs-factory/)、[第一次对局](/zh/guides/first-match/)。规则来源是官方 [v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、[Veterancy.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/game/Veterancy.ts)、[WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WarshipExecution.ts)、[PortExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/PortExecution.ts) 与[熟练度测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/WarshipVeterancy.test.ts)。若上游修改这些常量，先更新版本边界和表格，再重新作出决策。
 
 每次行动结束都要写下一句可以复盘的话：“我留在线上等运输船”“我因为当前生命低于对应阈值而停靠”，或者“我击杀敌舰是为了阻止登陆”。如果局势改变，就改写这句话，而不是只拖动巡逻点。下一个关键 tick 到来时，检查实际结果：是否升级、民用进度保留还是清空、生命恢复了多少、港口还剩多少可用位置。把版本边界和记录放在一起，避免把一次测试观察误当成永久规则。只要正式版本没有改变 150 格范围、每级 5 点池或 50 tick 宽限，本页数字就都只适用于 v0.33.11。
 

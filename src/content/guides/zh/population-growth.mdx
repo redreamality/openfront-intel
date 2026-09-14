@@ -1,6 +1,6 @@
 ---
-title: OpenFront 人口增长、部队上限与城市完整指南
-description: 读懂 OpenFront 部队上限和增长公式、Workers 的真实含义、什么时候需要城市，以及新建和升级该如何选。
+title: "OpenFront 人口增长与部队上限指南：Workers 和 City cap"
+description: "读懂 OpenFront 的 population growth、troop cap 和 City cap 公式，确认 Workers 的真实含义，以及什么时候该新建或升级 City。"
 pubDate: 2026-08-22
 updatedDate: 2026-08-22
 tags: [人口, 部队, 城市, 经济]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "按正式 v0.33.7 tag 核验：Workers 不是独立人口池，每个已完工 City level 增加 250,000 部队上限，City 也没有 4 级硬上限。"
 ---
 
-## 直接答案：人口是怎样增长的？
+## 直接答案：population growth 怎样决定 troop cap？
 
-OpenFront 不会把总人口拆成工人与士兵。模拟状态保存的是 Troops、Gold、领土和建筑。结算页里的 **Workers** 是固定被动金币的统计标签，不是出兵时会减少的人口数量。
+OpenFront 不会把总人口拆成工人与士兵。模拟状态保存的是 Troops、Gold、领土和建筑。这里的 population growth 同时涉及 troop cap、Workers 和 City cap，但三者不是同一个数；结算页里的 **Workers** 是固定被动金币的统计标签，不是出兵时会减少的人口数量。
 
 部队上限由一条边际递减的领土公式，加上每个已完工 City level 的 250,000 固定增量组成。当前 Troops 有足够空间时增长较快，接近上限时逐步减速到零。
 
@@ -230,7 +230,7 @@ City 最适合出现在计划储备、争夺 chokepoint 或大规模扩张后的
 
 ## 常见问题
 
-### 出兵会降低 Workers 收入吗？
+### 出兵会降低 population growth 里的 Workers 收入吗？
 
 不会。Troop 消耗与标记为 Workers 的被动 Gold 是两条独立计算。
 
@@ -238,7 +238,7 @@ City 最适合出现在计划储备、争夺 chokepoint 或大规模扩张后的
 
 不会直接提高。它增加最大 Troops，并可在连接 Factory 网络后成为 Train trade stop。
 
-### 每次 City 升级增加多少？
+### City cap 每次升级增加多少 troop cap？
 
 每个已完工 level 固定为普通上限公式增加 250,000。
 
@@ -264,4 +264,4 @@ Workers 名称可在官方[统计 schema](https://github.com/openfrontio/OpenFro
 
 本站生成数据把 extract checkout `0668045fa926eaa6d6995561a8e13fd8126895b6` 与编辑系列 `v33` 分开记录。该 checkout 是复现元数据，不是 v0.33.7 tag。
 
-下一步可比较 [Port 与 Factory](/zh/guides/port-vs-factory/)，或使用[经济基础攻略](/zh/strategies/economy-fundamentals/)规划完整预算。
+下一步可比较 [Port 与 Factory](/zh/guides/port-vs-factory/)，或使用[经济基础攻略](/zh/strategies/economy-fundamentals/)规划完整预算；若部队上限已经影响前线决策，再读[陆战决策](/zh/guides/land-combat/)。

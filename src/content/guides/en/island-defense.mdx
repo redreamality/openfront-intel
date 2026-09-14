@@ -1,6 +1,6 @@
 ---
-title: "OpenFront Island Defense: Hold a Port, Stop a Landing, or Leave"
-description: "A practical v0.33.12 framework for defending islands and narrow coasts against transports, Warships, pirates, and two-front pressure."
+title: "OpenFront Island Defense: Hold a Coast, Stop a Landing, or Leave"
+description: "A practical v0.33.12 island defense framework for reading a coast, stopping a landing, and surviving transports, Warships, pirates, and two-front pressure."
 pubDate: 2026-08-29
 updatedDate: 2026-08-29
 tags: [island, naval, defense, port, transport]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "Verified against v0.33.12: reachable-shore transport pathing, 130-tile Warship targeting, 30-tile Defense Posts, same-water repair, and the three-transport cap define the island defense decision."
 ---
 
-## Direct answer: what should an island player do?
+## Direct answer: what should island defense do at the coast?
 
-An island is safe only when the next landing has a visible answer. Start with one connected core, a Port with a job, and a Warship patrol tile that covers the likely approach. Keep a reserve on land rather than spending every troop on a distant capture. When a transport enters the 130-tile Warship targeting envelope, kill it before it reaches shore; when the enemy controls the water component or your Port cannot be repaired, stop adding naval investment and retreat to the smallest coherent land position. These rules apply to the released v0.33.12 family and are not a promise that every map has the same coastline.
+An island is safe only when the next coast landing has a visible answer. Start with one connected core, a Port with a job, and a Warship patrol tile that covers the likely approach. Keep a reserve on land rather than spending every troop on a distant capture. When a transport enters the 130-tile Warship targeting envelope, kill it before it reaches shore; when the enemy controls the water component or your Port cannot be repaired, stop adding naval investment and retreat to the smallest coherent land position. These island defense rules apply to the released v0.33.12 family and are not a promise that every map has the same coastline.
 
 Use three words to name the state after every scan: **secure**, **screened**, or **leaving**. Secure means your core has a connected land reserve and the Port is not the only path to income. Screened means a Warship can reach the transport lane, the Port is on the same water component, and a second route or ally can buy time. Leaving means the route is disconnected, the Port is under direct attack, or the gold needed for another ship would buy more survival as troops, a City, or a safer land border. Naming the state prevents a beautiful island from becoming a sunk-cost trap.
 
@@ -22,7 +22,7 @@ Make the first decision reversible. Before clicking a building, zoom out far eno
 
 The reserve is a decision instrument, not a superstition. A 30% floor means roughly 126,000 troops in a 420,000-cap example, but the useful question is what that reserve can reach before the next landing. If a reserve must cross a narrow bridge, count the bridge as a separate risk. If an ally can cover the bridge, record that promise and a time when it expires. Recheck the floor after every capture, upgrade, or diplomatic change so an old percentage does not become a new blind spot.
 
-## Read the shoreline before spending gold
+## Read the coast and landing route before spending gold
 
 The first scan is geographic, not economic. Identify the land component that contains your spawn, the number of passable exits, and every water component touching your coast. A blue patch is not automatically a route. The v0.33.12 transport helper chooses a closest **reachable** shore; a target on a disconnected inland lake is rejected. That matters defensively: an opponent may click your inland-looking coast, but no boat appears if their Port and your shore do not share navigable water. Conversely, an open sea component can make a tiny island reachable from several directions even when the minimap looks remote.
 
@@ -125,6 +125,6 @@ Keep the version boundary visible when you share a replay or team note. A senten
 
 The practical close is a four-line log: state, threatened tile, reserve floor, and next check. For example: “screened; east beach; 126,000 troops; check transport at 20 ticks.” If the next check says the route is disconnected, change the state to leaving and spend accordingly. This small log turns a long guide into a repeatable habit that another player can audit after the match.
 
-To plan the opposite side of this fight, use the [Transport Landings guide](/guides/transport-landings/) for coast selection, wave allocation, Warship screening, beachhead depth, and an explicit abort rule.
+To plan the opposite side of this fight, use the [Transport Landings guide](/guides/transport-landings/) for coast selection, wave allocation, Warship screening, beachhead depth, and an explicit abort rule. For veteran escort health and repair, continue with [Warship Veterancy](/guides/warship-veterancy/).
 
 Sources: [OpenFront v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), [WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/WarshipExecution.ts), [TransportShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TransportShipExecution.ts), [TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TransportShipUtils.ts), and [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts).

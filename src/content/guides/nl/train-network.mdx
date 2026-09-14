@@ -1,6 +1,6 @@
 ---
-title: "OpenFront-treinnetwerk: Factories, Cities en Ports verbinden"
-description: "Een v0.33.12-beslisgids voor een spoorwegnet dat echt betaalt: bereik, segmentlimiet, stopopbrengst, scenario's en uitstapsignalen."
+title: "OpenFront-treinnetwerk: bereik, haltes en terugverdientijd"
+description: "Bouw een spoorwegnet dat echt betaalt: 110-tegel zoekbereik, 155,6-tegel segmentlimiet, halte-opbrengst en uitstapsignalen."
 pubDate: 2026-08-28
 updatedDate: 2026-08-28
 tags: [treinen, factory, city, port, economie]
@@ -11,6 +11,10 @@ freshnessSummary: "Gecontroleerd tegen de officiële v0.33.12-Release en getagde
 ---
 
 ## Direct antwoord: bouw een verbonden lus, geen stapel Factory's
+
+Deze pagina gaat over het **treinnetwerk**: stationbereik, segmentgeometrie, hubs, takken, halte-opbrengst en het moment waarop een extra Factory niet meer loont. Ze is geen algemene Factory-bouwvolgorde en vervangt de Port-versus-Factory-vergelijking niet.
+
+De regel is eenvoudig: bouw alleen een verbonden grafiek met herhaalde betalende haltes en schaal daarna de gemeten bottleneck. Een rijdende trein bewijst geen inkomen; een voltooide betaling bij een geldige City of Port wel.
 
 Bouw een Factory wanneer een eigen City of Port binnen 110 tegels bereikbaar is en elk baansegment onder ongeveer 155,6 tegels blijft. Begin met één compact cluster, meet voltooide stops gedurende 60–120 ticks en breid alleen de echte bottleneck uit. De v0.33.12-fix voorkomt dat één los station elke spawn blokkeert, maar een station zonder bruikbare bestemming levert nog steeds geen Gold op.
 
@@ -119,6 +123,13 @@ Vraag bij elk probleem welk signaal het had kunnen voorkomen. Een lege Factory z
 Koppel elk probleem aan zijn vroege signaal: ontbrekende knoop, te lang segment, bestrafte stop of instabiele relatie. Gebruik in Team oproepen als “hub groen”, “tak los” en “landuitgang”. De vijand valt de knoop aan, forceert embargo of bindt de verdediger; antwoord met een eigen tak, reserve en beperkte patrouille. In FFA controleer je de eigenaar bij betaling. Doomsday vraagt nog steeds gebied. Compact vraagt vaker toezicht, archipels meerdere hubs en continenten een lokale tak. Zijn Factory of Train uitgeschakeld, beëindig dit experiment. De procedure blijft: grafiek lezen, drie aankomsten testen, tien stops boeken, hub beschermen en alleen de gemeten bottleneck uitbreiden. Daarmee blijft de methode bruikbaar als kaarten of toekomstige releases veranderen.
 
 Lees vóór je een Factory koopt de [gids voor Team-economieruimte](/nl/guides/team-economy-space/) om de corridor te reserveren, de betaler te benoemen en de bescherming per station vast te leggen.
+
+## FAQ over treinnetwerken
+
+- **Welke vraag beantwoordt deze pagina?** Ze legt uit hoe een treinnetwerk Factory-bronnen met betalende City- en Port-stations verbindt, haltes meet en het uitstappunt kiest. Ze belooft geen algemene Factory-bouwvolgorde.
+- **Welke afstanden moet ik controleren?** Stations zoeken binnen 110 tegels, gaten onder 15 tegels worden overgeslagen en elk bruikbaar segment blijft onder ongeveer 155,6 tegels. Meet het echte pad, niet alleen de rechte lijn.
+- **Waarom rijden Treinen zonder Gold?** Een trein kan spawnen terwijl eigendom, diplomatie, geometrie of stationvaliditeit een betalende halte verhindert. Tel voltooide betalingen, geen bewegende iconen.
+- **Wanneer stop ik met upgraden?** Als drie aankomsten in het testvenster ontbreken, de straf na tien haltes de opbrengst verdunt of een verovering/embargo het enige betalende station verwijdert. Herstel de grafiek of stap uit met reserve.
 
 ## Officiële bronnen en v0.33.12-grens
 

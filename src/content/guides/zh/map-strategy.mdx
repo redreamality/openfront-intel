@@ -1,6 +1,6 @@
 ---
-title: 如何读懂任意 OpenFront 地图
-description: 从可通行陆地、连通块、水域网络、不可通行地形、出生和 Compact 差异，建立一套可复用的 OpenFront 读图与开局方法。
+title: "OpenFront 地图策略：连通区域、水域网络与 spawn"
+description: "用这套 OpenFront map strategy 读懂可通行陆地、connected regions、water network、不可通行地形和 spawn，再决定开局。"
 pubDate: 2026-08-22
 updatedDate: 2026-08-22
 tags: [地图, 战略, 海军, 出生]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "已按正式 v33.7 地形与地图资产核验，并使用可复算的 Svalmel、Dyslexdria 拓扑指标。"
 ---
 
-## 直接答案：分五层读图
+## 直接答案：map strategy 分五层读图
 
-不要先问画面上哪个国家看起来最安全。按以下顺序读取任意 OpenFront 地图：
+不要先问画面上哪个国家看起来最安全。这个 map strategy 按以下顺序读取任意 OpenFront 地图，并先确认 connected regions、water network 与 spawn：
 
 1. **可通行陆地**：到底有多少领土可以被占领？
 2. **陆地连通块**：哪些区域能陆路连通，哪些必须运输？
@@ -265,11 +265,11 @@ Nation manifest 控制 AI 身份和部分固定出生坐标。真人槽位来自
 
 ## FAQ
 
-### 陌生地图第一眼先看什么？
+### 陌生地图的 map strategy 第一眼先看什么？
 
 先确认自己的可通行陆地 component 和两个真实出口，再看海岸接入哪个水域网络，并核对可见屏障是否 impassable。
 
-### 一个水域 component 是否代表海军很容易？
+### 一个 water network 是否代表海军很容易？
 
 不是。它只证明存在连续水路。距离、敌舰、Port 接入和寻路仍会决定路线是否有用。
 
@@ -297,4 +297,4 @@ Nation manifest 控制 AI 身份和部分固定出生坐标。真人槽位来自
 - [v33.7 Dyslexdria manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.7/resources/maps/dyslexdria/manifest.json)
 - [v28 正式 Release：Svalmel](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.28.0)
 - [v31 正式 Release：Dyslexdria 与内陆水域海军](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.31.0)
-- 在[地图尺寸与 Compact 指南](/zh/guides/map-size-compact-mode/)中比较精确缩放。
+- 在[地图尺寸与 Compact 指南](/zh/guides/map-size-compact-mode/)中比较精确缩放。读完 map strategy 后，再用[第一场比赛基础](/zh/guides/first-match/)处理具体 spawn。

@@ -15,6 +15,7 @@ const cases = [
     repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
     fixedBoundary: 'graphics-reset R, and Shift + drag box selection are fixed',
+    intent: 'practice guide for battlefield workflows and input recovery, not the complete key table',
     referenceHrefEnd: '/shortcuts/',
   },
   {
@@ -26,6 +27,7 @@ const cases = [
     repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
     fixedBoundary: 'F 全选、图形重置 R 和 Shift + 拖动框选仍是固定键',
+    intent: '练习战场流程和输入恢复的教程，不是完整键位表',
     referenceHrefEnd: '/zh/shortcuts/',
   },
   {
@@ -37,6 +39,7 @@ const cases = [
     repeatHeading: /Comment les joueurs lancent-ils des nukes aussi vite/i,
     cityRow: /Ville/,
     fixedBoundary: 'restent fixes',
+    intent: 'séquences de combat et à la récupération après erreur',
     referenceHrefEnd: '/fr/shortcuts/',
   },
   {
@@ -48,6 +51,7 @@ const cases = [
     repeatHeading: /Wie feuern Spieler Nukes so schnell/i,
     cityRow: /City/,
     fixedBoundary: 'bleiben fest',
+    intent: 'erklärt Übungen, Gefechtsabläufe und Eingabeerholung, nicht die vollständige Tastentabelle',
     referenceHrefEnd: '/de/shortcuts/',
   },
   {
@@ -59,6 +63,7 @@ const cases = [
     repeatHeading: /Hoe vuren spelers zo snel nukes af/i,
     cityRow: /Stad/,
     fixedBoundary: 'staan ze vast',
+    intent: 'gaat over oefeningen, gevechtsroutines en herstel na invoerfouten, niet over de volledige toetstabel',
     referenceHrefEnd: '/nl/shortcuts/',
   },
 ];
@@ -94,5 +99,6 @@ for (const c of cases) {
     // FRESH-01：故障恢复与 FAQ 不能再声称 v34 的每个键都可重映射。
     await expect(main).toContainText('v34');
     await expect(main).toContainText(c.fixedBoundary);
+    await expect(main).toContainText(c.intent);
   });
 }

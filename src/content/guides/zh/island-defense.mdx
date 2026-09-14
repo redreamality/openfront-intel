@@ -1,6 +1,6 @@
 ---
-title: "OpenFront 岛屿防守：守住港口、击退登陆，或及时撤离"
-description: "基于 v0.33.12 的岛屿与狭窄海岸防守框架：如何处理运输船、战舰、海盗和双线压力。"
+title: "OpenFront 岛屿防守：守住海岸、击退 landing 或撤离"
+description: "基于 v0.33.12 的 island defense 框架：读懂 coast、阻止 landing，并处理运输船、战舰、海盗和双线压力。"
 pubDate: 2026-08-29
 updatedDate: 2026-08-29
 tags: [岛屿, 海军, 防守, 港口, 运输船]
@@ -10,9 +10,9 @@ version: v33
 freshnessSummary: "已按 v0.33.12 核验：可达海岸寻路、130 格战舰索敌、30 格防御工事、同水域维修和三艘运输船上限共同决定岛屿防守。"
 ---
 
-## 直接答案：岛屿玩家现在该做什么？
+## 直接答案：island defense 在 coast 上该做什么？
 
-岛屿只有在下一次登陆有明确答案时才算安全。先建立一个相连的核心，在港口旁边写清楚它的任务，再把战舰巡逻点放在最可能的海上入口。不要为了远处的一块地把所有部队都花光。运输船进入战舰 130 格索敌范围后，优先击沉运输船；敌人控制了你的水域组件，或者港口已经无法维修时，停止追加海军投资，把金币换成城市、陆军预备队和更短的陆地边界。以上是已经发布的 v0.33.12 规则边界，不代表每张地图拥有同样的海岸线。
+岛屿只有在下一次 coast landing 有明确答案时才算安全。先建立一个相连的核心，在港口旁边写清楚它的任务，再把战舰巡逻点放在最可能的海上入口。不要为了远处的一块地把所有部队都花光。运输船进入战舰 130 格索敌范围后，优先击沉运输船；敌人控制了你的水域组件，或者港口已经无法维修时，停止追加海军投资，把金币换成城市、陆军预备队和更短的陆地边界。以上是已经发布的 v0.33.12 island defense 规则边界，不代表每张地图拥有同样的海岸线。
 
 每次缩放地图后，用三个词标记状态：**稳固、屏护、撤离**。稳固表示核心有陆地后备，港口不是唯一收入来源；屏护表示战舰能到达运输路线，港口和战舰处于同一水域组件，并且第二条路线或盟友可以争取时间；撤离表示水路断开、港口遭到直接攻击，或下一艘战舰的金币用于陆地防守更划算。给局面命名，可以避免把漂亮的海岛变成沉没成本。
 
@@ -22,7 +22,7 @@ freshnessSummary: "已按 v0.33.12 核验：可达海岸寻路、130 格战舰�
 
 每个决定都应写出目标、期限和出口。目标可以是下一艘运输船、城市后的连接格或维修港口；期限是距离接触还有多少 tick；出口是海滩失守后仍能保持连通的格子。没有这三项，就很容易在警报出现后临时追船，错过真正的登陆线。
 
-## 花金币前先读海岸线
+## 花金币前先读 coast 与 landing 路线
 
 第一步是地理而不是经济。确认出生点所在的陆地组件、可通行出口数量，以及海岸接触的每个水域组件。蓝色区域不等于可用路线。v0.33.12 的运输船辅助函数只会选择攻击者真正能到达的海岸，和运输船、港口不连通的内陆湖岸会被拒绝。这在防守时很关键：敌人可能点到你的湖岸，但如果双方不共享可航行水域，就不会出现运输船；相反，开放海域会让一个小岛从多个方向可达。
 
@@ -116,7 +116,7 @@ v0.33.12 的战舰逻辑按运输船、敌方战舰、贸易船的顺序寻找�
 
 本文数字均按已发布 v0.33.12 核验：生命 1,000、炮弹 250、索敌 130、巡逻 100、被动维修 150、停靠 5、撤退 75%、防御工事 30 格且 mag×5/speed×3、运输船上限 3、默认船攻为发送者部队五分之一。后续正式版本改变任何一项时，必须同时更新表格、场景和决策句。
 
-要从进攻方视角规划同一场争夺，请阅读[运输船登陆攻略](/zh/guides/transport-landings/)，确定目标海岸、波次兵力、战舰护航、滩头纵深和明确的取消条件。
+要从进攻方视角规划同一场争夺，请阅读[运输船登陆攻略](/zh/guides/transport-landings/)，确定目标海岸、波次兵力、战舰护航、滩头纵深和明确的取消条件。要管理护航舰经验与维修，再读[战舰熟练度攻略](/zh/guides/warship-veterancy/)。
 
 来源：[OpenFront v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)、[WarshipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/WarshipExecution.ts)、[TransportShipExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TransportShipExecution.ts)、[TransportShipUtils.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TransportShipUtils.ts)、[Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts)。
 

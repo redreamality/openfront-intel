@@ -1,6 +1,6 @@
 # 构建、Astro 与 Playwright runbook
 
-- **2026-09-08 本轮 SEO 审计记录**：修正移动安装页的五语专用标题后，`audit-seo` 仍报告两个既有页面的生成省略号（`fr/team-spawn-formation`、`nl/annexation-enclosure`）；它们不属于本轮移动意图改动，当前按基线保留并在交付报告中明确列出。
+- **2026-09-08 本轮 SEO 审计记录**：修正移动安装页的五语专用标题后，`audit-seo` 曾报告两个既有页面的生成省略号（`fr/team-spawn-formation`、`nl/annexation-enclosure`）。
 
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
 
@@ -44,3 +44,5 @@
 - **2026-09-01、2026-09-03 复发：`pnpm seo:audit` 可能因脚本依赖 `parse5` 未在 pnpm 依赖树中而以 `ERR_MODULE_NOT_FOUND` 失败**：先运行 `pnpm install --frozen-lockfile` 恢复根级链接，再保留构建成功的 `dist/` 并运行审计；若依赖仍缺失，才用不依赖该包的静态 HTML 检查核验 canonical/hreflang，不要把它误判为页面 SEO 内容回归。
 - **搜索意图标题不能只以“没有省略号”为通过标准**：`getSeoTitle()` 会按冒号等分隔符压缩长标题，可能在法语等页面静默删掉 App、download、APK 之类的核心检索词。对明确承接查询的页面应检查最终构建 HTML 的 `<title>`；通用模板无法保留关键词时，在 `src/i18n/seo.ts` 的五语 `specialPaths` 中配置短而完整的专用标题，并用 e2e 锁定。
 - **`@astrojs/sitemap` 的 `serialize()` 返回值必须使用插件导出的枚举**：在当前依赖版本中，裸字符串 `'daily'` 不能赋给 `SitemapItem.changefreq`，会让 `astro check` 报 `EnumChangefreq` 类型错误；导入 `ChangeFreqEnum` 并返回 `ChangeFreqEnum.DAILY`，不要用类型断言掩盖。
+- **2026-09-14 复发：Playwright 的生产预览会再次运行 `prebuild` 并刷新生成元数据**：本轮 e2e 通过后，`src/data/_meta.json` 的 `generatedAt`、上游 checkout 和 `defenseMidpoint` 又被刷新，`maps.json` 也短暂移除两张地图。结束前必须读取实际生成值，再按任务开始时记录的基线精确恢复，并用普通 diff 确认没有残留数据变化。
+- **2026-09-14 复发：完整 e2e 的地图池断言必须覆盖 live checkout 与内置 fallback**：本地 `OpenFrontIO` v0.34 test-release checkout 提取 117 张地图，而无上游目录时的内置 v34 fallback 保留 119 张；硬编码单一总数会让其中一种合法构建来源失败。断言应允许受支持的来源总数，同时验证 `meta.total === list.length` 与关键地图 ID。

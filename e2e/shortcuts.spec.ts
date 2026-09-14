@@ -24,6 +24,7 @@ const cases = [
     rightClick: 'Cancel an active Warship',
     bulk: 'x1/x2/x5/xMax',
     fixed: 'Keep those defaults in the current release',
+    intent: 'fixed-key lookup reference',
     boxSelectKey: 'Shift',
     bcAria: 'Breadcrumb',
     home: 'Home',
@@ -42,6 +43,7 @@ const cases = [
     rightClick: '取消当前战舰',
     bulk: 'x1/x2/x5/xMax',
     fixed: '当前正式版须保留这些默认键',
+    intent: '固定默认键位的速查表',
     boxSelectKey: 'Shift',
     bcAria: '面包屑导航',
     home: '首页',
@@ -60,6 +62,7 @@ const cases = [
     rightClick: 'annuler une sélection active',
     bulk: 'x1/x2/x5/xMax',
     fixed: 'Gardez ces touches par défaut dans la version actuelle',
+    intent: 'référence de consultation des touches fixes',
     boxSelectKey: 'Maj',
     bcAria: 'Fil d’Ariane',
     home: 'Accueil',
@@ -78,6 +81,7 @@ const cases = [
     rightClick: 'aktive Warship',
     bulk: 'x1/x2/x5/xMax',
     fixed: 'Behalte diese Standardtasten in der aktuellen Version',
+    intent: 'feste Referenz zum schnellen Nachschlagen',
     boxSelectKey: 'Shift',
     bcAria: 'Brotkrümelnavigation',
     home: 'Startseite',
@@ -96,6 +100,7 @@ const cases = [
     rightClick: 'actieve oorlogsschip',
     bulk: 'x1/x2/x5/xMax',
     fixed: 'Houd deze standaardtoetsen in de huidige versie aan',
+    intent: 'vaste referentie om standaard sneltoetsen snel op te zoeken',
     boxSelectKey: 'Shift',
     bcAria: 'Kruimelpad',
     home: 'Home',
@@ -126,6 +131,7 @@ for (const c of cases) {
     await expect(page.locator('main')).toContainText('v33.5');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
+    await expect(page.locator('main')).toContainText(c.intent);
 
     // FRESH-01：正式 v33.5 仍有三个固定工作流，未发布提交才补设置项。
     const boundary = page.locator('[data-keybinding-boundary]');

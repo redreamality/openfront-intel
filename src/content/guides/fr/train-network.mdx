@@ -1,6 +1,6 @@
 ---
-title: "Guide du réseau ferroviaire OpenFront : relier Factory, Cities et Ports"
-description: "Guide v0.33.12 pour construire un réseau de trains rentable : portée, longueur des segments, revenus par arrêt, scénarios et signaux de sortie."
+title: "Réseau ferroviaire OpenFront : portée, arrêts et rentabilité"
+description: "Construisez un réseau qui paie : recherche des stations à 110 cases, segments de 155,6 cases, paiements par arrêt et signaux d'arrêt."
 pubDate: 2026-08-28
 updatedDate: 2026-08-28
 tags: [trains, factory, city, port, économie]
@@ -11,6 +11,10 @@ freshnessSummary: "Vérifié contre la Release officielle v0.33.12 et le code fe
 ---
 
 ## Réponse directe : construisez une boucle connectée, pas une pile de Factory
+
+Cette page traite du **réseau ferroviaire** : portée des stations, géométrie des segments, hubs, branches, paiements par arrêt et moment où une Factory supplémentaire ne se justifie plus. Elle ne remplace ni un ordre de construction générique ni la comparaison Port ou Factory.
+
+La règle est simple : développez seulement un graphe connecté qui produit des arrêts payants répétés, puis augmentez le goulot mesuré. Un train en mouvement ne prouve pas un revenu ; un paiement terminé à une City ou un Port valide, oui.
 
 Construisez une Factory lorsqu'elle atteint une City ou un Port contrôlé dans un rayon de 110 cases et que chaque segment reste sous environ 155,6 cases. Commencez par un petit cluster, mesurez les arrivées pendant 60 à 120 ticks, puis améliorez seulement le vrai goulot. La correction v0.33.12 évite qu'une station déconnectée bloque tous les spawns, mais une station sans trajet utile ne rapporte toujours rien.
 
@@ -121,6 +125,13 @@ Pour chaque échec, demandez quel signal aurait permis de l'éviter. Une Factory
 Ajoutez enfin un seuil de retour dans la fiche : deux stations sûres, une réserve et un défenseur disponible. Si l'un manque, la branche reste en observation. Cette règle vaut dans chaque mode et sur chaque carte ; elle empêche de confondre une réparation technique avec une raison de continuer à dépenser.
 
 Avant d'acheter une Factory, consultez le [guide de l'espace économique Team](/fr/guides/team-economy-space/) pour réserver le corridor, nommer le payeur et désigner le défenseur de chaque gare.
+
+## FAQ du réseau ferroviaire
+
+- **À quelle question cette page répond-elle ?** Elle explique comment relier les Factory aux City et Port qui paient, mesurer les arrêts et savoir quand arrêter l'investissement. Elle ne promet pas un ordre de construction universel.
+- **Quelles distances vérifier ?** Les stations cherchent à 110 cases, les écarts sous 15 cases sont ignorés et chaque segment utile doit rester sous environ 155,6 cases. Mesurez le trajet réel, pas seulement la ligne droite.
+- **Pourquoi un Train peut-il rouler sans rapporter d'or ?** Il peut apparaître alors que propriété, diplomatie, géométrie ou validité de la station empêchent un arrêt payé. Comptez les règlements terminés, pas les icônes en mouvement.
+- **Quand arrêter une amélioration ?** Arrêtez si trois arrivées complètes manquent dans la fenêtre de test, si la pénalité après dix arrêts dilue le paiement ou si une capture/embargo retire l'unique station rentable. Réparez ou sortez avec une réserve.
 
 ## Sources officielles et limite v0.33.12
 
