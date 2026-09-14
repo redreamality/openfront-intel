@@ -1,0 +1,124 @@
+---
+title: "OpenFront nach dem MIRV: Blutverlust stoppen und den Gegenschlag timen"
+description: "Nachdem ein MIRV dein Territorium getroffen hat, entscheide in v0.34.0-beta1, was du behältst, wie schnell deine Armee zurückwächst und wann der Gegenschlag wirklich möglich ist."
+pubDate: 2026-09-14
+updatedDate: 2026-09-14
+tags: [mirv, erholung, gegenschlag, nuklear, taktik]
+category: strategie
+difficulty: fortgeschritten
+version: v34
+freshnessSummary: "Am 2026-09-14 geprüft: basiert auf dem offiziellen Release v0.34.0-beta1, seinem MIRV-Cooldown-Test, der Config-Quelle für Wachstum und Truppenobergrenze sowie der NukeExecution-Quelle für Fallout und Geschwindigkeit."
+---
+
+## Direkte Antwort: Städte halten und in der Cooldown-Fenster angreifen
+
+Wenn ein MIRV dich getroffen hat, ist deine Armee am niedrigsten — aber dein Wiedererwachstum ist relativ am stärksten. Verfolge nicht jede zerstörte Kachel. Halte deine überlebenden fertiggestellten Städte — sie tragen deine Truppenobergrenze und steuern dein Wachstum —, akzeptiere Kachelverluste, lass die Sättigung arbeiten und schlage in den 60 Sekunden globalen Abschuss-Cooldown des Angreifers zurück, bevor er erneut abfeuern kann. Dieses Fenster ist real: ein nachgeladener MIRV bewegt sich mit 22 Fliesen pro Sekunde (22 Fliesen pro Tick) — langsamer, als du denkst — und der Angreifer kann nicht erneut abfeuern, solange sein globaler 600-Tick-Cooldown nicht zurückgesetzt ist.
+
+Dieses Guide behandelt nur die Entscheidung *nach* der Aufspaltung, nicht den MIRV selbst. Das [MIRV-Mechanik-Guide](/de/guides/mirv/) deckt die 350-Sprengkopf-Enveloppe, die SAM-Abschüsse und `MIRV INBOUND` ab; das [Erholung-Handbuch](/de/strategies/recovery-playbook/) deckt die allgemeine Schadenbegrenzung und der Neuaufbau nach *jedem* Nuklearereignis ab. Die Frage hier ist enger und entscheidungsrelevant: Du wurdest MIRV-t, deine Karte sieht tot aus und du musst genau wissen, was du behältst, wie schnell du zurückwächst und wann du zuschlägst. Jede Zahl unten stammt aus dem offiziellen `v0.34.0-beta1`-Tagged-Source, nicht aus Community-Antworten.
+
+## Lies zuerst die Wachstumsrechnung
+
+Das nützlichste Fakt ist die Truppenwachstumsfunktion. In `troopIncreaseRate()` ist der Basisgewinn pro Tick `10 + (Truppen ^ 0.73) / 4`, multipliziert mit dem Sättigungsfaktor `(1 − aktuelle_Truppen / Truppenobergrenze)`, dann nach Schwierigkeit und anderen Modifikatoren angepasst, abgeschnitten, damit du nie über `maxTroops` kommst.
+
+Der Exponent `^ 0.73` ist der entscheidungsrelevante Kern. Weil der Exponent kleiner als 1 ist, wächst der Basiswert langsamer als die Truppen: Wenn du niedrig bist, ist dein relativer Gewinn pro verbliebener Truppe größer als nahe der Obergrenze. Ein Spieler, der auf 40.000 Truppen reduziert wurde, hat einen Sättigungsfaktor nahe 1, also wirkt der volle Basiswert. Ein Spieler, der bei 90 % der Obergrenze war und ein Drittel verlor, hat einen Sättigungsfaktor nahe 0,1, also wird der Großteil des Basiswerts zu null multipliziert. Derselbe MIRV tötet relativ weniger den Spieler mit niedriger Kapazität, weil der Sättigungsfaktor für ihn arbeitet.
+
+Die andere Hälfte ist `maxTroops` selbst, dein *Ziel* der Erholung. Für menschliche Spieler ist es `2 · ((Kacheln^0.6 · 1000) + 50000) + (Stadtstufen_fertiggestellt) · cityTroopIncrease`, wobei `cityTroopIncrease` ein fester `250.000` pro fertiggestellter Stadtstufe ist. Zwei direkte Schlussfolgerungen. Erstens: jede überlebende fertiggestellte Stadt ist 250.000 deiner Obergrenze wert — eine Stadt Stufe 3 ist 750.000 wert — also hält eine Stadtstufe weit mehr als eine äquivalente Anzahl roher Kacheln. Zweitens: deine Kacheln kommen nur über `Kacheln^0.6` in die Basis, die ebenfalls sublinear ist: von 3.000 auf 6.000 Kacheln zu gehen verdoppelt deinen Obergrenzen-Beitrag nicht. Genau deshalb ist die richtige erste Intuition „Städte halten, Kacheln aufgeben", nicht „jede Kachel zurückerobern".
+
+Ein durchgerechnetes Beispiel mit den Tagged-Source-Zahlen. Du wurdest MIRV-t mit 40.000 aktuellen Truppen, 3.200 Kacheln, zwei fertiggestellten Städte Stufe 3. Deine `maxTroops` ist `2 · ((3200^0.6 · 1000) + 50000) + (3 + 3) · 250000`. Der Kachelterm ist `3200^0.6 ≈ 104.5`, also `2 · (104500 + 50000) = 309.000`; der Stadtterm ist `6 · 250000 = 1.500.000`; deine Obergrenze ist etwa `1.809.000`. Dein Sättigungsfaktor ist `1 − 40000 / 1809000 ≈ 0.978`. Dein Basiswert ist `10 + 40000^0.73 / 4 ≈ 10 + 5946/4 ≈ 1506`. Dein Nettogewinn pro Tick ist etwa `1506 · 0.978 ≈ 1472`. Mit `msPerTick = 100` (10 Ticks/Sekunde) gewinnst du früh etwa 14.720 Truppen pro Sekunde, abflachend gegen die Obergrenze. Das ist eine erholbare Armee, keine tote Karte — genau das „Warum ist meine Karte tot", was Community-Posts beschreiben.
+
+## Der Angreifer kann 60 Sekunden nicht nachladen
+
+Der zweite entscheidungsrelevante Kern ist das Nachladefenster des Angreifers, festgelegt durch den v34-MIRV-Cooldown. Der globale Abschuss-Cooldown ist `600` Ticks, also `60` Sekunden bei `10` Ticks/Sekunde. Diese Regel wird durch den offiziellen `MirvCooldown.test.ts` bestätigt und ist asymmetrisch: Der Spieler, der gerade feuerte, ist von dem von ihm selbst ausgelösten Cooldown ausgenommen, und ein *neues* Feuer desselben Spielers setzt den Timer zurück. In der Praxis hat der Angreifer, der dich gerade MIRV-t, gerade `25 M` bezahlt (der flache MIRV-Preis in v34) und kann 60 Sekunden nicht erneut abfeuern — das ist dein Fenster.
+
+Zwei weitere Zahlen formen dieses Fenster. Der MIRV-Träger bewegt sich mit `15` Fliesen/Tick in `nukeSpeed()`, während die getrennten `MIRVWarhead` mit `22` Fliesen/Tick bewegen. Der Nachschub kommt also langsamer an als ein einzelner Raketenangriff und gibt dir Reaktionszeit. Und der Abschuss bricht das Bündnis für beide Seiten mit `−100`, also bist du ab dem Moment, in dem du überlebst, in einem neuen feindlichen Zustand. Das `MIRV INBOUND`-Banner ist deine einzige Warnung, also sind die beiden Uhren die 60-Sekunden-Cooldown und der Sprengkopfflug.
+
+Das konkrete Lesen ist ein Zwei-Uhren-Problem. Uhr 1: die 60 Sekunden Nachladen des Angreifers, die er nicht zurücksetzt, wenn er keinen Grund hat. Uhr 2: deine Erholung — die Sättigungsrechnung sagt, wie viele Ticks bis du eine kraftwürdige Armee hast. Du schlägst zurück, wenn deine Uhr eine Schwelle überschreitet: ein Schlag, der vor dem Ende des Angreifer-Fensters landet. Hat er einen zweiten geladenen Silo und einen Grund zu feuern, setzt er seinen Timer zurück und dein Fenster schließt früher — das ist das Fehlerszenario im nächsten Abschnitt.
+
+## Führe SAVE–SAT–COOL–COUNTER nach jedem Treffer aus
+
+**SAVE** bedeutet die Städte halten. In den ersten zehn Sekunden nach dem letzten Sprengkopf gibst du kein Gold für rohe Kacheln aus und startest keine neuen Gebäude an der Front. Markiere jede fertiggestellte Stadt, die dir überlebt, und halte deine Truppen verbunden. Jede ist 250.000 der Obergrenze pro Stufe wert und eine *im Bau* zählte nicht — also ist eine unvollendete Wiedereröffnung kein Asset. Fasse die fertigen ab, bevor du neue startest.
+
+**SAT** ist die Sättigungs-Lesung. Sieh dir deine aktuellen Truppen gegen `maxTroops` an und bestimme, ob du im niedrigen Sättigungsbereich bist, in dem `^ 0.73` und der nahe-1-Faktor dir den besten relativen Gewinn geben. Warst du vor dem MIRV nahe der Obergrenze, akzeptiere eine langsamere Erholung und plane eine längere Verteidigung statt eines sofortigen Gegenschlags. Schreibe die Zahl: „Ich bin bei X % der Obergrenze, also ist mein Nettogewinn etwa Y pro Tick."
+
+**COOL** ist die Cooldown-Uhr. Notiere, wann der Angreifer feuerte (das Banner ist dein Nullpunkt) und zähle das 600-Tick-Fenster. Baut er einen zweiten Silo oder bewegt sich dorthin, nimm an, er wird zurücksetzen, und behandle das Fenster als kürzer als 60 s. Ist er inaktiv, sind die vollen 60 s verfügbar.
+
+**COUNTER** ist der begrenzte Schlag. Engagiere nur, wenn deine SAT-Zahl plus die COOL-Uhr sagen, dass ein Schlag vor dem Fensterende landen kann, und dass dieser Schlag ein *deklariertes Ziel* ist — deine Grenze kürzen, eine exponierte Stadt nehmen, die Herangehensstraße des Angreifers blockieren — kein All-in. Halte eine Reserve für einen zweiten MIRV. Der Test ist derselbe wie eine Stopp-Linie im [Landkampf](/de/guides/land-combat/): Du weißt vor dem Schlag, welches Signal die Bewegung beendet.
+
+<div class="my-8 grid gap-3 md:grid-cols-4" aria-label="Erholungszyklus nach dem MIRV">
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">1 - SAVE</strong><p class="mt-2 text-sm text-iron-300">Halte die fertiggestellten Städte; jede ist 250.000 der Obergrenze pro Stufe wert.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">2 - SAT</strong><p class="mt-2 text-sm text-iron-300">Lies aktuelle Truppen gegen Obergrenze; niedrige Sättigung = bestes relatives Wachstum.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Zähle den globalen 600-Tick-Cooldown (60 s); ein zweiter Silo verkürzt.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Schlag ein begrenztes Ziel im Fenster; halte eine Reserve für einen zweiten MIRV.</p></div>
+</div>
+
+Führe nach jeder großen Änderung alle vier Schritte neu aus. Ein Sprengkopf während der Erholung setzt SAT zurück; ein zweiter Silo setzt COOL und den ganzen Plan zurück. Eine gute Erholung kann früh enden und gewinnen; ihr Ziel ist nicht Panik, sondern eine zeitlich begrenzte Entscheidung.
+
+## Szenario 1: Gegenschlag in der 60-Sekunden-Fenster (FFA)
+
+Du bist in einer v0.34.0-beta1 FFA. Nach dem MIRV eines Gegners hast du 3.200 Kacheln, zwei fertiggestellt Städte Stufe 3, 40.000 Truppen. Der Gegner hat 1.100.000 Truppen und einen zweiten inaktiven Silo. Er hat gerade 25 M bezahlt und ist in der 600-Tick-Cooldown. Deine `maxTroops` ist etwa 1.809.000 (oben berechnet), also ist dein SAT-Faktor etwa 0.978 und dein Nettogewinn etwa 1.472/Tick, das sind etwa 14.700/Sek. Du hast 600.000 Gold und einen Landweg zur einzigen exponierten Stadt Stufe 1 des Gegners, 1.500 Fliesen hinter seiner Linie. Dein Ziel ist, sie zu nehmen, bevor die 600-Tick-Uhr des Gegners zurücksetzt und sein zweiter Silo nachlädt.
+
+Taktik-Check. Eine Stadt bei 1.500 Fliesen zu nehmen braucht eine Kraft, die dort überlebt; nimm 90.000 engagierte Truppen plus 50.000 Reserve. Du bist bei 40.000, also musst du erst 50.000 zulegen. Bei etwa 14.700/Sek Netto am Anfang dauert das reine Wachstum etwa 4 s — aber der Gewinn flacht beim Anstieg, also ist die realistische Zahl 25 bis 35 s aktive Erholung bei gehaltenen Städten. Das liegt bequem im 60-s-Fenster: der Gegenschlag ist machbar. Die entscheidende Einschränkung ist der inaktive zweite Silo: feuert er während deiner 30 s Erholung, setzt er seinen Timer zurück und der 22-Fliesen/Tick-Nachschub erreicht deine exponierte Flanke vor dem Ende der Einnahme. Annahmen: Der Gegner hat kein stärkeres Ziel, kein Bündnis in der Nähe, kein undurchgängiges Terrain. Scheitert eine, ist das Fenster nicht 60 s.
+
+Führe SAVE–SAT–COOL–COUNTER aus. SAVE: Beide Städte Stufe 3 werden gehalten und verbunden, haltend 1.500.000 Obergrenze. SAT: Du bist bei 2,2 % der Obergrenze, der beste Bereich. COOL: Das Banner ist dein Nullpunkt; der einzige Verkurzer ist der zweite Silo. COUNTER: Bei 30 s engagierst du 90.000 für die Einnahme, hältst 50.000 Reserve hinter, und setzt die Stopp-Linie — leuchtet der zweite Silo, brich die Einnahme ab und zieh dich hinter deine Städte zurück, nicht mittendrin ohne Reserve.
+
+Die Gegenmaßnahme des Gegners ist genau das Zurücksetzen durch den zweiten Silo. Kann er 25 M zahlen, nutzt er deine 30 s Erholung, und weil die Sprengköpfe langsam sind (22 Fliesen/Tick) kommt der Nachschub während deiner Einnahme an. Deine Verteidigung ist die Reserve: Sie ist der Unterschied zwischen „ein begrenzter Gegenschlag, der mit einer Stadt endet" und „ein All-in, der mit deinen beiden Städten genommen endet". Erfolg bedeutet, die Stadt zu nehmen, die Reserve zu halten und vor dem erneuten Cooldown des Gegners fertig zu sein; er verlangt nicht, ihn zu zerstören.
+
+## Szenario 2: Alle Städte verloren, Wiedereröffnung von Kacheln
+
+Selbe FFA, aber der MIRV hat alle deine Städte genommen. Du hast 6.000 Kacheln, 0 fertiggestellte Städte, 60.000 Truppen, 400.000 Gold. Deine `maxTroops` ist jetzt `2 · ((6000^0.6 · 1000) + 50000) = 2 · (134400 + 50000) = 368.800`. Dein SAT-Faktor ist `1 − 60000 / 368800 ≈ 0.837`. Dein Basiswert ist `10 + 60000^0.73 / 4 ≈ 10 + 6605/4 ≈ 1661`. Dein Nettogewinn pro Tick ist etwa `1661 · 0.837 ≈ 1390`, das sind etwa 13.900/Sek.
+
+Das ist das „Warum ist meine Karte tot" der Posts, und die Zahl sagt, dass es das nicht ist: Du hast noch eine Obergrenze von etwa 369.000 und starkes relatives Wachstum. Die Entscheidung ist nicht *wie schneller wachsen* — die Sättigung liegt bereits zu deinen Gunsten — sondern *wo wieder aufbauen*. Weil jede Stadtstufe 250.000 wert ist und eine im Bau nicht zählt, ist die beste einzelne Investition *eine* Stadt hinter einer verteidigbaren Linie, nicht eine Reihe Fabriken an der Front. Eine Stadt Stufe 3 fügt 750.000 Obergrenze hinzu, steigend von 369.000 auf etwa 1.119.000. Hier ist der Gegenschlag verzögert: Du hast keine Kraft, im Fenster zu schlagen, also ist die richtige Aktion ein SAVE-erster Aufbau (eine Stadt, in der Tiefe), ein erneutes SAT-Lesen nach Fertigstellung und ein Auge auf COOL für den zweiten Schuss. Setzt der Gegner vor Fertigstellung zurück und feuert erneut, brauchst du eine Rücklinie — eine Flanke, die 60.000 Truppen halten können — sonst beendet der zweite MIRV das Spiel. Dieses Szenario löst sich, wenn deine Stadt fertig ist und die Obergrenze überspringt.
+
+## Fehlerszenarien und wie der Angreifer sie bestraft
+
+Erstens die Panik-Wiedereröffnung. Gold in den ersten zehn Sekunden für exponierte Kacheln auszugeben oder neue Gebäude an der Front zu starten sieht produktiv aus, ist es aber nicht: Jede dort investierte Kachel ist ein Nachschubziel und eine im Bau Stadt fügt null Obergrenze hinzu. Der Angreifer bestraft das durch Zurücksetzen des zweiten Silos und setzt einen Sprengkopf auf deine exponierte Wiedereröffnung, während deine Reserve engagiert ist.
+
+Zweitens den zweiten Silo zu ignorieren. Das 60-s-Fenster ist nur real, wenn der Angreifer nicht nachladen kann. Ein Gegner mit einem zweiten geladenen Silo und genug Gold setzt zurück und dein Fenster ist die Flugzeit seines Sprengkopfs, nicht 60 s. Lies COOL gegen das, was du tatsächlich sehen kannst.
+
+Drittens der All-in-Gegenschlag. Die ganze Armee zu engagieren lässt keine Reserve, und der Nachschub nimmt deine jetzt leeren Städte, Spiel vorbei. Schläge nur zurück, wenn eine deklarierte Reserve überleben kann; sonst halte.
+
+Viertens Fallout falsch zu lesen. `falloutDefenseModifier` ist `5 − falloutRatio · 2`, was deine Angriffsstärke und deine Kachelkosten auf Fallout-Kacheln reduziert, aber auch den Nachschub des Angreifers schwächt, der auf dieselben Kacheln fällt. Sind deine Städte im Fallout, baue hinter, auf saubereren Kacheln.
+
+Fünftens die Erholung als Rennen zur Obergrenze zu behandeln. Du musst nicht bei der Obergrenze sein, um zurückzuschlagen; du brauchst die deklarierte Kraft plus die Reserve. Bei der Obergrenze zu sein ist das Ziel der *nächsten* Phase. Das letzte Prozent während des Gegenschlags zu jagen ist derselbe Fehler wie All-in.
+
+| Schlechter Trick | Warum er in v34 scheitert | Erholbare Alternative |
+|---|---|---|
+| „Jetzt alle Kacheln wieder aufbauen" | Exponierte Wiedereröffnung ist ein Ziel; unvollendete Städte fügen keine Obergrenze hinzu | Halte fertiggestellte Städte, baue eine Stadt in der Tiefe wieder auf |
+| „Ich habe volle 60 s" | Der zweite Silo setzt den Angreifer-Timer zurück | Zähle COOL gegen sichtbare Silos, nicht das Ideal |
+| „All-in-Gegenschlag" | Ohne Reserve nimmt der Nachschub deine Städte | Engagiere begrenzte Kraft, halte die Reserve, setze die Stopp-Linie |
+| „Auf dichtem Fallout halten" | `5 − falloutRatio·2` reduziert deinen Angriff und erhöht die Kosten | Baue hinter dem Fallout auf, auf saubereren Kacheln |
+| „Zuerst zur Obergrenze, dann zuschlagen" | Die Obergrenze ist die nächste Phase; der Schlag braucht Kraft+Reserve, nicht Max | Schlag bei der deklarierten Schwelle, lies SAT danach neu |
+
+## Passe den Zyklus an Karte, FFA, Team und Nation an
+
+Auf kleinen Karten ist der Sprengkopfflug kurz und der zweite Silo setzt schnell zurück, also ist COOL die harte Einschränkung. Bevorzuge einen Gegenschlag, der auf deinem eigenen Territorium endet (Grenze kürzen), statt eine Vorstoß in das des Gegners: Der Rückweg ist, wo der Nachschub dich einholt. Auf großen Karten kommen 22-Fliesen/Tick-Sprengköpfe langsamer an, also ist das Fenster länger, aber ein zweiter feindlicher Kontakt kann deine Route abschneiden; zähle deine exponierten Flanken wie in der [Bedrohungsabschätzung](/de/guides/threat-assessment/).
+
+Im Team ist der `−100`-Bündnisbruch stärker: ein MIRV-ter Teamkollege verliert das Bündnis und kann eine Flanke exponieren, von der du abhängst. Koordiniere die COOL-Uhr — einer hält die Städte, einer hält die Reserve, niemand eröffnet eine zweite Front, ohne zu wissen, wer antwortet. Die v34-Team-Siegsschwelle ist 80 %, also sollte eine lange nukleare Reinigung dich nicht die näheren Territorienziele versäumen lassen.
+
+Gegen eine Nation: die Nation, die dich MIRV-t, gehorcht demselben globalen 600-Tick-Cooldown und denselben zweiten-Silo-Regeln, hat aber auch ein paralleles AI-Verhalten. Behandle COOL als untere Grenze: Die Nation kann einen zweiten geladenen Silo haben, zurücksetzen und in derselben Fenster einen konventionellen Angriff senden. SAVE und SAT ändern sich nicht; die COOL-Lesung ist vorsichtiger.
+
+Die Karten-Skalierungs-Lektion ist die selbe wie im Druck-Guide: Sie ändert die verfügbare Reaktionszeit, nicht die vier Kontrollen. Die Zahlen — 600-Tick-Cooldown, 10 Ticks/Sekunde, 250.000 pro Stadtstufe, `^ 0.73` Wachstum — sind versionsstabil, also ist der Zyklus spielbar, solange ein kommendes Release sie nicht ändert.
+
+## Führe ein Protokoll und prüfe die Versionsgrenze
+
+Die reproduzierbare Praxis sind drei Protokollzeilen: bei null, bei mittlerer Erholung und bei der Entscheidung. Bei null: notiere aktuelle Truppen und Obergrenze, überlebende Stadtstufen, Zustand der gegnerischen Silos und das Banner-Markierung. Bei mittlerer Erholung: notiere deinen SAT-Faktor und Nettogewinn pro Tick und ob der Gegner COOL zurückgesetzt hat. Bei der Entscheidung: notiere deklarierte Kraft, Reserve und Stopp-Linie. Ein kurzes Protokoll zeigt, welche Annahme scheitert.
+
+| Protokollmoment | Notieren | Weiter nur wenn | Stoppen/Schalten wenn |
+|---|---|---|---|
+| Einschlag (0 s) | Truppen/Obergrenze, lebende Stadtstufen, Silozustand, Banner-Markierung | Fertiggestellte Städte verbunden, Reserve intakt | Eine Stadt angegriffen oder Reserve engagiert |
+| Mittlere Erholung | SAT-Faktor, Nettogewinn/Tick, COOL-Rücksetzzustand | Nettogewinn positiv und Fenster noch offen | Angreifer setzt zurück oder SAT unter Plan |
+| Entscheidung | Deklarierte Kraft, Reserve, Stopp-Linie | Der Schlag landet vor dem Fensterende | Zweiter Silo leuchtet oder Reserve unter Plan |
+
+Die Beweisgrenze ist OpenFront `v0.34.0-beta1`, geprüft am 14. September 2026. Das [offizielle Release][release] ist die Versionsgrenze. Der exakte [MIRV-Cooldown-Test][cooldown-test] legt den globalen 600-Tick-Cooldown, die Schützen-Ausnahme und das Zurücksetzen durch Nachladen fest. Die [Config-Quelle][config] definiert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. Die [NukeExecution-Quelle][nuke] definiert Träger- und Sprengkopfgeschwindigkeit und den Fallout-Einschlag. Die [MIRVExecution][mirvexec] legt den flachen 25-M-Preis, die 350-Sprengkopf-Enveloppe, die 55-Fliesen-Mindestverteilung, die 1500-Reichweite und den Bündnisbruch fest.
+
+Die Community-Posts und Videos im Recherche-Pack beantworten eine andere Frage: Was Spieler bemerken und welche Entscheidungen wiederholt scheitern. Sie stützen die „Warum ist meine Karte tot"-Sprache, die Verwirrung, ob man zurückschlägt und die Sorge um einen zweiten MIRV. Sie beweisen nicht die aktuelle Rate, garantieren kein Überleben und liefern keine Bau-Reihenfolge. Diese Trennung ist gewollt. Ändert ein kommendes Release den MIRV-Cooldown, die Wachstumsfunktion oder den Stadt-Truppenbonus, behalte den SAVE–SAT–COOL–COUNTER-Zyklus und rechne die Zahlen neu aus dem neuen Tag.
+
+Fahre mit dem gescheiterten Check fort. Für den MIRV selbst und die Aufspaltung das [MIRV-Mechanik-Guide](/de/guides/mirv/). Für das Schadensmodell hinter den Sprengköpfen der [Nuklearrechner](/de/guides/nuke-calculator/). Für den Ablauf eines engagierten Gegenschlags der [Landkampf](/de/guides/land-combat/). Für die Endzeit-Uhr, die während der Erholung das Spiel beenden kann, die [Doomsday-Uhr](/de/guides/doomsday-clock/). Für die Abschreckungslogik, die den nächsten MIRV verhindert, die [nukleare Abschreckung](/de/strategies/nuclear-deterrence/). Jede nächste Seite repariert eine einzige Entscheidungs-Eingabe.
+
+Die finale Regel ist testbar: nachdem ein MIRV getroffen hat, halte die fertiggestellten Städte, lies deine Sättigung, zähle den 600-Tick-Cooldown gegen die sichtbaren Silos und schlag ein begrenztes Ziel mit einer gehaltenen Reserve im Fenster. Mach die erste Aktion klein genug, um die Reaktion zu beobachten. Hör auf, wenn das deklarierte Signal eintrifft, auch wenn Terrain übrig bleibt. Starte neu nur, wenn eine neue SAVE–SAT–COOL–COUNTER besteht. Diese Disziplin eliminiert nicht den Zufall eines zweiten Schusses; sie verhindert den häufigsten Fehler nach einem MIRV: einen verheerenden Treffer als Todesurteil zu behandeln statt als zeitlich begrenzten Beschluss mit einem echten Fenster.
+
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
