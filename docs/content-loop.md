@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-15。
+更新日期：2026-09-16。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/replay-review/` 已完成五语 TRACE 正文、社区与官方来源包，并从五语 first-match 接入赛后入口；本 PR 合并即完成本轮主题 | 合并即继续滚动 Production；下一轮重新批准唯一意图，不得把 replay 时间线、证据标签、公开 profile/history 或单变量实验换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/adaptive-build-order/` 已完成五语 LIMIT 正文、社区与 v0.34.3 一手来源包，并从五语 Economy Fundamentals 与 Guides Economy 分组接入；本 PR 合并即完成本轮主题 | 合并即继续滚动 Production；下一轮重新批准唯一意图，不得把 LIMIT、下一笔 Gold 分配、City/Port/Factory/Defense 分叉或停止线换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,8 +30,8 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)，tag commit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`；稳定 v34 功能基线为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。v0.34.1 只减少 trusted-only public games 并改善 CrazyGames 的 trusted-lobby 提示；其余 v34 玩家功能沿用稳定 Release。
-- 上游 `main` 游标：`3e3b9627dc003b95ede1a5fdc87b560731dff3c8`；2026-09-15 已用 GitHub REST 核验。晚于 v0.34.1 的提交只作为未来版本线索，不能改写当前正式边界。
+- 正式 Release：[`v0.34.3`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3)，tag commit `222e4078982e6c21c620a69c82de0392c17385bf`；v0.34.2 将有真实防守方的常规攻击速度约提高 10%，v0.34.3 修复 Ranked 匹配与支付错误并恢复 Default 外观色板。稳定 v34 功能基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
+- 上游 `main` 游标：`960ed616a0468517ba13646d46b8c938add27a15`；2026-09-16 已用 GitHub REST 核验。晚于 v0.34.3 的提交只作为未来版本线索，不能改写当前正式边界。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-30..09-05，892 Query / 2,271 Query × Page / 462 clicks。
 - GSC 28 天：2026-08-09..09-05，1,540 Query / 4,742 Query × Page / 1,439 clicks。
@@ -47,6 +47,7 @@
 - 本轮运输船登陆社区及 tag 核验：[`2026-09-08-transport-landings-community-source-pack.md`](research/2026-09-08-transport-landings-community-source-pack.md)。
 - 本轮团队经济空间社区、官方及 tag 核验：[`2026-09-09-team-economy-space-community-source-pack.md`](research/2026-09-09-team-economy-space-community-source-pack.md)；官方事实补充见 [`2026-09-09-team-economy-official-notes.md`](research/2026-09-09-team-economy-official-notes.md)。
 - 本轮回放复盘社区、正式 Release 及 tag 核验：[`2026-09-15-replay-review-community-source-pack.md`](research/2026-09-15-replay-review-community-source-pack.md)。
+- 本轮自适应建造顺序社区、正式 v0.34.3 Release、tag 源码与测试核验：[`2026-09-16-adaptive-build-order-community-source-pack.md`](research/2026-09-16-adaptive-build-order-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -83,6 +84,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-16 | v34.3 Release response + `LF-COMMUNITY-ROLLING` 自适应建造顺序 | 五语 v34 总览与 mobile-app-download 同步 v0.34.3；新建五语 `/guides/adaptive-build-order/`，用 LIMIT 回答下一笔 Gold 应成为 City、Port、Factory、防御或流动储备，并按 v0.34.2 提速修订军力停止线 | 3 个实际分析 Reddit、3 个实际分析 YouTube、61 个官方 URL、1,775 英文研究词；guide audit、release 5/5、content 95/95 + What's New 11/395、check 0 errors/9 hints、build 420 页、links 19,027、SEO 415/415 均通过；合并即完成本轮主题并继续滚动 Production |
 | 2026-09-15 | v34.1 Release response + `LF-COMMUNITY-ROLLING` 回放复盘 | 五语 v34 总览同步 v0.34.0 稳定功能和 v0.34.1 trusted-lobby 修订；新建五语 `/guides/replay-review/`，用 TRACE 区分当时已知、回放可见、可控制断点与下一局单变量实验，并接通五语 first-match | 5 个实际分析 Reddit、3 个带可核验字幕 YouTube、24 个官方 URL、3,953 英文研究词；guide audit、content audit 95/95、check、build 415 页、e2e 390/390、links 18,737、SEO 410/410 均通过；合并即完成本轮主题并继续滚动 Production |
 | 2026-09-11 | `LF-COMMUNITY-ROLLING` Nation 压力与扩张停止线决策 | 新建五语 `/guides/nations-pressure/`，用 P-R-E-S-S 框架回答 Nation 目标选择、75% Troops 候选上限、外部受益者、停止线、模式/地图调整与反制；同步 MIRV v34 事实修正，并接通五语 Guides、Threat Assessment、Land Combat 与 Nuclear Deterrence | 4 个实际分析 Reddit、3 个实际播放核验 YouTube、7 个官方来源、3,407 英文研究词；guide audit、content audit、check、build、links、e2e 与交付闭环均已完成 |
 | 2026-09-09 | `LF-COMMUNITY-ROLLING` 团队经济空间决策 | 新建五语 `/guides/team-economy-space/`，用 SPACE 框架回答如何为 City、Factory、Port 与铁路预留空间、按付款人计算成本、验证停站/海贸路线、分配捐赠与保护责任，并在路线失效时退出；接通五语 Guides、Port-vs-Factory、Train Network 与 Team Roles | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、v0.33.14 官方 Release/tag、Config、执行逻辑与测试；guide audit、content audit、check、build、links 与交付闭环已完成 |

@@ -81,6 +81,8 @@ const contracts = [
     facts: [
       ['attack ratios and density', /troop ratio.*troop density/is],
       ['large-territory boundary', /100,000 tiles/i],
+      ['v34.2 attack pace', /attacks run about 10% faster/i],
+      ['v34.3 patch fixes', /ranked matchmaking.*payment errors.*Default swatch/is],
       ['MIRV price and cooldown', /25 million.*60-second/is],
       ['Nation target strategy', /Hard and Impossible Nations.*valuable bordering rival/is],
       ['Team threshold', /Team games.*80%.*95%/is],
@@ -100,6 +102,8 @@ const contracts = [
     facts: [
       ['attack ratios and density', /troop ratio.*troop density/is],
       ['large-territory boundary', /100,000 tiles/i],
+      ['v34.2 attack pace', /攻击速度提高约 10%/i],
+      ['v34.3 patch fixes', /Ranked 匹配.*支付错误.*Default 色板/is],
       ['MIRV price and cooldown', /25,000,000 Gold.*60 秒/is],
       ['Nation target strategy', /Hard 与 Impossible Nations.*价值高/is],
       ['Team threshold', /Team.*95%.*80%/is],
@@ -119,6 +123,8 @@ const contracts = [
     facts: [
       ['attack ratios and density', /troop ratio.*troop density/is],
       ['large-territory boundary', /100 000 tiles/i],
+      ['v34.2 attack pace', /accélère les attaques d'environ 10 %/i],
+      ['v34.3 patch fixes', /matchmaking Ranked.*erreurs de paiement.*nuance Default/is],
       ['MIRV price and cooldown', /25 millions.*60 secondes/is],
       ['Nation target strategy', /Nations Hard et Impossible.*rival frontalier/is],
       ['Team threshold', /Team.*80 %.*95 %|Team.*95 %.*80 %/is],
@@ -138,6 +144,8 @@ const contracts = [
     facts: [
       ['attack ratios and density', /troop ratio.*troop density/is],
       ['large-territory boundary', /100\.000 Tiles/i],
+      ['v34.2 attack pace', /ungefähr 10 % höheres Angriffstempo/i],
+      ['v34.3 patch fixes', /Ranked-Matchmaking.*Zahlungsfehler.*Default-Farbprobe/is],
       ['MIRV price and cooldown', /25 Millionen.*60 Sekunden/is],
       ['Nation target strategy', /Hard- und Impossible-Nations.*wertvollen angrenzenden Gegner/is],
       ['Team threshold', /Team.*80 %.*95 %|Team.*95 %.*80 %/is],
@@ -157,6 +165,8 @@ const contracts = [
     facts: [
       ['attack ratios and density', /troop ratio.*troop density/is],
       ['large-territory boundary', /100\.000 tiles/i],
+      ['v34.2 attack pace', /aanvallen ongeveer 10% sneller/i],
+      ['v34.3 patch fixes', /Ranked-matchmaking.*betalingsfouten.*Default-kleur/is],
       ['MIRV price and cooldown', /25 miljoen.*60 seconden/is],
       ['Nation target strategy', /Hard en Impossible Nations.*waardevolle aangrenzende rivaal/is],
       ['Team threshold', /Team.*80%.*95%|Team.*95%.*80%/is],

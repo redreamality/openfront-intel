@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.1: Angriffe, MIRV, Lobbys und Karten'
-description: 'Was das offizielle OpenFront-v34.1-Release für Kampf, MIRV, Nations, Trusted-Lobbys, Water Nukes, Karten, Steam und das nächste Match ändert.'
+title: 'OpenFront v34.3: Angriffe, MIRV, Lobbys und Karten'
+description: 'Was das offizielle OpenFront-v34.3-Release für Kampf, MIRV, Nations, Trusted-Lobbys, Water Nukes, Karten, Steam und das nächste Match ändert.'
 pubDate: 2026-09-10
-updatedDate: 2026-09-15
+updatedDate: 2026-09-16
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Versionsnotizen
 ---
 
-## Direkte Antwort: Was ändert OpenFront v34.1?
+## Direkte Antwort: Was ändert OpenFront v34.3?
 
-Das stabile Funktionsrelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) erschien am 14. September 2026; zwei Stunden später folgte der offizielle Patch [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1). Er ist nun die formale Nicht-TEST-Grenze, übernimmt die v34-Notizen, reduziert die Zahl der Trusted-Lobbys und verbessert deren Hinweis auf CrazyGames. Steam ist nur ein Teil: Landverluste, MIRV-Timing, Nation-Druck, Team-Sieg, Wasserwege, Schienen, Lobbywahl und Karten verändern konkrete Entscheidungen im nächsten Match.
+Das stabile Funktionsrelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) erschien am 14. September 2026. Danach folgten [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1), [`v0.34.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.2) und der offizielle Patch [`v0.34.3`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3). v0.34.3 ist nun die formale Nicht-TEST-Grenze. Die Serie übernimmt alle v34-Funktionen und korrigiert Trusted-Lobby-Anzeigen, Angriffstempo, öffentliche Team-Konfiguration, Ranked-Matchmaking, Zahlungen, Audio-Standardwerte, Desktop-Links und Standardfarben. Steam ist nur ein Teil: Landverluste, MIRV-Timing, Nation-Druck, Team-Sieg, Wasserwege, Schienen, Lobbywahl und Karten verändern konkrete Entscheidungen im nächsten Match.
+
+Die nach v0.34.1 hinzugekommene Gameplay-Änderung ist laut v0.34.2 ein ungefähr 10 % höheres Angriffstempo. Dadurch bleibt in Echtzeit weniger Raum zum Abbrechen, Verstärken, Gegenangreifen oder Erkennen einer schwindenden Reserve. Das ersetzt weder das v34-Verlustmodell aus ratio und density noch garantiert ein fixes Angriffsprozent den Sieg. v0.34.2 behebt außerdem öffentliche Team-Spiele mit null Teams, erklärt Trusted-Lobbys klarer, bietet klassische Bot-Farben als Option, justiert Audio-Standardwerte und kopiert im Desktop-Client Weblinks statt `app://`-Links. v0.34.3 behebt anschließend Ranked-Matchmaking- und Zahlungsfehler und stellt die Default-Farbprobe für eigene Muster wieder her. Diese letzten Korrekturen betreffen Zugang und Darstellung, nicht die Kampfformel.
 
 Landangriffe verwenden ein neu aufgebautes Verlustmodell mit zwei Kerneingaben: dem troop ratio des Angreifers und der troop density des Verteidigers. Ein größerer Einsatz kann an einer dünn gehaltenen Front weniger pro Tile kosten, während eine hohe Dichte auf kompaktem Gebiet teuer bleibt. Die Anpassung für große Territorien ist geglättet und begrenzt. Laut Release verändert sie Positionen unter 100.000 Tiles nicht. Das ist keine Aufforderung zum Full-Send. Routenform, Gelände, Defense Posts, Gegenangriffe und die zurückbleibende Reserve entscheiden weiterhin, ob ein Vorstoß hält. Eine alte feste Verlustschätzung ist lediglich kein verlässlicher Rechner mehr.
 
@@ -45,7 +47,7 @@ Lies zuletzt die Karte neu. Yangtze River besitzt eine röhrenartige Flusstopolo
 
 ## Quellenstatus, Grenzen und nächste Lektüre
 
-Die aktuelle öffentliche Autorität ist das offizielle [OpenFront-Release `v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) mit dem unveränderlichen Tag-Commit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`. Die stabile Funktionsbasis ist [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) bei Commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; die beta1-Links unten bleiben unveränderliche historische Belege derselben veröffentlichten Spielgrenzen. `main` entwickelte sich nach jeder Veröffentlichung weiter, daher sind spätere Commits nur Hinweise auf eine künftige Grenze.
+Die aktuelle öffentliche Autorität ist das offizielle [OpenFront-Release `v0.34.3`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3) mit dem unveränderlichen Tag-Commit `222e4078982e6c21c620a69c82de0392c17385bf`. Die stabile Funktionsbasis ist [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) bei Commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; die beta1-Links unten bleiben unveränderliche historische Belege derselben veröffentlichten Spielgrenzen. `main` entwickelte sich nach jeder Veröffentlichung weiter, daher sind spätere Commits nur Hinweise auf eine künftige Grenze.
 
 Für Kampfregeln dienen die getaggten Dateien [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) und [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Sie sichern Funktion und Szenarien, liefern aber keine universelle Truppen-pro-Tile-Zahl ohne ratio und density. Die redaktionelle Antwort ist ein begrenzter Probeangriff mit anschließender Grenzprüfung, keine erfundene deterministische Tabelle aus fehlenden Eingaben.
 
