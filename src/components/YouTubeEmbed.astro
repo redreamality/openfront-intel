@@ -1,0 +1,30 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  start?: number;
+}
+
+const { id, title, start } = Astro.props as Props;
+const query = new URLSearchParams({
+  ...(start ? { start: String(start) } : {}),
+  rel: '0',
+  modestbranding: '1',
+});
+const src = `https://www.youtube-nocookie.com/embed/${id}?${query.toString()}`;
+---
+
+<figure class="my-8 overflow-hidden rounded-lg border border-iron-700 bg-iron-950">
+  <div class="aspect-video">
+    <iframe
+      class="h-full w-full"
+      src={src}
+      title={title}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <figcaption class="px-4 py-3 text-sm text-iron-400">{title}</figcaption>
+</figure>

@@ -1,20 +1,24 @@
 ---
 title: "OpenFront : récupération après MIRV — stopper l'hémorragie et timez votre contre-attaque"
-description: "Après qu'un MIRV a touché votre territoire, dans v0.34.0-beta1, décidez quoi préserver, à quelle vitesse votre armée repousse et quand la contre-attaque devient réellement possible."
-pubDate: 2026-09-14
+description: "Après qu'un MIRV a touché votre territoire, dans v0.34.1, décidez quoi préserver, à quelle vitesse votre armée repousse et quand la contre-attaque devient réellement possible."
+pubDate: 2026-09-15
 updatedDate: 2026-09-15
 tags: [mirv, récupération, contre-attaque, nucléaire, tactique]
 category: stratégie
 difficulty: avancé
 version: v34
-freshnessSummary: "Vérifié le 2026-09-14 : basé sur la Release officielle v0.34.0-beta1, son test de cooldown MIRV, la source Config de croissance et de plafond de troupes, et la source NukeExecution de fallout et de vitesse."
+freshnessSummary: "Vérifié le 2026-09-15 : basé sur la Release officielle v0.34.1, le test de régression du cooldown MIRV conservé depuis v0.34.0-beta1, la source Config de croissance et de plafond de troupes, et la source NukeExecution de fallout et de vitesse."
 ---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="EN2oOog3pSs" title="Exemple communautaire de récupération après un MIRV dans OpenFront" />
 
 ## Réponse directe : sauvegardez les villes, puis contre-attaquez pendant la fenêtre
 
 Quand un MIRV vous a touché, gardez les villes construites, acceptez une perte de tuiles et lisez la saturation avant de dépenser de l'or. Le cooldown global de 600 ticks bloque les autres joueurs, mais le lanceur en est exempt et peut tirer si un autre silo est prêt. Contre-attaquez seulement si vos troupes, votre réserve, votre route et les silos visibles permettent un objectif limité. Les têtes se déplacent à 22–26 cases/tick avec des attentes supplémentaires : l'arrivée est variable.
 
-Ce guide ne traite que de la décision *après* la scission, pas du MIRV lui-même. Le [guide des mécaniques MIRV](/fr/guides/mirv/) couvre l'enveloppe de 350 têtes, l'interception SAM et le `MIRV INBOUND` ; le [manuel de récupération](/fr/strategies/recovery-playbook/) couvre l'hémorragie et la reconstruction générales après *tout* événement nucléaire. La question ici est plus étroite et décisionnelle : vous avez été MIRV, votre carte semble morte, et vous devez savoir exactement quoi garder, à quelle vitesse vous repoussez, et quand frapper. Chaque chiffre ci-dessous vient de la source officielle taguée `v0.34.0-beta1`, pas de réponses communautaires.
+Ce guide ne traite que de la décision *après* la scission, pas du MIRV lui-même. Le [guide des mécaniques MIRV](/fr/guides/mirv/) couvre l'enveloppe de 350 têtes, l'interception SAM et le `MIRV INBOUND` ; le [manuel de récupération](/fr/strategies/recovery-playbook/) couvre l'hémorragie et la reconstruction générales après *tout* événement nucléaire. La question ici est plus étroite et décisionnelle : vous avez été MIRV, votre carte semble morte, et vous devez savoir exactement quoi garder, à quelle vitesse vous repoussez, et quand frapper. Chaque chiffre ci-dessous vient de la source officielle taguée `v0.34.1`, pas de réponses communautaires.
 
 ## Lisez d'abord la mathématique de croissance
 
@@ -55,7 +59,7 @@ Refaites les quatre étapes après chaque changement majeur. Une tête pendant l
 
 ## Scénario 1 : contre-attaque dans la fenêtre de 60 secondes (FFA)
 
-Vous êtes en FFA v0.34.0-beta1. Après le MIRV d'un adversaire, vous avez 3 200 tuiles, deux villes construites de niveau 3, 40 000 troupes. L'adversaire a 1 100 000 troupes et un second silo inactif. Il vient de payer 25 M et est dans le cooldown de 600 ticks. Votre `maxTroops` est environ 1 853 583, donc votre facteur SAT est environ 0,978 et votre gain net environ 570/tick, soit environ 5 700/s. Vous avez 600 000 d'or et un couloir terrestre vers l'unique ville de niveau 1 exposée de l'adversaire, 1 500 cases derrière sa ligne. Votre objectif est de la prendre avant que l'horloge de 600 ticks de l'adversaire ne réinitialise et que son second silo ne relance.
+Vous êtes en FFA v0.34.1. Après le MIRV d'un adversaire, vous avez 3 200 tuiles, deux villes construites de niveau 3, 40 000 troupes. L'adversaire a 1 100 000 troupes et un second silo inactif. Il vient de payer 25 M et est dans le cooldown de 600 ticks. Votre `maxTroops` est environ 1 853 583, donc votre facteur SAT est environ 0,978 et votre gain net environ 570/tick, soit environ 5 700/s. Vous avez 600 000 d'or et un couloir terrestre vers l'unique ville de niveau 1 exposée de l'adversaire, 1 500 cases derrière sa ligne. Votre objectif est de la prendre avant que l'horloge de 600 ticks de l'adversaire ne réinitialise et que son second silo ne relance.
 
 Vérification de la frappe. Prendre une ville à 1 500 cases demande une force capable d'y survivre ; supposons 90 000 troupes engagées plus 50 000 de réserve. Vous êtes à 40 000, donc il faut d'abord pousser de 50 000. À environ 5 700/s au début, le calcul statique demande environ 9 s pour atteindre le seuil ; en pratique, la croissance décroît et le combat change l'état. Ne déclarez pas la contre-attaque faisable sur l'horloge seule. La contrainte décisive est le second silo inactif : s'il tire pendant vos 30 s, il réinitialise son minuteur et la relance à 22 cases/tick atteint votre aile exposée avant la fin de la prise. Hypothèses : l'adversaire n'a pas d'objectif plus fort, pas d'alliance à proximité, pas de terrain impraticable. Si l'une échoue, la fenêtre n'est pas de 60 s.
 
@@ -109,7 +113,7 @@ La pratique reproductible est trois lignes de journal : à zéro, à mi-récupé
 | Mi-récupération | Facteur SAT, gain net/tick, état de réinitialisation de COOL | Gain net positif et fenêtre toujours ouverte | Attaquant réinitialise ou SAT sous le plan |
 | Décision | Force déclarée, réserve, ligne d'arrêt | La frappe atterrit avant la fin de la fenêtre | Second silo s'illumine ou réserve sous le plan |
 
-La frontière de preuve est OpenFront `v0.34.0-beta1`, vérifié le 14 septembre 2026. La [Release officielle][release] est la frontière de version. Le [test de cooldown MIRV][cooldown-test] exact fixe le cooldown global de 600 ticks, l'exemption du lanceur et la réinitialisation par re-tir. La [source Config][config] définit `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. La [source NukeExecution][nuke] définit les vitesses du porteur et des têtes et l'impact du fallout. La [MIRVExecution][mirvexec] fixe le prix plat de 25 M, l'enveloppe de 350 têtes, l'écart minimum de 55 cases, la portée de 1500 et la rupture d'alliance.
+La frontière de preuve est OpenFront `v0.34.1`, vérifié le 14 septembre 2026. La [Release officielle][release] est la frontière de version. Le [test de cooldown MIRV][cooldown-test] exact fixe le cooldown global de 600 ticks, l'exemption du lanceur et la réinitialisation par re-tir. La [source Config][config] définit `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. La [source NukeExecution][nuke] définit les vitesses du porteur et des têtes et l'impact du fallout. La [MIRVExecution][mirvexec] fixe le prix plat de 25 M, l'enveloppe de 350 têtes, l'écart minimum de 55 cases, la portée de 1500 et la rupture d'alliance.
 
 Les posts communautaires et vidéos du pack de recherche répondent à une autre question : ce que les joueurs remarquent et quelles décisions échouent en répétition. Ils soutiennent le langage du « ma carte est morte », la confusion de contre-attaquer ou non, et l'inquiétude d'un second MIRV. Ils ne prouvent pas le taux actuel, ne garantissent pas la survie et ne fournissent pas un ordre de construction. Cette séparation est délibérée. Si un Release à venir modifie le cooldown MIRV, la fonction de croissance ou le bonus de troupes de ville, gardez la boucle SAVE–SAT–COOL–COUNTER et recalculez les chiffres depuis le nouveau tag.
 
@@ -117,8 +121,8 @@ Continuez par le contrôle qui échoue. Pour le MIRV lui-même et la scission, l
 
 La règle finale est testable : après qu'un MIRV a touché, gardez les villes construites, lisez votre saturation, comptez le cooldown de 600 ticks contre les silos que vous pouvez voir, et frappez un objectif limité avec une réserve tenue pendant la fenêtre. Faites du premier mouvement petit assez pour observer la réponse. Arrêtez quand le signal déclaré arrive, même s'il reste du terrain. Ne repartez que si une nouvelle SAVE–SAT–COOL–COUNTER passe. Cette discipline n'élimine pas l'aléa d'un second tir ; elle empêche l'erreur post-MIRV la plus courante : traiter une frappe dévastatrice comme un verdict de mort au lieu d'une décision bornée dans le temps avec une fenêtre réelle.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
 [cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts

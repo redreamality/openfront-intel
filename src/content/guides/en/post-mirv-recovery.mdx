@@ -1,20 +1,24 @@
 ---
 title: "OpenFront Post-MIRV Recovery: Stop the Bleed and Time Your Counterattack"
-description: "After a MIRV has landed on your territory, decide what to preserve, how fast your army regrows, and when a counterattack is actually possible in v0.34.0-beta1."
+description: "After a MIRV has landed on your territory, decide what to preserve, how fast your army regrows, and when a counterattack is actually possible in v0.34.1."
 pubDate: 2026-09-14
 updatedDate: 2026-09-15
 tags: [mirv, recovery, counterattack, nuclear, strategy]
 category: Strategy
 difficulty: Advanced
 version: v34
-freshnessSummary: "Verified on 2026-09-14 against the official v0.34.0-beta1 Release, its tagged MIRV cooldown test, Config growth and troop-cap source, and NukeExecution fallout/speed source."
+freshnessSummary: "Verified on 2026-09-15 against the official v0.34.1 Release, the tagged MIRV cooldown regression test retained from v0.34.0-beta1, Config growth and troop-cap source, and NukeExecution fallout/speed source."
 ---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="EN2oOog3pSs" title="OpenFront MIRV recovery example from the community" />
 
 ## Direct answer: preserve the cities, then strike inside the cooldown
 
 When a MIRV lands, preserve completed Cities, accept some tile loss, and read your troop saturation before spending Gold. The 600-tick global cooldown blocks other players, but the launcher is exempt and can fire again if another Silo is ready. Counter only when your recovered force, reserve, route, and the attacker's visible Silo state all support a bounded objective. Warheads move at 22–26 tiles per tick with additional waits, so the arrival window is variable.
 
-This guide owns the decision *after* the split, not the mechanics of the MIRV itself. The [MIRV mechanics guide](/guides/mirv/) covers the 350-warhead envelope, SAM interception, and `MIRV INBOUND`; the [recovery playbook](/strategies/recovery-playbook/) covers generic stop-loss and rebuild after any nuclear event. Here the question is narrower and decision-changing: you have been MIRVed, your map looks dead, and you need to know exactly what to hold, how fast you recover, and when to hit back. Every number below is from the official `v0.34.0-beta1` tagged source, not from a community answer.
+This guide owns the decision *after* the split, not the mechanics of the MIRV itself. The [MIRV mechanics guide](/guides/mirv/) covers the 350-warhead envelope, SAM interception, and `MIRV INBOUND`; the [recovery playbook](/strategies/recovery-playbook/) covers generic stop-loss and rebuild after any nuclear event. Here the question is narrower and decision-changing: you have been MIRVed, your map looks dead, and you need to know exactly what to hold, how fast you recover, and when to hit back. Every number below is from the official `v0.34.1` tagged source, not from a community answer.
 
 ## Read the regrowth math before you touch the map
 
@@ -55,7 +59,7 @@ Rerun all four after every material change. A warhead landing mid-recovery reset
 
 ## Scenario one: mid-FFA counter inside the 60-second window
 
-Assume a v0.34.0-beta1 FFA. You own 3,200 tiles, two completed level-3 Cities, and 40,000 current Troops after a MIRV from a rival who has 1,100,000 Troops and a second idle Missile Silo. The rival just spent 25M. Your `maxTroops` is about 1,853,583, so your SAT factor is about 0.978 and your net gain is about 570 per tick, or roughly 5,700 per second. You have 600,000 Gold and a land route toward an exposed level-1 City 1,500 tiles behind their front. This is a conditional counter example: the capture is viable only while the second Silo remains idle and the route survives the approach.
+Assume a v0.34.1 FFA. You own 3,200 tiles, two completed level-3 Cities, and 40,000 current Troops after a MIRV from a rival who has 1,100,000 Troops and a second idle Missile Silo. The rival just spent 25M. Your `maxTroops` is about 1,853,583, so your SAT factor is about 0.978 and your net gain is about 570 per tick, or roughly 5,700 per second. You have 600,000 Gold and a land route toward an exposed level-1 City 1,500 tiles behind their front. This is a conditional counter example: the capture is viable only while the second Silo remains idle and the route survives the approach.
 
 The timing check. To capture a 1,500-tile City you need a force that survives the return trip; assume 90,000 committed plus a 50,000 reserve. At roughly 5,700 Troops per second at the start, reaching the committed threshold takes around nine seconds in a static calculation, and the real time is longer as growth tapers and combat changes the state. Do not call the counter feasible from the clock alone: the second Silo can relaunch immediately, and the 22–26 tile-per-tick warheads add waits and route uncertainty.
 
@@ -109,7 +113,7 @@ The repeatable practice is a three-line ledger taken at zero seconds, at the rec
 | At midpoint | SAT factor, net gain per tick, COOL reset state | Net gain is positive and the COOL clock is still open | The attacker reset the timer or SAT dropped below plan |
 | At decision | Declared force, reserve, stop line | The strike lands before the window closes | The second Silo lights up or the reserve falls below plan |
 
-The evidence boundary is OpenFront `v0.34.0-beta1`, checked on 14 September 2026. The official [Release][release] is the version boundary. The exact [MIRV cooldown test][cooldown-test] pins the 600-tick global cooldown, the launcher exemption, and the re-launch reset. The [Config source][config] defines `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, and `nukeSpeed`. The [NukeExecution source][nuke] defines the carrier and warhead speeds and the fallout impact. [MIRVExecution][mirvexec] defines the fixed 25M cost, the 350-warhead envelope, the 55-tile minimum spread, the 1500 range, and the alliance break.
+The evidence boundary is OpenFront `v0.34.1`, checked on 15 September 2026. The official [Release][release] is the version boundary. The exact [MIRV cooldown test][cooldown-test] pins the 600-tick global cooldown, the launcher exemption, and the re-launch reset. The [Config source][config] defines `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, and `nukeSpeed`. The [NukeExecution source][nuke] defines the carrier and warhead speeds and the fallout impact. [MIRVExecution][mirvexec] defines the fixed 25M cost, the 350-warhead envelope, the 55-tile minimum spread, the 1500 range, and the alliance break.
 
 Community posts and videos in the linked research pack answer a different question: what players notice and which decisions repeatedly fail. They support the language of "my map is dead," the confusion about whether to counter, and the concern about a second MIRV. They do not prove current ratios, guaranteed survival, or a universal build order. That separation is deliberate. If a later Release changes the MIRV cooldown, the growth function, or the City troop bonus, preserve the SAVE–SAT–COOL–COUNTER loop and recompute the numbers from the new tag.
 
@@ -117,8 +121,8 @@ Continue according to the failed check. For the MIRV mechanics and the split, us
 
 The final rule is testable: after a MIRV lands, preserve the completed Cities, read your saturation, clock the 600-tick cooldown against the visible Silo state, and strike a bounded objective with a held reserve inside the window. Make the first move small enough to observe the response. Stop when the declared signal appears even if land remains. Resume only after a new SAVE–SAT–COOL–COUNTER pass. That discipline cannot remove the randomness of a second launch, but it prevents the most common post-MIRV error: treating a devastating strike as a death sentence instead of a timed decision with a real counter window.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
 [cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts

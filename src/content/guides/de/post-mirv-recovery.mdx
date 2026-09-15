@@ -1,20 +1,24 @@
 ---
 title: "OpenFront nach dem MIRV: Blutverlust stoppen und den Gegenschlag timen"
-description: "Nachdem ein MIRV dein Territorium getroffen hat, entscheide in v0.34.0-beta1, was du behältst, wie schnell deine Armee zurückwächst und wann der Gegenschlag wirklich möglich ist."
-pubDate: 2026-09-14
+description: "Nachdem ein MIRV dein Territorium getroffen hat, entscheide in v0.34.1, was du behältst, wie schnell deine Armee zurückwächst und wann der Gegenschlag wirklich möglich ist."
+pubDate: 2026-09-15
 updatedDate: 2026-09-15
 tags: [mirv, erholung, gegenschlag, nuklear, taktik]
 category: strategie
 difficulty: fortgeschritten
 version: v34
-freshnessSummary: "Am 2026-09-14 geprüft: basiert auf dem offiziellen Release v0.34.0-beta1, seinem MIRV-Cooldown-Test, der Config-Quelle für Wachstum und Truppenobergrenze sowie der NukeExecution-Quelle für Fallout und Geschwindigkeit."
+freshnessSummary: "Am 2026-09-15 geprüft: basiert auf dem offiziellen Release v0.34.1, dem MIRV-Cooldown-Regressionstest aus v0.34.0-beta1, der Config-Quelle für Wachstum und Truppenobergrenze sowie der NukeExecution-Quelle für Fallout und Geschwindigkeit."
 ---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="EN2oOog3pSs" title="OpenFront Community-Beispiel zur Erholung nach einem MIRV" />
 
 ## Direkte Antwort: Städte halten und in der Cooldown-Fenster angreifen
 
 Wenn dich ein MIRV trifft, halte fertiggestellte Städte, akzeptiere Kachelverluste und lies die Sättigung, bevor du Gold ausgibst. Der globale 600-Tick-Cooldown blockiert andere Spieler, aber der Schütze ist davon ausgenommen und kann mit einem bereiten zweiten Silo erneut feuern. Schlage nur zurück, wenn Truppen, Reserve, Route und sichtbare Silos ein begrenztes Ziel erlauben. Sprengköpfe bewegen sich mit 22–26 Fliesen/Tick plus zusätzlichen Wartezeiten; die Ankunft ist variabel.
 
-Dieses Guide behandelt nur die Entscheidung *nach* der Aufspaltung, nicht den MIRV selbst. Das [MIRV-Mechanik-Guide](/de/guides/mirv/) deckt die 350-Sprengkopf-Enveloppe, die SAM-Abschüsse und `MIRV INBOUND` ab; das [Erholung-Handbuch](/de/strategies/recovery-playbook/) deckt die allgemeine Schadenbegrenzung und der Neuaufbau nach *jedem* Nuklearereignis ab. Die Frage hier ist enger und entscheidungsrelevant: Du wurdest MIRV-t, deine Karte sieht tot aus und du musst genau wissen, was du behältst, wie schnell du zurückwächst und wann du zuschlägst. Jede Zahl unten stammt aus dem offiziellen `v0.34.0-beta1`-Tagged-Source, nicht aus Community-Antworten.
+Dieses Guide behandelt nur die Entscheidung *nach* der Aufspaltung, nicht den MIRV selbst. Das [MIRV-Mechanik-Guide](/de/guides/mirv/) deckt die 350-Sprengkopf-Enveloppe, die SAM-Abschüsse und `MIRV INBOUND` ab; das [Erholung-Handbuch](/de/strategies/recovery-playbook/) deckt die allgemeine Schadenbegrenzung und der Neuaufbau nach *jedem* Nuklearereignis ab. Die Frage hier ist enger und entscheidungsrelevant: Du wurdest MIRV-t, deine Karte sieht tot aus und du musst genau wissen, was du behältst, wie schnell du zurückwächst und wann du zuschlägst. Jede Zahl unten stammt aus dem offiziellen `v0.34.1`-Tagged-Source, nicht aus Community-Antworten.
 
 ## Lies zuerst die Wachstumsrechnung
 
@@ -55,7 +59,7 @@ Führe nach jeder großen Änderung alle vier Schritte neu aus. Ein Sprengkopf w
 
 ## Szenario 1: Gegenschlag in der 60-Sekunden-Fenster (FFA)
 
-Du bist in einer v0.34.0-beta1 FFA. Nach dem MIRV eines Gegners hast du 3.200 Kacheln, zwei fertiggestellt Städte Stufe 3, 40.000 Truppen. Der Gegner hat 1.100.000 Truppen und einen zweiten inaktiven Silo. Er hat gerade 25 M bezahlt und ist in der 600-Tick-Cooldown. Deine `maxTroops` liegt bei etwa 1.853.583, der SAT-Faktor bei 0,978 und der Nettogewinn bei etwa 570/Tick oder 5.700/Sek. Du hast 600.000 Gold und einen Landweg zur einzigen exponierten Stadt Stufe 1 des Gegners, 1.500 Fliesen hinter seiner Linie. Dein Ziel ist, sie zu nehmen, bevor die 600-Tick-Uhr des Gegners zurücksetzt und sein zweiter Silo nachlädt.
+Du bist in einer v0.34.1 FFA. Nach dem MIRV eines Gegners hast du 3.200 Kacheln, zwei fertiggestellt Städte Stufe 3, 40.000 Truppen. Der Gegner hat 1.100.000 Truppen und einen zweiten inaktiven Silo. Er hat gerade 25 M bezahlt und ist in der 600-Tick-Cooldown. Deine `maxTroops` liegt bei etwa 1.853.583, der SAT-Faktor bei 0,978 und der Nettogewinn bei etwa 570/Tick oder 5.700/Sek. Du hast 600.000 Gold und einen Landweg zur einzigen exponierten Stadt Stufe 1 des Gegners, 1.500 Fliesen hinter seiner Linie. Dein Ziel ist, sie zu nehmen, bevor die 600-Tick-Uhr des Gegners zurücksetzt und sein zweiter Silo nachlädt.
 
 Taktik-Check. Eine Stadt bei 1.500 Fliesen zu nehmen braucht eine Kraft, die dort überlebt; nimm 90.000 engagierte Truppen plus 50.000 Reserve. Du bist bei 40.000, also musst du erst 50.000 zulegen. Bei etwa 5.700/Sekunde dauert der statische Weg zum Einsatzschwellenwert rund 9 s; praktisch dauert es wegen abflachendem Wachstum und wechselndem Kampf länger. Erkläre den Gegenschlag nicht allein mit der Uhr als machbar. Die entscheidende Einschränkung ist der inaktive zweite Silo: feuert er während deiner 30 s Erholung, setzt er seinen Timer zurück und der 22-Fliesen/Tick-Nachschub erreicht deine exponierte Flanke vor dem Ende der Einnahme. Annahmen: Der Gegner hat kein stärkeres Ziel, kein Bündnis in der Nähe, kein undurchgängiges Terrain. Scheitert eine, ist das Fenster nicht 60 s.
 
@@ -109,7 +113,7 @@ Die reproduzierbare Praxis sind drei Protokollzeilen: bei null, bei mittlerer Er
 | Mittlere Erholung | SAT-Faktor, Nettogewinn/Tick, COOL-Rücksetzzustand | Nettogewinn positiv und Fenster noch offen | Angreifer setzt zurück oder SAT unter Plan |
 | Entscheidung | Deklarierte Kraft, Reserve, Stopp-Linie | Der Schlag landet vor dem Fensterende | Zweiter Silo leuchtet oder Reserve unter Plan |
 
-Die Beweisgrenze ist OpenFront `v0.34.0-beta1`, geprüft am 14. September 2026. Das [offizielle Release][release] ist die Versionsgrenze. Der exakte [MIRV-Cooldown-Test][cooldown-test] legt den globalen 600-Tick-Cooldown, die Schützen-Ausnahme und das Zurücksetzen durch Nachladen fest. Die [Config-Quelle][config] definiert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. Die [NukeExecution-Quelle][nuke] definiert Träger- und Sprengkopfgeschwindigkeit und den Fallout-Einschlag. Die [MIRVExecution][mirvexec] legt den flachen 25-M-Preis, die 350-Sprengkopf-Enveloppe, die 55-Fliesen-Mindestverteilung, die 1500-Reichweite und den Bündnisbruch fest.
+Die Beweisgrenze ist OpenFront `v0.34.1`, geprüft am 15. September 2026. Das [offizielle Release][release] ist die Versionsgrenze. Der exakte [MIRV-Cooldown-Test][cooldown-test] legt den globalen 600-Tick-Cooldown, die Schützen-Ausnahme und das Zurücksetzen durch Nachladen fest. Die [Config-Quelle][config] definiert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. Die [NukeExecution-Quelle][nuke] definiert Träger- und Sprengkopfgeschwindigkeit und den Fallout-Einschlag. Die [MIRVExecution][mirvexec] legt den flachen 25-M-Preis, die 350-Sprengkopf-Enveloppe, die 55-Fliesen-Mindestverteilung, die 1500-Reichweite und den Bündnisbruch fest.
 
 Die Community-Posts und Videos im Recherche-Pack beantworten eine andere Frage: Was Spieler bemerken und welche Entscheidungen wiederholt scheitern. Sie stützen die „Warum ist meine Karte tot"-Sprache, die Verwirrung, ob man zurückschlägt und die Sorge um einen zweiten MIRV. Sie beweisen nicht die aktuelle Rate, garantieren kein Überleben und liefern keine Bau-Reihenfolge. Diese Trennung ist gewollt. Ändert ein kommendes Release den MIRV-Cooldown, die Wachstumsfunktion oder den Stadt-Truppenbonus, behalte den SAVE–SAT–COOL–COUNTER-Zyklus und rechne die Zahlen neu aus dem neuen Tag.
 
@@ -117,8 +121,8 @@ Fahre mit dem gescheiterten Check fort. Für den MIRV selbst und die Aufspaltung
 
 Die finale Regel ist testbar: nachdem ein MIRV getroffen hat, halte die fertiggestellten Städte, lies deine Sättigung, zähle den 600-Tick-Cooldown gegen die sichtbaren Silos und schlag ein begrenztes Ziel mit einer gehaltenen Reserve im Fenster. Mach die erste Aktion klein genug, um die Reaktion zu beobachten. Hör auf, wenn das deklarierte Signal eintrifft, auch wenn Terrain übrig bleibt. Starte neu nur, wenn eine neue SAVE–SAT–COOL–COUNTER besteht. Diese Disziplin eliminiert nicht den Zufall eines zweiten Schusses; sie verhindert den häufigsten Fehler nach einem MIRV: einen verheerenden Treffer als Todesurteil zu behandeln statt als zeitlich begrenzten Beschluss mit einem echten Fenster.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
 [cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts

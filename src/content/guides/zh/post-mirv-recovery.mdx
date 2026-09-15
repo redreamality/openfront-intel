@@ -1,20 +1,24 @@
 ---
 title: "OpenFront MIRV 被打击后恢复：止住失血并把握反击窗口"
-description: "MIRV 已经落在你的领土上之后，在 v0.34.0-beta1 中判断该守住什么、你的军队恢复有多快、以及反击何时才真正可行。"
-pubDate: 2026-09-14
+description: "MIRV 已经落在你的领土上之后，在 v0.34.1 中判断该守住什么、你的军队恢复有多快、以及反击何时才真正可行。"
+pubDate: 2026-09-15
 updatedDate: 2026-09-15
 tags: [mirv, 恢复, 反击, 核弹, 战术]
 category: 策略
 difficulty: 高级
 version: v34
-freshnessSummary: "2026-09-14 核验：基于官方 v0.34.0-beta1 Release、其 MIRV 冷却测试、Config 增长与兵力上限源码、以及 NukeExecution 辐射/速度源码。"
+freshnessSummary: "2026-09-15 核验：基于官方 v0.34.1 Release、从 v0.34.0-beta1 延续的 MIRV 冷却回归测试、Config 增长与兵力上限源码、以及 NukeExecution 辐射/速度源码。"
 ---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="EN2oOog3pSs" title="OpenFront 社区 MIRV 恢复实战示例" />
 
 ## 直接答案：守住城市，然后在冷却期内反击
 
 当 MIRV 落地后，先守住已建成城市，接受部分地块损失，并在花金币前读取兵力饱和度。600 tick 的全局冷却会阻止其他玩家，但刚发射者豁免；只要另一座导弹井就绪，攻击者仍可再次发射。只有当恢复后的兵力、预备队、路线和可见导弹井状态都支持一个有限目标时才反击。弹头速度为每 tick 22–26 格，并带额外等待，因此到达时间不是固定值。
 
-本指南只负责分裂之后的决策，而不是 MIRV 本身的机制。[MIRV 机制指南](/zh/guides/mirv/) 讲 350 弹头包络、SAM 拦截与 `MIRV INBOUND`；[恢复手册](/zh/strategies/recovery-playbook/) 讲任何核事件后的通用止损与重建。这里的问题更窄且能改变决策：你被 MIRV 了，地图看起来死了，你需要确切知道该守住什么、恢复有多快、何时该打回去。下面每个数字都来自官方 `v0.34.0-beta1` 标签源码，而非社区回答。
+本指南只负责分裂之后的决策，而不是 MIRV 本身的机制。[MIRV 机制指南](/zh/guides/mirv/) 讲 350 弹头包络、SAM 拦截与 `MIRV INBOUND`；[恢复手册](/zh/strategies/recovery-playbook/) 讲任何核事件后的通用止损与重建。这里的问题更窄且能改变决策：你被 MIRV 了，地图看起来死了，你需要确切知道该守住什么、恢复有多快、何时该打回去。下面每个数字都来自官方 `v0.34.1` 标签源码，而非社区回答。
 
 ## 先读懂增长数学，再碰地图
 
@@ -55,7 +59,7 @@ MIRV 后局面中最有用的一条事实是兵力增长函数。在 `troopIncre
 
 ## 场景一：FFA 中 60 秒窗口内的反击
 
-假设一个 v0.34.0-beta1 FFA。你在一枚来自对手的 MIRV 之后拥有 3,200 块地块、两座 3 级已建成城市、40,000 当前兵力。对手有 1,100,000 兵力和一座闲置的第二座导弹井，刚花掉 25M。你的 `maxTroops` 约 1,853,583，SAT 因子约 0.978，每 tick 净增益约 570，即每秒约 5,700。你有 600,000 金币和一条通往 1,500 格外露 1 级城市的陆路。这只是有条件的反击示例：只有在第二座导弹井保持闲置且路线能安全通过时，夺城才可行。
+假设一个 v0.34.1 FFA。你在一枚来自对手的 MIRV 之后拥有 3,200 块地块、两座 3 级已建成城市、40,000 当前兵力。对手有 1,100,000 兵力和一座闲置的第二座导弹井，刚花掉 25M。你的 `maxTroops` 约 1,853,583，SAT 因子约 0.978，每 tick 净增益约 570，即每秒约 5,700。你有 600,000 金币和一条通往 1,500 格外露 1 级城市的陆路。这只是有条件的反击示例：只有在第二座导弹井保持闲置且路线能安全通过时，夺城才可行。
 
 计时检查。夺一座 1,500 格的城市需要能活着回来的军队；假设投入 90,000、保留 50,000 预备队。按开始阶段每秒约 5,700 的恢复，静态计算增长到投入阈值约需 9 秒，实际还会因恢复递减和战斗变化而更久。不要只凭时钟宣布反击可行：第二座导弹井可能立即补射，22–26 格/tick 的弹头还带等待与路线不确定性。
 
@@ -109,7 +113,7 @@ MIRV 后局面中最有用的一条事实是兵力增长函数。在 `troopIncre
 | 中点 | SAT 因子、每 tick 净增益、COOL 重置状态 | 净增益为正且 COOL 时钟仍开着 | 攻击者重置计时器或 SAT 低于计划 |
 | 决策处 | 声明力量、预备队、停止线 | 打击在窗口关闭前落地 | 第二座导弹井亮起或预备队低于计划 |
 
-证据边界是 OpenFront `v0.34.0-beta1`，核验于 2026 年 9 月 14 日。官方 [Release][release] 是版本边界。确切的 [MIRV 冷却测试][cooldown-test] 固定 600 tick 全局冷却、发射者豁免、再发射重置。[Config 源码][config] 定义 `msPerTick`、`maxTroops`、`cityTroopIncrease`、`troopIncreaseRate`、`falloutDefenseModifier`、`nukeSpeed`。[NukeExecution 源码][nuke] 定义载体与弹头速度及辐射冲击。[MIRVExecution][mirvexec] 定义固定的 25M 价格、350 弹头包络、55 格最小散布、1500 射程、以及结盟打破。
+证据边界是 OpenFront `v0.34.1`，核验于 2026 年 9 月 15 日。官方 [Release][release] 是版本边界。确切的 [MIRV 冷却测试][cooldown-test] 固定 600 tick 全局冷却、发射者豁免、再发射重置。[Config 源码][config] 定义 `msPerTick`、`maxTroops`、`cityTroopIncrease`、`troopIncreaseRate`、`falloutDefenseModifier`、`nukeSpeed`。[NukeExecution 源码][nuke] 定义载体与弹头速度及辐射冲击。[MIRVExecution][mirvexec] 定义固定的 25M 价格、350 弹头包络、55 格最小散布、1500 射程、以及结盟打破。
 
 链接研究包中的社区帖子与视频回答的是另一个问题：玩家注意到什么、哪些决策反复失败。它们支撑"我的地图死了"、是否反击的困惑、以及担心第二次 MIRV 的语言。它们不证明当前比例、保证存活或通用建造顺序。这种分离是刻意的。如果某个后续 Release 改变 MIRV 冷却、增长函数或城市兵力加成，保留 SAVE–SAT–COOL–COUNTER 循环并从新标签重算数字。
 
@@ -117,8 +121,8 @@ MIRV 后局面中最有用的一条事实是兵力增长函数。在 `troopIncre
 
 最终规则是可检验的：MIRV 落地后，守住已建成城市、读你的饱和、对照可见导弹井状态数 600 tick 冷却、在窗口内带一支守住的预备队打击一个有限目标。让第一个动作小到能观察反应。当声明的信号出现就停止，即使还有地可用。只有在新的一次 SAVE–SAT–COOL–COUNTER 通过后才恢复。这个纪律无法消除第二次发射的随机性，但它防止最常见的 MIRV 后错误：把一次毁灭性打击当成死亡判决，而不是一个有真实反击窗口的有时限决策。
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
 [cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts

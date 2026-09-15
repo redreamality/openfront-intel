@@ -1,20 +1,24 @@
 ---
 title: "OpenFront na een MIRV: bloeden stoppen en je tegenaanval op het goede moment inzetten"
-description: "Na een MIRV op jouw gebied bepaal in v0.34.0-beta1 wat je bewaart, hoe snel je leger teruggroeit en wanneer de tegenaanval pas écht kan."
-pubDate: 2026-09-14
+description: "Na een MIRV op jouw gebied bepaal in v0.34.1 wat je bewaart, hoe snel je leger teruggroeit en wanneer de tegenaanval pas écht kan."
+pubDate: 2026-09-15
 updatedDate: 2026-09-15
 tags: [mirv, herstel, tegenaanval, nucleair, tactiek]
 category: strategie
 difficulty: gevorderd
 version: v34
-freshnessSummary: "Geverifieerd op 2026-09-14: gebaseerd op de officiële v0.34.0-beta1 Release, de MIRV-cooldown-test, de Config-bron voor groei en troepencapaciteit en de NukeExecution-bron voor valradioactief afval en snelheid."
+freshnessSummary: "Geverifieerd op 2026-09-15: gebaseerd op de officiële v0.34.1 Release, de MIRV-cooldown-regressietest uit v0.34.0-beta1, de Config-bron voor groei en troepencapaciteit en de NukeExecution-bron voor valradioactief afval en snelheid."
 ---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="EN2oOog3pSs" title="OpenFront-communityvoorbeeld voor herstel na een MIRV" />
 
 ## Direct antwoord: bewaak de steden en slaan aan in het cooldown-venster
 
 Als een MIRV je raakt, bescherm dan voltooide steden, accepteer tegelverlies en lees je verzadiging voordat je goud uitgeeft. De globale cooldown van 600 ticks blokkeert andere spelers, maar de schutter is vrijgesteld en kan met een gereedstaande tweede silo opnieuw vuren. Val alleen aan als troepen, reserve, route en zichtbare silo's samen een beperkt doel ondersteunen. Koppen bewegen met 22–26 tegels/tick plus extra wachttijd; de aankomst is variabel.
 
-Deze handleiding gaat alleen over het besluit *na* de splitsing, niet over de MIRV zelf. De [MIRV-mechanica-handleiding](/nl/guides/mirv/) dekt de 350-koppen envelop, de SAM-interceptie en `MIRV INBOUND`; het [herstelhandboek](/nl/strategies/recovery-playbook/) dekt de algemene schadebeperking en herbouw na *elk* nucleair incident. De vraag hier is smaller en beslissingsrelevant: je bent gemirvt, je kaart ziet er dood uit en je moet precies weten wat je behoudt, hoe snel je teruggroeit en wanneer je aanslaat. Elk getal hieronder komt uit de officiële `v0.34.0-beta1` getagde bron, niet uit community-antwoorden.
+Deze handleiding gaat alleen over het besluit *na* de splitsing, niet over de MIRV zelf. De [MIRV-mechanica-handleiding](/nl/guides/mirv/) dekt de 350-koppen envelop, de SAM-interceptie en `MIRV INBOUND`; het [herstelhandboek](/nl/strategies/recovery-playbook/) dekt de algemene schadebeperking en herbouw na *elk* nucleair incident. De vraag hier is smaller en beslissingsrelevant: je bent gemirvt, je kaart ziet er dood uit en je moet precies weten wat je behoudt, hoe snel je teruggroeit en wanneer je aanslaat. Elk getal hieronder komt uit de officiële `v0.34.1` getagde bron, niet uit community-antwoorden.
 
 ## Lees eerst de groeirekening
 
@@ -55,7 +59,7 @@ Herhaal alle vier de stappen na elke grote verandering. Een kop tijdens het hers
 
 ## Scenario 1: tegenaanval in het 60-secondenvenster (FFA)
 
-Je zit in een v0.34.0-beta1 FFA. Na een MIRV van een tegenstander heb je 3.200 tegels, twee voltooide steden niveau 3, 40.000 troepen. De tegenstander heeft 1.100.000 troepen en een tweede inactieve silo. Die heeft zojuist 25 M betaald en zit in de 600-tick cooldown. Je `maxTroops` is ongeveer 1.853.583, je SAT-factor ongeveer 0,978 en je nettowinst ongeveer 570/tick, dus ongeveer 5.700/s. Je hebt 600.000 goud en een landroute naar de enige blootgestelde stad niveau 1 van de tegenstander, 1.500 tegels achter diens lijn. Je doel is om die in te nemen vóórdat de 600-tickklok van de tegenstander terugzet en zijn tweede silo nageladen kan.
+Je zit in een v0.34.1 FFA. Na een MIRV van een tegenstander heb je 3.200 tegels, twee voltooide steden niveau 3, 40.000 troepen. De tegenstander heeft 1.100.000 troepen en een tweede inactieve silo. Die heeft zojuist 25 M betaald en zit in de 600-tick cooldown. Je `maxTroops` is ongeveer 1.853.583, je SAT-factor ongeveer 0,978 en je nettowinst ongeveer 570/tick, dus ongeveer 5.700/s. Je hebt 600.000 goud en een landroute naar de enige blootgestelde stad niveau 1 van de tegenstander, 1.500 tegels achter diens lijn. Je doel is om die in te nemen vóórdat de 600-tickklok van de tegenstander terugzet en zijn tweede silo nageladen kan.
 
 Tijdscheck. Een stad bij 1.500 tegels innemen vraagt een kracht die daar overleeft; reken op 90.000 ingezette troepen plus 50.000 reserve. Je zit op 40.000, dus je moet eerst 50.000 bijgroeien. Bij ongeveer 5.700/s aan het begin duurt de statische groei naar de inzetdrempel ongeveer 9 s; in de praktijk duurt het langer door afnemende groei en veranderende gevechten. Noem de tegenaanval niet haalbaar op basis van de klok alleen. De beslistende beperking is de inactieve tweede silo: schiet die tijdens je 30 s herstel, dan zet die zijn timer terug en komt de 22-tegels/tick-naaflevering je blootgestelde flank te pakken vóór de verovering is voltooid. Aannames: de tegenstander heeft geen sterker doel, geen nabije alliantie, geen onbegaanbaar terrein. Faalt er een, dan is het venster niet 60 s.
 
@@ -109,7 +113,7 @@ De reproduceerbare praktijk is drie logboekregels: op nul, op halverwege het her
 | Halverwege herstel | SAT-factor, nettowinst/tick, COOL-terugzetstatus | Nettowinst positief en venster nog open | Aanvaller zet terug of SAT onder het plan |
 | Besluit | Gedeclareerde kracht, reserve, stoptlijn | De aanval invalt vóór het einde van het venster | Tweede silo lichter of reserve onder het plan |
 
-De bewijsgrens is OpenFront `v0.34.0-beta1`, geverifieerd op 14 september 2026. De [officiële Release][release] is de versiegrens. De exacte [MIRV-cooldown-test][cooldown-test] legt de globale 600-tick cooldown, de schutter-vrijstelling en het terugzetten door herafvuilen vast. De [Config-bron][config] definieert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. De [NukeExecution-bron][nuke] definieert de drager- en kopsnelheden en de valradioactieve impact. De [MIRVExecution][mirvexec] legt de vaste 25-M-prijs, de 350-koppens envelop, de 55-tegel-minimumverspreiding, de 1500-reikwijdte en de alliantiebreuk vast.
+De bewijsgrens is OpenFront `v0.34.1`, geverifieerd op 15 september 2026. De [officiële Release][release] is de versiegrens. De exacte [MIRV-cooldown-test][cooldown-test] legt de globale 600-tick cooldown, de schutter-vrijstelling en het terugzetten door herafvuilen vast. De [Config-bron][config] definieert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. De [NukeExecution-bron][nuke] definieert de drager- en kopsnelheden en de valradioactieve impact. De [MIRVExecution][mirvexec] legt de vaste 25-M-prijs, de 350-koppens envelop, de 55-tegel-minimumverspreiding, de 1500-reikwijdte en de alliantiebreuk vast.
 
 De community-berichten en video's in het recherchepakket beantwoorden een andere vraag: wat spelers opmerken en welke besluiten herhaaldelijk falen. Ze ondersteunen de „waarom is mijn kaart dood"-taal, de verwarring of je terugslaat en de zorg om een tweede MIRV. Ze bewijzen de huidige snelheid niet, garanderen geen overleving en leveren geen bouwvolgorde. Die scheiding is opzettelijk. Verandert een komende Release de MIRV-cooldown, de groeifunctie of de stad-troepenbonus, dan behoud je de SAVE–SAT–COOL–COUNTER-cyclus en bereken je de getallen opnieuw vanaf de nieuwe tag.
 
@@ -117,8 +121,8 @@ Ga verder met de geslaagde check. Voor de MIRV zelf en de splitsing de [MIRV-mec
 
 De eindregel is testbaar: nadat een MIRV heeft geraakt, bewaak je de voltooide steden, lees je je verzadiging, tel je de 600-tick cooldown tegen de zichtbare silo's en sla je een beperkt doel aan met een bewaarde reserve in het venster. Maak de eerste actie klein genoeg om de reactie te observeren. Stop wanneer het gedeclareerde signaal arriveert, ook al blijft terrein over. Start pas opnieuw als een nieuwe SAVE–SAT–COOL–COUNTER slaagt. Deze discipline elimineert niet de willekeur van een tweede schot; hij voorkomt de meest voorkomende fout na een MIRV: een verwoestende raak behandelen als een doodvonnis in plaats van als een tijdgebonden besluit met een echt venster.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
 [cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts
