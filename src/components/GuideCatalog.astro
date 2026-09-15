@@ -1,0 +1,176 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import { getIntlLocale, stripLangPrefix, type Lang } from '../i18n';
+
+interface Props {
+  guides: CollectionEntry<'guides'>[];
+  lang: Lang;
+}
+
+const { guides, lang } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const langPrefix = lang === 'en' ? '' : `${lang}/`;
+
+const copy = {
+  en: {
+    eyebrow: 'BROWSE BY TOPIC',
+    title: 'All guides, organized for the way you play',
+    lead: 'Start with the basics, then move into the systems that match your next decision. Each guide appears once so the directory stays easy to scan.',
+    updated: 'Updated',
+    published: 'Published',
+    difficulty: 'Difficulty',
+    fallback: 'Guide',
+    countLabel: 'guides',
+    empty: 'No guides yet.',
+    groups: {
+      start: ['Start here', 'Learn the controls, opening decisions, and mobile options before your first serious match.'],
+      economy: ['Economy & infrastructure', 'Choose buildings, protect income, and make shared routes pay for themselves.'],
+      combat: ['Combat & expansion', 'Read borders, select targets, and turn a safe position into durable territory.'],
+      naval: ['Naval, maps & teams', 'Plan crossings, hold islands, and coordinate space across specialized maps.'],
+      endgame: ['Nukes & endgame', 'Understand nuclear tools, territory clocks, and the decisions that close a match.'],
+      other: ['More guides', 'Additional guides that do not fit the main topic groups.'],
+    },
+  },
+  zh: {
+    eyebrow: '按主题浏览',
+    title: '按你的对局目标整理全部教程',
+    lead: '先从基础操作开始，再进入与你当前决策相关的系统。每篇教程只出现一次，目录更容易扫读。',
+    updated: '更新于',
+    published: '发布于',
+    difficulty: '难度',
+    fallback: '教程',
+    countLabel: '篇教程',
+    empty: '暂无教程。',
+    groups: {
+      start: ['从这里开始', '先掌握操作、开局决策和手机版入口，再进入正式对局。'],
+      economy: ['经济与建设', '选择建筑、保护收入，让共享路线真正回本。'],
+      combat: ['作战与扩张', '读懂边界、选择目标，把安全局面转化为稳定领土。'],
+      naval: ['海军、地图与团队', '规划跨海行动、守住岛屿，并在特殊地图上协调空间。'],
+      endgame: ['核武与残局', '理解核武工具、领土时钟，以及结束对局前的关键决策。'],
+      other: ['其他教程', '暂不属于主要主题分组的补充教程。'],
+    },
+  },
+  fr: {
+    eyebrow: 'PARCOURIR PAR THÈME',
+    title: 'Tous les tutoriels, classés selon votre partie',
+    lead: 'Commencez par les bases, puis passez aux systèmes qui correspondent à votre prochaine décision. Chaque tutoriel n’apparaît qu’une fois.',
+    updated: 'Mis à jour le',
+    published: 'Publié',
+    difficulty: 'Difficulté',
+    fallback: 'Tutoriel',
+    countLabel: 'tutoriels',
+    empty: 'Aucun tutoriel pour le moment.',
+    groups: {
+      start: ['Commencer ici', 'Apprenez les commandes, les choix d’ouverture et les options mobiles.'],
+      economy: ['Économie et infrastructure', 'Choisissez vos bâtiments, protégez vos revenus et rentabilisez les routes partagées.'],
+      combat: ['Combat et expansion', 'Lisez les frontières, choisissez vos cibles et transformez une position sûre en territoire durable.'],
+      naval: ['Marine, cartes et équipes', 'Préparez les traversées, tenez les îles et coordonnez l’espace sur les cartes spécialisées.'],
+      endgame: ['Nucléaire et fin de partie', 'Comprenez les outils nucléaires, les horloges territoriales et les décisions de conclusion.'],
+      other: ['Autres tutoriels', 'Tutoriels complémentaires qui ne relèvent pas des thèmes principaux.'],
+    },
+  },
+  de: {
+    eyebrow: 'NACH THEMA',
+    title: 'Alle Anleitungen passend zu deiner Partie',
+    lead: 'Beginne mit den Grundlagen und gehe dann zu den Systemen über, die deine nächste Entscheidung betreffen. Jede Anleitung erscheint genau einmal.',
+    updated: 'Aktualisiert',
+    published: 'Veröffentlicht',
+    difficulty: 'Schwierigkeit',
+    fallback: 'Anleitung',
+    countLabel: 'Anleitungen',
+    empty: 'Noch keine Anleitungen.',
+    groups: {
+      start: ['Hier beginnen', 'Lerne Steuerung, Eröffnungsentscheidungen und mobile Optionen vor deiner ersten ernsten Partie.'],
+      economy: ['Wirtschaft und Infrastruktur', 'Wähle Gebäude, sichere Einkommen und lass gemeinsame Routen sich lohnen.'],
+      combat: ['Kampf und Expansion', 'Lies Grenzen, wähle Ziele und verwandle eine sichere Position in dauerhaftes Gebiet.'],
+      naval: ['Marine, Karten und Teams', 'Plane Überquerungen, halte Inseln und koordiniere Raum auf Spezialkarten.'],
+      endgame: ['Atomwaffen und Endspiel', 'Verstehe Atomwaffen, Gebietsuhren und Entscheidungen zum Spielabschluss.'],
+      other: ['Weitere Anleitungen', 'Ergänzende Anleitungen außerhalb der Hauptthemen.'],
+    },
+  },
+  nl: {
+    eyebrow: 'BEKIJK OP THEMA',
+    title: 'Alle gidsen, ingedeeld naar je speldoel',
+    lead: 'Begin met de basis en ga daarna naar de systemen die bij je volgende beslissing passen. Elke gids staat één keer in de lijst.',
+    updated: 'Bijgewerkt',
+    published: 'Gepubliceerd',
+    difficulty: 'Niveau',
+    fallback: 'Gids',
+    countLabel: 'gids',
+    empty: 'Nog geen gidsen.',
+    groups: {
+      start: ['Begin hier', 'Leer de bediening, openingskeuzes en mobiele opties voor je eerste serieuze partij.'],
+      economy: ['Economie en infrastructuur', 'Kies gebouwen, bescherm inkomsten en laat gedeelde routes renderen.'],
+      combat: ['Gevecht en expansie', 'Lees grenzen, kies doelen en maak van een veilige positie duurzaam gebied.'],
+      naval: ['Marine, kaarten en teams', 'Plan overtochten, houd eilanden vast en coördineer ruimte op speciale kaarten.'],
+      endgame: ['Kernwapens en eindspel', 'Begrijp nucleaire middelen, gebiedsklokken en beslissingen die een partij sluiten.'],
+      other: ['Meer gidsen', 'Aanvullende gidsen buiten de hoofdthema’s.'],
+    },
+  },
+} as const;
+
+const groupSlugs = {
+  start: ['first-match', 'hotkeys', 'mobile-app-download', 'mobile-controls', 'mobile-alternatives', 'mobile-reddit-community'],
+  economy: ['building-timing', 'population-growth', 'port-vs-factory', 'train-network', 'trade-vs-piracy', 'team-economy-space'],
+  combat: ['land-combat', 'annexation-enclosure', 'threat-assessment', 'defense-posts', 'tall-vs-wide', 'replay-review', 'nations-pressure', 'team-spawn-formation'],
+  naval: ['transport-landings', 'island-defense', 'warship-veterancy', 'four-islands-team-coordination', 'map-strategy', 'map-size-compact-mode'],
+  endgame: ['mirv', 'nuke-calculator', 'water-nukes', 'doomsday-clock', 'winning-overtime', 'post-mirv-recovery'],
+  other: [],
+} as const;
+
+const labels = copy[lang];
+const formatDate = (date: Date) => new Intl.DateTimeFormat(getIntlLocale(lang), { dateStyle: 'medium' }).format(date);
+const bySlug = new Map(guides.map((guide) => [stripLangPrefix(guide.slug), guide]));
+const assignedSlugs = new Set<string>(Object.values(groupSlugs).flat());
+const ungroupedGuides = guides.filter((guide) => !assignedSlugs.has(stripLangPrefix(guide.slug)));
+const groups = (Object.keys(groupSlugs) as Array<keyof typeof groupSlugs>).map((key) => ({
+  key,
+  title: labels.groups[key][0],
+  description: labels.groups[key][1],
+  guides: key === 'other'
+    ? ungroupedGuides
+    : groupSlugs[key].map((slug) => bySlug.get(slug)).filter((guide): guide is CollectionEntry<'guides'> => Boolean(guide)),
+})).filter((group) => group.guides.length > 0);
+---
+
+<section class="container-wide py-10" aria-labelledby="guide-catalog-title" data-guide-catalog>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="tag-chip">{labels.eyebrow}</p>
+      <h2 id="guide-catalog-title" class="mt-3 text-2xl font-semibold tracking-tight text-iron-50">{labels.title}</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-iron-300">{labels.lead}</p>
+    </div>
+    <span class="text-xs font-mono text-iron-500">{guides.length} {labels.countLabel}</span>
+  </div>
+
+  {guides.length === 0 ? (
+    <p class="mt-8 text-iron-400">{labels.empty}</p>
+  ) : (
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-guide-card-list>
+      {groups.map((group) => (
+        <li class="col-span-full mt-6 first:mt-0" data-guide-group={group.key}>
+          <h3 class="text-lg font-semibold text-cannon-400">{group.title}</h3>
+          <p class="mt-1 max-w-3xl text-sm text-iron-400">{group.description}</p>
+        </li>
+      )).flatMap((heading, index) => {
+        const group = groups[index];
+        return [heading, ...group.guides.map((guide) => {
+          const dateLabel = guide.data.updatedDate ? labels.updated : labels.published;
+          return (
+            <li data-guide-card data-guide-group={group.key}>
+              <a href={`${base}${langPrefix}guides/${stripLangPrefix(guide.slug)}/`} class="card group flex h-full flex-col">
+                <div class="flex flex-wrap items-center gap-2 text-xs text-iron-500">
+                  <span class="tag-chip">{guide.data.category ?? labels.fallback}</span>
+                  {guide.data.difficulty && <span class="tag-chip">{labels.difficulty} · {guide.data.difficulty}</span>}
+                  <span class="font-mono">{dateLabel} {formatDate(guide.data.updatedDate ?? guide.data.pubDate)}</span>
+                </div>
+                <h2 class="mt-3 text-lg font-semibold leading-snug text-cannon-400 group-hover:text-cannon-300">{guide.data.title}</h2>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-iron-300">{guide.data.description}</p>
+              </a>
+            </li>
+          );
+        })];
+      })}
+    </ul>
+  )}
+</section>
