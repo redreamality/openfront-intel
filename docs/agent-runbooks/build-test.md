@@ -46,3 +46,4 @@
 - **`@astrojs/sitemap` 的 `serialize()` 返回值必须使用插件导出的枚举**：在当前依赖版本中，裸字符串 `'daily'` 不能赋给 `SitemapItem.changefreq`，会让 `astro check` 报 `EnumChangefreq` 类型错误；导入 `ChangeFreqEnum` 并返回 `ChangeFreqEnum.DAILY`，不要用类型断言掩盖。
 - **2026-09-14 复发：Playwright 的生产预览会再次运行 `prebuild` 并刷新生成元数据**：本轮 e2e 通过后，`src/data/_meta.json` 的 `generatedAt`、上游 checkout 和 `defenseMidpoint` 又被刷新，`maps.json` 也短暂移除两张地图。结束前必须读取实际生成值，再按任务开始时记录的基线精确恢复，并用普通 diff 确认没有残留数据变化。
 - **2026-09-14 复发：完整 e2e 的地图池断言必须覆盖 live checkout 与内置 fallback**：本地 `OpenFrontIO` v0.34 test-release checkout 提取 117 张地图，而无上游目录时的内置 v34 fallback 保留 119 张；硬编码单一总数会让其中一种合法构建来源失败。断言应允许受支持的来源总数，同时验证 `meta.total === list.length` 与关键地图 ID。
+- **2026-09-15 复发：更新多语 Release 边界后要立即重跑 `pnpm release:audit` 的逐节计数**：替换一段来源说明可能让原本刚好通过的语种跌到 400 词；必须补充真实版本边界信息并从头复跑，不能用总字数或编辑前计数代替。
