@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.1：攻击、MIRV、大厅与地图'
-description: 'OpenFront 正式 v34.1 Release 对陆战、MIRV、Nation、trusted lobby、Water Nukes、地图、Steam 与下一局决策的影响。'
+title: 'OpenFront v34.3：攻击、MIRV、大厅与地图'
+description: 'OpenFront 正式 v34.3 Release 对陆战、MIRV、Nation、trusted lobby、Water Nukes、地图、Steam 与下一局决策的影响。'
 pubDate: 2026-09-10
-updatedDate: 2026-09-15
+updatedDate: 2026-09-16
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：OpenFront v34.1 改了什么？
+## 直接答案：OpenFront v34.3 改了什么？
 
-OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日；两小时后，官方又发布了补丁 [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)。后者现在是最新的正式非 TEST 玩家边界。它延续完整 v34 功能说明，并减少 trusted lobby 的数量、改善 CrazyGames 上的 trusted-lobby 提示。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射节奏、高难度 Nation 选目标、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图池都发生了会改变操作的变化。
+OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日，之后依次出现 [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)、[`v0.34.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.2) 与正式补丁 [`v0.34.3`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3)。v0.34.3 现在是最新的正式非 TEST 玩家边界。整个系列延续完整 v34 功能，并继续修正 trusted lobby 展示、攻击节奏、公共 Team 配置、Ranked 匹配、支付、音量默认值、桌面链接与外观默认色。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射节奏、高难度 Nation 选目标、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图池都发生了会改变操作的变化。
+
+v0.34.1 之后新增的直接玩法变化，是 v0.34.2 正式说明中的“攻击速度提高约 10%”。它缩短了玩家取消、增援、反推或发现预备队正在崩溃的现实时间窗口，但没有替换 v34 的 ratio 与 density 损耗模型，也不能证明某个固定攻击比例必胜。v0.34.2 还修复公共 Team 出现 0 队、增加更清楚的 trusted-lobby 提示、提供经典 Bot 颜色选项、调整音量默认值，并让桌面端复制的网站链接不再指向 `app://`。v0.34.3 随后修复 Ranked 匹配与支付错误，并恢复已拥有图案的 Default 色板。后三项影响访问与显示，不构成新的战斗公式。
 
 陆地攻击现在使用重建后的损耗模型，两个核心输入是进攻方的 troop ratio 与防守方的 troop density。投入更大的有效进攻，在薄弱边境上可能不再支付旧模型那样高的每格代价；紧凑领土上的高密度防守仍然昂贵。大领土修正改成平滑且有上限的函数，Release 明确说明 100,000 tiles 以下不会因为这项大领土修正而变化。这不是鼓励 full-send：路线宽度、地形、Defense Post、反向攻击和留在本土的预备队仍会决定推进能否站住。它只意味着旧版固定损耗估算已经不能当成精确计算器。
 
@@ -43,7 +45,7 @@ Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把�
 
 ## 来源状态、适用边界与下一步阅读
 
-本文当前的公开权威来源是官方 [OpenFront `v0.34.1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)，不可变 tag commit 为 `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；下文 beta1 链接仍是同一批已发布玩法边界的不可变历史证据。上游 `main` 在每次发布后继续变化，后续提交只能作为未来版本线索，不能反向证明已经进入当前 Release。
+本文当前的公开权威来源是官方 [OpenFront `v0.34.3` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3)，不可变 tag commit 为 `222e4078982e6c21c620a69c82de0392c17385bf`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；下文 beta1 链接仍是同一批已发布玩法边界的不可变历史证据。上游 `main` 在每次发布后继续变化，后续提交只能作为未来版本线索，不能反向证明已经进入当前 Release。
 
 陆战事实可由 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)、[`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) 与 [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts) 复核。它们确定了实际损耗函数和受保护场景，却不能给出一个脱离 ratio 与 density 的通用“每格损失”。正确编辑结论是用有边界的 probe 观察结果，而不是从不完整输入伪造确定表格。
 

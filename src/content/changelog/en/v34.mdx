@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.1: attack, MIRV, lobbies, and maps'
-description: 'What the official OpenFront v34.1 Release changes for combat, MIRVs, Nations, trusted lobbies, Water Nukes, maps, Steam, and the next match.'
+title: 'OpenFront v34.3: attack, MIRV, lobbies, and maps'
+description: 'What the official OpenFront v34.3 Release changes for combat, MIRVs, Nations, trusted lobbies, Water Nukes, maps, Steam, and the next match.'
 pubDate: 2026-09-10
-updatedDate: 2026-09-15
+updatedDate: 2026-09-16
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v34.1?
+## Direct answer: what changed in OpenFront v34.3?
 
-OpenFront's stable [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) feature Release was published on 14 September 2026, followed two hours later by the official [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) patch. The patch is now the latest formal, non-TEST player boundary. It carries the v34 feature notes forward, reduces the number of trusted lobbies, and improves the trusted-lobby message on CrazyGames. The practical headline is not Steam alone: combat, nuclear timing, Nation pressure, team victory, water routes, rail routes, public-lobby selection, and map choice all changed enough to affect a next-match decision.
+OpenFront's stable [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) feature Release was published on 14 September 2026, followed by [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1), [`v0.34.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.2), and the official [`v0.34.3`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3) patch. v0.34.3 is now the latest formal, non-TEST player boundary. The series carries all v34 features forward while tightening trusted-lobby presentation, combat pace, public-team setup, ranked matchmaking, payments, audio defaults, desktop links, and cosmetic defaults. The practical headline is not Steam alone: combat, nuclear timing, Nation pressure, team victory, water routes, rail routes, public-lobby selection, and map choice all changed enough to affect a next-match decision.
+
+The player-facing gameplay change added after v0.34.1 is the v0.34.2 note that attacks run about 10% faster. That changes the wall-clock time available to cancel, reinforce, counterattack, or notice a collapsing reserve; it does not replace v34's ratio-and-density loss model or prove that a fixed attack percentage wins. v0.34.2 also fixes zero-team public games, adds clearer trusted-lobby UI, restores an optional classic bot-color setting, adjusts audio defaults, and makes desktop copied links point to the website. v0.34.3 then fixes ranked matchmaking and payment errors and restores the Default swatch for owned patterns. Those patch fixes matter to access and presentation, but they do not create a new combat formula.
 
 Land attacks now use a rebuilt loss model driven by the attacker's troop ratio and the defender's troop density. A large committed push can pay less per tile than the old model implied, while a dense defender on compact territory remains expensive. The large-territory adjustment is smoothed and capped, with the release explicitly saying that positions below 100,000 tiles do not move under that adjustment. This is not permission to full-send: route shape, reserve, opposing attacks, terrain, and Defense Posts still matter. It means an old fixed loss estimate is no longer a reliable calculator.
 
@@ -43,7 +45,7 @@ Finally, re-read the map instead of relying on yesterday's rotation. Yangtze Riv
 
 ## Source status, limits, and next reading
 
-The current authority for this article is the official [OpenFront `v0.34.1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) and immutable tag commit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`. The stable v34 feature base is the [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) at commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; the earlier beta1 links below remain immutable evidence for the same shipped gameplay boundaries. Upstream `main` continued changing after each publication, so later commits are clues for a future boundary rather than proof of the current Release.
+The current authority for this article is the official [OpenFront `v0.34.3` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.3) and immutable tag commit `222e4078982e6c21c620a69c82de0392c17385bf`. The stable v34 feature base is the [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) at commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; the earlier beta1 links below remain immutable evidence for the same shipped gameplay boundaries. Upstream `main` continued changing after each publication, so later commits are clues for a future boundary rather than proof of the current Release.
 
 For combat, use tagged [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts), and the tagged [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). They establish the implemented loss function and its protected scenarios. They do not give one universal "troops per tile" quote because the answer changes with ratios and density. The editorial response is to compare a bounded probe with the resulting border, not to invent a deterministic table from incomplete inputs.
 
