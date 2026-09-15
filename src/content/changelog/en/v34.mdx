@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v34.0-beta1: attack, MIRV, lobbies, and maps'
-description: 'What the official OpenFront v34.0-beta1 Release changes for combat, MIRVs, Nations, lobbies, Water Nukes, maps, Steam, and the next match.'
+title: 'OpenFront v34.1: attack, MIRV, lobbies, and maps'
+description: 'What the official OpenFront v34.1 Release changes for combat, MIRVs, Nations, trusted lobbies, Water Nukes, maps, Steam, and the next match.'
 pubDate: 2026-09-10
-updatedDate: 2026-09-11
+updatedDate: 2026-09-15
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v34.0-beta1?
+## Direct answer: what changed in OpenFront v34.1?
 
-OpenFront's official [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) entry was published on 10 September 2026. GitHub marks the entry as a non-draft, non-prerelease Release, and its body is a full v0.34.0 release note rather than the separate `TEST ONLY` placeholder. This site therefore treats it as the latest formal, non-TEST player boundary while preserving the exact beta-tag name. The practical headline is not Steam alone: combat, nuclear timing, Nation pressure, team victory, water routes, rail routes, public-lobby selection, and map choice all changed enough to affect a next-match decision.
+OpenFront's stable [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) feature Release was published on 14 September 2026, followed two hours later by the official [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) patch. The patch is now the latest formal, non-TEST player boundary. It carries the v34 feature notes forward, reduces the number of trusted lobbies, and improves the trusted-lobby message on CrazyGames. The practical headline is not Steam alone: combat, nuclear timing, Nation pressure, team victory, water routes, rail routes, public-lobby selection, and map choice all changed enough to affect a next-match decision.
 
 Land attacks now use a rebuilt loss model driven by the attacker's troop ratio and the defender's troop density. A large committed push can pay less per tile than the old model implied, while a dense defender on compact territory remains expensive. The large-territory adjustment is smoothed and capped, with the release explicitly saying that positions below 100,000 tiles do not move under that adjustment. This is not permission to full-send: route shape, reserve, opposing attacks, terrain, and Defense Posts still matter. It means an old fixed loss estimate is no longer a reliable calculator.
 
@@ -20,6 +20,8 @@ MIRVs now cost a flat 25 million Gold. The old global price ladder is gone. In i
 Hard and Impossible Nations now hunt a valuable bordering rival they can safely beat, and they no longer ignore their troop cap when attacking neutral land or fallout. Team games use the same 80% normal win threshold as FFA instead of 95%. Water-Nuked channels are now included in ship pathfinding, trains no longer despawn merely because a track splits, and rails cannot cross impassable terrain. The winner also deactivates the Doomsday Clock.
 
 Outside the simulation, v34 adds a 20-step in-game tutorial, trusted-only scheduled lobbies with open alternatives still spaced between them, player reporting, the Detailed View lobby browser, map preloading, clan treasury donations, clan tags as team names, a cosmetic inventory and loadouts, Steam account and desktop support, and an engine performance pass reported as 39% lower tick cost on a full World benchmark. Yangtze River is new, China uses modern borders, and the former China layout remains available as Qing China. Those are released capabilities in this tag, not previews.
+
+Profiles are public in v34, so another player can review the games attached to an account. History cards can expose a copyable game link, and the normal PlayerInfoPanel is available inside replays. Treat that visibility as both a learning tool and an account choice: share the exact game when asking for advice, review decisions in sequence rather than judging only the result, and remember that the Release names account deletion as the way to hide all games. Public history does not expose private moderation tools or prove why a player made a move.
 
 ## What should you change in the next match?
 
@@ -41,7 +43,7 @@ Finally, re-read the map instead of relying on yesterday's rotation. Yangtze Riv
 
 ## Source status, limits, and next reading
 
-The authority for this article is the official [OpenFront `v0.34.0-beta1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) and the immutable tag commit `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`. The exact tag matters because upstream `main` continued changing after publication. Later commits are evidence for a future boundary, not proof of what this release contains. The release page calls its body v0.34.0 while the tag retains `-beta1`; this article preserves both facts instead of silently renaming the release.
+The current authority for this article is the official [OpenFront `v0.34.1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) and immutable tag commit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`. The stable v34 feature base is the [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) at commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; the earlier beta1 links below remain immutable evidence for the same shipped gameplay boundaries. Upstream `main` continued changing after each publication, so later commits are clues for a future boundary rather than proof of the current Release.
 
 For combat, use tagged [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts), and the tagged [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). They establish the implemented loss function and its protected scenarios. They do not give one universal "troops per tile" quote because the answer changes with ratios and density. The editorial response is to compare a bounded probe with the resulting border, not to invent a deterministic table from incomplete inputs.
 

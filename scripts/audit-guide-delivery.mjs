@@ -48,6 +48,16 @@ function uniqueUrls(markdown) {
   return [...new Set(markdown.match(/https?:\/\/[^\s)>\]]+/g) ?? [])];
 }
 
+function levelTwoSections(markdown) {
+  const headings = [...markdown.matchAll(/^##\s+.+$/gm)];
+  return headings.map((heading, index) =>
+    markdown.slice(
+      heading.index + heading[0].length,
+      headings[index + 1]?.index ?? markdown.length,
+    ),
+  );
+}
+
 function hostname(value) {
   try {
     return new URL(value).hostname.toLowerCase().replace(/^www\./, "");
@@ -75,6 +85,12 @@ for (const language of LANGUAGES) {
     const text = plainText(body);
     const count =
       language.code === "zh" ? hanCharacterCount(text) : latinWordCount(text);
+    const sectionCounts = levelTwoSections(body).map((section) => {
+      const sectionText = plainText(section);
+      return language.code === "zh"
+        ? hanCharacterCount(sectionText)
+        : latinWordCount(sectionText);
+    });
     const headings = body.match(/^#{2,4}\s+.+$/gm)?.length ?? 0;
     const tables =
       body.match(/^\s*\|?(?:\s*:?-{3,}:?\s*\|){2,}\s*$/gm)?.length ?? 0;
@@ -91,10 +107,13 @@ for (const language of LANGUAGES) {
       headings,
       tables,
       internalLinks,
+      sectionCounts,
       hasDeliveryMetadata,
       passes:
         count >= language.minimum &&
         headings >= 8 &&
+        sectionCounts.length >= 8 &&
+        sectionCounts.every((sectionCount) => sectionCount >= 401) &&
         tables >= 1 &&
         internalLinks >= 2 &&
         hasDeliveryMetadata,
@@ -176,6 +195,7 @@ for (const result of results) {
       result.passes ? "PASS" : "FAIL",
     ].join(" "),
   );
+  console.log(`      h2 sections: ${result.sectionCounts?.join("/") || "none"}`);
   if (result.error) console.log(`      ${result.error}`);
 }
 

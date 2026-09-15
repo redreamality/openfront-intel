@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-11。
+更新日期：2026-09-15。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/nations-pressure/` 已完成五语正文、社区与官方来源包、Guides 入口及 Threat Assessment/Land Combat/Nuclear Deterrence 回链；已完成完整验证与交付闭环 | 合并即完成本轮主题并继续滚动 Production；下一轮重新从社区信号批准唯一意图，不得把 Nation 压力、扩张停止线或 MIRV 冷却换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/replay-review/` 已完成五语 TRACE 正文、社区与官方来源包，并从五语 first-match 接入赛后入口；本 PR 合并即完成本轮主题 | 合并即继续滚动 Production；下一轮重新批准唯一意图，不得把 replay 时间线、证据标签、公开 profile/history 或单变量实验换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,8 +30,8 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1)，tag commit `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`；本轮按正式正文、tag 源码与测试核验 MIRV 固定 25M、60 秒不对称发射锁定、Water Nukes 舰船寻路修复与 119 张地图生成结果。
-- 上游 `main` 游标：`bf739f86c4e37b53d4f16a0d97dd6c8134f62873`；本轮已用 GitHub REST 核验。相对旧游标新增 9 个网络重连、领土颜色、地图、快捷聊天与商店提交，但没有新的正式 Release 或既有 What's New 状态转换，不能越过发布边界。
+- 正式 Release：[`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)，tag commit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`；稳定 v34 功能基线为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。v0.34.1 只减少 trusted-only public games 并改善 CrazyGames 的 trusted-lobby 提示；其余 v34 玩家功能沿用稳定 Release。
+- 上游 `main` 游标：`3e3b9627dc003b95ede1a5fdc87b560731dff3c8`；2026-09-15 已用 GitHub REST 核验。晚于 v0.34.1 的提交只作为未来版本线索，不能改写当前正式边界。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-30..09-05，892 Query / 2,271 Query × Page / 462 clicks。
 - GSC 28 天：2026-08-09..09-05，1,540 Query / 4,742 Query × Page / 1,439 clicks。
@@ -46,6 +46,7 @@
 - 本轮移动端触控执行社区及 tag 核验：[`2026-09-07-mobile-controls-community-source-pack.md`](research/2026-09-07-mobile-controls-community-source-pack.md)。
 - 本轮运输船登陆社区及 tag 核验：[`2026-09-08-transport-landings-community-source-pack.md`](research/2026-09-08-transport-landings-community-source-pack.md)。
 - 本轮团队经济空间社区、官方及 tag 核验：[`2026-09-09-team-economy-space-community-source-pack.md`](research/2026-09-09-team-economy-space-community-source-pack.md)；官方事实补充见 [`2026-09-09-team-economy-official-notes.md`](research/2026-09-09-team-economy-official-notes.md)。
+- 本轮回放复盘社区、正式 Release 及 tag 核验：[`2026-09-15-replay-review-community-source-pack.md`](research/2026-09-15-replay-review-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -54,14 +55,15 @@
 | Overtime 胜利门槛 | `Released` | v0.33.11 上线时公开 FFA 为 25% 随机；v0.33.13 起公开 FFA 默认启用；30:00 后每 30 秒降低 1 点，严格高于门槛才获胜；Host/Singleplayer 可设 1–120 分钟 | 已同步五语 v33 总览与主攻略；后续只随正式规则变化更新 |
 | Team Doomsday 门槛 + wasteland | `Released` | v0.33.7：团队使用 3/6/10/15/21/28/35% 七档门槛，腐化地变为 wasteland | 已同步五语 v33 总览与 Doomsday 主答案；后续只随正式规则变化更新 |
 | Water Nukes 运输船寻路 | `Released` | v0.34.0-beta1 收录路径图重建；旧绕路截图仅作历史对照 | 已同步五语 Water Nukes 与公开来源；后续只随正式规则变化更新 |
-| 完整大厅 Detailed View | `Merged` | P1 首发候选 | Release 后核对最终入口、筛选与公开队列行为 |
-| Clan Treasury 捐赠 | `Merged` | P1；必须保留永久且不可退款警告 | Release 后核对货币 UI 与权限 |
+| 完整大厅 Detailed View | `Released` | v0.34.0：按模式展示公开大厅、deep link 与 trusted-only 锁；v0.34.1 减少 trusted-only 排布并改善 CrazyGames 提示 | 已同步五语 v34 总览；后续只随正式入口或资格变化更新 |
+| Clan Treasury 捐赠 | `Released` | v0.34.0：可向 clan treasury 转入玩家货币；继续保留永久且不可退款警告 | 已同步五语 v34 总览；后续只随正式货币或权限变化更新 |
 | Spectator mode | `Released` | v0.33.7：可经大厅代码选择 Spectate，不出生、不占玩家席位 | 已同步五语 modes；后续核对正式入口变化 |
 | SAM 动态升级射程 | `Merged` | 内部账本已记录；动态射程与预览尚未由正式 Release 确认，常青核武页不提前改写 | Release 收录后核对最终升级过程、范围预览与性能边界 |
-| 地图预加载 | `Merged` | v34 预览只说明把加载提前，不承诺固定秒数 | Release 后核对实际出生窗口、失败回退与设备差异 |
-| 外观 loadout | `Merged` | 内部账本记录十个槽与 Unequip all；尚未写成已上线能力 | Release 后核对最终选择器与账号行为 |
+| 地图预加载 | `Released` | v0.34.0 已把地图加载提前；仍不承诺固定秒数或所有设备一致 | 已同步五语 v34 总览；后续只随正式加载流程变化更新 |
+| 外观 loadout | `Released` | v0.34.0：cosmetic inventory、十个编号 loadout、Unequip All、商店预览与恢复选择已上线 | 已同步五语 v34 总览；后续只随正式账号行为变化更新 |
 | Warship veterancy 与 Port repair | `Released` | v33：最多三档经验；战舰击杀、10 艘运输船或 25 艘贸易船捕获可升级；升级提高最大生命与炮击伤害，不立即治疗 | 已同步五语战舰经验攻略、Team naval-control 与 nuclear-deterrence 相邻入口；后续只随正式规则变化更新 |
-| MIRV 固定成本与不对称发射锁定 | `Released` | v0.34.0-beta1：每枚 25M；成功发射后其他玩家锁定 60 秒，最近发射者豁免 | 已同步五语 MIRV、核弹计算器、核武机制、hotkeys、Water Nukes 与 nuclear-deterrence；后续只随正式规则变化更新 |
+| MIRV 固定成本与不对称发射锁定 | `Released` | v0.34.0：每枚 25M；成功发射后其他玩家锁定 60 秒，最近发射者豁免 | 已同步五语 MIRV、核弹计算器、核武机制、hotkeys、Water Nukes 与 nuclear-deterrence；后续只随正式规则变化更新 |
+| 公开 profile、history game link 与回放玩家面板 | `Released` | v0.34.0/v0.34.1：profile 公开，history card 可复制普通 game link，spectator replay 可打开 PlayerInfoPanel；旧版本 shell 仍有条件可用 | 已同步五语 v34 总览与 replay-review；后续只随正式隐私、history 或 replay 路由变化更新 |
 | 联盟操作盘、可区分颜色、商店预览 | `In development` | P1/P2 观察 | 评审稳定或合并后再判断玩家价值 |
 | Ranked 2v2 固定队友 | `In development` | 外部依赖不可验证，只内部观察 | 依赖与服务端状态公开可验证后再判断 |
 | 安全、滥用、私有依赖、未批准/DevOps/重构 | `Suppressed` | 不公开 | 正式安全修复发布后才重新评估 |
@@ -81,6 +83,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-15 | v34.1 Release response + `LF-COMMUNITY-ROLLING` 回放复盘 | 五语 v34 总览同步 v0.34.0 稳定功能和 v0.34.1 trusted-lobby 修订；新建五语 `/guides/replay-review/`，用 TRACE 区分当时已知、回放可见、可控制断点与下一局单变量实验，并接通五语 first-match | 5 个实际分析 Reddit、3 个带可核验字幕 YouTube、24 个官方 URL、3,953 英文研究词；guide audit、content audit 95/95、check、build 415 页、e2e 390/390、links 18,737、SEO 410/410 均通过；合并即完成本轮主题并继续滚动 Production |
 | 2026-09-11 | `LF-COMMUNITY-ROLLING` Nation 压力与扩张停止线决策 | 新建五语 `/guides/nations-pressure/`，用 P-R-E-S-S 框架回答 Nation 目标选择、75% Troops 候选上限、外部受益者、停止线、模式/地图调整与反制；同步 MIRV v34 事实修正，并接通五语 Guides、Threat Assessment、Land Combat 与 Nuclear Deterrence | 4 个实际分析 Reddit、3 个实际播放核验 YouTube、7 个官方来源、3,407 英文研究词；guide audit、content audit、check、build、links、e2e 与交付闭环均已完成 |
 | 2026-09-09 | `LF-COMMUNITY-ROLLING` 团队经济空间决策 | 新建五语 `/guides/team-economy-space/`，用 SPACE 框架回答如何为 City、Factory、Port 与铁路预留空间、按付款人计算成本、验证停站/海贸路线、分配捐赠与保护责任，并在路线失效时退出；接通五语 Guides、Port-vs-Factory、Train Network 与 Team Roles | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、v0.33.14 官方 Release/tag、Config、执行逻辑与测试；guide audit、content audit、check、build、links 与交付闭环已完成 |
 | 2026-09-08 | `LF-COMMUNITY-ROLLING` 运输船登陆决策 | 新建五语 `/guides/transport-landings/`，用 COAST 框架回答可达海岸、最多三艘活动运输船、递减余额波次、Warship 护航、滩头纵深和取消条件；接通五语 Guides、Island Defense 与 Team Naval Control | 3 个实际分析 Reddit、3 个实际播放核验 YouTube、9 个官方来源；guide audit 五语与研究门槛通过并合并即完成本轮主题，继续滚动 Production |

@@ -28,3 +28,6 @@
 - **Windows PowerShell 的 `System.Drawing.Image.FromFile()` 不能可靠解码 WebP**：出现 `invalid input` 或疑似内存错误时不能据此判定图片损坏；使用浏览器 `naturalWidth`、项目现有图像工具或支持 WebP 的解码器验证实际文件。
 - **2026-08-24 再次复发：长命令返回 `exec_command` session ID 后必须保留该 ID 并用 `write_stdin` 轮询**：经 `functions.exec` 包装时也要显式输出嵌套结果的 `session_id`，不能只转发 `output`；`wait` 只接受 yielded exec cell ID。先辨认返回字段，再选择对应接口，避免丢失最终输出、把空 `dist` 当成最终产物或重复启动构建。
 - **2026-09-14 复发：本地保留的研究报告可能只存在于未合入的分支/提交**：若当前工作树按报告路径读取失败，先用 `git log --all -- <path>` 和 `git show <commit>:<path>` 核对本地对象；确认报告内容后继续执行任务，不要创建同名副本或误判为报告丢失。本轮报告位于保留提交 `edf8cd22f3d80bca5bcafb01ae01ed921ff11ebc`。
+- **2026-09-15 复发：审计脚本名必须从 `package.json` 或 `rg --files scripts` 获取**：最新 Release 审计实际是 `scripts/audit-latest-release.mjs`，不是猜测的 `audit-release-content.mjs`；读取不存在路径会让同批只读探测退出，但不代表审计能力缺失。
+- **2026-09-15 官方源码树与长研究包写入**：检索 tag 源码前先从 tree 确认 `tests/` 等真实目录，不能猜成 `test/`；创建数百行来源包时先用相对路径写入标题与门禁摘要，再分段追加来源和分析，避免一次超长绝对路径补丁未创建目标。
+- **2026-09-15 复发：`apply_patch` 只能按整行匹配上下文，不能用长段落末尾的一句话当作独立锚点**：若 Markdown 一个自然段存储在同一物理行，先读取完整尾行，写入短 ASCII marker，再分批替换 marker；不要重复提交只含句子片段或无上下文行号的补丁。

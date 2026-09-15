@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v34.0-beta1：攻击、MIRV、大厅与地图'
-description: 'OpenFront 正式 v34.0-beta1 Release 对陆战、MIRV、Nation、大厅、Water Nukes、地图、Steam 与下一局决策的影响。'
+title: 'OpenFront v34.1：攻击、MIRV、大厅与地图'
+description: 'OpenFront 正式 v34.1 Release 对陆战、MIRV、Nation、trusted lobby、Water Nukes、地图、Steam 与下一局决策的影响。'
 pubDate: 2026-09-10
-updatedDate: 2026-09-11
+updatedDate: 2026-09-15
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：OpenFront v34.0-beta1 改了什么？
+## 直接答案：OpenFront v34.1 改了什么？
 
-OpenFront 官方 [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) 条目发布于 2026 年 9 月 10 日。GitHub 把它标为非草稿、非 prerelease，正文也是完整的 v0.34.0 版本说明，不是另一个只有 `TEST ONLY` 的占位 Release。因此本站把它作为最新的正式非 TEST 玩家边界，同时保留 tag 中的 beta1 原名，不把它悄悄改写成不存在的 `v0.34.0` tag。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射节奏、高难度 Nation 选目标、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图池都发生了会改变操作的变化。
+OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日；两小时后，官方又发布了补丁 [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)。后者现在是最新的正式非 TEST 玩家边界。它延续完整 v34 功能说明，并减少 trusted lobby 的数量、改善 CrazyGames 上的 trusted-lobby 提示。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射节奏、高难度 Nation 选目标、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图池都发生了会改变操作的变化。
 
 陆地攻击现在使用重建后的损耗模型，两个核心输入是进攻方的 troop ratio 与防守方的 troop density。投入更大的有效进攻，在薄弱边境上可能不再支付旧模型那样高的每格代价；紧凑领土上的高密度防守仍然昂贵。大领土修正改成平滑且有上限的函数，Release 明确说明 100,000 tiles 以下不会因为这项大领土修正而变化。这不是鼓励 full-send：路线宽度、地形、Defense Post、反向攻击和留在本土的预备队仍会决定推进能否站住。它只意味着旧版固定损耗估算已经不能当成精确计算器。
 
@@ -20,6 +20,8 @@ MIRV 现在固定花费 25,000,000 Gold，旧的全局涨价阶梯已经移除�
 Hard 与 Impossible Nations 会寻找相邻、价值高且它能够安全击败的对手，不再只是均匀向外扩张；它们攻击 TerraNullius 或 fallout 时也不能忽略 troop cap。普通 Team 胜利阈值从 95% 降为与 FFA 相同的 80%。Water Nuke 产生的新水域现在能被运输船正确寻路；铁路分叉不再让 Train 无故消失，但 Railroad 不能跨越 impassable terrain。对局出现获胜者后，Doomsday Clock 会停止。
 
 模拟之外，v34 上线了 20 步局内教程、定时出现且仍穿插开放房间的 trusted-only lobby、玩家举报、Detailed View 大厅浏览器、地图预加载、Clan treasury 捐赠、以 Clan tag 组成 Team 名、外观库存与 loadout、Steam 登录/绑定/桌面支持，以及官方基准中完整 World 对局 tick cost 降低 39% 的性能优化。新地图是 Yangtze River；China 改为现代边界，旧布局保留为 Qing China。这些在当前 tag 中已经发布，不再是预览。
+
+v34 的 profile 对所有人公开，其他玩家可以查看账号关联的对局；history card 提供可复制的 game link，回放中也能打开普通 PlayerInfoPanel。它既是学习工具，也是账号选择：求助时分享准确对局，按时间顺序复核决策，不要只凭结果倒推原因；同时记住，Release 明确把删除账号列为隐藏全部对局的方式。公开历史不会暴露私有审核工具，也不能证明某个玩家为何做出某一步。
 
 ## 下一局应该怎样改变决策？
 
@@ -41,7 +43,7 @@ Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把�
 
 ## 来源状态、适用边界与下一步阅读
 
-本文的公开权威来源是官方 [OpenFront `v0.34.0-beta1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1)，不可变 tag commit 为 `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`。tag 很重要，因为上游 `main` 在发布后继续变化；后续提交只能作为未来版本线索，不能反向证明已经进入这个 Release。发布正文自称 v0.34.0，tag 仍带 `-beta1`，本站同时保留这两个事实，不擅自重命名版本。
+本文当前的公开权威来源是官方 [OpenFront `v0.34.1` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1)，不可变 tag commit 为 `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；下文 beta1 链接仍是同一批已发布玩法边界的不可变历史证据。上游 `main` 在每次发布后继续变化，后续提交只能作为未来版本线索，不能反向证明已经进入当前 Release。
 
 陆战事实可由 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)、[`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) 与 [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts) 复核。它们确定了实际损耗函数和受保护场景，却不能给出一个脱离 ratio 与 density 的通用“每格损失”。正确编辑结论是用有边界的 probe 观察结果，而不是从不完整输入伪造确定表格。
 

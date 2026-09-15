@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v34.0-beta1: aanvallen, MIRV, lobby’s en kaarten'
-description: 'Wat de officiële OpenFront v34.0-beta1-release verandert aan gevechten, MIRV, Nations, lobby’s, Water Nukes, kaarten, Steam en je volgende partij.'
+title: 'OpenFront v34.1: aanvallen, MIRV, lobby’s en kaarten'
+description: 'Wat de officiële OpenFront v34.1-release verandert aan gevechten, MIRV, Nations, trusted lobby’s, Water Nukes, kaarten, Steam en je volgende partij.'
 pubDate: 2026-09-10
-updatedDate: 2026-09-11
+updatedDate: 2026-09-15
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Versienotities
 ---
 
-## Direct antwoord: wat verandert OpenFront v34.0-beta1?
+## Direct antwoord: wat verandert OpenFront v34.1?
 
-De officiële OpenFront-entry [`v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) verscheen op 10 september 2026. GitHub markeert de entry niet als draft of prerelease en de tekst bevat volledige v0.34.0-notities, anders dan de aparte release met alleen `TEST ONLY`. Deze site behandelt dit daarom als de nieuwste formele niet-TEST-grens voor spelers en bewaart tegelijk de exacte beta1-tag. Steam is maar één deel: landverliezen, MIRV-tempo, druk van Nations, Team-overwinning, waterroutes, spoorlijnen, lobbykeuze en kaarten veranderen beslissingen in de volgende partij.
+De stabiele functierelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) verscheen op 14 september 2026, gevolgd door de officiële patch [`v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) twee uur later. Die patch is nu de formele niet-TEST-grens. Hij neemt de v34-notities over, vermindert het aantal trusted lobby's en verbetert hun melding op CrazyGames. Steam is maar één deel: landverliezen, MIRV-tempo, druk van Nations, Team-overwinning, waterroutes, spoorlijnen, lobbykeuze en kaarten veranderen beslissingen in de volgende partij.
 
 Landaanvallen gebruiken nu een opnieuw opgebouwd verliesmodel met twee hoofdinvoeren: de troop ratio van de aanvaller en de troop density van de verdediger. Een grotere inzet kan per tile goedkoper zijn tegen een dun bezette grens, terwijl een hoge dichtheid op compact gebied duur blijft. De aanpassing voor groot grondgebied is vloeiend en begrensd. Volgens de Release verandert zij niets onder 100.000 tiles. Dit is geen uitnodiging tot een full-send. Routevorm, terrein, Defense Posts, tegengestelde aanvallen en de achtergebleven reserve bepalen nog altijd of een opmars standhoudt. Een oude vaste schatting van verlies per tile is alleen geen betrouwbare calculator meer.
 
@@ -20,6 +20,8 @@ Een MIRV kost nu altijd 25 miljoen Gold. De wereldwijde prijsladder is verwijder
 Hard en Impossible Nations zoeken voortaan een waardevolle aangrenzende rivaal die ze veilig kunnen verslaan. Bij een aanval op TerraNullius of fallout negeren ze hun troop cap niet meer. Team-partijen gebruiken dezelfde normale winstdrempel van 80% als FFA in plaats van 95%. Transports kunnen door water varen dat een Water Nuke heeft gemaakt. Trains verdwijnen niet meer door een splitsing in het spoor, maar Railroad kan onbegaanbaar terrein niet kruisen. De winnaar schakelt bovendien de Doomsday Clock uit.
 
 Buiten de simulatie brengt v34 een tutorial met 20 stappen, regelmatig geplande trusted-only lobby’s waartussen open rondes beschikbaar blijven, spelersrapportage, de Detailed View-lobbybrowser, vooraf laden van kaarten, donaties aan de clan treasury, clantags als teamnamen, cosmetische inventory en loadouts, Steam-login en desktopondersteuning, plus een optimalisatie waarvan de officiële World-benchmark 39% lagere tickkosten meldt. Yangtze River is nieuw. China gebruikt moderne grenzen en de vroegere indeling blijft bestaan als Qing China. Deze mogelijkheden zijn in deze tag uitgebracht en niet langer previews.
+
+Profielen zijn in v34 openbaar, zodat andere spelers de partijen van een account kunnen bekijken. Geschiedeniskaarten bieden een kopieerbare gamelink en het gewone PlayerInfoPanel is in replays beschikbaar. Gebruik die zichtbaarheid als leermiddel en accountkeuze: deel de exacte partij, controleer beslissingen in volgorde en leid geen bedoeling af uit alleen de uitslag. Volgens de Release verbergt het verwijderen van het account alle games. Openbare geschiedenis toont geen private moderatietools.
 
 ## Wat moet je in de volgende partij anders beslissen?
 
@@ -41,7 +43,7 @@ Lees ten slotte de kaart opnieuw. Yangtze River heeft een buisachtige riviertopo
 
 ## Bronstatus, grenzen en volgende lectuur
 
-De publieke autoriteit voor dit artikel is de officiële [OpenFront-release `v0.34.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1) met onveranderlijke tagcommit `5f6c8fad19ab2e7ab5edfc91c9edc8b685f4c293`. De tag telt, omdat `main` na publicatie verder veranderde. Latere commits zijn aanwijzingen voor een toekomstige grens en geen bewijs voor deze Release. De pagina noemt de inhoud v0.34.0 terwijl de tag `-beta1` behoudt. Het artikel bewaart bewust beide feiten.
+De huidige publieke autoriteit is de officiële [OpenFront-release `v0.34.1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1) met onveranderlijke tagcommit `a33efb780c4daf7cfb703bb3e8c7ce5d3f014325`. De stabiele functiebasis is [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) op commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; de beta1-links hieronder blijven onveranderlijke historische bewijzen van dezelfde uitgebrachte spelgrenzen. `main` veranderde na elke publicatie verder, dus latere commits bewijzen alleen een mogelijke toekomstige grens.
 
 Voor gevechten gebruik je de getagde [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) en [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Ze leggen de functie en beschermde scenario’s vast, maar geven geen universeel troops-per-tile-getal zonder ratio en density. De redactionele reactie is een begrensde proefaanval en controle van de nieuwe grens, niet een verzonnen deterministische tabel uit ontbrekende invoer.
 
