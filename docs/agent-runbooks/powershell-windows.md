@@ -65,3 +65,4 @@
 - **2026-09-15 复发：括号表达式与 `.Substring()` 之间出现空格仍会在网络请求前报 `Unexpected token`**：构造 Release 摘要时不要写 `(...) .Substring(...)`；先保存替换后的正文到任务专用变量，再调用方法并核对请求实际执行。
 - **PowerShell 不要把 `$Matches` 用作自定义匹配集合**：变量名不区分大小写，它会碰撞正则自动变量 `$Matches` 并让行号累加器异常；使用 `$matchItems`、`$lineHits` 等任务专用名称。
 - **2026-09-15 复发：把 PowerShell 命令嵌进 JavaScript 模板字符串时不要直接写 PowerShell 反引号转义**：例如输出分隔符中的 `` `t `` 会先被外层 JavaScript 当作模板字符并在命令执行前触发语法错误。改用普通空格、字符串拼接或不含反引号的格式表达式，并确认项目命令尚未执行。
+- **2026-09-16 复发：不要把 `git show` 的多行文本直接管道给 `Get-FileHash`**：PowerShell 会把 Git 输出逐行解析为命令/路径，导致 `Cannot find path`，即使目标文件内容未变也会误报失败。比较已跟踪文件时优先使用 `git hash-object` 与 `git rev-parse HEAD:<path>`，或先把输出写入明确的临时文件再计算哈希。
