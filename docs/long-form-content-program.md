@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-17。规划窗口：未来 8–12 周。
+更新日期：2026-09-18。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -47,6 +47,7 @@
 | `LF-COMMUNITY-2026-09-16-adaptive` | `/guides/adaptive-build-order/` | 每一笔 Gold 与军力应何时投给 City 容量、Port、Factory、防御或流动储备，以及地图变化后何时停止原分支 | `economy-fundamentals` 只负责完整经济系统；`port-vs-factory` 只比较收入引擎；`population-growth` 只解释 cap；`land-combat` 只处理已接触战斗；本页独占 LIMIT 复核、下一笔资源分配、三个预算账户与显式停止线，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-16` | `/guides/ranked-1v1/` | Ranked 1v1 中如何从合法出生几何、Bot/海岸路线和对手下一条选项出发，在 10/15 分钟计时内决定 City、Port、Factory、Defense、Silo、Boat 或攻击投入，并在目标失效时停止分支 | `first-match` 只负责跨模式开局；`adaptive-build-order` 只负责一般地图的下一笔资源分配；`land-combat` 只处理已接触边境战；`winning-overtime` 只处理公开 FFA Overtime；`replay-review` 只处理赛后证据；本页独占 Ranked 二人路线控制、短计时和终局转换，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-17` | `/guides/europe-ffa-openings/` | 独立 Europe 地图公开 FFA 中如何辨别真实出生、河道可达性、邻近 Nation/真人争路，并在第一条路被封后保留独立备用出口 | `ffa-opening` 只负责通用开局节奏；`map-strategy` 只负责跨地图拓扑；`nations-pressure` 只负责 AI 目标筛选；`transport-landings` 从实际登陆开始；本页独占 Europe 而非 Europe Classic/World 的 LANE 路线判定，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-18` | `/guides/nation-alliance-decisions/` | 何时向 Nation 请求联盟，拒绝后如何守线，获准窗口该完成什么，以及如何在续约、到期或选择性背叛前恢复预备队 | `diplomacy-betrayal` 只负责通用请求、计时和退出规则；`mechanics/nations` 是 AI 行为参考；`nations-pressure` 负责敌对目标压力；本页独占对特定 Nation 关系的 PACT 顺序决策，不再换标题复制 |
 
 ## 生产批次
 
@@ -57,7 +58,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；Ranked 1v1 已交付，当前 Europe FFA 开局已完成五语 LANE 正文、社区/v0.34.7 一手来源包及 Guides 地图入口，合并本 PR 即完成本轮主题 | 一轮一个独立意图；下一轮不得把独立 Europe 地图的河网出生、Nation/真人争路、主备出口或退出信号换标题重复生产；继续完成调研、2000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；Europe FFA 开局已交付，当前 Nation 联盟请求与退出已完成五语 PACT 正文、社区/v0.34.9 一手来源包及 Guides/Nation 压力入口，合并本 PR 即完成本轮主题 | 一轮一个独立意图；下一轮不得把 Nation 的请求、拒绝、缓冲用途、续约和退出准备换标题重复生产；继续完成调研、2000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 
