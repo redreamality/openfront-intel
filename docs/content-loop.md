@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-17。
+更新日期：2026-09-18。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/europe-ffa-openings/` 已完成五语 LANE 正文、社区与 v0.34.7 一手来源包，并从五语 Guides 地图分组、FFA 开局与地图策略接入；本 PR 合并即完成本轮主题 | 合并即继续滚动 Production；下一轮重新批准唯一意图，不得把独立 Europe 地图的河网出生、Nation/真人争路、主备通道与停手信号换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/nation-alliance-decisions/` 的五语 PACT 决策、v0.34.9 一手与社区来源包、Guides 和 Nation 压力回链随本 PR 交付；合并即完成本轮主题 | 合并即继续滚动 Production；下一轮不得把请求、拒绝、临时缓冲用途、续约与退出准备换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,8 +30,8 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.7`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.7)，tag commit `27611ec0b209b1b758b99617a297ee8b37ef7a03`；v0.34.4 改进 Steam 账号绑定/故障，v0.34.5 将中后期 Train 饱和衰减中点从 300 调至 500 并增外观分类控制，v0.34.6 修正 New maps 分类，v0.34.7 修复创作者代码与点击失响应。稳定 v34 功能基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`27611ec0b209b1b758b99617a297ee8b37ef7a03`；2026-09-17 已用 GitHub REST 核验。它此刻与 v0.34.7 tag 相同；后续提交仍只能作为未来版本线索。
+- 正式 Release：[`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9)，tag commit `fb07e61a9161b3b8e0991c6dc0e0ef6406f653e3`；v0.34.8 修正 Steam 离线/会话 Retry、旧客户端登录循环及胜利弹窗按钮，v0.34.9 增加桌面布局与 UI 缩放、大厅链接跳转、列表恢复/Retry 和开局后公共大厅拒绝迟到加入。先前 v0.34.5 中后期 Train 饱和衰减中点从 300 到 500，v0.34.7 修复创作者代码与点击失响应。稳定 v34 功能基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
+- 上游 `main` 游标：`55cf990c4f3e2fa081251c8b119a069169f8eae2`；2026-09-18 已用 GitHub REST 核验。其后续提交只作未来版本线索，不反向证明 v0.34.9 已上线行为。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-08-30..09-05，892 Query / 2,271 Query × Page / 462 clicks。
 - GSC 28 天：2026-08-09..09-05，1,540 Query / 4,742 Query × Page / 1,439 clicks。
@@ -51,6 +51,7 @@
 - 本轮 Ranked 1v1 社区、正式 v0.34.3 Release、Ranked 配置与 tag 源码核验：[`2026-09-16-ranked-1v1-community-source-pack.md`](research/2026-09-16-ranked-1v1-community-source-pack.md)。
 - 本轮 Ranked 1v1 选题 Scout 与边界报告：[`2026-09-16-next-community-scout.md`](research/2026-09-16-next-community-scout.md)。
 - 本轮 Europe FFA 地图路线社区与正式 v0.34.7 tag 核验：[`2026-09-17-europe-ffa-openings-community-source-pack.md`](research/2026-09-17-europe-ffa-openings-community-source-pack.md)。
+- 本轮 Nation 联盟决策社区与正式 v0.34.9 tag 核验：[`2026-09-18-nation-alliance-decisions-community-source-pack.md`](research/2026-09-18-nation-alliance-decisions-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -87,6 +88,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-18 | v34.9 Release response + `LF-COMMUNITY-ROLLING` Nation 联盟决策 | 五语 v34 总览与移动下载页推进正式边界；新建五语 `/guides/nation-alliance-decisions/`，用 PACT 区分玩家请求、拒绝、可用窗口和到期/背叛前的预备队，并接通 Guides 与 Nation 压力 | 4 个实际分析 Reddit、4 个带字幕 YouTube、v0.34.9 tag 源码与测试；五语逐节与来源包、release、构建和链接验收通过后，本 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-17 | v34.7 Release response + `LF-COMMUNITY-ROLLING` Europe FFA 开局路线 | 五语 v34 概览、移动下载页推进正式边界，铁路指南修正 v0.34.5 全局饱和曲线；新建五语 `/guides/europe-ffa-openings/`，用 LANE 检查独立 Europe 地图、河流、Nation/真人争路和主备出口，接通 Guides、FFA 开局与地图策略 | 3 个实际分析 Reddit、3 个带可核验字幕 YouTube、9 个官方 URL；guide audit 五语逐节与来源包门槛通过；本 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-16 | `LF-COMMUNITY-ROLLING` Ranked 1v1 决策 | 新建五语 `/guides/ranked-1v1/`，用 SCOPE 框架回答出生几何、Bot/海岸路线控制、10/15 分钟 Ranked 计时，以及 City、Port、Factory、Defense、Silo、Boat 和终局停止信号；接入五语 Guides Combat 分组 | 3 个实际分析 Reddit、3 个带可核验字幕 YouTube、6 个官方来源；guide audit 五语、来源包研究门槛通过；合并即完成本轮主题并继续滚动 Production |
 | 2026-09-16 | v34.3 Release response + `LF-COMMUNITY-ROLLING` 自适应建造顺序 | 五语 v34 总览与 mobile-app-download 同步 v0.34.3；新建五语 `/guides/adaptive-build-order/`，用 LIMIT 回答下一笔 Gold 应成为 City、Port、Factory、防御或流动储备，并按 v0.34.2 提速修订军力停止线 | 3 个实际分析 Reddit、3 个实际分析 YouTube、61 个官方 URL、1,775 英文研究词；guide audit、release 5/5、content 95/95 + What's New 11/395、check 0 errors/9 hints、build 420 页、links 19,027、SEO 415/415 均通过；合并即完成本轮主题并继续滚动 Production |
