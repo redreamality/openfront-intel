@@ -2,12 +2,12 @@
 title: "OpenFront-Zugnetz: Reichweite, Halte und Amortisation"
 description: "Baue ein rentables Schienennetz: 110-Felder-Suche, 155,6-Felder-Segmentgrenze, Halte-Erträge und klare Signale zum Ausstieg."
 pubDate: 2026-08-28
-updatedDate: 2026-08-28
+updatedDate: 2026-09-17
 tags: [Züge, Factory, City, Port, Wirtschaft]
 category: Tutorial
 difficulty: Fortgeschritten
-version: v33
-freshnessSummary: "Gegen das offizielle v0.33.12-Release und den getaggten Zugcode geprüft: Factorys würfeln nach der gemeinsamen Anzahl, Stationen suchen 110 Felder weit, Lücken unter 15 Feldern werden übersprungen, Segmente bleiben unter etwa 155,6 Feldern und nach zehn Stopps sinkt der Ertrag."
+version: v34
+freshnessSummary: "Am 2026-09-17 gegen den offiziellen v0.34.7-Tag geprüft: Die Factory-Anzahl als Basis wird auch durch globale Zug-Sättigung angepasst; v0.34.5 verschiebt deren Dämpfungs-Mittelpunkt von 300 auf 500 Einheiten. Stationen suchen weiterhin 110 Felder weit, Segmente bleiben unter etwa 155,6 Feldern."
 ---
 
 ## Direkte Antwort: ein verbundenes Netz statt Factory-Stapel
@@ -45,7 +45,7 @@ Prüfe die Geometrie nach jeder Eroberung erneut. Ein Besitzwechsel ändert den 
 
 ## Factory-Anzahl, Level und gemeinsamer Rhythmus
 
-Die aktuelle Rate lautet `trainSpawnRate = (factoryCount + 10) * 15`. Das ist ein Wahrscheinlichkeitsparameter der Ausführung, kein Fahrplan. Jedes Factory-Level fügt einen Versuch hinzu. Mehr Versuche helfen nur, wenn eine City oder ein Port legal erreichbar ist und der Zug den Weg tatsächlich beendet.
+Die aktuelle Rate beginnt bei `(factoryCount + 10) * 15`, wird durch `trainSaturation(globalTrainUnits)` geteilt, abgerundet und beträgt mindestens 1. v0.34.5 verschiebt den Dämpfungs-Mittelpunkt der globalen Zugzahl von 300 auf 500 Einheiten; im mittleren und späten Spiel wird die Erzeugung damit weniger stark gedrosselt, während Plateau und äußerste Obergrenze bleiben. Ein kleinerer Rückgabewert macht einen zufälligen Versuch wahrscheinlicher, ist aber kein Fahrplan. Jedes Factory-Level fügt einen Versuch hinzu. Nur legale City- oder Port-Stopps bringen tatsächlichen Gold-Ertrag.
 
 Unterscheide drei Engpässe: keine Züge bedeutet Graph oder Eigentum; Züge ohne Ankunft bedeuten Weglänge, Reisezeit oder Eroberung; viele Ankünfte mit wenig Gold bedeuten Beziehung oder Stoppstrafe. Ein Level löst nur fehlende Versuche, nie einen fehlenden Knoten. Der gemeinsame Kostenpfad mit Ports ist 125.000, 250.000, 500.000 und danach 1.000.000 Gold. Vergleiche jeden Kauf mit City-Kapazität, neuem Port und Verteidigung.
 
@@ -129,7 +129,9 @@ Vor dem Factory-Kauf beschreibt der [Guide für Team-Wirtschaftsraum](/de/guides
 - **Warum fahren Züge ohne Gold?** Ein Zug kann spawnen, obwohl Besitz, Diplomatie, Geometrie oder Station keine zahlende Haltestelle zulassen. Zähle fertige Abrechnungen, nicht Bewegung.
 - **Wann stoppe ich Upgrades?** Wenn im Testfenster drei fertige Ankünfte fehlen, die Strafe nach zehn Halten den Ertrag drückt oder eine Eroberung/Embargo die einzige Station entfernt. Repariere das Netz oder steige mit Reserve aus.
 
-## Offizielle Quellen und v0.33.12-Grenze
+## Offizielle Quellen und v0.34.7-Grenze
+
+Die aktuelle Spawn-Änderung steht im [offiziellen v0.34.5-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5) und wurde am 2026-09-17 anhand der getaggten [v0.34.7 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) und [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts) gegengeprüft. `(factoryCount + 10) * 15` ist nur die Basis: Die globale Zug-Sättigung ändert den Rückgabewert, während das Factory-Level Versuche wiederholt. Der neue Dämpfungs-Mittelpunkt verspricht weder eine feste Zugzahl noch Gold pro Minute. Trenne Codeparameter und tatsächlich bezahlte Stopps.
 
 Geprüft gegen das offizielle [OpenFrontIO-v0.33.12-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), abgerufen am 28.08.2026. Die Release behebt den Spawn-Block durch eine getrennte Station. Zahlen stammen aus [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts) und [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts).
 

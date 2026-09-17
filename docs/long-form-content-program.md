@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-16。规划窗口：未来 8–12 周。
+更新日期：2026-09-17。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -46,6 +46,7 @@
 | `LF-COMMUNITY-2026-09-15` | `/guides/replay-review/` | 如何从公开 profile/history 找到准确对局，用 Stats 与 replay player panel 区分当时已知和赛后可见，并把第一条失效假设改成下一局可证伪实验 | `first-match` 只负责实时开局；`threat-assessment` 只负责攻击前扫描；`recovery-playbook` 只负责已受损局面；本页独占赛后 TRACE 复盘、证据标签、版本/隐私边界与单变量实验，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-16-adaptive` | `/guides/adaptive-build-order/` | 每一笔 Gold 与军力应何时投给 City 容量、Port、Factory、防御或流动储备，以及地图变化后何时停止原分支 | `economy-fundamentals` 只负责完整经济系统；`port-vs-factory` 只比较收入引擎；`population-growth` 只解释 cap；`land-combat` 只处理已接触战斗；本页独占 LIMIT 复核、下一笔资源分配、三个预算账户与显式停止线，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-16` | `/guides/ranked-1v1/` | Ranked 1v1 中如何从合法出生几何、Bot/海岸路线和对手下一条选项出发，在 10/15 分钟计时内决定 City、Port、Factory、Defense、Silo、Boat 或攻击投入，并在目标失效时停止分支 | `first-match` 只负责跨模式开局；`adaptive-build-order` 只负责一般地图的下一笔资源分配；`land-combat` 只处理已接触边境战；`winning-overtime` 只处理公开 FFA Overtime；`replay-review` 只处理赛后证据；本页独占 Ranked 二人路线控制、短计时和终局转换，不再换标题复制 |
+| `LF-COMMUNITY-2026-09-17` | `/guides/europe-ffa-openings/` | 独立 Europe 地图公开 FFA 中如何辨别真实出生、河道可达性、邻近 Nation/真人争路，并在第一条路被封后保留独立备用出口 | `ffa-opening` 只负责通用开局节奏；`map-strategy` 只负责跨地图拓扑；`nations-pressure` 只负责 AI 目标筛选；`transport-landings` 从实际登陆开始；本页独占 Europe 而非 Europe Classic/World 的 LANE 路线判定，不再换标题复制 |
 
 ## 生产批次
 
@@ -56,7 +57,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；2026-09-16 Adaptive Build Order 已完成并转为既有相邻答案；当前 Ranked 1v1 已完成五语 SCOPE 正文、社区/v0.34.3 一手来源包及 Guides Combat 入口，合并本 PR 即完成本轮主题 | 一轮一个独立意图；下一轮不得把 Ranked 出生几何、Bot/海岸否定、10/15 分钟计时、City/Port/Factory/Defense/Silo 分叉或终局停止线换标题重复生产；继续完成调研、2000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；Ranked 1v1 已交付，当前 Europe FFA 开局已完成五语 LANE 正文、社区/v0.34.7 一手来源包及 Guides 地图入口，合并本 PR 即完成本轮主题 | 一轮一个独立意图；下一轮不得把独立 Europe 地图的河网出生、Nation/真人争路、主备出口或退出信号换标题重复生产；继续完成调研、2000+ 英文正文词、五语、入口、验证、PR/合并和受影响 URL 报告 |
 
 ## 每日生产循环
 
