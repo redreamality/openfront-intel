@@ -2,12 +2,12 @@
 title: "OpenFront-treinnetwerk: bereik, haltes en terugverdientijd"
 description: "Bouw een spoorwegnet dat echt betaalt: 110-tegel zoekbereik, 155,6-tegel segmentlimiet, halte-opbrengst en uitstapsignalen."
 pubDate: 2026-08-28
-updatedDate: 2026-08-28
+updatedDate: 2026-09-17
 tags: [treinen, factory, city, port, economie]
 category: Tutorial
 difficulty: Gevorderd
-version: v33
-freshnessSummary: "Gecontroleerd tegen de officiële v0.33.12-Release en getagde treincode: Factory's rollen pogingen vanuit het gedeelde aantal, stations zoeken binnen 110 tegels, gaten onder 15 tegels worden overgeslagen, segmenten blijven onder circa 155,6 tegels en de opbrengst daalt na tien stops."
+version: v34
+freshnessSummary: "Op 2026-09-17 herzien met de officiële v0.34.7-tag: de basis van het Factory-aantal wordt ook aangepast door wereldwijde treinsaturatie; v0.34.5 verplaatst het dempingsmiddelpunt van 300 naar 500 eenheden. Stations zoeken nog binnen 110 tegels en segmenten blijven onder circa 155,6 tegels."
 ---
 
 ## Direct antwoord: bouw een verbonden lus, geen stapel Factory's
@@ -45,7 +45,7 @@ Controleer de geometrie na elke verovering opnieuw. Een eigenaarwissel verandert
 
 ## Factory-aantal, niveau en gedeeld tempo
 
-De huidige regel gebruikt het totale aantal Factory's: `trainSpawnRate = (factoryCount + 10) * 15`. Dit is een kansparameter in de uitvoeringslus, geen vaste dienstregeling. Elk Factory-niveau voegt een poging toe. Extra pogingen helpen alleen wanneer een City of Port legaal bereikbaar is en de trein de route afmaakt.
+De huidige regel begint bij `(factoryCount + 10) * 15`, deelt die parameter door `trainSaturation(globalTrainUnits)`, rondt af naar beneden en houdt minimaal 1. v0.34.5 verplaatst het dempingsmiddelpunt van 300 naar 500 wereldwijde treineenheden; midden en laat in de partij wordt generatie minder afgeremd, maar plateau en uiterste limiet blijven bestaan. Een kleinere teruggegeven parameter maakt een willekeurige poging waarschijnlijker, niet gegarandeerd volgens een dienstregeling. Elk Factory-niveau voegt een poging toe. Alleen een legale route met betaalde City- of Port-stops levert Gold op.
 
 Er zijn drie bottlenecks. Geen treinen betekent meestal een grafiek- of eigendomsprobleem. Treinen zonder aankomst wijzen op afstand, reistijd of verovering. Veel aankomsten met weinig Gold wijzen op relatie of stopstraf. Een upgrade lost alleen ontbrekende pogingen op, nooit een ontbrekende bestemming. De gedeelde kostenladder met Ports is 125.000, 250.000, 500.000 en daarna 1.000.000 Gold; vergelijk elke stap met een City, Port of verdediging.
 
@@ -131,7 +131,9 @@ Lees vóór je een Factory koopt de [gids voor Team-economieruimte](/nl/guides/t
 - **Waarom rijden Treinen zonder Gold?** Een trein kan spawnen terwijl eigendom, diplomatie, geometrie of stationvaliditeit een betalende halte verhindert. Tel voltooide betalingen, geen bewegende iconen.
 - **Wanneer stop ik met upgraden?** Als drie aankomsten in het testvenster ontbreken, de straf na tien haltes de opbrengst verdunt of een verovering/embargo het enige betalende station verwijdert. Herstel de grafiek of stap uit met reserve.
 
-## Officiële bronnen en v0.33.12-grens
+## Officiële bronnen en v0.34.7-grens
+
+De huidige spawnwijziging staat in de [officiële v0.34.5-release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5) en is op 2026-09-17 vergeleken met getagde [v0.34.7 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) en [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts). `(factoryCount + 10) * 15` is alleen de basis: wereldwijde treinsaturatie wijzigt de teruggegeven waarde en het Factory-niveau herhaalt pogingen. Het nieuwe dempingsmiddelpunt belooft geen vast aantal treinen of Gold per minuut. Houd de codeparameter gescheiden van werkelijk betaalde stops.
 
 Gecontroleerd tegen de officiële [OpenFrontIO v0.33.12-Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), bekeken op 2026-08-28. De Release repareert het spawn-blok door een los station. Getallen komen uit [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts) en [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts).
 

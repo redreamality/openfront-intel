@@ -2,12 +2,12 @@
 title: "OpenFront Train Network: Rail Range, Stops, and Payback"
 description: "Build a connected OpenFront rail network with the 110-tile station search, 155.6-tile segment limit, stop payouts, and clear exit signals."
 pubDate: 2026-08-28
-updatedDate: 2026-08-28
+updatedDate: 2026-09-17
 tags: [trains, factory, city, port, economy]
 category: Tutorial
 difficulty: Advanced
-version: v33
-freshnessSummary: "Verified against the formal v0.33.12 Release and tagged train code: Factories roll train attempts from the shared count, stations search within 110 tiles, links skip gaps below 15 tiles, segments stay below about 155.6 tiles, and the station-stop payout falls after ten stops."
+version: v34
+freshnessSummary: "Rechecked on 2026-09-17 against the formal v0.34.7 tag: Factory-count spawn rate is adjusted by global Train saturation; v0.34.5 moved its damping midpoint from 300 to 500 units. Station search remains 110 tiles and a rail segment stays below about 155.6 tiles."
 ---
 
 ## Direct answer: build a connected rail loop, not a pile of Factories
@@ -48,7 +48,7 @@ Do this read again after every conquest. A train route is a graph with changing 
 
 ## Understand Factory count, level, and the shared spawn curve
 
-The current Factory generation rule uses the total Factory count: `trainSpawnRate = (factoryCount + 10) * 15`. The exact implementation rolls generation chances in the execution loop, so this number is a rate parameter, not a guaranteed timetable. Each Factory level contributes another attempt. A level-3 Factory in a network with four Factories therefore has more local attempts than a level-1 Factory, but all of those attempts still need an eligible station and a path that can complete.
+The current Factory generation rule starts with `(factoryCount + 10) * 15`, then divides that rate parameter by `trainSaturation(globalTrainUnits)` and floors it, with a minimum of one. The tagged v0.34.5 patch moved the damping midpoint from 300 to 500 global Train units, so mid-to-late-game spawning is less suppressed than before; the curve still has a plateau and hard tail cap. A smaller returned rate makes a random generation attempt more likely, not a guaranteed timetable. Each Factory level contributes another attempt. A level-3 Factory in a network with four Factories has more local attempts than a level-1 Factory, but all of them still need an eligible station and a path that can complete.
 
 This creates three different bottlenecks. If you see no trains at all, inspect the station graph and ownership first. If trains spawn but arrive rarely, inspect path length, travel time, and whether the destination is being captured. If arrivals are frequent but Gold is disappointing, inspect stop order and relation payout. Upgrading a Factory only solves the third problem when generation attempts are genuinely scarce; it does nothing for a broken graph.
 
@@ -134,11 +134,13 @@ For the team-space decision before a Factory purchase, continue with the [Team e
 - **Why can Trains move without earning Gold?** A Train can spawn while ownership, diplomacy, route geometry, or station validity prevents a paying stop. Count completed settlements, not moving icons.
 - **When should I stop upgrading?** Stop after the test window if three complete arrivals do not materialize, if the next stop is diluted after ten, or if one capture or embargo can remove the only paying station. Repair the graph or leave with reserve Gold.
 
-## Official sources and v0.33.12 boundary
+## Official sources and the v0.34.7 boundary
+
+The current spawn amendment is documented in the [formal v0.34.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5) and verified on 2026-09-17 against tagged [v0.34.7 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) and [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts). The base `(factoryCount + 10) * 15` is not the complete returned rate: global Train-unit saturation changes it, and a Factory's level controls repeated attempts. The v0.34.5 midpoint change is a population-dependent spawn adjustment, not a guaranteed number of trains or Gold per minute. Keep route and settlement observations separate from the code parameter.
 
 This guide is verified against the formal [OpenFrontIO v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), checked 2026-08-28. That Release includes a fix for a disconnected station preventing a Train from spawning. It does not change the economic interpretation in this page: a spawned Train still needs a usable station path to produce settlement payouts, and a route can remain strategically dead even when spawning continues.
 
-The numeric facts come from the tagged [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts), and [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts). Those files establish the shared Factory count rate `(factoryCount + 10) * 15`, one generation attempt per Factory level, the 110-tile station search, the 15-tile gap behavior, the approximately 155.6-tile segment limit, station-only settlement payouts, and the ten-stop penalty schedule.
+The original numeric route facts come from the tagged [v0.33.12 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts), and [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts). The current [v0.34.7 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) and [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts) confirm the shared Factory count base, global Train-unit saturation, one attempt per Factory level, 110-tile search, approximately 155.6-tile segment cap, and station-stop payout schedule. The formal [v0.34.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5) names the mid-to-late-game spawn increase. A route's actual income remains an observation, not an output of the spawn formula alone.
 
 The source does not promise a fixed income per second, a deterministic destination order, or a universal break-even time. Gold multipliers, lobby settings, route travel time, destruction, ownership, diplomacy, and map geometry remain match variables. The two scenarios therefore label assumptions and define success with observed arrivals. Recheck this page after a future Release changes Factory execution, rail pathing, station payout, or the train-disconnect fix.
 

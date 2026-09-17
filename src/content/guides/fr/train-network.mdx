@@ -2,12 +2,12 @@
 title: "Réseau ferroviaire OpenFront : portée, arrêts et rentabilité"
 description: "Construisez un réseau qui paie : recherche des stations à 110 cases, segments de 155,6 cases, paiements par arrêt et signaux d'arrêt."
 pubDate: 2026-08-28
-updatedDate: 2026-08-28
+updatedDate: 2026-09-17
 tags: [trains, factory, city, port, économie]
 category: Tutorial
 difficulty: Avancé
-version: v33
-freshnessSummary: "Vérifié contre la Release officielle v0.33.12 et le code ferroviaire tagué : les Factory lancent des essais selon le compte partagé, les stations cherchent à 110 cases, les petits écarts sous 15 cases sont ignorés, les segments restent sous environ 155,6 cases et le paiement baisse après dix arrêts."
+version: v34
+freshnessSummary: "Revérifié le 2026-09-17 avec le tag officiel v0.34.7 : la base du nombre de Factory subit aussi la saturation globale des trains ; v0.34.5 déplace son point médian de 300 à 500 unités. Les stations cherchent toujours à 110 cases et les segments restent sous environ 155,6 cases."
 ---
 
 ## Réponse directe : construisez une boucle connectée, pas une pile de Factory
@@ -47,7 +47,7 @@ Utilisez ensuite une fiche de mesure identique pour chaque Factory. Première li
 
 ## Comprendre le compte de Factory et le rythme partagé
 
-La règle actuelle utilise le compte total : `trainSpawnRate = (factoryCount + 10) * 15`. C'est un paramètre de probabilité dans la boucle d'exécution, pas un horaire garanti. Chaque niveau de Factory ajoute un essai. Une Factory niveau 3 fait donc davantage d'essais qu'une niveau 1, mais aucun essai ne crée de revenu si aucune station éligible ne peut être atteinte.
+La règle actuelle part de `(factoryCount + 10) * 15`, puis divise ce paramètre par `trainSaturation(globalTrainUnits)`, l'arrondit vers le bas et garde au moins 1. La v0.34.5 déplace le point médian de l'amortissement de 300 à 500 unités globales, ce qui supprime une partie du frein au milieu et en fin de partie sans supprimer le plateau ni la limite extrême. Un paramètre retourné plus petit rend l'essai aléatoire plus probable, sans créer d'horaire garanti. Chaque niveau de Factory ajoute un essai, mais aucune tentative ne produit de revenu sans station éligible et route achevée.
 
 Trois goulots sont à distinguer. Zéro train signifie généralement graphe ou propriété. Des trains qui partent mais n'arrivent presque jamais indiquent distance, temps de trajet ou capture. Des arrivées fréquentes avec peu d'Or indiquent relation ou pénalité d'arrêt. Améliorer la Factory ne résout que le manque réel d'essais ; cela ne répare pas un nœud absent.
 
@@ -133,7 +133,9 @@ Avant d'acheter une Factory, consultez le [guide de l'espace économique Team](/
 - **Pourquoi un Train peut-il rouler sans rapporter d'or ?** Il peut apparaître alors que propriété, diplomatie, géométrie ou validité de la station empêchent un arrêt payé. Comptez les règlements terminés, pas les icônes en mouvement.
 - **Quand arrêter une amélioration ?** Arrêtez si trois arrivées complètes manquent dans la fenêtre de test, si la pénalité après dix arrêts dilue le paiement ou si une capture/embargo retire l'unique station rentable. Réparez ou sortez avec une réserve.
 
-## Sources officielles et limite v0.33.12
+## Sources officielles et limite v0.34.7
+
+La modification actuelle du spawn figure dans la [Release officielle v0.34.5](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5), recoupée le 2026-09-17 avec [Config.ts v0.34.7](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) et [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts). La base `(factoryCount + 10) * 15` ne suffit pas à décrire le paramètre retourné : la saturation globale des trains le modifie, tandis que le niveau de Factory répète les essais. Le nouveau point médian ne promet ni nombre fixe de trains ni Gold par minute. Séparez la règle du code des paiements observés sur la carte.
 
 Cette page est vérifiée contre la [Release officielle OpenFrontIO v0.33.12](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12), consultée le 2026-08-28. La Release corrige le blocage de spawn causé par une station déconnectée ; elle ne promet ni revenu fixe par seconde ni destination déterministe. Les chiffres viennent de [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts), [FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts), [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts), [TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts), [TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts), [RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts) et [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts).
 

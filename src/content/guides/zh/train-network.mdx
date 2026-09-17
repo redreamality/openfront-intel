@@ -2,12 +2,12 @@
 title: "OpenFront 铁路网络：范围、停站收益与回本"
 description: "搭建真正能结算的 OpenFront 铁路网络：110 格车站搜索、155.6 格路段上限、停站收益和明确的停止升级信号。"
 pubDate: 2026-08-28
-updatedDate: 2026-08-28
+updatedDate: 2026-09-17
 tags: [铁路, Factory, City, Port, 经济]
 category: 教程
 difficulty: 进阶
-version: v33
-freshnessSummary: "已按正式 v0.33.12 Release 与对应铁路源码核验：Factory 按共享数量进行生成尝试，车站搜索范围为 110 格，小于 15 格的间隔会被忽略，单段路径约低于 155.6 格，超过十个停站后收益递减。"
+version: v34
+freshnessSummary: "2026-09-17 按正式 v0.34.7 tag 复核：Factory 数量的生成基数还受全局 Train 饱和曲线调整；v0.34.5 把衰减中点从 300 移至 500 单位。车站搜索仍为 110 格，单段路径约低于 155.6 格。"
 ---
 
 ## 直接答案：先做连通铁路环，不要堆满 Factory
@@ -43,7 +43,7 @@ freshnessSummary: "已按正式 v0.33.12 Release 与对应铁路源码核验：F
 
 ## Factory 数量、等级与共享生成节奏
 
-当前生成参数使用全局 Factory 数量：`trainSpawnRate = (factoryCount + 10) * 15`。它是执行循环里的概率参数，不是固定班次。每个 Factory 等级增加一次尝试，但尝试仍需要合法车站和可完成路径。
+当前生成参数先取 `(factoryCount + 10) * 15`，再除以 `trainSaturation(globalTrainUnits)`、向下取整并至少为 1。v0.34.5 把全局 Train 单位数的衰减中点从 300 调到 500，中后期生成比旧曲线少受抑制，但仍有平台和极端数量上限。返回的较小参数意味着随机尝试更容易成功，并非固定班次。每个 Factory 等级增加一次尝试，但仍需要合法车站和可完成路径。
 
 因此要区分三种瓶颈：完全没有列车，先查图结构、范围和所有权；列车出发却很少到站，查路段长度、旅行时间和站点是否被占领；到站频繁但金币很少，查关系收益和停站惩罚。升级 Factory 只能解决生成尝试不足，不能创造缺失的目的地。Factory 与 Port 共享成本阶梯：125,000、250,000、500,000，之后每级 1,000,000。每一次升级都应与 City 容量、另一条海路或防御建筑比较。
 
@@ -115,7 +115,9 @@ Team 局让一人负责记录 tick 和关系，一人负责守枢纽。FFA 以�
 - **为什么火车在跑却没有 Gold？** 火车可以生成，但所有权、外交、路线几何或站点有效性可能阻止付费停站。数完成结算，不要数移动图标。
 - **什么时候停止升级？** 观察窗口内没有三次完整到站、十站后的收益被稀释，或一次占领/禁运就能移除唯一付费站时，停止升级，修图或带着储备退出。
 
-## 官方来源与 v0.33.12 边界
+## 官方来源与 v0.34.7 边界
+
+现行生成修订写在[正式 v0.34.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.5)，并已于 2026-09-17 用 [v0.34.7 Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) 与 [TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/execution/TrainStationExecution.ts) 复核。`(factoryCount + 10) * 15` 只是基数；全局 Train 数量的饱和曲线还会改变实际返回参数，Factory 等级则控制重复尝试。中后期衰减中点变化不保证每分钟固定列车或 Gold。源码参数与地图上实际完成的结算要分开记录。
 
 本页依据 2026-08-28 查阅的[官方 OpenFrontIO v0.33.12 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.12)。该版本修复断开车站阻塞列车生成的问题，但没有承诺固定每秒金币或确定的目的地顺序。数字来自 [Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/configuration/Config.ts)、[FactoryExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/FactoryExecution.ts)、[TrainStationExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainStationExecution.ts)、[TrainExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/TrainExecution.ts)、[TrainStation.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/TrainStation.ts)、[RailNetworkImpl.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/game/RailNetworkImpl.ts) 与 [CityExecution.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.12/src/core/execution/CityExecution.ts)。
 
