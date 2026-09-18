@@ -1,0 +1,447 @@
+---
+title: "Ranked 2v2: Partner, Lanes und die League"
+description: "OpenFront Ranked 2v2 gewinnen: Partner finden, den Modus lesen, die Lanes im 60-Sekundenfenster aufteilen, spenden und das Spiel beenden."
+pubDate: 2026-09-19
+updatedDate: 2026-09-19
+version: v0.33.0
+freshnessSummary: "Im Tag v0.33.0 (2v2-Konfiguration in MapPlaylist und WinCheckExecution) und Release v0.34.10 (2v2-Lobby-Link-Fix) verifiziert; für v0.34.x gültig."
+category: "Guides"
+tags:
+  - ranked
+  - 2v2
+  - team
+  - strategie
+  - league
+sitemap: true
+---
+
+Der Ranked 2v2 ist die kompetitive Zwei-Mann-League von OpenFront, eingeführt in
+der v0.33.0. Du spielst ein gewichtetes Spiel gegen einen Partner, mit einer
+eigenen, separaten League und eigenem Rang, in einem Modus, der echte
+kooperative Mechaniken hinzufügt, die 1v1 und normales Team nicht haben. Wenn du
+den 2v2 behandelst wie ein 1v1 mit einem Freund, wirst du Spiele verlieren, die
+du gewinnen solltest. Der Modus hat einen festen Vertrag: vier Spieler, zwei
+Teams zu je zwei, ein 60-Sekunden-Schutzfenster nach dem Spawn-Pick, Gold- und
+Truppenspenden zwischen Teamkollegen, eine 50%ige Chance auf eine kompakte Karte
+und ein Ende, das sofort eintritt, sobald ein Team ausgelöscht ist. Dieses
+Handbuch erklärt dir genau, was sich ändert, wie man einen Partner wählt und
+prüft, wie man die Karte und den ersten Angriff aufteilt, wann man spendet und wie
+man liest, wie ein 2v2-Spiel enden kann.
+
+## Was der Ranked 2v2 wirklich gegenüber dem 1v1 ändert
+
+Das Wichtigste, das du internalisieren musst, ist, dass der Ranked 2v2 kein
+„1v1 mit einem Freund" ist. Er ist ein eigener Modus mit eigener Pairing-Logik,
+eigener League, eigenem Leaderboard-Tab und Mechaniken, die nur hier existieren.
+Wenn du für 2v2 in die Warteschlange steigst, füllt das Spiel vier Spieler auf
+zwei Teams zu je zwei, und du wirst einem Partner zugeteilt statt einem
+vollen Gegnerfeld. Diese Partner-Beziehung ändert fast jede Entscheidung, die du
+in Solo fällen würdest: Du kannst nun ein Angriffsziel koordinieren, du kannst
+die Wirtschaft aufteilen, damit ihr nicht beide um denselben Gang streitet, und
+du kannst Gold und Truppen übertragen, damit beide Lanes am Leben bleiben.
+
+Der Modus schaltet auch Nationen aus. In 1v1 und Team wählst du eine Nation, die
+eine spezifische Einheit oder einen wirtschaftlichen Bonus gewährt, und deinen
+Rest-Build designst du um diesen Bonus. Im 2v2 ist die Nations-Auswahl
+deaktiviert, also bekommst du keinen Startbonus und kannst deine Opening nicht
+um eine Nations-spezifische Einheit herum designen. Deine Opening ist also ein
+reiner, symmetrischer Build: Ihr beide startet vom selben Basis-Kit, und der
+Unterschied kommt aus Kartenkontrolle, Lane-Timing und wie du dich mit deinem
+Partner koordinierst. Diese Symmetrie ist ein Vorteil für den Spieler, der sie
+versteht, weil sie das Raterrätsel „welche Nation ist auf einer bestimmten Karte
+am besten" entfernt und die Partie in einen Ausführungs-Wettbewerb verwandelt.
+
+Die Karte selbst ist auch anders. Es gibt eine 50%-Chance, dass du auf einer
+kompakten Karte landest, also einem kleineren Spielfeld mit engeren Lanes und
+kürzeren Distanzen zwischen deinem und dem Spawn-Punkt des Gegners. Die kompakten
+2v2-Karten fahren 100 Hintergrund-Bots und eine 10-Minuten-Timer, während die
+nicht kompakten Spiele 400 Bots und einen 15-Minuten-Timer fahren. Du musst also
+bereit sein, zwei verschiedene Spiele zu spielen: einen schnellen, nahen Kampf
+auf der kompakten Karte und ein langes, territoriales Spiel auf der Standardkarte.
+Die verwendeten kompakten Karten sind Australia bei 40%, Iceland bei 20%, Asia bei
+20% und EuropeClassic bei 20%, und ihre engen Layouts bedeuten, dass dein Partner
+und das gegnerische Paar fast sofort in Schussweite sind. Wenn du die allgemeinen
+Karten- und Wirtschaftsbegriffe auffrischen willst, auf die sich der 2v2 stützt,
+dann behandelt der [erste-match-guide](/de/guides/first-match/) die
+Spawn-Wahl und Opening-Expansion, die dieser Modus dann komprimiert.
+
+Wichtig ist, dass sich in diesem Modus auch der Druck auf die eigene Ökonomie
+ändert: Weil Nationen deaktiviert sind, hast du keinen festen Startvorteil, den
+du über zwei Runden aufbauen und dann verteidigen kannst. Stattdessen entscheidet
+sich der Vorsprung in der Frühphase fast vollständig durch die Lane-Aufteilung
+und das Timing des ersten Angriffs, nicht durch einen Nation-Bonus. Das heißt,
+dass deine Öffnung in jedem Match neu gedacht werden muss, denn der gegnerische
+Partner wird seine eigene Lane-Aufteilung wählen und du musst darauf reagieren.
+Ein Spieler, der seinen 1v1-Öffnungsplan unverändert in den 2v2 übernimmt, wird
+im besten Fall neutral und im schlimmsten Fall zu früh exponiert, weil er auf
+einen Partner vertraut, der nicht mit ihm abgestimmt hat. Die korrekte Haltung
+ist, die ersten 60 Sekunden als Verhandlung zu behandeln, in der du und dein
+Partner euren Wirtschaftsplan festlegen, und nicht als automatische Ausführung
+eines gespeicherten Builds.
+
+## Einen Partner wählen und prüfen, bevor du in die Warteschlange steigst
+
+Die stärkste Community-Beschwerde beim 2v2 ist das Partner-Problem. Spieler
+fragen ständig, wo man einen Teampartner findet, beschweren sich, dass sie nie
+einen bekommen, und fragen sich, ob es mit einem bekannten Freund in die
+Warteschlange steigen einen Wert gegenüber dem Warten auf einen zufälligen
+Partner hat. Die v0.33.0 hat es möglich gemacht, einen 2v2-Teampartner vor der
+Warteschlange zu wählen, was bedeutet, dass du nicht gezwungen bist, einen
+zufälligen Fremden anzunehmen, wenn du einen festen Partner hast. Wenn du jemanden
+hast, mit dem du regelmäßig spielst, steig immer in die Warteschlange mit dieser
+Person und fixiere das Partner-Verhältnis vor dem Spiel. Ein vorab vereinbarter
+Partner, der deine Gewohnheiten schon kennt, ist deutlich mehr wert als ein
+höherstufiger Fremder, weil der Wert des 2v2 aus der Koordination kommt, und die
+Koordination existiert nur, wenn ihr zusammen gespielt habt.
+
+Wenn du für einen zufälligen Partner in die Warteschlange steigst, prüfe ihn mit
+den Daten, die du vor dem Spiel sehen kannst. Die inoffizielle OFstats-League
+veröffentlicht eine separate gewichtete League, gewichtet nach den gespielten
+Spielen, und einen separaten Team-Gewinn-Rang, der die Teamgewinne für alle zählt.
+Schau dir die gespielten Spiele und die Gewinnquote eines Kandidaten an, bevor du
+in die Warteschlange steigst: ein Spieler, der eine große Stichprobe gewichteter
+Spiele gespielt hat und eine solide Gewinnquote hält, ist ein sicherer Partner als
+ein Spieler mit wenigen Spielen und instabilem Rang. Du kannst auch ihren
+Team-Gewinn-Record ansehen, um zu bestätigen, dass sie tatsächlich zu Teamspielen
+beitragen und nicht nur neben einem starken Teamkollegen überleben. Behandele eine
+sehr geringe Anzahl gespielter Spiele oder eine Team-Gewinnquote, die weit unter
+ihrem Rangeniveau liegt, als Warnung, dass der Spieler nicht zuverlässig ist in
+der kooperativen Hälfte des Modus, und erwäge, auf einen anderen Partner zu
+warten statt blind in die Warteschlange zu steigen. Das Ziel ist ein Partner, der
+eine Lane unabhängig halten kann, denn im Moment, in dem du in einen Kampf
+verwickelt bist, ist dein Partner allein.
+
+Es lohnt sich, diese Prüfung in eine kleine Routine zu verwandeln, die du vor
+jedem 2v2-Durchgang durchgehst: Erstens die gespielten Spiele, zweitens die
+gewichtete Gewinnquote, drittens den Team-Gewinn-Beitrag, und viertens, falls
+verfügbar, die letzte Aktivität. Ein Partner, der vor langer Zeit zuletzt
+aktiv war, spielt den Modus möglicherweise nicht mehr mit derselben Intensität,
+und sein Rang spiegelt dann eher eine vergangene Form wider als die
+gegenwärtige. Ein zweiter nützlicher Check ist, ob der Kandidat eine ähnliche
+Rangbandbreite wie du hat. Ein Partner, der deutlich stärker ist, neigt dazu,
+die aggressive Lane zu übernehmen und dir die Einkommens-Lane zu geben, was
+gut ist, solange er zuverlässig ist; ein Partner, der deutlich schwächer ist,
+kann die aggressive Lane übernehmen und dich damit unter Druck setzen, mehr
+als erwartet zu halten. Die ideale Kombination ist ein Partner in deiner
+eigenen Rangzone, der dieselben Rollen zuverlässig ausfüllt wie du, denn dann
+entsteht die Koordination aus gemeinsamer Erfahrung statt aus einem Ungleichgewicht,
+das in der Mitte des Spiels umverteilt werden muss.
+
+## Das 60-Sekunden-Fenster und die zwei Arten, wie es endet
+
+Jede 2v2-Partie öffnet sich mit einem 60-Sekunden-Schutzfenster nach dem Pick.
+Während der ersten 60 Sekunden nach deiner Spawn-Wahl kann keiner deiner
+Teamkollegen vom gegnerischen Paar getroffen werden, also ist das Opening eine
+geschützte Periode statt sofortiger Kontaktaufnahme. Du musst dieses Fenster
+nutzen, um zwei Dinge gleichzeitig zu tun: eine sichere wirtschaftliche Basis zu
+errichten und dich mit deinem Partner auf eine Lane-Aufteilung zu einigen. Weil
+das Fenster alle schützt, verbringt das gegnerische Paar es auch sicher, was
+bedeutet, dass der erste reale Kontakt etwa 60 Sekunden nach dem Pick stattfindet
+statt sofort. Das ändert deine Opening-Wirtschaft im Vergleich zu einem normalen
+Spiel: Du musst nicht in den ersten Sekunden panisch expandieren, aber du musst
+expandieren und eine Lane engagieren, bevor das Fenster schließt, weil der erste
+Kampf eintritt, wenn die Immunität endet.
+
+Der Modus hat auch zwei harte Zustände des Scheiterns, die du verstehen musst,
+bevor du in die Warteschlange steigst. Erstens: Wenn weniger als vier Spieler am
+Ende der Pick-Phase gespawned wurden, wird das gesamte Spiel abgebrochen: Es
+beginnt nie, zählt nie als gewichtet und niemand erhält ein Ergebnis. Also zählt
+ein 2v2, das vor dem Ende des Picks aufgibt, keine Rangverschiebung, was bedeutet,
+dass ein stabiler Partner und eine Warteschlange, in der du dich engagierst,
+zählen. Zweitens, und das entscheidet die meisten 2v2s: Das Spiel endet, sobald
+genau ein Team übrig bleibt. Im Moment, in dem entweder du beide oder beide deine
+Gegner ausgelöscht sind, ist das Spiel vorbei. Das bedeutet, dass der 2v2 in
+den meisten realen Spielen nicht auf einen Landprozentsatz-Vorsprung oder eine
+Timer-Laufzeit wartet; der Prozentsatz und der 10/15-Minuten-Timer sind
+Rückwerte für die seltene Partie, in der kein Team vollständig ausgelöscht wird.
+Zu verstehen, dass ein einzelnes Team-Auslöschungsereignis das Spiel sofort
+endet, ist die zentrale strategische Tatsache des Modus, und sie formt jede
+Entscheidung unten. Behandle das 60-Sekunden-Fenster als die einzige Periode, in
+der du dich sicher niederlassen kannst, denn nach seinem Schließen kämpfst du um
+das Auslöschen und versuchst gleichzeitig, nicht selbst ausgelöscht zu werden.
+
+Ein praktischer Test, um das Fenster zu nutzen, ist, es in zwei Hälften zu
+teilen: In den ersten 30 Sekunden baust du deine wirtschaftliche Basis auf und
+stellst deine Einheiten auf, während dein Partner seine Lane festlegt. In den
+letzten 30 Sekunden vereinbart ihr das Angriffsziel und die genaue
+Aufteilung, so dass der erste Kampf mit einem klaren Plan beginnt und nicht
+mit einer Reaktion. Wenn du merkst, dass du das Fenster nur zum Bauen
+verwendest und die Aufteilung ausstehst, dann bist du in den Moment, in dem
+die Immunität endet, ohne klaren Plan und wirst reagieren statt angreifen.
+Die Korrektur ist, die zweite Fensternhälfte explizit für die Abstimmung zu
+nutzen, denn das ist der einzige Zeitraum, in dem ihr beide sicher genug seid,
+um ohne Druck über die Aufteilung zu sprechen. Ein zweiter häufiger Fehler
+ist, das Fenster zu früh zu beenden und bereits in der Mitte zu expandieren,
+bevor der Partner seine Lane festgelegt hat; das führt dazu, dass die beiden
+Spieler in dieselbe Lane expandieren, weil der zweite Spieler nicht mehr die
+Zeit hat, seine eigene Position zu wählen.
+
+## Die Lanes aufteilen: der erste Angriff und die Lane
+
+Der häufigste Fehler im 2v2 ist, dass beide Spieler in dieselbe Lane expandieren,
+was einen von beiden ohne eine eigene wirtschaftliche Position lässt und euch
+beide dem gegnerischen Paar aussetzt. Stattdessen solltest du die Karte aufteilen,
+bevor du eine einzige Einheit ausgegeben hast. Der Standard ist ein Angreifer und
+ein Lane-Halter: Einer von euch nimmt die umstrittenste, aggressivste Lane am
+nächsten zum gegnerischen Spawn-Punkt und ist verantwortlich für den ersten
+Angriff und den Kampf, während der andere die sichere Seitenlane nimmt und für
+die Wirtschaft und die Unterstützung verantwortlich ist, wenn der Angreifer in
+Schwierigkeiten ist. Welcher von euch welche Rolle übernimmt, sollte von euren
+Stärken und der Karte abhängen: Der mechanisch aggressivere Spieler nimmt die
+Angriffs-Lane, und der wirtschaftlich diszipliniertere Spieler nimmt die
+Einkommens-Lane.
+
+Die Aufteilung betrifft nicht nur zwei Lanes; sie betrifft das Angriffsziel. Wenn
+das 60-Sekunden-Fenster kurz davor ist zu schließen, muss der Angreifer bereits
+ein Ziel gewählt haben: eine spezifische gegnerische Einheit oder ein Gebäude,
+das, wenn es zerstört wird, den frühen Kampf gewinnt. Du und dein Partner solltet
+dieses Ziel vor dem Ende des Fensters vereinbaren, damit ihr im Moment, in dem die
+Immunität endet, beide auf dasselbe Ziel zu zieht und nicht reagiert. Wenn ihr
+beide dasselbe Ziel angreift, verdoppelt ihr euren Schaden und könnt es
+vernichten, bevor das gegnerische Paar es verteidigen kann, aber das erfordert,
+dass die Lane-Aufteilung sauber ist, damit das gegnerische Paar seine Verteidigung
+nicht einfach gegen euer konzentriertes Vordringen aufteilen kann. Eine saubere
+Lane-Aufteilung plus ein vereinbartes Ziel während des Fensters ist die größte
+Frühgewinn-Bedingung im 2v2, weil sie euren kooperativen Vorteil in einen
+konkreten First-Blood-Vorteil verwandelt, bevor eine der beiden Volkswirtschaften
+vollständig aufgebaut ist. Wenn dein Partner ein Ziel wählt und du es ignorierst,
+teilst du deinen eigenen Schaden auf und das gegnerische Paar gewinnt den
+Austausch, also ist die Disziplin um das vereinbarte Ziel genauso wichtig wie die
+Kartenaufteilung selbst.
+
+Ein häufiges Missverständnis bei der Aufteilung ist, dass beide Spieler
+automatisch die stärkste Lane bekommen wollen. In Wirklichkeit ist die
+Aufteilung ein Kompromiss: Der aggressive Spieler übernimmt die riskantere
+Lane, weil er die bessere Mechanik hat, und der wirtschaftliche Spieler
+übernimmt die sicherere Lane, weil er den Vorteil aufbauen und halten kann.
+Wenn beide die aggressive Lane wollen, entsteht ein internes Stalemate, das
+euer Team spaltet und dem gegnerischen Paar eine klare Zielung gibt. Die
+Lösung ist, die Rollen vor dem Spiel zu klären, nicht während des Spiels, und
+sich dann daran zu halten. Ein zweiter Aspekt der Aufteilung ist, dass die
+Einkommens-Lane nicht passiv sein muss: Der Spieler der Einkommens-Lane sollte
+seine Wirtschaft aufbauen, aber gleichzeitig bereit sein, Einheiten zu
+transferieren, wenn die aggressive Lane unter Druck gerät. Das bedeutet, dass
+die Einkommens-Lane tatsächlich eine aktive Rolle spielt und nicht nur eine
+reservierte Reserve ist. Ein dritter, subtiler Punkt ist, dass die Aufteilung
+auf kompakten Karten enger ist, weil die Lanes kürzer sind und der gegnerische
+Partner schneller auf deine Lane reagieren kann; auf Standardkarten gibt es
+mehr Platz, was der Aufteilung mehr Spielraum lässt, aber auch mehr
+Kartendistanz bedeutet, die dein Partner überbrücken muss.
+
+## Spenden: Wenn der Gold- und Truppen-Transfer gewinnt
+
+Der Ranked 2v2 aktiviert sowohl die Gold-Spenden als auch die Truppenspenden
+zwischen Teamkollegen, und das ist der mechanische Vorteil, der den 2v2 von einem
+lockeren Teamspiel unterscheidet. Die zentrale Idee ist, dass du und dein Partner
+eine geteilte effektive Volkswirtschaft haben: Jedes Mal, wenn einer von euch
+zurückliegt und der andere voraus, kann der vorausliegende Spieler Gold oder
+Truppen an den zurückliegenden Spieler senden, damit die Lane nicht verloren wird.
+Die taktische Regel ist, demjenigen zu spenden, der die Lane hält, die du
+tatsächlich behalten willst. Wenn der Angreifer einen Kampf verliert und die
+Einkommens-Lane stark ist, spendet der Einkommens-Spieler Gold, damit die
+Wirtschaft des Angreifers aufrechterhalten bleibt, damit er neu aufbauen und
+zurückschlagen kann. Wenn die Einkommens-Lane unter Druck ist und der Angreifer
+schon gewinnt, spendet der Angreifer Truppen, um dem Einkommens-Spieler zu helfen,
+die Lane zu halten und die Basis zu schützen.
+
+Die Disziplin, die gewinnt, ist nicht, ständig zu spenden; es ist, im Moment zu
+spenden, in dem eine Lane kurz davor ist, sich umzukehren. Ständige kleine
+Spenden dehnen eure Volkswirtschaft dünn aus und lassen beide Lanes
+unterentwickelt, während eine entscheidende Spende im Moment der Gefahr eine
+verlorene Lane in eine gehaltene Lane verwandelt. Du solltest kontinuierlich die
+relative wirtschaftliche Gesundheit beider Lanes beobachten, und der
+vorausliegende Spieler ist derjenige, der den Spenden-Aufruf macht, weil er den
+Überschuss hat, um auszugeben. Ein häufiges verlustreiches Motiv im 2v2 ist, dass
+beide Spieler in einer Todespirale gegenseitig spenden, sodass keine Lane je
+stark genug ist, um zu gewinnen, was bedeutet, dass keine Lane gewinnen kann. Die
+Korrektur ist eine stabile, klare Regel, die ihr vor dem Spiel vereinbart: Die
+verlierende Lane erhält die Spende, die gewinnende Lane baut weiter, und ihr
+spendet nur so viel, wie nötig ist, um das Ergebnis der Lane zu ändern, nicht so
+viel, dass die Lane des Spenders zusammenbricht. Behandle die Spende als eine
+gezielte Intervention statt als einen fortlaufenden Steuersatz, und erinnere dich
+daran, dass eine zu frühe Spende, um eine Lane zu retten, die bereits verloren
+war, nur die Stärke des Spenders verschwendet, also geht es im Aufruf darum, eine
+gewinnbare Lane zu retten, nicht den Spender zu begraben, um eine hoffnungslose
+Lane zu retten.
+
+Die Spendenmechanik hat auch eine zeitliche Dimension, die viele Spieler
+übersehen: Die Spende muss ankommen, bevor der Empfänger in einer kritischen
+Phase ist, nicht danach. Wenn die verlorene Lane bereits unter Druck steht,
+dann ist eine sofortige Spende zu spät, weil der Empfänger nicht genug Zeit
+hat, um die gespendeten Einheiten in eine Verteidigung umzuwandeln. Stattdessen
+solltest du die Spende antizipieren, also bevor die Lane tatsächlich verloren
+ist, und so dem Empfänger einen Sicherheitspuffer geben. Ein zweiter Aspekt ist,
+dass die Spende auch den Sender schwächt: Wenn du Gold oder Truppen spendest,
+dann hast du selbst weniger, um deine eigene Lane zu halten. Das bedeutet, dass
+eine Spende immer ein Risiko für den Sender ist, und der Sender muss sicher
+stellen, dass seine eigene Lane nach der Spende noch verteidigbar ist. Ein
+dritter Punkt ist, dass die Spenden auf kompakten Karten dringlicher sind, weil
+die Lanes kürzer sind und ein einzelner Verlust die gesamte Lane kippen kann;
+auf Standardkarten gibt es mehr Puffer, was die Spenden etwas weniger kritisch
+macht. Die Disziplin der Spende ist also nicht nur eine Frage des
+Zeitpunkts, sondern auch eine Frage der Risikoabwägung zwischen dem, was du
+dem Partner gibst und dem, was du selbst brauchst.
+
+## Die drei Arten, wie ein 2v2-Spiel endet, und wie du dein eigenes erzwingst
+
+Du kennst bereits das Auslöschungsende: Das Spiel stoppt, sobald genau ein Team
+übrig bleibt, also ist ein vollständiges Auslöschen des gegnerischen Paars ein
+sofortiger Sieg und ein vollständiges Auslöschen deines eigenen Paars eine
+sofortige Niederlage. Die beiden anderen Enden sind das Prozent-Ende und das
+Timer-Ende, und beide treten nur ein, wenn kein Team zum Zeitpunkt des Spielendes
+vollständig ausgelöscht wurde. Der Timer beträgt 10 Minuten auf einer kompakten
+Karte und 15 Minuten auf einer Standardkarte, und zum Timer gewinnt das Team mit
+dem höheren Landprozentsatz. Das Prozent-Ende kann auch durch eine
+Landprozentsatz-Grenzwert, der vor dem Timer überschritten wird, kommen, was das
+Spiel mit dem führenden Team beendet. Die drei Enden zu kennen sagt dir, wie du
+die Spielmitte verwaltetst, statt nur auf die Kämpfe zu reagieren, wenn sie
+kommen.
+
+In der Mitte eines 2v2s, nachdem der erste Kampf entschieden ist und beide Teams
+am Leben sind, ist deine Aufgabe, nach dem Ende zu drücken, für das du am besten
+positioniert bist. Wenn du den Kill-Vorsprung hast und das gegnerische Paar
+regelmäßig auf einen Spieler reduziert wird, bist du positioniert für das
+Auslöschungsende und solltest weiter den Lane des reduzierten Spielers pressen,
+um das Auslöschen abzuschließen. Wenn du keinen sauberen Kill-Vorsprung hast,
+aber das größte Territorium besitzt, bist du positioniert für das Prozent-Ende und
+solltest aufzuhören, alles in Kämpfe zu engagieren, die dich auslöschen könnten,
+und stattdessen Land konsolidieren, um zum Timer führend zu sein. Der
+Verlust-Coup ist, zu ignorieren, für welches der Enden du tatsächlich positioniert
+bist: Ein Team, das den Territorialvorteil hat, aber weiter alles in Kämpfe
+engagiert, bis es ausgelöscht wird, verwandelt einen Prozent-Sieg in ein
+Auslöschungs-Ende. Lies den Zustand beider Lanes und des Timers, entscheide,
+welches der drei Enden du tatsächlich anvisierst, und spiele den Rest des Spiels,
+um dieses spezifische Ende zu erzwingen. Wenn du mehr über das Endspiel-
+Landmanagement brauchst, das sich auf das Prozent-Ende bezieht, behandelt die
+Endspiel-Abdeckung im [nation-alliance-decisions-guide](/de/guides/nation-alliance-decisions/)
+dieselbe Landprozentsatz-Logik in einer längeren Form.
+
+Die drei Enden erfordern auch, dass du die Spielmitte anders liest als in einem
+1v1. Im 1v1 hast du ein Ziel: den Gegner ausschalten. Im 2v2 hast du drei
+mögliche Ziele, und du musst in der Mitte des Spiels feststellen, welches du
+am besten erreichst. Das erfordert eine fortlaufende Bewertung: Wie stehen
+die Kills, wie steht das Territorium, wie steht der Timer? Wenn du merkst,
+dass du in der Kill-Statistik zurückliegst, aber in der Territorialstatistik
+voraus bist, dann solltest du den Fokus von Kills auf Territorium verlagern.
+Ein zweiter Aspekt ist, dass das Auslöschungsende in 2v2 häufiger auftritt als
+in 1v1, weil vier Spieler beteiligt sind und ein einzelner Lane-Verlust die
+gesamte Seite ausschalten kann. Das bedeutet, dass du in der Mitte des Spiels
+aufpassen musst, dass keine Lane zu weit offen ist, weil ein einzelner
+Lane-Verlust das gesamte Spiel kippen kann. Ein dritter Punkt ist, dass der
+Timer auf kompakten Karten kürzer ist, was bedeutet, dass das Prozent-Ende
+früher entschieden wird und du weniger Zeit hast, den Vorsprung aufzubauen.
+Auf Standardkarten gibt es mehr Zeit, was die Prozent-Ende längerfristig
+macht, aber auch mehr Zeit für den Gegner, sich zu erholen.
+
+## Fehler-Muster und das Gegen-Spiel für jedes
+
+Der häufigste 2v2-Fehler ist die verdeckte-Lane-Niederlage: Beide Spieler
+expandieren in dieselbe Lane, einer wird mit einer schlechten Position zurückgelassen
+und das gegnerische Paar konzentriert sich auf den exponierten Spieler. Das
+Gegen-Spiel ist die Lane-Aufteilung, die ihr vor dem Fensterschließen vereinbart
+habt, und wenn sie im Spiel zusammenbricht, solltet ihr sofort neu aufteilen statt
+weiter von überlappenden Positionen zu kämpfen. Der zweite häufige Fehler ist die
+Spenden-Todespirale, in der beide Spieler weiter gegenseitig spenden, sodass keine
+Lane je stark genug wird, um zu gewinnen. Das Gegen-Spiel ist die stabile Regel,
+dass nur die verlierende Lane eine Spende erhält und nur so viel, wie nötig ist,
+um diese Lane umzukehren, damit die Lane des Spenders nie zusammenbricht. Der
+dritte Fehler ist, den Auslöszungszustand zu ignorieren: Ein Team, das den
+Territorialvorteil hat, aber weiter alles in Kämpfe engagiert, bis es
+ausgelöscht wird, verwandelt einen Prozent-Sieg in eine sofortige Niederlage. Das
+Gegen-Spiel ist zu erkennen, wann du einen Territorialvorteil hast und aufzuhören,
+alles zu engagieren, und Land zu konsolidieren, statt Kills zu jagen, die du nicht
+brauchst. Jedes davon ist ein spezifisches, korrigierbares Verhalten statt einer
+Talentlücke, weshalb das Hineinsehen in deine eigenen 2v2-Niederlagen gegen diese
+Liste der schnellste Weg ist, die League zu erklimmen.
+
+Jeder dieser Fehler hat auch ein Gegenstück, das du gezielt trainieren kannst.
+Der verdeckte-Lane-Fehler wird durch eine klare Lane-Aufteilung vor dem Spiel
+korrigiert, die Spenden-Todespirale durch eine stabile Spenden-Regel, der
+Ausschaltungs-Fehler durch eine fortlaufende Bewertung des Territoriums, der
+Partner-Fehler durch eine Prüfroutine, und der Kompakt-Fehler durch ein Tempo,
+das zum Kartentyp passt. Ein sechster, häufig übersehener Fehler ist, die
+2v2-Niederlagen mit 1v1-Reflexen zu analysieren: du bemerkst, dass du einen
+Kampf verloren hast, ohne zu fragen, ob der Verlust an einer falschen
+Lane-Aufteilung lag oder an einem falschen Mikro. Diese Unterscheidung zwischen
+einer Exekutions- und einer Entscheidungs-Niederlage ist der Schlüssel, um
+zu wissen, was zuerst korrigiert werden muss. Eine Entscheidungs-Niederlage
+wird durch eine andere Strategie behoben, eine Exekutions-Niederlage durch
+mehr Übung. Wenn du in deiner Niederlagen-Übersicht merkst, dass die meisten
+Verluste an der Lane-Aufteilung liegen, dann ist deine nächste Lektion die
+Aufteilung, nicht das Mikro. Wenn die meisten Verluste an der Spenden-
+Disziplin liegen, dann ist deine nächste Lektion die Spende, nicht die
+Lane-Aufteilung.
+
+Der vierte Fehler ist, blind mit einem ungeprüften zufälligen Partner in die
+Warteschlange zu steigen und die kooperative Hälfte des Modus durch schlechte
+Koordination zu verlieren. Das Gegen-Spiel ist die Partner-Prüfroutine aus der
+Partner-Sektion: Prüfe die gespielten Spiele und die Gewinnquote des Kandidaten und
+deren Beitrag zu Teamgewinnen, bevor du dich in die Warteschlange engagierst, und
+bevorzuge einen bekannten Partner, wann immer einer verfügbar ist. Der fünfte
+Fehler ist, einen kompakten 2v2 wie einen Standard-2v2 zu behandeln. Kompakte
+Karten sind schnell und nah, mit 100 Bots und einem 10-Minuten-Timer, also
+amortisiert sich die Wirtschaft früher und der erste Kampf entscheidet stärker das
+Spiel; ein Standard-2v2 mit 400 Bots und einem 15-Minuten-Timer ist länger und
+belohnt ein geduldiges territoriales Spiel. Das Gegen-Spiel ist, den
+Kartentyp zu lesen, wenn er lädt, und das entsprechende Tempo zu engagieren:
+aggressiv und schnell auf Kompakt, geduldig und territorial auf Standard. Wenn du
+das falsche Tempo spielst, wirst du entweder auf einer Standardkarte
+überdehnt oder auf einer kompakten Karte unterentwickelt sein, und beides verliert.
+
+## Modus- und Kartenanpassungen und wie man deine League verfolgt
+
+Der Ranked 2v2 hat seinen eigenen, separaten Leaderboard-Tab abgetrennt von der
+1v1-League, also werden deine 2v2-Record und dein 2v2-Rang unabhängig von deinem
+1v1-Record verfolgt. Das bedeutet, dass du den 2v2 erklimmen kannst, ohne deinen
+1v1-Rang anzufassen, und ein starker 2v2-Partner kann beide deine Positionen auf
+dem spezifischen 2v2-Board heben. Wenn du deine 2v2-Leistung überprüfst, schau
+dir den 2v2-Rang und die Team-Gewinn-Daten an, nicht das 1v1-Board, weil das die
+einzigen Daten sind, die widerspiegeln, wie du den Modus tatsächlich spielst. Wenn
+deine 2v2-Gewinnquote unter deiner 1v1-Gewinnquote liegt, liegt die Lücke fast
+immer in der Koordination statt der Solo-Fähigkeit, und die Korrekturen sind die
+Lane-Aufteilungs- und Spenden-Routinen in diesem Handbuch statt allgemeines
+Aim- oder Build-Wissen.
+
+Die praktische League-Routine ist: einen geprüften Partner wählen, ihn vor der
+Warteschlange fixieren, während des Pick-Fensters die Lane-Rollen und das erste
+Angriffsziel vereinbaren, nur an die verlierende Lane spenden, lesen, für welches
+der drei Enden du positioniert bist, und dieses Ende erzwingen, und nach dem Spiel
+deine eigenen Lane- und Spenden-Entscheidungen gegen die Fehlerliste oben
+überprüfen. Kompakte Karten belohnen ein aggressives Tempo und ein frühes
+First-Blood-Vordringen, Standardkarten belohnen ein geduldiges territoriales Tempo
+und einen sauberen Spendenplan, und beide belohnen dieselben zwei
+kooperativen Verhaltensweisen: eine saubere Lane-Aufteilung und eine entscheidende,
+gezielte Spende. Mach diese zwei richtig und der Rest des Modus, das
+Immunitätsfenster, die kompakte Kartenchance, die Spendenwirtschaft und das
+Auslöschungs-Ende, arbeiten alle für euch statt gegen euch.
+
+Ein letzter Punkt, der die Liga-Aufzeichnung vervollständigt, ist die Art, wie
+die vier Kompaktkarten im Pool gewichtet sind: Australien trägt 40 % der
+kompakten Partien, Island, Asien und Europa Classic je 20 %. Das bedeutet, dass
+eine einzige Karte, Australien, in fast der Hälfte aller kurzen Partien
+erscheint und die anderen drei den Rest gleichmäßig teilen. Wer die Liga
+effektiv aufsteigt, lernt also vor allem eine Karte sehr gründlich und drei
+weiterhin gut, statt vier Karten oberflächlich zu kennen. Die Konsequenz für
+die Routinen oben ist konkret: weil Australien so oft kommt, lohnt es sich, die
+Lane-Aufteilung und das erste Angriffsziel speziell auf diese Karte vorher
+abzuprüfen, während Island, Asien und Europa Classic mit der allgemeinen
+Aufteilungslogik behandelt werden können. Wer seine 2v2-Zahlen mit denen auf
+den einzelnen Karten vergleicht und findet, dass eine Karte deutlich unter
+Durchschnitt liegt, sollte nicht pauschal an seiner Spieldurchführung zweifeln,
+sondern zuerst prüfen, ob die Aufteilung oder die Kartenwahl das Problem war,
+weil eine einzelne Karte die Mehrzahl seiner 2v2-Partien ausmacht und ein
+einziger, dort wiederkehrender Fehler sich so stärker auf den Liga-Platz
+auswirkt, als derselbe Fehler auf den drei selteneren Karten.
+
+| Einstellung | Kompakter 2v2 | Standard 2v2 | Quelle |
+|---|---|---|---|
+| Spieler / Teams | 4 / 2 (zwei pro Team) | 4 / 2 | MapPlaylist (v0.33.0) |
+| Spawn-Wahl | Manuell (`randomSpawn: false`) | Manuell | MapPlaylist (v0.33.0) |
+| Nationen | Deaktiviert | Deaktiviert | MapPlaylist (v0.33.0) |
+| Gold-/Truppen-Spenden | Aktiviert | Aktiviert | MapPlaylist (v0.33.0) |
+| Immunität | 60 Sekunden | 60 Sekunden | MapPlaylist (v0.33.0) |
+| Hintergrund-Bots | 100 | 400 | MapPlaylist (v0.33.0) |
+| Timer | 10 Minuten | 15 Minuten | MapPlaylist (v0.33.0) |
+| Kompakte Kartenchance | — | 50 % kompakt | MapPlaylist (v0.33.0) |
+| Kompakte Karten-Pool | Australia 40 %, Iceland 20 %, Asia 20 %, EuropeClassic 20 % | — | MapPlaylist (v0.33.0) |
+| Siegbedingung | Ein Team ausgelöscht endet sofort; sonst Prozent zum Timer | identisch | WinCheckExecution (v0.33.0) |

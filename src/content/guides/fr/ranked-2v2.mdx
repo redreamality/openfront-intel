@@ -1,0 +1,359 @@
+---
+title: "Ranked 2v2 : partenaire, couloirs et classement"
+description: "Gagner le Ranked 2v2 d'OpenFront : trouver un partenaire, lire le mode, diviser les couloirs pendant la fenêtre de 60 secondes, donner des ressources et comprendre les trois façons dont le match se termine."
+pubDate: 2026-09-19
+updatedDate: 2026-09-19
+version: v0.33.0
+freshnessSummary: "Vérifié sur la tag v0.33.0 (configuration 2v2 dans MapPlaylist et WinCheckExecution) et la release v0.34.10 (correction du lien de lobby 2v2) ; valable pour v0.34.x."
+category: "Guides"
+tags:
+  - ranked
+  - 2v2
+  - équipe
+  - stratégie
+  - classement
+sitemap: true
+---
+
+Le Ranked 2v2 est la mode de ladder compétitive en duo d'OpenFront, introduite en
+v0.33.0. Vous affrontez un duo d'adversaires en mode classé, avec un classement
+séparé et un rang séparé de votre ladder 1v1, dans une mode qui ajoute des
+mécanismes de coopération réels que ni le 1v1 ni le mode équipe normal n'ont. Si
+vous traitez le 2v2 comme un 1v1 avec un ami, vous perdrez des matchs que vous
+auriez dû gagner. Cette mode a un contrat fixe : quatre joueurs, deux équipes de
+deux, une fenêtre d'invulnérabilité de 60 secondes après le choix des points de
+spawn, des dons de Gold et de troupes entre coéquipiers, une probabilité de 50 %
+de carte compacte, et une fin qui se déclenche dès qu'une équipe est totalement
+éliminée. Ce guide vous explique précisément ce qui change, comment choisir et
+vérifier un partenaire, comment diviser la carte et l'attaque initiale, quand
+donner, et comment lire les trois façons dont un match de 2v2 peut se terminer.
+
+## Ce que le Ranked 2v2 change réellement par rapport au 1v1
+
+Le point le plus important à intérioriser est que le Ranked 2v2 n'est pas un « 1v1
+avec un ami ». C'est une mode autonome avec son propre matching, son propre
+classement, son propre onglet de leaderboard, et des mécanismes qui n'existent que
+là. Quand vous entrez en file d'attente pour le 2v2, le jeu remplit quatre joueurs
+dans deux équipes de deux, et vous êtes apparié à un partenaire plutôt que
+d'affronter une équipe complète. Cette relation de partenariat change presque
+chaque décision que vous prendriez en solo : vous pouvez désormais coordonner une
+cible d'attaque, diviser l'économie pour que vous ne vous battiez pas tous les
+deux pour le même couloir, et transférer Gold et troupes pour que les deux
+couloirs restent en vie.
+
+Cette mode désactive aussi les Nations. En 1v1 et en mode équipe, vous choisissez
+une Nation qui vous donne une unité ou un bonus économique spécifique, et vous
+construisez le reste de votre build autour de ce bonus. En 2v2, le choix de
+Nation est désactivé, donc vous ne recevez aucun bonus initial et ne pouvez pas
+concevoir votre ouverture autour d'une unité propre à une Nation. Votre
+ouverture est donc un build pur et symétrique : vous et votre partenaire partez
+de la même base, et la différence vient du contrôle de la carte, du timing des
+couloirs et de la manière dont vous vous coordonnez. Cette symétrie est un
+avantage pour le joueur qui la comprend, car elle élimine le tirage au sort de
+quelle Nation est la meilleure sur une carte donnée et transforme le match en une
+course d'exécution.
+
+La carte elle-même est aussi différente. Il y a une probabilité de 50 % de charger
+une carte compacte, c'est-à-dire un plateau plus petit avec des couloirs plus
+étroits et des distances plus courtes entre votre point de spawn et celui de
+l'adversaire. Les cartes compactes 2v2 comportent 100 bots en arrière-plan et un
+minuteur de 10 minutes, tandis que les matchs non compacts comportent 400 bots et
+un minuteur de 15 minutes. Vous devez donc être prêt à jouer deux types de matchs
+différents : un combat rapide et proche sur carte compacte, et un match plus
+long et territorial sur carte standard. Les cartes compactes utilisées sont
+Australia à 40 %, Iceland à 20 %, Asia à 20 % et EuropeClassic à 20 %, et leurs
+layouts compacts signifient que votre partenaire et le duo adverse sont presque
+immédiatement à portée de frappe. Si vous avez besoin d'un rappel des concepts
+de carte et de territoire généraux sur lesquels s'appuie le 2v2, le
+[guide du premier match](/fr/guides/first-match/) couvre le choix du spawn et
+l'expansion initiale que ce mode compresse ensuite.
+
+## Choisir et vérifier un partenaire avant d'entrer en file
+
+La plainte la plus forte de la communauté concernant le 2v2 est le problème du
+partenaire. Les joueurs demandent en permanence où trouver un coéquipier, se
+plaignent de ne jamais en obtenir, et se demandent s'il vaut mieux entrer en file
+avec un ami de confiance plutôt que d'attendre un partenaire aléatoire. La
+v0.33.0 a permis de choisir un coéquipier 2v2 avant d'entrer en file, ce qui
+signifie que vous n'êtes plus forcé d'accepter un inconnu aléatoire si vous avez
+un partenaire fixe. Si vous avez quelqu'un avec qui vous jouez régulièrement,
+entrez toujours en file avec cette personne et verrouillez la relation de
+partenariat avant le match. Un partenaire convenu à l'avance qui connaît déjà
+votre style de jeu vaut bien plus qu'un inconnu mieux classé, car la valeur du
+2v2 vient de la coordination, et la coordination n'existe que si vous avez joué
+ensemble.
+
+Si vous entrez en file pour un partenaire aléatoire, vérifiez-le avec les
+données disponibles avant le match. Les ladders non officiels OFstats publient un
+classement pondéré séparé, pondéré par le nombre de matchs joués, et un tableau
+séparé des victoires en équipe qui compte les victoires en équipe de tout le
+monde. Regardez le nombre de matchs joués et le taux de victoires d'un partenaire
+candidat avant d'entrer en file : un joueur qui a joué un grand échantillon de
+matchs classés et maintient un taux de victoires raisonnable est un partenaire
+plus sûr qu'un joueur avec peu de matchs et un rang instable. Vous pouvez aussi
+regarder leur record de victoires en équipe pour confirmer qu'ils contribuent
+réellement aux matchs en équipe plutôt que de simplement survivre à côté d'un
+coéquipier fort. Traitez un très faible nombre de matchs joués ou un taux de
+victoires en équipe très inférieur à leur niveau classé comme un avertissement
+que le joueur n'est pas fiable dans la moitié coopérative de la mode, et
+envisagez d'attendre un autre partenaire plutôt que d'entrer en file à l'aveugle.
+L'objectif est un partenaire capable de tenir un couloir de manière
+indépendante, parce qu'au moment où vous êtes engagé dans un combat, votre
+partenaire est seul. Un critère pratique si vous ne pouvez pas vérifier à
+l'avance : privilégiez le partenaire au palmarès le plus stable et récent plutôt
+que celui au rang apparent le plus élevé. Un rang peut être gonflé par quelques
+victoires faciles en début de période, tandis qu'une moyenne sur des dizaines de
+matchs reflète la façon dont le joueur joue réellement cette mode. Si l'un des
+deux candidats a un fort taux d'abandon en cours de match, c'est un signal direct
+que vous risquez de jouer une demi-partie en 1 contre 2, ce qui est exactement ce
+que le 2v2 n'est pas censé vous faire subir. La combinaison d'un bon nombre de
+matchs et d'un faible taux d'abandon vous donne le seul partenaire sur lequel
+vous pouvez construire un plan de jeu.
+
+## La fenêtre de 60 secondes et les deux façons dont elle se termine
+
+Chaque match de 2v2 s'ouvre avec une fenêtre d'invulnérabilité de 60 secondes
+après le choix. Pendant les 60 premières secondes après avoir choisi votre point
+d'apparition, aucun de vos coéquipiers ne peut être touché par le duo adverse,
+donc l'ouverture est une période protégée plutôt qu'un contact immédiat. Vous
+devez utiliser cette fenêtre pour faire deux choses à la fois : établir une base
+économique sûre et décider de la division des couloirs avec votre partenaire.
+Parce que la fenêtre protège tout le monde, le duo adverse la passe aussi en
+sécurité, ce qui signifie que le premier contact réel se produit environ 60
+secondes après le choix plutôt qu'immédiatement. Cela change votre économie
+d'ouverture par rapport à une partie normale : vous n'avez pas besoin de vous
+étendre dans la panique dans les premières secondes, mais vous devez vous étendre
+et vous engager dans un couloir d'ici la fermeture de la fenêtre, parce que le
+premier combat arrive au moment où l'invulnérabilité se termine.
+
+Cette mode a aussi deux états d'échec durs que vous devez comprendre avant
+d'entrer en file. Premièrement, si moins de quatre joueurs ont apparu à la fin de
+la phase de choix, le match est annulé dans son ensemble : il ne commence jamais,
+il ne compte jamais comme classé, et personne n'obtient de résultat. Donc un 2v2
+qui abandonne avant la fin du choix ne vous donne aucun déplacement de
+classement, ce qui est pourquoi un partenaire stable et une file d'attente à
+laquelle vous vous engagez comptent. Deuxièmement, et c'est cela qui décide la
+plupart des 2v2 : le match se termine dès qu'il ne reste exactement qu'une équipe
+debout. Le moment où vous deux ou vos deux adversaires sont éliminés, le match
+est terminé. Cela signifie que le 2v2 n'attend pas un pourcentage de terre en
+avance ou un minuteur dans la plupart des parties réelles ; le pourcentage et le
+minuteur de 10/15 minutes sont des valeurs de secours pour la rare partie où
+aucune équipe n'est totalement éliminée. Comprendre qu'une seule élimination
+d'équipe termine le match immédiatement est le fait stratégique central de la
+mode, et cela façonne chaque décision ci-dessous. Traitez la fenêtre de 60
+secondes comme la seule période où vous pouvez vous installer en sécurité,
+parce qu'après sa fermeture vous combattez pour l'élimination tout en essayant de
+ne pas être éliminé vous-même. Une modélisation mentale utile de la fenêtre est
+qu'elle est une période de construction et d'engagement, pas une période de
+combat. Vous construisez votre base, vous placez vos unités, et vous fixez la
+cible d'attaque pendant les 60 secondes, et c'est seulement quand elle se ferme
+que vous devez être prêt à transformer ce que vous avez construit en un avantage
+militaire concret. Si vous gaspillez la fenêtre en tentant des micro-attaques
+prématurées, vous arrivez à la fin de la fenêtre sous-construit et sans cible
+fixe, ce qui est exactement la position d'où vous perdez les matchs.
+
+## Diviser les couloirs : la cible d'attaque initiale et la répartition
+
+L'erreur la plus courante en 2v2 est que les deux joueurs s'étendent dans le même
+couloir, ce qui laisse l'un des deux sans position économique propre et vous deux
+exposés au duo adverse. À la place, vous devriez diviser la carte avant d'avoir
+dépensé une seule unité. La division standard est un attaquant et un tenant de
+couloir : l'un des deux prend le couloir contesté et agressif le plus proche du
+point d'apparition ennemi et est responsable de la première attaque et du
+combat, tandis que l'autre prend le couloir latéral plus sûr et est responsable
+de l'économie et du renfort quand l'attaquant est en difficulté. Lequel des deux
+prend quel rôle devrait être décidé par vos forces respectives et par la carte :
+le joueur plus agressif mécaniquement prend le couloir d'attaque, et le joueur
+plus discipliné économiquement prend le couloir de revenus.
+
+La division ne concerne pas seulement deux couloirs ; elle concerne la cible
+d'attaque. Quand la fenêtre de 60 secondes est sur le point de se fermer,
+l'attaquant doit déjà avoir choisi une cible : une unité ou un bâtiment ennemi
+spécifique qui, s'il est détruit, gagne le combat précoce. Vous et votre
+partenaire devriez convenir de cette cible avant la fin de la fenêtre, pour que
+le moment où l'invulnérabilité tombe, vous deux soyez en direction du même
+objectif plutôt que de réagir. Si vous attaquez tous deux la même cible, vous
+doublez vos dégâts et pouvez la tuer avant que le duo adverse puisse la
+défendre, mais cela exige que la division des couloirs soit propre pour que le
+duo adverse ne puisse pas simplement diviser sa défense contre votre poussée
+concentrée. Une division propre des couloirs plus une cible convenue pendant la
+fenêtre est la plus grande condition de victoire précoce en 2v2, parce qu'elle
+transforme votre avantage coopératif en un avantage concret de premier sang avant
+que l'une des deux économies ne soit entièrement construite. Si votre partenaire
+choisit une cible et que vous l'ignorez, vous divisez vos propres dégâts et le
+duo adverse gagne l'échange, donc la discipline sur la cible convenue est aussi
+importante que la division de la carte elle-même. Quand vous décidez qui prend
+le couloir d'attaque et qui prend le couloir de revenus, associez le rôle au
+joueur qui gagnerait le moment où l'autre serait occupé. L'attaquant doit
+suffisamment de force pour imposer l'échange, et le tenant doit suffisamment de
+discipline pour ne pas être tenté de se jeter dans la mêlée et gaspiller l'avance
+économique. Si les deux rôles sont mal assignés, vous finirez par deux attaquants
+et aucun tenant, ce qui est la configuration la plus fragile du 2v2 parce que le
+duo adverse peut choisir d'ignorer votre poussée et de récolter les fruits de la
+division déséquilibrée.
+
+## Le don : quand le transfert de Gold et de troupes gagne
+
+Le Ranked 2v2 active à la fois le don de Gold et le don de troupes entre
+coéquipiers, et c'est l'avantage mécanique qui distingue le 2v2 d'une partie en
+équipe décontractée. L'idée centrale est que vous et votre partenaire partagez
+une économie effective commune : chaque fois que l'un de vous est en retard et
+l'autre en avance, le joueur en avance peut envoyer Gold ou troupes au joueur en
+retard pour que le couloir ne soit pas perdu. La règle tactique est de donner à
+celui qui tient le couloir que vous voulez réellement garder. Si l'attaquant perd
+un combat et que le couloir de revenus est fort, le joueur de revenus donne Gold
+pour que l'économie de l'attaquant continue, pour qu'il puisse reconstruire et
+repousser. Si le couloir de revenus est sous pression et que l'attaquant est déjà
+en train de gagner, l'attaquant donne des troupes pour aider le joueur de revenus
+à tenir le couloir et protéger la base.
+
+La discipline qui gagne n'est pas donner constamment ; c'est donner au moment où
+un couloir est sur le point de basculer. Des dons constants et petits étendent
+votre économie en fine et laissent les deux couloirs sous-construits, tandis
+qu'un don décisif au moment du danger transforme un couloir perdu en un couloir
+tenu. Vous devriez surveiller en continu la santé économique relative des deux
+couloirs, et le joueur qui est en avance est celui qui fait l'appel de don,
+parce qu'il a l'excédent à dépenser. Un motif perdant courant en 2v2 est que les
+deux joueurs se donnent mutuellement dans une spirale de mort où aucun couloir
+n'est jamais assez fort pour gagner, ce qui signifie qu'aucun couloir ne peut
+gagner. La correction est une règle stable et claire que vous convenez avant le
+match : le couloir qui perd reçoit le don, le couloir qui gagne continue de
+construire, et vous ne donnez que ce qui suffit pour changer le résultat du
+couloir, pas assez pour que le couloir du donneur s'effondre. Traitez le don
+comme une intervention ciblée, pas comme un impôt continu, et rappelez-vous
+qu'un don fait trop tôt pour sauver un couloir qui était déjà perdu ne fait que
+gaspiller la force du donneur, donc l'appel concerne sauver un couloir qui est
+encore gagnable, pas ensevelir le donneur pour secourir un couloir sans espoir.
+Le timing de l'appel de don compte aussi : vous devriez le faire au moment où le
+couloir perdant est sur le point de basculer, pas assez tôt pour que le couloir
+perdant soit déjà perdu, ni assez tard pour que le donneur ait déjà dépensé
+l'excédent. Un don bien calibré est la différence entre un couloir tenu et un
+couloir perdu, et c'est la raison pour laquelle la discipline du don est la
+compétence la plus discriminante du 2v2.
+
+## Les trois façons dont un match de 2v2 se termine et comment forcer la vôtre
+
+Vous connaissez déjà la fin par élimination : le match s'arrête dès qu'il ne
+reste exactement qu'une équipe, donc une élimination complète du duo adverse est
+une victoire immédiate et une élimination complète de votre propre duo est une
+défaite immédiate. Les deux autres fins sont la fin par pourcentage et la fin par
+minuteur, et les deux ne se déclenchent que si aucune équipe n'a été totalement
+éliminée au moment où le match se termine. Le minuteur est de 10 minutes sur une
+carte compacte et de 15 minutes sur une carte standard, et au minuteur, l'équipe
+avec le pourcentage de terre le plus élevé gagne. La fin par pourcentage peut
+aussi venir d'un seuil de terre sur toute la carte franchi avant le minuteur, ce
+qui termine le match avec l'équipe en avance qui gagne. Connaître les trois fins
+vous dit comment gérer le milieu de la partie plutôt que de simplement réagir
+aux combats au fur et à mesure qu'ils se produisent.
+
+Au milieu d'un 2v2, une fois que le premier combat est décidé et que les deux
+équipes sont en vie, votre travail est de pousser vers la fin pour laquelle vous
+êtes le mieux positionné. Si vous avez l'avantage de kills et que le duo adverse
+est régulièrement réduit à un joueur, vous êtes positionné pour la fin par
+élimination et vous devriez continuer de presser le couloir du joueur réduit
+pour compléter l'élimination. Si vous n'avez pas un avantage de kills propre
+mais que vous avez le plus grand territoire, vous êtes positionné pour la fin
+par pourcentage et vous devriez cesser de tout engager dans des combats qui
+pourraient vous éliminer, et plutôt consolider la terre pour être en avance au
+minuteur. Le coup perdant est d'ignorer laquelle des fins vous êtes réellement
+positionné à prendre : une équipe qui a l'avantage territorial mais continue de
+tout engager dans des combats jusqu'à être éliminée transforme une victoire par
+pourcentage en une défaite par élimination. Lisez l'état des deux couloirs et du
+minuteur, décidez laquelle des trois fins vous êtes réellement en train de viser,
+et jouez le reste de la partie pour forcer cette fin spécifique. Si vous voulez
+plus sur la gestion de terre en fin de partie qui s'applique à la fin par
+pourcentage, la couverture de fin de partie dans le [guide des décisions de
+nation et d'alliance](/fr/guides/nation-alliance-decisions/) couvre le même
+raisonnement de pourcentage de terre dans une forme plus longue. Une erreur
+courante dans la mi-partie est de traiter le minuteur comme un compte à rebours
+pour perdre plutôt qu'un seuil à atteindre. Le minuteur ne décide le match que si
+aucune équipe n'a été éliminée, donc si vous êtes en avance sur le territoire et
+que le duo adverse est réduit, vous devriez pousser pour l'élimination plutôt que
+de simplement attendre le minuteur. De même, si vous êtes en retard sur le
+territoire et que le minuteur approche, vous devriez reconsidérer votre
+engouement pour les combats et basculer en mode de consolidation territoriale
+pour réduire l'écart avant la fin du temps.
+
+## Les modes d'échec et le contre-jeu pour chacun
+
+L'échec 2v2 le plus courant est la perte par couloirs superposés : les deux
+joueurs s'étendent dans le même couloir, l'un est laissé avec une mauvaise
+position, et le duo adverse se concentre sur le joueur exposé. Le contre-jeu est
+la division des couloirs que vous avez convenue avant la fermeture de la fenêtre,
+et si elle s'effondre en cours de partie, vous devriez immédiatement
+re-diviser plutôt que de continuer à combattre depuis des positions superposées.
+Le deuxième échec courant est la spirale de mort du don, où les deux joueurs
+continuent de se donner mutuellement pour que aucun couloir ne soit jamais assez
+fort pour gagner. Le contre-jeu est la règle stable que seul le couloir perdant
+reçoit un don et seulement ce qui suffit pour inverser ce couloir, pour que le
+couloir du donneur ne s'effondre jamais. Le troisième échec est ignorer l'état
+d'élimination : une équipe qui est en avance sur le territoire mais continue de
+tout engager dans des combats jusqu'à être éliminée transforme une victoire par
+pourcentage en une défaite immédiate. Le contre-jeu est de reconnaître quand vous
+avez un avantage territorial et cesser de tout engager, en consolidant la terre
+au lieu de pourchasser des kills dont vous n'avez pas besoin. Chacun de ceux-ci
+est un comportement spécifique et corrigeable plutôt qu'un écart de talent, c'est
+pourquoi revoir vos propres défaites en 2v2 contre cette liste est la façon la
+plus rapide de monter le classement.
+
+Le quatrième échec est entrer en file avec un partenaire aléatoire non vérifié
+et perdre la moitié coopérative de la mode à cause d'une mauvaise coordination.
+Le contre-jeu est la routine de vérification de la section partenaire :
+vérifiez le nombre de matchs joués et le taux de victoires du candidat et leur
+contribution aux victoires en équipe avant de vous engager dans la file, et
+préférez un partenaire connu chaque fois qu'un est disponible. Le cinquième
+échec est traiter un 2v2 compact comme un 2v2 standard. Les cartes compactes
+sont rapides et proches, avec 100 bots et un minuteur de 10 minutes, donc
+l'économie se rembourse plus tôt et le premier combat décide davantage du
+match ; un 2v2 standard avec 400 bots et un minuteur de 15 minutes est plus long
+et récompense un jeu territorial patient. Le contre-jeu est de lire le type de
+carte au moment où elle charge et de s'engager dans le tempo correspondant :
+agressif et rapide sur compacte, patient et territorial sur standard. Si vous
+jouez le mauvais tempo, vous serez soit sur-étendu sur une carte standard soit
+sous-construit sur une carte compacte, et les deux perdent. Un sixième échec,
+plus subtil, est de revoir les défaites en 2v2 en utilisant des réflexes de 1v1 :
+remarquer que vous avez perdu un combat sans vous demander si la perte venait d'un
+mauvais choix de couloir plutôt que d'un mauvais micro. Cette distinction entre
+une défaite d'exécution et une défaite de décision est la clé pour savoir quoi
+corriger en premier, et c'est la raison pour laquelle la revue de match en 2v2
+doit toujours commencer par la décision de couloir avant de passer au micro.
+
+## Ajustements de mode et de carte, et comment suivre votre classement
+
+Le Ranked 2v2 a son propre onglet de classement séparé du ladder 1v1, donc votre
+record et votre rang 2v2 sont suivis indépendamment de votre record 1v1. Cela
+signifie que vous pouvez monter en 2v2 sans toucher à votre rang 1v1, et un
+partenaire 2v2 fort peut élever les deux de vos positions sur le tableau 2v2
+spécifiquement. Quand vous examinez votre performance 2v2, regardez le
+classement 2v2 et les données de victoires en équipe, pas le tableau 1v1, parce
+que ce sont les seules données qui reflètent comment vous jouez réellement la
+mode. Si votre taux de victoires 2v2 est inférieur à votre taux de victoires
+1v1, l'écart est presque toujours la coordination plutôt que la compétence solo,
+et les corrections sont les routines de division des couloirs et de don dans ce
+guide plutôt que les connaissances générales de visée ou de build.
+
+La routine pratique du classement est : choisir un partenaire vérifié, le
+verrouiller avant la file, convenir des rôles de couloir et de la cible de
+première attaque pendant la fenêtre de choix, donner seulement au couloir
+perdant, lire laquelle des trois fins vous êtes positionné à prendre et forcer
+cette fin, et après la partie revoir vos propres décisions de couloir et de don
+contre la liste des échecs ci-dessus. Les cartes compactes récompensent un tempo
+agressif et une poussée de premier sang précoce, les cartes standard récompensent
+un tempo territorial patient et un plan de don propre, et les deux récompensent
+les mêmes deux comportements coopératifs : une division propre des couloirs et un
+don décisif et ciblé. Faites ces deux correctement et le reste de la mode, la
+fenêtre d'invulnérabilité, la chance de carte compacte, l'économie de don, et la
+fin par élimination, travaillent tous en votre faveur plutôt que contre vous.
+
+| Réglage | 2v2 compact | 2v2 standard | Source |
+|---|---|---|---|
+| Joueurs / équipes | 4 / 2 (deux par équipe) | 4 / 2 | MapPlaylist (v0.33.0) |
+| Choix d'apparition | Manuel (`randomSpawn: false`) | Manuel | MapPlaylist (v0.33.0) |
+| Nations | Désactivées | Désactivées | MapPlaylist (v0.33.0) |
+| Don Gold / troupes | Activé | Activé | MapPlaylist (v0.33.0) |
+| Invulnérabilité | 60 secondes | 60 secondes | MapPlaylist (v0.33.0) |
+| Bots d'arrière-plan | 100 | 400 | MapPlaylist (v0.33.0) |
+| Minuteur | 10 minutes | 15 minutes | MapPlaylist (v0.33.0) |
+| Chance de carte compacte | — | 50 % compact | MapPlaylist (v0.33.0) |
+| Pool de cartes compactes | Australia 40 %, Iceland 20 %, Asia 20 %, EuropeClassic 20 % | — | MapPlaylist (v0.33.0) |
+| Condition de victoire | Une équipe éliminée termine immédiatement ; sinon pourcentage au minuteur | identique | WinCheckExecution (v0.33.0) |
