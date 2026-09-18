@@ -47,3 +47,6 @@ OpenFront.io 多语种（en/zh/fr/de/nl）情报与攻略站，Astro + Tailwind 
 - Astro data collection 使用 camelCase 名称时，内容目录和自定义审计脚本必须同步使用同一目录名（本项目为 `src/content/whatsNew`）；不要只改集合目录而遗漏审计路径，否则 `pnpm content:audit` 会以 ENOENT 失败。
 - Playwright 启动时报 `127.0.0.1:4327 is already used` 时，先用 `Get-NetTCPConnection -LocalPort 4327` 找到占用 PID，并核对其命令行确实是本项目残留的 Astro preview；结束该精确进程或改用空闲的 `PLAYWRIGHT_PORT`，不要把 `reuseExistingServer` 改成 `true` 以掩盖错误页面。
 - PowerShell 的 `Get-NetTCPConnection -ErrorAction SilentlyContinue` 在没有匹配监听连接时可能以退出码 1 结束；把“无输出”解释为端口空闲，不要把它当成网络故障。需要在脚本中继续执行时先保存结果并显式忽略该查询退出码。
+- PowerShell 路径参数不支持 Bash 花括号扩展；不要把 `src/content/guides/{en,zh,fr,de,nl}/...` 直接传给 `rg`、`Get-Content` 或其他命令。改用语言数组循环、逐个明确路径或真实目录加 `--glob`，并保留含方括号路径的 `-LiteralPath`。
+- 面向玩家的正文不要写入“社区来源包、教学假设、正式 Release/tag 核验、本文如何审计”等研究元话语；这些内容留在 `docs/research`、runbook 或 frontmatter，正文只保留会改变玩家决策的事实、边界和操作。
+- 删除多语长文的版本/来源说明后，必须用 `pnpm guide:audit -- --slug <slug> --source-pack <path>` 复跑单篇交付审计；总字数通过不代表交付通过，每个 `##` / `###` 小节仍须达到至少 401 words（中文按汉字门槛计数）。
