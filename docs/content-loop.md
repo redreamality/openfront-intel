@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-18。
+更新日期：2026-09-19。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮 `/guides/nation-alliance-decisions/` 的五语 PACT 决策、v0.34.9 一手与社区来源包、Guides 和 Nation 压力回链随本 PR 交付；合并即完成本轮主题 | 合并即继续滚动 Production；下一轮不得把请求、拒绝、临时缓冲用途、续约与退出准备换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 本轮五语 `/guides/world-map-ffa-spawns/`、World 社区与正式 tag 来源包、Guides/FFA/地图策略入口随本次交付完成 | 继续滚动 Production；下轮不把 World 的首块地、邻居争路、独立备用出口换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,11 +30,11 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9)，tag commit `fb07e61a9161b3b8e0991c6dc0e0ef6406f653e3`；v0.34.8 修正 Steam 离线/会话 Retry、旧客户端登录循环及胜利弹窗按钮，v0.34.9 增加桌面布局与 UI 缩放、大厅链接跳转、列表恢复/Retry 和开局后公共大厅拒绝迟到加入。先前 v0.34.5 中后期 Train 饱和衰减中点从 300 到 500，v0.34.7 修复创作者代码与点击失响应。稳定 v34 功能基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`55cf990c4f3e2fa081251c8b119a069169f8eae2`；2026-09-18 已用 GitHub REST 核验。其后续提交只作未来版本线索，不反向证明 v0.34.9 已上线行为。
+- 正式 Release：[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)，tag commit `82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`；v0.34.10 修复 Twitch 面板广告遮挡并把大厅链接交给正式 Steam 应用；v0.34.11 修复 UI 缩放、语言切换地图名、大厅 Retry，以及贸易船重夺和核击杀的错误统计。v0.34.9 已交付桌面布局、列表恢复和迟到加入处理；稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
+- 上游 `main` 游标：`82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`；2026-09-19 已用 GitHub REST 核验，目前与正式 v0.34.11 tag 相同。后续提交只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
-- GSC 7 天：2026-08-30..09-05，892 Query / 2,271 Query × Page / 462 clicks。
-- GSC 28 天：2026-08-09..09-05，1,540 Query / 4,742 Query × Page / 1,439 clicks。
+- GSC 7 天：2026-09-10..09-16，942 Query / 2,423 Query × Page / 586 clicks。
+- GSC 28 天：2026-08-20..09-16，1,482 Query / 4,934 Query × Page / 1,881 clicks。
 - 需求源：站点开放 Issues/PR 为 0；Feedlog 按自动化策略不访问；上游 #4237 无新讨论。
 - 本轮铁路网络社区及 tag 核验：[`2026-08-28-train-network-community-source-pack.md`](research/2026-08-28-train-network-community-source-pack.md)。
 - 本轮全局威胁评估社区及 tag 核验：[`2026-09-01-threat-assessment-community-source-pack.md`](research/2026-09-01-threat-assessment-community-source-pack.md)。
@@ -52,6 +52,7 @@
 - 本轮 Ranked 1v1 选题 Scout 与边界报告：[`2026-09-16-next-community-scout.md`](research/2026-09-16-next-community-scout.md)。
 - 本轮 Europe FFA 地图路线社区与正式 v0.34.7 tag 核验：[`2026-09-17-europe-ffa-openings-community-source-pack.md`](research/2026-09-17-europe-ffa-openings-community-source-pack.md)。
 - 本轮 Nation 联盟决策社区与正式 v0.34.9 tag 核验：[`2026-09-18-nation-alliance-decisions-community-source-pack.md`](research/2026-09-18-nation-alliance-decisions-community-source-pack.md)。
+- 本轮 World FFA 出生与首路的社区、正式 v0.34.11 tag 核验：[`2026-09-19-world-map-ffa-spawns-community-source-pack.md`](research/2026-09-19-world-map-ffa-spawns-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -88,6 +89,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-19 | v34.11 Release response + `LF-COMMUNITY-ROLLING` World FFA 出生与首路 | 五语 v34 总览和移动下载页推进正式版本边界；新建五语 `/guides/world-map-ffa-spawns/`，按现场邻居、首块地、独立陆/水备用出口和本土预备队作路线决策，并接通 Guides、FFA 开局和地图策略 | 3 篇实际分析 Reddit、3 段实际核验视频字幕、正式 v0.34.11 tag 与来源包；五语逐节与 1500 词门槛、内容、版本、构建、链接和 SEO 验收通过后交付，下一轮不重复本图落点与主备出口 |
 | 2026-09-18 | v34.9 Release response + `LF-COMMUNITY-ROLLING` Nation 联盟决策 | 五语 v34 总览与移动下载页推进正式边界；新建五语 `/guides/nation-alliance-decisions/`，用 PACT 区分玩家请求、拒绝、可用窗口和到期/背叛前的预备队，并接通 Guides 与 Nation 压力 | 4 个实际分析 Reddit、4 个带字幕 YouTube、v0.34.9 tag 源码与测试；五语逐节与来源包、release、构建和链接验收通过后，本 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-17 | v34.7 Release response + `LF-COMMUNITY-ROLLING` Europe FFA 开局路线 | 五语 v34 概览、移动下载页推进正式边界，铁路指南修正 v0.34.5 全局饱和曲线；新建五语 `/guides/europe-ffa-openings/`，用 LANE 检查独立 Europe 地图、河流、Nation/真人争路和主备出口，接通 Guides、FFA 开局与地图策略 | 3 个实际分析 Reddit、3 个带可核验字幕 YouTube、9 个官方 URL；guide audit 五语逐节与来源包门槛通过；本 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-16 | `LF-COMMUNITY-ROLLING` Ranked 1v1 决策 | 新建五语 `/guides/ranked-1v1/`，用 SCOPE 框架回答出生几何、Bot/海岸路线控制、10/15 分钟 Ranked 计时，以及 City、Port、Factory、Defense、Silo、Boat 和终局停止信号；接入五语 Guides Combat 分组 | 3 个实际分析 Reddit、3 个带可核验字幕 YouTube、6 个官方来源；guide audit 五语、来源包研究门槛通过；合并即完成本轮主题并继续滚动 Production |

@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v34.9: Kampf, Züge, Steam und Lobbys'
-description: 'Was das offizielle OpenFront-v34.9-Release für Kampf, Züge, MIRV, Nations, Lobbys, Steam und das nächste Match ändert.'
+title: 'OpenFront v34.11: Kampf, Züge, Steam und Lobbys'
+description: 'Was das offizielle OpenFront-v34.11-Release für Kampf, Züge, MIRV, Nations, Lobbys, Steam und das nächste Match ändert.'
 pubDate: 2026-09-10
-updatedDate: 2026-09-18
+updatedDate: 2026-09-19
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Versionsnotizen
 ---
 
-## Direkte Antwort: Was ändert OpenFront v34.9?
+## Direkte Antwort: Was ändert OpenFront v34.11?
 
-Das stabile Funktionsrelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) erschien am 14. September 2026. Auf v0.34.1 bis [`v0.34.7`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.7) folgten die offiziellen Patches [`v0.34.8`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.8) und [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9). v0.34.9 ist nun die formale Nicht-TEST-Grenze. Die Serie übernimmt alle v34-Funktionen und korrigiert Angriffstempo, Zugerzeugung, Lobby- und Kartenanzeige, Steam-Zugang, Kosmetikoptionen und blockierte Klicks. Steam ist nur ein Teil: Landverluste, MIRV-Timing, Nation-Druck, Team-Sieg, Wasser- und Schienenwege, Lobbywahl und Karten verändern konkrete Entscheidungen im nächsten Match.
+Das stabile Funktionsrelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) erschien am 14. September 2026. Auf v0.34.1 bis [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) folgten die offiziellen Patches [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10) und [`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11). v0.34.11 ist nun die formale Nicht-TEST-Grenze. Die Serie übernimmt alle v34-Funktionen und korrigiert Angriffstempo, Zugerzeugung, Lobby- und Kartenanzeige, Steam-Zugang, Kosmetikoptionen und blockierte Klicks. Steam ist nur ein Teil: Landverluste, MIRV-Timing, Nation-Druck, Team-Sieg, Wasser- und Schienenwege, Lobbywahl und Karten verändern konkrete Entscheidungen im nächsten Match.
 
 Die nach v0.34.1 hinzugekommene Gameplay-Änderung ist laut v0.34.2 ein ungefähr 10 % höheres Angriffstempo. Dadurch bleibt in Echtzeit weniger Raum zum Abbrechen, Verstärken, Gegenangreifen oder Erkennen einer schwindenden Reserve. Das ersetzt weder das v34-Verlustmodell aus ratio und density noch garantiert ein fixes Angriffsprozent den Sieg. v0.34.2 behebt außerdem öffentliche Team-Spiele mit null Teams, erklärt Trusted-Lobbys klarer, bietet klassische Bot-Farben als Option, justiert Audio-Standardwerte und kopiert im Desktop-Client Weblinks statt `app://`-Links. v0.34.3 behebt anschließend Ranked-Matchmaking- und Zahlungsfehler und stellt die Default-Farbprobe für eigene Muster wieder her. Diese letzten Korrekturen betreffen Zugang und Darstellung, nicht die Kampfformel.
 
@@ -28,6 +28,8 @@ Außerhalb der Simulation bringt v34 ein Tutorial mit 20 Schritten, regelmäßig
 Profile sind in v34 öffentlich, sodass andere Spieler die mit einem Konto verbundenen Partien prüfen können. Verlaufskarten bieten einen kopierbaren Spiellink und das normale PlayerInfoPanel ist in Replays verfügbar. Nutze diese Sichtbarkeit als Lernwerkzeug und Kontowahl: Teile die genaue Partie, prüfe Entscheidungen in ihrer Reihenfolge und leite eine Absicht nicht nur aus dem Ergebnis ab. Laut Release verbirgt eine Kontolöschung alle Spiele. Öffentlicher Verlauf zeigt keine privaten Moderationswerkzeuge.
 
 Die wichtigste Versionsregel lautet deshalb: Verwende v33-Zahlen nicht weiter, nur weil die Oberfläche vertraut aussieht. Der Release-Name, die sichtbaren Timer und die tatsächliche Karte müssen gemeinsam zur Planung passen. Ein neuer Clientzugang oder eine flüssigere Simulation ersetzt keine erneute Prüfung der Ressourcenentscheidung.
+
+v0.34.10 behebt eine Anzeige über dem Twitch-Panel und übergibt Lobby-Links an die produktive Steam-App. v0.34.11 akzeptiert angebotene benutzerdefinierte UI-Skalierungen, übersetzt Kartennamen sofort beim Sprachwechsel und lässt Lobby Retry die Liste auch während einer Wartezeit unmittelbar aktualisieren. Dazu kommen Steam-spezifische WebGL-Hinweise, ein Power-Symbol zum Beenden und nach Plattform gefilterte Nachrichten. Die Rückeroberung des eigenen Trade Ships löst keine falsche Eroberungsmeldung mehr aus; eigene, Team- und Verbündeteneinheiten zählen nicht länger als Atomwaffen-Kills. Das ändert Anzeige und Statistik, nicht Schadenswerte oder Handelserträge.
 
 ## Was solltest du im nächsten Match anders entscheiden?
 
@@ -51,7 +53,7 @@ Lies zuletzt die Karte neu. Yangtze River besitzt eine röhrenartige Flusstopolo
 
 ## Quellenstatus, Grenzen und nächste Lektüre
 
-Die aktuelle öffentliche Autorität ist das offizielle [OpenFront-Release `v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) mit dem unveränderlichen Tag-Commit `fb07e61a9161b3b8e0991c6dc0e0ef6406f653e3`. Die stabile Funktionsbasis ist [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) bei Commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; die beta1-Links bleiben historische Belege für veröffentlichte Regeln. Die v0.34.5-Aussage zu Zügen ist mit der getaggten [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) gegengeprüft, nicht aus einem fahrenden Zug abgeleitet. Spätere `main`-Commits beweisen keine Regeln dieser Release.
+Die aktuelle öffentliche Autorität ist das offizielle [OpenFront-Release `v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) mit dem unveränderlichen Tag-Commit `82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`. Die stabile Funktionsbasis ist [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) bei Commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; die beta1-Links bleiben historische Belege für veröffentlichte Regeln. Die v0.34.5-Aussage zu Zügen ist mit der getaggten [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) gegengeprüft, nicht aus einem fahrenden Zug abgeleitet. Spätere `main`-Commits beweisen keine Regeln dieser Release.
 
 Für Kampfregeln dienen die getaggten Dateien [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) und [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Sie sichern Funktion und Szenarien, liefern aber keine universelle Truppen-pro-Tile-Zahl ohne ratio und density. Die redaktionelle Antwort ist ein begrenzter Probeangriff mit anschließender Grenzprüfung, keine erfundene deterministische Tabelle aus fehlenden Eingaben.
 
