@@ -9,8 +9,8 @@ const homepageCases = [
 ] as const;
 
 const latestGuideSlugs = {
-  en: ['mobile-app-download', 'replay-review', 'post-mirv-recovery', 'hotkeys', 'land-combat'],
-  localized: ['mobile-app-download', 'replay-review', 'post-mirv-recovery', 'land-combat', 'mirv'],
+  en: ['mirv-price-ladder', 'mobile-app-download', 'ranked-2v2', 'sam-launchers', 'warship-fleet-decisions'],
+  localized: ['mirv-price-ladder', 'mobile-app-download', 'ranked-2v2', 'sam-launchers', 'warship-fleet-decisions'],
 } as const;
 
 for (const homepageCase of homepageCases) {

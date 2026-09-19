@@ -336,7 +336,7 @@ for (const language of freshnessLanguages) {
 
       const freshness = page.locator('[data-freshness-summary]');
       await expect(freshness).toBeVisible();
-      await expect(freshness.locator('dd')).toHaveCount(3);
+      await expect(freshness.locator('dd')).toHaveCount(4);
       await expect(freshness).toContainText(freshnessPage.version);
       await expect(freshness).toContainText('2026');
       for (const label of language.labels) await expect(freshness).toContainText(label);
