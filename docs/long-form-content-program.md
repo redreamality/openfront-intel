@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-19。规划窗口：未来 8–12 周。
+更新日期：2026-09-20。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -49,6 +49,7 @@
 | `LF-COMMUNITY-2026-09-17` | `/guides/europe-ffa-openings/` | 独立 Europe 地图公开 FFA 中如何辨别真实出生、河道可达性、邻近 Nation/真人争路，并在第一条路被封后保留独立备用出口 | `ffa-opening` 只负责通用开局节奏；`map-strategy` 只负责跨地图拓扑；`nations-pressure` 只负责 AI 目标筛选；`transport-landings` 从实际登陆开始；本页独占 Europe 而非 Europe Classic/World 的 LANE 路线判定，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-18` | `/guides/nation-alliance-decisions/` | 何时向 Nation 请求联盟，拒绝后如何守线，获准窗口该完成什么，以及如何在续约、到期或选择性背叛前恢复预备队 | `diplomacy-betrayal` 只负责通用请求、计时和退出规则；`mechanics/nations` 是 AI 行为参考；`nations-pressure` 负责敌对目标压力；本页独占对特定 Nation 关系的 PACT 顺序决策，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-19` | `/guides/world-map-ffa-spawns/` | 标准 World 地图公开 FFA 如何看真实出生竞争、选择可守的首块地、确认独立陆/水备用出口，并在邻居先到或本土预备队不足时换线 | `ffa-opening` 负责通用开局时钟与建筑；`map-strategy` 负责跨图地形；`europe-ffa-openings` 是另一张地图；本页独占 World 的现场落点和前两条路线，不把历史热图当胜率排名 |
+| `LF-COMMUNITY-2026-09-20` | `/guides/impossible-singleplayer/` | 默认设置的单人 Impossible 如何保住地图难度奖章资格、选有出口的安全核心、利用 Nation 均势，并把经济转成超过普通 FFA 领土门槛的胜利 | `nations-pressure` 只处理单条 AI 边境的目标风险；`mechanics/nations` 只解释行为机制；`world-map-ffa-spawns` 处理公开 FFA 真人争路；本页独占整局单人战役与成就设置边界 |
 
 ## 生产批次
 
@@ -59,7 +60,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 World FFA 五语路线决策、社区/v0.34.11 来源包与 Guides/FFA/地图策略入口完成即交付 | 一轮一个独立意图；下轮不重复 World 的落点、邻居争路和主备出口；继续完成调研、五语正文、入口、验证及交付报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 Impossible 单人五语战役、社区/v0.34.11 来源包与 Guides/Nation 压力入口随本 PR 合并完成 | 一轮一个独立意图；下轮不重复默认成就设置、安全核心、Nation 均势与领土转换；继续调研、五语正文、入口、验证及交付报告 |
 
 ## 每日生产循环
 

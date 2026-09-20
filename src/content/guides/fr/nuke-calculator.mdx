@@ -2,12 +2,12 @@
 title: "Calculateur nucléaire OpenFront : coût MIRV, Silos et portée SAM"
 description: "Calculez les coûts Atom, Hydrogen et MIRV, les emplacements Silo et SAM prêts, la portée SAM et un indicateur de pression limité."
 pubDate: 2026-08-22
-updatedDate: 2026-09-11
+updatedDate: 2026-09-20
 tags: [calculateur, nucléaire, mirv, sam, missile-silo]
 category: Tutoriel
 difficulty: Avancé
 version: v34
-freshnessSummary: "Vérifié avec v0.34.0-beta1 : chaque MIRV coûte 25M et bloque les autres joueurs pendant 60 secondes, sauf le dernier tireur."
+freshnessSummary: "Vérifié avec v0.34.11 : le MIRV commence à 25M, augmente de 15M par tir mondial et n'a aucun blocage global."
 ---
 
 import NukeCalculator from '../../../components/NukeCalculator.astro';
@@ -18,7 +18,7 @@ import NukeCalculator from '../../../components/NukeCalculator.astro';
 
 Ce résultat répond au budget et à la capacité ; il ne simule pas une carte en direct, les trajectoires, l'ordre des interceptions, les pertes ou une percée garantie.
 
-Le calculateur fournit l'arithmétique exacte des coûts Gold ordinaires, des MIRV à prix fixe, des tubes Missile Silo prêts, des tirs SAM prêts et de la portée SAM par niveau.
+Le calculateur fournit l'arithmétique exacte des coûts Gold ordinaires, de l'échelle MIRV, des tubes Missile Silo prêts, des tirs SAM prêts et de la portée SAM par niveau.
 
 Il affiche aussi `projectiles éligibles - tirs SAM prêts`. Cette dernière valeur mesure une pression théorique ; elle ne prédit pas le nombre d'impacts.
 
@@ -26,7 +26,7 @@ Sans carte en direct et sans état complet, l'outil ne peut pas simuler exacteme
 
 Utilisez-le pour tester un budget et une capacité avant le tir. Ne l'utilisez pas pour promettre une percée ou une défense parfaite.
 
-La frontière joueur formelle est [v0.34.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1). Elle remplace l'échelle de prix MIRV par un coût fixe et un cooldown mondial pour tous sauf le dernier tireur.
+La frontière joueur formelle est [v0.34.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11). L'expérience de prix fixe et de blocage global de beta1 a été annulée avant v0.34.0 stable.
 
 <NukeCalculator />
 
@@ -34,7 +34,7 @@ La frontière joueur formelle est [v0.34.0-beta1](https://github.com/openfrontio
 
 Commencez par le Gold disponible. Le calculateur retire tous les Atom, Hydrogen et MIRV prévus.
 
-Indiquez les quantités d'Atom, Hydrogen et MIRV à comparer. Chaque MIRV est calculé au prix fixe de 25 000 000 Gold.
+Indiquez les quantités d'Atom, Hydrogen et MIRV, ainsi que tous les MIRV déjà lancés dans cette partie. Chaque lancement prévu augmente le prix suivant de 15M.
 
 Pour les lanceurs, donnez le niveau et le nombre d'emplacements encore en recharge. Le niveau décrit la capacité, pas le chargement actuel.
 
@@ -46,7 +46,7 @@ Ces valeurs ne sont pas synchronisées avec une partie. Actualisez-les après le
 
 Sous les règles normales, un Atom Bomb coûte 750 000 Gold et un Hydrogen Bomb coûte 5 000 000.
 
-Chaque MIRV coûte 25 000 000 en v34. Un tir réussi bloque plutôt les autres joueurs pendant 600 ticks, soit 60 secondes ; le dernier tireur est exempté et peut relancer leur attente.
+Le prochain MIRV coûte 25 000 000 plus 15 000 000 par MIRV déjà lancé dans cette partie. Aucun blocage mondial ne s'applique en v0.34.11.
 
 Le total des armes est :
 
@@ -64,19 +64,20 @@ Infinite Gold est une exception de salon. Le calculateur modélise volontairemen
 
 La construction des Silos et des SAM n'entre pas dans le total des armes. Ajoutez-la séparément lorsque les structures n'existent pas encore.
 
-## Série MIRV et cooldown mondial
+## Série MIRV et compteur mondial
 
-Pour `k` MIRV prévus, le total exact est :
+Avec `n` tirs mondiaux précédents et `k` tirs consécutifs prévus, sans intervention d'un autre joueur :
 
 ```text
-total MIRV = 25 000 000 × k
+total MIRV = k × (25 000 000 + 15 000 000 × n)
+           + 15 000 000 × k × (k - 1) / 2
 ```
 
-Un MIRV coûte 25M, deux 50M, trois 75M, quatre 100M et cinq 125M. Cette arithmétique ne donne pas l'autorisation de tirer. Après un succès, tous les autres joueurs attendent 60 secondes.
+Depuis zéro, un MIRV coûte 25M, deux totalisent 65M, trois 120M, quatre 190M et cinq 275M. Actualisez `n` si un autre joueur tire entre les vôtres.
 
-Le dernier tireur peut employer un autre Silo prêt et recommencer leur compteur ; un coéquipier n'hérite pas de cette exemption.
+Tous partagent le compteur de prix, mais aucun cooldown global ne bloque les coéquipiers. Chacun a besoin de Gold et d'un tube prêt.
 
-La recharge de 90 ticks de chaque tube reste séparée. L'exemption ne recharge pas un tube et ne transforme pas la série en commande atomique.
+La recharge de 90 ticks de chaque tube reste séparée. Le calcul du prix ne recharge pas un tube et ne transforme pas la série en commande atomique.
 
 Le menu normal présente le MIRV comme une action unitaire. Une quantité supérieure à un dans l'outil décrit un plan budgétaire, pas un bouton x5 public.
 
@@ -194,7 +195,7 @@ Un simulateur crédible aurait besoin de la carte et de l'état joueur complets.
 
 Supposons 200M Gold, deux Atom, un Hydrogen et trois MIRV prévus.
 
-Les Atom coûtent 1,5M, l'Hydrogen 5M et les trois MIRV fixes 75M. Le total vaut 81,5M et il reste 118,5M.
+Les Atom coûtent 1,5M, l'Hydrogen 5M et les trois MIRV, depuis zéro, 120M. Le total vaut 126,5M et il reste 73,5M.
 
 Un Silo niveau 5 avec deux emplacements en recharge offre trois tubes prêts. Les trois porteurs tiennent donc dans la capacité actuelle.
 
@@ -204,14 +205,14 @@ Avec cinq projectiles éligibles, l'écart théorique vaut +2. Il signifie seule
 
 Certains projectiles peuvent être inaccessibles, un emplacement peut recharger, ou une autre cible peut gagner la priorité.
 
-Si un autre joueur a tiré en dernier, un cooldown positif bloque encore les trois MIRV malgré un budget suffisant. Si vous êtes le dernier tireur, trois tubes prêts peuvent servir, mais chaque nouveau tir relance l'attente des autres.
+Si un autre joueur tire avant vous, les trois MIRV passent à 40M + 55M + 70M = 165M. Trois tubes prêts peuvent servir, mais chaque tir augmente le prix partagé.
 
 L'intérêt principal est là : détecter une hypothèse de coût ou de capacité fausse avant d'en faire une stratégie.
 
 ## Checklist offensive
 
-- Budgétez chaque MIRV au prix fixe de 25M.
-- Vérifiez le dernier tireur et le compteur affiché aux joueurs bloqués.
+- Saisissez le nombre de tirs mondiaux et budgétez chaque MIRV à son propre palier.
+- Vérifiez le nombre de tirs mondiaux et le prix actuellement affiché.
 - Calculez la série arithmétique complète.
 - Comptez les tubes prêts, pas seulement les niveaux.
 - Gardez du Gold pour les forces d'exploitation.
@@ -241,7 +242,7 @@ La défense est un réseau dans le temps. Des niveaux élevés loin de la menace
 
 ### Compter seulement ses propres MIRV
 
-Le prix est fixe, mais l'autorisation ne l'est pas. Un tir bloque les autres joueurs 60 secondes ; le dernier tireur est exempté et peut relancer leur attente.
+Le prix initial de 25M ne vaut que pour le premier tir mondial. Deux tirs consécutifs coûtent 65M, pas 50M ; la version actuelle n'impose aucun blocage de 60 secondes.
 
 ### Confondre niveau du Silo et tirs prêts
 
@@ -271,7 +272,7 @@ Non. Il comprend les Atom, Hydrogen et MIRV prévus. Ajoutez séparément les co
 
 ### Pourquoi le prochain MIRV coûte-t-il moins que le dernier de la série ?
 
-Le calculateur traite le Gold et les tubes locaux. La partie applique aussi le cooldown mondial : si un autre joueur a tiré en dernier, attendez le compteur ; le dernier tireur est exempté.
+Le calculateur traite le Gold et les tubes locaux, mais le compteur mondial peut avoir changé après la saisie. Vérifiez le prix actuel et la recharge du Silo.
 
 ### Hydrogen et MIRV proposent-ils x5 dans le menu normal ?
 
@@ -301,18 +302,18 @@ Consultez le [guide MIRV](/fr/guides/mirv/) pour le rayon de 1 500, l'espacement
 
 La frontière actuelle est la [Release v0.33.7](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.7). Ses notes ne modifient pas les formules nucléaires de cet outil.
 
-Les calculs sont vérifiés par le code et les tests formels du tag v0.34.0-beta1 :
+Les calculs sont vérifiés par le code et les tests formels du tag v0.34.11 :
 
-- [Config.ts : coûts, recharges, vitesses, rayons et portée SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)
-- [MIRVExecution.ts : enregistrement du tir et génération](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts)
-- [MirvCooldown.test.ts : prix fixe et cooldown mondial](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts)
-- [NukeExecution.ts : vol courbe, ciblage et impact](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts)
-- [SAMLauncherExecution.ts : interception et priorité](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts)
-- [SAMMissileExecution.ts : liste des cibles et missile](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMMissileExecution.ts)
-- [PlayerImpl.ts : coûts et sélection du Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/PlayerImpl.ts)
-- [UnitImpl.ts : files des emplacements indépendants](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/UnitImpl.ts)
-- [Tests MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/MIRVExecution.test.ts)
-- [Tests SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/SAMLauncherExecution.test.ts)
-- [Tests Missile Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MissileSilo.test.ts)
+- [Config.ts : coûts, recharges, vitesses, rayons et portée SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts)
+- [MIRVExecution.ts : enregistrement du tir et génération](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts)
+- [StatsImpl.ts : compteur mondial des tirs MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/StatsImpl.ts)
+- [NukeExecution.ts : vol courbe, ciblage et impact](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts : interception et priorité](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts : liste des cibles et missile](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts : coûts et sélection du Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts : files des emplacements indépendants](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/UnitImpl.ts)
+- [Tests MIRV](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/MIRVExecution.test.ts)
+- [Tests SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Tests Missile Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/MissileSilo.test.ts)
 
 Utilisez [la mécanique nucléaire](/fr/mechanics/nukes/) pour interpréter les limites, puis [la dissuasion nucléaire](/fr/strategies/nuclear-deterrence/) pour relier coûts, tirs prêts et décision de riposte.

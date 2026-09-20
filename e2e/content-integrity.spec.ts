@@ -300,7 +300,7 @@ const freshnessLanguages = [
     prefix: '/fr',
     labels: ['Version applicable', 'Dernière vérification', 'Changement clé de cette version'],
     hotkeyFact: '25M',
-    waterNukeFact: 'correction de route',
+    waterNukeFact: 'routes à travers',
   },
   {
     lang: 'de',
@@ -370,11 +370,11 @@ for (const v32Case of v32Cases) {
 }
 
 const latestReleaseSsrCases = [
-  { lang: 'en', path: '/', signal: 'MIRVs now cost a flat 25 million Gold' },
-  { lang: 'zh', path: '/zh/', signal: 'MIRV 现在固定花费 25,000,000 Gold' },
-  { lang: 'fr', path: '/fr/', signal: '25 millions de Gold' },
-  { lang: 'de', path: '/de/', signal: 'Ein MIRV kostet jetzt fest 25 Millionen Gold' },
-  { lang: 'nl', path: '/nl/', signal: 'Een MIRV kost nu altijd 25 miljoen Gold' },
+  { lang: 'en', path: '/', signal: 'next carrier costs 25 million Gold plus 15 million' },
+  { lang: 'zh', path: '/zh/', signal: '下一枚花费 25M，加上本局此前每次 MIRV 发射的 15M' },
+  { lang: 'fr', path: '/fr/', signal: 'prochain coûte 25 millions de Gold plus 15 millions' },
+  { lang: 'de', path: '/de/', signal: 'nächste Träger kostet 25 Millionen Gold plus 15 Millionen' },
+  { lang: 'nl', path: '/nl/', signal: 'volgende drager kost 25 miljoen Gold plus 15 miljoen' },
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {
@@ -559,7 +559,7 @@ const mirvSamCases = [
     strategyPath: '/strategies/nuclear-deterrence/',
     carrier: 'carrier remains outside the SAM target list',
     warhead: 'normal NukeExecution and SAM trajectory checks',
-    cooldown: 'blocks every other player for 60 seconds',
+    cooldown: 'There is no global MIRV launch lockout',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'One Silo releases queued bombs one tick apart',
     strategy: 'trajectory, range, timing, ready-shot, and cooldown logic',
@@ -570,7 +570,7 @@ const mirvSamCases = [
     strategyPath: '/zh/strategies/nuclear-deterrence/',
     carrier: 'MIRV 载体仍不在 SAM 目标列表中',
     warhead: '接受 SAM 弹道检查',
-    cooldown: '其他玩家锁定 60 秒',
+    cooldown: '没有全局发射锁定',
     batch: '原子弹 x1/x2/x5/xMax',
     timing: '同一 Silo 的核弹每隔 1 tick 发出一枚',
     strategy: '按弹道、射程、时机、可用弹量与冷却检查',
@@ -581,7 +581,7 @@ const mirvSamCases = [
     strategyPath: '/fr/strategies/nuclear-deterrence/',
     carrier: 'le véhicule reste hors de la liste SAM',
     warhead: 'contrôle de trajectoire normal',
-    cooldown: 'bloque les autres joueurs pendant 60 secondes',
+    cooldown: 'Aucun blocage global des tirs',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Un même Silo espace ses bombes d’un tick',
     strategy: 'selon la trajectoire, la portée, le timing, les tirs prêts et le cooldown',
@@ -592,7 +592,7 @@ const mirvSamCases = [
     strategyPath: '/de/strategies/nuclear-deterrence/',
     carrier: 'Der Träger bleibt außerhalb der SAM-Zielliste',
     warhead: 'normale Flugbahnprüfung',
-    cooldown: 'blockiert alle anderen Spieler 60 Sekunden',
+    cooldown: 'keine globale Startsperre',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Dasselbe Silo startet seine Bomben mit je einem Tick Abstand',
     strategy: 'nach Flugbahn, Reichweite, Timing, bereiten Schüssen und Cooldown',
@@ -603,7 +603,7 @@ const mirvSamCases = [
     strategyPath: '/nl/strategies/nuclear-deterrence/',
     carrier: 'de drager blijft buiten de SAM-doellijst',
     warhead: 'normale baancontrole',
-    cooldown: 'blokkeert alle andere spelers 60 seconden',
+    cooldown: 'Geen wereldwijde lanceerblokkade',
     batch: 'Atom Bomb x1/x2/x5/xMax',
     timing: 'Dezelfde Silo lanceert bommen met telkens één tick ertussen',
     strategy: 'op baan, bereik, timing, gereed schot en cooldown',
@@ -622,7 +622,7 @@ for (const mirvSamCase of mirvSamCases) {
     await expect(main).toContainText(mirvSamCase.timing);
     await expect(main.getByRole('link', { name: /SAM|上游/ })).toHaveAttribute(
       'href',
-      'https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts',
+      'https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts',
     );
     await expect(
       main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts"]'),

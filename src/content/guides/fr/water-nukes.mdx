@@ -7,7 +7,7 @@ tags: [nukes, mechanics, water-nukes]
 category: Tutoriel
 difficulty: Intermédiaire
 version: v34
-freshnessSummary: "La v0.34.0-beta1 publie la correction de route des Water Nukes et fixe le MIRV à 25M avec un blocage de 60 secondes pour les autres joueurs."
+freshnessSummary: "La v0.34.11 conserve les routes à travers l'eau créée ; le MIRV commence à 25M puis augmente de 15M par tir mondial, sans verrou global."
 ---
 
 ## Réponse directe : l'effet des Water Nukes
@@ -98,7 +98,7 @@ La forme compte. Un cratère lisse devient plus facilement un plan d'eau cohére
 | --- | ---: | --- | --- |
 | Bombe atomique | 750 000 | Inner 12 / outer 30 tiles | Interceptable |
 | Bombe à hydrogène | 5 000 000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | 25M fixe | Se divise en ogives | Véhicule non ciblé ; les autres joueurs sont bloqués 60 secondes, sauf le dernier lanceur |
+| MIRV | 25M + 15M par tir antérieur | Se divise en ogives | Véhicule non ciblé ; aucun verrou global |
 | Ogive MIRV | Incluse avec le MIRV | Inner 12 / outer 18 tiles | Cible SAM normale en vol |
 | Lanceur SAM | Premier à 1 500 000 | Débute à 70 tiles | Cooldown de 90 ticks |
 
@@ -106,7 +106,7 @@ Atom est la tentative de modification la moins chère, mais son empreinte est bi
 
 Un MIRV crée plusieurs zones plus petites. Son véhicule traverse le ciblage SAM, mais les ogives séparées peuvent être interceptées si trajectoire et timing le permettent.
 
-Chaque MIRV coûte cinq Hydrogen, soit 25 000 000 d'or fixes. Un tir réussi bloque les autres joueurs pendant 60 secondes ; le dernier lanceur peut repartir depuis un autre Silo prêt et relancer leur attente.
+Le premier MIRV coûte cinq Hydrogen, soit 25M ; chaque tir mondial ajoute ensuite 15M au prix suivant. Le tir recharge le tube Silo local, mais ne bloque pas les autres joueurs.
 
 Le choix dépend de la forme, pas seulement des dégâts. Décidez s'il faut une petite brèche, une coupure large, plusieurs cratères ou simplement détruire des troupes.
 
@@ -234,9 +234,9 @@ Un SAM par défaut commence à 70 tiles. C'est plus que l'outer 30 d'Atom, mais 
 
 Hydrogen possède outer 100. Une frappe réussie peut toucher une zone bien plus large, ce qui justifie de répartir les structures même derrière des SAM.
 
-### Prix fixe et initiative du MIRV
+### Échelle de prix et initiative du MIRV
 
-Chaque MIRV coûte 25 000 000. Un tir réussi bloque les autres joueurs pendant 60 secondes ; le dernier lanceur reste exempté et peut relancer l’attente depuis un Silo prêt.
+Le prochain MIRV coûte 25 000 000 plus 15 000 000 par tir mondial antérieur. Depuis zéro, deux tirs coûtent 65M, trois 120M ; chacun nécessite un tube prêt mais aucun verrou global.
 
 L'immunité du véhicule est importante, mais l'interception locale des ogives et le blocage de 60 secondes exigent un objectif de carte précis plutôt qu'une simple envie de créer davantage d'eau.
 

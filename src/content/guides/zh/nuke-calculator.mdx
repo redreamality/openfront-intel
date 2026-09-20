@@ -2,12 +2,12 @@
 title: "OpenFront 核武计算器：MIRV 价格、Silo 槽位与 SAM 射程"
 description: "用 OpenFront 核武计算器得到 Atom、Hydrogen、MIRV 的准确成本、Silo 与 SAM 就绪槽位、SAM 射程和有限的压力估计。"
 pubDate: 2026-08-22
-updatedDate: 2026-09-11
+updatedDate: 2026-09-20
 tags: [计算器, 核弹, mirv, sam, 导弹井]
 category: 教程
 difficulty: 高级
 version: v34
-freshnessSummary: "按 v0.34.0-beta1 核验：MIRV 固定 25M，发射后锁定其他玩家 60 秒，最近发射者豁免。"
+freshnessSummary: "按 v0.34.11 核验：MIRV 从 25M 起，每次全局发射使下一枚涨 15M；没有全局发射冷却。"
 ---
 
 import NukeCalculator from '../../../components/NukeCalculator.astro';
@@ -18,7 +18,7 @@ import NukeCalculator from '../../../components/NukeCalculator.astro';
 
 这个结果解决的是预算与容量问题，不会模拟实时地图、飞行轨迹、拦截顺序、伤亡或必然突防。
 
-计算器可以精确完成普通 Gold 成本、固定价格 MIRV 计划、Missile Silo 就绪槽、SAM 就绪拦截弹和等级射程的算术。
+计算器可以精确完成普通 Gold 成本、MIRV 价格阶梯计划、Missile Silo 就绪槽、SAM 就绪拦截弹和等级射程的算术。
 
 它还会显示“可被 SAM 瞄准的来袭投射物减去当前就绪 SAM 数”。这个理论槽位差只是压力估计，不是命中数量预测。
 
@@ -26,7 +26,7 @@ import NukeCalculator from '../../../components/NukeCalculator.astro';
 
 用它在发射前检查预算和容量假设，不要用它承诺某次攻击一定突防，或某套防御必定安全。
 
-当前正式玩家边界是 [v0.34.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1)。它移除旧 MIRV 涨价阶梯，并让最近发射者之外的所有玩家进入 60 秒冷却。
+当前正式玩家边界是 [v0.34.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)。beta1 的固定价格与全局发射冷却实验已在正式 v0.34.0 前回滚。
 
 <NukeCalculator />
 
@@ -34,7 +34,7 @@ import NukeCalculator from '../../../components/NukeCalculator.astro';
 
 先输入当前 Gold。工具会减去计划购买的 Atom Bomb、Hydrogen Bomb 和完整 MIRV 序列。
 
-随后填写计划中的 Atom、Hydrogen 和 MIRV 数。每枚 MIRV 都按固定 25,000,000 Gold 计算。
+随后填写计划中的 Atom、Hydrogen、MIRV 数，以及本局所有玩家已发射的 MIRV 数；计划中每多发射一枚，下一枚价格再涨 15M。
 
 发射器部分要填写结构等级和仍在冷却的槽位数。等级代表最大容量，不等于所有槽当前都已经就绪。
 
@@ -46,7 +46,7 @@ import NukeCalculator from '../../../components/NukeCalculator.astro';
 
 普通规则下，一枚 Atom Bomb 固定 750,000 Gold，一枚 Hydrogen Bomb 固定 5,000,000。
 
-v34 中每枚 MIRV 固定 25,000,000。成功发射会改为锁定其他玩家 600 ticks，也就是 60 秒；最近发射者豁免并可重置等待。
+下一枚 MIRV 花费 25,000,000 加上本局此前每次发射带来的 15,000,000。v0.34.11 没有全局发射锁定。
 
 核武组合总价为：
 
@@ -64,17 +64,18 @@ Infinite Gold 是特殊房间例外。计算器刻意模拟普通金币规则，
 
 武器总价不包含新建 Silo 或 SAM 的成本。若设施尚未完成，需要把下文的建设预算另外加入计划。
 
-## MIRV 固定总价与全局冷却
+## MIRV 递增总价与全局计数
 
-设计划购买 `k` 枚 MIRV，准确总价是：
+设本局此前全局发射数为 `n`，计划连续发射 `k` 枚，且无人插入：
 
 ```text
-MIRV 总价 = 25,000,000 × k
+MIRV 总价 = k × (25,000,000 + 15,000,000 × n)
+          + 15,000,000 × k × (k - 1) / 2
 ```
 
-一枚为 25M，两枚 50M，三枚 75M，四枚 100M，五枚 125M。这个算术不代表所有玩家都有发射权限。某人成功发射后，其他玩家等待 60 秒；最近发射者可以从另一座就绪 Silo 继续，并重置其他人的计时。队友不会继承这项豁免。
+从零开始连续发射一枚为 25M，两枚共 65M，三枚共 120M，四枚共 190M，五枚共 275M。所有玩家共享涨价计数，却没有全局发射锁定；若别人插入发射，就更新 `n`。
 
-普通 Silo 槽位仍要独立装填 90 ticks。发射者豁免不能让冷却中的槽位立即就绪，也不会把多枚计划变成一次批量指令。
+普通 Silo 槽位仍要独立装填 90 ticks。价格计算不能让冷却中的槽位立即就绪，也不会把多枚计划变成一次批量指令。
 
 正常玩家界面中的 MIRV 是单次操作，没有 x5 按钮。工具里的多枚数量表示预算序列，不代表一个原子化批量指令。
 
@@ -190,7 +191,7 @@ outer 爆炸半径内的领土地块也不会整圆清除。普通外圈是 seed
 
 假设你有 200M，计划两枚 Atom、一枚 Hydrogen 和三枚 MIRV。
 
-Atom 合计 1.5M，Hydrogen 为 5M，三枚固定价格 MIRV 为 75M。武器总价 81.5M，剩余 118.5M。
+Atom 合计 1.5M，Hydrogen 为 5M；从零起三枚 MIRV 共 120M。武器总价 126.5M，剩余 73.5M。
 
 再假设 level-5 Silo 有两个槽冷却。当前三根发射管就绪，正好容纳三次载体发射而无需等某个槽重装。
 
@@ -200,21 +201,21 @@ level-5 SAM 也有两个槽冷却，因此三发就绪，准确射程为 102 til
 
 五个目标中有些可能无法交会，某个槽可能中途装填，或者另一个高优先级目标可能先占用导弹。
 
-若最近发射者不是你，即使 Gold 足够，正数冷却也会让三枚暂时不可发射。若最近发射者是你，三根独立就绪管可以支持计划，但每次续射都会重置其他玩家的等待。
+若别人先发射一枚，这三枚的价格变成 40M + 55M + 70M = 165M。三根独立就绪管可以支持计划，但每次发射都会使下一枚涨价。
 
 这正是工具的核心价值：在你围绕错误价格或容量制定整套战术之前，先暴露基础假设问题。
 
 ## 进攻规划清单
 
-- 每枚 MIRV 固定预算 25M；
-- 购买前确认最近发射者与被锁定者显示的剩余计时；
+- 输入全局已发射数量，逐枚按递增阶梯预算 MIRV；
+- 购买前确认全局已发射数量与当前菜单价格；
 - 用等差序列算总价，不用当前单价乘数量；
 - 数就绪 Silo 管，而不是只看设施等级；
 - 为陆军、运输和核爆后的占地保留 Gold；
 - 按敌方领土形状估计弹头，不固定填 350；
 - 只把弹头与 SAM 槽的差看成压力；
 - 混合打击时考虑 Hydrogen 的目标优先级；
-- 其他玩家发射或冷却结束后立即重算。
+- 其他玩家发射或 Silo 槽位装填完成后立即重算。
 
 最便宜的方案不一定最好。25M 的首枚 MIRV 如果落在很差的几何上，可能不如数枚时序明确的普通核弹。
 
@@ -237,7 +238,7 @@ level-5 SAM 也有两个槽冷却，因此三发就绪，准确射程为 102 til
 
 ### 只填写自己的 MIRV 数
 
-价格固定，但发射权限不共享。成功发射会锁定其他玩家 60 秒，最近发射者豁免并可再次发射以重置等待。
+25M 只适用于全局首枚。若连续发射两枚，总价是 65M 而非 50M；现行版本不存在全局 60 秒等待。
 
 ### 把 Silo 等级当作就绪数量
 
@@ -267,7 +268,7 @@ carrier 不在白名单中。应该估算分裂后能够成为合格候选的独
 
 ### 为什么下一枚价格低于序列最后一枚
 
-计算器处理 Gold 与本地槽位；线上对局还会执行全局冷却。若别人最近发射，必须等待界面计时；最近发射者本人豁免。
+计算器处理 Gold 与本地槽位，但填写后若有人发射 MIRV，全局价格计数已变。重新核对实时价格与 Silo 装填状态。
 
 ### Hydrogen 和 MIRV 能在普通菜单按 x5 吗
 
@@ -295,20 +296,20 @@ carrier 不在白名单中。应该估算分裂后能够成为合格候选的独
 
 ## 正式来源与验证边界
 
-当前正式边界是 [v0.34.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1)。本工具的价格、槽位与轨迹边界按该版本核验。
+当前正式边界是 [v0.34.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)。本工具的价格、槽位与轨迹边界按该版本核验。
 
-公式依据 v0.34.0-beta1 的固定代码与正式测试：
+公式依据 v0.34.11 的代码与正式测试：
 
-- [Config.ts：武器成本、冷却、速度、半径与 SAM 射程](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)
-- [MIRVExecution.ts：发射记录与目标生成](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts)
-- [MirvCooldown.test.ts：固定价格与全局冷却](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts)
-- [NukeExecution.ts：曲线飞行、可瞄准区段与爆炸](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts)
-- [SAMLauncherExecution.ts：拦截计划与优先级](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts)
-- [SAMMissileExecution.ts：目标白名单与拦截弹行为](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMMissileExecution.ts)
-- [PlayerImpl.ts：成本与就绪 Silo 选择](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/PlayerImpl.ts)
-- [UnitImpl.ts：Silo 与 SAM 独立槽队列](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/UnitImpl.ts)
-- [MIRV 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/MIRVExecution.test.ts)
-- [SAM 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/SAMLauncherExecution.test.ts)
-- [Missile Silo 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MissileSilo.test.ts)
+- [Config.ts：武器成本、冷却、速度、半径与 SAM 射程](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts)
+- [MIRVExecution.ts：发射记录与目标生成](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts)
+- [StatsImpl.ts：全局 MIRV 发射计数](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/StatsImpl.ts)
+- [NukeExecution.ts：曲线飞行、可瞄准区段与爆炸](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts：拦截计划与优先级](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts：目标白名单与拦截弹行为](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts：成本与就绪 Silo 选择](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts：Silo 与 SAM 独立槽队列](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/UnitImpl.ts)
+- [MIRV 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/MIRVExecution.test.ts)
+- [SAM 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile Silo 正式测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/MissileSilo.test.ts)
 
 用[核武机制](/zh/mechanics/nukes/)解释计算器边界；用[核威慑策略](/zh/strategies/nuclear-deterrence/)把成本与就绪槽位放回打击、保留和反击决策。

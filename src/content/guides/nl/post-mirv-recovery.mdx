@@ -1,24 +1,24 @@
 ---
 title: "OpenFront na een MIRV: bloeden stoppen en je tegenaanval op het goede moment inzetten"
-description: "Na een MIRV op jouw gebied bepaal in v0.34.1 wat je bewaart, hoe snel je leger teruggroeit en wanneer de tegenaanval pas écht kan."
+description: "Na een MIRV: behoud steden, bereken troepenherstel en controleer gereedstaande silo's vóór een tegenaanval in v0.34.11."
 pubDate: 2026-09-15
-updatedDate: 2026-09-15
+updatedDate: 2026-09-20
 tags: [mirv, herstel, tegenaanval, nucleair, tactiek]
 category: strategie
 difficulty: gevorderd
 version: v34
-freshnessSummary: "Geverifieerd op 2026-09-15: gebaseerd op de officiële v0.34.1 Release, de MIRV-cooldown-regressietest uit v0.34.0-beta1, de Config-bron voor groei en troepencapaciteit en de NukeExecution-bron voor valradioactief afval en snelheid."
+freshnessSummary: "Geverifieerd in v0.34.11: geen globale MIRV-afvuurpauze; controleer gereedstaande silo's, de gedeelde prijstrap, troepengroei en fallout."
 ---
 
 import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
 
 <YouTubeEmbed id="EN2oOog3pSs" title="OpenFront-communityvoorbeeld voor herstel na een MIRV" />
 
-## Direct antwoord: bewaak de steden en slaan aan in het cooldown-venster
+## Direct antwoord: bewaak steden en controleer de volgende aanval
 
-Als een MIRV je raakt, bescherm dan voltooide steden, accepteer tegelverlies en lees je verzadiging voordat je goud uitgeeft. De globale cooldown van 600 ticks blokkeert andere spelers, maar de schutter is vrijgesteld en kan met een gereedstaande tweede silo opnieuw vuren. Val alleen aan als troepen, reserve, route en zichtbare silo's samen een beperkt doel ondersteunen. Koppen bewegen met 22–26 tegels/tick plus extra wachttijd; de aankomst is variabel.
+Als een MIRV je raakt, bescherm dan voltooide steden, accepteer tegelverlies en lees je troepenverzadiging voordat je goud uitgeeft. In v0.34.11 is er geen globale MIRV-afvuurpauze: elke speler met genoeg goud en een gereedstaande silo kan tegen de nieuwe prijs opnieuw schieten. Val alleen aan als troepen, reserve, route en zichtbare silo's samen een beperkt doel ondersteunen. De aankomst van de koppen blijft variabel.
 
-Deze handleiding gaat alleen over het besluit *na* de splitsing, niet over de MIRV zelf. De [MIRV-mechanica-handleiding](/nl/guides/mirv/) dekt de 350-koppen envelop, de SAM-interceptie en `MIRV INBOUND`; het [herstelhandboek](/nl/strategies/recovery-playbook/) dekt de algemene schadebeperking en herbouw na *elk* nucleair incident. De vraag hier is smaller en beslissingsrelevant: je bent gemirvt, je kaart ziet er dood uit en je moet precies weten wat je behoudt, hoe snel je teruggroeit en wanneer je aanslaat. Elk getal hieronder komt uit de officiële `v0.34.1` getagde bron, niet uit community-antwoorden.
+Deze handleiding gaat over het besluit *na* de splitsing. De [MIRV-mechanica](/nl/guides/mirv/) behandelt 350 koppen, SAM-interceptie en `MIRV INBOUND`; het [herstelhandboek](/nl/strategies/recovery-playbook/) behandelt algemeen herstel na een kernaanval. Hier bepaal je wat je behoudt, hoe snel troepen terugkomen en wanneer een tegenaanval haalbaar is. Afvuur- en prijsregels komen uit de officiële tag `v0.34.11`.
 
 ## Lees eerst de groeirekening
 
@@ -30,13 +30,13 @@ De andere helft is `maxTroops` zelf, je *doel* van het herstel. Voor menselijke 
 
 Een voorbeeld doorgerekend met de getagde-brongetallen. Je bent gemirvt met 40.000 huidige troepen, 3.200 tegels en twee voltooide steden niveau 3. Je `maxTroops` is ongeveer 1.853.583: `3200^0.6 ≈ 126.8`, de tegelterm is ongeveer 353.583 en de stadsterm 1.500.000. De verzadigingsfactor is ongeveer 0,978, de basiswaarde ongeveer 582. Dat geeft ongeveer 570 troepen per tick, of 5.700 per seconde bij 10 ticks per seconde.
 
-## De globale cooldown blokkeert andere spelers 60 seconden
+## Een gereedstaande silo kan zonder globale timer opnieuw schieten
 
-De globale afvuur-cooldown is `600` ticks, dus `60` seconden bij `10` ticks/seconde. De officiële `MirvCooldown.test.ts` bevestigt de asymmetrie: de speler die zojuist afschoot is vrijgesteld van zijn eigen cooldown, terwijl andere spelers worden geblokkeerd. Een nieuw schot van dezelfde speler zet de timer terug. Een tweede gereedstaande silo kan je venster dus direct sluiten; 60 seconden is alleen het maximum zonder directe herlancering.
+De volgende aanval is de dreiging, niet een beschermde minuut. In v0.34.11 begint de MIRV-prijs bij 25 M en stijgt die na elke afvuring in de partij met 15 M. Na een eerste schot van 25 M kost het volgende minstens 40 M, zolang niemand anders schiet. De prijs kan de aanvaller afremmen, maar blokkeert geen lancering. Een tweede gereedstaande silo met genoeg goud kan onmiddellijk opnieuw vuren, ook als die van een andere speler is.
 
-Twee extra getallen vormen dit venster. De MIRV-drager beweegt met `15` tegels/tick in `nukeSpeed()`, terwijl de losgekoppelde `MIRVWarhead` beweegt met `22` tot `26` tegels/tick plus extra wachttijd. De naaflevering komt dus trager dan een enkele raketanklacht, wat je reactietijd geeft. En het afvuilen breekt de alliantie voor beide kanten met `−100`, dus vanaf het moment dat je overleeft ben je in een nieuwe vijandige staat. De `MIRV INBOUND`-banner is je enige waarschuwing, dus de twee klokken zijn de 60-seconden cooldown en de kopenvlucht.
+De MIRV-drager beweegt met `15` tegels/tick. Losgekoppelde koppen beginnen bij `22`, bereiken afhankelijk van hun index `26` en wachten afzonderlijk 0 tot 14 ticks. Er is dus geen vaste aankomsttijd. Het schot breekt ook de alliantie aan beide kanten tot `−100`. `MIRV INBOUND` waarschuwt voor de huidige aanval, maar toont niet of een andere silo gereedstaat.
 
-De concrete lezing is een twee-klokkenprobleem. Klok 1: de 60 seconden nageladen van de aanvaller, die hij niet terugzet als hij geen reden heeft. Klok 2: je herstel — de verzadigingsrekening zegt hoeveel ticks tot je een krachtwaardig leger hebt. Je slaat aan wanneer jouw klok een drempel overschrijdt: een aanval die vóór het einde van het aanvallersvenster invalt. Heeft hij een tweede geladen silo en een reden om te schieten, dan zet hij zijn timer terug en sluit je venster eerder — dat is het foutpatroon in het volgende deel.
+Vergelijk twee toestanden: gereedstaande silo's en mogelijk goud bij de aanvaller tegenover je eigen herstel en reserve. Eén herladende silo beschermt je niet als er een andere gereedstaat. Een schot van een derde speler verhoogt de gedeelde prijs opnieuw. Controleer dit voor elke opmars, zonder een veilig venster uit een niet-bestaande klok af te leiden.
 
 ## Voer SAVE–SAT–COOL–COUNTER na elke raak uit
 
@@ -44,28 +44,28 @@ De concrete lezing is een twee-klokkenprobleem. Klok 1: de 60 seconden nageladen
 
 **SAT** is de verzadigingslezing. Kijk naar je huidige troepen tegen `maxTroops` en bepaal of je in het lage-verzadigingsgebied zit waar `^ 0.73` en de factor dicht bij 1 je de beste relatieve winst geven. Zat je vóór de MIRV dicht bij de capaciteit, dan accepteer een trager herstel en plan een langere verdediging in plaats van een directe tegenaanval. Schrijf het getal: „Ik zit op X % van de capaciteit, dus mijn nettowinst is ongeveer Y per tick."
 
-**COOL** is de cooldown-klok. Noteer wanneer de aanvaller afschot (de banner is je nulpunt) en tel het 600-tickvenster. Is hij een tweede silo aan het bouwen of beweegt hij ernaartoe, dan verwacht je dat hij terugzet en behandel je het venster als korter dan 60 s. Staat hij inactief, dan zijn de volle 60 s beschikbaar.
+**COOL** is het observeren van een mogelijk volgend schot. Controleer gereedstaande silo's, vermoedelijk goud, de gedeelde MIRV-prijs en routes die een tweede aanval kan raken. Een gebruikte silo herlaadt in 90 ticks, maar een andere gereedstaande silo kan eerder schieten. Stilte levert geen veilige minuut op.
 
-**COUNTER** is de beperkte aanval. Engageer alleen als je SAT-getal plus de COOL-klok zeggen dat een aanval vóór het einde van het venster kan inslaan, en dat die aanval een *gedecideerd doel* is — je grens inkorten, een blootgestelde stad innemen, de aanvalsroute van de aanvaller blokkeren — geen all-in. Behoud een reserve voor een tweede MIRV. De test is dezelfde als een stoptlijn in de [landstrijd](/nl/guides/land-combat/): je weet vóór de aanval welk signaal de beweging beëindigt.
+**COUNTER** is de beperkte aanval. Zet alleen troepen in als SAT en COOL genoeg reserve overlaten om een volgend schot te doorstaan. Kies een concreet doel: je grens inkorten, een blootgestelde stad innemen of een aanvalsroute blokkeren, geen all-in. Net als in de [landstrijd](/nl/guides/land-combat/) leg je vooraf vast welk signaal de beweging stopt.
 
 <div class="my-8 grid gap-3 md:grid-cols-4" aria-label="Herstelcyclus na een MIRV">
   <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">1 - SAVE</strong><p class="mt-2 text-sm text-iron-300">Bewaak de voltooide steden; elke stad is 250.000 van de capaciteit waard per niveau.</p></div>
   <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">2 - SAT</strong><p class="mt-2 text-sm text-iron-300">Lees huidige troepen tegen capaciteit; lage verzadiging = beste relatieve groei.</p></div>
-  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Tel de globale 600-tick cooldown (60 s); een tweede silo verkort.</p></div>
-  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Sla een beperkt doel aan in het venster; behoud een reserve voor een tweede MIRV.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Controleer gereedstaande silo's en de volgende prijs; geen globale timer beschermt je.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Val een beperkt doel aan; behoud reserve voor een tweede MIRV.</p></div>
 </div>
 
-Herhaal alle vier de stappen na elke grote verandering. Een kop tijdens het herstel zet SAT terug; een tweede silo zet COOL en het hele plan terug. Een goed herstel kan vroeg eindigen en winnen; het doel is geen paniek, maar een tijdgebonden besluit.
+Herhaal alle vier de stappen na elke grote verandering. Een inslag verandert SAT; een nieuw gereedstaande silo of nieuwe prijs verandert COOL. Goed herstel vervangt paniek door een beperkte beslissing.
 
-## Scenario 1: tegenaanval in het 60-secondenvenster (FFA)
+## Scenario 1: FFA-tegenaanval met een tweede silo als dreiging
 
-Je zit in een v0.34.1 FFA. Na een MIRV van een tegenstander heb je 3.200 tegels, twee voltooide steden niveau 3, 40.000 troepen. De tegenstander heeft 1.100.000 troepen en een tweede inactieve silo. Die heeft zojuist 25 M betaald en zit in de 600-tick cooldown. Je `maxTroops` is ongeveer 1.853.583, je SAT-factor ongeveer 0,978 en je nettowinst ongeveer 570/tick, dus ongeveer 5.700/s. Je hebt 600.000 goud en een landroute naar de enige blootgestelde stad niveau 1 van de tegenstander, 1.500 tegels achter diens lijn. Je doel is om die in te nemen vóórdat de 600-tickklok van de tegenstander terugzet en zijn tweede silo nageladen kan.
+In een v0.34.11-FFA zonder eerdere MIRV-schoten heb je na de aanval nog 3.200 tegels, twee voltooide steden niveau 3 en 40.000 troepen. De tegenstander heeft 1.100.000 troepen en een tweede gereedstaande silo. Het eerste schot kostte 25 M; het volgende kost minstens 40 M. Je `maxTroops` is ongeveer 1.853.583, SAT ongeveer 0,978 en de begingroei ongeveer 570/tick of 5.700/s. Met 600.000 goud heb je een landroute naar diens blootgestelde stad niveau 1, 1.500 tegels achter het front. De verovering is alleen haalbaar als route en reserve een volgend schot kunnen doorstaan.
 
-Tijdscheck. Een stad bij 1.500 tegels innemen vraagt een kracht die daar overleeft; reken op 90.000 ingezette troepen plus 50.000 reserve. Je zit op 40.000, dus je moet eerst 50.000 bijgroeien. Bij ongeveer 5.700/s aan het begin duurt de statische groei naar de inzetdrempel ongeveer 9 s; in de praktijk duurt het langer door afnemende groei en veranderende gevechten. Noem de tegenaanval niet haalbaar op basis van de klok alleen. De beslistende beperking is de inactieve tweede silo: schiet die tijdens je 30 s herstel, dan zet die zijn timer terug en komt de 22-tegels/tick-naaflevering je blootgestelde flank te pakken vóór de verovering is voltooid. Aannames: de tegenstander heeft geen sterker doel, geen nabije alliantie, geen onbegaanbaar terrein. Faalt er een, dan is het venster niet 60 s.
+Reken op 90.000 ingezette troepen plus 50.000 reserve. Vanuit 40.000 moet er in totaal 100.000 bijkomen: bij de aanvankelijke 5.700/s is dat statisch ongeveer 18 seconden. In werkelijkheid duurt het langer door afnemende groei en gevechten. De tweede silo kan meteen schieten; de koppen reizen met 22–26 tegels/tick en extra wachttijden. Een klok alleen bewijst niet dat de tegenaanval haalbaar is.
 
-Voer SAVE–SAT–COOL–COUNTER uit. SAVE: beide steden niveau 3 worden bewaakt en verbonden, behoudend 1.500.000 capaciteit. SAT: je zit op 2,2 % van de capaciteit, het beste gebied. COOL: de banner is je nulpunt; de enige verkorter is de tweede silo. COUNTER: bij 30 s zet je 90.000 in voor de verovering, houd je 50.000 reserve achter, en stel je de stoptlijn — licht de tweede silo op, dan sta je de verovering stil en trekt zich terug achter je steden, niet halverwege zonder reserve.
+SAVE: houd beide steden verbonden en behoud 1.500.000 capaciteit. SAT: op 2,2 % van de capaciteit win je aanvankelijk ongeveer 570 troepen/tick. COOL: de tweede silo kan schieten zodra de tegenstander 40 M heeft. COUNTER: zet pas troepen in na het bereiken van de drempel voor aanval én reserve; stop als een nieuw schot of veranderde route het plan ongeldig maakt.
 
-De tegenmaatregel van de tegenstander is precies het terugzetten via de tweede silo. Kan die 25 M betalen, dan gebruikt die je 30 s herstel, en omdat de koppen traag zijn (22 tegels/tick) komt de naaflevering aan tijdens je verovering. Je verdediging is de reserve: dat is het verschil tussen „een beperkte tegenaanval die eindigt met een stad" en „een all-in die eindigt met het verlies van beide je steden". Succes betekent de stad innemen, de reserve behouden en klaar zijn vóórdat de tegenstander opnieuw in cooldown komt; het vraagt niet om die te vernietigen.
+Kan de tegenstander 40 M betalen, dan kan die tijdens je herstel opnieuw schieten. Vlucht en spreiding maken de aankomst variabel. De reserve onderscheidt een beperkte verovering van een all-in die je eigen steden blootstelt. Succes is de stad innemen én je reserve behouden ondanks de dreiging, niet winnen vóór een denkbeeldige deadline.
 
 ## Scenario 2: alle steden verloren, herbouw vanaf tegels
 
@@ -75,9 +75,9 @@ Dit is het „waarom is mijn kaart dood" van de berichten, maar het getal toont 
 
 ## Foutpatronen en hoe de aanvaller die straf
 
-Eerst de paniekerbuis. Goud in de eerste tien seconden uitgeven aan blootgestelde tegels terugwinnen of nieuwe gebouwen aan de voorlinie starten lijkt productief maar is het niet: elke tegel die daar wordt geïnvesteerd is een naafleveringsdoel en een stad in aanbouw voegt nul capaciteit toe. De aanvaller straft dat af door de tweede silo terug te zetten en een kop op je blootgestelde herbouw te plaatsen terwijl je reserve is ingezet.
+Eerst paniekherbouw. Blootgestelde tegels terugnemen of vooraan bouwen levert doelen voor het volgende schot op; een onafgebouwde stad voegt niets toe aan je capaciteit. Een tweede gereedstaande silo kan je herbouw raken terwijl je reserve elders is ingezet.
 
-Tweede de tweede silo negeren. Het 60-svenster is alleen echt als de aanvaller niet kan nageladen. Een tegenstander met een tweede geladen silo en genoeg goud zet terug, en je venster is de vluchtijd van zijn kop, niet 60 s. Lees COOL tegen wat je werkelijk kunt zien.
+Ten tweede een veilige minuut veronderstellen. Met een tweede gereedstaande silo en genoeg goud kan de tegenstander zonder globale wachttijd schieten. Beoordeel COOL op zichtbare silo's, vermoedelijke middelen en mogelijke routes.
 
 Derde de all-in-tegenaanval. Het hele leger inzetten laat geen reserve over, en de naaflevering neemt je nu lege steden, einde van de partij. Sla alleen aan als een gedeclareerde reserve kan overleven; anders houd.
 
@@ -88,41 +88,41 @@ Vijfde het herstel behandelen als een race naar de capaciteit. Je hoeft niet op 
 | Slechte truc | Waarom het in v34 faalt | Herstelbare alternatief |
 |---|---|---|
 | „Nu elke tegel opnieuw bouwen" | Blootgestelde herbouw is een doel; onvoltooide steden voegen geen capaciteit toe | Bewaak voltooide steden, herbouw één stad in de diepte |
-| „Ik heb volle 60 s" | De tweede silo zet de aanvaltimer terug | Tel COOL tegen zichtbare silo's, niet het ideaal |
+| „Ik heb een veilige minuut" | Geen globale timer blokkeert een nieuw MIRV-schot | Controleer gereedstaande silo's, prijs en reserve |
 | „All-in-tegenaanval" | Zonder reserve neemt de naaflevering je steden | Zet beperkte kracht in, behoud de reserve, stel de stoptlijn |
 | „Blijven op dicht valradioactief afval" | `5 − falloutRatio·2` vermindert je aanval en verhoogt kosten | Herbouw achter het afval, op schone tegels |
 | „Eerst naar capaciteit, dan aanval" | Capaciteit is de volgende fase; de aanval vraagt kracht+reserve, niet max | Sla aan bij de gedeclareerde drempel, lees SAT daarna opnieuw |
 
 ## Pas de cyclus aan op kaart, FFA, team en Nation
 
-Op kleine kaarten is de kopvlucht kort en zet de tweede silo snel terug, dus COOL is de harde beperking. Kies voor een tegenaanval die op je eigen terrein eindigt (grens inkorten) in plaats van een opmars in dat van de tegenstander: de terugweg is waar de naaflevering je inhaalt. Op grote kaarten komen 22–26-tegels/tick-koppen trager aan, dus is het venster langer, maar een tweede vijandelijk contact kan je route afsluiten; tel je blootgestelde flanken zoals in de [dreigingsbeoordeling](/nl/guides/threat-assessment/).
+Op kleine kaarten is de vlucht kort en vormt een tweede gereedstaande silo een directe dreiging. Verkort liever je grens dan diep op te rukken en op de terugweg geraakt te worden. Op grote kaarten kan de reis met 22–26 tegels/tick langer duren, maar dat garandeert geen pauze. Een tweede vijand kan je route afsluiten; tel blootgestelde flanken zoals in de [dreigingsbeoordeling](/nl/guides/threat-assessment/).
 
-In een team is de `−100`-alliantiebreuk sterker: een teamgenoot die is gemirvt verliest de alliantie en kan een flank blootleggen waar je van afhangt. Coördineer de COOL-klok — één bewaakt de steden, één behoudt de reserve, niemand opent een tweede front zonder te weten wie reageert. De v34-team-overwinningsdrempel is 80 %, dus moet een lange nucleaire opruiming je de dichtere territoriedoelen niet laten missen.
+In een team kan de `−100`-alliantiebreuk een flank openen. Coördineer COOL: één speler bewaakt de steden, een ander houdt reserve en niemand opent zonder dekking een tweede front. De v34-drempel voor teamwinst is 80 %; verlies een nabije territoriumwinst niet uit het oog tijdens herstel.
 
-Tegen een Nation: de Nation die je mirvt, volgt dezelfde globale 600-tick cooldown en dezelfde tweede-silo-regels, maar heeft ook een parallelle AI-gedrag. Behandel COOL als een ondergrens: de Nation kan een tweede geladen silo hebben, terugzetten en in hetzelfde venster een conventionele aanval sturen. SAVE en SAT veranderen niet; de COOL-lezing is voorzichtiger.
+Tegen een Nation gelden dezelfde gedeelde MIRV-prijs en lokale herlaadtijd, terwijl de AI ook een gewone aanval kan sturen. COOL blijft een dreigingslezing: een tweede gereedstaande silo kan schieten als de Nation de volgende prijstrap kan betalen. SAVE en SAT blijven gelijk.
 
-De leerschool voor kaartschaal is dezelfde als in de druk-handleiding: hij verandert de beschikbare reactietijd, niet de vier controles. De getallen — 600-tick cooldown, 10 ticks/seconde, 250.000 per stadniveau, `^ 0.73` groei — zijn versie-stabiel, dus is de cyclus speelbaar zolang een komende Release ze niet verandert.
+Kaartgrootte verandert je reactietijd, niet de vier controles. Controleer bij een latere Release opnieuw: 90 ticks lokaal herladen, 15 M extra per eerder MIRV-schot, 250.000 capaciteit per stadsniveau en `^ 0.73` in de groei.
 
 ## Houd een logboek en controleer de versiegrens
 
-De reproduceerbare praktijk is drie logboekregels: op nul, op halverwege het herstel en bij het besluit. Op nul: noteer huidige troepen en capaciteit, overlevende stadniveaus, status van de tegenstanderssilo's en de bannermarkering. Halverwege het herstel: noteer je SAT-factor en nettowinst per tick en of de tegenstander COOL heeft teruggezet. Bij het besluit: noteer de gedeclareerde kracht, de reserve en de stoptlijn. Een kort logboek laat zien welke aanneming faalt.
+Houd drie logboekregels bij: na de inslag, halverwege het herstel en vóór de tegenaanval. Noteer eerst troepen, capaciteit, overlevende steden, zichtbare silo's en de gedeelde MIRV-prijs. Daarna komen SAT, groei per tick en nieuwe gereedstaande silo's of een veranderde prijs. Leg ten slotte inzet, reserve en stoplijn vast.
 
 | Logboekmoment | Noteren | Doorgaan alleen als | Stoppen/omschakelen als |
 |---|---|---|---|
-| Inschot (0 s) | Troepen/capaciteit, levende stadniveaus, silostatus, bannermarkering | Voltooide steden verbonden, reserve intact | Een stad wordt aangevallen of reserve ingezet |
-| Halverwege herstel | SAT-factor, nettowinst/tick, COOL-terugzetstatus | Nettowinst positief en venster nog open | Aanvaller zet terug of SAT onder het plan |
-| Besluit | Gedeclareerde kracht, reserve, stoptlijn | De aanval invalt vóór het einde van het venster | Tweede silo lichter of reserve onder het plan |
+| Inslag | Troepen/capaciteit, voltooide steden, silo's, MIRV-prijs | Steden verbonden en reserve intact | Stad bedreigd of reserve ingezet |
+| Halverwege | SAT-factor, groei/tick, gereedstaande silo's en prijs | Groei positief en reserve bestand tegen nieuw schot | Nieuw schot of SAT onder plan |
+| Besluit | Inzet, reserve, stoplijn | Doel houdbaar ondanks mogelijke vervolgtreffer | Silo bedreigt route of reserve te klein |
 
-De bewijsgrens is OpenFront `v0.34.1`, geverifieerd op 15 september 2026. De [officiële Release][release] is de versiegrens. De exacte [MIRV-cooldown-test][cooldown-test] legt de globale 600-tick cooldown, de schutter-vrijstelling en het terugzetten door herafvuilen vast. De [Config-bron][config] definieert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. De [NukeExecution-bron][nuke] definieert de drager- en kopsnelheden en de valradioactieve impact. De [MIRVExecution][mirvexec] legt de vaste 25-M-prijs, de 350-koppens envelop, de 55-tegel-minimumverspreiding, de 1500-reikwijdte en de alliantiebreuk vast.
+De geverifieerde versie is OpenFront `v0.34.11` op 20 september 2026. De [officiële Release][release] markeert de versie; [Stats][launch-count] telt alle MIRV-schoten in de partij. [Config][config] bepaalt de prijs van 25 M + 15 M, lokaal herladen, troepencapaciteit, groei en fallout. [NukeExecution][nuke] bepaalt de vlucht; [MIRVExecution][mirvexec] bepaalt de 350 koppen, minimale spreiding van 55 tegels, bereik van 1500 en alliantiebreuk.
 
-De community-berichten en video's in het recherchepakket beantwoorden een andere vraag: wat spelers opmerken en welke besluiten herhaaldelijk falen. Ze ondersteunen de „waarom is mijn kaart dood"-taal, de verwarring of je terugslaat en de zorg om een tweede MIRV. Ze bewijzen de huidige snelheid niet, garanderen geen overleving en leveren geen bouwvolgorde. Die scheiding is opzettelijk. Verandert een komende Release de MIRV-cooldown, de groeifunctie of de stad-troepenbonus, dan behoud je de SAVE–SAT–COOL–COUNTER-cyclus en bereken je de getallen opnieuw vanaf de nieuwe tag.
+Als een latere Release de MIRV-prijs, lokaal herladen, groei of stadsbonus verandert, behoud dan de vier controles en bereken hun drempels opnieuw. Het voorbeeld garandeert geen overleving en is geen universele bouwvolgorde.
 
 Ga verder met de geslaagde check. Voor de MIRV zelf en de splitsing de [MIRV-mechanica-handleiding](/nl/guides/mirv/). Voor het schademodel achter de koppen de [nucleaire rekenmachine](/nl/guides/nuke-calculator/). Voor de afhandeling van een ingezette tegenaanval de [landstrijd](/nl/guides/land-combat/). Voor de eindtijd-klok die het spel tijdens het herstel kan beëindigen de [doomsday-klok](/nl/guides/doomsday-clock/). Voor de afschrikkingslogica die de volgende MIRV voorkomt de [nucleaire afschriking](/nl/strategies/nuclear-deterrence/). Elke volgende pagina repareert één beslisinvoer.
 
-De eindregel is testbaar: nadat een MIRV heeft geraakt, bewaak je de voltooide steden, lees je je verzadiging, tel je de 600-tick cooldown tegen de zichtbare silo's en sla je een beperkt doel aan met een bewaarde reserve in het venster. Maak de eerste actie klein genoeg om de reactie te observeren. Stop wanneer het gedeclareerde signaal arriveert, ook al blijft terrein over. Start pas opnieuw als een nieuwe SAVE–SAT–COOL–COUNTER slaagt. Deze discipline elimineert niet de willekeur van een tweede schot; hij voorkomt de meest voorkomende fout na een MIRV: een verwoestende raak behandelen als een doodvonnis in plaats van als een tijdgebonden besluit met een echt venster.
+Na de inslag bewaak je voltooide steden, lees je SAT, controleer je gereedstaande silo's en de volgende prijs en val je alleen een beperkt doel aan met reserve. Stop bij het vooraf gekozen signaal en begin pas opnieuw na een verse SAVE–SAT–COOL–COUNTER. Met een gereedstaande silo en genoeg goud kan altijd een volgend schot komen.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
-[cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11
+[launch-count]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/StatsImpl.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts
