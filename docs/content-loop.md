@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-19。
+更新日期：2026-09-20。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 本轮五语 `/guides/world-map-ffa-spawns/`、World 社区与正式 tag 来源包、Guides/FFA/地图策略入口随本次交付完成 | 继续滚动 Production；下轮不把 World 的首块地、邻居争路、独立备用出口换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 五语 `/guides/impossible-singleplayer/`、单人社区与正式 tag 来源包、Guides/Nation 压力入口随本 PR 合并即完成 | 继续滚动 Production；下轮不把默认设置奖章资格、安全核心、AI 均势与领土转换换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -31,7 +31,7 @@
 ## 最新来源锚点
 
 - 正式 Release：[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)，tag commit `82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`；v0.34.10 修复 Twitch 面板广告遮挡并把大厅链接交给正式 Steam 应用；v0.34.11 修复 UI 缩放、语言切换地图名、大厅 Retry，以及贸易船重夺和核击杀的错误统计。v0.34.9 已交付桌面布局、列表恢复和迟到加入处理；稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`；2026-09-19 已用 GitHub REST 核验，目前与正式 v0.34.11 tag 相同。后续提交只作未来版本线索。
+- 上游 `main` 游标：`13b403387af01d388f8c8ed8c953b6d3a11d1457`；2026-09-20 已用 GitHub REST 核验，tag 之后的大厅按钮视觉修复只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-09-10..09-16，942 Query / 2,423 Query × Page / 586 clicks。
 - GSC 28 天：2026-08-20..09-16，1,482 Query / 4,934 Query × Page / 1,881 clicks。
@@ -53,6 +53,7 @@
 - 本轮 Europe FFA 地图路线社区与正式 v0.34.7 tag 核验：[`2026-09-17-europe-ffa-openings-community-source-pack.md`](research/2026-09-17-europe-ffa-openings-community-source-pack.md)。
 - 本轮 Nation 联盟决策社区与正式 v0.34.9 tag 核验：[`2026-09-18-nation-alliance-decisions-community-source-pack.md`](research/2026-09-18-nation-alliance-decisions-community-source-pack.md)。
 - 本轮 World FFA 出生与首路的社区、正式 v0.34.11 tag 核验：[`2026-09-19-world-map-ffa-spawns-community-source-pack.md`](research/2026-09-19-world-map-ffa-spawns-community-source-pack.md)。
+- 本轮 Impossible 单人默认奖章战役的社区、正式 v0.34.11 tag 核验：[`2026-09-20-impossible-singleplayer-community-source-pack.md`](research/2026-09-20-impossible-singleplayer-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -68,7 +69,7 @@
 | 地图预加载 | `Released` | v0.34.0 已把地图加载提前；仍不承诺固定秒数或所有设备一致 | 已同步五语 v34 总览；后续只随正式加载流程变化更新 |
 | 外观 loadout | `Released` | v0.34.0：cosmetic inventory、十个编号 loadout、Unequip All、商店预览与恢复选择已上线 | 已同步五语 v34 总览；后续只随正式账号行为变化更新 |
 | Warship veterancy 与 Port repair | `Released` | v33：最多三档经验；战舰击杀、10 艘运输船或 25 艘贸易船捕获可升级；升级提高最大生命与炮击伤害，不立即治疗 | 已同步五语战舰经验攻略、Team naval-control 与 nuclear-deterrence 相邻入口；后续只随正式规则变化更新 |
-| MIRV 固定成本与不对称发射锁定 | `Released` | v0.34.0：每枚 25M；成功发射后其他玩家锁定 60 秒，最近发射者豁免 | 已同步五语 MIRV、核弹计算器、核武机制、hotkeys、Water Nukes 与 nuclear-deterrence；后续只随正式规则变化更新 |
+| MIRV 全局价格阶梯与本地装填 | `Released` | v0.34.11：25M + 本局每次既有 MIRV 发射 15M；无全局 60 秒发射锁定，每根 Silo 管独立装填 | 已同步五语 MIRV、核弹计算器、核武机制、hotkeys、Water Nukes、post-MIRV recovery 与 nuclear-deterrence；后续只随正式规则变化更新 |
 | 公开 profile、history game link 与回放玩家面板 | `Released` | v0.34.0/v0.34.1：profile 公开，history card 可复制普通 game link，spectator replay 可打开 PlayerInfoPanel；旧版本 shell 仍有条件可用 | 已同步五语 v34 总览与 replay-review；后续只随正式隐私、history 或 replay 路由变化更新 |
 | 联盟操作盘、可区分颜色、商店预览 | `In development` | P1/P2 观察 | 评审稳定或合并后再判断玩家价值 |
 | Ranked 2v2 固定队友 | `In development` | 外部依赖不可验证，只内部观察 | 依赖与服务端状态公开可验证后再判断 |
@@ -89,6 +90,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-20 | `LF-COMMUNITY-ROLLING` Impossible 单人战役 | 新建五语 `/guides/impossible-singleplayer/`，回答默认设置的奖章资格、安全核心、Nation 均势、登陆出口与严格领土终局；接通 Guides 与 Nation 压力 | 3 篇实际分析 Reddit、3 段实际核验字幕、v0.34.11 tag 与来源包；单篇审计五语逐节通过。本 PR 合并即完成本轮主题并继续滚动 Production；后续只随正式规则或已确认事实错误复核。 |
 | 2026-09-19 | v34.11 Release response + `LF-COMMUNITY-ROLLING` World FFA 出生与首路 | 五语 v34 总览和移动下载页推进正式版本边界；新建五语 `/guides/world-map-ffa-spawns/`，按现场邻居、首块地、独立陆/水备用出口和本土预备队作路线决策，并接通 Guides、FFA 开局和地图策略 | 3 篇实际分析 Reddit、3 段实际核验视频字幕、正式 v0.34.11 tag 与来源包；五语逐节与 1500 词门槛、内容、版本、构建、链接和 SEO 验收通过后交付，下一轮不重复本图落点与主备出口 |
 | 2026-09-18 | v34.9 Release response + `LF-COMMUNITY-ROLLING` Nation 联盟决策 | 五语 v34 总览与移动下载页推进正式边界；新建五语 `/guides/nation-alliance-decisions/`，用 PACT 区分玩家请求、拒绝、可用窗口和到期/背叛前的预备队，并接通 Guides 与 Nation 压力 | 4 个实际分析 Reddit、4 个带字幕 YouTube、v0.34.9 tag 源码与测试；五语逐节与来源包、release、构建和链接验收通过后，本 PR 合并即完成本轮主题并继续滚动 Production |
 | 2026-09-17 | v34.7 Release response + `LF-COMMUNITY-ROLLING` Europe FFA 开局路线 | 五语 v34 概览、移动下载页推进正式边界，铁路指南修正 v0.34.5 全局饱和曲线；新建五语 `/guides/europe-ffa-openings/`，用 LANE 检查独立 Europe 地图、河流、Nation/真人争路和主备出口，接通 Guides、FFA 开局与地图策略 | 3 个实际分析 Reddit、3 个带可核验字幕 YouTube、9 个官方 URL；guide audit 五语逐节与来源包门槛通过；本 PR 合并即完成本轮主题并继续滚动 Production |

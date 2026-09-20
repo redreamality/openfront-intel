@@ -19,10 +19,10 @@ const nukes = formulas.groups.nukes;
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
         <tr><td>MIRVWarhead</td><td>— (released by MIRV)</td><td>12</td><td>18</td><td>✓ normal in-flight SAM target</td></tr>
-        <tr><td>MIRV (carrier)</td><td>Fixed 25M</td><td colspan="2">Splits into multiple MIRVWarheads</td><td>✗</td></tr>
+        <tr><td>MIRV (carrier)</td><td>25M + 15M per prior launch</td><td colspan="2">Splits into multiple MIRVWarheads</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>v34 source behavior:</strong> the carrier remains outside the SAM target list. After separation, each MIRVWarhead flies through normal NukeExecution and SAM trajectory checks. Every carrier costs 25M. A successful launch blocks every other player for 60 seconds, while the last launcher is exempt and can restart their wait. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Verify SAM targeting</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV execution</a>, and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts" target="_blank" rel="noopener">cooldown tests</a>.</p>
+    <p><strong>v0.34.11 source behavior:</strong> the carrier remains outside the SAM target list. After separation, each MIRVWarhead flies through normal NukeExecution and SAM trajectory checks. The first carrier costs 25M; every game-wide launch raises the next price by 15M. There is no global MIRV launch lockout. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Verify SAM targeting</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">MIRV execution</a>, and <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts" target="_blank" rel="noopener">price formula</a>.</p>
     <Callout type="spec" title="Blast Radius Explained">
       <p><strong>Inner</strong> radius: 100% destruction of all tiles. <strong>Outer</strong> is the fallout zone, ~50% BFS probability spread, leaving radiation. Radiation weakens attacker mag: <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -48,7 +48,7 @@ const nukes = formulas.groups.nukes;
       <li><strong>Before 3 min</strong>: Don't build nukes, gold should go to City/Port economy.</li>
       <li><strong>3-5 min</strong>: 1 Missile Silo + 1 SAM for deterrence.</li>
       <li><strong>5-8 min</strong>: Accumulate 5M gold for hydrogen bomb, target enemy City clusters or Silos.</li>
-      <li><strong>8 min+</strong>: Consider 25M MIRV to force opponent to spread SAM coverage.</li>
+      <li><strong>8 min+</strong>: Check the current MIRV price before using it to pressure SAM coverage.</li>
     </ol>
 
     <Callout type="warn" title="MIRV Psychological Warfare">

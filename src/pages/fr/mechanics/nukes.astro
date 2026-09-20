@@ -19,10 +19,10 @@ const nukes = formulas.groups.nukes;
         <tr><td>AtomBomb</td><td>750,000</td><td>12</td><td>30</td><td>✓</td></tr>
         <tr><td>HydrogenBomb</td><td>5,000,000</td><td>80</td><td>100</td><td>✓</td></tr>
         <tr><td>MIRVWarhead</td><td>— (libéré par MIRV)</td><td>12</td><td>18</td><td>✓ cible SAM normale en vol</td></tr>
-        <tr><td>MIRV (vecteur)</td><td>25M fixe</td><td colspan="2">se sépare en plusieurs MIRVWarhead</td><td>✗</td></tr>
+        <tr><td>MIRV (vecteur)</td><td>25M + 15M par tir antérieur</td><td colspan="2">se sépare en plusieurs MIRVWarhead</td><td>✗</td></tr>
       </tbody>
     </table>
-    <p><strong>Comportement du code v34 :</strong> le véhicule reste hors de la liste SAM. Après séparation, chaque MIRVWarhead suit NukeExecution et le contrôle de trajectoire normal. Chaque porteur coûte 25M. Un tir réussi bloque les autres joueurs pendant 60 secondes, sauf le dernier lanceur qui peut relancer l’attente. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Vérifier le ciblage SAM</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">l'exécution MIRV</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts" target="_blank" rel="noopener">les tests de cooldown</a>.</p>
+    <p><strong>Comportement du code v0.34.11 :</strong> le véhicule reste hors de la liste SAM. Après séparation, chaque MIRVWarhead suit NukeExecution et le contrôle de trajectoire normal. Le premier porteur coûte 25M ; chaque tir mondial ajoute 15M au prix suivant. Aucun blocage global des tirs. <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts" target="_blank" rel="noopener">Vérifier le ciblage SAM</a>, <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts" target="_blank" rel="noopener">l'exécution MIRV</a> et <a href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts" target="_blank" rel="noopener">la formule du prix</a>.</p>
     <Callout type="spec" title="Lecture du rayon d'impact">
       <p>Tous les tiles à l'intérieur du rayon <strong>inner</strong> sont détruits à 100 %. L'<strong>outer</strong> est l'anneau extérieur, propagé par BFS probabiliste (environ 50 %), laissant une zone de retombées. La zone de retombées affaiblit temporairement le mag de l'attaquant : <code>mag *= (5 − 2 × falloutRatio)</code>.</p>
     </Callout>
@@ -48,7 +48,7 @@ const nukes = formulas.groups.nukes;
       <li><strong>Avant 3 minutes</strong> : ne construisez pas de nukes, votre or doit aller à City/Port en priorité.</li>
       <li><strong>3 à 5 minutes</strong> : 1 Missile Silo + 1 SAM pour la dissuasion.</li>
       <li><strong>5 à 8 minutes</strong> : accumulez 5M d'or pour préparer une HydrogenBomb, cible : les groupes de City ou les Silo adverses.</li>
-      <li><strong>Après 8 minutes</strong> : envisagez le MIRV à 25M, pour forcer l'adversaire à disperser sa couverture SAM.</li>
+      <li><strong>Après 8 minutes</strong> : vérifiez le prix MIRV actuel avant de forcer l'adversaire à disperser ses SAM.</li>
     </ol>
 
     <Callout type="warn" title="Guerre psychologique du MIRV">

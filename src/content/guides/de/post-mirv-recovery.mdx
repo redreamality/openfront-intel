@@ -1,24 +1,24 @@
 ---
 title: "OpenFront nach dem MIRV: Blutverlust stoppen und den Gegenschlag timen"
-description: "Nachdem ein MIRV dein Territorium getroffen hat, entscheide in v0.34.1, was du behältst, wie schnell deine Armee zurückwächst und wann der Gegenschlag wirklich möglich ist."
+description: "Nach einem MIRV: Städte sichern, Truppenwachstum berechnen und bereite Silos prüfen, bevor du in v0.34.11 zurückschlägst."
 pubDate: 2026-09-15
-updatedDate: 2026-09-15
+updatedDate: 2026-09-20
 tags: [mirv, erholung, gegenschlag, nuklear, taktik]
 category: strategie
 difficulty: fortgeschritten
 version: v34
-freshnessSummary: "Am 2026-09-15 geprüft: basiert auf dem offiziellen Release v0.34.1, dem MIRV-Cooldown-Regressionstest aus v0.34.0-beta1, der Config-Quelle für Wachstum und Truppenobergrenze sowie der NukeExecution-Quelle für Fallout und Geschwindigkeit."
+freshnessSummary: "Für v0.34.11 geprüft: kein globaler MIRV-Abschuss-Cooldown; bereite Silos, gemeinsame Preisstufe, Truppenwachstum und Fallout beachten."
 ---
 
 import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
 
 <YouTubeEmbed id="EN2oOog3pSs" title="OpenFront Community-Beispiel zur Erholung nach einem MIRV" />
 
-## Direkte Antwort: Städte halten und in der Cooldown-Fenster angreifen
+## Direkte Antwort: Städte halten und den nächsten Abschuss prüfen
 
-Wenn dich ein MIRV trifft, halte fertiggestellte Städte, akzeptiere Kachelverluste und lies die Sättigung, bevor du Gold ausgibst. Der globale 600-Tick-Cooldown blockiert andere Spieler, aber der Schütze ist davon ausgenommen und kann mit einem bereiten zweiten Silo erneut feuern. Schlage nur zurück, wenn Truppen, Reserve, Route und sichtbare Silos ein begrenztes Ziel erlauben. Sprengköpfe bewegen sich mit 22–26 Fliesen/Tick plus zusätzlichen Wartezeiten; die Ankunft ist variabel.
+Wenn dich ein MIRV trifft, halte fertiggestellte Städte, akzeptiere Kachelverluste und prüfe die Truppensättigung vor neuen Ausgaben. In v0.34.11 gibt es keinen globalen MIRV-Abschuss-Cooldown: Jeder Spieler mit genug Gold und einem bereiten Silo kann zum neuen Preis erneut feuern. Schlage nur zurück, wenn Truppen, Reserve, Route und sichtbare Silos ein begrenztes Ziel erlauben. Die Ankunft der Sprengköpfe bleibt variabel.
 
-Dieses Guide behandelt nur die Entscheidung *nach* der Aufspaltung, nicht den MIRV selbst. Das [MIRV-Mechanik-Guide](/de/guides/mirv/) deckt die 350-Sprengkopf-Enveloppe, die SAM-Abschüsse und `MIRV INBOUND` ab; das [Erholung-Handbuch](/de/strategies/recovery-playbook/) deckt die allgemeine Schadenbegrenzung und der Neuaufbau nach *jedem* Nuklearereignis ab. Die Frage hier ist enger und entscheidungsrelevant: Du wurdest MIRV-t, deine Karte sieht tot aus und du musst genau wissen, was du behältst, wie schnell du zurückwächst und wann du zuschlägst. Jede Zahl unten stammt aus dem offiziellen `v0.34.1`-Tagged-Source, nicht aus Community-Antworten.
+Dieser Guide behandelt die Entscheidung *nach* der Aufspaltung. Der [MIRV-Mechanik-Guide](/de/guides/mirv/) erklärt die 350 Sprengköpfe, SAM-Abwehr und `MIRV INBOUND`; das [Erholungshandbuch](/de/strategies/recovery-playbook/) behandelt die allgemeine Erholung nach Nuklearangriffen. Hier entscheidest du, was du behältst, wie schnell Truppen zurückwachsen und wann ein Gegenschlag trägt. Abschuss und Preis folgen dem offiziellen Tag `v0.34.11`.
 
 ## Lies zuerst die Wachstumsrechnung
 
@@ -30,13 +30,13 @@ Die andere Hälfte ist `maxTroops` selbst, dein *Ziel* der Erholung. Für mensch
 
 Ein durchgerechnetes Beispiel mit den Tagged-Source-Zahlen. Du wurdest MIRV-t mit 40.000 aktuellen Truppen, 3.200 Kacheln und zwei fertiggestellten Städte Stufe 3. Deine `maxTroops` liegt bei etwa 1.853.583: `3200^0.6 ≈ 126.8`, der Nicht-Stadt-Term bei etwa 353.583 und der Stadt-Term bei 1.500.000. Der Sättigungsfaktor liegt bei etwa 0,978, der Basiswert bei etwa 582. Das ergibt ungefähr 570 Truppen pro Tick oder 5.700 pro Sekunde bei 10 Ticks pro Sekunde.
 
-## Der globale Cooldown blockiert andere Spieler 60 Sekunden
+## Ein bereiter Silo kann ohne globalen Timer erneut feuern
 
-Der globale Abschuss-Cooldown ist `600` Ticks, also `60` Sekunden bei `10` Ticks/Sekunde. Der offizielle `MirvCooldown.test.ts` bestätigt die Asymmetrie: Der Spieler, der gerade feuerte, ist vom eigenen Cooldown ausgenommen, andere Spieler werden blockiert. Ein neuer MIRV desselben Spielers setzt den Timer zurück. Ein zweiter bereiter Silo kann dein Fenster daher sofort schließen; 60 Sekunden sind nur das Maximum ohne direkten Nachschuss.
+Der nächste Abschuss ist die Gefahr, nicht eine geschützte Minute. In v0.34.11 beginnt der MIRV-Preis bei 25 M und steigt mit jedem spielweiten Abschuss um 15 M. Nach dem ersten Schuss für 25 M kostet der nächste mindestens 40 M, sofern niemand anderes feuert. Der Preis kann den Gegner bremsen, aber keinen Abschuss sperren. Ein zweiter bereiter Silo und genug Gold ermöglichen sofort einen Nachschuss, auch durch einen anderen Spieler.
 
-Zwei weitere Zahlen formen dieses Fenster. Der MIRV-Träger bewegt sich mit `15` Fliesen/Tick in `nukeSpeed()`, während die getrennten `MIRVWarhead` mit `22` bis `26` Fliesen/Tick plus zusätzlichen Wartezeiten bewegen. Der Nachschub kommt also langsamer an als ein einzelner Raketenangriff und gibt dir Reaktionszeit. Und der Abschuss bricht das Bündnis für beide Seiten mit `−100`, also bist du ab dem Moment, in dem du überlebst, in einem neuen feindlichen Zustand. Das `MIRV INBOUND`-Banner ist deine einzige Warnung, also sind die beiden Uhren die 60-Sekunden-Cooldown und der Sprengkopfflug.
+Der MIRV-Träger bewegt sich mit `15` Kacheln/Tick. Getrennte Sprengköpfe starten bei `22`, erreichen je nach Index bis `26` und warten unabhängig 0 bis 14 Ticks. Ihr Eintreffen ist daher nicht exakt vorherzusagen. Der Abschuss verschlechtert das Bündnis beider Seiten auf `−100`. `MIRV INBOUND` warnt vor dem aktuellen Angriff, zeigt aber nicht den Zustand des nächsten Silos.
 
-Das konkrete Lesen ist ein Zwei-Uhren-Problem. Uhr 1: die 60 Sekunden Nachladen des Angreifers, die er nicht zurücksetzt, wenn er keinen Grund hat. Uhr 2: deine Erholung — die Sättigungsrechnung sagt, wie viele Ticks bis du eine kraftwürdige Armee hast. Du schlägst zurück, wenn deine Uhr eine Schwelle überschreitet: ein Schlag, der vor dem Ende des Angreifer-Fensters landet. Hat er einen zweiten geladenen Silo und einen Grund zu feuern, setzt er seinen Timer zurück und dein Fenster schließt früher — das ist das Fehlerszenario im nächsten Abschnitt.
+Vergleiche zwei Zustände: bereite Silos und mögliches Gold des Angreifers gegen deine Erholung und Reserve. Ein einzelner Silo im Nachladen schützt dich nicht, wenn ein weiterer bereitsteht. Ein Abschuss eines dritten Spielers erhöht ebenfalls den gemeinsamen Preis. Prüfe vor jedem Vorstoß erneut, statt ein nicht vorhandenes Zeitfenster zu unterstellen.
 
 ## Führe SAVE–SAT–COOL–COUNTER nach jedem Treffer aus
 
@@ -44,28 +44,28 @@ Das konkrete Lesen ist ein Zwei-Uhren-Problem. Uhr 1: die 60 Sekunden Nachladen 
 
 **SAT** ist die Sättigungs-Lesung. Sieh dir deine aktuellen Truppen gegen `maxTroops` an und bestimme, ob du im niedrigen Sättigungsbereich bist, in dem `^ 0.73` und der nahe-1-Faktor dir den besten relativen Gewinn geben. Warst du vor dem MIRV nahe der Obergrenze, akzeptiere eine langsamere Erholung und plane eine längere Verteidigung statt eines sofortigen Gegenschlags. Schreibe die Zahl: „Ich bin bei X % der Obergrenze, also ist mein Nettogewinn etwa Y pro Tick."
 
-**COOL** ist die Cooldown-Uhr. Notiere, wann der Angreifer feuerte (das Banner ist dein Nullpunkt) und zähle das 600-Tick-Fenster. Baut er einen zweiten Silo oder bewegt sich dorthin, nimm an, er wird zurücksetzen, und behandle das Fenster als kürzer als 60 s. Ist er inaktiv, sind die vollen 60 s verfügbar.
+**COOL** ist die Beobachtung des nächsten Abschusses. Prüfe bereite Silos des Angreifers, mögliches Gold, den gemeinsamen MIRV-Preis und gefährdete Routen. Ein benutzter Silo lädt 90 Ticks nach, doch ein anderer bereiter Silo kann früher feuern. Stille bedeutet keine sichere Minute.
 
-**COUNTER** ist der begrenzte Schlag. Engagiere nur, wenn deine SAT-Zahl plus die COOL-Uhr sagen, dass ein Schlag vor dem Fensterende landen kann, und dass dieser Schlag ein *deklariertes Ziel* ist — deine Grenze kürzen, eine exponierte Stadt nehmen, die Herangehensstraße des Angreifers blockieren — kein All-in. Halte eine Reserve für einen zweiten MIRV. Der Test ist derselbe wie eine Stopp-Linie im [Landkampf](/de/guides/land-combat/): Du weißt vor dem Schlag, welches Signal die Bewegung beendet.
+**COUNTER** ist ein begrenzter Schlag. Greife nur an, wenn SAT und COOL neben der eingesetzten Kraft genug Reserve für einen möglichen Nachschuss lassen. Benenne dein Ziel: Grenze verkürzen, eine exponierte Stadt nehmen oder einen Zugang sperren, kein All-in. Wie im [Landkampf](/de/guides/land-combat/) legst du vorher fest, welches Signal den Angriff beendet.
 
 <div class="my-8 grid gap-3 md:grid-cols-4" aria-label="Erholungszyklus nach dem MIRV">
   <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">1 - SAVE</strong><p class="mt-2 text-sm text-iron-300">Halte die fertiggestellten Städte; jede ist 250.000 der Obergrenze pro Stufe wert.</p></div>
   <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">2 - SAT</strong><p class="mt-2 text-sm text-iron-300">Lies aktuelle Truppen gegen Obergrenze; niedrige Sättigung = bestes relatives Wachstum.</p></div>
-  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Zähle den globalen 600-Tick-Cooldown (60 s); ein zweiter Silo verkürzt.</p></div>
-  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Schlag ein begrenztes Ziel im Fenster; halte eine Reserve für einen zweiten MIRV.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">3 - COOL</strong><p class="mt-2 text-sm text-iron-300">Prüfe bereite Silos und den nächsten Preis; kein globaler Timer schützt dich.</p></div>
+  <div class="border border-iron-700 bg-iron-900 p-4"><strong class="text-cannon-400">4 - COUNTER</strong><p class="mt-2 text-sm text-iron-300">Greife ein begrenztes Ziel an; halte Reserve für einen zweiten MIRV.</p></div>
 </div>
 
-Führe nach jeder großen Änderung alle vier Schritte neu aus. Ein Sprengkopf während der Erholung setzt SAT zurück; ein zweiter Silo setzt COOL und den ganzen Plan zurück. Eine gute Erholung kann früh enden und gewinnen; ihr Ziel ist nicht Panik, sondern eine zeitlich begrenzte Entscheidung.
+Führe nach jeder großen Änderung alle vier Schritte neu aus. Ein Treffer verändert SAT; ein neu bereiter Silo oder ein weiterer Abschuss verändert COOL und den Preis. Eine gute Erholung ersetzt Panik durch eine begrenzte Entscheidung.
 
-## Szenario 1: Gegenschlag in der 60-Sekunden-Fenster (FFA)
+## Szenario 1: FFA-Gegenschlag trotz zweitem Silo
 
-Du bist in einer v0.34.1 FFA. Nach dem MIRV eines Gegners hast du 3.200 Kacheln, zwei fertiggestellt Städte Stufe 3, 40.000 Truppen. Der Gegner hat 1.100.000 Truppen und einen zweiten inaktiven Silo. Er hat gerade 25 M bezahlt und ist in der 600-Tick-Cooldown. Deine `maxTroops` liegt bei etwa 1.853.583, der SAT-Faktor bei 0,978 und der Nettogewinn bei etwa 570/Tick oder 5.700/Sek. Du hast 600.000 Gold und einen Landweg zur einzigen exponierten Stadt Stufe 1 des Gegners, 1.500 Fliesen hinter seiner Linie. Dein Ziel ist, sie zu nehmen, bevor die 600-Tick-Uhr des Gegners zurücksetzt und sein zweiter Silo nachlädt.
+In einer v0.34.11-FFA ohne frühere MIRV-Abschüsse bleiben dir nach dem gegnerischen Treffer 3.200 Kacheln, zwei fertige Städte der Stufe 3 und 40.000 Truppen. Der Gegner hat 1.100.000 Truppen und einen zweiten bereiten Silo. Er zahlte 25 M; der nächste MIRV kostet mindestens 40 M. Deine `maxTroops` betragen ungefähr 1.853.583, SAT etwa 0,978 und dein anfänglicher Zuwachs etwa 570/Tick oder 5.700/Sekunde. Mit 600.000 Gold hast du einen Landweg zu seiner exponierten Stadt der Stufe 1, 1.500 Kacheln hinter der Front. Die Einnahme hängt von Route und Reserve trotz Nachschussrisiko ab.
 
-Taktik-Check. Eine Stadt bei 1.500 Fliesen zu nehmen braucht eine Kraft, die dort überlebt; nimm 90.000 engagierte Truppen plus 50.000 Reserve. Du bist bei 40.000, also musst du erst 50.000 zulegen. Bei etwa 5.700/Sekunde dauert der statische Weg zum Einsatzschwellenwert rund 9 s; praktisch dauert es wegen abflachendem Wachstum und wechselndem Kampf länger. Erkläre den Gegenschlag nicht allein mit der Uhr als machbar. Die entscheidende Einschränkung ist der inaktive zweite Silo: feuert er während deiner 30 s Erholung, setzt er seinen Timer zurück und der 22-Fliesen/Tick-Nachschub erreicht deine exponierte Flanke vor dem Ende der Einnahme. Annahmen: Der Gegner hat kein stärkeres Ziel, kein Bündnis in der Nähe, kein undurchgängiges Terrain. Scheitert eine, ist das Fenster nicht 60 s.
+Für die Einnahme seien 90.000 eingesetzte Truppen und 50.000 Reserve nötig. Von 40.000 aus fehlen insgesamt 100.000; bei anfänglich 5.700/Sekunde sind das statisch etwa 18 Sekunden. Tatsächlich dauert es mit abflachendem Wachstum und Kampf länger. Der zweite Silo kann sofort feuern; Sprengköpfe mit 22–26 Kacheln/Tick und zusätzlichen Wartezeiten machen ihre Ankunft ungewiss. Eine Uhr allein macht den Gegenschlag nicht tragfähig.
 
-Führe SAVE–SAT–COOL–COUNTER aus. SAVE: Beide Städte Stufe 3 werden gehalten und verbunden, haltend 1.500.000 Obergrenze. SAT: Du bist bei 2,2 % der Obergrenze, der beste Bereich. COOL: Das Banner ist dein Nullpunkt; der einzige Verkurzer ist der zweite Silo. COUNTER: Bei 30 s engagierst du 90.000 für die Einnahme, hältst 50.000 Reserve hinter, und setzt die Stopp-Linie — leuchtet der zweite Silo, brich die Einnahme ab und zieh dich hinter deine Städte zurück, nicht mittendrin ohne Reserve.
+SAVE: Beide Städte bleiben verbunden und sichern 1.500.000 Obergrenze. SAT: Bei 2,2 % der Obergrenze gewinnst du anfangs etwa 570 Truppen/Tick. COOL: Der zweite bereite Silo kann feuern, sobald der Gegner 40 M hat. COUNTER: Greife erst an, wenn Kraft und Reserve vorhanden sind; brich ab, wenn ein neuer Abschuss oder eine veränderte Route den Plan entwertet.
 
-Die Gegenmaßnahme des Gegners ist genau das Zurücksetzen durch den zweiten Silo. Kann er 25 M zahlen, nutzt er deine 30 s Erholung, und weil die Sprengköpfe langsam sind (22 Fliesen/Tick) kommt der Nachschub während deiner Einnahme an. Deine Verteidigung ist die Reserve: Sie ist der Unterschied zwischen „ein begrenzter Gegenschlag, der mit einer Stadt endet" und „ein All-in, der mit deinen beiden Städten genommen endet". Erfolg bedeutet, die Stadt zu nehmen, die Reserve zu halten und vor dem erneuten Cooldown des Gegners fertig zu sein; er verlangt nicht, ihn zu zerstören.
+Kann der Gegner 40 M zahlen, kann er während deiner Erholung nachschießen. Flug und Staffelung verhindern eine feste Ankunftszeit. Deine Reserve trennt den begrenzten Angriff vom All-in, das deine Städte preisgibt. Erfolg heißt, die Stadt mit erhaltener Reserve trotz Nachschussgefahr zu nehmen, nicht den Gegner vor einer erfundenen Frist zu besiegen.
 
 ## Szenario 2: Alle Städte verloren, Wiedereröffnung von Kacheln
 
@@ -75,9 +75,9 @@ Das ist das „Warum ist meine Karte tot" der Posts, aber die Zahl zeigt eine er
 
 ## Fehlerszenarien und wie der Angreifer sie bestraft
 
-Erstens die Panik-Wiedereröffnung. Gold in den ersten zehn Sekunden für exponierte Kacheln auszugeben oder neue Gebäude an der Front zu starten sieht produktiv aus, ist es aber nicht: Jede dort investierte Kachel ist ein Nachschubziel und eine im Bau Stadt fügt null Obergrenze hinzu. Der Angreifer bestraft das durch Zurücksetzen des zweiten Silos und setzt einen Sprengkopf auf deine exponierte Wiedereröffnung, während deine Reserve engagiert ist.
+Erstens: Panik-Wiederaufbau. Exponierte Kacheln und Baustellen an der Front sind Ziele für den nächsten Schuss; eine unfertige Stadt erhöht die Obergrenze nicht. Ein anderer bereiter Silo kann den Neubau treffen, während deine Reserve gebunden ist.
 
-Zweitens den zweiten Silo zu ignorieren. Das 60-s-Fenster ist nur real, wenn der Angreifer nicht nachladen kann. Ein Gegner mit einem zweiten geladenen Silo und genug Gold setzt zurück und dein Fenster ist die Flugzeit seines Sprengkopfs, nicht 60 s. Lies COOL gegen das, was du tatsächlich sehen kannst.
+Zweitens: eine sichere Minute anzunehmen. Mit einem zweiten bereiten Silo und genügend Gold kann der Gegner ohne globale Wartezeit erneut feuern. Prüfe sichtbare Silos, wahrscheinliche Mittel und mögliche Flugrouten.
 
 Drittens der All-in-Gegenschlag. Die ganze Armee zu engagieren lässt keine Reserve, und der Nachschub nimmt deine jetzt leeren Städte, Spiel vorbei. Schläge nur zurück, wenn eine deklarierte Reserve überleben kann; sonst halte.
 
@@ -88,41 +88,41 @@ Fünftens die Erholung als Rennen zur Obergrenze zu behandeln. Du musst nicht be
 | Schlechter Trick | Warum er in v34 scheitert | Erholbare Alternative |
 |---|---|---|
 | „Jetzt alle Kacheln wieder aufbauen" | Exponierte Wiedereröffnung ist ein Ziel; unvollendete Städte fügen keine Obergrenze hinzu | Halte fertiggestellte Städte, baue eine Stadt in der Tiefe wieder auf |
-| „Ich habe volle 60 s" | Der zweite Silo setzt den Angreifer-Timer zurück | Zähle COOL gegen sichtbare Silos, nicht das Ideal |
+| „Ich habe eine sichere Minute" | Kein globaler Abschuss-Timer sperrt den nächsten MIRV | Prüfe bereite Silos, Preis und Reserve |
 | „All-in-Gegenschlag" | Ohne Reserve nimmt der Nachschub deine Städte | Engagiere begrenzte Kraft, halte die Reserve, setze die Stopp-Linie |
 | „Auf dichtem Fallout halten" | `5 − falloutRatio·2` reduziert deinen Angriff und erhöht die Kosten | Baue hinter dem Fallout auf, auf saubereren Kacheln |
 | „Zuerst zur Obergrenze, dann zuschlagen" | Die Obergrenze ist die nächste Phase; der Schlag braucht Kraft+Reserve, nicht Max | Schlag bei der deklarierten Schwelle, lies SAT danach neu |
 
 ## Passe den Zyklus an Karte, FFA, Team und Nation an
 
-Auf kleinen Karten ist der Sprengkopfflug kurz und der zweite Silo setzt schnell zurück, also ist COOL die harte Einschränkung. Bevorzuge einen Gegenschlag, der auf deinem eigenen Territorium endet (Grenze kürzen), statt eine Vorstoß in das des Gegners: Der Rückweg ist, wo der Nachschub dich einholt. Auf großen Karten kommen 22–26-Fliesen/Tick-Sprengköpfe langsamer an, also ist das Fenster länger, aber ein zweiter feindlicher Kontakt kann deine Route abschneiden; zähle deine exponierten Flanken wie in der [Bedrohungsabschätzung](/de/guides/threat-assessment/).
+Auf kleinen Karten ist der Sprengkopfflug kurz; ein zweiter bereiter Silo ist besonders gefährlich. Verkürze lieber die eigene Grenze, als tief vorzustoßen und auf dem Rückweg getroffen zu werden. Auf großen Karten kann der Flug mit 22–26 Kacheln/Tick länger dauern, garantiert aber keine Pause. Ein weiterer Gegner kann deine Route schließen. Prüfe exponierte Flanken wie in der [Bedrohungsabschätzung](/de/guides/threat-assessment/).
 
-Im Team ist der `−100`-Bündnisbruch stärker: ein MIRV-ter Teamkollege verliert das Bündnis und kann eine Flanke exponieren, von der du abhängst. Koordiniere die COOL-Uhr — einer hält die Städte, einer hält die Reserve, niemand eröffnet eine zweite Front, ohne zu wissen, wer antwortet. Die v34-Team-Siegsschwelle ist 80 %, also sollte eine lange nukleare Reinigung dich nicht die näheren Territorienziele versäumen lassen.
+Im Team kann der `−100`-Bündnisbruch eine Flanke öffnen. Koordiniere COOL: Einer hält die Städte, einer die Reserve, niemand eröffnet ohne Deckung eine zweite Front. Die v34-Team-Siegsschwelle liegt bei 80 %; verliere das nähere Territoriumsziel bei langem Wiederaufbau nicht aus dem Blick.
 
-Gegen eine Nation: die Nation, die dich MIRV-t, gehorcht demselben globalen 600-Tick-Cooldown und denselben zweiten-Silo-Regeln, hat aber auch ein paralleles AI-Verhalten. Behandle COOL als untere Grenze: Die Nation kann einen zweiten geladenen Silo haben, zurücksetzen und in derselben Fenster einen konventionellen Angriff senden. SAVE und SAT ändern sich nicht; die COOL-Lesung ist vorsichtiger.
+Gegen eine Nation gelten derselbe gemeinsame MIRV-Preis und das lokale Nachladen der Silos; die KI kann außerdem einen gewöhnlichen Angriff senden. COOL bleibt eine Bedrohungsbeobachtung: Ein weiterer bereiter Silo kann feuern, wenn die Nation die nächste Preisstufe bezahlen kann. SAVE und SAT bleiben unverändert.
 
-Die Karten-Skalierungs-Lektion ist die selbe wie im Druck-Guide: Sie ändert die verfügbare Reaktionszeit, nicht die vier Kontrollen. Die Zahlen — 600-Tick-Cooldown, 10 Ticks/Sekunde, 250.000 pro Stadtstufe, `^ 0.73` Wachstum — sind versionsstabil, also ist der Zyklus spielbar, solange ein kommendes Release sie nicht ändert.
+Die Kartengröße ändert die Reaktionszeit, nicht die vier Prüfungen. Prüfe bei einem späteren Release erneut: 90 Ticks lokales Silo-Nachladen, 15 M pro vorherigem MIRV, 250.000 Obergrenze je Stadtstufe und `^ 0.73` im Wachstum.
 
 ## Führe ein Protokoll und prüfe die Versionsgrenze
 
-Die reproduzierbare Praxis sind drei Protokollzeilen: bei null, bei mittlerer Erholung und bei der Entscheidung. Bei null: notiere aktuelle Truppen und Obergrenze, überlebende Stadtstufen, Zustand der gegnerischen Silos und das Banner-Markierung. Bei mittlerer Erholung: notiere deinen SAT-Faktor und Nettogewinn pro Tick und ob der Gegner COOL zurückgesetzt hat. Bei der Entscheidung: notiere deklarierte Kraft, Reserve und Stopp-Linie. Ein kurzes Protokoll zeigt, welche Annahme scheitert.
+Halte drei Protokollzeilen fest: beim Einschlag, mitten in der Erholung und vor dem Gegenschlag. Zuerst notierst du Truppen, Obergrenze, verbliebene Städte, sichtbare Silos und den gemeinsamen MIRV-Preis. Danach erfasst du SAT, Zuwachs pro Tick und neu bereite Silos oder eine neue Preisstufe. Schließlich legst du Angriffskraft, Reserve und Stopp-Linie fest.
 
 | Protokollmoment | Notieren | Weiter nur wenn | Stoppen/Schalten wenn |
 |---|---|---|---|
-| Einschlag (0 s) | Truppen/Obergrenze, lebende Stadtstufen, Silozustand, Banner-Markierung | Fertiggestellte Städte verbunden, Reserve intakt | Eine Stadt angegriffen oder Reserve engagiert |
-| Mittlere Erholung | SAT-Faktor, Nettogewinn/Tick, COOL-Rücksetzzustand | Nettogewinn positiv und Fenster noch offen | Angreifer setzt zurück oder SAT unter Plan |
-| Entscheidung | Deklarierte Kraft, Reserve, Stopp-Linie | Der Schlag landet vor dem Fensterende | Zweiter Silo leuchtet oder Reserve unter Plan |
+| Einschlag | Truppen/Obergrenze, fertige Städte, Silos, MIRV-Preis | Städte verbunden und Reserve intakt | Stadt bedroht oder Reserve gebunden |
+| Mittlere Erholung | SAT-Faktor, Zuwachs/Tick, bereite Silos und Preis | Zuwachs positiv und Reserve hält Nachschuss aus | Neuer Abschuss oder SAT unter Plan |
+| Entscheidung | Angriffskraft, Reserve, Stopp-Linie | Ziel trotz möglichem Nachschuss haltbar | Silo bedroht Route oder Reserve zu klein |
 
-Die Beweisgrenze ist OpenFront `v0.34.1`, geprüft am 15. September 2026. Das [offizielle Release][release] ist die Versionsgrenze. Der exakte [MIRV-Cooldown-Test][cooldown-test] legt den globalen 600-Tick-Cooldown, die Schützen-Ausnahme und das Zurücksetzen durch Nachladen fest. Die [Config-Quelle][config] definiert `msPerTick`, `maxTroops`, `cityTroopIncrease`, `troopIncreaseRate`, `falloutDefenseModifier`, `nukeSpeed`. Die [NukeExecution-Quelle][nuke] definiert Träger- und Sprengkopfgeschwindigkeit und den Fallout-Einschlag. Die [MIRVExecution][mirvexec] legt den flachen 25-M-Preis, die 350-Sprengkopf-Enveloppe, die 55-Fliesen-Mindestverteilung, die 1500-Reichweite und den Bündnisbruch fest.
+Die geprüfte Version ist OpenFront `v0.34.11` am 20. September 2026. Das [offizielle Release][release] markiert die Version; [Stats][launch-count] zählt spielweite MIRV-Abschüsse. [Config][config] definiert 25 M + 15 M als Preis, lokales Nachladen, Truppenobergrenze, Wachstum und Fallout. [NukeExecution][nuke] bestimmt den Sprengkopfflug; [MIRVExecution][mirvexec] bestimmt 350 Sprengköpfe, mindestens 55 Kacheln Streuung, 1500 Reichweite und Bündnisbruch.
 
-Die Community-Posts und Videos im Recherche-Pack beantworten eine andere Frage: Was Spieler bemerken und welche Entscheidungen wiederholt scheitern. Sie stützen die „Warum ist meine Karte tot"-Sprache, die Verwirrung, ob man zurückschlägt und die Sorge um einen zweiten MIRV. Sie beweisen nicht die aktuelle Rate, garantieren kein Überleben und liefern keine Bau-Reihenfolge. Diese Trennung ist gewollt. Ändert ein kommendes Release den MIRV-Cooldown, die Wachstumsfunktion oder den Stadt-Truppenbonus, behalte den SAVE–SAT–COOL–COUNTER-Zyklus und rechne die Zahlen neu aus dem neuen Tag.
+Ändert ein späteres Release MIRV-Preis, lokales Nachladen, Wachstum oder Stadtbonus, behalte die vier Prüfungen und berechne ihre Schwellen neu. Das Beispiel garantiert weder Überleben noch eine allgemeingültige Baufolge.
 
 Fahre mit dem gescheiterten Check fort. Für den MIRV selbst und die Aufspaltung das [MIRV-Mechanik-Guide](/de/guides/mirv/). Für das Schadensmodell hinter den Sprengköpfen der [Nuklearrechner](/de/guides/nuke-calculator/). Für den Ablauf eines engagierten Gegenschlags der [Landkampf](/de/guides/land-combat/). Für die Endzeit-Uhr, die während der Erholung das Spiel beenden kann, die [Doomsday-Uhr](/de/guides/doomsday-clock/). Für die Abschreckungslogik, die den nächsten MIRV verhindert, die [nukleare Abschreckung](/de/strategies/nuclear-deterrence/). Jede nächste Seite repariert eine einzige Entscheidungs-Eingabe.
 
-Die finale Regel ist testbar: nachdem ein MIRV getroffen hat, halte die fertiggestellten Städte, lies deine Sättigung, zähle den 600-Tick-Cooldown gegen die sichtbaren Silos und schlag ein begrenztes Ziel mit einer gehaltenen Reserve im Fenster. Mach die erste Aktion klein genug, um die Reaktion zu beobachten. Hör auf, wenn das deklarierte Signal eintrifft, auch wenn Terrain übrig bleibt. Starte neu nur, wenn eine neue SAVE–SAT–COOL–COUNTER besteht. Diese Disziplin eliminiert nicht den Zufall eines zweiten Schusses; sie verhindert den häufigsten Fehler nach einem MIRV: einen verheerenden Treffer als Todesurteil zu behandeln statt als zeitlich begrenzten Beschluss mit einem echten Fenster.
+Nach einem MIRV hältst du fertige Städte, liest SAT, prüfst bereite Silos und den nächsten Preis und greifst nur mit erhaltener Reserve ein begrenztes Ziel an. Stoppe beim vorher festgelegten Signal und beginne erst nach erneuter SAVE–SAT–COOL–COUNTER-Prüfung. Mit bereitem Silo und genug Gold kann jederzeit ein weiterer MIRV folgen.
 
-[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.1
-[cooldown-test]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MirvCooldown.test.ts
-[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/configuration/Config.ts
-[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/NukeExecution.ts
-[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.1/src/core/execution/MIRVExecution.ts
+[release]: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11
+[launch-count]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/StatsImpl.ts
+[config]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts
+[nuke]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/NukeExecution.ts
+[mirvexec]: https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts

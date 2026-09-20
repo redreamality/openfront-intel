@@ -7,7 +7,7 @@ tags: [nukes, mechanics, water-nukes]
 category: Tutorial
 difficulty: Intermediate
 version: v34
-freshnessSummary: "v0.34.0-beta1 formally releases ship routing through Water-Nuked areas and fixes MIRV cost at 25M with an asymmetric 60-second global cooldown."
+freshnessSummary: "v0.34.11 retains ship routing through Water-Nuked areas and the MIRV price ladder of 25M + 15M per game-wide launch, without global launch lockout."
 ---
 
 ## Direct answer: what are Water Nukes in OpenFront?
@@ -96,7 +96,7 @@ Do not read “permanent” as “the match can never use that area again.” It
 | --- | ---: | --- | --- |
 | Atom Bomb | 750,000 | Inner 12 / outer 30 tiles | Interceptable |
 | Hydrogen Bomb | 5,000,000 | Inner 80 / outer 100 tiles | Interceptable |
-| MIRV | Fixed 25M | Splits into MIRV warheads | Carrier not targeted; other players enter a 60-second launch cooldown |
+| MIRV | 25M + 15M per prior launch | Splits into MIRV warheads | Carrier not targeted; no global launch lockout |
 | MIRV warhead | Included with MIRV | Inner 12 / outer 18 tiles | Normal in-flight SAM target |
 | SAM Launcher | First costs 1,500,000 | Starts at 70 tiles, scales upward | 90-tick cooldown |
 
@@ -104,7 +104,7 @@ An Atom Bomb is the cheaper terrain-editing attempt, but its footprint is far sm
 
 A MIRV can create several smaller affected areas. Its carrier crosses SAM targeting, but separated warheads can be intercepted when their trajectories and timing allow.
 
-Its fixed cost is five times a Hydrogen Bomb. Firing starts the local Silo-tube reload and blocks every other player from MIRV launches for 60 seconds; the last launcher is exempt.
+The first MIRV costs five times a Hydrogen Bomb, and every game-wide MIRV launch raises the next price by 15M. Firing starts the local Silo-tube reload, not a global launch lockout.
 
 The correct choice depends on shape, not only damage. Decide whether you need a small breach, a wide cut, several scattered craters, or simply troop destruction.
 
@@ -232,11 +232,11 @@ A default SAM starts at 70-tile range. That exceeds an Atom Bomb's documented ou
 
 A Hydrogen Bomb has outer reach 100. One successful strike can affect a much wider area than an Atom, which is why spreading critical structures matters even behind SAM coverage.
 
-### MIRV fixed cost and initiative
+### MIRV price ladder and initiative
 
-Every MIRV costs 25,000,000 Gold in v34. Two cost 50,000,000 and three cost 75,000,000.
+The next MIRV costs 25,000,000 Gold plus 15,000,000 per game-wide prior launch. From zero, two consecutive launches cost 65M and three cost 120M.
 
-Carrier immunity is strategically important, but local warhead interception and the 60-second block on every other player mean each use needs a map-changing objective rather than a vague desire to create more water.
+Carrier immunity is strategically important, but local warhead interception and escalating Gold cost mean each use needs a map-changing objective rather than a vague desire to create more water.
 
 The last launcher can fire again from a ready Silo and restart that block.
 

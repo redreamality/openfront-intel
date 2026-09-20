@@ -1,18 +1,18 @@
 ---
-title: "OpenFront MIRV: vaste prijs 25M, kernkoppen en SAM-verdediging"
-description: "Zie de vaste MIRV-prijs van 25M, de bovengrens voor kernkoppen, de SAM-regel en de aanvals- of verdedigingskeuze."
+title: "OpenFront MIRV: oplopende prijs, kernkoppen en SAM-verdediging"
+description: "Zie de MIRV-prijsladder, de bovengrens voor kernkoppen, de SAM-regel en de aanvals- of verdedigingskeuze."
 pubDate: 2026-08-22
-updatedDate: 2026-09-11
+updatedDate: 2026-09-20
 tags: [mirv, kernwapens, sam, missile-silo, strategie]
 category: Handleiding
 difficulty: Gevorderd
 version: v34
-freshnessSummary: "Gecontroleerd aan v0.34.0-beta1: iedere MIRV kost 25M, een lancering blokkeert andere spelers 60 seconden en de laatste schutter is vrijgesteld."
+freshnessSummary: "Gecontroleerd aan v0.34.11: MIRVs beginnen bij 25M en stijgen 15M per wereldwijde lancering; geen wereldwijde lanceerblokkade."
 ---
 
 ## Direct antwoord: hoe werkt een MIRV?
 
-**Kort resultaat:** iedere MIRV kost 25M, de drager is geen SAM-doel en gesplitste kernkoppen kunnen één voor één worden onderschept. 350 is alleen een bovengrens voor kandidaten, geen gegarandeerd aantal treffers.
+**Kort resultaat:** de eerste MIRV kost 25M; elke wereldwijde lancering verhoogt de volgende prijs met 15M. De drager is geen SAM-doel, maar gesplitste kernkoppen zijn afzonderlijk onderschepbaar. 350 is alleen een bovengrens.
 
 Een OpenFront-MIRV lanceert een ongewapende drager vanuit een gereedstaande Missile Silo. Bij het splitsingspunt maakt hij zelfstandige kernkoppen boven het land van de gekozen speler.
 
@@ -24,29 +24,30 @@ Het spel probeert maximaal 350 doelen te kiezen. Alleen het aangeklikte centrum 
 
 Een MIRV is dus een verzadigingswapen dat door de vorm van het territorium wordt bepaald, geen gegarandeerd pakket van 350 inslagen.
 
-De huidige formele grens voor spelers is [v0.34.0-beta1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1). Die vervangt de oude prijsladder door een vaste prijs en asymmetrische wereldwijde cooldown.
+De huidige formele grens voor spelers is [v0.34.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11). Het experiment met vaste prijs en wereldwijde blokkade uit beta1 is vóór v0.34.0 stable teruggedraaid.
 
-De details verwijzen naar de onveranderlijke v0.34.0-beta1-code en tests.
+De details verwijzen naar de onveranderlijke v0.34.11-code en tests.
 
-## Vaste prijs en wereldwijde lanceercooldown
+## Oplopende prijs en herladen van Silos
 
-In `v0.34.0-beta1` kost iedere MIRV vast 25.000.000 Gold. Eerdere lanceringen veranderen de prijs niet. Voor `k` geplande MIRVs geldt:
+In `v0.34.11` hangt de prijs af van `n` eerdere MIRV-lanceringen door alle spelers. Voor `k` opeenvolgende lanceringen zonder andere schutter ertussen:
 
 ```text
-MIRV-kosten = 25.000.000 × k
+volgende MIRV = 25.000.000 + 15.000.000 × n
+totaal = k × volgende MIRV + 15.000.000 × k × (k - 1) / 2
 ```
 
-Een succesvolle lancering registreert in plaats daarvan de schutter en blokkeert alle andere spelers 600 ticks of 60 seconden.
+De eerste vijf lanceringen kosten 25M, 40M, 55M, 70M en 85M. De wereldwijde teller stijgt bij de lancering, ook als SAMs later de kernkoppen onderscheppen.
 
-De laatste schutter is vrijgesteld en kan uit een andere gereedstaande Silo schieten; daarmee start de wachttijd van alle anderen opnieuw.
+Drie opeenvolgende lanceringen vanaf nul kosten samen 120M; vijf kosten 275M. Een lancering van een ander tussendoor voegt 15M toe aan elke resterende MIRV.
 
-Drie MIRVs kosten dus 75M en vijf 125M. De vaste prijs laat geen drie teamgenoten tegelijk schieten: na het eerste succes houdt alleen die speler de vrijstelling tot de timer afloopt.
+De huidige versie heeft geen wereldwijde lanceerblokkade van 60 seconden. Teamgenoten hebben wel elk Gold en een gereedstaande Silo-buis nodig.
 
-De wereldwijde cooldown staat los van de 90-tick-herlaadtijd van iedere Silo-slot. De schutter heeft nog steeds een andere gereedstaande buis nodig of wacht op herladen. Een teamgenoot erft de vrijstelling niet.
+Iedere Silo-buis herlaadt nog steeds 90 ticks; de beschikbaarheid van een buis staat los van de gedeelde prijsteller.
 
-Heeft iemand anders het laatst geschoten, lees dan de resterende tijd in het bouwmenu.
+Controleer vóór elke lancering de actuele prijs in het bouwmenu.
 
-Was jij het, bepaal of nog eens 25M het herstarten van ieders wachttijd waard is. Een geblokkeerde poging maakt geen eenheid en veroorzaakt geen verraadseffect.
+Alleen een daadwerkelijk geproduceerde MIRV verhoogt de wereldwijde teller. Reken de resterende reeks opnieuw uit zodra iemand anders schiet.
 
 Infinite Gold is een lobby-uitzondering. Alle planning op deze pagina veronderstelt normale Gold-regels.
 
@@ -64,7 +65,7 @@ Meerdere kernwapens uit dezelfde Silo starten minstens één tick na elkaar. Afz
 
 Het normale radiale menu biedt x1, x2, x5 en xMax alleen voor Atom. Hydrogen en MIRV blijven afzonderlijke acties in de gewone interface.
 
-Tel gereedstaande buizen en de laatste schutter. Een budget van 75M geeft geen drie lanceringen als een ander de actieve cooldown bezit of maar één slot geladen is.
+Tel gereedstaande buizen en wereldwijde lanceringen. Vanaf nul is 75M onvoldoende voor drie MIRVs van samen 120M; één geladen buis start ze niet tegelijk.
 
 ## Vlucht van de drager en splitsing
 
@@ -152,7 +153,7 @@ Een positief verschil garandeert geen doorbraak. Nul of negatief garandeert geen
 
 ### 1. Lees de globale teller
 
-Plan 25M per MIRV en controleer daarna de laatste schutter en resterende tijd. Een vaste prijs geeft geen gelijktijdige lanceertoegang.
+Lees de wereldwijde teller en tel per volgende MIRV 15M bij de prijs op; controleer afzonderlijk de geladen buizen. De beta1-timer geldt niet meer.
 
 Bewaar Gold voor leger, transport en exploitatie. Nucleaire gaten zonder verovering kunnen tijdens jouw economische herstel opnieuw worden ingenomen.
 
@@ -208,7 +209,7 @@ Veel onderscheppingsanimaties vervangen dat strategische doel niet.
 
 ## Cijfervoorbeeld: drie MIRVs tegen twee SAMs van level 5
 
-Stel dat wereldwijd nog geen MIRV is gelanceerd. Drie lanceringen van dezelfde aanvaller kosten 25M × 3, dus 75M.
+Stel dat wereldwijd nog geen MIRV is gelanceerd. Drie lanceringen van dezelfde aanvaller kosten 25M + 40M + 55M, dus 120M.
 
 De aanvaller heeft twee Silos van level 2 met vier geladen slots. Die capaciteit is genoeg voor drie dragers zonder op herladen te wachten.
 
@@ -230,7 +231,7 @@ Onjuist. De drager is uitgesloten, maar elke afgesplitste kernkop wordt afzonder
 
 ### “Drie MIRVs kosten drie keer 25M”
 
-Onjuist in v34. Het eerste succes blokkeert de twee andere teamgenoten 60 seconden; alleen dezelfde schutter kan een andere gereedstaande Silo gebruiken en hun wachttijd herstarten.
+Onjuist in v0.34.11. Drie opeenvolgende lanceringen kosten het team 25M, 40M en 55M. Iedereen heeft Gold en geladen buizen nodig, maar er is geen wereldwijde lanceerblokkade.
 
 ### “350 betekent 350 explosies”
 
@@ -258,9 +259,9 @@ Nee. De drager staat niet op de doellijst. SAMs controleren de afzonderlijke ker
 
 Nee. Dat is het gevraagde maximum. Geldig land, tussenruimte, kaartgrens, water, eigendom en zoekpogingen bepalen het echte aantal.
 
-### Heeft elke speler een eigen MIRV-cooldown?
+### Heeft elke speler een eigen MIRV-prijsteller?
 
-Nee. Iedere MIRV kost 25M, maar de lanceerstatus is wereldwijd: een schot blokkeert andere spelers 60 seconden, de laatste schutter is vrijgesteld en herstart hun wachttijd met een volgende lancering.
+Nee. De lanceringsteller is wereldwijd en iedere MIRV verhoogt de volgende prijs voor iedereen met 15M. Alleen afzonderlijke Silo-buizen herladen 90 ticks; de beta1-blokkade is teruggedraaid.
 
 ### Gebruikt een MIRV een Silo-slot?
 
@@ -284,20 +285,20 @@ Gebruik de [OpenFront-kernwapencalculator](/nl/guides/nuke-calculator/) voor vas
 
 ## Formele bronnen en verificatiegrens
 
-De huidige grens is de formele [v0.34.0-beta1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0-beta1).
+De huidige grens is de formele [v0.34.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11).
 
-De regels zijn gebaseerd op de implementatie en tests van tag v0.34.0-beta1:
+De regels zijn gebaseerd op de implementatie en tests van tag v0.34.11:
 
-- [Config.ts: kosten, snelheden, stralen, cooldowns en bereik](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)
-- [MIRVExecution.ts: drager en doelgeneratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/MIRVExecution.ts)
-- [NukeExecution.ts: banen, richtbare segmenten en inslagen](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/NukeExecution.ts)
-- [SAMLauncherExecution.ts: zoeken, prioriteit en timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMLauncherExecution.ts)
-- [SAMMissileExecution.ts: doeltypen en onderschepping](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/SAMMissileExecution.ts)
-- [PlayerImpl.ts: kosten en keuze van gereedstaande Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/PlayerImpl.ts)
-- [UnitImpl.ts: slotwachtrijen van Silo en SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/game/UnitImpl.ts)
-- [MIRV-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/MIRVExecution.test.ts)
-- [SAM-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/core/executions/SAMLauncherExecution.test.ts)
-- [Missile-Silo-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/MissileSilo.test.ts)
+- [Config.ts: kosten, snelheden, stralen, cooldowns en bereik](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts)
+- [MIRVExecution.ts: drager en doelgeneratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/MIRVExecution.ts)
+- [NukeExecution.ts: banen, richtbare segmenten en inslagen](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/NukeExecution.ts)
+- [SAMLauncherExecution.ts: zoeken, prioriteit en timing](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts)
+- [SAMMissileExecution.ts: doeltypen en onderschepping](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMMissileExecution.ts)
+- [PlayerImpl.ts: kosten en keuze van gereedstaande Silo](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/PlayerImpl.ts)
+- [UnitImpl.ts: slotwachtrijen van Silo en SAM](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/UnitImpl.ts)
+- [MIRV-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/MIRVExecution.test.ts)
+- [SAM-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/core/executions/SAMLauncherExecution.test.ts)
+- [Missile-Silo-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/tests/MissileSilo.test.ts)
 
 Lees voor inzet en vergelding in een bredere doctrine de [nucleaire afschrikking](/nl/strategies/nuclear-deterrence/).
 
