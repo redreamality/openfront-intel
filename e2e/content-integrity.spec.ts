@@ -854,6 +854,13 @@ test('sitemap omits fabricated lastmod values and contains every legal route', a
     expect(xml).toContain(
       `<loc>https://openfront.fyi/${langPrefix}guides/first-match/</loc><changefreq>daily</changefreq>`,
     );
+    expect(xml).toContain(
+      `<loc>https://openfront.fyi/${langPrefix}guides/transport-landings/</loc><changefreq>monthly</changefreq>`,
+    );
+  }
+
+  for (const langPrefix of ['', 'zh/', 'fr/', 'de/', 'nl/']) {
+    expect(xml).toContain(`<loc>https://openfront.fyi/${langPrefix}</loc><changefreq>daily</changefreq>`);
   }
 });
 

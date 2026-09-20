@@ -21,7 +21,7 @@ export default defineConfig({
     tailwind({ applyBaseStyles: true }),
     mdx(),
     sitemap({
-      changefreq: 'weekly',
+      changefreq: ChangeFreqEnum.MONTHLY,
       i18n: {
         defaultLocale: 'en',
         locales: {
@@ -34,12 +34,21 @@ export default defineConfig({
       },
       serialize: (item) => {
         const pathname = new URL(item.url).pathname;
-        const isGuideRoute = /(?:^|\/)guides(?:\/|$)/.test(pathname);
+        const isHomepage = /^\/(?:zh|fr|de|nl)?\/?$/.test(pathname);
+        const isCollectionIndex =
+          /^\/(?:zh\/|fr\/|de\/|nl\/)?(?:guides|strategies|maps|mechanics|whats-new|changelog|database)\/$/.test(
+            pathname,
+          );
+        const isContentArticle = /\/(?:guides|strategies|maps|changelog)\/.+\/$/.test(pathname);
 
         return {
           ...item,
-          changefreq: isGuideRoute ? ChangeFreqEnum.DAILY : item.changefreq,
-          priority: pathname === '/' ? 1.0 : 0.7,
+          changefreq: isHomepage || isCollectionIndex
+            ? ChangeFreqEnum.DAILY
+            : isContentArticle
+              ? ChangeFreqEnum.MONTHLY
+              : item.changefreq,
+          priority: isHomepage ? 1.0 : 0.7,
         };
       },
     }),
