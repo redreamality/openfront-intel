@@ -18,3 +18,4 @@
 
 - **2026-09-01 Codex Desktop 更新通道**：MSIX 内置 CLI 执行 `codex update` 可能报“Could not detect the Codex installation method”，因为 Desktop 由 Windows Store 管理；随后 `winget ... --source msstore` 若报 `WinHttpSendRequest: 12029` / `0x80072efd`，以及 `codex doctor` 报 `desktop update and runtime CDN is unreachable`，应判定为商店/CDN 网络不可达，不能误判为仓库或 schedule 脚本失败。npm registry 仍可单独核验 CLI 版本，但全局 CLI 升级不会替换 Desktop 内置运行时。
 - **2026-09-15 Reddit JSON 访问回退**：`.json` 端点可能返回 network-security interstitial，而同一公开讨论的渲染页仍可访问。来源门禁可改用浏览器实际打开正文、评论与页面日期；搜索摘要、标题列表和安全页本身仍不得计数，也不能用社区内容证明玩法数字。
+- **2026-09-21 YouTube 命令行抓取回退**：`yt-dlp` 读取公开 watch URL 仍可能返回 `Sign in to confirm you’re not a bot`。遇到该门槛后改用浏览器实际播放并记录可观察内容，或导出页面提供的可核验字幕；标题、时长、观看数、缩略图和播放器元数据只能用于预检，不能单独计入已分析视频。

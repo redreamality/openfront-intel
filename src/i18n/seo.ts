@@ -79,6 +79,7 @@ const seoCopy: Record<Lang, SeoCopy> = {
       'guides/warship-veterancy': 'Vétéran Warship OpenFront : réparation et retraite',
       'guides/warship-fleet-decisions': 'Flotte Warship OpenFront : achat, patrouille et retraite',
       'guides/mirv-price-ladder': 'MIRV OpenFront : prix progressif et tirs suivants',
+      'guides/coastal-boat-defense': 'Défense côtière OpenFront : bateaux et contre-attaque',
       'mechanics/economy': 'Économie OpenFront : troupes, City, Port et trains',
       'mechanics/modes': 'Modes OpenFront : salons privés, équipes et spectateurs',
       'strategies/ffa-opening': 'Ouverture FFA OpenFront : spawn, expansion et frontières',

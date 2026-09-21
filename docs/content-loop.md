@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-20。
+更新日期：2026-09-21。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -9,7 +9,7 @@
 - 自动化：`openfront`，启用，每天本地时间 09:00，在当前项目目录运行。
 - Scout：始终只读仓库；即使工作区脏也完成 Release、到期 GSC、Issues/Feedlog、现有自有 PR 与输入指纹核验，缓存写入 automation 自有目录。
 - Monitoring：每日固定检查 `What's New` 的 Release/tag 与 upstream `main` 双游标、已跟踪 Issue/PR、`verifiedAt` / `reviewBy` 和状态转换；Issue/PR 只用于内部证据，不直接出现在公共文章；无实质变化时只写 automation memory，不刷新公共日期或制造内容 PR。
-- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`。每轮必须实际分析至少 3 个 Reddit 讨论和 3 个 YouTube 视频或字幕，选出一个成熟玩家问题，并在同轮交付一篇英文正文至少 2000 词（通常 3000–5000）的五语 guide、来源包、自然入口和验证；不得把来源、写作、本地化或验证推迟到下一轮。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠；若仅有一条已审阅、低风险且明确属于自动化规则同步的 `AGENTS.md` 文档改动，可先纳入本轮治理提交并恢复干净状态，不因该单条改动阻塞生产；其他脏工作区仍停止，不创建 worktree，也不自动 stash/reset/clean。
+- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`。每轮必须实际分析至少 3 个 Reddit 讨论和 3 个 YouTube 视频或可核验字幕，选出一个成熟玩家问题，并在同轮交付一篇 en/zh/fr/de/nl 可见正文各至少 1500 词的 guide、来源包、自然入口和验证；中文用 `Intl.Segmenter('zh', { granularity: 'word' })` 的 `isWordLike` 计数，不能用汉字数抵扣。不得把来源、写作、本地化或验证推迟到下一轮。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠；若仅有一条已审阅、低风险且明确属于自动化规则同步的 `AGENTS.md` 文档改动，可先纳入本轮治理提交并恢复干净状态，不因该单条改动阻塞生产；其他脏工作区仍停止，不创建 worktree，也不自动 stash/reset/clean。
 - 热上下文：项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md)、本文件，以及当前 Production 项直接链接的计划。提示词只保留短门禁、长文阶段接口与自动发布门禁，不复制候选、历史或平台避坑。
 - 交付：同一主题的内容、测试与预期完成状态进入同一个 PR。PR 内预先写明“合并即完成/转入 Monitoring/Parked”及下一触发点；合并后不为勾选完成、补 SHA 或记录运行再开收口 PR。
 - 纯运行记录：PR 状态、merge SHA、网络重试、无变化扫描和完整命令日志只写 automation memory，不追加到本文件。
@@ -22,7 +22,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 五语 `/guides/impossible-singleplayer/`、单人社区与正式 tag 来源包、Guides/Nation 压力入口随本 PR 合并即完成 | 继续滚动 Production；下轮不把默认设置奖章资格、安全核心、AI 均势与领土转换换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 五语 `/guides/no-alliances-mode/`、无联盟社区与 v0.34.12 正式 tag 来源包、Guides/威胁评估/外交背叛入口随本轮交付即完成 | 继续滚动 Production；下轮不把无外交保护、多方受益者、贸易与团队边界或 BORDER 框架换标题重复生产。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,8 +30,8 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)，tag commit `82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`；v0.34.10 修复 Twitch 面板广告遮挡并把大厅链接交给正式 Steam 应用；v0.34.11 修复 UI 缩放、语言切换地图名、大厅 Retry，以及贸易船重夺和核击杀的错误统计。v0.34.9 已交付桌面布局、列表恢复和迟到加入处理；稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`13b403387af01d388f8c8ed8c953b6d3a11d1457`；2026-09-20 已用 GitHub REST 核验，tag 之后的大厅按钮视觉修复只作未来版本线索。
+- 正式 Release：[`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)，tag commit `7c27263390d8f1976566e5c5ad9adf6fcad311b6`；本补丁提高中前期 Trade Ship 与 Train 生成率并改善 magic-link 登录，但未公布统一倍率，也未改变 No Alliances 规则。v0.34.11 的 UI 缩放、语言切换地图名、大厅 Retry、贸易船重夺和核击杀统计修复仍有效；稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
+- 上游 `main` 游标：`4bf92e3c98201326003f790839e04dfcc43ff41a`；2026-09-21 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 7 天：2026-09-10..09-16，942 Query / 2,423 Query × Page / 586 clicks。
 - GSC 28 天：2026-08-20..09-16，1,482 Query / 4,934 Query × Page / 1,881 clicks。
@@ -54,6 +54,7 @@
 - 本轮 Nation 联盟决策社区与正式 v0.34.9 tag 核验：[`2026-09-18-nation-alliance-decisions-community-source-pack.md`](research/2026-09-18-nation-alliance-decisions-community-source-pack.md)。
 - 本轮 World FFA 出生与首路的社区、正式 v0.34.11 tag 核验：[`2026-09-19-world-map-ffa-spawns-community-source-pack.md`](research/2026-09-19-world-map-ffa-spawns-community-source-pack.md)。
 - 本轮 Impossible 单人默认奖章战役的社区、正式 v0.34.11 tag 核验：[`2026-09-20-impossible-singleplayer-community-source-pack.md`](research/2026-09-20-impossible-singleplayer-community-source-pack.md)。
+- 本轮 No Alliances 决策的社区、正式 v0.34.12 Release、tag 源码与测试核验：[`2026-09-21-no-alliances-mode-community-source-pack.md`](research/2026-09-21-no-alliances-mode-community-source-pack.md)。
 
 ## What's New 跟踪摘要
 
@@ -90,6 +91,7 @@
 
 | 日期 | 计划 | 结果 | 验证 / 决策 |
 |---|---|---|---|
+| 2026-09-21 | v34.12 Release response + `LF-COMMUNITY-ROLLING` No Alliances 决策 | 五语 v34 总览和移动下载页推进正式版本边界；新建五语 `/guides/no-alliances-mode/`，用 BORDER 区分预备队、敌对接触数、第三方受益者、贸易/团队关系与终局转换，并接通 Guides、威胁评估和外交背叛 | 3 篇实际分析 Reddit、3 个 watch 页官方分镜核验的 YouTube、v0.34.12 Release/tag 与官方测试；五语各 1500 词、逐节 401 词、内容、版本、构建、链接和 SEO 验收通过后交付。 |
 | 2026-09-20 | `LF-COMMUNITY-ROLLING` Impossible 单人战役 | 新建五语 `/guides/impossible-singleplayer/`，回答默认设置的奖章资格、安全核心、Nation 均势、登陆出口与严格领土终局；接通 Guides 与 Nation 压力 | 3 篇实际分析 Reddit、3 段实际核验字幕、v0.34.11 tag 与来源包；单篇审计五语逐节通过。本 PR 合并即完成本轮主题并继续滚动 Production；后续只随正式规则或已确认事实错误复核。 |
 | 2026-09-19 | v34.11 Release response + `LF-COMMUNITY-ROLLING` World FFA 出生与首路 | 五语 v34 总览和移动下载页推进正式版本边界；新建五语 `/guides/world-map-ffa-spawns/`，按现场邻居、首块地、独立陆/水备用出口和本土预备队作路线决策，并接通 Guides、FFA 开局和地图策略 | 3 篇实际分析 Reddit、3 段实际核验视频字幕、正式 v0.34.11 tag 与来源包；五语逐节与 1500 词门槛、内容、版本、构建、链接和 SEO 验收通过后交付，下一轮不重复本图落点与主备出口 |
 | 2026-09-18 | v34.9 Release response + `LF-COMMUNITY-ROLLING` Nation 联盟决策 | 五语 v34 总览与移动下载页推进正式边界；新建五语 `/guides/nation-alliance-decisions/`，用 PACT 区分玩家请求、拒绝、可用窗口和到期/背叛前的预备队，并接通 Guides 与 Nation 压力 | 4 个实际分析 Reddit、4 个带字幕 YouTube、v0.34.9 tag 源码与测试；五语逐节与来源包、release、构建和链接验收通过后，本 PR 合并即完成本轮主题并继续滚动 Production |

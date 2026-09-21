@@ -1,21 +1,23 @@
 ---
-title: 'OpenFront v34.11：陆战、列车、Steam 与大厅'
-description: 'OpenFront 正式 v34.11 Release 对陆战、列车、MIRV、Nation、大厅、Steam 与下一局决策的影响。'
+title: 'OpenFront v34.12：陆战、贸易、列车、Steam 与大厅'
+description: 'OpenFront 正式 v34.12 Release 对陆战、贸易、列车、MIRV、Nation、大厅、Steam 与下一局决策的影响。'
 pubDate: 2026-09-10
-updatedDate: 2026-09-20
+updatedDate: 2026-09-21
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：OpenFront v34.11 改了什么？
+## 直接答案：OpenFront v34.12 改了什么？
 
-OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日。继 v0.34.1 至 [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) 后，官方又发布 [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10) 与 [`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)。v0.34.11 现在是最新正式非 TEST 玩家边界。整个系列延续 v34 功能，并修正攻击节奏、铁路生成、大厅与地图分类、Steam 访问、外观设置和点击失响应。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射、高难度 Nation、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图选择都要按当前版本判断。
+OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日。继 v0.34.1 至 [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) 后，官方又发布 [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10)、[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) 与 [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)。v0.34.12 现在是最新正式非 TEST 玩家边界。整个系列延续 v34 功能，并修正攻击节奏、贸易与铁路生成、大厅与地图分类、Steam 访问、外观设置和点击失响应。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射、高难度 Nation、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图选择都要按当前版本判断。
 
 v0.34.1 之后新增的直接玩法变化，是 v0.34.2 正式说明中的“攻击速度提高约 10%”。它缩短了玩家取消、增援、反推或发现预备队正在崩溃的现实时间窗口，但没有替换 v34 的 ratio 与 density 损耗模型，也不能证明某个固定攻击比例必胜。v0.34.2 还修复公共 Team 出现 0 队、增加更清楚的 trusted-lobby 提示、提供经典 Bot 颜色选项、调整音量默认值，并让桌面端复制的网站链接不再指向 `app://`。v0.34.3 随后修复 Ranked 匹配与支付错误，并恢复已拥有图案的 Default 色板。后三项影响访问与显示，不构成新的战斗公式。
 
 后续补丁的边界不同。v0.34.4 移除桌面端局内全屏按钮，加入 Steam 账号绑定时的合并选项，并更稳妥地处理 Steam 故障。v0.34.5 增加分类别隐藏外观选项，提高中后期 Train 生成频率，修复广告与翻译后的库存标签重叠，为排队大厅编号，并整理 New maps 分类。对应 tag 的 Train 饱和曲线把衰减中点从全局 300 个 Train 单位移至 500；这不保证单栋 Factory 固定多赚多少 Gold。v0.34.6 修正 New maps 分类并改善 Steam 服务基础设施；v0.34.7 修复创作者代码未正确设置和界面偶发完全无法点击。v0.34.8 显示 Steam 离线和会话 Retry 状态，修复旧客户端登录时反复进入大厅的循环，并立即显示 WinModal 按钮。v0.34.9 增加更宽的桌面布局和 UI 缩放选项，让大厅链接在 Steam 应用中打开，在大厅列表失效时自动恢复或提供 Retry，并拒绝对局开始后才加入公共大厅的玩家。这些补丁不是“新增地图”或统一收入倍率的证据。
+
+v0.34.12 提高中前期 Trade Ship 与 Train 的生成频率，并改善 magic-link 登录流程。Release 没有公布统一倍率、固定增收或保证等待时间，因此应观察当前大厅里实际完成的航程和停站。更快生成只会改善本来就有效的路线；不可达站点、被禁运伙伴、暴露 Port 或没有收益的停站仍然不会因此回本。登录改进影响访问流程，不改变模拟规则。
 
 陆地攻击现在使用重建后的损耗模型，两个核心输入是进攻方的 troop ratio 与防守方的 troop density。投入更大的有效进攻，在薄弱边境上可能不再支付旧模型那样高的每格代价；紧凑领土上的高密度防守仍然昂贵。大领土修正改成平滑且有上限的函数，Release 明确说明 100,000 tiles 以下不会因为这项大领土修正而变化。这不是鼓励 full-send：路线宽度、地形、Defense Post、反向攻击和留在本土的预备队仍会决定推进能否站住。它只意味着旧版固定损耗估算已经不能当成精确计算器。
 
@@ -51,7 +53,7 @@ Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把�
 
 ## 来源状态、适用边界与下一步阅读
 
-本文当前的公开权威来源是官方 [OpenFront `v0.34.11` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11)，不可变 tag commit 为 `82e5fce9502b99516b5b4b8f06fc0b88823a0cbc`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；beta1 只证明已回滚实验，不是现行 MIRV 价格规则。v0.34.5 列车说明另由对应 tag 的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) 交叉核验，而不是从移动图标推测收入。后续 `main` 提交不能反向证明当前 Release。
+本文当前的公开权威来源是官方 [OpenFront `v0.34.12` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)，不可变 tag commit 为 `7c27263390d8f1976566e5c5ad9adf6fcad311b6`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；beta1 只证明已回滚实验，不是现行 MIRV 价格规则。v0.34.5 列车说明另由对应 tag 的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) 交叉核验，v0.34.12 节奏边界来自对应 Release 与 tag，而不是从移动图标推测收入。后续 `main` 提交不能反向证明当前 Release。
 
 陆战事实可由 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)、[`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) 与 [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts) 复核。它们确定了实际损耗函数和受保护场景，却不能给出一个脱离 ratio 与 density 的通用“每格损失”。正确编辑结论是用有边界的 probe 观察结果，而不是从不完整输入伪造确定表格。
 

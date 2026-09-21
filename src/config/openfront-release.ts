@@ -20,4 +20,4 @@ function defineOpenFrontRelease(
   };
 }
 
-export const latestOpenFrontRelease = defineOpenFrontRelease('v0.34.11');
+export const latestOpenFrontRelease = defineOpenFrontRelease('v0.34.12');

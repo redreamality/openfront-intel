@@ -3,6 +3,7 @@
 - **2026-09-08 本轮路径探测记录**：初始读取曾猜测不存在的 `src/pages/en` 与 sitemap `options.d.ts`，并把通配表达式作为 `rg` 路径；这些分别属于目录约定错误和 Windows 路径解析错误。后续先用 `rg --files`/实际包树定位，再从真实目录配合 `--glob` 搜索，未影响页面产物。
 - **2026-09-17 复发**：检索自动化历史 session 时，把 `rollout-*.jsonl` 作为 Windows 上 `rg` 的路径参数，得到 `os error 123`；改用 `rg --files <真实目录> -g '<文件名模式>'` 取得精确路径后恢复。此为既有通配路径规则的再次触发，没有影响自动化配置或项目内容。
 - **2026-09-20 复发**：事实复核中把 `src/content/guides/*/impossible-singleplayer.mdx` 传给 Windows `rg`，再次得到 `os error 123`；改从真实目录配 `-g` 后恢复。另把上游 clone 误作仓库内 `OpenFrontIO`、沿用已不存在的 `cache/scripts/wc_zh.js`；真实 clone 在 `../OpenFrontIO`，中文词数改用当前文件和 `Intl.Segmenter` 复算。跨轮路径一律先定位，不沿用旧临时脚本位置。
+- **2026-09-21 复发**：两次 `apply_patch` 因使用未经重读的长行上下文失败；一次目标含 Unicode 标点且真实文件已经变化，另一次标题来自被截断输出且描述词序不同。失败均未产生部分写入，读取目标文件的真实短片段后恢复。补丁锚点必须来自当前完整文件，Unicode 或长段落只使用短而唯一的邻近行，不能从截断输出推断。
 
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
 

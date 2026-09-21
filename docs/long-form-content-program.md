@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-20。规划窗口：未来 8–12 周。
+更新日期：2026-09-21。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -10,7 +10,7 @@
 
 玩家不只看到机制定义，而是能在具体局势中回答：现在该建什么、该攻击谁、哪条路线值得投资、怎样防住核打击，以及地图形状如何改变计划。
 
-长文不以凑字数交付，但定时任务的新 guide 必须达到 2000 个英文正文词的最低门槛（通常 3000–5000）。每篇还必须提供独立搜索意图、当前版本边界、一手来源、决策框架、至少两个可核验场景、失败与反制，以及清晰的下一步阅读路径。
+长文不以凑字数交付，但定时任务的新 guide 必须达到 en/zh/fr/de/nl 可见正文各至少 1500 词的统一最低门槛；中文用 `Intl.Segmenter('zh', { granularity: 'word' })` 的 `isWordLike` 计数，汉字数只能补充报告，不能抵扣词数。每篇还必须提供独立搜索意图、当前版本边界、一手来源、决策框架、至少两个可核验场景、失败与反制，以及清晰的下一步阅读路径。
 
 ## 路由与唯一意图
 
@@ -50,6 +50,7 @@
 | `LF-COMMUNITY-2026-09-18` | `/guides/nation-alliance-decisions/` | 何时向 Nation 请求联盟，拒绝后如何守线，获准窗口该完成什么，以及如何在续约、到期或选择性背叛前恢复预备队 | `diplomacy-betrayal` 只负责通用请求、计时和退出规则；`mechanics/nations` 是 AI 行为参考；`nations-pressure` 负责敌对目标压力；本页独占对特定 Nation 关系的 PACT 顺序决策，不再换标题复制 |
 | `LF-COMMUNITY-2026-09-19` | `/guides/world-map-ffa-spawns/` | 标准 World 地图公开 FFA 如何看真实出生竞争、选择可守的首块地、确认独立陆/水备用出口，并在邻居先到或本土预备队不足时换线 | `ffa-opening` 负责通用开局时钟与建筑；`map-strategy` 负责跨图地形；`europe-ffa-openings` 是另一张地图；本页独占 World 的现场落点和前两条路线，不把历史热图当胜率排名 |
 | `LF-COMMUNITY-2026-09-20` | `/guides/impossible-singleplayer/` | 默认设置的单人 Impossible 如何保住地图难度奖章资格、选有出口的安全核心、利用 Nation 均势，并把经济转成超过普通 FFA 领土门槛的胜利 | `nations-pressure` 只处理单条 AI 边境的目标风险；`mechanics/nations` 只解释行为机制；`world-map-ffa-spawns` 处理公开 FFA 真人争路；本页独占整局单人战役与成就设置边界 |
+| `LF-COMMUNITY-2026-09-21` | `/guides/no-alliances-mode/` | 禁用临时联盟后，玩家如何按预备队、敌对接触数、第三方受益者、独立收入与胜利线选择扩张、停手和转向 | `diplomacy-betrayal` 只处理可用联盟的请求、续约、禁运和退出；`threat-assessment` 只负责全图目标筛选；`trade-vs-piracy` 只负责贸易与捕获收益切换；本页独占没有临时外交保护时的 BORDER 决策，同时明确固定 Team 队友和非禁运贸易仍可用 |
 
 ## 生产批次
 
@@ -60,7 +61,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 Impossible 单人五语战役、社区/v0.34.11 来源包与 Guides/Nation 压力入口随本 PR 合并完成 | 一轮一个独立意图；下轮不重复默认成就设置、安全核心、Nation 均势与领土转换；继续调研、五语正文、入口、验证及交付报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 No Alliances 五语决策、社区/v0.34.12 来源包与 Guides/威胁评估/外交背叛入口随本轮交付完成 | 一轮一个独立意图；下轮不重复无外交保护、多方受益者、贸易与固定 Team 边界或 BORDER 框架；继续调研、五语正文、入口、验证及交付报告 |
 
 ## 每日生产循环
 
@@ -73,8 +74,8 @@
 
 ## 单篇完成定义
 
-- 新建唯一 `/guides/<slug>/` 主路由；只有用户明确要求或现有主答案完全承接同一意图时才允许做 1000+ 词的实质重写，并在报告解释为什么没有新路由。
-- 英文 MDX 的可见正文至少 1000 词，不计 frontmatter、代码块和 URL；使用 `pnpm guide:audit -- --slug <slug> --source-pack <path>` 验证。fr/de/nl 各至少 750 词，zh 至少 1500 个汉字，且五语结构与结论等价。
+- 新建唯一 `/guides/<slug>/` 主路由；只有用户明确要求或现有主答案完全承接同一意图时才允许做实质重写，并在报告解释为什么没有新路由。
+- en/zh/fr/de/nl 的可见正文各至少 1500 词，不计 frontmatter、代码块和 URL；使用 `pnpm guide:audit -- --slug <slug> --source-pack <path>` 验证 en/fr/de/nl，并另用 `Intl.Segmenter('zh', { granularity: 'word' })` 的 `isWordLike` 独立核验中文。中文汉字数只作补充报告，且五语结构与结论等价。
 - 40–80 words 的直接答案，明确适用版本与最后核验日期。
 - 一手来源至少覆盖正式 Release、tag 源码、生成数据或官方测试中的适用组合。
 - 来源包至少包含 3 个有效 Reddit URL、3 个有效 YouTube URL 和 1 个官方 OpenFront 一手来源；每个社区来源必须有实际分析笔记，不能只收集链接。
