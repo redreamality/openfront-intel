@@ -9,6 +9,7 @@ const topics = [
   { section: 'guides', slug: 'nuke-calculator', latinMin: 1_500, hanMin: 2_000 },
   { section: 'guides', slug: 'population-growth', latinMin: 1_500, hanMin: 2_000 },
   { section: 'guides', slug: 'port-vs-factory', latinMin: 1_500, hanMin: 2_000 },
+  { section: 'guides', slug: 'frontload-port-factory-investment', latinMin: 1_500, hanMin: 2_500 },
   { section: 'guides', slug: 'map-size-compact-mode', latinMin: 1_200, hanMin: 2_000 },
   { section: 'guides', slug: 'map-strategy', latinMin: 1_200, hanMin: 2_000 },
   { section: 'maps', slug: 'svalmel', latinMin: 1_200, hanMin: 2_000 },
