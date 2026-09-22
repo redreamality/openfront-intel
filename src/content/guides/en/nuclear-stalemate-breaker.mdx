@@ -1,0 +1,138 @@
+---
+title: "Breaking an OpenFront Nuclear Stalemate: Raid, Blockade, or Reload Window?"
+description: "When both players have Silos and SAMs, decide whether to raid the launch site, blockade the income that funds the next nuke, or wait for a 90-tick reload window and win the land race instead."
+pubDate: 2026-09-22
+updatedDate: 2026-09-22
+version: v34
+freshnessSummary: "Checked against v0.34.12 nuclear code and the v0.34.13 release boundary: Silo slots reload in 90 ticks, launches use the nearest ready Silo, Silo construction is 100 ticks, and x5 only reduces clicks rather than launch cooldown."
+tags: [nukes, stalemate, missile-silo, sam, timing, strategy, v34]
+category: "Nukes & endgame"
+---
+
+## Direct answer: do not answer a Silo with another Silo automatically
+
+**A nuclear stalemate is a clock problem, not a shopping problem.** When both sides have Silos, SAMs, and enough Gold to threaten a strike, choose the action that changes the opponent's next legal launch: raid the Silo if its tile is exposed, blockade the Port, Factory, or City income that funds the weapon if the site is safe, or wait through a reload window while your land position improves. A second Silo is correct only when it creates a deadline the opponent must respect.
+
+Start with three observations. Count the opponent's ready slots, not just their Silo levels. Read whether their last launch started a 90-tick reload and whether another Silo is ready. Then follow the money: a player with 25,000,000 Gold and a safe income route can replace a lost slot; a player with a high-level Silo but a broken route cannot. Finally, identify the land deadline. If your share, Overtime threshold, or capture route wins before the next missile can matter, a nuclear trade is a distraction.
+
+The [Silo timing guide](/guides/building-timing/) owns construction and upgrade arithmetic. The [Nuclear Deterrence](/strategies/nuclear-deterrence/) page owns prevention and core protection. This page starts after both players already have a credible nuclear line and asks a different question: which break action ends the waiting game? Use [Nuke Calculator](/guides/nuke-calculator/) to verify prices and ready slots, then return here to choose raid, blockade, or wait.
+
+The default order is conservative: **wait for information, blockade the funding route, raid only when the Silo cannot be reinforced, and launch only when the follow-up land action is funded.** This is not passive play. A blockade can be a Warship patrol, a threatened Port, a land corridor that cuts a Factory's stations, or a limited attack that makes the opponent spend troops instead of Gold. A reload window is a timed opportunity to take a City, not permission to stare at the missile bar.
+
+The direct decision can be written as a comparison of next irreversible events. If a raid reaches the Silo before its next slot is ready and your troops survive the counter, raid. If the Silo is behind a deep core but its Port or Factory is the only source of Gold, blockade. If neither can be reached without losing the map and your own Silo has a ready slot, wait, improve the border, and preserve the ability to fire. Re-evaluate after every shot, route capture, and alliance change.
+
+## Read the standoff: ready slots, reloads, money, and land
+
+The first mistake in a standoff is treating a level number as a loaded weapon. A Missile Silo costs 1,000,000 Gold, takes 100 ticks to construct, and gains one slot per 1,000,000-Gold upgrade. Each slot reloads in 90 ticks. A level-5 Silo may therefore show five capacity while only two slots are ready after recent launches. The same player may have a second level-1 Silo that is fully ready. Count the actual bars, the construction state, and the distance to the target.
+
+| Signal | What it means | Best first question |
+| --- | --- | --- |
+| One Silo just fired | At least one slot is in a 90-tick queue | Can your land push arrive before the next ready slot? |
+| Several Silos, one ready | The nearest-ready rule can select a different tile | Which site would the target actually use? |
+| High Silo level, broken Port/Factory route | Capacity exists but replacement Gold is slow | Can a blockade win before the next bomb? |
+| SAMs covering the core, thin border | Nuclear defence is strong but land access is weak | Can you force a troop spend instead of a missile trade? |
+| Overtime or victory threshold close | The match may end before a second cycle | Why buy a weapon whose window never arrives? |
+
+Use the 90-tick reload as a real timer. At 100 milliseconds per tick it is about nine seconds, but the relevant number is the time between the opponent's last launch and your next durable action. A raid that takes twelve seconds to cross open land is not a reload punish; a bounded attack that reaches the Silo in seven seconds can be. Do not infer launch speed from the number of clicks: the community's x5 observation changes input batching, not the Silo's reload rule.
+
+Money completes the picture. A player who can replace a Silo, buy a bomb, and still defend the border is not meaningfully crippled by a single raid. A player whose only Gold route runs through one exposed Port can be defeated without touching the Silo. Compare your own spend too. A 5,000,000 Hydrogen and a 1,000,000 Silo are not a bargain if the opponent converts the pause into 200,000 troops and a captured City.
+
+Finally, read land share and shape. A nuclear stalemate is often a symptom of two compact cores with one contested corridor. If your corridor is wider, a normal attack may be the cheaper break. If the opponent's core is behind a Defense Post chain and your reserve is thin, the same attack is a donation. The [Land Combat](/guides/land-combat/) guide owns the attack ratio; this section decides whether nuclear waiting has ended.
+
+## Raid the Silo: the seven checks before a direct hit
+
+Raid a Silo when its tile is exposed, its next slot matters, and the opponent cannot replace the structure before your troops arrive. A raid is not “attack the nearest nuclear icon.” It is a short operation with seven checks: legal path, distance, defender density, Defense Post coverage, ready slot timing, replacement Gold, and exit route. Fail two checks and choose blockade or wait instead.
+
+First, verify the path. A Silo on an island, behind impassable terrain, or across a narrow bridge can be close on the minimap but expensive in tiles. Second, measure the arrival time against 90 ticks. If the opponent's last shot happened 70 ticks ago, a seven-second march may arrive after the new slot is already ready. Third, inspect density and the defender's reserve; a raid that drains your troops can lose even when the Silo dies.
+
+Fourth, count Defense Posts and route width. A 50,000-Gold post with a 30-tile range can turn a direct tile trade into a long stall. Fifth, check your own Silo queue. If you raid successfully but have no ready reply, the opponent can rebuild initiative with a cheaper Atom or a counterattack. Sixth, estimate replacement Gold. A site that dies but leaves the opponent with a functioning Port may be rebuilt during your retreat. Seventh, name the exit: after the raid, which tile do your troops hold, and what stops a counterattack from closing it?
+
+| Raid signal | Raid? | Reason |
+| --- | --- | --- |
+| One exposed level-1 Silo, last shot just fired, thin reserve | Usually yes | Structure and reload are both vulnerable |
+| Level-5 Silo behind two Defense Posts, full reserve | Usually no | The raid trades your army for capacity that will return |
+| Silo is safe but the only Port is on the border | No direct raid | Blockade changes replacement Gold at lower risk |
+| Victory threshold is 20 seconds away | Maybe, but compare land finish | A raid is irrelevant if normal capture wins first |
+
+Do not chase a retreating Silo with repeated small sends. Several tiny attacks refill the defender's advantage while your troops cross the same route. Use one bounded push whose ratio and reserve you can explain, then stop if the Silo is not reachable. The [Attack Ratio](/guides/attack-ratio/) page covers the send percentage; this page covers the reason to send at all.
+
+A successful raid does not require destroying every nuclear building. Capturing or forcing the owner to move troops away can be enough if the follow-up blocks the next launch. The objective is to break the timing cycle, not to collect a structure statistic. Once the Silo is disabled, spend the reload window on Cities, route cuts, or a safe border rather than buying another bomb immediately.
+
+## Blockade the funding route: Ports, Factories, and replacement Gold
+
+Blockade is the right answer when the nuclear site is deep but its income is shallow. The Silo itself can remain untouched; the question is whether the owner can pay for the next bomb, Silo upgrade, SAM, and land reserve after your pressure. A Port, Factory, or train corridor can be a better target because it changes every future cycle instead of one building.
+
+Start by finding the route that actually produces Gold. A Port with no eligible partner is not a funding route. A Factory with a disconnected rail graph is not a funding route. A route that pays 5,000 per stop but sits behind a Warship is a conditional route. Observe completed arrivals in the current lobby, then estimate how many ticks of income the owner needs to replace the threat. Do not use an old universal multiplier; v0.34.12 changed early and mid-game spawn cadence without publishing a fixed payout.
+
+Choose the least expensive pressure that interrupts the route. A Warship on the active lane may force the owner to buy escort. A land push toward the connecting City may make trains stop paying. A threatened Port can make a player keep troops at home instead of moving them to the Silo. The [Trade vs Piracy](/guides/trade-vs-piracy/) and [Train Network](/guides/train-network/) guides own route mechanics; this page decides whether route pressure is a better nuclear break than a direct raid.
+
+| Funding situation | Blockade action | Stop signal |
+| --- | --- | --- |
+| One Port pays the Silo and lies on an exposed coast | Patrol or threaten the Port | Stop when the owner moves the route or escorts it safely |
+| Factory has one rail corridor and no alternate City | Cut the corridor with a bounded land push | Stop if the push costs more troops than the lost income |
+| Several Cities fund the core evenly | Blockade is weak | Raid, wait, or win the land race instead |
+| Opponent has 40M saved already | Income denial is late | Force a launch or take territory before the stockpile is spent |
+
+The trap is attacking the route without a time estimate. If the owner can launch from an existing ready Silo before your blockade lands, you have created pressure but not a break. Pair blockade with a reload window: begin when the last missile fired, force the owner to choose between defending income and preserving the Silo, then use the first empty slot to take land. If they spend Gold on SAMs, the blockade has still succeeded even if the Port survives.
+
+Blockade also works defensively. If you cannot raid an enemy Silo, protecting your own Port or Factory can make their nuclear threat unprofitable. The opponent must then choose between an expensive launch and a losing economy. That is a stalemate break because it changes the other player's available actions, not because a missile was intercepted.
+
+## Wait for the reload window: turn nine seconds into territory
+
+Treat the window as a small operation order. Write down the tick at which the last missile left, the fastest route to the first capture, and the reserve that must remain when the slot returns. For example, if the opponent fired at tick 10, your infantry needs 22 ticks to reach a neutral City, and the next slot is ready at tick 100, you have a useful 68-tick budget, not a vague feeling that the enemy is “reloading.” Spend the first ten ticks on confirmation and movement, the middle on the capture, and the final part on a withdrawal or a second safe order. If the route needs 75 ticks, it is not a reload-window task even when the destination looks close. Cancel early when a new launch source appears, a third player enters the corridor, or your own reserve drops below the amount needed to stop a counter-push.
+
+Waiting is active when you attach it to a clock and a task. A slot reloads in 90 ticks, about nine seconds at normal speed. The useful window is the time between the opponent's last launch and the next ready slot, minus your travel and construction time. During that window, take a City, close a pocket, upgrade a route, or move a reserve. Do not simply hover over the nuke button.
+
+First, mark the last launch. Then count how many other Silos are ready and which one is nearest to your likely target. A player with one cooling level-3 Silo and a ready level-1 flank still has a launch. The waiting plan is valid only if every relevant source is cooling, under construction, captured, or outside a legal target line. The nearest-ready rule makes a single-site assumption dangerous; inspect all sites.
+
+Second, pick a task that completes before the next slot. A 90-tick window is long enough for a short attack on thin land and too short for a long crossing through Defense Posts. Use the [Threat Assessment](/guides/threat-assessment/) checklist to choose a target that improves shape. If the target requires a 150-tile march, wait for information instead of pretending the window is a free attack.
+
+Third, preserve the option to fire. Do not move your only Silo into construction, accept an alliance that changes legality, or spend the bomb budget on a side project while waiting. A good reload punish leaves you with a ready reply if the opponent launches early. A bad one converts a temporary cooldown into permanent vulnerability.
+
+| Window | Good task | Bad task |
+| --- | --- | --- |
+| 0-30 ticks after a launch | Count sources, move reserve, threaten route | Full attack into a dense border |
+| 30-90 ticks | Short capture, Port pressure, safe City upgrade | Building a new Silo that cannot finish |
+| After a new slot is ready | Recompute raid/blockade/win | Repeating the old plan without new information |
+
+Waiting is especially strong near Overtime or a normal victory threshold. If your next capture ends the game before the next bomb arrives, spend troops and Gold on that finish. If the opponent's share is rising, a reload window may be your last chance to take the route that keeps the game alive. The [Winning Overtime](/guides/winning-overtime/) guide explains the threshold; this section decides whether nuclear patience gives enough time to cross it.
+
+## Counterplay: how the opponent defeats each breaker
+
+Every breaker has a counter. A raid fails when the owner adds a reserve, upgrades a Defense Post, or moves the target behind a denser border. A blockade fails when the owner uses a second Port, reroutes trains, or launches from saved Gold before the income stops. Waiting fails when the owner fires from a different ready Silo or uses the cooldown to take your exposed City. Read the response as information, not as proof that the original plan was wrong.
+
+Against a raid, keep the Silo away from the first border and make the attacker cross a route covered by a post. Do not stack every building in one blast, but do not leave the Silo alone either. A level upgrade is useful only if the extra slot will be ready before the next contact; otherwise troops and a second site may be better. If the attacker commits, counter the route they must use rather than chasing the building marker.
+
+Against a blockade, keep a land income floor and an alternate route. A Port that pays well but can be cut in one push is not a reserve. A Factory with two legal stations can outlive a single rail attack. The counter is not to defend every stop equally; it is to protect the path that pays for the next launch and let the rest go. [Port vs Factory](/guides/port-vs-factory/) owns the payback comparison.
+
+Against waiting, vary your launch source. Because the nearest ready Silo is selected, two modest sites can be more dangerous than one visible high-level core. Fire an Atom to force a SAM or to change the opponent's movement only when the cost serves a target. Do not spam clicks expecting x5 to reduce the 90-tick cooldown; the input batch changes how quickly you issue commands, not the simulation timer.
+
+The defender also has diplomatic and mode counters. In Team, friendly structures can make a single bomb illegal; in No Alliances, there is no ceasefire button to buy time. Alliance acceptance can cancel in-flight nuclear weapons in the current v34 rules, but it also changes relations and the target set. A breaker should account for that branch rather than treating diplomacy as a free missile shield.
+
+The final counter is the clock. If both players can continue replacing weapons, the one with more territory, better route shape, or a lower-cost defence wins the long game. Stop trying to create a cinematic nuclear solution and use the [Land Combat](/guides/land-combat/) or [Tall vs Wide](/guides/tall-vs-wide/) decision that the board now rewards.
+
+## Mode and map adjustments
+
+The same three choices change when the board has more than two meaningful fronts. In a four-player FFA, a raid that removes one Silo can still leave you open to the survivor who received the emptied border. A blockade is often stronger when it keeps your army on the correct side of a neutral pocket. In a team match, call out the exact job: one player owns the Silo countdown, another protects the funding Port, and a third takes the short land objective. Do not assume an ally's ready slot is available to your cursor or that a team structure removes the travel cost. On islands, count sea ticks and transport exposure before comparing a naval blockade with a ground raid. On long maps, a narrow rail or coast can be the only place where a small force changes income. Re-evaluate after every capture because the winner of a pocket can change the legal route and the next owner's budget.
+
+Public FFA stalemates often have a third player who benefits from every exchange. A direct raid may open a corridor for that third player, while a blockade can preserve your border and still reduce the opponent's income. Mark who receives the next pocket before attacking. If your own victory threshold is close, waiting for a reload can be correct; if a neutral neighbour is about to annex the route, it is not.
+
+Team mode changes the value of redundancy. A teammate can hold a second Silo, Port, or reserve, but their launch price and legal target are still their responsibility. Assign one player to route protection and one to the nuclear queue, then agree on the exact event that transfers the role. Do not count an ally's ready slot as yours unless the team plan names the target and the follow-up troops.
+
+No Alliances rooms make a blockade more visible and a raid more dangerous. Without a ceasefire, the owner can attack your route while you cross to the Silo, and a third neighbour can join the profitable side. Keep one reserve on the threatened edge and use [No Alliances Mode](/guides/no-alliances-mode/) for hostile-contact decisions. This guide's raid/blockade/wait choice remains the same, but the cost of being exposed rises.
+
+Map geometry decides which breaker is cheap. On a compact map, a Silo and its Port may be inside one attack shape, so a short raid can beat a long blockade. On a stretched map, the Silo can be deep while the income route crosses a narrow bridge, making blockade efficient. On islands, a Warship or coast cut can deny income without spending land troops. Re-read impassable terrain and the corrected Channel Islands map in the v0.34.13 boundary before timing a crossing.
+
+Endgame modes sharpen the deadline. Overtime lowers the FFA threshold after its configured start; Doomsday tests territory share rather than offering a safe circle. If the match can end during one reload cycle, use the cheapest land conversion. If the mode keeps both cores alive, preserve the Silo and attack the route that determines future income. The [Doomsday Clock](/guides/doomsday-clock/) page owns its waves; here the wave is your available decision time.
+
+## Source status and the five-question breaker checklist
+
+Use the checklist again after the first counterattack, because a captured City or lost Port changes both the clock and the budget immediately.
+
+Use the checklist as a handoff between players, not as a slogan. Record the last launch tick and the identity of every Silo that is eligible to fire. Mark the income object that pays for the next launch and the shortest legal path to it. Then write one measurable completion test: “capture the City by tick 84,” “force the Port to stop two arrivals,” or “keep 120,000 troops behind the border when the slot returns.” A plan that cannot name its completion test is only a purchase impulse. The community examples in the source pack are useful for discovering these questions, but they are not evidence for a universal reload multiplier or an automatic winning ratio. Re-check the tagged code whenever a future release changes Silo cost, construction, cooldown, targeting, or map passability, and keep old replays labelled with their version so a visual similarity is not mistaken for a current rule.
+
+The public version boundary is the official [OpenFront v0.34.13 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.13), tag commit `cfa6c47a1a58cdc5f9a779980c2896d92dcb8f8c`. It fixes Channel Islands map bugs and infrastructure and does not announce a new nuclear coefficient. The Silo and reload facts come from the v0.34.12 tagged [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.12/src/core/configuration/Config.ts), [`PlayerImpl.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.12/src/core/game/PlayerImpl.ts), [`UnitImpl.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.12/src/core/game/UnitImpl.ts), [`NukeExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.12/src/core/execution/NukeExecution.ts), and [`MissileSiloExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.12/src/core/execution/MissileSiloExecution.ts): 1M Silo cost, 100-tick construction, 90-tick slot reload, nearest-ready selection, and x5 input batching that does not change cooldown.
+
+Before choosing, ask five questions: **Which slot is actually ready? Which income route funds the next weapon? Can my raid arrive before the next reload? What land task completes during the window? What event cancels the plan?** If you cannot answer the last question, you are not waiting; you are stalling. If the answer to the second is “one exposed Port,” blockade. If the answer to the third is “yes and the reserve survives,” raid. If neither is true and your land deadline is favourable, wait and convert the window.
+
+Keep [SAM Launchers](/guides/sam-launchers/) for interception range, [Post-MIRV Recovery](/guides/post-mirv-recovery/) after an impact, and [Replay Review](/guides/replay-review/) for testing whether the breaker changed the next game. This guide is complete when the stalemate ends in a funded raid, a measurable income denial, or a land win during reload. Recheck the next non-TEST Release if it changes Silo cost, cooldown, launch selection, or the map boundary.

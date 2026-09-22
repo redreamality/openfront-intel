@@ -17,3 +17,4 @@
 - **最新正式 Release 只在 `src/config/openfront-release.ts` 写一次 tag**：series、展示版本、Release URL、五语首页 Hero/优先路径和来源面板都必须从该配置派生；升级后运行 `pnpm release:audit`，用静态契约核验五语 frontmatter、核心章节、事实信号、官方来源与 `{series}` 占位。
 - **2026-09-06 复发：写入五语正文链接前先从现有内容文件确认集合与公开路由**：例如 `population-growth.mdx` 位于 `src/content/guides/<lang>/`，公开路径是 `/guides/population-growth/`，不能根据主题属性猜成 `/strategies/`；用 `rg --files src/content` 找到文件，再按对应 collection 路由写五语链接。
 - **正式 tag 的源码链接须核对真实树路径**：2026-09-20 五语恢复页曾把 MIRV 计数实现误链到不存在的 `src/core/Stats.ts`；`v0.34.11` 的实现位于 `src/core/game/StatsImpl.ts`。写来源链接前用 `git ls-tree` 或 `git grep` 在对应 tag 核实路径，不能从类名推目录。
+- **社区来源访问失败要保留失败模式并切换可核验入口**：2026-09-22 研究中 Reddit HTML/JSON/RSS 直连均返回 HTTP 403，YouTube timed-text/player API 返回 bot/sign-in 检查；使用可公开读取的 Arctic Shift Reddit 归档和 YouTube 页面章节/描述继续取证，并在来源包写明 canonical URL、访问限制和未使用字幕/数字结论。不要把搜索摘要或未核验转述计为实际来源。

@@ -1,15 +1,17 @@
 ---
-title: 'OpenFront v34.12：陆战、贸易、列车、Steam 与大厅'
-description: 'OpenFront 正式 v34.12 Release 对陆战、贸易、列车、MIRV、Nation、大厅、Steam 与下一局决策的影响。'
+title: 'OpenFront v34.13：陆战、贸易、列车、Steam 与大厅'
+description: 'OpenFront 正式 v34.13 Release 对陆战、贸易、列车、MIRV、Nation、大厅、Steam 与下一局决策的影响。'
 pubDate: 2026-09-10
-updatedDate: 2026-09-21
+updatedDate: 2026-09-22
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：OpenFront v34.12 改了什么？
+## 直接答案：OpenFront v34.13 改了什么？
+
+v0.34.13 修复 Channel Islands 地图问题，并包含基础设施改进。带 tag 的地图是当前公开边界；不要把旧地图文件里记住的海岸或路线直接带进新局。基础设施说明没有公布新的战斗、经济或核武系数。
 
 OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日。继 v0.34.1 至 [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) 后，官方又发布 [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10)、[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) 与 [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)。v0.34.12 现在是最新正式非 TEST 玩家边界。整个系列延续 v34 功能，并修正攻击节奏、贸易与铁路生成、大厅与地图分类、Steam 访问、外观设置和点击失响应。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射、高难度 Nation、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图选择都要按当前版本判断。
 
@@ -52,6 +54,8 @@ Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把�
 最后，不能继续按昨天的轮换印象读地图。Yangtze River 是管道式河流拓扑，现代 China 与 Qing China 是两个不同布局；熟悉的名称或缩略图不足以制定路线。Labyrinth 在公开轮换中频率降低，Luna 被移出公开轮换，不同模式还可以有各自的地图权重与 modifier。按眼前地图的水陆形状、出口和模式选择，而不是按旧地图池背答案。
 
 ## 来源状态、适用边界与下一步阅读
+
+当前正式版本是 [`v0.34.13`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.13)，tag commit 为 `cfa6c47a1a58cdc5f9a779980c2896d92dcb8f8c`。下文 v0.34.12 段落仍是经济边界，不表示它比 v0.34.13 更新。
 
 本文当前的公开权威来源是官方 [OpenFront `v0.34.12` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)，不可变 tag commit 为 `7c27263390d8f1976566e5c5ad9adf6fcad311b6`。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；beta1 只证明已回滚实验，不是现行 MIRV 价格规则。v0.34.5 列车说明另由对应 tag 的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts) 交叉核验，v0.34.12 节奏边界来自对应 Release 与 tag，而不是从移动图标推测收入。后续 `main` 提交不能反向证明当前 Release。
 
