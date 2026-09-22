@@ -1,0 +1,155 @@
+---
+title: "OpenFront Embargo Timing and Trade Control: When to Close a Rival's Economy"
+description: "A practical v0.34 decision guide for timing targeted embargoes, using the 10-second embargo-all cooldown, probing with the 5-minute temporary embargo, and reading trade-shipping dependence before a rival pivots to trains."
+pubDate: 2026-09-23
+updatedDate: 2026-09-23
+tags: [embargo, trade, diplomacy, port, warship]
+category: Tutorial
+difficulty: Intermediate
+version: v34
+freshnessSummary: "Verified against the formal v0.34.15 tag and the upstream source at 04ef2377: a targeted embargo closes one rival's trade and flips the relation to -20, embargo-all is gated by a 10-second cooldown and a 100-influence plus capital plus trade-port eligibility, a temporary embargo lasts exactly 300 ticks (about 5 minutes) and auto-releases, and trade ships are embargo-gated at both port dispatch and delivery while trains are not."
+---
+
+In OpenFront, an embargo is a diplomatic weapon you can fire without committing to war. A targeted embargo stops all trade with one rival and drops your mutual relation to -20, which usually flips that rival to hostile; the global embargo-all tool is gated by a 10-second cooldown and needs 100 influence plus a live capital plus a trade port; a temporary embargo lasts about 5 minutes and releases on its own. Fire a targeted embargo when one rival depends on trade you can watch, and save embargo-all for the rare moment several rivals are simultaneously exposed.
+
+## When to embargo, and when to hold off
+
+The core question is not whether embargoing does damage, but whether the damage you inflict exceeds the damage you pay. A targeted embargo costs you three things at once: you lose the trade income that route would have carried, you flip your relation to that player to -20, and you make them hostile toward you, which means they will now attack your trade ships on sight and, in FFA, auto-target your trade fleet in shared water. None of that is free, so the move only pays when the rival's trade dependence is high enough to matter.
+
+There are four timing windows where the balance tips in your favor. First, immediately after a rival has invested in a long trade route you can watch: they have sunk resources into the route, so cutting it hurts most. Second, right before they are about to spend the income from that route on a warship or a MIRV: embargoing now starves the exact project you need to stop. Third, when you are about to build your own warship escort, because the embargo and the escort then compound instead of duplicating. Fourth, when a rival is on the edge of alliance and you want to test whether they will hold their nerve: the 5-minute temporary embargo is built for exactly this probe.
+
+There are four windows where you should hold off. Do not embargo a rival who has already pivoted to train income, because embargoes do not touch trains and you will have paid the diplomatic cost for nothing. Do not embargo a player you might need in a team match or a late-game alliance, because the -20 relation will make the deal much harder or impossible. Do not embargo while you are behind on warships and the rival is close, because they will turn the embargo into a warship race you will lose. And do not embargo as a reaction to a small provocation, because the -20 relation is permanent and the trade loss is real, while the provocation may not be.
+
+The single most reliable trigger is watching the rival's trade-shipping rate. Ports attempt to dispatch a trade ship every 10 ticks, so a healthy trade economy produces a visible stream of ships toward specific ports. If you can see a rival sending multiple ships per minute toward a port you control or can block, embargoing that route right now will cut a real, measurable flow. If you see very few ships, the rival is not trade-dependent and the embargo is mostly a diplomatic insult. This is the decision the rest of this guide builds on: embargo trade dependence, not the player.
+
+| Trigger | Embargo now | Hold off |
+| --- | --- | --- |
+| Rival just invested in a long route you can watch | Yes | — |
+| Rival about to spend trade income on a warship or MIRV | Yes | — |
+| You are building a warship escort at the same time | Yes | — |
+| Rival has pivoted to dense train income | — | Yes |
+| You may need that player in a team or alliance | — | Yes |
+| You are behind on warships and the rival is close | — | Yes |
+| Small provocation only | — | Yes |
+
+## Targeted embargo versus embargo-all
+
+A targeted embargo and the global embargo-all are different tools with different costs, and mixing them up is the most common way players overcommit. The targeted version closes trade with exactly one player and sets your relation with them to -20. It is precise: you choose the rival, you choose the moment, and only that relationship degrades. It is the right default in almost every FFA match because it lets you pressure one economy at a time without burning the rest of the map.
+
+Embargo-all is a global pressure: it closes trade with every player who is not allied to you, and it is gated by a hard 10-second cooldown between uses. On top of the cooldown, you must be eligible at the moment you fire it: at least 100 influence, a live capital, and at least one trade port. If you are below 100 influence, or your capital has fallen, or you have lost your trade ports, the button simply does not work, which is a useful check in itself: the game is telling you that a global trade shutdown is not a tool you can use right now.
+
+The real cost of embargo-all is diplomatic, not economic. It flips every non-allied relation to hostile at once, which means every pending alliance negotiation on the map breaks, and every player now has a reason to prioritize attacking your trade fleet. In FFA that is often acceptable because most players are already hostile or indifferent, but in team modes and in any late-game where you are trying to assemble a coalition, embargo-all is usually the worst possible move because it converts potential allies into enemies with a single click.
+
+Use embargo-all only in two situations. The first is when you are the strongest player and you want to slow the whole map while you finish a project: the 10-second cooldown means you can pulse it, and because you are already the threat, the diplomatic cost is the lowest it will ever be. The second is a map rotation or a moment when several rivals are simultaneously exposed on the same trade water, so one global embargo hits multiple real routes at once. In every other situation, the targeted embargo is cheaper and more controllable, and you should default to it.
+
+| Tool | Closes trade with | Relation cost | Hard gate | Best use |
+| --- | --- | --- | --- | --- |
+| Targeted embargo | One chosen rival | -20 with that player | None beyond selection | Pressure one trade-dependent rival |
+| Embargo-all | Every non-allied player | Hostile with all of them | 10 s cooldown; 100 influence; live capital; a trade port | Slow the whole map when you are the strongest |
+
+## How the 5-minute temporary embargo works
+
+The temporary embargo is the most useful tool in this guide, and the one players most often ignore. It creates an embargo against a rival that lasts exactly 300 ticks, which at the game's 10 ticks per second is 30 seconds of real time in slow terms, but in gameplay it is about 5 minutes of in-game duration, and it releases on its own when the timer expires. You can also cancel it early by targeting the same player again, which is the de-escalation move: you fire the probe, watch the reaction for a minute, and release it before the full 5 minutes if you see the rival is not going to overreact.
+
+The probe logic is the whole point. A permanent targeted embargo is a declaration: once you fire it, you have paid the -20 relation and the trade loss, and the rival will now assume you are committed to conflict. A temporary embargo is a question: it asks, without a permanent answer, how this player responds to economic pressure. If they build warships and start escorting their trade fleet, you have learned they will contest your trade access, and you can release the embargo and decide whether that contest is worth it. If they pivot to trains instead, you have learned they are trade-dependent and can be pressured again later without having burned the -20 relation on a permanent move.
+
+The timing of the temporary embargo matters because of the 10-second embargo-all cooldown and the 5-minute duration of the probe itself. If you fire a temporary embargo, you are committing to roughly 5 minutes of that player being hostile to you, and during that window they can attack your trade ships and your ports without the risk of you having made a permanent diplomatic break. So the probe is most useful immediately after the rival has invested in a trade route, when their sunk cost makes them more likely to respond aggressively rather than quietly pivot. If you fire it early in the match, before they have built anything, they will often just switch to trains and the probe tells you very little.
+
+A practical sequence: watch the rival's dispatch rate for a minute or two, confirm they are sending multiple ships per minute toward a port you care about, then fire the temporary embargo. Watch their reaction for the first 60 to 90 seconds. If they build a warship, release the embargo and either build your own escort or switch to a different target. If they pivot to trains, release the embargo and note that this player is trade-dependent and worth a permanent embargo later when you are ready to pay the diplomatic cost. If they do nothing and keep the trade route, you have found a soft target and the temporary embargo has paid for itself in information.
+
+The temporary embargo is also the tool you use before a team negotiation. If you are in a team match and you want to know whether your teammate will hold a trade route against the enemy team, a 5-minute temporary embargo against the enemy is a low-cost way to see how they react, without flipping the whole match to hostile. It is the difference between guessing and testing, and the test is cheaper than the guess almost every time.
+
+| Probe outcome | What it tells you | Next move |
+| --- | --- | --- |
+| Rival builds warships | They will contest trade access | Release; build your own escort or switch targets |
+| Rival pivots to trains | They are trade-dependent and will pivot | Release; note for a later permanent embargo |
+| Rival keeps the route and does nothing | Soft target, low commitment | Consider a permanent embargo when ready |
+| Rival attacks your ports | They are already hostile in effect | Release; treat as an open war, not a probe |
+
+## Trade ships and the goods in transit
+
+The embargo gate works in two places, and understanding both is the difference between an embargo that cuts income and one that only annoys. The first gate is at dispatch: when a port attempts to send a trade ship, the game checks whether the destination has an active embargo, and if it does the dispatch is refused and that 10-tick attempt is wasted. This means that from the moment your embargo lands, no new ships leave the rival's ports toward the embargoed side, so the flow of goods stops at the source.
+
+The second gate is at delivery: a trade ship that was already in transit before your embargo landed is still checked when it arrives, and if an embargo is active at the destination the goods are blocked from being delivered. This is the detail most players miss: embargoing a rival does not automatically capture or destroy their in-transit ships, it just stops them from being paid. The ships keep sailing, but they arrive to a closed port, and the income they were carrying is lost. In practical terms, if you embargo a long route, the ships that are already out on the water are wasted, which is exactly the moment you want to embargo, because you are cutting both the future flow and the in-flight goods.
+
+The timing insight is that embargoing mid-route is more valuable than embargoing at the source. If you embargo a rival right after they dispatch a wave of ships, those ships are now in transit and will be blocked at your end, so you are effectively holding their goods hostage without ever touching the ships. If you embargo a rival before they dispatch, you only stop the future flow, which is real but less dramatic. The difference is the value of the goods currently on the water, and on a long route that can be a significant fraction of the rival's trade income for the next minute or two.
+
+The counter is equally important. If a rival expects you to embargo, they will time their trade so that the bulk of the goods arrive just before you can reasonably fire the embargo, or they will run the route on a schedule that makes an embargo land in a low-traffic window. Reading the dispatch rate is how you find the right moment: if the rival is sending a steady stream, embargo now; if they are sending in bursts, wait for a burst and embargo into it, so the in-transit goods are maximal when the gate closes. This is a timing game, and the 10-tick dispatch cycle means you have a fine-grained window to work with, not a coarse one.
+
+| Embargo timing | Goods cut | Diplomatic cost | Notes |
+| --- | --- | --- | --- |
+| Mid-route, into a burst | Future flow plus in-transit goods | -20 with the rival | Best value; holds in-flight goods hostage |
+| At the source, before dispatch | Future flow only | -20 with the rival | Clean but less dramatic |
+| Into a low-traffic window | Minimal | -20 with the rival | Poor value; rival has timed around you |
+
+## Trains and the income an embargo cannot touch
+
+The single biggest limitation of the embargo is that it does not affect trains, and the single biggest mistake is embargoeing a rival whose economy has already pivoted to rail. A train is a land transport unit, and the embargo gate applies only to trade ships and to the trade relationship itself. A rival who runs dense factory-to-factory train lines, with high train frequency and minimal trade-shipping, is almost entirely immune to an embargo, and the -20 relation you paid will have blocked essentially nothing. This is why the decision framework in the first section is so insistent on watching the trade-shipping rate: the whole point is to find out whether the rival is trade-dependent before you spend the diplomatic capital.
+
+The pivot from trade to trains is the natural response to an embargo, and it is the reason the temporary embargo is so useful as a probe. When a rival is embargoed, their trade income stops, and if they have the infrastructure to pivot, they will build trains and reroute their internal production over the next minute or two. Once the pivot is complete, the embargo is a dead tool, and the only thing you have achieved is a -20 relation with a player who is now running a train economy you cannot touch. The timing game is therefore to embargo the trade dependence before it converts to rail, which means embargoing early in the rival's route build, when the sunk cost is in the trade route and the pivot has not happened yet.
+
+There is a second, subtler limitation: an embargo does not stop the rival from building warships, annexing your land, or attacking your ports. It only stops the trade. So an embargo is not a substitute for a military position, and embargoeing a rival who is already close and aggressive is often a way to hand them the excuse to attack you first, because the -20 relation means they now have a formal reason to treat you as hostile. The embargo works best as part of a warship build or a land position, where the economic pressure and the military pressure compound, and it works worst as a standalone move against an aggressive, close rival who will use the hostile relation to justify an attack.
+
+The practical rule is to embargo trade-route dependence, and to treat the embargo as the economic half of a larger plan, not the whole plan. If you are going to embargo a rival, you should also be building the warships or the land position that makes the embargo meaningful. If you are not, the embargo is a diplomatic insult that costs you -20 relation and the trade income, and the rival will either pivot to trains or use the hostile relation to attack you, and in both cases you are worse off than before you fired it. The embargo is a tool for players who are already watching the map, not a tool for players who want a quick economic hit.
+
+| Rival economy state | Embargo value | Reason |
+| --- | --- | --- |
+| High trade-shipping, low train density | High | Cuts real income; pivot not yet complete |
+| Mixed trade and train | Medium | Cuts the trade half; train half survives |
+| Dense train network, minimal trade | Low | Embargo blocks almost nothing; you paid -20 for it |
+| Aggressive, close, low trade | Negative | Hostile relation gives them the excuse to attack you first |
+
+## Failure modes and the counterplays that beat an embargo
+
+Every embargo has a failure mode, and the players who use embargoes well are the ones who can name the failure before they fire. The most common failure is the warship counter: the rival responds to your embargo by building escorts, and now your own trade fleet is as exposed as theirs, and the embargo has not actually stopped their income because they have simply switched to escorted trade. The tell is that the rival's warship count goes up in the first minute after your embargo lands. If you see that, the embargo is not working and you should either build your own escorts or release it, because continuing to embargo while they have escorts means you are paying the diplomatic cost for a move that no longer does anything.
+
+The second failure is the diplomatic overreach: you embargo a player you actually needed, and the -20 relation makes the alliance or the team deal impossible. This is the failure that costs more than the embargo did, and it is the one that is hardest to recover from, because a -20 relation is permanent and the player now has a recorded reason to distrust you. The counterplay is to use the temporary embargo as the probe before a real negotiation, so you can see how the player reacts to pressure without committing to the permanent -20. If the player is reasonable, they will hold the trade route or pivot, and the probe tells you they are worth a deal. If they are aggressive, the probe tells you they are not, and you save yourself the diplomatic cost of a permanent embargo that would have broken the deal.
+
+The third failure is the train pivot, which is the slow version of the warship counter: the rival does not build warships, they just build trains, and the embargo stops working within a minute or two. The tell is that the rival's train count goes up and their trade-shipping rate goes down. If you see that, the embargo is already failing, and the only question is whether to release it and switch targets or to hold it and accept that the diplomatic cost has been paid for a move that is no longer doing anything. In most cases the answer is to release and switch, because holding a dead embargo keeps the -20 relation and the hostile stance without any economic benefit, and it signals to the rest of the map that you are committed to a losing position.
+
+The fourth failure is the timing failure: you embargo into a low-traffic window because the rival timed their dispatch around you, and the embargo cuts almost nothing. The tell is that the trade-shipping rate was already low when you fired the embargo, which you should have caught in the decision framework. The counterplay is to wait for a burst and embargo into it, so the in-transit goods are maximal when the gate closes. This is the difference between an embargo that cuts a real flow and one that cuts nothing, and it is the reason the dispatch-rate check is the first step of the decision, not an optional extra.
+
+| Failure | The tell | Counterplay |
+| --- | --- | --- |
+| Warship counter | Rival warship count rises in the first minute | Build your own escorts or release the embargo |
+| Diplomatic overreach | You needed the player; the -20 breaks the deal | Use a temporary probe before any real negotiation |
+| Train pivot | Rival train count up, trade rate down | Release and switch targets; the embargo is dead |
+| Low-traffic timing | Trade rate was already low when you fired | Wait for a burst and embargo into it |
+
+## Mode and map adjustments
+
+The same embargo decision works differently in FFA, team modes, and ranked, and the map size changes the math on top of that. In FFA, the diplomatic cost of an embargo is the lowest it will ever be, because most players are already hostile or indifferent, and the -20 relation with one player does not cost you the other relationships the way it does in a team match. In FFA, embargo-all is therefore a realistic tool in the late game when you are the strongest player, because the 10-second cooldown and the 100-influence gate are the only real limits, and the diplomatic cost is the lowest it will ever be. In team modes, the embargo is a much more dangerous tool, because the enemy team will embargo your economy and you will have to build warships to protect your trade routes, which is a real economy cost, and the diplomatic cost of embargoeing a player on the enemy team is the -20 relation plus the fact that the rest of the enemy team now knows you are targeting them specifically.
+
+The map size changes the value of the in-transit goods, which is the detail that makes embargo timing map-dependent. On a compact map, routes are short, so the in-transit window is small and embargoing mid-route cuts less of the goods, but the trade-shipping rate is higher because the routes are shorter and the ports are closer, so the embargo cuts more of the steady flow. On a big map, routes are long, so the in-transit window is large and embargoing mid-route cuts a lot of the goods, but the trade-shipping rate is lower because the routes are longer and the ports are farther apart, so the steady flow is thinner. The practical rule is that on a compact map you should embargo the steady flow and not worry about the in-transit window, and on a big map you should embargo into a burst so the in-transit goods are maximal when the gate closes.
+
+Ranked matches add a second layer: the rival is reading you, and the dispatch-rate check is not just about the rival's economy, it is about the rival's expectation of you. If the rival knows you like to embargo, they will time their dispatch to make an embargo land in a low-traffic window, and the timing game becomes a reading game. The counter is to embargo unpredictably: do not embargo on a fixed schedule, do not embargo the same rival twice in a row, and do not embargo immediately after a visible provocation, because the rival will have timed around the provocation. Embargo when the dispatch rate says it is worth it, not when the drama says it is worth it, and the timing stays yours.
+
+In every mode and on every map, the embargo is a tool for players who are already watching the trade routes, not a tool for players who are reacting to the map. The dispatch rate, the train density, the warship count, and the relation state are the four numbers that decide whether an embargo is worth it, and the 10-second embargo-all cooldown and the 5-minute temporary embargo duration are the two timers that decide when to fire. Get those four numbers and two timers right, and the embargo is a real economic weapon; get them wrong, and it is a -20 relation and a wasted 10-second cooldown, and the rest of the map has learned that your embargoes are predictable.
+
+| Mode | Diplomatic cost of embargo | Best embargo tool | Key adjustment |
+| --- | --- | --- | --- |
+| FFA | Lowest; most players already hostile | Embargo-all late game; targeted mid game | Embargo the steady flow, not the burst |
+| Team | High; enemy team reads it as a target | Targeted, rarely embargo-all | Build escorts before you embargo |
+| Ranked | High; rival times around your schedule | Targeted, unpredictable timing | Embargo when dispatch rate says, not when drama says |
+| Compact map | Same as mode | Steady-flow embargo | In-transit window is small; cut the flow |
+| Big map | Same as mode | Burst embargo | In-transit window is large; cut the goods |
+
+## The decision table: embargo, hold, or probe
+
+The whole guide reduces to a lookup: given the rival's current state, which of the three tools do you fire, and when. The three tools are the targeted permanent embargo, the targeted temporary embargo, and the embargo-all, and the decision is made from the four numbers the rival is showing you right now: the trade-shipping rate, the train density, the warship count, and the relation state. The table below is the one you should have open while you play, because it is the part of the guide that changes the moment you fire, not the part you read before the match.
+
+The first row is the clean case: the rival is trade-dependent, has few warships, and the relation is still neutral. This is the moment to fire the targeted permanent embargo, because the diplomatic cost is the lowest it will ever be and the economic damage is the highest it will ever be. The second row is the probe case: the rival is trade-dependent but you are not sure whether they will contest the embargo, or you are in a team match and you want to see how they react before you commit. This is the moment to fire the temporary embargo, because the 5-minute duration gives you time to watch the reaction and the early-cancel option means you are not locked into the -20 relation if the reaction is bad.
+
+The third row is the embargo-all case: you are the strongest player in FFA, the 10-second cooldown is ready, and several rivals are simultaneously exposed on the same trade water. This is the rare moment to fire the global tool, because the diplomatic cost is acceptable only when you are already the threat and the economic damage is spread across multiple real routes at once. The fourth row is the hold-off case: the rival has pivoted to trains, or the trade-shipping rate is low, or you need the player in a team or an alliance. This is the moment to do nothing, because the embargo would cost you -20 relation and the 10-second cooldown for essentially no economic damage, and the hold is the move that preserves the option to embargo later when the rival is more exposed.
+
+The table is the answer to the question this guide is about, and it is the part you should check before every embargo you fire. If the rival's state matches the first row, fire the permanent targeted embargo. If it matches the second row, fire the temporary probe and watch the reaction. If it matches the third row, fire the embargo-all and accept the diplomatic cost. If it matches the fourth row, hold off and keep watching, because the hold is free and the next burst of trade-shipping is the moment the table flips back to the first row. The embargo is a timing tool, and the timing is the rival's trade-shipping rate, not your frustration with the rival. The rest of this guide is the reasoning behind the table; the table is the move.
+
+| Rival state | Tool | When to fire | What to watch after |
+| --- | --- | --- | --- |
+| Trade-dependent, few warships, neutral relation | Targeted permanent embargo | Now, into a dispatch burst | Warship count for the warship counter |
+| Trade-dependent, unsure of their reaction | Targeted temporary embargo | Now, for a 5-minute probe | First 60 to 90 seconds of their reaction |
+| You are the strongest FFA player, several rivals exposed | Embargo-all | When the 10 s cooldown is ready | The map's warship build in the next minute |
+| Train pivot, low trade rate, or you need the player | Hold off | Do not fire | The next dispatch burst that makes the table flip |
+| Aggressive, close, using the -20 to attack | Release and hold | Stop the embargo now | Their attack timing; build land position |
+
+For more on the trade routes the embargo is cutting, read the [trade versus piracy guide](/guides/trade-vs-piracy/) for how to value the route itself before you decide to close it, and for the diplomatic cost the embargo is paying, read the [nation alliance decisions guide](/guides/nation-alliance-decisions/) for how the -20 relation changes what the rest of the map will do with you. The embargo is the tool; these two guides are the context that decides whether the tool is worth the cost.

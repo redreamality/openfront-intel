@@ -1,0 +1,155 @@
+---
+title: "OpenFront: embargo-timing en handelscontrole — wanneer je de economie van een rival sluit"
+description: "Een v0.34-beslisgids: wanneer een gerichte embargo gebruiken, de 10-seconden cooldown van de totale embargo, een 5-minuten test-embargo en de handelsscheepsafhankelijkheid van de rival controleren, vóórdat hij op spoor omstapt."
+pubDate: 2026-09-23
+updatedDate: 2026-09-23
+tags: [trade, piracy, warship, port, diplomacy]
+category: Tutorial
+difficulty: Middel
+version: v34
+freshnessSummary: "Geverifieerd tegen v0.34.15 en upstream 04ef2377: een gerichte embargo onderbreekt de handel met één speler en zet de relatie naar -20, wat effectief vijandelijk is; de totale embargo heeft een 10-seconden cooldown en vereist 100 influence, een levende hoofdstad en een haven; de tijdelijke embargo duurt 300 ticks (±5 speelfunuten) en verloopt automatisch; handelsschepen worden zowel bij havenvertrek als bij aankomst geblokkeerd, maar treinen niet."
+---
+
+In OpenFront is een embargo een diplomatiek instrument dat je uitlost zonder oorlog te verklaren. Een gerichte embargo onderbreekt de volledige handel met één rival en zet je relatie met die speler naar -20, wat hem effectief vijandelijk maakt; de totale embargo is onderworpen aan een 10-seconden cooldown en vereist 100 influence, een levende hoofdstad en minstens één haven; de tijdelijke embargo duurt ongeveer 5 minuten en verloopt dan automatisch. Gebruik een gerichte embargo wanneer een rival duidelijk een handelsscheepsroute nodig heeft die je kunt zien; spaar de totale embargo voor de zeldzame momenten waarop meerdere rivalen gelijktijdig bloot liggen.
+
+## Wanneer een embargo instellen, wanneer afzien
+
+De echte vraag is niet of een embargo schade veroorzaakt, maar of de schade die je aanricht de prijs waard is die je betaalt. Een gerichte embargo kost je tegelijk drie dingen: je verliest de handelsinkomsten die de lijn je zou hebben opgeleverd; je relatie met deze speler valt naar -20; en de rival wordt vijandelijk jegens jou, wat betekent dat hij je handelsschepen onmiddellijk kan aanvallen en je vloot op gedeeld water in FFA automatisch blokkeert. Niets daarvan is gratis; de embargo loont zich alleen wanneer de handelsafhankelijkheid van de rival sterk genoeg is om echt effect te sorteren.
+
+Er zijn vier tijdvensters die de weegschaal in je richting tippen. Ten eerste: kort nadat de rival in een lange lijn heeft geïnvesteerd die je kunt zien; hij heeft al resources gestoken, en het sluiten nu doet het meeste pijn. Ten tweede: kort voor hij de opbrengsten van die lijn in oorlogsschepen of MIRVs investeert; de embassy treft precies het moment waarop je dit project wilt uithongeren. Ten derde: terwijl je tegelijk je eigen oorlogsschepen bouwt voor escorte; embargo en escorte overlappen in plaats van elkaar te dupliceren. Ten vierde: wanneer een rival op de rand van een coalitie aarzelt en je zijn veerkracht wilt testen; de 5-minuten test-embargo is daar precies voor.
+
+Er zijn ook vier vensters waarin je afziet. Stel geen embargo in tegen een rival die al op spoorinkomsten is omgeschakeld, want de embassy treft de spoorweg niet en je betaalt de diplomatieke prijs voor niets. Stel geen embargo in tegen een speler die je nog nodig hebt in teamplay of een late-game coalitie, want -20 maakt die transactie veel moeilijker of onmogelijk. Stel geen embargo in wanneer je oorlogsschepen achterlopen en de rival dichterbij komt, want de rival zal de embargo in een scheepsrenbaan veranderen die je verliest. Stel geen embargo in om een kleine provocatie, want -20 is blijvend, het handelsverlies is reëel, en de provocatie was misschien niet zo belangrijk.
+
+De betrouwbaarste trigger is om de uitstroomratio van de handelsschepen van de rival in de gaten te houden. Een haven probeert elke 10 ticks een schip te leveren; een gezonde handelseconomie toont dus een zichtbare stroom naar bepaalde havens. Zie je dat de rival meerdere schepen per minuut naar een haven stuurt die je controleert of kunt blokkeren, dan onderbreekt de embassy van die lijn nu een echte, meetbare stroom. Zie je slechts zeer weinig schepen, dan hangt de rival niet aan de handel, en zal de embassy vooral een diplomatieke belediging zijn. Daarop bouwt de rest van deze gids: de handelsafhankelijkheid embargeren, niet de speler.
+
+| Trigger | Nu instellen | Afzien |
+| --- | --- | --- |
+| Rival investeerde zojuist in een zichtbare lange lijn | Ja | — |
+| Rival staat op het punt oorlogsschepen of MIRVs te financieren | Ja | — |
+| Je bouwt parallel je eigen escorte | Ja | — |
+| Rival is al op hoge spoordichtheid omgeschakeld | — | Ja |
+| Je hebt deze speler nog nodig in team of coalitie | — | Ja |
+| Je oorlogsschepen achterlopen, rival komt dichterbij | — | Ja |
+| Alleen een kleine provocatie | — | Ja |
+
+## Gerichte embargo versus totale embargo
+
+Gerichte en totale embargo zijn twee instrumenten met verschillende kosten, en ze door elkaar halen is de meest frequente fout. De gerichte versie onderbreekt alleen de handel met één speler en zet je relatie met hem naar -20. Het is chirurgisch: je kiest het doel, kiest het moment, en alleen die relatie verslechtert. In vrijwel elke FFA-partij is dit de juiste standaardkeuze, want het laat je toe één economie onder druk te zetten zonder alle relaties op de kaart te verbranden.
+
+De totale embassy is breedfrontale druk: hij onderbreekt de handel met alle niet-verbonden spelers en is onderworpen aan een harde 10-seconden cooldown. Buiten de cooldown moet je ook op het moment van de actie gekwalificeerd zijn: minstens 100 influence, een levende hoofdstad, minstens één haven. Ligt je onder de 100 influence, is je hoofdstad gevallen of heb je geen haven meer, dan heeft de knop gewoon geen effect — dat is op zichzelf een nuttige check, want het spel vertelt je dat je op dat moment geen globaal instrument hebt om handel te stoppen.
+
+De echte kosten van de totale embassy zijn diplomatiek, niet economisch. Hij tippt op een keer alle niet-verbonden relaties het vijandelijk gebied, wat betekent dat alle lopende coalitonderhandelingen falen en elke speler op de kaart nu een reden heeft je handelsvloot aan te vallen. In FFA is dat meestal aanvaardbaar, want de meeste spelers zijn al vijandelijk of onverschillig; maar in teamplay of een late-game coalitie, waar je nog probeert een bondgenootschap te vormen, is de totale embassy vaak de slechtste keuze, want hij verandelt met één klik potentiële bondgenoten in vijanden.
+
+Gebruik de totale embassy alleen in twee gevallen. De eerste: je bent de sterkste speler en wilt de hele kaart vertragen tijdens de late-game bouwfasen; de 10-seconden cooldown laat je op puls werken, en de diplomatieke prijs is minimaal want je bent al de bedreiging. De tweede: de kaart draait of een moment brengt met zich mee dat een groep rivalen op hetzelfde handelswater bloot ligt, en de totale embassy treft meerdere echte lijnen tegelijk. In alle andere gevallen is de gerichte embassy goedkoper en controleerbaarder, en dat is wat je standaard zou moeten kiezen.
+
+| Instrument | Wie geblokkeerd wordt | Relatieprijs | Harde vereisten | Bestgebruik |
+| --- | --- | --- | --- | --- |
+| Gerichte embassy | Eén rival van jouw keuze | -20 met die speler | Geen extra's | Een handelsafhankelijke rival onder druk zetten |
+| Totale embassy | Alle niet-verbonden spelers | Vijandelijk met iedereen | 10s cooldown; 100 influence; levende hoofdstad; één haven | De hele kaart vertragen als je de sterkste bent |
+
+## Hoe de 5-minuten test-embargo werkt
+
+De tijdelijke embassy is het nuttigste en meest onderschatte instrument van deze gids. Hij zet op een rival precies 300 ticks embargo, wat bij 10 ticks per seconde ongeveer 30 seconden reële tijd maar ongeveer 5 speelfunuten is, en dan automatisch verloopt. Je kunt het ook vroegtijdig intrekken door dezelfde actie op deze speler te herhalen; dat is de uitgang: je start een test, observeert 60 seconden reactie, en als de rival niet overreacteert, trek je het in vóór de 5 minuten verlopen.
+
+De testlogica is alles. Een blijvende gerichte embassy is een verklaring: eenmaal ingesteld, heb je -20 relatie en het handelsverlies betaald, en de rival gaat ervan uit dat je het conflict hebt afgerond. De tijdelijke embassy is een vraag: hij vraagt deze speler hoe hij op economische druk reageert, zonder blijvend antwoord. Bouwt hij oorlogsschepen en begint hij zijn handelsschepen te escorteren, dan weet je dat hij de handelslijnen zal bestrijden; je kunt de embassy intrekken en beslissen of deze strijd het waard is. Schakelt hij over op spoor, dan weet je dat hij handelsafhankelijk is en je hem later opnieuw onder druk kunt zetten, zonder -20 op een blijvende actie te verbranden.
+
+De echte vraag is het timing: de tijdelijke embassy brengt de 10-seconden cooldown van de totale embassy en de 5 minuten testduur in het spel. Als je een tijdelijke embassy start, verbind je deze speler voor ongeveer 5 minuten met vijandigheid, en in dat venster kan hij je handelsschepen en havens aanvallen zonder dat je het risico draagt een blijvende diplomatieke breuk afgerond te hebben. Het beste moment voor de test is kort nadat een rival in een handelslijn heeft geïnvesteerd, want zijn al verzonken kosten maken het waarschijnlijker dat hij overreacteert in plaats van kalm omschakelt. Start je vóórdat hij iets heeft gebouwd, dan zal hij waarschijnlijk op spoor omschakelen en levert de test weinig op.
+
+Een praktische volgorde: observeer de uitstroomratio van de rival voor één tot twee minuten, bevestig dat hij meerdere schepen per minuut naar de voor jou relevante haven stuurt, en start dan de tijdelijke embassy. Observeer zijn reactie voor 60 tot 90 seconden. Bouwt hij oorlogsschepen, trek de embassy in, bouw je eigen escorte of wissel het doel. Schakelt hij over op spoor, trek het in en noteer dat deze speler handelsafhankelijk is en later een blijvende embassy verdient wanneer je klaar bent de diplomatieke prijs te betalen. Doneert hij niets en houdt hij de lijn, dan heb je een zacht doel geïdentificeerd en heeft de tijdelijke embassy zich al in informatie amortiseerd.
+
+De tijdelijke embassy is ook het instrument dat je vóór teamonderhandelingen gebruikt. Als je in teamplay wilt weten of een bondgenoot een handelslijn zal verdedigen tegen het tegensteam, dan is een 5-minuten test-embargo tegen het tegensteam een goedkope manier om zijn reactie te lezen, zonder de hele partij vijandelijk te maken. Het is het verschil tussen raden en testen, en de test is bijna always goedkoper dan raden.
+
+| Testresultaat | Wat je leert | Volgende stap |
+| --- | --- | --- |
+| Rival bouwt oorlogsschepen | Hij zal de handelslijnen bestrijden | Intrekken; eigen escorte bouwen of doel wisselen |
+| Rival schakelt over op spoor | Hij is handelsafhankelijk en zal omschakelen | Intrekken; noteren voor latere blijvende embassy |
+| Rival houdt de lijn en doneert niets | Zacht doel, weinig geïnvesteerd | Blijvende embassy overwegen bij gelegenheid |
+| Rival valt je haven aan | Hij is effectief al vijandelijk | Intrekken; behandelen als oorlogsverklaring |
+
+## Handelsschepen en lading onderweg
+
+De embassy treft op twee punten, en dat is het verschil tussen "inkomsten onderbreken" en "alleen ergernis". Het eerste punt is bij havenvertrek: wanneer een haven probeert een handelsschip te leveren, controleert het spel of de bestemming door een actieve embassy wordt getroffen; zo niet, wordt de levering afgewezen en deze 10-ticks-cyclus verloren. Van het moment dat je embassy ingesteld is, verlaat geen nieuw schip meer de haven van de rival richting het getroffen doel; de stroom stopt aan de bron.
+
+Het tweede punt is bij aankomst: een handelsschip dat op het moment van je embassy al onderweg is, wordt bij aankomst gecontroleerd, en als de bestemming een actieve embassy heeft, wordt zijn lading geblokkeerd en niet geleverd. Dat is het detail dat de meeste spelers missen: een embassy tegen een rival beslaglegd of vernietigt zijn schepen onderweg niet; het voorkomt alleen dat ze worden betaald. Die schepen varen door, maar naar een gesloten haven, en hun opbrengst gaat verloren. Praktisch betekent dit: als je een lange lijn embargert, dan zijn de schepen die al op zee zijn verspild — en dat is precies het moment waarop je wilt embargeren, want je onderbreekt zowel de toekomstige stroom als de lading onderweg.
+
+Het timing-punt: embargeren midden in de lijn heeft meer waarde dan embargeren aan de bron. Als je de embassy direct na het laden van een laadgolf instelt, dan zijn die schepen nu onderweg en worden aan jouw kant geblokkeerd; je hebt zijn lading letterlijk beslaggelegd zonder zijn schepen aan te raken. Stel je in vóórdat hij iets heeft geladen, dan stop je alleen de toekomstige stroom — reëel, maar minder dramatisch. Het verschil is de waarde van de lading die nu onderweg is, en op een lange lijn kan dat een aanzienlijk deel van de handelsinkomsten van de rival voor de komende één tot twee minuten uitmaken.
+
+De counter is even belangrijk. Als de rival weet dat je zult embargeren, dan zal hij zijn handel zo plannen dat de meeste ladingen kort vóórdat je redelijk handelt aankomen, of de lijnen in een ritme laten varen dat je embassy in een laagstroomvenster zet. De uitstroomratio lezen betekent het juiste moment vinden: als de rival regelmatig laadt, embargeer je nu; pulst hij, wacht dan op een puls, embargeer midden in de puls en maximaliseer de lading onderweg wanneer je embassy de deur sluit. Het is een timing-race, en de 10-ticks cyclus geeft je een fijn, geen grof venster.
+
+| Embargo-timing | Onderbroken lading | Relatieprijs | Opmerking |
+| --- | --- | --- | --- |
+| Midden in de lijn, op puls | Toekomstige stroom + lading onderweg | -20 met de rival | Hoogste waarde; beslaglegt lading onderweg |
+| Aan de bron, vóór laden | Alleen toekomstige stroom | -20 met de rival | Schoon, maar minder dramatisch |
+| In een laagstroomvenster | Zeer weinig | -20 met de rival | Laagste waarde; de rival is voorbij |
+
+## Treinen en inkomsten die de embassy niet raakt
+
+De grootste grens van de embassy is dat het treinen niet raakt, en de grootste fout is een economie embargeren die al op spoor is omgeschakeld. Treinen zijn landvervoer-eenheden; de embassy treft alleen handelsschepen en de handelsrelatie zelf. Een rival die een dicht fabriek-tot-fabriek spoorwegnet met hoge trein-frequentie en weinig handelsschepen exploiteert, is de embassy bijna volledig ongevoelig, en je -20 relatie blokkeert feitelijk vrijwel niets. Daarom benadrukt het besluitkader uit het eerste deel het observeren van de uitstroomratio: het hele spel is te weten of de rival handelsafhankelijk is vóórdat je de diplomatieke prijs betaalt.
+
+De omschakeling van handel naar spoor is de natuurlijke reactie op een embassy, en daarom is de tijdelijke embassy als test zo nuttig. Wanneer een rival geëmbargeerd wordt, stoppen zijn handelsinkomsten; heeft hij de infrastructuur om om te schakelen, dan bouwt hij in de komende één tot twee minuten treinen en keert zijn interne productie om. Is de omschakeling voltooid, dan is de embassy een dood instrument: je hebt alleen -20 met een vijandelige speler gekregen die een sporeconomie exploiteert die je niet kunt raken. Het timing-race luidt dus: de afhankelijkheid embargeren vóórdat ze in spoor verandert — dat betekent vroeg in de lijnbouw embargeren, terwijl de resources nog in de handelslijn gebonden zijn en de omschakeling nog niet is begonnen.
+
+De tweede, subtilere grens: de embassy voorkomt niet dat de rival oorlogsschepen bouwt, je aanvalt of je haven aanvalt. Hij stopt alleen de handel. Een embassy is dus geen vervanging voor de militaire houding; embargeren tegen een agressieve, dichterbij komende rival geeft hem vaak het voorwendsel om jou eerst aan te vallen, want -20 betekent dat hij nu een formeel excuus heeft je als vijandelijk te behandelen. De embassy werkt het beste als deel van een groter vloot- of landplan waarin economische en militaire druk overlappen; het is de slechtste keuze als geïsoleerde actie tegen een agressieve, dichterbij komende rival, want de rival zal de vijandigheid als excuus gebruiken.
+
+De praktische regel: embargeer de scheepvaart-afhankelijkheid, en behandel de embassy als de economische helft van een groter plan, niet als het hele plan. Als je een rival embargert, zou je tegelijk oorlogsschepen of een landhouding moeten bouwen die de embassy de moeite waard maakt. Bouw je niets anders, dan is de embassy een diplomatieke belediging die je -20 relatie en handelsinkomsten kost, terwijl de rival ofwel op spoor omschakelt of vijandelijk wordt — in beide gevallen ben je zwakker dan ervoor. De embassy is een instrument voor de speler die de handelslijnen op de kaart al leest, niet voor de speler die een snelle economische tik zoekt.
+
+| Economietoestand van de rival | Embargo-waarde | Waarom |
+| --- | --- | --- |
+| Hoog scheepsvolume, lage spoordichtheid | Hoog | Onderbreekt echte inkomsten; omschakeling nog niet gebeurd |
+| Mix van handel en spoor | Middel | Onderbreekt de handelzijde; de spoorzijde overleeft |
+| Dicht spoornet, weinig handel | Laag | De embassy blokkeert nauwelijks; je betaalt -20 voor niets |
+| Agressief, dichterbij komend, weinig handel | Negatief | De vijandigheid geeft hem het excuus om eerst aan te vallen |
+
+## Falen en counters die een embassy slaan
+
+Elke embassy heeft falingspatronen, en de spelers die het goed gebruiken zijn degene die ze benoemen vóórdat ze handelen. Het meest frequente patroon is de scheepscounter: de rival reageert op je embassy door escortes te bouwen, je eigen handelsvloot is dan net zo bloot als de zijne, en de embassy onderbreekt zijn inkomsten niet meer, want hij is simpelweg overgeschakeld naar geëscorteerde handel. Het signaal is een stijging in het aantal oorlogsschepen van de rival in de minuut na je embassy. Zie je dat, dan heeft de embassy niet gewerkt; bouw dan je eigen escorte of trek het in, want blijven embargeren wanneer de rival al escortes heeft betekent de diplomatieke prijs betalen voor een actie die niets meer doet.
+
+Het tweede falen is de diplomatieke overinvestering: je embargert een speler die je nodig hebt, en -20 maakt de coalitie of teamtransactie simpelweg onmogelijk. Dat is een falen dat duurder is dan de embassy zelf en het moeilijkst te corrigeren, want -20 is blijvend en deze speler heeft nu een gedocumenteerde reden je niet te vertrouwen. De counter is de tijdelijke embassy als test vóór elke echte onderhandeling, zodat je zijn reactie op druk kunt lezen zonder -20 blijvend te binden. Is hij redelijk, houdt hij de lijn of schakelt hij om, en de test vertelt je dat het loont om met hem te onderhandelen. Is hij agressief, vertelt de test je dat hij het niet waard is, en heb je de diplomatieke prijs van een blijvende embassy vermeden die de transactie had vernietigd.
+
+Het derde falen is de spooromwissel, de langzame versie van de scheepscounter: de rival bouwt geen schepen, hij bouwt treinen, en de embassy stopt in de komende één tot twee minuten met werken. Het signaal is een stijging in het aantal treinen en een dal in de schepenratio. Zie je dat, faalt de embassy al; de enige vraag is intrekken en het doel wisselen, of vasthouden en accepteren dat je de diplomatieke prijs betaalt voor een dode actie. In de meeste gevallen is het antwoord intrekken en het doel wisselen, want een dode embassy vasthouden betekent -20 en een vijandelijke houding handhaven zonder economische opbrengst en de hele kaart signalen geeft dat je in een nadelige positie zit.
+
+Het vierde falen is het timing-falen: je stelt de embassy in in een laagstroomvenster omdat de rival zijn leveringen heeft gepland om hem te ontlopen, en de embassy onderbreekt bijna niets. Het signaal is dat de uitstroomratio al laag was toen je handelde; het besluitkader zou dat hebben moeten vangen. De counter is te wachten op een puls en midden in de puls te embargeren om de lading onderweg te maximaliseren wanneer de deur sluit. Dat is het verschil tussen "de echte stroom embargeren" en "niets onderbreken", en daarom is de uitstroomratio-check de eerste stap van het besluit, geen optie.
+
+| Falen | Signaal | Counter |
+| --- | --- | --- |
+| Scheepscounter | Aantal oorlogsschepen van de rival stijgt in de eerste minuut | Bouw je eigen escorte of trek de embassy in |
+| Diplomatieke overinvestering | Je hebt deze speler nodig; -20 vernietigt de transactie | Test met een tijdelijke embassy vóór elke echte onderhandeling |
+| Spooromwissel | Aantal treinen stijgt, schepenratio daalt | Intrekken en doel wisselen; de embassy is dood |
+| Laagstroomvenster | De uitstroomratio was al laag bij de actie | Wacht op een puls; embargeer midden in de puls |
+
+## Modus- en kaartaanpassingen
+
+Zelfde embargo-besluit gedraagt zich in FFA, teamplay en de ladder anders, en de kaartgrootte voegt een laag toe. In FFA is de diplomatieke prijs van de embassy minimaal, want de meeste spelers zijn al vijandelijk of onverschillig, en -20 met één speler schaadt je andere relaties niet. De totale embassy is in FFA in een late-game coalitie, wanneer je de sterkste speler bent, een reëel instrument, want de 10-seconden cooldown en de 100-influence drempel zijn de enige echte grenzen, en de diplomatieke prijs is minimaal. In teamplay is de embassy een veel gevaarlijker instrument, want het tegensteam zal je economie embargeren en je moet schepen bouwen om je lijnen te beschermen — een echte kosten — en de diplomatieke prijs om een speler van het tegensteam te embargeren is -20 relatie plus het feit dat de rest van het tegensteam weet dat je hen specifiek aanvalt.
+
+De kaartgrootte verandert de waarde van de lading onderweg, en juist dat detail maakt het embargo-timing kaarthankelijk. Op een compacte kaart zijn de lijnen kort, het transitvenster klein, een midden-embargo onderbreekt weinig lading, maar de uitstroomratio is hoger want de lijnen zijn korter en de havens dichter; de embassy onderbreekt een stabieler stroom. Op een grote kaart zijn de lijnen lang, het transitvenster groot, een midden-embargo onderbreekt meer lading, maar de uitstroomratio is lager want de lijnen zijn langer en de havens verder weg; de stabiele stroom is dunner. De praktische regel: op compacte kaarten embargeer je de stabiele stroom en negeer je het transitvenster; op grote kaarten embargeer je op puls zodat de lading onderweg maximaal is wanneer de deur sluit.
+
+De ladder voegt een laag toe: de rival leest je, dus is de uitstroomratio-check niet alleen over de economie van de rival, maar over zijn verwachtingen van jou. Als de rival weet dat je graag embargert, dan plant hij zijn leveringen om je embassy in een laagstroomvenster te zetten, en het timing-race wordt een leesrace. De counter is om onvoorspelbaar te embargeren: niet op een vast ritme embargeren, niet dezelfde speler tweemaal achtereenvolgens embargeren, niet direct na een zichtbare provocatie embargeren want de rival zal om die provocatie heen plannen. Embargeer wanneer de uitstroomratio het zegt, niet wanneer het drama het zegt, en het timing blijft aan jouw kant.
+
+In alle modi en op alle kaarten is de embassy een instrument voor de speler die de handelslijnen al leest, niet voor de speler die op de kaart reageert. Scheepsuitstroom, spoordichtheid, aantal oorlogsschepen, relatie-toestand — dat zijn de vier cijfers die zeggen of de embassy de moeite waard is. De 10-seconden cooldown van de totale embassy en de 5 minuten duur van de tijdelijke embassy zijn de twee tellers die zeggen wanneer je handelt. Heb je de vier cijfers en de twee tellers goed, dan is de embassy een echte economische wapen; heb je ze fout, dan is het -20 relatie en een verspillende cooldown, en heeft de hele kaart geleerd dat je embassy voorspelbaar is.
+
+| Modus | Diplomatieke prijs | Bestinstrument | Belangrijke aanpassing |
+| --- | --- | --- | --- |
+| FFA | Minimaal; de meeste al vijandelijk | Totaal in late-game; gericht in het midden | Embargeer de stabiele stroom, niet de pulsen |
+| Teamplay | Hoog; de tegenstander leest het als gerichte aanval | Gericht, zelden totaal | Escortes bouwen vóórdat je embargert |
+| Ladder | Hoog; de rival plant om je ritme heen | Gericht, onvoorspelbaar timing | Embargeren wanneer de uitstroomratio het zegt |
+| Compacte kaart | Zoals in de modus | Embassy op de stabiele stroom | Kort transitvenster; de stroom onderbreken |
+| Grote kaart | Zoals in de modus | Embassy op puls | Lang transitvenster; de lading onderbreken |
+
+## Beslisttabel: embargeren, afzien of testen
+
+De hele gids laat zich reduceren tot één tabelmatch: voor een gegeven toestand van de rival, welk instrument stel je in, en wanneer. De drie instrumenten zijn de blijvende gerichte embassy, de tijdelijke embassy en de totale embassy; het besluit komt uit de vier cijfers die de rival op dat moment toont: scheepsuitstroom, spoordichtheid, aantal oorlogsschepen en relatie-toestand. De volgende tabel is degene die je tijdens de partij open zou moeten houden, want het is het deel van de gids dat op het moment van je actie verandert, niet het deel dat je vóór de partij leest.
+
+De eerste rij is het schone geval: de rival is handelsafhankelijk, heeft weinig oorlogsschepen en de relatie is neutraal. Nu is het moment om een blijvende gerichte embassy in te stellen, want de diplomatieke prijs is minimaal en de economische schade maximaal. De tweede rij is het testgeval: de rival is handelsafhankelijk, maar je bent onzeker of hij de embassy zal bestrijden, of je zit in teamplay en wilt zijn reactie lezen vóórdat je je bindt. Nu is het moment voor de tijdelijke embassy, want de 5 minuten duur geeft je tijd om zijn reactie te lezen, en de intrek-optie voorkomt dat je bij -20 blijft zitten bij een slechte reactie.
+
+De derde rij is het totale-embargo-geval: je bent de sterkste speler in FFA, de 10-seconden cooldown is gereed, en meerdere rivalen liggen bloot op hetzelfde handelswater. Nu is het zeldzame moment waarin het globale instrument loont, want de diplomatieke prijs is alleen aanvaardbaar wanneer je al de bedreiging bent en de economische schade meerdere echte lijnen tegelijk treft. De vierde rij is het afzien-geval: de rival is op spoor omgeschakeld, of de uitstroomratio is laag, of je hebt deze speler nog nodig in team of coalitie. Nu is het moment om niets te doen, want de embassy zou je -20 relatie en een 10-seconden cooldown kosten voor bijna nul economische schade, en afzien is de actie die je de optie laat opnieuw te embargeren wanneer de rival opnieuw bloot ligt.
+
+Deze tabel is het antwoord op de vraag waar deze gids omheen draait, en het deel dat je elke keer zou moeten controleren vóórdat je embargert. Past de toestand van de rival bij de eerste rij, stel een blijvende gerichte embassy in. Past hij bij de tweede, start een tijdelijke test en lees zijn reactie. Past hij bij de derde, stel de totale embassy in en accepteer de diplomatieke prijs. Past hij bij de vierde, zie af en lees verder, want afzien is gratis en de volgende uitstroompuls is het moment waarop de tabel weer naar de eerste rij terugkeert. De embassy is een timing-instrument, en het timing is de scheepsuitstroom van de rival, niet je frustratie met hem. De rest van de gids is de logica achter de tabel; de tabel is de actie.
+
+| Toestand van de rival | Instrument | Wanneer instellen | Waar op te letten |
+| --- | --- | --- | --- |
+| Handelsafhankelijk, weinig schepen, neutrale relatie | Blijvende gerichte embassy | Nu, op een uitstroompuls | Aantal oorlogsschepen in de eerste minuut |
+| Handelsafhankelijk, onzekere reactie | Tijdelijke embassy | Nu, 5-minuten-test | Zijn reactie in 60–90 seconden |
+| Je bent de sterkste in FFA, meerdere rivalen bloot | Totale embassy | Wanneer de 10s cooldown gereed is | Scheepbouw op de kaart in de komende minuut |
+| Spooromwissel, lage uitstroom, of je hebt de speler nodig | Afzien | Niet instellen | De volgende puls die de tabel naar de eerste rij brengt |
+| Agressief, dichterbij komend, gebruikt -20 om aan te vallen | Intrekken en afzien | Embargo direct stoppen | Zijn aanvalsrhythme; landhouding opbouwen |
+
+Voor meer details over de handelslijnen die de embassy precies onderbreekt, lees [de handels- en piraterijguide](/guides/trade-vs-piracy/), die uitlegt hoe je de waarde van een lijn beoordeelt vóórdat je hem sluit; voor de diplomatieke prijs die de embassy betaalt, lees [de nationale-alliantie-beslistguide](/guides/nation-alliance-decisions/), die uitlegt hoe -20 het gedrag van de andere spelers op de kaart tegenover je verandert. De embassy is het instrument; deze twee guides zijn de context die bepaalt of het instrument de moeite waard is.

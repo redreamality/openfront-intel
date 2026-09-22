@@ -1,0 +1,155 @@
+---
+title: "OpenFront : timing du embargo et contrôle du commerce — quand couper l'économie d'un rival"
+description: "Guide de décision pour v0.34 : quand viser un embargo ciblé, utiliser le cooldown de 10 s de l'embargo global, tester avec un embargo temporaire de 5 minutes, et vérifier la dépendance navale de l'adversaire avant qu'il ne bascule vers le rail."
+pubDate: 2026-09-23
+updatedDate: 2026-09-23
+tags: [trade, piracy, warship, port, diplomacy]
+category: Tutorial
+difficulty: Intermédiaire
+version: v34
+freshnessSummary: "Vérifié sur le tag v0.34.15 et l'upstream 04ef2377 : un embargo ciblé coupe le commerce avec un joueur et fixe la relation à -20, le rendant en pratique hostile ; l'embargo global a un cooldown de 10 s et exige 100 d'influence, une capitale vivante et un port de commerce ; l'embargo temporaire dure 300 ticks (≈5 min de jeu) puis expire ; les navires de commerce sont bloqués à la fois à la sortie du port et à l'arrivée, alors que les trains ne le sont pas."
+---
+
+Dans OpenFront, l'embargo est une arme diplomatique que vous pouvez déclencher sans déclarer la guerre. Un embargo ciblé coupe tout le commerce avec un adversaire et fixe votre relation avec lui à -20, ce qui le rend en pratique hostile ; l'embargo global est limité par un cooldown de 10 s et exige 100 d'influence, une capitale vivante et au moins un port de commerce ; l'embargo temporaire dure environ 5 minutes puis expire automatiquement. Utilisez un embargo ciblé quand un adversaire dépend visiblement d'une ligne navale que vous pouvez voir ; réservez l'embargo global aux rares moments où plusieurs adversaires sont exposés en même temps.
+
+## Quand imposer un embargo, quand s'abstenir
+
+La vraie question n'est pas si l'embargo inflige des dégâts, mais si le dégât infligé vaut le prix que vous payez. Un embargo ciblé vous coûte trois choses en même temps : vous perdez le revenu de commerce que la ligne vous aurait rapporté ; votre relation avec ce joueur tombe à -20 ; et l'adversaire devient hostile envers vous, ce qui signifie qu'il va attaquer vos navires de commerce immédiatement et, en FFA, verrouiller automatiquement votre flotte sur l'eau partagée. Rien de tout cela n'est gratuit ; l'embargo ne paie que si la dépendance navale de l'adversaire est assez forte pour produire un effet réel.
+
+Il y a quatre fenêtres qui basculent la balance en votre faveur. Première : juste après que l'adversaire a investi dans une ligne longue que vous pouvez voir ; il a déjà engagé ses ressources, et couper maintenant fait le plus mal. Deuxième : juste avant qu'il ne dépense les revenus de cette ligne en navires de guerre ou MIRV ; l'embargo arrive au moment précis où vous voulez affamer ce projet. Troisième : pendant que vous construisez vos propres navires de guerre pour escorter ; l'embargo et l'escorte se superposent plutôt qu'ils ne se répètent. Quatrième : quand un adversaire hésite en bordure d'une alliance et que vous voulez tester sa résistance à la pression ; l'embargo temporaire de 5 minutes est fait pour ça.
+
+Il y a aussi quatre fenêtres où il faut s'abstenir. N'imposez pas l'embargo à un adversaire qui a déjà basculé vers les revenus du rail, car l'embargo ne touche pas le rail et vous payez le prix diplomatique pour rien. N'imposez pas l'embargo à un joueur dont vous avez encore besoin en jeu d'équipe ou en alliance de fin de partie, car -20 rend cette transaction beaucoup plus difficile voire impossible. N'imposez pas l'embargo quand vos navires de guerre sont en retard et que l'adversaire approche, car l'adversaire transformera l'embargo en une course navale que vous perdrez. N'imposez pas l'embargo pour une provocation mineure, car -20 est permanent, la perte de commerce est réelle, et la provocation n'était peut-être pas si importante.
+
+Le déclencheur le plus fiable est de surveiller le taux de départ de navires de commerce de l'adversaire. Un port tente de dispatcher un navire tous les 10 ticks, donc une économie de commerce saine montre un flux visible vers des ports précis. Si vous voyez l'adversaire envoyer plusieurs navires par minute vers un port que vous contrôlez ou pouvez bloquer, l'embargo de cette ligne maintenant coupe un flux réel et mesurable. Si vous voyez très peu de navires, l'adversaire ne dépend pas du commerce et l'embargo sera surtout une insulte diplomatique. C'est précisément ce que le reste de ce guide construit : embarguer la dépendance au commerce, pas le joueur.
+
+| Déclencheur | Imposer maintenant | S'abstenir |
+| --- | --- | --- |
+| L'adversaire vient d'investir dans une longue ligne visible | Oui | — |
+| L'adversaire est sur le point de financer des navires de guerre ou des MIRV | Oui | — |
+| Vous construisez en parallèle vos propres escortes | Oui | — |
+| L'adversaire a basculé vers une forte densité ferroviaire | — | Oui |
+| Vous avez encore besoin de ce joueur en équipe ou alliance | — | Oui |
+| Vos navires de guerre sont en retard et l'adversaire approche | — | Oui |
+| Une simple provocation mineure | — | Oui |
+
+## Embargo ciblé versus embargo global
+
+Ciblé et global sont deux outils à coût différent et les mélanger est l'erreur la plus courante sur ce sujet. La version ciblée coupe uniquement le commerce avec un joueur et fixe votre relation avec lui à -20. Elle est chirurgicale : vous choisissez la cible, vous choisissez le moment, et seule cette relation se dégrade. C'est le choix par défaut correct dans presque toute partie FFA, car elle permet de presser une seule économie à la fois sans brûler les relations sur toute la carte.
+
+L'embargo global est une pression généralisée : il coupe le commerce avec tous les joueurs non alliés et est soumis à un cooldown dur de 10 s. En plus du cooldown, vous devez être éligible au moment même de l'action : au moins 100 d'influence, une capitale vivante, au moins un port de commerce. Si vous êtes sous 100 d'influence, si votre capitale est tombée, ou si vous n'avez plus de port de commerce, le bouton n'a tout simplement pas d'effet — ce qui est en soi un contrôle utile, car le jeu vous dit que vous n'avez pas d'outil global de fermeture commerciale en ce moment.
+
+Le vrai coût de l'embargo global est diplomatique, pas économique. Il bascule d'un coup toutes les relations non alliées en hostiles, ce qui signifie que toutes les négociations d'alliance en cours échouent et que chaque joueur sur la carte a désormais une raison de prioriser l'attaque de votre flotte de commerce. En FFA, c'est généralement acceptable, car la plupart des joueurs sont déjà hostiles ou indifférents ; mais en jeu d'équipe, ou en fin de partie où vous essayez encore de former une alliance, l'embargo global est souvent le pire choix, car il transforme d'un clic vos alliés potentiels en ennemis.
+
+N'utilisez l'embargo global que dans deux cas. Le premier : vous êtes le joueur le plus fort et vous voulez ralentir toute la carte pendant la phase de fin de construction ; le cooldown de 10 s vous permet de pulser, et le coût diplomatique est minimal car vous êtes déjà la menace. Le second : la carte est en rotation ou un moment fait qu'un groupe d'adversaires est exposé sur la même zone d'eau commerciale, et un embargo global frappe plusieurs lignes réelles à la fois. Dans tous les autres cas, l'embargo ciblé est moins cher et plus contrôlable, et c'est lui qu'il faut choisir par défaut.
+
+| Outil | Qui est bloqué | Prix de la relation | Exigences dures | Usage optimal |
+| --- | --- | --- | --- | --- |
+| Embargo ciblé | Un adversaire de votre choix | -20 avec ce joueur | Aucune autre exigence | Presser un adversaire dépendant du commerce |
+| Embargo global | Tout joueur non allié | Hostile avec tous | Cooldown 10 s ; 100 d'influence ; capitale vivante ; un port | Ralentir toute la carte quand vous êtes le plus fort |
+
+## Comment fonctionne l'embargo temporaire de 5 minutes
+
+L'embargo temporaire est l'outil le plus utile et le plus sous-utilisé de ce guide. Il pose sur un adversaire un embargo d'exactement 300 ticks, ce qui, à 10 ticks par seconde, convertit en environ 30 s réelles mais représente environ 5 minutes de temps de jeu, puis expire automatiquement. Vous pouvez aussi l'annuler en avance en réimposant la même action sur ce joueur ; c'est la descente de pression : vous lancez un test, observez 60 s de réaction, et si l'adversaire ne sur-réagit pas, vous l'annulez avant la fin des 5 minutes.
+
+La logique du test est tout. Un embargo ciblé permanent est une déclaration : une fois posé, vous avez payé -20 de relation et la perte de commerce, et l'adversaire suppose que vous avez verrouillé le conflit. L'embargo temporaire est une question : il demande à ce joueur comment il réagit à la pression économique, sans réponse permanente. S'il construit des navires de guerre et commence à escorter ses navires de commerce, vous savez qu'il va disputer les lignes commerciales ; vous pouvez annuler l'embargo et décider si cette disqualification vaut la peine. S'il bascule vers le rail, vous savez qu'il est dépendant du commerce et qu'on pourra le presser à nouveau plus tard, sans avoir brûlé -20 sur une action permanente.
+
+La raison pour laquelle le moment de l'embargo temporaire est crucial, c'est qu'il met en jeu le cooldown de 10 s de l'embargo global et la durée de 5 minutes du test. Quand vous lancez un embargo temporaire, vous engagez ce joueur en hostilité pendant à peu près 5 minutes, et pendant cette fenêtre, il peut attaquer vos navires de commerce et votre port sans porter sur vous le risque que vous ayez verrouillé la rupture diplomatique permanente. Le moment idéal du test est juste après qu'un adversaire a investi dans une ligne de commerce, car son coût engagé le rend plus susceptible de sur-réagir plutôt que de basculer calmement. Si vous lancez avant qu'il n'ait rien construit, il basculera probablement vers le rail et le test ne vous dira pas grand-chose.
+
+Une séquence pratique : surveillez le taux de départ de l'adversaire pendant une ou deux minutes, confirmez qu'il envoie plusieurs navires par minute vers le port qui vous importe, puis lancez l'embargo temporaire. Observez sa réaction pendant 60 à 90 s. S'il construit des navires de guerre, annulez l'embargo, construisez vos propres escortes ou changez de cible. S'il bascule vers le rail, annulez et notez que ce joueur est dépendant du commerce et qu'il vaudra la peine d'embarguer en permanence une fois que vous serez prêt à payer le prix diplomatique. S'il ne fait rien et conserve la ligne, vous avez identifié une cible molle et l'embargo temporaire a déjà payé en information.
+
+L'embargo temporaire est aussi l'outil à utiliser avant une négociation d'équipe. Si vous voulez savoir en jeu d'équipe si un allié tiendra une ligne commerciale face à une équipe adverse, lancer un embargo temporaire de 5 minutes contre l'équipe ennemie est une façon à bas coût de lire sa réaction sans transformer toute la partie en hostilité. C'est la différence entre deviner et tester, et le test est presque toujours moins cher que le devin.
+
+| Résultat du test | Ce que vous apprenez | Action suivante |
+| --- | --- | --- |
+| L'adversaire construit des navires de guerre | Il va disputer les lignes commerciales | Annuler ; construire ses propres escortes ou changer de cible |
+| L'adversaire bascule vers le rail | Il est dépendant du commerce et va basculer | Annuler ; noter pour un embargo permanent plus tard |
+| L'adversaire conserve la ligne et ne fait rien | Cible molle, peu investi | Considérer un embargo permanent une fois prêt |
+| L'adversaire attaque votre port | Il est déjà hostile en pratique | Annuler ; traiter comme une déclaration de guerre |
+
+## Navires de commerce et marchandises en transit
+
+L'embargo s'applique à deux points, et c'est la différence entre « couper les revenus » et « juste fâcher quelqu'un ». Le premier point est à la sortie du port : quand un port tente de dispatcher un navire de commerce, le jeu vérifie si la destination est visée par un embargo en cours ; si oui, le dispatch est refusé et ce cycle de 10 ticks est perdu. Dès que votre embargo est posé, plus aucun nouveau navire ne quitte le port de l'adversaire vers la destination visée ; le flux s'arrête à la source.
+
+Le deuxième point est à l'arrivée : un navire de commerce déjà en transit quand votre embargo est posé est vérifié à son arrivée, et si la destination a un embargo en cours, sa cargaison est bloquée et non livrée. C'est le détail que la plupart des joueurs ratent : embarguer un adversaire ne capture pas et ne détruit pas ses navires en transit ; cela les empêche simplement d'être payés. Ces navires continuent de naviguer, mais vers un port fermé, et leurs revenus sont perdus. Concrètement, si vous embarguez une ligne longue, les navires déjà en mer sont gaspillés, et c'est précisément le moment où vous voulez embarguer, car vous coupez à la fois le flux futur et les marchandises en transit.
+
+Le point sur le moment : embarguer au milieu de la ligne vaut mieux qu'embarguer à la source. Si vous imposez l'embargo juste après que l'adversaire a dispatché une vague de cargaison, ces navires sont maintenant en transit et seront bloqués à votre extrémité ; vous avez littéralement confisqué sa cargaison sans toucher ses navires. Si vous imposez avant qu'il n'ait rien dispatché, vous n'arrêtez que le flux futur — réel, mais moins spectaculaire. La différence est la valeur des marchandises actuellement en transit, et sur une ligne longue, ce peut être une part importante du revenu commercial de l'adversaire pour la minute ou les deux minutes qui viennent.
+
+Le contre-jeu est tout aussi important. Si l'adversaire sait que vous allez embarguer, il va planifier son commerce pour que la plupart des cargaisons arrivent juste avant que vous n'agissiez raisonnablement, ou faire tourner les lignes sur un rythme qui met votre embargo dans une fenêtre de faible flux. Lire le taux de départ, c'est trouver le bon moment : si l'adversaire expédie régulièrement, embarguez maintenant ; s'il expédie par impulsions, attendez une impulsion, embarguez au milieu de l'impulsion, et maximisez les marchandises en transit quand votre embargo verrouille la porte. C'est une course de timing, et le cycle de dispatch de 10 ticks donne une fenêtre fine à travailler, pas grossière.
+
+| Moment de l'embargo | Cargaison coupée | Prix de la relation | Note |
+| --- | --- | --- | --- |
+| Au milieu de la ligne, dans une impulsion | Flux futur + marchandises en transit | -20 avec l'adversaire | Maximale ; confisque la cargaison en transit |
+| À la source, avant le dispatch | Flux futur seulement | -20 avec l'adversaire | Propre mais moins spectaculaire |
+| Dans une fenêtre de faible flux | Très peu | -20 avec l'adversaire | Peu de valeur ; l'adversaire a contourné |
+
+## Trains et revenus que l'embargo ne touche pas
+
+La plus grande limite de l'embargo est qu'il n'affecte pas les trains, et l'erreur la plus grosse est d'embarguer une économie qui a déjà basculé vers le rail. Les trains sont des unités de transport terrestres ; l'embargo n'applique que sur les navires de commerce et la relation commerciale elle-même. Un adversaire qui court un réseau ferroviaire dense usine-vers-usine, avec une haute fréquence de trains et peu de navires de commerce, est presque totalement insensible à l'embargo, et votre -20 de relation a en pratique bloqué peu de choses. C'est pourquoi le cadre de décision de la première partie insiste sur la surveillance du taux de départ : toute l'opération est de savoir si l'adversaire est dépendant du commerce avant de payer le prix diplomatique.
+
+La bascule du commerce vers le rail est la réaction naturelle à l'embargo, et c'est pourquoi l'embargo temporaire en tant que test est si utile. Quand un adversaire est embargué, ses revenus de commerce s'arrêtent ; s'il a l'infrastructure pour basculer, il construira des trains et redirigera sa production interne dans la minute ou les deux minutes qui suivent. Une fois la bascule terminée, l'embargo est un outil mort : vous n'avez obtenu qu'un -20 avec un joueur hostile qui court une économie de rail que vous ne pouvez pas toucher. La course de timing est donc : embarguer la dépendance avant qu'elle ne se convertisse en rail — c'est-à-dire embarguer tôt dans le développement de la ligne, pendant que les ressources sont encore engagées dans la ligne commerciale et que la bascule n'a pas encore commencé.
+
+La deuxième limite plus subtile : l'embargo n'empêche pas l'adversaire de construire des navires de guerre, de vous annexer ou d'attaquer votre port. Il n'arrête que le commerce. L'embargo n'est donc pas un substitut à la posture militaire ; embarguer un adversaire agressif et proche donne souvent l'excuse pour vous attaquer en premier, car -20 signifie qu'il a désormais une raison formelle de vous traiter comme hostile. L'embargo fonctionne mieux comme partie d'une construction navale ou d'une posture terrestre plus large, où la pression économique et la pression militaire se superposent ; c'est le pire choix comme action isolée contre un adversaire agressif et proche, car l'adversaire utilisera l'hostilité comme prétexte pour attaquer.
+
+La règle pratique : embarguer la dépendance navale, et traiter l'embargo comme la moitié économique d'un plan plus large, pas le plan entier. Si vous embarguez un adversaire, vous devriez aussi construire des navires de guerre ou une posture terrestre qui rende l'embargo payant. Si vous ne construisez rien d'autre, l'embargo est une insulte diplomatique qui vous coûte -20 de relation et des revenus commerciaux, tandis que l'adversaire bascule soit vers le rail, soit vers une hostilité qui le rend agressif — dans les deux cas, vous êtes plus faible qu'avant. L'embargo est un outil pour le joueur qui lit déjà les lignes de commerce sur la carte, pas pour le joueur qui cherche un coup économique rapide.
+
+| État économique de l'adversaire | Valeur de l'embargo | Pourquoi |
+| --- | --- | --- |
+| Départ naval élevé, densité ferroviaire faible | Élevée | Coupe de vrais revenus ; la bascule n'a pas encore eu lieu |
+| Mixe de commerce et de rail | Moyenne | Coupe la moitié commerciale ; la moitié rail survit |
+| Réseau ferroviaire dense, peu de commerce | Faible | L'embargo bloque peu ; vous payez -20 pour rien |
+| Agressif, proche, faible commerce | Négative | L'hostilité lui donne l'excuse d'attaquer en premier |
+
+## Modes d'échec et contre-jeux qui battent un embargo
+
+Chaque embargo a des modes d'échec, et les joueurs qui l'utilisent bien sont ceux qui peuvent les nommer avant d'agir. Le mode le plus courant est le contre-jeu naval : l'adversaire répond à votre embargo en construisant des escortes, votre propre flotte de commerce est alors exposée comme la sienne, et l'embargo ne bloque plus ses revenus, car il a simplement basculé vers le commerce escorté. Le signal est une hausse du nombre de navires de guerre de l'adversaire dans la minute suivant votre embargo. Si vous voyez cela, l'embargo n'a pas fonctionné ; soit vous construisez vos propres escortes, soit vous annulez, car continuer d'embarguer quand l'adversaire a déjà des escortes, c'est continuer de payer le prix diplomatique pour une action qui ne fait plus rien.
+
+Le deuxième échec est le sur-engagement diplomatique : vous embarguez un joueur dont vous avez besoin, et -20 rend l'alliance ou la transaction d'équipe tout simplement impossible. C'est un échec qui coûte plus cher que l'embargo lui-même, et le plus difficile à récupérer, car -20 est permanent et ce joueur a désormais un motif enregistré de vous ne pas faire confiance. Le contre-jeu est d'utiliser l'embargo temporaire comme test avant toute négociation réelle, afin que vous puissiez lire sa réaction à la pression sans engager -20 permanent. S'il est raisonnable, il tiendra la ligne ou basculera, et le test vous dit qu'il vaut la peine d'être négocié. S'il est agressif, le test vous dit qu'il ne vaut pas la peine, et vous avez évité le coût diplomatique d'un embargo permanent qui aurait détruit la transaction.
+
+Le troisième échec est la bascule ferroviaire, la version lente du contre-jeu naval : l'adversaire ne construit pas de navires, il construit des trains, et l'embargo arrête de fonctionner dans la minute ou les deux minutes qui suivent. Le signal est une hausse du nombre de trains et une baisse du taux de départ naval. Si vous voyez cela, l'embargo est déjà en train d'échouer ; la seule question est d'annuler et de changer de cible, ou de le garder en acceptant que vous avez payé le prix diplomatique pour une action morte. Dans la plupart des cas, la réponse est d'annuler et de changer de cible, car garder un embargo mort maintient -20 et une posture hostile sans aucun retour économique, et envoie à toute la carte le signal que vous êtes verrouillé dans une position défavorable.
+
+Le quatrième échec est l'échec de timing : vous lancez l'embargo dans une fenêtre de faible flux parce que l'adversaire a planifié ses dispatchs pour le contourner, et l'embargo ne coupe presque rien. Le signal est que le taux de départ était déjà faible au moment où vous avez agi ; le cadre de décision aurait dû attraper cela. Le contre-jeu est d'attendre une impulsion et d'embarguer au milieu, afin de maximiser les marchandises en transit quand la porte verrouille. C'est la différence entre « embarguer le flux réel » et « ne rien couper », et c'est pour cela que la vérification du taux de départ est le premier pas de la décision, pas une option.
+
+| Échec | Signal | Contre-jeu |
+| --- | --- | --- |
+| Contre-jeu naval | Le nombre de navires de guerre de l'adversaire monte dans la première minute | Construisez vos propres escortes ou annulez l'embargo |
+| Sur-engagement diplomatique | Vous avez besoin de ce joueur ; -20 détruit la transaction | Testez avec un embargo temporaire avant toute négociation réelle |
+| Bascule ferroviaire | Le nombre de trains monte, le taux naval baisse | Annulez et changez de cible ; l'embargo est mort |
+| Fenêtre de faible flux | Le taux de départ était déjà faible au moment de l'action | Attendez une impulsion ; embarguez au milieu de l'impulsion |
+
+## Ajustements par mode et par carte
+
+La même décision d'embargo se comporte différemment en FFA, en jeu d'équipe et en ladder, et la taille de la carte ajoute une couche. En FFA, le coût diplomatique de l'embargo est le plus bas possible, car la plupart des joueurs sont déjà hostiles ou indifférents, et -20 avec un joueur n'abîme pas vos autres relations. L'embargo global est donc un outil réaliste en fin de partie FFA quand vous êtes le joueur le plus fort, car le cooldown de 10 s et le seuil de 100 d'influence sont les seules vraies limites, et le coût diplomatique est au minimum. En jeu d'équipe, l'embargo est un outil beaucoup plus dangereux, car l'équipe adverse embarguera votre économie et vous devrez construire des navires pour protéger vos lignes — un vrai coût — et le coût diplomatique d'embarguer un joueur de l'équipe adverse est -20 de relation plus le fait que le reste de l'équipe adversale sait que vous la visez spécifiquement.
+
+La taille de la carte change la valeur des marchandises en transit, et c'est ce détail qui rend le timing de l'embargo dépendant de la carte. Sur une carte compacte, les lignes sont courtes, la fenêtre de transit est petite, l'embargo au milieu de la ligne coupe peu de cargaison, mais le taux de départ est plus élevé, car les lignes sont plus courtes et les ports plus proches ; l'embargo coupe un flux plus régulier. Sur une carte grande, les lignes sont longues, la fenêtre de transit est grande, l'embargo au milieu de la ligne coupe plus de cargaison, mais le taux de départ est plus bas, car les lignes sont plus longues et les ports plus éloignés ; le flux régulier est plus mince. La règle pratique : sur carte compacte, embarguez le flux régulier et ignorez la fenêtre de transit ; sur carte grande, embarguez dans une impulsion afin que les marchandises en transit soient maximales quand la porte verrouille.
+
+Le ladder ajoute une couche : l'adversaire vous lit, donc la vérification du taux de départ n'est plus seulement sur l'économie de l'adversaire, mais sur ses attentes à votre sujet. Si l'adversaire sait que vous aimez embarguer, il planifiera ses dispatchs pour mettre votre embargo dans une fenêtre de faible flux, et la course de timing devient une course de lecture. Le contre-jeu est d'embarguer de façon imprévisible : ne pas embarguer sur un rythme fixe, ne pas embarguer le même joueur deux fois de suite, ne pas embarguer immédiatement après une provocation visible, car l'adversaire planifiera autour de cette provocation. Embarguez quand le taux de départ le dit, pas quand le drama le dit, et le timing restera de votre côté.
+
+Dans tous les modes et sur toutes les cartes, l'embargo est un outil pour le joueur qui lit déjà les lignes de commerce, pas pour le joueur qui réagit à la carte. Le taux de départ naval, la densité ferroviaire, le nombre de navires de guerre, l'état de la relation : ce sont les quatre nombres qui disent si l'embargo vaut la peine. Le cooldown de 10 s de l'embargo global et la durée de 5 minutes de l'embargo temporaire sont les deux compteurs qui disent quand agir. Avoir les quatre nombres et les deux compteurs au bon endroit, et l'embargo est une vraie arme économique ; les avoir au mauvais endroit, et c'est -20 de relation et un cooldown gaspillé, et toute la carte a appris que votre embargo est prévisible.
+
+| Mode | Coût diplomatique | Outil optimal | Ajustement clé |
+| --- | --- | --- | --- |
+| FFA | Le plus bas ; la plupart déjà hostiles | Global en fin de partie ; ciblé au milieu | Embarguer le flux régulier, pas les impulsions |
+| Jeu d'équipe | Élevé ; l'adversaire le lit comme ciblage | Ciblé, rarement global | Construire les escortes avant d'embarguer |
+| Ladder | Élevé ; l'adversaire planifie autour de votre rythme | Ciblé, timing imprévisible | Embarguer quand le taux de départ le dit |
+| Carte compacte | Comme le mode | Embargo sur le flux régulier | Fenêtre de transit courte ; couper le flux |
+| Carte grande | Comme le mode | Embargo dans une impulsion | Fenêtre de transit longue ; couper la cargaison |
+
+## Tableau de décision : embarguer, s'abstenir ou tester
+
+Le guide entier se résume à une recherche dans un tableau : pour un état donné de l'adversaire, quel outil lancez-vous, et quand. Les trois outils sont l'embargo ciblé permanent, l'embargo temporaire et l'embargo global ; la décision vient des quatre nombres que l'adversaire montre en ce moment : taux de départ naval, densité ferroviaire, nombre de navires de guerre et état de la relation. Le tableau ci-dessous est celui que vous devez garder ouvert pendant la partie, car c'est la partie du guide qui change au moment où vous agissez, pas celle que vous lisez avant la partie.
+
+La première ligne est le cas propre : l'adversaire est dépendant du commerce, peu de navires de guerre, la relation est neutre. C'est le moment de lancer un embargo ciblé permanent, car le coût diplomatique est au minimum et le dégât économique au maximum. La deuxième ligne est le cas de test : l'adversaire est dépendant du commerce mais vous n'êtes pas sûr s'il va disputer l'embargo, ou vous êtes en jeu d'équipe et voulez lire sa réaction avant de vous engager. C'est le moment de lancer l'embargo temporaire, car la durée de 5 minutes vous laisse le temps de lire sa réaction, et l'option d'annulation en avance vous évite d'être verrouillé sur -20 si sa réaction est mauvaise.
+
+La troisième ligne est le cas de l'embargo global : vous êtes le joueur le plus fort en FFA, le cooldown de 10 s est prêt, plusieurs adversaires sont exposés sur la même zone d'eau commerciale. C'est le moment rare où l'outil global paie, car le coût diplomatique n'est acceptable que si vous êtes déjà la menace et si le dégât économique frappe plusieurs lignes réelles à la fois. La quatrième ligne est le cas de l'abstention : l'adversaire a basculé vers le rail, ou le taux de départ est faible, ou vous avez besoin de ce joueur en jeu d'équipe ou en alliance. C'est le moment de ne rien faire, car l'embargo vous coûterait -20 de relation et un cooldown de 10 s pour un dégât économique quasi nul, et s'abstenir est l'action qui vous laisse l'option d'embarguer à nouveau quand l'adversaire sera de nouveau exposé.
+
+Ce tableau est la réponse à la question autour de laquelle tourne ce guide, et la partie à vérifier à chaque fois que vous êtes sur le point d'embarguer. Si l'état de l'adversaire correspond à la première ligne, lancez un embargo ciblé permanent. S'il correspond à la deuxième, lancez un test temporaire et lisez sa réaction. S'il correspond à la troisième, lancez l'embargo global et acceptez le coût diplomatique. S'il correspond à la quatrième, abstenez-vous et continuez de lire, car s'abstenir est gratuit et la prochaine impulsion de départ est le moment où le tableau repasse en première ligne. L'embargo est un outil de timing, et le timing est le taux de départ naval de l'adversaire, pas votre frustration envers lui. Le reste du guide est la logique derrière le tableau ; le tableau est l'action.
+
+| État de l'adversaire | Outil | Quand lancer | Ce à quoi regarder après |
+| --- | --- | --- | --- |
+| Dépendant du commerce, peu de navires, relation neutre | Embargo ciblé permanent | Maintenant, dans une impulsion de départ | Le nombre de navires de guerre dans la première minute |
+| Dépendant du commerce, réaction incertaine | Embargo temporaire | Maintenant, test de 5 min | Sa réaction pendant 60 à 90 s |
+| Vous êtes le plus fort en FFA, plusieurs adversaires exposés | Embargo global | Quand le cooldown de 10 s est prêt | La construction navale de la carte la minute suivante |
+| Bascule ferroviaire, faible taux de départ, ou vous avez besoin de ce joueur | S'abstenir | Ne rien lancer | La prochaine impulsion qui remet en première ligne |
+| Agressif, proche, utilisant -20 pour vous attaquer | Annuler et s'abstenir | Arrêter l'embargo immédiatement | Son rythme d'attaque ; construire une posture terrestre |
+
+Pour plus de détails sur les lignes de commerce que l'embargo est en train de couper, lisez [le guide Commerce et Piraterie](/guides/trade-vs-piracy/), qui explique comment évaluer la valeur de la ligne avant de la couper ; pour le prix diplomatique que l'embargo paie, lisez [le guide Décisions d'Alliance Nationale](/guides/nation-alliance-decisions/), qui explique comment -20 change ce que les autres joueurs sur la carte font envers vous. L'embargo est l'outil ; ces deux guides sont le contexte qui décide si l'outil vaut le prix.
