@@ -69,6 +69,7 @@
 - **远端 ref DELETE 成功后，matching-refs 复核若 TLS handshake timeout，不要重复删除**：保留已成功 DELETE 的证据，只重试只读 matching-refs 一次；返回空数组即可确认收口，连续失败则报告“删除已受理、复核受阻”，不得把读超时写成分支仍存在。
 - **正式版本响应必须全局审计 `e2e/` 中旧正式版本的精确字面值**：不能只更新版本总览或 `content-integrity.spec.ts`；入口、发现性和专题 spec 也可能仍断言上一版（如 Water Nukes discovery 的 `v33.2`），导致页面已正确刷新但完整回归失败。提交前从 `e2e` 真实目录检索旧版本并逐条判断是否应保留历史语境。
 - **新建 Markdown 文件结尾只保留一个终止换行**：正文后再留空白行会让 `git diff --cached --check` 报 `new blank line at EOF` 并返回 1；暂存后仍要跑该检查，发现时删除额外空行再提交。
+- **2026-09-22 复发：新来源包暂存时再次触发 `new blank line at EOF`**：来源正文内容无需回退；读取精确尾行、删除多余空行后重新 `git add`，再以 `git diff --cached --check` 确认退出码 0。
 - **不要从 automation memory 直接沿用上轮的进程级 Git 代理地址**：`127.0.0.1:15236` 等本地代理端口可能只在上轮临时监听；fetch 前先探测该端口，未监听就直接使用带低速保护的直连，避免把 `Failed to connect to 127.0.0.1` 误判为 GitHub 断流并浪费唯一重试。
 - **已逐文件证明为 stat-only 的 `M` 仍会让 `git rebase` 以 `You have unstaged changes` 拒绝执行**：fetch 后若 `origin/main` 未变化，并且 `git merge-base --is-ancestor origin/main HEAD` 与 `git rev-parse HEAD^` 均证明当前唯一提交直接基于最新 main，则不要为形式上的 rebase 改写这些文件或索引；记录拓扑证明后继续。若 main 已变化，则停止并等待工作树可安全恢复，不能绕过 rebase 门禁。
 - **PowerShell 双引号插值中变量后紧跟 `?` 时也要用 `${name}` 明确边界**：例如 GitHub Contents API 应写 `"repos/.../contents/${path}?ref=v0.33.4"`；`"$path?ref=..."` 会把 `?ref` 吞进变量名并请求错误路径，表现为一组误导性的 HTTP 404。
