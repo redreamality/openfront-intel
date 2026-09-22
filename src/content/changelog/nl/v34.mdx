@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.13: gevechten, handel, treinen, Steam en lobby’s'
-description: 'Wat de officiële OpenFront v34.13-release verandert aan gevechten, handel, treinen, MIRV, Nations, lobby’s, Steam en je volgende partij.'
-pubDate: 2026-09-10
-updatedDate: 2026-09-22
+title: 'OpenFront v34.15: gevechten, Team-overwinning, handel, treinen, Steam en lobby’s'
+description: 'Wat de officiële OpenFront v34.15-release verandert aan gevechten, de Team-windrempel, handel, treinen, MIRV, Nations, lobby’s, Steam en je volgende partij.'
+pubDate: 2026-09-22
+updatedDate: 2026-09-23
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Versienotities
 ---
 
-## Direct antwoord: wat verandert OpenFront v34.13?
+## Direct antwoord: wat verandert OpenFront v34.15?
 
 v0.34.13 repareert bugs op de Channel Islands-kaart en bevat infrastructuurverbeteringen. Behandel de getagde kaart als de huidige publieke grens en neem geen onthouden kust of route uit een oud kaartartefact over. De infrastructuurnotitie publiceert geen nieuwe gevechts-, economie- of nucleaire coëfficiënt.
+
+De officiële v0.34.14-release repareert het vastlopen van het hoofdmenu voor spelers met grote cosmetische collecties door winkel en inventaris tijdens het scrollen te laden. Zij legt ook uit wat Steam-kopers in hun gratis maand krijgen, dat het volledige spel daarna gratis blijft en welke echte reden een mislukte verbinding met de gameserver heeft. Dit zijn toegangs- en weergavefixes, geen nieuwe Team-grens of gevechtscoëfficiënt. v0.34.15 repareert een onbedoelde deployment waarin sommige v35-functies in productie verschenen. Gebruik daarom de v0.34.15-tag als publieke grens; toevallig zichtbare functies zijn geen uitgegeven spelregels.
 
 De stabiele functierelease [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) verscheen op 14 september 2026. Na v0.34.1 tot [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) volgden de officiële patches [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10), [`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) en [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12). v0.34.12 is nu de formele niet-TEST-grens. De serie behoudt alle v34-functies en corrigeert aanvalstempo, handels- en treingeneratie, lobby- en kaartweergave, Steam-toegang, cosmetische opties en blokkering van klikken. Steam is maar één deel: landverliezen, MIRV-tempo, druk van Nations, Team-overwinning, water- en spoorlijnen, lobbykeuze en kaarten veranderen beslissingen in de volgende partij.
 
@@ -55,9 +57,9 @@ Lees ten slotte de kaart opnieuw. Yangtze River heeft een buisachtige riviertopo
 
 ## Bronstatus, grenzen en volgende lectuur
 
-De huidige formele release is [`v0.34.13`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.13), tagcommit `cfa6c47a1a58cdc5f9a779980c2896d92dcb8f8c`. De v0.34.12-paragraaf hieronder blijft de economische grens en beweert niet nieuwer te zijn.
+De huidige formele release is [`v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15), gepubliceerd op 22 september 2026, met tagcommit `4606060a92c25ebb72e4918f694c5e3488cd34c1`. v0.34.14 en v0.34.13 blijven de direct voorafgaande patchgrenzen.
 
-De huidige publieke autoriteit is de officiële [OpenFront-release `v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12) met onveranderlijke tagcommit `7c27263390d8f1976566e5c5ad9adf6fcad311b6`. De stabiele functiebasis is [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) op commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; beta1 bewijst slechts een teruggedraaid MIRV-experiment. De v0.34.5-treinnotitie is vergeleken met de getagde [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts), terwijl de v0.34.12-cadans uit release en tag komt en niet uit een rijdend pictogram. Latere `main`-commits bewijzen de regels van deze release niet.
+De huidige publieke autoriteit is de officiële [OpenFront-release `v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15) met onveranderlijke tagcommit `4606060a92c25ebb72e4918f694c5e3488cd34c1`. De stabiele functiebasis is [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) op commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; beta1 bewijst slechts een teruggedraaid MIRV-experiment. De v0.34.14- en v0.34.15-feiten komen uit hun officiële releases, terwijl de v0.34.12-cadans uit release en tag komt en niet uit een rijdend pictogram. Latere `main`-commits bewijzen de regels van deze release niet.
 
 Voor gevechten gebruik je de getagde [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) en [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Ze leggen de functie en beschermde scenario’s vast, maar geven geen universeel troops-per-tile-getal zonder ratio en density. De redactionele reactie is een begrensde proefaanval en controle van de nieuwe grens, niet een verzonnen deterministische tabel uit ontbrekende invoer.
 

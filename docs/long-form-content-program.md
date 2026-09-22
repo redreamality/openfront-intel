@@ -1,6 +1,6 @@
 # OpenFront Intel 长文内容生产计划与交付记录
 
-更新日期：2026-09-21。规划窗口：未来 8–12 周。
+更新日期：2026-09-23。规划窗口：未来 8–12 周。
 
 本计划把每日任务从 freshness 审计转为持续内容生产。正式 Release 与已确认事实错误仍可打断排期，但无新版本不再等于无事可做。选题原则见 [`content-strategy.md`](content-strategy.md)，实时状态见 [`content-loop.md`](content-loop.md)。
 
@@ -51,6 +51,7 @@
 | `LF-COMMUNITY-2026-09-19` | `/guides/world-map-ffa-spawns/` | 标准 World 地图公开 FFA 如何看真实出生竞争、选择可守的首块地、确认独立陆/水备用出口，并在邻居先到或本土预备队不足时换线 | `ffa-opening` 负责通用开局时钟与建筑；`map-strategy` 负责跨图地形；`europe-ffa-openings` 是另一张地图；本页独占 World 的现场落点和前两条路线，不把历史热图当胜率排名 |
 | `LF-COMMUNITY-2026-09-20` | `/guides/impossible-singleplayer/` | 默认设置的单人 Impossible 如何保住地图难度奖章资格、选有出口的安全核心、利用 Nation 均势，并把经济转成超过普通 FFA 领土门槛的胜利 | `nations-pressure` 只处理单条 AI 边境的目标风险；`mechanics/nations` 只解释行为机制；`world-map-ffa-spawns` 处理公开 FFA 真人争路；本页独占整局单人战役与成就设置边界 |
 | `LF-COMMUNITY-2026-09-21` | `/guides/no-alliances-mode/` | 禁用临时联盟后，玩家如何按预备队、敌对接触数、第三方受益者、独立收入与胜利线选择扩张、停手和转向 | `diplomacy-betrayal` 只处理可用联盟的请求、续约、禁运和退出；`threat-assessment` 只负责全图目标筛选；`trade-vs-piracy` 只负责贸易与捕获收益切换；本页独占没有临时外交保护时的 BORDER 决策，同时明确固定 Team 队友和非禁运贸易仍可用 |
+| `LF-COMMUNITY-2026-09-23` | `/guides/team-victory-threshold/` | Team 对局如何围绕严格超过 80% 的团队领土线，按非 fallout 分母分配终结者、支援、储备与海军掩护，并在十 tick 检查、Overtime、Ranked 2v2、计时器和地图形状改变时安全收官 | `team-roles` 负责整局动态职责；`team-economy-space` 负责共享建筑空间与付款人；`winning-overtime` 负责启用 Overtime 后的下降阈值；本页独占团队汇总胜利、严格比较、分母重算和 80% 终局合同，不再换标题复制 |
 
 ## 生产批次
 
@@ -61,7 +62,7 @@
 | C 地图阅读 | `LF-MAP-01/02/03/04` | 完成：五语跨地图答案及 Svalmel/Dyslexdria 单图页、真实指标与署名资产 | 先交付跨地图答案；单图试点必须使用真实指标与已署名视觉资产 |
 | D 大厅与 AI | `LF-LOBBY-01`、`LF-AI-01` | 完成：私人大厅主答案同步 v33.7，五语 Nation AI 主答案与反向入口交付 | 私人大厅只更新现有 modes；Nation AI 可作为独立主题合并 |
 | E 高阶局势 | `LF-PLAY-01/02/03` | 完成：五语败局恢复、团队角色、外交与背叛主答案及三角互链 | 每篇按一个玩家结果独立交付，不制造通用 tips 合集 |
-| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 No Alliances 五语决策、社区/v0.34.12 来源包与 Guides/威胁评估/外交背叛入口随本轮交付完成 | 一轮一个独立意图；下轮不重复无外交保护、多方受益者、贸易与固定 Team 边界或 BORDER 框架；继续调研、五语正文、入口、验证及交付报告 |
+| F 社区滚动指南 | `LF-COMMUNITY-ROLLING` | 持续活动；本轮 Team 80% 胜利门槛五语决策、社区/v0.34.15 来源包与 Team Roles/Team Economy/Winning Overtime 入口随本轮交付完成 | 一轮一个独立意图；下轮不重复团队汇总门槛、非 fallout 分母、终结者/支援/储备分工或 80% 收官框架；继续调研、五语正文、入口、验证及交付报告 |
 
 ## 每日生产循环
 

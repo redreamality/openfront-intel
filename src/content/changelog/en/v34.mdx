@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.13: combat, trade, trains, Steam, and lobbies'
-description: 'What the official OpenFront v34.13 Release changes for combat, trade, trains, MIRVs, Nations, Steam, lobbies, and the next match.'
-pubDate: 2026-09-10
-updatedDate: 2026-09-22
+title: 'OpenFront v34.15: combat, trade, trains, Steam, and lobbies'
+description: 'What the official OpenFront v34.15 Release changes for combat, Team victory, trade, trains, MIRVs, Nations, Steam, lobbies, and the next match.'
+pubDate: 2026-09-22
+updatedDate: 2026-09-23
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v34.13?
+## Direct answer: what changed in OpenFront v34.15?
 
 v0.34.13 fixes bugs in the Channel Islands map and includes infrastructure improvements. Treat the tagged map as the current public boundary; do not carry a remembered coastline or route from an older map artifact into a new match. The infrastructure note does not publish a new combat, economy, or nuclear coefficient.
+
+The official v0.34.14 Release fixes the main menu freezing for players with large cosmetic collections by loading store and inventory content while scrolling. It also clarifies what Steam buyers receive during the free month and that the browser game remains free, and it shows the actual reason when a game-server connection fails. These are access and presentation fixes; they do not change the Team threshold or combat coefficients. The v0.34.15 Release fixes an accidental deployment in which some v35 features appeared in production. Use the v0.34.15 tag as the current public boundary and do not treat those accidentally exposed features as released gameplay.
 
 OpenFront's stable [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) feature Release was published on 14 September 2026. After v0.34.1 through [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9), the official [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10), [`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11), and [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12) patches followed. v0.34.12 is now the latest formal, non-TEST player boundary. The series carries all v34 features forward while tightening combat pace, trade and rail generation, lobby and map presentation, Steam access, cosmetics, and input reliability. The practical headline is not Steam alone: combat, nuclear timing, Nation pressure, team victory, water and rail routes, public-lobby selection, and map choice all affect a next-match decision.
 
@@ -53,9 +55,9 @@ Finally, re-read the map instead of relying on yesterday's rotation. Yangtze Riv
 
 ## Source status, limits, and next reading
 
-The current formal release is [`v0.34.13`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.13), tag commit `cfa6c47a1a58cdc5f9a779980c2896d92dcb8f8c`. The older v0.34.12 paragraph remains the economic boundary and is not a claim that it is newer.
+The current formal release is [`v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15), published 22 September 2026. Its tag commit is `4606060a92c25ebb72e4918f694c5e3488cd34c1`; v0.34.14 and v0.34.13 remain the immediately preceding patch boundaries.
 
-The current authority for this article is the official [OpenFront `v0.34.12` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12) and immutable tag commit `7c27263390d8f1976566e5c5ad9adf6fcad311b6`. The stable v34 feature base is the [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) at commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; beta1 is historical evidence of a reverted experiment, not the shipped MIRV price rule. The v0.34.5 Train statement is cross-checked against tagged [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts), while the v0.34.12 cadence boundary comes from its Release and tag rather than a moving unit icon. Later `main` commits, when present, are clues for a future boundary rather than proof of this Release.
+The current authority for this article is the official [OpenFront `v0.34.15` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15) and immutable tag commit `4606060a92c25ebb72e4918f694c5e3488cd34c1`. The stable v34 feature base is the [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) at commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`; beta1 is historical evidence of a reverted experiment, not the shipped MIRV price rule. The v0.34.14 and v0.34.15 notes are cross-checked against their official Release bodies, while the v0.34.12 cadence boundary comes from its Release and tag rather than a moving unit icon. Later `main` commits, when present, are clues for a future boundary rather than proof of this Release.
 
 For combat, use tagged [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts), and the tagged [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). They establish the implemented loss function and its protected scenarios. They do not give one universal "troops per tile" quote because the answer changes with ratios and density. The editorial response is to compare a bounded probe with the resulting border, not to invent a deterministic table from incomplete inputs.
 

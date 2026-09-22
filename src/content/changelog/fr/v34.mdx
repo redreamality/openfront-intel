@@ -1,17 +1,19 @@
 ---
-title: 'OpenFront v34.13 : combats, commerce, trains, Steam et salons'
-description: 'Ce que la Release officielle OpenFront v34.13 change pour les combats, le commerce, les trains, MIRV, Nations, salons, Steam et la prochaine partie.'
-pubDate: 2026-09-10
-updatedDate: 2026-09-22
+title: 'OpenFront v34.15 : combats, victoire Team, commerce, trains, Steam et salons'
+description: 'Ce que la Release officielle OpenFront v34.15 change pour les combats, le seuil de victoire Team, le commerce, les trains, MIRV, Nations, salons, Steam et la prochaine partie.'
+pubDate: 2026-09-22
+updatedDate: 2026-09-23
 version: v34
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Notes de version
 ---
 
-## Réponse directe : que change OpenFront v34.13 ?
+## Réponse directe : que change OpenFront v34.15 ?
 
 La v0.34.13 corrige des bugs de la carte Channel Islands et apporte des améliorations d'infrastructure. Traitez la carte taguée comme la frontière publique actuelle et ne reportez pas une côte ou une route mémorisée depuis un ancien artefact. La note d'infrastructure ne publie aucun nouveau coefficient de combat, d'économie ou de nucléaire.
+
+La Release officielle v0.34.14 corrige le gel du menu principal pour les joueurs qui possèdent beaucoup de cosmétiques en chargeant le magasin et l'inventaire au défilement. Elle explique aussi ce que contient le mois gratuit des acheteurs Steam, rappelle que le jeu complet reste gratuit après ce mois et montre la cause réelle d'un échec de connexion au serveur. Ces changements concernent l'accès et l'affichage, pas le seuil Team ni les coefficients de combat. La v0.34.15 corrige un déploiement accidentel où certaines fonctions v35 étaient apparues en production. Utilisez donc le tag v0.34.15 comme frontière publique et ne traitez pas ces fonctions accidentelles comme publiées.
 
 La Release de fonctions stable [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) a été publiée le 14 septembre 2026. Après v0.34.1 jusqu'à [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) ont suivi les correctifs officiels [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10), [`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) et [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12). La v0.34.12 est désormais la frontière formelle non-TEST. La série conserve les fonctions v34 tout en corrigeant le rythme des attaques, la génération du commerce et des trains, la présentation des salons et des cartes, l'accès Steam, les cosmétiques et les clics bloqués. Steam n'est pas le seul sujet : pertes au sol, MIRV, Nations, victoire Team, routes sur l'eau et sur rail, choix du salon et de la carte modifient la prochaine partie.
 
@@ -55,9 +57,9 @@ Enfin, relisez la carte. Yangtze River possède une topologie de rivière en tuy
 
 ## Sources, limites et lectures suivantes
 
-La Release formelle actuelle est [`v0.34.13`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.13), commit du tag `cfa6c47a1a58cdc5f9a779980c2896d92dcb8f8c`. Le paragraphe v0.34.12 conserve la frontière économique, sans prétendre être plus récent.
+La Release formelle actuelle est [`v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15), publiée le 22 septembre 2026, commit du tag `4606060a92c25ebb72e4918f694c5e3488cd34c1`. Les v0.34.14 et v0.34.13 sont les frontières des correctifs précédents.
 
-L'autorité actuelle de cet article est la [Release OpenFront `v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12), associée au commit immuable `7c27263390d8f1976566e5c5ad9adf6fcad311b6`. La base fonctionnelle stable est la [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0), commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` ; beta1 documente une expérience annulée, pas la règle MIRV publiée. La note v0.34.5 sur les trains est recoupée avec le [`Config.ts` tagué](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.7/src/core/configuration/Config.ts), tandis que la cadence v0.34.12 vient de sa Release et de son tag, non du mouvement d'une icône. Les commits `main` ultérieurs ne prouvent pas les règles de cette Release.
+L'autorité actuelle de cet article est la [Release OpenFront `v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15), associée au commit immuable `4606060a92c25ebb72e4918f694c5e3488cd34c1`. La base fonctionnelle stable est la [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0), commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` ; beta1 documente une expérience annulée, pas la règle MIRV publiée. Les faits v0.34.14 et v0.34.15 viennent de leurs Releases officielles, tandis que la cadence v0.34.12 vient de sa Release et de son tag, non du mouvement d'une icône. Les commits `main` ultérieurs ne prouvent pas les règles de cette Release.
 
 Pour le combat, consultez les fichiers taggés [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts), [`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) et [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts). Ils fixent la fonction et ses scénarios protégés, sans fournir une formule universelle de troupes par tile indépendante du ratio et de la density. La réponse éditoriale consiste à observer une attaque bornée et le nouveau front, pas à inventer une table déterministe à partir d'entrées absentes.
 
