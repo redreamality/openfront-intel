@@ -1,0 +1,150 @@
+---
+title: "Goldraten im OpenFront-Match: Vor Investition oder Angriff die Rangliste lesen"
+description: "Nutze in v34 Gold/min sowie Schiffs-, Zug- und Piraterieeinkommen, um Vorrat von Wachstum zu trennen, ein schützbares oder angreifbares Netz zu erkennen und nicht auf eine einzelne große Zahl hereinzufallen."
+pubDate: 2026-09-25
+updatedDate: 2026-09-25
+tags: [rangliste, gold, einkommen, handel, züge, piraterie, strategie, v34]
+category: Strategie
+difficulty: Mittel
+version: v34
+freshnessSummary: "Gegen v0.34.17 geprüft: Optionale Spalten zeigen Brutto-Goldeinkommen sowie Schiffs-, Zug- und Piraterie-Gold pro Minute über ein rollierendes Fenster von zwei Minuten Simulationszeit; Zeilen sind sortierbar und Teamwerte summieren lebende Mitglieder."
+---
+
+## Direkte Antwort: Vorrat, Rate, Quelle und Militärkapazität zusammen lesen
+
+Öffne das Zahnrad der Rangliste, aktiviere Gold/min sowie Schiffs-, Zug- und Piraterierate und vergleiche mindestens zwei Messpunkte. Aktuelles Gold zeigt die Kaufkraft jetzt; die Raten zeigen Bruttozuflüsse in einem rollierenden Zwei-Minuten-Fenster der Spielzeit. Greife nur an oder verhänge ein Embargo, wenn eine benannte Route den Vorsprung erklärt. Bleibt die Quelle unklar, bewahre Truppen und beobachte ein weiteres Fenster.
+
+Dieser Leitfaden gilt für die veröffentlichte v34-Linie und wurde am 25. September 2026 am unveränderlichen Tag `v0.34.17` geprüft. Die vier Raten erschienen offiziell mit v0.34.0: gesamtes Goldeinkommen/min, Schiffshandelsgold/min, Pirateriegold/min und Zughandelsgold/min. Sie sind optional und nicht vollständig in der kompakten Standardansicht enthalten. Standardmäßig siehst du vor allem Clan, Gebiet, aktuelles Gold und maximale Truppen; Rang und Spielername bleiben immer sichtbar. Wer den Spaltenwähler nie öffnet, übersieht leicht, dass das Spiel einen alten Geldvorrat bereits von einem laufenden Motor unterscheiden kann.
+
+Die Frage lautet nicht allgemein „Wer gewinnt?“ und die Tabelle ersetzt niemals die Karte. Die engere Frage ist: **Welche sichtbare Wirtschaftsänderung sollte deine nächste Investition, deinen Angriff, dein Embargo, deine Spende oder dein Warten verändern?** Die [Bedrohungsanalyse](/de/guides/threat-assessment/) wählt Ziele auf dem ganzen Brett. [Handel gegen Piraterie](/de/guides/trade-vs-piracy/) entscheidet zwischen legalen Ankünften und Eroberungen. Der [Zugnetz-Leitfaden](/de/guides/train-network/) behandelt Gleise und Haltestellen. Hier lernst du, die gemeinsame Messfläche zu lesen, bevor du einen dieser Ausführungszweige wählst.
+
+Lies vier Objekte immer in derselben Reihenfolge. **Vorrat** ist aktuelles Gold und beantwortet, was sofort bezahlt werden kann. **Rate** ist der jüngste Bruttozufluss und zeigt, wie schnell Kaufkraft zurückkehrt. **Quelle** ist der sichtbare Anteil aus Schiffen, Zügen oder Piraterie und weist auf ein Netz hin, das geschützt oder gestört werden kann. **Kapazität** verbindet aktuelle und maximale Truppen, Gebiet und Strukturen mit der Frage, ob die Wirtschaft einen Kontakt überhaupt überlebt. Keines ersetzt die anderen. Ein Spieler kann acht Millionen besitzen, obwohl sein Netz tot ist, 900.000 pro Minute anzeigen und gerade alles ausgegeben haben oder mehrere Factories besitzen, deren Züge keinen gültigen Halt mehr erreichen.
+
+Die konservative Entscheidungsschwelle verlangt eine **benannte Ursache und eine machbare Antwort**. „Blau hat die höchste Rate“ ist nur eine Beobachtung. „Blaus Schiffsanteil bleibt bei zwei Messungen hoch, die einzige aktive Route kreuzt eine offene Meerenge und ein vorhandenes Warship erzwingt Eskorte“ ist ein Plan. Die Rangliste liefert die erste Hälfte; Karte, Ereignisse, Beziehungen und Geometrie liefern die zweite. Widersprechen sie sich, behalte die engere Aussage: Die Rate beweist vergangene Zahlung, nicht die nächste sichere Ankunft und nicht die Rentabilität deines Angriffs.
+
+## Die Tabelle konfigurieren, bevor du einen Rang deutest
+
+Öffne die Matchstatistik und wähle über das Zahnrad nur die Spalten für die aktuelle Frage. Rang und Spielername bleiben in der Spielertabelle fest, der Teamname in der Teamtabelle. Wählbar sind Spielertyp, Gebietsanteil, aktuelles Gold, vier Einkommensraten, aktuelle und maximale Truppen, Cities, Ports, Factories, Missile Silos, SAMs, Warships, Verbündete und Verrat. Die Reihenfolge bleibt Identität, Gebiet, Wirtschaft, Militär, Strukturen und Diplomatie, auch wenn du nur einen Teil einblendest.
+
+Für die erste Wirtschaftskontrolle zeige **Gebiet, Gold, Gold/min, drei Quellen, Truppen, Maximum, Ports, Factories und Warships**. Ergänze Silos und SAMs bei aktiven Nukes sowie Verbündete und Verrat, wenn eine Beziehung den Geldfluss erklären könnte. Auf kleinem Bildschirm wird die Ansicht breit. Verstecke deshalb nicht gerade die Quellen, die deine Frage beantworten. Stelle für die Prüfung ein kompaktes Set zusammen und kehre danach zur normalen Ansicht zurück.
+
+Jede numerische Überschrift ist sortierbar. Der erste Klick sortiert absteigend, der zweite aufsteigend. Die angezeigte Position ist also keine dauerhafte Gesamtwertung, sondern der Rang in der gewählten Spalte. Nach Gold sortieren beantwortet, wer jetzt zahlen kann. Gold/min beantwortet, wer zuletzt am schnellsten erhielt. Schiffs- oder Pirateriesortierung erzeugt wieder eine andere Reihenfolge. Nenne in deinem Satz immer die Spalte. „Der Erstplatzierte ist gefährlich“ ist bedeutungslos; „Er ist bei aktuellem Gold Erster und besitzt ein Silo“ ist überprüfbar.
+
+Deine eigene Zeile wird angeheftet, wenn sie aus den ständig sichtbaren Spitzenrängen fällt. Nutze sie als Bezugspunkt. Vergleiche den Gegner nicht nur mit dem globalen Maximum, sondern mit dir und den erreichbaren Nachbarn. 300.000 pro Minute sind gegenüber deinen 80.000 ernst, aber gewöhnlich, wenn drei Nachbarn 500.000 erreichen. Im Teammodus summiert die Teamtabelle numerische Werte lebender Mitglieder. Ein starkes Teamtotal kann einen ungeschützten Träger verbergen; wechsle zwischen Team- und Spielerzeilen.
+
+Der Spielertyp trennt Menschen, Nations und Tribes. Er ist kein Gefahrwert, sondern sagt, welches Verhaltensmodell passt. Strukturspalten zählen Gesamtlevel, nicht nur Kartensymbole. Sie belegen installierte Kapazität, nicht die Gültigkeit eines Netzes. Zwei Portlevel sind keine zwei profitablen Routen; drei Factorylevel beweisen nicht, dass noch ein fremder Halt zahlt.
+
+Schließe mit einem reproduzierbaren Schnappschuss ab. Notiere Spielzeit, Sortierspalte, deine Zeile, zwei Vergleichszeilen und die vermutete Quelle. Kehre nach einem nützlichen Intervall oder nach Ankunft, Embargo, Stationsverlust, Eroberung, Spende oder Abfangen zurück. Der Wert liegt in der Änderung, nicht im langen Ansehen desselben Bilds. Zwei beschriftete Messungen werden zu Belegen; ein Screenshot ohne Zeit und Spalte wird nach dem Fehlschlag nur zu einer bequemen Geschichte.
+
+Halte außerdem fest, welche Spalten zwischen beiden Messungen sichtbar blieben. Sonst kann ein späterer Sortierwechsel wie eine echte wirtschaftliche Bewegung wirken und deine Diagnose verfälschen.
+
+## Das zweiminütige Bruttofenster verstehen
+
+Die vier Raten entstehen aus kumulativen Zählern in einem rollierenden Fenster von bis zu zwei Minuten **Simulationszeit**. Der Tracker speichert insgesamt empfangenes Gold, Schiffshandelsgold, Zuggold und Pirateriegold zusammen mit dem aktuellen Tick. Die maßgebliche Uhr läuft mit zehn Ticks pro Sekunde, also umfasst das Fenster 1.200 Ticks. Für jede Spalte zieht der Client den ältesten behaltenen Zähler vom neuesten ab und teilt durch die dazwischen vergangenen Spielminuten.
+
+Erste Folge: Gold/min ist **brutto empfangenes** Einkommen, kein Nettogewinn. Der Kauf einer City, eines Silos oder Warships, eine Spende oder Routenschutz wird nicht abgezogen. Aktuelles Gold zeigt den Rest nach Ausgaben; die Rate zeigt Eingänge. Ein Spieler kann deshalb die höchste Rate und fast kein Guthaben haben, weil er gerade investiert hat. Umgekehrt kann ein riesiger Vorrat lange bestehen, nachdem die frühere Einnahmequelle verschwunden ist.
+
+Zweite Folge: Die Quellraten erklären Teile des Totals, müssen es aber nicht in jedem Moment exakt ergeben. Schiffs-, Zug- und Pirateriegold besitzen getrennte kumulative Ströme, während das Total alle als verdient registrierten Eingänge enthält. Grundeinkommen, andere Belohnungen und Abtastzeitpunkte können eine Lücke lassen. Zeigt das Total 700.000 und die drei Quellen erklären 480.000, lautet die sichere Aussage: 220.000 werden von diesen drei angezeigten Kategorien nicht zugeordnet. Erfinde keine geheime Route, sondern prüfe Gebiet, Cities, Spenden, Eroberungen und Ereignisse.
+
+Dritte Folge: Handel und Piraterie zahlen sprunghaft. Eine Ankunft oder Eroberung hebt ein kurzes Intervall plötzlich an. Das Zweiminutenfenster glättet den Sprung, reagiert aber auch langsam auf den Tod einer Route. Ein Port kann um 12:00 fallen, während ältere Zahlungen bis ungefähr 14:00 im Mittel bleiben. Das Kartenereignis sagt zuerst, dass sich die Zukunft geändert hat; der spätere Rückgang bestätigt es. Wer auf null wartet, handelt zu spät.
+
+Eine Pause lässt die Zahl nicht nach echter Wanduhr verfallen. Wenn der Tick nicht weiterläuft, liefert ein Intervall ohne Simulationsfortschritt null, statt verstrichene reale Zeit zu erfinden. Auch Geschwindigkeitsänderungen werden mit Spielzeit gelesen. Zwei Minuten im Menü sind daher nicht automatisch zwei Minuten brauchbare Historie.
+
+Der erste Wert nach Reset kann null oder instabil sein. Mindestens zwei Stichproben mit vergangenen Ticks sind nötig. Greife nicht an, weil ein Gegner direkt nach Tabellenstart, Clientübergang oder Beobachtungsbeginn kurz null zeigt. Zwischen Matches wird der Tracker geleert, weil kleine Spielerkennungen wiederverwendet werden; eine alte Rate darf nicht ins neue Spiel gelangen.
+
+Das richtige Bild ist ein Rückspiegel mit bekannter Länge. Er beantwortet gut, was den Spieler in der letzten Phase finanziert hat. Allein beantwortet er nicht, ob das nächste Schiff ankommt, das Gleis gerade gebrochen ist oder der Kauf die Armee geleert hat. Kombiniere gleitende Rate, Live-Route, Vorrat und Militärkapazität, damit aus der verzögerten Zahl ein Beleg statt falscher Genauigkeit wird.
+
+## Mit RATE aus Spalten eine begrenzte Entscheidung machen
+
+Sobald die Rangliste deine Aufmerksamkeit verschiebt, nutze **RATE**: **Reserve, Attribution, Trend, Exposure**, also Vorrat, Zuordnung, Entwicklung und Angriffsfläche. Das Modell endet bewusst bei der Angriffsfläche, weil ein Wirtschaftsvorsprung nur taktisch zählt, wenn er günstig geschützt oder ausgenutzt werden kann. Führe RATE für einen Spieler oder ein Team aus, benenne eine Aktion und ein Stoppsignal. Bewerte nicht gleichzeitig die ganze Lobby.
+
+Die **Reserve** vergleicht aktuelles Gold, aktuelle Truppen, Maximum und unmittelbare Fristen. Zehn Millionen bei 80.000 Truppen an offener Grenze sind etwas anderes als zehn Millionen bei 800.000 hinter einem Engpass. In deiner eigenen Zeile zählt auch der Anteil, den du nicht ausgeben wirst. Ein Plan ohne Boden ist lediglich die Hoffnung, dass niemand reagiert.
+
+Die **Attribution** fragt, welche sichtbare Quelle den Fluss erklärt. Hoher Schiffshandel lenkt den Blick auf Ports, Partner und Seewege. Hoher Zughandel auf Factories, gültige Stationen und Beziehungen. Ein Pirateriesprung führt zu eroberten Trade Ships und kann kurz, politisch gefährlich oder von Beute abhängig sein. Erklären die Spalten das Total nicht, prüfe Cities, Gebiet, Spenden, Eroberungen und Ereignisse und markiere die Ursache als offen.
+
+Der **Trend** braucht zwei datierte Messungen. Markiere Werte als steigend, stabil, fallend oder durch ein Ereignis zurückgesetzt. Wenn Schiffsgold nach einem Embargo von 500.000 auf 320.000 und 140.000 sinkt, ist das aussagekräftiger als ein einzelnes Bild bei 500.000. Beachte die Verzögerung: Die Route kann bereits tot sein, während die Rate positiv bleibt.
+
+Die **Exposure** sucht den billigsten legalen Punkt, der den Trend ändert: offener Port, Station, Meerenge, Patrouille, embargo-fähige Beziehung oder geringe Truppenreserve. Schreibe die gegnerische Antwort dazu. Wenn eine Sperre drei neue Warships braucht und der Gegner den Partner wechseln kann, ist sie schwach. Trägt eine kontrollierte Meerenge fast alle Ankünfte, kann ein vorhandenes Schiff reichen.
+
+| RATE-Schritt | Belege | Mögliche Entscheidung | Stoppsignal |
+| --- | --- | --- | --- |
+| Reserve | Gold, Truppen, Maximum, Strukturen | Kaufen, halten, spenden, verteidigen | Reserve unter schnellster glaubhafter Antwort |
+| Attribution | Total plus Schiff, Zug, Piraterie | Benannten Motor schützen oder stören | Quelle erklärt Total nicht oder Route ist ungültig |
+| Trend | Zwei Messungen und Ereignisse | Druck fortsetzen oder Theorie aufgeben | Ein volles Fenster ohne erwartete Änderung |
+| Exposure | Route, Beziehungen, Einheiten, Reisezeit | Begrenzter Test, Embargo, Patrouille | Gegenkosten über verweigertem Einkommen |
+
+RATE liefert einen Satz statt einer Punktzahl: „Blau hat 2,4 Mio., Schiffsgold fällt nach Verlust des Westports von 620k auf 310k, 700k Truppen bleiben, aber die Ostmeerenge ist offen; patrouilliere mit dem vorhandenen Warship und stoppe bei Umleitung.“ Für Diplomatie nutze [Embargo und Handelskontrolle](/de/guides/embargo-timing-and-trade-control/), für Seeaktionen [Warship-Flottenentscheidungen](/de/guides/warship-fleet-decisions/) und für deinen nächsten Kauf die [adaptive Baureihenfolge](/de/guides/adaptive-build-order/).
+
+## Szenario eins: Ein Schiffsvorsprung, den eine Störung lohnt
+
+Nimm eine öffentliche FFA mit Normaltempo auf einer Küstenkarte um 14:00 an. Die Zahlen sind ein hypothetisches Beispiel, keine garantierte Rotation oder Auszahlung. Du hast 1,8 Millionen Gold, 620.000 Truppen bei 850.000 Maximum, ein Warship und keinen großen Landkampf. Blau besitzt 3,1 Millionen, 540.000 von 900.000 Truppen, zwei Portlevel und ein Warship. Die erste Messung zeigt 760.000 Gold/min, davon 510.000 Schiff, 40.000 Zug und null Piraterie. Dein Total beträgt 250.000.
+
+Reserve sagt, Blau kann jetzt einen großen Kauf bezahlen, besitzt aber keinen überwältigenden Truppenvorsprung. Du kannst eine Route testen, ohne die Landfront für einen Flottenneubau zu leeren, weil ein Warship existiert. Attribution ist stark: Rund zwei Drittel der sichtbaren Rate kommen aus abgeschlossenen Schiffsfahrten. Wiederholte Schiffe fahren durch die westliche Meerenge zu einem verbündeten Port; im Osten wurde kein Partner bestätigt. Der Trend fehlt noch, also beobachtest du zuerst.
+
+Um 15:00 kommt ein weiteres Schiff im Westen an. Blau steigt auf 820.000 total und 590.000 Schiff. Quelle und Route stimmen überein. Exposure ist die Meerenge, aber die begrenzte Antwort lautet nicht „alle Ports vernichten“. Verlege das vorhandene Warship auf den Zugang und halte die Landreserve. Hypothese: Verhindert die Patrouille Ankünfte, sinkt die Schiffsrate, sobald ältere Zahlungen das Zweiminutenfenster verlassen. Auch ohne entscheidenden Abschuss ist erzwungene Eskorte oder Umleitung zu geringen Kosten ein Erfolg.
+
+Um 16:30 zeigt die Spalte noch 470.000. Das beweist kein Scheitern, denn alte Ankünfte zählen weiter. Um 17:30 fällt sie auf 170.000, Blau hat ein zweites Warship gekauft und keine neue Ankunft ist sichtbar. Der Test hat Einkommen und Ausgaben geändert. Halte die Sperre nur, wenn dein einzelnes Schiff den Zugang weiter kontrolliert oder sicher abziehen kann. Kaufe nicht ein drittes Schiff, nur weil der alte Wert von 820.000 bedrohlich aussah.
+
+| Zeit | Blaus Gold | Total/min | Schiff/min | Sichtbares Ereignis | RATE-Fazit |
+| --- | ---: | ---: | ---: | --- | --- |
+| 14:00 | 3,1 Mio. | 760k | 510k | Westliche Ankünfte | Starke Quelle, Trend offen |
+| 15:00 | 3,5 Mio. | 820k | 590k | Weitere gleiche Route | Vorhandene Patrouille testen |
+| 16:30 | 2,7 Mio. | 680k | 470k | Blau kauft Eskorte | Fensterverzögerung beachten |
+| 17:30 | 2,9 Mio. | 360k | 170k | Route ruhig | Störung bestätigt, Kosten neu prüfen |
+
+Blau kann Partner wechseln, eskortieren, deinen Handel embargoieren, die Patrouille weglocken oder den Vorrat vor dem Rückgang ausgeben. Deshalb bleibt aktuelles Gold in jeder Messung. Eine fallende Rate löscht 2,9 Millionen auf dem Konto nicht, und eine tote Seeroute macht die Landarmee nicht harmlos. Deine Stoppsignale stehen vorher fest: Abzug bei zusätzlichem Schiffskauf, zweiter gültiger Route oder Landreserve unter der Antwort auf den schnellsten Nachbarn. Die Tabelle hat keine Blockade befohlen; sie machte eine Route testbar und zeigte, wann der Test das jüngste Einkommen wirklich änderte.
+
+## Szenario zwei: Ein Zughoch, das keinen schlechten Angriff rechtfertigt
+
+Nimm ein Teamspiel mit vier Seiten auf einem großen Kontinent um 11:30 an. Dein Team hat 4,6 Millionen Gold, 2,8 Millionen Truppen bei 4,1 Millionen Maximum und einen geschützten zentralen Factory-Cluster. Rot zeigt 6,2 Millionen Gold, 1,9 von 4,8 Millionen Truppen, fünf Factorylevel und 1,35 Millionen Gold/min. Nach Zugeinkommen liegt Rot mit 880.000 an erster Stelle. Ein Mitspieler will sofort voll angreifen, weil Rot angeblich unaufhaltsam wächst.
+
+Reserve lehnt den Vollangriff ab. Rot hat wenig aktuelle Truppen im Verhältnis zum Maximum, aber dein Team müsste zwei Grenzen queren und das Zentrum Grün öffnen. Wenige Truppen können Verwundbarkeit, einen frischen Kauf oder bereits gebundene Armeen bedeuten; sie beweisen keine unbewachte Route. Lege wegen des schnellsten glaubhaften grünen Schwenks einen Teamboden von 2,2 Millionen fest und verweigere jeden Plan darunter.
+
+Attribution zeigt Züge, also prüfst du Stationen vor Armeen. Fünf Factorylevel sind installierte Kapazität, doch nur ein Korridor verbindet zwei Team-Cities und einen verbündeten Küstenport. Eine Warnung kündigt das Ende der Portallianz an. Um 12:30 liegt Rot noch bei 900.000 Zug; um 13:30 fällt der Wert nach Ablauf und Stationsverlust auf 520.000. Weil alte Zahlungen im Fenster bleiben, bestätigt der Rückgang die Änderung bereits vor null.
+
+Exposure ist die übrige Teamstation, aber Teammodus verändert Besitz und Koordination. Direkte Eroberung kann einen teuren Zweifrontangriff erfordern; begrenzter Druck auf Gleis oder Stationsbesitzer kann denselben Motor stören. Ein Spieler hält Grün, einer bedroht den Korridor, einer schützt das Zentrum. Die Teamzeile zeigt, welche Seite beschleunigt; Spielerzeilen zeigen, welches rote Mitglied Route und welches Truppen trägt. Eine Summe ist kein einzelnes Angriffsziel.
+
+Angenommen, der Druck kostet 350.000 Truppen und lässt 2,45 Millionen, also mehr als den Boden. Um 15:00 fällt Rots Zugrate auf 210.000, aktuelles Gold bleibt aber 5,4 Millionen. Ihr habt Zeit gekauft, nicht gewonnen. Nutzt sie für eine geschützte City, eine kürzere Grenze oder einen entscheidenden Gebietsweg. Verbindet Rot eine andere City und die Rate erholt sich, ist die ursprüngliche Angriffsfläche weg; wiederholt nicht denselben Angriff.
+
+Das Szenario zeigt den Kernfehler: Beschleunigung ist nicht Position. Rot verbindet den besten Fluss mit einem beziehungsabhängigen Netz, niedriger aktueller Truppenquote und großem Vorrat. Jede Tatsache steuert eine andere Entscheidung. Die Quelle wählt den zu prüfenden Korridor, der Trend bestätigt die Störung, aktuelles Gold erhält die kurzfristige Gefahr und die Geometrie begrenzt euer Risiko. Selbst beim ersten Rang in der erschreckendsten Spalte kann „noch nicht angreifen“ richtig sein.
+
+## Fehlmuster, Täuschung und Gegenlesen
+
+Der erste Fehler ist, **Bruttoeinkommen mit Nettogewinn** zu verwechseln. Die Rate zieht Käufe, Schutz, Reparaturen oder verlorene Truppen nicht ab. Wer 700.000 pro Minute erhält und 800.000 für Eskorte ausgibt, baut nicht automatisch Vorsprung auf. Vergleiche Rate und aktuelles Gold über zwei Messungen. Bleibt der Fluss hoch und der Vorrat fällt, finanziert die Wirtschaft vielleicht eine teure Reaktion statt den nächsten Schlag.
+
+Der zweite Fehler ist, **den Sortierführer statt des offenen Systems** anzugreifen. Die Kopfzeile bestimmt, warum eine Zeile oben steht. Der Zugführer auf der anderen Kartenseite ist weniger erreichbar als der drittplatzierte Händler in deiner Meerenge. Nenne Tile, Beziehung, Route oder Einheit, die deine Aktion ändert. Ohne benanntes Objekt liefert die Tabelle Aufmerksamkeit, aber kein Ziel.
+
+Der dritte Fehler ist, **den gleitenden Wert als Live-Gesundheit** zu lesen. Frühere Ankünfte bleiben nach Portverlust oder Gleisbruch enthalten. Ein Gegner kann die Route wechseln, während du weiter den alten Ort triffst. Markiere zuerst das ungültig machende Kartenereignis und nutze den verzögerten Rückgang nur als Bestätigung. Eine positive historische Rate belebt kein zerstörtes Netz.
+
+Der vierte Fehler ist, **die Quellen zum vollständigen Total zu zwingen**. Grundeinkommen und andere Zuflüsse können außerhalb der drei Spalten liegen. Spenden, Eroberungen und Vorrat ändern Kaufkraft ebenfalls. Markiere die Lücke als „hier nicht zugeordnet“ und suche weitere Belege. Eine ehrliche Unbekannte ist besser als eine präzise Blockade gegen eine erfundene Ursache.
+
+Der fünfte Fehler ist, **Zahler, Besitzer und Nutznießer gleichzusetzen**. Factorybesitzer, Stationsbesitzer, Handelspartner und Verteidiger können verschiedene Spieler sein. Teamtotalen sind gut für Seitenstärke und schlecht für Zielwahl. Gegner können Routen verteilen, sodass ein sichtbarer Wirtschaftsträger von fremden Truppen geschützt wird. Wechsle zu Spielerzeilen, lokalisiere und verfolge Besitz. Sage im Team, wessen Einkommen du senkst und wessen Grenze du öffnest.
+
+Der sechste Fehler ist, **die eigene Aufmerksamkeit manipulieren zu lassen**. Gegner können trotz fallender Rate sparen, sichtbar kaufen, Partner wechseln, einen Pirateriesprung erzeugen oder einen Köderport halten, während Züge zahlen. Die Rangliste ist öffentlich. Verlange Übereinstimmung zweier Flächen: Rate plus Ankünfte, Rate plus Besitz, Vorrat plus Bau oder Truppenänderung plus sichtbarer Angriff. Eine Zahl kann Köder sein; zwei verbundene Beobachtungen sind schwerer zu täuschen.
+
+Der siebte Fehler ist **Messen ohne Ausstieg**. Patrouille, Embargo oder Landangriff laufen weiter, weil eine Spalte früher groß war. Lege vorher fest: ein volles Fenster ohne erwarteten Rückgang, eine neue Alternativroute, Eskortekosten über verweigertem Einkommen oder eigene Reserve unter dem Boden. Stoppe beim Signal, auch wenn der Gegner reich bleibt. Ein anfangs richtiger Test kann später unrentabel werden.
+
+Vermeide zuletzt Statistikstarre. Jede Sekunde alle Spalten zu lesen kostet Kartenaufmerksamkeit. Prüfe nach wichtiger Ankunft, Beziehungswechsel, Strukturverlust, Großkauf oder in einem ruhigen Moment. Wähle relevante Spalten, sammle zwei Werte, führe eine begrenzte Aktion aus und schließe die Tabelle. Gute Statistik reduziert Unsicherheit; schlechte Nutzung ersetzt Spielen durch Überwachung.
+
+## An Modus und Karte anpassen und vier Zeilen führen
+
+In öffentlicher FFA ist die Spielertabelle primär, weil jeder Mensch eigenen Vorrat, Routen und Sieg besitzt. Allianzen können Handel ermöglichen, laufen aber aus oder werden gebrochen. Lies Verbündete neben Quellen, wenn eine wichtige Route davon abhängt. Piraterie trägt diplomatische Kosten: Ein lukrativer Sprung kann gleichzeitig eine Koalition anziehen. Erkläre eine kurze Fangserie nicht zur stabil stärksten Wirtschaft.
+
+Im Teammodus beginnt die Prüfung beim Team, um die beschleunigende Seite zu finden, und wechselt dann zu Spielern, um Träger, Verteidiger, Spender und offene Route zu lokalisieren. Werte lebender Mitglieder werden summiert. Das eignet sich für kollektive Produktion, sagt aber nicht, wer am bedrohten Tile reagieren kann. Ein Team mit vier Millionen Truppen kann nur 200.000 beim Besitzer des Bahnknotens haben. Koordiniere Rollen statt eines allgemeinen Marsches zur größten Rate.
+
+In Ranked 1v1 teilt niemand die Antwort. Raten zeigen, ob ein Wirtschaftszweig zahlt, doch kurze Uhr und direkter Weg machen Truppen, Maximum, Gebiet und Vorrat oft dringender als einen vollen Zweiminutentrend. Verzögere notwendige Verteidigung nicht für perfekte Daten. In 2v2 wechsle zwischen Team und Spieler: Das Total zeigt Tempo, die Einzelzeilen Wirtschaftsträger und Frontpartner.
+
+In Singleplayer und Humans versus Nations prüfst du zuerst den Typ. Nations und Tribes zeigen Werte, entscheiden aber nicht wie Menschen. Nutze die Zahl für Kapazität und danach das passende KI-Modell. Custom Lobbies verändern Goldmultiplikator, Einheiten, Teams oder Tempo. Wenn Ports deaktiviert sind, bedeutet null Schiffseinkommen keine Schwäche, sondern eine irrelevante Spalte.
+
+Kartengeometrie verändert Exposure. Auf Ozeankarten kann eine Meerenge, ein Portcluster oder eine Patrouille den Unterschied erklären. Auf Kontinenten hängt Zughandel von wenigen Stationen und Beziehungen ab. Auf kompakten Karten erreicht die Front das Netz schneller als das Zweiminutenmittel reagiert; Live-Truppen und Wege haben Vorrang. Auf riesigen Karten kann die höchste Rate unerreichbar sein. Ohne Reisezeit und verteidigbaren Ausgang gibt es keinen Störplan.
+
+| Zeile | Inhalt | Beispiel |
+| --- | --- | --- |
+| Zustand | Zeit, Modus, Karte, Sortierung | 18:00, Team, Ozean, Schiff absteigend |
+| Beleg | Vorrat, Total, Quelle, Reserve | 3,2 Mio.; 720k/min; 500k Schiff; 610/900k Truppen |
+| Aktion | Begrenzter Test und Besitzer | Vorhandenes Warship ein Fenster in Westenge |
+| Ausstieg | Beobachtbarer Stopp | Umleitung, zweite Eskorte oder Reserve unter 500k |
+
+Markiere danach **beobachtet**, **abgeleitet** oder **unbekannt**. Eine ausgebliebene Ankunft ist beobachtet. Passiert zugleich ein Embargo, bleibt der Patrouilleneffekt abgeleitet. Ein neuer Partner kann unbekannt sein. Ändere im nächsten Match nur einen Auslöser oder Ausstieg. Der [Replay-Review-Leitfaden](/de/guides/replay-review/) liefert die breitere Vergleichsmethode.
+
+Die offiziellen Grenzen liefern die [v0.34.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0), der [GoldRateTracker](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/lib/GoldRateTracker.ts), das [Spaltenregister](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/lib/StatsColumns.ts), die [sortierbare Tabelle](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/components/StatsTable.ts) und die [Teamaggregation](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/TeamStats.ts). Ändert eine spätere Release Fenster, Zähler, Standards oder Summen, prüfe neu. Bis dahin sind Raten verzögerte Bruttofluss-Belege und niemals ein allgemeiner Stärkewert.

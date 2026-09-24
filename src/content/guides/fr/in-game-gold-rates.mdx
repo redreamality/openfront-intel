@@ -1,0 +1,148 @@
+---
+title: "Taux d'or en partie dans OpenFront : lire le classement avant d'investir ou d'attaquer"
+description: "Utilisez les colonnes Or/min, commerce maritime, trains et piraterie de la v34 pour distinguer réserve et croissance, trouver le réseau à protéger ou interrompre, et ne plus réagir à un seul grand nombre."
+pubDate: 2026-09-25
+updatedDate: 2026-09-25
+tags: [classement, or, revenu, commerce, trains, piraterie, stratégie, v34]
+category: Stratégie
+difficulty: Intermédiaire
+version: v34
+freshnessSummary: "Vérifié sur v0.34.17 : les colonnes optionnelles affichent le revenu brut total, le commerce maritime, le commerce ferroviaire et la piraterie par minute sur une fenêtre glissante de deux minutes de simulation ; les lignes sont triables et les totaux Team additionnent les membres vivants."
+---
+
+## Réponse directe : lisez ensemble réserve, taux, source et capacité militaire
+
+Ouvrez l'engrenage du classement, activez Or/min ainsi que les colonnes navire, train et piraterie, puis comparez au moins deux relevés. L'Or actuel indique ce qui peut être acheté maintenant ; les taux indiquent le revenu brut d'une fenêtre glissante de deux minutes de jeu. N'attaquez ou n'appliquez un embargo que si une route nommée explique l'avantage. Sinon, gardez vos troupes et observez encore.
+
+Ce guide concerne la branche v34 publiée et a été vérifié le 25 septembre 2026 sur le tag immuable `v0.34.17`. Les quatre colonnes ont été annoncées avec la version officielle v0.34.0 : revenu total d'Or par minute, Or du commerce maritime par minute, Or de piraterie par minute et Or du commerce ferroviaire par minute. Elles sont optionnelles. La vue compacte par défaut montre surtout le clan, le territoire, l'Or actuel et le maximum de troupes, en plus du rang et du nom qui restent visibles. Un joueur qui n'ouvre jamais le sélecteur peut donc ignorer que le jeu fournit déjà les données permettant de séparer un trésor ancien d'un moteur encore actif.
+
+La question de cette page n'est pas « qui gagne ? » et elle ne remplace pas la carte. Elle est plus précise : **quel changement économique visible doit modifier votre prochain investissement, assaut, embargo, don ou temps d'attente ?** L'[évaluation des menaces](/fr/guides/threat-assessment/) choisit une cible sur l'ensemble du plateau ; [Commerce ou piraterie](/fr/guides/trade-vs-piracy/) décide entre arrivées légales et captures ; le [réseau ferroviaire](/fr/guides/train-network/) explique la topologie des rails. Ici, vous apprenez à lire la surface de mesure commune avant d'emprunter l'une de ces branches.
+
+Conservez toujours le même ordre. La **réserve** est l'Or actuel et répond à « que peut-il payer tout de suite ? ». Le **taux** est le revenu brut récent et répond à « à quelle vitesse cette capacité d'achat revient-elle ? ». La **source** est la part attribuée aux navires, aux trains ou à la piraterie et suggère un réseau à protéger ou interrompre. La **capacité** associe troupes présentes, maximum de troupes, territoire et structures pour demander si l'économie survivra au contact. Aucun objet ne remplace les trois autres. Un joueur peut conserver huit millions alors que ses routes sont mortes, afficher 900 000 par minute après avoir vidé son compte, ou posséder plusieurs Factories dont aucun train ne paie encore.
+
+La règle prudente exige une **cause nommée et une réponse faisable**. « Bleu a le plus grand taux » est une observation. « La composante maritime de Bleu reste élevée sur deux relevés, son seul trajet traverse un détroit exposé et un Warship déjà construit suffirait à imposer une escorte » est un plan. Le tableau fournit la première moitié ; la carte, le fil d'événements, les relations et la géométrie donnent la seconde. En cas de désaccord, gardez l'affirmation la plus étroite : le taux prouve que de l'Or est arrivé, pas que le prochain navire arrivera ni que votre attaque sera rentable.
+
+## Configurez le tableau avant d'interpréter un rang
+
+Dans les statistiques de partie, utilisez l'engrenage à droite pour ne sélectionner que les colonnes nécessaires. Le rang et le nom du joueur ne peuvent pas être cachés dans la table des joueurs ; le nom de l'équipe reste permanent dans la table Team. Les champs optionnels comprennent le type de joueur, le territoire, l'Or actuel, les quatre taux, les troupes, le maximum de troupes, Cities, Ports, Factories, Missile Silos, SAM, Warships, alliés et trahisons. Leur ordre reste stable : identité, territoire, économie, militaire, structures, diplomatie.
+
+Pour un premier audit économique, affichez **territoire, Or, Or/min, les trois sources, troupes, maximum, Ports, Factories et Warships**. Ajoutez Silos et SAM lorsque les armes nucléaires sont actives, puis alliés et trahisons si une relation peut expliquer la route. La table devient large et réclame parfois un défilement horizontal. Ne corrigez pas ce problème en cachant précisément les sources qui répondent à la question. Constituez plutôt un petit jeu de colonnes pour l'audit, puis revenez à votre vue ordinaire.
+
+Chaque en-tête numérique est triable. Le premier clic choisit la colonne en ordre décroissant ; un second inverse l'ordre. Le rang affiché n'est donc pas une note générale permanente : c'est la place dans la mesure actuellement triée. Trier l'Or répond à « qui peut payer maintenant ? ». Trier Or/min répond à « qui a reçu le plus vite récemment ? ». Trier la piraterie produit encore une autre hiérarchie. Dans votre raisonnement, nommez toujours la colonne. « Le numéro un est dangereux » ne veut rien dire ; « il est premier en Or actuel et possède un Silo prêt » crée une hypothèse vérifiable.
+
+Votre propre ligne reste épinglée lorsque vous tombez sous les premiers rangs visibles. Servez-vous-en comme référence. Comparez le rival à vous-même, pas seulement au meilleur total de la partie. Un adversaire à 300 000 par minute est une menace si vous êtes à 80 000, mais il paraît ordinaire lorsque trois voisins atteignent 500 000. En Team, la table additionne les valeurs des membres vivants. Un grand total peut cacher le coéquipier fragile qui porte le réseau ; alternez donc entre la vue d'équipe et les lignes individuelles.
+
+La colonne type distingue humains, Nations et Tribes. Elle ne mesure pas la menace : elle indique quel modèle de comportement appliquer. Les colonnes de structures comptent les niveaux totaux et non de simples icônes. Elles prouvent une capacité installée, pas le bon fonctionnement du réseau. Deux niveaux de Port ne garantissent pas deux routes rentables ; trois niveaux de Factory ne prouvent pas qu'un arrêt étranger valide paie encore.
+
+Terminez par un relevé reproductible. Notez le temps de jeu, le tri actif, votre ligne, les deux lignes comparées et la source censée expliquer l'écart. Revenez après un intervalle utile ou après une arrivée, un embargo, une perte de station, une capture, un don ou une interception. La valeur du classement vient du changement, pas d'un regard plus long sur le même écran. Deux instantanés étiquetés deviennent une preuve ; une capture sans heure ni colonne devient une histoire inventée après l'échec.
+
+## Comprenez la fenêtre glissante de revenu brut
+
+Les quatre taux sont calculés à partir de compteurs cumulés sur une fenêtre allant jusqu'à deux minutes de **temps de simulation**. Le suivi enregistre l'Or total reçu, l'Or des navires, celui des trains et celui de la piraterie avec le tick de jeu. Cette horloge avance à dix ticks par seconde ; deux minutes correspondent donc à 1 200 ticks. Pour chaque colonne, le client soustrait la plus ancienne valeur conservée de la plus récente, puis divise par les minutes de jeu écoulées entre les deux échantillons.
+
+Première conséquence : Or/min est un revenu **brut reçu**, pas un profit net. Acheter une City, un Silo ou un Warship, faire un don ou protéger une route ne réduit pas ce taux. L'Or actuel montre le stock restant après la dépense ; le taux décrit les entrées. Un joueur peut avoir le meilleur flux et presque aucun solde parce qu'il vient d'investir. À l'inverse, un immense solde peut survivre longtemps après la disparition du réseau qui l'a créé.
+
+Deuxième conséquence : les trois sources expliquent le total sans nécessairement former une somme parfaite à chaque instant. Commerce maritime, ferroviaire et piraterie suivent leurs propres compteurs, tandis que le revenu total contient toutes les entrées enregistrées comme gains. Le revenu de base, d'autres récompenses et les différences de prélèvement peuvent laisser un reste. Si le total affiche 700 000 et les trois sources 480 000, dites que 220 000 ne sont pas attribués par ces trois colonnes. N'inventez pas une route secrète. Inspectez plutôt territoire, Cities, dons, captures et événements.
+
+Troisième conséquence : commerce et piraterie paient par à-coups. Une arrivée ou une capture provoque un saut. La fenêtre de deux minutes lisse ce saut, mais réagit aussi lentement quand la route meurt. Un Port peut tomber à 12:00 alors que ses arrivées précédentes restent dans la moyenne jusqu'aux environs de 14:00. L'événement sur la carte indique d'abord que l'avenir a changé ; la baisse ultérieure confirme l'effet. Attendre zéro avant d'admettre la rupture revient à agir avec deux minutes de retard.
+
+Une pause ne fait pas décroître artificiellement le taux selon l'horloge réelle. Si le tick n'avance pas, un intervalle nul retourne zéro au lieu de simuler du temps. Les changements de vitesse se lisent également avec l'horloge du jeu, pas avec votre montre. Ainsi, deux minutes passées devant un menu ne constituent pas forcément deux minutes d'échantillons exploitables.
+
+Le premier relevé après une réinitialisation peut être nul ou instable. Il faut au moins deux échantillons séparés par de vrais ticks. N'attaquez pas parce qu'un rival affiche brièvement zéro à l'ouverture, après une transition du client ou au début d'une observation. Le suivi est réinitialisé entre les parties, puisque les petits identifiants de joueurs peuvent être réutilisés ; aucune valeur de la partie précédente ne doit contaminer la suivante.
+
+Considérez finalement cette mesure comme un rétroviseur de longueur connue. Elle répond bien à « qu'est-ce qui a financé ce joueur pendant la phase récente ? ». Elle ne répond pas seule à « le prochain navire survivra-t-il ? », « le rail vient-il de casser ? » ou « cette dépense a-t-elle vidé l'armée ? ». Associez moyenne glissante, route en direct, stock et capacité militaire pour obtenir une preuve plutôt qu'une fausse précision.
+
+## Transformez les colonnes en action limitée avec RATE
+
+Quand le classement déplace votre attention vers un joueur, appliquez **RATE** : **Reserve, Attribution, Trend, Exposure**, soit réserve, attribution, tendance et exposition. Le cadre finit volontairement par l'exposition : un avantage économique n'a de valeur tactique que s'il peut être protégé ou exploité à coût raisonnable. Exécutez RATE sur un joueur ou une équipe, puis écrivez une action et un signal d'arrêt. Ne tentez pas de noter tout le serveur.
+
+La **réserve** compare Or actuel, troupes présentes, maximum et échéances immédiates. Dix millions avec 80 000 soldats sur une frontière ouverte ne valent pas dix millions avec 800 000 soldats derrière un passage étroit. Pour votre propre ligne, la réserve comprend aussi ce que vous refusez de dépenser. Un plan sans plancher militaire suppose simplement que personne ne réagira.
+
+L'**attribution** recherche la source visible. Un taux maritime élevé renvoie aux Ports, partenaires et couloirs d'eau. Un taux ferroviaire élevé renvoie aux Factories, stations valides et relations. Un pic de piraterie renvoie aux navires capturés et peut être temporaire, politiquement coûteux ou dépendant de proies. Si les sources affichées n'expliquent pas le total, inspectez Cities, territoire, dons, captures et événements, puis marquez la cause comme non résolue.
+
+La **tendance** demande deux relevés horodatés. Classez chaque valeur comme croissante, stable, décroissante ou réinitialisée par un événement. Une composante maritime passant de 500 000 à 320 000 puis 140 000 après un embargo raconte plus qu'une image isolée à 500 000. Respectez cependant le retard de deux minutes : la route peut déjà être morte alors que la valeur reste positive.
+
+L'**exposition** cherche le point légal et le moins cher capable de modifier la tendance : Port exposé, station, détroit, patrouille, relation à embargo ou faible réserve. Écrivez aussi le contre adverse. Si fermer une voie exige trois nouveaux Warships et que le joueur peut changer de partenaire, la réponse est mauvaise. Si un seul détroit contrôlé concentre les arrivées, un navire existant peut suffire.
+
+| Étape RATE | Preuve à lire | Décision possible | Signal d'arrêt |
+| --- | --- | --- | --- |
+| Réserve | Or, troupes, maximum, structures | Dépenser, garder, donner ou défendre | Réserve sous la réponse crédible la plus rapide |
+| Attribution | Total et sources navire, train, piraterie | Protéger ou couper un moteur nommé | Source inexpliquée ou route déjà invalide |
+| Tendance | Deux relevés et événements | Continuer la pression ou abandonner | Une fenêtre complète ne produit pas la baisse attendue |
+| Exposition | Route, relations, unités, trajet | Test limité, embargo, patrouille, achat | Contre-coût supérieur au revenu réellement nié |
+
+RATE doit produire une phrase, pas un score : « Bleu possède 2,4 M, son maritime tombe de 620 k à 310 k après la perte du Port ouest, garde 700 k soldats et utilise encore le détroit est ; patrouillons avec le Warship existant, puis arrêtons si les arrivées changent de route. » Observation, inférence, action et sortie restent séparées. Pour l'exécution, consultez [Embargo et contrôle commercial](/fr/guides/embargo-timing-and-trade-control/), les [décisions de flotte](/fr/guides/warship-fleet-decisions/) ou l'[ordre de construction adaptatif](/fr/guides/adaptive-build-order/).
+
+## Scénario un : une avance maritime qu'il vaut la peine d'interrompre
+
+Supposons une FFA publique à vitesse normale sur une carte côtière à 14:00. Les chiffres sont hypothétiques et ne garantissent ni rotation ni rendement. Vous avez 1,8 million d'Or, 620 000 troupes, un maximum de 850 000, un Warship et aucun grand combat terrestre. Bleu possède 3,1 millions, 540 000 troupes sur 900 000, deux niveaux de Port et un Warship. Le premier relevé montre 760 000 Or/min, dont 510 000 maritime, 40 000 ferroviaire et zéro piraterie. Votre total est 250 000.
+
+La réserve indique que Bleu peut payer un achat majeur, mais ne domine pas par les troupes. Vous pouvez tester une voie sans vider la terre puisque le Warship existe déjà ; devoir construire une flotte entière changerait la conclusion. L'attribution est forte : environ deux tiers du taux visible viennent des navires. Sur la carte, plusieurs trajets empruntent le détroit ouest vers un Port allié, sans partenaire confirmé à l'est. La tendance reste inconnue, donc la première action est d'observer.
+
+À 15:00, un navire arrive encore par l'ouest et Bleu monte à 820 000 au total, dont 590 000 maritime. Source et route concordent. L'exposition est le détroit, mais l'action limitée n'est pas « détruire tous les Ports ». Déplacez le Warship existant sur l'approche en maintenant la réserve terrestre. Hypothèse : si la patrouille arrête les arrivées, la composante maritime baissera lorsque les paiements anciens sortiront de la fenêtre. Même sans destruction décisive, obliger une escorte ou un détour à faible coût constitue un résultat.
+
+À 16:30, la colonne indique encore 470 000. Cela ne prouve pas l'échec : les arrivées anciennes comptent toujours. À 17:30, elle tombe à 170 000, Bleu a acheté un second Warship et aucune nouvelle arrivée n'est observée. Le test a modifié revenu et dépense. Ne maintenez le blocus que si un navire suffit encore ou peut se retirer. N'achetez pas un troisième bâtiment naval parce que l'ancien titre de 820 000 reste impressionnant.
+
+| Heure | Or de Bleu | Total/min | Maritime/min | Événement | Conclusion RATE |
+| --- | ---: | ---: | ---: | --- | --- |
+| 14:00 | 3,1 M | 760 k | 510 k | Arrivées à l'ouest | Source forte, tendance inconnue |
+| 15:00 | 3,5 M | 820 k | 590 k | Nouvelle arrivée au même détroit | Tester la patrouille existante |
+| 16:30 | 2,7 M | 680 k | 470 k | Bleu achète une escorte | Respecter le retard de fenêtre |
+| 17:30 | 2,9 M | 360 k | 170 k | Route silencieuse | Interruption confirmée, recalculer le coût |
+
+Bleu peut changer de partenaire, escorter, embargoer votre commerce, attirer la patrouille ailleurs ou dépenser le stock avant la baisse. C'est pourquoi chaque relevé conserve l'Or actuel. Un taux en chute n'efface pas 2,9 millions déjà accumulés et une route fermée ne neutralise pas l'armée. Vos sorties sont écrites à l'avance : partez si la patrouille exige un achat supplémentaire, si une seconde route devient valide ou si la réserve terrestre passe sous la réponse au voisin le plus rapide. Le classement n'a pas ordonné le blocus ; il a rendu une voie testable et montré quand le test avait vraiment changé le revenu récent.
+
+## Scénario deux : un pic ferroviaire qui ne justifie pas un mauvais assaut
+
+Supposons une partie Team à quatre équipes, sur un grand continent, à 11:30. Votre équipe totalise 4,6 millions d'Or, 2,8 millions de troupes sur 4,1 millions et un groupe de Factories central protégé. Rouge affiche 6,2 millions, 1,9 million de troupes sur 4,8 millions, cinq niveaux de Factory et 1,35 million d'Or/min. Trié par trains, Rouge arrive premier avec 880 000. Un allié propose une attaque totale parce que « Rouge fait boule de neige ».
+
+La réserve refuse cet engagement. Rouge est bas par rapport à son maximum, mais votre équipe doit traverser deux frontières et exposer le centre à Vert. Peu de troupes peut signifier vulnérabilité, achat récent ou armée déjà engagée ailleurs ; cela ne prouve pas que le réseau est sans défense. Fixez un plancher de 2,2 millions, calculé sur le pivot crédible le plus rapide de Vert, et refusez toute opération qui passe dessous.
+
+L'attribution pointe vers les trains : inspectez les stations avant les armées. Les cinq niveaux prouvent une capacité installée, mais un seul corridor rejoint deux Cities de coéquipiers et un Port allié. Un avertissement indique que l'alliance du Port va expirer. À 12:30, le taux ferroviaire reste 900 000 ; à 13:30, après l'expiration et la capture d'une station, il tombe à 520 000. Les paiements anciens restent dans la fenêtre, donc cette baisse confirme déjà le changement avant zéro.
+
+L'exposition est la station restante, mais Team modifie propriété et coordination. La capturer directement peut coûter une attaque sur deux fronts, alors qu'une pression limitée sur le rail ou son propriétaire interrompt peut-être le même moteur. Un joueur tient Vert, un menace le corridor, un protège l'économie centrale. La table Team montre quelle équipe accélère ; la table des joueurs révèle le membre qui possède la route et celui qui possède les troupes. Une ligne additionnée n'est pas une cible unique.
+
+Supposons que la pression coûte 350 000 troupes et laisse 2,45 millions, au-dessus du plancher. À 15:00, Rouge tombe à 210 000 ferroviaire mais conserve 5,4 millions d'Or. Vous avez acheté du temps, pas la victoire. Utilisez-le pour une City protégée, une frontière plus courte ou une route territoriale décisive. Si Rouge reconnecte une autre City et remonte, l'exposition originale a disparu : arrêtez de répéter la même attaque.
+
+Ce scénario montre le piège principal : l'accélération n'est pas la position. Rouge combine meilleur flux, réseau dépendant d'une relation, faible ratio de troupes et grand stock. Chaque fait gouverne une décision différente. La source choisit le corridor à inspecter, la tendance vérifie l'interruption, l'Or actuel maintient la menace à court terme, et la géographie limite le risque permis. La bonne réponse peut rester « n'attaquez pas encore » lorsque l'adversaire est premier dans la colonne la plus alarmante.
+
+## Échecs fréquents, tromperie et contre-lecture
+
+Le premier échec consiste à **confondre brut et bénéfice net**. Le taux ne retranche ni achats, ni protection, ni réparations, ni troupes perdues. Un joueur recevant 700 000 par minute et dépensant 800 000 en escorte ne compose pas automatiquement son avantage. Comparez le taux et l'Or sur deux relevés. Si le flux reste haut tandis que le stock baisse, l'économie finance peut-être une réponse coûteuse au lieu de préparer une frappe.
+
+Le deuxième est d'**attaquer le leader du tri plutôt que le système exposé**. La première ligne dépend de l'en-tête. Le champion ferroviaire situé à l'autre bout de la carte est moins exploitable que le troisième marchand maritime traversant votre détroit. Nommez la tuile, la relation, la route ou l'unité modifiée par votre action. Sans objet nommé, la table a donné une alerte, pas une cible.
+
+Le troisième est de **prendre la moyenne pour la santé en direct**. Les arrivées anciennes restent après la perte d'un Port ou la rupture d'un rail. Un rival peut déplacer la route pendant que vous frappez l'ancien lieu. Notez d'abord l'événement invalidant ; utilisez ensuite la baisse retardée comme confirmation. Un taux historique positif ne ressuscite pas un réseau détruit.
+
+Le quatrième est de **forcer les sources à expliquer tout le total**. Le revenu de base et d'autres entrées peuvent rester hors des trois colonnes. Dons, captures et stock changent aussi le pouvoir d'achat sans rendre votre route responsable. Étiquetez le reste « non attribué ici », puis cherchez d'autres preuves. Une inconnue honnête vaut mieux qu'un blocus très précis d'une cause imaginaire.
+
+Le cinquième est d'**oublier que payeur, propriétaire et bénéficiaire diffèrent**. Propriétaire de Factory, propriétaire de station, partenaire commercial et défenseur peuvent être quatre joueurs. Le total Team est utile pour la force du camp, dangereux pour choisir une cible. Les adversaires peuvent distribuer leurs routes afin que le porteur visible soit protégé par les troupes d'un autre. Revenez aux lignes individuelles, localisez le joueur et tracez la propriété avant de vous engager.
+
+Le sixième est de **laisser l'adversaire manipuler votre attention**. Il peut épargner pendant que le taux descend, dépenser visiblement pour provoquer un assaut, changer de partenaire, créer un pic de piraterie ou conserver un Port leurre pendant que les trains paient. Le classement est public. Exigez l'accord de deux surfaces : taux plus arrivées, taux plus propriété, stock plus construction, ou troupes plus attaque visible. Un nombre peut servir d'appât ; deux observations liées sont plus difficiles à falsifier.
+
+Le septième est la **mesure sans sortie**. Une patrouille, un embargo ou un assaut continue parce que la colonne était autrefois grande. Écrivez le signal avant d'agir : une fenêtre complète sans baisse attendue, une route alternative, un coût d'escorte supérieur au revenu nié, ou votre réserve sous le plancher. Arrêtez lorsque le signal survient, même si le rival reste riche. Un test initialement juste peut cesser d'être rentable.
+
+Évitez enfin la paralysie statistique. Lire toutes les colonnes toutes les secondes consomme l'attention nécessaire à la carte. Auditez après une arrivée importante, un changement de relation, une perte de structure, une grosse dépense ou un point calme. Choisissez les colonnes utiles, prenez deux relevés, effectuez un test et fermez la table. Une bonne statistique réduit l'incertitude ; une mauvaise pratique remplace le jeu par la surveillance.
+
+## Adaptez le cadre au mode et à la carte, puis tenez quatre lignes
+
+En FFA publique, commencez par les joueurs : chacun possède son stock, ses routes et sa condition de victoire. Les alliances permettent parfois le commerce, mais elles sont temporaires. Lisez les alliés avec les sources lorsqu'une route dépend de la relation. La piraterie porte aussi un coût diplomatique : un pic lucratif peut transformer son auteur en cible de coalition. Ne confondez pas un bref succès de capture avec l'économie stable la plus forte.
+
+En Team, utilisez d'abord la table d'équipe pour trouver le camp qui accélère, puis les joueurs pour localiser porteur économique, défenseur, donateur et route exposée. Les valeurs des membres vivants sont additionnées. Elles comparent bien la production collective, mais ne disent pas qui peut défendre la tuile menacée. Une équipe à quatre millions de troupes peut n'en avoir que 200 000 sur le membre qui garde le nœud ferroviaire. Répondez par rôles, pas par un mouvement général vers le plus grand taux.
+
+En Ranked 1v1, personne ne partage la réponse. Les taux valident une branche économique, mais le chronomètre court et le contact direct donnent souvent priorité aux troupes, au maximum, au territoire et au stock. Ne retardez pas une défense nécessaire pour obtenir une fenêtre parfaite. En 2v2, alternez équipe et joueurs : le total montre le rythme, les lignes indiquent si un partenaire porte l'économie et l'autre le front.
+
+En solo ou Humans versus Nations, vérifiez le type. Nations et Tribes peuvent afficher économie et territoire, mais ne suivent pas la psychologie humaine. Servez-vous du nombre pour la capacité, puis appliquez le bon modèle d'IA. Une partie personnalisée peut modifier multiplicateur d'Or, unités, équipes ou vitesse. Si les Ports sont désactivés, zéro maritime n'est pas une faiblesse : la colonne est simplement sans objet.
+
+La carte change l'exposition. Sur un océan, un détroit, un groupe de Ports ou une patrouille peut expliquer l'écart. Sur un continent, le train dépend parfois de quelques stations et relations. Sur une carte compacte, le front atteint la route avant que la moyenne de deux minutes réagisse ; privilégiez alors troupes et trajet en direct. Sur une immense carte, le meilleur taux peut être inaccessible : sans temps de déplacement et sortie défendable, il n'existe pas de plan d'interruption.
+
+| Ligne | À écrire | Exemple |
+| --- | --- | --- |
+| État | Heure, mode, carte, tri | 18:00, Team, océan, maritime décroissant |
+| Preuve | Stock, total, source, réserve | 3,2 M ; 720 k/min ; 500 k maritime ; 610/900 k troupes |
+| Action | Test limité et responsable | Warship existant au détroit ouest une fenêtre |
+| Sortie | Arrêt observable | Détour, seconde escorte ou réserve sous 500 k |
+
+Après l'action, marquez **observé**, **inféré** ou **inconnu**. Une arrivée disparue est observée ; si un embargo survient aussi, attribuer la baisse à la patrouille reste une inférence ; la capacité à trouver un autre partenaire peut rester inconnue. Ne changez qu'un déclencheur ou une sortie la partie suivante. Le [guide de replay](/fr/guides/replay-review/) fournit la méthode plus large.
+
+Les limites officielles sont la [Release v0.34.0](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0), le [suivi des taux](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/lib/GoldRateTracker.ts), le [registre des colonnes](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/lib/StatsColumns.ts), la [table triable](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/components/StatsTable.ts) et l'[agrégation Team](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.17/src/client/hud/layers/TeamStats.ts). Si une version officielle change fenêtre, compteurs, colonnes ou agrégation, refaites l'analyse. Jusque-là, un taux reste une preuve retardée de flux brut, jamais un score universel de puissance.
