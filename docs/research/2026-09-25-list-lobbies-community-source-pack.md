@@ -2,10 +2,12 @@
 
 Decision this guide changes: how a player reads the public lobby browser, filters the
 queues, picks the right lobby, and knows what they can actually use. Version boundary
-used throughout: **v0.34.17 is the live release (published 2026-09-23 15:50 UTC)**; the
-host-selectable auto-start timer and the 100-player hosted cap are on **main / v35
-(PR #5635, merged 2026-09-23 23:38 UTC, not yet released)** and are described as
-upcoming, not as current capability.
+used throughout: **v0.34.18 is the live release (published 2026-09-24 23:31 UTC, pinned
+upstreamCommit `824d1412`)**; the host-selectable auto-start timer (1–5 min) and the
+100-player hosted cap are **in v0.34.18** (from PR #5635, merged 2026-09-23 23:38 UTC)
+and are described as current capability, not as upcoming. The previous live release
+v0.34.17 fixed the hosted window at 5 minutes and allowed unlisting; v0.34.18 makes the
+window host-selectable and listing one-way.
 
 ## Method and accessibility pre-check
 
@@ -28,35 +30,40 @@ opened directly. Access date for every source: **2026-09-25 (UTC)**.
    there (Free / Warrior / Warlord, etc.); Warlord is the tier that gates public lobby
    creation. Cloudflare-fronted on direct fetch, corroborated by the in-game dialog and
    the source below. Accessed 2026-09-25.
-2. **GitHub source, tag `v0.34.17`** (the live release) —
-   <https://github.com/openfrontio/openfrontio/tree/v0.34.17>:
-   - `src/core/Schemas.ts`: <https://github.com/openfrontio/openfrontio/blob/v0.34.17/src/core/Schemas.ts> — `MAX_HOSTED_LOBBIES = 10` (line 188),
-     `HOSTED_LOBBY_AUTO_START_MS = 5 * 60 * 1000` (line 193),
-     `FEATURED_LOBBY_AUTO_START_MS = 10 * 60 * 1000` (line 200).
-     `PublicGameTypeSchema = z.enum(["ffa","team","special","hosted"])`.
-     `ScheduledPublicGameTypeSchema` explicitly **excludes** `"hosted"` because hosted
+2. **GitHub source, tag `v0.34.18`** (the live release) —
+   <https://github.com/openfrontio/openfrontio/tree/v0.34.18>:
+   - `src/core/Schemas.ts`: <https://github.com/openfrontio/openfrontio/blob/v0.34.18/src/core/Schemas.ts> — `MAX_HOSTED_LOBBIES = 10` (line 190),
+     `HOSTED_LOBBY_AUTO_START_MS = 5 * 60 * 1000` (line 195, the maximum host may pick),
+     `MIN_HOSTED_LOBBY_AUTO_START_MS = 60 * 1000` (line 199, the minimum),
+     `MAX_HOSTED_LOBBY_PLAYERS = 100` (line 201),
+     `FEATURED_LOBBY_AUTO_START_MS = 10 * 60 * 1000` (line 212). The host picks the start
+     time between the 1-minute min and the 5-minute max.
+     `PublicGameTypeSchema = z.enum(["ffa","team","special","hosted"])` (line 166).
+     `ScheduledPublicGameTypeSchema` (line 178) explicitly **excludes** `"hosted"` because hosted
      lobbies are player-created, and the host (not the master scheduler) controls their
-     lifecycle. `PublicGameInfoSchema` (lines 338-349) carries `gameID`, `numClients`,
+     lifecycle. `PublicGameInfoSchema` carries `gameID`, `numClients`,
      optional `startsAt`, optional `gameConfig`, `publicGameType`, and featured-only
      `label`/`accent`/`featured`. `PublicGamesSchema` is a `partialRecord` keyed by
      public game type, so a browser tolerates a server that omits a bucket.
    - `src/server/WorkerLobbyService.ts`: the public-list broadcast maps each listed lobby
-     to the `PublicGameInfo` shape and only includes lobbies the host marked listed.
+     to the `PublicGameInfo` shape and only includes lobbies the host marked listed; once
+     listed, the server rejects unlisting (one-way), and the lobby settings are locked
+     (`settings_locked_listed`).
    - `src/client/components/LobbyCard.ts`: what the player actually sees on a card — map
      art behind modifier pills, a countdown / "Starting…" pill on the right, the player
      count, and a bottom bar naming the map and the mode (e.g. "FFA" or "5 teams of 20");
      a featured lobby names itself instead. Trusted-only lobbies show a join gate with an
      explanation popup rather than a failed join.
-   - `src/client/HostLobbyModal.ts` (line ~256): the public-list toggle is gated by
-     `canCreatePublicLobbies`; when false it shows an info dialog pointing to the
-     subscription page.
+   - `src/client/HostLobbyModal.ts`: the public-list toggle is gated by
+     `canCreatePublicLobbies` (official lang key text "Warlord or Sovereign"); when false
+     it shows an info dialog pointing to the subscription page. `setListed(listed,
+     autoStartMs?)` carries the host-chosen start time.
    - `src/client/SubscriptionPolicy.ts`: client-side tier policy.
-3. **GitHub source, `main` (v35, PR #5635, unreleased)** — `src/core/Schemas.ts` adds
-   `MIN_HOSTED_LOBBY_AUTO_START_MS = 60 * 1000` (line 197) and
-   `MAX_HOSTED_LOBBY_PLAYERS = 100` (line 198); the host picks the start time up to the
-   5-minute max. `setListed(listed, autoStartMs?)` carries the optional time. These are
-   described in the guide as the upcoming change, clearly separated from the live
-   5-minute behaviour.
+3. **v0.34.17 (previous live release, now superseded)** — fixed the hosted auto-start
+   window at `HOSTED_LOBBY_AUTO_START_MS` (5 minutes, a constant the host could not change),
+   had no `MIN_HOSTED_LOBBY_AUTO_START_MS` / `MAX_HOSTED_LOBBY_PLAYERS` (no host-selectable
+   timer, no player-cap control), and allowed unlisting a listed lobby. Referenced only to
+   draw the version boundary the guide states.
 4. **`api.openfront.io/public/games`** — the live public feed shape the browser consumes
    (serverTime + games buckets keyed by public game type). Accessed 2026-09-25.
 
@@ -137,7 +144,7 @@ opened directly. Access date for every source: **2026-09-25 (UTC)**.
 Limitation: full transcripts were not retrievable for the captioned videos (timed-text
 404/empty on retry); analysis relies on verified oembed titles/authors plus watch-page
 description text. None of the videos state numeric timer values, so every number in the
-guide comes from the v0.34.17 source, not from video.
+guide comes from the v0.34.18 source, not from video.
 
 ## Cross-source synthesis (what the guide is built from)
 
@@ -149,16 +156,23 @@ guide comes from the v0.34.17 source, not from video.
   from the playlist, while `hosted` is player-created and host-controlled
   (source: Schemas.ts, ScheduledPublicGameTypeSchema).
 - **Why the list is short / timing:** hosted lobbies are capped (10 max) and auto-start on
-  a fixed 5-minute window (live v0.34.17); featured lobbies on 10 minutes; reading the
-  countdown before joining is the concrete lever (source: Schemas.ts constants).
-- **The entitlement wall:** listing a public lobby requires Warlord or higher
-  (Reddit 4 + HostLobbyModal gate + openfront.io store); the guide states this plainly so
-  players are not surprised.
+  a host-selectable window between 1 and 5 minutes (live v0.34.18; the host sets it, the
+  countdown pill shows whatever they chose); featured lobbies on a fixed 10 minutes;
+  reading the countdown before joining is the concrete lever (source: Schemas.ts
+  constants, v0.34.18).
+- **The entitlement wall:** listing a public lobby requires the Warlord or Sovereign tier
+  (official lang key text "Warlord or Sovereign"; the community quote "Warlord or higher"
+  predates the Sovereign tier name); the guide states this plainly so players are not
+  surprised.
 - **Version boundary:** host-selectable start time (min 1 min, max 5 min) and a 100-player
-  hosted cap are **main / v35 (PR #5635, unreleased)** and are flagged as upcoming.
+  hosted cap are **in v0.34.18 (live)** (from PR #5635, merged 2026-09-23, released
+  2026-09-24). Listing is one-way in v0.34.18: the server rejects unlisting and the lobby
+  settings lock once listed. The previous release v0.34.17 fixed the window at 5 minutes
+  and allowed unlisting; the guide states both so a reader can tell current behaviour from
+  older write-ups.
 
 ## Research word count
 
 This pack's English research prose (method + official sources + Reddit + YouTube +
 synthesis) is the research-language body; rule/number/version authority is anchored to the
-v0.34.17 tag source and the live release, per program requirements.
+v0.34.18 tag source and the live release (published 2026-09-24), per program requirements.
