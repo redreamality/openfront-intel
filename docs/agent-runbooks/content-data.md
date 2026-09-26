@@ -18,3 +18,4 @@
 - **2026-09-06 复发：写入五语正文链接前先从现有内容文件确认集合与公开路由**：例如 `population-growth.mdx` 位于 `src/content/guides/<lang>/`，公开路径是 `/guides/population-growth/`，不能根据主题属性猜成 `/strategies/`；用 `rg --files src/content` 找到文件，再按对应 collection 路由写五语链接。
 - **正式 tag 的源码链接须核对真实树路径**：2026-09-20 五语恢复页曾把 MIRV 计数实现误链到不存在的 `src/core/Stats.ts`；`v0.34.11` 的实现位于 `src/core/game/StatsImpl.ts`。写来源链接前用 `git ls-tree` 或 `git grep` 在对应 tag 核实路径，不能从类名推目录。
 - **社区来源访问失败要保留失败模式并切换可核验入口**：2026-09-22 研究中 Reddit HTML/JSON/RSS 直连均返回 HTTP 403，YouTube timed-text/player API 返回 bot/sign-in 检查；使用可公开读取的 Arctic Shift Reddit 归档和 YouTube 页面章节/描述继续取证，并在来源包写明 canonical URL、访问限制和未使用字幕/数字结论。不要把搜索摘要或未核验转述计为实际来源。
+- **2026-09-27 复发：五语文件和来源包未稳定前不要运行完整 `guide:audit`**：本轮先后在缺少四语/来源包、只有 4 个 H2 时运行，均以预期的未完成状态退出 1，不能提供有效交付结论。先用局部计数检查草稿；五语、8 个 H2、表格、互链、frontmatter 与来源包全部稳定后，再运行完整单篇交付审计。
