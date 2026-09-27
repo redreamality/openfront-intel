@@ -1,0 +1,339 @@
+---
+title: "Caps vs Plutonium: Kaufe Skins mit der verdienten Währung oder der Premium-Währung"
+description: "Entscheide, welche OpenFront-Skins du wirklich mit den gesammelten Caps kaufen kannst, warum der Großteil des Katalogs nur grünes Plutonium akzeptiert, wie du Plutonium mit echtem Geld auflädst und wann Caps anzulegen besser ist als Geld auszugeben."
+pubDate: 2026-09-27
+updatedDate: 2026-09-27
+tags: [kosmetik, ökonomie, caps, plutonium, läden, skins]
+category: Ökonomie
+difficulty: Mittel
+version: v34
+freshnessSummary: "Am 2026-09-27 für den v0.34.20-Laden aktualisiert: Caps werden nur verdient und können nicht aufgeladen werden, Plutonium ist der einzige Echtgeld-Spielfeld, und die Liste der Caps-fähigen Skins ist eine kuratierte Auswahl pro Artikel, geprüft gegen den v0.34.20-Tag."
+---
+
+## Direkte Antwort: zwei Währungen, zwei unabhängige Kaufspuren
+
+OpenFront verkauft Kosmetika für Währung, nicht für Dollar: Der v0.34.20-Client entfernt die
+Dollar-Abrechnung komplett und stellt fest „Cosmetics are sold for currency only (USD checkout
+was removed )“. Das bedeutet, dass jedes Skin, jeder Pack, jedes Muster, jede Flagge, jede Krone
+oder jeder Effekt, den du im Laden siehst, einen Preis in einer oder beiden Währungen hat und die
+Währungswahl Teil des Artikels ist, kein Knopf, den du steuerst. Die **Caps** (bernsteinfarben)
+sind die weiche, verdiente Währung: Du erhältst sie, indem du spielst, und du kannst keine
+zusätzlichen davon mit echtem Geld kaufen. Das **Plutonium** (grün) ist die harte
+Premium-Währung: Das ist die, die du mit echtem Geld auflädst, und in der der erweiterte Katalog
+abgerechnet wird. Im v0.34.20-Code hat ein Kosmetik-Artikel buchstäblich zwei optionale Zahlen,
+`priceSoft` und `priceHard`, und der Laden hängt jedes an seinen eigenen Kauflandler. Hat ein
+Skin einen `priceSoft`, kannst du ihn mit Caps kaufen, die du angespart hast. Hat er ein
+`priceHard`, kannst du ihn mit Plutonium kaufen. Hat er nur ein `priceHard`, ist es auf
+Plutonium beschränkt, und das ist der übliche Fall — deshalb, wie der Community-Thread sagte,
+„nur ein paar Skins können mit Caps (orange) gekauft werden, und die meisten Skins können nur
+mit Plutonium (grün) gekauft werden“. Die Entscheidung, die dieser Guide ändern soll, ist
+einfach: Bevor du echtes Geld für Plutonium ausgibst, wisse, welche Skins in der
+Caps-fähigen Teilmenge sind, damit du nichts bezahlst, was du durch Anlegen hättest bekommen
+können, und wisse, dass die Caps-fähige Liste nicht etwas ist, das du berechnen oder vorhersagen
+kannst, weil sie pro Artikel vom Team gesetzt wird, nicht nach einer lesbaren Formel.
+
+Die zweite Sache, die die direkte Antwort dir geben muss, ist, wofür Plutonium gut ist, denn die
+Community behandelt es als eine ganze zweite Sache. Es ist der Premium-Spielfeld: die Währung,
+die du mit echtem Geld aufladen kannst, die Währung, die als Preis in öffentlichen Herausforderungen
+verwendet wird, und die Währung, in der der breitere Katalog abgerechnet wird. Caps sind die
+Währung, die du verdienst und nicht auffüllen kannst. Diese Asymmetrie ist der Kern. Wenn du
+echtes Geld nur ausgibst, wenn ein Skin, den du wirklich willst, nicht in der Caps-fähigen
+Teilmenge ist, und du für alles andere Caps anlegst, gibst du weniger aus und verlierst nichts,
+denn der einzige Skin, den du beim Anlegen „verpasst", ist der, den du ohnehin nicht mit Caps
+hättest kaufen können. Und das ist die ganze Regel des Guides in einem Satz: Dein Geld geht
+nur an Artikel, die du nicht mit deinem eigenen Spiel bezahlen kannst, und den Rest verdienst du.
+
+## Was jede Währung ist und was sie nicht kann
+
+Der saubere Weg, den häufigsten Fehler zu vermeiden, ist, die beiden Portfolios zu trennen, bevor
+du einen Preis anschaust, denn der Laden zeigt beide und das Auge fällt automatisch auf die, die
+du schon hast, zurück. In den ausgelieferten Strings sind die Namen explizit: `cosmetics.soft`
+wird „Caps" angezeigt und `cosmetics.hard` wird „Plutonium" angezeigt. Jeder Account trägt ein
+`soft`-Guthaben und ein `hard`-Guthaben, und ein Kauf in dem einen berührt das andere nie. Das
+Caps-Guthaben ist die Zahl, die du durch Spielen verdient hast, und das Plutonium-Guthaben ist die
+Zahl, die du aufgeladen (oder als Preis gewonnen) hast, und das Kaufdialog liest das Guthaben des
+ausgewählten Spielfelds und vergleicht es mit dem Preis des Artikels auf diesem Spielfeld. Fehlt
+das ausgewählte Guthaben, zeigt das Dialog den Mangel und, nur auf dem Plutonium-Spielfeld, einen
+Aufladeknopf; auf dem Caps-Spielfeld bietet das Dialog kein Aufladen an, denn es gibt keinen Weg,
+mehr Caps zu kaufen. Der Codekommentar ist direkt: „Only plutonium can be topped up; caps are
+dismiss-only". Die Auflademöglichkeit ist buchstäblich auf `method === "hard"` begrenzt, also hat
+ein mangelndes Caps-Dialog keinen Geldknopf, nur die Option, ihn zu schließen und weiter zu
+spielen.
+
+Die tiefere Struktur-Tatsache ist, dass die beiden Währungen in keiner Weise austauschbar sind.
+Du kannst Caps nicht in Plutonium umwandeln. Du kannst Plutonium nicht in Caps umwandeln. Du
+kannst keine Caps mit Geld kaufen. Das Einzige, was Geld tut, ist, zum Plutonium-Guthaben
+hinzuzufügen, und das Einzige, was das Spiel tut, ist, zum Caps-Guthaben hinzuzufügen. Deshalb
+gibt es keinen Plan „ich werde das Plutonium-Skin farmsen": Ein Plutonium-Skin kann nicht durch
+Spielen erreicht werden, egal wie lange du spielst, denn das soft-Guthaben speist nie das
+hard-Guthaben. Deshalb funktioniert das Umgekehrte auch nicht: Ein Caps-Skin, den du nicht
+anlegst, ist auch später nicht mit Plutonium erreichbar, denn der Kauf auf dem Caps-Spielfeld liest
+nur das soft-Guthaben. Jedes Spielfeld ist ein geschlossener Kreislauf mit einer
+Einnahmequelle und einem Ausgabenweg. Das Verstehen, dass die Kreisläufe geschlossen sind, ist die
+gesamte Grundlage der Budget-Entscheidung, denn es bedeutet, dass „welche Währung" überhaupt keine
+Umrechnungsfrage ist, sondern eine Frage danach, welche Einnahmequelle du für welchen Artikel
+ausgeben willst.
+
+| Eigenschaft | Caps (weich) | Plutonium (hart) |
+|---|---|---|
+| Anzeigename (en.json) | `cosmetics.soft` → „Caps" | `cosmetics.hard` → „Plutonium" |
+| Wie man es bekommt | Durch Spielen verdient | Mit echtem Geld aufgeladen; auch ein Herausforderungs-Preis |
+| Kann man es mit Geld kaufen? | Nein — nur ablehnen | Ja — das einzige Echtgeld-Spielfeld |
+| Preisfeld | `priceSoft` (optional) | `priceHard` (optional) |
+| Kann es negativ werden (Schulden)? | Nein — „soft currency can never go negative" | Ja — Erstattungen/Abweisungen erzeugen `debt` |
+| Dialog bei Mangel | Zeigt die Lücke, kein Aufladeknopf | Zeigt die Lücke plus einen Aufladeknopf |
+| Typische Katalog-Abdeckung | Eine kuratierte Teilmenge von Artikeln | Der breitere Katalog und alle Packs |
+
+## Wie das Team entscheidet, welche Skins Caps-fähig sind
+
+Die Spielerfrage, die dieses Thema antrieb — „Wie wird entschieden, welche Skins mit den caps
+gekauft werden können?" — hat im Thread eine direkte Antwort, und es ist keine Formel. Ein
+Entwickler im Thread sagte, Kosmetika „sind die primäre Art, wie wir Openfront finanzieren wollen,
+also wollen wir eine Auswahl, die verdient werden kann, aber der erweiterte Katalog als
+käuflicher Artikel", und ein separater Kommentar fasste die Mechanik als „es ist vibe-basiert und
+wird von den Admins entschieden" zusammen. Mit dem Code gelesen bedeutet das, dass die
+Caps-fähige Menge eine Kuratierungsentscheidung ist, die das Team pro Artikel trifft: Sie
+wählen einen Teil des Katalogs, um ihn mit einem `priceSoft` abzurechnen, damit eine Teilmenge
+durch Spielen erreichbar ist, und lassen den Rest nur mit `priceHard` abgerechnet. Es gibt keine
+für Spieler sichtbare Regel, die sagt „nach N Spielen wird dieser Skin Caps-fähig", und es gibt
+keine Countdown, denn das Feld ist einfach ein optionaler Preis auf dem Artikel und das Team kann
+ihn setzen oder ändern, wenn es die Kosmetika aktualisiert.
+
+Das hat zwei praktische Konsequenzen, die die Art, wie du ausgeben solltest, ändern. Erstens, du
+solltest keine Caps für einen Skin anlegen, der aktuell nicht Caps-fähig ist, in der Annahme, dass
+er „bald" fähig sein wird. Der im Thread erwähnte Vorfall „alle Skins waren mit Caps
+kaufbar" war ein vorübergehender Bug, und ein Bug ist keine Politik; behandle einen
+Caps-fähigen Skin als Caps-fähig nur, solange der Laden tatsächlich einen soft-Preis für ihn
+zeigt, und behandle einen auf Plutonium beschränkten Skin als auf Plutonium beschränkt, bis du
+einen soft-Preis siehst. Zweitens ändert sich die Caps-fähige Menge im Laufe der Zeit — ein
+Thread-Kommentar fragt, wohin die Fähigkeit eines bestimmten Skins ging — also ein Skin, den du
+diese Woche nicht mit Caps kaufen kannst, könnte bei der nächsten Aktualisierung in der
+Teilmenge sein, und einer, den du diese Woche kaufen kannst, könnte rausfallen. Die daraus
+folgende Entscheidung ist, den tatsächlichen Preis auf dem Spielfeld zu prüfen, wenn du
+entscheidst, nicht einer memorisierten Liste zu vertrauen, und die Geld-Entscheidung nur für
+Artikel zu treffen, die du bestätigst, dass sie aktuell nicht in der Teilmenge sind. Das ist die
+ehrliche Grenze dessen, was dieser Guide versprechen kann: Er kann dir die Mechanik geben (zwei
+optionale Preise, eine pro-Artikel-Kuratie), aber er kann dir nicht die nächste Wochenliste
+geben, und er wird behaupten, das zu können. Was der Kuratie-Rahmen dir gibt, ist ein Weg, den
+Laden ohne Formel zu lesen: Ein Artikel, der jetzt einen soft-Preis hat, ist per Definition in
+der Teilmenge, denn das Team hat diesen Preis gesetzt, und ein Artikel, dem er fehlt, ist per
+Definition außerhalb der Teilmenge, also der Laden selbst ist die Liste und du brauchst gar keine
+separate Liste. Die Antwort „vibes" ist keine Ausflucht, wenn du sie so liest; es ist die
+Aussage, dass die Liste eine Geschmacksentscheidung ist, die das Team aktualisiert, und der
+einzige ehrliche Weg, sie zu prüfen, ist, den Preis auf dem Spielfeld anzuschauen, was die
+Budget-Regel des nächsten Abschnitts in eine Gewohnheit verwandelt.
+
+## Wann sich das Anlegen von Caps besser lohnt als Geld auszugeben, und wann nicht
+
+Die Budget-Regel, die diesen ganzen Guide rentabel macht, ist ein Satz: Gib echtes Geld für
+Plutonium nur für einen Skin aus, den du wirklich willst und der nicht in der aktuellen
+Caps-fähigen Teilmenge ist, und lege Caps für alles andere an. Alles Folgende ist die Version
+dieses Satzes, die dem Kontakt mit einem echten Laden standhält.
+
+Der Fall für das Anlegen ist stark und sollte dein Standard sein. Caps sind die Währung, die du
+kostenlos durch Spielen verdienst, also ein Skin, den du mit angesparten Caps kaufen kannst,
+kostet dich Zeit, die du ohnehin verbringen würdest, nicht Geld. Der Fehler, vor dem der
+Standard dich schützt, ist der Reflex „Plutonium aufladen, um den Skin zu ergreifen", der einen
+kostenlos verdienten Kauf in einen bezahlten Kauf umwandelt ohne Grund, wenn ein soft-Preis
+existiert. Zeigt der Artikel einen `priceSoft` und dein soft-Guthaben deckt ihn, ist der Kauf mit
+Caps strikt besser als Aufladen: gleicher Skin, null Geld. Deckt dein soft-Guthaben ihn nicht,
+ist die richtige Bewegung oft, das Dialog zu schließen und weiterzuspielen, denn die
+Einnahmequelle für Caps ist genau die Tätigkeit, die du bereits machst, und der einzige Skin,
+den du beim Warten verlierst, ist der, den du bezahlt hättest.
+
+Der Fall für Geld ausgeben ist enger und hat einen klaren Auslöser. Du gibst echtes Geld aus,
+wenn (a) du einen bestimmten Skin oder Pack willst, (b) du den Laden prüfst und er keinen
+`priceSoft`, nur ein `priceHard` hat, und (c) du entscheidest, dass dieser Skin für dich jetzt
+das Geld wert ist. Der Auslöser ist die Abwesenheit des soft-Preises, nicht die Anwesenheit des
+hard-Preises — jeder Artikel, den du kaufen könntest, hat einen hard-Preis, sonst könntest du
+ihn überhaupt nicht kaufen, also ist der hard-Preis der Boden, und der soft-Preis, wenn er
+existiert, ist der Rabatt, den du zuerst nutzen solltest. Ein Hinweis zu Packs: Kosmetik-Packs
+werden nur für harte Währung verkauft, der Code sagt „packs are only sold for hard currency",
+also ist ein Pack nie ein Caps-Kauf und immer eine Geld-Entscheidung. Die Disziplin ist nicht
+„nie Geld ausgeben"; es ist „nie Geld für die Sache ausgeben, die du hättest anlegen können".
+Eine Verfeinerung, die die Regel unter Druck hält: Wenn du unsicher bist, weiterzuspielen, ist
+der Anlegen-Standard noch stärker, denn ein angespartes Caps-Guthaben ist ein
+gespeicherter Wert, den du immer noch haben wirst, wenn du wieder spielst, während ein Aufladen
+eine nicht rückholbare Kosten ist, die weg ist, sobald sie ausgegeben ist, und der einzige
+Skin, den ein Aufladen dir sofort kauft, ist der, den du gerade anschaust. Die Regel ist nicht,
+dass Geld schlecht ist, es ist, dass Geld nur den Artikel kaufen sollte, der keinen soft-Preis
+hat, und alles andere auf dem Spielfeld laufen sollte, auf dem du bereits verdienst.
+
+## Versionsgrenze und was verifiziert ist
+
+Die Versionsgrenze zählt hier, weil das Community-Video-Archiv alt ist und sich der
+Kosmetik-Laden darunter geändert hat. Die Fakten dieses Guides sind am v0.34.20-Tag festgelegt,
+der die aktuelle Version ist, und die weiche/harte Trennung, das hart-only-Aufladen und die
+nur-Währungs-Abrechnung sind alle im v0.34.20-Client vorhanden. Die spezifischen, verifizierbaren
+Fakten sind: die optionalen Preisfelder `priceSoft` und `priceHard` auf einem Kosmetik-Artikel;
+der Typ `PaymentMethod = "dollar" | "hard" | "soft"`; die Kommentare „Whether the currency can be
+topped up (hard currency only)" und „Only plutonium can be topped up; caps are dismiss-only"; die
+Anmerkung „Real money only buys plutonium (packs above) or a subscription"; die Anmerkung
+„Cosmetics are sold for currency only (USD checkout was removed)"; der Guard „packs are only sold
+for hard currency"; und die ausgelieferten Anzeigennamen `cosmetics.soft = "Caps"` und
+`cosmetics.hard = "Plutonium"`. Wenn du bei v0.34.20 bist, gilt das alles für deinen Client und
+nichts in diesem Guide braucht ein Versions-Warten. Wenn du auf einer älteren Build bist, ist
+der Kosmetik-Laden wahrscheinlich anders und die hochgesehenen Tutorials — die vor dieser
+Trennung aufgenommen wurden — passen nicht zu dem, was dein Laden heute zeigt, was der
+genauere Grund ist, einem älteren „Skins kaufen"-Video vor der weichen/harten Trennung nicht als
+Quelle für das aktuelle Ladenverhalten zu vertrauen.
+
+Was dieser Guide nicht behaupten wird, ist das, was tatsächlich außerhalb des offenen Codes liegt:
+die aktuelle Wochenliste, welche Skins ein `priceSoft` tragen. Diese Liste ist die
+Kuratierungsentscheidung des Teams, sie lebt in den Kosmetik-Daten, die das Team aktualisiert, und
+sie ändert sich im Laufe der Zeit, also ein Guide, der hartkodiert „diese zehn Skins sind
+Caps-fähig", wäre bei der nächsten Aktualisierung falsch. Die ehrliche Position des Guides ist,
+dir die Mechanik zu geben (zwei optionale Preise, pro Artikel gesetzt, hart-only für Packs und
+den breiteren Katalog) und die Entscheidungsregel (den Preis live prüfen, standardmäßig anlegen,
+Geld nur für bestätigte nicht-Caps-Artikel ausgeben) und die Live-Liste als das zu lassen, was du
+in deinem eigenen Laden prüfst, wenn du entscheidest. Alles andere in diesem Guide ist der Teil,
+den du gegen den Tag prüfen kannst, und die Liste ist der Teil, den du lokal prüfst, und diese
+Trennung ist der ganze Punkt, die Grenze zu kennen. Der Grund, warum die Grenze genau hier verläuft,
+ist, dass das Curation-Churn das Ganze ausmacht: Das Team entscheidet bei jedem Kosmetik-Update neu,
+welche Artikel einen `priceSoft` tragen, deshalb ist jede statische Liste ein Snapshot, das beim
+nächsten Release veraltet, und eine veraltete Liste ist schlechter als gar keine Liste, weil sie
+einem selbstbewussten Spieler mit der Sicherheit einer Seite genau das Falsche sagt. Die richtige
+Arbeitsteilung ist also das Gegenteil dessen, was ein „diese zehn Skins kannst du mit Caps
+kaufen"-Artikel versprechen würde: Dieser Guide gehört der Mechanismus und die Entscheidungsregel,
+der Store gehört die Live-Liste, und du gehörst im Moment deiner Entscheidung dem Check selbst.
+
+## Szenario 1: Du bist tief in einem Kosmetik-Artikel, den du willst, und er zeigt einen soft-Preis
+
+Gehen wir von der Situation aus, in der Anlegen am meisten rentabel ist: Du bist ein
+regelmäßiger Spieler, du hast eine Weile gespielt und dein soft-Guthaben ist bei einer Zahl, die
+du nicht ausgegeben hast, weil du nichts gesehen hast, das es wert wäre. Du öffnest den Laden und
+ein Skin, den du wirklich magst, hat einen soft-Preis, und er hat auch einen hard-Preis. Die
+Zahlen zählen weniger als das Vorhandensein des soft-Preises, das der Fakt ist, der das von einer
+Geld- zu einer Gratis-Entscheidung macht. Die richtige Bewegung ist, mit den Caps zu kaufen und
+das Plutonium nicht anzufassen, denn der soft-Preis ist die Art des Teams, diesen Skin durch
+Spielen erreichbar zu machen, und mit Geld zu bezahlen wäre, etwas zu bezahlen, das der Laden
+dir ausdrücklich gratis anbietet. Die Entscheidung ist schnell und sollte trivial wirken, denn
+sie ist es: gleicher Skin, null Geld, und du behältst dein Plutonium für die Artikel, die keinen
+soft-Preis haben.
+
+Der zu vermeidende Fehler in diesem Szenario ist der, der tatsächlich passiert: Plutonium
+aufladen, um den Skin „um nicht warten zu müssen" zu kaufen, wenn die einzige Wartezeit, die der
+Laden verlangt, die Wartezeit ist, genug Caps anzulegen, und du kannst diese Caps anlegen, indem
+du weiter beim Spiel spielst, das du ohnehin spielst. Wenn du noch nicht genug Caps hast, ist die
+Gegenbewegung, das Dialog zu schließen, weiterzuspielen und zurückzukommen, wenn das
+soft-Guthaben den soft-Preis deckt, denn die Einnahmequelle für den Spielfeld ist die Tätigkeit,
+die du bereits machst, und die Kosten des Wartens sind ein paar Spiele, nicht Geld. Das
+praktische Merkmal, das dich vom Auflade-Reflex abhält, ist, den Laden zu lesen, bevor du dein
+Guthaben liest: der soft-Preis, wenn er vorhanden ist, ist der Fakt, der den Geldknopf zum
+falschen Knopf macht, und er ist da, bevor du darüber nachdenken musst, also ist die Gewohnheit,
+den Preis entscheiden zu lassen und erst dann anzuschauen, ob dein soft-Guthaben ihn deckt. Deckt
+er es, kaufst du mit Caps und das Plutonium-Guthaben bleibt unangetastet; deckt er es nicht,
+schließt du das Dialog und spielst weiter, denn die Einnahmequelle für den Spielfeld ist das
+Spiel, das du ohnehin machst, und die Kosten des Wartens sind ein kurzer Spiele-Span, nicht ein
+Abzug. Der andere Fehler ist das Umgekehrte, ewig Caps auf einen Skin anzulegen, der *nicht*
+aktuell Caps-fähig ist, was Anlegen auf einen Artikel ist, der gar keinen soft-Preis hat; das
+Anlegen ist nur für Artikel, die du bestätigst, einen soft-Preis zu zeigen, und ein auf
+Plutonium beschränkter Skin ist nicht das, auf das du anlegst, es ist das, was du zahlst, wenn
+und nur wenn du es willst.
+
+## Szenario 2: Du bist neu, du hast keine Caps angespart und der Skin, den du willst, ist auf Plutonium beschränkt
+
+Jetzt das andere Ende: Du bist ein paar Tage dabei, dein soft-Guthaben ist niedrig, weil du nicht
+lange genug gespielt hast, um eine nennenswerte Menge anzulegen, und der erste Skin, den du
+wirklich willst, ist einer von der Mehrheit, die nur einen hard-Preis hat. Das ist die genaue
+Situation, in der der Community-Reflex — „aufladen und ergreifen" — am verführerischsten ist,
+weil du nichts angespart hast und der Skin einfach da ist. Die richtige Bewegung ist, das erste
+Aufladen als eine bewusste, kleine, einmalige Entscheidung zu behandeln, nicht als eine
+Gewohnheit, die du jetzt beginnst, denn der Moment, in dem Aufladen eine Gewohnheit wird, hört
+die Regel „Geld nur für bestätigte nicht-Caps-Artikel ausgeben" auf zu funktionieren und das
+Plutonium-Guthaben wird zu einer ständigen Ausgabe.
+
+Die konkrete Regel für neue Spieler ist, die erste Geld-Entscheidung nur nach dem Bestätigen von
+drei Dingen zu treffen: dass der Skin keinen soft-Preis hat (prüfe den Laden, nimm es nicht
+annehmend an), dass du tatsächlich weiter spielen wirst, damit der Kauf kein
+Impulskauf ist, der dich mit einem Skin und ohne Spiel zurücklässt, und dass du einen
+bestimmten Skin wählst, nicht „ein Aufladen für Optionen". Wenn diese drei stehen, ist ein
+kleines, bewusstes Plutonium-Aufladen für diesen einen Skin eine saubere und verteidbare Ausgabe
+— es ist die Geld-Entscheidung, die der Guide dir sagt, zu treffen, nicht zu vermeiden. Der zu
+vermeidende Fehler ist das Gegenteil von nie ausgeben: Es ist oft und früh ausgeben, eine
+Premium-Währung in einen Komfort-Knopf zu verwandeln, den du jedes Mal drückst, wenn etwas dein
+Auge fängt. Die neue-Spieler-Version der Disziplin ist dieselbe wie die Veteranen-Version, nur
+langsamer: erst anlegen, den Spielfeld prüfen und die Geld-Endscheidung auf den bestätigten
+nicht-Caps-Artikel treffen, einen nach dem anderen, wenn du das Spiel und den Skin beide vor dir
+hast. Die Kernlinie ist, dass der neue-Spieler-Fehler nicht ist, einmal auszugeben; es ist, die
+Ausgabegewohnheit zu beginnen, bevor die Anlegegewohnheit eine Chance hat, sich zu bilden, und
+die Antwort des Guides ist, das Anlegen zuerst existieren zu lassen, selbst wenn es klein ist,
+und die erste Geld-Entscheidung erst auf den bestätigten Premium-Artikel zu treffen, nachdem der
+verdiente Spielfeld ein paar Spiele gehabt hat, dir zu zeigen, was er tatsächlich erreichen kann.
+Ein angespartes Guthaben, selbst wenn es bescheiden ist, ist der Unterschied zwischen „ich lade
+jedes Mal auf, wenn etwas mein Auge fängt" und „ich lade für diesen bestimmten Skin auf, den ich
+bestätigt habe", und dieser Unterschied ist der ganze Wert der Disziplin für einen Spieler, der
+den Laden noch lernt.
+
+## Fehlerzustände und wie man jeden davon kontert
+
+Es gibt eine kleine Anzahl von Wegen, wie das schiefgeht, und die meisten sind
+Jahresentscheidungsfehler, keine Interface-Fehler, denn der Laden zeigt die richtigen Preise und
+der Fehler liegt darin, welchen Spielfeld du wählst und wann du aufladen drückst. Der erste ist
+der Auflade-Reflex, Plutonium für einen Skin zu kaufen, der die ganze Zeit einen soft-Preis hatte;
+der Gegenzug ist die harte Budget-Regel, den Spielfeld zu prüfen und wenn ein `priceSoft`
+existiert, der Geldknopf ist der falsche Knopf und die einzig richtige Aktion ist, mit Caps zu
+kaufen oder weiterzuspielen, bis deine Caps ihn decken. Der zweite ist der
+falsche-Artikel-Anlegen-Fehler, Caps auf einen auf Plutonium beschränkten Skin anzulegen, was
+Anlegen auf einen Preis ist, der auf dem soft-Spielfeld nicht existiert; der Gegenzug ist, nur
+für Artikel anzulegen, die du bestätigt hast, diese Woche einen soft-Preis zu zeigen, und einen
+auf Plutonium beschränkten Skin als Geld-Entscheidung zu behandeln, nie als Anlegen-Ziel. Der
+dritte ist die Plutonium-Spielfeld-Schuld-Überraschung, wo eine Erstattung oder eine Abweisung
+das hard-Guthaben negativ lässt und der Laden eine `debt` zeigt, die ein Aufladen nicht
+klären wird; der Code ist explizit, dass ein Aufladen eine Schuld nicht freischaltet, es wird
+vom nächsten Kredit ausgeglichen, also der Gegenzug ist, nicht weiter gegen eine Schuld
+aufzuladen und auf den nächsten Kredit zu warten, um sie auszugleichen, und zu notieren, dass
+das auf dem Caps-Spielfeld überhaupt nicht passieren kann, weil die weiche Währung nie negativ
+werden kann.
+
+Der vierte ist der Pack-Verwechslungsfehler, einen Pack wie einen Skin zu behandeln und einen
+Caps-Preis zu erwarten; Packs werden nur für harte Währung verkauft, also ist jeder Pack per
+Definition eine Geld-Entscheidung und der Gegenzug ist, nie einen Pack im Caps-Anlegen
+budgetieren und ihn als Premium-Kauf im Voraus zu preisen. Der fünfte ist der
+veraltete-Liste-Fehler, sich auf eine memorisierte Liste oder ein Video über Caps-fähige Skins
+zu stützen, das nicht mehr aktuell ist, weil die Caps-fähige Menge sich ändernde Kuratie ist; der
+Gegenzug ist, den live Preis auf dem Spielfeld zu prüfen, wenn du entscheidest, und jede Liste,
+die du liest, einschließlich die in diesem Guide, als ein Bild zu behandeln, das veralten kann.
+Der sechste ist der Versionsfehler, einem Tutorial vor der Trennung für einen Laden zu vertrauen,
+der seitdem zwei Spielfelder getrennt hat; der Gegenzug ist der Versionsgrenzen-Abschnitt, der
+alles auf v0.34.20 festlegt und dir sagt, dass ein älteres Video den Spielfeld nicht
+dokumentieren kann, vor dem du stehst. Jeder dieser Fehler ist eine Gewohnheit, kein Bug, und die
+Gewohnheit ist, die zwei Spielfelder als zwei geschlossene Kreisläufe zu behandeln, die
+verdiente Währung standardmäßig anzulegen und die Geld-Entscheidung nur auf bestätigte
+Premium-Artikel zu treffen.
+
+## Modi, Karten und wo diese Entscheidung in deinem Spiel sitzt
+
+Die Laden-Entscheidung ist im engen Sinne modusunabhängig, denn der Laden ist derselbe Bildschirm
+in jedem Modus und die zwei Spielfelder ändern sich nicht zwischen FFA, Humans versus Nations
+oder den Teammodi. Was Modus und Karte ändern, ist der einzige Input, von dem die Entscheidung
+eigentlich abhängt: die Geschwindigkeit, mit der dein Caps-Einnahmenstrom sich dreht und damit die
+Geschwindigkeit, mit der du anlegen kannst. Auf einem Modus und einer Karte, auf der du gut
+aufräumst und überlebst, steigt dein soft-Guthaben und die Menge an Skins, die du durch Anlegen
+erreichen kannst, wächst, also der „anlegen und warten"-Standard ist dort wenig kosten, denn die
+Kosten des Wartens sind ein kurzer Spiele-Span, den du ohnehin gut machst. Auf einem Modus und
+einer Karte, auf der du früh stirbst und wenig aufräumst, ist dein Caps-Einnahmen dünn und das
+Anlegen einer nennenswerten Menge dauert länger, was die Regel nicht ändert, aber die Geduld,
+die die Regel verlangt, ändert, und das ist die Situation, in der eine kleine, bewusste
+Plutonium-Entscheidung für einen bestätigten nicht-Caps-Skin die vernünftigere Bewegung ist,
+denn das Anlegen, auf das du warten würdest, dreht sich langsam.
+
+Der Community-Rahmen vervollständigt das, denn die Währungstrennung ist Teil des
+Finanzierungsmodells des Spiels, nicht eine neutrale Laden-Funktion. Die Entwickleraussage im
+Thread — dass Kosmetika die primäre Art sind, wie das Team das Spiel finanzieren will, mit einer
+gewinnbaren Auswahl und dem breiteren Katalog kaufbar — bedeutet, dass die Trennung bleiben wird:
+die gewinnbare Teilmenge und die kaufbare Mehrheit sind das Design, kein vorübergehender
+Zustand. Deshalb die Entscheidung ein dauerhafter Teil deines Spiels ist und kein
+einmaliges Tutorial: Jede Aktualisierung kuratiert das Team neu, welche Artikel einen
+soft-Preis bekommen, und deine Aufgabe jede Woche ist dieselben drei Schritte, den live Preis
+auf dem Spielfeld zu prüfen, die verdiente Währung für die Artikel anzulegen, die einen
+soft-Preis haben, und die Geld-Endscheidung nur auf die Artikel zu treffen, die du bestätigst,
+dass sie nicht in der Teilmenge sind. Die Karte setzt die Anlegen-Geschwindigkeit, der Modus
+setzt die Einnahme und der Laden setzt die Regel, aber die Disziplin ist bei dir und sie hält
+den Premium-Spielfeld eine Wahl und keine Gewohnheit. Genauer gesagt ist die Karte der
+Beschleuniger der Anlege-Entscheidung und die Disziplin ist der Bremsklotz der
+Auflade-Entscheidung, und wenn du beides gleichzeitig in einem Laden hältst, bleibt der
+Premium-Spielfeld immer etwas, das du wählst, nie etwas, das dich passiert.
+
+- [Nation-Allianzen: Wann du eine anfragst, was Akzeptanz nicht garantiert und wie du Ablaufen oder Verrat überstehst](/de/guides/nation-alliance-decisions/)
+- [Wirtschafts-Grundlagen: Wie Caps und Plutonium in deinem Spiel zirkulieren](/de/strategies/economy-fundamentals/)

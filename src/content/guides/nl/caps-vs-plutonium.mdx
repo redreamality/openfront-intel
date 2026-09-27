@@ -1,0 +1,301 @@
+---
+title: "Caps vs Plutonium: koop skins met de verdiende valuta of met de premiumvaluta"
+description: "Beslis welke OpenFront-skins je écht kunt kopen met de amberkleurige Caps die je verdient door te spelen, waarom de meeste skins groene Plutonium vragen, hoe je Plutonium met echt geld bijvult, en wanneer sparen beter is dan geld uitgeven."
+pubDate: 2026-09-27
+updatedDate: 2026-09-27
+tags: [cosmetics, economie, caps, plutonium, winkel, skins]
+category: Economie
+difficulty: Midden
+version: v34
+freshnessSummary: "2026-09-27 gecontroleerd tegen de v0.34.20-winkelenupdate: Caps zijn alleen te verdienen via spelen en niet bij te vullen, Plutonium is de enige echt-geldroute, Caps-vaardige skins zijn per item gecureerd en niet uit een formule te berekenen, en pakketten zijn alleen met hardgeld te koop."
+---
+
+## Direct antwoord: twee valuta's, twee gesloten kooppaden
+
+OpenFront verkoopt cosmetica tegen valuta, niet tegen dollars: de v0.34.20-client heeft de dollar
+afrekening in zijn geheel verwijderd, met de commentaarregel "cosmetic only can be sold by currency
+(dollar checkout is removed)". Elke skin, pakket, camo, vlag, kroon of effect in de winkel heeft dus
+een of twee valuta-prijzen, en welke route een item gebruikt is een eigenschap van het item, geen knop
+die jij zet. De amberkleurige **Caps** zijn de zachte, te verdienen valuta: je verdient ze door te
+spelen en je kunt ze niet met echt geld kopen. Het groene **Plutonium** is de harde, premiumvaluta:
+dit is wat je bijvult met echt geld en waar het grootste deel van het assortiment tegen geprijsd is.
+In de v0.34.20-code heeft een cosmetic item letterlijk twee optionele getallen, `priceSoft` en
+`priceHard`, en de winkel koppelt elk aan een eigen aankoopfunctie. Een item met `priceSoft` koop je
+met je opgespaarde Caps; met `priceHard` koop je met Plutonium; alleen met `priceHard` betaal je alleen
+Plutonium, en dat is de norm voor de meeste items — precies zoals een community-post het zegt: "only
+a small amount of skins can be bought with caps (orange), most of the skins can be bought only with
+plutonium (green)". De beslissing die deze gids moet veranderen is eenvoudig: voordat je Plutonium
+bijvult met echt geld, weet je welke skins in de Caps-vaardige subset vallen, zodat je geen geld
+uitgeeft voor skins die je had kunnen sparen, en je snapt dat je deze lijst niet kunt berekenen of
+voorspellen, omdat het team hem per item curert.
+
+Het tweede deel van het directe antwoord is wat Plutonium in het geheel doet, omdat de community dit
+als een apart spoor ziet. Het is de premiumroute: je vult het bij met echt geld, publieke uitdagingen
+vragen ernaartegen, en het bredere assortiment is ernaar geprijsd. Caps zijn wat je verdient en niet
+kunt bijvullen. Die asymmetrie is de kern. Als je alleen met echt geld bijvult wanneer een skin die je
+echt wilt niet in de Caps-vaardige subset valt, en je overigens spaart Caps, dan geef je minder uit en
+verlies je niets: de enige skins die je "mist" door te sparen, zijn diegene die je toch niet met Caps
+had kunnen kopen. Die regel is de hele waarde van de gids in één zin: je geld gaat alleen naar items
+die je niet met je eigen spel had kunnen betalen, en je verdient de rest, en dat is een positie die
+je nergens anders in het spel krijgt, want nergens anders in het spel betaalt spelen je terug in een
+valuta die je kunt uitgeven.
+
+## Wat elke valuta is — en wat hij niet is
+
+De schone manier om de meest gemaakte fout te voorkomen is de twee portmonees te scheiden vóórdat je
+elke prijs leest, want de winkel toont beide en je oog valt automatisch terug op wat je al in handen
+hebt. De geleverde namen zijn duidelijk: `cosmetics.soft` toont "Caps" en `cosmetics.hard` toont
+"Plutonium". Elke account heeft een `soft`-balans en een `hard`-balans; een aankoop op de ene raakt
+de andere nooit aan. De Caps-balance is het getal dat je verdient door te spelen; de Plutonium-balance
+is wat je bijvult (of als beloning wint), en het aankoopvenster leest de balans van de route die je
+koopt en vergelijkt die met de prijs van het item op die route. Bij onvoldoende balans toont het
+venster het tekort en biedt op de Plutoniumroute één knop: bijvullen. Op de Capsroute is er geen
+bijvulknop, want je kunt Caps niet meer kopen. De code-commentaar zegt het letterlijk: "Only
+plutonium can be recharged; caps can only dismiss". De bijvulmogelijkheid is letterlijk begrensd op
+`method === "hard"`, dus een onvoldoende-Caps-venster heeft geen geldknop — alleen de optie om het
+venster te sluiten en door te spelen.
+
+Het diepere structurele feit is dat de twee valuta's in geen enkele richting omwisselbaar zijn. Je
+wisselt geen Caps in Plutonium, geen Plutonium in Caps, en je koopt geen Caps met geld. Geld doet
+precies één ding: de Plutonium-balance omhoog zetten. Het spel doet precies één ding: de Caps-balance
+omhoog zetten. Er is dus geen plan "ik spaar tot ik een Plutonium-skin haal": een skin die Plutonium
+kost, is nooit te bereiken met spelen, want je zachte balans voedt de harde balans nooit. En
+omgekeerd: een Caps-skin die je niet hebt opgespaard, koop je later ook niet met Plutonium, want een
+Caps-aankoop leest alleen de zachte balans. Elke route is een gesloten lus met eigen inkomstenbron en
+eigen uitgavepad. Dat de lussen gesloten zijn, is de hele fundering van een budgetbeslissing, want dat
+betekent dat "met welke valuta" geen omrekeningsprobleem is, maar een "wil ik inkomsten X op item Y
+besteden" vraag.
+
+| Eigenschap | Caps (zacht) | Plutonium (hard) |
+|---|---|---|
+| Getoonde naam (en.json) | `cosmetics.soft` → "Caps" | `cosmetics.hard` → "Plutonium" |
+| Hoe je ze krijgt | verdienen door te spelen | bijvullen met echt geld; ook uitdaging-beloningen |
+| Met echt geld te kopen? | Nee — alleen te sluiten | Ja — de enige echt-geldroute |
+| Prijsveld | `priceSoft` (optioneel) | `priceHard` (optioneel) |
+| Wordt schuldig? | Nee — "soft currency never goes negative" | Ja — refunds/afwijzingen maken `debt` |
+| Onvoldoende-balancevenster | tekort tonen, geen bijvulknop | tekort tonen + bijvulknop |
+| Dekking in het assortiment | een gecureerde kleine subset | de bredere catalogus en alle pakketten |
+
+## Hoe het team bepaalt welke skins Caps-vaardig zijn
+
+De spelersvraag die dit onderwerp uitlokte — "how is it decided which skins can be bought with the
+caps?" — kreeg in de thread een direct antwoord, en het antwoord is geen formule. Een ontwikkelaar in
+de thread zei dat cosmetica "the main way we would like to fund OpenFront, so we want to make some
+things earnable, while the larger catalog as a purchaseable object", en een andere post samenvatte het
+mechanisme als "by vibes, admin decides". De code bevestigt dit: de Caps-vaardige items zijn een
+per-item curatoringsbeslissing van het team: ze kiezen een deel van het assortiment, geven het een
+`priceSoft`, zodat een subset verdiend kan worden, en de rest krijgt alleen `priceHard`. Er is geen
+spelers-zichtbare regel "na N rondes wordt deze skin Caps-vaardig", en er is geen countdown, want het
+veld is gewoon een optionele prijs die het team in zijn cosmetic-updates stelt of wijst.
+
+Dit heeft twee praktische consequenties voor je uitgave. Eerst: spaar niet op Caps voor een skin die
+op dit moment níét Caps-vaardig is in de hoop dat die "binnenkort" wel wordt. Het voorval in de
+thread waarbij "all skins were buyable with caps" was een tijdelijke bug, en een bug is geen beleid;
+een skin is Caps-vaardig alleen als de winkel hem een zachte prijs geeft, en een skin die alleen
+Plutonium kost, behandel je als Plutonium-only totdat je echt een zachte prijs ziet. Tweede: de
+Caps-vaardige subset verandert in de tijd — in de thread werd gevraagd waar de Caps-vaardigheid van
+een skin was gebleven — dus een skin die je deze week niet met Caps kunt kopen, kan na de volgende
+update in de subset zitten, en een die je deze week wél kunt kopen, kan eruit vallen. De beslissing
+die daaruit vloeit: controleer de actuele prijs van een item op het moment van je keuze, vertrouw geen
+statische lijst, en neem geldbeslissingen alleen over bevestigde niet-Caps-items. Dat is de eerlijke
+grens van deze gids: je krijgt het mechanisme (twee optionele prijzen, per-item curatie), maar niet de
+komende week lijst, en de gids gaat niet doen alsof hij die kan geven. Wat het curatiekader wél
+geeft, is een manier om de winkel te lezen zonder formule: een item met een zachte prijs op dit
+moment is per definitie in de subset, omdat het team die prijs stelde; een zonder is er per definitie
+buiten, zodat de winkel zelf de lijst is. Het "by vibes" antwoord leest hierdoor niet als een
+afwezigheid van een regel, maar als een uitspraak dat de lijst een smaakbeslissing van het team is,
+en de enige eerlijke controle is de actuele prijs van het item; de volgende sectie maakt er de
+budgetregel van.
+
+## Wanneer sparen op Caps beter is dan geld uitgeven
+
+De budgetregel die deze gids in zijn geheel winstgevend maakt is één zin: geef echt geld alleen uit
+aan een skin die je écht wilt én die op dit moment níét in de Caps-vaardige subset valt, en spaar
+overigens Caps. Alles hieronder is die zin, maar dan in een vorm die in een echte winkel werkt.
+
+De case voor sparen is sterk en moet je standaard zijn. Caps zijn de gratis-verdiende valuta uit
+spelen, dus een skin die je met opgespaarde Caps koopt, kost je tijd die je toch besteedt, geen
+geld. De standaard beschermt je tegen de meest gemaakte fout, het reflex- "ik vul even Plutonium
+bij om de skin direct te pakken" terwijl er een zachte prijs is; een aankoop die je gratis had
+kunnen verdienen, wordt zonder reden geldig. Zolang een item een `priceSoft` heeft en je zachte
+balans dit kan halen, is kopen met Caps strikt beter dan bijvullen: dezelfde skin, nul uitgaven. Als
+je zachte balans te laag is, is de juiste actie vaak het venster sluiten en door te spelen, want het
+inkomstpad van Caps is precies de activiteit die je al doet, en het enige wat je "mist" door te
+wachten is een skin die je toch had moeten kopen.
+
+De case voor geld is smaller en heeft een duidelijker trigger. Je geeft geld uit als — en alleen als
+— je een specifieke skin of pakket wilt, je de winkel hebt gecontroleerd en die géén `priceSoft`
+heeft maar wel `priceHard`, en je oordeelt dat de skin nu voor jou die prijs waard is. De trigger is
+het ontbreken van de zachte prijs, niet de aanwezigheid van de harde: elk item dat je kunt kopen,
+heeft een harde prijs, anders kon je het niet kopen, dus de harde prijs is de ondergrens, en de
+zachte prijs (als die er is) is de deal die je moet pakken. Over pakketten nog een woord: cosmetic
+pakketten worden alleen tegen hardgeld verkocht — de code zegt "Packs can only be sold by hard
+currency" — dus een pakket is nooit een Caps-aankoop en altijd een geldbeslissing. Het doel is geen
+"geld nooit uitgeven", maar "nooit geld uitgeven voor wat je had kunnen sparen". Eén verfijning die
+de regel onder druk sterker maakt: als je onzeker bent of je blijft spelen, is sparen als standaard
+nog sterker, want een opgespaarde Caps-balance is een voorraad die je hebt als je terugkomt, en een
+bijvulling is een irreversibel, direct besteed kostbare; de enige skin die een bijvulling direct voor
+je koopt, is de ene die je nu bekeekt. De regel is niet dat geld slecht is, maar dat geld alleen voor
+de items besteed moet worden zonder zachte prijs, en dat alles overigens over de route zou moeten
+gaan die je al verdient.
+## Versiegrenzen en geverifieerde feiten
+
+De versiegrens is hier belangrijk, want de community-videobibliotheek is oud en de cosmetic-winkel
+daaronder is veranderd. De feiten in deze gids staan vast op de v0.34.20-tag, de huidige versie; de
+zacht/hard-splitsing, het alleen-met-hard bijvulrecht en de alleen-tegen-valuta afrekening bestaan
+allemaal in de v0.34.20-client. De concrete, controleerbare feiten: het optionele prijsveld `priceSoft`
+en `priceHard` op een cosmetic item; het type `PaymentMethod = "dollar" | "hard" | "soft"`; de
+commentaarregels "Can the currency be recharged (hard only)" en "Only plutonium can be recharged;
+caps can only dismiss"; de toelichting "real money can only buy plutonium (above packs) or
+subscription"; de toelichting "cosmetic only can be sold by currency (dollar checkout is removed)"; de
+bewaker "Packs can only be sold by hard currency"; en de geleverde namen `cosmetics.soft = "Caps"` en
+`cosmetics.hard = "Plutonium"". Zit je op v0.34.20 dan geldt hierboven allemaal voor je client en is er
+niets in deze gids dat op een versie hoeft te wachten. Zit je op een oudere build, dan was de
+cosmetic-winkel anders, en passen de hoog-bekeken tutorials — opgenomen vóór deze splitsing — niet
+op wat jij nu in je winkel ziet. Dat is waarom je een voor-splitsing "skins kopen"-video niet als
+bron van je huidige winkelgedrag moet gebruiken.
+
+Wat deze gids níét zal claimen is het échte, buiten de open code vallende deel: de huidige lijst van
+skins met `priceSoft`. Die lijst is een team-curatoringsbeslissing, die leeft in de door het team
+geupdate cosmetic-data en die over tijd verandert; een gids die "deze tien skins zijn Caps-vaardig"
+vastzet, zal na de volgende update fout zijn. De eerlijke positie van deze gids is het mechanisme te
+geven (twee optionele prijzen, per-item ingesteld, pakketten en bredere catalogus alleen hardgeld),
+de beslissingregel te geven (controleer de actuele prijs, spaar standaard, geld alleen voor
+bevestigde niet-Caps-items), en de live-lijst te laten zijn wat je bij je keuze in je eigen winkel
+controleert. Alles hier dat ik tegen de tag kan verifiëren staat hier, en de lijst is wat jij lokaal
+controleert; die scheidslijn is wat "de grens kennen" betekent. De reden dat de grens precies hier
+loopt is dat het curation-churn het hele verhaal is: het team beslist bij elke cosmetic-update
+opnieuw welke items een zachte prijs krijgen, dus elke statische lijst is een snapshot dat bij de
+volgende release veroudert, en een verouderde lijst is slechter dan geen lijst omdat hij een
+zeker spelende speler precies het foute zegt met de zekerheid van een pagina. De juiste
+arbeidsverdeling is daarom het tegenovergestelde van wat een "deze tien skins kun je met Caps
+kopen"-artikel zou beloven: deze gids bezit het mechanisme en de beslissingregel, de winkel bezit
+de live-lijst, en jij, op het moment van je keuze, bezit de check. Die verdeling is niet een
+dekkingstekort, maar de dekking zelf, want het is de enige opstelling die over het per-update
+curation-churn blijft kloppen dat de "where did the caps eligibility go?" vraag in de thread
+bestaat om te beschrijven, en een gids die dat negeert en toch een lijst vastzet, zou na één
+update een fout geven met de autoriteit van een gepubliceerde pagina.
+
+## Scène één: je zit vast op een gewenste skin met een zachte prijs
+
+Begin met de situatie waarin sparen het meest winst oplevert: je bent een consistente speler, je
+speelt een tijdje, je zachte balans staat op een getal dat je niet hebt besteed omdat je nooit iets
+zags zag. Je opent de winkel en een skin die je leuk vindt heeft een zachte prijs én een harde prijs.
+Het getal is minder belangrijk dan het feit dat er een zachte prijs is; dat feit verandert de beslissing
+van een geldbeslissing naar een gratis beslissing. De juiste actie is kopen met Caps en Plutonium niet
+aanraken, want de zachte prijs is de manier waarop het team deze skin verdiend wil laten worden, en
+geld uitgeven voor wat de winkel gratis aanbiedt is onnodig betalen voor wat je gratis hebt. Deze
+beslissing is snel en moet zo voelen, want dat is het: dezelfde skin, nul uitgaven, en je houdt je
+Plutonium voor de items zonder zachte prijs.
+
+De fout die je hier moet vermijden is precies de meest voorkomende: Plutonium bijvullen "om niet te
+hoeven wachten" voor een skin die de winkel eigenlijk alleen laat wachten op je opgespaarde Caps —
+iets dat je kunt opbouwen terwijl je het spel speelt dat je toch speelt. Heb je nog niet genoeg
+gespaard, dan is de omgekeerde actie het venster sluiten, doorgaan met spelen, en terugkomen als je
+zachte balans de zachte prijs dekt, want het inkomstenpad van deze route is de activiteit die je al
+doet en de wachtkost is enkele sessies, geen geld. De praktische trigger die je uit de bijvulreflex
+houdt, is de winkel lezen vóórdat je je balans leest: de zachte prijs, als die er is, is het feit dat
+de geldknop tot de verkeerde knop maakt, en die staat daar vóórdat je erover nadenkt. Maak de
+gewoonte om de prijs voor je te laten beslissen, en pas daarna te kijken of je zachte balans deksel;
+als dat zo is koop je met Caps en raak je je Plutonium-balance niet aan, en als niet sluit je het
+venster en speel je door, want het inkomstenpad is het spelen dat je toch doet en de wachtkost is een
+kort reeks sessies, geen incasso. De andere fout is de omgekeerde: Caps sparen voor een skin die op
+dit moment níét Caps-vaardig is, wat sparen is voor een item dat helemaal geen zachte prijs heeft;
+spaar alleen voor items die je bevestigt als een zachte prijs te hebben, en behandel een Plutonium-only
+skin als een geldbeslissing, nooit als een spaardoel.
+
+## Scène twee: je bent nieuw, hebt geen Caps gespaard en de skin die je wilt kost alleen Plutonium
+
+Nu het andere eind: je speelde enkele dagen, je zachte balans is laag omdat je te kort speelde om een
+zinnige som te sparen, en je wilt je eerste begeerde skin die juist één van de vele met alleen een
+harde prijs is. Dit is het gevaarlijke moment — het community-reflex "ik vul bij en pak hem" is hier
+het meest verleidelijk, omdat je niets hebt om te sparen én de skin letterlijk voor je neus ligt. De
+juiste actie is de eerste bijvulling te behandelen als een bewuste, kleine, eenmalige beslissing,
+niet als een gewoonte die je nu vormt, want zodra bijvullen een gewoonte wordt, faalt de regel "geld
+alleen voor bevestigde niet-Caps-items" en wordt je Plutonium-balance een doorlopende, lopende
+uitgave.
+
+De concrete regel voor een beginner is de eerste geldbeslissing alleen te nemen nadat je drie dingen
+hebt bevestigd: de skin heeft geen zachte prijs (controleer de winkel, neem het niet aan); je zult
+blijven spelen, zodat de aankoop geen impulsieve eenmaligheid is die eindigt met een skin en geen
+spel; en je kiest één specifieke skin, niet "ik vul bij voor meer opties". Als die drie waar zijn, dan
+is een kleine, bewuste Plutonium-bijvulling voor die ene skin een schone, verdedigbare uitgave —
+het geldbeslissing dat deze gids je vertelt dat je wél mag maken in plaats van moeten vermijden. De
+fout die je moet vermijden is niet "nooit geld uitgeven" maar "vaak en vroeg geld uitgeven", de
+premiumvaluta maken tot een gemakknop die je op alles drukt dat je oog vangt. De beginner-discipline is
+dezelfde als de doorgaand-speler-discipline, alleen langzamer: eerst sparen, de route controleren, en
+de geldbeslissing nemen over bevestigde niet-Caps-items, één voor één, als je het spel en de skin
+allebei voor je hebt. De kern is dat de beginnerfout niet één keer geld uitgeven is, maar het
+"gewoon beginnen met geld uitgeven voordat het sparen een gewoonte is", en het antwoord van deze gids
+is: laat sparen eerst bestaan, hoe klein dan, zodat de verdiende route je enkele sessies laat zien wat
+die in feite koopt, vóórdat je je eerste geldbeslissing neemt over een bevestigd premium-item. Een
+zelfs armzacht gespaarde balans is het verschil tussen "ik vul bij elke keer dat iets mijn oog vangt"
+en "ik vul bij voor mijn bevestigde skin", en dat verschil is voor een beginner de hele waarde van de
+discipline. Nog één praktisch punt: de drie bevestigingen boven staan in volgorde op één reden, want
+ze sluiten elke kortere versie af, en een beginner die alleen "geen zachte prijs" controleert maar
+niet controleert dat hij blijft spelen, eindigt toch met een impulsieve bijvulling.
+
+## Fouten en de tegenaantiestellen
+
+De mislukkingen zijn er maar een paar, en ze zijn grotendeels beslissingsfouten, niet
+interfacefouten, want de winkel toont de juiste prijs; de fout zit in welke route je kiest en wanneer
+je de bijvulknop drukt. Eerste is de bijvulreflex — Plutonium bijvullen voor een skin die een
+`priceSoft` heeft van begin tot eind; de tegenaantiestel is de hard budgetregel: controleer de route,
+en zolang er een `priceSoft` is, is de geldknop de verkeerde knop, en de enige juiste actie is kopen
+met Caps of doorgaan met spelen totdat je Caps dit dekt. Tweede is sparen voor het verkeerde item —
+Caps sparen voor een Plutonium-only skin, wat sparen is voor een zachte prijs die op die route niet
+bestaat; de tegenaantiestel is alleen sparen voor items die je bevestigt als op dit moment een zachte
+prijs te hebben, en een Plutonium-only skin behandelen als een geldbeslissing, nooit als spaardoel.
+Derde is de schuldverrassing op de Plutoniumroute: een refund of afwijzing zet je harde balans in het
+min, de winkel toont een `debt`, en bijvullen lost die niet op — de code zegt expliciet dat bijvullen
+de schuld niet ontgrendelt, de schuld wordt afbetaald door de volgende inkomende transactie, dus de
+tegengaan is niet herhaald op bijvullen drukken tegen de schuld in, maar wachten op de volgende
+inzending die het automatisch afbetaalt, en onthouden dat dit op de Capsroute niet kan gebeuren omdat
+de zachte valuta nooit negatief wordt.
+
+Vierde is de pakketverwarring — een pakket behandelen als een skin met de verwachting van een
+Caps-prijs; pakketten worden alleen tegen hardgeld verkocht, dus elk pakket is per definitie een
+geldbeslissing, en de tegengaan is een pakket nooit in je Caps-spaarplan te tellen, het vanaf het begin
+te prijjzen als premium-aankoop. Vijfde is de oude-lijst-fout — vertrouwen op een gememoriseerde of
+van een video-lijst "Caps-vaardige skins" die verlopen is, want de Caps-vaardige subset is een
+curatie die over tijd verandert; de tegengaan is de actuele prijs controleren op het moment van je
+keuze, en elke lijst die je leest (inclusief deze gids) te behandelen als een snipschot dat verloopbaar
+is. Zesde is de versie-fout — een voor-splitsing tutorial vertrouwen op een winkel die al lang twee
+routes heeft; de tegengaan is de versiegrens-sectie hierboven, alles vastzetten op v0.34.20 en je
+zeggen dat een oudere video de routes die je nu ziet niet kan beschrijven. Elke fout is een gewoonte,
+geen bug, en de goede gewoonte is: behandel de twee routes als twee gesloten lussen, spaar standaard
+de verdiende valuta, en leg geld alleen uit over bevestigde premium-items.
+
+## Modus, kaart, en waar deze beslissing in je spel zit
+
+De winkelbeslissing is in de smalle zin modus-onafhankelijk: de winkel is in elke modus hetzelfde
+scherm en de twee routes veranderen niet tussen FFA, Humans versus Nations of teammodi. Wat modus en
+kaart veranderen is de enige input waar deze beslissing op echt uitkijkt: hoe snel je Caps-inkomst
+stroomt, en dus hoe snel je spaart. Op een modus en kaart waarin je goed loot en lang overleeft,
+groeit je zachte balans snel, de set van skins die je kunt halen met sparen wordt groter, en de
+kost van "even sparen" is daar laag, want de wachtkost is een kort reeks van sessies waarin je toch
+goed speelt. Op een modus en kaart waarin je vroeg sterft, weinig loot en een traag inkomstenpad hebt,
+neemt het sparen van een zinnige som langer; dat verandert de regel niet, maar verandert de geduld die
+de regel vraagt, en precies dat maakt "één kleine, bewuste Plutonium-beslissing voor een
+bevestigde-niet-Caps-skin" hier de redelijker positie, want het sparen dat je wacht is langzaam.
+
+Het community-kader vult dit aan: de valutasplitsing is onderdeel van het spel-beheermodel, niet een
+neutrale winkel-functie. De ontwikkelaarsregels in de thread — dat cosmetica de belangrijkste manier
+is waarmee het team OpenFront wil financieren, met een verdiende subset naast de bredere
+aankoopbare catalogus — betekent dat deze splitsing zal blijven: de verdiende subset plus de
+aankoopbare meerderheid is ontwerp, niet een voorlopige staat. Dat maakt deze beslissing een
+permanente deel van je spelen, geen eenmalige tutorial: elke update curert het team opnieuw welke
+items een zachte prijs krijgen, en je werk elke week is dezelfde drie stappen — de actuele prijs
+controleren, je verdiende valuta sparen voor de items met een zachte prijs, en je geldbeslissing
+nemen alleen over de bevestigde items buiten de subset. De kaart bepaalt de spoed van sparen, de
+modus het inkomen, de winkel de regels, maar de discipline is van jou, en die is wat de
+premiumroute houdt tot een keuze in plaats van een gewoonte. Nog preciezer: de kaart is de
+versneller van de spaar-beslissing en de discipline is de rem van de bijvul-beslissing, en als je
+beide tegelijk in één winkel houdt, blijft de premiumroute iets dat je kiest in plaats van iets
+dat je overkomt. De kaart is ook waar je "even sparen" de goedkoopste is, want op een kaart die
+je goed leert loot je terwijl je toch speelt, en op een kaart die je vroeegt sterft is het sparen
+het langzaamste, en daar is een kleine bewuste bijvulling voor één bevestigd item de redelijker
+beweging.
+
+- [Natiem-Alliancen: wanneer je ze moet aannemen, wat ze niet garanderen en hoe je eroverleeft](/nl/guides/nation-alliance-decisions/)
+- [Economische Grondslagen: hoe Caps en Plutonium door je spel stromen](/nl/strategies/economy-fundamentals/)

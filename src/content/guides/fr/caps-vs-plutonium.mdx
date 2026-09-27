@@ -1,0 +1,325 @@
+---
+title: "Caps vs Plutonium : acheter les skins avec la monnaie gagnée ou la monnaie premium"
+description: "Décidez quels skins OpenFront vous pouvez vraiment acheter avec les Caps ambrées gagnées en jouant, pourquoi la plupart du catalogue n'accepte que le Plutonium vert, comment recharger le Plutonium avec de l'argent réel et quand mettre les Caps de côté vaut mieux que dépenser."
+pubDate: 2026-09-27
+updatedDate: 2026-09-27
+tags: [cosmétiques, économie, caps, plutonium, boutique, skins]
+category: Économie
+difficulty: Intermédiaire
+version: v34
+freshnessSummary: "Mis à jour le 2026-09-27 pour la boutique v0.34.20 : les Caps sont gagnées uniquement et ne peuvent pas être rechargées, le Plutonium est le seul rail en argent réel, et la liste des skins éligibles aux Caps est un choix de curation par objet vérifié contre la source du tag v0.34.20."
+---
+
+## Réponse directe : deux monnaies, deux rails d'achat indépendants
+
+OpenFront vend des cosmétiques en monnaie, pas en dollars : le client v0.34.20 supprime
+entièrement le paiement en USD et affirme « Cosmetics are sold for currency only (USD checkout
+was removed ) ». Cela signifie que chaque skin, pack, motif, drapeau, couronne ou effet que vous
+voyez dans la boutique a un prix dans une ou les deux monnaies, et que le choix de la monnaie
+fait partie de l'objet, ce n'est pas un réglage que vous contrôlez. Les **Caps** ambrées sont la
+monnaie douce gagnée : vous les obtenez en jouant et vous ne pouvez pas en acheter de plus avec
+de l'argent réel. Le **Plutonium** vert est la monnaie dure premium : c'est celle que vous
+rechargez avec de l'argent réel, et c'est celle dans laquelle le catalogue élargi est facturé.
+Dans la source v0.34.20, le prix d'un cosmétique est littéralement deux nombres optionnels,
+`priceSoft` et `priceHard`, et la boutique branche chacun sur son propre gestionnaire d'achat. Si
+un skin a un `priceSoft`, vous pouvez l'acheter avec les Caps que vous avez mises de côté. S'il
+a un `priceHard`, vous pouvez l'acheter avec du Plutonium. S'il n'a que `priceHard`, il est
+réservé au Plutonium, et c'est le cas courant — c'est pourquoi, comme l'a dit le fil de la
+communauté, « seuls quelques skins peuvent être achetés avec les caps (orange) et la plupart
+des skins ne peuvent être achetés qu'avec le plutonium (vert) ». La décision que ce guide existe
+pour changer est simple : avant de dépenser de l'argent réel en Plutonium, sachez quels skins
+sont dans le sous-ensemble éligible aux Caps pour ne pas payer quelque chose que vous auriez pu
+obtenir en mettant de côté, et sachez que la liste éligible aux Caps n'est pas quelque chose que
+vous pouvez calculer ou prédire, car elle est fixée objet par objet par l'équipe, et non par une
+formule lisible.
+
+La deuxième chose que la réponse directe doit vous donner, c'est à quoi sert le Plutonium, car la
+communauté le traite comme un second tout. C'est le rail premium : c'est la monnaie que vous
+pouvez recharger avec de l'argent réel, c'est la monnaie utilisée comme prix dans les défis
+publics, et c'est la monnaie dans laquelle le catalogue plus large est facturé. Les Caps sont la
+monnaie que vous gagnez et que vous ne pouvez pas remplir. Cette asymétrie est le cœur du jeu.
+Si vous ne dépensez de l'argent réel que lorsqu'un skin que vous voulez vraiment n'est pas dans
+le sous-ensemble éligible aux Caps, et si vous mettez les Caps de côté pour tout le reste, vous
+dépensez moins et vous ne perdez rien, car le seul skin que vous « ratez » en mettant de côté est
+celui que vous n'auriez de toute façon pas pu acheter avec des Caps.
+
+## Ce que chaque monnaie est, et ce qu'elle ne peut pas faire
+
+La façon la plus propre d'éviter l'erreur la plus courante est de séparer les deux portefeuilles
+avant de regarder un prix, car la boutique affiche les deux et l'œil se rabat naturellement sur
+celui que vous avez déjà. Dans les chaînes livrées, les noms sont explicites : `cosmetics.soft`
+s'affiche « Caps » et `cosmetics.hard` s'affiche « Plutonium ». Chaque compte porte un solde
+`soft` et un solde `hard`, et un achat dans l'un ne touche jamais à l'autre. Le solde caps est le
+nombre que vous avez gagné en jouant et le solde plutonium est le nombre que vous avez rechargé
+(ou gagné en prix), et le dialogue d'achat lit le solde du rail sélectionné et le compare au prix
+de l'objet sur ce rail. Si le solde sélectionné manque, le dialogue montre le manquant et, sur le
+rail Plutonium seulement, un bouton de recharge ; sur le rail Caps le dialogue n'offre pas de
+recharge, car il n'y a pas de moyen d'acheter plus de Caps. Le commentaire de code est franc :
+« Only plutonium can be topped up; caps are dismiss-only ». La possibilité de recharge est
+littéralement limitée à `method === "hard"`, donc un dialogue manquant en Caps n'a pas de bouton
+argent, seulement l'option de le fermer et d'aller gagner.
+
+Le fait structurel plus profond est que les deux monnaies ne sont interchangeables dans aucun
+sens. Vous ne pouvez pas convertir les Caps en Plutonium. Vous ne pouvez pas convertir le
+Plutonium en Caps. Vous ne pouvez pas acheter des Caps avec de l'argent. La seule chose que
+l'argent fait est d'ajouter au solde Plutonium, et la seule chose que le jeu fait est d'ajouter au
+solde Caps. C'est pourquoi le plan « je vais farmer le skin Plutonium » n'existe pas : un skin
+payé en Plutonium ne peut pas être atteint en jouant, peu importe combien longtemps vous jouez,
+car le solde soft n'alimente jamais le solde hard. C'est aussi pourquoi l'inverse ne tient pas :
+un skin payé en Caps que vous ne mettez pas de côté ne sera pas atteignable plus tard avec du
+Plutonium non plus, car l'achat sur le rail Caps ne lit que le solde soft. Chaque rail est une
+boucle fermée avec une source de revenu et un chemin de dépense. Comprendre que les boucles sont
+fermées est toute la fondation de la décision budgétaire, car cela signifie que « quelle monnaie »
+n'est pas du tout une question de conversion, c'est une question de quelle source de revenu vous
+voulez dépenser sur quel objet.
+
+| Propriété | Caps (douce) | Plutonium (dure) |
+|---|---|---|
+| Nom affiché (en.json) | `cosmetics.soft` → « Caps » | `cosmetics.hard` → « Plutonium » |
+| Comment l'obtenir | Gagnée en jouant | Rechargée avec de l'argent réel ; aussi un prix de défi |
+| Peut-on en acheter avec de l'argent ? | Non — fermer seulement | Oui — le seul rail en argent réel |
+| Champ de prix | `priceSoft` (optionnel) | `priceHard` (optionnel) |
+| Peut-elle devenir négative (dette) ? | Non — « soft currency can never go negative » | Oui — remboursements/refus créent une `debt` |
+| Dialogue de manque | Montre l'écart, pas de bouton recharge | Montre l'écart plus un bouton recharge |
+| Couverture typique du catalogue | Un sous-ensemble curated d'objets | Le catalogue plus large et tous les packs |
+
+## Comment l'équipe décide quels skins sont éligibles aux Caps
+
+La question de joueur qui a lancé ce sujet — « Comment est-il décidé quels skins peuvent être
+achetés avec les caps ? » — a une réponse directe dans le fil, et ce n'est pas une formule. Un
+développeur dans le fil a dit que les cosmétiques « sont la façon primaire dont nous voulons
+financer Openfront, donc nous voulons une sélection pouvant être gagnée mais le catalogue
+élargi comme un objet achetables », et un commentaire séparé a résumé la mécanique comme « c'est
+basé sur les vibes et c'est décidé par les admins ». Lu avec la source, cela signifie que
+l'ensemble éligible aux Caps est une décision de curation que l'équipe prend objet par objet :
+ils choisissent un sous-ensemble du catalogue pour le facturer avec un `priceSoft` afin qu'un
+sous-ensemble soit atteignable en jouant, et ils laissent le reste facturé `priceHard` seul. Il
+n'y a pas de règle visible au joueur disant « après N parties ce skin devient éligible aux
+Caps », et il n'y a pas de compte à rebours, car le champ est juste un prix optionnel sur
+l'objet et l'équipe peut le fixer ou le changer quand elle met à jour les cosmétiques.
+
+Cela a deux conséquences pratiques qui changent la façon dont vous devriez dépenser. Premièrement,
+vous ne devriez pas mettre des Caps de côté pour un skin qui n'est actuellement pas éligible aux
+Caps en supposant qu'il le sera « bientôt ». L'épisode « tous les skins étaient achetables avec
+les caps » que le fil mentionnait était un bug transitoire, et un bug n'est pas une politique ;
+traitez un skin éligible aux Caps comme éligible aux Caps seulement tant que la boutique affiche
+réellement un prix soft pour lui, et traitez un skin réservé au Plutonium comme réservé au
+Plutonium jusqu'à ce que vous voyiez apparaître un prix soft. Deuxièmement, l'ensemble éligible
+change dans le temps — un commentaire de fil demande où est allée l'éligibilité d'un skin
+spécifique — donc un skin que vous ne pouvez pas acheter avec des Caps cette semaine pourrait
+être dans le sous-ensemble à la prochaine mise à jour, et un que vous pouvez acheter cette
+semaine pourrait en sortir. La décision qui en découle est de vérifier le prix réel sur le rail
+au moment où vous décidez, pas de vous fier à une liste mémorisée, et de prendre la décision
+d'argent seulement pour les objets que vous confirmez comme n'étant pas dans le sous-ensemble
+actuel. C'est la frontière honnête de ce que le guide peut promettre : il peut vous donner le
+mécanisme (deux prix optionnels, un choix de curation), il ne peut pas vous donner la liste de la
+semaine prochaine, et il ne prétendra pas le pouvoir. Ce que le cadre de curation vous donne, en
+revanche, est un moyen de lire la boutique sans formule : un objet qui a un prix soft maintenant
+est dans le sous-ensemble par définition, car l'équipe a fixé ce prix, et un objet qui en manque
+est hors du sous-ensemble par définition, donc la boutique elle-même est la liste et vous n'avez
+pas besoin d'une liste séparée du tout. La réponse « vibes » n'est pas une pirouette si vous la
+lisez ainsi ; c'est l'affirmation que la liste est une décision de goût que l'équipe met à jour,
+et la seule façon honnête de la vérifier est de regarder le prix sur le rail, ce que la règle de
+budget de la section suivante transforme en habitude.
+
+## Quand mettre les Caps de côté vaut mieux que dépenser, et quand ce n'est pas le cas
+
+La règle budgétaire qui rend tout ce guide rentable est une phrase : dépensez de l'argent réel en
+Plutonium seulement pour un skin que vous voulez vraiment qui n'est pas dans le sous-ensemble
+actuel éligible aux Caps, et mettez les Caps de côté pour tout le reste. Tout ce qui suit est la
+version de cette phrase qui survit au contact d'une boutique réelle.
+
+Le cas pour mettre les Caps de côté est fort et devrait être votre défaut. Les Caps sont la
+monnaie que vous gagnez gratuitement en jouant, donc un skin que vous pouvez acheter avec des
+Caps mises de côté vous coûte du temps que vous alliez de toute façon passer, pas de l'argent.
+L'échec que le défaut vous protège de est le réflexe « recharger le Plutonium pour attraper le
+skin », qui convertit un achat gratuit gagné en un achat payant pour aucune raison quand un prix
+soft existe. Si l'objet affiche un `priceSoft` et que votre solde soft le couvre, acheter avec
+des Caps est strictement meilleur que recharger : même skin, zéro argent. Si votre solde soft ne
+le couvre pas, le bon mouvement est souvent de fermer le dialogue et de continuer à jouer, car la
+source de revenu pour les Caps est exactement l'activité que vous faites déjà, et le seul skin
+que vous perdez en attendant est celui que vous auriez payé.
+
+Le cas pour dépenser de l'argent est plus étroit et il a un déclencheur clair. Vous dépensez de
+l'argent réel quand (a) vous voulez un skin ou un pack spécifique, (b) vous vérifiez la boutique
+et il n'a pas de `priceSoft`, seulement un `priceHard`, et (c) vous décidez que ce skin vaut
+l'argent pour vous maintenant. Le déclencheur est l'absence du prix soft, pas la présence du prix
+hard — chaque objet que vous pourriez acheter a un prix hard ou vous ne pourriez pas du tout
+l'acheter, donc le prix hard est le plancher, et le prix soft, quand il existe, est la remise
+dont vous devriez profiter en premier. Une note supplémentaire sur les packs : les packs de
+cosmétiques sont vendus pour de la monnaie dure seulement, la source dit « packs are only sold
+for hard currency », donc un pack n'est jamais un achat Caps et est toujours une décision
+d'argent. La discipline n'est pas « ne jamais dépenser d'argent » ; c'est « ne jamais dépenser
+d'argent sur la chose que vous auriez pu mettre de côté ». Un raffinement qui fait tenir la règle
+sous pression : quand vous êtes incertain de continuer à jouer, le défaut de mise de côté est
+encore plus fort, car un solde Caps mis de côté est une valeur stockée que vous aurez toujours si
+vous rejouez, alors qu'une recharge est un coût irrécupérable qui est parti le moment où il est
+dépensé, et le seul skin qu'une recharge vous achète sur le champ est celui que vous regardez
+juste maintenant. La règle n'est pas que l'argent est mauvais, c'est que l'argent ne devrait
+acheter que l'objet qui n'a pas de prix soft, et tout le reste devrait rouler sur le rail sur
+lequel vous gagnez déjà.
+
+## Frontière de version et ce qui est vérifié
+
+La frontière de version compte ici parce que la bibliothèque vidéo de la communauté est vieille
+et la boutique de cosmétiques a changé dessous. Les faits de ce guide sont fixés au tag v0.34.20,
+qui est la version actuelle, et la séparation soft/hard, la recharge dure seule et le paiement en
+monnaie uniquement sont tous présents dans le client v0.34.20. Les faits spécifiques et
+vérifiables sont : les champs de prix optionnels `priceSoft` et `priceHard` sur un cosmétique ; le
+type `PaymentMethod = "dollar" | "hard" | "soft"` ; les commentaires « Whether the currency can
+be topped up (hard currency only) » et « Only plutonium can be topped up; caps are dismiss-only » ;
+la note « Real money only buys plutonium (packs above) or a subscription » ; la note « Cosmetics
+are sold for currency only (USD checkout was removed) » ; la garde « packs are only sold for hard
+currency » ; et les noms d'affichage livrés `cosmetics.soft = "Caps"` et `cosmetics.hard =
+"Plutonium"`. Si vous êtes sur v0.34.20, tout cela s'applique à votre client et rien dans ce
+guide n'a besoin d'une attente de version. Si vous êtes sur une build plus ancienne, la boutique
+de cosmétiques est probablement différente et les tutoriels à haute vision — ceux enregistrés
+des années avant cette séparation — ne correspondront pas à ce que votre boutique affiche
+aujourd'hui, ce qui est la raison exacte de ne pas faire confiance à une vidéo « acheter des
+skins » antérieure à la séparation soft/hard comme source pour le comportement de la boutique
+maintenant.
+
+Ce que ce guide n'affirmera pas, c'est la chose qui est réellement hors de la source ouverte : la
+liste actuelle de la semaine de quels skins portent un `priceSoft`. Cette liste est la décision de
+curation de l'équipe, elle vit dans les données de cosmétiques que l'équipe met à jour, et elle
+change dans le temps, donc un guide qui codifie en dur « ces dix skins sont éligibles aux Caps »
+serait faux à la prochaine mise à jour. La position honnête du guide est de vous donner le
+mécanisme (deux prix optionnels, fixés objet par objet, dure seulement pour les packs et pour le
+catalogue plus large) et la règle de décision (vérifier le prix en direct, mettre de côté par
+défaut, dépenser de l'argent seulement sur les objets confirmés non-Caps), et de laisser la liste
+en direct comme la chose que vous vérifiez dans votre propre boutique au moment où vous décidez.
+Tout le reste dans ce guide est la partie que vous pouvez vérifier contre le tag, et la liste est
+la partie que vous vérifiez localement, et cette séparation est tout le point d'être précis sur la
+frontière.
+
+## Scénario 1 : vous êtes en profondeur dans un cosmétique que vous voulez, et il affiche un prix soft
+
+Partons de la situation qui rend la mise de côté la plus rentable : vous êtes un joueur régulier,
+vous avez joué un moment, et votre solde soft est à un nombre que vous n'avez pas dépensé parce
+que vous n'avez rien vu qui vaille. Vous ouvrez la boutique et un skin que vous aimez vraiment a
+un prix soft, et il a aussi un prix hard. Les nombres comptent moins que l'existence du prix
+soft, qui est le fait qui transforme cela d'une décision d'argent en une décision gratuite. Le
+bon mouvement est de l'acheter avec les Caps et de ne pas toucher le Plutonium, car le prix soft
+est la façon de l'équipe de rendre ce skin atteignable en jouant, et le payer avec de l'argent
+serait payer quelque chose que la boutique vous offre explicitement gratuitement. La décision est
+rapide et elle devrait paraître triviale, car elle l'est : même skin, zéro argent, et vous
+gardez votre Plutonium pour les objets qui n'ont pas de prix soft.
+
+L'échec à éviter dans ce scénario est celui qui arrive réellement : recharger le Plutonium pour
+acheter le skin « pour ne pas avoir à attendre », quand la seule attente que la boutique demande
+est l'attente de mettre assez de Caps de côté, et vous pouvez mettre ces Caps de côté en
+continuant à jouer au jeu que vous jouez déjà. Si vous n'avez pas assez de Caps encore, le
+mouvement contre est de fermer le dialogue, continuer à jouer, et revenir quand le solde soft
+couvre le prix soft, car la source de revenu pour le rail est l'activité que vous faites déjà et
+le coût de l'attente est quelques parties, pas de l'argent. L'indice pratique qui vous garde du
+réflexe de recharge ici est de lire la boutique avant de lire votre solde : le prix soft, quand
+il est présent, est le fait qui rend le bouton argent le mauvais bouton, et il est là avant que
+vous ayez à y penser, donc l'habitude est de laisser le prix décider et seulement alors regarder si
+votre solde soft le couvre. S'il le couvre, vous achetez avec des Caps et le solde Plutonium est
+intouché ; s'il ne le couvre pas, vous fermez le dialogue et continuez à jouer, car la source de
+revenu pour le rail est le jeu que vous faites déjà, et le coût de l'attente est une courte
+étendue de parties, pas un débit. L'autre échec est l'inverse, mettre des Caps de côté éternel
+sur un skin qui n'est *pas* actuellement éligible aux Caps, ce qui est mettre de côté pour un
+objet qui n'a pas de prix soft du tout ; la mise de côté est seulement pour les objets que vous
+confirmez afficher un prix soft, et un skin réservé au Plutonium n'est pas la chose vers laquelle
+vous mettez de côté, c'est la chose que vous payez si et seulement si vous la voulez.
+
+## Scénario 2 : vous êtes nouveau, vous n'avez pas de Caps mises de côté, et le skin que vous voulez est réservé au Plutonium
+
+Maintenant l'autre bout : vous êtes à quelques jours, votre solde soft est bas parce que vous n'avez
+pas assez joué pour mettre une quantité significative de côté, et le premier skin que vous voulez
+vraiment est l'un de la majorité qui n'a qu'un prix hard. C'est la situation exacte où le réflexe
+de la communauté — « recharger et attraper » — est le plus tentant, parce que vous n'avez rien de
+mis de côté et le skin est juste là. Le bon mouvement est de traiter la première recharge comme
+une décision délibérée, petite, ponctuelle plutôt que comme une habitude que vous commencez
+maintenant, car le moment où une recharge devient une habitude, la règle « ne dépenser de
+l'argent que sur les objets confirmés non-Caps » cesse de fonctionner et le solde Plutonium
+devient un débit permanent.
+
+La règle concrète pour le nouveau joueur est de prendre la première décision d'argent seulement
+après avoir confirmé trois choses : que le skin n'a pas de prix soft (vérifiez la boutique, ne
+supposez pas), que vous continuerez réellement à jouer pour que l'achat ne soit pas un coup de
+foison qui vous laisse avec un skin et pas de jeu, et que vous choisissez un skin spécifique
+plutôt que « une recharge pour avoir des options ». Si ces trois tiennent, une petite recharge
+Plutonium délibérée pour ce skin unique est une dépense fine et défendable — c'est la décision
+d'argent que le guide vous dit de faire, pas d'éviter. L'échec à éviter est l'opposé de ne
+jamais dépenser : c'est dépenser souvent et tôt, transformant une monnaie premium en un bouton
+de commodité que vous pressez chaque fois que quelque chose accroche votre œil. La version
+nouveau-joueur de la discipline est la même que la version vétéran, seulement plus lente :
+mettre de côté d'abord, vérifier le rail, et prendre la décision d'argent sur l'objet confirmé
+non-Caps, un à la fois, quand vous avez le jeu et le skin tous deux devant vous. La ligne de fond
+est que l'erreur du nouveau joueur n'est pas dépenser une fois ; c'est commencer l'habitude de
+dépense avant que l'habitude de mise de côté ait une chance de se former, et la réponse du guide
+est de laisser la mise de côté exister d'abord, même si elle est petite, et de prendre la
+première décision d'argent sur l'objet premium confirmé seulement après que le rail gagné ait eu
+quelques parties pour vous montrer ce qu'il peut réellement atteindre. Un solde mis de côté, même
+modeste, est la différence entre « je recharge chaque fois que quelque chose accroche mon œil » et
+« je recharge pour ce skin spécifique que j'ai confirmé », et cette différence est toute la valeur
+de la discipline pour un joueur qui apprend encore la boutique.
+
+## Modes d'échec et comment contrer chacun
+
+Il y a un petit nombre de façons dont cela tourne mal, et la plupart sont des échecs de jugement
+plutôt que des échecs d'interface, car la boutique montre les bons prix et l'échec est dans quel
+rail vous choisissez et quand vous pressez recharger. Le premier est le réflexe de recharge,
+acheter du Plutonium pour un skin qui avait un prix soft tout du long ; le contre est la règle
+dur de la section budget, vérifier le rail et si un `priceSoft` existe le bouton argent est le
+mauvais bouton et la seule action correcte est d'acheter avec des Caps ou de continuer à jouer
+jusqu'à ce que vos Caps le couvrent. Le deuxième est l'erreur de mise de côté pour le mauvais
+objet, économiser des Caps vers un skin réservé au Plutonium, ce qui met de côté vers un prix qui
+n'existe pas sur le rail soft ; le contre est de mettre de côté seulement pour les objets que
+vous avez confirmés afficher un prix soft cette semaine, et de traiter un skin réservé au
+Plutonium comme une décision d'argent, jamais comme une cible de mise de côté. Le troisième est
+la surprise de dette sur le rail Plutonium, où un remboursement ou un refus laisse le solde hard
+négatif et la boutique montre une `debt` qu'une recharge ne clearera pas ; la source est
+explicite qu'une recharge ne déblocage pas une dette, elle se règle à partir du prochain crédit,
+donc le contre est de ne pas continuer à presser recharger contre une dette et d'attendre le
+prochain crédit pour la régler, et de noter que cela ne peut pas arriver sur le rail Caps du tout
+parce que la monnaie soft ne peut jamais devenir négative.
+
+La quatrième est la confusion de pack, traiter un pack comme un skin et s'attendre à un prix
+Caps ; les packs sont vendus pour de la monnaie dure seulement, donc n'importe quel pack est une
+décision d'argent par définition et le contre est de ne jamais budgéter un pack dans la mise de
+côté Caps et de le prix comme un achat premium d'avance. La cinquième est l'erreur de liste
+ancienne, s'appuyer sur une liste mémorisée ou d'une vidéo de skins éligibles aux Caps qui n'est
+plus à jour, parce que l'ensemble éligible est un choix de curation qui change ; le contre est de
+vérifier le prix en direct sur le rail au moment où vous décidez et de traiter n'importe quelle
+liste que vous lisez, y compris celle dans ce guide, comme une image qui peut devenir ancienne.
+La sixième est l'erreur de version, faire confiance à un tutoriel pré-séparation pour une
+boutique qui a depuis séparé deux rails ; le contre est la section frontière de version, qui fixe
+tout à v0.34.20 et vous dit qu'une vidéo plus ancienne ne peut pas documenter le rail devant
+lequel vous êtes. Chacun de ces échecs est une habitude, pas un bug, et l'habitude est de traiter
+les deux rails comme deux boucles fermées, mettre la monnaie gagnée de côté par défaut, et faire
+la décision d'argent seulement sur les objets premium confirmés.
+
+## Modes, cartes, et où cette décision se place dans votre jeu
+
+La décision de boutique est indépendante du mode au sens étroit que la boutique est le même
+écran dans chaque mode et les deux rails ne changent pas entre FFA, Humans versus Nations, ou les
+modes d'équipe. Ce que le mode et la carte changent est l'unique entrée dont la décision dépend
+réellement : la vitesse à laquelle votre revenu en Caps tourne, et donc la vitesse à laquelle
+vous pouvez mettre de côté. Sur un mode et une carte où vous nettoyez bien et survivez, votre
+solde soft grimpe et l'ensemble de skins que vous pouvez atteindre en mettant de côté grandit,
+donc le défaut « mettre de côté et attendre » est peu coûteux là, car le coût de l'attente est
+une courte étendue de jeu que vous faites déjà bien. Sur un mode et une carte où vous mourez tôt
+et nettoyez peu, votre revenu en Caps est mince et mettre une quantité significative de côté
+prend plus longtemps, ce qui ne change pas la règle mais change la patience que la règle demande,
+et c'est la situation où une petite décision Plutonium délibérée pour un skin confirmé non-Caps
+est le mouvement plus raisonnable, car la mise de côté sur laquelle vous attendriez est en train
+de tourner lentement.
+
+Le cadre de la communauté complète cela, car la séparation de monnaie fait partie du modèle de
+financement du jeu, pas une fonction de boutique neutre. L'affirmation du développeur dans le fil
+— que les cosmétiques sont la façon primaire dont l'équipe veut financer le jeu, avec une
+sélection gagnable et le catalogue plus large achetable — signifie que la séparation va rester :
+le sous-ensemble gagnable et la majorité achetable sont la conception, pas un état transitoire.
+C'est pourquoi la décision est une partie permanente de votre jeu et pas un tutoriel ponctuel :
+chaque mise à jour l'équipe recurationne quels objets reçoivent un prix soft, et votre travail
+chaque semaine est les mêmes trois étapes, vérifier le prix en direct sur le rail, mettre la
+monnaie gagnée de côté pour les objets qui ont un prix soft, et faire la décision d'argent
+seulement sur les objets que vous confirmez ne pas être dans le sous-ensemble. La carte fixe la
+vitesse de la mise de côté, le mode fixe le revenu, et la boutique fixe la règle, mais la
+discipline est à vous et c'est elle qui garde le rail premium un choix plutôt qu'une habitude.
+
+- [Alliances de nation : quand en demander, ce que l'acceptation ne garantit pas, et comment survivre à l'expiration ou à la trahison](/fr/guides/nation-alliance-decisions/)
+- [Fondamentaux de l'économie : comment caps et plutonium circulent dans votre jeu](/fr/strategies/economy-fundamentals/)

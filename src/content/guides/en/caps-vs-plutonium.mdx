@@ -1,0 +1,308 @@
+---
+title: "Caps vs Plutonium: Buy Skins with the Earned Currency or the Premium One"
+description: "Decide which OpenFront skins you can actually buy with the amber Caps you earn by playing, why most of the catalogue only accepts the green Plutonium, how Plutonium is topped up with real money, and when banking Caps beats spending money."
+pubDate: 2026-09-27
+updatedDate: 2026-09-27
+tags: [cosmetics, economy, caps, plutonium, store, skins]
+category: Economy
+difficulty: Intermediate
+version: v34
+freshnessSummary: "Updated on 2026-09-27 for the v0.34.20 store: Caps are earn-only and cannot be topped up, Plutonium is the only real-money rail, and the Caps-eligible skin list is a per-item curation choice verified against the v0.34.20 tag source."
+---
+
+## Direct answer: two currencies, two independent purchase rails
+
+OpenFront sells cosmetics for currency, not for dollars: the v0.34.20 client removes USD
+checkout entirely and says "Cosmetics are sold for currency only (USD checkout was removed)."
+That means every skin, pack, pattern, flag, crown, or effect you see in the store has a price
+in one or both of two currencies, and the choice of currency is part of the item, not a toggle
+you control. The amber **Caps** are the soft, earned currency — you get them by playing, and
+you cannot buy more of them with real money. The green **Plutonium** is the hard, premium
+currency — it is the one you top up with real money, and it is the one the wider catalogue is
+priced in. In the v0.34.20 source the price of a cosmetic is literally two optional numbers,
+`priceSoft` and `priceHard`, and the store wires each to its own purchase handler. If a skin
+has a `priceSoft`, you can buy it with the Caps you have banked. If it has a `priceHard`, you
+can buy it with Plutonium. If it has only `priceHard`, it is Plutonium-only, and that is the
+common case — which is why, as the community thread put it, "only a few skins can be bought
+with the caps (orange) and most skins can only be bought with plutonium (green one)." The
+decision this guide exists to change is simple: before you spend real money on Plutonium, know
+which skins are in the Caps-eligible subset so you are not paying for something you could have
+banked your way to, and know that the Caps-eligible list is not something you can compute or
+predict, because it is set per item by the team, not by a formula you can read.
+
+The second thing the direct answer has to give you is what Plutonium is *for*, because the
+community treats it as a second everything. It is the premium rail: it is the currency you can
+top up with real money, it is the currency used as a prize in public challenges, and it is the
+currency the broader catalogue is priced in. Caps are the currency you earn and you cannot
+refill. That asymmetry is the whole game. If you only spend real money when a skin you genuinely
+want is not in the Caps-eligible set, and you bank Caps for everything else, you spend less and
+you lose nothing, because the only skin you ever "miss" by banking is one you could not have
+bought with Caps anyway.
+
+## What each currency is, and what it cannot do
+
+The cleanest way to avoid the single most common mistake is to separate the two wallets before
+you look at a price, because the store shows both and the eye naturally latches onto the one it
+already has. In the shipped strings the names are explicit: `cosmetics.soft` renders as "Caps"
+and `cosmetics.hard` renders as "Plutonium." Each account carries a `soft` balance and a `hard`
+balance, and a purchase in one never touches the other. The caps balance is the number you
+earned by playing and the plutonium balance is the number you topped up (or earned as a prize),
+and the purchase dialog reads the balance of whichever rail you selected and compares it to the
+price of the item on that rail. If the selected balance is short, the dialog shows the shortfall
+and, on the Plutonium rail only, a top-up button; on the Caps rail the dialog offers no top-up,
+because there is no way to buy more Caps. The code comment is blunt: "Only plutonium can be
+topped up; caps are dismiss-only." The top-up affordance is literally gated to `method ===
+"hard"`, so a Caps-short dialog has no money button, only the option to close it and go earn.
+
+The deeper structural fact is that the two currencies are not interchangeable in any direction.
+You cannot convert Caps into Plutonium. You cannot convert Plutonium into Caps. You cannot buy
+Caps with money. The only thing money does is add to the Plutonium balance, and the only thing
+playing does is add to the Caps balance. This is why the "I will just grind the Plutonium
+skin" plan does not exist: a Plutonium-priced skin cannot be reached by playing, no matter how
+long you play, because the soft balance never feeds the hard one. It is also why the reverse
+does not hold: a Caps-priced skin you do not bank will not be reachable later with Plutonium
+either, because the purchase on the Caps rail reads only the soft balance. Each rail is a closed
+loop with one income source and one spend path. Understanding that the loops are closed is the
+entire foundation of the budget decision, because it means "which currency" is not a conversion
+question at all, it is a question of which income source you want to spend on which item.
+
+| Property | Caps (soft) | Plutonium (hard) |
+|---|---|---|
+| Display name (en.json) | `cosmetics.soft` → "Caps" | `cosmetics.hard` → "Plutonium" |
+| How you get it | Earned by playing | Topped up with real money; also a challenge prize |
+| Can you buy more with money? | No — dismiss-only | Yes — the only real-money rail |
+| Price field | `priceSoft` (optional) | `priceHard` (optional) |
+| Can it go negative (debt)? | No — "soft currency can never go negative" | Yes — refunds/chargebacks create a `debt` |
+| Shortfall dialog | Shows gap, no top-up button | Shows gap plus a top-up button |
+| Typical catalogue coverage | A curated subset of items | The wider catalogue and all packs |
+
+## How the team decides which skins are Caps-eligible
+
+The player question that started this topic — "How is it decided which skins can be bought with
+the caps?" — has a straight answer in the thread, and it is not a formula. A developer in the
+thread said cosmetics "are the primary way we want to fund Openfront so we want a selection able
+to be earned but the wider catalogue to be a purchasable item," and a separate comment summarized
+the mechanic as "it's based on vibes and is decided by admins." Read together with the source,
+that means the Caps-eligible set is a curation decision the team makes per item: they choose a
+subset of the catalogue to price with a `priceSoft` so that a subset is reachable by playing,
+and they leave the rest priced `priceHard` only. There is no player-visible rule that says "after
+N games this skin becomes Caps-eligible," and there is no countdown, because the field is just an
+optional price on the item and the team can set or change it when they update the cosmetics.
+
+This has two practical consequences that change how you should spend. First, you should not
+bank Caps for a skin that is not currently Caps-eligible on the assumption that it will become
+one "soon." The "all skins were purchasable with caps" episode the thread mentions was a
+transient bug, and a bug is not a policy; treat a Caps-eligible skin as Caps-eligible only while
+the store actually shows a soft price for it, and treat a Plutonium-only skin as Plutonium-only
+until you see a soft price appear. Second, the eligible set changes over time — one thread
+comment asks where a specific skin's eligibility went — so a skin you cannot buy with Caps this
+week might be in the subset next update, and one you can buy this week might move out. The
+decision that follows is to check the actual price on the rail at the moment you are deciding,
+not to rely on a remembered list, and to make the money decision only for the items you confirm
+are not in the current subset. That is the honest boundary of what the guide can promise: it can
+tell you the mechanism (two optional prices, a curation choice), it cannot tell you the next
+week's list, and it will not pretend it can. What the curation framing does give you, though,
+is a way to read the store without a formula: an item that has a soft price right now is in the
+subset by definition, because the team set that price, and an item that lacks one is out of the
+subset by definition, so the store itself is the list and you do not need a separate list at
+all. The "vibes" answer is not a cop-out if you read it that way; it is the statement that the
+list is a taste decision the team updates, and the only honest way to check it is to look at the
+price on the rail, which is exactly what the budget rule in the next section turns into a habit.
+
+## When banking Caps beats spending money, and when it does not
+
+The budget rule that makes this whole guide pay for itself is one sentence: spend real money on
+Plutonium only for a skin you genuinely want that is not in the current Caps-eligible subset, and
+bank Caps for everything else. Everything below is the version of that sentence that survives
+contact with an actual store.
+
+The case for banking Caps is strong and should be your default. Caps are the currency you earn
+for free by playing, so a skin you can buy with banked Caps costs you time you were going to
+spend anyway, not money. The failure the default is protecting you from is the "top up Plutonium
+to grab the skin" reflex, which converts a free, earned purchase into a paid one for no reason
+when a soft price exists. If the item shows a `priceSoft` and your soft balance covers it, buying
+with Caps is strictly better than topping up: same skin, zero money. If your soft balance does not
+cover it, the right move is usually to close the dialog and keep playing, because the income
+source for Caps is exactly the activity you are already doing, and the only skin you lose by
+waiting is the one you would have paid for.
+
+The case for spending money is narrower and it has a clear trigger. You spend real money when
+(a) you want a specific skin or pack, (b) you check the store and it has no `priceSoft`, only a
+`priceHard`, and (c) you decide that skin is worth the money to you right now. The trigger is the
+absence of the soft price, not the presence of the hard one — every item you might buy has a hard
+price or you could not buy it at all, so the hard price is the floor, and the soft price, when it
+exists, is the discount you should take first. One more note on packs: the cosmetic packs are
+sold for hard currency only, the source says "packs are only sold for hard currency," so a pack
+is never a Caps purchase and is always a money decision. The discipline is not "never spend
+money"; it is "never spend money on the thing you could have banked." One refinement that makes the rule hold
+under pressure: when you are unsure whether you will keep playing, the banking default is even
+stronger, because a banked Caps balance is a stored value you will still have if you play again,
+whereas a top-up is a sunk cost that is gone the moment it is spent, and the only skin a top-up
+buys you on the spot is the one you are looking at right now. The rule is not that money is
+bad, it is that money should only ever buy the item that has no soft price, and everything
+else should ride the rail you are already earning on."
+
+## Version boundary and what is verified
+
+The version boundary matters here because the community video library is old and the cosmetic
+store has changed under it. The facts in this guide are pinned to the v0.34.20 tag, which is the
+current release, and the soft/hard split, the hard-only top-up, and the currency-only checkout
+are all present in the v0.34.20 client. The specific, checkable facts are: the `priceSoft` and
+`priceHard` optional price fields on a cosmetic; the `PaymentMethod = "dollar" | "hard" |
+"soft"` type; the comments "Whether the currency can be topped up (hard currency only)" and
+"Only plutonium can be topped up; caps are dismiss-only"; the "Real money only buys plutonium
+(packs above) or a subscription" note; the "Cosmetics are sold for currency only (USD checkout
+was removed)" note; the "packs are only sold for hard currency" guard; and the shipped display
+names `cosmetics.soft = "Caps"` and `cosmetics.hard = "Plutonium"`. If you are on v0.34.20, all
+of this applies to your client and nothing in this guide needs a version caveat. If you are on
+an older build, the cosmetic store is likely different and the high-view tutorials — the ones
+recorded years before this split — will not match what your store shows today, which is the exact
+reason to not trust a "buy skins" video predating the soft/hard split as a source for how the
+store behaves now.
+
+What this guide will not assert is the thing that is genuinely not in the open source: the
+current week's list of which skins carry a `priceSoft`. That list is the team's curation decision,
+it lives in the cosmetics data the team updates, and it changes over time, so a guide that hard-
+codes "these ten skins are Caps-eligible" would be wrong by next update. The guide's honest
+position is to give you the mechanism (two optional prices, set per item, hard-only for packs and
+for the wider catalogue) and the decision rule (check the live price, bank by default, spend
+money only on the confirmed non-Caps items), and to leave the live list as the thing you verify
+in your own store at the moment you are deciding. Everything else in this guide is the part you
+can verify against the tag, and the list is the part you verify locally, and that split is the
+whole point of being precise about the boundary. The reason the boundary is drawn exactly here is
+that the curation churn is the whole thing: the team re-decides which items carry a soft price on
+every cosmetic update, so any static list is a snapshot that goes stale on the next release, and
+a stale list is worse than no list because it tells a confident player the wrong thing with the
+confidence of a page. The correct division of labor is therefore the opposite of what a "here are
+the ten skins you can buy with Caps" article would promise: this guide owns the mechanism and the
+decision rule, the store owns the live list, and you, at the moment of your decision, own the
+check.
+
+## Scenario 1: you are deep into a cosmetic you want, and it shows a soft price
+
+Assume the situation that makes banking pay off the most: you are a regular player, you have
+been playing for a while, and your soft balance is sitting at a number you have not spent because
+you have not seen anything worth it. You open the store and a skin you genuinely like has a soft
+price, and it also has a hard price. The numbers do not matter as much as the existence of the
+soft price, which is the fact that turns this from a money decision into a free one. The right
+move is to buy it with Caps and not touch Plutonium, because the soft price is the team's way of
+making this skin reachable by playing, and paying for it with money would be paying for
+something the store is explicitly offering you for free. The decision is fast and it should feel
+trivial, because it is: same skin, zero money, and you keep your Plutonium for the items that do
+not have a soft price.
+
+The failure to avoid in this scenario is the one that actually happens: topping up Plutonium to
+buy the skin "so I do not have to wait," when the only wait the store is asking for is the wait
+to bank enough Caps, and you can bank those while you keep playing the game you already play. If
+you do not have enough Caps yet, the counter-move is to close the dialog, keep playing, and come
+back when the soft balance covers the soft price, because the income source for the rail is the
+activity you are already doing and the cost of waiting is a few sessions, not money. The practical
+tell that keeps you from the top-up reflex here is to read the store before you read your
+balance: the soft price, when it is present, is the fact that makes the money button the wrong
+button, and it is there before you have to think about it, so the habit is to let the price do
+the deciding and only then look at whether your soft balance covers it. If it covers it, you buy
+with Caps and the Plutonium balance is untouched; if it does not, you close the dialog and keep
+playing, because the income source for the rail is the play you are already doing, and the cost
+of the wait is a short stretch of sessions, not a charge. The other
+failure is the reverse, banking Caps forever on a skin that is *not* currently Caps-eligible,
+which is banking for an item that has no soft price at all; the bank is only for items you
+confirm have a soft price, and a Plutonium-only skin is not the thing you bank toward, it is the
+thing you pay for if and only if you want it.
+
+## Scenario 2: you are new, you have no Caps banked, and the skin you want is Plutonium-only
+
+Now the other end: you are a few days in, your soft balance is low because you have not played
+enough to bank a meaningful amount, and the first skin you really want is one of the majority
+that has only a hard price. This is the exact situation where the community reflex — "top up and
+grab it" — is most tempting, because you have nothing saved and the skin is right there. The
+right move is to treat the first top-up as a deliberate, small, one-time decision rather than a
+habit you start now, because the moment a top-up becomes a habit, the "only spend money on
+confirmed non-Caps items" rule stops working and the Plutonium balance becomes a standing drain.
+
+The concrete rule for the new player is to make the first money decision only after you have
+confirmed three things: that the skin has no soft price (check the store, do not assume), that
+you will actually keep playing so the purchase is not a one-off impulse that leaves you with a
+skin and no game, and that you are choosing a specific skin rather than "a top-up so I have
+options." If those three hold, a small, deliberate Plutonium purchase for that one skin is a
+fine, defensible spend — it is the money decision the guide is telling you to make, not avoid.
+The failure to avoid is the opposite of never spending: it is spending often and early, turning a
+premium currency into a convenience button you press whenever something catches your eye. The
+new-player version of the discipline is the same as the veteran version, only slower: bank first,
+check the rail, and make the money decision on the confirmed non-Caps item, one at a time, when
+you have the game and the skin both in front of you. The through-line is that the new-player
+mistake is not spending once; it is starting the spending habit before the banking habit has a
+chance to form, and the guide's answer is to let the bank exist first, even if it is small, and
+to make the first money decision on the confirmed premium item only after the earned rail has
+had a few sessions to show you what it can actually reach. A banked balance, even a modest one,
+is the difference between "I top up whenever something catches my eye" and "I top up for this
+specific skin I have confirmed," and that difference is the whole value of the discipline for a
+player who is still learning the store.
+
+## Failure modes and how to counter each one
+
+There are a small number of ways this goes wrong, and most of them are judgment failures rather
+than UI failures, because the store shows the right prices and the failure is in which rail you
+pick and when you press top-up. The first is the top-up reflex, buying Plutonium for a skin that
+had a soft price all along; the counter is the hard rule from the budget section, check the rail
+and if a `priceSoft` exists the money button is the wrong button and the only correct action is
+to buy with Caps or to keep playing until your Caps cover it. The second is the banking-for-the-
+wrong-item error, saving Caps toward a skin that is Plutonium-only, which banks toward a price
+that does not exist on the soft rail; the counter is to bank only for items you have confirmed
+show a soft price this week, and to treat a Plutonium-only skin as a money decision, never as a
+banking target. The third is the debt surprise on the Plutonium rail, where a refund or a
+chargeback leaves the hard balance negative and the store shows a `debt` that a top-up will not
+clear; the source is explicit that a top-up does not unblock a debt, it settles out of the next
+credit, so the counter is to not keep pressing top-up against a debt and to wait for the next
+credit to settle it, and to note that this cannot happen on the Caps rail at all because soft
+currency can never go negative.
+
+The fourth is the pack confusion, treating a pack like a skin and expecting a Caps price; packs
+are sold for hard currency only, so any pack is a money decision by definition and the counter is
+to never budget a pack into the Caps bank and to price it as a premium purchase up front. The
+fifth is the stale-list error, relying on a remembered or a video's list of Caps-eligible skins
+that is no longer current, because the eligible set is a curation choice that changes; the
+counter is to verify the live price on the rail at the moment you decide and to treat any list
+you read, including the one in this guide, as a snapshot that can go stale. The sixth is the
+version error, trusting a pre-split tutorial for a store that has since split into two rails;
+the counter is the version boundary section, which pins everything to v0.34.20 and tells you an
+older video cannot document the rail you are standing in front of. Every one of these is a habit,
+not a bug, and the habit is to treat the two rails as two closed loops, bank the earned one by
+default, and make the money decision only on the confirmed premium items.
+
+## Modes, maps, and where this decision sits in your play
+
+The store decision is mode-agnostic in the narrow sense that the store is the same screen in
+every mode and the two rails do not change between FFA, Humans versus Nations, or the team modes.
+What the mode and the map do change is the one input the decision actually depends on: how fast
+your Caps income runs, and therefore how fast you can bank. On a mode and map where you clear
+well and survive, your soft balance climbs and the set of skins you can reach by banking
+grows, so the "bank and wait" default is cheap there, because the cost of waiting is a short
+stretch of play you are already doing well. On a mode and map where you die early and clear
+little, your Caps income is thin and banking a meaningful amount takes longer, which does not
+change the rule but does change the patience the rule asks for, and it is the situation where a
+small, deliberate Plutonium decision for a confirmed non-Caps skin is the more reasonable move,
+because the bank you would be waiting for is running slow.
+
+The community framing rounds this out, because the currency split is part of the game's funding
+model, not a neutral shop feature. The developer statement in the thread — that cosmetics are the
+primary way the team wants to fund the game, with a selection earnable and the wider catalogue
+purchasable — means the split is going to stay: the earnable subset and the purchasable majority
+are the design, not a temporary state. That is why the decision is a permanent part of your play
+and not a one-time tutorial: every update the team re-curates which items get a soft price, and
+your job each week is the same three steps, check the live price on the rail, bank the earned
+currency for the items that have a soft price, and make the money decision only on the items you
+confirm are not in the subset. The map sets the speed of the bank, the mode sets the income, and
+the store sets the rule, but the discipline is yours and it is the one that keeps the premium
+rail a choice instead of a habit. One more practical note belongs to maps specifically, because
+maps are the fastest lever you own on the banking side: a map that matches your playstyle is
+where your soft balance climbs fastest, so if you are saving toward a particular soft-priced
+skin, the weeks you play those maps are the weeks the bank fills, and that is a reason to
+schedule those weeks deliberately rather than assuming the balance will arrive on its own. On
+the spending side the same map logic inverts, which is worth noticing: on a map where you are
+strong you rarely feel the pressure to top up, so the temptation to buy Plutonium on impulse is
+lowest exactly where you are playing best, and the temptation is highest on the maps where you
+are struggling, which is the exact moment a spending discipline is most likely to break. That
+interaction is the reason the rule is worth stating as a habit rather than a one-time decision.
+
+- [Nation alliances: when to request, what acceptance does not guarantee, and how to survive expiry or betrayal](/guides/nation-alliance-decisions/)
+- [Economy fundamentals: how caps and plutonium flow through your own play](/strategies/economy-fundamentals/)
