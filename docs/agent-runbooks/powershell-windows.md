@@ -12,7 +12,7 @@
 - **受限用户直接运行 Astro 若因创建 `%APPDATA%/astro/Config` 报 `EPERM`，先设置 `ASTRO_TELEMETRY_DISABLED=1`**，再调用 `node_modules/.bin/astro.cmd`；否则检查尚未进入项目类型分析阶段。
 - **PowerShell 不要在带空格的括号表达式后直接调用 `.Substring()` 等方法**：`(...) .Substring(...)` 会报 `Unexpected token '.Substring'`。先把表达式结果赋给中间变量，再调用实例方法。
 - **`rg` 在“零匹配”时会返回退出码 1，即使零匹配正是审计目标**：检查旧路径为 0 等场景不要把裸 `rg` 当成必须成功的命令；用 PowerShell 条件捕获退出码，或让脚本显式把 0/1 都解释为有效审计结果，避免把“未找到”误报成命令故障。
-- **2026-08-25 复发：PowerShell 外层双引号中不要直接嵌入含 `|`、内层引号、反引号或复杂字符类的 `rg` 正则**：转义稍有偏差时，原生命令序列化会剥掉内层引号，`|` 可能被当成管道，最终形成 `unclosed group` 等残缺正则。优先使用 `-F` 固定字符串、把模式放进单引号、拆成多个 `-e` 简单模式，或先赋给变量再传给 `rg`。
+- **2026-08-25、2026-09-29 复发：PowerShell 外层双引号中不要直接嵌入含 `|`、内层引号、反引号或复杂字符类的 `rg` 正则**：转义稍有偏差时，原生命令序列化会剥掉内层引号，`|` 可能被当成管道，最终形成 `unclosed group` 等残缺正则。优先使用 `-F` 固定字符串、把模式放进单引号、拆成多个 `-e` 简单模式，或先赋给变量再传给 `rg`。2026-09-29 的结构预读再次因混合单双引号和未闭合分组失败，拆成多个 `-F -e` 查询后恢复。
 - **PowerShell 变量名不区分大小写，`$home` 会与只读自动变量 `$HOME` 冲突**：HTTP 首页响应等临时变量不要命名为 `home`；使用 `$homeResponse`、`$rootPage` 等明确名称，避免 `Cannot overwrite variable HOME`。
 - **不要在 PowerShell 单引号命令字符串里再直接嵌入含单引号的复杂正则/源码**：内层引号会提前结束字符串并造成解析失败。优先把正则赋给双引号变量、使用 here-string，或拆成更简单的多步命令；跨工具传递时先验证最终参数文本。
 - **PowerShell 双引号插值中变量后紧跟冒号时必须用 `${name}:`**：写成 `$line:` 会被解析为作用域变量并报 `Variable reference is not valid`。日志位置、行号等字符串统一使用 `${line}:$value` 或格式化运算符 `-f`。
@@ -45,7 +45,7 @@
 - **Windows PowerShell 5 的 `Get-Date` 不支持 `-AsUTC`**：统一使用 `(Get-Date).ToUniversalTime()`，再按需要调用 `ToString(...)`，避免参数不存在导致脚本中断。
 - **纯 Node 审计脚本不要在无 TTY 环境里盲目经 `pnpm <script>` 启动**：Codex 的 pnpm 运行时可能先触发隐式安装/清理并报 `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY`。确认脚本不依赖 pnpm 注入后，直接运行 `node scripts/<audit>.mjs --strict`，避免触碰现有 `node_modules`。
 - **Windows 下经 pnpm 脚本向 Playwright 传 `--grep` 时不要使用含 `|` 的正则**：即使 PowerShell 外层写了单引号，pnpm 的 `.cmd` 转发仍可能让 `cmd.exe` 把 `|` 当管道，并报后半段“不是内部或外部命令”。改为直接传目标 spec，或分别用不含管道的单个 `--grep=<词>` 运行。
-- **读取 Codex automation 配置前不要假设 `$env:CODEX_HOME` 一定存在**：先检查环境变量；未注入时使用已确认的用户配置目录（通常为 `$env:USERPROFILE/.codex`），或直接通过 automation API 查看配置，避免 `Join-Path` 因空路径失败。
+- **2026-09-29 复发：读取 Codex automation 配置前不要假设 `$env:CODEX_HOME` 一定存在**：先检查环境变量；未注入时使用已确认的用户配置目录（通常为 `$env:USERPROFILE/.codex`），或直接通过 automation API 查看配置，避免 `Join-Path` 因空路径失败。本轮 automation memory 首次读取即因空环境变量触发 `Join-Path` 参数错误，改用任务消息提供的绝对路径后恢复。
 - **PowerShell 的 `foreach` 语法中关键字与变量之间必须保留空格**：统一写成 `foreach ($file in $files) { ... }`；`foreach($file in$files)` 会把 `in$files` 解析失败并在执行前报 `Missing 'in' after variable in foreach loop`。
 - **Windows PowerShell 5 不支持 `Get-Date -AsUTC`**：该参数会报 `ParameterNotFound`；需要 UTC ISO 时间时使用 `(Get-Date).ToUniversalTime().ToString('o')`，不要沿用 PowerShell 7 的参数写法。
 - **`Select-String` 可能返回多个 MatchInfo，不能直接把 `.LineNumber` 当标量做算术**：先用 `$matches = @(...)` 收集，再以 `[int]$matches[0].LineNumber` 选择目标；否则 `$matches.LineNumber - 2` 会因 `Object[]` 没有 `op_Subtraction` 而失败。
