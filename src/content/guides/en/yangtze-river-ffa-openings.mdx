@@ -1,0 +1,369 @@
+---
+title: "Yangtze River FFA Openings: Which of the Nine Chinese Starts Holds Up"
+description: "Read the nine Yangtze River FFA openings — eight on one continent, one island — against distance-to-river, neighbors, and the first-minute port-versus-Nation decision."
+pubDate: 2026-09-29
+updatedDate: 2026-09-29
+tags: [yangtze, asia, maps, ffa, spawn, openings, ports]
+category: Maps
+difficulty: Intermediate
+version: v34
+freshnessSummary: "Verified on 2026-09-29 against upstream commit 35a3692d (Yangtze River, #4807), the shipped map4x manifest and info.json, Maps.gen.ts rotation fallback, a local terrain parse of map4x.bin, and six analyzed community examples."
+---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="YtB4qwG-pC0" title="OpenFront official new-maps playtest (spawn choice and early pressure)" />
+
+## Direct answer: pick the side of the river you want, then plan the first minute
+
+On **Yangtze River** in a public FFA, the spawn screen hands you one of nine Chinese
+openings: eight on a single large connected continent and one true island. Do not treat the
+country label as the decision. Confirm the lobby selected Yangtze River, count how many
+other humans and Nations sit within reach, check how close you are to the river spine and to
+a real Port, and decide whether your first move is to clear neutral Nations, secure the
+nearest Port, or buy a defended second direction before you spend hard. Because nearly every
+mainland opening can reach water within a short hop, the deciding factor is usually
+**adjacency** — who arrives beside you — more than which side of the map is “better.” A
+center-river opening (Changzhou) buys option density and the fastest boat, but it also puts
+you where the most neighbors converge on the same neutral land. A corner (Wuhu or Shanghai)
+buys fewer exposed borders and a slower, quieter start, but it defers the central river fight.
+Daishan Island buys safety and a self-contained opening, at the cost of a slow, boat-gated
+path back onto the mainland. Name your primary direction and an independent fallback before
+the first attack, and switch when the crossing, target, or home reserve fails. Use the
+four-letter check **RIVE**: **R**ead the map and neighbors, **I**nspect river and Port,
+**V**alidate the first target, **E**xit when it stops paying. The four letters are an
+editorial memory aid, not a game mechanic, but they force the same sequence every opening
+needs: observe the live board, verify water and income, prove the first target is a bounded
+capture, and have a trigger that ends the branch. The whole point of the framework is to make
+the first minute a decision rather than a habit, so that the country you are handed becomes a
+starting condition you test instead of an identity you keep. That single shift — from “I am
+Changzhou” to “Changzhou gives me the fastest Port but the most neighbors, so here is the
+first target and the fallback” — is the difference between a player who adapts to the lobby
+and one who re-reads the same thumbnail and re-picks the same first move. In practice that
+means writing the choice down in one line before the first action — “I am Changzhou, I take
+the nearest unclaimed central Nation, and if it is contested I pull to the opposite bank” —
+so the fallback is a committed route with a cost and a trigger, not a feeling that forms only
+after the first attack lands.
+
+## The map geometry that the nine openings share
+
+The shipped `map4x` resource is 1,920 by 1,276 tiles with 464,270 passable land tiles; the
+full-resolution `map` is 3,840 by 2,552 with 1,877,550 land tiles. The map is a pipe of river
+bent into an upside-down U, with land on both arms and a broad delta at the bottom. A local
+parse of `map4x.bin` confirms eight of the nine default openings sit on one giant connected
+land component (the ninth is an island), and that every mainland opening is within 24 to 83
+tiles of water. That last number is the heart of the FFA problem on this map: you almost never
+choose between “has a port” and “landlocked.” You choose between **who is next door** and
+**which bank of the pipe you open onto.** The river is not a wall here; it is a shared road.
+Both arms of the pipe open onto the same central water, so a Port or a boat on either side
+can reach the central fight, which means the “safe” side is not a side with no water — it is a
+side whose water is contested less. That reframes the whole opening problem. On most maps a
+good start is defined by what it keeps away from you: no early human, no forced crossing, no
+thin border. On Yangtze River a good start is defined by what it **lets you choose**: the
+direction of your first expansion, the bank you open onto, and the second target that stays
+open if the first one is taken. A map that gives you more directions is not automatically
+better, because more directions also means more neighbors who can reach the same neutral land
+in the same window. A map that gives you fewer directions is not automatically worse, because
+a quiet corner with two borders can out-survive a center whose three neighbors all clear
+neutral land on the same first move. The nine default nations, with the parsed distance from
+the spawn anchor to the nearest water: Changzhou 24, Wuhu 38, Taizhou 43, Zhenjiang 54,
+Nantong 58, Nanjing 78, Ma'anshan 33, Shanghai 83, and Daishan Island 17 (on its own
+~701-tile island). Read that list as a spectrum of water access and position, not as a fixed
+quality ranking. A closer river is not automatically safer; it can put your first expansion
+onto the same bank a neighbor is pushing onto. A farther river is not automatically worse; a
+corner with two quiet borders can out-survive a center start whose three neighbors all clear
+neutral land in the same window. The official [map manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0/resources/maps/yangtzeriver/manifest.json)
+and [generator metadata](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0/map-generator/assets/maps/yangtzeriver/info.json)
+define the anchors; the live match decides who is actually beside you. Treat the thumbnail as
+an orientation aid only, and re-run the parse if a release changes the binary.
+
+## Turn the five spawn factors into a Yangtze decision
+
+The reusable spawn framework evaluates five things: **pace**, **terrain**, **pocket**,
+**proximity**, and **map characteristics**. On Yangtze River these collapse into a short
+per-opening checklist. Pace: does this start put you on the river bank earlier, where you can
+reach a Port or a boat faster, or in the interior, where your first useful move is land?
+Terrain: the map is mostly low, fast land with limited highland; prefer the broad green strips
+along the river arms for fast movement and lower troop loss, and be careful with narrow
+interior necks that slow a counterattack. Pocket: is the first land you can take wide enough to
+defend, or is it a thin strip that a neighbor can out-flank? Proximity: how many humans and
+Nations can reach your first target in the same few minutes? Map characteristics: on this
+pipe-river map, the center is where the arms meet, so a center start has more directions but
+also more neighbors converging on the same neutral land.
+
+Apply the checklist as a two-line note per opening. For Changzhou, the note is: “closest to
+the pipe (distance 24), so my Port and boat are fastest, but three neighbors can contest the
+same central land — I keep the far arm as a fallback.” For Wuhu, the note is: “southwest
+corner, two quiet borders, distance 38 to water, so I grow land slowly but my neighbor
+pressure is lowest — I trade early tempo for fewer fronts.” For Daishan Island, the note is:
+“no mainland neighbor can reach me without boats, distance 17 on every side, so I am safe but
+slow and I must save for the crossing.” Each note ends with the **event that changes it**: a
+human landing on the far bank, a neighbor capturing the central Nation, or the river mouth
+closing. If the note cannot name that event, the opening is not actually decided yet. This
+turns an abstract “center is better” into a testable, per-start plan that survives a lobby you
+did not expect. The two-line note also has a second purpose: it is the record you update after
+the first capture. The first line states what the opening was supposed to buy; the second line
+states the condition that invalidates it. When you capture the first Nation, you do not ask
+“is the map getting better?” — you ask whether the second-line event has happened and whether
+the first-line benefit still exists. If the neighbor has taken the central Nation, the
+Changzhou note's fallback clause is now the primary, and you rewrite the note in the same
+sentence. If the corner has stayed quiet, the Wuhu note keeps its primary and you simply
+extend the neutral clearing. The note is cheap to keep and expensive to lose, so the habit of
+updating it after every capture is worth more than any fixed opening plan, because it is the
+only artifact that survives a lobby that does not match the thumbnail.
+
+## Mainland openings: a comparison you can act on
+
+The table below compares the eight mainland openings by what each one tends to buy, not by a
+fixed score. Distances are parsed from the shipped `map4x` binary; neighbor counts and
+ownership are match-specific, so re-read the board. The columns are: the tendency the opening
+gives you, the first thing to verify on the live board, and the stop signal that should end
+that first branch.
+
+| Opening | Tendency | First check on the live board | Stop signal |
+| --- | --- | --- | --- |
+| Changzhou (center-east, dist 24) | Fastest port/boat; most directions | Which neighbor is pushing the same bank first | A neighbor holds the central Nation, or two neighbors can reach your core at once |
+| Nanjing (center-west, dist 78) | Interior, slower water, more land | Whether the interior neck is wide enough to defend | The west neck closes, or a neighbor outpaces your land clear |
+| Zhenjiang (north-central-west, dist 54) | Balanced north bank | Which north-bank Nation is the first target | A north neighbor seals the bank, or the Port is unreachable |
+| Taizhou (north, dist 43) | North arm, moderate pressure | How fast the north arm clears to a second target | The north arm is contested by two humans, or the water is blocked |
+| Nantong (NE, dist 58) | NE bank, port-friendly | Whether the NE bank is defensible after the first capture | A NE neighbor takes the Port first, or the arm narrows |
+| Ma'anshan (west, dist 33) | West bank, close water | Whether the west bank opens a separate second target | The west bank is a dead end, or a neighbor crosses to it |
+| Wuhu (SW corner, dist 38) | Corner, fewest exposed borders | Whether the corner land is wide enough to out-scale | The SW corner is pinched from two sides, or the water is unreachable |
+| Shanghai (SE corner, dist 83) | Corner, far water, delta reach | Whether the delta coast opens a real second shore | The delta Port is taken, or the corner has no inland fallback |
+
+Do not convert these rows into a fixed troop percentage. The right first commitment depends
+on how many neighbors are clearing land, how thick the first target's border is, and whether
+your reserve can answer the closest response while you are away. When two rows look equally
+good, prefer the one whose failure you can **see and reverse** before your reserve is gone:
+the opening where the stop signal is a visible, checkable object (a captured Nation, a blocked
+bank, a lost Port), not a vague feeling that “the center got crowded.” The table is
+deliberately asymmetric: a center row stops on neighbor convergence, a corner row stops on
+pinch, and a bank row stops on Port denial. That asymmetry is the map's logic, not an
+arbitrary split. After any capture, run the table again — a taken Nation can open a coast that
+was not visible at spawn, and a human on the far bank can delete the assumed fallback. The
+goal is one credible next move when the first is denied, which is the difference between
+optionality and overextension. For a full board scan once an opening has started, use
+[Threat assessment](/guides/threat-assessment/); for the generic opening timing behind this
+map, see [FFA opening](/strategies/ffa-opening/).
+
+## Daishan Island: the one opening that is its own economy
+
+Daishan Island is the only opening that is not on the giant mainland component. The parsed
+island is about 701 passable tiles with water within 17 tiles in every direction. In FFA terms
+that is a different game: no mainland neighbor can reach your core without paying for boats and
+a defended landing, so your first pressure is time and your own income, not a neighbor. That
+is a real advantage — you are effectively unattackable for the opening window — and a real
+cost — you are also slow to reach the contested central land and any Port fight that decides
+the mainland.
+
+Treat the island as a defensive choke rather than a fast start. Your first target is the
+island's own Nation and neutral land, which you clear without a defender; your first serious
+decision is when to fund the crossing. Too early and you spend your reserve on boats before
+the mainland's Port fight is decided, possibly arriving to an already-owned far bank. Too late
+and you have a safe but small economy while eight players have cleared the central land and
+started pushing toward each other. A useful middle is: clear the island, build the first Port
+that funds the crossing, then send the smallest boat force that can hold the landing you
+choose — not the whole reserve. If the far bank is already contested, the crossing is an escape
+or a late pivot, not a first move. This differs from the mainland logic, where a Port is often
+worth buying early because water access is nearly universal there. On the island, water is
+your only road, so a Port is a lifeline, not an option. Keep the mainland table in mind, not
+against you: the eight mainland players will be deciding among themselves, and your island
+position is best judged by when it can join that fight at a defensible point, not by matching
+their early tempo. For actual naval allocation and escort once you cross, use [Transport
+landings](/guides/transport-landings/); for whether a Nation pressure is worth answering, see
+[Nations pressure](/guides/nations-pressure/). One more practical difference between the
+island and the mainland: your income clock is the only pressure. On the mainland you can
+measure the enemy — a neighbor's reserve, a Port landing, a captured Nation — and time your
+move against an object. On the island the only object that ever changes is your own Gold and
+your own boat readiness, so the decision is purely internal: “can I fund the crossing and
+still hold the landing?” That makes the island a good opening for a player who wants to avoid
+the first-minute scramble, and a bad opening for a player who needs the central land to win,
+because by the time the island's economy can send a defended force, the mainland's Port fight
+is usually decided. The island is best used as a delay-and-pivot, not as a first strike: hold
+the water, fund the smallest crossing that holds one landing, and re-decide from the far bank
+with a reserve intact.
+
+## The first-minute playbook by archetype
+
+The same three questions apply to every opening, but the answers differ by archetype. A
+**bank** opening (Changzhou, Zhenjiang, Nantong, Ma'anshan, Taizhou) is close enough to water
+that a Port is realistically open early. Its first-minute move is usually to verify the
+nearest Port or boat landing and decide whether to buy it before a neighbor does, while still
+clearing the first neutral Nation. A **corner** opening (Wuhu, Shanghai) has fewer exposed
+borders and a slower water approach; its first-minute move is usually to grow compact land and
+take the corner Nation first, deferring the Port until the second target is safe. An
+**island** opening (Daishan) defers both; its first-minute move is to clear the island and
+fund the crossing.
+
+Within those archetypes, use a ratio ramp rather than a fixed number. A player's common
+calibration is to start around a low attack ratio and push toward the mid-range as neutral
+land thins out, but the ratio is a planning index, not a rule: it is set by how thick the
+first target's border is and how close the neighbor is. The build order follows the same
+logic. If you are landlocked behind the first Nation, a City that holds capacity and defends
+the border is the first big buy. If water is directly beside you, a Port that funds movement
+and trade is often the first big buy — the repeated community failure is to skip the Port, run
+out of income, and starve before the second target. A defensive structure that stops a
+nuclear strike is worth buying once you can afford it, but it is a poor first buy on the
+island, where there is little to defend against early and the crossing is the real priority.
+Clear neutral Nations early and often, because a surrounded Nation disappears at a minimal
+troop cost and extends your income without a fight; but do not over-send, because pushing a
+large force at a modest target can spend most of your reserve for a small gain. End the first
+minute with a held first target, a recorded current reserve, and a named second target, so the
+next decision is a reaction to the board rather than a repeat of the first move. If you only
+have time to check two things before the first attack, check them in this order: first that
+the nearest Port or boat landing is still open to you, and second that a second, independent
+target is named so a failed first move does not strand the whole opening.
+
+## Failure modes and their counters
+
+The openings fail in a few repeatable ways, and each has a concrete counter. **Dying without a
+Port:** you grow land but skip the water, your income stalls, and the second target is
+unreachable. Counter: on any mainland opening, keep a named water target and buy the Port
+when the first Nation is secured; if the Port is contested, take a smaller land pocket and
+re-approach from the other side rather than abandoning water. **The neighbor steals the city:**
+a nearby human takes the first central structure before you arrive, removing your intended
+second target. Counter: keep the first target compact and defended, and carry the reserve that
+can retake it or pivot to the fallback; do not chase the lost structure if the home border
+cannot answer. **Over-sending:** you push most of your troops at a Nation and spend far more
+than the target is worth, leaving your core exposed. Counter: size the commit so the reserve
+can still answer the closest response, and stop the attack if the target's border is thicker
+than assumed. **Defense-post lockout:** a neighbor spreads defensive structures across your
+expansion direction and shrinks your options. Counter: rotate to the bank or corner direction
+where their posts are thinner, and stop pressing the locked face. **Boxed-in adjacency:** you
+treat a close neighbor as comfortable and end up sharing a border that they control. Counter:
+read adjacency as a threat by default, keep an independent fallback that does not cross their
+land, and extend neutral clearing rather than attacking them head-on until you can afford the
+counter. Each of these has a visible trigger you can watch in the match — a captured Port, a
+lost structure, a spent reserve, a spread of posts, a shared border — so the counter is a
+reaction to an object, not a guess. When a fight is already active and you need allocation and
+retreat, switch to [Land combat](/guides/land-combat/); when you must answer a dangerous
+Nation border before the next expansion, use [Nations mechanics](/mechanics/nations/) for the
+rule boundary and [Map strategy](/guides/map-strategy/) to re-read the topology. Two more
+failure modes are Yangtze-specific because of the pipe shape. **Wrong-bank expansion:** you
+open onto the bank that both your neighbors also push onto, so your first target is a
+contested strip rather than a clean pocket. Counter: before committing, check which bank your
+nearest neighbors are actually moving toward and prefer the quieter bank, even if it is a few
+tiles farther from your Port. **Delta congestion:** on the bottom arm, several mainland
+openings (Shanghai, Nantong, Taizhou) converge on the same delta coast, so the “second
+shore” you assumed exists is already owned. Counter: verify the delta Port and its landing
+before treating it as a fallback, and keep an inland (not coastal) second target so a lost
+delta does not remove your fallback. Each of these has a visible trigger you can watch in the
+match — a captured Port, a lost structure, a spent reserve, a spread of posts, a shared
+border, a contested bank, an owned delta — so the counter is a reaction to an object, not a
+guess.
+
+## Scenario A: a center start on the Changzhou bank
+
+Assume a public Yangtze River FFA with manual spawn available, roughly 50 human slots, and
+your legal start on the Changzhou anchor. These are **scenario assumptions**, not a lobby
+promise or a fixed coordinate. Changzhou is the closest default opening to the river (distance
+24), so your Port and boat are the fastest on the map, but the central land is also where the
+north and east arms meet, so at least two other humans can reach the same neutral Nation in
+the same window. Assume the nearest neutral Nation is a short land push away, a Port sits on
+the near bank, and a second neutral pocket lies past the river on the far arm. You have 100
+units of current Troops as a planning index, and you refuse to leave fewer than 45 available
+to answer the nearest human border.
+
+Read: confirm the lobby is Yangtze River, mark the two neighbors who can contest the central
+Nation, and note the Port on the near bank. Inspect: verify the Port landing is reachable and
+whether the far arm is already claimed; do not buy the Port because the thumbnail shows water.
+Validate the first target as a bounded land capture of the nearest neutral Nation with a
+reassessment at the Nation border, and name the fallback as the far arm **only if** the
+landing there is still open and does not cross a neighbor's held land. The first move commits
+at most the portion that leaves the 45-unit response reserve; it does not have to spend all 55.
+After the pocket, compare the new shape: did it shorten the approach to the Port, or did it
+create a long front beside the northern neighbor? If the neighbor takes the central Nation
+while you measure the Port, defend the core and stop the Nation branch — a captured structure
+is not worth a lost exit. If the far arm is unowned and the neighbors are committed elsewhere,
+a small boat can preserve an escape to the far bank.
+
+Suppose the Port is legal but the far arm is already claimed by the eastern neighbor. The water
+fallback is now false; rewrite the note so the primary is to hold the neutral pocket and probe
+the Nation border, and the fallback is the northern arm if that neighbor has not sealed it.
+If both are closed, the decision is defense or a different front, not repeated boats. The
+success test is not “own the center.” After two decisions you should have a held pocket, a
+recorded reserve, a verified second destination, and an answer to both neighbors. If you
+gained land but cannot name a second route, the center's proximity has not yet become control.
+If you kept the reserve but never tested a route, you have spent the opening without deciding
+it. For the actual wave size once a crossing begins, use [Transport landings](/guides/transport-landings/).
+
+## Scenario B: a southwest corner start in Wuhu
+
+Assume a different public Yangtze River FFA with 40 human players, a legal manual start on the
+Wuhu anchor, an open first land pocket, and a coast that reaches water at distance 38. These
+are **explicit hypothetical match state**, not a fixed rotation or a guaranteed coordinate.
+Wuhu is the southwest corner: two quiet borders and the lowest immediate neighbor pressure of
+the eight mainland openings, but a slower path to the central river fight. The trade is tempo
+for fewer fronts — you clear less contested land early, but you have fewer directions a
+neighbor can hit you from. A player's comment that the opening is “where luck is the biggest
+factor” is the reason the corner is attractive: with fewer neighbors, the opening window is
+less likely to end in the first two minutes.
+
+Read: confirm the selected map is Yangtze River, then mark the two corner borders, the first
+neutral or weak Nation toward the interior, and the nearest coast. Inspect the coast
+separately: is the water continuous to a useful destination, and can you reach the Port
+without exposing the starting City? If the answer is not yet visible, make the interior land
+path primary and leave the coast unpurchased. Assume a planning ledger of 300,000 Gold and a
+100,000 emergency reserve; those numbers illustrate a spending boundary, not a current
+Factory, Port, or City price. Name the primary lane as a connected interior land expansion with
+a stopping point at the first human-controlled neck. A corner can accumulate safe tiles while
+the center contests Nation structures, but an unguarded narrow line toward the center can
+invite a counterattack that erases the gain. Keep the conquered shape compact. At each pocket,
+check whether the next border has a defender, whether the adjacent human can arrive before
+your Troops recover, and whether a City would help capacity or only pin Gold in a lost
+corridor. Name the fallback as the coastal route **only after** entry and landing are
+verified.
+
+Now suppose the closest human captures the first interior neck while you are still building.
+The original interior route has failed its stop test. Do not throw a larger force down the
+same line. If your coast offers a defensible landing and the home reserve survives, test a
+bounded crossing; if it requires a long trip under a hostile ship, keep the emergency Gold and
+reinforce the corner core while searching a different land border. If a Nation Port falls to
+you on the way, value it by current connectivity and settlement, not by a remembered Port
+count. The comparison with Changzhou is the lesson: the corner pays for safety with slowness,
+the center pays for options with exposure, and neither has a fixed length in minutes. With 40
+humans rather than 50, encounter order changes again and Nations may hold different borders. A
+good Wuhu opening ends the first phase with a protected land core, a checked interior path, and
+a genuinely separate coastal alternative. A bad one ends with a long thin line and a
+hypothetical Port that cannot answer a human attack. Preserve the alternative, then use
+[Land combat](/guides/land-combat/) when the fight is active.
+
+## Exit signals, version limits, and the next decision
+
+Exit is a verb, not a post-match apology. End the first branch when the next target is owned
+by a stronger human, the only crossing is not navigable or defensible, the Nation response
+consumes the reserved force, or the core can be attacked faster than the expansion pays back.
+A route can also finish successfully: once it reaches a durable second pocket, stop calling it
+an opening and move to the broader board scan. The purpose of an exit rule is to stop past
+spending from becoming a reason for more spending. If the route is blocked, write the new
+primary and fallback before sending another wave.
+
+The most common Yangtze mistake is treating the country label as the answer. The official
+manifest and generator file define the nine anchors; they do not say who is beside you, which
+Port is reachable, or which bank is open in your lobby. The second mistake is assuming a
+center is always best because it is on the river; the center's advantage is option density,
+and its cost is neighbor convergence. The third is skipping a Port on the mainland because
+water “looks optional,” when in fact nearly every mainland opening can reach it and income
+depends on it. The fourth is buying a defensive structure on the island before the crossing,
+which pins Gold where it does not help. Each has a test: read the live board, verify
+ownership and settlement, name the current reserve, and check the independent fallback.
+
+Mode changes matter. In a random-spawn lobby you cannot preselect Changzhou or Wuhu and must
+re-run the per-opening checklist after placement. In a room with different modifiers or a
+different map size, encounter order and the distance numbers shift, so re-read the board
+instead of scaling a remembered timestamp. In a team room, a teammate can guard a different
+exit, but the independence of two lanes must be evaluated with shared borders and roles; for
+shared positioning use [Team spawn formation](/guides/team-spawn-formation/). This page is
+verified to the upstream commit that added Yangtze River (`35a3692d`, PR #4807) and the v0.34
+resources as of 2026-09-29; future releases can change map assets, rotation weights, and
+Nation behavior, so re-check the [official release notes](https://github.com/openfrontio/OpenFrontIO/releases) when a new version lands.
+
+Before queueing, make a four-line note: selected opening, primary lane, independent fallback,
+and stop signal. After the first capture, update all four. If the fallback no longer exists,
+reduce exposure until you find one. If the primary gives you a protected second pocket, stop
+optimizing the opening and decide what the whole board now requires. The next useful reading
+is [FFA opening](/strategies/ffa-opening/) for generic timing, [Map strategy](/guides/map-strategy/)
+for other layouts, [Threat assessment](/guides/threat-assessment/) for a full board scan, or
+[Transport landings](/guides/transport-landings/) for an actual naval operation. The Yangtze
+answer is complete when the player can choose, disprove, and replace a route in the live match
+rather than repeat somebody else's start.
