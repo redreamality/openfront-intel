@@ -9,8 +9,8 @@ const homepageCases = [
 ] as const;
 
 const latestGuideSlugs = {
-  en: ['bulk-structure-upgrades', 'ffa-deterrence-posture', 'lobby-pool-routing', 'caps-vs-plutonium', 'list-lobbies'],
-  localized: ['bulk-structure-upgrades', 'ffa-deterrence-posture', 'lobby-pool-routing', 'caps-vs-plutonium', 'list-lobbies'],
+  en: ['alliance-break-timing', 'four-islands-ffa-openings', 'black-sea-ffa-openings', 'how-many-ports-to-build', 'strait-of-gibraltar-openings'],
+  localized: ['alliance-break-timing', 'four-islands-ffa-openings', 'black-sea-ffa-openings', 'how-many-ports-to-build', 'strait-of-gibraltar-openings'],
 } as const;
 
 for (const homepageCase of homepageCases) {
