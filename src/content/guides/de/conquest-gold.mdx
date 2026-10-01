@@ -1,0 +1,156 @@
+---
+title: "Eroberungs-Gold: Wann sich das Ausschalten eines Spielers lohnt"
+description: "Entscheide mit den v0.34.21-Regeln und drei Zahlenszenarien, wann Eroberungs-Gold das Ausschalten eines Bots, einer Nation oder eines Humans rechtfertigt."
+category: "Kampf"
+difficulty: "Mittel"
+tags: [conquest, gold, nations, bots, ffa, target-selection, economy, elimination]
+pubDate: 2026-10-01
+updatedDate: 2026-10-01
+version: v34
+freshnessSummary: "Am v0.34.21-Tag (Commit d7075bface) geprüft: Die Eroberung eines Bots oder einer Nation überträgt 100 % ihres Goldes; ein Human mit einem gesendeten Angriff ungleich null zahlt 50 %, ganzzahlig abgerundet; ein Human, der nie angegriffen hat, zahlt 0 und behält seinen gespeicherten Kontostand. Geprüft am 2026-10-01."
+---
+
+## Direkte Antwort: Wann lohnt sich Eroberungs-Gold?
+
+Schalte einen Spieler wegen seines Goldes nur aus, wenn die vorsichtige Auszahlung zusammen mit Gebiet und Grenzverbesserung mehr wert ist als Truppen, Zeit und Drittparteirisiko des Abschlusses. In v0.34.21 zahlt ein Bot oder eine Nation den ganzen Kontostand, ein angreifender Human die Hälfte und ein Human ohne jeden Angriff nichts. Klassifiziere das Ziel vor jeder Kalkulation.
+
+Diese Einordnung verändert den Call stärker als sichtbarer Reichtum. Eine Nation mit geschätzten 10 Millionen Gold kann alle 10 Millionen übertragen, sofern sie beim Eroberungszeitpunkt noch vorhanden sind. Ein Human mit demselben Bestand kann nach irgendeinem registrierten ausgehenden Angriff nur 5 Millionen übertragen. Ein Human, der nie angegriffen hat, überträgt null, selbst wenn Starting Gold oder passives Einkommen einen großen Vorrat erzeugten. Das Spiel garantiert weder einen exakten Live-Bestand des Gegners noch eine saubere öffentliche Kennzeichnung der Berechtigung. Die Werte sind Planungsgrenzen, keine Zusage. Ein beobachteter Angriff beweist, dass die Null-Sperre nicht mehr gilt; Stille beweist keinen fehlenden Angriff außerhalb deiner Sicht.
+
+Die Belohnung ist ein Eingang, nicht das alleinige Ziel. Der Abschluss verbraucht Troops, ändert die Grenze, zeigt jedem Nachbarn deine Bindung und kann einem Dritten die letzte Tile schenken. Die volle Auszahlung einer Nation ist schlecht, wenn ihr Restgebiet zwei gesunde Human-Grenzen öffnet und deine Reserve leert. Die halbe Human-Auszahlung kann sehr gut sein, wenn sie einen Frontabschnitt schließt, nützliches Land gewinnt und sofort den Defense Post, die City, den Port oder SAM finanziert, der die Form hält. Selbst ein Null-Gold-Human kann wegen Siegschwelle, Route, gefährlicher Stellung oder Frontabbau richtig sein; falsch wäre nur die Begründung mit Beute.
+
+Nutze vor der Bindung **CLAIM**: **Classify** den Typ, schätze **Liquid** Gold vorsichtig, bestätige bei Human die **Activity**, bepreise das notwendige **Investment** und nenne den folgenden **Move**. Bei jeder Unbekannten gilt die niedrigere Grenze. Wenn der Plan nur mit einem exakten verborgenen Bestand funktioniert, ist er kein belastbarer Plan. Wenn er schon bei null funktioniert, weil Land und Grenze den Aufwand tragen, ist Gold ein Bonus statt einer Falle.
+
+Dieser Guide besitzt die Belohnungsentscheidung am Ende. [Threat Assessment](/de/guides/threat-assessment/) wählt das Ziel, das die Gesamtposition verbessert; [Nation-Druck](/de/guides/nations-pressure/) entscheidet, wann eine Nation sicher oder gefährlich ist; [Landkampf](/de/guides/land-combat/) bestimmt den Preis der laufenden Offensive. Eroberungs-Gold übernimmt erst nach einem plausiblen Finish und fragt enger: Ändert die Auszahlungsklasse, ob du jetzt abschließt, wartest oder einen anderen Frontabschnitt das Ziel zuerst auflösen lässt?
+
+Die Entscheidung ist vollständig, wenn du Typ, konservative Auszahlung, Aktivitätsbeleg, Abschlusskosten und erste Verwendung in einem Satz nennen kannst. Fehlt ein Teil, streiche Gold aus der Begründung und bewerte das Land allein. So wird eine große Zahl nicht zur Ausrede für eine unhaltbare Grenze.
+
+## Was v0.34.21 bei einer Eroberung wirklich überträgt
+
+Die Auszahlungsregel hat zwei Ebenen. Zuerst setzt der Zieltyp die Obergrenze: Ein besiegter Bot oder eine Nation kann den ganzen Kontostand übertragen, ein Human höchstens die Hälfte, auf ganze Goldeinheiten abgerundet. Danach gilt für Humans die Aktivitätssperre: Hat der besiegte Spieler keine Angriffsmenge gesendet, wird der Transfer vollständig übersprungen. „Bot oder Nation ganz, Human mit Angriff halb, Human ohne Angriff null“ ist daher präziser als die verbreitete Annahme, jede Eliminierung stehle die Hälfte.
+
+Die Human-Hälfte wird aus dem Kontostand im Moment der Eroberung berechnet, nicht aus Lebenseinkommen, Ranglistenrate, Gebäuden oder dem Gold zu Kriegsbeginn. Besitzt ein berechtigter Human 12.500.001 Gold, ergibt die Ganzzahldivision 6.250.000 für den Eroberer. Der Handler entfernt dennoch die vollen 12.500.001 beim Besiegten; die anderen 6.250.001 werden keine zweite Beute, sondern verschwinden mit der eliminierten Wirtschaft. Bei Bot oder Nation würden alle 12.500.001 übertragen. Das zählt, wenn du die Beute gegen einen konkreten Kauf hältst.
+
+Der nie angreifende Human folgt absichtlich einem anderen Pfad. Bei null gesendeten Angriffen setzt der Handler sowohl berücksichtigten Bestand als auch erbeuteten Betrag auf null, zeigt eine Nachricht ohne Gold und entfernt den gespeicherten Bestand in diesem Transferblock nicht. Der Spieler ist trotzdem erobert: Daraus entsteht weder eine nutzbare Bank noch eine weiterlebende Wirtschaft. Für deine Entscheidung ist die einzig sichere Aussage null. Erfinde keine spätere Rückgewinnung und nimm nicht an, passives Gold, hohes Starting Gold oder eine auffällige Historie umgingen die Sperre.
+
+„Hat angegriffen“ ist enger als „wirkte aktiv“. Bauen, Verbessern, Kamera bewegen, Einkommen bekommen, einer Allianz beitreten oder Schaden nehmen erfüllt die Aktivitätssperre nicht von selbst. Entscheidend ist die ausgehende Angriffsmenge; jeder registrierte Wert ungleich null reicht. Ein winziger Probe kann den Human in den Halb-Pfad setzen, ohne dass du ihn auf einer entfernten Kante gesehen hast. Bestätigte Aggression belegt Berechtigung, scheinbare Ruhe bleibt Unsicherheit.
+
+Dieser Guide gilt für v0.34.21. In dieser Version lauten die vier spielrelevanten Ergebnisse: voller Bot, volle Nation, halber berechtigter Human und null für einen Human ohne Angriff. Behandle diese vier Zweige als Versionsgrenze der Seite. Ändert eine spätere Version Zieltypen, Aktivitätssperre oder Ereignisnachricht, prüfe die Auszahlung neu, bevor du Truppen nach einer alten Erwartung bindest.
+
+Die Ereignisnachricht hilft erst nach dem Klick. Sie bestätigt Transfer oder Ausfall, kann aber eine bereits geleerte Reserve nicht retten. Vorher planst du mit einer Spanne; danach nutzt du Nachricht und Replay, um die Annahme für das nächste Match zu korrigieren.
+
+## Das CLAIM-Entscheidungsmodell
+
+**Classify** kommt zuerst, weil der Typ die Obergrenze festlegt. Markiere Bot, Nation, bestätigten aktiven Human oder Human mit unbekannter Aktivität. Vermische sie nicht, nur weil alle Land und Gold besitzen. Eine Nation ohne Angriff bleibt im Voll-Pfad; die Null-Sperre ist Human-spezifisch. Ein Human mit nur einem kleinen Probe bleibt im Halb-Pfad, auch wenn er später inaktiv wird. Klassifikation ist der einzige feste Eingang, den du vor Bestand und Finish-Preis bestimmen kannst.
+
+**Liquid** ist der Bestand, der beim Ausscheiden wahrscheinlich bleibt, nicht ein alter Ranglistenstand oder aus Gebäuden hochgerechneter Reichtum. Beobachte Ausgaben: neue Cities, Port- oder Factory-Level, SAM-Bau, Warships und Nuklearstarts senken die greifbare Summe. Einkommen kann sie während deiner Anreise wieder erhöhen. Nutze eine konservative Spanne. Bei geschätzten 8M bis 12M bepreise eine Nation mit 8M und einen berechtigten Human mit 4M. Scheitert die Entscheidung am unteren Wert, ist Gold kein zuverlässiger Grund.
+
+**Activity** gilt nur für Human und verlangt einen Beleg für einen ausgehenden Angriff ungleich null. Eine sichtbare Meldung, eine beobachtete Grenzoffensive oder Replay-Beweis reicht. Online-Status, Gebäude, automatische Verteidigung oder erlittene Angriffe entsprechen dem Test nicht. Ohne Beleg rechnest du zwei Fälle: die Hälfte des konservativen Bestands und null. Ein robustes Finish ist in beiden richtig. Eine Beutejagd, die nur mit der Hälfte funktioniert, braucht bessere Evidenz oder einen eigenständigen Landwert.
+
+**Investment** bepreist alles, was die letzte Tile besitzt und die nächste Antwort überlebt: Truppenbindung, Land- oder Transportzeit, neue Grenze und Gelegenheit für Dritte. Der Landangriff bezahlt meist kein Gold, aber Troops haben wirtschaftlichen Wert, weil Wiederaufbau Zeit und Cap benötigt. Muss ein Defense Post, Ersatzschiff oder SAM das Ergebnis halten, gehört es zum Preis. Werte eroberbare Gebäude nicht vorab voll, bevor ihr tatsächlicher Erhalt feststeht.
+
+**Move** nennt die Handlung im nächsten Entscheidungszyklus. „Reicher werden“ ist keine. „Von mindestens 5M höchstens 1,5M in zwei Verteidigungen am neuen Engpass investieren und den Rest liquide halten“ ist eine. Ebenso das nächste City-Level bei bereits erreichtem Truppenlimit oder eine SAM-Linie gegen bestätigte Nukleargefahr. Der Move verhindert, dass Gold untätig bleibt, während die neue Grenze kollabiert.
+
+| Zielklasse | Planungsgrenze | Benötigter Beleg | Finish nur wenn | Standard bei Unsicherheit |
+|---|---:|---|---|---|
+| Bot | 100 % des Bestands | Sichtbarer Typ | Land plus niedriger Bestand übersteigt Kosten | Niedrig schätzen |
+| Nation | 100 % des Bestands | Sichtbarer Typ | Finish überlebt Gegenpressure | Reserve für neue Human-Grenze |
+| Human, Angriff bestätigt | 50 %, abgerundet | Zuverlässiger Angriff | Halber niedriger Bestand plus Position übersteigt Kosten | Hälfte der Tiefschätzung |
+| Human, Activity unbekannt | 0 % bis 50 % | Kein verlässlicher Beleg | Finish ist bereits bei null richtig | Gold nur als Bonus |
+
+CLAIM ist ein Stopptest, kein Punktesystem. Stoppe, wenn der Typ unklar und Gold notwendig ist, die Bestandsschätzung veraltet ist, Investment die Reaktionsreserve frisst oder kein Move das Ergebnis schützt. Fahre fort, wenn die konservative Auszahlung reicht, das Land bei null nützlich bleibt und der nächste Schritt budgetiert ist. So bleibt Eroberungs-Gold ein Finanzierungsereignis an einer positionsrichtigen Eliminierung und wird nie zum Grund, eine schlechte zu bauen.
+
+## Szenario eins: Eine 10M-Nation mit umkämpftem Finish
+
+Angenommen, in einer öffentlichen FFA hält eine Nation ungefähr 10M Gold, 6 % nutzbares Land, eine exponierte City und zwei Resttaschen. Du und ein anderer Human berühren beide Taschen. Deine Reserve beträgt 2,4M Troops; beide zu nehmen kostet geschätzt 700k und erzeugt eine kurze neue Grenze zum Rivalen. Dieser zeigt 1,1M nahe der zweiten Tasche. Das Ziel ist Nation, also gilt 100 %: Bleibt die 10M-Schätzung bis zur Eroberung bestehen, erhält der Eroberer volle 10M.
+
+Führe CLAIM aus, statt auf die Zahl zuzulaufen. Klassifikation exakt: Nation, Voll-Pfad. Liquid unsicher: Erlaube einen letzten Bau oder Kauf und plane mit 8M Untergrenze. Activity ist irrelevant, denn die Null-Sperre gilt nur für Human. Investment beträgt mindestens 700k Troops plus die Kraft, die den Rivalen von der letzten Tile oder einem Gegenschlag an der neuen Grenze abhält. Move ist konkret: bis zu 500k für Verteidigung nur bei abdeckbarem Engpass, mindestens 1M liquide lassen und den Rest erst ausgeben, nachdem die Linie einen Zyklus gehalten hat.
+
+Unter diesen Annahmen ist das Finish nur attraktiv, wenn nach den 700k genug Antwort auf die sichtbaren 1,1M bleibt. „10M sind 700k Truppen wert“ ist keine Regel, denn die Ressourcen sind nicht direkt tauschbar. Die nützliche Frage lautet, ob 1,7M Resttruppen die Geometrie lange genug halten, damit 8M den Move finanzieren. Wenn Gelände, Dichte oder eine andere Front das verhindern, binde den Rivalen zuerst an die Nation oder nimm nur die Tasche, die deine Grenze verkürzt.
+
+Ändere eine Annahme: Der Rivale greift die zweite Tasche an und dürfte den letzten Treffer setzen. Die ganze Belohnung geht an den Eroberer, nicht proportional an alle Schadensbeiträge. Deine Vorarbeit reserviert keinen Anteil. Kämpfe um die letzte Tasche nur, wenn der Wettlauf nicht den Kern leert. Das ist das Gegenplay: Ein Gegner lässt dich die Abnutzung bezahlen und nimmt dann die Eliminierung, oder lässt dir Gold und trifft die Grenze, bevor daraus Verteidigung wird.
+
+Der Abschlusstest ist beobachtbar. Fahre fort, wenn die Nation nahe der konservativen Spanne bleibt, beide Taschen ohne Unterschreiten der Reaktionsreserve fallen und die Endroute eine abdeckbare Grenze bildet. Warte, wenn der Rivale den letzten Zugang kontrolliert, die Nation den Bestand ausgibt oder das Finish eine offene Human-Front hinzufügt. Die volle Auszahlung existiert, aber sie ist nur für den Spieler wertvoll, der die Eliminierung besitzt und den nächsten Zug überlebt.
+
+Existiert eine dritte Bedrohungsroute, löschen 8M sie nicht. Wiederhole [Threat Assessment](/de/guides/threat-assessment/) und prüfe mit [Nation-Druck](/de/guides/nations-pressure/), wer nach dem Verschwinden zum wertvollen Nachbarn wird. Gold ändert die Finanzierung nach diesen Prüfungen, ersetzt sie aber nicht.
+
+## Szenario zwei: Ein aktiver Human mit 12.500.001 Gold
+
+Angenommen, in einer Drei-Spieler-FFA besitzt ein geschwächter Human exakt 12.500.001 Gold, hat sichtbar mehrfach angegriffen und hält einen schmalen 4-%-Streifen zwischen dir und dem Führenden. Du hast 1,8M Troops und schätzt 450k für den Abschluss. Der Führende zeigt 900k auf der anderen Seite. Human plus registrierter Angriff ungleich null bedeutet die abgerundete Hälfte: 6.250.000. Der volle Bestand des Besiegten wird entfernt; 6.250.001 werden keine zweite Belohnung.
+
+Classification und Activity sind bestätigt. Liquid bleibt zeitabhängig: Die exakte Zahl ist eine Szenarioannahme, keine normalerweise garantierte Live-Information. Investment umfasst 450k sowie das Risiko, dass der Führende den verschwundenen Streifen als direkte Route nutzt. Move schützt deshalb vor Wachstum. Nehmen wir 250k Gold für notwendige Verteidigung und 1M liquide Reserve an; erst danach darf der Rest City, Port, Factory oder einen belegten Engpass finanzieren. Das Finish funktioniert nur, wenn 1,35M Resttruppen die sichtbaren 900k beantworten, ohne eine andere Front aufzugeben.
+
+Der Fall zeigt, warum eine halbe Auszahlung stärker sein kann als eine volle anderswo. Der 4-%-Streifen schließt einen Spieler, entfernt eine Front und verweigert dem Führenden eine billige Route. Diese Positionsgewinne können 450k schon wert sein, selbst wenn das Ziel sein Gold vor der Eroberung vollständig ausgibt. Die Aktion bleibt bei null richtig; 6,25M beschleunigen nur einen bereits begründeten Move. Das ist sicherer als eine entfernte 20M-Nation, deren voller Bestand drei Grenzen öffnet. Der Multiplikator misst die resultierende Position nicht.
+
+Das Gegenplay liegt im Timing. Der Führende kann stoppen, dich 450k zahlen lassen und dann die auf 1,35M gefallene Reserve angreifen. Das Ziel kann den Bestand in einen letzten SAM, ein Silo-Level, eine Flotte oder City stecken und Liquid senken. Der Führende kann auch die letzte Tile nehmen und 6,25M erhalten. Stoppe Verstärkung, sobald die letzte Tile nicht mehr kontrollierbar ist, positioniere Kräfte auf seiner Seite und senke Liquid nach jedem beobachteten Kauf.
+
+Bei 12.500.000 statt 12.500.001 bliebe die Auszahlung 6.250.000. Die ungerade Einheit illustriert Rundung, entscheidet aber nichts. Entscheidend ist, ob tiefe Auszahlung plus 4 % Position den Abschluss übersteigen und eine lebende Reserve lassen. Erfolg bedeutet gehaltene Grenze und ausgeführter Move; Gold empfangen und den Streifen vor seiner Wirkung verlieren ist ein Fehlschlag.
+
+Lies das Szenario nicht als festen Kurs „450k Troops gegen 6,25M“. Gelände, Breite, Defense Posts und Dritte ändern den Preis. [Landkampf](/de/guides/land-combat/) besitzt die Offensive; diese Seite klassifiziert die Beute erst, nachdem der Push plausibel ist.
+
+## Szenario drei: Ein nie angreifender Human mit scheinbaren 18M
+
+Angenommen, eine gehostete Partie nutzt 5M Starting Gold. Ein Human spawnt, baut passiv, sendet nie einen Angriff und scheint später ungefähr 18M zu besitzen. Er kontrolliert 3 % an einer Seitenroute. Die letzte Tasche kostet geschätzt 300k Troops und öffnet eine Küste, die ein anderer erreichen kann. Das Ziel als 18M-Preis zu bezeichnen wirkt verlockend, ist aber falsch: Bei null gesendeten Angriffen überspringt v0.34.21 den Transfer und der Eroberer erhält 0.
+
+CLAIM ändert den Call sofort. Classification ist Human. Liquid mag 18M sein, kann die Activity-Sperre aber nicht passieren. Im Szenario ist null bestätigt; im echten Match fehlt diese Sicherheit oft, daher bleibt null die vorsichtige Untergrenze. Investment ist 300k plus Küstenverteidigung. Move darf nicht auf Beute beruhen. Gültige Gründe sind nur 3 % Land, Frontabbau, notwendige Route, gefährliche Stellung oder die aktuelle Siegbedingung.
+
+Angenommen, du liegst 2,5 Punkte unter einer fallenden Overtime-Schwelle und der 3-%-Streifen ist ohne Kernexposition erreichbar. Das Finish ist bei null richtig, weil das Land das Spiel beendet. Liegt die Schwelle weit weg, existiert bereits eine sichere Route und schafft die Küste Kontakt zu einem stärkeren Spieler, ist dasselbe Ziel wirtschaftlich jetzt falsch. Lass die Tasche als Puffer, nutze die 300k-Gelegenheit anderswo und prüfe erneut, wenn sich der Kartenwert ändert. Null verbietet Eroberung nicht; es entfernt ein falsches Argument.
+
+Ein winziger Angriff des Ziels ändert die Einordnung. Sobald die Statistik ungleich null ist, wechselt es in den Human-Halb-Pfad. Ein früher oder entfernter Probe kann dir entgangen sein. Deshalb muss ein scheinbar inaktiver Human als null bis halb geplant werden, niemals sicher null ohne belastbare Belege. Provoziere nicht generell einen Token-Angriff: Truppen oder Diplomatie zu investieren, um verborgenes Gold berechtigt zu machen, kann mehr als die mögliche Hälfte kosten und einen harmlosen Puffer wecken.
+
+Auch wenn bei einem Human ohne Angriff kein Gold übertragen wird, ist der Spieler trotzdem besiegt. Der alte Bestand ist weder späterer Schatz noch Teamtransfer noch Bank für den nächsten Eroberer. Für deine Entscheidung ist er null. Die Nachricht ohne Gold bestätigt das erst danach und hilft im Replay; vor dem Angriff liefert sie keinen Preis.
+
+Erfolg bedeutet, dass das Null-Finish ein benanntes Positionsresultat kauft, das schon 300k wert war. Misserfolg bedeutet, 300k und die offene Küste nur wegen imaginärer 18M zu akzeptieren. Lösche bei unbekannter Human-Aktivität Gold aus dem Plan und frage, ob du das Land weiter willst. Lautet die Antwort nein, warte.
+
+Warten bleibt aktiv. Beobachte Schwelle, gegnerische Route und jedes Signal eines ausgehenden Angriffs. Das erste kann Land dringend machen, das zweite das Finish gefährlich, das dritte den Höchstwert von null auf halb ändern. CLAIM nennt die Information, die einen neuen Call erlaubt.
+
+## Fehlermuster, gegnerisches Gegenplay und unbekannte Signale
+
+Der erste Fehler ist, **sichtbare Stärke als liquides Gold** zu bepreisen. Großes Land, viele Gebäude oder hohe Einkommensrate zeigen den Bestand bei Eroberung nicht. Das Ziel kann unmittelbar vorher ausgeben, und Gebäude sind keine Währung. Nutze eine Spanne und senke sie nach beobachtetem Bau, Schiff, Upgrade oder Start. Eroberungs-Gold belohnt den Restbestand, nicht die Wirtschaft, die du dir in der Vergangenheit vorstellst.
+
+Der zweite Fehler ist der **falsche Typmultiplikator**. Bot und Nation zahlen voll, ein berechtigter Human halb. Eine passive Nation wird nicht zum Null-Human, und ein aggressiver Human zahlt nicht voll, weil er schwer war. Klassifiziere vor der Schätzung. Ist der Typ im Replay oder in einer lokalisierten Oberfläche unklar, verifiziere ihn, bevor du die Auszahlung in die Analyse schreibst.
+
+Der dritte Fehler ist, **Activity aus Anwesenheit abzuleiten**. Ein Human kann verbunden, reich und befestigt sein und null Angriffe gesendet haben. Ein anderer kann nach einem entfernten Probe untätig wirken und schon halb zahlen. Die interne Statistik ist live normalerweise unsichtbar. Plane zwei Fälle. Bestätigte Aggression erlaubt halb; ohne Beleg bleibt null die Untergrenze. Dein Überleben darf nie von einer verborgenen Flagge abhängen.
+
+Der vierte Fehler verwechselt **Beitrag mit Eigentum an der Eliminierung**. Schaden reserviert keinen Anteil. Der Eroberer erhält den konfigurierten Betrag. Ein Gegner kann dich das Ziel leeren lassen und dann das letzte Land nehmen oder dich zum Überinvestieren zwingen. Stoppe, wenn dein Pfad zur letzten Tile nicht mehr kontrollierbar ist. Bereits verlorene Truppen sind kein Grund, weitere für fremde Beute zu spenden.
+
+Der fünfte Fehler ist, **die Belohnung doppelt auszugeben**. Spieler zählen erwartetes Gold als Grund für die Bezahlbarkeit und budgetieren dieselbe Summe anschließend mehrfach. Vor der Eroberung gehört sie dir nicht; danach passt nur eine Kaufreihe hinein. Benötigt die neue Grenze 3M und beträgt die konservative Human-Auszahlung 4M, bleiben 1M für Wachstum, nicht 4M. Nenne einen sofortigen Move und einen liquiden Rest.
+
+Gegner besitzen vier praktische Konter: vor der Niederlage ausgeben, mit einem kleinen Angriff Human-Berechtigung ändern, die letzte Tile bestreiten oder während der Lücke zwischen Auszahlung und Verteidigung angreifen. Keiner ändert die Formel; alle ändern CLAIM-Eingänge. Deine Antwort ist kürzere Exposition: kleinerer Commit, kontrollierte Endroute, vorpositionierte Reserve und optionale Ausgaben erst nach gehaltenem Rand.
+
+Einige Signale bleiben unbekannt: exakter Bestand, entfernte Angriffe, geplante Käufe und gegnerisches Timing. Schreibe Annahmen aus: „Nation, mindestens 8M, 700k Abschluss, ein Rivale kann über eine Route bestreiten.“ Kippt der Call bei einer kleinen Änderung, ist er nicht reif. Eine gute Eroberung bleibt über eine brauchbare Spanne richtig und wird durch die Auszahlung nur besser.
+
+Trenne Beleg vor und nach der Entscheidung. Ereignisnachricht und Replay erklären das Ergebnis, können aber nicht zurückgehen. Nutze sie, um die Methode des nächsten Matches zu verbessern, nicht um einen damaligen Einsatz ohne konservative Grundlage nachträglich zu rechtfertigen.
+
+## Anpassungen an Modus und Karte
+
+In öffentlicher FFA ist Drittparteieroberung meist die größte Anpassung. Alle profitieren vom Verschwinden des Ziels, aber nur der Eroberer erhält Gold. Nutze die Beute als Tie-Breaker zwischen Finishes, die die Geometrie bereits verbessern. Eine entfernte Voll-Nation ist selten besser als ein naher Halb-Human, wenn jener eine Front schließt und diese zwei öffnet. Wiederhole [Threat Assessment](/de/guides/threat-assessment/) nach jeder Eliminierung, weil Ziele, Begünstigte und Routen gleichzeitig wechseln.
+
+In Team-Spielen landet Eroberungs-Gold beim individuellen Eroberer und nicht automatisch in einer gemeinsamen Treasury. Das Team kann koordinieren, wer die Eliminierung erhält und was danach gekauft wird, darf aber keine Aufteilung annehmen. Gib die letzte Tile dem Spieler, dessen Route und Folgeinvestition dem Team am besten helfen, solange das die Eliminierung nicht verzögert. Ein Mitspieler kann Gold sofort in Verteidigung verwandeln, während ein anderer Troops für die nächste Linie hält. [Team-Rollen](/de/strategies/team-roles/) besitzt diese Übergabe.
+
+In Singleplayer oder Nations-dichten Partien sind volle Nation-Auszahlungen häufiger und können den nächsten Kauf finanzieren. Das macht nicht jede Nation zur Schatzkiste. Hard und Impossible Nations wählen wertvolle angrenzende Ziele, die sie sicher schlagen können; ein Finish, das aufgewertete Gebäude exponiert, kann Auszahlung in Köder verwandeln. Prüfe mit [Nation-Druck](/de/guides/nations-pressure/) die neue Nachbarschaft. Bots zahlen ebenfalls voll, aber eine arme Tasche kann nur wegen Land und Route wertvoll sein.
+
+Auf kompakten Karten folgt die Antwort schnell. Gewichte unmittelbare Grenze und Reserve stärker als nominales Gold. Positioniere Verteidigung vor der letzten Tile und halte den Move klein genug, um den Überblick zu behalten. Auf großen Karten gibt eine entfernte Tasche mehr Ausgabezeit, aber Anreise und getrennte Geometrie erhöhen Investment. Das Ziel erhält mehr Zeit zum Ausgeben; senke Liquid, je länger die Kampagne dauert.
+
+Auf Inseln und Meerengen kann Routenbesitz Geld schlagen. Eine volle Nation über Wasser ist schlecht, wenn Transport und Eskorte die Reserve verbrauchen und der Brückenkopf nicht hält. Eine Null-Human-Insel kann richtig sein, wenn sie den einzigen Portweg kontrolliert oder eine Startposition entfernt. Rechne Flottenverlust und Heimküste ein und nutze [Transportlandungen](/de/guides/transport-landings/) für die Überfahrt. Gold nach einem verlorenen Brückenkopf macht ihn nicht lebendig.
+
+Overtime und feste Siegschwellen ändern Landwert. Überschreitet das Zielgebiet die aktuelle Linie, ist das Finish zuerst eine Siegaktion. Bleibt sie fern, braucht die Auszahlung einen benannten Move. Warte nicht auf mehr Bestand, wenn ein Rivale enden kann, und stürme keine Null-Tasche nur wegen Vollständigkeit. [Overtime gewinnen](/de/guides/winning-overtime/) besitzt die Prozentrechnung; dieser Guide wendet nur die Belohnungsklasse auf die Kosten an.
+
+Modifier können Schätzungen verzerren. Starting Gold lässt einen Human ohne Angriff extrem reich wirken, während die Sperre weiter null erzwingt. Deaktivierte Gebäude verringern Ausgabesignale, nicht den Multiplikator. Team-Platzierung, Compact Map, Wasserregeln und Rotation ändern Zugang und Exposition, nie Voll/Halb/Null. Trage die Formel über Modi; berechne Route, Zeit, Grenze und Siegnutzen neu.
+
+## Checkliste vor dem Finish und nächste Lektüre
+
+Sage vor dem Endangriff die fünf CLAIM-Antworten in einem Satz: Klasse, konservativer Bestand, Human-Activity-Beleg, gesamtes Investment und sofortiger Move. „Nation, mindestens 8M, Activity irrelevant, 700k Troops plus abdeckbarer Engpass, dann höchstens 500k Verteidigung und 1M liquide“ ist brauchbar. „Reicher Spieler, leichter Kill, Kauf später“ ist es nicht. Der erste Satz kann durch neue Daten widerlegt werden; der zweite schützt nichts.
+
+Führe vier Stopps aus. Stoppe, wenn Zielausgaben den Move unfinanzierbar machen. Stoppe, wenn ein anderer die Endroute kontrolliert. Stoppe, wenn notwendige Troops deine Reaktionsgrenze unterschreiten. Stoppe, wenn die Eliminierung eine nicht deckbare Grenze schafft. Diese Signale sind besser als ein fixer Goldwert, weil 5M auf einer Karte entscheiden und auf einer anderen belanglos bleiben. Belohnung besitzt nur in ihrer Position Wert.
+
+Prüfe nach der Eroberung Nachricht und tatsächlichen Bestand vor dem Kauf. Eine Gold-Nachricht bestätigt Transfer; eine Nachricht ohne Gold bestätigt die Activity-Sperre. Nutze die Differenz in [Replay Review](/de/guides/replay-review/): falscher Typ, falsche Aktivitätsannahme, Ausgaben des Ziels oder fremde Eroberung? Ändere im nächsten Match eine Annahme, statt eine neue Formel zu erfinden.
+
+Merke dir für v0.34.21 vier Felder: Bot und Nation sind Vollbestand-Ziele; ein Human mit registrierter Angriffsmenge ist ein Halb-Ziel; ein Human ohne Angriff ist ein Null-Ziel. Die Nachricht nach der Eroberung bestätigt, ob Gold übertragen wurde, verrät aber vor dem Finish weder den verborgenen Bestand noch den Activity-Status. Bewerte die Aktion mit dem vorsichtigen Zweig und nutze das beobachtete Ergebnis nur für die nächste Schätzung.
+
+Exakter Bestand und interner Activity-Status sind live normalerweise nicht sichtbar. Diese Unsicherheit gehört zur Entscheidung; fülle sie nicht mit Selbstvertrauen. Die praktische Definition lautet: Das Ziel ist bei konservativer Auszahlung sinnvoll, Reserve bleibt, die letzte Tile ist gesichert und nur der benannte Move wird finanziert. Bleibt die Position auch bei niedrigerem Bestand oder einer Null-Auszahlung des Humans gut, ist das Finish robust.
+
+Lies nach dem fehlerhaften Eingang weiter. [Threat Assessment](/de/guides/threat-assessment/) bei unklarem Ziel oder Drittnutzen; [Nation-Druck](/de/guides/nations-pressure/) bei gefährlicher neuer Grenze; [Landkampf](/de/guides/land-combat/) bei unklarem Finish-Preis; [Overtime gewinnen](/de/guides/winning-overtime/) wenn Land das Match endet. Eroberungs-Gold ist abgeschlossen, wenn die Belohnung eine bereits verteidigbare Position verbessert, nicht wenn kurz nach einer teuren Eliminierung eine große Zahl erscheint.
+
+Halte zuletzt diese Disziplin: Glückliche 10M machen eine schlechte Grenze nicht gut, und ein korrektes Finish bleibt möglicherweise richtig, wenn das Ziel im letzten Moment ausgibt und nur 1M lässt. CLAIM bewertet damalige Belege, vorsichtige Spanne und Überleben, nicht den Zufall eines Ergebnisses.
+
+Nach dem Finish gilt eine feste Reihenfolge: Lies zuerst Ereignis und tatsächlichen Kontostand, prüfe danach die neue Grenze und kaufe erst dann den benannten Move. Kommen statt erwarteter 8M nur 3M an, darfst du nicht automatisch die geplante City, den SAM und zusätzliche Schiffe zugleich bestellen. Finanziere zuerst den Teil, der die neue Berührung überlebbar macht, halte die zugesagte liquide Reserve und verschiebe den Rest. So bleibt eine richtige Eroberung auch bei einer falschen Goldschätzung kontrollierbar.

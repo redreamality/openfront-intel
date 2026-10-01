@@ -1,0 +1,154 @@
+---
+title: "Or de conquête : quand achever un joueur vaut le coût"
+description: "Décidez quand l'Or de conquête justifie d'achever un Bot, une Nation, un Human actif ou inactif, avec les règles v0.34.21 et trois scénarios chiffrés."
+category: "Combat"
+difficulty: "Intermédiaire"
+tags: [conquest, gold, nations, bots, ffa, target-selection, economy, elimination]
+pubDate: 2026-10-01
+updatedDate: 2026-10-01
+version: v34
+freshnessSummary: "Vérifié sur le tag v0.34.21 (commit d7075bface) : conquérir un Bot ou une Nation transfère 100 % de son Or ; conquérir un Human qui a envoyé une attaque non nulle transfère 50 %, arrondis à l'entier inférieur ; conquérir un Human qui n'a jamais attaqué transfère 0 et laisse son solde intact. Vérifié le 2026-10-01."
+---
+
+## Réponse directe : quand l'Or de conquête justifie-t-il l'élimination ?
+
+Achevez un joueur pour son Or seulement si le versement prudent, le territoire et l'amélioration de frontière valent plus que les troupes, le temps et l'exposition nécessaires à l'élimination. En v0.34.21, un Bot ou une Nation verse tout son solde, un Human ayant attaqué en verse la moitié, et un Human n'ayant jamais attaqué ne verse rien. Classez d'abord la cible.
+
+Cette classification change davantage la décision que l'apparence de richesse. Une Nation estimée à 10 millions d'Or peut transférer les 10 millions si ce solde subsiste au moment de la conquête. Un Human au même solde ne peut en transférer que 5 millions après la moindre attaque sortante non nulle enregistrée. Un Human qui n'a jamais attaqué transfère zéro, même si un réglage Starting Gold ou un revenu passif lui a laissé une grosse réserve. Le jeu ne garantit ni un solde adverse exact en direct ni un indicateur public d'éligibilité. Ces montants sont donc des bornes de planification, pas des promesses. Une attaque observée prouve que la porte du versement nul est franchie ; le silence ne prouve pas qu'aucune attaque lointaine n'a eu lieu.
+
+Traitez la récompense comme une entrée, jamais comme l'objectif isolé. L'assaut final dépense encore des Troops, change la frontière, révèle votre engagement et peut offrir la dernière tile à un tiers. Le versement intégral d'une Nation reste mauvais si son dernier réduit ouvre deux frontières Human solides et vide votre réserve. La moitié du solde d'un Human peut être excellente si l'élimination ferme un front, gagne une forme utile et finance aussitôt le Defense Post, la City, le Port ou le SAM qui la tient. Même un Human à zéro Or peut mériter d'être éliminé pour un seuil de victoire, une route, une position dangereuse ou la suppression d'un front ; seule la justification par le butin serait fausse.
+
+Appliquez **CLAIM** avant de vous engager : **Classify** le type, estimez prudemment l'Or **Liquid**, confirmez l'**Activity** si la cible est Human, chiffrez l'**Investment** nécessaire pour finir, puis nommez le **Move** financé juste après. Pour chaque inconnue, prenez la borne basse. Si le plan ne tient qu'avec un solde caché précis, ce n'est pas un plan. S'il reste bon à zéro parce que le terrain et la frontière suffisent, la récompense devient un bonus plutôt qu'un piège.
+
+Cette page possède la décision de récompense à l'élimination. [Évaluation des menaces](/fr/guides/threat-assessment/) choisit la cible qui améliore la position globale ; [Pression des Nations](/fr/guides/nations-pressure/) dit quand une Nation est un voisin sûr ou dangereux ; [Combat terrestre](/fr/guides/land-combat/) chiffre la poussée active. L'Or de conquête intervient après qu'une fin plausible a été trouvée et pose une question plus étroite : la classe de versement impose-t-elle de finir maintenant, d'attendre ou de laisser un autre front consumer la cible ?
+
+La décision est complète quand vous pouvez dire en une phrase le type, le versement prudent, la preuve d'activité, le coût final et le premier achat. Si un élément repose encore sur un souhait, retirez l'Or du raisonnement et jugez la terre seule. Cette discipline évite de transformer un nombre séduisant en frontière impossible à défendre.
+
+## Ce que la v0.34.21 transfère réellement lors d'une conquête
+
+La règle de versement comporte deux étages. Le type fixe d'abord le plafond : un Bot ou une Nation vaincu peut transférer tout son solde, tandis qu'un Human ne peut en transférer que la moitié, arrondie à l'entier inférieur. Human doit ensuite franchir la barrière d'activité : si le joueur vaincu n'a envoyé aucune quantité d'attaque, le transfert est entièrement sauté. « Bot ou Nation entier, Human ayant attaqué moitié, Human sans attaque zéro » est donc plus exact que l'idée répandue selon laquelle toute élimination vole la moitié.
+
+La moitié Human est calculée sur le solde au moment de la conquête, pas sur le revenu historique, le taux du classement, le nombre de bâtiments ou l'Or présent au début de la guerre. Si un Human éligible possède 12 500 001, la division entière donne 6 250 000 au conquérant. Le gestionnaire retire néanmoins les 12 500 001 complets au vaincu : les 6 250 001 restants ne vont pas à un autre joueur, ils disparaissent avec l'économie éliminée. Pour un Bot ou une Nation, les 12 500 001 seraient tous transférés. Cette différence compte quand le butin est comparé à un achat précis.
+
+Le Human n'ayant jamais attaqué suit volontairement une autre branche. Avec zéro attaque envoyée, le gestionnaire fixe à zéro le solde considéré et le montant capturé, affiche un message de conquête sans Or et ne retire pas le solde stocké dans ce bloc. Le joueur est tout de même vaincu : il ne devient pas une banque exploitable et son économie ne reste pas active. La seule conclusion utile est récompense zéro. N'inventez ni récupération ultérieure ni transfert différé, et ne supposez pas qu'un revenu passif, un Starting Gold élevé ou un historique impressionnant contourne la barrière.
+
+« A attaqué » est aussi plus étroit que « semblait actif ». Construire, améliorer, déplacer la caméra, recevoir un revenu, rejoindre une alliance ou subir des dégâts ne franchit pas en soi la barrière d'activité. La valeur pertinente est le volume d'attaque sortant ; la moindre quantité non nulle suffit. Un petit probe peut donc faire passer un Human dans la branche moitié sans que vous l'ayez vu s'il s'est produit au loin. Une agression observée prouve l'éligibilité ; une apparente inactivité reste une incertitude.
+
+Ce guide s'applique à la v0.34.21. Dans cette version, les quatre résultats utiles sont : Bot entier, Nation entière, Human éligible moitié et Human sans attaque zéro. Traitez ces quatre branches comme la frontière de cette page ; si une version ultérieure modifie les catégories de cible, la barrière d'activité ou le message de conquête, revérifiez le versement avant d'engager des troupes selon une ancienne attente.
+
+Le message d'événement n'aide qu'après l'action. Il confirme le transfert ou son absence, mais il ne peut pas sauver une réserve déjà vidée. Avant l'engagement, utilisez une plage ; après l'engagement, utilisez le message et la replay pour corriger votre hypothèse lors de la partie suivante.
+
+## Le cadre de décision CLAIM
+
+**Classify** vient en premier, car le type fixe le plafond. Marquez Bot, Nation, Human dont l'attaque est confirmée, ou Human à activité inconnue. Ne fusionnez pas les comportements sous prétexte que tous possèdent terrain et Or. Une Nation n'ayant jamais attaqué reste dans la branche entière ; la barrière zéro vise Human. Un Human ayant fait un seul petit probe reste dans la branche moitié même s'il devient ensuite inactif. Le type est la seule entrée fixe que vous pouvez établir avant de connaître le solde et le coût.
+
+**Liquid** désigne le solde susceptible d'exister à l'élimination, pas une ancienne capture du classement ni une fortune extrapolée des bâtiments. Observez les dépenses récentes : nouvelle City, niveaux de Port ou Factory, construction de SAM, Warships et lancements nucléaires réduisent le cash saisissable. Le revenu peut le rebâtir pendant le trajet. Utilisez une fourchette basse. Si vous estimez 8M à 12M, chiffrez une Nation à 8M et un Human éligible à 4M. Si la décision échoue à cette borne, le butin n'est pas un motif fiable.
+
+**Activity** ne concerne que Human et demande une preuve d'attaque sortante non nulle. Une notification visible, une poussée frontalière observée ou une replay suffisent. Être connecté, bâtir, défendre automatiquement ou recevoir des coups ne correspond pas au test. Sans preuve, calculez deux cas : moitié du solde prudent et zéro. Une bonne élimination reste correcte dans les deux ; une chasse au butin qui ne fonctionne qu'à moitié doit attendre une preuve ou être justifiée par le territoire.
+
+**Investment** chiffre tout ce qui permet de posséder la dernière tile et de survivre ensuite : Troops, trajet ou transport, frontière créée et occasion offerte à un tiers. Une attaque terrestre ne paie pas normalement d'Or, mais les Troops ont une valeur parce que leur reconstruction prend du temps et de la capacité. Si un Defense Post, une flotte de remplacement ou un SAM est indispensable pour garder le gain, ajoutez-le. Ne valorisez pas à plein prix un bâtiment capturable avant d'avoir confirmé qu'il survivra réellement au chemin de conquête.
+
+**Move** nomme l'action du cycle suivant. « Être plus riche » n'en est pas une. « Dépenser au plus 1,5M d'un versement minimum de 5M sur deux défenses qui ferment le col, garder le reste liquide » en est une. Acheter le niveau de City suivant parce que les Troops touchent déjà le cap, ou réserver une ligne SAM contre une menace confirmée, en sont d'autres. Le Move empêche l'Or de dormir pendant que la nouvelle frontière s'effondre.
+
+| Classe de cible | Borne de versement | Preuve requise | Finir seulement si | Défaut en cas d'incertitude |
+|---|---:|---|---|---|
+| Bot | 100 % du solde | Type visible | Terrain et solde prudent dépassent le coût | Estimer le solde bas |
+| Nation | 100 % du solde | Type visible | La fin survit aux contre-pressions | Garder une réserve pour la nouvelle frontière |
+| Human, attaque confirmée | 50 %, arrondi inférieur | Attaque sortante fiable | La moitié basse plus la position dépassent le coût | Chiffrer la moitié de l'estimation basse |
+| Human, activité inconnue | 0 % à 50 % | Aucune preuve fiable | La fin est déjà bonne à zéro | Traiter l'Or comme bonus |
+
+CLAIM est un test d'arrêt, pas un score. Arrêtez si le type est incertain alors que l'Or est indispensable, si l'estimation est périmée, si l'investissement mange la réserve, ou si aucun Move ne protège le résultat. Continuez si la borne basse suffit, si le terrain reste utile à zéro et si l'action suivante est budgétée. Le butin reprend ainsi son vrai rôle : financement attaché à une élimination positionnellement correcte, jamais raison de fabriquer une mauvaise élimination.
+
+## Scénario un : une Nation à 10M et une finition contestée
+
+Supposons une FFA publique où une Nation possède environ 10M d'Or, 6 % du terrain utilisable, une City exposée et deux poches restantes. Vous et un autre Human touchez les deux poches. Votre réserve est de 2,4M Troops ; prendre les deux paraît coûter 700k et crée une courte frontière avec le rival. Celui-ci montre 1,1M près de la seconde poche. Comme la cible est Nation, le plafond est 100 % : si l'estimation de 10M reste vraie lors de l'élimination, celui qui achève reçoit 10M.
+
+Exécutez CLAIM au lieu de courir vers le nombre. Classification exacte : Nation, branche entière. Liquid incertain : prévoyez une dernière construction et prenez 8M comme plancher. Activity ne compte pas, puisque la barrière zéro vise Human. Investment vaut au moins 700k Troops plus la force qui empêche le rival de prendre la dernière tile ou de traverser la nouvelle frontière. Move doit être précis : réserver jusqu'à 500k pour une défense seulement si elle couvre le col, garder 1M liquide, puis retarder le reste jusqu'à ce que la ligne survive un cycle.
+
+Avec ces hypothèses, la fin n'est intéressante que si les 700k dépensés laissent une réponse aux 1,1M adverses. « 10M valent 700k Troops » n'est pas une règle, car les ressources ne s'échangent pas directement. La comparaison utile demande si les 1,7M restants tiennent la nouvelle géométrie assez longtemps pour que le plancher de 8M finance le Move. Si terrain, densité ou autre front rendent ces 1,7M insuffisants, laissez plutôt le rival fixer la Nation ou prenez seulement la poche qui raccourcit votre bord.
+
+Changeons une hypothèse : le rival attaque la seconde poche et devrait porter le coup final. La récompense va au conquérant, pas au prorata des dégâts. Votre travail précédent ne réserve aucune part. Ne contestez que si la lutte pour la dernière tile ne vide pas votre cœur. C'est le contre-jeu central : un adversaire peut vous laisser payer l'usure puis saisir l'élimination, ou vous laisser prendre l'Or avant d'attaquer la frontière pendant qu'il n'est encore qu'un nombre.
+
+Le test de réussite est observable. Continuez si la Nation reste proche de la borne, si les poches tombent sans franchir votre plancher de réponse et si la route finale forme un bord couvrable. Différez si le rival contrôle le dernier accès, si la Nation dépense son solde ou si la fin ajoute un front Human exposé. Le versement intégral est réel, mais n'a de valeur que pour celui qui possède l'élimination et survit au mouvement suivant.
+
+S'il existe une troisième route de menace, même 8M ne l'effacent pas. Refaites l'[Évaluation des menaces](/fr/guides/threat-assessment/) et utilisez [Pression des Nations](/fr/guides/nations-pressure/) pour savoir qui devient la cible de valeur après la disparition. La récompense modifie le financement après ces contrôles ; elle ne remplace aucun des deux.
+
+## Scénario deux : un Human actif avec 12 500 001 d'Or
+
+Supposons une FFA à trois où un Human affaibli possède exactement 12 500 001 au moment de la décision, a envoyé plusieurs attaques visibles et tient une bande étroite de 4 % entre vous et le leader. Vous avez 1,8M Troops et estimez la fin à 450k. Le leader montre 900k de l'autre côté. Human plus attaque non nulle signifie moitié arrondie vers le bas : 6 250 000. Le solde complet du vaincu est retiré ; les 6 250 001 restants ne deviennent pas un second butin.
+
+Classification et Activity sont confirmées. Liquid reste sensible au temps : le chiffre exact est une hypothèse de scénario, pas une information normalement garantie. Investment comprend 450k et le risque que le leader transforme la bande disparue en route directe. Move doit donc protéger avant de développer. Supposons 250k d'Or affectés à la défense et 1M maintenu liquide ; le reste pourra ensuite financer une City, un Port, une Factory ou une contrainte prouvée. La fin ne marche que si les 1,35M Troops restants répondent aux 900k sans abandonner un autre front.
+
+Ce cas montre pourquoi une moitié peut dépasser un versement intégral ailleurs. Les 4 % ferment un joueur, retirent un front et peuvent refuser une route facile au leader. L'action peut rester juste même si la cible dépense tout son Or : les gains positionnels valent déjà 450k. Les 6,25M accélèrent alors un Move justifié. C'est plus sûr qu'une Nation distante à 20M qui ouvre trois bords, car le multiplicateur ne mesure jamais la qualité de la position résultante.
+
+Le contre-jeu porte sur le timing. Le leader peut s'arrêter, vous laisser payer les 450k, puis frapper votre réserve à 1,35M au changement de couleur. La cible peut acheter un dernier SAM, niveau de Silo, navire ou City avant de tomber, réduisant Liquid. Le leader peut aussi prendre la dernière tile et les 6,25M. Arrêtez les renforts quand la dernière tile n'est plus contrôlable, pré-positionnez sur le côté du leader et révisez Liquid vers le bas après chaque achat visible.
+
+Avec 12 500 000 au lieu de 12 500 001, le versement resterait 6 250 000. L'unité impaire illustre l'arrondi, elle ne décide pas. Le seuil réel est : borne basse plus gain de 4 % dépassent-ils le coût tout en laissant une réserve viable ? La réussite est une frontière tenue et un Move exécuté. Recevoir l'Or puis perdre la bande avant qu'il serve est un échec.
+
+Ne transformez donc pas ce scénario en taux fixe « 450k Troops contre 6,25M ». Terrain, largeur, Defense Posts et tiers modifient le coût. [Combat terrestre](/fr/guides/land-combat/) possède cette poussée ; la présente page classe le butin seulement lorsque la poussée est crédible.
+
+## Scénario trois : un Human à 18M qui n'a jamais attaqué
+
+Supposons un salon hébergé avec 5M Starting Gold. Un Human apparaît, construit passivement, n'envoie aucune attaque et semble ensuite posséder environ 18M. Il contrôle 3 % sur une route latérale. Atteindre sa poche finale coûte environ 300k Troops et ouvre une côte joignable par un autre joueur. Le qualifier de prix à 18M est tentant, mais faux : avec zéro attaque envoyée, le gestionnaire v0.34.21 saute le transfert et le conquérant reçoit 0.
+
+CLAIM modifie immédiatement l'appel. Classification : Human. Liquid peut être 18M, mais ne franchit pas la barrière Activity. Le scénario confirme zéro ; en partie réelle cette certitude est rare, donc zéro reste la borne prudente. Investment vaut 300k plus la défense de la côte. Move ne peut pas dépendre du butin. Les seules raisons valables sont les 3 %, la suppression d'un front, une route nécessaire, une position dangereuse ou le seuil de victoire.
+
+Supposons que vous soyez à 2,5 points d'un seuil Overtime descendant et que la bande de 3 % soit accessible sans exposer le cœur. La fin est correcte à zéro, car le terrain termine la partie. Si le seuil est loin, si vous possédez déjà une route sûre et si la côte crée un contact plus fort, la même cible n'est pas rentable maintenant. Gardez la poche comme tampon, investissez ailleurs l'occasion des 300k et revenez quand la valeur cartographique change. Le zéro n'interdit pas la conquête ; il retire le faux argument économique.
+
+Une petite attaque de la cible change l'inférence. Dès que la statistique est non nulle, elle passe à la moitié. Vous pouvez ignorer un probe ancien ou lointain. Un Human apparemment inactif doit donc être chiffré entre zéro et moitié, jamais comme zéro certain sans preuve solide. Ne cherchez pas systématiquement à provoquer une attaque symbolique : dépenser des troupes ou ouvrir une relation pour rendre un Or caché éligible peut coûter plus que sa moitié et réveiller un tampon inoffensif.
+
+Même si aucun Or n'est transféré pour le joueur sans attaque, ce joueur reste vaincu. Son ancien solde n'est ni un trésor récupérable, ni un virement d'équipe retardé, ni une banque pour le prochain conquérant. Pour votre décision, il vaut zéro. Le message sans Or confirme après coup et aide la replay ; il ne chiffre pas l'assaut avant.
+
+Le scénario réussit si la finition sans versement achète un résultat positionnel nommé qui valait déjà 300k. Il échoue si le joueur dépense 300k et ouvre la côte uniquement pour 18M imaginaires. Testez donc toute activité Human inconnue en effaçant l'Or du plan : voulez-vous encore la terre ? Si la réponse est non, attendez.
+
+Cette attente n'est pas passive. Surveillez le seuil, la route adverse et tout signal d'attaque sortante. Le premier changement peut rendre la terre urgente, le deuxième rendre la fin dangereuse, le troisième changer le plafond de zéro à moitié. CLAIM n'ordonne pas toujours de renoncer ; il définit l'information qui autorise une nouvelle décision.
+
+## Échecs, contre-jeu adverse et signaux impossibles à connaître
+
+Le premier échec consiste à **confondre force affichée et Or liquide**. Un grand territoire, beaucoup de bâtiments ou un revenu élevé ne révèlent pas le solde au moment de la conquête. La cible peut dépenser juste avant et un bâtiment n'est pas une monnaie. Corrigez avec une fourchette, puis baissez-la après toute construction, amélioration, unité navale ou frappe observée. Le système récompense le solde restant, pas l'économie que vous imaginez avoir existé.
+
+Le deuxième est **d'utiliser le mauvais multiplicateur de type**. Bot et Nation versent tout ; Human éligible verse la moitié. Une Nation passive ne devient pas un Human à zéro et un Human très combatif ne verse pas tout parce qu'il fut difficile. Classez avant d'évaluer. Si la replay ou l'interface localisée rend le type ambigu, vérifiez avant d'inscrire le versement dans une analyse.
+
+Le troisième est **de déduire Activity de la présence**. Un Human peut être connecté, riche et fortifié avec zéro attaque envoyée ; un autre peut sembler inactif après un seul probe lointain et déjà payer la moitié. La statistique interne n'est généralement pas visible en direct. Planifiez deux cas. Une agression confirmée autorise la moitié ; sans preuve, conservez zéro. La survie ne doit jamais dépendre d'un drapeau caché.
+
+Le quatrième est **de confondre contribution et propriété de l'élimination**. Les dégâts ne réservent aucune part. Le joueur qui réalise la conquête reçoit le montant configuré. Un rival peut vous laisser épuiser la cible puis prendre le dernier territoire, ou vous pousser à surinvestir pour l'en empêcher. Arrêtez quand le chemin vers la dernière tile n'est plus contrôlable. Un coût déjà perdu ne justifie pas de financer davantage la récompense d'autrui.
+
+Le cinquième est **de dépenser deux fois le butin attendu**. Beaucoup comptent l'Or comme raison pour laquelle l'attaque est abordable, puis budgètent plusieurs actifs avec la même somme. Avant conquête, elle n'est pas vôtre ; après, une seule liste d'achats tient dedans. Si la nouvelle frontière exige 3M et que la borne Human vaut 4M, il reste 1M pour la croissance, pas 4M. Nommez un Move immédiat et un reste liquide.
+
+Les adversaires disposent de quatre contres : dépenser avant la défaite, lancer une petite attaque qui modifie l'éligibilité Human, contester la dernière tile, ou frapper la nouvelle frontière pendant le délai entre versement et défense. Aucun ne change la formule ; tous changent CLAIM. Réduisez l'exposition : engagement plus petit, route finale contrôlée, réserve pré-positionnée et dépenses facultatives retardées jusqu'à la tenue du bord.
+
+Certains signaux resteront inconnus : solde exact, attaques distantes, achats prévus, timing du rival. Écrivez vos hypothèses : « Nation, au moins 8M, 700k pour finir, un rival peut contester par une route. » Si un petit déplacement d'une inconnue inverse la décision, elle n'est pas prête. Une bonne conquête reste juste dans une plage utile et s'améliore si le versement arrive.
+
+Enfin, séparez preuve préalable et preuve postérieure. Le message d'événement et la replay expliquent le résultat, mais ne remontent pas le temps. Utilisez-les pour corriger votre méthode de la prochaine partie, pas pour rationaliser un pari qui n'avait aucune borne conservatrice au moment du clic.
+
+## Ajustements selon le mode et la carte
+
+En FFA publique, le risque de capture par un tiers domine. Tous profitent de la disparition de la cible, mais seul le conquérant reçoit l'Or. Utilisez le butin pour départager des finitions déjà bonnes géométriquement. Une Nation distante à versement entier vaut rarement mieux qu'un Human proche à moitié si le second ferme un front et la première en ouvre deux. Relancez l'[Évaluation des menaces](/fr/guides/threat-assessment/) après chaque élimination : cibles, bénéficiaires et routes changent ensemble.
+
+En Team, l'Or va au solde individuel du conquérant, pas automatiquement à un treasury partagé. L'équipe peut coordonner qui prend la fin et ce qu'il achète, sans supposer une division entre coéquipiers. Donnez la dernière tile au joueur dont la route et l'achat servent le mieux l'équipe, tant que cela ne retarde pas l'élimination. L'un peut recevoir et financer la défense, l'autre préserver ses Troops pour la ligne suivante. [Rôles d'équipe](/fr/strategies/team-roles/) possède cette passation.
+
+En solo ou dans une partie dense en Nations, les versements intégraux sont plus fréquents et peuvent enchaîner les achats. Cela ne transforme pas chaque Nation en coffre. Les Nations Hard et Impossible cherchent les voisins de valeur qu'elles peuvent battre sans danger ; une fin exposant des bâtiments améliorés peut convertir le versement en appât. Utilisez [Pression des Nations](/fr/guides/nations-pressure/) pour tester la nouvelle adjacency. Les Bots paient aussi tout, mais une poche pauvre peut ne valoir que par sa route et son terrain.
+
+Sur une carte compacte, la riposte suit presque immédiatement. Donnez plus de poids à la frontière et à la réserve qu'au montant nominal. Pré-positionnez la défense avant la dernière tile et gardez un Move assez petit pour rester attentif. Sur une grande carte, une poche distante offre peut-être plus de temps pour dépenser, mais le trajet et la géométrie séparée augmentent Investment. La cible a aussi davantage de temps pour dépenser ; baissez Liquid lorsque la campagne s'allonge.
+
+Sur les îles et les détroits, la propriété de la route peut dominer l'argent. Un versement intégral outre-mer est mauvais si transports et escorte consomment la réserve et si la tête de pont ne tient pas. Une île Human à zéro peut être bonne si elle contrôle l'unique Port ou retire une plateforme. Intégrez pertes navales et exposition de la côte, puis utilisez [Débarquements](/fr/guides/transport-landings/) pour la traversée. L'Or reçu après une tête de pont perdue ne la ressuscite pas.
+
+Overtime et les seuils fixes changent la valeur du terrain. Si le territoire franchit le seuil en direct, la fin est d'abord une action de victoire. Si le seuil reste loin, le versement a besoin d'un Move nommé. N'attendez pas un solde plus riche si un rival peut terminer, et ne précipitez pas une poche à zéro parce qu'elle semble propre. [Gagner Overtime](/fr/guides/winning-overtime/) possède le calcul ; cette page ne fait qu'appliquer la classe de récompense au coût.
+
+Les modifiers peuvent tromper. Starting Gold fait paraître extrêmement riche un Human sans attaque alors que la barrière impose toujours zéro. Des structures désactivées réduisent les signaux de dépense sans changer le multiplicateur. Team placement, Compact Map, règles d'eau et rotation modifient accès et exposition, jamais la formule entier/moitié/zéro. Transportez la formule ; recalculez le trajet, le temps, le bord et la victoire.
+
+## Liste avant la fin et prochaine lecture
+
+Avant l'attaque finale, dites les cinq réponses CLAIM dans une phrase : classe, solde prudent, preuve Activity, Investment total et Move immédiat. « Nation, au moins 8M, activité sans objet, 700k Troops et un col couvrable, puis au plus 500k de défense en gardant 1M liquide » est exploitable. « Joueur riche, facile, j'achèterai ensuite » ne l'est pas. La première phrase peut être invalidée par une nouvelle donnée ; la seconde ne protège rien.
+
+Appliquez quatre arrêts. Arrêtez si les dépenses de la cible empêchent la borne de financer le Move. Arrêtez si un autre contrôle la route finale. Arrêtez si les Troops nécessaires franchissent votre plancher de réponse. Arrêtez si l'élimination crée une frontière impossible à couvrir. Ces arrêts dépassent un seuil d'Or fixe, car 5M décident une partie et restent insignifiants dans une autre. La récompense ne vaut que dans la position où elle arrive.
+
+Après conquête, vérifiez le message et le solde avant d'acheter. Le message reçu confirme le transfert ; le message sans Or confirme le saut Activity. Portez l'écart vers [Analyse de replay](/fr/guides/replay-review/) : mauvais type, mauvaise hypothèse d'activité, dépenses de la cible ou conquête prise par un tiers ? Modifiez une seule hypothèse la fois suivante au lieu d'inventer une formule.
+
+En v0.34.21, retenez quatre cases : Bot et Nation sont des cibles à solde entier ; un Human ayant envoyé une attaque non nulle est une cible à moitié ; un Human n'ayant jamais attaqué est une cible à zéro. Le message après conquête confirme si l'Or a bougé, mais il ne révèle ni le solde caché ni l'état Activity avant la fin. Chiffrez l'action avec la branche prudente, puis utilisez le résultat observé seulement pour améliorer l'estimation suivante.
+
+Le solde exact et l'état Activity ne sont normalement pas visibles en direct. Cette incertitude fait partie de la décision ; ne la remplissez pas par de la confiance. La définition de fin est pratique : cible valable à la borne prudente, réserve laissée, dernière tile sécurisée et dépense limitée au Move nommé. Si la position reste bonne avec un solde plus faible ou un versement Human nul, la fin est robuste.
+
+Lisez selon l'entrée défaillante. [Évaluation des menaces](/fr/guides/threat-assessment/) si cible ou tiers sont flous ; [Pression des Nations](/fr/guides/nations-pressure/) si la Nation ouvre un bord dangereux ; [Combat terrestre](/fr/guides/land-combat/) si le coût est incertain ; [Gagner Overtime](/fr/guides/winning-overtime/) si le territoire peut terminer. L'Or de conquête est réussi lorsque la récompense améliore une position déjà défendable, pas lorsqu'un grand nombre apparaît brièvement après une élimination coûteuse.
+
+Gardez une dernière discipline : un versement chanceux de 10M ne rend pas bonne une mauvaise frontière, et une fin correcte dont la cible dépense au dernier instant peut rester correcte avec 1M. CLAIM juge les preuves disponibles, la fourchette prudente et la survie, pas la chance du résultat isolé.
