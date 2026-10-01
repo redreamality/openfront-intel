@@ -37,7 +37,7 @@
 - **2026-08-02 复发：PowerShell 的 `foreach (...) { ... }` 输出绝不能在同一语句后直接接管道**：` } | ConvertTo-Json` 与 ` } | Format-Table` 都会报 `An empty pipe element is not allowed`。先写 `$results = foreach (...) { ... }`，下一条语句再处理 `$results`。
 - **2026-08-04 复发：PowerShell 的 `foreach (...) { ... }` 结果不能在同一语句末尾直接接管道**：即使只是汇总只读 JSON，`} | ConvertTo-Json` 也会在命令执行前报 `An empty pipe element is not allowed`。始终先赋给任务专用变量，再在下一条语句处理。
 - **PowerShell 做路径规范化时不要使用未正确转义的 `-replace '\'`**：反斜杠在正则中是转义符，表达式会报 `Invalid pattern`；优先调用字符串 `.Replace('\', '/')`，或使用正确转义的正则 `'\\'`。
-- **2026-08-04 再次复发：Windows 下不要把 `src/content/guides/*/doomsday-clock.mdx` 这类通配路径直接传给 `rg`**：PowerShell 不会按预期展开，`rg` 会收到非法文件名并报 `os error 123`；固定从真实目录根搜索，并用 `--glob 'doomsday-clock.mdx'` 限定文件。
+- **2026-08-04、2026-10-02 再次复发：Windows 下不要把 `src/content/guides/*/doomsday-clock.mdx`、`docs/agent-runbooks/*.md` 或字幕目录里的 `*.vtt` 这类通配路径直接传给 `rg`/读取命令**：PowerShell 不会按预期展开，工具会收到非法文件名并报 `os error 123` 或找不到文件；固定从真实目录根搜索，并用 `--glob 'doomsday-clock.mdx'`、`--glob '*.md'`、`--glob '*.vtt'` 限定文件。
 - **2026-08-05 复发：PowerShell 路径规范化不要写 `-replace '\'`**：`-replace` 的第一个参数是正则，单个反斜杠会触发 `InvalidRegularExpression`；不需要正则时统一用 `$path.Replace('\', '/')`，需要正则时写 `-replace '\\', '/'`。
 - **2026-08-06 再次复发：Windows 下不要把 `src/data/legal.*.ts` 等通配符作为 `rg` 的路径参数**：这会被当成非法文件名并以退出码 2 失败；应从真实目录根（如 `src`）搜索，并用 `--glob 'legal.*.ts'` 限定文件，零匹配时只把退出码 1 解释为正常审计结果。
 - **Astro 内容集合配置位于 `src/content/config.ts`，不是 `src/content.config.ts`**：读取 schema 前先用 `rg --files | Select-String 'content.*config'` 确认真正路径，不要沿用其他 Astro 项目的目录布局假设。
