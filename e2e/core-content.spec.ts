@@ -12,6 +12,7 @@ const topics = [
   { section: 'guides', slug: 'frontload-port-factory-investment', latinMin: 1_500, hanMin: 2_500 },
   { section: 'guides', slug: 'map-size-compact-mode', latinMin: 1_200, hanMin: 2_000 },
   { section: 'guides', slug: 'map-strategy', latinMin: 1_200, hanMin: 2_000 },
+  { section: 'guides', slug: 'nuke-alliance-threshold', latinMin: 4_000, hanMin: 6_000 },
   { section: 'maps', slug: 'svalmel', latinMin: 1_200, hanMin: 2_000 },
   { section: 'maps', slug: 'dyslexdria', latinMin: 1_200, hanMin: 2_000 },
   { section: 'strategies', slug: 'economy-fundamentals', latinMin: 1_500, hanMin: 2_500 },

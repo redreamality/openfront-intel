@@ -9,8 +9,8 @@ const homepageCases = [
 ] as const;
 
 const latestGuideSlugs = {
-  en: ['alliance-break-timing', 'four-islands-ffa-openings', 'black-sea-ffa-openings', 'how-many-ports-to-build', 'strait-of-gibraltar-openings'],
-  localized: ['alliance-break-timing', 'four-islands-ffa-openings', 'black-sea-ffa-openings', 'how-many-ports-to-build', 'strait-of-gibraltar-openings'],
+  en: ['midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation', 'conquest-gold', 'factory-economy-commit'],
+  localized: ['midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation', 'conquest-gold', 'factory-economy-commit'],
 } as const;
 
 for (const homepageCase of homepageCases) {
