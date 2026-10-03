@@ -9,8 +9,8 @@ const homepageCases = [
 ] as const;
 
 const latestGuideSlugs = {
-  en: ['midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation', 'conquest-gold', 'factory-economy-commit'],
-  localized: ['midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation', 'conquest-gold', 'factory-economy-commit'],
+  en: ['structure-capture-denial', 'tribes', 'midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation'],
+  localized: ['structure-capture-denial', 'tribes', 'midgame-survival-low-threat', 'nuke-alliance-threshold', 'nuke-evacuation'],
 } as const;
 
 for (const homepageCase of homepageCases) {
