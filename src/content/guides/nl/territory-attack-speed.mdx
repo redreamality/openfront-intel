@@ -1,0 +1,142 @@
+---
+title: "Gebiedsgrootte en aanvalssnelheid: wanneer een groot rijk moet doorstoten"
+description: "Ontdek hoe bezette vakken de snelheid van een OpenFront-aanval veranderen, waarom de troepenlimiet een andere variabele is en wanneer een full send een tegenaanval of MIRV kan voorblijven."
+pubDate: 2026-10-09
+updatedDate: 2026-10-09
+tags: [combat, territory, attack-speed, strategy]
+category: Gevecht
+difficulty: Gevorderd
+version: v0.34.24
+freshnessSummary: "Gecontroleerd tegen tag v0.34.24 op 2026-10-09: aanvalssnelheid gebruikt een gladde gebiedslogistiek voor aanvaller en verdediger; troepenratio, terrein, dichtheid, grensbreedte en reserve blijven aparte invoer."
+---
+
+**Direct antwoord.** Een groot gebied kan een landaanval sneller laten aankomen, maar maakt geen enkele aanval vanzelf veilig. In v0.34.24 gaat het aantal bezette vakken in een gladde logistieke correctie van de tick-fractie; maximale Troepen is een andere waarde. Lees beide gebieden, de actieve aanvalsstapel, het terrein, de grensbreedte, de dichtheid van de verdediger en je achtergehouden reserve. Stuur alles alleen wanneer de tijdwinst een duidelijk doel bereikt voordat de tegenstander kan reageren.
+
+## Welke beslissing deze pagina oplost
+
+De nuttige vraag is niet “valt een groot land sneller aan?”, maar “verandert de gebiedsbonus deze specifieke aanval genoeg om meer Troepen te riskeren?” Dat zijn verschillende vragen, omdat OpenFront verschillende waarden naast elkaar toont. De Troepenbalk toont je huidige eenheden. Het eindpunt van die balk is je maximale capaciteit. Bezette vakken bepalen grenzen en inkomsten en leveren ook een aanvalsmodificatie. De aanvalsschuif kiest de stapel die werkelijk vecht. Geen van deze vier waarden vervangt een andere.
+
+Daarom melden spelers dat twee landen met ongeveer 200.000 Troepen toch heel verschillend snel over dezelfde grens gaan. De ene speler bezit misschien meer gebied, heeft een bredere actieve grens of valt een grote verdediger aan. De andere gaat door bergen of een dichtbevolkte kern, terwijl de eerste over vlak land tegen een kleine AI-natie loopt. Wie alleen de landentotalen ziet, noemt dit toeval. De engine leest een boekhouding die de interface niet tot één getal samenvat.
+
+Gebruik de gebiedsbonus als tijdvoordeel, niet als toestemming om risico's te vergeten. De aanvallersbonus verlaagt de tick-fractie per vak. De gebiedscomponent van de verdediger verlaagt die fractie ook wanneer je een groot verdedigend gebied binnengaat. Terreinkosten, de verhouding tussen verdediger en actieve aanvalsstapel, Troepen per verdedigervak, Defense Post, fallout, verraad en grensbreedte blijven allemaal meetellen. Een enorm rijk kan een bergpas snel bereiken en toch te veel Troepen verliezen om hem te nemen. Een middelgroot rijk kan op een versterkte rug langzaam lijken en toch winnen omdat het een tegenreserve bewaart.
+
+Een goede beslissing heeft drie uitkomsten. Kies eerst een doel voor een korte stoot: een City, een rivierlijn, een Port, een afgesloten zak of een terugtrekroute. Kies daarna de kleinste actieve stapel die het doel bereikt en een antwoordreserve overlaat. Schrijf ten slotte vóór de klik het stopsignaal op. De gebiedsbonus is nuttig als hij de tijd naar die stoplijn verkort. Hij is verspild als hij alleen een aanval zonder doel een nieuwe grens in versnelt.
+
+In een noodsituatie veranderen de klokken. Na verraad kan een vijand een MIRV lanceren en kan een grote gebiedsbonus je landaanval vóór de raket laten aankomen. Dat kan een echte vluchtlijn zijn, vooral bij een brede gedeelde grens. Het is geen algemene MIRV-tegenzet: vliegtijd, SAM-dekking, terrein en de vraag of je vóór de explosie het relevante gebouw bereikt, blijven doorslaggevend. Zie de snelheidsbonus als één klok tussen meerdere klokken, niet als onkwetsbaarheid.
+
+Let ook op de vorm van het doel. Een snelle verovering van een randvak kan je grens langer maken, terwijl een iets langzamere City-verovering de grens juist korter maakt. De gebiedsbonus beantwoordt alleen hoe snel de tick-fractie wordt betaald. Hij zegt niet of het veroverde vak een goede politieke of economische positie is. Benoem naast het doel ook de vorm die daarna moet bestaan: een korte rand, een gesloten corridor of een nieuwe kust die nog niet beschermd is. Deze vormcontrole voorkomt dat een echte snelheidswinst in een slechtere volgende beslissing verandert.
+
+## Versiegrens: v0.34.24 en de gesloten exploit
+
+Deze gids geldt voor de formele release **v0.34.24** van 6 oktober 2026. Die release sloot een exploit waarmee spelers herhaaldelijk doelen zonder echte grens konden aanvallen en boven de Troepenlimiet konden groeien. Oude clips kunnen daarom tonen dat de balk na ongeldige klikken blijft stijgen. In de huidige versie moet het doel werkelijk aangrenzend zijn; een ongeldige klik is geen regeneratiemethode en geen geldige test van de gebiedsbonus.
+
+De berekening staat in `Config.ts` van de v0.34.24-tag. Ze gebruikt een logistische functie van `log(numTiles)`, met een middelpunt van **300.000 vakken** en steilheid **2,5**. Er is geen schakelaar die bij één grens ineens “groot rijk” aanzet. De curve is bij kleine gebieden bijna vlak, wordt rond het middelpunt zichtbaar en nadert bij enorme gebieden een vloer. De verliesdiepte van de aanvaller is **0,7**, dus de factor nadert **0,3**. De verliesdiepte van de verdediger is **0,3**, dus die factor nadert **0,7**. De snelheidsspecifieke aanvallersdiepte is **0,73**, dus die factor nadert **0,27**. Dit zijn onderdelen, geen belofte dat de hele aanval 73 procent sneller is.
+
+Het v34-gevechtsmodel berekent verlies daarnaast uit de verhouding tussen verdediger en actieve stapel, een basis, Troepen per vak van de verdediger en beide gebiedsbonussen. De tick-fractie bevat terreinprijs, een aparte ratio-snelheidsprijs, de gebiedscomponenten, grensbreedte en effecten van verraad of Defense Post. Troepenregeneratie staat in een aparte functie. De maximale capaciteit wordt dus niet rechtstreeks in de snelheid per vak gestopt, en de v0.34.24-fix veranderde de legitieme snelheidsformule niet.
+
+Neem deze grens mee bij replays. Een video uit v0.33 of vroeg v0.34 kan een ander tempo of een ongeldig-aanvalartefact bevatten. Stel een actuele full send niet af op een video zonder releasevermelding. Als iets onmogelijk lijkt, noteer tag, kaart, terreinlaag, actieve aanvalsstapel, vakken van de verdediger en of het doel echt aangrenzend was. Zo scheid je een versieverschil van een vergeten invoer.
+
+Controleer ook de herkomst van een genoemd getal. Een commit op `main` die nog niet in v0.34.24 zit, beschrijft een mogelijke toekomstige versie en geen actuele spelregel. De release bepaalt de publieke grens; de broncode van de tag controleert de coëfficiënt. Vergelijk bij twee replays eerst de versie, daarna kaart en modus en pas daarna de Troepen. Zo meng je geen v34-video met ontwikkelgedrag. Als later slechts één factor verandert, blijft SCALE bruikbaar, maar moet de tabel opnieuw worden berekend.
+
+## Wat de logistieke vakkencorrectie werkelijk doet
+
+De engine berekent een factor die bij een klein gebied dicht bij 1 begint, geleidelijk daalt als het gebied groeit en naar een vloer beweegt. Omdat die factor de tick-fractie vermenigvuldigt, betekent een lager getal een snellere verovering. Het gebied van de verdediger zit in hetzelfde snelheidsproduct. Onder gelijke omstandigheden kan een aanval op een grote verdediger daarom een lagere tick-fractie hebben dan een aanval op een kleine verdediger. Dat voelt omgekeerd, maar het is bewust: grote eindspelrijken moeten kunnen blijven bewegen in plaats van elke grens permanent te laten vastlopen.
+
+| Bezette vakken | Verliescomponent aanvaller | Snelheidscomponent aanvaller | Verliescomponent verdediger | Betekenis |
+| ---: | ---: | ---: | ---: | --- |
+| 50.000 | ongeveer 0,99 | ongeveer 0,99 | ongeveer 0,99 | Klein gebied, nauwelijks effect |
+| 300.000 | 0,65 | ongeveer 0,64 | 0,85 | Middelpunt, curve wordt zichtbaar |
+| 1.000.000 | 0,33 | ongeveer 0,30 | ongeveer 0,71 | Groot rijk, tijd- en verliesbasis lager |
+| 4.194.304 | ongeveer 0,30 | ongeveer 0,27 | ongeveer 0,70 | Bij de vloer, extra groei levert weinig |
+
+Bij 300.000 vakken is de aanvallende snelheidscomponent ongeveer 0,64 tegenover ongeveer 0,99 voor een klein gebied. Als de verdediger ook bij het middelpunt zit, zijn de twee gebiedscomponenten ongeveer `0,64 × 0,85 = 0,54`, nog vóór terrein, ratio, grensbreedte en andere effecten. Het gebiedsdeel van de tick-fractie kan dus ongeveer halveren. Dat betekent niet dat je half zoveel Troepen nodig hebt: verlies heeft een eigen dichtheidsterm en de ratio kijkt nog steeds naar de actieve aanvalsstapel.
+
+De logaritme maakt de curve niet lineair. 50.000 extra vakken veranderen een gebied van 50.000 sterker dan een gebied van een miljoen. Het middelpunt is een leesanker, geen economisch doel op zichzelf. Een gebied dat een veilige grens en een tweede inkomstenroute opent, kan meer waard zijn dan de snelheidswinst. Een gebied dat drie nieuwe fronten opent, kan de theoretische winst direct in strategische schuld veranderen.
+
+Ook grensbreedte zorgt voor verkeerde indrukken. De tick-fractie wordt gedeeld door het aantal vakken aan de actieve grens. Een brede aanraking kan veel vakken per tick veroveren, maar opent meer richtingen en langere grenzen. Een smalle doorgang verandert minder kleur, maar kan rechtstreeks naar een City leiden. Vergelijk daarom de tijd naar je stoplijn, niet de snelheid van één animatiesegment.
+
+Lees de curve niet als een zelfstandig inkomensdoel. Als extra land twee nieuwe vijanden bereikbaar maakt, kan de benodigde reserve de tijdwinst overtreffen. Als dezelfde strook één route sluit, wordt precies die snelheidsfactor een bescherming. Controleer na iedere verovering het aantal echte buren, de lengte van de houdbare rand en de positie van je gebouwen. Het aantal vakken is de formule-invoer; de vorm van die vakken is de beslisinvoer.
+
+## Scenario één: een grote aanvaller neemt een begrensde route
+
+Stel een FFA voor op minuut dertig. Je bezit **420.000 vakken** en **1.200.000 huidige Troepen**. De tegenstander bezit **80.000 vakken** en **300.000 Troepen**, verspreid over 150 vakken. De route naar zijn blootliggende City gaat over 24 vlakke vakken en daarna over een korte hooglandrand. Met 20 procent stuur je 240.000 Troepen en houd je 960.000 thuis. “Vier keer zoveel Troepen” is de verkeerde vergelijking: de actieve stapel is 240.000 tegen 300.000, het terrein verandert na 24 vakken en jouw gebied zit al voorbij het zichtbare knikpunt van de logistiek.
+
+De gebiedslezing is gunstig. Jouw aanvallende snelheidscomponent zit al in de kromming, terwijl 80.000 vakken bij de verdediger slechts een kleine korting geven. De route is niet gratis, maar dezelfde stapel vanuit een gebied van 50.000 vakken zou langzamer zijn. Een begrensde stoot is daarom verstandig als de City een gevaarlijke grens sluit of een spoorcorridor veiligstelt. Schrijf “City” of “hooglandrand” als stoplijn vóór je stuurt. Laat de aanval niet zomaar het kerngebied inlopen omdat de animatie snel beweegt.
+
+Verhoog je schuif naar 40 procent: 480.000 actief, 720.000 thuis. De ratio verbetert en de snelheidsfactor komt dichter bij de ondergrens van een overweldigende aanval. Gebieds- en ratiovoordeel versterken elkaar. De extra 240.000 zijn alleen gerechtvaardigd als ze iets concreets kopen. Is de City het enige gebouw dat de grens sluit en is de volgende buur een bondgenoot, dan kan het antwoord ja zijn. Gaat de route meteen het hoogland en Defense Post-dekking in, dan kan het antwoord nee zijn: de snelheidswinst verkort de nadering, maar verwijdert geen verlies- of terreinvermenigvuldigers.
+
+De beste verdediging is je goedkope randland te laten nemen en tegelijk jouw lege kant aan te vallen. Jouw tegenmaatregel is een reserveregel: houd genoeg Troepen om de sterkste bereikbare aanval te annuleren en de veroverde City te houden. Zakt de reserve onder die regel vóór de route klaar is, stop dan ook als het volgende vak snel lijkt. De winst van dit scenario is niet “zoveel mogelijk land”, maar “de grote-gebiedsklok gebruiken om een duidelijk gebouw te bereiken voordat de nieuwe grens een tegenaanvalsroute wordt”.
+
+Kijk of de verdediger op je gekozen route reageert. Blijft zijn reserve ver weg, dan kan de tijdwinst genoeg zijn en is stoppen bij de City de juiste uitgang. Verplaatst hij Troepen naar de ingang, dan is je oude tijdrekening verlopen, ook als de aanvalsbalk nog vooruitgaat. Opent hij een tweede rand, dan moet die rand in je reservecontrole komen. Je kunt het voordeel ook via geografie verlengen: bedreig een tweede City, dwing de Defense Post naar de verkeerde nauwe doorgang of trek terug voordat de tegenstander je actieve stapel tegen je lege kern ruilt. De gebiedsbonus geeft tempo; de tegenstander bepaalt of dat tempo nog iets koopt.
+
+## Scenario twee: grote verdediger en een MIRV-race
+
+Je bezit **300.000 vakken** en **700.000 Troepen** op een compacte eilandengroep. Een pas geallieerde buur verraadt je, accepteert de breuk en lanceert een MIRV op een kust-City. Die buur bezit **360.000 vakken** en 500.000 Troepen. Alleen als je de gedeelde zeestraat snel oversteekt, kan landgevecht vóór de raket nog iets veranderen. Je hebt een vlakke route van 18 grensvakken, een bergroute van 8 vakken en een derde speler die je hoofdeiland kan bereiken.
+
+De gebiedsberekening verklaart waarom een aanval tussen twee grote gebieden snel kan zijn vergeleken met een klein land: beide snelheidscomponenten liggen onder de kleine-basis en de verdedigerscomponent verlaagt de tick-fractie extra. De route beslist de race echter nog steeds. Kies de 18 vlakke vakken alleen als ze naar de City van de lanceerder leiden of hem dwingen zijn MIRV-plan te wijzigen. Kies niet automatisch de 8 bergvakken omdat ze korter lijken; terrein en Defense Post kunnen de gebiedskorting volledig opeten.
+
+Een gewone aanval stuurt misschien een vijfde, dus 140.000. Dat haalt het doel mogelijk niet vóór de raket. Een full send van 600.000 laat 100.000 voor het thuiseiland, gevaarlijk als de derde speler een directe route heeft. Een aanval van 60 procent stuurt 420.000, laat 280.000 over en verbetert de ratio. Kijk naar de zichtbare deadlines: resterende vliegtijd, effectieve tick-prijs van de route en aankomst van de derde speler. Als 420.000 vóór de explosie aankomt en 280.000 het thuisfront houdt, is de gedeeltelijke aanval sterker dan een dramatische full send.
+
+Een snelle aanval kan alleen de rand van het Silo pakken terwijl de MIRV al onderweg is. Dat is vooruitgang, geen automatische veiligheid. SAM-bereik, lanceertijd en het echte doel blijven beslissend. Kan de route het gebouw niet vóór de explosie bereiken, gebruik dan het [MIRV-verdedigingsprotocol](/nl/guides/nuke-defense-protocol/) en behoud je leger. De gebiedsbonus maakt de tegenaanval soms verstandig omdat hij het tijdvenster verandert; de reserve is de reden om hem niet leeg te maken.
+
+De verdediger kan vanaf een ander Silo lanceren, een ander waardevol gebouw kiezen of je goedkoop randland laten nemen terwijl de MIRV de kern raakt. Jouw antwoord is het doel vooraf benoemen en stoppen zodra het niet meer haalbaar is. De gebiedsbonus is het sterkst als hij een bekende deadline in een gebouwverovering omzet; hij is het gevaarlijkst als hij paniek in een race zonder uitgang verandert.
+
+Behandel de raketweergave als deadline, niet als bevel om alles te sturen. Controleer of randland veroveren de baan werkelijk verandert, of een SAM-keten de relevante route bereikt en of de derde speler je thuisfront vóór je terugkeer bereikt. Als één antwoord negatief is, is een gedeeltelijke aanval met reserve vaak sterker. Werk de deadline bij na iedere zichtbare lancering of koerswijziging. Een snelle aanval die naar een al verloren gebouw loopt, is alleen sneller verlies. De waardevolle zet stopt de lancering of laat genoeg land en Troepen over om de inslag te overleven.
+
+## Waarom gelijke Troepentotalen verschillende snelheden geven
+
+Het zichtbare totaal is alleen de eerste regel van de gevechtsboekhouding. De engine gebruikt Troepen in de actieve aanval, niet de eenheden die in het land blijven. Met 1.000.000 Troepen en een send van 20 procent ziet de ratio 200.000. Een speler met 400.000 en 80 procent toont 320.000 actief. Die aanval kan sneller en goedkoper zijn, hoewel het totale getal lager is. Dat verklaart meestal de vraag: “We hadden allebei 200k, waarom verdween zijn grens in vijf seconden?”
+
+Troepen per verdedigervak is weer een apart getal. 300.000 Troepen op 150 vakken is 2.000 per vak; dezelfde 300.000 op 600 vakken is 500. De dichtheidsterm maakt compacte verdediging duurder, terwijl de snelheidscomponent van het verdedigingsgebied de totale tick-fractie toch kan verlagen. Dat is geen tegenspraak: beweging kan sneller zijn terwijl verliezen hoog blijven. Wie alleen de animatie ziet, noemt het doel zwak; wie alleen verlies ziet, denkt dat gebiedsgrootte niets doet.
+
+Terrein en gebouwen draaien de indruk verder om. Vlak land heeft de laagste basiskosten, bergen de hoogste, en een Defense Post van de verdediger vermenigvuldigt verlies en tick-kosten. Fallout verandert die waarden opnieuw. Een groot rijk kan daardoor op een beschermde berg langzamer lijken dan een klein rijk op vlak land, ook als de gebiedsbonus het grote rijk helpt. Vergelijk het product op de echte route, niet de spelers op basis van vakken.
+
+Maximale Troepen en regeneratie leveren extra schijnverklaringen. Een City verhoogt de capaciteit; een balk rond ongeveer 42 procent van de capaciteit groeit het snelst; geen van beide stopt de gebiedsbonus rechtstreeks in de vakken-snelheid. De v0.34.24-fix is belangrijk: ongeldige aanvallen op niet-aangrenzende doelen konden een verborgen terugbetaling suggereren die balk, limiet en snelheid aan elkaar koppelde. Die koppeling bestaat niet. Test een geldige route met een begrensde stapel en vergelijk dezelfde route na een tickvenster.
+
+Controleer ten slotte de grensbreedte. Een brede grens verdeelt het veroveringsbudget over meer mogelijke vakken en laat veel kleur veranderen. Een smalle doorgang verandert weinig kleur, maar kan het beslissende gebouw bereiken. De juiste vraag is: “Hoe lang tot mijn stoplijn en hoeveel reserve blijft er dan?” Niet: “Welke kleur beweegt nu sneller?”
+
+Gebruik daarom bij replayvergelijkingen een korte meetlijst: versie, modus, vakken van beide spelers, actieve aanvalsstapel, Troepen per verdedigervak, terrein van de volgende tien tot twintig vakken, Post- of falloutstatus en grensbreedte. Verander bij een test maar één variabele. Verdwijnt het verschil wanneer vlak land in berg verandert, dan heb je een routeverschil gevonden en geen nieuwe gebiedsregel. Verdwijnt het pas wanneer de stapel groter wordt, dan was de ratio de beperkende factor. Zo'n meting is betrouwbaarder dan één snelle screenshot.
+
+## Faalpatronen en tegenzet van de tegenstander
+
+De eerste fout is alles sturen omdat het gebied groot is. Zelfs dicht bij de logistieke vloer kan de aanvaller verliezen tegen dichte verdediging, Defense Post, bergen of een derde partij. Scheid tijdwinst van reservekosten. Schrijf de minimale reserve vóór de klik op. Zonder die bodem is de aanval geen plan maar een eliminatiepoging.
+
+De tweede fout is jagen op 300.000 vakken. Het middelpunt maakt de curve zichtbaar, maar maakt het getal niet automatisch een economisch doel. Een nieuw stuk land kan twee kwetsbare grenzen openen en je praktische veiligheid verlagen terwijl de theoretische snelheid stijgt. Kies land voor route, gebouw, inkomen of overwinningsdrempel. Snelheid is een extra reden, nooit de enige reden om te annexeren.
+
+De derde fout is een capaciteitsupgrade voor een snelheidsupgrade aanzien. Een City en voltooide levels laten meer Troepen opslaan; daardoor kan de schuif indirect een grotere stapel sturen en de ratio verbeteren. De capaciteit zelf staat niet in de gebiedslogistiek. Blijft je balk ruim onder de limiet, dan lost een City opslag op, niet de volgende grens. Lees de [population growth-gids](/nl/guides/population-growth/) voordat je Gold aan capaciteit besteedt.
+
+De vierde fout is een gemeenschapspercentage zonder noemer overnemen. “142,5 procent sneller” kan een omgekeerde tick-kostenvergelijking, één component of een specifieke kaartgrootte bedoelen. De actuele code beschrijft vermenigvuldigers van de tick-fractie. Reken het hele product na in plaats van van een screenshot de belofte te maken dat elke full send iedere MIRV verslaat.
+
+De tegenstander kan een bergpas of gedekte nauwe route houden, Troepen spreiden, je reserve aanvallen, een tweede route openen of een ander waardevol gebouw beschieten. In teamgames kan een partner de lege kant aanvallen die jouw full send achterlaat. Zonder allianties moet je elke nieuwe grens zelf betalen. In Overtime kan de tegenstander goedkoop randland opgeven en elders naar de overwinningsdrempel lopen. Het antwoord is steeds doel, route en reserve opnieuw lezen, niet automatisch meer sturen.
+
+Lees de reactie van de tegenstander als meetwaarde. Versterkt hij de gekozen rand niet, dan kan je bonus genoeg zijn en is terugroepen bij de City beter dan achtervolgen. Verplaatst hij een reserve naar jouw grens, dan is de oorspronkelijke tijdrekening voorbij. Opent hij een tweede front, dan mag je niet simpelweg de eerste stapel blijven voeden. Een goede tegenzet verandert de geometrie: bedreig een tweede gebouw, dwing de Defense Post naar de verkeerde doorgang of trek terug vóór de actieve stapel tegen je thuisreserve wordt geruild. Het tempo blijft alleen van jou zolang het een doel én een veilige terugkeer heeft.
+
+## Aanpassingen voor kaart en modus
+
+Op grote World-achtige kaarten heeft groei tijd om de knik van de logistieke curve te bereiken. Een groot rijk kan een veilige brede grens omzetten in een echt tempovoordeel. Grote kaarten geven echter ook meer bereikbare grenzen. Gebruik de [threat-assessment-gids](/nl/guides/threat-assessment/) om te bepalen welke nieuwe rand werkelijk aangevallen kan worden voordat je het snelheidsdividend uitgeeft. Een continent met één beschermde pas is een beter platform voor een full send dan hetzelfde aantal vakken verspreid over zes kusten.
+
+Compact-kaarten drukken alle klokken samen. Een gebied van 100 vakken verandert de curve nauwelijks, maar een korte route kan een kleine actieve stapel beslissend maken. Houd een grotere directe reserve, omdat de tegenaanval eerder aankomt. Neem de full-senddrempel van een grote kaart niet over zonder een nieuwe stoplijn te berekenen.
+
+Bergachtige kaarten belonen de verdedigende lezing. Staat je grote gebied achter een bergrug, laat de aanvaller de terreinprijs betalen en gebruik je tijd voor regeneratie of diepte. Val je aan, vergelijk dan omweg en directe route. Een snelheidsbonus op vlak land kan strategisch trager zijn als de omweg een kust opent die een Warship kan afsnijden. De [terrain systems-gids](/nl/guides/terrain-systems/) toont de klassen; deze pagina helpt bepalen wanneer de gebiedscomponent de routekeuze verandert.
+
+In teamgames wordt reserve een afspraak. Een teamgenoot kan een tweede grens vasthouden, maar diens vakken worden niet jouw aanvallervakken en diens Defense Post dekt jouw vakken niet automatisch. Benoem route-eigenaar, betaler en verantwoordelijke voor de tegenaanval. Is één teamgenoot de grote aanvaller, dan is zijn bonus de doorbraaktimer; de anderen beschermen de lege zijde in plaats van ook alles te sturen.
+
+In Overtime is gebied tegelijk gevechtsinvoer en overwinningsinvoer. De snelheidsbonus kan de drempel laten overschrijden, maar een lange achtervolging laat je eigen lijn leeg. In Doomsday kan de deadline een kleinere reserve rechtvaardigen, terwijl drain en rot eigen klokken toevoegen. Lees de [winning Overtime-gids](/nl/guides/winning-overtime/) of de [Doomsday-gids](/nl/guides/doomsday-clock/) voordat je normale FFA-stopregels naar een speciale modus verplaatst.
+
+Op kaarten met veel water moet je de snelle landroute bovendien vergelijken met transport- en Warship-tijd. Een groot leger kan het landdeel snel afwerken en toch te laat aankomen omdat de volgende kust onbeschermd is. Op dichtbebouwde kaarten kan een korte landroute door een onbegaanbare strook worden onderbroken. Teken de weg op de actieve kaart, bepaal het eerste gebouw dat er werkelijk toe doet en markeer het laatste punt waarop terugroepen nog een veilige lijn oplevert. Zo blijft de gebiedsbonus verbonden met de echte geometrie.
+
+## De SCALE-lus voor elke grote aanval
+
+Gebruik **SCALE** vóór een serieuze send. **S — Size, grootte.** Noteer jouw vakken en die van de verdediger. Zie 300.000 als het punt waarop de curve zichtbaar wordt, niet als een magische drempel. Zijn beide gebieden klein, verwacht dan weinig verklaring uit grootte. Zijn beide groot, verwacht dan een sneller eindspel, maar niet alleen door één factor.
+
+**C — Check, controle.** Schrijf huidige Troepen, percentage, actieve stapel, vijandelijke Troepen, Troepen per vak, volgend terrein, Defense Posts, fallout en grensbreedte op. De stapel bepaalt de ratio, de route de vakprijs en de vakken het gladde gebiedsgetal. Ontbreekt een invoer, stuur dan een probe in plaats van de schuif te verhogen.
+
+**A — Assign, doel.** Benoem een City, Port, rivierlijn, Silo, zak of drempelkruising. Schat de route tegen de volgende vijandelijke actie. “Meer land” is geen controleerbare stoplijn; maak de aanval kleiner als je niets concreters kunt noemen. De gebiedsbonus telt wanneer het doel dichtbij genoeg is dat tijd echt verschil maakt.
+
+**L — Leave, reserve.** Houd genoeg Troepen om de sterkste geloofwaardige aanval te annuleren of op te vangen, de nieuwe grens te beschermen en op verraad of kernwapens te reageren. Een full send kan kloppen in een bewezen MIRV-race of een directe overwinningskruising, maar niet als standaard. De reserve is de optie die snelheid omzet in een houdbaar resultaat.
+
+**E — Exit, uitstappen.** Stop bij het doel, bij slechter terrein, een nieuwe post, een derde front, een veranderd MIRV-doel of onder de reservegrens. Reken na een betekenisvol tickvenster opnieuw. Bij een bijna gelijke ratio helpt de [near-parity-gevechtsgids](/nl/guides/near-parity-combat/), voor het grensoverzicht de [land combat-gids](/nl/guides/land-combat/) en voor de nucleaire klok het [MIRV-verdedigingsprotocol](/nl/guides/nuke-defense-protocol/).
+
+De laatste regel is eenvoudig: gebiedsgrootte verandert de prijs van tijd, niet de waarde van oordeel. Een groot rijk moet doorgaan wanneer de tijdkorting een duidelijk doel vóór de tegenreactie bereikt, en stoppen wanneer diezelfde korting alleen een onveilig plan sneller maakt. Zo wordt “waarom is hij zo snel?” een herhaalbare beslissing in plaats van een raadsel na de replay.
+
+Voer SCALE na iedere stop opnieuw uit. Een City kan je aantal vakken verhogen en tegelijk het aantal echte buren verdubbelen. Een MIRV kan fallout maken en daarmee de volgende vakprijs veranderen. Een nieuwe Defense Post kan je oude tijdrekening ongeldig maken. Daarom is de methode geen eenmalige checklist voor de eerste klik, maar een lus: tijdwinst om te bereiken, reserve om te houden en direct uitstappen zodra de aanname achter de aanval niet meer klopt.
