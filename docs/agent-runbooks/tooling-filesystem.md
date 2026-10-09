@@ -54,4 +54,6 @@
 
 - 实施时曾读取不存在的 `e2e/seo.spec.ts`；随后通过 `rg --files e2e` 找到 `seo-titles.spec.ts` 与 `seo-health.spec.ts`。这是路径猜测造成的读取失败，已恢复真实测试定位。
 
+- 2026-10-09：多文件 apply_patch 以不存在的裸 `#` 作为 runbook 上下文而验证失败。复核 status/diff 确认没有部分改动后，读取真实尾部并拆为小批补丁恢复；不修改 AGENTS.md。
+
 - 独立核验时，`rg` 同时读取真实 `src/layouts/BaseLayout.astro` 和未经枚举的 `src/components/SEO.astro`，后者不存在，导致缺失路径错误。用 `rg --files src` 恢复定位，确认 SEO 实际位于 `src/i18n/seo.ts` 与 BaseLayout；仅读取真实路径后完成核验。此为既有“先枚举、后读取”规则复发，未影响 GSC 原始数据或公开页面，无需修改 AGENTS.md。

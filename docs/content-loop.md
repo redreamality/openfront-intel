@@ -23,7 +23,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 当前八项搜索改善见 [计划](search-improvement-plan.md)：统计口径、新手、移动端、MIRV 成本、地图、策略、长文入口、选题流程 | 本批次验证并发布即转入 Monitoring；用完整发布后 28 天窗口评价，观察中只随事实错误或正式变化修订。 |
+| Monitoring | `LF-COMMUNITY-ROLLING` | 八项搜索改善于 2026-10-09 部署，见 [计划](search-improvement-plan.md) | 等待 2026-10-10 至 2026-11-06 的完整 GSC final 窗口；固定词簇，国家/设备固定或分别报告。观察中只随事实错误或正式变化修订。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 

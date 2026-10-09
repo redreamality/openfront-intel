@@ -15,7 +15,7 @@
 | 长文入口 | 用玩家问题把五个成熟细分主题接入对应支柱页 | ArticleAnswerRoutes |
 | 流程 | 已有答案维护优先；新页记录需求与缺口；无信号探索限制投入；完整窗口评价 | strategy、loop、long-form program、日更提示词 |
 
-本批已完成本地实施与回归，详细结果见 [实施报告](research/2026-10-09-search-improvements.md)。全站 SEO 的既有 83 项问题单独记录，本批影响 URL 未命中。本提交部署成功即转入 Monitoring；实际提交与部署证据记入 automation memory，不把本地构建描述成线上改善。
+本批已进入 Monitoring，详细结果见 [实施报告](research/2026-10-09-search-improvements.md)。提交 `73b4347b133af8aa304b966ea4a9ec2f3754aed5` 已推送 main，[部署 37914968649](https://github.com/redreamality/openfront-intel/actions/runs/37914968649) 于 2026-10-09T10:03:23Z 成功。评价窗口为 2026-10-10 至 2026-11-06，须等待完整 GSC final 数据，固定词簇与国家/设备口径。全站 SEO 的既有 83 项问题单独记录，本批影响 URL 未命中。
 
 ## 唯一答案与相邻职责
 

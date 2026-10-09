@@ -1,6 +1,6 @@
 # 2026-10-09 搜索答案改善实施报告
 
-状态：八项本地实施完成，本批回归通过。全站 SEO 审计仍有已核验的既有问题。当前批次为既有答案维护，不新增攻略。用户明确要求全部提交并继续后，本自动化接管既有批次；本提交部署成功即转入 Monitoring，提交与部署结果以 automation memory 为准。
+状态：DELIVERED。八项搜索改善提交 `73b4347b133af8aa304b966ea4a9ec2f3754aed5` 已推送 main，部署 [37914968649](https://github.com/redreamality/openfront-intel/actions/runs/37914968649) 于 2026-10-09T10:03:23Z 成功，转入 Monitoring。全站 SEO 仍有已核验的 83 项既有问题。当前批次为既有答案维护，不新增攻略。
 
 ## 八项实施
 
@@ -47,14 +47,17 @@ Hermes 列表复核另显示最近一次已有运行的通知投递失败：`del
 - 并行 Astro check/build 触发共享 data-store 临时文件重命名 EPERM；改顺序执行。具体失败与恢复已写入相应 runbook，未修改 AGENTS.md。
 - 构建后五个生成 JSON 的业务数据、上游 commit 与版本均与任务开始基线一致；仅时间戳/换行噪声已从精确备份恢复。最终 `git diff --check` 通过。
 
-实施过程中工作区另有五语 sub-hundred-elimination 草稿、costly-elimination/threat-assessment 改动、来源包与 cache 脚本，本轮未修改；另一任务后续收口不纳入本批交付。
+此前的五语 sub-hundred-elimination、costly-elimination/threat-assessment 与来源包已由父提交 `9feb17c396ca372633315dc6f0ff850b698e4f71` 收口。接续维护为德语 Threat Assessment 的模式/地图小节补充双边界不确定时的核心路线与预备队判断，397 词提升至 423 词；不新增机制数字，保留原版本与事实核验日期。依据既有 [来源包](2026-09-01-threat-assessment-community-source-pack.md)，其他四语无需重复补句。新长文总字数及 3+3 社区配额不适用于此次维护。
 
-## 受影响 URL（去重 76 条）
+接续维护验证：Threat Assessment 单篇五语审计 PASS；content:audit 与 check 通过（262 文件、0 errors、0 warnings、9 hints），构建 815 页，38,845 个内部 href 无坏链。SEO 仍为相同 83 项既有问题，Threat Assessment 无命中。五个生成 JSON 已核验为本轮时间戳/换行噪声并恢复精确基线，diff 检查通过。接续修改没有交互变化，无需重复 e2e；入口批次已有 430/430 完整通过证据。
 
-直接修改 70 条五语路由，另有 5 个首页最新内容排序和 1 个荷兰语推荐卡片。基于 815 个生成 HTML 核验实际受 First Match 元数据影响的渲染引用；未命中的共用布局页面不计入。
+## 受影响 URL（去重 77 条）
+
+直接修改 70 条五语路由，另有 5 个首页最新内容排序、1 个荷兰语推荐卡片和接续维护的 1 个德语 Threat Assessment 页面。基于 815 个生成 HTML 核验实际受 First Match 元数据影响的渲染引用；未命中的共用布局页面不计入。
 
 | URL | 变更类型 | 原因 |
 |---|---|---|
+| https://openfront.fyi/de/guides/threat-assessment/ | 内容维护 | 补足模式与地图判断小节 |
 | https://openfront.fyi/ | 首页 | 移动答案实际核验更新进入最新内容排序 |
 | https://openfront.fyi/database/maps/ | 入口 | 直达最大地图及 Compact 尺寸解释 |
 | https://openfront.fyi/database/units/ | 入口 | MIRV 成本行接价格阶梯 |

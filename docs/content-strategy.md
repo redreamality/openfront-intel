@@ -30,7 +30,7 @@
 | 通道 | 当前项 | 结论与下一门槛 |
 |---|---|---|
 | Monitoring | `WN-01` | 五语版本文章、v34 预发布稳定 URL、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付；详细合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。Issue/PR 只作内部证据，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 优先完成有搜索基础的现有答案改善；新增独立页先验证精确/邻近搜索需求和答案缺口。当前批次见 [`search-improvement-plan.md`](search-improvement-plan.md)，新长文质量门槛见 [`long-form-content-program.md`](long-form-content-program.md)。 |
+| Monitoring | `LF-COMMUNITY-ROLLING` | 搜索改善已于 2026-10-09 部署；等待 2026-10-10 至 2026-11-06 的完整 GSC final 窗口，见 [`search-improvement-plan.md`](search-improvement-plan.md)。事实错误或正式变化可维护；新增独立页仍须证明需求和答案缺口。 |
 | Parked | `ATTACK-01` | 默认 20%、范围 1%–100%、步进 10% 已核验，但高比例同 tick 双击风险未定、28 天精确需求仅 1 次展现。只有上游 #4237 状态变化或真实重复需求才恢复。 |
 | Parked | `MAP-01` | Caribbean 与 Danish Straits 的地形差异已成立，但连续有效窗口中 GSC/Issues 精确需求为 0。只有真实问题、搜索意图或新的地图专属来源才恢复。 |
 

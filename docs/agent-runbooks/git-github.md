@@ -91,3 +91,5 @@
 - **2026-09-01 复发：Git Data API 脚本的只读 commit/tree 查询不能附加 `--input -`**：`gh api` 在带 stdin 时可能改变请求方法并返回误导性的 404；GET 查询必须省略 `--input -`，只有 POST/PATCH 的 JSON 请求才通过显式 stdin 发送，并分别保存退出码。
 - **2026-09-02 复发：Pages deployments 辅助端点可能返回 404**：`GET /repos/<owner>/<repo>/pages/deployments` 在 workflow 部署已成功且 Pages 配置正常时仍可能不可用；以 `GET /repos/<owner>/<repo>/pages`、对应 Pages workflow 的成功运行和公开域名 HTTP 200 作为发布证据，不要把该辅助端点的 404 误判为部署失败。
 - **`git log -L` 不能与会解析出多个起点的 `--all` 一起使用**：该组合会报 `More than one commit to dig from`；追踪函数或行历史时指定一个已核验的 branch、tag 或 commit（例如 `git log v0.34.22 -L ...`），需要跨分支比较时分别运行后再对照结果。
+
+- 2026-10-09：顺序 `gh` GET 仍发生 TLS timeout；仅重试一次后，使用 curl REST 查询成功，核对远端 SHA 与 Deploy 成功。不能把本地 origin/main 当作 fresh remote evidence。
