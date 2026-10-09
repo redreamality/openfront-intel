@@ -1,0 +1,425 @@
+---
+title: "OpenFront Naval Stalemate: Blockade vs Anti-Blockade in the Endgame"
+description: "A v0.34 framework for breaking the endgame naval lock: when to deny an opponent's port-and-trade lane with a Warship blockade, how to mass through with Transport landings and forward Ports, why a blockade is leverage not a win, and when the nuke is the axis that finally decides it."
+pubDate: 2026-10-09
+updatedDate: 2026-10-09
+tags: [naval, blockade, warship, transport, trade, port, endgame, stalemate, nuke, economy]
+category: Tutorial
+difficulty: Advanced
+version: v34
+freshnessSummary: "Verified against v0.34.24 (2026-10-06) and the v34 data: Port/Factory/City cost min(1,000,000, 2^n x 125,000) (125k/250k/500k/1M cap), 50-unit Port build and 20-unit Factory/City build; Warship cost min(1,000,000, (n+1) x 250,000) (250k/500k/750k/1M cap), 1,000 base health, 250 rolled shell damage, 50-unit build, 100 patrol / 130 targeting range, 20-tick shell rate, 75 percent auto-retreat, 150-tile passive heal and 5-tile docking with a 5-per-Port-level heal pool, 0.75 Port-switch threshold, and 3-level +20 percent per-level veterancy (max health 1,760, max shell 425). Trade Ship arrival gold is 75,000 / (1 + exp(-0.03 x (dist - debuff))) + 50 x dist, so short routes are heavily debuffed; a Warship capture redirects that route's gold to the blocker as piracy gold; one Warship veterancy level per 10 Transport kills. Atom Bomb 750,000, Hydrogen 5,000,000, MIRV 25,000,000 plus 15,000,000 per prior MIRV, Missile Silo 1,000,000. F, R and box-select-warship keybinds available from v0.34.0."
+---
+
+## Direct answer: breaking the naval endgame lock
+
+When a match has run to the point where land armies grind to a halt and both
+sides have spent their nukes on each other's SAM walls, the game does not end —
+it migrates to the sea. That is the naval stalemate, and it is the single most
+common endgame in OpenFront because the Port economy keeps printing gold for
+both players even after the land war stops. The question a player asks in that
+position is always the same: how do I break a board where neither of us can win
+by force on land? The answer this guide gives is a two-axis framework. The
+**blockade side** wins by denying a *lane that moves gold* — one or two
+Warships anchored on the opponent's main Trade and Transport route stall their
+Port income and, because a captured Trade Ship redirects its route's gold to the
+capturer, actively drain it. The **anti-blockade side** wins by *route
+diversification and massed Transport* — two or more Ports on different coasts,
+long trans-ocean trade routes that pay far more per ship and are harder to
+fully screen, and a forward Port seeded behind the blockade by a successful
+Transport landing so a second economy can run where the blocker cannot reach.
+
+A blockade is leverage, not a win condition. A Warship sitting on a quiet bay
+denies nothing and is a 250,000-gold decoration; a Warship on the opponent's
+main trade lane is a money pump that only works while the blocker has the gold
+to keep replacing the ships the opponent eventually breaks. The decisive
+inflection in every naval stalemate is the same one a video of a collapsed
+match shows: the moment the blocker's Warships stop existing, the Transport and
+Trade economy runs unopposed and the gold race collapses in the defender's
+favor. So the real decision is not "blockade or don't" but "which axis is
+currently cheaper for me than for them." The rest of this guide builds the
+decision framework around that question: the two gates for choosing a side, the
+economics of the Port ladder and the trade-gold curve, the blockade playbook,
+the anti-blockade playbook, the two worked scenarios, the failure modes, the
+mode and map adjustments, and the point where the nuke becomes the axis that
+finally decides it. The point of the framework is that the naval stalemate is
+not a fight you win by out-fighting, it is an economics you win by out-denying
+or out-diversifying, and the player who recognizes which side of the gate they
+are on before the match reaches the lock is the player who is already deciding
+the ending. The same board that looks unbreakable to the player who tries to
+win it by force is breakable to the player who is already running the blockade
+or the diversification that makes the gold race tip, which is the difference
+this guide is trying to put in front of you.
+
+## The two gates: choosing blockade or anti-blockade
+
+You cannot know which side of the stalemate you should take until you check two
+gates, because the right side is not the one that is "braver" — it is the one
+whose next dollar buys more gold-denial or gold-capture than the opponent's
+next dollar. Check both before you commit a single Warship or a single forward
+Port. The gates are the **economics gate** and the **lane gate**.
+
+The economics gate asks which player is currently converting gold into
+sustainable income faster. A Port on the cost ladder is 125,000 for the first,
+250,000 for the second, 500,000 for the third, and 1,000,000 for every one after
+that, and it takes 50 units of time to build. A Factory or City on the same
+ladder costs 125,000, 250,000, 500,000 and then caps at 1,000,000 but only takes
+20 units to build. The player who already has a longer Port-and-Factory chain
+has a larger gold faucet, and the player who does not is the one for whom the
+blockade is the cheaper axis, because their problem is *stopping the other
+faucet* rather than *out-pumping their own*. If you are behind on the Port
+ladder and your opponent's main route is a single screenable strait, the
+blockade side is yours: you are cheaper to defend a lane than to race them on
+the ladder. If you are ahead on the ladder, the anti-blockade side is yours,
+because you can out-produce the denial as long as your routes are diversified
+enough that one Warship cannot cover them all. The economics gate is a ratio,
+not a mood: the player with the bigger current gold delta wins the race if both
+keep spending optimally, so the side that closes the delta fastest is the side
+you should take.
+
+The lane gate asks where the opponent's gold actually moves through the water.
+A blockade only works on a *concentrated* lane — a strait, a gap between two
+landmasses, or a single long route that has no cheap alternative. If the
+opponent's trade is spread across three coastlines with three different route
+geometries, a single Warship screens one of them and leaks the other two, so the
+anti-blockade side is theirs by construction and you should be the one
+diversifying instead. The rule is to count the lanes before you spend: one
+screenable lane means the blockade side is available to whoever can hold it
+longer; three or more lanes means the anti-blockade side is locked in and the
+blockade is a losing spend. Check both gates in the same turn, and if they point
+at the same side the answer is obvious; if they point at different sides, the
+lane gate wins, because a blockade you cannot hold is a 250,000-gold mistake
+regardless of what your economics say. The [warship fleet decisions
+guide](/guides/warship-fleet-decisions/) covers the deeper placement logic once
+you have chosen a side, but the gate decision here is the one that decides which
+side to even try.
+
+| Gate | Blockade side favored | Anti-blockade side favored |
+|------|------------------------|------------------------------|
+| Economics | You are behind on the Port/Factory ladder | You are ahead on the ladder |
+| Lane | Opponent gold moves through one screenable strait | Opponent trade is spread over 3+ lanes |
+| Fleet | You can replace the 1-2 ships they break | You can field 2+ ships that cannot be replaced |
+
+## The economics: Port ladder, trade-gold curve, and what a blockade is worth
+
+The whole naval stalemate is an economics problem with a naval skin, so the
+numbers have to be concrete. The Port, Factory and City all share the same
+exponential cost ladder: the first is 125,000 gold, the second 250,000, the
+third 500,000, and every structure after that is 1,000,000. The Port is the
+only one of the three that opens the naval economy — Trade Ships and Warships
+both spawn from Ports — and it takes 50 units of time to build, double the 20
+units a Factory or City takes. That means a Port is the slowest, most
+expensive piece of the late-game income chain, and it is also the piece whose
+income can be denied at sea, which is exactly why it is the chokepoint of the
+stalemate. A Factory keeps printing troops and gold on land, but a Port's
+income only flows if Trade Ships can actually make their round trip.
+
+The trade-gold curve is the number that makes a blockade worthwhile at all. A
+Trade Ship's arrival gold is `75,000 / (1 + exp(-0.03 x (dist - debuff))) + 50
+x dist`, where `debuff` is the short-range penalty. This is a sigmoid: for long
+routes the first term saturates near 75,000 and the second term adds 50 per
+unit of distance, so a 2,000-unit trans-ocean route pays roughly 75,000 plus
+100,000, about 175,000 gold per ship. For short routes the sigmoid collapses:
+a 100-unit local loop pays far less than 5,000 from the base term, which is why
+the game "heavily punishes" short routes and why a player who only has local
+trade is economically weaker than one who has one long route. The strategic
+consequence is that the *longest* route on the map is the most valuable lane to
+denies, because it carries the most gold per ship, and the *shortest* route is
+the cheapest to defend because it carries the least. A blockade should always
+target the lane that carries the most gold per ship, not the lane that is
+easiest to watch.
+
+The value of a blockade is the difference between the gold the denied route
+would have delivered and the gold the blocker instead captures. When a Warship
+captures an enemy Trade Ship, the capturer's owner gains the route's gold as
+piracy gold, so a single Warship on a 175,000-gold route does not merely
+prevent the opponent from gaining 175,000 — it redirects that 175,000 to the
+blocker. The effective swing of a single successful capture is therefore closer
+to the full route value, not half of it. That swing is what funds the
+blockade: it is the gold that buys the replacement Warships, the forward
+Ports, and the nukes that the stalemate eventually demands. If a route only
+carries 20,000 gold per ship, the capture swing is too small to fund the
+replacement fleet and the blockade is not worth the 250,000 first ship; if the
+route carries 150,000 or more, the capture swing funds the whole axis on its
+own. The economics gate is ultimately this comparison: is the blocked lane
+worth more per ship than the cost of holding it? If yes, blockade; if no, the
+economics say diversify instead. The [embargo timing and trade control
+guide](/guides/embargo-timing-and-trade-control/) covers how to time the trade
+flow itself, which is the lever you pull once the lane decision is made.
+
+## The blockade playbook: deny the lane, fund the follow-up
+
+The blockade side has a strict sequence and skipping a step is the most common
+way a blockade fails. The first step is to hold a single high-value lane with
+one Warship, and the rule is to hold the lane that carries the most gold per
+ship, not the lane that is nearest. A Warship costs 250,000 for the first,
+500,000 for the second, 750,000 for the third and 1,000,000 for the fourth and
+beyond, so a single-ship blockade is the cheapest credible denial and a
+two-ship blockade is a real commitment. Place the first ship on the strait,
+anchor it within its 150-tile passive-heal range of one of your own Ports so it
+heals to full between engagements, and let it capture. The ship's patrol range
+is 100 tiles and its targeting range is 130, so it does not need to be on top
+of the route to screen it — it needs to be able to reach a Trade Ship within
+130 tiles of its anchor. A Trade Ship that is 200 tiles from your anchor is
+outside the screen; a Trade Ship that is 100 tiles in is inside it. That is why
+a blockade works best on a narrow strait where the route is forced within
+130 tiles of the anchor, and why it fails on a wide open ocean where the route
+can simply detour around the 130-tile bubble.
+
+The second step is the follow-up, and this is the step most players skip, which
+is why a blockade usually produces a draw instead of a win. A blockade alone
+does not win the game; it buys time and gold. The time it buys is the window in
+which you spend the captured piracy gold on the axis that actually ends the
+match. That axis is either a massed Transport landing on the opponent's coast
+to seed a forward Port and start a second economy behind their line, or a
+forced nuke escalation that the opponent's stalled income cannot absorb. Both
+of those are described in the failure and nuke sections below. The rule is that
+a blockade without a follow-up is a stalemate you are maintaining, not a win
+you are producing, and the gold you are capturing is being spent on
+replacement Warships instead of on the follow-up. The third step is to keep the
+blockade sustainable: every Warship that the opponent eventually breaks costs
+you the next tier of the 250k/500k/750k/1M ladder, so the capture swing has to
+keep funding the replacement tier or the blockade collapses the moment the
+opponent commits to breaking it. If the capture swing is only funding the
+replacement Warships, you are spending your blockade budget on the blockade and
+never on the follow-up, which is the definition of a draw. The blockade side
+is a money-denial tool that only wins if the money it captures is redirected to
+the follow-up, and the discipline of that redirect is the entire skill of the
+axis.
+
+## The anti-blockade playbook: diversify, mass, and seed forward
+
+The anti-blockade side answers the denial with three moves, and the order
+matters. The first move is route diversification, which is the structural
+answer to a single-screen blockade. A single Port with a single long route is
+exactly what a blockade is built to deny; two or three Ports on different
+coasts with different route geometries is not, because the blocker's limited
+Warships cannot cover every lane at once. Build the second and third Ports on
+the cost ladder — 250,000 and 500,000 — and route them through water that is
+not on the strait the blocker is holding. The economic payoff is double: the
+long routes pay more per ship on the trade-gold curve, and the diversification
+means the blocker's one or two ships can only screen one of the routes, so the
+other routes keep flowing. The anti-blockade player who has three routes
+running against a one-ship blockade is losing gold on the blocked route but
+gaining gold on the two that are open, and the net is positive as long as the
+open routes carry more than the blocked one, which is exactly the condition
+the lane gate checks.
+
+The second move is massed Transport, which is the kinetic answer once the
+diversified economy is producing. A Transport Ship is free to build, and a
+Warship gains one veterancy level per 10 Transport kills, which means the
+blocker's ships get stronger the more Transports you throw at them. The answer
+is to throw them in waves, not one at a time: a single Transport crossing a
+blockaded lane is a guaranteed capture and a guaranteed piracy-gold transfer to
+the blocker, but a wave of many Transports forces the blocker's limited
+Warships to commit to the lane and either lets some through or trades the
+blocker's ship for a wave. The discipline is to send the wave only when the
+blocker's ships are at a disadvantage — retreating below the 75 percent
+auto-retreat threshold, docked and healing, or simply outnumbered on the lane —
+and to hold the wave back when the blocker's ships are fresh and at full
+health. The third move is the forward Port, which is the win condition: once a
+Transport wave successfully lands and holds a tile behind the blockade, you
+build a Port there, and that Port starts a second economy on the far side of
+the line where the blocker cannot reach. A forward Port is the anti-blockade
+answer's endgame, because it converts a successful landing into permanent
+income that the blockade cannot deny, and the moment the forward Port is
+building and its Trade Ships are running, the stalemate is broken and the game
+is a gold race in which the defender's economy has been copied behind their
+line. The [transport landing guide](/guides/transport-landings/) covers the
+specifics of the landing itself, but the forward-Port logic here is the one
+that turns a landing from a raid into a win.
+
+## Scenario A: the single-strait blockade with a nuke follow-up
+
+This scenario is the canonical naval stalemate and it has concrete numbers so
+you can check your own match against it. The setup: you and a Blue ally have
+traded and nuked a stronger third player to survive, and now the Blue player's
+navy and your navy are locked. Your opponent holds the only real strait that
+connects their three main Ports to their trade, and your own trade is local and
+short. The economics gate says the blockade side is yours, because your Port
+ladder is behind theirs and your local trade is short-range and low-value. The
+lane gate says the blockade side is yours, because their gold moves through one
+screenable strait. The plan is to hold the strait with two Warships — the first
+at 250,000, the second at 500,000 — anchored within 150 tiles of your own Port
+so they heal, and to let them capture. Their main route is a long trans-ocean
+route worth roughly 150,000 gold per ship, so each capture redirects that
+150,000 to you as piracy gold and prevents them from gaining it. Over a
+blocking window of, say, 30 Trade Ship crossings, a two-ship blockade that
+captures 60 percent of them is worth roughly 270 captures times 150,000, or
+about 40,000,000 gold of swing, which is the budget for the follow-up.
+
+The follow-up is the nuke, because the opponent's income is stalled and they
+cannot afford to absorb a MIRV. The MIRV costs 25,000,000 with an additional
+15,000,000 for every MIRV you have already launched, and a Missile Silo costs
+1,000,000. The point is that the blockade is what funds the MIRV: without the
+270 captures of piracy gold, you do not have the 25,000,000 to launch, and the
+stalemate continues. With the captures, the MIRV is affordable and the
+opponent's stalled income means they cannot build the SAM Launcher (1,500,000
+for the first, the ladder min(3,000,000, (n+1) x 1,500,000), 300-unit build)
+fast enough to intercept it. The sequence is: hold the
+strait, capture 25,000,000 of piracy gold, buy the Missile Silo, launch the
+MIRV, and the opponent's SAM wall — which they can only extend if their trade
+keeps flowing — is the thing that finally breaks. The failure mode of this
+scenario is the one the Reddit thread describes: the opponent has 60 Factories
+and can keep nuking your Transports even after you blockade their trade, so
+the blockade stalls the Trade but not the nuke. The fix is to target the
+Factories with the nuke follow-up, not the Trade, because the Factories are
+what fund the opponent's nukes, and a blockade that only stops the Trade while
+the Factories keep printing is a partial blockade that the opponent can
+out-last. The nuke follow-up has to be aimed at the income source, not the
+income route.
+
+## Scenario B: the multi-route anti-blockade that masses through
+
+This scenario is the mirror image and it is the answer when the lane gate says
+the anti-blockade side is yours because the opponent's trade is already spread.
+The setup: the opponent holds two Warships on the strait that connects your
+main Port to your longest route, and your other two Ports are on different
+coasts with routes that do not cross that strait. The lane gate says the
+blockade is theirs but it only screens one of your three routes. The economics
+gate says the anti-blockade side is yours, because your Port ladder is ahead
+and you can out-produce the denial. The plan is to let the blocked route lose
+gold for a window while the other two routes keep flowing, and to use the net
+positive gold to build the forward Port.
+
+The forward Port is the endgame. Your two open routes are long trans-ocean
+routes worth roughly 150,000 gold per ship each, and together they carry more
+gold per crossing than the single blocked route, so the net is positive. You
+send a wave of Transports not through the strait the opponent is holding but
+along the coast where their two Warships cannot reach, landing on a tile behind
+their line and building the forward Port there at 125,000. The forward Port
+starts its own Trade Ships on the far side, and now you have four routes
+running against their two-ship blockade, which means their two ships can
+screen two of the four and the other two keep flowing. The massed-Transport
+rule applies here too: the wave only goes in when their ships are retreating or
+outnumbered on that coastal lane, and the wave holds back when their ships are
+fresh. The win condition is the forward Port being fully built and its Trade
+Ships running, because at that point the stalemate is broken and the game is a
+gold race in which your economy has been copied behind their line. The failure
+mode is the wave being sent through the strait they are holding instead of
+around it, which trades the wave for their captures and gives them the piracy
+gold they need to extend the blockade. The anti-blockade side is only as good
+as the discipline to go around the screen, not through it, and the forward Port
+is only worth the 125,000 if it actually gets built on the far side. The
+[nuclear stalemate breaker guide](/guides/nuclear-stalemate-breaker/) covers the
+point where this gold race meets the nuke axis, which is where scenario B
+usually ends.
+
+## Failure modes and the counter to each
+
+The most common failure on the blockade side is the draw, which is a blockade
+that stalls the Trade but never funds the follow-up. The tell is that your
+capture swing is entirely going to replacement Warships and not to the nuke or
+the forward Port, which means the blockade is a maintenance cost, not a win.
+The counter is to stop buying the fourth Warship once you have two and redirect
+the next capture swing to the Missile Silo or the forward Port, because the
+follow-up is what ends the match and the fourth ship is a 1,000,000-gold
+commitment that only pays if the follow-up is already in motion. The second
+failure is the short-route blockade, which is denying a lane that carries 20,000
+gold per ship when the capture swing is too small to fund the replacement
+fleet. The counter is to check the trade-gold curve before you spend the 250,000
+first ship, and to skip the blockade if the lane is not worth at least the cost
+of the ship it is meant to fund. The third failure is the wide-ocean blockade,
+which is anchoring a ship where the route can detour around the 130-tile
+targeting bubble. The counter is to only blockade a strait where the route is
+forced within 130 tiles of the anchor, and to treat a wide open ocean as a
+lane that cannot be held.
+
+The most common failure on the anti-blockade side is the single-route economy,
+which is building one Port with one long route and expecting it to out-produce
+a blockade that is built specifically to deny that route. The counter is to
+build the second and third Ports on different coasts before the blockade is
+fully established, because once the strait is held the window to diversify is
+narrow. The second failure is the single-Transport crossing, which is sending
+one Transport through a blockaded lane and giving the blocker a guaranteed
+capture and a guaranteed piracy-gold transfer. The counter is the wave, which
+forces the blocker's limited ships to commit and trades their ship for the wave
+rather than capturing every Transport one at a time. The third failure is the
+wave sent at full health, which is throwing the wave while the blocker's ships
+are fresh and at full 1,000 health and their veterancy bonus at maximum. The
+counter is to time the wave to the blocker's retreat window, when their ships
+are below the 75 percent auto-retreat threshold and docked and healing, because
+a Warship at 700 health kills fewer Transports than a Warship at 1,000. The
+fourth failure is the wave sent through the held strait instead of around it,
+which is the anti-blockade equivalent of the wide-ocean blockade, and the
+counter is the coastal lane where the blocker's ships cannot reach. Every one
+of these failures is a discipline failure, not a mechanics failure, which is
+why the gate framework above is the thing that prevents them.
+
+## Mode and map adjustments
+
+The framework above is written for the standard FFA map, but the lane gate and
+the follow-up change by mode and by map shape. On a map with a single dominant
+strait — the classic chokepoint geography — the blockade side is almost always
+available, because the lane gate is easily met and the strait is narrow enough
+that the route is forced within 130 tiles of an anchor. On that map, the player
+who reaches the strait first with the first 250,000 Warship has the
+blockade-side option open to them, and the player who is behind on the Port
+ladder should take it. On a map with open water and no dominant strait, the
+blockade side is rarely available, because the route can detour around any
+anchor, and the anti-blockade side is the default for both players, which means
+the game is a pure Port-ladder race with no naval denial. The rule is to check
+the map's water geometry before the match: a dominant strait means the blockade
+axis is in play, and open water means it is not.
+
+In Team mode the adjustment is coordination, because the blockade and the
+follow-up can be split between two players. One player holds the strait with
+the Warships and the capture swing, and the other player builds the forward
+Port and the nuke with the captured gold, so the blockade and the follow-up
+run in parallel instead of in sequence. The [team naval control
+guide](/strategies/team-naval-control/) covers the specific roles, but the
+principle is that the naval stalemate in Team mode is a two-player problem and
+the player who is holding the lane should not also be the one building the
+forward Port, because the two jobs compete for the same attention. In
+Asymmetric mode the adjustment is the ladder gap: if one player starts with a
+Port and the other does not, the economics gate is already decided and the
+player behind on the ladder should take the blockade side, because their
+problem is stopping the other faucet, not racing their own. The mode and map
+do not change the mechanics — the cost ladder, the trade-gold curve, the
+capture redirect, and the 130-tile screen are the same in every mode — but they
+change which side of the gate is available and who should be doing the
+follow-up, which is the only thing that matters for the decision. The practical
+takeaway is to run the two gates at the start of the endgame on whatever map
+and mode you are in: count the lanes, check the ladder gap, and name the side
+you are taking before the first Warship is built, because the player who names
+the side first has the first Warship, the first capture, and the first follow-up
+funded, and the naval stalemate is won by the player who decides it a turn
+before the other player does.
+
+## The nuke axis: where the stalemate finally ends
+
+The naval stalemate does not end on the sea; it ends where the economy the
+blockade is buying meets the nuke, and the nuke is the axis that finally decides
+it. The Atom Bomb costs 750,000, the Hydrogen Bomb 5,000,000, and the MIRV
+25,000,000 with an additional 15,000,000 for every MIRV you have already
+launched, and a Missile Silo costs 1,000,000 with a 100-unit build. The
+SAM Launcher costs 1,500,000 with a 300-unit build and is the only structure
+that can intercept the MIRV. The point is that the blockade's entire purpose is
+to change the economics of this escalation: a player whose Trade is denied
+cannot build the SAM Launchers fast enough to intercept a MIRV, because the
+SAM Launchers are funded by the same Port income the blockade is stalling. So
+the nuke follow-up is not an alternative to the blockade — it is the blockade's
+reason for existing. Without the blockade, both players have the gold to build
+SAM Launchers and the MIRV is intercepted; with the blockade, the opponent's
+SAM budget is stalled and the MIRV gets through. The [which nuke to commit
+guide](/guides/which-nuke-commit/) covers the specific choice between the Atom,
+Hydrogen and MIRV, but the point here is that the naval stalemate is the
+decision that makes the MIRV affordable for one side and unaffordable for the
+other, and the side that can afford it wins the game.
+
+The final inflection is the same one in every naval stalemate: the moment the
+blocker's Warships stop existing, the Transport and Trade economy runs
+unopposed and the gold race collapses in the defender's favor, which is the
+exact moment the nuke axis becomes the deciding one. If you are the blocker and
+your ships are gone, the nuke follow-up has to be ready before the ships go,
+because once the ships are gone the follow-up has to come from a gold pool you
+have already built, not from captures you are no longer making. If you are the
+defender and the blocker's ships are going, the nuke follow-up is yours,
+because the blocker's stalled income means they cannot afford the SAM Launcher
+to intercept you, and the MIRV you can afford now is the one that ends the
+stalemate. The naval axis is the lever, the nuke axis is the blade, and the
+player who coordinates the two — who holds the lane long enough to fund the
+MIRV and launches the MIRV at the moment the opponent's SAM budget is stalled —
+is the player who breaks the endgame lock. That coordination, not the
+individual ship or the individual Port, is the skill this whole guide is
+pointing at, and it is the thing that separates the players who break the
+stalemate from the players who maintain it.
