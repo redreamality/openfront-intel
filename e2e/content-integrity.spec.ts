@@ -24,8 +24,8 @@ const v33MapIds = [
 ];
 
 test('v34 map extraction keeps a supported pool and all v33 additions', () => {
-  // Live v0.34 test-release checkout has 117 maps; the embedded v34 fallback has 119.
-  expect([117, 119]).toContain(maps.meta.total);
+  // Earlier v34 checkout/fallback pools have 117/119 maps; checkout 4e83752 has 123.
+  expect([117, 119, 123]).toContain(maps.meta.total);
   expect(maps.list).toHaveLength(maps.meta.total);
   const extractedIds = new Set(maps.list.map((map) => map.id));
   for (const id of v33MapIds) expect(extractedIds.has(id), `missing map id: ${id}`).toBe(true);
@@ -852,7 +852,7 @@ test('sitemap omits fabricated lastmod values and contains every legal route', a
 
     expect(xml).toContain(`<loc>https://openfront.fyi/${langPrefix}guides/</loc><changefreq>daily</changefreq>`);
     expect(xml).toContain(
-      `<loc>https://openfront.fyi/${langPrefix}guides/first-match/</loc><changefreq>daily</changefreq>`,
+      `<loc>https://openfront.fyi/${langPrefix}guides/first-match/</loc><changefreq>monthly</changefreq>`,
     );
     expect(xml).toContain(
       `<loc>https://openfront.fyi/${langPrefix}guides/transport-landings/</loc><changefreq>monthly</changefreq>`,

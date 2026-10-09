@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import MapGrid from '../../../components/MapGrid.astro';
+import SearchAnswerPaths from '../../../components/SearchAnswerPaths.astro';
 import maps from '../../../data/maps.json';
 import { getLangFromUrl, pickI18n } from '../../../i18n';
 
@@ -22,6 +23,7 @@ const groups = order.map((key) => {
 
 <BaseLayout title="Kartenliste" description="Alle OpenFront.io-Karten in 5 Kategorien: Continental / Regional / Fantasy / Arcade / Tournament.">
   <PageHeader eyebrow="DATABASE / MAPS" title={`Kartenliste · ${maps.meta.total} Karten`} lead="Anhand des offiziellen Repository-Ordners resources/maps gescannt und nach realer Geografie und Spielmechanik gruppiert." />
+  <SearchAnswerPaths kind="maps" />
   <section class="container-wide py-10">
     <section class="mb-8 border-l-2 border-cannon-700 pl-4" aria-labelledby="map-guides-entry" data-map-guides-entry>
       <h2 id="map-guides-entry" class="text-lg font-semibold text-iron-50">Suchst du eine Strategie für eine Karte?</h2>

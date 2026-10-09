@@ -1,0 +1,73 @@
+---
+import { getLangFromUrl, stripLangPrefix, type Lang } from '../i18n';
+
+interface Props { position: 'intro' | 'next'; }
+type Topic = 'mobile' | 'threat' | 'wide' | 'enclosure' | 'islands' | 'coast';
+const { position } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
+const prefix = `${base}${lang === 'en' ? '' : `${lang}/`}`;
+const path = stripLangPrefix(Astro.url.pathname.slice(base.length)).replace(/\/$/, '');
+const targets: Record<string, { topic: Topic; path: string; position: Props['position'] }> = {
+  'guides/mobile-alternatives': { topic: 'mobile', path: 'guides/mobile-app-download/', position: 'intro' },
+  'guides/mobile-reddit-community': { topic: 'mobile', path: 'guides/mobile-app-download/', position: 'intro' },
+  'guides/first-match': { topic: 'threat', path: 'guides/threat-assessment/', position: 'next' },
+  'strategies/economy-fundamentals': { topic: 'wide', path: 'guides/tall-vs-wide/', position: 'next' },
+  'guides/land-combat': { topic: 'enclosure', path: 'guides/annexation-enclosure/', position: 'next' },
+  'strategies/team-roles': { topic: 'islands', path: 'guides/four-islands-team-coordination/', position: 'next' },
+  'strategies/team-naval-control': { topic: 'coast', path: 'guides/island-defense/', position: 'next' },
+};
+const copy: Record<Lang, Record<Topic, [string, string]>> = {
+  en: {
+    mobile: ['Want to play OpenFront on your phone?', 'Start with the official mobile browser, app and download answer. This page covers a different game or community help; for touch actions, continue to the mobile controls guide.'],
+    threat: ['How do I choose which neighbor to attack?', 'After learning your first expansion, compare reserves, borders and outside threats before choosing a target.'],
+    wide: ['When should a safe economy take more land?', 'Use the tall versus wide guide to decide whether a second foothold improves your routes and victory options.'],
+    enclosure: ['Can surrounding an enemy finish this fight?', 'Check enclosure rules, the shape of the pocket and the reserve needed to hold it before extending the border.'],
+    islands: ['How should a team coordinate on Four Islands?', 'Assign expansion routes, support responsibilities and naval access around the map before everyone commits to the same lane.'],
+    coast: ['How do I defend an island against a landing?', 'Read the defender’s warning signs, coastal coverage and recovery options before transports reach your shore.'],
+  },
+  zh: {
+    mobile: ['想在手机上玩 OpenFront？', '先看官方浏览器、App 与下载入口。本页处理替代游戏或社区求助；具体点按与缩放操作请看触控教程。'],
+    threat: ['该选择哪个邻居作为进攻目标？', '学会第一次扩张后，先比较预备队、边界与外部威胁，再决定打谁。'],
+    wide: ['安全经济什么时候该转为扩张？', '用集中发展与扩张转换指南，判断第二支点是否改善路线与获胜选择。'],
+    enclosure: ['包围敌人能结束这场战斗吗？', '先检查包围规则、口袋形状与持守所需预备队，再继续延长边界。'],
+    islands: ['Four Islands 上队友该怎样分工？', '围绕地图分配扩张路线、支援责任与海军通道，避免所有人争同一条路。'],
+    coast: ['怎样守住岛屿、阻止运输船登陆？', '在敌船靠岸前，检查预警、海岸覆盖与失守后的恢复选择。'],
+  },
+  fr: {
+    mobile: ['Vous voulez jouer à OpenFront sur votre téléphone ?', 'Commencez par la réponse sur le navigateur officiel, l’application et le téléchargement. Cette page concerne un autre jeu ou la communauté ; pour les gestes, consultez les commandes mobiles.'],
+    threat: ['Quel voisin faut-il attaquer ?', 'Après la première expansion, comparez les réserves, les frontières et les menaces extérieures avant de choisir une cible.'],
+    wide: ['Quand transformer une économie sûre en expansion ?', 'Évaluez si un second point d’appui améliore vos routes et vos possibilités de victoire.'],
+    enclosure: ['Encercler l’ennemi peut-il finir ce combat ?', 'Vérifiez les règles, la forme de la poche et la réserve nécessaire pour la tenir avant d’étirer la frontière.'],
+    islands: ['Comment coordonner une équipe sur Four Islands ?', 'Répartissez les routes d’expansion, le soutien et les accès navals avant de tous choisir le même passage.'],
+    coast: ['Comment défendre une île contre un débarquement ?', 'Lisez les signes d’alerte, la couverture côtière et les options de reprise avant l’arrivée des transports.'],
+  },
+  de: {
+    mobile: ['Willst du OpenFront auf dem Handy spielen?', 'Beginne mit dem offiziellen Browserzugang sowie der App- und Download-Antwort. Hier geht es um andere Spiele oder Community-Hilfe; Touch-Aktionen erklärt die mobile Steuerung.'],
+    threat: ['Welchen Nachbarn solltest du angreifen?', 'Vergleiche nach der ersten Expansion Reserven, Grenzen und fremde Bedrohungen, bevor du ein Ziel wählst.'],
+    wide: ['Wann sollte eine sichere Wirtschaft expandieren?', 'Prüfe, ob ein zweiter Stützpunkt deine Routen und Siegoptionen verbessert.'],
+    enclosure: ['Kann eine Einkesselung diesen Kampf beenden?', 'Prüfe Regeln, Form des Kessels und nötige Reserven, bevor du die Grenze verlängerst.'],
+    islands: ['Wie koordiniert sich ein Team auf Four Islands?', 'Verteile Expansion, Unterstützung und Seezugänge, bevor alle dieselbe Route wählen.'],
+    coast: ['Wie verteidigst du eine Insel gegen Landungen?', 'Prüfe Warnsignale, Küstenabdeckung und Rückgewinnung, bevor Transporter die Küste erreichen.'],
+  },
+  nl: {
+    mobile: ['Wil je OpenFront op je telefoon spelen?', 'Begin met de officiële browserroute en het antwoord over app en download. Deze pagina behandelt andere spellen of communityhulp; voor gebaren ga je naar mobiele bediening.'],
+    threat: ['Welke buur moet je aanvallen?', 'Vergelijk na de eerste uitbreiding reserves, grenzen en bedreigingen van buiten voordat je een doelwit kiest.'],
+    wide: ['Wanneer moet een veilige economie uitbreiden?', 'Bepaal of een tweede steunpunt je routes en kansen om te winnen verbetert.'],
+    enclosure: ['Kan omsingeling dit gevecht beëindigen?', 'Controleer regels, de vorm van het ingesloten gebied en benodigde reserves voordat je de grens verlengt.'],
+    islands: ['Hoe verdeelt een team de taken op Four Islands?', 'Verdeel uitbreidingsroutes, ondersteuning en toegang over zee voordat iedereen dezelfde route kiest.'],
+    coast: ['Hoe verdedig je een eiland tegen landingen?', 'Bekijk waarschuwingen, kustdekking en herstelmogelijkheden voordat transporten je kust bereiken.'],
+  },
+};
+const target = targets[path];
+const content = target && target.position === position ? copy[lang][target.topic] : null;
+const controlsLabel: Record<Lang, string> = { en: 'Mobile touch controls', zh: '手机触控教程', fr: 'Commandes tactiles mobiles', de: 'Mobile Touch-Steuerung', nl: 'Mobiele touchbediening' };
+---
+
+{content && target && (
+  <aside class="my-6 rounded-lg border border-cannon-700 bg-iron-900/60 p-5" data-article-answer-route={target.topic}>
+    <a class="font-semibold text-cannon-400 underline hover:text-cannon-300" href={`${prefix}${target.path}`}>{content[0]}</a>
+    <p class="mt-2 text-sm leading-relaxed text-iron-300">{content[1]}</p>
+    {target.topic === 'mobile' && <a class="mt-3 inline-block text-sm text-cannon-400 underline" href={`${prefix}guides/mobile-controls/`}>{controlsLabel[lang]}</a>}
+  </aside>
+)}

@@ -19,6 +19,15 @@ export interface Props {
 const { units, showCategory = true } = Astro.props as Props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+const prefix = lang === 'en' ? '' : `${lang}/`;
+const mirvCostLink = {
+  en: 'Why does the MIRV price rise?',
+  zh: 'MIRV 为什么会涨价？',
+  fr: 'Pourquoi le prix du MIRV augmente-t-il ?',
+  de: 'Warum steigt der MIRV-Preis?',
+  nl: 'Waarom stijgt de MIRV-prijs?',
+};
 const categoryLabel: Record<string, string> = {
   ship: t('db.category.ship'),
   projectile: t('db.category.projectile'),
@@ -59,6 +68,9 @@ const fmtNum = (n: number | null) => (n == null ? '—' : n.toLocaleString('en-U
             <td>
               <div class="font-mono text-cannon-400">{u.cost > 0 ? u.cost.toLocaleString('en-US') : t('unit.free')}</div>
               <div class="mt-1 text-xs text-iron-400 leading-snug">{tx.costFormula}</div>
+              {u.id === 'MIRV' && (
+                <a data-mirv-cost-answer class="mt-2 inline-block text-xs text-cannon-400 underline hover:text-cannon-300" href={`${base}${prefix}guides/mirv-price-ladder/`}>{mirvCostLink[lang]}</a>
+              )}
             </td>
             <td class="font-mono text-iron-200">{fmtNum(u.maxHealth)}</td>
             <td class="font-mono text-iron-200">{fmtNum(u.damage)}</td>

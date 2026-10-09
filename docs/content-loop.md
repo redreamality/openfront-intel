@@ -1,28 +1,29 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-09-23。
+更新日期：2026-10-09。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
 ## 定时任务
 
-- 自动化：`openfront`，启用，每天本地时间 09:00，在当前项目目录运行。
+- Codex 自动化：`openfront`，启用，每天本地时间 09:00，在当前项目目录运行。
+- Hermes 定时任务：`openfront`（`4777a6e26b00`），启用，每 360 分钟运行，工作目录为当前项目。两平台同步使用本次内容改善策略；Hermes 保留既有 automation memory 路径，历史运行中的强制新文指令由新提示词覆盖。
 - Scout：始终只读仓库；即使工作区脏也完成 Release、到期 GSC、Issues/Feedlog、现有自有 PR 与输入指纹核验，缓存写入 automation 自有目录。
 - Monitoring：每日固定检查 `What's New` 的 Release/tag 与 upstream `main` 双游标、已跟踪 Issue/PR、`verifiedAt` / `reviewBy` 和状态转换；Issue/PR 只用于内部证据，不直接出现在公共文章；无实质变化时只写 automation memory，不刷新公共日期或制造内容 PR。
-- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`。每轮必须实际分析至少 3 个 Reddit 讨论和 3 个 YouTube 视频或可核验字幕，选出一个成熟玩家问题，并在同轮交付一篇 en/zh/fr/de/nl 可见正文各至少 1500 词的 guide、来源包、自然入口和验证；中文用 `Intl.Segmenter('zh', { granularity: 'word' })` 的 `isWordLike` 计数，不能用汉字数抵扣。不得把来源、写作、本地化或验证推迟到下一轮。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠；若仅有一条已审阅、低风险且明确属于自动化规则同步的 `AGENTS.md` 文档改动，可先纳入本轮治理提交并恢复干净状态，不因该单条改动阻塞生产；其他脏工作区仍停止，不创建 worktree，也不自动 stash/reset/clean。
-- 热上下文：项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md)、本文件，以及当前 Production 项直接链接的计划。提示词只保留短门禁、长文阶段接口与自动发布门禁，不复制候选、历史或平台避坑。
+- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`，优先当前 [搜索改善计划](search-improvement-plan.md) 的现有答案。新增长文先记录精确/邻近搜索需求、现有答案缺口与唯一主路由，并保留 3 个 Reddit、3 个 YouTube 与五语各 1500 词的质量门槛；中文按 `Intl.Segmenter` 的 `isWordLike` 计词。无搜索信号的教学探索每周最多一个。标题、入口与事实维护可独立交付，不强制新文。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠；已审阅的单条低风险自动化规则改动可纳入治理提交，其他脏工作区仍停止，不创建 worktree，也不 stash/reset/clean。
+- 热上下文：项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md)、本文件，以及当前 Production 项直接链接的计划。提示词只保留短门禁、研究/维护接口与自动发布门禁，不复制候选、历史或平台避坑。
 - 交付：同一主题的内容、测试与预期完成状态进入同一个 PR。PR 内预先写明“合并即完成/转入 Monitoring/Parked”及下一触发点；合并后不为勾选完成、补 SHA 或记录运行再开收口 PR。
 - 纯运行记录：PR 状态、merge SHA、网络重试、无变化扫描和完整命令日志只写 automation memory，不追加到本文件。
-- 结束报告：每轮必须用 `URL | 变更类型 | 原因` 表格列出全部受影响页面，每行写一个以 `https://openfront.fyi/` 开头的完整绝对 URL，并在标题写出去重 URL 总数；不能用语言标签、“对应路由”“同上”、相对路径或分组代替。报告同时给出本轮 guide 英文正文词数、Reddit/YouTube 有效来源数、来源包路径和验证结果。硬阻塞时页面列表写“无”并明确阻塞阶段，不能返回 `NO_CHANGE`。
+- 结束报告：用 `URL | 变更类型 | 原因` 表格逐行列出全部受影响的绝对 URL 并写去重总数；不能用语言分组省略。维护任务列具体差异、验证和交付状态；新增 guide 另列五语词数、社区来源数与来源包。无成熟候选时明确停车原因，硬阻塞时明确阶段。
 
 ## 当前活动队列
 
-本轮 13 个长文主题已经全部完成并退出原 A–E 队列。版本监控继续作为短门禁，不占用主要生产预算；`LF-COMMUNITY-ROLLING` 现在是持续活动 Production，每轮从社区需求中批准并完成一个新主题。
+原 A–E 的 13 个主题保持完成。滚动 Production 优先改善已有搜索答案；新独立主题必须说明需求与现有页无法承接的原因。
 
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Production | `LF-COMMUNITY-ROLLING` | 五语 `/guides/team-victory-threshold/`、Team 80% 胜利线社区与 v0.34.15 正式 tag 来源包、Team Roles/Team Economy/Winning Overtime 入口随本轮交付即完成 | 继续滚动 Production；下轮不把团队汇总门槛、非 fallout 分母、终结者/支援/储备分工或 80% 收官框架换标题重复生产。 |
+| Production | `LF-COMMUNITY-ROLLING` | 当前八项搜索改善见 [计划](search-improvement-plan.md)：统计口径、新手、移动端、MIRV 成本、地图、策略、长文入口、选题流程 | 本批次验证并发布即转入 Monitoring；用完整发布后 28 天窗口评价，观察中只随事实错误或正式变化修订。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -30,11 +31,11 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.15`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.15)，tag commit `4606060a92c25ebb72e4918f694c5e3488cd34c1`；v0.34.14 修复大外观库存导致的主菜单冻结、Steam 免费月份说明和连接失败原因，v0.34.15 修复误部署的 v35 功能。它们没有公布新的 Team 胜利或战斗系数。稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`04ef237784da5d473e4b8f47bf143361689dd830`；2026-09-23 已用 GitHub REST 核验，未发布提交只作未来版本线索。
+- 正式 Release：[`v0.34.24`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.24)，tag commit `3f5633b92c9508461e6e2b9e1f926487a1804c9f`；2026-10-06 发布，修复对非相邻目标重复攻击突破 troop cap 的问题。累计 Release 正文不全部视为本次新增。稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
+- 上游 `main` 游标：`1e25448f2261d8adf07e12216c0259be00193c68`；2026-10-09 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
-- GSC 7 天：2026-09-10..09-16，942 Query / 2,423 Query × Page / 586 clicks。
-- GSC 28 天：2026-08-20..09-16，1,482 Query / 4,934 Query × Page / 1,881 clicks。
+- GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。
+- GSC 历史 28 天缓存：2026-08-20..09-16，旧页面求和口径；当前 schemaVersion 2 基线保存在私有缓存，截止日和对账见搜索改善计划。
 - 需求源：站点开放 Issues/PR 为 0；Feedlog 按自动化策略不访问；上游 #4237 无新讨论。
 - 本轮铁路网络社区及 tag 核验：[`2026-08-28-train-network-community-source-pack.md`](research/2026-08-28-train-network-community-source-pack.md)。
 - 本轮全局威胁评估社区及 tag 核验：[`2026-09-01-threat-assessment-community-source-pack.md`](research/2026-09-01-threat-assessment-community-source-pack.md)。

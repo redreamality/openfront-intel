@@ -56,14 +56,16 @@ def load_gsc_cli(cli_dir: Path):
     return module
 
 
-def fetch_rows(service, site: str, start_date: str, end_date: str) -> list[dict]:
+def fetch_rows(service, site: str, start_date: str, end_date: str, dimensions: list[str]) -> list[dict]:
     rows: list[dict] = []
     start_row = 0
     while True:
         request = {
             "startDate": start_date,
             "endDate": end_date,
-            "dimensions": ["query", "page"],
+            "dimensions": dimensions,
+            "aggregationType": "byPage" if "page" in dimensions else "byProperty",
+            "type": "web",
             "dataState": "final",
             "rowLimit": ROW_LIMIT,
             "startRow": start_row,
@@ -86,8 +88,20 @@ def main() -> None:
 
     configure_proxy()
     gsc_cli = load_gsc_cli(Path(args.gsc_cli_dir).resolve())
-    service = gsc_cli.get_gsc_service()
-    rows = fetch_rows(service, args.site, args.start_date, args.end_date)
+    # The CLI's convenience loader may delete a token and start interactive auth.
+    # Reporting must preserve credentials and fail clearly instead.
+    if not Path(gsc_cli.TOKEN_FILE).is_file():
+        raise FileNotFoundError("Existing GSC token is missing. Run gsc_cli.py auth in a visible terminal.")
+    creds = gsc_cli.Credentials.from_authorized_user_file(gsc_cli.TOKEN_FILE)
+    if not creds.valid:
+        if not creds.refresh_token:
+            raise RuntimeError("GSC token cannot refresh. Run gsc_cli.py auth in a visible terminal.")
+        creds.refresh(gsc_cli.Request())
+    service = gsc_cli.build("searchconsole", "v1", credentials=creds, cache_discovery=False)
+    rows = {
+        name: fetch_rows(service, args.site, args.start_date, args.end_date, dimensions)
+        for name, dimensions in [("totals", []), ("query", ["query"]), ("queryPage", ["query", "page"])]
+    }
     print(json.dumps(rows, ensure_ascii=False))
 
 

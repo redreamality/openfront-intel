@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { buildSearchConsoleReport, searchConsoleMarkdown } from './search-console-report.mjs';
 
 const DEFAULT_SITE = 'sc-domain:openfront.fyi';
 const DEFAULT_DAYS = 7;
@@ -196,7 +197,7 @@ async function querySearchConsoleViaCli({ site, startDate, endDate, gscCliDir })
       '--end-date', endDate,
     ], {
       cwd: resolve(SCRIPT_DIR, '..'),
-      env: { ...process.env, GSC_DATA_STATE: 'final' },
+      env: { ...process.env, GSC_DATA_STATE: 'final', PYTHONDONTWRITEBYTECODE: '1' },
       maxBuffer: 50 * 1024 * 1024,
       windowsHide: true,
     });
@@ -207,7 +208,7 @@ async function querySearchConsoleViaCli({ site, startDate, endDate, gscCliDir })
   }
 }
 
-async function querySearchConsole({ site, startDate, endDate, accessToken }) {
+async function querySearchConsole({ site, startDate, endDate, accessToken, dimensions }) {
   const endpoint = `${API_ROOT}/sites/${encodeURIComponent(site)}/searchAnalytics/query`;
   const allRows = [];
 
@@ -221,7 +222,9 @@ async function querySearchConsole({ site, startDate, endDate, accessToken }) {
       body: JSON.stringify({
         startDate,
         endDate,
-        dimensions: ['query', 'page'],
+        dimensions,
+        aggregationType: dimensions.includes('page') ? 'byPage' : 'byProperty',
+        type: 'web',
         dataState: 'final',
         rowLimit: ROW_LIMIT,
         startRow,
@@ -239,124 +242,6 @@ async function querySearchConsole({ site, startDate, endDate, accessToken }) {
   return allRows;
 }
 
-function round(value, digits = 4) {
-  return Number(value.toFixed(digits));
-}
-
-function normalizeRows(rows) {
-  return rows.map((row) => ({
-    query: row.keys?.[0] ?? '',
-    page: row.keys?.[1] ?? '',
-    clicks: row.clicks ?? 0,
-    impressions: row.impressions ?? 0,
-    ctr: round(row.ctr ?? 0),
-    position: round(row.position ?? 0, 2),
-  }));
-}
-
-function aggregateQueries(rows) {
-  const queries = new Map();
-  for (const row of rows) {
-    const current = queries.get(row.query) ?? {
-      query: row.query,
-      clicks: 0,
-      impressions: 0,
-      weightedPosition: 0,
-      pages: new Set(),
-      pageImpressions: new Map(),
-    };
-    current.clicks += row.clicks;
-    current.impressions += row.impressions;
-    current.weightedPosition += row.position * row.impressions;
-    if (row.page) {
-      current.pages.add(row.page);
-      current.pageImpressions.set(
-        row.page,
-        (current.pageImpressions.get(row.page) ?? 0) + row.impressions,
-      );
-    }
-    queries.set(row.query, current);
-  }
-
-  return [...queries.values()]
-    .map((item) => {
-      const pages = [...item.pages].sort(
-        (a, b) => (item.pageImpressions.get(b) ?? 0) - (item.pageImpressions.get(a) ?? 0),
-      );
-      return {
-        query: item.query,
-        clicks: item.clicks,
-        impressions: item.impressions,
-        ctr: item.impressions ? round(item.clicks / item.impressions) : 0,
-        position: item.impressions ? round(item.weightedPosition / item.impressions, 2) : 0,
-        topPage: pages[0] ?? null,
-        pages,
-      };
-    })
-    .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions);
-}
-
-function expectedCtr(position) {
-  if (position <= 1.5) return 0.28;
-  if (position <= 2.5) return 0.15;
-  if (position <= 3.5) return 0.11;
-  if (position <= 5.5) return 0.075;
-  if (position <= 10.5) return 0.04;
-  if (position <= 20.5) return 0.02;
-  return 0.01;
-}
-
-function buildOpportunities(queries) {
-  return queries
-    .filter((item) => (
-      item.impressions >= 3 &&
-      item.position >= 1 &&
-      item.position <= 30 &&
-      expectedCtr(item.position) > item.ctr
-    ))
-    .map((item) => {
-      const ctrGap = expectedCtr(item.position) - item.ctr;
-      const rankWeight = Math.max(0.25, (31 - item.position) / 30);
-      return {
-        ...item,
-        opportunity: item.position <= 3 ? 'title-ctr' : item.position <= 10 ? 'quick-win' : 'content-gap',
-        estimatedClickUpside: round(item.impressions * ctrGap, 2),
-        score: round(item.impressions * ctrGap * rankWeight, 2),
-      };
-    })
-    .sort((a, b) => b.score - a.score || b.impressions - a.impressions)
-    .slice(0, 200);
-}
-
-function escapeCell(value) {
-  return String(value ?? '').replaceAll('|', '\\|').replaceAll('\n', ' ');
-}
-
-function toMarkdown(report) {
-  const rows = report.opportunities.slice(0, 100).map((item) => (
-    `| ${escapeCell(item.query)} | ${item.impressions} | ${item.clicks} | ` +
-    `${round(item.ctr * 100, 1)}% | ${item.position} | ${item.opportunity} | ` +
-    `${escapeCell(item.topPage)} |`
-  ));
-  return [
-    '# Search Console 长尾机会',
-    '',
-    `- 站点：\`${report.site}\``,
-    `- 数据源：\`${report.source}\``,
-    `- 数据范围：${report.startDate} 至 ${report.endDate}`,
-    `- 生成时间：${report.generatedAt}`,
-    `- Query 数：${report.summary.queryCount}`,
-    `- Query × Page 行数：${report.summary.queryPageRowCount}`,
-    '',
-    '机会类型：`title-ctr` 优先改标题/摘要；`quick-win` 补精准段落与内链；`content-gap` 扩写或新建专题。',
-    '',
-    '| Query | 展现 | 点击 | CTR | 排名 | 机会 | 主要落地页 |',
-    '|---|---:|---:|---:|---:|---|---|',
-    ...rows,
-    '',
-  ].join('\n');
-}
-
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.help) {
@@ -369,12 +254,10 @@ async function main() {
   let source;
   if (hasNativeAuthentication()) {
     const accessToken = await getAccessToken();
-    rawRows = await querySearchConsole({
-      site: options.site,
-      startDate,
-      endDate,
-      accessToken,
-    });
+    rawRows = {};
+    for (const [name, dimensions] of [['totals', []], ['query', ['query']], ['queryPage', ['query', 'page']]]) {
+      rawRows[name] = await querySearchConsole({ site: options.site, startDate, endDate, accessToken, dimensions });
+    }
     source = 'native-api-auth';
   } else {
     rawRows = await querySearchConsoleViaCli({
@@ -385,30 +268,13 @@ async function main() {
     });
     source = 'gsc-cli-oauth';
   }
-  const queryPageRows = normalizeRows(rawRows);
-  const topQueries = aggregateQueries(queryPageRows);
-  const report = {
-    generatedAt: new Date().toISOString(),
-    site: options.site,
-    source,
-    startDate,
-    endDate,
-    summary: {
-      queryCount: topQueries.length,
-      queryPageRowCount: queryPageRows.length,
-      clicks: round(queryPageRows.reduce((sum, item) => sum + item.clicks, 0), 2),
-      impressions: round(queryPageRows.reduce((sum, item) => sum + item.impressions, 0), 2),
-    },
-    topQueries,
-    opportunities: buildOpportunities(topQueries),
-    queryPageRows,
-  };
+  const report = buildSearchConsoleReport({ site: options.site, source, startDate, endDate, ...rawRows });
 
   const output = resolve(options.output);
   const markdownOutput = output.replace(/\.json$/i, '.md');
   await mkdir(dirname(output), { recursive: true });
   await writeFile(output, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-  await writeFile(markdownOutput, toMarkdown(report), 'utf8');
+  await writeFile(markdownOutput, searchConsoleMarkdown(report), 'utf8');
   console.log(`Search Console report: ${output}`);
   console.log(`Editorial opportunity list: ${markdownOutput}`);
   console.log(`Data source: ${source}`);

@@ -50,4 +50,8 @@
 
 ## 2026-10-09 搜索复盘失败与恢复
 
+- 接续交付时把 `scripts/audit-guide*` 作为 rg 路径传入，Windows 报 os error 123；改为真实目录 `scripts` 配合 `--glob '*guide*'` 后恢复检索。属于已覆盖的通配路径规则复发，不修改 AGENTS.md。
+
+- 实施时曾读取不存在的 `e2e/seo.spec.ts`；随后通过 `rg --files e2e` 找到 `seo-titles.spec.ts` 与 `seo-health.spec.ts`。这是路径猜测造成的读取失败，已恢复真实测试定位。
+
 - 独立核验时，`rg` 同时读取真实 `src/layouts/BaseLayout.astro` 和未经枚举的 `src/components/SEO.astro`，后者不存在，导致缺失路径错误。用 `rg --files src` 恢复定位，确认 SEO 实际位于 `src/i18n/seo.ts` 与 BaseLayout；仅读取真实路径后完成核验。此为既有“先枚举、后读取”规则复发，未影响 GSC 原始数据或公开页面，无需修改 AGENTS.md。

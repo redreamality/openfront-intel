@@ -9,6 +9,10 @@
 
 ## 规则
 
+- **2026-10-09 检查范围与缓存冲突记录**：本轮 `astro check` 曾扫描并发任务尚未闭合的 `cache/zh-s2.mjs`，以模板字符串语法错误失败；将 `.cache`、`cache`、`_` 临时目录排除后检查恢复。随后同时执行 Astro check 与 Playwright 内置 build，在共享 `node_modules/.astro/data-store.json.tmp` 重命名时触发 EPERM；同一 checkout 的 Astro 同步、检查与构建必须顺序执行，先等现有进程退出再重跑。不得删除另一任务的草稿或结束其构建来掩盖冲突。
+- **2026-10-09 全站 SEO 基线**：审计 815 HTML / 810 可索引页时，报 72 个标题生成省略号、1 个双 H1、10 个需跳转链接。对旧 HEAD SEO 函数及对应旧文章逐项复核，72 个标题与旧输出完全一致，其余 11 项正文未改；本批 76 个影响 URL 无命中。保存私有详细日志与 baseline-check，不把全站审计退出 1 写成通过，后续按独立修复批次处理。
+- **2026-10-09 旧 e2e 合同校准**：初次完整套件 428/430 通过，失败为地图总数断言仍只接受 117/119（任务开始时和 checkout 4e83752 已为 123），以及 First Match changefreq 仍断言 daily（既有配置为 monthly）。保留地图关键 ID/总数一致性及 sitemap 完整性保护，更新实际支持的范围与频率后重跑全套。
+
 - 若 `pnpm exec astro check` 报 `src/components/FormulaBlock.astro` 中 `ItemInput` 不能赋给 `{ name: string; expr: string }`，这是当前全局基线类型错误；不要误判为无关页面改动引入。仍应确认本次文件没有新增诊断，并可用 `pnpm exec astro build` 验证静态路由是否能完整生成，同时将该基线错误另行修复。
 - **静态链接审计要把 Astro 的顶层 404 当作特殊产物**：即使 `trailingSlash: 'always'`，`/404/` 仍可能生成 `dist/404.html` 而不是 `dist/404/index.html`。解析尾斜杠路由时应同时接受两种候选文件。
 - **Cookie 设置从“允许统计”改回“仅必要功能”时必须立即停止当前页 Analytics**：不能只改 `localStorage` 等待下次导航。应设置 `ga-disable-<MEASUREMENT_ID>`、发送 denied consent update、移除动态 Google tag，并用 e2e 覆盖 allow → essential 的撤回路径。

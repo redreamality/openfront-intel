@@ -4,6 +4,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import RelatedContent from '../components/RelatedContent.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
 import FreshnessSummary from '../components/FreshnessSummary.astro';
+import ArticleAnswerRoutes from '../components/ArticleAnswerRoutes.astro';
 import { getLangFromUrl, useTranslations, getIntlLocale } from '../i18n';
 
 export interface Props {
@@ -104,10 +105,12 @@ const articleJsonLd = {
       />
     )}
 
+    <ArticleAnswerRoutes position="intro" />
     <div class="prose prose-invert max-w-none prose-headings:scroll-mt-20 prose-h2:border-b prose-h2:border-iron-800 prose-h2:pb-1 prose-h2:text-iron-50 prose-h3:text-iron-100 prose-a:text-cannon-400 prose-code:text-military-300 prose-pre:bg-iron-950 prose-pre:border prose-pre:border-iron-800">
       <slot />
     </div>
 
+    <ArticleAnswerRoutes position="next" />
     <ProvenancePanel
       kind={collection === 'changelog' ? 'changelog' : collection === 'strategies' ? 'strategy' : 'guide'}
       version={version}

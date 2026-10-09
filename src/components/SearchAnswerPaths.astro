@@ -1,0 +1,107 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+interface Props { kind: 'guide' | 'strategy' | 'maps'; }
+type Entry = { title: string; answer: string; path: string; link: string };
+type Copy = Record<Props['kind'], { title: string; entries: Entry[] }>;
+const { kind } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const prefix = `${import.meta.env.BASE_URL}${lang === 'en' ? '' : `${lang}/`}`;
+
+const copy: Record<Lang, Copy> = {
+  en: {
+    guide: { title: 'Start playing OpenFront', entries: [
+      { title: 'How do I play my first match?', answer: 'Choose a spawn with room to grow, take nearby neutral land, keep a defensive reserve, and build for the next problem you need to solve.', path: 'guides/first-match/', link: 'How to play OpenFront: beginner tutorial' },
+      { title: 'Can I play OpenFront on my phone?', answer: 'Start with the official game in your browser. Check the app and download answer before choosing touch controls, a different game, or community help.', path: 'guides/mobile-app-download/', link: 'Play on mobile: official browser, app and download answer' },
+    ] },
+    strategy: { title: 'What should I do next?', entries: [
+      { title: 'Opening: make a position you can hold', answer: 'Take nearby neutral land and keep a reserve. Stop stretching when the next border is harder to defend than the land is worth.', path: 'strategies/ffa-opening/', link: 'Choose your spawn and first expansion' },
+      { title: 'Economy: solve the next bottleneck', answer: 'Choose whether you need troop capacity, income, or safer routes before spending Gold. Keep enough to respond when the situation changes.', path: 'strategies/economy-fundamentals/', link: 'Choose your next economic investment' },
+      { title: 'Combat: choose the fight you can sustain', answer: 'Check the target, your reserve, and who else benefits. Reassess when a border stalls rather than repeating the same attack.', path: 'guides/land-combat/', link: 'Decide when to attack, stop or change route' },
+      { title: 'Endgame: read the actual victory condition', answer: 'Check the lobby mode and current territory requirement. Defend a lead or choose an objective that can still change the result.', path: 'guides/winning-overtime/', link: 'Turn the Overtime threshold into a decision' },
+    ] },
+    maps: { title: 'Which is the biggest OpenFront map?', entries: [
+      { title: 'Compare grid size and playable land', answer: 'The largest full grid and the most playable land can belong to different maps. Choose the measure that answers your question.', path: 'guides/map-size-compact-mode/', link: 'Compare the largest maps and their sizes' },
+      { title: 'What does Compact Map change?', answer: 'Compact loads a smaller map grid; it changes match scale rather than only zooming the camera.', path: 'guides/map-size-compact-mode/', link: 'Understand Compact scale and player counts' },
+    ] },
+  },
+  zh: {
+    guide: { title: '开始玩 OpenFront', entries: [
+      { title: '第一局怎么玩？', answer: '选有扩张空间的出生点，先拿附近无主地，保留守家兵力，再根据眼前的需求建造。', path: 'guides/first-match/', link: 'OpenFront 新手教程：第一局操作与开局' },
+      { title: '手机上能玩 OpenFront 吗？', answer: '先用浏览器打开官方游戏。查看 App 与下载说明，再选择触控教程、其他游戏或社区帮助。', path: 'guides/mobile-app-download/', link: '手机版入口：官方浏览器、App 与下载说明' },
+    ] },
+    strategy: { title: '这一局接下来该做什么？', entries: [
+      { title: '开局：建立守得住的位置', answer: '先拿近处无主地并保留预备队。当新边界的防守负担超过土地收益时，停止拉长战线。', path: 'strategies/ffa-opening/', link: '选择出生点与第一条扩张路线' },
+      { title: '经济：解决下一个瓶颈', answer: '先判断缺兵力容量、收入还是安全路线，再花金币。给局势变化留下应对资金。', path: 'strategies/economy-fundamentals/', link: '决定下一笔经济投入' },
+      { title: '战斗：选择能持续的进攻', answer: '检查目标、本土预备队与第三方受益者。边境停滞时重新评估，不要重复同一笔消耗。', path: 'guides/land-combat/', link: '判断该进攻、停手还是换路' },
+      { title: '终局：看实际胜利条件', answer: '确认大厅模式与当前领土要求。选择守住领先，或争夺仍能改变结局的目标。', path: 'guides/winning-overtime/', link: '按 Overtime 门槛决定收官动作' },
+    ] },
+    maps: { title: 'OpenFront 最大的地图是哪张？', entries: [
+      { title: '区分总网格与可占领土地', answer: '总网格最大的地图和可用陆地最多的地图可能不同。先选与你的问题对应的尺寸指标。', path: 'guides/map-size-compact-mode/', link: '比较最大地图与尺寸指标' },
+      { title: 'Compact Map 改变什么？', answer: 'Compact 加载更小的地图网格，会改变对局规模，不只是把镜头缩放。', path: 'guides/map-size-compact-mode/', link: '了解 Compact 比例与人数变化' },
+    ] },
+  },
+  fr: {
+    guide: { title: 'Commencer à jouer à OpenFront', entries: [
+      { title: 'Comment jouer ma première partie ?', answer: 'Choisissez un départ avec de la place, prenez les terres neutres proches, gardez une réserve et construisez pour résoudre votre prochain problème.', path: 'guides/first-match/', link: 'Tuto OpenFront : apprendre à jouer pas à pas' },
+      { title: 'Puis-je jouer à OpenFront sur mobile ?', answer: 'Commencez par le jeu officiel dans le navigateur. Vérifiez la réponse sur les applications et téléchargements avant de choisir les commandes, un autre jeu ou la communauté.', path: 'guides/mobile-app-download/', link: 'Jouer sur mobile : navigateur, application et téléchargement' },
+    ] },
+    strategy: { title: 'Que faire maintenant ?', entries: [
+      { title: 'Ouverture : tenir votre position', answer: 'Prenez les terres neutres proches et gardez une réserve. Arrêtez d’étirer la frontière lorsque sa défense coûte plus que le terrain gagné.', path: 'strategies/ffa-opening/', link: 'Choisir le départ et la première expansion' },
+      { title: 'Économie : résoudre le prochain manque', answer: 'Identifiez votre besoin de capacité, de revenus ou de routes sûres avant de dépenser l’or. Gardez de quoi réagir.', path: 'strategies/economy-fundamentals/', link: 'Choisir le prochain investissement économique' },
+      { title: 'Combat : choisir un effort soutenable', answer: 'Vérifiez la cible, la réserve et les bénéficiaires extérieurs. Réévaluez une frontière bloquée au lieu de répéter la même attaque.', path: 'guides/land-combat/', link: 'Attaquer, arrêter ou changer de route' },
+      { title: 'Fin de partie : lire la condition de victoire', answer: 'Vérifiez le mode et le seuil territorial actuel. Défendez une avance ou choisissez un objectif qui peut encore changer le résultat.', path: 'guides/winning-overtime/', link: 'Décider avec le seuil Overtime' },
+    ] },
+    maps: { title: 'Quelle est la plus grande carte OpenFront ?', entries: [
+      { title: 'Comparer grille et terres jouables', answer: 'La plus grande grille et la plus grande surface jouable peuvent appartenir à deux cartes différentes. Choisissez la mesure utile à votre question.', path: 'guides/map-size-compact-mode/', link: 'Comparer les plus grandes cartes et leurs dimensions' },
+      { title: 'Que change Compact Map ?', answer: 'Compact charge une grille plus petite et change l’échelle de la partie, pas seulement le zoom de la caméra.', path: 'guides/map-size-compact-mode/', link: 'Comprendre Compact et le nombre de joueurs' },
+    ] },
+  },
+  de: {
+    guide: { title: 'Mit OpenFront anfangen', entries: [
+      { title: 'Wie spiele ich meine erste Partie?', answer: 'Wähle einen Start mit Platz, nimm nahes neutrales Land, halte eine Reserve und baue für das nächste konkrete Problem.', path: 'guides/first-match/', link: 'OpenFront spielen lernen: Tutorial für Anfänger' },
+      { title: 'Kann ich OpenFront auf dem Handy spielen?', answer: 'Starte mit dem offiziellen Spiel im Browser. Prüfe App und Download, bevor du Touch-Steuerung, ein anderes Spiel oder Community-Hilfe wählst.', path: 'guides/mobile-app-download/', link: 'Mobil spielen: offizieller Browser, App und Download' },
+    ] },
+    strategy: { title: 'Was solltest du als Nächstes tun?', entries: [
+      { title: 'Start: eine haltbare Position schaffen', answer: 'Nimm nahes neutrales Land und halte Reserven. Stoppe die Ausdehnung, wenn die neue Grenze schwerer zu halten ist als das Land wert ist.', path: 'strategies/ffa-opening/', link: 'Spawn und erste Expansion wählen' },
+      { title: 'Wirtschaft: den nächsten Engpass lösen', answer: 'Prüfe Kapazität, Einkommen und sichere Routen vor der Goldausgabe. Behalte Mittel für Veränderungen.', path: 'strategies/economy-fundamentals/', link: 'Die nächste Wirtschaftsentscheidung treffen' },
+      { title: 'Kampf: tragbare Angriffe wählen', answer: 'Prüfe Ziel, Reserve und fremde Nutznießer. Bewerte eine stockende Front neu statt denselben Angriff zu wiederholen.', path: 'guides/land-combat/', link: 'Angreifen, stoppen oder die Route wechseln' },
+      { title: 'Endspiel: die Siegbedingung lesen', answer: 'Prüfe Modus und aktuelle Gebietsanforderung. Verteidige den Vorsprung oder wähle ein Ziel, das das Ergebnis noch ändern kann.', path: 'guides/winning-overtime/', link: 'Mit der Overtime-Schwelle entscheiden' },
+    ] },
+    maps: { title: 'Welche OpenFront-Karte ist am größten?', entries: [
+      { title: 'Raster und spielbares Land vergleichen', answer: 'Das größte Raster und die meiste spielbare Fläche können auf verschiedenen Karten liegen. Wähle das passende Maß.', path: 'guides/map-size-compact-mode/', link: 'Die größten Karten und ihre Größen vergleichen' },
+      { title: 'Was verändert Compact Map?', answer: 'Compact lädt ein kleineres Raster und verändert den Maßstab der Partie, nicht nur den Kamerazoom.', path: 'guides/map-size-compact-mode/', link: 'Compact und Spielerzahlen verstehen' },
+    ] },
+  },
+  nl: {
+    guide: { title: 'Beginnen met OpenFront', entries: [
+      { title: 'Hoe speel ik mijn eerste partij?', answer: 'Kies een start met ruimte, neem dichtbij neutraal land, houd een reserve en bouw voor het volgende probleem dat je wilt oplossen.', path: 'guides/first-match/', link: 'OpenFront leren spelen: tutorial voor beginners' },
+      { title: 'Kan ik OpenFront op mijn telefoon spelen?', answer: 'Begin met het officiële spel in je browser. Controleer app en download voordat je touchbediening, een ander spel of communityhulp kiest.', path: 'guides/mobile-app-download/', link: 'Mobiel spelen: officiële browser, app en download' },
+    ] },
+    strategy: { title: 'Wat moet je nu doen?', entries: [
+      { title: 'Opening: een houdbare positie maken', answer: 'Neem dichtbij neutraal land en houd reserves. Stop met uitstrekken als de nieuwe grens meer verdediging vraagt dan het land waard is.', path: 'strategies/ffa-opening/', link: 'Spawn en eerste uitbreiding kiezen' },
+      { title: 'Economie: het volgende knelpunt oplossen', answer: 'Bepaal of je capaciteit, inkomsten of veilige routes mist voordat je goud uitgeeft. Houd geld achter om te reageren.', path: 'strategies/economy-fundamentals/', link: 'De volgende economische investering kiezen' },
+      { title: 'Gevecht: een houdbare aanval kiezen', answer: 'Controleer doelwit, reserve en wie elders profiteert. Beoordeel een vastgelopen grens opnieuw in plaats van dezelfde aanval te herhalen.', path: 'guides/land-combat/', link: 'Aanvallen, stoppen of van route veranderen' },
+      { title: 'Eindspel: de echte winvoorwaarde lezen', answer: 'Controleer de modus en huidige gebiedsdrempel. Verdedig een voorsprong of kies een doel dat de uitslag nog kan veranderen.', path: 'guides/winning-overtime/', link: 'Beslissen met de Overtime-drempel' },
+    ] },
+    maps: { title: 'Welke OpenFront-kaart is het grootst?', entries: [
+      { title: 'Raster en speelbaar land vergelijken', answer: 'Het grootste raster en het meeste speelbare land kunnen bij verschillende kaarten horen. Kies de maat die je vraag beantwoordt.', path: 'guides/map-size-compact-mode/', link: 'De grootste kaarten en hun maten vergelijken' },
+      { title: 'Wat verandert Compact Map?', answer: 'Compact laadt een kleiner raster en verandert de schaal van de partij, niet alleen de camerazoom.', path: 'guides/map-size-compact-mode/', link: 'Compact en spelersaantallen begrijpen' },
+    ] },
+  },
+};
+const content = copy[lang][kind];
+---
+
+<section class="container-wide pt-8" data-search-answer-paths={kind} aria-labelledby={`search-answer-${kind}`}>
+  <h2 id={`search-answer-${kind}`} class="text-2xl font-semibold text-iron-50">{content.title}</h2>
+  <div class:list={['mt-5 grid gap-4 md:grid-cols-2', { 'xl:grid-cols-4': kind === 'strategy' }]}>
+    {content.entries.map((entry) => (
+      <div class="rounded-lg border border-iron-700 bg-iron-900/60 p-5">
+        <h3 class="text-lg font-semibold text-iron-50">{entry.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-iron-300">{entry.answer}</p>
+        <a class="mt-4 inline-block text-sm font-semibold text-cannon-400 underline hover:text-cannon-300" href={`${prefix}${entry.path}`}>{entry.link}</a>
+      </div>
+    ))}
+  </div>
+</section>
