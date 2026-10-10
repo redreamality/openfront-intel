@@ -1,0 +1,202 @@
+---
+title: "Cape-Cod-Karte: Welche Seite wählen und wie man den Kanal spielt"
+description: "Cape Cod besteht aus drei Zonen – ein Festland, die Cape und eine Reihe von Inseln –, die an einer einzigen schmalen Engstelle aufeinandertreffen. Wähle deine Seite nach dem Zugang zum Kanal, dann verteidige oder durchbrich die einzige echte Landverbindung."
+pubDate: 2026-10-10
+updatedDate: 2026-10-10
+tags: [cape-cod, nordamerika, karten, ffa, starts, anfaenge, kanal]
+category: Karten
+difficulty: Mittel
+version: v34
+freshnessSummary: "Am 2026-10-10 gegen den upstream-PR #5071 (Commit 3223573e8), das v0.34.0-Release, die ausgelieferte map4x-Manifest (31 Nationen, 750x620-Raster, 143,346 Land-Kacheln) und eine lokale Geländeanalyse von map4x.bin verifiziert, die die Karte in Festland, Cape und Inselkomponenten aufteilt."
+---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="PQVpzkTLIek" title="OpenFront v34-Update und neue Karteninhalte (Cape Cod kommt hier raus)" />
+
+## Direkte Antwort: Nimm die Seite, die du am Kanal verteidigen kannst, und verbinde dich mit einer einzigen Überquerung
+
+### Die Ein-Satz-Antwort
+
+Bei **Cape Cod** in einem öffentlichen FFA-Modus ist die einzige Entscheidung, die wirklich zählt, nicht die Stadt, in der du startest, sondern die Seite des **Cape-Cod-Kanals**, auf der du endest. Die Karte ist weder eine einzige Insel noch eine einzige Landzunge, sondern drei spielbare Zonen: ein Festland im Westen, die Cape selbst im Osten und eine Reihe von Inseln im Süden. Festland und Cape sind zwei getrennte Landmassen, die in fast jeder Zeile vom Wasser umgeben sind – bis auf genau eine Stelle. Diese eine Stelle ist der Kanal, die schmalste Wasserüberquerung der ganzen Karte, und hier zwingt das Spiel zu seinem einzigen echten Kampf Land gegen Land. Wenn du die Kanal-Linie halten kannst, besitzt du das Rückgrat der Karte, und der Rest des Boards ist eine Frage von Wirtschaft und Timing. Wenn du das nicht kannst, bist du eine Flanke, egal wie viele gute Städte dich umgeben, und ein gut positionierter Gegner kann jede Überquerung durch eine Lücke lenken, die nur ein paar Kacheln breit ist. Wer das früh versteht, spielt nicht gegen einunddreißig mögliche Gegner, sondern gegen genau eine Linie, und genau das macht die Karte so spielbar, obwohl sie auf den ersten Blick so unübersichtlich aussieht.
+
+### Was "Seite" auf dieser Karte bedeutet
+
+Ein neuer Spieler, der auf dem Spawn-Screen landet, sieht einunddreißig benannte Städte – Plymouth, Falmouth, Nantucket, Chatham, Wellfleet und so weiter – und hat keine Ahnung, zu welcher Gruppe sie gehören, woraus die Karte wirklich besteht oder wo das Spiel einen Kampf erzwingen wird. Der Stadtname sagt dir nur, von wo aus du startest; er verrät dir nichts über die strategische Region. Mit "Seite" ist gemeint: Bist du auf dem Festland, auf dem Cape oder auf einer Insel, und auf welcher Seite des Kanals stellt dich das? Festland und Cape liegen auf gegenüberliegenden Seiten der schmalen Lücke, daher können eine Festland-Stadt und eine Cape-Stadt, die auf dem Bildschirm nah beieinander liegen, trotzdem auf verschiedenen Kanal-Seiten stehen. Die Inseln liegen größtenteils auf den südlichen Seewegen und treffen über das Meer, nicht über Land, auf die Lücke zu. Wenn du deinen Start als Zone liest und nicht als Stadt, verschwindet ein Großteil der Verwirrung, die die einunddreißig Namen erzeugen, und genau dieser Schritt verwandelt den Spawn-Screen in eine echte Entscheidung, mit der du sofort spielen kannst.
+
+### Die drei Zeilen, die du aufschreiben solltest
+
+Bevor du eine zweite Welle sendest, schreibe dir drei Zeilen auf: In welcher Zone du stehst, auf welcher Seite des Kanals du liegst und was deine Priorität in der ersten Minute ist – die Lücke halten, die Lücke aufbrechen oder einen Seeweg eröffnen. Ein gutes Cape-Cod-Opening endet die erste Phase mit einem geschützten Kern, einer benannten Kanal-Seite und einem echten, getrennten Rückfallplan, der weiter funktioniert, wenn der Kanal-Kampf schiefgeht. Ein schlechtes Opening endet mit einer langen, dünnen Linie und einer hypothetischen Überquerung, die einem gegnerischen Angriff nicht standhalten kann. Diese Seite verwandelt die rohe Spawn-Liste in genau diese Entscheidung, zeigt dir dann, wie du die Überquerung spielst, ob du die Seite bist, die sie hält, oder die Seite, die sie aufbrechen muss, und wiederholt die Antwort nur in der Form, die die Entscheidung eines Spielers im laufenden Match tatsächlich verändert. Wer die drei Zeilen sauber formulieren kann, hat einen Spielplan; wer sie nicht benennen kann, improvisiert – und auf einer schnellen Karte wie Cape Cod ist Improvisieren der schnellste Weg, das Match zu verlieren.
+
+## Was Cape Cod wirklich ist: drei Zonen, zwei Landmassen
+
+### Zwei große Landmassen, nicht eine
+
+Das Nützlichste, was man über diese Karte verstehen kann, ist ihre Topologie – und die ist auf die bestmögliche Weise langweilig. Eine lokale Analyse des ausgelieferten `map4x`-Geländes, ein Raster von 750 mal 620 mit 143,346 Land-Kacheln, zeigt, dass das Land in nur wenige verbundene Komponenten zerfällt, und zwei davon dominieren alles Übrige: eine **Festland**-Komponente mit rund 76,600 Kacheln im westlichen und zentralen Teil der Karte und eine **Cape**-Komponente mit rund 48,700 Kacheln im Osten. Diese zwei sind **getrennte Landmassen**. Sie teilen über den Großteil der Karte keinen Landkorridor; stattdessen trennt sie ein breites Gewässer – die Bucht und der offene Atlantik –, das im Süden auf hunderte Kacheln weit aufreißt und an genau einer bestimmten Stelle nur auf ein paar Kacheln zuschmälert. Der Rest des Lands ist ein langer, dünner Haken, der sich um das Cape schlingt, plus eine Handvoll kleiner Inseln, die zusammen die dritte Zone bilden, nicht eine vierte große Region. Wer das einmal im Kopf hat, braucht keine Karte mehr, um zu wissen, wo das Land endet und wo das Spiel sich hinbewegen wird.
+
+### Die Inseln und das Meer
+
+Alles andere auf der Karte ist kleiner: der Haken des Cape, die Inseln im Süden und eine Handvoll winziger Inselchen. Genau das macht den Spawn-Screen so verwirrend – einunddreißig Namen, aber nur zwei echte strategische Regionen plus eine Gruppe von Inseln, die vor allem als sekundäre Stützpunkte und Seewege zählen, nicht als primäre Machtzentren. Wenn du dir die Karte im Spiel ansiehst, ist das Wasser die dominante Eigenschaft, nicht das Land: Das Festland ist ein großer Klumpen, das Cape ist ein langer, schmaler Haken, der sich darum schlingt, und die Inseln sind kleine Punkte im Süden. Wenn du dir nur ein mentales Bild einprägst, nimm dieses: eine große Landmasse und ein langer, dünner Haken, dazwischen eine Lücke, die über den Großteil ihrer Länge eine weite Bucht ist und an genau einer Stelle ein enger Kanal. Das Meer ist hier keine Dekoration; es ist überall außer am Kanal die eigentliche Verbindung zwischen den beiden großen Landmassen. Eine Karte, die du dir als "meistens Wasser mit zwei Inseln" vorstellen kannst, ist das richtige mentale Modell für dein erstes Match, und es bleibt gültig, sobald du im Match stehst.
+
+### Warum die Form zählt
+
+Die Konsequenz der Topologie ist, dass die Karte ein natürlicher West-Ost-Wettkampf ist. Das Festland hat mehr Gesamtland, und das bedeutet mehr Platz für eine Inland-Expansion und mehr Raum, um ein schlechtes Opening aufzufangen. Das Cape hat weniger Gesamtland, aber eine längere, exponiertere Küstenlinie und eine schmalere Form; das macht es anfälliger für einen flankierenden Marine-Angriff und abhängig davon, den Kanal zu halten, um mit dem Hinterland verbunden zu bleiben. Die Inseln liegen dazwischen und drumherum und entscheiden meistens, wer die Seewege kontrolliert. Keine dieser Fakten ist ein Geheimnis; sie ist einfach die Form der Karte, und wer sie einmal vor dem ersten Match liest, spart sich den Großteil der Verwirrung, die die einunddreißig Spawn-Namen erzeugen. Die Form bedeutet auch, dass die Karte in der Mitte schnell wird: Weil der Kanal nahe an Mitte-Nord liegt, treffen die beiden Hauptzonen früh aufeinander, und ein Cape-Cod-FFA erreicht seinen ersten echten Grenzkonflikt eher als eine Karte mit langer, offener Grenze. Der Spieler, der seine Zone zuerst erkennt, setzt in der Regel das Tempo für das ganze Match – und wer es nicht erkennt, zahlt den ganzen Abend dafür.
+
+## Die Spawn-Tabelle: einunddreißig Städte, drei Zonen
+
+### So liest du die Tabelle
+
+Die Tabelle unten listet alle einunddreißig Spawn-Nationen, gruppiert nach Zone, auf. "Kanal-Seite" sagt dir, auf welcher Seite der schmalen Lücke dein Start liegt, und "Erste-Minute-Priorität" ist die einzige Aktion, die für diesen Start das Opening gewinnt. Die Festland-Städte liegen auf der westlichen und zentralen Landmasse, die Cape-Städte ziehen sich entlang des östlichen Hakens, und die Insel-Starts sind die Stützpunkte auf den südlichen Seewegen. Benutze die Tabelle, um deinen zufälligen Start in den ersten fünf Sekunden einer Zuzuordnung, und lies dann den Zonen-Abschnitt für den vollen Plan. Die Tabelle ist das schnelle Nachschlagen; die Abschnitte dahinter sind die Begründung, warum jede Priorität genau so aussieht, wie sie aussieht. Wenn du die Tabelle einmal richtig liest, kannst du dir die Priorität deines Starts in unter zehn Sekunden ableiten, ohne einen einzigen Absatz zu lesen – und genau das soll eine gute Spawn-Übersicht leisten.
+
+| Start | Zone | Kanal-Seite | Erste-Minute-Priorität |
+|:------|:-----|:------------|:-----------------------|
+| Plymouth | Festland | West | Inland-Kern bauen |
+| Taunton | Festland | West | Inland-Kern bauen |
+| Brockton | Festland | West | Inland-Kern bauen |
+| Rochester | Festland | West | Inland-Kern bauen |
+| Bridgewater | Festland | West | Küste auf Hafen prüfen |
+| New Bedford | Festland | West | Küste auf Hafen prüfen |
+| South Carver | Festland | West | Küste auf Hafen prüfen |
+| Marshfield | Festland | West | Südküste absichern |
+| Mattapoisett | Festland | West | Südküste absichern |
+| Wareham | Festland | West | Kanal-Linie anlaufen |
+| Manomet | Festland | West | Kanal-Linie anlaufen |
+| Bourne | Festland | West | Kanal-Linie anlaufen |
+| Falmouth | Cape | Ost | Kanal-Seite benennen |
+| Sandwich | Cape | Ost | Kanal-Seite benennen |
+| Mashpee | Cape | Ost | Kanal-Seite benennen |
+| Barnstable | Cape | Ost | Kanal-Lücke verteidigen |
+| Dennis | Cape | Ost | Kanal-Lücke verteidigen |
+| Chatham | Cape | Ost | Kanal-Lücke verteidigen |
+| Orleans | Cape | Ost | Ostküste absichern |
+| Eastham | Cape | Ost | Ostküste absichern |
+| Wellfleet | Cape | Ost | Ostküste absichern |
+| Provincetown | Cape | Ost | Nord-Seebrücke halten |
+| Edgartown | Insel | Süd | Seebrücke eröffnen |
+| Oak Bluffs | Insel | Süd | Seebrücke eröffnen |
+| Siasconset | Insel | Süd | Seebrücke eröffnen |
+| Nantucket | Insel | Süd | Seebrücke halten |
+| Naushon | Insel | Süd | Seebrücke erkunden |
+| Nashawena | Insel | Süd | Seebrücke erkunden |
+| Nomans Land | Insel | Süd | Seebrücke erkunden |
+| Tuckernuck | Insel | Süd | Seebrücke erkunden |
+
+### So liest du deinen Start
+
+Suche deine Stadt in der Tabelle und nimm daraus drei Fakten mit: die Zone, die Kanal-Seite und die Priorität. Eine Stadt wie **Taunton** oder **Brockton** in der nordwestlichen Ecke des Festlands ist ein Start auf der Westseite mit langem, geschütztem Hinterland, und die Priorität lautet, einen Inland-Kern zu bauen, bevor jemand den Kanal erreicht. Eine Stadt wie **Bourne** oder **Manomet** liegt ebenfalls auf der Westseite, aber näher an der Bucht; sie fühlt sich maritimer an, und die Priorität ist, die Kanal-Linie anzulaufen, während du dir das Festland im Rücken sicher hältst. Eine Cape-Stadt wie **Falmouth** liegt auf der Ostseite und nah an der Lücke, und die Priorität lautet, die Kanal-Seite zu benennen und zu entscheiden, ob du hältst oder durchbrichst. Ein Insel-Start wie **Edgartown** ist ein Stützpunkt auf der Südseite der Seewege, und die Priorität lautet, eine Seebrücke zu eröffnen und zu halten, bevor du irgendetwas anderes baust. Genau so liest du die Tabelle, und genau so verwandelt sie den Spawn-Screen in einen einzeiligen Plan in unter zehn Sekunden, den du im Match sofort umsetzen kannst, ohne dass du noch mal in diese Seite schauen musst.
+
+## Der Cape-Cod-Kanal: die einzige echte Überquerung
+
+### Wo die Engstelle liegt
+
+Die gesamte strategische Identität von Cape Cod ruht auf einem einzigen geografischen Fakt: Festland und Cape kommen an genau einer Stelle auf ein paar Kacheln Entfernung zueinander, und überall dazwischen ist das Wasser breit. Diese enge Stelle ist der **Cape-Cod-Kanal**, und er ist der einzige Ort, an dem eine Land-Expansion von einer Seite zur anderen gelangen kann, ohne erst eine Seestreitkraft aufzubauen und offenes Wasser zu überqueren. In den Geländedaten ist die schmalste Wasserlücke vom Festland zum Cape auf dem `map4x`-Raster etwa zwei Kacheln breit – rund fünf Kacheln in voller Auflösung – und verläuft entlang eines kurzen, senkrechten Abschnitts nahe an Mitte-Nord der Karte, ungefähr in den Zeilen 236 bis 241. Überall südlich davon weitet sich die Lücke zwischen den beiden Landmassen dramatisch zur offenen Bucht, wo der Abstand in Hunderten von Kacheln gemessen wird und eine Überquerung eine echte Marine-Operation bedeutet, kein Land-Stoß. Der Kontrast ist der ganze Punkt: eine enge Lücke und eine weite Bucht. Wer beides im Kopf hat, weiß, wo der Kampf stattfindet und wo man ihn nicht führen kann.
+
+### Was die Engstelle wert ist
+
+Das ist die Karten-Version einer Meerenge, und sie spielt sich exakt nach der Enge-Logik, die du von anderen Karten schon kennst. Wer den Kanal hält, kontrolliert das Tempo des gesamten Spiels, weil die andere Seite genau einen Landweg hineinhat. Hältst du den Kanal, kannst du auswählen, wann überhaupt jemand überqueren darf, und du kannst deine gesamte Verteidigung auf eine zwei Kacheln breite Lücke konzentrieren statt auf eine hundert Meilen lange Küste. Hältst du ihn nicht, wird jede Expansion, die du in Richtung der anderen Seite willst, zu einem Entscheidungsproblem: eine Landstreitkraft in einen bekannten Trichter schicken oder Schiffe bauen und eine Seeüberquerung riskieren, bei der der Gegner dich absperren kann. Der Kanal erzeugt außerdem eine saubere Verteidigungslinie, weil die Lücke so eng ist, dass eine einzige gut platzierte Reihe von Bauten oder ein verteidigtes Grenzsegment die Landbewegung mit einem Bruchteil der Kosten blockiert, die eine offene Küste kosten würde. Genau deshalb belohnt die Karte den Spieler, der seine Kanal-Seite früh herausfindet, und bestraft jeden, der es sich erst in der zweiten Minute überlegt.
+
+### Die weite Bucht drumherum
+
+Die weite Bucht zählt, weil sie gleichzeitig die Fluchtroute und die Flankenroute ist. Die Seite, die den Kanal hält, ist nicht sicher, nur weil sie die enge Lücke hält, denn der Gegner kann über die Bucht um die Landmasse herumsegeln und die Küste des Haltenden von jener Seite angreifen, die nicht beobachtet wurde. Die Seite, die den Kanal aufbrechen muss, kann die enge Lücke ganz umgehen und eine Seeüberquerung durch die Bucht fahren; das kostet Schiffe, aber es geht der konzentrierten Verteidigungslinie aus dem Weg. Der Kanal ist also nie der einzige Kampf; er ist das Zentrum des Kampfes, und die Bucht ist die Flanke. Lies [Openings an der Straße von Gibraltar](/guides/strait-of-gibraltar-openings/) für die allgemeine Enge-Logik, denn Cape Cod wendet dieselbe Regel auf einem kleineren, schnelleren Board an. Ein Spieler, der den Kanal gewinnt, aber die Bucht weit offen lässt, verliert die Karte meistens trotzdem, und ein Spieler, der die Bucht absichert, aber die Lücke ignoriert, verschenkt dem Gegner das Hinterland zum Selbstkostenpreis. Die beiden Linien müssen zusammen gespielt werden, und jede Strategie, die nur eine von ihnen ernst nimmt, trägt eine offene Wunde.
+
+## Die Festlandseite: zwölf Städte und ein geräumiges Innere
+
+### Wo die Festland-Städte liegen
+
+ZWölf der einunddreißig Starts liegen auf der Festland-Komponente, und sie bilden das nachgiebigste Opening der Karte. Die Festland-Städte – Plymouth, Taunton, Brockton, Rochester, Bridgewater, New Bedford, South Carver, Marshfield, Mattapoisett, Wareham, Manomet und Bourne – verteilen sich über die westliche und zentrale Landmasse, von der fernsten nordwestlichen Ecke bis zur Mittel-Südküste. Weil das Festland die größere der beiden Komponenten ist, gibt ein Festland-Start dir den größten Inland-Spielraum: Es gibt viel Land hinter dir, viel neutrales Terrain aufzufangen und viel Raum, um einen kompakten Kern zu bauen, bevor jemand einen Grenzkonflikt erzwingt. Die nordwestlichen Städte liegen weit vom Kanal entfernt und haben das längste, am besten geschützte Hinterland, während die Mittel-Süd-Städte wie Wareham, Manomet und Bourne näher an der Bucht und am südlichen Ende der Kanal-Linie liegen. Diese Verteilung erklärt, warum sich Festland-Starts so unterschiedlich anfühlen, obwohl sie dieselbe Zone sind: Die Position auf dem Festland entscheidet, ob dein Opening ein Bau-Opening oder ein Positionierungs-Opening ist, und das solltest du in der ersten Sekunde wissen.
+
+### Die Stärke des Festlands
+
+Die Stärke des Festlands ist die Inland-Tiefe und die Kanal-Verteidigung. Von einem Festland-Start aus kannst du zuerst ins Innere expandieren, eine echte Wirtschaft aufbauen und erst dann den Kanal als Linie ansehen, die zu halten ist. Eine Stadt wie **Taunton** oder **Brockton** in der nordwestlichen Ecke hat ein langes, geschütztes Hinterland und liegt weit vom Kanal entfernt; die ersten Minuten sind hier Bauarbeit, kein Kampf. Eine Stadt wie **Bourne** oder **Manomet** liegt näher an der Bucht und fühlt sich von der ersten Minute an maritimer an, hat aber trotzdem das gesamte Festland im Rücken. Wenn du maritimes Spiel nicht gut kannst oder einfach einen langsamen, verteidigbaren Start willst, ist das Festland die sichere Seite, und die Sicherheit kommt aus dem Raum, eine Reserve aufzubauen, bevor der Kanal zu einem echten Kampf wird. Der Spieler, der diesen Raum gut nutzt, darf die erste Schlägerei verlieren und trotzdem oben landen, weil das Hinterland weiter gezahlt hat, während alle anderen um ein paar Kacheln stritten.
+
+### Das Risiko des Festlands
+
+Die Schwäche des Festlands ist, dass es das große, offensichtliche Ziel ist. Die Cape-Seite hat genau einen Landweg ins Festland hinein, und die Inseln flankieren die Küste, so dass ein koordinierter Gegner dich gleichzeitig vom Kanal und vom Meer aus drücken kann. Die Regel für einen Festland-Start lautet, den Kanal zu verdienen, bevor du ihn ausgibst: nutze deine Inland-Tiefe, um eine Reserve aufzubauen, platziere einen Hafen, wenn deine Küste das hergibt, und verbinde dich erst dann mit dem Halten oder Angreifen der schmalen Lücke. Expandierst du ins Innere und ignierst den Kanal, während ein Gegner dort aufbaut, tauschst du deine Sicherheit gegen eine Position, die du nicht halten kannst. Das Festland ist die sichere Seite der Karte, aber sicher ist relativ: Es ist sicher gegen einen unachtsamen Gegner und gefährlich gegen einen, der sich auf die eine Sache konzentriert, die die beiden Hälften tatsächlich verbindet. Für die allgemeine Disziplin, einen kompakten, verteidigbaren Kern zu bauen, bevor man drückt, lies [Hoch statt breit](/guides/tall-vs-wide/).
+
+## Die Cape-Seite: zehn Städte auf einem langen, exponierten Haken
+
+### Wo die Cape-Städte liegen
+
+Zehn Starts liegen auf der Cape-Komponente – dem langen, dünnen Haken, der sich nach Osten und Norden windet. Es sind Falmouth, Sandwich, Mashpee, Barnstable, Dennis, Chatham, Orleans, Eastham, Wellfleet und Provincetown, und sie ziehen sich von der Cape-Basis nahe am Kanal bis zur nördlichen Spitze in Provincetown. Der Cape-Start ist das Gegenteil des Festland-Starts: weniger Inland-Raum, eine längere und exponiertere Küstenlinie und eine Form, die von der See aus leicht flankiert werden kann. Wenn dir maritimes Spiel, lange Küstenfronten und das Gefühl gefallen, die Seite zu sein, die aktiv eine lange Linie verteidigen muss, dann ist das Cape deine Seite. Wenn du einen langsamen Aufbau mit großem, sicherem Hinterland willst, wird sich das Cape eng und exponiert anfühlen. Die Basis-Städte liegen nah am Festland und am Kanal, während die nördlichen Städte weit draußen auf dem Haken liegen und fast nichts hinter sich haben. Wer das Cape versteht, versteht, warum hier fast jede Minute eine Küstenminute ist.
+
+### Die Stärke des Cape
+
+Das Bestimmungsmerkmal des Cape ist, dass es ein Haken ist, kein Klumpen. Jede Cape-Stadt liegt nah am Wasser, und das Land wird schmaler, je weiter du nach Norden kommst; ein Cape-Start hat also eine kürzere, gefährlichere Expansion als ein Festland-Start. **Falmouth** und **Sandwich** liegen nahe an der Cape-Basis, dicht am Kanal und am Festland, und sind die am besten verbundenen und umkämpftesten: Ein Gegner über dem Kanal kann sie schnell per Landweg erreichen. **Provincetown** an der nördlichen Spitze ist der fernste, am meisten isolierte und am meisten maritime aller Cape-Starts: lange Küste, wenig Hinterland, und die Hauptkontakte laufen über das Meer und über die Inseln. Die Mittel-Cape-Städte – **Barnstable**, **Dennis**, **Chatham**, **Orleans**, **Eastham** – bilden das Rückgrat des Cape, und hier findet tatsächlich die Mehrheit der Cape-gegen-Festland-Kämpfe um den Kanal und die östliche Küste statt. Das Cape hält den östlichen Ozean, und auf einer wasserlastigen Karte ist das echte Macht, nicht nur ein optischer Vorteil.
+
+### Das Risiko des Cape
+
+Der Cape-Start tauscht die Sicherheit des Hinterlands gegen zwei Dinge ein: eine dominante Position an der östlichen Küstenlinie und – entscheidend – die Option, die Seite zu sein, die den Kanal **durchbricht**, statt ihn zu halten. Stehst du auf dem Cape und will die Festland-Seite zu dir herauskommen, dann verteidigt die Cape-Seite die schmale Lücke, und die Festland-Seite zahlt den Preis der Enge-Belagerung. Aber die lange Küste des Cape ist gleichzeitig seine Verwundbarkeit: ein maritimes Sperrfeuer entlang des Hakens kann eine Cape-Wirtschaft strangulieren, die vom Meer abhängt, und weil das Land schmaler wird, gibt es kein tiefes Hinterland, in das man sich zurückziehen kann, wenn die Front bricht. Lies [Insel-Verteidigung](/guides/island-defense/) dafür, wie man eine lange Küste mit Transportern und einem Verteidigungsposten absichert, denn die Cape-Küste ist exakt die lange, exponierte Küste, um die es in dieser Seite geht. Das Cape ist die aggressive Seite der Karte: weniger sicher, exponierter, aber die Seite, die den östlichen Ozean kontrolliert und entscheiden kann, wann der Kanal bricht.
+
+## Die Insel-Starts: neun Stützpunkte und die Seebrücken
+
+### Wo die Inseln liegen
+
+Neun der einunddreißig Starts sind Insel- oder Inselchen-Starts, und sie bilden die dritte Zone der Karte: Edgartown, Oak Bluffs, Siasconset, Nantucket, Naushon, Nashawena, Nomans Land, Tuckernuck und die größeren Inselkörper, auf denen sie liegen. Sie reichen von zwei echten Inseln – **Nantucket** (mit Siasconset in der Nähe) und dem Martha's-Vineyard-Körper (mit Edgartown und Oak Bluffs darauf) – bis zu einer Handvoll winziger Inselchen wie Naushon, Nashawena, Nomans Land und Tuckernuck. Ein Insel-Start ist ein völlig anderes Spiel als ein Festland- oder Cape-Start: Du hast sehr wenig Land, deine gesamte Wirtschaft hängt am Meer, und dein Überleben hängt davon ab, dass mindestens eine Seebrücke offen bleibt. Die Inseln liegen größtenteils im Süden der Karte, aufgereiht zwischen Festland, Cape und offenem Atlantik, und sie entscheiden, wer die südlichen Seewege kontrolliert. Wer die Position der Inseln einmal sieht, versteht sofort, warum die Südseite dieser Karte immer eine Seeschlacht ist, auch wenn auf dem Land gerade friedlich gebaut wird.
+
+### Die Stärke der Inseln
+
+Ein Insel-Start ist die Option mit dem höchsten Risiko und der höchsten Flexibilität auf der Karte. Du hast fast kein Hinterland, also kannst du dich nicht zurückziehen; du stehst ab der ersten Sekunde an der Küste, also wirkt ein maritimes Sperrfeuer gegen dich sofort. Aber du stehst auch mitten im Wasser, und das bedeutet, du kannst sowohl die Festland- als auch die Cape-Küste treffen und du kannst die Seewege bestreiten, auf die die anderen beiden Zonen angewiesen sind. Ein Start auf einer echten Insel mit zwei Spawns und genug Land, um einen Hafen und einen Verteidigungsposten zu tragen, ist die stärkste der Insel-Optionen, weil hinter der Seebrücke wirtschaftliche Tiefe sitzt. Ein Start auf einem winzigen Inselchen wie **Tuckernuck** oder **Nomans Land** ist ein reiner Seebrücken-Spion mit fast keine wirtschaftliche Tiefe dahinter: eine vordere Position, kein Zuhause, und sie macht nur als Absicherung oder als Sprungbrett zu einer größeren Insel oder einem Küstenziel Sinn. Die Stärke der Insel ist Flexibilität, und ihre Schwäche ist, dass es nirgendwohin gibt, wo man sich zurückziehen kann.
+
+### Das Risiko der Inseln
+
+Die Regel für einen Insel-Start lautet, zuerst eine Seebrücke zu besitzen, bevor du irgendetwas anderes besitzt, denn du kannst es dir nicht leisten, sie zu verlieren. Wenn deine einzige Seebrücke blockiert wird, bist du eingeschlossen und verlierst auf Zeit, und weil die Inseln im Süden zwischen den beiden Hauptzonen liegen, kann eine blockierte Insel zu einem isolierten Punkt werden, den sowohl Festland als auch Cape ignorieren. Lies [Landungen mit Transportern](/guides/transport-landings/) dafür, wie man eine Überquerung fährt, die eine Rückfallbrücke offen hält, und lies [Handel versus Piraterie](/guides/trade-vs-piracy/) dafür, wie man eine Seeroute am Bezahlen hält, statt sie zu verbrennen. Die Inseln sind kein bequemes Opening; sie sind die Entscheidung, das maritime Spiel der Karte von innen zu spielen. Wählst du eine Insel, verbinde dich mit dem Meer, halte eine Brücke offen und behandle deine winzige Landbasis als vordere Position, nicht als Zuhause. Der Insel-Spieler, der eine Brücke am Leben hält, kontrolliert den Süden der Karte; derjenige, dessen Brücke zuschlägt, hat bereits verloren.
+
+## Die erste Minute, nach Zone
+
+### Erste Minute Festland
+
+Die erste Minute auf Cape Cod ist die Umwandlung deines Starts in eine Zonen-Identität, und sie ist schnell, weil die Karte klein ist und der Kanal nah. Bei einem **Festland**-Start expandierst du zuerst ins Innere. Nimm das neutrale Land direkt hinter deiner Stadt, bevor du ans Wasser denkst, baue deine Anfangs-Stadt auf volle Kapazität und platziere einen Hafen nur, wenn deine Küste ohne den Kern zu exponieren erreichbar ist. Bis zum Ende der ersten Minute solltest du einen kompakten Kern mit zwei bis drei Taschen haben, eine benannte Kanal-Seite und einen Hafen-Plan, der geprüft und nicht blind gekauft ist. Die erste Minute des Festlands ist eine Bau-Minute; das Kämpfen kommt später, und der Spieler, der das frühe Hinterland in ein Küsten-Glücksspiel investiert, verschenkt den Langzeit-Vorteil der Karte. Eine nordwestliche Stadt darf sich langsam bewegen; eine Mittel-Süd-Stadt sollte etwas schneller sein, weil sie näher an der Kanal-Linie steht und weniger Zeit für Rückzug hat.
+
+### Erste Minute Cape
+
+Bei einem **Cape**-Start sicherst du deine Küstenlinie und benennst den Kanal. Weil das Cape schmal ist, expandierst du entlang des Hakens statt in offenes Wasser, und du entscheidest in der ersten Minute, ob du die Kanal-Lücke verteidigst oder auf sie zu drückst. Platziere einen Verteidigungsposten auf der Lücke, wenn du sie halten willst, und sichere die östliche Küste ab, wenn du den Gegner zu dir holen willst. Die erste Minute des Cape ist eine Positions-Minute: Du entscheidest, wer für die Enge zahlt. Die Basis-Städte nahe an Falmouth sollten sofort auf die Lücke schauen, während eine nördliche Stadt wie Provincetown auf die nördliche Seebrücke und die Inseln schauen sollte. Der Unterschied besteht darin, dass ein Cape-Spieler immer einen Schritt näher am Kampf ist als ein Festland-Spieler, und genau deshalb ist die erste Minute des Cape der Moment, in dem das Tempo der Karte gesetzt wird. Wer hier zögert, zahlt später doppelt dafür.
+
+### Erste Minute Insel
+
+Bei einem **Insel**-Start eröffnest du eine Seebrücke und hältst sie. Platziere einen Hafen und einen Verteidigungsposten an deiner einen guten Küste, sichere die Brücke mit einem Kriegsschiff ab und halte eine alternative Landezone am Leben. Die erste Minute der Insel ist eine Überlebens-Minute: Wenn du keine Brücke offen halten kannst, hast du gar kein Opening. Ein Start auf einer echten Insel hat den Raum, das ordentlich hinzubekommen, während ein winziges Inselchen schnell handeln muss, weil fast kein Land da ist, von dem aus man die Brücke verteidigen könnte. Die erste-Minute-Ausgabe des Insel-Spielers ist eine Brücke, nicht eine Position. Wer hier eine Position baut und die Brücke ignoriert, hat nach zwei Minuten ein Problem, das keine Position mehr lösen kann.
+
+### Die Drei-Zeilen-Ausgabe
+
+In welcher Zone du auch immer stehst, die erste-Minute-Ausgabe sind dieselben drei Zeilen: Auf welcher Seite des Kanals du liegst, was du verteidigst und was dein Rückfall ist, wenn der Kanal-Kampf schiefgeht. Schreibe dir diese drei Zeilen in den Chat oder in deinen Kopf, bevor du eine zweite Welle sendest. Ein Start, der diese drei Zeilen sauber produziert, ist ein startbarer Start; ein Start, der sie nicht benennen kann, improvisiert, und auf einer schnellen Karte wie Cape Cod ist Improvisieren der Weg, mit dem man die Karte verliert. Die erste Minute ist nicht lang, aber sie ist die Minute, und die drei Zeilen sind ihr ganzer Inhalt. Wer sie hat, kann das Match führen; wer sie nicht hat, wird vom Match geführt, und das spürt man in der dritten Minute am deutlichsten.
+
+## Den Kanal spielen: Überquerung und Verteidigung
+
+### Wenn du den Kanal hältst
+
+Der Kanal ist der Ort, an dem die Karte entschieden wird, und er ist eine klassische Enge: eine schmale Lücke, eine Verteidigungslinie und genau eine Landroute. Die beiden Seiten spielen ihn unterschiedlich, und der Unterschied dreht sich fast nur darum, wer die Kosten trägt. **Hältst du den Kanal** – du bist auf dem Festland und das Cape will zu dir heraus, oder umgekehrt – dann ist deine Aufgabe, die Lücke teurer zu machen, als sie sich lohnt zu überqueren. Baue eine Verteidigungslinie auf deiner Seite der Lücke, eine Reihe von Bauten oder ein verteidigtes Grenzsegment, das die schmalsten Kacheln überspannt, und halte eine Reserve bereit, die schneller an der Lücke ankommt, als der Angreifer eine verlorene Welle ersetzen kann. Weil die Lücke nur ein paar Kacheln breit ist, blockiert eine gut platzierte Verteidigung die Landbewegung zu kleinen Kosten – das ist der ganze Punkt des Haltens. Sichere die Seewege auf der weiten Seite ab, damit der Gegner nicht einfach mit Booten herumfahren kann, und time deinen Angriff auf seine Flanken für den Moment, in dem er eine große Streitmacht in den Trichter überstürzt. Lies [Verteidigungsposten](/guides/defense-posts/) für die Kosten und Reichweite der Struktur, mit der du die Linie verankerst.
+
+### Wenn du den Kanal durchbrichst
+
+**Durchbrichst du den Kanal** – du musst die schmale Lücke überqueren, um die andere Seite zu erreichen – dann ist deine Aufgabe, die Überquerung überlebensfähig statt suizidhaft zu machen. Schicke keine einzige All-in-Welle in den Trichter; sende einen Spähtrupp, um die Reaktion des Verteidigers zu messen, und verbinde dann eine Streitmacht, die groß genug ist, um genau diese Reaktion aufzufangen. Bring ein Kriegsschiff mit, um die Bucht-Alternative abzusichern, damit der Verteidiger deine Überquerung nicht von der See aus verstärken kann, und halte eine Reserve bereit, damit die zweite Welle existiert, falls die erste gestoppt wird. Ein durchbrochener Kanal gibt dir das Hinterland der anderen Seite, also lohnt sich ein erfolgreicher Bruch eine echte Investition; ein gescheiterter Bruch lässt dich auf deiner eigenen Seite dünn und angreifbar zurück. Lies [Annexion und Einkesseln](/guides/annexation-enclosure/) dafür, wie man eine Tasche um einen eroberten Isthmus schließt, ohne die Linie zu überdehnen. Die Disziplin des Durchbrechers ist dieselbe wie bei jeder Enge-Belagerung: zuerst messen, dann verbünden, und niemals ohne Reserve hinein.
+
+### Tempo ist das Metagame
+
+Das Metagame des Kanals ist Tempo. Der Halter kontrolliert, wann Überquerungen stattfinden; der Durchbrecher kontrolliert, wo sie stattfinden, indem er zwischen der schmalen Lücke und einer breiteren Seeüberquerung wählt. Gewinne das Tempo, und du gewinnst die Karte, weil der Kanal die einzige Linie ist, die die beiden großen Landmassen verbindet, und jeder andere Kampf auf dem Board in ihn einmündet. Ein Halter, der dem Durchbrecher Timing und Ort wählen lässt, ist nur namentlich ein Halter. Die praktische Lesart lautet, immer die Seite zu sein, die das Tempo entscheidet: Hältst du, zwinge den Durchbrecher, auf der Lücke auszugeben oder um die Bucht herumzufahren; brichst du, wähle den Moment, in dem die Reserve des Halters woanders gebunden ist. Der Kanal-Kampf ist kurz, aber er ist der lange Kampf der Karte in wenigen Minuten komprimiert, und der Spieler, der ihn als Tempo-Problem behandelt und nicht als einzelne Schlägerei, nimmt sich meistens die Karte.
+
+## Fehler, Gegenmittel und Ausstiegssignale
+
+### Die beiden Grundfehler
+
+Cape Cod hat nur eine kleine Zahl scharfer Fehlermuster, und sie alle führen auf dieselben zwei Fehler zurück: den Kanal ignorieren oder das Meer ignorieren. Der erste Fehler ist der Festland-Spieler, der ein wunderschönes Hinterland baut und nie auf den Kanal schaut, nur um zu entdecken, dass die Cape-Seite die schmale Lücke hält und das gesamte Spiel diktiert. Das Gegenmittel lautet, die Kanal-Seite in der ersten Minute zu benennen und früh ein wenig Gold auszugeben, um dort eine Linie zu etablieren, bevor es zu spät ist, das günstig zu tun. Der zweite Fehler ist der Cape- oder Insel-Spieler, dessen Seebrücke still zuschlägt, während er mit dem Landkampf beschäftigt ist; das Gegenmittel lautet, immer eine alternative Brücke offen zu halten und sie mit einem Kriegsschiff abzusichern, damit der Zusammenbruch sichtbar und nicht still ist. Beide Fehler haben dieselbe Wurzel: eine Linie als einzige Linie behandeln. Wer das Muster erkennt, bevor er es macht, hat die Hälfte dieser Karte bereits gewonnen.
+
+### Überdehnen und Flanke
+
+Der dritte Fehler ist das Überdehnen: eine große Streitmacht in den Kanal-Trichter schicken ohne Reserve, so dass eine gestoppte Welle dich unfähig macht, auf deiner eigenen Seite weiterzuspielen. Das Gegenmittel ist das Messen-und-dann-Verbünden-Muster aus dem vorherigen Abschnitt. Der vierte ist das Flanken-Ignorieren: den Kanal halten, aber die weite Bucht-Küste ungeschützt lassen, so dass der Gegner per See herumfährt und deine Wirtschaft von jener Seite angreift, die du nicht beobachtet hast. Das Gegenmittel ist eine minimale Absicherung auf der weiten Brücke, selbst wenn du an der Lücke beschäftigt bist. Überdehnen und Flanke sind die zwei Wege, auf denen ein Spieler, der offensichtlich die Kontrolle hat, die Karte trotzdem verliert, und beide sind mit einer Reserve und einer Absicherung vermeidbar. Der Spieler, der eine Reserve und eine Absicherung hält, verliert selten eine Karte, die er gewinnt, weil beide klassischen Wendungen blockiert werden, bevor sie überhaupt beginnen.
+
+### Ausstiegssignale
+
+Ausstiegssignale sagen dir, wann ein Zonen-Plan aufgehört hat zu funktionieren und du umschalten solltest. Beende einen Festland-Plan, wenn den Kanal ein stärkerer Spieler hält und du ihn nicht günstig durchbrechen kannst. Beende einen Cape-Plan, wenn deine lange Küste blockiert wird und deine Wirtschaft die Front nicht mehr füttert. Beende einen Insel-Plan in dem Moment, in dem deine letzte Seebrücke in Gefahr gerät, denn eine Insel hat kein Hinterland, in das man sich zurückziehen kann. Wenn ein Plan ausläuft, schreibe den neuen Primär- und den Rückfallplan, bevor du eine weitere Welle sendest; ein Cape-Cod-Match, das einen gescheiterten Plan durch einen anderen gescheiterten Plan ersetzt, ist der häufigste Weg, mit dem man die Karte verliert. Lies [Bedrohungseinschätzung](/guides/threat-assessment/) dafür, wie man das ganze Board scannt und das nächste Ziel auswählt, sobald der Kanal geklärt ist. Zu wissen, wann man aufhört, ist genauso wichtig wie zu wissen, wo man anfangt, und das Ausstiegssignal ist die Linie, die einen Plan von einem Gewohnheitsmuster trennt.
+
+## Versionsgrenzen und was sich bei einem neuen Release ändert
+
+### Was verifiziert ist
+
+Diese Seite ist verifiziert bis zum upstream-Commit, der Cape Cod hinzugefügt hat – PR #5071, Commit `3223573e8`, ausgeliefert im **v0.34.0**-Release – und bis zum ausgelieferten `map4x`-Manifest als des 2026-10-10: einunddreißig Spawn-Nationen, ein 750 mal 620 `map4x`-Raster und 143,346 Land-Kacheln, plus eine lokale Geländeanalyse, die die beiden großen Landkomponenten und die schmale Kanal-Lücke bestätigt. Die Spawn-Namen, die Drei-Zonen-Teilung, die zwei großen Landmassen und der Kanal als einzige schmale Überquerung sind die stabilen Fakten. Wenn eine zukünftige Version nichts davon ändert, bleibt der Kern dieser Seite bestehen: Wähle deine Zone, benenne deine Kanal-Seite und spiele die Lücke. Die verifizierten Fakten sind die, auf die du von Match zu Match verlassen kannst, und sie sind der Teil der Karte, der sich nicht unter deinen Füßen verschiebt.
+
+### Was nicht stabil ist
+
+Die Dinge, die ein bestimmtes Match unterschiedlich machen, sind nicht stabil, und du solltest sie überprüfen, wenn ein neues Release erscheint. Karten-Assets, Rotationsgewichte, die exakte Breite des Kanals in einer zukünftigen Geländerevision, das Verhalten der Nationen und die Preise der Marine können alle zwischen Releases wechseln, und jede dieser Änderungen kann verschieben, welche Seite des Kanals die bessere ist. Modus-Änderungen zählen genauso viel: In einer Lobby mit zufälligen Spawns kannst du keine Stadt vorwählen, also musst du den Zonen-Plan für die erste Minute nach der Platzierung neu ausführen, statt einen gewählten Start vorauszusetzen; in einem Raum mit anderer Kartengröße verschieben sich die Abstands-Zahlen und die relative Bedeutung des Kanals, also lies das Board neu, statt einen gemerkten Zeitstempel zu skalieren; und in einem Team-Raum kann ein Teammitglied eine andere Seite des Kanals halten, was die Rechnung vom Halten einer einzelnen Linie zu koordinierter beidseitiger Kontrolle ändert. Für geteilte Positionierung lies [Team-Spawn-Aufstellung](/guides/team-spawn-formation/).
+
+### Die Vier-Zeilen-Notiz
+
+Die Karte erscheint außerdem mit einer Mehrspieler-Häufigkeit in der Kartenliste, die beeinflusst, wie oft du sie im öffentlichen Spiel triffst; eine Änderung der Rotationsgewichte kann also verändern, wie viel du sie studieren solltest, und eine neue Version kann den Spawn-Screen selbst verändern. Bevor du in die Warteschlange gehst, mach dir eine Vier-Zeilen-Notiz: deine Zone, deine Kanal-Seite, dein Verteidigungs- oder Angriffsplan an der Lücke und dein Ausstiegssignal. Nach dem ersten Eroberungsschritt aktualisiere alle vier. Wenn deine Rückfall-Brücke nicht mehr existiert, reduziere deine Exposition, bis du eine neue findest. Wenn deine Primärposition dir eine dauerhafte zweite Tasche gibt, hör auf, das Opening zu optimieren, und entscheide, was das ganze Board jetzt verlangt. Als nächstes nützlich zu lesen ist [Weltkarte-FFA-Starts](/guides/world-map-ffa-spawns/) für den allgemeinen Spawn-Entscheidungs-Rahmen, [Karten-Strategie](/guides/map-strategy/) für andere Layouts oder [Kriegsschiff-Flotten-Entscheidungen](/guides/warship-fleet-decisions/) für die maritime Hälfte der Gleichung. Die Cape-Cod-Antwort ist vollständig, wenn du deine Seite des Kanals im laufenden Match auswählen, widerlegen und ersetzen kannst, statt den Start von jemand anderem zu wiederholen.

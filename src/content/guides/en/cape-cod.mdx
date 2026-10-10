@@ -1,0 +1,477 @@
+---
+title: "Cape Cod Map: Which Side to Take and How to Play the Canal"
+description: "Cape Cod is three zones — a mainland, the Cape, and a string of islands — that meet at one narrow crossing. Pick your side by Canal access, then defend or break the only real crossing."
+pubDate: 2026-10-10
+updatedDate: 2026-10-10
+tags: [cape-cod, north-america, maps, ffa, spawn, openings, canal, chokepoint]
+category: Maps
+difficulty: Intermediate
+version: v34
+freshnessSummary: "Verified on 2026-10-10 against upstream PR #5071 (commit 3223573e8), the v0.34.0 release, the shipped map4x manifest (31 nations, 750x620 grid, 143,346 land tiles), and a local terrain parse of map4x.bin that splits the map into a mainland, the Cape, and island components."
+---
+
+import YouTubeEmbed from '../../../components/YouTubeEmbed.astro';
+
+<YouTubeEmbed id="PQVpzkTLIek" title="OpenFront v34 update and new map content (Cape Cod ships here)" />
+
+## Direct answer: take the side you can defend at the Canal, then commit to one crossing
+
+### The one-sentence answer
+
+On **Cape Cod** in a public FFA, the single decision that matters is not which town you
+start in but which side of the **Cape Cod Canal** you end up on, because the map is not one
+island and it is not one peninsula — it is three playable zones, a mainland on the west, the
+Cape itself on the east, and a string of islands to the south, and the mainland and the Cape
+are two separate land masses that touch water at almost every row except one. That one place is
+the Canal, the narrowest water crossing on the whole map, and it is where the game forces its
+only true land-versus-land fight. If you can hold the Canal line, you own the map's spine and the
+rest of the board is a matter of economy and timing. If you cannot, you are a flank no matter how
+many good towns surround you, and a well-positioned enemy can funnel every crossing through a
+gap only a couple of tiles wide.
+
+### What "side" means on this map
+
+A new player who lands on the spawn screen sees thirty-one named towns — Plymouth, Falmouth,
+Nantucket, Chatham, Wellfleet, and so on — and has no idea which cluster they belong to, what
+the map is really made of, or where the game will force a fight. The town name is only the place
+you start from; it does not tell you the strategic region. "Side" means: are you on the mainland,
+on the Cape, or on an island, and which side of the Canal does that put you? The mainland and the
+Cape are on opposite sides of the narrow gap, so a mainland town and a Cape town that are close
+on the screen can still be on opposite Canal sides. The islands are mostly on the south sea lanes
+and interact with the gap by sea rather than by land. Reading your spawn as a zone, not a town,
+removes most of the confusion the thirty-one names create, and it is the step that turns the
+spawn screen into a real decision.
+
+### The three lines to write down
+
+Before you send a second wave, write down three lines: which zone you are in, which side of the
+Canal you are on, and what your first-minute priority is (hold the gap, break the gap, or open a
+sea lane). A good Cape Cod opening ends the first phase with a protected core, a named Canal side,
+and a genuinely separate fallback that still works if the Canal fight goes wrong. A bad one ends
+with a long thin line and a hypothetical crossing that cannot answer an enemy attack. This page
+turns the raw spawn list into that decision, then tells you how to play the crossing whether you
+are the side that holds it or the side that has to break it, and it repeats the answer only in the
+form that changes a player's decision in the live match.
+
+## What Cape Cod actually is: three zones, two land masses
+
+### Two main land masses, not one
+
+The single most useful thing to understand about this map is its topology, and the topology is
+boring in the best possible way. A local parse of the shipped `map4x` terrain — a 750 by 620 grid
+with 143,346 land tiles — shows that the land falls into a small number of connected components,
+and two of them dominate everything else: a **mainland** component of roughly 76,600 tiles on the
+western and central part of the map, and a **Cape** component of roughly 48,700 tiles on the east.
+These two are **separate land masses**. They do not share a land bridge across most of the map;
+instead they are separated by a wide body of water — the bay and the outer Atlantic — that opens
+to hundreds of tiles in the south and only narrows to a couple of tiles in one specific spot. The
+rest of the land is a long thin hook that curls around the Cape and a handful of small islands,
+which together form the third zone rather than a fourth major region.
+
+### The islands and the sea
+
+Everything else on the map is smaller: the Cape's hook, the islands in the south, and a handful
+of tiny islets. That is what makes the spawn screen confusing — thirty-one names but only two
+real strategic regions plus a set of islands, and the islands matter mostly as secondary
+footholds and sea lanes rather than as primary power centers. When you look at the map in game,
+the water is the dominant feature, not the land: the mainland is a big blob, the Cape is a long
+narrow hook that curls around it, and the islands are small dots to the south. If you only take
+away one mental image, take this one: a large land mass and a long thin hook, with a gap between
+them that is a wide bay for most of its length and a tight canal at exactly one place. The sea is
+not decoration here; it is the main connector between the two big land masses everywhere except
+the Canal, so a map you can think about as "mostly water with two islands" is the right mental
+model to bring into the first match.
+
+### Why the shape matters
+
+The consequence of the topology is that the map is naturally split into a west-to-east contest.
+The mainland has more total land, which means more room to expand inland and more room to absorb
+a bad opening. The Cape has less total land but a longer, more exposed coastline and a narrower
+shape, which means it is more vulnerable to a flanking naval approach and more dependent on
+holding the Canal to stay connected to the interior. The islands sit between and around both and
+mostly decide who controls the sea lanes. None of this is a secret; it is just the shape of the
+map, and reading it once before your first match removes most of the confusion that the thirty-one
+spawn names create. The shape also means the map is fast in the center: because the Canal is close
+to the middle-north, the two main zones meet early, so a Cape Cod FFA reaches its first real
+border fight sooner than a map with a long open border, and the player who figures out their zone
+first usually sets the pace for the whole match.
+
+## The spawn table: thirty-one towns, three zones
+
+### How to read the table
+
+The table below lists all thirty-one spawn nations grouped by zone. "Side of the Canal" tells you
+which side of the narrow gap your start is on, and "First-minute priority" is the single action
+that wins the opening for that start. The mainland towns sit on the west and central land mass,
+the Cape towns run along the east hook, and the island starts are the southern sea-lane footholds.
+Use the table to map your random spawn to a zone in the first five seconds, then read the zone
+section for the full plan. The table is the fast lookup; the sections are the reasoning.
+
+| Spawn | Zone | Side of the Canal | First-minute priority |
+|:------|:-----|:------------------|:----------------------|
+| Plymouth | Mainland | West | Build inland core |
+| Taunton | Mainland | West | Build inland core |
+| Brockton | Mainland | West | Build inland core |
+| Rochester | Mainland | West | Build inland core |
+| Bridgewater | Mainland | West | Check coast for Port |
+| New Bedford | Mainland | West | Check coast for Port |
+| South Carver | Mainland | West | Check coast for Port |
+| Marshfield | Mainland | West | Screen south coast |
+| Mattapoisett | Mainland | West | Screen south coast |
+| Wareham | Mainland | West | Approach Canal line |
+| Manomet | Mainland | West | Approach Canal line |
+| Bourne | Mainland | West | Approach Canal line |
+| Falmouth | Cape | East | Name Canal side |
+| Sandwich | Cape | East | Name Canal side |
+| Mashpee | Cape | East | Name Canal side |
+| Barnstable | Cape | East | Defend Canal gap |
+| Dennis | Cape | East | Defend Canal gap |
+| Chatham | Cape | East | Defend Canal gap |
+| Orleans | Cape | East | Screen east coast |
+| Eastham | Cape | East | Screen east coast |
+| Wellfleet | Cape | East | Screen east coast |
+| Provincetown | Cape | East | Hold north sea lane |
+| Edgartown | Island | South | Open a sea lane |
+| Oak Bluffs | Island | South | Open a sea lane |
+| Siasconset | Island | South | Open a sea lane |
+| Nantucket | Island | South | Hold sea lane |
+| Naushon | Island | South | Probe sea lane |
+| Nashawena | Island | South | Probe sea lane |
+| Nomans Land | Island | South | Probe sea lane |
+| Tuckernuck | Island | South | Probe sea lane |
+
+### Reading your spawn
+
+Look for your town in the table and take three facts from it: the zone, the Canal side, and the
+priority. A town like **Taunton** or **Brockton** in the north-west corner of the mainland is a
+west-side start with a long protected interior, so the priority is to build an inland core before
+anyone reaches the Canal. A town like **Bourne** or **Manomet** is also west-side but closer to
+the bay, so it feels more naval and the priority is to approach the Canal line while still keeping
+the mainland behind you. A Cape town like **Falmouth** is east-side and close to the gap, so the
+priority is to name the Canal side and decide whether to defend or break it. An island start like
+**Edgartown** is a south-side sea-lane foothold, so the priority is to open and hold a sea lane
+before anything else. Reading the table this way turns the spawn screen into a one-line plan in
+under ten seconds.
+
+## The Cape Cod Canal: the one real crossing
+
+### Where the gap is
+
+The entire strategic identity of Cape Cod rests on one geographic fact: the mainland and the Cape
+come within a couple of tiles of each other at exactly one location, and everywhere else the water
+between them is wide. That narrow location is the **Cape Cod Canal**, and it is the only place
+where a land expansion from one side can reach the other without first building a naval force and
+crossing open water. In the terrain data, the narrowest mainland-to-Cape water gap is about two
+tiles on the `map4x` grid — roughly five full-resolution tiles — running along a short vertical
+stretch near the middle-north of the map, around rows 236 to 241. Everywhere to the south, the gap
+between the two land masses widens dramatically into the open bay, where the distance is measured
+in hundreds of tiles and a crossing means a real naval operation, not a land push. The contrast is
+the whole point: one tight gap and one wide bay.
+
+### What the gap is worth
+
+This is the map's version of a strait, and it plays exactly like the chokepoint logic you already
+know from other maps. Whoever holds the Canal controls the pace of the whole game, because the
+side on the other side of it has exactly one overland way in. If you hold the Canal, you can choose
+when to let anyone cross and you can concentrate your entire defense on a two-tile gap instead of
+a hundred-mile coastline. If you do not hold it, every expansion you want toward the other side is
+a decision point: send a land force into a known funnel, or build ships and risk a sea crossing
+where the enemy can screen you. The Canal also creates a clean defensive line, because the gap is
+so narrow that a single well-placed row of structures or a defended border segment can block
+overland movement at a fraction of the cost of defending the open coast. That is why the map
+rewards the player who figures out their Canal side early.
+
+### The wide bay that goes around it
+
+The wide bay matters because it is the escape route and the flank route at the same time. The side
+that holds the Canal is not safe just by holding the narrow gap, because the enemy can go around
+through the bay by sea and attack the holder's coast from the side that was not being watched. The
+side that has to break the Canal can choose to avoid the narrow gap entirely and run a sea crossing
+through the bay, which costs ships but sidesteps the defender's concentrated line. So the Canal is
+never the only fight; it is the center of the fight, and the bay is the flank. Read [Strait of
+Gibraltar openings](/guides/strait-of-gibraltar-openings/) for the general chokepoint logic,
+because Cape Cod applies the same rule on a smaller, faster board. A player who wins the Canal but
+leaves the bay wide open usually still loses the map, and a player who screens the bay but ignores
+the gap usually gives the enemy the interior for free. The two lines have to be played together.
+
+## The mainland side: twelve towns and a roomy interior
+
+### Where the mainland towns sit
+
+Twelve of the thirty-one spawns sit on the mainland component, and they form the map's most
+forgiving opening. The mainland towns — Plymouth, Taunton, Brockton, Rochester, Bridgewater, New
+Bedford, South Carver, Marshfield, Mattapoisett, Wareham, Manomet, and Bourne — cluster across the
+western and central land mass, from the far north-west corner down to the mid-south coast. Because
+the mainland is the larger of the two components, a mainland start gives you the most inland room:
+there is a lot of land behind you, a lot of neutral territory to absorb, and a lot of room to build
+a compact core before anyone forces a border fight. The north-west towns sit far from the Canal and
+have the longest, most protected interior, while the mid-south towns like Wareham, Manomet, and
+Bourne sit closer to the bay and to the southern end of the Canal line.
+
+### The mainland's strength
+
+The mainland's strength is interior depth and the Canal defense. From a mainland start you can
+expand inland first, build up a real economy, and only then look at the Canal as a line to hold. A
+town like **Taunton** or **Brockton** in the north-west corner has a long, protected interior behind
+it and is far from the Canal, so the first several minutes are about building, not fighting. A town
+like **Bourne** or **Manomet** sits closer to the bay, so it feels more naval from minute one but
+still has the full mainland behind it. If you are bad at naval play or you simply want a slow,
+defensible start, the mainland is the safe side, and the safety comes from the room to build a
+reserve before the Canal becomes a live fight. The player who uses that room well can afford to
+lose the first skirmish and still come out on top because the interior kept paying.
+
+### The mainland's risk
+
+The downside of the mainland is that it is the big, obvious target. The Cape side has exactly one
+overland way into the mainland, and the islands flank the coast, so a coordinated enemy can
+pressure you from the Canal and the sea at the same time. The rule for a mainland start is to earn
+the Canal before you spend it: use your interior depth to build a reserve, place a Port if your
+coast supports it, and only then commit to holding or attacking the narrow gap. If you expand
+inland and ignore the Canal while an enemy builds up there, you trade your safety for a position
+you cannot keep. The mainland is the map's safe side, but safe is relative: it is safe against a
+sloppy enemy and dangerous against one who concentrates on the one thing that actually connects the
+two halves. For the general discipline of building a compact, defensible core before pushing, read
+[Tall versus wide](/guides/tall-vs-wide/).
+
+## The Cape side: ten towns on a long, exposed hook
+
+### Where the Cape towns sit
+
+Ten spawns sit on the Cape component — the long, thin hook that curls out to the east and north.
+They are Falmouth, Sandwich, Mashpee, Barnstable, Dennis, Chatham, Orleans, Eastham, Wellfleet, and
+Provincetown, and they run from the Cape's base near the Canal out to the northern tip at
+Provincetown. The Cape start is the opposite of the mainland start: less interior room, a longer and
+more exposed coastline, and a shape that is easy to flank from the sea. If you like naval play,
+long coastal fronts, and being the side that has to actively defend a long line, the Cape is your
+side. If you want a slow build with a big safe interior, the Cape will feel exposed and cramped.
+The base towns sit close to the mainland and the Canal, while the north towns sit far out on the
+hook with almost nothing behind them.
+
+### The Cape's strength
+
+The Cape's defining feature is that it is a hook, not a blob. Every Cape town is close to the water,
+and the land narrows as you go north, so a Cape start has a shorter, more dangerous expansion than
+a mainland start. **Falmouth** and **Sandwich** are near the base of the Cape, close to the Canal and
+the mainland, so they are the most connected and the most contested: an enemy across the Canal can
+reach them quickly overland. **Provincetown** at the north tip is the furthest, most isolated, and
+most naval of all the Cape starts: it has a long coast, little interior, and its main interactions
+are with the sea and with the islands. The middle Cape towns — **Barnstable**, **Dennis**,
+**Chatham**, **Orleans**, **Eastham** — form the Cape's spine and are where most of the
+Cape-versus-mainland fighting over the Canal and the eastern coast actually happens. The Cape holds
+the eastern ocean, which is real power on a water-heavy map.
+
+### The Cape's risk
+
+The Cape start trades interior safety for two things: a dominant position on the eastern coastline
+and, critically, the option to be the side that **breaks** the Canal rather than holds it. If you
+are on the Cape and the mainland side is the one that wants to come out to you, then the Cape side
+gets to defend the narrow gap and the mainland side pays the cost of the chokepoint assault. But the
+Cape's long coast is also its vulnerability: a naval screen along the hook can strangle a Cape
+economy that depends on the sea, and because the land narrows, there is no deep interior to fall
+back into when the front breaks. Read [Island defense](/guides/island-defense/) for how to screen a
+long coast with transports and a defense post, because the Cape coastline is exactly the long,
+exposed coast that page is about. The Cape is the map's aggressive side: less safe, more exposed,
+but the side that controls the eastern ocean and can dictate when the Canal breaks.
+
+## The island starts: nine footholds and the sea lanes
+
+### Where the islands sit
+
+Nine of the thirty-one spawns are island or islet starts, and they form the third zone of the map:
+Edgartown, Oak Bluffs, Siasconset, Nantucket, Naushon, Nashawena, Nomans Land, Tuckernuck, and the
+larger island bodies they sit on. These range from two real islands — **Nantucket** (with Siasconset
+near it) and the Martha's Vineyard body (with Edgartown and Oak Bluffs on it) — to a handful of tiny
+islets like Naushon, Nashawena, Nomans Land, and Tuckernuck. An island start is a completely
+different game from a mainland or Cape start: you have very little land, your entire economy depends
+on the sea, and your survival depends on keeping at least one sea lane open. The islands sit mostly
+in the south of the map, strung between the mainland, the Cape, and the open Atlantic, and they
+decide who controls the southern sea lanes.
+
+### The island's strength
+
+An island start is the highest-risk, highest-flexibility option on the map. You have almost no
+interior, so you cannot fall back; you are on the coast from the first second, so a naval screen
+against you is immediate; but you are also in the middle of the water, which means you can hit both
+the mainland and the Cape coastlines and you can contest the sea lanes that the other two zones
+depend on. A start on a real island with two spawns and enough land to support a Port and a defense
+post is the strongest of the island options, because it has economic depth behind the sea lane. A
+start on a tiny islet like **Tuckernuck** or **Nomans Land** is a pure sea-lane probe with almost no
+economic depth behind it: it is a forward position, not a home, and it only makes sense as a
+screen or a stepping stone toward a bigger island or a coastal target. The island's strength is
+flexibility, and its weakness is that there is nowhere to retreat to.
+
+### The island's risk
+
+The rule for an island start is to own a sea lane before you own anything else, because you cannot
+afford to lose it. If your single sea lane is blocked, you are trapped and lose on the clock, and
+because the islands sit in the south between the two main zones, a blockaded island can become an
+isolated dot that the mainland and Cape both ignore. Read [Transport landings](/guides/transport-landings/)
+for how to run a crossing that keeps a fallback lane open, and read [Trade vs piracy](/guides/trade-vs-piracy/)
+for how to keep a sea route paying instead of burning it. The islands are not a comfortable opening;
+they are a choice to play the map's naval game from the inside. If you pick an island, commit to the
+sea, keep one lane open, and treat your tiny land base as a forward position, not a home. The
+island player who keeps a lane alive controls the south of the map; the one whose lane closes has
+already lost.
+
+## The first minute, by zone
+
+### Mainland first minute
+
+The first minute on Cape Cod is about converting your spawn into a zone identity, and it is fast
+because the map is small and the Canal is close. For a **mainland** start, expand inland first.
+Take the neutral land directly behind your town before you look at the water, build your starting
+City to capacity, and place a Port only if your coast reaches one without exposing the core. By the
+end of the first minute you should have a compact two-or-three-pocket core, a named Canal side, and
+a Port plan that is checked, not bought blindly. The mainland's first minute is a building minute;
+the fighting comes later, and the player who wastes the early interior on a coastal gamble gives
+away the map's slow-burn advantage. A north-west town can afford to be slow; a mid-south town should
+be a little faster because it sits closer to the Canal line.
+
+### Cape first minute
+
+For a **Cape** start, secure your coastal line and name the Canal. Because the Cape is narrow,
+expand along the hook rather than into open water, and decide in the first minute whether you will
+defend the Canal gap or push toward it. Place a defense post on the gap if you intend to hold it,
+and screen the eastern coast if you intend to make the enemy come to you. The Cape's first minute is
+a positioning minute: you are deciding who pays for the chokepoint. The base towns near Falmouth
+should be looking at the gap immediately, while a north town like Provincetown should be looking at
+the north sea lane and the islands. The difference is that a Cape player is always one step closer
+to the fight than a mainland player, so the Cape's first minute is where the map's tempo gets set.
+
+### Island first minute
+
+For an **island** start, open and hold a sea lane. Place a Port and a defense post on your one good
+coast, screen the lane with a Warship, and keep one alternative landing alive. The island's first
+minute is a survival minute: if you cannot keep a lane open, you have no opening at all. A real-island
+start has the room to do this properly, while a tiny islet start has to move fast because it has
+almost no land to defend the lane from. The island player's first-minute output is a lane, not a
+position.
+
+### The three-line output
+
+Whichever zone you are in, the first-minute output is the same three lines: which side of the Canal
+you are on, what you are defending, and what your fallback is if the Canal fight goes wrong. Write
+those three lines down in chat or in your own head before you send a second wave. A start that
+produces those three lines cleanly is a start that can be played; a start that cannot name them is a
+start that is improvising, and on a fast map like Cape Cod, improvising is how the map gets lost. The
+first minute is not long, but it is the minute, and the three lines are the whole of it.
+
+## Playing the Canal: crossing and defending
+
+### If you hold the Canal
+
+The Canal is where the map is decided, and it is a classic chokepoint with a narrow gap, a
+defensive line, and one overland route. The two sides play it differently, and the difference is
+mostly about who has the cost. If you **hold the Canal** — you are on the mainland and the Cape
+wants to come to you, or vice versa — your job is to make the gap more expensive to cross than it
+is worth crossing. Build a defensive line on your side of the gap, a row of structures or a
+defended border segment that spans the narrowest tiles, and keep a reserve force able to arrive at
+the gap faster than the attacker can replace a lost wave. Because the gap is only a couple of tiles
+wide, a well-placed defense blocks overland movement at a small cost, which is the whole point of
+holding it. Screen the sea lanes on the wide side so the enemy cannot simply go around by boat, and
+time your attack on their flanks for the moment they overcommit a large force into the funnel. Read
+[Defense posts](/guides/defense-posts/) for the cost and range of the structure you anchor the line
+with.
+
+### If you break the Canal
+
+If you **break the Canal** — you need to cross the narrow gap to reach the other side — your job is
+to make the crossing survivable instead of suicidal. Do not throw a single all-in wave into the
+funnel; send a probe to measure the defender's response, then commit a force sized to absorb that
+response. Bring a Warship to screen the wide-bay alternative so the defender cannot reinforce your
+crossing by sea, and keep a reserve so that if the first wave is stopped, the second one still
+exists. A broken Canal gives you the other side's interior, so a successful break is worth a real
+investment, but a failed one leaves you thin on your own side and exposed to a counterattack. Read
+[Annexation and enclosure](/guides/annexation-enclosure/) for how to close a pocket around a
+conquered neck without overextending the line. The breaker's discipline is the same as any
+chokepoint assault: measure first, commit second, and never go in with no reserve.
+
+### Tempo is the meta
+
+The meta-game of the Canal is tempo. The holder controls when crossings happen; the breaker
+controls where they happen by choosing between the narrow gap and a wider sea crossing. Win the
+tempo and you win the map, because the Canal is the only line that connects the two big land
+masses and every other fight on the board feeds into it. A holder who lets the breaker pick the
+timing and the place is a holder in name only. The practical read is to always be the side that
+decides the pace: if you hold, force the breaker to spend on the gap or go around the bay; if you
+break, choose the moment when the holder's reserve is committed elsewhere. The Canal fight is short,
+but it is the long fight of the map compressed into a few minutes, and the player who treats it as
+a tempo problem rather than a single skirmish usually takes the map.
+
+## Failures, counters, and exit signals
+
+### The two root mistakes
+
+Cape Cod has a small number of sharp failure modes, and they all trace back to the same two
+mistakes: ignoring the Canal, or ignoring the sea. The first failure is the mainland player who
+builds a beautiful interior and never looks at the Canal, only to find the Cape side holding the
+narrow gap and dictating the whole game. The counter is to name your Canal side in the first minute
+and spend a little Gold early to establish a line there before it is too late to do so cheaply. The
+second failure is the Cape or island player who has a sea lane that quietly closes while they are
+busy fighting on land; the counter is to keep one alternative lane open at all times and to screen
+it with a Warship so the closure is visible, not silent. Both mistakes come from the same root:
+treating one line as the only line.
+
+### The overcommit and the flank
+
+The third failure is the overcommit: sending a large force into the Canal funnel without a reserve,
+so that a stopped wave leaves you unable to continue on your own side. The counter is the
+probe-then-commit pattern from the previous section. The fourth is the flank ignore: holding the
+Canal but leaving the wide-bay coast unguarded, so the enemy goes around by sea and attacks your
+economy from the side you were not watching. The counter is a minimal screen on the wide lane even
+when you are busy at the gap. The overcommit and the flank are the two ways a player who is clearly
+in control still loses the map, and both are avoidable with a reserve and a screen. The player who
+keeps a reserve and a screen rarely loses a map they are winning, because the two classic
+reversals are both blocked before they start.
+
+### Exit signals
+
+Exit signals tell you when a zone plan has stopped working and you should switch. End a mainland
+plan when the Canal is held by a stronger human and you cannot break it cheaply. End a Cape plan
+when your long coast is being blockaded and your economy is no longer feeding the front. End an
+island plan the moment your last sea lane is at risk, because an island has no interior to fall
+back to. When a plan exits, write the new primary and fallback before sending another wave; a
+Cape Cod match that keeps replacing a failed plan with another failed plan is the most common way
+the map gets lost. Read [Threat assessment](/guides/threat-assessment/) for how to scan the whole
+board and pick the next target once the Canal is settled. Knowing when to stop is as important as
+knowing where to start, and the exit signal is the line that separates a plan from a habit.
+
+## Version limits and what changes when a new release lands
+
+### What is verified
+
+This page is verified to the upstream commit that added Cape Cod — PR #5071, commit `3223573e8`,
+shipped in the **v0.34.0** release — and to the shipped `map4x` manifest as of 2026-10-10:
+thirty-one spawn nations, a 750 by 620 `map4x` grid, and 143,346 land tiles, with a local terrain
+parse confirming the two main land components and the narrow Canal gap. The spawn names, the
+three-zone split, the two main land masses, and the Canal as the single narrow crossing are the
+stable facts. If a future version changes none of those, the core of this page still holds: pick
+your zone, name your Canal side, and play the gap. The verified facts are the ones you can rely on
+from match to match, and they are the part of the map that does not move under your feet.
+
+### What is not stable
+
+The things that make a specific match different are not stable, and you should re-check them when
+a new version lands. Map assets, rotation weights, the Canal's exact width in a future terrain
+revision, Nation behavior, and naval prices can all change between releases, and any of those
+changes can move which side of the Canal is the better one. Mode changes matter just as much: in a
+random-spawn lobby you cannot preselect a town, so you must re-run the per-zone first-minute plan
+after placement instead of assuming a chosen start; in a room with a different map size, the
+distance numbers and the Canal's relative importance shift, so re-read the board rather than
+scaling a remembered timestamp; and in a team room, a teammate can hold a different side of the
+Canal, which changes the calculus from a single line-hold into coordinated two-sided control. For
+shared positioning read [Team spawn formation](/guides/team-spawn-formation/).
+
+### The four-line note
+
+The map also appears in the map list with a multiplayer frequency that affects how often you meet
+it in public play, so a rotation weight change can change how much you should study it, and a new
+version can change the spawn screen itself. Before you queue, make a four-line note: your zone,
+your side of the Canal, your defense or attack plan at the gap, and your exit signal. After the
+first capture, update all four. If your fallback lane no longer exists, reduce exposure until you
+find one. If your primary gives you a durable second pocket, stop optimizing the opening and decide
+what the whole board now requires. The next useful reading is [World map FFA spawns](/guides/world-map-ffa-spawns/)
+for the general spawn-decision framework, [Map strategy](/guides/map-strategy/) for other layouts,
+or [Warship fleet decisions](/guides/warship-fleet-decisions/) for the naval half of the equation.
+The Cape Cod answer is complete when you can choose, disprove, and replace your side of the Canal
+in the live match rather than repeat somebody else's start.
