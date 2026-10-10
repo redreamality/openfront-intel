@@ -67,3 +67,4 @@
 - **2026-09-15 复发：把 PowerShell 命令嵌进 JavaScript 模板字符串时不要直接写 PowerShell 反引号转义**：例如输出分隔符中的 `` `t `` 会先被外层 JavaScript 当作模板字符并在命令执行前触发语法错误。改用普通空格、字符串拼接或不含反引号的格式表达式，并确认项目命令尚未执行。
 - **2026-09-16 复发：不要把 `git show` 的多行文本直接管道给 `Get-FileHash`**：PowerShell 会把 Git 输出逐行解析为命令/路径，导致 `Cannot find path`，即使目标文件内容未变也会误报失败。比较已跟踪文件时优先使用 `git hash-object` 与 `git rev-parse HEAD:<path>`，或先把输出写入明确的临时文件再计算哈希。
 - **2026-10-09 SEO 来源核查复发记录**：把 `scripts/seo*` 作为 `rg` 路径导致 `os error 123`；同时搜索未确认存在的 `_` 目录导致 `os error 2`。随后枚举实际脚本、读取明确的 `.cache/gsc/retro-2026-10-09` 证据路径完成核查；沿用已有通配路径与可选路径规则。
+- **2026-10-10 大厅链接维护恢复记录**：`gh pr list --author @me --state open` 的未引用 `@me` 在 PowerShell 参数传递中导致 `unknown argument "open"`；改用 `--author '@me'` 后成功。另一次 patch 猜测标题为 `# PowerShell`，实际为 `# PowerShell 与 Windows runbook`，上下文匹配失败且没有部分写入；读取实际标题后使用精确上下文恢复。

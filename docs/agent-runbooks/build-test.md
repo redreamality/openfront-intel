@@ -52,3 +52,4 @@
 - **2026-09-14 复发：Playwright 的生产预览会再次运行 `prebuild` 并刷新生成元数据**：本轮 e2e 通过后，`src/data/_meta.json` 的 `generatedAt`、上游 checkout 和 `defenseMidpoint` 又被刷新，`maps.json` 也短暂移除两张地图。结束前必须读取实际生成值，再按任务开始时记录的基线精确恢复，并用普通 diff 确认没有残留数据变化。
 - **2026-09-14 复发：完整 e2e 的地图池断言必须覆盖 live checkout 与内置 fallback**：本地 `OpenFrontIO` v0.34 test-release checkout 提取 117 张地图，而无上游目录时的内置 v34 fallback 保留 119 张；硬编码单一总数会让其中一种合法构建来源失败。断言应允许受支持的来源总数，同时验证 `meta.total === list.length` 与关键地图 ID。
 - **2026-09-15 复发：更新多语 Release 边界后要立即重跑 `pnpm release:audit` 的逐节计数**：替换一段来源说明可能让原本刚好通过的语种跌到 400 词；必须补充真实版本边界信息并从头复跑，不能用总字数或编辑前计数代替。
+- **2026-10-10 大厅链接维护验收记录**：首次完整 e2e 433/435，新增测试的 H1 定位和中文 `lang` 假设与现有页面不符；使用 `article > header h1` 与 `zh-CN` 后完整重跑 435/435。SEO 审计退出 1 的剩余 73 项为既有问题（72 项省略号标题、1 项 NL 双 H1），本轮十项 redirect href 已消除；报告须区分局部修复通过和全站审计未通过，不把既有内容问题归为基础设施失败。
