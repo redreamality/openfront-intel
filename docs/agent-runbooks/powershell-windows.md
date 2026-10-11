@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-11 版本维护复发记录**：把 Bash 花括号或通配路径直接交给 Windows `rg`，命令以 `os error 123` 失败；改用真实目录配合 `--glob` 或逐个明确路径恢复。沿用现有路径规则，不修改 AGENTS.md。
+
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
 
 来源范围：`路径与验证` 原章节。

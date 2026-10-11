@@ -1,5 +1,7 @@
 # 构建、Astro 与 Playwright runbook
 
+- **2026-10-11 版本维护恢复记录**：调用猜测的 pnpm script 因脚本不存在失败；读取 `package.json` 确认真实脚本后恢复。后续 Production 被其他任务五语草稿阻塞，未运行正式内容验收，不把脚本名核查记为验收通过。
+
 - **2026-09-08 本轮 SEO 审计记录**：修正移动安装页的五语专用标题后，`audit-seo` 曾报告两个既有页面的生成省略号（`fr/team-spawn-formation`、`nl/annexation-enclosure`）。
 - **2026-09-28 复发：新增德语攻略的 frontmatter 标题会在套用栏目模板后触发生成省略号**：`pnpm seo:audit -- --verbose` 报 `Title contains generated truncation` 时，应先区分新增路由与既有基线；缩短新增页标题但保留核心检索词，重建后确认该路由不再出现，再记录剩余既有告警。不能只看 frontmatter 标题本身的长度。
 
