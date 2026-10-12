@@ -57,3 +57,8 @@
 - 2026-10-09：多文件 apply_patch 以不存在的裸 `#` 作为 runbook 上下文而验证失败。复核 status/diff 确认没有部分改动后，读取真实尾部并拆为小批补丁恢复；不修改 AGENTS.md。
 
 - 独立核验时，`rg` 同时读取真实 `src/layouts/BaseLayout.astro` 和未经枚举的 `src/components/SEO.astro`，后者不存在，导致缺失路径错误。用 `rg --files src` 恢复定位，确认 SEO 实际位于 `src/i18n/seo.ts` 与 BaseLayout；仅读取真实路径后完成核验。此为既有“先枚举、后读取”规则复发，未影响 GSC 原始数据或公开页面，无需修改 AGENTS.md。
+
+## 2026-10-12 背叛事实维护失败与恢复
+
+- 前阶段两次读取正式 tag 源码时猜错目录，导致路径读取失败；枚举源码树后定位到 `src/client/hud/layers/AlertFrame.ts` 和 `src/core/execution/alliance/AllianceRequestExecution.ts`，完成相关事实核验。根因是未经枚举就按职责猜测路径，属于既有规则复发，不修改 AGENTS.md。
+- 接续 Gate 确认已有研究草稿归属未解决，另有四个生成 JSON 的换行差异；按 content-loop 的未知脏工作区规则停止 Production，保留文件原样。本轮仅保存缓存与失败记录，没有内容提交或发布。
