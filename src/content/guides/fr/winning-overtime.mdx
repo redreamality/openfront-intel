@@ -2,27 +2,27 @@
 title: "Guide OpenFront Overtime : seuil de victoire et fin de partie"
 description: "Comprenez comment Overtime abaisse le seuil FFA après la 30e minute, quand une avance devient une victoire et comment attaquer, défendre ou changer de route avant le prochain palier."
 pubDate: 2026-08-25
-updatedDate: 2026-08-25
+updatedDate: 2026-10-14
 tags: [overtime, condition-de-victoire, territoire, fin-de-partie]
 category: Tutoriel
 difficulty: Intermédiaire
-version: v33
-freshnessSummary: "Vérifié avec v0.33.11 : un quart des parties FFA publiques utilisent Overtime dès la 30e minute, avec un seuil de 80 % qui baisse de 1 point toutes les 30 secondes."
+version: v34
+freshnessSummary: "Vérifié avec v0.34.25 : le FFA public ordinaire active Overtime par défaut ; après la 30e minute, le seuil de 80 % baisse de 1 point toutes les 30 secondes."
 ---
 
 ## Réponse directe : comment gagner une partie Overtime ?
 
-En v0.33.11, Overtime apparaît dans un quart des parties FFA publiques. Le seuil normal de 80 % reste fixe jusqu'à la 30e minute, puis baisse de 1 point toutes les 30 secondes. Vous gagnez lorsque votre part du terrain utilisable est strictement supérieure au seuil en direct. Protégez une avance gagnante ou prenez les cases sûres les moins coûteuses avant le prochain palier.
+Chaque partie FFA publique ordinaire active Overtime par défaut en v0.34.25. Le seuil normal de 80 % reste fixe jusqu'à la 30e minute, puis baisse de 1 point toutes les 30 secondes. Vous gagnez lorsque votre part du terrain utilisable est strictement supérieure au seuil en direct. Protégez une avance gagnante ou prenez les cases sûres les moins coûteuses avant le prochain palier.
 
 ## Version vérifiée et parties concernées
 
-La Release officielle v0.33.11 introduit Overtime comme mécanisme anti-impasse. Ce guide a été vérifié le 25 août 2026 avec le tag `v0.33.11`. Les changements présents uniquement sur la branche amont `main` ne sont pas décrits comme des règles en ligne.
+Overtime empêche une impasse territoriale de durer indéfiniment. La version initiale v0.33.11 ne l'activait que dans un quart des parties FFA publiques ; ce tirage historique ne s'applique plus au FFA public ordinaire. Les règles présentées ici concernent v0.34.25.
 
-Dans le code publié, **25 % des parties FFA publiques** reçoivent Overtime. Les playlists publiques Team et Special ne l'activent pas. Les réglages Host privé et Singleplayer proposent bien un interrupteur Overtime et une minute de départ de **1 à 120**, avec 30 par défaut. Une partie Team personnalisée peut donc l'utiliser même si la rotation Team publique ne l'active pas automatiquement.
+La playlist publique ordinaire active Overtime dans **chaque partie FFA**. Les playlists publiques Team et Special ne l'activent pas automatiquement. Les réglages Host privé et Singleplayer proposent un interrupteur Overtime et une minute de départ de **1 à 120**, avec 30 par défaut. Une partie Team personnalisée peut donc l'utiliser si ses réglages l'activent.
 
-Repérez le modificateur Overtime avant le départ, puis le panneau Overtime lorsque la minute de départ est atteinte. Sans ce signal, le seuil normal reste fixe. Ne construisez donc pas chaque plan FFA autour d'une baisse automatique.
+Le FFA public ordinaire n'affiche pas de badge Overtime distinct dans le salon : la règle est activée par défaut. Le panneau apparaît à la minute de départ configurée ; son absence avant la 30e minute ne signifie pas qu'Overtime est désactivé. Pour une partie privée, solo ou Special, vérifiez les réglages réels plutôt que d'appliquer le défaut FFA ordinaire.
 
-La même Release adopte un format binaire pour le trafic websocket. Cette optimisation de transfert ne change ni le calcul territorial, ni les combats, ni le calendrier expliqué ici.
+Comparez dans le panneau la part du leader au seuil qui descend. Overtime change le moment où cette part gagne, sans fournir les troupes ni les défenses nécessaires pour la protéger.
 
 ## Calendrier exact du seuil
 
@@ -72,9 +72,9 @@ Hypothèses : la part affichée correspond à l'état actuel des cases et aucune
 
 ## Scénario 2 : 30 secondes pour arrêter un leader à 60,2 %
 
-Supposons le leader à **60,2 %**, son rival à **59,8 %**, et l'horloge à 39:30. Le seuil vaut 61 %, donc personne n'a gagné. À 40:00, il tombe à 60 % et les 60,2 % du leader suffiront si la carte ne change pas.
+Supposons le leader à **60,2 %**, son rival à **39,8 %**, et l'horloge à 39:30. Ensemble, ils possèdent tout le terrain utilisable. Le seuil vaut 61 %, donc personne n'a gagné. À 40:00, il tombe à 60 % et les 60,2 % du leader suffiront si la carte ne change pas.
 
-L'objectif du poursuivant devient précis : ramener le leader à 60 % ou moins, ou prendre lui-même la première place. Envoyer toutes ses troupes dans une montagne couverte qui ne changera aucune case en 30 secondes n'est pas une pression utile. Une côte ouverte, un corridor fin ou du terrain neutre capable de changer le classement vaut mieux.
+L'objectif immédiat est de prendre assez de cases au leader pour le ramener à 60 % ou moins ; passer de 39,8 % à la première place demanderait un changement bien plus grand. Envoyer toutes ses troupes dans une montagne couverte qui ne changera aucune case en 30 secondes n'est pas une pression utile. Une côte ouverte ou un corridor fin appartenant au leader vaut mieux.
 
 Le leader ne doit pas répondre partout. Il protège les cases qui gardent sa part au-dessus de 60 %, surtout les jonctions entre grands blocs. Perdre un bord lointain tout en restant à 60,05 % peut être acceptable ; épuiser la réserve et faire tomber le front central ne l'est pas.
 
@@ -117,7 +117,7 @@ Le contre-jeu vise le timing. Le leader peut abandonner les marges peu utiles et
 
 ## Ajustements selon le mode et la carte
 
-Les playlists publiques Team et Special ne reçoivent pas le tirage Overtime de 25 % en v0.33.11. Si une configuration serveur l'active en équipe, la base est 95 % et le territoire des membres est additionné. N'appliquez pas ce cas particulier aux parties Team publiques ordinaires. Les preuves de la playlist FFA publique ne suffisent pas non plus à présenter Overtime comme une règle du matchmaking Ranked.
+Les playlists publiques Team et Special n'activent pas automatiquement Overtime en v0.34.25. Si une partie Team personnalisée l'active, le seuil de base est de 80 % et le territoire des membres est additionné avant d'appliquer la même baisse. Ne transposez pas le défaut FFA public ordinaire aux parties Team, Special ou Ranked : leurs propres réglages déterminent si Overtime est actif.
 
 Une carte Compact utilise le même calendrier lorsque les deux modificateurs coexistent, mais le contact rapide rend 30 secondes plus courtes. Sur une grande carte, une expansion éloignée arrive parfois trop tard. Dans un archipel, les transports et les côtes comptent davantage que la distance brute. Sur une carte à goulets, le leader peut défendre un noyau étroit ; les poursuivants doivent préparer plusieurs routes avant l'urgence.
 
@@ -127,4 +127,4 @@ Overtime ne modifie ni le coût du terrain, ni la couverture des Defense Posts, 
 
 Commencez par le [premier match](/fr/guides/first-match/) si part territoriale, réserve et forme de frontière restent floues. Lisez les [modes et réglages de salon](/fr/mechanics/modes/) pour comparer la rotation publique à 30 minutes avec le départ configurable en Host et Singleplayer. Utilisez ensuite le [combat terrestre](/fr/guides/land-combat/) pour chiffrer la capture décisive et le [plan de reprise](/fr/strategies/recovery-playbook/) si votre position est déjà brisée.
 
-Les faits primaires ont été vérifiés avec la [Release officielle v0.33.11](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), la [configuration Overtime du tag](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), le [contrôle de victoire](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), la [playlist publique](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts) et les [tests Overtime](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Les discussions et vidéos communautaires servent à identifier les questions de fin de partie, pas à définir les nombres.
+La version applicable figure dans la [Release officielle v0.34.25](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25). La [playlist publique](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/server/MapPlaylist.ts), la [configuration Overtime](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/configuration/Config.ts) et le [contrôle de victoire](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/execution/WinCheckExecution.ts) définissent le défaut, la baisse et la comparaison territoriale stricte.

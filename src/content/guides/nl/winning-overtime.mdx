@@ -2,27 +2,27 @@
 title: "OpenFront Overtime-gids: windrempel en eindspel"
 description: "Leer hoe Overtime de FFA-windrempel na minuut 30 verlaagt, wanneer een voorsprong een overwinning wordt en hoe je vóór de volgende stap aanvalt, verdedigt of omleidt."
 pubDate: 2026-08-25
-updatedDate: 2026-08-25
+updatedDate: 2026-10-14
 tags: [overtime, winvoorwaarde, gebied, eindspel]
 category: Tutorial
 difficulty: Gemiddeld
-version: v33
-freshnessSummary: "Gecontroleerd met v0.33.11: een kwart van de openbare FFA-partijen gebruikt Overtime vanaf minuut 30 en verlaagt de 80%-windrempel elke 30 seconden met 1 punt."
+version: v34
+freshnessSummary: "Gecontroleerd met v0.34.25: gewone openbare FFA activeert Overtime standaard; na minuut 30 daalt de 80%-windrempel elke 30 seconden met 1 punt."
 ---
 
 ## Direct antwoord: hoe win je een Overtime-partij?
 
-In v0.33.11 verschijnt Overtime in een kwart van de openbare FFA-partijen. De normale gebiedsdrempel van 80% blijft tot minuut 30 vast en daalt daarna elke 30 seconden met 1 procentpunt. Je wint wanneer je aandeel van het bruikbare land strikt boven de live drempel ligt. Bescherm een winnende voorsprong of pak vóór de volgende stap de goedkoopste veilige tiles.
+Elke gewone openbare FFA-partij activeert Overtime standaard in v0.34.25. De normale gebiedsdrempel van 80% blijft tot minuut 30 vast en daalt daarna elke 30 seconden met 1 procentpunt. Je wint wanneer je aandeel van het bruikbare land strikt boven de live drempel ligt. Bescherm een winnende voorsprong of pak vóór de volgende stap de goedkoopste veilige tiles.
 
 ## Versiegrens en partijen met Overtime
 
-De officiële v0.33.11 Release introduceert Overtime als anti-patstellingmodus. Deze gids is op 25 augustus 2026 gecontroleerd tegen tag `v0.33.11`. Latere wijzigingen op upstream `main` worden niet als live regels voorgesteld.
+Overtime voorkomt dat een gebiedspatstelling eindeloos duurt. De vroege versie v0.33.11 activeerde het maar in een kwart van de openbare FFA-partijen; die historische loting geldt niet meer voor gewone openbare FFA. De regels hier gelden voor v0.34.25.
 
-De gepubliceerde playlist activeert Overtime in **25% van de openbare FFA-partijen**. Openbare Team- en Special-playlists krijgen de modifier niet automatisch. Private Host- en Singleplayer-instellingen bieden wel een Overtime-schakelaar en een startminuut van **1 tot 120**, standaard 30. Een aangepaste Team-partij kan Overtime dus gebruiken, ook al rolt openbare Team het niet vanzelf.
+De gewone openbare playlist activeert Overtime in **elke FFA-partij**. Openbare Team- en Special-playlists activeren het niet automatisch. Private Host- en Singleplayer-instellingen bieden een Overtime-schakelaar en een startminuut van **1 tot 120**, standaard 30. Een aangepaste Team-partij kan Overtime gebruiken als de instellingen het activeren.
 
-Zoek vóór de partij naar de Overtime-modifier en na de startminuut naar het Overtime-paneel. Ontbreken beide signalen, dan blijft de normale windrempel vast. Plan niet elke FFA-partij alsof de balk zeker zal dalen.
+Gewone openbare FFA toont geen aparte Overtime-badge in de lobby, omdat de regel standaard geldt. Het paneel verschijnt bij de ingestelde startminuut; het ontbreken ervan vóór minuut 30 betekent niet dat Overtime uitstaat. Controleer bij private, solo- of Special-partijen de echte instellingen in plaats van de gewone FFA-standaard over te nemen.
 
-Dezelfde Release gebruikt een binair formaat om websocketverkeer te verminderen. Die leveringswijziging verandert de gebiedsberekening, het gevecht en de timing hieronder niet.
+Vergelijk in het paneel het landaandeel van de leider met de dalende drempel. Overtime verandert wanneer dat aandeel wint en geeft geen extra troepen of verdediging om het te beschermen.
 
 ## Het tijdschema van de drempel
 
@@ -72,9 +72,9 @@ Aannames: het getoonde aandeel weerspiegelt de huidige tiles en geen gelijktijdi
 
 ## Scenario 2: 30 seconden tegen een leider met 60,2%
 
-Neem een leider met **60,2%**, een achtervolger met **59,8%** en een klok op 39:30. De drempel is 61%, dus niemand heeft gewonnen. Om 40:00 zakt hij naar 60%, waarna 60,2% voldoende is als de kaart gelijk blijft.
+Neem een leider met **60,2%**, een achtervolger met **39,8%** en een klok op 39:30. Samen bezitten ze al het bruikbare land. De drempel is 61%, dus niemand heeft gewonnen. Om 40:00 zakt hij naar 60%, waarna 60,2% voldoende is als de kaart gelijk blijft.
 
-De achtervolger heeft een exact doel: duw de leider naar 60% of lager, of neem zelf de eerste plaats. Troepen in een gedekte berg sturen die binnen 30 seconden geen tile zal veranderen is geen bruikbare druk. Een open kust, dunne corridor of neutraal gebied dat de rangorde kan verplaatsen is beter.
+Het onmiddellijke doel is genoeg leiderstiles afpakken om de leider naar 60% of lager te duwen; vanaf 39,8% zelf de eerste plaats nemen vraagt een veel grotere verschuiving. Troepen in een gedekte berg sturen die binnen 30 seconden geen tile zal veranderen is geen bruikbare druk. Een open kust of dunne corridor van de leider is beter.
 
 De leider hoeft niet op elke aanval te reageren. Bescherm vooral de tiles die het aandeel boven 60% houden en verbindingen tussen grote blokken. Een afgelegen strook verliezen en op 60,05% blijven kan aanvaardbaar zijn; de reserve verbranden en het kernfront laten instorten niet.
 
@@ -117,7 +117,7 @@ Tegenspel draait om timing. De leider kan onbelangrijke randen opgeven en de ker
 
 ## Aanpassingen voor modus en kaart
 
-Openbare Team- en Special-playlists krijgen in v0.33.11 niet de Overtime-worp van 25%. Als een eigen Team-configuratie Overtime activeert, begint de drempel bij 95% en wordt teamgebied opgeteld. Projecteer dit aangepaste geval niet op gewone openbare Team-partijen. De getagde openbare FFA-bron bewijst evenmin dat Overtime een Ranked-matchmakingregel is.
+Openbare Team- en Special-playlists activeren Overtime in v0.34.25 niet automatisch. Bij een aangepaste Team-partij met Overtime wordt teamgebied opgeteld en geldt dezelfde dalende balk; de basisdrempel is 80%. Neem de gewone openbare FFA-standaard niet over voor Team, Special of Ranked. Hun eigen instellingen bepalen of Overtime actief is.
 
 Op Compact-kaarten geldt bij beide modifiers dezelfde klok, maar korte fronten maken 30 seconden krapper. Op grote kaarten kan verre uitbreiding te laat aankomen. Op archipels tellen transportroutes en kusten meer dan rechte afstand. Op knelpuntkaarten kan de leider een smalle percentagekern verdedigen, dus achtervolgers moeten vroeg meerdere routes voorbereiden.
 
@@ -127,4 +127,4 @@ Overtime verandert terreinprijs, Defense Post-dekking en scheepsbeweging niet. H
 
 Begin met de [eerste partij](/nl/guides/first-match/) als gebiedsaandeel, reserve en grensvorm nog onduidelijk zijn. Gebruik [modi en lobbyinstellingen](/nl/mechanics/modes/) om de openbare start op 30 minuten te vergelijken met de instelbare Host- en Singleplayer-start. Ga naar [landgevechten](/nl/guides/land-combat/) voor de beslissende tile en het [herstelplan](/nl/strategies/recovery-playbook/) wanneer je kern al gebroken is.
 
-Primaire feiten zijn gecontroleerd met de [officiële v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), getagde [Overtime-configuratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), [wincontrole](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), [openbare playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts) en [Overtime-tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Communitydiscussies en video's tonen de eindspelvragen, maar bepalen geen regels of getallen.
+De toepasselijke versie staat in de [officiële v0.34.25 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25). De [openbare playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/server/MapPlaylist.ts), [Overtime-configuratie](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/configuration/Config.ts) en [wincontrole](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/execution/WinCheckExecution.ts) bepalen de standaard, dalende drempel en strikte gebiedsvergelijking.

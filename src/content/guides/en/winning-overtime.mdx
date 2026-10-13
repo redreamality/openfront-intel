@@ -2,27 +2,27 @@
 title: "OpenFront Overtime Guide: Win Threshold & Endgame"
 description: "Learn how OpenFront Overtime lowers the FFA win threshold after minute 30, when a lead becomes a win, and how to attack, defend, or reroute before the next step."
 pubDate: 2026-08-25
-updatedDate: 2026-08-25
+updatedDate: 2026-10-14
 tags: [overtime, win-condition, territory, endgame]
 category: Tutorial
 difficulty: Intermediate
-version: v33
-freshnessSummary: "Verified against v0.33.11: one quarter of public FFA games use Overtime, starting at minute 30 and lowering the 80% win threshold by 1 point every 30 seconds."
+version: v34
+freshnessSummary: "Verified against v0.34.25: ordinary public FFA enables Overtime by default; the 80% win threshold falls by 1 point every 30 seconds after minute 30."
 ---
 
 ## Direct answer: how do you win an Overtime game?
 
-In v0.33.11, Overtime appears in one quarter of public FFA games. The normal 80% territory threshold stays fixed through minute 30, then falls by 1 percentage point every 30 seconds. You win when your usable-land share is strictly greater than the live threshold. Protect a winning lead, or take the cheapest safe tiles before the next drop lets the leader close the game.
+Every ordinary public FFA game enables Overtime by default in v0.34.25. The normal 80% territory threshold stays fixed through minute 30, then falls by 1 percentage point every 30 seconds. You win when your usable-land share is strictly greater than the live threshold. Protect a winning lead, or take the cheapest safe tiles before the next drop lets the leader close the game.
 
 ## Version boundary and where Overtime appears
 
-The official v0.33.11 Release introduced Overtime as an anti-stalemate game mode. This guide was last checked against the `v0.33.11` tag on 25 August 2026. It does not treat later upstream `main` changes as live rules.
+Overtime prevents a territory stalemate from lasting indefinitely. The early v0.33.11 version enabled it in only a quarter of public FFA games; that historical lottery is no longer the rule for ordinary public FFA. The rules here apply to v0.34.25.
 
-The tagged public playlist enables Overtime in **25% of public FFA games**. It does not enable the modifier in the public Team or Special playlists. Private Host and Singleplayer settings do expose an Overtime switch and a start-minute input from **1 to 120 minutes**, with 30 minutes as the default. A custom Team game can therefore use Overtime even though public Team does not roll it automatically.
+The ordinary public playlist enables Overtime in **every FFA game**. It does not automatically enable it in public Team or Special playlists. Private Host and Singleplayer settings expose an Overtime switch and a start-minute input from **1 to 120 minutes**, with 30 minutes as the default. A custom Team game can therefore use Overtime when its settings enable it.
 
-Look for the Overtime modifier before the match and for the Overtime panel once the start minute arrives. If neither is present, the normal threshold remains fixed. Do not plan every FFA as though the bar must fall.
+Ordinary public FFA has no separate Overtime lobby badge because the rule is a default. The Overtime panel appears when the configured start minute arrives; its absence before minute 30 does not mean the rule is disabled. For private, singleplayer, or special games, check the actual settings instead of transferring the ordinary FFA default.
 
-The same Release changed websocket delivery to a binary format. That may affect transfer size, but it does not alter the territory calculation, combat formula, or timing described here.
+Use the panel to compare the leading side's land share with the falling threshold. Overtime changes when that share wins, not the troops or defenses needed to protect it.
 
 ## The threshold schedule you can plan around
 
@@ -72,9 +72,9 @@ This scenario assumes the displayed share accurately reflects the current tile s
 
 ## Scenario 2: 30 seconds to stop a 60.2% leader
 
-Assume the leader has **60.2%**, the challenger has **59.8%**, and the clock reads 39:30. The threshold is 61%, so neither share has won. At 40:00 the threshold falls to 60%, and 60.2% will qualify if the map remains unchanged.
+Assume the leader has **60.2%**, the challenger has **39.8%**, and the clock reads 39:30. Together they own all usable land. The threshold is 61%, so neither share has won. At 40:00 the threshold falls to 60%, and 60.2% will qualify if the map remains unchanged.
 
-The challenger has a defined objective: remove at least enough of the leader's share to keep it at or below 60%, or take enough land to become the higher side before the deadline. Feeding troops into a covered mountain that cannot move the percentage in 30 seconds is not pressure; it is a distraction. An exposed coast, a thin corridor, or neutral land that changes the ranking is the better target.
+The challenger's immediate objective is to take enough leader-owned tiles to keep the leader at or below 60%; taking the lead from 39.8% would require a much larger swing. Feeding troops into a covered mountain that cannot move the percentage in 30 seconds is not pressure; it is a distraction. An exposed coast or a thin corridor held by the leader is the better target.
 
 The leader should not answer every attack. Protect the tiles that keep the share above 60%, especially bridges between large regions. Losing a remote sliver that leaves 60.05% can be acceptable; spending the reserve and collapsing a core front is not.
 
@@ -117,7 +117,7 @@ Expect counterplay to focus on timing. A leader may abandon low-value edges, sta
 
 ## Mode and map adjustments
 
-Public Team and Special playlists do not receive the 25% Overtime roll in v0.33.11. If a custom or server-managed team configuration enables it, the base threshold is 95% and team territory is combined, but do not project that edge case onto ordinary public Team games. The tagged public FFA evidence also does not establish Overtime as a Ranked matchmaking rule.
+Public Team and Special playlists do not automatically enable Overtime in v0.34.25. If a custom Team configuration enables it, the base threshold is 80% and team territory is combined before applying the same falling bar. Do not transfer the ordinary public FFA default to Team, Special, or Ranked games; their own settings determine whether Overtime is active.
 
 Compact maps use the same Overtime clock when both modifiers appear, but shorter fronts and faster contact make a 30-second response harder. On large maps, travel time makes remote expansion less useful near a crossing. On archipelagos, transport paths and coastal ownership can matter more than raw distance. On chokepoint maps, the leader can often defend a narrow percentage-preserving core, so challengers need multiple reachable routes before the clock becomes urgent.
 
@@ -125,6 +125,6 @@ Overtime does not change terrain cost, Defense Post coverage, naval movement, or
 
 ## Next reading and source boundary
 
-Start with [first-match fundamentals](/guides/first-match/) if territory share, reserve, and border shape are still unfamiliar. Use [game modes and lobby settings](/mechanics/modes/) to compare the public 30-minute roll with the configurable Host and Singleplayer start. Move to [land combat](/guides/land-combat/) for the cost of taking a decisive tile and [recovery playbook](/strategies/recovery-playbook/) when the leader has already broken your position.
+Start with [first-match fundamentals](/guides/first-match/) if territory share, reserve, and border shape are still unfamiliar. Use [game modes and lobby settings](/mechanics/modes/) to compare the ordinary public FFA default with the configurable Host and Singleplayer start. Move to [land combat](/guides/land-combat/) for the cost of taking a decisive tile and [recovery playbook](/strategies/recovery-playbook/) when the leader has already broken your position.
 
-Primary facts were checked against the [official v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11), tagged [Overtime configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts), tagged [win check](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts), tagged [public playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts), and tagged [Overtime tests](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts). Community discussions and videos identify the stalemate and closing questions; they do not define these rules or numbers.
+For the applicable version, see the [official v0.34.25 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25). The [public playlist](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/server/MapPlaylist.ts), [Overtime configuration](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/configuration/Config.ts), and [win check](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/execution/WinCheckExecution.ts) define the default, falling threshold, and strict territory comparison.

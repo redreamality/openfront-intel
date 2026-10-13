@@ -11,6 +11,9 @@
 
 ## 规则
 
+- **2026-10-14 Overtime 维护基线**：编辑前全站 SEO 已有 83 项问题（82 个省略号标题、1 个 NL 双 H1），命令退出 1。维护必须比较编辑前后完整问题集合，单独报告目标页是否新增问题，不能把旧记录的 72 项标题或全站退出 1 当作当前通过证据。
+- **2026-10-14 Windows 渲染核验脚本**：缓存脚本用 `await import(require.resolve('parse5'))` 导入绝对 Windows 路径时，Node 将 `C:` 当作 URL 协议，报 `ERR_UNSUPPORTED_ESM_URL_SCHEME`；改用 `pathToFileURL(require.resolve('parse5')).href` 后恢复。项目生产依赖和源码无须修改。
+
 - **2026-10-09 检查范围与缓存冲突记录**：本轮 `astro check` 曾扫描并发任务尚未闭合的 `cache/zh-s2.mjs`，以模板字符串语法错误失败；将 `.cache`、`cache`、`_` 临时目录排除后检查恢复。随后同时执行 Astro check 与 Playwright 内置 build，在共享 `node_modules/.astro/data-store.json.tmp` 重命名时触发 EPERM；同一 checkout 的 Astro 同步、检查与构建必须顺序执行，先等现有进程退出再重跑。不得删除另一任务的草稿或结束其构建来掩盖冲突。
 - **2026-10-09 全站 SEO 基线**：审计 815 HTML / 810 可索引页时，报 72 个标题生成省略号、1 个双 H1、10 个需跳转链接。对旧 HEAD SEO 函数及对应旧文章逐项复核，72 个标题与旧输出完全一致，其余 11 项正文未改；本批 76 个影响 URL 无命中。保存私有详细日志与 baseline-check，不把全站审计退出 1 写成通过，后续按独立修复批次处理。
 - **2026-10-09 旧 e2e 合同校准**：初次完整套件 428/430 通过，失败为地图总数断言仍只接受 117/119（任务开始时和 checkout 4e83752 已为 123），以及 First Match changefreq 仍断言 daily（既有配置为 monthly）。保留地图关键 ID/总数一致性及 sitemap 完整性保护，更新实际支持的范围与频率后重跑全套。

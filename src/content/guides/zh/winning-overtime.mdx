@@ -2,27 +2,27 @@
 title: "OpenFront Overtime 攻略：胜利门槛与终局决策"
 description: "了解 Overtime 如何在第 30 分钟后降低 FFA 胜利门槛、领先何时会转化为胜利，以及怎样在下一档门槛前进攻、防守或换路。"
 pubDate: 2026-08-25
-updatedDate: 2026-08-25
+updatedDate: 2026-10-14
 tags: [overtime, 胜利条件, 领土, 终局]
 category: 教程
 difficulty: 中级
-version: v33
-freshnessSummary: "已按 v0.33.11 核验：四分之一的公开 FFA 对局会启用 Overtime，从第 30 分钟开始，每 30 秒把 80% 胜利门槛降低 1 个百分点。"
+version: v34
+freshnessSummary: "已按 v0.34.25 核验：普通公开 FFA 默认启用 Overtime；第 30 分钟后，80% 胜利门槛每 30 秒降低 1 个百分点。"
 ---
 
 ## 直接答案：Overtime 对局怎样获胜？
 
-在 v0.33.11 中，四分之一的公开 FFA 对局会出现 Overtime。普通 80% 领土胜利门槛会保持到第 30 分钟，之后每 30 秒降低 1 个百分点。你的可用陆地占比必须“严格高于”实时门槛才会获胜。领先时要守住即将获胜的占比；追赶时要在下一档下降前夺取成本最低、最能改变排名的领土。
+在 v0.34.25 中，普通公开 FFA 默认启用 Overtime。普通 80% 领土胜利门槛会保持到第 30 分钟，之后每 30 秒降低 1 个百分点。你的可用陆地占比必须“严格高于”实时门槛才会获胜。领先时要守住即将获胜的占比；追赶时要在下一档下降前夺取成本最低、最能改变排名的领土。
 
 ## 版本边界与适用对局
 
-官方 v0.33.11 Release 把 Overtime 作为反僵局模式正式上线。本攻略于 2026 年 8 月 25 日按 `v0.33.11` tag 核验，不会把只存在于上游 `main` 的后续变化写成线上规则。
+Overtime 用来避免领土僵局无限持续。早期 v0.33.11 只有四分之一的公开 FFA 会启用它；这个历史随机规则已经不适用于普通公开 FFA。本文规则适用于 v0.34.25。
 
-正式 tag 中，**25% 的公开 FFA 对局**会自动启用 Overtime。公开 Team 与 Special 轮换不会自动获得该修正器。不过，私人 Host 与 Singleplayer 设置里确实有 Overtime 开关，并可把开始时间设为 **1 至 120 分钟**，默认值为 30。因此，自定义 Team 对局可以主动使用 Overtime，但这不代表普通公开 Team 会随机出现它。
+普通公开轮换中的**每一局 FFA**都默认启用 Overtime。公开 Team 与 Special 轮换不会自动开启它。私人 Host 与 Singleplayer 设置提供 Overtime 开关，并可把开始时间设为 **1 至 120 分钟**，默认值为 30。因此，自定义 Team 对局可以通过房间设置主动开启。
 
-开局前先查看大厅是否显示 Overtime 修正器，达到开始时间后再看 Overtime 面板。如果两处信号都没有，就按固定胜利门槛规划，不要假设每一局 FFA 都会自动降低门槛。
+普通公开 FFA 不会单独显示 Overtime 大厅徽标，因为它已经是默认规则。面板会在设定的开始时间到达后出现，第 30 分钟前看不到面板不代表没有启用。私人、单人或 Special 对局应查看实际设置，不能直接套用普通 FFA 的默认值。
 
-同一 Release 还把 websocket 传输改为自定义二进制格式。这属于传输优化，不会改变本文的领土算法、战斗公式或时间表。
+用面板比较领先阵营的领土占比与下降中的门槛。Overtime 改变的是该占比何时能赢，不会替你增加守住所需的部队或防御。
 
 ## 可以直接规划的门槛时间表
 
@@ -72,9 +72,9 @@ Overtime 改的是获胜条件，不会赠送部队、移除 Defense Post、取�
 
 ## 场景二：只有 30 秒阻止 60.2% 的领先者
 
-假设领先者占 **60.2%**，第二名占 **59.8%**，时间为 39:30。此时门槛是 61%，双方都还没赢。到了 40:00，门槛会降到 60%；如果地图不变，60.2% 就会满足严格高于条件。
+假设领先者占 **60.2%**，第二名占 **39.8%**，两人合计拥有全部可用陆地，时间为 39:30。此时门槛是 61%，双方都还没赢。到了 40:00，门槛会降到 60%；如果地图不变，60.2% 就会满足严格高于条件。
 
-追赶者现在有明确完成定义：把领先者压到 60% 或以下，或者自己先成为领土第一。把全部部队投入一个 30 秒内根本不会易手的 Defense Post 山地，不叫有效施压。暴露海岸、细长连接点，或能够直接改变排名的中立领土，通常更符合截止时间。
+追赶者的即时目标是夺取足够的领先者领土，把对方压到 60% 或以下；从 39.8% 直接反超需要大得多的占比变化。把全部部队投入一个 30 秒内根本不会易手的 Defense Post 山地，不叫有效施压。领先者控制的暴露海岸或细长连接点，通常更符合截止时间。
 
 领先者也不需要回应每一次骚扰，应优先保护使占比维持在 60% 以上的 tiles，尤其是连接大块核心领土的通道。丢掉一条远端边缘、最终仍剩 60.05%，可能可以接受；为了救边缘耗光预备兵并让核心战线崩溃，则会直接丢掉获胜状态。
 
@@ -117,7 +117,7 @@ Overtime 改的是获胜条件，不会赠送部队、移除 Defense Post、取�
 
 ## 不同模式与地图怎样调整
 
-v0.33.11 的公开 Team 与 Special 轮换不会获得 25% 的 Overtime 随机。若自定义 Team 房间主动开启，基础胜利门槛从 95% 开始，并按团队合计领土判断。不要把这个自定义边界误写成普通公开 Team 规则；正式 tag 中的公开 FFA 证据也不足以证明 Overtime 属于 Ranked 匹配规则。
+v0.34.25 的公开 Team 与 Special 轮换不会自动启用 Overtime。若自定义 Team 房间主动开启，基础胜利门槛为 80%，先合计团队领土，再应用同样的下降门槛。不要把普通公开 FFA 的默认设置套到 Team、Special 或 Ranked；是否启用应以各自对局设置为准。
 
 Compact 与 Overtime 可以同时出现，门槛时间表不变，但更短的战略距离会让 30 秒反应窗更紧。大地图上，远端扩张可能赶不上下一档。群岛地图更应看运输路线与海岸所有权，而不是直线距离。瓶颈地图中，领先者往往能守住狭窄的占比核心，因此追赶者必须在紧急时间到来前准备多条可达路线。
 
@@ -125,6 +125,6 @@ Overtime 不会改变地形成本、Defense Post 覆盖、海军移动或攻击�
 
 ## 下一步阅读与来源边界
 
-如果还不熟悉领土占比、预备兵和边界形状，先阅读[第一局指南](/zh/guides/first-match/)。[模式与房间设置](/zh/mechanics/modes/)会区分公开 30 分钟轮换与 Host、Singleplayer 可配置的开始时间。需要计算关键 tile 是否拿得下时，转到[陆战攻略](/zh/guides/land-combat/)；核心已经被击穿时，使用[败局恢复手册](/zh/strategies/recovery-playbook/)。
+如果还不熟悉领土占比、预备兵和边界形状，先阅读[第一局指南](/zh/guides/first-match/)。[模式与房间设置](/zh/mechanics/modes/)会区分普通公开 FFA 默认值与 Host、Singleplayer 可配置的开始时间。需要计算关键 tile 是否拿得下时，转到[陆战攻略](/zh/guides/land-combat/)；核心已经被击穿时，使用[败局恢复手册](/zh/strategies/recovery-playbook/)。
 
-一手事实来自[官方 v0.33.11 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.33.11)、tag 中的 [Overtime 配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/configuration/Config.ts)、[胜利检查](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/core/execution/WinCheckExecution.ts)、[公开轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/src/server/MapPlaylist.ts)与 [Overtime 测试](https://github.com/openfrontio/OpenFrontIO/blob/v0.33.11/tests/core/executions/WinCheckExecution.test.ts)。社区讨论与视频只用于识别玩家的终局困惑和表达习惯，不用于定义规则、数字或版本边界。
+适用版本见[官方 v0.34.25 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25)。[公开轮换](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/server/MapPlaylist.ts)、[Overtime 配置](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/configuration/Config.ts)与[胜利检查](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/core/execution/WinCheckExecution.ts)分别给出默认设置、下降门槛与严格领土比较。

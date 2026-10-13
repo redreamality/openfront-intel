@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-10-09。
+更新日期：2026-10-14。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -23,7 +23,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Monitoring | `LF-COMMUNITY-ROLLING` | 八项搜索改善于 2026-10-09 部署，见 [计划](search-improvement-plan.md) | 等待 2026-10-10 至 2026-11-06 的完整 GSC final 窗口；固定词簇，国家/设备固定或分别报告。观察中只随事实错误或正式变化修订。 |
+| Monitoring | `LF-COMMUNITY-ROLLING` | 八项搜索改善于 2026-10-09 部署，见 [计划](search-improvement-plan.md)；[Overtime 五语事实维护](research/2026-10-14-overtime-answer-maintenance.md) 发布即完成并回到 Monitoring | 等待 2026-10-10 至 2026-11-06 的完整 GSC final 窗口；固定词簇，国家/设备固定或分别报告。观察中只随事实错误或正式变化修订。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -31,8 +31,9 @@
 
 ## 最新来源锚点
 
-- 正式 Release：[`v0.34.24`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.24)，tag commit `3f5633b92c9508461e6e2b9e1f926487a1804c9f`；2026-10-06 发布，修复对非相邻目标重复攻击突破 troop cap 的问题。累计 Release 正文不全部视为本次新增。稳定玩法基线仍为 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)，tag commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da`。
-- 上游 `main` 游标：`1e25448f2261d8adf07e12216c0259be00193c68`；2026-10-09 已用 GitHub REST 核验，未发布提交只作未来版本线索。
+- v34 正式 Release：[`v0.34.25`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25)，tag commit `dfd9e478b64d92fa25f95597b8cb81d8adee004d`；2026-10-13 发布，新增 Steam 权益与广告、音乐修复。累计 Release 正文不全部视为本次新增；本次 Overtime 维护使用该 tag 核验已有规则，不宣称它新引入 Overtime。
+- 较新 beta tag：[`v0.35.0-beta1`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta1)，tag commit `ab5cc6115080f19b4e65b43fbfd396aaf6150e4f`；2026-10-13 发布，API 标记非 prerelease，但名称仍含 beta。单独保留该边界，不替代本次 v34 稳定规则核验。
+- 上游 `main` 游标：`c6cc59986e84936087457dba24c368df6ee78f25`；2026-10-14 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。
 - GSC 历史 28 天缓存：2026-08-20..09-16，旧页面求和口径；当前 schemaVersion 2 基线保存在私有缓存，截止日和对账见搜索改善计划。
@@ -62,7 +63,7 @@
 
 | 玩家主题 | 当前状态 | 公开边界 | 下一转换 |
 |---|---|---|---|
-| Overtime 胜利门槛 | `Released` | v0.33.11 上线时公开 FFA 为 25% 随机；v0.33.13 起公开 FFA 默认启用；30:00 后每 30 秒降低 1 点，严格高于门槛才获胜；Host/Singleplayer 可设 1–120 分钟 | 已同步五语 v33 总览与主攻略；后续只随正式规则变化更新 |
+| Overtime 胜利门槛 | `Released` | v0.34.25 普通公开 FFA 默认启用且无独立大厅徽标；30:00 后每 30 秒降低 1 点；严格高于门槛才获胜；自定义 Team 启用时基础门槛为 80% | 本次五语主攻略事实维护发布即完成；后续只随正式规则变化、事实错误或有效完整观察窗口更新 |
 | Team Doomsday 门槛 + wasteland | `Released` | v0.33.7：团队使用 3/6/10/15/21/28/35% 七档门槛，腐化地变为 wasteland | 已同步五语 v33 总览与 Doomsday 主答案；后续只随正式规则变化更新 |
 | Water Nukes 运输船寻路 | `Released` | v0.34.0-beta1 收录路径图重建；旧绕路截图仅作历史对照 | 已同步五语 Water Nukes 与公开来源；后续只随正式规则变化更新 |
 | 完整大厅 Detailed View | `Released` | v0.34.0：按模式展示公开大厅、deep link 与 trusted-only 锁；v0.34.1 减少 trusted-only 排布并改善 CrazyGames 提示 | 已同步五语 v34 总览；后续只随正式入口或资格变化更新 |
