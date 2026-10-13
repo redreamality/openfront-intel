@@ -1,0 +1,410 @@
+---
+title: "Doomsday-Endgame-Recovery: So kommst du zurück, wenn du unter der Marke liegst"
+description: "Wenn die Doomsday-Uhr dich als Seite unter der steigenden Land-Anteils-Marke markiert, definieren die 30-sekündige Warnung, der 5-Prozent-Truppen-Boden und die 150-sekündige Rot-Frist ein einziges Comeback-Fenster. Nutze die Leader-Immunregel, die Capture-Rechnung, den SAM-Ring und die MIRV-Leiter, um die eine Verzweigung zu wählen, die dich vor dem Rot-Ende über die Marke bringt, in v0.34.24."
+category: "Endgame"
+difficulty: "Advanced"
+tags: [doomsday, recovery, comeback, rot, floor, sam, mirv, endgame, bar, threshold]
+pubDate: 2026-10-13
+updatedDate: 2026-10-13
+version: v34
+freshnessSummary: "Gegen die v0.34.24-Tag-Quelle geprüft (Config.ts, DoomsdayClock.ts, DoomsdayClockExecution.ts, SAMLauncherExecution.ts, SAMMissileExecution.ts, MIRVExecution.ts). Die FFA-Leiter läuft bei 2/4/7/11/17/25/35 Prozent mit 600 Sekunden Gnadenfrist und, auf dem Normal-Preset, sieben 168-sekündigen Anstiegen mit 54-sekündigen Pausen, die bei 35:00 die 35 Prozent erreichen. Die markierte Seite erhält eine 30-sekündige Warnung (warnSeconds 30), einen Truppen-Drain gegen einen 5-Prozent-Boden, der bei 40 Prozent der maximalen Truppen startet und über 90 Sekunden abklingt (floorStartPercent 40, drainFloorPercent 5, floorDecaySeconds 90), und Terrain-Rot, das die Seite bei einer 150-sekündigen Frist eliminiert (rotDeathSeconds 150). Der Leader (meist Territorium) ist immun und wird nie markiert. Der SAM-Cooldown ist 90 Ticks, das SAM-Upgrade 45 Sekunden, und der SAM-Radius wächst von 70 in Richtung der 150er-Asymptote; ein MIRV trägt 350 Sprengköpfe, und jeder Abschuss kostet 25.000.000 plus 15.000.000 pro vorherigem Abschuss. Geprüft am 2026-10-13."
+---
+
+## Direkte Antwort
+
+Hast du den Schädel und nicht der Leader, befindest du dich in einem Recovery-Fenster, nicht in einer verlorenen Partie.
+
+Die Doomsday-Uhr eliminiert dich in den 30 Sekunden Warnung nicht, und sie tötet dich auch nicht allein durch den Truppen-Drain.
+
+Deine einzige Aufgabe ist es, zurück über die Marke zu klettern, bevor die 150-sekündige Rot-Frist dein Land nimmt.
+
+Wähle exakt eine der drei Verzweigungen und halte sie für das ganze Fenster.
+
+Der **Capture-Zweig** nimmt billige, schwach verteidigte Tiles an der offenen Grenze, um bei noch brauchbarer Armee und noch nicht abgeklingtem Boden ein paar Prozentpunkte nutzbares Territorium zu kaufen.
+
+Er gewinnt, wenn der Abstand zur Marke klein genug ist, dass ein paar Tiles ihn schließen.
+
+Der **Ring-Zweig** gibt dein letztes Gold für SAM-Launcher aus, damit die 350 Sprengköpfe eines gegnerischen MIRV außerhalb deines 70-bis-150-Tile-Rings einschlagen.
+
+Du überlebst die Frist, weil du unbrechbar bist, statt Land zu gewinnen, und das ist der Zweig für den Fall, dass du kein Territorium gewinnen, aber die Launcher-Kette noch bezahlen kannst.
+
+Der **Standoff-Zweig** tritt hinter den gegenseitigen Nuklear-Abwehrwall der beiden großen Spieler zurück und lässt die Marke, nicht du, die Arbeit machen.
+
+Weil der Leader immun ist, kann die Uhr ihn nicht eliminieren, und das echte Rennen ist um den zweitgrößten Territoriumsitz, den die Uhr gleich öffnet.
+
+Die einzige Zahl, die deine Verzweigung entscheidet, ist dein aktueller Anteil nutzbarer Tiles im Verhältnis zur Marke.
+
+Die einzige Uhr, die dein Timing entscheidet, ist die 30-sekündige Warnung, der einzige Moment im Fenster, in dem deine Armee auf voller Stärke steht.
+
+Lies diese beiden, bevor du ein einziges Gold ausgibst.
+
+Eine Seite, die in der falschen Fensterphase in die falsche Verzweigung investiert, wird vom Rot mit voller Armee eliminiert.
+
+Das ist der häufigste und vermeidbarste Weg, wie die Doomsday-Uhr ein Comeback beendet, und genau dieser Fehlschlag ist das, was dieser gesamte Guide verhindern will.
+
+Der Grund für die Dreiteilung ist, dass die Doomsday-Uhr einer markierten Seite keinen einzigen richtigen Zug gibt.
+
+Sie gibt ihr eine Bedingung, die 150-sekündige Frist, und der Zweig ist das Werkzeug, das du dieser Bedingung entgegensetzt.
+
+Deshalb kann dieselbe Lobby von drei verschiedenen Spielen gewonnen werden, und die entscheidende Eingabe ist die Zahl, die du siehst, wenn der Schädel auf dir landet, nicht die Verzweigung, die du bevorzugt hast.
+
+Die 30-sekündige Warnung ist der einzige Moment, in dem die Entscheidung frei ist.
+
+Danach gibt der Drain deine Armee aus, und jede Sekunde, die du mit Wählen verbringst, ist eine Sekunde, in der dein effektiver Boden von 40 Prozent in Richtung 5 Prozent abklingt.
+
+Eine markierte Seite, die ohne benannten Zweig in die Warnung geht, wird nie einen benannten Zweig haben.
+
+Das Fenster schließt sich auf die Wahl, und das Einzige, was übrig bleibt, ist, das Rot zu beobachten.
+
+Das ist die gesamte Wette dieses Guides in einem Satz: Die Recovery ist nicht schwer auszuführen, aber schwer zu beginnen.
+
+Und die zwei Zahlen, dein Anteil gegen die Marke und die verbleibenden Boden-Sekunden, sind der Anfang.
+
+## Das Rot-Fenster: 30-sekündige Warnung, 5-Prozent-Boden, 150-sekündige Frist
+
+Alles in diesem Guide passt in ein 150-sekündiges Fenster, das die v0.34.24-Quelle als drei aufeinanderfolgende Phasen definiert.
+
+Die Recovery ist nur möglich, weil die Phasen geordnet und nicht gleichzeitig ablaufen.
+
+Die erste ist die **Warnung**, gesteuert von `warnSeconds` und in `Config.ts` auf 30 gesetzt.
+
+In diesen 30 Sekunden, nachdem du unter die Marke gefallen bist, hältst du deine volle Truppen-Decke und die Uhr hat deine Wirtschaft noch nicht angerührt.
+
+Die Warnung ist daher der einzige Moment im ganzen Fenster, in dem deine Armee auf voller Stärke steht und noch nichts verloren wurde.
+
+Und genau in diesem Moment muss die gesamte Zweig-Entscheidung getroffen werden, nicht während des Drains.
+
+Die zweite ist der **Drain**, der beginnt, sobald die Warnung abläuft, und deine Truppen (und die Hülle deines Warships) gegen einen abklingenden Boden ablässt.
+
+Der Boden ist durch `floorStartPercent` bei 40 Prozent deiner maximalen Truppen zu Beginn des Drains definiert und klingt über `floorDecaySeconds` von 90 Sekunden auf `drainFloorPercent` bei 5 Prozent ab.
+
+Das heißt, deine effektive Armee ist am größten, wenn der Drain beginnt, und am kleinsten etwa neunzig Sekunden später.
+
+Das Warship bekommt denselben steileren konvexen Rampen-Drain, sodass auch ein schwimmender Kern den Schutz verliert, der ihn verbarg.
+
+Die dritte Phase ist das **Terrain-Rot**, das beginnt, sobald der Boden seinen Tiefpunkt erreicht, und deine Tiles frisst, bis die Seite bei der `rotDeathSeconds`-Frist von 150 Sekunden eliminiert wird.
+
+Die v0.34.24-Quelle ist explizit, dass der Drain allein nie tötet.
+
+Eine Seite kann mit einer winzigen Armee unter der Marke liegen und trotzdem nicht eliminiert werden, bis das Rot die Arbeit tut.
+
+Der Grund, warum das Spiel Rot überhaupt einbaut, ist, dass ohne es ein Patt die letzte Welle überleben und die Uhr aufhören würde, etwas zu bedeuten.
+
+Das Comeback-Fenster ist real, aber es ist ein einzelnes Fenster.
+
+Die v0.34.24-Release-Notes nennen die Truppen-Decken-Änderung, die der markierten Seite eine brauchbare Comeback-Armee statt einer permanenten gibt.
+
+Deshalb ist das Fenster breit genug, um darin zurückzukommen, und eng genug, dass Zögern tödlich ist.
+
+Die Reihenfolge der Phasen ist der Grund, warum die Recovery überhaupt möglich ist, und nicht die Größe deiner Armee.
+
+Jede Phase geht klar in die nächste über: Die Warnung endet exakt, wenn der Drain beginnt, und der Boden erreicht seinen Tiefpunkt genau, wenn das Rot startet.
+
+Das Fenster bleibt ein einzelnes, weil die Zeit, in der du deinen Zweig wählen darfst, kürzer ist als die Zeit, in der das Rot läuft.
+
+Das ist die Versionsgrenze für den gesamten Guide: Die Zahlen sind am v0.34.24-Tag stabil, und der Guide beansprucht kein Verhalten außerhalb davon.
+
+Ein Spieler, der einen schnelleren oder älteren Client liest, sollte die Zahlen 30, 40, 5, 90 und 150 als den v0.34.24-Erdbezug behandeln und nicht von einem anderen Preset extrapolieren.
+
+## Die Tafel lesen: Bist du die markierte Herausforderin oder der Leader
+
+Die erste und folgenreichste Frage in einem Doomsday-Endgame ist nicht, welche Tiles du nimmst, sondern ob der Schädel überhaupt auf dir liegen darf.
+
+Die v0.34.24-Quelle implementiert eine **Leader-Immunregel**: Die Seite mit dem meisten Territorium ist von der Uhr ausgenommen und wird nie markiert, nie drainiert und nie vom Rot erfasst.
+
+Diese einzelne Regel dreht den gesamten Plan um, und bevor du eine Recovery planst, musst du deinen Rang auf der Territorium-Tafel klären.
+
+Der Rang ist eine Drei-Wege-Unterscheidung, und jede hat einen anderen Eigentümer.
+
+Bist du die Seite mit den meisten nutzbaren Tiles, recoverst du nicht; du hältst die Krone.
+
+Und dein Problem ist das völlig andere, das der [Kronenposition-MIRV-Verteidigungs-Guide](/de/guides/crown-position-mirv-defense/) abdeckt.
+
+Dort geht es darum, deine Führung verteidigbar zu halten und den SAM-Ring, den du schon baust, und nicht darum, einen verlorenen wiederzugewinnen.
+
+Und die Recovery-Zweige in diesem Guide sind für diese Aufgabe das falsche Werkzeug.
+
+Bist du eine der anderen Seiten und liegst unter der Marke, bist du die markierte Herausforderin oder der markierte Herausforderer, und dieser Guide ist für dich.
+
+Die Marke, die du jagst, ist die nächste Stufe der Leiter, die auf dem FFA-Normal-Preset 2, 4, 7, 11, 17, 25 und 35 Prozent läuft.
+
+Bist du über der aktuellen Stufe, aber nicht der Leader, und die nächste Stufe wurde noch nicht erreicht, bist du nicht markiert und die Recovery ist nicht aktiv.
+
+Die Uhr arbeitet in diesem exakten Moment nur auf dir, und du hast Zeit, dich neu zu positionieren, bevor der Schädel landet.
+
+Das ist ein anderes, ruhigeres Problem als die 150-sekündige Hetze, die dieser Guide beschreibt.
+
+Der Grund, warum die Unterscheidung so wichtig ist, ist, dass die Uhr ein einseitiges Rennen ist.
+
+Sie kann einen Sitz für die Herausforderin oder den Herausforderer öffnen, aber sie kann den Leader nie eliminieren.
+
+Eine Herausforderin oder ein Herausforderer, der die Haltung des Leaders für die eigene hält und in Land statt in Überleben investiert, stirbt an der Frist, während der Leader, immun, zusieht.
+
+Du kannst deinen Rang direkt von der Tafel ablesen, weil das vierstufige Doomsday-Panel, beschrieben im [Doomsday-Uhr-Guide](/de/guides/doomsday-clock/), deinen Anteil gegen die Marke zeigt und den immunen Leader markiert.
+
+Die Frage „Bin ich markiert“ hat also eine Ein-Sekunden-Antwort, und der einzige Fehlschlag ist, sie nicht zu stellen.
+
+Eine Seite, die ein Warnfenster damit verbringt, eine Tafel erneut zu lesen, an der sie das Recht verloren hat, ist eine Seite, die ihren einzigen Vollstärke-Moment auf eine Frage verwandt hat, deren Antwort die ganze Zeit sichtbar war.
+
+## Der Entscheidungsrahmen: drei Zweige für eine Seite unter der Marke
+
+Eine markierte Herausforderin oder ein markierter Herausforderer hat genau drei Wege zurück über die Marke.
+
+Das Framework lautet: Wähle den, der zu deinen aktuellen Zahlen passt, und halte ihn für das ganze Fenster.
+
+Weil ein Zweig-Wechsel mitten im Fenster der Weg ist, auf dem eine Recovery zu einer Ausgabe ohne Auszahlung wird.
+
+Der **Capture-Zweig** ist verfügbar, wenn dein Drain nicht weit abgeklungen ist, deine Armee noch brauchbar ist und es eine offene Grenze mit schwach verteidigten Tiles gibt.
+
+Du gibst Truppen für billiges Land aus, um Prozentpunkte zu kaufen.
+Und er gewinnt, wenn der Abstand zwischen dir und der Marke klein genug ist, dass ein paar eroberte Tiles ihn schließen.
+Das muss passieren, bevor der Boden auf 5 Prozent abklingt und deine Verteidigungsarmee zu dünn ist, um das Gehaltene zu halten.
+
+Der **Ring-Zweig** ist verfügbar, wenn du kein Land gewinnen, aber SAM-Launcher noch bezahlen kannst, von denen jeder 500.000 Gold kostet.
+
+Du baust eine Kette aus Launchern, deren kombinierter Radius von 70 Tile Standard in Richtung der 150-Tile-Asymptote wächst.
+Das Wachstum passiert, wenn du mit 45 Sekunden pro Upgrade aufrüstet, und die Kette bedeckt deinen Kern.
+So schlagen die 350 Sprengköpfe eines gegnerischen MIRV außerhalb des Rings ein.
+
+So überlebst du die Frist, weil du unbrechbar bist, und dieser Zweig ist der, den der [SAM-Launcher-Guide](/de/guides/sam-launchers/) als defensive Haltung lehrt und der hier als Überlebenshaltung umgedeutet wird.
+
+Die SAMs feuern im 90-Tick-Cooldown, sodass ein gut getimter Ring die Lecksprengköpfe abfängt und nicht den Träger.
+
+Der **Standoff-Zweig** ist verfügbar, wenn du weder Land gewinnen noch einen vollständigen Ring bezahlen kannst.
+
+Er akzeptiert, dass du diese Partie nicht der Leader sein wirst, und tritt hinter den gegenseitigen Nuklear-Abwehrwall zurück, damit du bis zum letzten Sitz lebst, den die Uhr öffnet.
+
+Er kostet nichts in Gold, aber Zeit, weshalb ein schnelleres Uhr-Preset ihn zum falschen Zweig macht.
+
+Das Framework ist ein Bedingungstest, keine Präferenzleiter.
+
+Der Capture-Zweig wird durch den Punktabstand und die brauchbare Armee benannt, der Ring-Zweig durch dein Gold und die gegnerische MIRV-Leiter.
+
+Der Standoff-Zweig wird durch die Immunität des Leaders und deinen Rang als die Seite mit dem zweitgrößten Territorium benannt.
+
+Und keiner der drei ist ein Default.
+
+Ein Spieler, der die Bedingung, die seinen Zweig auswählt, nicht benennen kann, hat noch nicht entschieden und wird das Fenster damit verbringen, es zu entscheiden.
+
+Das Lesen, welche der drei Bedingungen du erfüllst, ist die gesamte Entscheidung.
+
+Die nächsten beiden Abschnitte rechnen jeden Zweig mit echten Zahlen durch, damit du den Zweig, in dem du steckst, und die Zahl, die ihn benennt, in einem Zug siehst.
+
+Und der Modus-und-Karten-Abschnitt unten zeigt, wie die vier Eingaben den Zweig von einer Lobby in die andere verschieben.
+
+## Szenario A: 30 Prozent gegen eine 35-Prozent-Marke mit 60 Sekunden Boden übrig
+
+Dieses Szenario geht von einem FFA-Normal-Preset aus, bei etwa dem 35:00-Punkt, an dem die Marke ihre 35-Prozent-Decke erreicht hat.
+
+Du liegst bei 30 Prozent nutzbarer Tiles, und der Schädel ist jetzt auf dir.
+
+Es ist das häufigste späte Endgame, weil die letzte Stufe diejenige ist, die die Uhr bis zum ganz Ende einer umkämpften Partie lebendig hält.
+
+Deine Warnung ist bereits abgelaufen, also läuft der Drain, und weil der Boden über 90 Sekunden abklingt, hast du etwa 60 Sekunden eines noch nützlichen Bodens, bevor deine effektive Armee nahe am 5-Prozent-Minimum ist.
+
+Diese 60 Sekunden sind das gesamte Budget für den Zweig.
+
+Der Abstand zur Marke ist 5 Prozentpunkte nutzbares Territorium, und 5 Punkte sind die Größe eines Capture-Abstands.
+
+Er ist klein genug, um mit Truppen zu schließen, und groß genug, dass du den Boden ausgeben musst, um ihn zu schließen.
+
+Der Capture-Zweig ist daher der einzige Zweig, der einen 5-Punkte-Abstand schließen kann, und er ist nur jetzt bezahlbar.
+
+Genau das ist die Übereinstimmung, die das Framework verlangt.
+
+Du hast eine brauchbare Armee, und die offene Grenze hat noch schwach verteidigte Tiles.
+
+Du schickst Truppen, um billiges Land umzuwandeln, und du musst genau 5 Punkte kaufen, bevor der Boden unter der Armeegröße abklingt, die diese 5 Punkte gegen den Gegenschlag verteidigen kann.
+
+Die Arbeitsannahme ist, dass dein Rivale der immunen Leader ist und dich nicht angreift, weil der Leader nichts davon hat, Truppen auf dich zu geben, und die Uhr diese Arbeit bereits erledigt.
+
+Diese Annahme ist das, was den Capture-Zweig verfügbar macht.
+
+Greift der Leader dich stattdessen an, ist der Capture-Zweig tot, und du fällst auf den Ring-Zweig oder den Standoff-Zweig zurück.
+
+Das ist der erste Zweigwechsel-Trigger, auf den du achten solltest.
+
+Der Fehlzustand besteht darin, den ganzen Boden auf Land auszugeben, das du nicht halten kannst.
+
+Dann nimmt das Rot es nach der Frist zurück, und du wirst mit den bereits verschwundenen Tiles eliminiert.
+
+Die Abhilfe besteht darin, nur so viele Punkte zu erobern, wie du mit der Armee verteidigen kannst, die nach dem Capture übrig bleibt.
+
+Das ist derselbe Test wie die Reserve-Commitment-Entscheidung im [FFA-Endgame-Commit-Guide](/de/guides/ffa-endgame-commit/), angewendet auf ein Landziel statt auf ein Spielerziel.
+
+Die Zahl, die Szenario A entscheidet, ist der verteidigte Anteil: die Punkte, die du nach der Ausgabe halten kannst, nicht die Punkte, die du nehmen kannst.
+
+Und sie ist eine Zahl, die du berechnen kannst, bevor du die Truppen einsetzt.
+
+Ein Spieler, der ohne Berechnung des verteidigten Anteils einsetzt, hat bereits entschieden zu scheitern.
+
+## Szenario B: Die 74-SAM-Festung und ob dein MIRV durch den Ring leckt
+
+Dieses Szenario geht von einem Endgame mit zwei Seiten aus, in dem der Leader einen gestapelten Kern gebaut hat, den die Community eine Festung nennt.
+
+Laut Spieler-Kommentaren liegt die Zahl der SAM-Launcher in der Größenordnung von 70 bis 120.
+
+Du bist die Herausforderin oder der Herausforderer mit einem bereitstehenden MIRV und entscheidest, ob du diesen Kern vor der Frist brichst.
+
+Das ist der Ring-Zweig in umgekehrter Richtung, gespielt von der angreifenden statt von der verteidigenden Seite.
+
+Die einzige verifizierte Tatsache, die es entscheidet, ist das SAM-Interception-Modell in der v0.34.24-Quelle: Ein MIRV trägt 350 Sprengköpfe.
+
+Die SAMs fangen einzelne Sprengköpfe ab, nicht den Träger, und die Frage lautet daher nicht „Kann ich das MIRV stoppen“, sondern „Wie viele der 350 Sprengköpfe schlagen innerhalb deines Rings ein“.
+
+Die Antwort ist eine Funktion der Launcher-Anzahl und ihrer Upgrade-Stufe, keine binäre Entweder-oder-Entscheidung.
+
+Ein SAM mit seinem 90-Tick-Cooldown und seinem 45-Sekunden-Upgrade-Takt gibt dir einen Ring.
+Sein Radius wächst von 70 in Richtung 150.
+Die effektive Abdeckung des Rings ist eine Funktion davon, wie viele Launchers du hast und wie gut sie aufgerüstet sind.
+
+Die wiederkehrende 100-Prozent-Abdeckungs-Sprache der Community in den Build-Strategie-Kommentaren ist das Ziel.
+
+Denn jeder Sprengkopf, der innerhalb des Rings durchrutscht, trifft deinen Kern, und der Boden klinkt bereits unter ihm ab.
+
+Ein Ring, der im Moment des Einschlags zu 90 Prozent abgedeckt ist, lässt 35 Sprengköpfe durch.
+
+Ein Ring, der zu 95 Prozent abgedeckt ist, lässt 17 durch.
+
+Und jede dieser Zahlen verändert, ob der Kern die Frist überlebt.
+
+Die Kostenseite ist die MIRV-Leiter aus dem [MIRV-Preisleiter-Guide](/de/guides/mirv-price-ladder/): Jeder Abschuss kostet 25.000.000 Gold plus 15.000.000 pro vorherigem Abschuss.
+
+Ein zweiter und dritter Abschuss auf eine bestehende Flotte kosten demnach 40.000.000 bzw. 55.000.000, und die kumulierte Ausgabe bis zum vierten Abschuss ist 190.000.000.
+
+Das ist die Zahl, die das MIRV zu einem Werkzeug macht, das du einmal oder zweimal ausgibst, nicht zu einem Strom, den du immer weiter öffnest.
+
+Die Entscheidung ist daher ein Abdeckungs-gegen-Kosten-Test: Schieße das MIRV ab, wenn der Lecksprengkopf-Anteil niedrig genug ist, dass der Kern ihn überlebt, und du den Ring mit deinem abklingenden Boden noch verteidigen kannst.
+
+Halte das MIRV zurück, wenn der Leak hoch genug ist, dass du das einzige Werkzeug, das die Festung brechen kann, in einen Ring feuern würdest, der gebaut wurde, um genau ihn aufzufressen.
+
+Die Zahl, die Szenario B entscheidet, ist der Lecksprengkopf-Anteil.
+
+Die Zahl, die das Werkzeug preist, ist die kumulierte MIRV-Leiter.
+
+Und die beiden Zahlen zusammen sind die einzigen beiden Zahlen, die vor dem Abschuss berechnet werden müssen.
+
+Deshalb ist das Szenario lösbar und keine Bauchentscheidung.
+
+## Fehlermuster und das Gegenmittel zu jedem
+
+Die häufigsten Doomsday-Recovery-Fehler sind keine schlechten Zweige, sondern richtige Zweige im falschen Fenster.
+
+Jeder hat eine spezifische Abhilfe, die ein Ein-Zahlen-Check und kein neuer Plan ist.
+
+Deshalb ist die Abhilfe auf jeden Fehler dieselbe Disziplin, angewendet auf eine andere Zahl.
+
+Der **zu-frühe-Ring-Fehler** besteht darin, den ganzen Boden in SAMs zu investieren, während du noch über der Marke liegst.
+
+Du kaufst damit ein Überlebenswerkzeug, das du nicht brauchst, und entziehst das Gold, das den Capture-Zweig finanziert hätte.
+
+Die Abhilfe ist, den Ring zu halten, bis der Schädel tatsächlich auf dir ist, weil der Ring ein Frist-Werkzeug und kein Midgame-Werkzeug ist.
+
+Ein Ring, der vor der Markierung gebaut wurde, ist ein Ring für eine Frist, die noch nicht angefangen hat.
+
+Der **Übercapture-Fehler** besteht darin, mehr Land zu nehmen, als der verbleibende Boden verteidigen kann.
+
+Das Rot nimmt es nach der Frist zurück und wandelt eine Führung in eine Elimination um.
+
+Die Abhilfe ist der verteidigte-Anteil-Test: nur so viel erobern, wie die Armee nach der Ausgabe hält.
+
+Das ist die Zahl, durch die der Capture-Zweig tatsächlich benannt wird.
+
+Der **Leader-Verwechslungs-Fehler** besteht darin, eine Recovery zu planen, während du tatsächlich der immunen Leader bist.
+
+Du gibst aus, um eine Führung wiederzugewinnen, die du schon hast, und entblößt deinen Kern, während die Uhr, die dich nie hätte berühren können, die Arbeit für die Herausforderin oder den Herausforderer tut.
+
+Die Abhilfe ist der Ein-Sekunden-Rang-Check vor jeder Ausgabe, derselbe Check, den der Tafel-Abschnitt oben zur ersten Frage des gesamten Guides macht.
+
+Der **Standoff-Fehleinschätzung-Fehler** besteht darin, den Standoff-Zweig zu wählen, weil er sicher wirkt.
+
+Die Marke öffnet den zweiten Sitz in Wahrheit erst, wenn die andere Herausforderin oder der andere Herausforderer stirbt.
+
+Das Stehen kann dir daher genau den Sitz kosten, für den du stehest.
+
+Die Abhilfe ist, von der Territorium-Tafel zu bestätigen, dass ein zweiter Sitz tatsächlich geöffnet wird, bevor du zurücktrittst.
+
+Das ist ein Check auf die Leiterstufe, nicht auf deine eigene Armee.
+
+Der **MIRV-Leiter-Fehler** besteht darin, einen zweiten oder dritten Abschuss in einen Ring zu feuern, der darauf dimensioniert war, genau diese Sprengköpfe aufzufressen.
+
+Das macht die kumulierte 190.000.000-vierte-Abschuss-Zahl zu einer echten und nicht zu einer hypothetischen Kosten.
+
+Die Abhilfe ist der Lecksprengkopf-Anteil-Test aus Szenario B, derselbe Test, der entscheidet, ob du überhaupt feuern solltest.
+
+Jeder dieser Fehler ist ein Fensterfehler.
+
+Und die Abhilfe auf alle von ihnen ist dieselbe Disziplin: die zwei Zahlen zu lesen, deinen Anteil gegen die Marke und die verbleibenden Boden-Sekunden.
+
+Vor der Zweigwahl, nicht nachdem die Ausgabe bereits getätigt wurde.
+
+Denn der Zweig ist die Antwort auf eine Frage, und eine Frage, die gestellt wird, nachdem die Antwort aufgebraucht wurde, hat keine Antwort mehr übrig.
+
+## Modus-, Karten- und Tempoanpassungen
+
+Der Zweig, den du wählst, ist in jeder Doomsday-Lobby derselbe.
+
+Aber die Zahlen, die den Zweig benennen, bewegen sich mit dem Modus, der Karte und der Uhrgeschwindigkeit.
+
+Deshalb kann ein Recovery-Plan, der auf einer Tafel funktioniert, auf einer anderen scheitern.
+
+Die vier Eingaben unten sind die einzigen vier, die vor der Warnung gelesen werden müssen.
+
+In **Team-Modi** läuft die Leiter nach dem `LEVELS_TEAM`-Plan bei 3/6/10/15/21/28/35 Prozent statt nach der FFA-Leiter bei 2/4/7/11/17/25/35 Prozent.
+
+Und die Marke wird auf das kombinierte Teamterritorium angewendet, was bedeutet, dass der Abstand, den du schließen musst, gegen den Anteil deines ganzen Teams gemessen wird.
+
+Der Capture-Zweig ist dann in der Regel ein kleinerer, handhabbarerer Abstand, weil das Team größer ist und die Tiles, die es kontrolliert, weiter verstreut sind.
+
+Der Ring-Zweig ist im Gegensatz dazu eine teamweite Investition.
+
+Der Standoff-Zweig ist der Punkt, an dem du hinter der Allianz stehst statt hinter einem einzelnen Rivalen.
+
+Und die Leader-Immunregel wird auf das Team mit dem größten kombinierten Territorium angewendet, sodass die immunen Einheit ein Team und kein Spieler ist.
+
+Das verändert, hinter wem du im Standoff-Zweig stehst.
+
+Das **Tempo-Preset** verschiebt das ganze Fenster: Auf dem Normal-Preset erreicht die Marke 35 Prozent bei 35:00 mit 168-sekündigen Anstiegen und 54-sekündigen Pausen.
+
+Auf dem Langsam-Preset liegt das bei 45:00, auf dem Schnell-Preset bei 25:00 und auf dem Veryfast-Preset bei 15:00.
+
+Ein schnelleres Preset komprimiert die Zeit, die du hast, um den Zweig zu wählen und auszugeben.
+
+Und es macht den Standoff-Zweig, der ein Warten ist, teurer relativ zu den Aktionszweigen und günstiger relativ zum Capture-Zweig.
+
+Weil der Capture-Zweig eine Ausgabe ist, die in jedem Preset dieselbe Größe hat, und das Fenster bei einem schnelleren Preset kürzer ist.
+
+Deshalb sind die Schnell- und Veryfast-Presets die Presets, auf denen der Capture-Zweig am häufigsten gewinnt und der Standoff-Zweig am häufigsten verliert.
+
+Die **Karte** entscheidet, ob der Capture-Zweig überhaupt verfügbar ist, weil er nur verfügbar ist, wenn es eine offene Grenze mit schwach verteidigten Tiles gibt.
+
+Eine Karte, die an der Marke-Decke bereits vollständig umkämpft ist, drängt dich auf den Ring-Zweig.
+
+Und eine Karte, auf der dein Kern auf einer verteidigbaren Insel mit Port sitzt, verschiebt den Ring-Zweig in die gestapelte-Insel-Haltung, die der [Midgame-Insel-Comeback-Guide](/de/guides/midgame-island-comeback/) abdeckt.
+
+Eine Karte ohne Inseln und ohne offene Grenze an der Decke ist eine Karte, auf der der einzige Zweig der Standoff-Zweig ist.
+
+Und die einzige Frage ist, ob der zweite Sitz vor der Frist geöffnet wird.
+
+Die Tabelle unten fixiert die vier Eingaben, die den Zweig verschieben, damit ein Spieler seine Lobby lesen und den Zweig benennen kann, bevor die Warnung startet.
+
+Die Disziplin besteht darin, sie vor der 30-sekündigen Warnung zu lesen statt während ihr.
+
+Denn die Warnung ist der einzige Moment, in dem deine Armee auf voller Stärke steht.
+
+Und der Moment, in dem du sie damit verbringst, die Tafel zu lesen, ist der Moment, in dem der Drain gegen dich startet.
+
+| Eingabe | Was sich bewegt | Auswirkung auf deinen Zweig |
+|---|---|---|
+| Team vs FFA Leiter | Marken-Höhe und Abstand; die immunen Einheit ist ein Team und kein Spieler | Team: kleinerer Capture-Abstand, teamweiter Ring; FFA: voller FFA-Abstand und Einzelkern-Ring |
+| Tempo-Preset | Fensterlänge (35:00 normal, 45:00 langsam, 25:00 schnell, 15:00 veryfast) | Schnellere Presets bestrafen den Standoff-Zweig und bevorzugen frühen Capture oder Ring-Commitment |
+| Karten-Umkämpftheit | Ob billiges Land an der offenen Grenze existiert | Offene Grenze ermöglicht Capture; vollständig umkämpfte Karte erzwingt den Ring-Zweig |
+| Leader-Haltung | Wer immun ist und ob ein zweiter Sitz geöffnet wird | Bestätigt deinen Rang und ob du recoverst oder die Krone hältst |
+
+Die Tabelle ist der gesamte Modus-und-Karten-Abschnitt in einem Lesen.
+
+Und die vier Zeilen sind die vier Checks, die ein Spieler vor der Warnung startet.
+
+Ein Spieler, der die vier Eingaben und den Zweig, den sie auswählen, benennen kann, hat die Entscheidung, die der Guide lehrt, bereits getroffen.
+
+Und das Einzige, was übrig bleibt, ist, das Fenster für den Zweig zu verwenden statt ihn zu entscheiden.

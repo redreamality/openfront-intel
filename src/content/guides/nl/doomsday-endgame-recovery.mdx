@@ -1,0 +1,152 @@
+---
+title: "Doomsday-eindspelherstel: hoe je terugkomt als je onder de bar zit"
+description: "Als de Doomsday-klok je markeert als partij onder de stijgende landaandeelsbar, vormen de waarschuwing van 30 seconden, de troepenvloer van 5 procent en de rot-deadline van 150 seconden één enkel comeback-venster. Gebruik de leiderschimmelregel, de vangstberekening, de SAM-ring en de MIRV-ladder om de ene branch te kiezen die je vóór de rot-deadline weer boven de bar zet, in v0.34.24."
+category: "Eindspel"
+difficulty: "Gevorderd"
+tags: [doomsday, recovery, comeback, rot, floor, sam, mirv, endgame, bar, threshold]
+pubDate: 2026-10-13
+updatedDate: 2026-10-13
+version: v34
+freshnessSummary: "Geverifieerd tegen de v0.34.24 tag-bron (Config.ts, DoomsdayClock.ts, DoomsdayClockExecution.ts, SAMLauncherExecution.ts, SAMMissileExecution.ts, MIRVExecution.ts). De FFA-ladder is 2/4/7/11/17/25/35 procent met een genade van 600 seconden en, op het normal preset, zeven 168-seconden-rampen en 54-seconden-pauzes die 35 procent bereiken op 35:00. De gemarkeerde partij krijgt een waarschuwing van 30 seconden (warnSeconds 30), een troependrainage richting een vloer van 5 procent die begint bij 40 procent van de maximumtroepen en over 90 seconden afvalt (floorStartPercent 40, drainFloorPercent 5, floorDecaySeconds 90), en territoriumrot dat de partij op een deadline van 150 seconden elimineert (rotDeathSeconds 150). De leider (meeste territorium) is schimmelvrij en krijgt nooit een schedel. De SAM-koeltijd is 90 ticks, de SAM-upgrade 45 seconden, en de SAM-reikwijdte groeit van 70 richting een asymptote van 150; een MIRV draagt 350 warheads en elke lancering kost 25.000.000 plus 15.000.000 per eerdere lancering. Geverifieerd 2026-10-13."
+---
+
+## Direct antwoord
+
+Als de schedel op jou zit en niet op de leider, zit je in een herstelsvenster, niet in een verloren partij: de Doomsday-klok elimineert je nooit tijdens de waarschuwing van 30 seconden en ze doodt je ook niet alleen met de troependrainage. Je enige taak is dus weer boven de bar te klimmen vóór de rot-deadline van 150 seconden je land afneemt. Kies precies één van de drie branches en commit daar de hele venster aan.
+
+De **vangstraal** pakt goedkope, zwak verdedigde tegels aan de open grens om een paar procentpunten bruikbaar territorium te kopen, zolang je nog een bruikbaar leger hebt en de vloer nog niet is afgevallen. Het is de branch die wint wanneer de gap naar de bar klein genoeg is dat een handvol tegels hem sluit.
+
+De **ringstraal** geeft je laatste goud uit aan SAM-launchers, zodat de 350 warheads van een vijandelijke MIRV buiten je 70-tot-150 tegelring landen. Je overleeft de deadline doordat je ondoorbreekbaar bent, niet doordat je land wint. Dat is de branch voor wanneer je geen territorium kunt winnen maar je wel de gordel launchers kunt betalen.
+
+De **stand-off-straal** zet je terug achter de wederkerige-kernafweermuur van de twee grote spelers en laat de bar, niet jij, het werk doen. Omdat de leider schimmelvrij is, kan de klok de leider niet elimineren, en is de echte race voor de stoel met op één na het meeste territorium die de klok overigens gaat openen.
+
+Het enige getal dat je branch bepaalt is je huidige aandeel in bruikbare tegels t.o.v. de bar, en de enige klok die je timing bepaalt is de waarschuwing van 30 seconden, het enige moment in het venster waarop je leger op volle kracht staat. Lees die twee voordat je een enkele gouden munt uitgeeft.
+
+Een partij die in de verkeerde venster uitgeeft aan de verkeerde branch, is een partij die rot elimineert met een volledig leger. Dat is de meest voorkomende en meest vermijdbare manier waarop de Doomsday-klok een comeback beëindigt, en het is precies de mislukking waar deze hele gids voor is geschreven.
+
+De reden dat de drietalige branchstructuur de juiste vorm is, is dat de Doomsday-klok een gemarkeerde partij geen enkel juiste zet geeft. Ze geeft een partij een beperking, de deadline van 150 seconden, en de branch is het gereedschap dat je daarbij brengt. Dat betekent dat dezelfde lobby op drie verschillende manieren gewonnen kan worden, en dat het beslissende invoer het getal is waar je naar kijkt op het moment dat de schedel landt, niet de branch die je voorkeur had.
+
+De waarschuwing van 30 seconden is het enige moment waarop de keuze vrij is, omdat de drainage daarna je leger besteedt. Elke seconde die je aan kiezen besteedt, is een seconde die je effectieve vloer van 40 procent naar 5 procent afvalt. Een gemarkeerde partij die zonder een gekozen branch de waarschuwing ingaat, is een partij die nooit meer een gekozen branch zal hebben. Het venster sluit op de keuze, en het enige wat overblijft is de rot toekijken.
+
+Dat is de hele inzet van deze gids in één zin: het herstel is niet moeilijk uit te voeren, maar wel moeilijk om te starten. En de twee getallen, je aandeel tegen de bar en de overgebleven seconden vloer, zijn die start.
+
+## Het rot-venster: 30 seconden waarschuwing, 5 procent vloer, 150 seconden deadline
+
+Alles in deze gids past in een venster van 150 seconden dat de v0.34.24 bron definieert als drie opeenvolgende fasen. Het herstel is alleen mogelijk omdat de fasen in volgorde komen en niet gelijktijdig. De eerste is de **waarschuwing**, bestuurd door `warnSeconds` en ingesteld op 30 in `Config.ts`.
+
+Die 30 seconden nadat je onder de bar zakt, houd je je volledige troepencap en heeft de klok je economie nog niet aangeraakt. De waarschuwing is dus het enige moment in het hele venster waarop je leger op volle kracht staat en er niets is verloren. Het is het moment waarop je de hele branchkeuze moet maken, niet het moment waarin je hem uitvoert.
+
+De tweede is de **drainage**, die begint in het moment dat de waarschuwing verloopt en je troepen (en de gezondheid van je oorlogsschip) naar een afvallende vloer laat zakken. De vloer is gedefinieerd door `floorStartPercent` bij 40 procent van je maximumtroepen op het moment dat de drainage begint, en valt af naar `drainFloorPercent` van 5 procent over `floorDecaySeconds` van 90 seconden.
+
+Dat betekent dat je effectieve leger op zijn grootst is op het moment dat de drainage begint en op zijn kleinst ongeveer negentig seconden later. Het oorlogsschip krijgt dezelfde soort steilere-convex-ramp drainage, zodat een drijvende kern ook het schild verliest dat haar verborg.
+
+De derde is **territoriumrot**, die start zodra de vloer op de bodem uitkomt en je tegels eet totdat de partij op de `rotDeathSeconds`-deadline van 150 seconden wordt geëlimineerd. De v0.34.24 bron is expliciet dat de drainage alleen nooit doodt, dus een partij kan onder de bar zitten met een mini-leger en toch niet geëlimineerd worden totdat rot het werk doet.
+
+De reden dat het spel rot überhaupt bevat, is dat zonder rot een stand-off de laatste golf zou overleven en de klok zou stoppen met iets betekenen. Het comeback-venster is écht, maar het is één venster, en de v0.34.24 release notes noemen de troepencap-verandering die zorgt dat de gemarkeerde partij een bruikbaar comeback-leger krijgt in plaats van een permanent leger.
+
+Daarom is het venster breed genoeg om in te herstellen en smal genoeg dat aarzelen dodelijk is. Dit is de versiegrens van de hele gids: de getallen zijn stabiel op de v0.34.24 tag en de gids claimt geen gedrag daarbuiten. Een speler die een snellere of oudere client leest, moet de getallen 30, 40, 5, 90 en 150 dus als de grondwaarheid van v0.34.24 behandelen en niet extrapoleren vanuit een ander preset.
+
+## Het bord lezen: ben je de gemarkeerde uitdager of de leider
+
+De eerste en meest gevolgdragende vraag in een Doomsday-eindspel is niet welke tegels je moet pakken, maar of de schedel überhaupt op je mag zitten. De v0.34.24 bron implementeert een **leiderschimmelregel**: de partij met het meeste territorium is vrijgesteld van de klok en krijgt nooit een schedel, verliest nooit troepen en rots nooit weg.
+
+Die ene regel draait het hele plan om, dus voordat je een herstel plant, moet je je rang op het territoriumbord vaststellen. Die rang is een driedelig onderscheid waarbij elke status een andere eigenaar heeft.
+
+Als je de partij bent met de meeste bruikbare tegels, dan herstel je niet. Dan hou je de kroon vast, en je probleem is het volledig andere probleem dat in de [crown-position MIRV-verdediging](/nl/guides/crown-position-mirv-defense/) wordt behandeld. Daar gaat het om je voorsprong verdedigbaar te houden en de SAM-ring die je al aan het bouwen bent, niet om het terugwinnen van een verloren ring. De herstelbranches in deze gids zijn de verkeerde gereedschappen voor die taak.
+
+Als je een van de andere partijen bent en onder de bar zit, ben je de gemarkeerde uitdager en is deze gids voor jou. De bar die je achtervolgt is de volgende trede van de ladder, die op het FFA-normal preset 2, 4, 7, 11, 17, 25 en 35 procent loopt.
+
+Als je boven de huidige trede zit maar geen leider bent en de volgende trede nog niet is bereikt, dan ben je niet gemarkeerd en is het herstel niet actief. De klok werkt op dit exacte moment alleen op je, en je hebt tijd om je te herpositioneren vóór de schedel landt. Dat is een ander en kalmer probleem dan de 150-seconden gehaas die deze gids beschrijft.
+
+De reden dat het onderscheid zoveel uitmaakt, is dat de klok een eenrichtingswedloop is: ze kan een stoel voor de uitdager openen, maar ze kan de leider nooit elimineren. Een uitdager die de houding van de leider met die van zichzelf verwarren en goud uitgeeft aan land in plaats van aan overleven, is een uitdager die op de deadline sterft terwijl de leider, schimmelvrij, toekijkt.
+
+Je kunt je rang rechtstreeks van het bord lezen, omdat het vierstatige Doomsday-paneel, zoals beschreven in de [doomsday-klok-gids](/nl/guides/doomsday-clock/), je aandeel toont tegen de bar en de schimmelvrije leider markeert. De vraag "ben ik gemarkeerd" heeft dus een tweeseconden antwoord, en de enige mislukking is die vraag niet stellen. Een partij die een waarschuwing-venster besteedt aan het herlezen van een bord waarvoor hij al het recht heeft verloren, heeft zijn enige volkracht-moment besteed aan een vraag waarvan het antwoord de hele tijd zichtbaar was.
+
+## Het besliskader: drie branches voor een partij onder de bar
+
+Een gemarkeerde uitdager heeft exact drie wegen terug boven de bar, en het kader is: kies de een die bij je huidige getallen past en commit daar de hele venster aan. Branch wisselen in het midden van het venster is de manier waarop een herstel een uitgave zonder opbrengst wordt.
+
+De **vangstraal** is beschikbaar wanneer je drainage nog niet ver is afgevallen, je leger nog bruikbaar is en er een open grens ligt met tegels van lage verdediging. Je besteedt troepen aan goedkoop land om procentpunten te kopen. Hij wint wanneer de gap tussen jou en de bar klein genoeg is dat een paar gepakte tegels hem sluiten vóór de vloer naar 5 procent afvalt en je verdedigend leger te dun is om wat je pakte vast te houden.
+
+De **ringstraal** is beschikbaar wanneer je geen land kunt winnen maar je wel SAM-launchers kunt betalen, die elk 500.000 goud kosten. Je bouwt een gordel launchers waarvan de gecombineerde reikwijdte, van de 70-tegelstandaard omhoog richting de 150-tegel-asymptote naarmate je 45 seconden per upgrade upgradet, je kern dekt. Zo landen de 350 warheads van een vijandelijke MIRV-boog buiten de ring en overleef je de deadline doordat je ondoorbreekbaar bent.
+
+Deze branch is diegene die de [SAM-launcher-gids](/nl/guides/sam-launchers/) leert als verdedigende houding, hier hergebruikt als overlevingshouding. De SAM's vuren op de koeltijd van 90 ticks, zodat een goed getimede ring de lekwarheads onderschept in plaats van de drager.
+
+De **stand-off-straal** is beschikbaar wanneer je geen land kunt winnen en je geen volledige ring kunt betalen. Het is de branch die aanvaardt dat je deze partij de leider niet zult zijn, en zet je terug achter de wederkerige-kernafweermuur zodat je leeft tot de laatste stoel die de klok opent. Het is de branch die niets in goud kost maar wel tijd, en daarom maakt een sneller klok-preset hem de verkeerde branch.
+
+Het kader is een conditietest, niet een voorkeersladder: de vangstraal wordt genoemd door de puntengap en het bruikbare leger, de ringstraal door je goud en de vijandelijke MIRV-ladder, en de stand-off-straal door de leiderschimmelvrijheid en je rang als de partij met op één na het meeste territorium. Geen van de drie is een standaard, dus een speler die de conditie die zijn branch selecteert niet kan noemen, is een speler die nog niet heeft besloten en het venster aan beslist zal besteden.
+
+Het lezen van welke van de drie condities je vervult is het hele besluit, en de volgende twee secties werken elke branch uit met echte getallen zodat je de branch waarin je zit en het getal dat haar noemt in één beweging ziet. De modus-en-kaart-sectie hieronder toont hoe de vier invoeren de branch van de ene lobby naar de andere verplaatsen.
+
+## Scenario A: 30 procent tegen een bar van 35 procent met 60 seconden vloer over
+
+Dit scenario gaat uit van een FFA met normal preset rond het 35:00-moment, waar de bar zijn plafond van 35 procent heeft bereikt en je 30 procent van de bruikbare tegels hebt met de schedel nu op jou. Het is het meest voorkomende late eindspel, omdat de laatste trede de een is die de klok tot het allerlaatste moment van een omstreden partij actief houdt.
+
+Je waarschuwing is verlopen, dus de drainage is actief. Omdat de vloer over 90 seconden afvalt, heb je circa 60 seconden van een nog bruikbare vloer voordat je effectieve leger dicht in de buurt komt van de minimumwaarde van 5 procent. Die 60 seconden zijn de hele begroting voor de branch.
+
+De gap naar de bar is 5 percentagepunten bruikbaar territorium, en 5 punten is de omvang van een vangst-gap: klein genoeg om met troepen te sluiten en groot genoeg dat je de vloer moet uitgeven om hem te sluiten. De vangstraal is dus de enige branch die een 5-puntengap kan sluiten, en hij is alleen nu betaalbaar. Dat is precies de uitlijning die het kader eist.
+
+Je hebt een bruikbaar leger en de open grens heeft nog tegels van lage verdediging, dus je stuurt troepen om goedkoop land om te zetten. Je moet exact 5 punten kopen vóór de vloer onder de legergrootte afvalt die die 5 punten tegen de counterstrike kan verdedigen.
+
+De werkende aanname is dat je rivaal de schimmelvrije leider is en je niet aanvalt, omdat de leider niets te winnen heeft door troepen aan jou uit te geven en de klok al dat werk doet. Die aanname is wat de vangstraal beschikbaar maakt. Als de leider je daarentegen drukt, is de vangstraal dood en val je terug op de ringstraal of de stand-off-straal, wat de eerste branchwissel-trigger is om te observeren.
+
+De faalstaat is de hele vloer uitgeven aan land dat je niet kunt vasthouden, wat betekent dat rot het na de deadline terugpakt en je geëlimineerd wordt met de tegels al weg. De counter is om alleen zoveel punten te pakken als je kunt verdedigen met het leger dat na de vangst overblijft. Dat is dezelfde test als de definitieve-reserve-commitment in de [FFA-eindspel-commit-gids](/nl/guides/ffa-endgame-commit/), toegepast op een landdoel in plaats van een spelerdoel.
+
+Het getal dat Scenario A beslist is de verdedigde-aandeel: de punten die je na de uitgave kunt vasthouden, niet de punten die je kunt pakken. Het is een getal dat je kunt berekenen vóór je de troepen commit, dus een speler die commit zonder de verdedigde-aandeel te berekenen, is een speler die al heeft gekozen om te falen.
+
+## Scenario B: het 74-SAM-fort en of je MIRV door de ring lekt
+
+Dit scenario gaat uit van een tweezijdig eindspel waarin de leider een gestapelde kern heeft gebouwd die de gemeenschap een fort noemt, met naar schatting 70 tot 120 SAM-launchers in de spelercommentaar. Je bent de uitdager die een gereed MIRV heeft en beslist of je die kern breekt vóór de deadline. Dat is de ringstraal gespeeld in omgekeerde volgorde, van de aanvallende partij in plaats van de verdedigende.
+
+Het enkele geverifieerde feit dat het beslist, is het SAM-interceptiemodel in de v0.34.24 bron: een MIRV draagt 350 warheads, en de SAM's onderscheppen individuele warheads in plaats van de drager. De vraag is dus niet "kan ik de MIRV stoppen" maar "hoeveel van de 350 warheads landen binnen je ring". Het antwoord is een functie van het aantal launchers en hun upgradeniveau, niet een binair jij-of-ik besluit.
+
+Een SAM op zijn koeltijd van 90 ticks en 45-seconden upgradetempo, met reikwijdte die groeit van 70 richting 150, geeft je een ring waarvan de effectieve dekking een functie is van hoeveel launchers je hebt en hoe verzeuld ze zijn. De terugkerende taal over 100 procent dekking in de gemeenschapsbouwstrategie-commentaar is het doel, omdat elke warhead die door de ring lekt op je kern landt en de vloer daar onder al afvalt.
+
+Een ring die op het moment van de aanval 90 procent gedekt is, laat 35 warheads door, en een ring die 95 procent gedekt is laat 17 door. Elk van die getallen verandert of de kern de deadline overleeft.
+
+De kostenzijde is de MIRV-ladder uit de [MIRV-prijsladder-gids](/nl/guides/mirv-price-ladder/): elke lancering kost 25.000.000 goud plus 15.000.000 per eerdere lancering. Een tweede en derde lancering bovenop een bestaande vloot kosten respectievelijk 40.000.000 en 55.000.000, en de cumulative uitgave tot een vierde lancering is 190.000.000. Dat is het getal dat de MIRV maakt tot een gereedschap dat je een of twee keer gebruikt, niet een stroom die je blijft openen.
+
+Het besluit is dus een dekking-tegen-kosten-test: lanceer de MIRV wanneer het aandeel gelekte warheads laag genoeg is dat de kern het overleeft en je de ring nog kunt verdedigen met je afvallende vloer, en hou de MIRV vast wanneer de lek zo hoog is dat je het enige gereedschap dat het fort kan breken vuurt in een ring die was gebouwd om hem te eten.
+
+Het getal dat Scenario B beslist is het aandeel gelekte warheads, en het getal dat het gereedschap prijsstelt is de cumulatieve MIRV-ladder. Die twee getallen samen zijn de enige twee getallen die vóór de lancering berekend moeten worden, en daarom is het scenario oplosbaar en niet een gevoelbesluit.
+
+## Faalmodi's en de counter voor elk
+
+De meest voorkomende Doomsday-herstel-faalstanden zijn niet slechte branches, ze zijn juiste branches uitgevoerd in de verkeerde venster. Elke heeft een specifieke counter die een check op één getal is in plaats van een nieuw plan. De counter voor elke mislukking is dus dezelfde discipline toegepast op een ander getal.
+
+De **te-vroeg-ring-mislukking** is de hele vloer uitgeven aan SAM's terwijl je nog boven de bar zit. Dat betekent dat je een overlevingsgereedschap koopt dat je niet nodig hebt en het goud uitsputtert dat de vangstraal zou hebben kunnen financieren. De counter is de ring vast te houden tot de schedel echt op je zit, omdat de ring een deadline-gereedschap is en niet een midgame-gereedschap. Een ring die vóór de markering wordt gebouwd, is een ring die wordt gebouwd voor een deadline die nog niet is gestart.
+
+De **te-veel-vangen-mislukking** is meer land pakken dan de resterende vloer kan verdedigen, wat rot na de deadline terugpakt en een voorsprong omzet in een eliminatie. De counter is de verdedigde-aandeel-test: alleen zoveel pakken als het na-uitgave leger vasthoudt. Dat is het getal waar de vangstraal eigenlijk door wordt genoemd.
+
+De **leider-verwarring-mislukking** is een herstel plannen terwijl je eigenlijk de schimmelvrije leider bent. Dat betekent dat je uit geeft om een voorsprong terug te winnen die je al hebt en je kern blootstelt, terwijl de klok, die jou nooit kon raken, het werk voor de uitdager doet. De counter is de tweeseconden rang-gelezen vóór elke uitgave, dezelfde gelezen die de bord-sectie hierboven de eerste vraag van de hele gids maakt.
+
+De **stand-off-mislezing-mislukking** is de stand-off-straal kiezen omdat hij veilig voelt, terwijl de bar de tweede stoel pas opent nadat de andere uitdager is gedood. Afwachten kan je dus precies die stoel kosten waarvoor je afwachtte. De counter is vanuit het territoriumbord te bevestigen dat er werkelijk een tweede stoel opent vóór je terugtrekt, wat een check is op de ladder-trede en niet op je eigen leger.
+
+De **MIRV-ladder-mislukking** is een tweede of derde lancering in een ring vuur die was afgemeten om precies dat aantal warheads te eten, wat het cumulatieve vierde-lancering-getal van 190.000.000 een echte kostenpost maakt in plaats van een hypothetische. De counter is de gelekte-warheads-aandeel-test uit Scenario B, dezelfde test die beslist of je überhaupt moet vuren.
+
+Elke van deze mislukkingen is een vensterfout, en de counter voor ze allemaal is dezelfde discipline: de twee getallen lezen, je aandeel tegen de bar en de seconden vloer die je over hebt, vóór de branch wordt gekozen in plaats van nadat hij al is uitgegeven. De branch is namelijk het antwoord op een vraag, en een vraag die gesteld wordt nadat het antwoord is uitgegeven, is een vraag die geen antwoord meer heeft.
+
+## Modus-, kaart- en snelheidsaanpassingen
+
+De branch die je kiest is dezelfde in elke Doomsday-lobby, maar de getallen die de branch noemen bewegen met de modus, de kaart en de kloksnelheid. Een herstelplan dat op het ene bord werkt, kan op een ander bord mislukken. De vier invoeren hieronder zijn de enige vier die vóór de waarschuwing moeten worden gelezen.
+
+In **teammodi's** is de ladder het `LEVELS_TEAM`-schema op 3/6/10/15/21/28/35 procent in plaats van FFA 2/4/7/11/17/25/35 procent, en de bar wordt toegepast op het gecombineerde territorium van een team. Dat betekent dat de gap die je moet sluiten wordt gemeten tegen het aandeel van je hele team.
+
+De vangstraal is in teammodi's meestal een kleinere, behapbare gap, omdat het team groter is en de tegels die het controleert verspreider liggen. De ringstraal is daarentegen een teambrede investering, en de stand-off-straal is waar je achter het bondgenootschap staat in plaats van achter een enkele rivaal. De leiderschimmelregel wordt toegepast op het team met het meeste gecombineerde territorium, zodat de schimmelvrije eenheid een team is en niet een speler. Dat verandert voor wie je je in de stand-off-straal schuilt.
+
+De **snelheids-preset** verplaatst het hele venster: op het normal preset bereikt de bar 35 procent op 35:00 met 168-seconden-rampen en 54-seconden-pauzes, op het slow preset op 45:00, op het fast preset op 25:00 en op het veryfast preset op 15:00. Een snellere preset comprimeert de tijd die je hebt om de branch te kiezen en uit te geven.
+
+Ze maakt de stand-off-straal, die een wachttijd is, duurder ten opzichte van de actie-branches en goedkoper ten opzichte van de vangstraal, omdat de vangstraal een uitgave is die op elke preset even groot is en het venster op een snellere preset korter is. Daarom zijn de fast en veryfast presets de presets waarin de vangstraal het vaakst wint en de stand-off-straal het vaakst verliest.
+
+De **kaart** beslist of de vangstraal überhaupt beschikbaar is, omdat die alleen beschikbaar is wanneer er een open grens ligt met tegels van lage verdediging. Een kaart die al volledig bestreden is op het plafond van de bar, duwt je naar de ringstraal. Een kaart waar je kern op een verdedigbaar eiland zit met een havenschip, verschuift de ringstraal naar de gestapelde-eilandhouding zoals behandeld in de [midgame-eiland-comeback-gids](/nl/guides/midgame-island-comeback/). Een kaart zonder eilanden en zonder open grens op het plafond is een kaart waar de enige branch de stand-off-straal is en de enige vraag of de tweede stoel vóór de deadline opent.
+
+De tabel hieronder fixeert de vier invoeren die de branch verplaatsen, zodat een speler zijn lobby kan lezen en de branch kan noemen vóór de waarschuwing begint. De discipline is ze te lezen vóór de waarschuwing van 30 seconden in plaats van tijdens, omdat de waarschuwing het enige moment is waarop je leger op volle kracht staat en het moment waarop je het bord leest het moment is waarop de drainage tegen je begint.
+
+| Invoer | Wat beweegt | Effect op je branch |
+|---|---|---|
+| Team- vs FFA-ladder | Barhoogte en gap-grootte; de schimmelvrije eenheid is een team en niet een speler | Team: kleinere vangst-gap, teambrede ring; FFA: volledige FFA-gap en single-core ring |
+| Snelheids-preset | Vensterlengte (35:00 normal, 45:00 slow, 25:00 fast, 15:00 veryfast) | Snellere presets straffen de stand-off-straal en bevoordegen vroege vangst of ring-commit |
+| Kaart-bestredenheid | Of goedkoop land bestaat aan de open grens | Open grens maakt vangst mogelijk; volledig bestreden kaart dwingt de ringstraal |
+| Leiderhouding | Wie schimmelvrij is en of een tweede stoel opent | Bevestigt je rang en of je herstelt of de kroon vasthoudt |
+
+De tabel is de hele modus-en-kaart-sectie in één lezing, en de vier rijen zijn de vier checks die een speler doorloopt vóór de waarschuwing begint. Een speler die de vier invoeren en de branch die ze selecteren kan noemen, heeft dus al het besluit dat deze gids leert genomen, en het enige wat overblijft is het venster aan de branch uit te geven in plaats van aan het beslissen ervan.

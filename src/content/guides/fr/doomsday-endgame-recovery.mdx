@@ -1,0 +1,508 @@
+---
+title: "Récupération de fin de partie Doomsday : comment revenir quand vous êtes sous la barre"
+description: "Quand la Doomsday Clock vous marque comme camp sous la barre de part de terres croissante, l’avertissement de 30 secondes, le plancher de troupes à 5 % et le délai de pourriture de 150 secondes définissent une seule fenêtre de retour. Utilisez la règle d’immunité du leader, le calcul de capture, l’anneau SAM et l’escalade MIRV pour choisir la seule branche qui vous remet au-dessus de la barre avant que la pourriture ne vous élimine, en v0.34.24."
+category: "Endgame"
+difficulty: "Advanced"
+tags: [doomsday, recovery, comeback, rot, floor, sam, mirv, endgame, bar, threshold]
+pubDate: 2026-10-13
+updatedDate: 2026-10-13
+version: v34
+freshnessSummary: "Vérifié contre la source du tag v0.34.24 (Config.ts, DoomsdayClock.ts, DoomsdayClockExecution.ts, SAMLauncherExecution.ts, SAMMissileExecution.ts, MIRVExecution.ts). L’escalade FFA est 2/4/7/11/17/25/35 %, avec 600 secondes de grâce et, en préréglage normal, sept rampes de 168 secondes et des pauses de 54 secondes qui atteignent 35 % à 35:00. Le camp marqué reçoit un avertissement de 30 secondes (warnSeconds 30), un drainage des troupes vers un plancher de 5 % qui part de 40 % des troupes maximales et décroît en 90 secondes (floorStartPercent 40, drainFloorPercent 5, floorDecaySeconds 90), et une pourriture du territoire qui élimine le camp au délai de 150 secondes (rotDeathSeconds 150). Le leader (plus grand territoire) est immunisé et ne crâne jamais. Le cooldown SAM est de 90 ticks, l’amélioration SAM de 45 secondes et la portée SAM croît de 70 vers une asymptote de 150 ; un MIRV porte 350 têtes et chaque lancement coûte 25 000 000 plus 15 000 000 par lancement précédent. Vérifié le 2026-10-13."
+---
+
+## Réponse directe
+
+Si le crâne est sur vous et non sur le leader, vous êtes dans une fenêtre de récupération, pas dans une partie perdue.
+
+La Doomsday Clock ne vous élimine jamais pendant l’avertissement de 30 secondes, et le drainage des troupes seul ne vous tue pas.
+
+Votre seul travail est de remonter au-dessus de la barre avant que le délai de pourriture de 150 secondes ne vous prenne vos terres.
+
+Choisissez exactement une des trois branches et tenez-la sur toute la fenêtre.
+
+La **branche capture** prend des tiles bon marché et peu défendus sur la frontière ouverte pour acheter quelques points de pourcentage de territoire utilisable.
+
+Elle sert tant que votre armée reste utilisable et que le plancher n’a pas encore décroché.
+
+C’est la branche qui gagne quand l’écart à la barre est assez petit pour se refermer avec une poignée de tiles.
+
+La **branche anneau** dépense votre dernier or en lanceurs SAM, pour que les 350 têtes d’un MIRV ennemi tombent hors de votre anneau de 70 à 150 tiles.
+
+Vous tenez le délai en devenant inviolable, plutôt qu’en gagnant des terres.
+
+C’est la branche pour quand vous ne pouvez plus gagner de territoire mais que vous pouvez encore payer la ceinture de lanceurs.
+
+La **branche standoff** vous recule derrière l’affrontement nucléaire mutuel des deux grands joueurs et laisse la barre, pas vous, faire le travail.
+
+Avec le leader immunisé, il ne peut pas être éliminé par l’horloge, et la vraie course est le siège du second plus grand territoire que l’horloge est sur le point d’ouvrir.
+
+Le seul nombre qui décide de votre branche est votre part actuelle de tiles utilisables par rapport à la barre.
+
+Le seul chrono qui décide de votre timing est l’avertissement de 30 secondes, le seul moment de la fenêtre où votre armée est à pleine puissance.
+
+Lisez ces deux chiffres avant de dépenser le moindre or.
+
+Un camp qui dépense dans la mauvaise branche à la mauvaise fenêtre est un camp que la pourriture élimine avec une armée complète.
+
+C’est la façon la plus courante et la plus évitable dont la Doomsday Clock termine une contre-offensive, et c’est l’échec que ce guide entier existe pour prévenir.
+
+La structure à trois branches est la bonne forme de la réponse, parce que l’horloge ne donne pas au camp marqué un seul coup juste.
+
+Elle donne une contrainte, le délai de 150 secondes, et la branche est l’outil que vous apportez à cette contrainte.
+
+La même salle peut donc être gagnée par trois plays différents, et l’entrée décisive est le nombre que vous lisez quand le crâne tombe, pas la branche que vous préfériez.
+
+L’avertissement de 30 secondes est le seul moment où la décision est gratuite.
+
+Après lui, le drainage dépense votre armée, et chaque seconde passée à choisir voit votre plancher effectif décroître de 40 % vers 5 %.
+
+Un camp marqué qui entre dans l’avertissement sans branche nommée n’en aura jamais une.
+
+La fenêtre se referme sur le choix, et il ne reste plus qu’à regarder la pourriture.
+
+Voilà l’enjeu du guide en une phrase : la récupération n’est pas difficile à exécuter, elle est difficile à lancer.
+
+Les deux nombres, votre part contre la barre et les secondes de plancher restantes, sont ce lancement.
+
+## La fenêtre de la pourriture : avertissement de 30 secondes, plancher de 5 %, délai de 150 secondes
+
+Tout ce guide tient dans une fenêtre de 150 secondes que la source de la v0.34.24 définit en trois phases séquentielles.
+
+La récupération n’est possible que parce que les phases sont ordonnées et non simultanées.
+
+La première est l’**avertissement**, contrôlé par `warnSeconds` et fixé à 30 dans `Config.ts`.
+
+Pendant ces 30 secondes après votre chute sous la barre, vous gardez votre plafond de troupes complet et l’horloge n’a pas encore touché votre économie.
+
+L’avertissement est le seul moment de toute la fenêtre où votre armée est à pleine puissance et où rien n’est encore perdu.
+
+C’est le moment où la décision de branche doit être prise, pas pendant.
+
+La seconde est le **drainage**, qui commence dès la fin de l’avertissement et saigne vos troupes (et la santé de vos Warships) vers un plancher décroissant.
+
+Le plancher part à 40 % de vos troupes maximales au début du drainage, selon `floorStartPercent`, et descend à 5 % selon `drainFloorPercent` en `floorDecaySeconds`, soit 90 secondes.
+
+Votre armée effective est donc la plus grosse au moment où le drainage démarre, et la plus petite environ quatre-vingt-dix secondes plus tard.
+
+Le Warship subit le même type de drainage en rampe convexe plus raide, si bien qu’un noyau flottant perd aussi le bouclier qui le masquait.
+
+La troisième phase est la **pourriture du territoire**, qui démarre quand le plancher atteint son fond et mange vos tiles.
+
+Elle dure jusqu’à l’élimination du camp au délai de `rotDeathSeconds`, 150 secondes.
+
+La source de la v0.34.24 est explicite : le drainage seul ne tue jamais.
+
+Un camp peut rester sous la barre avec une armée minuscule sans être éliminé, tant que la pourriture n’a pas fait son travail.
+
+Repassez au-dessus de la barre et le drainage s’arrête immédiatement.
+
+La raison pour laquelle le jeu inclut la pourriture, c’est qu’un blocage survivrait à la vague finale et l’horloge cesserait d’avoir de l’importance sans elle.
+
+La fenêtre de contre-offensive est réelle, mais c’est une fenêtre unique.
+
+Les notes de version de la v0.34.24 soulignent le changement de plafond de troupes qui donne au camp marqué une armée de récupération utilisable plutôt qu’une armée permanente.
+
+C’est pourquoi la fenêtre est assez large pour s’y récupérer et assez étroite pour que l’hésitation soit mortelle.
+
+C’est la limite de version de tout le guide : les nombres sont stables au tag v0.34.24 et le guide ne prétend pas décrire un comportement hors de ce tag.
+
+Un joueur qui lit un client plus récent ou plus ancien doit traiter les nombres 30, 40, 5, 90 et 150 comme la vérité de terrain de la v0.34.24, sans extrapoler depuis un autre préréglage.
+
+## Lire l’échiquier : challenger marqué ou leader
+
+La première question, la plus décisive d’une fin de partie Doomsday, n’est pas quels tiles prendre.
+
+C’est de savoir si le crâne a même le droit de se poser sur vous.
+
+La source de la v0.34.24 implémente une **règle d’immunité du leader** : le camp au plus grand territoire est exempt de l’horloge.
+
+Il ne crâne jamais, ne subit jamais de drainage, ne pourrit jamais.
+
+Cette règle unique inverse tout le plan.
+
+Avant de planifier une récupération, vous devez donc établir votre rang sur l’échiquier territorial.
+
+Le rang est une distinction à trois voies, chacune avec son propre propriétaire.
+
+Si vous êtes le camp au plus grand nombre de tiles utilisables, vous ne récupérez pas ; vous tenez la couronne.
+
+Votre problème est le problème totalement différent couvert par la [défense MIRV en position de couronne](/fr/guides/crown-position-mirv-defense/).
+
+Celle-ci concerne la défense de votre avance et de l’anneau SAM que vous construisez déjà, pas la reconquête d’un anneau perdu.
+
+Les branches de récupération de ce guide sont les mauvais outils pour ce travail.
+
+Si vous êtes l’un des autres camps et que vous êtes sous la barre, vous êtes le challenger marqué, et ce guide est pour vous.
+
+La barre que vous poursuivez est le prochain échelon de l’escalade, qui en FFA préréglage normal court 2, 4, 7, 11, 17, 25 et 35 %.
+
+Si vous êtes au-dessus de l’échelon actuel mais pas leader, et que le prochain échelon n’a pas encore été atteint, vous n’êtes pas marqué.
+
+La récupération n’est pas encore active : l’horloge ne travaille sur vous qu’à cet instant précis.
+
+Vous avez le temps de vous repositionner avant que le crâne ne tombe.
+
+C’est un problème différent et plus calme que la course contre la montre de 150 secondes que ce guide décrit.
+
+La distinction compte autant parce que l’horloge est une course à sens unique.
+
+Elle peut ouvrir un siège au challenger, mais elle ne peut jamais éliminer le leader.
+
+Un challenger qui confond la posture du leader avec la sienne et qui dépense sur des terres au lieu de la survie est un challenger qui meurt au délai.
+
+Le leader, lui, immunisé, regarde.
+
+Vous pouvez lire votre rang directement sur l’échiquier.
+
+Le panneau Doomsday à quatre états, décrit dans le [guide de la Doomsday Clock](/fr/guides/doomsday-clock/), montre votre part contre la barre et marque le leader immunisé.
+
+La question « suis-je marqué » a donc une réponse en une seconde, et le seul échec est de ne pas la poser.
+
+Un camp qui passe une fenêtre d’avertissement à relire un échiquier dont il a déjà perdu le droit est un camp qui a dépensé son seul moment à pleine puissance.
+
+Or la réponse était visible en permanence.
+
+## Le cadre de décision : trois branches pour un camp sous la barre
+
+Un challenger marqué a exactement trois chemins pour remonter au-dessus de la barre.
+
+Le cadre est de choisir celui qui correspond à vos nombres actuels, puis de s’y engager sur toute la fenêtre.
+
+Changer de branche en plein milieu de la fenêtre, c’est transformer une récupération en dépense sans rendement.
+
+La **branche capture** est disponible quand votre drainage n’a pas beaucoup décroché, que votre armée reste utilisable et qu’il existe une frontière ouverte avec des tiles peu défendus.
+
+Vous dépensez des troupes en terres bon marché pour acheter des points de pourcentage.
+
+Elle gagne quand l’écart entre vous et la barre est assez petit pour que quelques tiles capturés le referment.
+
+Il faut qu’ils le referment avant que le plancher n’atteigne 5 % et que votre armée de défense ne devienne trop fine pour tenir ce que vous avez pris.
+
+La **branche anneau** est disponible quand vous ne pouvez plus gagner de terres mais que vous pouvez encore payer des lanceurs SAM.
+
+Ils coûtent 500 000 d’or chacun.
+
+Vous construisez une ceinture de lanceurs dont la portée combinée, depuis les 70 tiles par défaut vers l’asymptote de 150 tiles au fil des améliorations à 45 secondes par palier, couvre votre noyau.
+
+Les 350 têtes d’un arc MIRV ennemi tombent alors hors de l’anneau et vous tenez le délai en étant inviolable.
+
+C’est la branche que le [guide des lanceurs SAM](/fr/guides/sam-launchers/) enseigne comme posture défensive, réutilisée ici comme posture de survie.
+
+Les SAM tirent sur un cooldown de 90 ticks, si bien qu’un anneau bien timé intercepte les têtes qui fuient plutôt que le porteur.
+
+La **branche standoff** est disponible quand vous ne pouvez ni gagner de terres ni payer un anneau complet.
+
+C’est la branche qui accepte que vous ne serez pas le leader de cette partie.
+
+Elle vous recule derrière l’affrontement nucléaire mutuel pour que vous surviviez au dernier siège que l’horloge ouvre.
+
+Elle ne coûte rien en or, mais elle coûte du temps.
+
+C’est pourquoi un préréglage d’horloge plus rapide en fait la mauvaise branche.
+
+Le cadre est un test de conditions, pas une échelle de préférences.
+
+La branche capture est nommée par l’écart de points et l’armée utilisable.
+
+La branche anneau est nommée par votre or et l’escalade MIRV ennemie.
+
+La branche standoff est nommée par l’immunité du leader et votre rang de camp au second plus grand territoire.
+
+Aucune des trois n’est une valeur par défaut.
+
+Un joueur qui ne peut pas nommer la condition qui sélectionne sa branche n’a pas encore décidé, et va dépenser la fenêtre à décider.
+
+Lire laquelle des trois conditions vous remplissez, c’est toute la décision.
+
+Les deux sections suivantes déroulent chaque branche avec des nombres réels.
+
+Vous pourrez alors voir d’un seul geste la branche dans laquelle vous êtes et le nombre qui la nomme.
+
+La section modes et carte ci-dessous montre comment les quatre entrées font bouger la branche d’une salle à l’autre.
+
+## Scénario A : 30 % contre une barre de 35 % avec 60 secondes de plancher restantes
+
+Ce scénario suppose un FFA préréglage normal à peu près au niveau des 35:00.
+
+La barre a atteint son plafond de 35 %, et vous êtes à 30 % de tiles utilisables avec le crâne sur vous.
+
+C’est la fin de partie tardive la plus courante.
+
+L’échelon final est celui qui garde l’horloge active jusqu’à la toute fin d’une partie disputée.
+
+Votre avertissement est déjà expiré, le drainage est donc en cours.
+
+Comme le plancher décroît en 90 secondes, vous avez environ 60 secondes de plancher encore utile.
+
+Après, votre armée effective est descendue près du minimum de 5 %.
+
+Ces 60 secondes sont le budget entier de la branche.
+
+L’écart à la barre est de 5 points de pourcentage de territoire utilisable.
+
+Cinq points, c’est la taille d’un écart de capture.
+
+Il est assez petit pour se refermer avec des troupes, assez grand pour qu’il faille dépenser le plancher pour le refermer.
+
+La branche capture est la seule branche qui peut refermer un écart de 5 points, et elle n’est abordable que maintenant.
+
+C’est exactement l’alignement que le cadre exige.
+
+Vous avez une armée utilisable et la frontière ouverte a encore des tiles peu défendus.
+
+Vous envoyez donc des troupes convertir des terres bon marché.
+
+Vous devez acheter exactement 5 points avant que le plancher ne descende sous la taille d’armée capable de défendre ces 5 points contre la contre-attaque.
+
+L’hypothèse de travail est que votre rival est le leader immunisé et qu’il ne vous attaque pas.
+
+Le leader n’a rien à gagner à dépenser des troupes sur vous, et l’horloge fait déjà ce travail.
+
+Cette hypothèse est ce qui rend la branche capture disponible.
+
+Si au contraire le leader vous pousse, la branche capture est morte.
+
+Vous tombez alors sur la branche anneau ou la branche standoff.
+
+C’est le premier déclencheur de changement de branche à surveiller.
+
+L’état d’échec est de dépenser le plancher entier en terres que vous ne pouvez pas tenir.
+
+La pourriture les reprend alors après le délai, et vous êtes éliminé avec les tiles déjà partis.
+
+Le contre est de n’en capturer que ce que l’armée qui reste après la capture peut défendre.
+
+C’est le même test que l’engagement de réserve finale dans le [guide d’engagement de fin de partie FFA](/fr/guides/ffa-endgame-commit/).
+
+Ici il s’applique à une cible de terres au lieu d’une cible de joueur.
+
+Le nombre qui décide le scénario A, c’est la part défendable.
+
+Ce sont les points que vous pouvez tenir après la dépense, pas les points que vous pouvez prendre.
+
+C’est un nombre que vous pouvez calculer avant d’engager les troupes.
+
+Un joueur qui engage sans calculer la part défendable a déjà choisi d’échouer.
+
+## Scénario B : la forteresse de 74 SAM et si votre MIRV fuit à travers l’anneau
+
+Ce scénario suppose une fin de partie à deux camps.
+
+Le leader a construit un noyau empilé que la communauté appelle une forteresse.
+
+Les commentaires de joueurs rapportent de l’ordre de 70 à 120 lanceurs SAM.
+
+Vous êtes le challenger qui a un MIRV prêt et qui décide s’il brise ce noyau avant le délai.
+
+C’est la branche anneau jouée à l’envers, du côté de l’attaque au lieu de la défense.
+
+Le seul fait vérifié qui tranche est le modèle d’interception SAM dans la source de la v0.34.24.
+
+Un MIRV porte 350 têtes, et les SAM interceptent des têtes individuelles plutôt que le porteur.
+
+La question n’est donc pas « puis-je arrêter le MIRV ».
+
+C’est « combien des 350 têtes tombent à l’intérieur de votre anneau ».
+
+La réponse est une fonction du nombre de lanceurs et de leur niveau d’amélioration, pas un arbitrage binaire.
+
+Un SAM avec son cooldown de 90 ticks et son rythme d’amélioration de 45 secondes, sa portée croissant de 70 vers 150, vous donne un anneau.
+
+Sa couverture effective dépend du nombre de lanceurs et de leur niveau.
+
+Le langage récurrent de 100 % de couverture dans les commentaires de stratégie de build est l’objectif.
+
+Chaque tête qui fuit à l’intérieur de l’anneau tombe sur votre noyau, et le plancher y est déjà en décrue.
+
+Un anneau à 90 % de couverture au moment du coup laisse passer 35 têtes.
+
+Un anneau à 95 % en laisse passer 17.
+
+Chacun de ces nombres change si le noyau survit au délai.
+
+Côté coût, l’escalade MIRV décrite dans le [guide de l’escalade de prix MIRV](/fr/guides/mirv-price-ladder/) fixe la dépense.
+
+Chaque lancement coûte 25 000 000 d’or plus 15 000 000 par lancement précédent.
+
+Un second et un troisième lancement au-dessus d’une flotte existante coûtent donc 40 000 000 et 55 000 000.
+
+La dépense cumulative jusqu’à un quatrième lancement est de 190 000 000.
+
+C’est ce nombre qui fait du MIRV un outil qu’on dépense une ou deux fois, pas un flux qu’on garde ouvert.
+
+La décision est donc un test couverture contre coût.
+
+Lancez le MIRV quand la part de têtes qui fuient est assez basse pour que le noyau y survive.
+
+Il faut aussi que vous puissiez encore défendre l’anneau avec votre plancher en décrue.
+
+Retenez le MIRV quand la fuite est assez haute pour que vous tireriez l’unique outil capable de briser la forteresse sur un anneau construit pour le manger.
+
+Le nombre qui décide le scénario B, c’est la part de têtes qui fuient.
+
+Le nombre qui fixe le prix de l’outil, c’est l’escalade MIRV cumulative.
+
+Ces deux nombres ensemble sont les seuls qui doivent être calculés avant le lancement.
+
+C’est pourquoi le scénario est résolvable et n’est pas une question de ressenti.
+
+## Les modes d’échec et le contre à chacun
+
+Les échecs de récupération Doomsday les plus courants ne sont pas de mauvaises branches.
+
+Ce sont de bonnes branches exécutées dans la mauvaise fenêtre.
+
+Chacun a un contre précis qui est une vérification d’un nombre, pas un nouveau plan.
+
+Le contre à chaque échec est donc la même discipline appliquée à un autre nombre.
+
+L’**échec anneau prématuré** est de dépenser le plancher entier en SAM alors que vous êtes encore au-dessus de la barre.
+
+Vous achetez un outil de survie dont vous n’avez pas besoin et vous videz l’or qui aurait financé la branche capture.
+
+Le contre est de tenir l’anneau jusqu’à ce que le crâne soit réellement sur vous.
+
+L’anneau est un outil de délai, pas un outil de mi-jeu.
+
+Un anneau construit avant la marque est un anneau construit pour un délai qui n’a pas commencé.
+
+L’**échec de sur-capture** est de prendre plus de terres que le plancher restant peut défendre.
+
+La pourriture les reprend après le délai et convertit une avance en élimination.
+
+Le contre est le test de la part défendable.
+
+Ne capturez que ce que l’armée après dépense peut tenir.
+
+C’est le nombre dont la branche capture est réellement nommée.
+
+L’**échec de confusion du leader** est de planifier une récupération alors que vous êtes en fait le leader immunisé.
+
+Vous dépensez pour reconquérir une avance que vous avez déjà et vous exposez votre noyau.
+
+Pendant ce temps, l’horloge, qui n’aurait jamais pu vous toucher, fait le travail pour le challenger.
+
+Le contre est la lecture de rang d’une seconde avant toute dépense.
+
+C’est la même lecture que la section échiquier ci-dessus pose en première question du guide.
+
+L’**échec de mauvaise lecture de l’affrontement** est de choisir la branche standoff parce qu’elle se sent sûre.
+
+En réalité, la barre n’ouvrira pas le second siège avant la mort de l’autre challenger.
+
+Se mettre à l’affrontement peut donc vous coûter le siège même pour lequel vous vous y mettiez.
+
+Le contre est de confirmer sur l’échiquier territorial qu’un second siège s’ouvrira vraiment avant de vous reculer.
+
+C’est une vérification sur l’échelon de l’escalade, pas sur votre propre armée.
+
+L’**échec de l’escalade MIRV** est de tirer un second ou troisième lancement sur un anneau dimensionné pour manger exactement autant de têtes.
+
+Le nombre de 190 000 000 de dépense cumulative jusqu’au quatrième lancement en fait un coût réel, pas hypothétique.
+
+Le contre est le test de la part de têtes qui fuient du scénario B.
+
+C’est le même test qui décide s’il faut tirer du tout.
+
+Chacun de ces échecs est une erreur de fenêtre.
+
+Le contre à tous est la même discipline.
+
+Lisez les deux nombres, votre part contre la barre et les secondes de plancher restantes, avant que la branche soit choisie.
+
+Pas après qu’elle a déjà été dépensée.
+
+La branche est la réponse à une question.
+
+Une question posée après que la réponse a été dépensée est une question qui n’a plus de réponse.
+
+## Modes, carte et ajustements de vitesse
+
+La branche que vous choisissez est la même dans chaque salle Doomsday.
+
+Mais les nombres qui nomment la branche bougent avec le mode, la carte et la vitesse de l’horloge.
+
+Un plan de récupération qui fonctionne sur un échiquier peut donc échouer sur un autre.
+
+Les quatre entrées ci-dessous sont les seules qui doivent être lues avant que l’avertissement ne commence.
+
+En **modes équipe**, l’escalade est l’horaire `LEVELS_TEAM` à 3/6/10/15/21/28/35 %.
+
+Ce n’est pas le FFA 2/4/7/11/17/25/35 %.
+
+La barre s’applique au territoire combiné d’une équipe.
+
+L’écart que vous devez refermer est donc mesuré contre la part de toute votre équipe.
+
+La branche capture est souvent un écart plus petit et plus gérable.
+
+L’équipe est plus grande et les tiles qu’elle contrôle sont plus éparpillés.
+
+La branche anneau, en revanche, est un investissement à l’échelle de l’équipe.
+
+La branche standoff, c’est vous vous mettre derrière l’alliance plutôt que derrière un seul rival.
+
+La règle d’immunité du leader s’applique à l’équipe au plus grand territoire combiné.
+
+L’unité immunisée est donc une équipe, pas un joueur.
+
+Cela change derrière qui vous vous mettez dans la branche standoff.
+
+Le **préréglage de vitesse** déplace toute la fenêtre.
+
+En préréglage normal, la barre atteint 35 % à 35:00, avec des rampes de 168 secondes et des pauses de 54 secondes.
+
+En préréglage lent, elle l’atteint à 45:00.
+
+En préréglage rapide, elle l’atteint à 25:00.
+
+En préréglage veryfast, elle l’atteint à 15:00.
+
+Un préréglage plus rapide comprime le temps que vous avez pour choisir et dépenser la branche.
+
+Il rend la branche standoff, qui est une attente, plus chère par rapport aux branches d’action, et moins chère par rapport à la branche capture.
+
+La branche capture est une dépense de la même taille sur tous les préréglages.
+
+La fenêtre est plus courte sur un préréglage rapide.
+
+C’est pourquoi les préréglages rapide et veryfast sont ceux où la branche capture gagne le plus souvent, et où la branche standoff perd le plus souvent.
+
+La **carte** décide si la branche capture est disponible du tout.
+
+Elle ne l’est que s’il existe une frontière ouverte avec des tiles peu défendus.
+
+Une carte déjà entièrement disputée au plafond de la barre vous pousse vers la branche anneau.
+
+Une carte où votre noyau est sur une île défendable avec un Port déplace la branche anneau.
+
+Elle bascule vers la posture d’île empilée décrite dans le [guide de la contre-offensive d’île mi-jeu](/fr/guides/midgame-island-comeback/).
+
+Une carte sans îles ni frontière ouverte au plafond est une carte où la seule branche est l’affrontement.
+
+La seule question y est de savoir si le second siège s’ouvrira avant le délai.
+
+Le tableau ci-dessous fixe les quatre entrées qui font bouger la branche.
+
+Il vous permet de lire votre salle et de nommer la branche avant que l’avertissement ne commence.
+
+La discipline est de les lire avant l’avertissement de 30 secondes, pas pendant.
+
+L’avertissement est le seul moment où votre armée est à pleine puissance.
+
+Le moment où vous le passez à lire l’échiquier est le moment où le drainage commence contre vous.
+
+| Entrée | Ce qui bouge | Effet sur votre branche |
+| --- | --- | --- |
+| Escalade équipe vs FFA | Hauteur de la barre et taille de l’écart ; l’unité immunisée est une équipe, pas un joueur | Équipe : écart de capture plus petit, anneau à l’échelle de l’équipe ; FFA : écart FFA complet et anneau à noyau unique |
+| Préréglage de vitesse | Longueur de la fenêtre (35:00 normal, 45:00 lent, 25:00 rapide, 15:00 veryfast) | Les préréglages plus rapides punissent la branche standoff et favorisent la capture précoce ou l’engagement de l’anneau |
+| Dispute de la carte | S’il existe des terres bon marché sur la frontière ouverte | Une frontière ouverte active la capture ; une carte entièrement disputée force la branche anneau |
+| Posture du leader | Qui est immunisé et si un second siège s’ouvrira | Confirme votre rang et si vous récupérez ou si vous tenez la couronne |
+
+Le tableau est toute la section modes et carte en une seule lecture.
+
+Les quatre lignes sont les quatre vérifications qu’un joueur passe avant que l’avertissement ne commence.
+
+Un joueur qui peut nommer les quatre entrées et la branche qu’elles sélectionnent a déjà pris la décision que le guide enseigne.
+
+Il ne lui reste plus qu’à dépenser la fenêtre sur la branche, plutôt que sur sa décision.
