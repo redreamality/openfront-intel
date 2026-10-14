@@ -1,0 +1,287 @@
+---
+title: "Membres de clan : comment trouver, rejoindre et survivre à un clan dans OpenFront"
+description: "Comment le navigateur de clan de la v0.35.0-beta2 trie et filtre, la différence entre clans ouverts et sur invitation, ce que le team auto change vraiment dans tes parties, ce qu'un officier peut faire à ton compte et comment lire les colonnes de taux de victoire et de trésorerie avant de t'engager."
+pubDate: 2026-10-15
+updatedDate: 2026-10-15
+tags: [clans, membership, clan-wars, browser, onboarding]
+category: Social
+difficulty: Beginner
+version: v35-beta2
+freshnessSummary: "Ajouté le 2026-10-15 pour le navigateur de clan de la v0.35.0-beta2 (tris les plus anciens / les plus riches / le plus bas taux de victoire, filtres ouverts / sur invitation, PR #5945) ; team auto, plafond de 10 membres, format de tag et rôles sont des faits stables."
+---
+
+## Réponse directe : la membership est une équipe, pas une ligue
+
+Rejoindre un clan dans OpenFront ne signifie pas entrer dans une ligue, un classement ou un
+abonnement. C'est un changement concret et stable dans les versions, plus une interface tout
+juste livrée, et tout le reste de ce guide repose sur ces deux faits précis. Le changement
+stable : dans chaque mode par équipes, le moteur regroupe les joueurs par tag de clan et
+assigne chaque membre de ton clan à la même équipe, ce qui fait de tes coéquipiers de clan tes
+coéquipiers automatiques dès que tu es dans un clan. L'interface nouvelle est le navigateur
+de clan de la v0.35.0-beta2 (PR #5945), qui te permet de chercher, trier et filtrer tous
+les clans publics avant de rejoindre. C'est la première fois dans l'histoire du jeu que la
+question « comment je trouve un clan en fait ? » a une réponse dans le jeu, au lieu de
+l'ancien chemin par défaut où un ami devait te donner un tag à taper. Garde ces deux faits
+avant tout le reste, car ensemble ils expliquent presque toutes les questions d'un nouveau
+membre. Tu ne t'engages pas dans un format de compétition, tu choisis une identité d'équipe
+partagée qui change qui sont tes coéquipiers et te donne un signe que d'autres joueurs
+peuvent trouver dans le navigateur. C'est exactement pour cela que le reste de ce guide
+existe : pour que la décision soit faite en conscience plutôt que par réflexe. Tu ne dois
+rejoindre un clan que si tu peux nommer les autres membres, si tu comprends exactement quel
+pouvoir un officier a sur ton compte, et si les colonnes du navigateur que tu regardes
+mesurent réellement ce qui compte pour toi, car le taux de victoire d'un clan est un ratio,
+pas un total, et un clan « complet » est plafonné à dix membres et ne peut pas t'accueillir
+du tout. Si tu gardes ces trois gardiens en tête avant d'appuyer sur quoi que ce soit, tu
+as déjà évité les quatre erreurs les plus fréquentes d'un nouveau membre, et le reste du
+guide n'ajoute que les nombres et les limites qui te permettent de prendre la décision avec
+assurance. La structure compte encore pour une autre raison : l'interface du navigateur est
+une addition de la beta2, donc la moitié « trouver un clan » de ce guide est la partie
+nouvelle dans la v0.35.0-beta2, et la moitié « ce que ça change quand on est dedans » est la
+partie qui était vraie depuis toujours. Garder cette séparation en tête empêche d'attribuer
+au navigateur le comportement de team auto, qui est en réalité la règle plus ancienne et
+stable que le navigateur rend simplement plus facile à appliquer.
+
+## Ce qu'est réellement un clan : tag, nom et plafond dur
+
+Le chemin le plus net pour cesser de deviner est de séparer les trois choses qui sont
+toujours vraies en même temps sur un clan, car la communauté les mélange, et chaque mélange
+est une petite incompréhension qui se propage. La première est le tag, l'identité que le jeu
+stocke, affiche sur ton profil et utilise pour exécuter la règle de team auto. Il est validé
+par un schéma qui permet deux à cinq caractères ASCII lettre ou chiffre, au moins deux
+caractères, au maximum cinq, donc `MOB`, `x9`, `TEAM1` et `openfront` sont tous des tags
+légaux, tandis qu'un tag avec un espace, un tiret bas ou une sixième lettre est rejeté
+immédiatement. C'est le fait le plus mal compris dans la communauté : les lettres dans un
+tag sont du texte libre tapé par le fondateur, pas un rang, pas un niveau et pas un code
+pays. La question récurrente de fil « que signifient tous ces [MOL] ? » a la même réponse à
+chaque fois, à savoir qu'il n'y a pas de signification officielle, donc ne lis aucun statut
+dans un tag que tu veux rejoindre, car le tag est une identité, pas un insigne. La deuxième
+est le nom d'affichage, séparé du tag et lisible par un humain : c'est la chaîne que tu vois
+dans le navigateur, tandis que le tag est la clé cachée que le moteur utilise réellement
+pour regrouper les équipes, donc deux clans peuvent sembler identiques dans la liste mais
+avoir des tags totalement différents derrière. La troisième est la limite de membres, un
+nombre dur : un clan retient au maximum dix membres, et dès qu'il est à dix, le
+rattachement est rejeté jusqu'à ce qu'une place se libère. Cette limite est le nombre qui
+transforme « je peux rejoindre ce clan » en une décision avec une vraie deadline, car le
+clan que tu veux peut se remplir entre le moment où tu le regardes et le moment où tu
+clicques, et rien dans l'interface ne t'avertit que la place que tu avais en vue était la
+dernière. Si tu gardes le tag, le nom et le plafond de dix places en tête, tu peux lire
+correctement l'écran de clan entier. Encore une note pratique sur le tag, car elle mordre
+plus tard : le tag est éditable par un officier, ce qui signifie que le signe par lequel
+d'autres joueurs peuvent te trouver dans le navigateur peut changer sous tes pieds au milieu
+du clan, donc un tag qui te plaît n'est pas une identité durable que le jeu garantit, c'est
+ce que le capitaine actuel tape dans les deux à cinq caractères que le schéma autorise.
+
+## Comment fonctionne le navigateur de clan dans la v0.35.0-beta2 : tri et filtres
+
+Le navigateur est la nouvelle interface de décision, et c'est la seule partie de ce guide
+qui est spécifique à la beta2, donc traite chaque tri et chaque filtre décrit ici comme un
+fait de la v0.35.0-beta2, pas comme quelque chose qui existe sur la ligne stable v34 où se
+trouve actuellement le snapshot de données du site. Il liste les clans publics et permet de
+les réordonner selon un de plusieurs ordres de tri et de les restreindre avec un de trois
+filtres. Les ordres de tri sont : aléatoire, par nombre de membres, par points de victoire,
+les plus anciens, les plus riches et le plus bas taux de victoire. Les filtres sont : tous
+les clans, seulement les clans ouverts et seulement les clans sur invitation. Deux des
+colonnes changent le plus ta décision, la colonne de taux de victoire et la colonne de
+trésorerie, et les deux sont faciles à mal lire si tu supposes qu'elles mesurent ce que tu
+crois qu'elles mesurent. La colonne de taux de victoire est un ratio, calculé comme
+victoires sur la somme des victoires et des défaites, et elle est zéro si le clan n'a pas
+encore joué de parties. Cela signifie qu'un tout nouveau clan avec une seule victoire bat
+un clan vétéran de quatre-vingt-dix victoires et quatre-vingt-dix défaites, et c'est
+exactement pour cela qu'existe l'ordre de tri par le plus bas taux de victoire : c'est
+l'interface pour trouver un clan avec un vrai et visible record de défaites, et c'est
+là qu'un nouveau joueur ajoute le plus de valeur et a le plus de chances d'être accepté.
+L'ordre de tri par les plus riches classe par solde de trésorerie, les Caps et Plutonium
+poolés que le clan a accumulés, donc c'est l'interface pour trouver un clan qui a assez
+investi pour réellement financer ses membres, plutôt qu'un clan qui n'a que des paroles et
+pas de solde. Le tableau ci-dessous garde les deux colonnes qui comptent, la colonne de
+taux de victoire et la colonne de trésorerie, côte à côte avec ce que chacune mesure
+réellement et l'erreur de lecture que tu dois éviter, car mal lire une colonne est la seule
+raison pour laquelle un rattachement qui paraissait bien en surface tourne au regret. Il
+vaut aussi la peine de s'arrêter sur l'ordre « aléatoire », car sa présence est le signal
+que le navigateur est une liste et pas une machine à recommandations : le jeu ne décide pas
+pour toi quel clan est le meilleur, il te donne six boutons de réorganisation et trois
+filtres et te laisse le jugement, ce qui fait des colonnes du tableau la seule partie de
+l'écran à laquelle tu peux te fier à classer quoi que ce soit, et l'ordre aléatoire est
+celui que tu ne devrais jamais utiliser si tu prends une vraie décision.
+
+| Colonne | Ce qu'elle mesure | Comment elle est calculée | Erreur de lecture facile |
+|---|---|---|---|
+| Taux de victoire | Ratio de victoires | victoires / (victoires + défaites), 0 si aucune | Lire un ratio comme un total ; un clan 1–0 bat 90–90 |
+| Trésorerie | Valeur poolée | Caps douces + solde Plutonium dur | Lire « riche » comme « actif » ; le solde peut rester inutilisé |
+| Membres | Comptage de têtes | 0 à 10, plafonné à 10 | Ignorer que 10/10 signifie que tu ne peux pas rejoindre |
+
+## Ouvert versus sur invitation : la vraie différence dans le rattachement
+
+C'est le filtre qui change la mécanique du rattachement, donc il mérite sa propre règle de
+décision plutôt que d'être fondu dans la description du navigateur. Un clan ouvert montre un
+bouton de rejoindre qui t'ajoute directement dès que tu l'appuies, sans examen et sans
+attente ; le clan annonce clairement qu'il veut des joueurs et qu'il t'accepte dès que tu
+demandes, donc le coût d'un mauvais appariement est bas et réversible, tu peux simplement
+quitter. Un clan sur invitation montre à la place un bouton de requête, et appuyer ne te
+rattache pas : te place dans un état en attente, où le bouton bascule sur l'étiquette
+« requête en attente », et la requête doit maintenant être approuvée par un officier de
+clan ou le capitaine avant que tu sois réellement dedans. Renvoyer une requête alors que tu
+es en attente est bloqué, donc tu ne peux pas spammer le bouton pour attirer l'attention,
+ce qui est une petite mais réelle restriction sur la façon dont tu demandes. Deux
+conséquences suivent, pas évidentes depuis l'interface. Premièrement, le filtre
+sur invitation est l'interface honnête pour trouver des clans compétitifs, car un clan qui
+se met derrière une étape d'approbation le fait normalement parce qu'il se soucie vraiment
+des gens qu'il laisse entrer, ce qui signifie qu'une requête en attente d'un tout nouveau
+joueur est un examen et pas une formalité, et les officiers décident si ton record et ta
+présence valent une place. Deuxièmement, le filtre ouvert est l'interface honnête pour un
+joueur qui veut juste cesser de jouer seul sans se soucier d'un classement, car un clan
+ouvert t'accepte sans examen et le revers d'un mauvais appariement est un bouton de
+quitter. La règle pratique qui en découle : si tu testes encore si le jeu en clan te convient
+du tout, filtre sur ouvert, rejoins-en un et quitte après quelques parties si ça ne colle
+pas ; et si tu as déjà prouvé le concept et que tu veux une vraie équipe, filtre sur
+invitation et envoie la requête au clan dont la liste de membres tu peux réellement nommer
+et évaluer avant de t'engager. Un détail qui empêche les nouveaux membres de brouiller
+l'ordre : la différence est un bouton, pas un interrupteur, donc tu ne peux pas changer un
+clan ouvert en requête sur invitation ou l'inverse de ton côté, le réglage du clan décide
+duquel des deux boutons tu vois, et si tu vois le bouton de requête, le seul levier que tu
+as est de choisir un autre clan, ce qui fait de la ligne de filtres en haut du navigateur le
+chemin le plus rapide pour comparer les deux expériences de rattachement côte à côte avant
+de gaspiller une requête au mauvais clan.
+
+## Team auto : ce que la membership change dans tes parties
+
+La règle de team auto est le noyau stable de ce qu'est la membership, et c'est la source
+du rapport « ai-je cassé quelque chose ? » le plus fréquent qu'un nouveau membre
+dépose. Dans le mode par équipes, le moteur assigne les équipes par tag de clan : chaque
+membre de ton clan est assigné à la même équipe, donc tes coéquipiers de clan apparaissent
+comme tes coéquipiers, que tu le veuilles ou non. Ce que les joueurs mal interprètent comme
+un bug est le symptôme visible, à savoir que tu ouvres une partie et que tout le clan est
+entassé d'un côté de la carte, et l'instinct est de supposer que le matchmaking est
+cassé. Ce n'est ni un bug ni un rapport que tu peux déposer ; c'est la fonction qui
+fonctionne exactement comme conçu. La limite importante, et celle que la communauté redemande
+dans chaque fil de nouveau membre, est où la règle s'applique et où non. Elle s'applique
+dans les modes par équipes publics et dans le mode compétitif Clan Wars, où c'est justement
+le point que le clan compétitionne comme une seule unité, et c'est exactement la raison
+pour laquelle le mode compétitif existe du tout, ce qui est traité dans le guide dédié
+[Clan Wars](/guides/clan-wars/). Elle ne t'interdit pas le FFA : être dans un clan ne
+t'empêche pas de jouer Free-For-All, donc la question « est-ce que je dois arrêter de jouer
+FFA à cause d'un clan ? » a un non clair et stable. Et elle ne s'applique pas aux lobbys
+privés et personnalisés où tu peux choisir ton propre côté, ce qui est exactement la raison
+pour laquelle la règle de team auto se sent le plus fort dans les modes publics et le plus
+faible partout où tu contrôles le réglage. Il y a un angle qui compte et que tu dois garder
+en tête : si ton équipe est déjà pleine au moment où le moteur exécute l'assignation, le
+membre en débordement est éjecté de l'équipe plutôt que le clan soit réparti des deux côtés,
+donc un grand clan dans un petit mode de lobby peut perdre l'un de ses propres membres à
+l'équipe adverse. C'est le seul cas où être dans un clan peut te mettre de l'autre côté d'un
+coéquipier de clan, et c'est celui que tu dois garder en tête spécifiquement dans le mode
+compétitif où la taille d'équipe est fixe et que le clan peut ne pas tout contenir. La règle
+a aussi une conséquence silencieuse que la communauté ne demande rarement mais qui façonne
+le ressenti d'une partie : parce que le moteur a l'assignation sur le tag comme clé et pas
+sur un profil individuel, deux joueurs dans le même clan qui ne se sont jamais rencontrés
+furent en équipe comme des inconnus, ce qui est la raison pour laquelle un clan est un
+contrat social avant d'être une compétition, tu acceptes d'être apparié avec des gens que
+tu ne peux pas vérifier individuellement, et c'est le vrai coût de l'équipier automatique
+que l'avantage, ne jamais être seul dans une équipe, n'efface pas.
+
+## Rôles : ce qu'un officier peut faire à toi et que tu peux faire contre
+
+Un clan n'est pas un groupe plat de dix ; il a une structure de permissions avec trois
+rôles, capitaine, officier et membre, et le pouvoir sur ton compte est concentré dans les
+deux supérieurs. Le capitaine tient chaque permission d'officier plus les deux choses qu'aucun
+officier ne peut faire, à savoir transférer la direction à un autre membre et dissoudre
+complètement le clan. Un officier peut éjecter n'importe quel membre, bannir un membre du
+clan complètement, promouvoir un membre à officier et éditer le tag de clan et le nom
+d'affichage. Un membre ordinaire ne peut faire aucune de ces choses à quelqu'un d'autre ; le
+seul auto-service d'un membre est de quitter, et quitter est toujours disponible et ne
+besogne la permission de personne, donc la porte de sortie n'est jamais verrouillée de
+l'intérieur. L'état banni est celui qui compte le plus pour ton compte, car un joueur banni
+ne peut pas rejoindre à nouveau le clan et le seul chemin de retour est qu'un officier te
+débanne de la liste des membres, ce qui signifie qu'une brouille avec un officier a un coût
+réel, contrôlé par un officier, que tu ne peux pas annuler toi-même. C'est le fait qui
+devrait te rendre prudent avant de rejoindre un clan sur invitation : l'approbation que tu
+demandes passe par le même canal qui peut plus tard t'éjecter ou te bannir, donc le clan au
+quel tu demandes de t'accepter est aussi celui qui tient le seul déclin d'une mauvaise
+relation, et cette asymétrie est la seule raison de regarder les gens avant les colonnes.
+Une petite mais importante clarification sur le tableau de pouvoir : les permissions
+d'officier ne sont pas une liste plate dont tu peux choisir pièce par pièce, un seul
+officier tient ensemble les permissions d'éjection, de bannissement, de promotion et
+d'édition, donc la personne qui tient le bannissement sur ton compte est la même personne
+qui peut t'éjecter un moment avant, ce qui signifie que le risque n'est pas une fonction
+que tu actives pièce par pièce, mais un officier sur trois leviers à la fois, et lire la
+liste des membres comme un tas de handles anonymes est le chemin le plus rapide pour
+sous-estimer combien cette contrôle est concentrée. La lecture pratique de la structure de
+rôles est un filtre simple. Si la liste des membres d'un clan montre un capitaine clair et
+une poignée d'officiers et que tu peux associer ces handles à des gens avec qui tu as
+réellement parlé, le pouvoir est lisible et tu peux évaluer le risque d'officier avant de
+t'engager. Si la liste des membres est des handles anonymes que tu ne peux associer à
+personne que tu connais, le pouvoir est opaque, le risque d'officier est plus élevé que
+l'interface le suggère, et le sensé est de choisir d'abord le clan ouvert, à engagement
+bas, et d'édifier une position lisible avant de faire confiance à un officier avec un
+bannissement sur ton compte.
+
+## Lire les chiffres : deux situations concrètes avec le calcul
+
+Le navigateur te donne des chiffres, donc la tâche du guide est d'en rendre deux concrets
+plutôt que décoratifs, car la règle de ratio est abstraite jusqu'à ce que tu l'exécutes
+contre une vraie comparaison. Situation un : tu compares deux clans dans l'ordre de tri par
+le plus bas taux de victoire et veux rejoindre celui qui a réellement besoin de toi. Le
+clan A affiche un taux de victoire de 0,25 et le clan B affiche 0,40. Les deux sont classés
+par ratio, donc le clan A a perdu trois parties sur quatre et le clan B six sur dix. Si ton
+propre record est au-dessus de 0,40, tu soulèves la moyenne du clan A plus que celle du
+clan B, donc le rattachement qui ajoute le plus de valeur et donne le plus fort motif pour
+que les officiers approuvent une requête en attente est le clan A. Si ton propre record est
+en dessous des deux, rejoindre l'un des clans est une charge sur le ratio, et tu es mieux
+servi à d'abord améliorer tes propres victoires, car une requête en attente qui se lit
+comme une charge est celle qui reste non approuvée. Situation deux : tu compares un nouveau
+clan et un clan vétéran, et la colonne de taux de victoire fait exactement ce que l'avert
+de ratio prédit. Le nouveau clan est à 1–0, ce qui se calcule à un taux de victoire de 1,00,
+et le clan vétéran est à 90–90, ce qui se calcule à un taux de victoire de 0,50. La colonne
+classe le nouveau clan en haut parce que son ratio est plus haut, pas parce qu'il est le
+meilleur clan, donc le haut de l'ordre de tri par taux de victoire n'est pas un classement
+des meilleurs clans, mais un classement qui récompense un petit échantillon. Si tu lis le
+ratio, comme la colonne le calcule réellement, tu sais maintenant de croiser l'ordre de tri
+par les plus riches et la liste des membres avant de traiter un 1,00 comme un insigne de
+qualité plutôt que ce qu'il est, une affaire de chance d'un seul match. Garde la règle de
+ratio devant les deux situations, et tu ne mal comprendras plus jamais la colonne : le
+nombre est toujours victoires sur victoires-plus-défaites, il est zéro s'il n'y a rien à
+diviser, et chaque lecture de la colonne doit passer ce test avant que tu n'agisses dessus.
+Et la même discipline s'applique à la colonne de comptage, qui est la seule des trois qui
+n'est pas un ratio : dix est dix, un clan complet est un stop dur, et aucun taux de
+victoire si flatteur ne change le fait que tu ne peux pas rejoindre un clan déjà à sa
+limite, donc la vérification de comptage est la seule colonne que tu dois lire d'abord,
+avant le ratio, car c'est la seule colonne qui peut te dire non, indépendamment de
+combien le reste de la ligne paraît bien.
+
+## Cadre de décision et les erreurs à éviter
+
+Toute la décision de rattachement se résout en une question que tu peux répondre
+directement depuis l'écran du navigateur : est-ce que je connais qui je rejoins, et la
+colonne que je regarde mesure-t-elle ce qui compte pour moi ? Si tu peux nommer les
+membres, tu peux évaluer le risque d'officier, ce qui est la raison stable pour laquelle un
+clan vaut du tout, car la valeur d'un clan est les équipiers automatiques qu'il te donne,
+pas un format qui t'enferme. Si tu ne peux pas nommer les membres et que la seule colonne
+que tu lis est le taux de victoire, tu prends la décision sur un ratio qui récompense un
+petit échantillon, et tu devrais ralentir et regarder la liste des membres et le solde de
+trésorerie, car ces deux sont les colonnes qui prédisent réellement si le clan survit à ta
+patience. Les quatre erreurs à éviter mappent un-à-un sur les quatre faits ci-dessus.
+Premièrement, ne lis aucun statut dans le tag, c'est deux à cinq caractères libres sans
+signification officielle, donc les lettres ne te disent rien sur la qualité. Deuxièmement,
+ne traite pas un clan complet comme rejoignable, dix membres sont la limite dure et un clan
+complet te rejette jusqu'à ce qu'une place se libère, donc vérifie la colonne de comptage
+avant de supposer qu'un slot existe. Troisièmement, ne suppose pas que sur invitation est
+juste une formalité, la requête en attente est un examen par le même officier qui peut
+plus tard t'éjecter ou te bannir, donc le canal d'approbation est aussi le canal de
+sanction. Quatrièmement, ne mal interprète pas l'entassement du team auto comme un bug, c'est
+la fonction dans les modes par équipes publics et elle ne s'applique pas au FFA ou aux lobbys
+privés, donc le regard « tout le clan d'un côté » est un comportement correct. Rejoins quand
+le clan est de ton choix ouvert ou sur invitation, que les membres sont lisibles, que la
+trésorerie a assez investi pour financer les membres si le financement compte pour toi, et
+que le taux de victoire que tu lis signifie réellement ce que tu crois qu'il signifie. La
+trésorerie est où ton argent peut aller une fois que tu es dedans, et elle est traitée
+séparément dans le [guide Trésorerie de clan](/guides/clan-treasury-donations/), pour que
+tu prenges la décision de don avec la même attention que la décision de rattachement. C'est
+la boucle entière : trouve-le, lis les colonnes honnêtement, nomme les gens, rejoins et ne
+donne que si tu sais que le clan survivra à ta patience. Le dernier habitude qui vaut la
+peine d'être bâtie est de garder l'étiquette de version en vue : les tris du navigateur et
+le filtre ouvert contre sur invitation que tu utilises tout juste sont des interfaces de
+beta2, donc la moitié navigateur du conseil ne s'applique pas à l'écran d'un joueur encore
+sur la ligne stable, et seulement le tag, le plafond de dix places, la règle de team auto
+et le tableau de rôles sont les parties auxquelles il peut faire confiance sur n'importe
+quelle version, ce qui est la raison pour laquelle la séparation entre le noyau stable et
+l'interface beta2 est la chose la plus utile qu'un joueur de retour puisse transmettre au
+suivant qui rejoint le clan.

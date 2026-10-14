@@ -1,0 +1,284 @@
+---
+title: "Clanlidmaatschap: hoe je een clan vindt, joinst en overleeft in OpenFront"
+description: "Hoe de v0.35.0-beta2-clanbrowser sorteren en filteren werkt, het verschil tussen open en uitnodiging-alleen clans, wat auto-team echt verandert in je matches, wat een officier met je account mag doen en hoe je de overwinst- en kas-kolommen juist leest voordat je je verbindt."
+pubDate: 2026-10-15
+updatedDate: 2026-10-15
+tags: [clans, membership, clan-wars, browser, onboarding]
+category: Social
+difficulty: Beginner
+version: v35-beta2
+freshnessSummary: "Toegevoegd op 2026-10-15 voor de v0.35.0-beta2-clanbrowser (sorteringen oudste/rijkste/laagste overwinst, open/uitnodiging-alleen filters, PR #5945); auto-team, de 10-leden-limiet, tag-formaat en rollen zijn versie-stabiele feiten."
+---
+
+## Direct antwoord: lidmaatschap is een team, geen competitie
+
+Je schrijft je in voor een clan in OpenFront betekent dat je geen competitie, ladder of
+abonnement intapt. Het is een concrete, versie-stabiele verandering plus een net
+geleverde interface, en alles overige in deze gids draait om precies die twee feiten. De
+versie-stabiele verandering: in elke teammodus groepeert de engine spelers per clantag en
+wijst elk lid van je clan aan hetzelfde team toe, waardoor je clanmaatjes je automatische
+teamgenoten worden zodra je in een clan zit. De nieuwe interface is de clanbrowser in
+v0.35.0-beta2 (PR #5945), die het je mogelijk maakt alle openbare clans te zoeken,
+sorteren en filteren voordat je joinst. Dit is de eerste keer in de geschiedenis van het
+spel dat de vraag "hoe vind ik eigenlijk een clan?" een antwoord in het spel heeft, in
+plaats van de oude standaardweg waarbij een vriend je een tag moest geven die je intypt.
+Onthoud die twee feiten boven alles, want samen leggen ze bijna elke vraag van een nieuw
+lid uit. Je slot je niet in voor een competitieformaat, je kiest een gedeelde
+team-identiteit die verandert wie je teamgenoten zijn en je geeft een teken dat andere
+spelaars in de browser kunnen vinden. Precies daarom bestaat de rest van deze gids: om de
+keuze bewust te maken in plaats van reflexmatig. Je moet alleen aan een clan joinen als je
+de andere leden kunt noemen, als je exact begrijpt welke macht een officier over je account
+heeft, en als de browserkolommen die je bekijkt echt meten wat voor jou ertoe doet, want
+de overwinstpercentage van een clan is een verhouding, geen totaal, en een "volle" clan
+is gelimiteerd tot tien leden en kan je helemaal niet aannemen. Als je die drie wachters in
+je hoofd houdt voordat je op wat dan ook drukt, heb je de vier meest voorkomende fouten van
+nieuwe leden al voorkomen, en de rest van de gids voegt alleen de getallen en grenzen toe
+met die je de keuze met zekerheid maakt. De structuur telt nog om een andere reden: de
+browser-interface is een beta2-toevoeging, dus de "clan vinden"-helft van deze gids is het
+deel dat nieuw is in v0.35.0-beta2, en de "wat verandert het als je erin zit"-helft is het
+deel dat altijd al waar was. Die scheiding in je hoofd houden voorkomt dat je het
+auto-teamgedrag aan de browser-release toeschrijft, terwijl het eigenlijk de oudere,
+stabiele regel is die de browser slechts makkelijker toepasbaar maakt.
+
+## Wat een clan echt is: tag, naam en harde limiet
+
+De schoonste weg om te stoppen met gokken is de drie dingen die tegelijk altijd waar zijn
+over een clan te scheiden, want de community mengt ze, en elke menging is een klein
+misverstand dat zich verspreidt. Het eerste is de tag, de identiteit die het spel opslaat,
+op je profiel toont en gebruikt om de auto-teamregel uit te voeren. Deze wordt gevalideerd
+door een schema dat twee tot vijf ASCII-letters of cijfers toestaat, minimaal twee
+tekens, maximaal vijf, dus `MOB`, `x9`, `TEAM1` en `openfront` zijn alle leg
+ale tags, terwijl een tag met een spatie, een underscore of een zesde letter direct
+wordt afgekeurd. Dit is het meest misverstande feit in de community: de letters in een
+tag zijn vrije tekst die de oprichter heeft getypt, geen rang, geen niveau en geen
+landcode. De terugkerende threadvraag "wat betekenen al die [MOL]s?" krijgt elke keer
+dezelfde antwoord, namelijk dat er geen officiële betekenis is, dus lees geen status in een
+tag waaraan je wilt joinen, want de tag is een identiteit, geen insign
+e. Het tweede is de weergavenaam, gescheiden van de tag en menselijk leesbaar: dit is de
+tekenreeks die je in de browser ziet, terwijl de tag de verborgen sleutel is die de engine
+echt gebruikt om teams te groeperen, dus twee clans kunnen in de lijst hetzelfde
+uitzien maar totaal verschillende tags achter zich hebben. Het derde is de
+ledenlimiet, een hard getal: een clan houdt maximaal tien leden, en zodra hij op tien
+zit, wordt de aansluiting afgewezen totdat er een plek vrijkomt. Die limiet is het getal
+dat "ik kan aan deze clan joinen" maakt tot een keuze met een echte deadline, want de
+clan die je wilt, kan zich vullen in het venster tussen het moment waarop je hem
+bekijkt en het moment waarop je klikt, en niets in de UI waarschuwt je dat de plek die
+je in het oog had de laatste was. Als je de tag, de naam en de tien-plekken-limiet in je
+hoofd houdt, kun je het hele clanscherm correct lezen. Nog een praktische opmerking over
+de tag, want die bijt later: de tag is door een officier bewerkbaar, wat betekent dat het
+teken waarmee andere spelers je in de browser kunnen vinden, midden in de clan onder je
+voeten kan veranderen, dus een tag die je leuk vindt is geen blijvende identiteit die
+het spel garandeert, het is wat de huidige leider in de twee tot vijf tekens typt die
+het schema toestaat.
+
+## Hoe de clanbrowser in v0.35.0-beta2 werkt: sorteringen en filters
+
+De browser is het nieuwe beslissingspaneel, en het is het enige deel van deze gids dat
+beta2-specifiek is, dus behandel elke sortering en filter hier beschreven als een feit van
+v0.35.0-beta2, niet als iets dat op de stabiele v34-lijn bestaat waar momenteel de
+datasnapshot van de site op staat. Hij lijst de openbare clans op en laat ze hersorten
+volgens een van meerdere sorteervolgen en beperken met een van drie filters. De
+sorteervolgen zijn: willekeurig, per aantal leden, per overwinningspunten, oudste,
+rijkste en laagste overwinstpercentage. De filters zijn: alle clans, alleen opene clans
+en alleen clans met uitnodigingsplicht. Twee van de kolommen veranderen je keuze het
+meest, de overwinstkolom en de kaskolom, en beide zijn makkelijk fout te lezen als je
+aanneemt dat ze meten wat je denkt dat ze meten. De overwinstkolom is een verhouding,
+berekend als overwinningen gedeeld door de som van overwinningen en nederlagen, en hij
+is nul als de clan nog geen matches heeft gespeeld. Dat betekent dat een pas opgerichte
+clan met één overwinning een veteraanclan verslaat die negentig overwinningen en negentig
+nederlagen heeft, en precies daarom bestaat de sortering op laagste overwinstpercentage
+als eigen volgorde: het is de interface om een clan met een echt, zichtbaar
+verliesrecord te vinden, en precies daar voegt een nieuwe speler de meeste waarde toe en
+wordt hij het waarschijnlijkst toegelaten. De sortering op rijkste rangschikt op
+kasbalans, de gepoolde Caps en Plutonium die de clan heeft opgebouwd, dus het is de
+interface om een clan te vinden die genoeg heeft geïnvesteerd om zijn leden echt te
+financieren, in plaats van een clan die alleen praat en geen saldo heeft. De tabel hieronder
+houdt de twee tellende kolommen, de overwinstkolom en de kaskolom, naast elkaar met wat
+elke écht meet en de foutlees-fout die je moet vermijden, want een kolom fout lezen is de
+enige reden waarom een join die oppervlakkig goed leek, in een spijt omzet. Het loont ook
+de moeite even stil te staan bij de "willekeurig"-volgorde, want de aanwezigheid ervan is
+het signaal dat de browser een lijst is en geen aanbevelingsmachine: het spel beslist niet
+voor jou welke clan de beste is, hij geeft je zes hersorteer-knoppen en drie filters en
+laat het oordeel aan jou, wat de kolommen in de tabel tot het enige deel van het scherm
+maakt waarop je kunt vertrouwen om iets te rangschikken, en de willekeurige volgorde is
+het deel dat je nooit zou moeten gebruiken als je een echte keuze maakt.
+
+| Kolom | Wat het meet | Hoe het wordt berekend | Makkelijke foutlees-fout |
+|---|---|---|---|
+| Overwinstpercentage | Overwinningsverhouding | overwinningen / (overwinningen + nederlagen), 0 indien geen | Een verhouding lezen als totaal; een 1-0-clan wint van 90-90 |
+| Kas | Gepoolde waarde | zachte Caps + harde Plutonium-saldo | "Rijk" lezen als "actief"; het saldo kan onbenut blijven liggen |
+| Leden | Hoofdtelling | 0 tot 10, hard gelimiteerd op 10 | Negeert dat 10/10 betekent dat je niet kunt joinen |
+
+## Open versus uitnodiging-alleen: het echte verschil bij het joinen
+
+Dit is de filter die de join-mechanica verandert, dus verdient hij zijn eigen
+beslisregel in plaats van opgegaan te worden in de browserbeschrijving. Een opene clan
+toont een joinen-knop die je direct toevoegt zodra je erop drukt, zonder inspectie en
+zonder wachten; de clan zegt luid dat hij spelers wil en je direct neemt als je vraagt,
+dus de prijs van een slechte match is laag en omkeerbaar, je kunt simpelweg vertrek
+ken. Een uitnodiging-alleen-clan toont in plaats daarvan een verzoek-knop, en drukken
+maakt je geen lid: het plaatst je in een wachtende toestand, waarin de knop omschakelt
+naar het "verzoek in afwachting"-label, en het verzoek moet nu goedgekeurd worden door
+een clanofficier of de leider voordat je écht erin zit. Herhaald verzoeken terwijl je
+wachtend bent, is geblokkeerd, dus je kunt de knop niet spammen om aandacht te krijgen,
+wat een kleine maar echte beperking is op hoe je vraagt. Twee gevolgen volgen, niet
+opvallend vanaf de interface. Ten eerste is de uitnodiging-alleen-filter de eerlijke
+interface om competitieve clans te vinden, want een clan die zich achter een
+goedkeuringsstap verstopt, doet dat gewoonlijk omdat het echt om hem geeft om de mensen
+die hij erin laat, wat betekent dat een wachtend verzoek van een pas opgerichte speler
+een screening is en geen formaliteit, en de officiers beslissen of je record en je
+aanwezigheid een plek waard zijn. Ten tweede is de opene filter de eerlijke interface
+voor een speler die alleen wil stoppen met alleen spelen en zich geen zorgen maakt over
+een ladder, want een opene clan neemt je zonder inspectie en de nadeel-keerzijde van een
+slechte match is een vertrek-knop. De praktische regel die daaruit volgt: als je nog
+test of clanspel je helemaal past, filter op open, join een clan en vertrek na een paar
+matches als het niet past; en als je het concept al hebt bewezen en een echt team wilt,
+filter op uitnodiging-alleen en stuur het verzoek naar de clan wier ledenlijst je
+écht kunt noemen en beoordelen voordat je je verbindt. Een detail dat nieuwe leden
+hindert de flow te verprutten: het verschil is een knop, geen schakelaar, dus je kunt
+geen opene clan omschakelen naar een uitnodiging-verzoek of omgekeerd van je kant, de
+instelling van de clan beslist welke knop je ziet, en als je de verzoek-knop ziet, is
+de enige hefboom die je hebt een andere clan kiezen, wat de filterrij bovenaan de browser
+tot de snelste weg maakt om de twee join-ervaringen naast elkaar te vergelijken voordat
+je een verzoek op de verkeerde clan verbruikt.
+
+## Auto-team: wat lidmaatschap in je matches verandert
+
+De auto-teamregel is de versie-stabiele kern van wat lidmaatschap is, en het is de
+bron van veruit de meest voorkomende "heb ik iets kapot gemaakt?"-rapport dat een nieuw
+lid indient. In teammodus wijst de engine teams toe op clantag: elk lid van je clan
+wordt aan hetzelfde team toegewezen, dus je clanmaatjes verschijnen als je teamgenoten,
+of je het nu wilt of niet. Wat spelers als bug mislezen, is het zichtbare symptoom,
+namelijk dat je een match opent en de hele clan aan één kant van de kaart is
+gestapeld, en de instinct is aan te nemen dat het matchmaking kapot is. Het is geen
+bug en geen rapport dat je kunt indienen; het is de functie die precies zo werkt als
+ontworpen. De belangrijke grens, en de die de community in elk nieuw-leden-thread weer
+vraagt, is waar de regel geldt en waar niet. Ze geldt in openbare teammodi en in de
+gerangschikte Clan Wars-modus, waar het precies om de punt gaat dat de clan als eenheid
+concurreert, en precies dat is de reden dat de gerangschikte modus überhaupt bestaat,
+wat in de gewijde [Clan Wars-gids](/guides/clan-wars/) wordt behandeld. Ze verbiedt je
+niet FFA: in een clan zitten houdt je er niet van af om Free-For-All te spelen, dus de
+vraag "moet ik stoppen met FFA spelen vanwege een clan?" heeft een helder, versie-stabiel
+nee. En ze geldt niet voor privé, aangepaste lobbys waar je je eigen kant kunt kiezen,
+wat precies de reden is dat de auto-teamregel het sterkst voelt in openbare modi en
+zwakst overal waar je de opzet controleert. Er is een hoek die telt en die je in je
+hoofd moet houden: als je team op het moment waarop de engine de toewijzing uitvoert, al
+op capaciteit is, wordt het overloop-lid uit het team geschopt in plaats van de clan over
+beide kanten te verdelen, dus een grote clan in een kleine lobby-modus kan een van zijn
+eigen leden aan het vijandelijke team verliezen. Dat is de ene geval waarin in een clan
+zijn je op de andere kant van een clanmaatje kan zetten, en het is het geval dat je
+specifiek in de gerangschikte modus moet onthouden, waar de teamgrootte vast is en de
+clan misschien niet alle onderbrengt. De regel heeft ook een stille consequentie die de
+community zelden vraagt maar die het gevoel van een match vormt: omdat de engine de
+toewijzing heeft op de tag als sleutel en niet op een individueel profiel, eindigen twee
+spelers in dezelfde clan die elkaar nooit hebben ontmoet als vreemden op hetzelfde team,
+wat de reden is waarom een clan een sociaal contract is voordat het een competitie is,
+je stemt in om te worden gepaard met mensen die je niet individueel kunt controleren,
+en dat is de echte kosten van de automatische teamgenoot die het voordeel, nooit alleen
+op een team te zijn, niet opheft.
+
+## Rollen: wat een officier met je mag doen en wat je ertegenover kunt doen
+
+Een clan is geen vlakke groep van tien; hij heeft een machtstructuur met drie rollen,
+leider, officier en lid, en de macht over je account is geconcentreerd in de twee
+bovenste. De leider houdt elke officiermacht plus de twee dingen die geen officier kan
+doen, namelijk het leiderschap over te dragen aan een ander lid en de clan volledig op te
+lossen. Een officier kan elk lid uitwerpen, een lid volledig uit de clan verbannen, een
+lid bevorderen tot officier en de clantag en de weergavenaam bewerken. Een gewoon lid kan
+geen van die dingen met iemand anders doen; de enige zelf-service van een lid is
+vertrekken, en vertrekken is altijd beschikbaar en hoeft van niemand toestemming, dus de
+uitgangspoort is nooit van binnenslot. De gebande toestand is de ene die het meest
+telt voor je account, want een gebande speler kan niet opnieuw aan de clan joinen en de
+enige weg terug is dat een officier je van de ledenlijst ontbant, wat betekent dat een
+ruzie met een officier een echte, door een officier gecontroleerde kosten heeft die je
+zelf niet kunt ongedaan maken. Dat is het feit dat je voorzichtig moet maken voordat je
+aan een uitnodiging-alleen-clan joinst: de goedkeuring die je aanvalt, loopt door
+dezelfde kanaal die je later kan uitwerpen of bannen, dus de clan waar je om vraagt je
+op te nemen, is ook degene die de enige teruggang van een slechte relatie houdt, en die
+asymmetrie is de volledige reden eerst de mensen te bekijken voordat je de kolommen
+bekijkt. Een kleine maar belangrijke verduidelijking over de machtstabel: de
+officiermachten zijn geen vlakke lijst waar je stukje bij beetje uit kiest, een enkele
+officier houdt de uitwerp-, bannings-, bevorderings- en bewerkingsmachten samen, dus de
+persoon die de banning over je account houdt, is dezelfde persoon die je een moment
+eerder kan uitwerpen, wat betekent dat het risico geen functie is die je stukje bij
+beetje aanzet, maar een officier staat op drie hefbomen tegelijk, en de ledenlijst
+lezen als een stapel anonieme handles is de snelste weg om precies te onderschatten hoe
+geconcentreerd deze controle is. De praktische lezing van de rollenstructuur is een
+eenvoudige filter. Als de ledenlijst van een clan een duidelijke leider en een handvol
+officiers toont en je die handles kunt afbeelden op mensen met wie je écht hebt gepraat,
+is de macht leesbaar en kun je het officierrisico beoordelen voordat je je verbindt. Als
+de ledenlijst anonieme handles is die je geen persoon kunt toewijzen die je kent, is de
+macht ondoorzichtig, het officierrisico hoger dan de interface suggereert, en de
+zinnige zet is eerst de opene, lage-verbindingsclan te kiezen en een leesbare positie op
+te bouwen voordat je vertrouwen schenkt aan een officier met een banning over je account.
+
+## De getallen lezen: twee concrete situaties met de berekening
+
+De browser geeft je getallen, dus is de taak van de gids er twee concreet te maken
+in plaats van decoratief, want de verhoudingsregel is abstract totdat je hem tegen een
+échte vergelijking uitvoert. Situatie één: je vergelijkt twee clans in de sortering op
+laagste overwinstpercentage en wilt aan die joinen die je écht nodig heeft. Clan A toont
+een overwinstpercentage van 0,25 en clan B toont 0,40. Beide zijn op verhouding
+gerangschikt, dus heeft clan A drie van vier matches verloren en heeft clan B zes van
+tien. Als je eigen record boven 0,40 ligt, til je het gemiddelde van clan A meer op dan
+dat van clan B, dus is de join die de meeste waarde toevoegt en dus de sterkste reden
+geeft dat de officiers een wachtend verzoek goedkeuren, clan A. Als je eigen record
+onder beide ligt, is de join naar een van de clans een belasting op de verhouding, en
+ben je beter bediend je eigen overwinningen eerst te verbeteren, want een wachtend
+verzoek dat als belasting leest, is degene die ongoedgekeurd blijft liggen. Situatie
+twee: je vergelijkt een nieuwe clan en een veteraanclan, en de overwinstkolom doet
+precies wat de verhoudingswaarschuwing voorspelt. De nieuwe clan staat op 1-0, wat zich
+berekent tot een overwinstpercentage van 1,00, en de veteraanclan staat op 90-90, wat
+zich berekent tot een overwinstpercentage van 0,50. De kolom rangschikt de nieuwe clan
+bovenaan omdat zijn verhouding hoger is, niet omdat hij de betere clan is, dus is de
+top van de sortering op overwinstpercentage geen ranglijst van de beste clans, maar een
+ranglijst die een kleine steekproef belont. Als je de verhouding leest, zoals de kolom
+hem écht berekent, weet je nu de sortering op rijkste en de ledenlijst te kruisen,
+voordat je een 1,00 als kwaliteitsinsigne behandelt in plaats van wat het is, een
+een-match-gelukkigheid. Houd de verhoudingsregel vóór beide situaties, en je zult de
+kolom nooit meer mislezen: het getal is altijd overwinningen gedeeld door
+overwinningen-plus-nederlagen, het is nul als er niets te delen is, en elke lezing van
+de kolom moet die test halen voordat je ernaar handelt. En dezelfde discipline geldt
+voor de hoofdtellingskolom, die de enige van de drie is die geen verhouding is: tien is
+tien, een volle clan is een harde stop, en geen nog zo begerig overwinstpercentage
+verandert het feit dat je niet kunt joinen aan een clan die al aan zijn limiet zit,
+dus is de hoofdtelling-check de ene kolom die je eerst moet lezen, vóór de
+verhouding, omdat het de enige kolom is die je nee kan zeggen, ongeacht hoe goed de rest
+van de rij eruitziet.
+
+## Beslisraamwerk en de fouten die je moet vermijden
+
+De hele join-keuze lost op in een vraag die je direct van het
+browserscherm kunt beantwoorden: ken ik wie ik join, en meet de kolom die ik bekijk
+dat wat voor mij ertoe doet? Als je de leden kunt noemen, kun je het officierrisico
+beoordelen, wat de versie-stabiele reden is waarom een clan überhaupt waard is, want de
+waarde van een clan zijn de automatische teamgenoten die hij je geeft, niet een
+formaat dat je opsluit. Als je de leden niet kunt noemen en de enige kolom die je leest
+het overwinstpercentage is, maak je de keuze op een verhouding die een kleine steekproef
+belont, en je zou moeten vertragen en de ledenlijst en de kasbalans bekijken, want die
+twee zijn de kolommen die écht voorspellen of de clan je geduld overleeft. De vier
+fouten te vermijden mappen één-op-één op de vier feiten hierboven. Eerst, lees geen
+status in de tag, het is twee tot vijf vrije tekens zonder officiële betekenis, dus de
+letters vertellen je niets over kwaliteit. Tweede, behandel geen volle clan als
+joinbaar, tien leden zijn de harde limiet en een volle clan weigert je totdat er een
+plek vrijkomt, dus controleer de hoofdtellingskolom voordat je aannemt dat een slot
+er is. Derde, neem niet aan dat uitnodiging-alleen slechts een formaliteit is, het
+wachtende verzoek is een screening door dezelfde officier die je later kan uitwerpen
+of bannen, dus is het goedkeeringskanaal ook het sanctioneringskanaal. Vierde, lees het
+auto-teamstapelen niet mis als bug, het is de functie in openbare teammodi en het
+geldt niet voor FFA of privé-lobbys, dus is de "hele clan aan één kant"-blik correct
+gedrag. Join wanneer de clan naar eigen keuze open of uitnodiging-alleen is, de leden
+leesbaar zijn, de kas genoeg heeft geïnvesteerd om de leden te financieren als
+financiering voor je telt, en het overwinstpercentage dat je leest écht betekent wat je
+denkt dat het betekent. De kas is waar je geld naartoe kan als je erin zit, en het wordt
+apart behandeld in de [Clan Kas-gids](/guides/clan-treasury-donations/), zodat je de
+donatiebeslissing met dezelfde bedachtzaamheid maakt als de joinbeslissing. Dat is de
+hele lus: vind het, lees de kolommen eerlijk, noem de mensen, join en doneer alleen als
+je weet dat de clan je geduld overleeft. De ene laatste gewoense die de moeite waard
+is om op te bouwen, is de versielabel in het oog te houden: de browsersorteringen en de
+open-tegen-uitnodiging-filter die je net gebruikt, zijn beta2-interf
+aces, dus geldt de browserhelft van het advies niet voor het scherm van een speler die
+nog op de stabiele lijn is, en alleen de tag, de tien-plekken-limiet, de auto-teamregel
+en de rollentabel zijn de delen waarop hij op elke versie kan vertrouwen, wat de reden
+is waarom de scheiding tussen stabiele kern en beta2-interface het ene nuttigste is dat
+een terugkerende speler aan de volgendste kan doorgeven die aan de clan joinst.

@@ -1,0 +1,253 @@
+---
+title: "Clan Membership: How to Find, Join, and Survive a Clan in OpenFront"
+description: "How the v0.35.0-beta2 clan browser sorts and filters, open versus invite-only joining, what auto-team actually changes in your matches, what officers can do to you, and how to read the win-rate and treasury columns before you commit to a clan."
+pubDate: 2026-10-15
+updatedDate: 2026-10-15
+tags: [clans, membership, clan-wars, browser, onboarding]
+category: Social
+difficulty: Beginner
+version: v35-beta2
+freshnessSummary: "Added 2026-10-15 for the v0.35.0-beta2 clan browser (oldest/richest/lowest-win-score sorts, open/invite-only filter, PR #5945); auto-team, the 10-member cap, tag format and roles are version-stable facts."
+---
+
+## Direct answer: membership is one team, not a league
+
+Joining a clan in OpenFront is not entering a league, a ranked pool, or a subscription. It is
+one concrete, version-stable change plus one newly shipped surface, and everything else in this
+guide is attached to those two facts. The version-stable change is that in every team mode the
+engine groups players by clan tag and assigns every member of your clan to the same team, so
+your clan-mates become your automatic teammates the moment you are inside a clan. The newly
+shipped surface is the v0.35.0-beta2 clan browser (PR #5945), which lets you search, sort and
+filter every public clan before you join, and it is the first time in the game's life that the
+"how do I even find a clan" question has an in-game answer instead of the old default, which
+was that a friend had to tell you a tag to type in. Keep those two facts in front of every
+other detail, because together they explain nearly every question a new member asks. You are
+not locking yourself into a competition format; you are opting into a shared team-identity that
+changes who your teammates are and gives you a handle that other players can find in the
+browser. That is why the rest of the guide exists: to make the decision deliberate rather than
+reflexive. You should join a clan only when you can name the other members, when you understand
+exactly what power an officer holds over your account, and when the browser columns you are
+looking at are actually measuring the thing you care about, because a clan's win-rate number is
+a ratio, not a total, and a "full" clan is capped at ten members and cannot take you at all. If
+you can hold those three guards in your head before you press anything, you have already avoided
+the four most common mistakes new members make, and the remainder of the guide only adds the
+numbers and the boundaries that let you make the call with confidence instead of on the vibe of
+a tag you do not understand. The framing also matters for one more reason: the browser surface
+is a beta2 addition, so the "find a clan" half of this guide is the part that is new in
+v0.35.0-beta2 and the "what does being inside change" half is the part that has been true the
+whole time, and keeping that split in mind stops you from attributing the auto-team behavior to
+the browser release when it is actually the older, stable rule that the browser only makes
+easier to act on.
+
+## What a clan actually is: a tag, a name, and a hard cap
+
+The cleanest way to stop guessing is to separate the three things that are all true of a clan
+at once, because the community blends them together and every blend is a small misunderstanding
+that compounds. The first is the tag, which is the identity the game stores, shows on your
+profile, and uses to run the auto-team rule. It is validated by a schema that allows two to
+five ASCII letters or digits, minimum two characters, maximum five, so `MOB`, `x9`, `TEAM1`
+and `openfront` are all legal tags while a tag with a space, an underscore, or a sixth letter
+is rejected outright. This is the single most misunderstood fact in the community: the letters
+in a tag are free text that the founder typed, not a rank, not a tier, and not a country code.
+The recurring thread asking "what do all the [MOL]s mean" gets the same answer every single
+time, which is that there is no official meaning, so do not read status into a tag you are
+about to join, because the tag is an identity, not a badge. The second is the display name,
+which is separate from the tag and human-readable; it is the string you see in the browser,
+while the tag is the hidden key the engine actually uses to group teams, so two clans can look
+alike in the list but be keyed by completely different tags. The third is the member limit, a
+hard number: a clan holds at most ten members, and once it is at ten the join is refused until
+a seat opens. That cap is the number that turns "I can join this clan" into a decision with a
+real deadline, because the clan you want can fill up in the gap between the moment you look at
+it and the moment you press join, and nothing in the UI warns you that the seat you were eyeing
+is the last one. If you can hold the tag, the name, and the ten-seat cap in your head, you can
+read the whole clan screen correctly. One more practical note on the tag, because it bites
+later: the tag is editable by an officer, which means the handle other players use to find you
+in the browser can change out from under you mid-clan, so a tag you like is not a permanent
+identity the game guarantees, it is whatever the current leader decides to type in the two to
+five characters the schema allows.
+
+## How the v0.35.0-beta2 browser works: sorts and filters
+
+The browser is the new decision surface, and it is the only part of this guide that is
+beta2-specific, so treat every sort and filter described here as a v0.35.0-beta2 fact, not
+something that exists on the stable v34 line the site's data snapshot currently reflects. It
+lists the public clans and lets you reorder them by one of several sort orders and narrow them
+with one of three filters. The sort orders are: random, by member count, by win score, by
+oldest, by richest, and by lowest win score. The filters are: all clans, open clans only, and
+invite-only clans only. Two of the columns most change your decision, the win-score column and
+the treasury column, and both are easy to misread if you assume they measure what you think
+they measure. The win-score column is a ratio, computed as wins over the sum of wins and
+losses, and it is zero when the clan has played no games at all. That means a brand-new clan
+with a single win outranks a veteran clan that has split ninety wins and ninety losses, which
+is exactly why the "lowest win score" order exists as its own sort: it is the surface for
+finding a clan with a real, visible record of losing, and that is precisely where a new player
+adds the most value and is most likely to be approved. The "richest" sort ranks by treasury
+balance, the pooled caps and plutonium the clan has accumulated, so it is the surface for
+finding a clan invested enough to actually fund its members rather than a clan that is all talk
+and no balance. The table below keeps the two columns that matter, the win-rate column and the
+treasury column, side by side with what each one is actually measuring and the misread to
+avoid, because reading the column wrong is the whole reason a join that looked good on the
+surface turns into a regret. It is also worth pausing on the "random" order, because its
+presence is the tell that the browser is a listing, not a recommendation engine: the game does
+not decide for you which clan is best, it hands you six re-sorting keys and three filters and
+leaves the judgment to you, which is why the columns in the table are the only part of the
+screen you can actually trust to rank anything at all, and the random order is the part you
+should never use when making a real decision.
+
+| Column | What it measures | How it is computed | Easy misread |
+|---|---|---|---|
+| Win score | Win ratio | wins / (wins + losses), 0 if none | Reads a ratio as a total; a 1–0 clan beats 90–90 |
+| Treasury | Pooled value | soft caps + hard plutonium balance | Reads "rich" as "active"; the balance can sit idle |
+| Members | Headcount | 0–10, hard-capped at 10 | Ignores that 10/10 means you cannot join at all |
+
+## Open versus invite-only: the real difference in how you get in
+
+This is the filter that changes the mechanics of joining, so it deserves its own decision rule
+rather than being folded into the browser description. An open clan shows a join button that
+adds you directly the moment you press it, with no review and no waiting; the clan is telling
+you out loud that it wants players and it will take you the instant you ask, so the cost of a
+bad fit is low and reversible, you can simply leave. An invite-only clan shows a request button
+instead, and pressing it does not make you a member: it puts you into a pending state where the
+button flips to a "request pending" label, and the request now has to be approved by a clan
+officer or the leader before you are actually inside. Re-requesting while you are pending is
+blocked, so you cannot spam the button to get attention, which is a small but real constraint
+on how you ask. Two consequences follow that are not obvious from the surface. First, the
+invite-only filter is the honest surface for finding competitive clans, because a clan that
+gates itself behind an approval step is usually doing so because it genuinely cares about the
+people it lets in, which means a pending request from a brand-new player is a screening, not a
+formality, and the officers are deciding whether your record and your presence are worth a
+seat. Second, the open filter is the honest surface for a player who just wants to stop playing
+alone and does not care about a ladder at all, because an open clan takes you without a review
+and the downside of a wrong match is a leave button. The practical rule that falls out of both:
+if you are still testing whether clan play suits you at all, filter to open, join one, and
+leave after a few matches if it does not sit right; and if you have already proven the concept
+and want a real squad, filter to invite-only and send the request to the clan whose member
+list you can actually name and evaluate before you commit. One detail that keeps new members
+from fumbling the flow: the difference is a button, not a toggle, so you cannot switch an open
+clan into an invite-only request or vice versa from your side, the clan's setting decides
+which button you see, and if you see the request button the only lever you have is choosing a
+different clan, which is why the filter row at the top of the browser is the fastest way to
+compare the two joining experiences side by side before you spend a request on the wrong one.
+
+## Auto-team: what membership changes inside your matches
+
+The auto-team rule is the version-stable core of what membership is, and it is the source of
+the single most common "did I break something" report a new member files. In team modes the
+engine assigns teams by clan tag: every member of your clan is placed on the same team, so your
+clan-mates show up as your teammates whether you wanted them to or not. What players misread as
+a bug is the visible symptom, which is that you open a match and the whole clan is stacked on
+one side of the map, and the instinct is to assume the matchmaking broke. It is not a bug and it
+is not a report you can file; it is the feature working exactly as designed. The important
+boundary, and the one the community keeps asking in every new-member thread, is where the rule
+applies and where it does not. It applies in public team modes and in the ranked Clan Wars mode,
+where the whole point is for the clan to compete as a single unit, and that is the reason the
+ranked mode exists at all, which is covered in the dedicated [Clan Wars guide](/guides/clan-wars/).
+It does not ban you from FFA: being in a clan does not stop you from playing free-for-all, so
+the "does joining a clan force me to stop playing FFA" question has a flat, version-stable no.
+And it does not apply to private custom lobbies, where you can pick your own side, which is
+exactly why the auto-team rule is felt most in the public modes and least anywhere you control
+the setup. There is one edge that does matter and that you should keep in mind: if your team is
+already at capacity when the engine runs the assignment, the overflow member is dropped from
+the team rather than splitting the clan across both sides, so a large clan in a small-lobby
+mode can lose one of its own to the opposing team. That is the one case where being in a clan
+can put you on the opposite side of a clan-mate, and it is the one to remember specifically in
+the ranked mode, where the team size is fixed and the clan may not all fit. The rule also has a
+quiet consequence that the community rarely asks about but that shapes the feel of a match:
+because the engine keys the assignment on the tag rather than on any individual profile, two
+players in the same clan who have never spoken to each other end up on the same team as
+strangers, which is why a clan is a social contract before it is a competitive one, you are
+agreeing to be paired with people you cannot individually vet, and that is the real cost of
+the automatic teammate that the benefit, never being alone on a team, does not cancel out.
+
+## Roles: what an officer can do to you, and what you can do back
+
+A clan is not a flat group of ten; it has a permission structure with three roles, leader,
+officer, and member, and the power over your account is concentrated in the top two. The leader
+holds every officer power plus the two things no officer can do, which are transferring
+leadership to another member and dissolving the clan entirely. An officer can kick any member,
+ban a member from the clan outright, promote a member to officer, and edit the clan tag and the
+display name. A plain member can do none of those things to anyone else; a member's only
+self-service is to leave, and leaving is always available and does not require anyone's
+permission, so the exit door is never locked from the inside. The ban state is the one that
+matters most for your account, because a banned player cannot rejoin the clan and the only path
+back is for an officer to unban you from the member list, which means a falling-out with an
+officer carries a real, officer-controlled cost that you cannot undo yourself. This is the fact
+that should make you cautious before you join any invite-only clan: the approval you are
+requesting travels through the same channel that can later kick or ban you, so the clan you are
+asking to take you is also the one holding the only undo on a bad relationship, and that
+asymmetry is the whole reason to look at the people before the columns. A small but important
+clarification for the power table: the officer permissions are not a flat list you can cherry
+pick, a single officer holds the kick, ban, promote and edit powers together, so the person
+holding the ban on your account is the same person who can kick you the moment before, which
+means the risk is not a feature you opt into piece by piece, it is one officer standing at
+three levers at once, and reading the member list as a stack of anonymous handles is the
+fastest way to underestimate exactly how concentrated that control is. The practical read of
+the role structure is a simple filter. If a clan's member list shows a clear leader and a
+handful of officers and you can map those handles to people you have actually spoken to, the
+power is legible and you can judge the officer risk before you commit. If the member list is
+anonymous handles you cannot connect to anyone you know, the power is opaque, the officer risk
+is higher than the surface suggests, and the sensible move is to pick the open, low-commitment
+clan first and earn a legible position before you trust an officer with a ban on your account.
+
+## Reading the numbers: two concrete situations with the math
+
+The browser hands you numbers, so the guide's job is to make two of them concrete instead of
+decorative, because the ratio rule is abstract until you run it against a real comparison.
+Situation one: you are comparing two clans in the "lowest win score" sort and you want to join
+the one that actually needs you. Clan A shows a win score of 0.25 and Clan B shows 0.40. Both
+are ranked by ratio, so Clan A has lost three out of every four matches and Clan B has lost
+six out of ten. If your own record is above 0.40, you lift Clan A's average more than you lift
+Clan B's, so the join that adds the most value, and therefore carries the most reason for the
+officers to approve a pending request, is Clan A. If your own record is below both, joining
+either clan is a drag on the ratio, and you are better off improving your own wins first,
+because a pending request that reads as a liability is the one that sits unapproved. Situation
+two: you are comparing a new clan and a veteran clan and the win-score column is doing exactly
+the thing the ratio warning predicts. The new clan is 1–0, which computes to a win score of
+1.00, and the veteran clan is 90–90, which computes to a win score of 0.50. The column ranks
+the new clan on top because its ratio is higher, not because it is the better clan, so the top
+of the "win score" sort is not a leaderboard of the best clans, it is a leaderboard that
+rewards a small sample. Reading the ratio the way the column actually computes it, you now know
+to cross-check the "richest" sort and the member list before you treat a 1.00 as a badge of
+quality rather than what it is, a one-game fluke. Keep the ratio rule in front of both
+situations and you will never misread the column again: the number is always wins over
+wins-plus-losses, it is zero when there is nothing to divide, and every read of the column has
+to pass that test before you act on it. And the same discipline applies to the headcount
+column, which is the only one of the three that is not a ratio at all: ten is ten, a full clan
+is a hard stop, and no amount of a flattering win score changes the fact that you cannot join
+a clan that is already at its cap, so the headcount check is the one column you should read
+first, before the ratio, because it is the only column that can say no to you regardless of
+how good the rest of the row looks.
+
+## Decision framework and the failures to avoid
+
+The whole membership decision resolves to one question you can answer straight from the browser
+screen: do I know who I am joining, and is the column I am looking at measuring the thing I
+care about? If you can name the members, you can judge the officer risk, which is the
+version-stable reason a clan is worth it at all, because the value of a clan is the automatic
+teammates it hands you, not any format it locks you into. If you cannot name the members and
+the only column you are reading is the win score, you are making the decision on a ratio that
+rewards a small sample, and you should slow down and look at the member list and the treasury
+balance instead, because those two are the columns that actually predict whether the clan will
+outlive your patience. The four failures to avoid map one-to-one onto the four facts above.
+First, do not read status into the tag, it is two to five free characters with no official
+meaning, so the letters tell you nothing about quality. Second, do not treat a full clan as
+joinable, ten members is the hard cap and a full clan will refuse you until a seat opens, so
+check the headcount column before you assume there is a slot. Third, do not assume invite-only
+is just a formality, the pending request is a screening by the same officer who can later kick
+or ban you, so the approval channel is also the punishment channel. Fourth, do not mistake the
+auto-team stacking for a bug, it is the feature in public team modes and it does not apply to
+FFA or to private lobbies, so the "whole clan on one side" view is correct behavior. Join when
+the clan is open or invite-only by your own choice, the members are legible, the treasury is
+invested enough to fund its members if funding matters to you, and the win-score ratio you are
+reading genuinely means what you think it means. The treasury is where your money can go once
+you are inside, and it is covered separately at the [Clan Treasury guide](/guides/clan-treasury-donations/)
+so you can make the donation decision with the same deliberateness you used to make the join
+decision. That is the whole loop: find it, read the columns honestly, name the people, join,
+and donate only after you know the clan will outlive your patience. The one last habit worth
+building is to keep the version label in view: the browser sorts and the open versus
+invite-only filter you are using right now are beta2 surfaces, so if you hand this page to a
+new player who is still on the stable line, the browser half of the advice does not apply to
+their screen yet, and only the tag, the ten seat cap, the auto team rule and the role table
+are the parts they can trust on any version, which is why the split between the stable core
+and the beta2 surface is the single most useful thing a returning player can pass along to the
+next one joining the clan.
