@@ -5,9 +5,9 @@ import { test, expect } from '@playwright/test';
 // 文案按语种参数化：zh 断言「快捷键 / 城市」而非英文。
 
 const officialKeybindingSource =
-  'https://github.com/openfrontio/OpenFrontIO/blob/v0.33.5/src/client/UserSettingModal.ts';
-const unreleasedKeybindingChange =
-  'https://github.com/openfrontio/OpenFrontIO/commit/ead15d8d1428697d8fc0d1221b849892bbb8c163';
+  'https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts';
+const betaKeybindingRelease =
+  'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2';
 
 const cases = [
   {
@@ -23,8 +23,8 @@ const cases = [
     nukesHrefEnd: '/mechanics/nukes/',
     rightClick: 'Cancel an active Warship',
     bulk: 'x1/x2/x5/xMax',
-    fixed: 'Keep those defaults in the current release',
-    intent: 'fixed-key lookup reference',
+    fixed: 'Your saved bindings take precedence',
+    intent: 'default-key lookup reference',
     boxSelectKey: 'Shift',
     bcAria: 'Breadcrumb',
     home: 'Home',
@@ -42,8 +42,8 @@ const cases = [
     nukesHrefEnd: '/zh/mechanics/nukes/',
     rightClick: '取消当前战舰',
     bulk: 'x1/x2/x5/xMax',
-    fixed: '当前正式版须保留这些默认键',
-    intent: '固定默认键位的速查表',
+    fixed: '实际操作以你保存的绑定为准',
+    intent: '默认键位的速查表',
     boxSelectKey: 'Shift',
     bcAria: '面包屑导航',
     home: '首页',
@@ -61,8 +61,8 @@ const cases = [
     nukesHrefEnd: '/fr/mechanics/nukes/',
     rightClick: 'annuler une sélection active',
     bulk: 'x1/x2/x5/xMax',
-    fixed: 'Gardez ces touches par défaut dans la version actuelle',
-    intent: 'référence de consultation des touches fixes',
+    fixed: 'Vos réglages priment',
+    intent: 'référence de consultation des touches par défaut',
     boxSelectKey: 'Maj',
     bcAria: 'Fil d’Ariane',
     home: 'Accueil',
@@ -80,7 +80,7 @@ const cases = [
     nukesHrefEnd: '/de/mechanics/nukes/',
     rightClick: 'aktive Warship',
     bulk: 'x1/x2/x5/xMax',
-    fixed: 'Behalte diese Standardtasten in der aktuellen Version',
+    fixed: 'Deine gespeicherte Belegung hat Vorrang',
     intent: 'feste Referenz zum schnellen Nachschlagen',
     boxSelectKey: 'Shift',
     bcAria: 'Brotkrümelnavigation',
@@ -99,7 +99,7 @@ const cases = [
     nukesHrefEnd: '/nl/mechanics/nukes/',
     rightClick: 'actieve oorlogsschip',
     bulk: 'x1/x2/x5/xMax',
-    fixed: 'Houd deze standaardtoetsen in de huidige versie aan',
+    fixed: 'Je opgeslagen bindings gaan voor',
     intent: 'vaste referentie om standaard sneltoetsen snel op te zoeken',
     boxSelectKey: 'Shift',
     bcAria: 'Kruimelpad',
@@ -128,18 +128,20 @@ for (const c of cases) {
 
     // CTRL-01：本页是完整查键页；攻略页不复制这 6 组默认键位表。
     await expect(page.locator('main table')).toHaveCount(6);
-    await expect(page.locator('main')).toContainText('v33.5');
+    await expect(page.locator('main')).toContainText('v0.34.25');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
     await expect(page.locator('main')).toContainText(c.intent);
 
-    // FRESH-01：正式 v33.5 仍有三个固定工作流，未发布提交才补设置项。
+    // Stable v34 supports remapping; beta defaults must stay explicitly scoped.
     const boundary = page.locator('[data-keybinding-boundary]');
     await expect(boundary).toHaveCount(1);
     await expect(boundary).toContainText(c.fixed);
     await expect(boundary.locator('kbd')).toHaveText(['F', 'R', c.boxSelectKey]);
     await expect(boundary.locator(`a[href="${officialKeybindingSource}"]`)).toHaveCount(1);
-    await expect(boundary.locator(`a[href="${unreleasedKeybindingChange}"]`)).toHaveCount(1);
+    await expect(boundary.locator(`a[href="${betaKeybindingRelease}"]`)).toHaveCount(1);
+    await expect(boundary).toContainText('X');
+    await expect(page.locator('#combat table')).toContainText('F');
   });
 
   test(`shortcuts[${c.lang}] 主导航含快捷键入口`, async ({ page }) => {

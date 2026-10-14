@@ -14,7 +14,7 @@ const cases = [
     // 头部问答标题里的关键短语
     repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
-    fixedBoundary: 'graphics-reset R, and Shift + drag box selection are fixed',
+    fixedBoundary: 'F, R, and Shift are defaults, not mandatory keys',
     intent: 'practice guide for battlefield workflows and input recovery, not the complete key table',
     referenceHrefEnd: '/shortcuts/',
   },
@@ -26,7 +26,7 @@ const cases = [
     hydrogen: '氢弹',
     repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
-    fixedBoundary: 'F 全选、图形重置 R 和 Shift + 拖动框选仍是固定键',
+    fixedBoundary: 'F、R、Shift 是默认键，不是强制键位',
     intent: '练习战场流程和输入恢复的教程，不是完整键位表',
     referenceHrefEnd: '/zh/shortcuts/',
   },
@@ -38,7 +38,7 @@ const cases = [
     hydrogen: 'bombe à hydrogène',
     repeatHeading: /Comment les joueurs lancent-ils des nukes aussi vite/i,
     cityRow: /Ville/,
-    fixedBoundary: 'restent fixes',
+    fixedBoundary: 'pas des touches imposées',
     intent: 'séquences de combat et à la récupération après erreur',
     referenceHrefEnd: '/fr/shortcuts/',
   },
@@ -50,7 +50,7 @@ const cases = [
     hydrogen: 'Wasserstoffbombe',
     repeatHeading: /Wie feuern Spieler Nukes so schnell/i,
     cityRow: /City/,
-    fixedBoundary: 'bleiben fest',
+    fixedBoundary: 'keine vorgeschriebenen Tasten',
     intent: 'erklärt Übungen, Gefechtsabläufe und Eingabeerholung, nicht die vollständige Tastentabelle',
     referenceHrefEnd: '/de/shortcuts/',
   },
@@ -62,14 +62,14 @@ const cases = [
     hydrogen: 'Waterstofbom',
     repeatHeading: /Hoe vuren spelers zo snel nukes af/i,
     cityRow: /Stad/,
-    fixedBoundary: 'staan ze vast',
+    fixedBoundary: 'geen verplichte toetsen',
     intent: 'gaat over oefeningen, gevechtsroutines en herstel na invoerfouten, niet over de volledige toetstabel',
     referenceHrefEnd: '/nl/shortcuts/',
   },
 ];
 
 for (const c of cases) {
-  test(`hotkeys[${c.lang}] 展示 v33 核验键位与连发核弹技巧`, async ({ page }) => {
+  test(`hotkeys[${c.lang}] 展示 v34 改键边界与连发核弹技巧`, async ({ page }) => {
     // 只等 DOM 就绪，不等 'load'：BaseLayout 内联了 googletagmanager 异步脚本，
     // 本机外网受限时它迟迟不返回，'load' 事件可能 30s 内不触发；而要断言的内容
     // 都是服务端渲染的静态 HTML，domcontentloaded 已足够。
@@ -96,8 +96,9 @@ for (const c of cases) {
     await expect(main).not.toContainText('攻击模式（朝鼠标方向）');
     await expect(main).not.toContainText('召出 Build 菜单');
 
-    // FRESH-01：故障恢复与 FAQ 不能再声称 v34 的每个键都可重映射。
-    await expect(main).toContainText('v34');
+    // The three named actions are configurable in stable v34; beta uses X/F/R.
+    await expect(main).toContainText('v0.34.25');
+    await expect(main).toContainText('v0.35.0-beta2');
     await expect(main).toContainText(c.fixedBoundary);
     await expect(main).toContainText(c.intent);
   });

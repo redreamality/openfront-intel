@@ -9,16 +9,15 @@ const cases = [
 ] as const;
 
 for (const item of cases) {
-  test(`overtime[${item.lang}] opens the maintained answer from home and catalog`, async ({ page }) => {
+  test(`overtime[${item.lang}] opens the maintained answer from home via catalog`, async ({ page }) => {
     const answer = `${item.prefix}/guides/winning-overtime/`;
     await page.goto(`${item.prefix}/`, { waitUntil: 'domcontentloaded' });
     const homeLink = page.locator('[data-home-latest-guides]')
-      .locator(`a[href="${answer}"]`);
+      .locator(`a[href="${item.prefix}/guides/"]`);
     await expect(homeLink).toHaveCount(1);
     await homeLink.click();
-    await expect(page).toHaveURL(new RegExp(`${answer}$`));
+    await expect(page).toHaveURL(new RegExp(`${item.prefix}/guides/$`));
 
-    await page.goto(`${item.prefix}/guides/`, { waitUntil: 'domcontentloaded' });
     const catalogLink = page.locator('[data-guide-card-list]')
       .locator(`a[href="${answer}"]`);
     await expect(catalogLink).toHaveCount(1);

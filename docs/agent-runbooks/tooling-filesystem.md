@@ -1,5 +1,7 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-10-15 改键维护补丁复发记录**：第一次补丁带入未经核对的英文尾行，第二次跨五语补丁猜测中文来源链接标签，两次均因上下文不匹配整体回滚。读取目标完整物理行、删除无关尾部 hunk 并按文件组拆补丁后恢复；没有部分覆盖或修改 AGENTS.md。
+
 - **2026-09-08 本轮路径探测记录**：初始读取曾猜测不存在的 `src/pages/en` 与 sitemap `options.d.ts`，并把通配表达式作为 `rg` 路径；这些分别属于目录约定错误和 Windows 路径解析错误。后续先用 `rg --files`/实际包树定位，再从真实目录配合 `--glob` 搜索，未影响页面产物。
 - **2026-09-17 复发**：检索自动化历史 session 时，把 `rollout-*.jsonl` 作为 Windows 上 `rg` 的路径参数，得到 `os error 123`；改用 `rg --files <真实目录> -g '<文件名模式>'` 取得精确路径后恢复。此为既有通配路径规则的再次触发，没有影响自动化配置或项目内容。
 - **2026-09-20 复发**：事实复核中把 `src/content/guides/*/impossible-singleplayer.mdx` 传给 Windows `rg`，再次得到 `os error 123`；改从真实目录配 `-g` 后恢复。另把上游 clone 误作仓库内 `OpenFrontIO`、沿用已不存在的 `cache/scripts/wc_zh.js`；真实 clone 在 `../OpenFrontIO`，中文词数改用当前文件和 `Intl.Segmenter` 复算。跨轮路径一律先定位，不沿用旧临时脚本位置。
