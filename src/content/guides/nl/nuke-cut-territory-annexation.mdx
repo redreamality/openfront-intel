@@ -1,0 +1,375 @@
+---
+title: Atomaanval afgesneden grond annexeren (v0.35 beta)
+group: endgame
+summary: Wanneer een atomaanval vijandelijke grond van de hoofdmassa afsnijdt, kan een omringende tegenstander het afgesneden stuk nu annexeren. Trigger, drie voorwaarden en versiegrens.
+updatedDate: 2026-10-15
+description: "Wanneer een atomaanval vijandelijke grond van de hoofdmassa afsnijdt, kan een omringende tegenstander het afgesneden stuk nu annexeren. Ontdek de trigger, de drie voorwaarden, de regel van de overnemende speler en de v0.35-versiegrens."
+pubDate: 2026-10-15
+version: v0.35.0-beta2
+freshnessSummary: Geverifieerd tegen PR #5751 en de engine-tags v0.35.0-beta1/beta2; de regel ontbreekt in de stabiele v0.34.25.
+related:
+  - /nl/guides/annexation-enclosure/
+  - /nl/guides/nuke-calculator/
+  - /nl/guides/no-mans-land-fallout/
+tags:
+  - atomaanval
+  - annexatie
+  - endgame
+  - v35
+---
+
+**Direct antwoord.** Een atomaanval die vijandelijke grond in een stuk snijdt dat niet meer met
+hun hoofdmassa verbonden is, kan dat afgesneden stuk overdragen aan een tegenstander die het
+omringt, in plaats van het aan de eigenaar te laten. Ze gaat alleen door als het stuk geen eigen
+kust heeft, alleen andere spelers en de falloutzone raakt en de afgesneden speler andere grond
+heeft. Het is een nieuwe regel van de v0.35.0-beta (PR #5751) en ontbreekt in de huidige stabiele
+v0.34.25, dus op stabiele servers gedraagt het zich nog zoals voorheen.
+
+## De regel in één beeld
+
+Denk aan het territorium van een tegenstander als één massaal landgebied. Het grootste deel is de
+hoofdmassa: de grootste verbonden massa die ook hun kustkant raakt. Je pleegt dan een atomaanval.
+De krater wist een ring van hun tegels uit, en de fallout die volgt telt tijdens een kort venster
+na de aanval als jouw grond voor connectiviteit. Als deze krater plus fallout de massa in twee
+stukken snijdt, blijft één kant met de hoofdmassa verbonden en wordt de andere een zwevend eiland
+van hun land zonder terugweg. Dit zwevende stuk is wat de engine de afgesneden cluster noemt, en
+de nieuwe regel bepaalt zijn lot. Voor de v0.35 behandelde de oude omsinglingslogica een door een
+kustrijk door een atoom gesneden arm bijna nooit als annexeerbaar, en daarom klaagden spelers
+lang dat het afsnijden van grond door een atoom « willekeurig leek » en « voor kustrijken had
+opgehouden te werken ». Pull-Request #5751 schreef het capture-pad opnieuw zodat een echt
+afgesneden en omsloten blok nu wordt geclaimd door de tegenstander die het omringt, in plaats van
+het aan de oorspronkelijke eigenaar te laten.
+
+Wat de beslissing vrijgeeft, is een echte opbrengstberekening en geen passieve bonus. Een enkele
+aanval die slechts een paar gebouwen zou vernietigen, kan nu een hele wijk, soms tientallen
+productietegels, overdragen aan een derde fractie of aan jou. Dat verandert de aanvallen die goud
+waard zijn. Een aanval die op het dikste deel van het vijandelijke territorium mikken kan niets
+afsnijden, terwijl een aanval die op de smalle zeestraat valt die hun kust met hun binnenland
+verbindt, tegelijk die verbinding verwoest en een stuk afsnijdt dat een grenzende vijand opslokt.
+Je koopt met de aanval niet meer alleen schade; je koopt ook een grondtransfer. Daarom telt het
+feature zelfs als het alleen in een smalle geometrie gaat door: die geometrie is precies wat een
+doordacht endgame-atoom al mikken. De rest van deze gids legt de exacte voorwaarden uit, de
+capture-logica, de versiegrens, en hoe je de kaart leest om de snede doelbewust voor te bereiden
+in plaats van toevallig te ontdekken, en eindigt met een snelle referentietabel die je voor elke
+aanval afwerkt.
+Concreet betekent de functie dat dezelfde krater die je al gewoon was te mikken nu op twee manieren
+tegelijk kan betalen. De oorspronkelijke opbrengst is de schade: de gebouwen in de krater worden
+vernietigd en de eigenaar verliest direct productie, precies zoals vóór de v0.35. De nieuwe
+opbrengst, die de aanval anders maakt, is de grond: als de krater plus de falloutring een
+ingepakte wijk lukt af te snijden, wisselt de productie van die wijk van eigenaar in plaats van
+gewoon op te houden. Daarom moet de beoordeling van een endgame-aanval nu een vraag bevatten die
+je op de huidige stabiele build gewoon niet zou stellen. Deze aanval, vernietigt die alleen
+gebouwen of zal die ook een hele wijk overdragen? Het antwoord hangt af van de exacte
+geometrie van de kaart en de motorversie, en dat is precies wat de rest van deze gids leesbaar
+maakt. Anders gezegd voegt de functie geen nieuwe wapen toe; het verandert de manier waarop je een
+wapen waardeert dat je al had, door een tweede, conditionele opbrengstlaag toe te voegen aan
+alles dat dicht bij een smalle verbinding valt.
+
+## De drie voorwaarden die allemaal moeten kloppen
+
+De engine annexeert een afgesneden stuk niet alleen omdat het op de kaart afgezonderd lijkt. Drie
+onafhankelijke checks moeten allemaal tegelijk slagen, en als eên faalt, blijft het stuk onaangetast
+en behoudt de eigenaar het. De eerste voorwaarde is de scheiding van de hoofdmassa. De cluster mag
+geen verbinding meer hebben met hun grootste massa via de tegelrand van de eigenaar. Een blok dat
+nog met de hoofdmassa via één tegel in aanraking komt, is niet afgesneden en wordt door het
+annexatie-pad genegeerd. Daarom doet een aanval die alleen de rand van een massa beschadigt,
+zonder de verbindingsspoor volledig te ruimen, niets: de verbinding overleefd, dus er wordt niets
+echt afgesneden. De tweede voorwaarde is dat het stuk geen eigen kust of kaartrand heeft. Als het
+afgesneden stuk zelf open water of de kaartrand raakt, kan de eigenaar gewoon per boot vertrekken
+of het als een zelfvoorzienende enclave behandelen, en de engine weigert de annexatie. Dat is de
+meest voorkomende reden voor een echte snede die « niet werkt »: de afgesneden arm behoudt zijn
+eigen kustlijn. De derde voorwaarde is dat het stuk alleen andere spelers en fallout raakt, en dat
+minstens één vijand en minstens één falloutegetel het omringt. Het blok moet volledig door
+fallout omringd zijn, dat als grond van de schutter telt, en door vijandelijke grond, zonder enige
+open, onbebouwde tegel die het raakt. Als enige tegel van het blok op vrij terrein opent, wordt
+de annexatie overgeslagen, want geen omringende vijand zou hem kunnen claimen.
+
+De praktische conclusie is dat je een omsloten zak vijandelijke grond nodig hebt, die volledig door
+jouw fallout en de grens van een rivaler wordt omringd en zijn terugweg volledig verloren is. Een
+aanval die een falloutring om een wijk graaft, terwijl de enige landbrug van de wijk naar de
+eigenaar binnen deze ring ligt, is de klassieke setup die alle drie voorwaarden tegelijk voldoet.
+Let op de volgorde waarin spelers deze checks eerst falen. Eerst slagen ze de scheiding maar het
+blok behoudt een kust. Dan behandelen ze de kust maar het blok raakt nog steeds de hoofdmassa met
+één tegel. Dan ruimen ze beide maar een gat vrij terrein breekt de « alleen spelers en fallout
+raken »-regel. Elk falingspatroon is op de kaart zichtbaar vóórdat er één goud eenheid wordt
+besteden, en juist dat maakt de hele regel planbaar in plaats van willekeurig. Het deel over
+misdaden verder beneden legt elk van deze uit met concrete tegenspelen en de situaties waarin je
+de aanval helemaal moet mijden, maar de kerngedachte is dat de regel exact en deterministisch is
+en dat één enkel falen betekent dat de aanval alleen kraterschade is en niets anders.
+
+## Welke tegenstander neemt het blok daadwerkelijk
+
+Wanneer de drie voorwaarden staan, gaat het afgesneden stuk niet naar een willekeurige speler en
+niet noodzakelijk naar jou, de schutter. Het gaat naar de capturist die de engine berekent door
+elke tegelrand van de afgesneden cluster af te scannen en voor elke vijand te tellen hoeveel
+tegels van het blok die vijand daadwerkelijk aan de grens deelt. Elke fractie die geallieerd is
+met de eigenaar van het afgesneden terrein wordt overgeslagen, evenals de alliantiecirkel van de
+schutter, dus de kandidaatpool is strikt de vijandige fracties die een grens met het blok delen.
+De vijand die het meeste blocktegels aan de grens deelt, wint de capture volledig. Als twee
+vijanden exact gelijk staan, behoudt de engine de eerste die ze in hun interne iteratievolgorde
+vindt, dus een gelijkspel wordt in feite door de kaartroute besloten en niet door een speleractie
+in dat moment. Dat heeft een subtiele maar zeer belangrijke gevolgen: een aanval om een arm af te
+snijden kan een cadeau aan een derde zijn. Als het afgesneden blok door de noordelijke speler
+sterker wordt omringd dan door jou, opslokt de noordelijke speler het blok en ontvang je alleen
+de kraterschade zonder het land. Je betaalde het volledige goud van de aanval alleen voor de
+schade en een rivaler verzamelde de transfer.
+
+Er is ook een speciaal geval dat de code zelf behandelt, en dat is de hoogste inzet van de hele
+regel. Als de afgesneden cluster het enige land is dat de afgesneden speler nog bezit, is de
+capture geen tegelstroom maar een volledige verovering: de hele speler wordt geëlimineerd en hun
+resterende bezit gaat naar de capturist. Dat is de variant die het meest een spel vroeg in het
+endgame kan beëindigen, want zodra een fractie tot één hoofdkwartierblok wordt gereduceerd, kan
+een aanval die dit hoofdkwartier isoleert, hem volledig elimineren in plaats van alleen te
+reduceren. Omdat de capturist degene is die het meeste blocktegels aan de grens deelt, mag je
+niet aannemen dat schieten jou tot de annexatiebegunstigde maakt. Voordat je goud inzet,
+bereken wie de doelzak daadwerkelijk omringt. In een drie-fractie-endgame is dat vaak de speler
+die de flank van de doel de hele partij lang heeft afgebroken, en niet degene die de aanval zal
+besteden. Als de verwachte begunstigde als rivaler blijkt, heb je zojuist hun overwinning gekocht.
+Dit herschikken van de beloningen, dat degene die de aanval betaalt niet degene is die het land
+verzamelt, is precies wat de twee scenario-delen hieronder met concrete cijfers kwantificeren, en
+het is de duurste fout die de regel kan produceren als je de grenstelling over slaat.
+
+## Versiegrens: stabiel v34 versus beta v35
+
+De belangrijkste operationele feiten over dit feature is dat het niet live is op de huidige
+stabiele servers. De regel werd ingevoerd door Pull-Request #5751, die in de engine-tag
+v0.35.0-beta1 is geland en ook in de tag v0.35.0-beta2 aanwezig is, maar de stabiele build die
+de openbare servers uitvoeren is nog steeds v0.34.25, en die build bevat gewoon geen
+« afgesneden clusters annexeren »-code. Op het stabiele v0.34.25 gebruikt de engine nog de oude
+omsinglingslogica, waar een aanval die een arm van een kusthoofdmassa afsnijdt bijna nooit een
+annexatie triggert, en precies dat is de lange klacht van spelers dat het afsnijden van grond
+door een atoom « voor kustrijken had opgehouden te werken ». Dus als je vandaag op de openbare
+servers online speelt, zie je het oude gedrag: de krater verschijnt, de arm wordt visueel op de
+kaart afgesneden, maar de eigenaar behoudt elke tegel en er wordt niets overgedragen. De snede
+lijkt dramatisch en de transfer gebeurt gewoon niet, omdat het codepad dat de transfer zou
+produceren in de stabiele build niet bestaat.
+
+De builds v0.35.0-beta1 en v0.35.0-beta2 zijn vooraf-testbuilds die in oktober 2026 begonnen
+met circuleren. De release v0.35.0-beta2, gepubliceerd op 2026-10-14, noemt « Nukes annex again »
+onder haar belangrijkste wijzigingen. Om de nieuwe annexatieregel echt te ervaren moet je een
+v35-beta-build uitvoeren of een server met die engine, niet de stabiele default. Dat geldt voor
+elk ander advies in deze gids, want alle snij-strategieën gelden alleen in v35-beta en verder.
+Als je op de annexatie-opbrengst plant en dan op het stabiele speelt, betaal je de aanvalsgoud
+voor kraterschade en ontvang je geen grondtransfer, omdat de stabiele build geen annexatie-pad
+heeft dat kan worden getriggerd. Behandel de versiegrens als een harde voorwaarde van de hele
+strategie, niet als een voetnoot. Als je je build kunt kiezen, mik op een v35-beta om het
+annexatiegedrag te testen; als je op het stabiele vast zit, zegt dit deel wat er niet gebeurt
+zodat je een gemiste transfer niet voor een bug of een willekeurig ongeluk houdt. Zodra de v0.35
+als stabiele release verschijnt, valt de grens weg en gaat elke strategie uit deze gids
+gelijk overal online, wat het moment is waarop het endgame-meta het meest in één klap kan draaien.
+Concreet betekent dat voor je eigen speelsessie: noteer vóór elke sessie op welke build je staat,
+en laat je eigen strategie de vraag stellen of ze op de annexatie-pad berust. Zo, en je staat op
+de stabiele, is de strategie momenteel waardeloos en je zou die moeten verplaatsen naar een v35-
+beta of voorlopig opbergen. Anders is dit deel slechts een waarschuwing, zodat je een gemiste
+transfer niet als een bug van je eigen setup interpreteert. De versiegrens is dus geen detail aan
+de rand; het is de schakelaar die bepaalt of de overige acht delen van deze gids op je huidige
+kaart helemaal gelden of pas morgen gelden.
+
+## De kaart lezen vóór je inzet
+
+De drie voorwaarden omzetten in een vóór-aanval-checklist maakt het verschil tussen een toevallige
+bonus en een betrouwbare bonus, en elke check is een simpel ja/nee dat leesbaar is vóór je goud
+besteedt. Eerst, vind de zeestraat: de smalste band van het eigendomsgebied die het doelblok met
+de hoofdmassa verbindt. Je wilt een aanval waarvan de krater, plus de falloutring die ze
+achterlaat, deze band volledig kan ruimen. Omdat fallout voor connectiviteit als jouw grond
+telt, is de effectieve snede breder dan de krater alleen. Een aanval die op haar enkel
+rissradius niet breed genoeg lijkt om de spoor te doorkruisen, kan de verbinding nog steeds
+scheiden wanneer de falloutring gesloten is. Als de straat breder is dan jouw krater plus
+fallout kan ruimen, faalt de scheiding en gebeurt er niets, dus sla dit doel over en zoek
+ergens anders. Ten tweede, controleer de kust op de afgesneden kant. Teken de contour van het
+blok dat je wilt afsnijden en bevestig dat het geen eigen water of kaartrand heeft. Als het
+blok dat je een rivaler wilt aanbieden een eigen oeverlijn heeft, is het niet annexeerbaar hoe je
+hem ook snijdt, en je beter de omsloten helft van het blok aan te mikken dan de kustschil. Ten
+derde, controleer de omgeving. Het afgesneden blok moet volledig door fallout en vijandgrens
+worden omringd, zonder enige open tegel die het raakt. Elk gat vrij terrein breekt de « alleen
+spelers en fallout raken »-regel en doodt de annexatie, dus de snede moet in de diepte van het
+vijandelijke terrein liggen en niet op de rand van onbezit terrein waar een gat waarschijnlijk
+is.
+
+Voer de drie checks uit vóór je één goud eenheid besteedt, want één enkel nee betekent dat de
+aanval alleen kraterschade is en de transfer onmogelijk is. Dan, en alleen dan, maak de vierde
+check, die de grenstelling is die bepaalt wie wordt begunstigd. Bereken welke vijandige
+fractie het potentieel afgesneden blok het meeste aan de grens deelt, want dat is de capturist,
+en bevestig dat het jij bent en geen rivaler. Als een derde fractie het land zou verzamelen, is
+de aanval een cadeau aan hen en je zou of de grens eerst opnieuw positioneren om die te winnen,
+of volledig overslaan. De twee scenario-delen hieronder wenden precies deze lezingen toe op twee
+concrete kaartroutes, zodat je de drempels, de tegeltellingen en de goud-per-tick-cijfers ziet
+die een echte transfer van een mislukking scheiden. De microkunst is: lees de straat, lees de
+kust, lees de omgeving, tel de grens, en pas dan beslis of de kraterschade de grondtransfer
+waard is, met de versiegrens als voorwaarde die de rest van de hele gids frameert.
+
+## Scenarie A: een kustarm van een midgame-rijk afsnijden
+
+Leg de kaart voor een concrete midgame-geval. Drie fracties op een standaard-eilandkaart. Je zit
+bij ongeveer zeventig procent populatie. De doel-vijand bezit een lange kuststrip aan de
+oostkant die via een twee-teen-breedte straat met hun binnenland verbindt. Hun strip heeft een
+eigen kustlijn, wat de val is die de meeste spelers vangt. Als je de straat aftrekt en de
+gehele ooststrip afsnijdt, raakt de strip nog steeds de zee, dus de « geen eigen kust »-
+voorwaarde faalt en de eigenaar behoudt elke tegel. Dat is de fout die je moet vermijden.
+Kijk in plaats van de omsloten zak achter de straat. Dat is een cluster van ongeveer achttien
+aakertegels die de ooststrip beschermt, volledig omsloten. Zijn grens naar het noorden en zuiden
+is jouw eigen grond en naar het westen is de straat zelf. Een MIRV die direct op deze straat
+knalt, produceert een krater en een falloutring breed genoeg om de twee-teen-verbinding te
+ruimen. Na de detonatie is de binnenzak van de hoofdmassa gescheiden, heeft geen eigen kust en
+is door jouw fallout en de grond van de omringende fracties omringd, dus alle drie voorwaarden
+houden tegelijk.
+
+Tel nu de echte waarde. De zak is ongeveer achttien productietegels die bij een midgame-income
+van ongeveer de helft van een goud per teen per tick ongeveer negen goud per tick transfer
+waard zijn. Deze omslag overschaduwt de waarde van de weinige gebouwen die de krater daadwerkelijk
+vernietigd heeft, dus de kraterschade is een netto verlies dat je accepteert om de transfer te
+kopen. Als jij de fractie bent die het blok het meest aan de grens deelt, annexeer je hem en
+realiseer je die negen goud per tick. Als de noordelijke fractie het blok sterker aan de grens
+deelt dan jij, annexeert ze hem en heb je het goud voor niets betaald. De beslissing is dus
+geconditioneerd. Als je op de kaart kunt bevestigen dat de noordelijke fractie het blok niet
+sterker aan de grens deelt dan jij, is de aanval een duidelijke winst en je plant de aanval.
+Als je dat niet kunt bevestigen, koopt de aanval de noordelijke speler een achttien-teen-blok en
+zijn je enige gezonde opties om de grens eerst opnieuw te positioneren of deze aanval deze tick
+te overslaan en te wachten op een betere geometrie. Dat is de hele kunst in één voorbeeld
+gecomprimeerd: lees de straat, lees de kust, lees de omgeving, tel de tegels en beslis pas dan
+of de kraterschade de transfer waard is. Het zijn de cijfers en niet de dramatiek van de krater
+die de beslissing nemen.
+
+## Scenarie B: het endgame-hoofdkwartier dat het laatste land is
+
+Ga nu naar de hoge-inzetvariant van hetzelfde mechanisme, waar het speciale geval van volledige
+verovering het middelpunt van de kaart wordt. Het is het endgame. Twee fracties zijn nog in leven
+plus een derde bijna dood. Het doel-overlevende is gereduceerd tot één hoofdkwartierblok van
+vijfentwintig tegels, en dat blok is letterlijk hun resterende land. Je hebt een aanval klaar.
+De derde fractie grenst het hoofdkwartier langs twee van zijn vier kanten, en jij grenst het
+langs de twee andere. Het doel houdt een enkele geïsoleerde boertegel, de enige zaak die
+verhindert dat het hoofdkwartier volledig wordt omringd. Als je deze enkele boertegel aftrekt
+en de krater plus falloutring het spoor ruimt, is het hoofdkwartier nu gescheiden van elk
+ander land van de eigenaar, heeft geen eigen kust en is door fallout plus de derde fractie en
+jij omringd. Alle drie voorwaarden houden tegelijk.
+
+Maar omdat deze cluster het enige resterende land van het doel is, draait de engine niet
+vijfentwintig tegels over. Het is een volledige verovering en het doel wordt volledig door de
+capturist geëlimineerd. Hier beslist de regel van de capturist het hele spel. Jij en de derde
+fractie grenzen beide het hoofdkwartier, dus je moet berekenen wie meer van zijn vijfentwintig
+tegels aan de grens deelt vóórdat je schiet. Als je veertien aan de grens deelt en de derde
+fractie elf, verover je het doel en win je het spel. Als de derde fractie veertien aan de grens
+deelt en jij elf, heb je zojuist een dure aanval neergelegd om het spel voor de rivaler te
+winnen die je net tegenstander was. De cijfers die tellen zijn de grenstellingen en niet de
+kratergrootte en niet de schade. Het besliskader is strikt: plant alleen als je kunt bevestigen
+dat je het hoofdkwartier strikt het meest aan de grens deelt dan de derde fractie en de snede
+het hoofdkwartier volledig isoleert zonder resterende kust of open tegel die het raakt. Als je
+je niet zeker bent van de exacte grenstelling, is de veiligste zet vaak om de straat helemaal
+niet af te trekken, maar het doel levend te houden als een gedeelde derde front die de andere
+fractie afbreekt, want het elimineren waarbij de verovering aan de verkeerde speler gaat is
+het slechtste resultaat op de kaart. Dit scenario is het meest in staat om een spel onmiddellijk
+te beëindigen, waarom de vóór-aanval-rekening hier meer telt dan ergens anders in deze gids.
+
+## Misdaden en tegenspelen
+
+De meeste gemiste annexaties komen terug op één van de vier mislukkingen, en elk is op de kaart
+zichtbaar vóórdat er één goud eenheid wordt besteedt, dus het doel is om de mislukking in de
+planfase af te vangen na in plaats van de aanval. Het eerste mislukking is dat de verbinding
+overleeft. Jouw krater plus fallout heeft de straat niet volledig geruimd, dus nog één tegel
+verbindt het blok met de hoofdmassa en de scheidingcheck faalt. De tegenspel is om de
+aanval op het smalste punt van de straat te mikken en vóór het schieten te bevestigen dat de
+falloutring breder zal zijn dan het resterende spoor. Als dat niet het geval zal zijn, schiet
+niet en zoek een ander doel. Het tweede mislukking is dat het blok een kust behoudt. Je hebt
+het blok afgesneden maar het behoudt zijn eigen oeverlijn, dus de « geen eigen kust »-voorwaarde
+faalt en de eigenaar behoudt het land, nog steeds in staat per boot te vertrekken. De
+tegenspel is om de omsloten helft van het blok aan te mikken in plaats van de kustschil, of
+erkennen dat dit bijzondere blok niet annexeerbaar is en een andere zak te kiezen die geen
+kust heeft.
+
+Het derde mislukking is dat het open terrein de omgeving breekt. Een gat vrij terrein raakt het
+blok, dus het raakt niet alleen spelers en fallout en de annexatie wordt volledig overgeslagen.
+De tegenspel is om alleen blokken in de diepte van het vijandelijke terrein te snijden, waar de
+omgeving volledig is en er geen rand onbezit terrein is dat een gat kan laten. Een blok op de
+rand van open terrein is een gegarandeerd mislukking. Het vierde en duurste mislukking is dat
+je het land aan de verkeerde speler geeft. De drie voorwaarden staan, de transfer gaat door,
+maar de capturist is de vijand die het blok het meest aan de grens deelt, die niet jij bent,
+dus het land gaat naar je rivaler en je betaalde alleen de krater. De tegenspel is de
+grenstelling vóór de inzet door te voeren. Als je het blok niet strikt het meest aan de grens
+deelt dan elke andere vijand, positioneer de grens eerst opnieuw om die te winnen, of sla deze
+aanval deze tick over.
+
+Er is ook een tegenspel voor de eigenaar van het afgesneden terrein, en het is de moeite waard om
+het te kennen want het zegt je wanneer een speler veilig de annexatie tegen zich kan weigeren.
+Een eigenaar verdedigt zich door nooit een volledig omringde omsloten zak achter te laten.
+Behoud minstens een kustuitgang op elk blok, wat de « geen eigen kust »-voorwaarde voor elke
+aanvaller faalt. Houd de straat naar je hoofdmassa breder dan een enkele krater plus fallout
+kan ruimen. En vermijd gereduceerd te worden tot een enkel hoofdkwartier dat een isolerende
+snede volledig kan veroveren. Integendeel, als jij de eigenaar bent en een blok zult verliezen,
+is het beste antwoord vaak om een kust of een weg naar de hoofdmassa te openen in plaats van te
+proberen de krater te bestrijden, want een overlevende verbinding is de enige zaak die
+garandeert dat je het land behoudt. En als jij een derde fractie bent die kijkt hoe iemand een
+aanval neerlegt die een zak kan afsnijden, kun je eenheden verplaatsen om het potentieel
+afgesneden blok aan de grens te delen vóórdat de aanval valt, en zo je eigen grenstelling
+verhoogt zodat de regel van de capturist het blok aan jou geeft. De annexatie is niet alleen een
+gereedschap van de schutter. Het is een driedelig race wie het afgesneden blok het meest aan de
+grens deelt, en de beweging van elke speler in de minuten vóór de aanval verandert wie het
+verzamelt.
+
+## Modus- en kaartaanpassingen
+
+De annexatie gedraagt zich anders afhankelijk van de kaartroutes die spelers echt aantreffen,
+dus dezelfde lezing van de drie voorwaarden moet vóór het geloven aan elk ervan worden
+aangepast. Op standaard-eilandkaarten, de natuurlijke thuishaven van dit feature, zijn overal
+kusten, wat betekent dat de meeste afgesneden blokken hun eigen kustlijn hebben en de « geen
+eigen kust »-voorwaarde falen. Daarom zijn de annexaties die op standaardkaarten door gaan de
+zeldzamere, waardereere omsloten zakken en precies waarom ze een doelbewuste setup belonen in
+plaats van een toevallige bonus. Op standaardkaarten prioritiseer doelstreten in de binnenland,
+waar de omgeving volledig is, en verwacht dat de race naar de capturist vaak een derde fractie
+bevat die je vóór het schieten moet overwegen. Op kaarten of modi die een groot centraal meer
+of een binnenzee bevatten, vermenigvoudigt het aantal omsloten zakken, want het water deelt het
+territorium in veel meer afgesneden eilanden. Hier gaat de annexatie veel vaker door en wordt de
+« geen eigen kust »-check op het blok de dominante filter. Een blok met zijn eigen
+meer-oeverlijn is niet annexeerbaar zelfs als het volledig geïsoleerd lijkt, dus op deze
+kaarten moet je de zak aanmiken die het meer niet raakt.
+
+In hoge-aanvals- of MIRV-zware modi verandert de straatberekening. Een MIRV-uitbarsting is
+substantieel breder dan een enkele aanval, dus ruimt ze een bredere band van de verbinding, wat
+straten die een enkele aanval helemaal niet kon scheiden nu scheikbaar maakt. Als je modus de
+MIRV toelaat, herhaal de check « kan de krater plus fallout de straat ruimen » met de bredere
+MIRV-voetafdruk, want doelen die met een enkele aanval mislukkingen waren worden met een MIRV
+levende annexaties. De goudprijs van een MIRV rechtvaardigt zichzelf alleen wanneer de
+annexatie-opbrengst daadwerkelijk landt, dus de uitbarstingsbreedte is wat het verschil maakt
+tussen een afgebrande en een werkende investering. In endgame-modi, waar fracties gereduceerd
+zijn tot een paar blokken, wordt het speciale geval van volledige verovering het middelpunt van
+de kaart. Als een rivaler gereduceerd is tot één enkel hoofdkwartier, stopt de annexatie met het
+zijn van een tegelstroom en wordt een potentieel spelbeëindiger, dus de grenstelling is de hele
+beslissing en de veiligste zet is vaak om de rivaler levend te houden als een gedeelde front in
+plaats van het risico te nemen dat de verovering naar de derde fractie gaat. Op elke modus is de
+onderliggende lezing identiek: straat, kust, omgeving, grenstelling. Maar de frequentie en de
+inzet van elke voorwaarde variëren met de kaart, dus de cijfers uit de twee scenario-delen
+boven moeten altijd voor de specifieke kaart worden herberekend waarop je zit, en niet van
+een andere kaartvorm kopiëren.
+
+## Snel referentietabel
+
+Werk deze tabel van boven naar beneden af vóór elke aanval, en behandel hem als je laatste check
+voor je het gold uitgeeft, niet als een nieuwe uitleg van de regels. Als de versierij onjuist is
+stop je direct, want niets daaronder kan op een stabiele build door gaan en de negen resterende
+rijen zouden verspilde tijd zijn. Als de capturist-rij onjuist is heb je de juiste geometrie maar
+de verkeerde begunstigde gekozen, wat de duurste fout is die de regel kan produceren, want je
+betaalt voor een complete aanval voor een cadeau aan een rivaler. Als je een grens-tellingsrij
+overslaat zonder verificatie, riskeer je dat een aanval betaalt voor een annexatie die nooit
+inslaat. De volledige afleiding van elke rij zit in de delen hierboven en de twee scenario-lopen
+tonen de teen- en goudcijfers die een geslaagde rij omzetten in een echte beslissing op jouw
+specifieke kaart. De tabel vervangt het lezen van de kaart niet; hij zorgt er alleen voor dat je
+elke voorafgaande voorwaarde hebt gelezen vóór je inzet en in de volgorde die je eerst beschermt
+tegen de duurste fouten. Aan het einde van de dag is deze tabel geen nieuw advies; hij is alleen
+de samenvatting van de overige negen delen in één afwerkbare lijst die je kunt afmeten tegen je
+eigen kaart vóór je gold besteedt uit de endgame-sparring.
+
+| Check | Wat te bevestigen op de kaart | Als ze faalt |
+|---|---|---|
+| Versie | Je voert v0.35.0-beta1 of beta2 uit, niet de stabiele v0.34.25 | Regel ontbreekt; oud omslingingsgedrag |
+| Scheiding | Krater plus fallout ruimt de straat naar de hoofdmassa volledig | Eigenaar behoudt het blok; opnieuw op de smalste straat mikken |
+| Geen eigen kust | Het blok raakt geen eigen water of kaartrand | Niet annexeerbaar; de omsloten helft aanmiken |
+| Volledige omgeving | Het blok raakt alleen fallout en vijanden, geen open teen | Annexatie overgeslagen; alleen in de diepte van het vijandelijke terrein snijden |
+| Capturist | Je deelt het blok strikt het meest aan de grens dan elke andere vijand | Het land gaat naar de rivaler; grens opnieuw positioneren of overslaan |
+| Speciaal geval laatste land | Het blok is het enige resterende land van de eigenaar | Volledige verovering door de capturist; grenstelling eerst controleren |
+
+Voor het oude omslingingsgedrag dat de stabiele v0.34.25 nog regeert, zie
+[Annexatie en omsloten terrein](/nl/guides/annexation-enclosure/). Voor de goudberekening
+achter de beslissing of de kraterschade zich überhaupt voor een aanval betaalt, zie
+[Atomaanval-goudberekening](/nl/guides/nuke-calculator/). Voor het gedrag van de
+fallouttegels in het gat dat je snijdt, zie [Vrij terrein en fallout](/nl/guides/no-mans-land-fallout/).
+En voor de bredere MIRV-uitbarsting die een gemiste straat in een levende annexatie
+omzet, zie [MIRV](/nl/guides/mirv/).

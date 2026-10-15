@@ -1,0 +1,345 @@
+---
+title: Nuke-Cut Territory Annexation (v0.35 Beta)
+group: endgame
+summary: When a nuke severs enemy territory from its main body, a surrounding enemy can now annex the cut-off piece. The trigger, the three conditions, and the version boundary.
+updatedDate: 2026-10-15
+description: "When a nuke severs enemy territory from its main body, a surrounding enemy can now annex the cut-off piece. Learn the trigger, the three conditions, the capturing-player rule, and the v0.35 version boundary."
+pubDate: 2026-10-15
+version: v0.35.0-beta2
+freshnessSummary: Verified against PR #5751 and the v0.35.0-beta1/beta2 engine tags; rule absent from stable v0.34.25.
+related:
+  - /guides/annexation-enclosure/
+  - /guides/nuke-calculator/
+  - /guides/no-mans-land-fallout/
+tags:
+  - nuke
+  - annexation
+  - endgame
+  - v35
+---
+
+**Short answer.** Dropping a nuke that slices enemy territory into a piece no longer connected to
+their main body can hand that cut-off piece to a surrounding enemy, instead of the owner keeping it.
+It only fires when the piece has no coast of its own, borders only other players and fallout, and the
+cut-off player has other land left. It is a new v0.35.0-beta rule (PR #5751) and is **not** in the
+current stable v0.34.25, so on live stable servers it still behaves the old way.
+
+## The rule in one picture
+
+Think of an enemy's territory as a single blob of land. Most of it is the main body: the largest
+connected cluster that also touches their border. Now you drop a nuke. The crater erases a ring of
+their tiles, and the fallout that follows is treated as your land for connectivity purposes for a
+short window after the strike. If that crater plus fallout happens to slice the blob in two, one side
+stays attached to the main body and the other becomes a free-floating island of their land with no
+path back to it. That floating piece is what the engine calls the severed cluster, and the new rule
+decides what happens to it. Before v0.35, the engine's old enclosure logic rarely treated a nuke-cut
+arm of a coastal empire as annexable, which is exactly why players complained for a long time that
+nuking to cut land off "looked random" and "stopped working for coastal empires." Pull request #5751
+reworked the capture path so that a genuinely cut-off, landlocked piece is now claimed by the enemy
+that surrounds it, instead of being left to the original owner.
+
+The decision this unlocks is a real return-on-investment call, not a passive bonus. A single nuke
+that would only destroy a few buildings can now also transfer an entire district, sometimes dozens of
+production tiles, to a third faction or to you. That changes which strikes are worth the gold. A
+strike aimed at the thickest part of an enemy's territory may cut nothing at all, while a strike that
+lands on the narrow isthmus connecting their coast to their inland heart can both crater that
+connection and detach a chunk that a bordering enemy then swallows. You are no longer just buying
+damage with the nuke; you are buying a territorial transfer on top of the damage. That is why the
+feature matters even though it only triggers in a narrow set of board geometries: the geometry is
+precisely the geometry a thoughtful endgame nuke already tries to hit. This is also why the feature
+changed how experienced players evaluate a nuclear strike in the first place. The nuke is no longer
+a pure damage purchase where you subtract the crater cost from the buildings destroyed. It is now a
+compound investment, where the same gold can simultaneously buy the crater and the transfer, and the
+transfer is usually the larger of the two. Because the payoff is conditional and geometry-dependent,
+the difference between a winning strike and a dud is no longer your aim alone but your read of the
+board geometry. The rest of this guide walks through the exact conditions, the capture logic, the
+version boundary, and how to read the map so you can set up the cut deliberately instead of
+discovering it by accident, and it ends with a quick reference table you can run before every strike.
+
+## The three conditions that must all hold
+
+The engine does not annex a cut-off piece just because it looks disconnected on the map. Three
+independent checks must all pass at the same time, and if any one of them fails the piece is left
+entirely alone and the owner keeps it. The first condition is disconnection from the main body. The
+cluster must not be connected, through the owner's own border tiles, to their largest landmass. A
+piece that still touches the main body by even a single tile is not severed and is ignored by the
+annex path. This is why a nuke that merely damages the edge of a blob, without fully clearing the
+connecting isthmus, does nothing at all: the connection survives, so nothing is actually cut off. The
+second condition is that the piece has no coast and no map edge on its own. If the cut-off piece
+touches open water or the border of the map by itself, the owner can simply boat out of it or treat
+it as a self-sustaining enclave, so the engine refuses to annex it. This is the single most common
+reason a cut appears to "not work" in real games: the detached arm still has its own coastline. The
+third condition is that the piece borders only other players and fallout, and that at least one enemy
+and at least one fallout tile surround it. The piece must be fully ringed by fallout, which counts as
+the nuker's land, and by enemy territory, with no open unclaimed tiles touching it at all. If any
+tile of the piece opens onto empty no-man's-land, the annex is skipped, because there is no
+surrounding enemy that could claim it.
+
+The practical takeaway is that you need a landlocked pocket of enemy land, fully surrounded by your
+fallout and a rival's border, that has completely lost its road home. A nuke that carves a ring of
+fallout around a district while the district's only land bridge back to the owner sits inside that
+ring is the textbook setup that satisfies all three conditions at once. Note the order in which
+players usually fail these checks. First they get the disconnection right but the piece still has a
+coast. Then they handle the coast but the piece still touches the main body by a single tile. Then
+they clear both of those but a gap of open land breaks the "borders only players and fallout" rule.
+Each failure mode is visible on the map before you spend a single unit of gold, which is what makes
+the whole rule plan-able rather than lucky. The failures section later breaks down each of these with
+concrete counterplay and the situations where you should avoid the strike entirely, but the core idea
+is that the rule is precise and deterministic, and a single failed condition means the strike is
+crater damage and nothing more.
+
+## Which enemy actually captures the piece
+
+When all three conditions hold, the cut-off piece does not go to a random player and it does not
+necessarily go to you, the player who dropped the nuke. It goes to the capturing player, which the
+engine computes by scanning every bordering tile of the severed cluster and counting, for each enemy,
+how many of the piece's tiles that enemy actually borders. Any faction that is friendly to the owner
+of the cut-off land is skipped, as is the nuker's own friendly circle, so the pool of candidates is
+strictly the hostile factions that share a border with the piece. The enemy that borders the most of
+the piece's tiles wins the capture outright. If two enemies are exactly tied, the engine keeps the
+first one it encounters in its internal iteration order, so a tie is effectively decided by map
+layout rather than by any player action you can influence in the moment. This has a subtle but very
+important consequence: nuking to cut an arm off can be a third-party gift. If the detached district
+is ringed more by the player to your north than by you, the north player swallows the district and
+you get the crater damage without the land. You paid the full gold cost of the nuke for the damage
+only, and a rival collected the transfer.
+
+There is also a special case the code handles on its own, and it is the highest-stakes version of
+the entire rule. If the severed cluster is the only land the cut-off player still has, the capture is
+not a tile transfer at all but a full conquest: the whole player is eliminated and their remaining
+assets go to the capturing enemy. This is the variant most likely to end a game early in the endgame,
+because once a faction has been reduced to a single capital district, a nuke that isolates that
+capital can delete them entirely rather than just shrink them. Because the capturing player is
+whichever enemy borders the piece most, you must not assume that being the nuker makes you the
+beneficiary of the annex. Before you commit the gold, work out who actually surrounds the target
+pocket. In a three-faction endgame that is often the player who has been grinding the target's flank
+for the whole match, not the player who is about to spend the nuke. If the intended beneficiary turns
+out to be a rival, you have just bought their win. That reordering of incentives, where the person
+who pays for the strike is not the person who collects the land, is exactly the thing the two
+scenario sections put concrete numbers around, and it is the single most expensive mistake the rule
+can produce if you skip the border-count check.
+
+## Version boundary: stable v34 versus the v35 playtest
+
+The single most important operational fact about this feature is that it is not live on the current
+stable servers. The rule was introduced by pull request #5751, which landed in the v0.35.0-beta1
+engine tag and is also present in the v0.35.0-beta2 tag, but the stable build that the public servers
+run is still v0.34.25, and that build does not contain the annex-severed-clusters code path at all.
+On stable v0.34.25 the engine still uses the old enclosure logic, where a nuke that cuts an arm off a
+coastal main body almost never triggers an annex, which is precisely the long-standing player
+complaint that nuking to cut territory off "stopped working for coastal empires." So if you are
+playing on the live public servers today, you will see the old behavior: the crater appears, the arm
+is cut visually on the map, but the owner keeps every tile and nothing transfers. The cut looks
+dramatic and the transfer simply never happens, because the code path that would produce the transfer
+does not exist in the stable build.
+
+The v0.35.0-beta1 and v0.35.0-beta2 builds are prerelease, opt-in playtest builds that began
+circulating in mid-October 2026. The v0.35.0-beta2 release, published on 2026-10-14, calls out
+"Nukes annex again" among its headline changes. To actually experience the new annex rule you need to
+be running a v35 beta build, or a custom server on that engine, and not the stable default. This
+matters for every other piece of advice in this guide, because all of the deliberate "cut the
+isthmus" strategies only pay off on v35 beta and later. If you plan around the annex payoff and then
+end up playing on stable, you will spend the nuke gold for the crater damage and get no territorial
+transfer, because the stable build has no annex path to fire at all. Treat the version boundary as a
+hard precondition for the whole strategy, not a footnote. If you can choose your build, target a v35
+beta to test the annex behavior; if you are locked to stable, this section tells you what will not
+happen so you do not misread a failed transfer as a bug or a random miss. Once v0.35 ships as the
+stable release, the boundary collapses and every strategy in this guide goes live everywhere at once,
+which is the moment the endgame meta is most likely to shift hard.
+
+## Reading the map before you commit
+
+Turning the three conditions into a pre-strike checklist makes the difference between an accidental
+bonus and a reliable one, and each check is a simple yes or no read you can do before spending gold.
+First, find the isthmus: the narrowest band of the owner's land that connects the target district
+back to their main body. You want a nuke whose crater, plus the fallout ring it leaves behind, can
+fully clear that band. Because fallout counts as your land for connectivity, the effective cut is
+wider than the crater alone. A nuke that would not look big enough to bridge the gap by its raw blast
+can still sever the connection once the fallout ring closes around it. If the isthmus is wider than
+your crater plus fallout can clear, disconnection fails and nothing happens, so skip that target and
+look elsewhere. Second, check the coast on the cut-off side. Trace the outline of the district you
+are trying to detach and confirm it has no water and no map border on its own. If the district you
+want to gift to a rival has its own shoreline, it is unannexable no matter how cleanly you cut it, and
+you are far better off targeting the district's landlocked inner half instead of the coastal shell.
+Third, verify the surround. The detached piece must be ringed entirely by fallout and enemy border
+with zero open tiles touching it. Any gap of open no-man's-land breaks the "borders only players and
+fallout" rule and kills the annex, so the cut needs to sit deep inside enemy territory, not on the
+fringe of unclaimed land where a stray gap is likely.
+
+Do all three checks before you spend a single unit of gold, because a single no means the strike is
+crater damage only and the transfer is impossible. Then, and only then, do the fourth check, which is
+the border count that decides who benefits. Work out which hostile faction borders the prospective
+detached piece most, because that is the capturing player, and confirm that it is you rather than a
+rival. If a third faction would collect the land, the strike is a gift to them and you should either
+reposition to gain border first or pass entirely. The two scenario sections that follow apply these
+exact reads to two concrete board states, so you can see the thresholds, the tile counts, and the
+gold-per-tick numbers that separate a real transfer from a dud. The skill in miniature is: read the
+isthmus, read the coast, read the surround, count the border, and only then decide whether the crater
+damage is worth the territorial transfer, with the version boundary as the zeroth check that gates
+everything else in this entire guide.
+
+## Scenario A: cutting a coastal arm off a mid-game empire
+
+Set the board for a concrete mid-game case. Three factions on a standard island map. You are at
+about sixty percent population. The target enemy owns a long coastal strip on the east side that
+connects to their inland capital by a two-tile-wide isthmus. Their east strip has its own coastline,
+which is the trap that catches most players. If you nuke the isthmus and detach the whole east
+strip, the strip still touches the sea, so the "no coast" condition fails and the owner keeps every
+tile of it. That is the mistake to avoid. Instead, look at the inland pocket behind the isthmus. It
+is a cluster of roughly eighteen farmland tiles that the east strip protects, and it is fully
+landlocked. It is bordered on its north and south by your own territory and on its west by the
+isthmus itself. A MIRV that bursts directly on that isthmus produces a crater and a fallout ring that
+is wide enough to clear the two-tile connection. After the detonation the inland pocket is
+disconnected from the main body, has no coast of its own, and is ringed by your fallout and the
+territory of the factions around it, so the three conditions all hold at once.
+
+Now count the actual value. The pocket is about eighteen production tiles, which at a mid-game tile
+income of roughly half a gold per tile per tick is worth about nine gold per tick transferred. That
+swing dwarfs the value of the few buildings the crater actually destroyed, so the crater damage is a
+net loss you are accepting in order to buy the transfer. If you are the faction that borders the
+pocket most, you annex it and collect those nine gold per tick. If the faction to the north borders
+it more than you do, they annex it and you paid the gold for nothing. The decision is therefore
+conditional. If you can confirm on the map that the north faction does not border the pocket more
+than you do, the strike is a clear net win and you commit the nuke. If you cannot confirm that, the
+strike buys the north player an eighteen-tile district, and your only sane options are to reposition
+so that you border the pocket first, or to pass on the strike this round and wait for a better
+geometry. This is the whole skill compressed into one example: read the isthmus, read the coast, read
+the surround, count the tiles, and only then decide whether the crater damage is worth the transfer.
+The numbers, not the drama of the crater, are what make the decision.
+
+## Scenario B: the endgame capital that is the last land
+
+Now the high-stakes version of the same mechanic, where the special case of a full conquest becomes
+the center of the board. It is the endgame. Two factions are still alive plus a third that is nearly
+dead. The surviving target has been reduced to a single twenty-five-tile capital district, and that
+district is literally their only remaining land. You have a nuke ready. The third faction borders the
+capital on two of its four sides, and you border it on the other two. The target holds one small
+outlying farm on a single tile of open road that is the only thing keeping the capital from being
+fully surrounded. If you nuke that one road tile, and the crater plus the fallout ring clears the
+road, the capital is now disconnected from any other land of the owner's, has no coast of its own,
+and is ringed by fallout plus both the third faction and you. All three conditions hold at once.
+
+But because this cluster is the target's only remaining land, the engine does not just transfer
+twenty-five tiles. It is a full conquest, and the target is eliminated outright by the capturing
+player. Here the capturing-player rule decides the entire game. You and the third faction both border
+the capital, so you must work out who borders more of its twenty-five tiles before you fire. If you
+border fourteen of those tiles and the third faction borders eleven, you conquer the target and win
+the game. If the third faction borders fourteen and you border eleven, you have just dropped an
+expensive nuke to win the game for the rival you were about to face. The numbers that matter are the
+border counts, not the crater size and not the damage. The decision framework is strict: only commit
+if you can confirm that you strictly border the capital more than the third faction does, and that
+the cut fully isolates the capital with no coast and no open tile left touching it. If you are unsure
+of the exact border count, the safer play is often to not nuke the road at all, but to keep the
+target alive as a shared third front that bleeds the other faction, because eliminating them with the
+conquest going to the wrong player is the worst available outcome on the board. This scenario is the
+one most likely to end a game instantly, which is why the pre-strike arithmetic here matters more than
+it does anywhere else in this guide.
+
+## Failures and counterplay
+
+Most failed annexes trace back to one of four failure modes, and each one is visible on the map
+before you spend a single unit of gold, so the goal is to catch the failure in the planning phase
+rather than after the strike. The first failure mode is that the connection survives. Your crater plus
+fallout did not fully clear the isthmus, so a single tile still links the piece back to the main body
+and the disconnection check fails. The counter is to aim the burst at the narrowest point of the
+isthmus and confirm, before you fire, that the fallout ring will be wider than the remaining gap. If
+it will not be wider, do not fire and look for a different target. The second failure mode is that
+the piece keeps a coast. You cut the district but it retains its own shoreline, so the no-coast
+condition fails and the owner keeps the land, still able to boat out of it. The counter is to target
+the landlocked inner half of the district rather than the coastal shell, or to accept that this
+particular district is unannexable and pick a different pocket that has no coast of its own.
+
+The third failure mode is that open land breaks the surround. A gap of no-man's-land touches the
+piece, so it does not border only players and fallout, and the annex is skipped entirely. The counter
+is to only cut districts that sit deep inside enemy territory, where the surround is complete and
+there is no fringe of unclaimed land that could leave a gap. A piece that sits on the edge of open
+land is a guaranteed dud. The fourth, and most expensive, failure mode is that you gift the land to
+the wrong player. All three conditions hold, the transfer fires, but the capturing player is the
+enemy who borders the piece most, which is not you, so the land goes to your rival and you only paid
+for the crater. The counter is to run the border count before you commit. If you do not strictly
+border the piece more than any other enemy, either reposition to gain border first or pass on the
+strike this round.
+
+There is also a counterplay angle for the owner of the territory being cut, and it is worth knowing
+because it tells you when a player can safely refuse to set up the annex against them. An owner
+defends by never leaving a landlocked pocket fully surrounded. Keep at least one coastal exit on
+every district, which makes the no-coast condition fail for any attacker. Keep the isthmus to your
+main body wider than a single nuke's crater plus fallout can clear. And avoid being reduced to a
+single capital that an isolated cut could fully conquer. Conversely, if you are the owner and you are
+about to lose a district, the best response is usually to open a coast or a road back to your main
+body rather than to try to fight the crater, because a surviving connection is the only thing that
+guarantees you keep the land. And if you are a third faction watching someone else drop a nuke that
+could cut a pocket, you can move units to border the prospective detached piece before the strike,
+raising your own border count so the capturing-player rule hands the district to you. The annex is
+not just a nuker's tool. It is a three-way race over who borders the cut-off land most, and every
+player's movement in the minutes before the strike changes who collects it.
+
+## Mode and map adjustments
+
+The annex behaves differently across the board states players actually meet, so the same
+three-condition read has to be adjusted to each one before you trust it. On standard island maps,
+which are the natural home of this feature, coasts are everywhere, which means most cut-off pieces
+have their own shoreline and fail the no-coast condition. That is why the annexes that do fire on
+standard maps are the rarer, higher-value landlocked pockets, and exactly why they reward a deliberate
+setup rather than an accidental bonus. On standard maps, prioritize isthmus targets deep inland where
+the surround is complete, and expect the capturing-player race to usually involve a third faction you
+have to account for before you fire. On maps or modes that include a large central lake or an inland
+sea, the number of landlocked pockets multiplies, because the water divides territory into many more
+disconnected islands. Here the annex fires far more often, and the no-coast check on the piece itself
+becomes the dominant filter. A piece with its own lake shore is unannexable even though it looks
+completely isolated, so on those maps you should target the pocket that the lake does not touch.
+
+In high-nuke or MIRV-heavy modes, the math of the isthmus changes. A MIRV burst is substantially
+wider than a single nuke, so it clears a broader band of the connection, which means isthmuses that a
+single nuke could not sever at all become severable. If your mode allows MIRV, re-run the "can the
+crater plus fallout clear the isthmus" check with the wider MIRV footprint, because targets that were
+duds with a single nuke become live annexes with a MIRV. The gold cost of a MIRV only justifies
+itself when the annex payoff actually lands, so the width of the burst is what makes the difference
+between a broken investment and a working one. In endgame modes, where factions are reduced to just
+a few districts each, the full-conquest special case becomes the center of the board. When a rival
+is down to a single capital, the annex stops being a tile transfer and becomes a potential game-ender,
+so the border-count arithmetic is the entire decision, and the safest play is often to keep the rival
+alive as a shared front rather than risk the conquest going to the third faction. Across every mode
+the underlying read is identical: isthmus, coast, surround, border count. But the frequency and the
+stakes of each condition shift with the map, so the numbers in the two scenario sections above should
+always be recomputed for the specific board you are actually on, not copied from a different map shape.
+
+## Quick reference table
+
+Run this table top to bottom before every strike, and do not skip rows. If the version row is wrong
+you stop immediately, because nothing below it can fire on a stable build and the rest of the
+checklist is wasted effort. If the disconnection row is wrong the owner keeps every tile, so the
+whole annex is impossible no matter how clean the crater looks. If the no-coast row is wrong the
+piece is unannexable by definition, and the only remedy is a different target. If the surround row
+is wrong the engine skips the annex outright, and there is no in-game way to close the gap after the
+strike. If the capturing-player row is wrong you have chosen the right geometry but the wrong
+beneficiary, which is the most expensive kind of mistake this rule can produce, because you spend
+the full gold and a rival collects the land. The only-land row is the one that decides whether the
+strike is a tile transfer or a full conquest, and it is the single highest-stakes row on the table
+because a wrong answer can end the entire game in the wrong direction.
+
+The table is a filter, not a scoring system. Every row is a hard gate, and one failed row collapses
+the annex to crater damage only. The order matters: version first, then disconnection, then coast,
+then surround, then capturing player, then only-land, because each earlier row is cheaper to check
+and eliminates more candidates than the ones after it. Checking the version before you do any tile
+math saves the entire rest of the exercise when you are on stable. Checking disconnection before
+coast saves the coast check when the piece is not actually severed. The full derivation of each row
+is in the sections above, and the two scenario walks show the tile and gold numbers that turn a
+passing row into a real decision on your specific board. The table is deliberately short, because the
+goal is to run it in under a minute at the moment of decision, not to re-derive the rule under time
+pressure.
+
+| Check | What to confirm on the map | If it fails |
+|---|---|---|
+| Version | You are running v0.35.0-beta1 or beta2, not stable v0.34.25 | Rule not present; old enclosure behavior holds |
+| Disconnection | Crater plus fallout fully clears the isthmus to the main body | Owner keeps the piece; re-aim at the narrowest isthmus |
+| No own coast | Detached piece touches no water and no map edge | Unannexable; target the landlocked inner half |
+| Complete surround | Piece borders only fallout and enemies, no open tile | Annex skipped; only cut deep inside enemy land |
+| Capturing player | You strictly border the piece more than any other enemy | Land goes to the rival; reposition or pass |
+| Only-land special case | Detached piece is the owner's last remaining land | Full conquest by capturing player; verify border count first |
+
+For the older enclosure behavior that still governs stable v0.34.25, see
+[Annexation and Enclosed Territory](/guides/annexation-enclosure/). For the gold math behind
+deciding whether the crater damage is worth a strike at all, see [Nuke Gold Calculator](/guides/nuke-calculator/).
+For how fallout tiles behave in the gap you are cutting, see [No Man's Land and Fallout](/guides/no-mans-land-fallout/).
+And for the wider MIRV burst that turns a dud isthmus into a live annex, see [MIRV](/guides/mirv/).
