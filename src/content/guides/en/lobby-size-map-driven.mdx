@@ -1,0 +1,386 @@
+---
+title: Map-Driven Public Lobby Size (v0.35 Beta)
+group: naval
+summary: The 125-player public-lobby cap is removed in v0.35 and lobby size now scales with each map's land area. The new sizes, the roll, the team-mode math, and which maps actually get bigger.
+updatedDate: 2026-10-15
+description: "The 125-player public-lobby cap is gone in v0.35. Learn how lobby size now derives from map land tiles, the exact new sizes for The Box, Alps, Middle East, Two Lakes and Mare Nostrum, how the roll and team-mode math work, and how to pick the lobby that fits your goal."
+pubDate: 2026-10-15
+version: v0.35.0-beta2
+freshnessSummary: Verified against PR #5548 and the v0.35.0-beta1/beta2 engine tags; the stable v0.34.25 still caps every scheduled lobby at 125.
+related:
+  - /guides/list-lobbies/
+  - /guides/map-size-compact-mode/
+  - /guides/lobby-pool-routing/
+tags:
+  - public-lobby
+  - lobby-size
+  - v35
+  - strategy
+---
+
+**Short answer.** In v0.35 the fixed 125-player cap on scheduled public lobbies is removed, so
+lobby size now comes from the map's land area. The Box can now host 210 in a large free-for-all
+(158 in team) and Alps 185 (143 in team); Middle East and Two Lakes reach 170, Mare Nostrum 130.
+A free-for-all picks one of three size tiers by a single roll, and team mode multiplies that base
+by 1.5. On the current stable v0.34.25 every lobby is still hard-capped at 125, so these numbers
+only appear on the v0.35 beta.
+
+## What actually changed, and which lobbies it touches
+
+The single most important thing to understand about this change is its scope, because players
+tend to read "bigger lobbies" as "every lobby got bigger," which is not what happens. In the
+current stable build, v0.34.25, the server computes a target player count for every scheduled
+public lobby — the rolling free-for-all, team and special lobbies that the master scheduler fills
+from the map playlist — and then forces that number down with a final line that caps it at 125,
+a performance ceiling that applies to every single one of them regardless of the map. That cap
+was the last line of the sizing routine and it did not care whether the map could comfortably
+hold 125 or 210; it just clamped everything to the same number. The v0.35 change, tracked in PR
+#5548, removes that final clamping line entirely. The sizing routine now stops at whatever the
+map's land area produces, and the only ceiling left is the map's own largest size tier. So the
+change is not "lobbies can be bigger now" in a vague sense; it is "the one thing that was
+silently holding every big lobby at 125 is gone, and maps with enough land now show their full
+size."
+
+That scoping detail is what makes the change a real decision input rather than a cosmetic number.
+Only the scheduled public queues are affected — the free-for-all, team and special queues the
+game runs for you — because those are the ones that go through the sizing routine. The hosted
+queue is different: those are player-created rooms that a host lists publicly, and the host sets
+their own player limit, which was always in the ten-to-one-hundred range and is governed by the
+hosting rules, not by this routine. If you are joining a hosted lobby nothing about this change
+applies to it. And on the map side, the increase is purely additive: a map whose full size was
+already below 125 does not get any bigger, because it was never actually hitting the old cap.
+The only maps that visibly change are the genuinely land-rich ones whose largest tier now exceeds
+125. The practical upshot is that you should not expect a different lobby experience on a small
+island map, but on The Box and Alps in particular the game can now hand you a meaningfully larger
+free-for-all than it ever could on stable, and that larger lobby changes how you should position,
+expand and commit from the first minute. Reading the scope this way — which queues, which maps,
+and the fact that it is additive — is the foundation for every decision the rest of the guide
+makes, and it is also the version boundary that keeps the live stable behaviour from being
+mistaken for the new one.
+
+## How the new size is computed from map land
+
+Now that the cap is gone, the number you actually get is the output of a small formula, and it
+is worth knowing it because it explains both the size of each affected map and the spread you
+will see between two lobbies on the same map. Every OpenFront map has a fixed land-tile count,
+the total number of land tiles that are not water. The game takes that count and converts it into
+a base number: it multiplies the land-tile count by 50 per million tiles, rounds the result to
+the nearest multiple of five, and never lets the base fall below five. That base becomes the
+map's largest size tier. From that single base the game then derives the other two tiers by
+multiplying the base by 0.75 for the medium tier and by 0.5 for the small tier, and rounding each
+of those back to the nearest multiple of five as well. So a map's three size tiers are not three
+independent numbers; they are one land-driven base number and two proportional derivatives of it.
+That is why the tiers for any given map always sit in a predictable ratio, roughly 100 to 75 to
+50, and it is why the largest tier is the one that matters when you are asking "can this map hold
+a big lobby."
+
+The reason the base is derived from land tiles at all is that land is the scarce resource a
+player needs to expand, and the old system ignored how much of it a map actually had. A map with
+four million land tiles has roughly four times the room of a map with one million, so a lobby
+capped at 125 on the big map was leaving most of that room unused while the small map was
+genuinely crowded at the same 125. Deriving the base from land ties the lobby size to the actual
+playable space, so a bigger lobby lands on a map that can absorb it. For the affected maps the
+math works out like this: The Box has about 4.19 million land tiles, which produces a base of 210
+and tiers of 210, 160 and 105; Alps has about 3.67 million, producing 185, 140 and 95; Middle East
+and Two Lakes sit around 3.4 to 3.45 million, producing 170, 130 and 85; and Mare Nostrum has
+about 2.64 million, producing 130, 100 and 65. None of these numbers is arbitrary or hand-tuned;
+each is the rounded land-driven base and its two derivatives. Understanding this formula is what
+lets you predict the size of any map and understand why the same map can show very different
+lobby counts from minute to minute, which is the next thing to grasp.
+
+## The five maps that change, old versus new
+
+The table below is the core of the change and the single most useful artifact to keep: it shows,
+for each of the five maps whose full size now exceeds the old cap, the free-for-all sizes and
+team sizes before and after. The free-for-all column shows the three size tiers the map can roll
+into, listed largest to smallest, and the team column shows the team-mode size for each of those
+tiers. The "old" values are what stable v0.34.25 produced, where the 125 cap flattened the
+largest tier and the team number; the "new" values are what v0.35 produces once the cap is gone.
+
+| Map | FFA old | FFA new | Team old | Team new |
+|---|---|---|---|---|
+| The Box | 125 / 125 / 105 | 210 / 160 / 105 | 125 / 125 / 125 | 210 / 210 / 158 |
+| Alps | 125 / 125 / 95 | 185 / 140 / 95 | 125 / 125 / 125 | 185 / 185 / 143 |
+| Middle East | 125 / 125 / 85 | 170 / 130 / 85 | 125 / 125 / 128 | 170 / 170 / 128 |
+| Two Lakes | 125 / 125 / 85 | 170 / 130 / 85 | 125 / 125 / 128 | 170 / 170 / 128 |
+| Mare Nostrum | 125 / 100 / 65 | 130 / 100 / 65 | 125 / 125 / 98 | 130 / 130 / 98 |
+
+Reading the table column by column tells you exactly who is affected. In the free-for-all
+columns, the largest tier jumps for every map: The Box from 125 to 210, Alps from 125 to 185,
+Middle East and Two Lakes from 125 to 170, and Mare Nostrum from 125 to 130. The medium and small
+tiers are mostly unchanged, because they were already below the old cap, so the difference is
+concentrated in the large tier. In the team columns the pattern is sharper: The Box team lobby
+was a flat 125 in every tier on stable, and is now 158 in every tier on v0.35, which is a 33
+player increase that does not depend on the roll at all. The two maps that clearly exceed the
+old cap in their largest free-for-all tier are The Box and Alps; Middle East, Two Lakes and Mare
+Nostrum are now simply proportional rather than capped, so they are "map-driven" now but were
+already effectively at or just under the old number. The practical reading of the table is that
+if you want a genuinely bigger lobby the two maps to target are The Box and Alps, and if you
+just want a normal-sized game the other three will feel much like they always did, which is the
+key input for the map-picking decision later in the guide.
+
+## How the roll picks your size
+
+The size you actually get on a given map is not always the largest tier; the scheduler makes a
+single random roll for each lobby it opens, and that roll chooses which of the map's three tiers
+the lobby will use. The roll has three outcomes: roughly a third of the time it picks the large
+tier, a third of the time the medium tier, and a little less than half the time the small tier.
+Because the roll is uniform and independent for each lobby the scheduler opens, two lobbies on
+the same map opened a minute apart can legitimately have very different player counts, and the
+same map can feel small in one lobby and large in the next. This is the reason you will see The
+Box show 210 in one free-for-all and 105 in another, and it is the reason the "which lobby should
+I join" question now has a size dimension you have to read before you click. The roll is not a
+choice the game makes on your behalf and it is not visible to you in advance; it is made the
+moment the lobby is opened, which means the only reliable moment you can read the outcome is the
+public browser, where the card shows the count the roll landed on. That single fact reorders your
+workflow: instead of assuming a map means a size, you now read the size before you commit, and
+the map choice and the roll together, not the map alone, decide the lobby you are about to play.
+
+For a player the way this shows up is the current player count on the lobby card in the public
+browser, which tells you which tier the lobby has landed on. On The Box a large roll means 210
+players, a sprawling free-for-all with a large number of simultaneous fronts and a slower early
+expansion because the land is spread over more opponents; a medium roll is 160, which feels like
+a classic 125 lobby with a little more room; and a small roll is 105, which is essentially the
+old maximum minus twenty. On Alps the same logic gives 185, 140 and 95, and on Middle East and
+Two Lakes it gives 170, 130 and 85. The spread between the largest and smallest tier is what the
+change is really about: on The Box the spread is now 105 players wide, from 210 down to 105, so
+the difference between landing on a large and a small roll is larger than the entire old lobby
+ever was. That is a wide distribution, and it is the reason size is now a first-class thing to
+plan around rather than a fixed constant. The practical move is to read the card's player count
+in the browser before you join, so you know whether you are about to drop into a 210-player
+sprawl or a 105-player classic, and then decide if that matches what you want to play. If you
+want the big experience you scan the browser for a large-tier lobby and wait for one to open; if
+you want the normal one you skip past the large-tier cards. Because the roll is independent each
+time a lobby opens, the wait for the size you want is short in practice, and the browser is the
+only reliable place to confirm it before you click.
+
+## Team mode: the 1.5 multiplier and the clamp
+
+Team mode uses the same size tiers but a different final step, and this is where the change
+produces the most surprising numbers. The roll still picks a base tier from the map, exactly as
+in free-for-all, but team mode then multiplies that base tier by 1.5 and rounds up, because a
+team lobby needs more total players to fill the same number of meaningful teams. There is a
+second step that clamps this result so it never exceeds the map's largest tier. For the affected
+maps this clamp is usually not the binding constraint, but understanding it matters for reading
+the table. On The Box the largest tier is 210; a large roll gives a base of 210, times 1.5 is
+315, clamped down to 210, so a large-roll team lobby is 210. A medium roll gives 160, times 1.5
+is 240, clamped to 210, so a medium-roll team lobby is also 210. A small roll gives 105, times
+1.5 is 157.5 rounded up to 158, which is below the 210 clamp so it stays 158. That is why the
+team column in the table shows 210, 210 and 158 for The Box: the two larger rolls both hit the
+clamp and only the small roll comes in under it.
+
+The same pattern holds for the other big maps, and it has a direct practical consequence. On Alps
+the largest tier is 185; a large or medium roll multiplies to at least 270 and is clamped to 185,
+while a small roll of 95 times 1.5 is 142.5 rounded up to 143, under the clamp. So an Alps team
+lobby is 185 on a large or medium roll and 143 on a small roll. On Middle East and Two Lakes the
+largest tier is 170; a large roll of 170 times 1.5 is 255 clamped to 170, a medium roll of 130
+times 1.5 is 195 clamped to 170, and a small roll of 85 times 1.5 is 127.5 rounded up to 128,
+which is why the table shows 128 for the small-roll team lobby on those two maps. The key takeaway
+is that team mode on these big maps is now reliably in the high range, often at or near the
+largest tier, which makes team a strong choice when you specifically want a big, well-populated
+lobby, because unlike free-for-all where the roll can give you a small 105 lobby, team mode on
+The Box gives you 158 to 210 no matter what the roll is. That stability is itself a decision
+input: if a reliable big lobby matters more to you than the variance of the free-for-all roll,
+team mode on the big maps is the more predictable path to it.
+
+## Compact, crowded, and the maps that do not change
+
+Two other sizing systems interact with this change, and sorting them out prevents the most
+common confusion. The first is compact mode, which is unchanged by this PR. When a lobby is
+compact, the game takes whatever size the normal routine produced and reduces it to a quarter,
+so a compact lobby is always a small version of the same map's normal size and never re-encounters
+any cap. The practical point is that compact and this change do not conflict: a compact The Box
+lobby is a quarter of 210, not a capped number, and the [compact map sizing guide](/guides/map-size-compact-mode/)
+covers how that quartering interacts with the map's space. The second is the crowded modifier,
+which is a weighted modifier that can be rolled onto a lobby and that forces a specific player
+count, but only on small maps. It triggers when the map's largest tier is sixty players or lower,
+which describes the small land-light maps, and it sets the count to a fixed crowded value rather
+than letting the land-driven tiers decide. The five big maps never get the crowded treatment
+because their largest tiers are far above the sixty threshold, so for them the size is purely
+land-driven. Understanding this separation is important: the crowded modifier is the only way a
+small map gets a big lobby, and it is a completely separate mechanism from the land-driven
+increase, so do not conflate a crowded small map with a big land-rich map.
+
+The third and most important scoping point is which maps do not change at all. Every scheduled
+map whose largest tier is already below the old cap of 125 — the small island maps, the
+land-light world and regional maps — is unaffected, because they were never actually hitting the
+cap. Their land-driven tiers sit well under 125, so removing the ceiling changes nothing about
+their size. If you queue on those maps your lobby will look exactly as it always did. This is
+why the guide keeps returning to the list of five maps: those are the only ones where you will
+notice a difference, and the practical implication is that the map you pick is now the thing that
+decides whether you get a bigger lobby at all. The public browser still shows the map, the mode
+and the current count on each card, so the map choice and the roll together determine your
+experience, and the [public lobby browser guide](/guides/list-lobbies/) covers how to read those
+cards before you commit to a queue.
+
+## Scenario: a large-roll free-for-all on The Box
+
+Take a concrete large-roll free-for-all on The Box, which now opens at 210 players instead of the
+125 it could never exceed on stable. That is 68 percent more players on the same land, and it
+changes the early game in a specific way you can plan for. In a 210-player sprawl the land is
+spread over many more opponents, so the early phase is slower and lower-density than in a 125
+game: there is more room between you and your neighbours, which means the first few minutes feel
+less immediately lethal but also mean you have to establish a defensible expansion corridor before
+the fronts start closing in, because with 210 players the total number of simultaneous threats is
+much higher. The positional lesson is to take a lane of land that connects your spawn to a clear
+expansion direction, build a thin but continuous border, and resist the temptation to expand wide
+and thin early, because in a 210-player game a thin frontier is the first thing to get picked off.
+The economic lesson is that gold income now has to support a longer, more contested expansion
+rather than a quick push, so you want a steady factory and port base before you commit troops to
+a front. The decision this scenario forces is timing: in a 210-player The Box you commit to a
+front later than in a 125 game, because the extra players mean more of the map is still being
+contested and the early push is more likely to be absorbed.
+
+There is a further structural difference that the player count hides. With 210 players the map
+is divided into far more fronts than with 125, so no single front is as dangerous in isolation,
+but the total pressure is higher and the fronts open across the map rather than concentrating on
+one or two. That means your attention is spread, and the failure mode that kills the most players
+in a 210 The Box is focusing on one front while a second one, two tiles to your other side, takes
+your unguarded corridor. The counter is to keep your expansion a continuous front rather than a
+few deep pushes, so that a new threat on any axis meets a prepared border instead of an open
+lane, and to rotate your reserve the moment a new front appears rather than only reacting after
+you have already lost ground. The read on the card is the trigger for all of this: when you see
+210 you are not playing a bigger version of the old game, you are playing a different, slower,
+wider game with more fronts to manage, and the whole opening — the corridor shape, the build
+order, the moment you commit to a front — should be tuned to that. If you read the card and see
+210, commit to the front later, hold a larger reserve, and keep your border continuous rather
+than thin.
+
+## Scenario: team on The Box at 158 versus free-for-all
+
+Now compare the same map in team mode, which on The Box opens at 158 on a small roll and up to
+210 on a large or medium roll, against the free-for-all. The defining difference is that team
+mode is stable where free-for-all is not: a free-for-all on The Box can land you in a 105-player
+lobby by roll, while a team lobby is always at least 158. If your goal is specifically to play a
+big, well-populated lobby with structure, team mode on The Box is the more reliable choice
+because the 1.5 multiplier plus the clamp guarantees a high count. The strategic texture is also
+different. In a 158-to-210 team game the map is divided among the teams, so the number of
+fronts is lower than in a free-for-all but the depth of each front is higher, because each team
+is pooling its players behind shared positions. That means the early game is less about holding a
+personal corridor and more about aligning with your team's expansion direction and reinforcing
+the shared front. The economic trade-off is that your gold now serves the team's tempo, so a
+factory-heavy early build that feeds the team's push is usually better than a defensive build that
+only protects your own corner. The failure mode to watch in the team version is overcommitting
+your personal position to one front when your team is being pushed on another, because the higher
+player count per team means a single misallocation is felt across the whole team. Choosing team
+over free-for-all on The Box is therefore a choice in favour of reliability and structure over the
+raw chaos of the free-for-all roll, and it is the right pick when you want the big-lobby
+experience without the variance of the free-for-all roll deciding your map size.
+
+The trade between the two is sharpest if you think about what each one is actually buying you.
+The free-for-all buys you the full spread of the change: on a large roll you get the 210-player
+sprawl with its many-front, slow-expansion texture, and on a small roll you get the 105-player
+classic, so the free-for-all is where you feel both ends of the new distribution and where the
+"big lobby" is most extreme. Team mode buys you stability instead: because the 1.5 multiplier and
+the clamp keep the count between 158 and 210 no matter the roll, a team lobby is never a small
+game, and that floor is the whole point if your priority is a reliably large lobby rather than the
+variance. The structural difference in play is the front count: a 210 free-for-all has many short
+fronts across the map, while a 210 team lobby has fewer, deeper fronts because the players are
+grouped into teams pooling behind shared positions, so the individual front is more intense even
+as the total front count is lower. If you are a player who wants to test the new big-lobby
+behaviour in its most extreme form, take a large-roll free-for-all on The Box. If you are a player
+who wants a big, structured game you can rely on every session, take team mode, because the roll
+cannot hand you a small lobby there.
+
+## Scenario: Mare Nostrum at 130 versus Alps at 185
+
+The final scenario compares two maps that sit at different points of the change, to show that
+"bigger lobby" is not a single experience. A large-roll free-for-all on Mare Nostrum opens at 130,
+which is only five players above the old 125 cap; the game is essentially a normal lobby with a
+slight bump, and the early game, expansion rhythm and front count are close to what you already
+know from stable. A large-roll free-for-all on Alps opens at 185, which is 60 players above the
+old cap and a genuinely different, denser game with more simultaneous fronts and a slower early
+phase, closer in character to the 210 The Box than to the 130 Mare Nostrum. The decision this
+comparison forces is matching the map to the lobby size you actually want. If you want a
+manageable game that is slightly bigger than before, Mare Nostrum at 130 is a good pick because
+it is still close to the familiar 125 experience. If you specifically want to play the new
+bigger-lobby style, with the wider fronts and slower expansion that the change introduces, Alps
+at 185 or The Box at 210 is the map to target, because those are the lobbies where the increase
+actually shows up.
+
+The middle option is Middle East and Two Lakes at 170 on a large roll, which is bigger than the
+old 125 but not as extreme as Alps or The Box. It is the right choice for a player who wants a
+clearly larger game than stable without the full 210-player sprawl, because the 170 lobby has
+more fronts than the old 125 but the expansion is not as stretched out as on The Box. The
+practical way to think about the three tiers of the change is that Mare Nostrum is "barely
+changed," Middle East and Two Lakes are "modestly bigger," and Alps and The Box are "genuinely
+different." The mistake to avoid is picking a map expecting a big lobby and landing on one
+where the increase is negligible: queueing on Mare Nostrum because you saw the change announced
+and getting a 130-player game will feel underwhelming, while queueing on Alps and getting 185
+will feel like the new experience. The map is the control that decides whether you get the change
+at all, so pick it deliberately rather than assuming every lobby is now bigger. If you are
+unsure which size you want, the safest play is to read the card in the browser first, see the
+actual count the roll landed on, and then decide whether that specific lobby matches your goal
+before you commit, because the map alone no longer tells you the size you will get.
+
+## When the bigger lobby breaks you, and the counterplay
+
+The bigger lobbies are not automatically better, and there are specific ways they break a player
+who is used to the old 125, each with a concrete counter. The first failure mode is
+overcommitting to an early front in a 210-player game. With more players on the map there are
+more directions a counterattack can come from, so a hard early push into one area can be
+exploited from a second front that did not exist at 125. The counter is to keep your expansion
+shaped so you are not overextended on a single lane, and to hold a reserve of uncommitted troops
+that can rotate to a second front when one opens, rather than dumping everything into the first
+push. The second failure mode is underestimating the slow start. The land-rich big maps have a
+lower early density, so the first minutes feel slower and the fronts open later than the old
+125 rhythm you are used to; players who rush the standard expand-then-push tempo find themselves
+caught mid-expansion when the fronts finally close in. The counter is to slow the early tempo to
+match the map, building a stable economic base before committing, and to treat the first few
+minutes as corridor-building rather than front-opening. The third failure mode is picking the
+wrong map for the goal, as the Mare Nostrum scenario showed: expecting a big lobby and landing on
+a map where the increase is negligible. The counter is to read the map and the card count before
+you join, and to queue on the big land-rich maps when a big lobby is the goal. All three of these
+breaks and counters only apply on v0.35; on the stable v0.34.25 the lobbies are still capped at
+125, so none of the 210 or 185 behaviour exists there yet, and planning around it on a live
+stable server would be a mistake.
+
+A fourth break that combines the other three is the meta one: assuming the change made every
+lobby better or more competitive, when in reality it changed only the big land-rich maps and
+only the large and team rolls. A player who queues on the default map expecting the new behaviour
+and lands on a 130 Mare Nostrum has effectively not experienced the change at all, and a player
+who queues on The Box and lands on a 105 small roll has also not experienced it, even though the
+map is one of the two that changed. The counter to that meta break is to treat size as the thing
+you are actually choosing, not the map, and to read the browser count before you commit. The
+version boundary is the last of the breaks: on stable v0.34.25 none of this behaviour is present,
+so the 210, 185 and 158 numbers are beta-only, and any habit you build around them — reading the
+card, waiting for a large roll, preferring team for a reliable big lobby — is a habit that will
+only pay off once the beta reaches the live servers. Planning around the change now is correct;
+expecting it on a stable lobby is not.
+
+## The decision framework for picking map and mode
+
+Pulling the whole guide together, the decision of which lobby to join on v0.35 reduces to three
+inputs: the map you pick, the mode you pick, and the roll that the scheduler makes, and you
+control the first two. The clearest rule is to match the map to the lobby size you want. If you
+want the biggest possible lobby, pick The Box or Alps and take a large-roll free-for-all, or pick
+The Box in team mode for a reliably high count, because those are the only maps where the
+increase is large enough to change the game. If you want a normal-sized game, any map is fine
+because the increase only shows up on the big land-rich ones, and you can ignore the change
+entirely. If you want a slightly bigger game, Middle East or Two Lakes on a large roll at 170 is
+the middle option, bigger than the old 125 but not as extreme as The Box. For the mode, the rule
+is that team mode on the big maps is the more reliable path to a big lobby because the 1.5
+multiplier plus the clamp keeps the count high regardless of the roll, while free-for-all is the
+choice when you want the variance and the raw chaos of a single player scramble. For reading a
+specific lobby before you join, the move is to look at the card's current player count in the
+public browser, which tells you which tier the roll landed on, and to decide if that size matches
+and the version boundary that ties all of this together is that every
+one of these numbers — the 210, the 185, the 158 team lobby — exists only on the v0.35 beta; on
+the current stable v0.34.25 the lobbies are still capped at 125, so the guide describes a
+behaviour you will only see once the beta reaches the live servers, and any planning around it
+should be scoped to that boundary.
+
+Putting the three inputs in one rule: the map sets the ceiling, the mode sets the reliability,
+and the roll sets the actual size, and you control the first two while the game controls the
+third. If you want the largest possible lobby you pick The Box or Alps and take a large-roll
+free-for-all, and if you want a big lobby you can count on every session you pick The Box in team
+mode. If you want a normal game you ignore the change entirely and queue on any map, because on
+the small maps nothing moved. If you want something in between you pick Middle East or Two Lakes
+on a large roll for a 170. And because the roll is only visible after the lobby opens, the final
+step in every case is the same: open the public browser, read the count on the card, and confirm
+the size matches your goal before you click. That last step is the one most players will skip
+and it is the one that separates "I am playing the lobby I wanted" from "I am playing whatever
+the roll handed me." The version boundary is the frame around all of it: none of these numbers
+is present on stable v0.34.25, so the guide is a plan for v0.35, and the habits it describes are
+ones to adopt and test once the beta is on the live servers, not ones to expect on a stable
+lobby today.
