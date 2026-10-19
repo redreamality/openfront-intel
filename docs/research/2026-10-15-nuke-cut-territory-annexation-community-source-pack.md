@@ -1,5 +1,11 @@
 # Community source pack — nuke-cut-territory-annexation (2026-10-15)
 
+2026-10-20 maintenance: the original notes below are a historical research snapshot, not the
+current rule reference. Stable availability, recipient priority, fallout ownership, and the
+scenario corrections are superseded by the
+[focused official-source maintenance record](2026-10-20-nuke-cut-stable-maintenance.md).
+No community sources were re-collected for this existing-answer correction.
+
 Topic: **When a nuclear strike severs an enemy's territory from its main body, the surrounding
 enemy can now annex the cut-off piece** — a new v0.35.0-beta1 rule (PR #5751, commit `aa585cf9b`),
 absent from stable v0.34.25. Player question this guide answers: *after I drop a nuke that cuts an

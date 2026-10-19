@@ -1,12 +1,12 @@
 ---
-title: Annexion du territoire coupé par une frappe nucléaire (v0.35 bêta)
+title: Annexion nucléaire (v35)
 group: endgame
 summary: Quand une frappe nucléaire détache un territoire ennemi de son corps principal, un ennemi qui l'entoure peut désormais annexer le morceau coupé. Déclencheur, trois conditions et limite de version.
-updatedDate: 2026-10-15
+updatedDate: 2026-10-20
 description: "Quand une frappe nucléaire détache un territoire ennemi de son corps principal, un ennemi qui l'entoure peut désormais annexer la pièce coupée. Découvrez le déclencheur, les trois conditions, la règle du joueur capturant et la limite de version v0.35."
 pubDate: 2026-10-15
-version: v0.35.0-beta2
-freshnessSummary: Vérifié contre la PR #5751 et les tags moteur v0.35.0-beta1/beta2 ; règle absente de la version stable v0.34.25.
+version: v0.35.2
+freshnessSummary: Disponible depuis la version stable v0.35.0 et vérifié jusqu’à v0.35.2 ; absent de v0.34.25.
 related:
   - /fr/guides/annexation-enclosure/
   - /fr/guides/nuke-calculator/
@@ -20,19 +20,18 @@ tags:
 
 **Réponse directe.** Déposer une frappe nucléaire qui tranche le territoire ennemi en un morceau non
 plus relié à leur corps principal peut confier ce morceau détaché à un ennemi qui l'entoure, au lieu
-de le laisser au propriétaire. Elle ne se déclenche que si le morceau n'a pas de côte à lui, touche
-uniquement d'autres joueurs et la zone de fallout, et si le joueur tronqué possède encore d'autres
-territoires. C'est une nouvelle règle de la v0.35.0-beta (PR #5751) et elle n'existe **pas** dans la
-v0.34.25 stable actuelle, donc sur les serveurs stables en ligne, elle se comporte encore comme
-avant.
+de le laisser au propriétaire. Il faut une poche intérieure éligible, entourée d'autres joueurs
+et de fallout, avec un candidat ennemi capable de la recevoir.
+Ce comportement existe dans les **versions stables v0.35.0 à v0.35.2** :
+un build bêta n'est plus nécessaire. L'ancienne v0.34.25 ne contient pas ce mécanisme.
 
 ## La règle en une image
 
 Pensez au territoire d'un ennemi comme une seule masse de terre. La plus grande partie est le corps
-principal : le plus grand amas connecté qui touche aussi leur bordure. Vous déposez alors une frappe
-nucléaire. Le cratère efface un anneau de leurs tuiles, et le fallout qui suit est traité comme votre
-territoire aux fins de connexité pendant une courte fenêtre après la frappe. Si ce cratère plus
-fallout tranche la masse en deux, un côté reste attaché au corps principal et l'autre devient une
+principal : le plus grand amas par superficie. Vous déposez alors une frappe
+nucléaire. Le cratère retire des tuiles et le fallout forme une frontière non possédée admise par
+la vérification. Il ne vous appartient pas et ne donne aucun avantage de bordure. Si la terre
+restante est divisée en deux, un côté reste attaché au corps principal et l'autre devient une
 île flottante de leur terre, sans chemin de retour. Ce morceau flottant est ce que le moteur appelle
 l'amas tronqué, et la nouvelle règle décide de son sort. Avant la v0.35, la logique ancienne
 d'encerclement traitait rarement un bras coupé par une frappe d'un empire côtier comme annexable,
@@ -61,7 +60,7 @@ avant la v0.35. Le nouveau retour, qui est ce qui rend le coup différent, est l
 cratère plus l'anneau de fallout réussit à détacher un quartier enclavé, la production de ce
 quartier change de propriétaire au lieu de simplement cesser. C'est pourquoi l'évaluation d'une
 frappe de fin de partie doit maintenant inclure une question que vous n'auriez même pas posée sur
-la stable actuelle. Cette frappe va-t-elle juste détruire des bâtiments, ou va-t-elle aussi
+l'ancienne v34. Cette frappe va-t-elle juste détruire des bâtiments, ou va-t-elle aussi
 transférer un quartier entier ? La réponse dépend de la géométrie précise de la carte et de la
 version du moteur, et c'est exactement ce que le reste de ce guide rend lisible. En d'autres
 termes, la fonction n'ajoute pas une nouvelle arme ; elle change la façon dont vous évaluez une
@@ -84,12 +83,12 @@ une enclave autosuffisante, et le moteur refuse de l'annexer. C'est la raison la
 coupe qui « ne marche pas » en réel : le bras détaché garde sa propre ligne de côte. La troisième
 condition est que le morceau touche uniquement d'autres joueurs et le fallout, et qu'au moins un
 ennemi et au moins une tuile de fallout l'entourent. Le morceau doit être entièrement cerné de
-fallout, qui compte comme le territoire du lanceur, et de territoire ennemi, sans aucune tuile
+fallout non possédé et de territoire d'autres joueurs, sans aucune tuile
 ouverte inoccupée qui le touche. Si n'importe quelle tuile du morceau s'ouvre sur un terrain vague,
 l'annexion est sautée, car aucun ennemi qui l'entoure ne pourrait le réclamer.
 
 La conclusion pratique est qu'il vous faut une poche enclavée de territoire ennemi, entièrement
-entourée par votre fallout et la bordure d'un rival, qui a totalement perdu sa route du retour. Une
+entourée par du fallout non possédé et d'autres joueurs, qui a totalement perdu sa route du retour. Une
 frappe qui creuse un anneau de fallout autour d'un quartier, alors que le seul pont terrestre du
 quartier vers le propriétaire se trouve à l'intérieur de cet anneau, est le setup classique qui
 satisfait les trois conditions à la fois. Notez l'ordre dans lequel les joueurs échouent d'abord
@@ -104,27 +103,33 @@ signifie que la frappe n'est que des dégâts de cratère et rien d'autre.
 
 ## Quel ennemi capture réellement le morceau
 
-Quand les trois conditions tiennent, le morceau coupé ne va pas à un joueur aléatoire et non
-forcément à vous, le lanceur de la frappe. Il va au joueur capturant, que le moteur calcule en
-scannant chaque tuile de bordure de l'amas tronqué et en comptant, pour chaque ennemi, combien de
-tuiles du morceau cet ennemi borde réellement. Toute faction alliée au propriétaire du territoire
-tronqué est sautée, ainsi que le cercle d'alliés du lanceur, donc la pool de candidats est strictement
-les factions hostiles qui partagent une bordure avec le morceau. L'ennemi qui borde le plus de tuiles
-du morceau gagne la capture tout court. Si deux ennemis sont exactement à égalité, le moteur garde
-le premier rencontré dans son ordre d'itération interne, donc un nul est en effet décidé par la
-géométrie de la carte plutôt que par une action du joueur en l'instant. Cela a une conséquence
-subtile mais très importante : frapper pour couper un bras peut être un cadeau à un tiers. Si le
-quartier détaché est cerné davantage par le joueur au nord que par vous, le joueur du nord avale le
-quartier et vous obtenez les dégâts de cratère sans la terre. Vous avez payé l'or complet de la
-frappe pour les dégâts seulement, et un rival a collecté le transfert.
+Quand la poche est éligible, les candidats sont les joueurs dont le véritable territoire la borde
+et qui ne sont pas amis avec son propriétaire. Les alliés du lanceur ne sont pas exclus pour cette
+seule raison. Le fallout n'appartient pas au lanceur : il n'ajoute donc aucun contact à son compte.
+Déplacer un navire près de la poche ne modifie pas non plus la propriété des tuiles voisines.
+
+La priorité revient à la plus grosse attaque individuelle en cours contre le propriétaire parmi
+ces candidats limitrophes. On ne fait pas la somme de toutes les attaques d'un joueur. Une attaque
+plus importante peut donner la poche à un candidat qui possède moins de contacts. Un attaquant
+lointain ne devient pas candidat simplement parce qu'il envoie beaucoup de troupes : il doit
+également posséder du territoire au contact de la poche. Vérifiez les combats en cours avant de
+tirer, car leur état peut changer avant le transfert.
+
+Seulement en l'absence d'attaque admissible, le plus grand nombre d'arêtes de contact décide.
+Il s'agit des contacts dans les quatre directions, pas du nombre de tuiles distinctes de la poche.
+Une tuile peut fournir plusieurs contacts au même voisin. Quatorze contacts battent onze dans
+un exemple sans attaque ; ce résultat ne s'applique pas si une attaque admissible existe.
+À égalité, le premier candidat rencontré reste sélectionné. Ne construisez pas votre plan sur
+une égalité supposée favorable. Dans les exemples suivants, toute comparaison fondée seulement
+sur la bordure suppose explicitement qu'aucun candidat n'attaque le propriétaire.
 
 Il y a aussi un cas particulier que le code gère lui-même, et c'est la version au plus gros enjeu de
 toute la règle. Si l'amas tronqué est la seule terre que le joueur tronqué possède encore, la
 capture n'est pas un transfert de tuiles mais une conquête complète : tout le joueur est éliminé et
-ses actifs restants vont à l'ennemi capturant. C'est la variante la plus susceptible de terminer une
-partie tôt en fin de partie, car une fois une faction réduite à un seul quartier de capitale, une
-frappe qui isole cette capitale peut l'éliminer entièrement plutôt que simplement la réduire. Parce
-que le joueur capturant est celui qui borde le plus de tuiles du morceau, vous ne devez pas supposer
+ses actifs restants vont à l'ennemi capturant. Ce cas peut
+éliminer une cible si ses autres terres ont déjà disparu pendant le même traitement.
+Une capitale isolée ne se détache pas d'elle-même. Le receveur suit la priorité des attaques,
+puis le recours aux contacts en l'absence d'attaque ; vous ne devez pas supposer
 qu'être le lanceur fait de vous le bénéficiaire de l'annexion. Avant de convertir l'or, calculez
 qui entoure réellement la poche ciblée. Dans une fin de partie à trois factions, c'est souvent le
 joueur qui a usé le flanc de la cible toute la partie, et non celui qui va dépenser la frappe. Si le
@@ -133,68 +138,76 @@ incitations, où celui qui paie la frappe n'est pas celui qui collecte la terre,
 les deux sections de scénarios quantifient avec des chiffres concrets, et c'est l'erreur la plus
 coûteuse que la règle puisse produire si vous sautez la vérification du décompte de bordure.
 
-## Limite de version : stable v34 contre bêta v35
+## Limite de version : v35 stable et anciennes parties v34
 
-Le fait opérationnel le plus important sur cette fonction est qu'elle n'est pas en ligne sur les
-serveurs stables actuels. La règle a été introduite par la pull request #5751, qui a atterri dans le
-tag moteur v0.35.0-beta1 et est aussi présente dans le tag v0.35.0-beta2, mais le build stable que
-les serveurs publics exécutent est encore v0.34.25, et ce build ne contient tout simplement pas le
-chemin de code « annexer les amas tronqués ». Sur la stable v0.34.25, le moteur utilise encore la
-logique d'encerclement ancienne, où une frappe qui coupe un bras d'un corps principal côtier ne
-déclenche presque jamais une annexion, et c'est précisément la plainte à long terme des joueurs que
-couper du territoire par une frappe « avait cessé de fonctionner pour les empires côtiers ». Donc si
-vous jouez sur les serveurs publics en ligne aujourd'hui, vous verrez le comportement ancien : le
-cratère apparaît, le bras est coupé visuellement sur la carte, mais le propriétaire garde chaque
-tuile et rien ne se transfère. La coupe paraît dramatique et le transfert ne se produit tout
-simplement pas, parce que le chemin de code qui produirait le transfert n'existe pas dans le build
-stable.
+L'annexion après une coupure nucléaire appartient désormais à une version stable. La v0.35.0
+a été publiée le 2026-10-16 et le comportement reste présent dans la v0.35.2, publiée le
+2026-10-17. Dans une partie utilisant ces versions, vous n'avez plus besoin de choisir un serveur
+bêta. Une coupure volontaire peut donc être évaluée pour les dégâts du cratère et pour le territoire
+qu'un ennemi environnant pourrait recevoir. Séparez toujours ces deux bénéfices : détruire un
+bâtiment important peut rester utile sans transfert, tandis qu'un transfert au mauvais rival peut
+transformer une frappe précise en mauvais investissement. La disponibilité stable ne supprime
+aucune condition géographique.
 
-Les builds v0.35.0-beta1 et v0.35.0-beta2 sont des builds de test pré-ressorties, opt-in, qui ont
-commencé à circuler en octobre 2026. La release v0.35.0-beta2, publiée le 2026-10-14, cite « Nukes
-annex again » parmi ses changements phares. Pour vivre réellement la nouvelle règle d'annexion, il
-faut exécuter un build v35 bêta, ou un serveur sur ce moteur, et non le défaut stable. Cela compte
-pour chaque autre conseil de ce guide, car toutes les stratégies volontaires de « couper le
-détroit » ne se valent qu'en v35 bêta et au-delà. Si vous planifiez sur le payoff d'annexion puis
-finalement jouez sur la stable, vous dépenserez l'or de la frappe pour les dégâts de cratère et ne
-recevrez aucun transfert territorial, parce que le build stable n'a aucun chemin d'annexion à
-déclencher. Traitez la limite de version comme une précondition dure de toute la stratégie, et non
-comme un post-scriptum. Si vous pouvez choisir votre build, visez une v35 bêta pour tester le
-comportement d'annexion ; si vous êtes verrouillé sur la stable, cette section vous dit ce qui ne se
-passera pas pour que vous ne preniez pas un transfert manqué pour un bug ou un raté aléatoire. Une
-fois que la v0.35 sort comme release stable, la limite s'effondre et chaque stratégie de ce guide
-passe en ligne partout à la fois, ce qui est le moment où le méta de fin de partie est le plus
-susceptible de basculer d'un coup.
+L'ancienne v0.34.25 ne contient pas ce mécanisme particulier. Cette limite historique reste utile
+pour comparer des vidéos anciennes, revoir une ancienne partie ou rejoindre un serveur personnalisé
+qui utilise volontairement un ancien build. Une forme identique sur la carte ne garantit pas un
+résultat identique entre versions. À l'inverse, une coupure ratée dans une partie v35 ne doit plus
+être expliquée par une fonction réservée à la bêta. Identifiez d'abord la version de la partie,
+puis la connexion restante, l'éligibilité de la poche et son bénéficiaire. Une date de publication
+indique quand un build est devenu disponible ; elle ne prouve pas la version de chaque serveur
+personnalisé ou de chaque enregistrement.
+
+Dans une partie compatible, commencez par suivre la liaison que vous voulez supprimer. Une bande
+apparemment mince peut conserver un détour autour du cratère, et un quartier apparemment isolé peut
+garder son propre littoral. La publication ne rend pas chaque frappe automatiquement annexante.
+Il faut toujours vérifier la poche et identifier le joueur susceptible de la recevoir. Ne comptez
+pas cette terre dans votre propre position avant cette vérification. Si un rival bénéficie davantage
+de la situation frontalière et des attaques en cours, la frappe peut faciliter sa conclusion plutôt
+que la vôtre. Attendre une meilleure position peut valoir davantage que tirer dès que l'or suffit.
+
+Pour comprendre un échec, séparez version, géométrie et récompense. Un ancien build peut expliquer
+l'absence du mécanisme. Dans un build v35 compatible, cherchez une liaison survivante, de l'eau,
+le bord de carte ou un espace non revendiqué avant d'acheter un autre missile. Si le transfert
+s'est produit au profit d'un autre joueur, changer de version ne corrigera rien : il faut revoir
+le bénéficiaire et le moment du tir. Cette méthode permet aussi de garder les anciennes vidéos
+comme exemples de lecture du terrain sans transformer leur résultat en promesse pour votre partie.
+
+Les [notes officielles v0.35.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2)
+reprennent le changement v0.35.0 rétablissant l'annexion du territoire détaché par une frappe.
+En jeu, gardez cet ordre : version compatible, coupure complète, poche éligible, bénéficiaire
+souhaité, puis coût. La sortie stable retire seulement la nécessité de chercher un test public ;
+elle laisse toutes les vérifications tactiques en place.
 
 ## Lire la carte avant de convertir
 
 Transformer les trois conditions en une checklist avant frappe fait la différence entre un bonus par
 hasard et un bonus fiable, et chaque vérification est un simple oui/non lisible avant de dépenser
 l'or. D'abord, trouvez le détroit : la bande la plus étroite du territoire du propriétaire qui
-relie le quartier cible au corps principal. Vous voulez une frappe dont le cratère, plus l'anneau de
-fallout qu'il laisse, peut entièrement dégager cette bande. Parce que le fallout compte comme votre
-territoire pour la connexité, la coupe effective est plus large que le cratère seul. Une frappe qui
-ne paraîtrait pas assez large pour franchir le trou à son seul rayon d'éclatement peut encore
-séparer la connexion une fois l'anneau de fallout fermé. Si le détroit est plus large que votre
-cratère plus fallout ne peut dégager, la déconnexion échoue et rien ne se passe, donc passez ce
+relie le quartier cible au corps principal. Regardez la terre qui restera réellement après
+l'explosion. Le fallout est une frontière non possédée, pas votre territoire et pas un rayon
+supplémentaire allié. Il ne fournit aucun contact à votre compte. Une couleur radioactive ne
+prouve pas à elle seule la déconnexion. Si une route terrestre survit à la frappe, cette
+annexion ne peut pas transférer la poche. Il faut supprimer la liaison réelle, donc passez cette
 cible et cherchez ailleurs. Deuxièmement, vérifiez la côte sur le côté coupé. Tracez le contour du
 quartier que vous essayez de détacher et confirmez qu'il n'a ni eau ni bord de carte à lui. Si le
 quartier que vous voulez offrir à un rival a sa propre ligne de rivage, il est inannexable
 qu'importe comment vous le coupez, et vous feriez mieux de cibler la moitié intérieure enclavée du
 quartier plutôt que la coquille côtière. Troisièmement, vérifiez l'entourage. Le morceau détaché
-doit être cerné entièrement par le fallout et la bordure ennemie, sans aucune tuile ouverte qui le
+doit être cerné par le fallout et d'autres joueurs, avec un candidat ennemi et sans tuile ordinaire ouverte qui le
 touche. N'importe quel trou de terrain vacant casse la règle « touche uniquement joueurs et fallout »
 et tue l'annexion, donc la coupe doit se placer en profondeur du territoire ennemi, et non sur la
 frange du terrain non revendiqué où un trou est probable.
 
 Faites les trois vérifications avant de dépenser une unité d'or, car un seul non signifie que la
 frappe n'est que des dégâts de cratère et que le transfert est impossible. Ensuite, et seulement
-alors, faites la quatrième vérification, qui est le décompte de bordure qui décide qui bénéficie.
-Calculez quelle faction hostile borde le morceau détaché prospectif le plus, car c'est le joueur
-capturant, et confirmez que c'est vous et non un rival. Si une troisième faction collecterait la
+alors, vérifiez le bénéficiaire : plus grosse attaque individuelle admissible parmi les voisins,
+puis contacts seulement en l'absence d'attaque. Identifiez le receveur
+et confirmez que c'est vous et non un rival. Si une troisième faction collecterait la
 terre, la frappe est un cadeau pour elle et vous devriez soit repositionner pour gagner de la bordure
 d'abord, soit passer entièrement. Les deux sections de scénarios qui suivent appliquent ces lectures
 exactes à deux états de carte concrets, pour que vous voyiez les seuils, les compte de tuiles, et les
-chiffres d'or par tick qui séparent un vrai transfert d'un raté. La compétence en miniature est :
+positions et coûts qui séparent un transfert utile d'un mauvais investissement. La compétence est :
 lisez le détroit, lisez la côte, lisez l'entourage, comptez la bordure, et seulement alors décidez
 si les dégâts de cratère valent le transfert territorial, avec la limite de version comme
 véri-vérification qui encadre tout le reste de ce guide.
@@ -212,54 +225,64 @@ que la bande est protège, entièrement enclavé. Sa bordure au nord et au sud e
 territoire et à l'ouest est le détroit lui-même. Une MIRV qui éclate directement sur ce détroit
 produit un cratère et un anneau de fallout assez large pour dégager la connexion de deux tuiles.
 Après la détonation, la poche intérieure est déconnectée du corps principal, n'a pas de côte à elle,
-et est cernée par votre fallout et le territoire des factions autour, donc les trois conditions se
+et est cernée par du fallout non possédé et le territoire des factions autour, donc les trois conditions se
 vérifient toutes à la fois.
 
-Comptez maintenant la valeur réelle. La poche est environ dix-huit tuiles de production, qui à un
-revenu par tuile de mi-partie d'environ la moitié d'un or par tuile par tick vaut environ neuf or
-par tick transférés. Ce basculement écrase la valeur des quelques bâtiments que le cratère a
-réellement détruits, donc les dégâts de cratère sont une perte nette que vous acceptez pour acheter
-le transfert. Si vous êtes la faction qui borde le plus la poche, vous l'annexez et collectez ces
-neuf or par tick. Si la faction au nord borde le plus la poche que vous, elle l'annexe et vous avez
-payé l'or pour rien. La décision est donc conditionnelle. Si vous pouvez confirmer sur la carte que
-la faction du nord ne borde pas le plus la poche que vous, la frappe est une nette victoire et vous
-convertissez la frappe. Si vous ne pouvez pas confirmer cela, la frappe achète au joueur du nord un
+Estimez maintenant la valeur réelle. Dix-huit tuiles ne donnent pas automatiquement neuf or par
+tick : aucune règle fixe d'un demi-or par tuile ne justifie ce calcul. Les dimensions sont
+hypothétiques et ne garantissent pas non plus les impacts d'une MIRV. Évaluez les accès, la
+position et les bâtiments réellement survivants séparément des dégâts du cratère. Supposons
+qu'aucun candidat limitrophe n'attaque actuellement le propriétaire. Le plus grand nombre de
+contacts vous donne alors la poche ; si le candidat du nord en possède davantage, il la reçoit.
+Si une attaque admissible commence, reprenez la priorité des attaques. Même après avoir identifié
+le receveur, comparez position et coût : recevoir une poche ne prouve pas à lui seul un bénéfice net.
+Si vous ne pouvez pas confirmer le receveur, la frappe peut acheter au joueur du nord un
 quartier de dix-huit tuiles, et vos seules options saines sont de repositionner pour border la poche
 d'abord, ou de passer sur cette frappe ce tour et attendre une meilleure géométrie. C'est toute la
 compétence compressée en un exemple : lisez le détroit, lisez la côte, lisez l'entourage, comptez
 les tuiles, et seulement alors décidez si les dégâts de cratère valent le transfert. Ce sont les
 chiffres, et non le drame du cratère, qui font la décision.
 
-## Scénario B : la capitale de fin de partie qui est la dernière terre
+## Scénario B : une poche détachée devient la dernière terre
 
-Passons maintenant à la version à gros enjeu du même mécanisme, où le cas particulier d'une conquête
-complète devient le centre de la carte. C'est la fin de partie. Deux factions sont encore en vie
-plus une troisième presque morte. Le survivant cible a été réduit à un seul quartier de capitale de
-vingt-cinq tuiles, et ce quartier est littéralement leur seule terre restante. Vous avez une frappe
-prête. La troisième faction borde la capitale sur deux de ses quatre côtés, et vous la bordez sur
-les deux autres. La cible tient une petite ferme isolée sur une tuile unique de route ouverte qui
-est la seule chose qui empêche la capitale d'être entièrement encerclée. Si vous frappez cette
-tuile de route unique, et que le cratère plus l'anneau de fallout dégagent la route, la capitale est
-désormais déconnectée de toute autre terre du propriétaire, n'a pas de côte à elle, et est cernée
-par le fallout plus la troisième faction et vous. Les trois conditions se vérifient toutes à la
-fois.
+Prenons une fin de partie hypothétique avec vous, un rival et une cible affaiblie. Au début du
+traitement d'annexion, la cible possède encore un corps principal et une poche intérieure
+éligible de vingt-cinq tuiles. Cette poche est déjà séparée du corps principal, sans eau ni bord
+de carte, entourée d'autres joueurs et de fallout, sans trou ordinaire non revendiqué.
+Pendant le même traitement, le corps principal est pris par encerclement. Au moment de
+transférer la poche détachée, elle constitue donc toute la terre restante de la cible. Cet ordre
+est essentiel : la poche a été identifiée par rapport à un autre corps principal, plutôt qu'une
+capitale unique se retrouvant mystérieusement séparée d'elle-même.
 
-Mais parce que cet amas est la seule terre restante de la cible, le moteur ne transfère pas
-vingt-cinq tuiles. C'est une conquête complète, et la cible est éliminée tout court par le joueur
-capturant. Ici la règle du joueur capturant décide la partie entière. Vous et la troisième faction
-bordez tous deux la capitale, donc vous devez calculer qui borde le plus de ses vingt-cinq tuiles
-avant de tirer. Si vous en bordez quatorze et la troisième faction en borde onze, vous conquérez la
-cible et gagnez la partie. Si la troisième faction en borde quatorze et vous en bordez onze, vous
-venez de déposer une frappe coûteuse pour gagner la partie pour le rival que vous étiez sur le point
-de affronter. Les chiffres qui comptent sont les décomptes de bordure, et non la taille du cratère
-et non les dégâts. Le cadre de décision est strict : ne convertissez que si vous pouvez confirmer
-que vous bordez strictement le plus la capitale que la troisième faction, et que la coupe isole
-entièrement la capitale sans côte ni tuile ouverte restante qui la touche. Si vous n'êtes pas sûr
-du décompte exact de bordure, le jeu plus sûr est souvent de ne pas frapper la route du tout, mais
-de garder la cible en vie comme un troisième front partagé qui use l'autre faction, car l'éliminer
-avec la conquête qui va au mauvais joueur est le pire résultat disponible sur la carte. Ce scénario
-est le plus susceptible de terminer une partie instantanément, d'où l'arithmétique avant frappe ici
-compte plus que n'importe où ailleurs dans ce guide.
+Supposons maintenant qu'aucun candidat limitrophe n'ait d'attaque en cours contre la cible.
+Vous partagez quatorze arêtes de contact avec la poche et le rival onze. Ces nombres décrivent
+des contacts hypothétiques dans les quatre directions, pas une division obligatoire des
+vingt-cinq tuiles en deux groupes. Sous cette hypothèse sans attaque, votre compte supérieur
+vous sélectionne. Si les comptes sont inversés, le rival reçoit la poche. Si le rival possède
+plutôt la plus grosse attaque individuelle admissible lors du transfert, il passe avant vous
+malgré vos quatorze contacts. Il faut donc revérifier le combat au moment pertinent.
+
+Puisque la poche couvre alors toute la terre restante du propriétaire, son receveur conquiert
+la cible au lieu de prendre seulement un quartier à un joueur encore présent ailleurs.
+C'est l'élimination d'un joueur, pas une garantie de gagner toute la partie : l'autre rival
+existe toujours. Si le corps principal n'avait pas déjà été perdu, ou si un avant-poste
+subsistait ailleurs, le même transfert pourrait laisser la cible en vie. Ne supposez pas
+qu'une capitale visible représente toutes ses possessions sans regarder le reste de la carte.
+L'absence de conquête complète n'empêche pas une annexion ordinaire de la poche.
+
+Comparez ensuite les deux résultats possibles. Si vous recevez le quartier, sa nouvelle
+frontière expose-t-elle votre cœur au rival ? Si le rival le reçoit, la disparition de la
+cible libère-t-elle ses troupes sur un autre front ? Les dégâts peuvent rester utiles, mais
+ne payez pas en supposant que la conquête vous revient lorsque le receveur est incertain.
+Attendre peut préserver un front partagé et laisser le temps de modifier la véritable
+frontière territoriale. Des unités simplement déplacées à proximité n'augmentent aucun
+compte de contact.
+
+Retenez la séquence plutôt que le nombre vingt-cinq : établir une poche éligible, tenir
+compte des autres terres perdues pendant le même traitement, identifier le receveur par
+attaque ou recours aux contacts, puis seulement évaluer l'élimination. Un cratère plus
+spectaculaire ne remplace aucune vérification. Si une hypothèse change dans votre partie,
+recalculez au lieu de copier cette conquête hypothétique.
 
 ## Échecs et contre-joues
 
@@ -268,8 +291,8 @@ sur la carte avant de dépenser une unité d'or, donc l'objectif est de rattrape
 planification plutôt qu'après la frappe. Le premier mode d'échec est que la connexion survit. Votre
 cratère plus fallout n'a pas entièrement dégagé le détroit, donc une tuile relie encore le morceau
 au corps principal et la vérification de déconnexion échoue. Le contre est de viser l'éclatement
-au point le plus étroit du détroit et de confirmer, avant de tirer, que l'anneau de fallout sera
-plus large que le trou restant. Si ce ne sera pas le cas, ne tirez pas et cherchez une autre cible.
+au point le plus étroit et de vérifier la suppression réelle de la liaison, sans attribuer le
+fallout au lanceur. Si une route survivra, ne tirez pas et cherchez une autre cible.
 Le deuxième mode d'échec est que le morceau garde une côte. Vous avez coupé le quartier mais il
 conserve sa propre ligne de rivage, donc la condition « pas de côte » échoue et le propriétaire
 garde la terre, toujours capable d'en sortir par bateau. Le contre est de cibler la moitié intérieure
@@ -282,10 +305,9 @@ entièrement. Le contre est de ne couper que des quartiers placés en profondeur
 ennemi, où l'entourage est complet et où il n'y a pas de frange de terrain non revendiqué qui
 pourrait laisser un trou. Un morceau placé sur le bord du terrain ouvert est un raté garanti. Le
 quatrième, et le plus coûteux, mode d'échec est que vous offrez la terre au mauvais joueur. Les
-trois conditions tiennent, le transfert se déclenche, mais le joueur capturant est l'ennemi qui
-borde le plus le morceau, qui n'est pas vous, donc la terre va à votre rival et vous n'avez payé que
-le cratère. Le contre est de faire le décompte de bordure avant de convertir. Si vous ne bordez pas
-strictement le plus le morceau que tout autre ennemi, repositionnez pour gagner de la bordure
+trois conditions tiennent, mais un rival gagne par attaque prioritaire ou par contacts en
+l'absence d'attaque. Vous avez payé sans recevoir la poche. Vérifiez donc à la fois les
+attaques en cours et les contacts réels. Si vous n'êtes pas le bénéficiaire, modifiez la frontière
 d'abord ou passez sur cette frappe ce tour.
 
 Il y a aussi un angle de contre-jeu pour le propriétaire du territoire coupé, et il vaut la peine de
@@ -293,16 +315,16 @@ le connaître car il vous dit quand un joueur peut sûrement refuser de monter l
 Un propriétaire se défend en ne laissant jamais une poche enclavée entièrement encerclée. Gardez
 au moins une sortie côtière sur chaque quartier, ce qui fait échouer la condition « pas de côte »
 pour n'importe quel attaquant. Gardez le détroit vers votre corps principal plus large qu'une seule
-frappe de cratère plus fallout ne peut dégager. Et évitez d'être réduit à une seule capitale qu'une
-coupe isolée pourrait entièrement conquérir. À l'inverse, si vous êtes le propriétaire et que vous
+frappe ne peut réellement dégager. Évitez surtout une poche intérieure qui pourrait devenir
+votre dernière terre après la perte d'autres régions. À l'inverse, si vous êtes le propriétaire et que vous
 allez perdre un quartier, la meilleure réponse est souvent d'ouvrir une côte ou une route vers votre
 corps principal plutôt que d'essayer de combattre le cratère, car une connexion survivante est la
-seule chose qui garantit que vous gardez la terre. Et si vous êtes une troisième faction qui regarde
-quelqu'un déposer une frappe qui pourrait couper une poche, vous pouvez déplacer des unités pour
-border le morceau détaché prospectif avant la frappe, augmentant votre propre décompte de bordure
-pour que la règle du joueur capturant confie le quartier à vous. L'annexion n'est pas seulement un
-outil du lanceur. C'est une course à trois sur qui borde le plus la terre coupée, et le mouvement de
-chaque joueur dans les minutes avant la frappe change qui la collecte.
+condition qui bloque cette voie de coupure ; d'autres attaques peuvent encore prendre la terre.
+Une troisième faction peut modifier la propriété réelle des tuiles avant la frappe, mais déplacer
+simplement des unités n'augmente pas ses contacts. Une attaque admissible garde la priorité sur le
+recours à la bordure. L'annexion est donc une compétition de territoire et d'attaques, pas un
+privilège automatique du lanceur. Revérifiez les deux lorsque la carte change, au lieu de
+traiter une ancienne observation comme une promesse permanente.
 
 ## Ajustements de mode et de carte
 
@@ -315,27 +337,26 @@ sont les poches enclavées plus rares, plus hautes en valeur, et précisément p
 un setup volontaire plutôt qu'un bonus par hasard. Sur les cartes standard, priorisez les cibles de
 détroit en profondeur intérieure où l'entourage est complet, et attendez-vous à ce que la course au
 joueur capturant implique souvent une troisième faction que vous devez considérer avant de tirer.
-Sur les cartes ou modes qui incluent un grand lac central ou une mer intérieure, le nombre de poches
-enclavées se multiplie, car l'eau divise le territoire en beaucoup plus d'îles déconnectées. Ici
-l'annexion se déclenche bien plus souvent, et la vérification « pas de côte » sur le morceau devient
-le filtre dominant. Un morceau avec sa propre rive de lac est inannexable même s'il paraît
+Sur les cartes qui incluent un lac central ou une mer intérieure, l'eau peut séparer des terres
+sans créer une poche intérieure éligible. Rien ne garantit une hausse des annexions avec davantage
+d'eau. La vérification de côte reste essentielle : un morceau avec sa propre rive de lac est inannexable même s'il paraît
 complètement isolé, donc sur ces cartes vous devriez cibler la poche que le lac ne touche pas.
 
-Dans les modes à hautes frappes ou lourds en MIRV, le calcul du détroit change. Une éclatement MIRV
-est substantiellement plus large qu'une frappe unique, donc elle dégage une bande plus large de la
-connexion, ce qui rend les détroits qu'une frappe unique ne pouvait pas séparer du tout deviennent
-séparables. Si votre mode permet la MIRV, refaites la vérification « peut le cratère plus fallout
-dégager le détroit » avec l'empreinte MIRV plus large, car les cibles qui étaient des ratés avec une
-frappe unique deviennent des annexions vivantes avec une MIRV. Le coût en or d'une MIRV ne se
-justifie que quand le payoff d'annexion atterrit réellement, donc la largeur de l'éclatement est ce
-qui fait la différence entre un investissement cassé et un investissement fonctionnel. Dans les
-modes de fin de partie, où les factions sont réduites à quelques quartiers chacun, le cas
-particulier de conquête complète devient le centre de la carte. Quand un rival est réduit à une
-seule capitale, l'annexion cesse d'être un transfert de tuiles et devient un potentiel
-terminateur de partie, donc l'arithmétique du décompte de bordure est toute la décision, et le jeu
-le plus sûr est souvent de garder le rival en vie comme un front partagé plutôt que risquer que la
-conquête aille à la troisième faction. Sur chaque mode la lecture sous-jacente est identique :
-détroit, côte, entourage, décompte de bordure. Mais la fréquence et l'enjeu de chaque condition
+Avec une MIRV, examinez les impacts attendus au lieu de supposer un seul cratère forcément plus
+large. Plusieurs explosions peuvent supprimer plusieurs liaisons, mais aussi laisser une route
+ou détruire la poche que vous espériez recevoir. Répétez la vérification complète de la terre
+survivante et gardez une marge d'incertitude quand les impacts sont difficiles à prévoir.
+Le coût peut se justifier par la destruction, la position ou les deux ; l'annexion n'est pas
+le seul retour possible. En fin de partie, vérifiez que la poche éligible devient réellement
+la dernière terre au moment du transfert. Une capitale seule ne garantit pas cette voie de
+conquête. L'élimination de la cible peut laisser d'autres adversaires vivants. Vérifiez la
+priorité des attaques avant la bordure et demandez-vous qui profite de la disparition de ce
+front partagé. Dans chaque mode, regardez connexion survivante, côte, entourage, receveur
+et terres restantes. Ne remplacez pas cette lecture par le nom du mode ou la taille apparente
+de l'explosion. Pour comparer deux frappes, commencez par les routes qu'elles suppriment
+réellement, puis les joueurs capables de recevoir la poche et enfin la réserve qui vous reste.
+Si la carte change pendant la préparation, reprenez la comparaison plutôt que de poursuivre
+un ancien plan. La fréquence et l'enjeu de chaque condition
 varient avec la carte, donc les chiffres des deux sections de scénarios ci-dessus devraient toujours
 être recalculés pour la carte spécifique sur laquelle vous êtes, et non copiés d'une autre forme de
 carte.
@@ -345,7 +366,7 @@ carte.
 Exécutez ce tableau de haut en bas avant chaque frappe, et traitez-le comme votre dernier
 contrôle avant de dépenser de l'or, et non comme une nouvelle explication des règles. Si la
 ligne de version est fausse vous arrêtez immédiatement, car rien ci-dessous ne peut se
-déclencher sur un build stable et les neuf lignes restantes seraient du temps perdu. Si la
+déclencher sur l'ancienne v0.34.25 par cette voie. La v35 stable est compatible. Si la
 ligne du joueur capturant est fausse vous avez choisi la bonne géométrie mais le mauvais
 bénéficiaire, ce qui est l'erreur la plus coûteuse que la règle puisse produire, car vous avez
 payé une frappe entière pour un cadeau à un rival. Si vous passez une ligne de bordure sans la
@@ -358,16 +379,20 @@ celui qui vous protège des échecs les plus chers d'abord.
 
 | Vérification | Ce à confirmer sur la carte | Si elle échoue |
 |---|---|---|
-| Version | Vous exécutez v0.35.0-beta1 ou beta2, pas la stable v0.34.25 | Règle absente ; comportement d'encerclement ancien |
+| Version | Versions stables v0.35.0–v0.35.2 vérifiées ; mécanisme absent de v0.34.25 | Vérifier le build réel, sans restriction bêta |
 | Déconnexion | Cratère plus fallout dégage entièrement le détroit vers le corps principal | Le propriétaire garde le morceau ; re-visez au détroit le plus étroit |
 | Pas de côte propre | Le morceau ne touche ni eau ni bord de carte | Inannexable ; cibler la moitié intérieure enclavée |
-| Entourage complet | Le morceau borde uniquement fallout et ennemis, pas de tuile ouverte | Annexion sautée ; ne couper qu'en profondeur du territoire ennemi |
-| Joueur capturant | Vous bordez strictement le plus le morceau que tout autre ennemi | La terre va au rival ; repositionner ou passer |
-| Cas particulier seule terre | Le morceau est la seule terre restante du propriétaire | Conquête complète par le joueur capturant ; vérifier le décompte de bordure d'abord |
+| Entourage complet | Autres joueurs et fallout, sans trou ordinaire ; un candidat ennemi existe | Pas d'annexion par cette voie |
+| Joueur capturant | Plus grosse attaque individuelle admissible ; sinon plus de contacts | Un rival peut recevoir la poche |
+| Dernière terre au transfert | La poche couvre-t-elle toute la terre restante ? | Non : transfert ordinaire ; oui : conquête de la cible par le receveur |
 
-Pour le comportement d'encerclement ancien qui gouverne encore la stable v0.34.25, voir
+La dernière ligne change le règlement du transfert, pas son éligibilité : une annexion
+ordinaire peut laisser le propriétaire vivant ailleurs. Distinguez toujours éligibilité,
+bénéficiaire et élimination avant de compter une conquête dans votre plan.
+
+Pour les règles générales d'encerclement et leur contexte historique v0.34.25, voir
 [Annexion et territoire encerclé](/fr/guides/annexation-enclosure/). Pour le calcul d'or derrière la
 décision si les dégâts de cratère valent une frappe du tout, voir [Calculateur d'or de frappe
 nucléaire](/fr/guides/nuke-calculator/). Pour le comportement des tuiles de fallout dans le trou que
-vous coupez, voir [Terrain vague et fallout](/fr/guides/no-mans-land-fallout/). Et pour l'éclatement
-MIRV plus large qui transforme un détroit raté en une annexion vivante, voir [MIRV](/fr/guides/mirv/).
+vous coupez, voir [Terrain vague et fallout](/fr/guides/no-mans-land-fallout/).
+Pour les frappes multiples, voir [MIRV](/fr/guides/mirv/).

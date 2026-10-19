@@ -1,5 +1,7 @@
 # Git 与 GitHub runbook
 
+- **2026-10-20 上游路径迁移复核**：查询 v0.35.2 的旧 `src/core` 返回无匹配；通过该 tag 的 `git ls-tree` 确认引擎已迁到 `packages/engine/src` 后读取真实文件完成核验。无匹配不代表 tag 或机制缺失。
+
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。
 
 来源范围：`路径与验证` 原章节。

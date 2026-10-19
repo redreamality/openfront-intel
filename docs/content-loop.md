@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-10-15。
+更新日期：2026-10-20。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -23,7 +23,7 @@
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
 | Monitoring | `WN-01` | 五语 `/whats-new/` 文章索引、v34 预发布文章、首页/导航入口、RSS Released 筛选和文章状态 e2e 已交付 | 每日维护 Release/tag 与 upstream `main` 双游标；状态转换或复核期限到期才触发文章同步，正式机制页只在 Release 后更新。 |
-| Monitoring | `LF-COMMUNITY-ROLLING` | 八项搜索改善于 2026-10-09 部署，见 [计划](search-improvement-plan.md)；[默认键位五语事实维护](research/2026-10-15-keybinding-answer-maintenance.md) 发布即完成并回到 Monitoring | 等待原批次 2026-10-10 至 2026-11-06 的完整 GSC final 窗口；改键维护另从实际部署日 T 的 T+1 至 T+28 观察。固定词簇，国家/设备固定或分别报告。 |
+| Monitoring | `LF-COMMUNITY-ROLLING` | 八项搜索改善于 2026-10-09 部署，见 [计划](search-improvement-plan.md)；[核弹切地五语正式版与事实维护](research/2026-10-20-nuke-cut-stable-maintenance.md) 发布即完成并回到 Monitoring | 原批次继续等待 2026-10-10 至 2026-11-06 的完整 GSC final 窗口；各维护批次另从实际部署日 T 的 T+1 至 T+28 观察。固定词簇，国家/设备固定或分别报告；核弹切地只随正式规则变化或已确认错误重开。 |
 | Parked | `ATTACK-01` | 规则已核验，需求弱且 #4237 风险未定 | #4237 状态变化，或出现真实重复问题/精确需求后恢复；指纹不变则不读取来源包。 |
 | Parked | `MAP-01` | Caribbean/Danish Straits 差异已核验，连续有效窗口精确需求为 0 | 出现真实问题、搜索意图或足够具体的布局来源后恢复。 |
 
@@ -31,9 +31,9 @@
 
 ## 最新来源锚点
 
-- v34 正式 Release：[`v0.34.25`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.25)，tag commit `dfd9e478b64d92fa25f95597b8cb81d8adee004d`；2026-10-13 发布，新增 Steam 权益与广告、音乐修复。累计 Release 正文不全部视为本次新增；本次 Overtime 维护使用该 tag 核验已有规则，不宣称它新引入 Overtime。
-- 较新 beta tag：[`v0.35.0-beta2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2)，tag commit `0dc1f9e4ed008f2880eedf07b41741b12835cdf8`；2026-10-14 发布，prerelease=true。本轮 beta1 的 API 标记也已为 true，不沿用此前 false 的历史状态。单独保留 beta 边界，不替代稳定版默认键表。
-- 上游 `main` 游标：`43fd3d63e7059a5299847a4293d16808928112d1`；2026-10-15 已用 GitHub REST 核验，未发布提交只作未来版本线索。
+- 正式 Release 游标：[`v0.35.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2)，tag commit `08b63c054897c030e6516e0731ab7cc62b2998b7`；API 发布时间为 2026-10-17T05:34:47Z，非 TEST、非预发布。顶部增量为建造预览与踢人修复，累计正文里的核弹切地属于 2026-10-16T17:06:49Z 发布的 v0.35.0，不能全部算作 v35.2 新增。
+- 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级，旧改键页的 beta 文案仍是独立维护候选。
+- 上游 `main` 独立游标：`967d02c4c13742f6a37e1661d4cceafa86d16fea`；2026-10-20 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。
 - GSC 历史 28 天缓存：2026-08-20..09-16，旧页面求和口径；当前 schemaVersion 2 基线保存在私有缓存，截止日和对账见搜索改善计划。

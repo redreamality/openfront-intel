@@ -1,12 +1,12 @@
 ---
-title: Atombomben-abgetrenntes Territorium annektieren (v0.35 Beta)
+title: Nukleare Landannexion (v35)
 group: endgame
 summary: Wenn eine Atombombenabwurf einen gegnerischen Territoriumstrang von dessen Hauptmasse abtrennt, kann ein umgebender Gegner das abgeschnittene Stück jetzt annektieren. Auslöser, drei Bedingungen und Versionsgrenze.
-updatedDate: 2026-10-15
+updatedDate: 2026-10-20
 description: "Wenn ein Atombombenabwurf einen gegnerischen Territoriumstrang von dessen Hauptmasse abtrennt, kann ein umgebender Gegner das abgeschnittene Stück jetzt annektieren. Erlerne den Auslöser, die drei Bedingungen, die Regel des erscheinenden Spielers und die v0.35-Versionsgrenze."
 pubDate: 2026-10-15
-version: v0.35.0-beta2
-freshnessSummary: Gegen die PR #5751 und die Engine-Tags v0.35.0-beta1/beta2 verifiziert; die Regel fehlt in der stabilen v0.34.25.
+version: v0.35.2
+freshnessSummary: Seit der stabilen v0.35.0 verfügbar und bis v0.35.2 geprüft; in v0.34.25 fehlt dieser Ablauf.
 related:
   - /de/guides/annexation-enclosure/
   - /de/guides/nuke-calculator/
@@ -21,17 +21,20 @@ tags:
 **Direkte Antwort.** Ein Atombombenabwurf, der das gegnerische Territorium in ein Stück schneidet,
 das nicht mehr an ihren Hauptkörper angrenzt, kann das abgetrennte Stück an einen Gegner übergehen
 lassen, der es umgibt, anstatt es dem Eigentümer zu belassen. Sie greift nur, wenn das Stück keine
-eigene Küste hat, nur andere Spieler und die Falloutzone berührt und der geschnittenen Spieler
-anderes Territorium hat. Es ist eine neue Regel der v0.35.0-beta (PR #5751) und **nicht** in der
-aktuellen stabilen v0.34.25 enthalten, also verhält sie sich auf stabilen Servern noch wie früher.
+eigene Küste oder Kartenkante hat, vom Hauptgebiet getrennt ist und nur andere Spieler sowie
+Fallout berührt. Mindestens ein angrenzender Gegner muss als Empfänger infrage kommen.
+Zuerst entscheidet dessen größter laufender Einzelangriff gegen den Eigentümer; ohne solche
+Angriffe entscheidet die Zahl gemeinsamer Kanten. Dieser Ablauf ist in den **stabilen Versionen v0.35.0 bis v0.35.2**
+enthalten. Ein Beta-Build ist nicht mehr nötig; der älteren v0.34.25 fehlt dieser Ablauf.
 
 ## Die Regel in einem Bild
 
 Denk dir das Territorium eines Gegners als eine zusammenhängende Landmasse. Der Großteil ist der
-Hauptkörper: die größte verbundene Masse, die auch ihre Küstenkante berührt. Du legst dann eine
-Atombombenabwurf. Der Krater löscht einen Ring ihrer Kacheln aus, und der Fallout, der folgt, zählt
-für Konnektivität während eines kurzen Fensters nach dem Abwurf als dein Territorium. Wenn dieser
-Krater plus Fallout die Masse in zwei Teile schneidet, bleibt eine Seite an den Hauptkörper
+Hauptkörper: die nach tatsächlicher Fläche größte zusammenhängende Landmasse, unabhängig von
+Küste und Grenzlänge. Du setzt dann einen Atomschlag. Nach der Explosion fehlt ein Teil der
+ursprünglichen Landverbindung. Fallout ist dabei unbesetztes Gebiet und gehört weder dir noch
+dem Verteidiger; für die Annexion wird er gesondert behandelt. Wenn der Schlag die Verbindung
+vollständig zerstört, bleibt eine Seite an den Hauptkörper
 angrenzend und die andere wird zu einer schwebenden Insel ihres Landes ohne Rückweg. Dieses
 schwebende Stück ist, was der Engine als den abgeschnittenen Cluster bezeichnet, und die neue Regel
 entscheidet sein Schicksal. Vor der v0.35 hat die alte Einschliessungslogik einen von einem Küsten
@@ -60,8 +63,8 @@ Krater werden zerstört und der Eigentümer verliert ihre Produktion sofort, gen
 v0.35. Die neue Rendite, die den Schlag unterschiedlich macht, ist das Land: Wenn der Krater plus
 der Fallout-Ring es schafft, einen eingeschlossenen Block abzutrennen, wechselt die Produktion
 dieses Blocks den Besitzer, anstatt einfach aufzuhören. Genau deshalb muss die Bewertung eines
-Endgame-Abwurfs jetzt eine Frage enthalten, die du auf der aktuellen stabilen Version gar nicht
-erst stellen würdest. Wird dieser Abwurf nur Gebäude zerstören, oder wird er zusätzlich einen
+Endgame-Abwurfs jetzt eine Frage enthalten, die bei diesem besonderen Ablauf in v0.34.25
+noch anders zu beantworten war. Wird dieser Abwurf nur Gebäude zerstören, oder wird er zusätzlich einen
 ganzen Block übertragen? Die Antwort hängt von der exakten Geometrie der Karte und der
 Motorversion ab, und genau das macht der Rest dieses Leitfadens lesbar. Mit anderen Worten fügt
 das Feature keine neue Waffe hinzu; es ändert die Art, wie du eine Waffe bewertest, die du schon
@@ -74,7 +77,7 @@ Die Engine annektiert ein abgetrenntes Stück nicht nur, weil es auf der Karte g
 Drei unabhängige Prüfungen müssen alle gleichzeitig bestehen, und wenn eine fehlschlägt, bleibt
 das Stück unangetastet und der Eigentümer behält es. Die erste Bedingung ist die Trennung vom
 Hauptkörper. Der Cluster muss über die Kachelkante des Eigentümers keine Verbindung mehr zu ihrer
-größten Masse haben. Ein Block, der noch mit dem Hauptkörper über eine einzelne Kachel berührt
+größten Landfläche haben. Ein Block, der noch mit dem Hauptkörper über eine seitlich verbundene Kachel berührt
 wird, ist nicht abgeschnitten und wird vom Annexion-Weg ignoriert. Genau deshalb tut ein Abwurf,
 der nur den Rand einer Masse beschädigt, ohne den Verbindungsgang komplett zu räumen, nichts:
 die Verbindung überlebt, also wird nichts wirklich abgetrennt. Die zweite Bedingung ist, dass das
@@ -83,14 +86,15 @@ oder die Kartenkante berührt, kann der Eigentümer einfach per Schiff austreten
 selbstversorgende Enklave behandeln, und die Engine verweigert die Annexion. Das ist der häufigste
 Grund für einen realen Schnitt, der « nicht funktioniert »: der abgetrennte Arm behält seine
 eigene Küstenlinie. Die dritte Bedingung ist, dass das Stück nur andere Spieler und Fallout berührt
-und mindestens ein Feind und mindestens eine Falloutkachel es umgibt. Der Block muss vollständig
-von Fallout umgeben sein, das als Territorium des Abschusses zählt, und von Feindesterritorium,
-ohne jede offene, unbesetzte Kachel, die ihn berührt. Wenn irgendeine Kachel des Blocks auf
-freies Terrain öffnet, wird die Annexion übersprungen, denn kein umgebender Feind könnte sie
-beanspruchen.
+und mindestens ein möglicher gegnerischer Empfänger sowie mindestens eine Falloutkachel vorhanden
+sind. Die anderen angrenzenden Spieler müssen nicht alle Feinde des Eigentümers sein.
+Fallout gehört niemandem und erhöht auch nicht deine Grenzzahl. Eine gewöhnliche unbesetzte
+Nachbarkachel ohne Fallout verhindert diesen besonderen Ablauf, selbst wenn daneben bereits
+mehrere Gegner stehen. Eine vollständig geschlossene Falloutumgebung allein reicht dagegen
+ebenfalls nicht: Ohne angrenzenden zulässigen Gegner gibt es keinen Empfänger.
 
 Die praktische Schlussfolgerung ist, dass du eine eingeschlossene Tasche gegnerischen Territoriums
-braucht, die vollständig von deinem Fallout und der Grenze eines Rivalen umgeben ist und ihren
+brauchst, die vollständig von Fallout und fremden Grenzen umgeben ist und ihren
 Rückweg komplett verloren hat. Ein Abwurf, der einen Fallout-Ring um einen Block ausgräbt, während
 die einzige Landbrücke des Blocks zum Eigentümer innerhalb dieses Rings liegt, ist das klassische
 Setup, das alle drei Bedingungen gleichzeitig erfüllt. Beachte die Reihenfolge, in der Spieler
@@ -102,82 +106,97 @@ verbraucht wird, und genau das macht die ganze Regel planbar statt zufällig. De
 Fehler weiter unten erklärt jeden davon mit konkreten Gegenzügen und den Situationen, in denen
 man den Abwurf ganz meiden sollte, aber die Kernidee ist, dass die Regel genau und deterministisch
 ist und ein einzelner Fehlschlag bedeutet, dass der Abwurf nur Kraterschaden und nichts anderes
-ist.
+ist. Ein Kontakt nur an einer Ecke verbindet zwei Landflächen nicht; entscheidend sind
+gemeinsame Seiten. Verwechsle außerdem eine lange Grenze nicht mit einem großen Hauptgebiet.
+Ein dünner Arm kann mehr Rand besitzen und trotzdem die kleinere Fläche sein. Prüfe deshalb
+die tatsächlich zusammenhängende Landfläche, statt den optisch längsten Umriss zum Hauptgebiet
+zu erklären. Die Übernahme des letzten verbliebenen Landes betrifft anschließend die Abrechnung,
+ist aber keine zusätzliche Voraussetzung für jede gewöhnliche Übertragung einer Tasche.
 
 ## Welcher Gegner nimmt den Block tatsächlich
 
-Wenn die drei Bedingungen stehen, geht das abgetrennte Stück nicht an einen zufälligen Spieler und
-nicht unbedingt an dich, den Schützen. Es geht an den erscheinenden Spieler, den die Engine
-berechnet, indem sie jede Kachelkante des abgeschnittenen Clusters abscannt und für jeden Feind
-zählt, wieviele Kacheln des Blocks dieser Feind tatsächlich an der Grenze teilt. Jede Fraktion,
-die mit dem Eigentümer des geschnittenen Territoriums verbündet ist, wird übersprungen, ebenso
-wie der Verbündetenkreis des Schützen, also ist der Kandidatenpool strikt die feindlichen
-Fraktionen, die eine Grenze mit dem Block teilen. Der Feind, der die meisten Blockkacheln an der
-Grenze teilt, gewinnt die Capture ganz. Wenn zwei Feinde exakt gleichauf sind, behält die Engine
-den ersten, den sie in ihrer internen Iterationsreihenfolge trifft, also wird ein Unentschieden
-in der Tat durch die Karten Geometrie entschieden statt durch eine Spieleraktion im Moment. Das
-hat eine subtile aber sehr wichtige Konsequenz: ein Abwurf zum Abschneiden eines Arms kann ein
-Geschenk an einen Dritten sein. Wenn der abgetrennte Block vom nördlichen Spieler stärker umgeben
-ist als von dir, verschluckt der nördliche Spieler den Block und du erhältst nur den
-Kraterschaden ohne das Land. Du hast das volle Gold des Abwurfs nur für den Schaden bezahlt und
-ein Rivale hat den Transfer eingesammelt.
+Wenn die drei Bedingungen erfüllt sind, geht das abgetrennte Stück weder zufällig noch
+automatisch an den Schützen. Zuerst werden Spieler ermittelt, deren Land eine gemeinsame
+Seite mit der Tasche besitzt. Spieler, die dem Eigentümer freundlich sind, kommen als
+Empfänger nicht infrage. Maßgeblich ist ihre Beziehung zum Eigentümer, nicht ihre Beziehung
+zum Schützen. Ein eigener Verbündeter kann daher grundsätzlich infrage kommen, wenn er
+gegenüber dem Eigentümer nicht freundlich ist. Ein weit entfernter Angreifer ohne gemeinsame
+Grenze wird durch eine große Armee allein dagegen nicht zum Kandidaten.
 
-Es gibt auch einen Sonderfall, den der Code selbst behandelt, und das ist die höchste Einsatzstufe
-der ganzen Regel. Wenn der abgeschnittene Cluster das einzige Land ist, das der geschnittene
-Spieler noch besitzt, ist die Capture kein Kachelfluss, sondern eine vollständige Eroberung: der
-ganze Spieler wird eliminiert und sein verbleibender Besitz geht an den erscheinenden Spieler.
-Das ist die Variante, die am ehesten ein Spiel früh im Endgame beendet, denn einmal eine Fraktion
-auf einen einzigen Hauptquartierblock reduziert, kann ein Abwurf, der diesen Hauptquartierblock
-isoliert, sie ganz eliminieren statt nur zu reduzieren. Weil der erscheinende Spieler derjenige
-ist, der die meisten Blockkacheln an der Grenze teilt, darfst du nicht annehmen, dass das Schützen
-dich zum Annexion-Begünstigten macht. Bevor du Gold einsetzt, rechne aus, wer die Ziel-Tasche
-tatsächlich umgibt. In einem dreifraktionalen Endgame ist das oft der Spieler, der die Flanke der
-Ziel die ganze Partie lang abgetragen hat, und nicht derjenige, der den Abwurf ausgeben wird.
-Wenn sich der erwartete Begünstigte als Rivale herausstellt, hast du gerade ihren Sieg gekauft.
-Dieses Umordnen der Anreize, dass der, der den Abwurf bezahlt, nicht der ist, der das Land
-einsammelt, ist genau das, was die beiden Szenario-Abschnitte unten mit konkreten Zahlen
-quantifizieren, und es ist der teuerste Fehler, den die Regel produzieren kann, wenn du die
-Grenzzählung überspringst.
+Unter diesen angrenzenden Gegnern entscheidet zunächst der größte laufende Einzelangriff gegen
+den Eigentümer. Es zählt die Truppenzahl eines Angriffs, nicht die Summe aller Angriffe eines
+Spielers. Zwei kleinere Angriffe werden deshalb nicht zu einem größeren zusammengezählt.
+Der Angriff muss den Spieler betreffen, dessen Land übertragen werden soll. Eine große
+Offensive gegen jemand anderen verschafft hier keinen Vorrang. Für deine Entscheidung heißt
+das: Prüfe die laufenden Angriffe der angrenzenden Kandidaten, bevor du gemeinsame Kanten
+zählst. Eine längere Grenze kann diesen Vorrang nicht überstimmen.
 
-## Versionsgrenze: stabile v34 gegen Beta v35
+Erst wenn keiner dieser Kandidaten einen passenden laufenden Angriff hat, entscheidet die
+Zahl der gemeinsamen Kanten. Gezählt werden seitliche Kontakte, nicht unterschiedliche
+Kacheln der Tasche. Berührt eine gegnerische Kachel die Tasche auf zwei Seiten, entstehen
+zwei Kontakte. Ein Beispiel mit vierzehn gegen elf Kontakten beschreibt deshalb Kanten
+und keine Aufteilung von fünfundzwanzig Landkacheln. Bei gleichen Höchstwerten bleibt der
+zuerst intern gefundene Kandidat vorn. Verlasse dich bei einem geplanten Schlag nicht
+auf diese Reihenfolge; ein klarer Vorsprung ist besser als eine erhoffte Gleichstandsauflösung.
 
-Die wichtigste operative Tatsache über dieses Feature ist, dass es auf den aktuellen stabilen
-Servern nicht live ist. Die Regel wurde durch den Pull-Request #5751 eingeführt, der im
-Engine-Tag v0.35.0-beta1 gelandet ist und auch im Tag v0.35.0-beta2 vorhanden ist, aber der
-stabile Build, den die öffentlichen Server ausführen, ist noch v0.34.25, und dieser Build enthält
-einfach keinen « abgeschnittene Cluster annektieren »-Code. Auf der stabilen v0.34.25 nutzt die
-Engine noch die alte Einschließungslogik, wo ein Abwurf, der einen Arm eines Küsten-Hauptkörpers
-abschneidet, fast nie eine Annexion auslöst, und genau das ist die lange Spielerbeschwerde, dass
-das Abschneiden von Territorium durch eine Bombe « für Küstenreiche aufgehört hat zu
-funktionieren ». Also wenn du heute auf den öffentlichen Servern online spielst, siehst du das
-alte Verhalten: der Krater erscheint, der Arm wird visuell auf der Karte getrennt, aber der
-Eigentümer behält jede Kachel und nichts wird übertragen. Der Schnitt wirkt dramatisch und der
-Transfer passiert schlicht nicht, weil der Codepfad, der den Transfer produzieren würde, im
-stabilen Build nicht existiert.
+Damit bleibt die wichtigste strategische Warnung bestehen: Du kannst eine Übertragung für
+einen Rivalen bezahlen. Dieser kann durch einen größeren laufenden Einzelangriff gewinnen,
+obwohl deine Grenze länger ist. Ohne passende Angriffe kann seine größere Kontaktzahl
+entscheiden. In beiden Fällen musst du Kraterschaden und Landgewinn getrennt bewerten.
+Ein zerstörter Schlüsselbau kann den Schlag trotzdem rechtfertigen. Rechne das übertragene
+Land aber nur deiner eigenen Position zu, wenn du tatsächlich der erwartete Empfänger bist.
 
-Die Builds v0.35.0-beta1 und v0.35.0-beta2 sind Vorab-Testbuilds, die im Oktober 2026 zu
-zirkulieren begonnen haben. Die Release v0.35.0-beta2, veröffentlicht am 2026-10-14, nennt
-« Nukes annex again » unter ihren Hauptänderungen. Um die neue Annexionsregel wirklich zu
-erleben, muss man einen v35-Beta-Build ausführen oder einen Server mit dieser Engine, nicht den
-stabilen Default. Das zählt für jeden anderen Rat in diesem Leitfaden, denn alle
-Schnitt-Strategien zählen nur in v35-Beta und darüber hinaus. Wenn du auf dem
-Annexions-Gewinn planst und dann auf dem stabilen spielst, zahlst du das Abwurf-Gold für den
-Kraterschaden und erhältst keinen Territoriumtransfer, weil der stabile Build keinen
-Annexion-Weg hat, der ausgelöst werden kann. Behandle die Versionsgrenze als harte
-Vorbedingung der ganzen Strategie, nicht als Fußnote. Wenn du deinen Build wählen kannst, zielen
-auf eine v35-Beta, um das Annexionsverhalten zu testen; wenn du auf dem stabilen verriegelt bist,
-sagt dir dieser Abschnitt, was nicht passiert, damit du keinen verfehlten Transfer für einen
-Bug oder einen zufälligen Missgeschick hältst. Sobald die v0.35 als stabile Release erscheint,
-fällt die Grenze und jede Strategie aus diesem Leitfaden geht gleichzeitig überall online, was
-der Moment ist, in dem das Endgame-Meta am ehesten auf einmal kippt.
-Konkret heißt das für deine eigene Spielzeit: notiere dir vor jeder Sitzung, auf welchem Build du
-stehst, und lass dir von deiner eigenen Strategie die Frage stellen, ob sie auf dem Annexions-Weg
-beruht. Wenn ja, und du stehst auf dem stabilen, ist die Strategie derzeit wertlos und du solltest
-sie entweder auf einen v35-Beta verschieben oder vorerst ablegen. Wenn nein, ist dieser Abschnitt
-nur eine Warnung, damit du einen verfehlten Transfer nicht als Bug deines eigenen Setups
-interpretierst. Die Versionsgrenze ist also nicht ein Detail am Rand; sie ist der Schalter, der
-bestimmt, ob die restlichen acht Abschnitte dieses Leitfadens auf deiner aktuellen Karte überhaupt
-gelten oder ob sie erst morgen gelten.
+Unmittelbar vor einer Übertragung wird außerdem geprüft, ob diese Tasche das gesamte noch
+verbliebene Land des Eigentümers ist. Dann wird dessen vollständige Eroberung ausgelöst.
+Das kann vorkommen, wenn andere Teile einschließlich des zuvor bestimmten Hauptgebiets im
+gleichen Prüfdurchlauf bereits verloren gegangen sind. Es bedeutet nicht, dass jede einzelne
+isolierte Hauptstadt ohne weiteres Hauptgebiet automatisch diesen besonderen Schnittablauf
+erfüllt. Ebenso wenig ist die Eroberung eines Spielers gleichbedeutend mit dem Sieg über
+alle übrigen Gegner. Der zweite Fall unten trennt diese Schritte ausdrücklich voneinander.
+
+## Versionsgrenze: stabile v35 und ältere v34-Partien
+
+Die Annexion nach einem nuklearen Schnitt gehört inzwischen zu einer stabilen Version.
+v0.35.0 erschien am 2026-10-16; die am 2026-10-17 veröffentlichte v0.35.2 enthält den Ablauf
+weiterhin. Für eine Partie auf diesen Versionen brauchst du keinen Beta-Server mehr.
+Ein gezielter Schnitt lässt sich deshalb sowohl nach Kraterschaden als auch nach möglichem
+Landgewinn bewerten. Trenne beide Erträge: Ein zerstörtes Schlüsselgebäude kann auch ohne
+Übertragung wertvoll sein. Land für den falschen Rivalen kann dagegen einen präzisen Treffer
+zu einer schlechten Investition machen. Die stabile Veröffentlichung hebt keine geografische
+Voraussetzung auf und macht die zahlende Person nicht automatisch zum Empfänger.
+
+Die ältere v0.34.25 besitzt diesen besonderen Annexionsablauf nicht. Diese historische Grenze
+bleibt bei alten Videos, alten Wiederholungen und bewusst auf einem früheren Build betriebenen
+Servern wichtig. Eine gleich aussehende Karte verspricht über Versionsgrenzen hinweg kein
+gleiches Ergebnis. Umgekehrt erklärt „nur in der Beta“ einen gescheiterten Schnitt in einer
+unterstützten v35-Partie nicht mehr. Stelle zuerst die Spielversion fest und untersuche danach
+die Verbindung, die Eignung der Tasche und den Empfänger. Das Veröffentlichungsdatum sagt,
+wann ein Build verfügbar wurde. Es beweist weder die Version jedes privaten Servers noch
+die Version einer aufgezeichneten Partie, die du gerade als Vorbild benutzt.
+
+In einer unterstützten Partie verfolgst du zuerst die Verbindung, die verschwinden soll.
+Ein schmaler Streifen kann außerhalb des Kraters noch einen Umweg zum Hauptgebiet haben.
+Ein scheinbar isolierter Bezirk kann eine eigene Küste behalten. Auch nach der Veröffentlichung
+wird deshalb nicht jeder Atomschlag automatisch zur Annexion. Prüfe weiterhin die Tasche
+und den möglichen Empfänger, bevor du erwartetes Land deinem eigenen Ergebnis zurechnest.
+Wenn ein Rivale durch Grenzlage und laufende Angriffe die bessere Position hat, kann dein
+Schlag dessen Abschluss erleichtern. Auf eine bessere Lage zu warten kann mehr bringen,
+als sofort nach dem Erreichen des nötigen Goldbetrags zu feuern.
+
+Trenne bei einem Fehlversuch Version, Geometrie und Ertrag. Ein alter Build kann erklären,
+warum dieser Ablauf fehlt. In einem unterstützten v35-Build prüfst du dagegen zuerst
+überlebende Verbindungen, Wasser, Kartenrand und unbesetzte Lücken, bevor du den nächsten
+Flugkörper kaufst. Wurde Land übertragen, aber an jemand anderen, hilft ein Versionswechsel
+nicht weiter. Dann musst du Empfänger und Zeitpunkt neu bewerten. So bleiben ältere Videos
+als Beispiele für das Lesen der Karte nützlich, ohne dass ihr damaliges Ergebnis als
+Versprechen für deine heutige Partie behandelt wird.
+
+Die [offiziellen Versionshinweise zu v0.35.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2)
+enthalten den v0.35.0-Eintrag zur wiederhergestellten Annexion abgeschnittenen Landes.
+Für den Spielzug gilt diese Reihenfolge: unterstützte Version, vollständiger Schnitt,
+geeignete Tasche, gewünschter Empfänger und danach Kosten. Die stabile Verfügbarkeit erspart
+dir die Suche nach einem Testserver. Sämtliche geografischen und strategischen Prüfungen
+bleiben bestehen, gerade wenn ein weiterer Gegner von derselben Detonation profitieren könnte.
 
 ## Die Karte vor dem Einsatz lesen
 
@@ -185,17 +204,18 @@ Die drei Bedingungen in eine Vorabwurf-Checkliste umzuwandeln, ist der Unterschi
 Zufallsbonus und einem zuverlässigen Bonus, und jede Prüfung ist ein einfaches Ja/Nein, das vor
 dem Goldverbrauch ablesbar ist. Zuerst, finde die Meerenge: die schmalste Bande des
 Eigentümerterritoriums, die den Zielblock mit dem Hauptkörper verbindet. Du willst einen Abwurf,
-dessen Krater, plus der Fallout-Ring, den er hinterlässt, diese Bande komplett räumen kann. Weil
-Fallout für Konnektivität als dein Territorium zählt, ist der effektive Schnitt breiter als der
-Krater allein. Ein Abwurf, der allein durch seinen Rissradius nicht breit genug aussieht, um den
-Gang zu durchqueren, kann die Verbindung noch trennen, wenn der Fallout-Ring geschlossen ist.
-Wenn der Kanal breiter ist, als dein Krater plus Fallout räumen kann, schlägt die Trennung fehl
+dessen tatsächliche Wirkung diese Bande vollständig unterbrechen kann. Betrachte die danach
+verbleibenden Kacheln des Eigentümers und suche auch nach einem Umweg außerhalb des Zielbereichs.
+Fallout gehört nicht dir und verspricht keinen zusätzlichen, unabhängig berechenbaren Schnittradius.
+Ein optisch schmaler Streifen kann weiterhin eine seitliche Verbindung besitzen, während
+ein Kontakt nur über eine Ecke keine gemeinsame Landfläche bildet.
+Wenn eine Verbindung nach dem Schlag überlebt, schlägt die Trennung fehl
 und nichts passiert, also überspring dieses Ziel und suche woanders. Zweitens, prüfe die Küste
 auf der abgeschnittenen Seite. Zeichne die Kontur des Blocks, den du abtrennen willst, und
 bestätige, dass er kein eigenes Wasser oder Kartenkante hat. Wenn der Block, den du einem Rivalen
 anbieten willst, seine eigene Uferlinie hat, ist er unannektierbar egal wie du ihn schneidst, und
 du solltest die eingeschlossene Hälfte des Blocks anvisieren statt die Küstenschale. Drittens,
-prüfe die Umgebung. Der abgetrennte Block muss vollständig von Fallout und Feindesgrenze umgeben
+prüfe die Umgebung. Der abgetrennte Block muss vollständig von Fallout und fremden Grenzen umgeben
 sein, ohne jede offene Kachel, die ihn berührt. Jedes Loch freier Fläche bricht die « nur
 Spieler und Fallout berühren »-Regel und tötet die Annexion, also muss der Schnitt in der
 Tiefe des Feindesterritoriums liegen und nicht am Rand unbesetzten Territoriums, wo ein Loch
@@ -203,92 +223,109 @@ wahrscheinlich ist.
 
 Führe die drei Prüfungen durch, bevor du eine Goldkette ausgibst, denn ein einzelnes Nein bedeutet,
 dass der Abwurf nur Kraterschaden ist und der Transfer unmöglich ist. Dann, und nur dann, mache die
-vierte Prüfung, die die Grenz-Zählung ist, die entscheidet, wer begünstigt wird. Berechne, welche
-feindliche Fraktion den potenziell abgetrennten Block am meisten an der Grenze teilt, denn das ist
-der erscheinende Spieler, und bestätige, dass es du und kein Rivale bist. Wenn eine dritte Fraktion
+vierte Prüfung: Wer erhält das Land? Suche die angrenzenden Gegner des Eigentümers und prüfe
+ihre laufenden Angriffe gegen ihn. Der größte einzelne Angriff hat Vorrang. Nur wenn keiner
+dieser Kandidaten einen solchen Angriff führt, vergleichst du die gemeinsamen Kanten.
+Bestätige damit den erwarteten Empfänger. Wenn eine dritte Fraktion
 das Land einsammeln würde, ist der Abwurf ein Geschenk an sie und du solltest entweder die Grenze
 zuerst neu ausrichten, um sie zu gewinnen, oder komplett übergreifen. Die beiden Szenario-Abschnitte
 weiter unten wenden genau diese Lesungen auf zwei konkrete Kartenzustände an, damit du die
-Schwellen, die Kachelzählungen und die Gold-pro-Tick-Zahlen siehst, die einen echten Transfer von
-einem Fehlschlag trennen. Die Mikrokunst ist: lies den Kanal, lies die Küste, lies die Umgebung,
-zähle die Grenze, und entscheide erst dann, ob sich der Kraterschaden für den Territoriumtransfer
+geografischen Bedingungen und die Empfängerentscheidung siehst, die einen eigenen Landgewinn von
+einem Geschenk unterscheiden. Die Mikrokunst ist: lies den Kanal, lies die Küste, lies die Umgebung,
+prüfe Angriffe und gegebenenfalls Kanten, und entscheide erst dann, ob sich der Kraterschaden für den Territoriumtransfer
 lohnt, mit der Versionsgrenze als Vorbedingung, die den Rest des gesamten Leitfadens rahmt.
+Wiederhole diesen letzten Blick kurz vor dem Einschlag. Ein neuer laufender Angriff oder eine
+echte Grenzverschiebung kann den Empfänger verändern, obwohl deine Zielmarkierung unverändert bleibt.
+Erwartetes Land ist deshalb keine sichere Rendite, solange die entscheidende Lage noch wechseln kann.
 
 ## Szenario A: einen Küstenarm eines Midgame-Imperiums abschneiden
 
-Leg die Karte für einen konkreten Midgame-Fall. Drei Fraktionen auf einer Standard-Inselkarte. Du
-bist bei etwa sechzig Prozent Population. Der Ziel-Feind besitzt eine lange Küstenstreifen an der
-Ostseite, die sich über einen zwei-Kachel-breiten Kanal mit ihrem Inneren verbindet. Ihr Streifen
-hat eine eigene Küstenlinie, was der Fang ist, der die meisten Spieler einfängt. Wenn du den
-Kanal abfeuerst und den ganzen Oststreifen abtrennst, berührt der Streifen noch das Meer, also
-schlägt die « keine Küste »-Bedingung fehl und der Eigentümer behält jede Kachel. Das ist der zu
-vermeidende Fehler. Schau stattdessen auf die eingeschlossene Tasche hinter dem Kanal. Das ist
-ein Cluster von etwa achtzehn Ackerkacheln, die der Oststreifen schützt, vollständig
-eingeschlossen. Seine Grenze nach Norden und Süden ist dein eigenes Territorium und nach Westen
-ist der Kanal selbst. Eine MIRV, die direkt auf diesen Kanal platzt, erzeugt einen Krater und
-einen Fallout-Ring, breit genug, um die zwei-Kachel-Verbindung zu räumen. Nach der Detonation ist
-die Innentasche vom Hauptkörper getrennt, hat keine eigene Küste und ist von deinem Fallout und
-dem Territorium der umliegenden Fraktionen umgeben, also bestehen alle drei Bedingungen
-gleichzeitig.
+Nimm eine ausdrücklich gedachte Midgame-Lage mit drei Spielern. Der Gegner besitzt ein großes
+Hauptgebiet und einen langen Küstenarm, verbunden durch eine schmale Landbrücke. Eine kleinere
+Tasche liegt weiter innen zwischen euren Grenzen. Die Größen in diesem Beispiel dienen nur
+dem Vergleich der Entscheidungen; sie sind keine Empfehlung für einen bestimmten Bombenradius,
+keine nachgespielte Partie und keine Garantie für eine reale Karte. Entscheidend ist immer,
+welche Kacheln nach der Explosion tatsächlich zum Eigentümer gehören und seitlich verbunden bleiben.
 
-Zähle jetzt den echten Wert. Die Tasche ist etwa achtzehn Produktionskacheln, die bei einem
-Midgame-Einkommen von etwa der Hälfte eines Gold pro Kachel pro Tick etwa neun Gold pro Tick
-Transfer wert sind. Dieser Umschlag überschattet den Wert der wenigen Gebäude, die der Krater
-tatsächlich zerstört hat, also ist der Kraterschaden ein Nettoverlust, den du akzeptierst, um den
-Transfer zu kaufen. Wenn du die Fraktion bist, die den Block am meisten an der Grenze teilt,
-annektierst du ihn und erzielst diese neun Gold pro Tick. Wenn die nördliche Fraktion den Block
-stärker an der Grenze teilt als du, annektiert sie ihn und du hast das Gold umsonst bezahlt. Die
-Entscheidung ist also bedingt. Wenn du auf der Karte bestätigen kannst, dass die nördliche
-Fraktion den Block nicht stärker an der Grenze teilt als du, ist der Abwurf ein klarer Gewinn und
-du setzt den Abwurf ein. Wenn du das nicht bestätigen kannst, kauft der Abwurf dem nördlichen
-Spieler einen achtzehnkacheln Block und deine einzigen gesunden Optionen sind, zuerst die Grenze
-neu auszurichten oder diesen Abwurf dieses Tick zu überspringen und auf eine bessere Geometrie zu
-warten. Das ist die ganze Kunst in einem Beispiel komprimiert: lies den Kanal, lies die Küste,
-lies die Umgebung, zähle die Kacheln und entscheide erst dann, ob sich der Kraterschaden für den
-Transfer lohnt. Es sind die Zahlen und nicht die Dramatik des Kraters, die die Entscheidung
-treffen.
+Die erste mögliche Zielwahl ist die Landbrücke zum Küstenarm. Selbst wenn du sie vollständig
+zerstörst, hat der Arm danach eine eigene Küste. Damit scheitert diese besondere Annexion.
+Du kannst weiterhin einen militärischen Grund für den Schlag haben, etwa ein wichtiges
+Gebäude im Zielbereich. Erwarte aber keinen automatischen Transfer des Arms. Die dramatische
+Trennung auf der Karte sagt noch nicht, dass der neue Annexionsablauf anwendbar ist.
+
+Die zweite mögliche Zielwahl trennt die kleinere innere Tasche vom größeren Hauptgebiet.
+Angenommen, diese Tasche umfasst nach dem Einschlag achtzehn Kacheln, besitzt keine Küste und
+keinen Kartenrand und berührt ausschließlich andere Spieler sowie Fallout. Ein zulässiger
+gegnerischer Empfänger grenzt ebenfalls an. Damit sind die geografischen Bedingungen erfüllt.
+Die achtzehn Kacheln ergeben keinen festen Goldbetrag pro Tick. Ihr Nutzen hängt beispielsweise
+von der strategischen Verbindung und davon ab, welche Gebäude außerhalb der zerstörten Fläche
+übrig bleiben. Das lässt sich nicht durch eine erfundene feste Goldrate pro Kachel ersetzen.
+
+Für die erste Empfängervariante nehmen wir ausdrücklich an, dass kein angrenzender Kandidat
+gerade einen Angriff gegen den Eigentümer führt. Du besitzt vierzehn gemeinsame Kanten mit
+der Tasche, der dritte Spieler elf. In dieser angenommenen Lage erhältst du die Tasche,
+weil erst jetzt die Kontaktzahl entscheidet. Die Zahlen beschreiben Seitenkontakte und
+nicht vierzehn gegen elf der achtzehn Landkacheln. Eine Kachel kann mehrere Kontakte haben.
+Wenn die Kontaktzahlen vertauscht sind, erhält der dritte Spieler das Land trotz deiner Bombe.
+
+Ändere nun nur eine Voraussetzung: Der dritte Spieler führt einen passenden laufenden Angriff,
+du selbst keinen. Dann kann er die Tasche auch bei elf gegen deine vierzehn Kanten erhalten.
+Führt ihr beide Angriffe gegen den Eigentümer, zählt der größte einzelne Angriff unter den
+angrenzenden Kandidaten. Deine längere Grenze allein sichert dann nichts. Prüfe die Situation
+deshalb erneut, bevor du einen erwarteten Landgewinn in die Kostenrechnung aufnimmst.
+
+Die Entscheidung hat damit drei getrennte Teile: Ist die Tasche geeignet, wer erhält sie,
+und ist der Schlag seinen Preis wert? Ein eigener Transfer kann günstig sein, ohne jede
+beliebige Bombe zu rechtfertigen. Ein Transfer an einen Rivalen kann ungünstig sein, obwohl
+die zerstörten Gebäude den Einsatz weiterhin sinnvoll machen. Vergleiche diese konkreten
+Folgen statt einer festen Rendite, die die achtzehn Kacheln angeblich automatisch erzeugen.
 
 ## Szenario B: das Endgame-Hauptquartier, das das letzte Land ist
 
-Gehen wir zur hohen-Einsatz-Variante desselben Mechanismus, wo der Sonderfall der vollständigen
-Eroberung die Mitte der Karte wird. Es ist das Endgame. Zwei Fraktionen sind noch am Leben plus
-eine dritte fast tot. Das Ziel-Überlebende ist auf einen einzigen Hauptquartierblock von
-fünfundzwanzig Kacheln reduziert, und dieser Block ist buchstäblich ihr verbleibendes Land. Du
-hast einen Abwurf bereit. Die dritte Fraktion grenzt das Hauptquartier an zwei von vier Seiten,
-und du grenzt es an den beiden anderen. Das Ziel hält eine einzelne isolierte Farmkachel, die
-die einzige Sache ist, die verhindert, dass das Hauptquartier vollständig umgeben ist. Wenn du
-diese einzelne Farmkachel abfeuerst und der Krater plus Fallout-Ring den Gang räumt, ist das
-Hauptquartier jetzt von jedem anderen Land des Eigentümers getrennt, hat keine eigene Küste und
-ist von Fallout plus der dritten Fraktion und dir umgeben. Alle drei Bedingungen bestehen
-gleichzeitig.
+Für diesen gedachten Endgame-Fall besitzt der Verteidiger zunächst ausdrücklich zwei Teile:
+ein größeres Hauptgebiet und eine davon abgeschnittene kleine Tasche. Die Tasche soll erst
+später zum letzten Land werden. Das ist ein anderer Ablauf als eine schon vorher allein
+stehende Hauptstadt, deren Isolation angeblich automatisch eine vollständige Eroberung auslöst.
+Der besondere Schnittmechanismus beurteilt die Tasche relativ zu dem Hauptgebiet, das in
+diesem Prüfdurchlauf ermittelt wurde. Diese Ausgangslage muss bei der Bewertung erhalten bleiben.
 
-Aber weil dieser Cluster das einzige verbleibende Land des Ziels ist, überträgt die Engine nicht
-fünfundzwanzig Kacheln. Es ist eine vollständige Eroberung und das Ziel wird ganz vom erscheinenden
-Spieler eliminiert. Hier entscheidet die Regel des erscheinenden Spielers das ganze Spiel. Du und
-die dritte Fraktion grenzen beide das Hauptquartier, also musst du berechnen, wer mehr seiner
-fünfundzwanzig Kacheln an der Grenze teilt, bevor du schießt. Wenn du vierzehn an der Grenze
-teilst und die dritte Fraktion elf, eroberst du das Ziel und gewinnst das Spiel. Wenn die dritte
-Fraktion vierzehn an der Grenze teilt und du elf, hast du gerade einen teuren Abwurf niedergelegt,
-um das Spiel für den Rivalen zu gewinnen, dem du gerade gegenübergerstanden bist. Die
-Zahlen, die zählen, sind die Grenz-Zählungen und nicht die Kratergröße und nicht der Schaden. Der
-Entscheidungsrahmen ist strikt: setze nur ein, wenn du bestätigen kannst, dass du das
-Hauptquartier strikt am meisten an der Grenze teilst als die dritte Fraktion und der Schnitt das
-Hauptquartier ganz isoliert ohne verbleibende Küste oder offene Kachel, die es berührt. Wenn du
-dir der genauen Grenz-Zählung nicht sicher bist, ist der sicherere Zug oft, den Gang überhaupt
-nicht abzufeuern, sondern das Ziel als geteilten dritten Fronten lebend zu halten, der die andere
-Fraktion abträgt, denn es zu eliminieren, wobei die Eroberung an den falschen Spieler geht, ist
-das schlechteste Ergebnis auf der Karte. Dieses Szenario ist das ehesten in der Lage, ein Spiel
-sofort zu beenden, weshalb die Vorabwurf-Rechnung hier mehr zählt als irgendwoanders in diesem
-Leitfaden.
-Ein weiterer, häufig übersehener Aspekt dieses Szenarios ist der Zeitfaktor. Der dritte Fronten-
-Zug, den Rivalen als geteilte Front lebend zu halten, ist nicht passiv; er setzt voraus, dass du
-deine eigenen Kräfte so positionierst, dass sie nicht versehentlich den Kanal räumen und den
-Sonderfall auslösen, während du noch nicht sicher bist, dass du die Grenz-Zählung gewinnst. Das
-heißt: behandle die letzten Minuten des Endgames als eine Phase, in der du aktiv verhindern
-musst, dass ein zufälliger Abwurf den letzten Landblock des Rivalen abschneidet, außer du hast
-die Grenz-Zählung bereits berechnet und gewonnen. Wenn du unsicher bist, ist die disziplinierteste
-Version des Zuges, die MIRV und alle schweren Abwürfe bis zur Entscheidung zurückzuhalten, statt
-sie zu investieren, um sie später einem Rivalen an den Kopf zu werfen.
+Nimm an, ein Atomschlag hat die Verbindung zwischen den beiden Teilen zerstört. Die kleinere
+Tasche hat keine Küste und keinen Kartenrand. Ihre Nachbarn bestehen nur aus anderen
+Spielern und Fallout, einschließlich eines zulässigen gegnerischen Empfängers. Gleichzeitig schließen
+andere Landgewinne die letzten offenen Wege des größeren Hauptgebiets. Wenn die bestehenden
+allgemeinen Einschließungsregeln dieses Hauptgebiet im selben Prüfdurchlauf übernehmen, kann
+danach nur noch die zuvor als abgeschnitten erkannte Tasche beim Verteidiger verbleiben.
+Die Reihenfolge ist für das Beispiel entscheidend, nicht die Bezeichnung als Hauptstadt.
+
+Unmittelbar vor der Übertragung dieser Tasche wird ihr Umfang mit dem gesamten noch
+verbliebenen Land des Eigentümers verglichen. Stimmen beide überein, handelt es sich zusätzlich
+um dessen vollständige Eroberung. Bleibt irgendwo anderes Land übrig, ist es lediglich
+eine weitere Gebietsübertragung. Deshalb ist die Frage nach dem letzten Land eine Frage
+der Abrechnung am Ende dieses Ablaufs. Sie ist keine Voraussetzung, die eine gewöhnliche
+Annexion einer geeigneten Tasche erst erlauben würde. Du musst für einen normalen Landgewinn
+also nicht darauf warten, dass der Verteidiger fast ausgeschieden ist.
+
+Der Empfänger wird weiterhin nach den gleichen Regeln bestimmt. Unter den an die Tasche
+grenzenden, gegenüber dem Eigentümer nicht freundlichen Spielern hat der größte laufende
+Einzelangriff gegen ihn Vorrang. Gibt es keinen passenden Angriff, entscheidet die Kontaktzahl.
+Ein Gegner, der das Hauptgebiet erhalten hat, bekommt deshalb nicht automatisch auch die
+Tasche. Der Spieler, der die Bombe bezahlt hat, bekommt sie ebenso wenig automatisch.
+Prüfe jede zu übertragende Fläche anhand ihrer eigenen Kandidaten und der aktuellen Angriffe.
+
+Als übersichtliche Variante nehmen wir an, niemand aus diesem Kandidatenkreis greift den
+Verteidiger gerade an. Du besitzt vierzehn Kontaktkanten zur Tasche und dein Rivale elf.
+Du erhältst dann diese letzte Tasche und die Eroberung des Verteidigers wird dir zugeordnet.
+Vertauschen sich die Kanten, kann dein Rivale die letzte Tasche erhalten. Kommt ein passender
+laufender Angriff hinzu, muss zuerst dieser Vorrang geprüft werden; die Zahlen allein entscheiden
+dann nicht mehr. Dies sind hypothetische Seitenkontakte, keine behauptete Größe einer realen Hauptstadt.
+
+Auch eine vollständige Eroberung dieses Verteidigers verspricht keinen sofortigen Gesamtsieg.
+Weitere Spieler können weiterkämpfen, und der neue Grenzverlauf kann neue Probleme schaffen.
+Beurteile deshalb den anschließenden Frontverlauf und deine verbleibenden Mittel. Wenn der
+Schlag vor allem einen anderen Rivalen stärkt, kann Warten vernünftig sein. Wenn sein
+direkter Schaden einen klaren militärischen Nutzen hat, kann er trotzdem sinnvoll bleiben.
+Die Entscheidung sollte auf diesen Folgen beruhen, statt auf einem vermeintlichen automatischen
+Sieg durch das bloße Abschneiden eines letzten Blocks.
 
 ## Fehler und Gegenzüge
 
@@ -297,8 +334,8 @@ Karte sichtbar, bevor eine Goldkette verbraucht wird, also ist das Ziel, den Feh
 Planungsphase abzufangen statt nach dem Abwurf. Der erste Fehlermodus ist, dass die Verbindung
 überlebt. Dein Krater plus Fallout hat den Kanal nicht komplett geräumt, also verbindet noch
 eine Kachel den Block mit dem Hauptkörper und die Trennungsprüfung schlägt fehl. Der Gegen ist,
-den Abwurf auf den engsten Punkt des Kanals zu zielen und vor dem Schießen zu bestätigen, dass
-der Fallout-Ring breiter sein wird als der verbleibende Gang. Wenn das nicht der Fall sein wird,
+den Abwurf auf den engsten Punkt des Kanals zu zielen und vor dem Schießen zu prüfen,
+welche seitlichen Verbindungen nach der tatsächlichen Explosion bestehen bleiben. Reicht der Schlag nicht,
 schieß nicht und suche ein anderes Ziel. Der zweite Fehlermodus ist, dass der Block eine Küste
 behält. Du hast den Block abgetrennt, aber er behält seine eigene Uferlinie, also schlägt die
 « keine Küste »-Bedingung fehl und der Eigentümer behält das Land, immer noch in der Lage per
@@ -312,11 +349,11 @@ berührt den Block, also berührt er nicht nur Spieler und Fallout und die Annex
 Umgebung komplett ist und wo keine Rand unbesessenen Territoriums ein Loch lassen kann. Ein Block
 am Rand freier Fläche ist ein garantierter Fehlschlag. Der vierte und teuerste Fehlermodus ist,
 dass du das Land an den falschen Spieler gibst. Die drei Bedingungen stehen, der Transfer
-greift, aber der erscheinende Spieler ist der Feind, der den Block am meisten an der Grenze
-teilt, der nicht du bist, also geht das Land an deinen Rivalen und du hast nur den Krater
-bezahlt. Der Gegen ist, die Grenz-Zählung vor dem Einsatz durchzuführen. Wenn du den Block nicht
-strikt am meisten an der Grenze teilst als jeder andere Feind, richte die Grenze zuerst neu
-aus, um sie zu gewinnen, oder überspringe diesen Abwurf diesen Tick.
+greift, aber der Empfänger ist ein Rivale. Sein größter laufender Einzelangriff gegen
+den Eigentümer kann ihm Vorrang geben, selbst wenn deine Grenze länger ist. Ohne passende
+Angriffe kann stattdessen seine größere Kontaktzahl entscheiden. Prüfe deshalb zuerst die
+Angriffe angrenzender Kandidaten und erst danach gegebenenfalls die Kanten. Kannst du den
+gewünschten Empfänger nicht begründen, warte oder bewerte den Schlag allein nach seinem direkten Nutzen.
 
 Es gibt auch einen Gegenzug für den Eigentümer des geschnittenen Territoriums, und es lohnt sich,
 ihn zu kennen, denn er sagt dir, wann ein Spieler sicher die Annexion gegen sich ablehnen kann.
@@ -324,85 +361,114 @@ Ein Eigentümer verteidigt sich, indem er nie eine vollständig umgebene eingesc
 zurücklässt. Behalte mindestens einen Küstenausgang auf jedem Block, was die « keine Küste »-
 Bedingung für jeden Angreifer schlägt. Halte den Kanal zu deinem Hauptkörper breiter, als ein
 einzelner Krater plus Fallout räumen kann. Und vermeide, auf ein einzelnes Hauptquartier
-reduziert zu werden, das ein isolierender Schnitt vollständig erobern könnte. Im Gegenteil, wenn
+reduziert zu werden, dessen Verlust eine vollständige Eroberung bedeuten könnte. Im Gegenteil, wenn
 du der Eigentümer bist und einen Block verlieren wirst, ist die beste Antwort oft, eine Küste oder
 einen Weg zum Hauptkörper zu öffnen, statt zu versuchen, den Krater zu bekämpfen, denn eine
-überlebende Verbindung ist die einzige Sache, die garantiert, dass du das Land behältst. Und wenn
+überlebende Verbindung verhindert diesen besonderen Schnittablauf. Andere Angriffe bleiben möglich. Und wenn
 du eine dritte Fraktion bist, die zusieht, wie jemand einen Abwurf ablegt, der eine Tasche
-abschneiden könnte, kannst du Einheiten bewegen, um den potenziellen abgetrennten Block an der
-Grenze zu teilen, bevor der Abwurf fällt, und so deine eigene Grenz-Zählung zu erhöhen, damit die
-Regel des erscheinenden Spielers den Block an dich gibt. Die Annexion ist nicht nur ein Werkzeug
-des Schützen. Es ist ein dreiseitiges Rennen, wer den abgetrennten Block am meisten an der Grenze
-teilt, und die Bewegung jedes Spielers in den Minuten vor dem Abwurf verändert, wer ihn
-einsammelt.
+abschneiden könnte, brauchst du tatsächlich angrenzendes eigenes Land, um als Empfänger
+infrage zu kommen. Das bloße Bewegen von Schiffen oder anderen Einheiten erhöht keine
+Kontaktzahl. Erst eine echte Änderung der Eigentumsgrenzen verändert die gezählten Kanten.
+Ein laufender Angriff gegen den Eigentümer kann zusätzlich die Vorrangregel verändern.
+Die Annexion ist damit eine Frage von Gebietsbesitz, Angriffen und Zeitpunkt, nicht davon,
+wer eine Einheit am nächsten an den Krater stellt oder wer die Bombe bezahlt hat.
 
 ## Modus- und Kartenanpassungen
 
-Die Annexion verhält sich anders je nach den Kartenzuständen, die Spieler wirklich antreffen,
-also muss dieselbe Lesung der drei Bedingungen vor dem Glauben an jeden angepasst werden. Auf
-Standard-Inselkarten, die der natürliche Heimatort dieses Features sind, sind Küsten überall, was
-bedeutet, dass die meisten abgetrennten Blöcke ihre eigene Küstenlinie haben und die « keine
-Küste »-Bedingung scheitern. Deshalb sind die Annexions, die auf Standard-Karten greifen, die
-selteneren, wertvolleren eingeschlossenen Taschen und genau deshalb belohnen sie ein willentliches
-Setup statt eines Zufallsbonus. Auf Standard-Karten priorisiere Zielexisten in der Inneren, wo die
-Umgebung komplett ist, und erwarte, dass das Rennen um den erscheinenden Spieler oft eine dritte
-Fraktion einbezieht, die du vor dem Schießen berücksichtigen musst. Auf Karten oder Modi, die
-einen großen zentralen See oder ein Inneres Meer einschließen, multipliziert sich die Anzahl der
-eingeschlossenen Taschen, denn das Wasser teilt das Territorium in viel mehr abgetrennte Inseln.
-Hier greift die Annexion viel häufiger und die « keine Küste »-Prüfung auf dem Block wird der
-dominierende Filter. Ein Block mit seiner eigenen See-Uferlinie ist unannektierbar, selbst wenn
-er vollständig isoliert aussieht, also solltest du auf diesen Karten die Tasche anvisieren, die
-den See nicht berührt.
+Die Karte verändert die geeigneten Ziele, aber nicht die grundlegenden Prüfungen dieses Ablaufs.
+Auf einer Inselkarte solltest du besonders sorgfältig die Küste der tatsächlich abgetrennten
+Tasche verfolgen. Dass das Hauptgebiet am Meer liegt, verhindert die neue Schnittannexion nicht
+automatisch. Dass die Tasche selbst eine Küste besitzt, verhindert sie dagegen schon. Diese
+Unterscheidung ist der wichtige praktische Unterschied gegenüber dem früher problematischen
+Küstenfall. Ein großer Küstenarm ist deshalb nicht automatisch ein besseres Annexionsziel als
+eine kleinere innere Tasche, auch wenn er auf der Übersichtskarte wertvoller aussieht.
 
-In hohen-Abwurf- oder MIRV-lastigen Modi ändert sich die Kanalberechnung. Ein MIRV-Ausbruch ist
-substantiell breiter als ein einzelner Abwurf, also räumt er eine breitere Bande der Verbindung,
-was Kanäle, die ein einzelner Abwurf gar nicht trennen konnte, jetzt trennbar macht. Wenn dein
-Modus die MIRV erlaubt, führe die Prüfung « kann der Krater plus Fallout den Kanal räumen » mit
-der breiteren MIRV-Präsenz durch, denn Ziele, die mit einem einzelnen Abwurf Fehlschläge waren,
-werden mit einer MIRV lebendige Annexions. Der Goldpreis einer MIRV rechtfertigt sich nur, wenn
-der Annexions-Gewinn wirklich ankommt, also ist die Ausbreitungsbreite, was den Unterschied
-zwischen einer abgebrannten und einer funktionierenden Investition macht. In Endgame-Modi, wo
-Fraktionen auf wenige Blöcke reduziert sind, wird der Sonderfall der vollständigen Eroberung die
-Mitte der Karte. Wenn ein Rivale auf ein einzelnes Hauptquartier reduziert ist, ist die Annexion
-kein Kachelfluss mehr und wird ein möglicher Spiel-Beender, also ist die Grenz-Zählungs-Rechnung
-die ganze Entscheidung und der sichere Zug ist oft, den Rivalen als geteilte Fronten lebend zu
-halten, statt zu riskieren, dass die Eroberung an die dritte Fraktion geht. Auf jedem Modus ist die
-zugrundeliegende Lesung identisch: Kanal, Küste, Umgebung, Grenz-Zählung. Aber die Frequenz und
-der Einsatz jeder Bedingung variieren mit der Karte, also sollten die Zahlen aus den beiden
-Szenario-Abschnitten oben immer für die spezifische Karte neu berechnet werden, auf der du bist,
-und nicht von einer anderen Kartenform kopiert.
+Bei einem See oder Binnenmeer gilt dieselbe Vorsicht. Wasser auf der Karte beweist weder
+mehr geeignete Taschen noch häufigere erfolgreiche Annexionsvorgänge. Eine vermeintlich isolierte
+Fläche kann gerade wegen ihres Seeufers ungeeignet sein. Verfolge daher den eigenen Rand
+dieser Fläche, statt aus dem Namen der Karte oder der Menge sichtbaren Wassers einen
+Erfolg abzuleiten. Auf einer Karte mit vielen Inseln kann die direkte Zerstörung von
+Gebäuden wichtig bleiben, selbst wenn kein gewünschter Landtransfer zustande kommen kann.
+
+Auch der Kartenrand ist kein neutraler Hintergrund. Eine Tasche, die ihn erreicht, besteht
+diese besondere Prüfung nicht. Ein verbleibender Weg entlang des Randes kann außerdem eine
+Verbindung erhalten, die aus einer anderen Perspektive abgeschnitten aussieht. Zoome deshalb
+bei einem schmalen Streifen auf beide Enden des geplanten Schnitts und verfolge jeden
+seitlichen Ausweg. Ein Kontakt nur an einer Ecke hat eine andere Bedeutung als eine
+gemeinsame Seite. Die Größe des Hauptgebiets bemisst sich weiterhin nach Fläche statt Grenzlänge.
+
+Wenn mehrere Kernwaffen verfügbar sind, vergleiche ihre tatsächliche Wirkung, ihren Preis und
+das Ziel. Eine MIRV ist kein pauschales Versprechen, jede Landbrücke mit einer einzigen
+breiteren Linie zuverlässig zu durchtrennen. Verwende ihre realen Einschläge und den verbleibenden
+Gebietsverlauf als Grundlage. Ebenso wenig muss eine Kernwaffe Land übertragen, um sinnvoll
+zu sein: Ein wichtiges zerstörtes Gebäude oder die Unterbrechung einer Stellung kann einen
+eigenen militärischen Wert haben. Berechne diese Vorteile getrennt von einer nur erwarteten Annexion.
+
+In Teamlagen ist die Beziehung zum Eigentümer wichtig. Angrenzende Spieler können Teil
+der Umgebung sein, ohne als Empfänger infrage zu kommen, weil sie ihm freundlich sind.
+Die Beziehung zum Schützen ersetzt diese Prüfung nicht. In einer FFA-Lage können mehrere
+gegnerische Kandidaten zugleich angrenzen; dann musst du ihre laufenden Einzelangriffe und,
+falls solche Angriffe fehlen, ihre Kontaktzahlen vergleichen. Eine lange gemeinsame Grenze allein
+ist deshalb auf keiner Karte ein sicherer Anspruch auf das abgeschnittene Land.
+
+Im späten Spiel prüfst du zusätzlich, ob weitere Gebiete während desselben Durchlaufs verloren
+gehen könnten. Die letzte übertragene Tasche kann dann die vollständige Eroberung auslösen,
+wie im zweiten Beispiel. Daraus folgt kein automatischer Sieg über alle übrigen Spieler.
+Betrachte die neue Front, den erwarteten Empfänger und dein verbleibendes Gold. Passe
+deinen Plan an diese konkrete Partie an, statt die hypothetischen Zahlen aus einem anderen
+Beispiel als allgemeine Schwellen für jede Karte, jede Waffe und jede Gegnergruppe zu übernehmen.
 
 ## Schnelle Referenztabelle
 
 Arbeite diese Tabelle von oben nach unten vor jedem Abwurf ab, und behandle sie als deinen
 letzten Check vor dem Goldausgeben, nicht als neue Erklärung der Regeln. Wenn die Versionszeile
-falsch ist, hörst du sofort auf, denn nichts darunter kann auf einem stabilen Build greifen und
-die neun restlichen Zeilen wären verschwendete Zeit. Wenn die Erscheinenden-Spieler-Zeile falsch
+falsch ist, rechne diesen besonderen Transfer nicht ein: Die ältere v0.34.25 enthält ihn
+nicht, die stabilen Versionen v0.35.0 bis v0.35.2 dagegen schon. Wenn die Empfängerzeile falsch
 ist, hast du die richtige Geometrie aber den falschen Begünstigten gewählt, was der teuerste
 Fehler ist, den die Regel produzieren kann, denn du zahlst für einen ganzen Abwurf ein Geschenk
 an einen Rivalen. Wenn du eine Grenz-Zählungs-Zeile ohne Verifikation überspringst, riskierst
 du, dass ein Abwurf für eine Annexion bezahlt, die niemals greift. Die vollständige Ableitung
 jeder Zeile ist in den Abschnitten oben und die beiden Szenario-Durchläufe zeigen die
-Kachel- und Goldzahlen, die eine bestandene Zeile in eine echte Entscheidung auf deiner
+gedachten Grenzlagen, die eine bestandene Zeile in eine echte Entscheidung auf deiner
 spezifischen Karte umwandeln. Die Tabelle ersetzt nicht die Kartenlektüre; sie sichert nur, dass
 du jede Bedingung vor dem Einsatz gelesen hast und in der Reihenfolge, die dich zuerst vor den
 teuersten Fehlern schützt. Am Ende des Tages ist diese Tabelle kein neuer Rat; sie ist nur
 die Zusammenfassung der restlichen neun Abschnitte in einer einzigen, abarbeitbaren Liste, die
 du an der eigenen Karte abgleichen kannst, bevor du Gold aus dem Endgame-Sparstrich gibst.
 
+Trenne dabei Eignung, Empfänger und Abrechnung. Die geografischen Zeilen entscheiden, ob diese
+besondere Schnittannexion möglich ist. Ein falscher Empfänger verhindert die Übertragung nicht;
+er macht nur deinen erwarteten eigenen Landgewinn falsch. Die Zeile zum letzten Land
+beschreibt anschließend die Eroberung des Eigentümers. Ist die Tasche nicht sein letztes Land,
+kann sie trotzdem übertragen werden. Diese Unterschiede verhindern, dass du einen gültigen
+Transfer übersiehst oder eine fremde Übernahme als Fehler der Karte missverstehst.
+
+Die Empfängerprüfung besteht selbst aus zwei Schritten. Nur angrenzende, dem Eigentümer
+nicht freundliche Spieler sind Kandidaten. Unter ihnen zählt zuerst der größte laufende
+Einzelangriff gegen diesen Eigentümer. Erst wenn solche Angriffe fehlen, zählst du gemeinsame
+Seitenkontakte. Fallout liefert dabei keine Kontakte für den Schützen. Einheitenbewegung ohne
+Landgewinn verändert ebenfalls keine Kanten. Eine große Armee ohne gemeinsame Grenze ist
+hier kein Kandidat; viele Kontakte schlagen umgekehrt keinen passenden größeren laufenden Angriff.
+
+Prüfe zum Schluss den militärischen Nutzen auch ohne Landtransfer. Eine geeignete Tasche
+macht einen teuren Schlag nicht automatisch günstig. Eine ungeeignete Tasche macht jeden
+direkten Schaden nicht automatisch wertlos. Wenn sich während der Vorbereitung neue Angriffe
+oder Grenzen ergeben, wiederhole die Empfängerprüfung unmittelbar vor deiner Entscheidung. So
+bleibt die Tabelle eine Hilfe für die tatsächliche Lage statt ein Versprechen aufgrund
+einer früheren Momentaufnahme, eines alten Videos oder einer bloßen Vermutung über den Einschlag.
+
 | Prüfung | Was auf der Karte zu bestätigen | Wenn sie schlägt |
 |---|---|---|
-| Version | Du führst v0.35.0-beta1 oder beta2 aus, nicht die stabile v0.34.25 | Regel fehlt; altes Einschließungsverhalten |
-| Trennung | Krater plus Fallout räumt den Kanal zum Hauptkörper komplett | Eigentümer behält den Block; neu an den engsten Kanal zielen |
+| Version | Geprüfte stabile v0.35.0 bis v0.35.2; v0.34.25 hat diesen Ablauf nicht | Besondere Schnittannexion nicht einrechnen |
+| Trennung | Keine seitliche eigene Landverbindung zum flächengrößten Hauptgebiet | Dieser Schnittablauf greift nicht |
 | Keine eigene Küste | Der Block berührt kein eigenes Wasser oder Kartenkante | Unannektierbar; die eingeschlossene Hälfte anvisieren |
-| Volle Umgebung | Der Block berührt nur Fallout und Feinde, keine offene Kachel | Annexion übersprungen; nur in der Tiefe des Feindesterritoriums schneiden |
-| Erscheinender Spieler | Du teilst den Block strikt am meisten an der Grenze als jeder andere Feind | Das Land geht an den Rivalen; Grenze neu ausrichten oder überspringen |
-| Sonderfall letztes Land | Der Block ist das einzige verbleibende Land des Eigentümers | Volle Eroberung durch den erscheinenden Spieler; Grenz-Zählung zuerst prüfen |
+| Volle Umgebung | Nur andere Spieler und Fallout; kein gewöhnliches unbesetztes Land; mindestens ein gegnerischer Kandidat | Besondere Annexion bleibt aus |
+| Empfänger | Angrenzende Gegner: größter laufender Einzelangriff; ohne passende Angriffe höchste Kontaktzahl | Ein anderer Kandidat kann das Land erhalten |
+| Abrechnung des letzten Landes | Ist die Tasche unmittelbar vor der Übergabe das gesamte verbleibende Land? | Falls nein: normaler Transfer; falls ja: zusätzlich vollständige Eroberung |
 
-Für das alte Einschließungsverhalten, das die stabile v0.34.25 noch regiert, siehe
+Für die weiterhin relevanten allgemeinen Einschließungsregeln siehe
 [Annexion und eingeschlossenes Territorium](/de/guides/annexation-enclosure/). Für die
 Goldberechnung hinter der Entscheidung, ob sich der Kraterschaden überhaupt für einen Abwurf
 lohnt, siehe [Atombomben-Goldrechner](/de/guides/nuke-calculator/). Für das Verhalten der
 Falloutkacheln im Loch, das du schneidest, siehe [Freies Terrain und Fallout](/de/guides/no-mans-land-fallout/).
-Und für den breiteren MIRV-Ausbruch, der einen verfehlten Kanal in eine lebendige Annexion
-umwandelt, siehe [MIRV](/de/guides/mirv/).
+Für die Entscheidung über den Einsatz dieser Waffe siehe [MIRV](/de/guides/mirv/).
