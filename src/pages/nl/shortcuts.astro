@@ -47,6 +47,7 @@ const groups: Group[] = [
   {
     id: 'camera',
     label: 'Beeld & camera',
+    note: 'In het geopende emojimenu kiezen Q W E A S D favorieten in plaats van de camera te bewegen of zoomen.',
     rows: [
       { keys: ['Space'], action: 'Wisselweergave (terrein / landen)' },
       { keys: ['M'], action: 'Coördinatenraster aan/uit' },
@@ -68,7 +69,7 @@ const groups: Group[] = [
       { keys: ['B'], action: 'Boot- (zee-)aanval richting doel starten' },
       { keys: ['G'], action: 'Grondaanval richting doel starten' },
       { keys: ['Shift', 'R'], action: 'Terugslaan tegen de speler die je het laatst aanviel' },
-      { keys: ['F'], action: 'Al je oorlogsschepen selecteren' },
+      { keys: ['X'], action: 'Al je oorlogsschepen selecteren' },
       { keys: ['Shift', 'Slepen'], action: 'Meerdere oorlogsschepen selecteren' },
     ],
   },
@@ -76,6 +77,8 @@ const groups: Group[] = [
     id: 'diplomacy',
     label: 'Diplomatie',
     rows: [
+      { keys: ['F'], action: 'Emojimenu openen / sluiten' },
+      { keys: ['R'], action: 'Snelle chat openen voor de speler onder de cursor' },
       { keys: ['K'], action: 'Bondgenootschap aanvragen bij de aangewezen speler' },
       { keys: ['L'], action: 'Bondgenootschap verbreken' },
     ],
@@ -94,24 +97,24 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront sneltoetsen"
-  description="OpenFront.io v34-sneltoetsen voor muis, bouwen en bundels. Controleer herindeling in v0.34.25 en de afwijkende standaardtoetsen van v35 beta."
+  description="OpenFront.io v35-sneltoetsen: X selecteert de vloot, F opent emoji, R snelle chat. Controleer je opgeslagen bindings voor je oefent."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront sneltoetsen"
-    lead="Dit is de vaste referentie om standaard sneltoetsen snel op te zoeken: de v34-toetsen, muisbediening en bouw-hotkeys van OpenFront.io staan per gebruik gegroepeerd. Gebruik de aparte hotkey-gids voor gevechtsroutines, oefeningen en herstel na invoerfouten. De meeste acties zijn te wijzigen via Instellingen → Toetsindeling, ook de drie routines hieronder. Op macOS geldt Ctrl als Cmd."
+    lead="Dit is de vaste referentie om standaard sneltoetsen snel op te zoeken: de v35-toetsen, muisbediening en bouw-hotkeys van OpenFront.io staan per gebruik gegroepeerd. Gebruik de aparte hotkey-gids voor gevechtsroutines, oefeningen en herstel na invoerfouten. De meeste acties zijn te wijzigen via Instellingen → Toetsindeling, ook de drie routines hieronder. Op macOS geldt Ctrl als Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">v34-standaard · herindeling op 15 oktober 2026 getoetst aan v0.34.25.</strong>
+      <strong class="text-iron-100">X/F/R en herindeling op 21 oktober 2026 getoetst aan stabiele v0.35.2; bestaande bouwvoorbeelden behouden hun eerdere bereik.</strong>
       Dezelfde bouwtoets wisselt bij een bestaande upgrade of Atom Bomb tussen x1 / x5. Het radiale menu biedt x1/x5/x10/xMax voor gebouwen en x1/x2/x5/xMax voor Atom Bombs; goud en geladen Silo-buizen begrenzen xMax.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
-      <strong class="text-cannon-300">Herindeling in v0.34.25.</strong>
-      Instellingen → Toetsindeling biedt aparte opties voor <kbd class="kbd">F</kbd> (alle oorlogsschepen), het <kbd class="kbd">R</kbd>-deel van de grafische reset en <kbd class="kbd">Shift</kbd> + slepen voor vakselectie. Je opgeslagen bindings gaan voor. De <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts">officiële v0.34.25-instellingen</a> bevatten deze drie acties.
-      In <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2">v0.35.0-beta2</a> zijn de standaardtoetsen anders: X selecteert alle oorlogsschepen, F opent emoji en R snelle chat. De tabel hieronder gebruikt de stabiele v34-indeling.
+      <strong class="text-cannon-300">Herindeling in v0.35.2.</strong>
+      Instellingen → Toetsindeling biedt aparte opties voor <kbd class="kbd">X</kbd> (alle oorlogsschepen), het <kbd class="kbd">R</kbd>-deel van de grafische reset (standaard Alt+R) en <kbd class="kbd">Shift</kbd> + slepen voor vakselectie. Je opgeslagen bindings gaan voor. De <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts">officiële v0.35.2-instellingen</a> bevatten deze drie acties.
+      Sinds <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0">stabiele v0.35.0</a> vervangt X de oude vloottoets F uit v34: F opent emoji en R snelle chat. Is F opgeslagen voor de vloot, controleer dan ook emoji; een nieuwe standaard kan bij een conflict worden losgekoppeld.
     </aside>
 
     <a
@@ -152,7 +155,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Dit zijn v34-standaardtoetsen. In v0.34.25 kun je ook alle oorlogsschepen, grafische reset en vakselectie opnieuw binden; controleer je opgeslagen instellingen voor je oefent.
+      Dit zijn v35-standaardtoetsen. In v0.35.2 kun je ook alle oorlogsschepen, grafische reset en vakselectie opnieuw binden; controleer je opgeslagen instellingen voor je oefent.
     </p>
   </section>
 </BaseLayout>

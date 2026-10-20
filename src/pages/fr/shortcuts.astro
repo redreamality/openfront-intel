@@ -47,6 +47,7 @@ const groups: Group[] = [
   {
     id: 'camera',
     label: 'Vue & caméra',
+    note: 'Quand le menu emoji est ouvert, Q W E A S D choisissent les favoris au lieu de déplacer ou zoomer la caméra.',
     rows: [
       { keys: ['Space'], action: 'Vue alternative (terrain / pays)' },
       { keys: ['M'], action: 'Afficher/masquer la grille de coordonnées' },
@@ -68,7 +69,7 @@ const groups: Group[] = [
       { keys: ['B'], action: 'Lancer une attaque navale (bateau) vers la cible' },
       { keys: ['G'], action: 'Lancer une attaque terrestre vers la cible' },
       { keys: ['Shift', 'R'], action: 'Riposter contre le dernier joueur qui vous a attaqué' },
-      { keys: ['F'], action: 'Sélectionner tous vos navires de guerre' },
+      { keys: ['X'], action: 'Sélectionner tous vos navires de guerre' },
       { keys: ['Shift', 'Glisser'], action: 'Sélectionner plusieurs navires de guerre' },
     ],
   },
@@ -76,6 +77,8 @@ const groups: Group[] = [
     id: 'diplomacy',
     label: 'Diplomatie',
     rows: [
+      { keys: ['F'], action: 'Ouvrir / fermer le menu emoji' },
+      { keys: ['R'], action: 'Ouvrir le chat rapide pour le joueur sous le curseur' },
       { keys: ['K'], action: 'Demander une alliance au joueur survolé' },
       { keys: ['L'], action: 'Rompre une alliance' },
     ],
@@ -94,24 +97,24 @@ const groups: Group[] = [
 
 <BaseLayout
   title="Raccourcis OpenFront"
-  description="Raccourcis OpenFront.io v34 : clavier, souris, construction et lots. Vérifiez la réassignation v0.34.25 et les touches différentes de la bêta v35."
+  description="Raccourcis OpenFront.io v35 : X sélectionne la flotte, F ouvre les emojis, R le chat rapide. Vérifiez vos touches enregistrées."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="Raccourcis OpenFront"
-    lead="Cette page est la référence de consultation des touches par défaut v34 : clavier, souris et construction dans OpenFront.io. Pour les enchaînements de combat, l'entraînement et la récupération après erreur, utilisez le guide Hotkeys séparé. La plupart des commandes sont réassignables dans Paramètres → Raccourcis, y compris les trois séquences ci-dessous. Sur macOS, lisez Ctrl comme Cmd."
+    lead="Cette page est la référence de consultation des touches par défaut v35 : clavier, souris et construction dans OpenFront.io. Pour les enchaînements de combat, l'entraînement et la récupération après erreur, utilisez le guide Hotkeys séparé. La plupart des commandes sont réassignables dans Paramètres → Raccourcis, y compris les trois séquences ci-dessous. Sur macOS, lisez Ctrl comme Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">Valeurs v34 · réassignation vérifiée sur v0.34.25 le 15 octobre 2026.</strong>
+      <strong class="text-iron-100">Commandes X/F/R et réassignation vérifiées en v0.35.2 stable le 21 octobre 2026 ; les exemples de construction gardent leur portée antérieure.</strong>
       Deux pressions sur la même touche basculent x1 / x5 pour une amélioration existante ou une Atom Bomb. Le menu radial propose x1/x5/x10/xMax pour les structures et x1/x2/x5/xMax pour les Atom Bombs ; l’or et les tubes chargés limitent xMax.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
-      <strong class="text-cannon-300">Réassignation en v0.34.25.</strong>
-      Paramètres → Raccourcis propose des entrées dédiées pour <kbd class="kbd">F</kbd> (tous les navires), le <kbd class="kbd">R</kbd> de la réinitialisation graphique et <kbd class="kbd">Maj</kbd> + glisser pour la sélection en boîte. Vos réglages priment. Les <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts">réglages officiels v0.34.25</a> exposent ces trois actions.
-      La <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2">v0.35.0-beta2</a> utilise d'autres valeurs : X sélectionne tous les navires, F ouvre les emojis et R le chat rapide. Le tableau ci-dessous utilise les valeurs stables v34.
+      <strong class="text-cannon-300">Réassignation en v0.35.2.</strong>
+      Paramètres → Raccourcis propose des entrées dédiées pour <kbd class="kbd">X</kbd> (tous les navires), le <kbd class="kbd">R</kbd> de la réinitialisation graphique (Alt+R par défaut) et <kbd class="kbd">Maj</kbd> + glisser pour la sélection en boîte. Vos réglages priment. Les <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts">réglages officiels v0.35.2</a> exposent ces trois actions.
+      La <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0">v0.35.0 stable</a> remplace le F naval de v34 par X : F ouvre les emojis et R le chat rapide. Si votre touche navale enregistrée reste F, vérifiez aussi les emojis ; une nouvelle valeur en conflit peut être désassignée.
     </aside>
 
     <a
@@ -152,7 +155,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Ce sont les valeurs par défaut v34. La v0.34.25 permet aussi de réassigner la sélection globale des navires, la réinitialisation graphique et la sélection en boîte ; vérifiez vos réglages avant de pratiquer.
+      Ce sont les valeurs par défaut v35. La v0.35.2 permet aussi de réassigner la sélection globale des navires, la réinitialisation graphique et la sélection en boîte ; vérifiez vos réglages avant de pratiquer.
     </p>
   </section>
 </BaseLayout>

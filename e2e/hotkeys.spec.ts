@@ -14,7 +14,7 @@ const cases = [
     // 头部问答标题里的关键短语
     repeatHeading: /fire nukes so quickly/i,
     cityRow: /\bCity\b/,
-    fixedBoundary: 'F, R, and Shift are defaults, not mandatory keys',
+    fixedBoundary: 'X, R, and Shift are defaults, not mandatory keys',
     intent: 'practice guide for battlefield workflows and input recovery, not the complete key table',
     referenceHrefEnd: '/shortcuts/',
   },
@@ -26,7 +26,7 @@ const cases = [
     hydrogen: '氢弹',
     repeatHeading: /为什么.*连发核弹/,
     cityRow: /城市/,
-    fixedBoundary: 'F、R、Shift 是默认键，不是强制键位',
+    fixedBoundary: 'X、R、Shift 是默认键，不是强制键位',
     intent: '练习战场流程和输入恢复的教程，不是完整键位表',
     referenceHrefEnd: '/zh/shortcuts/',
   },
@@ -69,7 +69,7 @@ const cases = [
 ];
 
 for (const c of cases) {
-  test(`hotkeys[${c.lang}] 展示 v34 改键边界与连发核弹技巧`, async ({ page }) => {
+  test(`hotkeys[${c.lang}] 展示正式 v35 改键边界与连发核弹技巧`, async ({ page }) => {
     // 只等 DOM 就绪，不等 'load'：BaseLayout 内联了 googletagmanager 异步脚本，
     // 本机外网受限时它迟迟不返回，'load' 事件可能 30s 内不触发；而要断言的内容
     // 都是服务端渲染的静态 HTML，domcontentloaded 已足够。
@@ -96,9 +96,11 @@ for (const c of cases) {
     await expect(main).not.toContainText('攻击模式（朝鼠标方向）');
     await expect(main).not.toContainText('召出 Build 菜单');
 
-    // The three named actions are configurable in stable v34; beta uses X/F/R.
-    await expect(main).toContainText('v0.34.25');
-    await expect(main).toContainText('v0.35.0-beta2');
+    // Stable v35 uses X for fleets; F is only mentioned as emoji or legacy input.
+    await expect(main).toContainText('v0.35.2');
+    await expect(main).not.toContainText('v0.35.0-beta2');
+    await expect(main.locator('table code').filter({ hasText: /^X$/ })).toHaveCount(1);
+    await expect(main.locator('table code').filter({ hasText: /^F$/ })).toHaveCount(0);
     await expect(main).toContainText(c.fixedBoundary);
     await expect(main).toContainText(c.intent);
   });

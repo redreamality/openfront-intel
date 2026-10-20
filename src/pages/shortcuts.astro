@@ -47,6 +47,7 @@ const groups: Group[] = [
   {
     id: 'camera',
     label: 'View & camera',
+    note: 'While the emoji menu is open, Q W E A S D select Favorites instead of moving or zooming the camera.',
     rows: [
       { keys: ['Space'], action: 'Alternate view (terrain / countries)' },
       { keys: ['M'], action: 'Toggle the coordinate-grid overlay' },
@@ -68,7 +69,7 @@ const groups: Group[] = [
       { keys: ['B'], action: 'Launch a boat (naval) attack toward the target' },
       { keys: ['G'], action: 'Launch a ground attack toward the target' },
       { keys: ['Shift', 'R'], action: 'Retaliate against the player who last attacked you' },
-      { keys: ['F'], action: 'Select all of your warships' },
+      { keys: ['X'], action: 'Select all of your warships' },
       { keys: ['Shift', 'Drag'], action: 'Select multiple warships' },
     ],
   },
@@ -76,6 +77,8 @@ const groups: Group[] = [
     id: 'diplomacy',
     label: 'Diplomacy',
     rows: [
+      { keys: ['F'], action: 'Open / close the emoji menu' },
+      { keys: ['R'], action: 'Open quick chat for the player under the cursor' },
       { keys: ['K'], action: 'Request an alliance with the hovered player' },
       { keys: ['L'], action: 'Break an alliance' },
     ],
@@ -94,24 +97,24 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Shortcuts"
-  description="OpenFront.io v34 default keyboard, mouse, build and bulk-action shortcuts. Check remapping in v0.34.25 and the different v35 beta defaults."
+  description="OpenFront.io v35 keyboard and mouse shortcuts: X selects all Warships, F opens emojis, R opens quick chat. Check saved bindings before practicing."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Shortcuts"
-    lead="This is the default-key lookup reference for v34 keyboard shortcuts, mouse controls, and build hotkeys in OpenFront.io. Use the separate Hotkeys guide for battlefield workflows, practice drills, and input recovery. Most action bindings can be remapped in Settings → Keybindings, including the three workflows below. On macOS, read Ctrl as Cmd."
+    lead="This is the default-key lookup reference for v35 keyboard shortcuts, mouse controls, and build hotkeys in OpenFront.io. Use the separate Hotkeys guide for battlefield workflows, practice drills, and input recovery. Most action bindings can be remapped in Settings → Keybindings, including the three workflows below. On macOS, read Ctrl as Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">v34 defaults · remapping verified against v0.34.25 on October 15, 2026.</strong>
+      <strong class="text-iron-100">X/F/R controls and remapping checked in stable v0.35.2 on October 21, 2026; existing build examples retain their earlier scope.</strong>
       Double-press the same build key to toggle x1 / x5 for an existing upgrade or Atom Bomb. The radial menu offers structure x1/x5/x10/xMax and Atom Bomb x1/x2/x5/xMax batches; Gold and loaded Silo tubes cap xMax.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
-      <strong class="text-cannon-300">v0.34.25 remapping.</strong>
-      Settings → Keybindings has dedicated entries for <kbd class="kbd">F</kbd> select-all-warships, the <kbd class="kbd">R</kbd> action in graphics reset, and <kbd class="kbd">Shift</kbd> + drag warship box selection. Your saved bindings take precedence. The <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts">official v0.34.25 settings</a> expose all three actions.
-      In the <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2">v0.35.0-beta2 release</a>, the defaults change: X selects all Warships, F opens emojis, and R opens quick chat. The table below uses stable v34 defaults.
+      <strong class="text-cannon-300">v0.35.2 remapping.</strong>
+      Settings → Keybindings has dedicated entries for <kbd class="kbd">X</kbd> select-all-warships, the <kbd class="kbd">R</kbd> action in graphics reset (default Alt+R), and <kbd class="kbd">Shift</kbd> + drag warship box selection. Your saved bindings take precedence. The <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts">official v0.35.2 settings</a> expose all three actions.
+      The <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0">stable v0.35.0 release</a> moved fleet selection from the old v34 F to X: F now opens emojis and R opens quick chat. If your saved fleet key is F, check the emoji binding too; a conflicting new default can be unbound.
     </aside>
 
     <a
@@ -152,7 +155,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      These are v34 default bindings. Select-all-warships, graphics reset, and warship box selection can also be rebound in v0.34.25; check your saved settings before practicing.
+      These are v35 default bindings. Select-all-warships, graphics reset, and warship box selection can also be rebound in v0.35.2; check your saved settings before practicing.
     </p>
   </section>
 </BaseLayout>

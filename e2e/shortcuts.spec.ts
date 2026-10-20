@@ -5,9 +5,9 @@ import { test, expect } from '@playwright/test';
 // 文案按语种参数化：zh 断言「快捷键 / 城市」而非英文。
 
 const officialKeybindingSource =
-  'https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts';
-const betaKeybindingRelease =
-  'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2';
+  'https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts';
+const stableKeybindingRelease =
+  'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0';
 
 const cases = [
   {
@@ -128,20 +128,25 @@ for (const c of cases) {
 
     // CTRL-01：本页是完整查键页；攻略页不复制这 6 组默认键位表。
     await expect(page.locator('main table')).toHaveCount(6);
-    await expect(page.locator('main')).toContainText('v0.34.25');
+    await expect(page.locator('main')).toContainText('v0.35.2');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
     await expect(page.locator('main')).toContainText(c.intent);
 
-    // Stable v34 supports remapping; beta defaults must stay explicitly scoped.
+    // Stable v35 defaults and custom bindings must agree with the action rows.
     const boundary = page.locator('[data-keybinding-boundary]');
     await expect(boundary).toHaveCount(1);
     await expect(boundary).toContainText(c.fixed);
-    await expect(boundary.locator('kbd')).toHaveText(['F', 'R', c.boxSelectKey]);
+    await expect(boundary.locator('kbd')).toHaveText(['X', 'R', c.boxSelectKey]);
     await expect(boundary.locator(`a[href="${officialKeybindingSource}"]`)).toHaveCount(1);
-    await expect(boundary.locator(`a[href="${betaKeybindingRelease}"]`)).toHaveCount(1);
+    await expect(boundary.locator(`a[href="${stableKeybindingRelease}"]`)).toHaveCount(1);
     await expect(boundary).toContainText('X');
-    await expect(page.locator('#combat table')).toContainText('F');
+    await expect(page.locator('#combat kbd').filter({ hasText: /^X$/ })).toHaveCount(1);
+    await expect(page.locator('#combat kbd').filter({ hasText: /^F$/ })).toHaveCount(0);
+    await expect(page.locator('#diplomacy kbd')).toHaveText(['F', 'R', 'K', 'L']);
+    await expect(page.locator('#misc kbd')).toContainText(['Esc', 'Enter', 'Alt', 'R']);
+    await expect(page.locator('#camera')).toContainText('Q W E A S D');
+    await expect(boundary).not.toContainText('beta');
   });
 
   test(`shortcuts[${c.lang}] 主导航含快捷键入口`, async ({ page }) => {

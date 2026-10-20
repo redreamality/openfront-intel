@@ -25,10 +25,10 @@ const CORE_PAGES = [
 ];
 
 const strict = process.argv.includes('--strict');
-// v34.0.0-beta1 is the current release boundary, while untouched evergreen
-// pages remain correctly verified against the still-supported v33 series.
-const ACCEPTED_VERSIONS = new Set(['v33', 'v34']);
-const CURRENT_VERSION_PATTERN = /\bv(?:0\.)?(?:33|34)(?:\.\d+)?\b/;
+// Formal v0.35.2 is verified for maintained controls; untouched pages retain
+// their explicitly recorded v33/v34 editorial scope.
+const ACCEPTED_VERSIONS = new Set(['v33', 'v34', 'v35']);
+const CURRENT_VERSION_PATTERN = /\bv(?:0\.)?(?:33|34|35)(?:\.\d+)?\b/;
 const FRESHNESS_BASELINE = '2026-08-02';
 
 function splitDocument(source) {

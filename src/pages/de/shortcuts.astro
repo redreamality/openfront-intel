@@ -47,6 +47,7 @@ const groups: Group[] = [
   {
     id: 'camera',
     label: 'Ansicht & Kamera',
+    note: 'Im geöffneten Emoji-Menü wählen Q W E A S D Favoriten, statt die Kamera zu bewegen oder zu zoomen.',
     rows: [
       { keys: ['Space'], action: 'Ansicht wechseln (Gelände / Länder)' },
       { keys: ['M'], action: 'Koordinatengitter ein-/ausblenden' },
@@ -68,7 +69,7 @@ const groups: Group[] = [
       { keys: ['B'], action: 'Boots-(See-)Angriff auf das Ziel starten' },
       { keys: ['G'], action: 'Bodenangriff auf das Ziel starten' },
       { keys: ['Shift', 'R'], action: 'Gegen den letzten Angreifer zurückschlagen' },
-      { keys: ['F'], action: 'Alle eigenen Kriegsschiffe auswählen' },
+      { keys: ['X'], action: 'Alle eigenen Kriegsschiffe auswählen' },
       { keys: ['Shift', 'Ziehen'], action: 'Mehrere Kriegsschiffe auswählen' },
     ],
   },
@@ -76,6 +77,8 @@ const groups: Group[] = [
     id: 'diplomacy',
     label: 'Diplomatie',
     rows: [
+      { keys: ['F'], action: 'Emoji-Menü öffnen / schließen' },
+      { keys: ['R'], action: 'Schnellchat für den Spieler unter dem Zeiger öffnen' },
       { keys: ['K'], action: 'Bündnis mit dem anvisierten Spieler anfragen' },
       { keys: ['L'], action: 'Bündnis brechen' },
     ],
@@ -94,24 +97,24 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Tastenkürzel"
-  description="OpenFront.io-v34-Tasten für Maus, Bau und Mengenaktionen. Prüfe die Neubelegung in v0.34.25 und die abweichenden Standardtasten von v35 Beta."
+  description="OpenFront.io-v35-Tasten: X wählt alle Warships, F öffnet Emojis, R den Schnellchat. Prüfe deine gespeicherte Belegung vor den Übungen."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Tastenkürzel"
-    lead="Diese Seite ist die feste Referenz zum schnellen Nachschlagen der v34-Standardtasten, Maussteuerungen und Bau-Hotkeys von OpenFront.io. Für Gefechtsabläufe, Übungen und Eingabeerholung nutze den separaten Hotkey-Guide. Die meisten Aktionen lassen sich unter Einstellungen → Tastenbelegung ändern, auch die drei Abläufe unten. Unter macOS gilt Strg als Cmd."
+    lead="Diese Seite ist die feste Referenz zum schnellen Nachschlagen der v35-Standardtasten, Maussteuerungen und Bau-Hotkeys von OpenFront.io. Für Gefechtsabläufe, Übungen und Eingabeerholung nutze den separaten Hotkey-Guide. Die meisten Aktionen lassen sich unter Einstellungen → Tastenbelegung ändern, auch die drei Abläufe unten. Unter macOS gilt Strg als Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">v34-Standardtasten · Neubelegung am 15. Oktober 2026 gegen v0.34.25 geprüft.</strong>
+      <strong class="text-iron-100">X/F/R und Neubelegung am 21. Oktober 2026 in v0.35.2 stable geprüft; bestehende Baubeispiele behalten ihren bisherigen Geltungsbereich.</strong>
       Derselbe Bau-Hotkey schaltet beim vorhandenen Upgrade oder bei der Atom Bomb zwischen x1 / x5. Das Radialmenü bietet x1/x5/x10/xMax für Gebäude und x1/x2/x5/xMax für Atom Bombs; Gold und geladene Silo-Rohre begrenzen xMax.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
-      <strong class="text-cannon-300">Neubelegung in v0.34.25.</strong>
-      Einstellungen → Tastenbelegung bietet eigene Einträge für <kbd class="kbd">F</kbd> (alle Warships), den <kbd class="kbd">R</kbd>-Teil des Grafik-Resets und <kbd class="kbd">Shift</kbd> + Ziehen zur Boxauswahl. Deine gespeicherte Belegung hat Vorrang. Die <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.34.25/src/client/UserSettingModal.ts">offiziellen v0.34.25-Einstellungen</a> enthalten alle drei Aktionen.
-      In <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta2">v0.35.0-beta2</a> gilt eine andere Standardbelegung: X wählt alle Warships, F öffnet Emojis und R den Schnellchat. Die Tabelle unten verwendet die stabile v34-Belegung.
+      <strong class="text-cannon-300">Neubelegung in v0.35.2.</strong>
+      Einstellungen → Tastenbelegung bietet eigene Einträge für <kbd class="kbd">X</kbd> (alle Warships), den <kbd class="kbd">R</kbd>-Teil des Grafik-Resets (Standard Alt+R) und <kbd class="kbd">Shift</kbd> + Ziehen zur Boxauswahl. Deine gespeicherte Belegung hat Vorrang. Die <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts">offiziellen v0.35.2-Einstellungen</a> enthalten alle drei Aktionen.
+      Seit <a class="text-cannon-300 hover:text-cannon-200" href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0">v0.35.0 stable</a> ersetzt X die alte Flottentaste F aus v34: F öffnet Emojis und R den Schnellchat. Ist F für die Flotte gespeichert, prüfe auch Emojis; ein neuer Standard kann bei einem Konflikt gelöst werden.
     </aside>
 
     <a
@@ -152,7 +155,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Dies sind v34-Standardbelegungen. In v0.34.25 lassen sich auch alle Warships, Grafik-Reset und Boxauswahl neu belegen; prüfe vor den Übungen deine gespeicherten Einstellungen.
+      Dies sind v35-Standardbelegungen. In v0.35.2 lassen sich auch alle Warships, Grafik-Reset und Boxauswahl neu belegen; prüfe vor den Übungen deine gespeicherten Einstellungen.
     </p>
   </section>
 </BaseLayout>
