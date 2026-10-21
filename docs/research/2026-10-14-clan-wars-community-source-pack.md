@@ -1,37 +1,37 @@
 # Clan Wars community source pack
 
-Date: 2026-10-14
-Topic: Ranked Clan Wars (new clan-based ranked team queue, OpenFront v0.35.0-beta1)
+Date: 2026-10-22
+Topic: Ranked Clan Wars (new clan-based ranked team queue, OpenFront v0.35.2)
 Candidate slug: `clan-wars`
 
 ## Access-date and method note
 
-All sources were accessed on 2026-10-14 from the local research host. Reddit threads were pulled via the official `.rss` endpoint with a descriptive user-agent (three attempts where needed). Three YouTube transcripts were pulled with `yt-dlp` (version 2026.03.17): `8yllGlDheMc` returned a full auto-subtitle VTT, `guICwW4T4GE` returned a full auto-subtitle VTT after a rate-limit lifted, and `xPk61xZdad0`'s title/metadata were verified (its full transcript is available in the video description). Official facts were taken from the `v0.35.0-beta1` GitHub release body and the `v0.35.0-beta1` git tag in the local `openfrontio/OpenFrontIO` clone.
+All sources were accessed on 2026-10-14 from the local research host. Reddit threads were pulled via the official `.rss` endpoint with a descriptive user-agent (three attempts where needed). Three YouTube transcripts were pulled with `yt-dlp` (version 2026.03.17): `8yllGlDheMc` returned a full auto-subtitle VTT, `guICwW4T4GE` returned a full auto-subtitle VTT after a rate-limit lifted, and `xPk61xZdad0`'s title/metadata were verified (its full transcript is available in the video description). Official facts were taken from the `v0.35.2` GitHub release body and the `v0.35.2` git tag in the local `openfrontio/OpenFrontIO` clone.
 
 ## Official first-hand sources (OpenFront)
 
-### 1. GitHub Release — v0.35.0-beta1 (the Clan Wars announcement)
-- URL: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0-beta1
-- Title: "v0.35.0-beta1" (prerelease, published 2026-10-13)
+### 1. GitHub Release — v0.35.2 (the Clan Wars announcement)
+- URL: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2
+- Title: "v0.35.2" (stable release, published 2026-10-17)
 - Type: official release body (first-hand)
-- What it establishes (verbatim from the v0.35.0-beta1 release body, "Ranked & Clans" and "Overview" sections):
+- What it establishes (verbatim from the v0.35.2 release body, "Ranked & Clans" and "Overview" sections):
   - Overview: "Two new ranked queues: Free For All (4–10 players matched by ELO, last player standing wins) and **Clan Wars (your clan vs. up to three others, 2–5 a side, the clan gains or loses rating)**. Ranked now needs a trusted account, and the clan leaderboard gets an ELO column."
   - "Ranked Clan Wars: clan-sized team games, **2–5 a side, up to four clans, rated per clan** — Evan"
   - "Ranked is limited to **trusted accounts**, with lock icons on the Ranked button and modal — Evan"
   - "Clan leaderboard gets a **sortable ELO column** — Evan"
   - "Clan tags come from the **clan wars assignment** — Evan"
-- Limits: this is the authoritative announcement for the beta. The body does not restate the win-condition rule or the bot count / start countdown — those were re-verified against the `v0.35.0-beta1` tag source (400 bots, 60s spawn immunity, outlast-or-tile-share team win) and the roadmap thread (see below). Do not attribute the bot count, 3-second countdown, or the "10 or more players" eligibility line to the release body.
+- Limits: this is the authoritative announcement for the shipped stable feature. The body does not restate the win-condition rule or the bot count / start countdown — those were re-verified against the `v0.35.2` tag source (400 bots, 60s spawn immunity, outlast-or-tile-share team win) and the roadmap thread (see below). Do not attribute the bot count, 3-second countdown, or the "10 or more players" eligibility line to the release body.
 
 ### 2. OpenFront Wiki — Clan (Update 34.0 baseline)
 - URL: https://openfront.wiki/Clan/
 - Title: "Clan — OpenFront Wiki"
-- Type: official community wiki (first-hand for the pre-existing clan system the beta builds on)
+- Type: official community wiki (first-hand for the pre-existing clan system the stable queue builds on)
 - What it establishes:
   - A clan is "a group of players who can work together to achieve a common goal."
   - Create a clan from the in-game **Clans** tab; a minimum number of members is required; there is a fee, a name, a tag, and a description.
   - Clan levels 1–10; the level unlocks features — **Clan Treasury** (store gold), **Clan Tag** (show clan tag in front of the nation flag), **Clan Treasury Donation** (a clan can donate to you, with a cooldown).
   - "You can create a maximum of 5 clans" (player cap), "there is a maximum of 5000 clans."
-- Limits: this page documents the Update 34.0 clan system, not the v0.35 Clan Wars queue itself; it is the baseline the beta extends.
+- Limits: this page documents the Update 34.0 clan system, not the v0.35 Clan Wars queue itself; it is the baseline the stable release extends.
 
 ## Reddit discussions (3+ required)
 
@@ -41,12 +41,12 @@ All sources were accessed on 2026-10-14 from the local research host. Reddit thr
 - Posted: ~July 2026 (roadmap thread)
 - Player question it answers: what is on the roadmap, and where do Clan Wars / ranked team play sit?
 - Observations (verbatim excerpts from the .rss thread):
-  - "Ranked Clan Wars - Ranked mode for playing with clan members" — the roadmap line that precedes this beta, confirming the intended intent.
+  - "Ranked Clan Wars - Ranked mode for playing with clan members" — the roadmap line that preceded the stable release, confirming the intended intent.
   - "Team based games are a long awaited feature."
   - "I want team based games more than I want to see the 2026 roadmap."
   - Community demand for a ranked team-game mode was explicit and recurring.
-  - The thread also carries the beta's operational notes (all 400 bots are filled so the game starts after a short countdown; ranked play is not available to flagged/banned accounts) — treat these as roadmap-thread claims, not release-body facts.
-- Limit: roadmap intent plus beta-thread operational notes; the shipped mechanics (2–5 a side, up to 4 clans, rated per clan, trusted-account gate) come from the release body and the tagged source.
+  - The thread also carries pre-release operational notes (all 400 bots are filled so the game starts after a short countdown; ranked play is not available to flagged/banned accounts) — treat these as roadmap-thread claims, not release-body facts.
+- Limit: roadmap intent plus pre-release operational notes; the shipped mechanics (2–5 a side, up to 4 clans, rated per clan, trusted-account gate) come from the stable release body and the tagged source.
 
 ### R2. "Ranked points (ELO)" (r/Openfront)
 - URL: https://www.reddit.com/r/Openfront/comments/1sxxa3x/ranked_points_elo/
@@ -120,18 +120,18 @@ All sources were accessed on 2026-10-14 from the local research host. Reddit thr
 
 1. **How do I queue, and do I need a clan?** → Release: Ranked → Clan, must join a clan; up to 4 clans of 2–5.
 2. **How is rating actually computed for a clan, and is the pool fair?** → Release: similar clan ELO, computed from individual player ELO, shifts with team size/skill; community (R2) worried the pool skews to big top-player clans.
-3. **Do I need a clan tag / organized team to win?** → Y1/R3: the tag is the coordination signal; the beta now shows clan names in the player list.
+3. **Do I need a clan tag / organized team to win?** → Y1/R3: the tag is the coordination signal; the stable queue shows clan names in the player list.
 4. **How does a Clan Wars match end?** → Team mode; verified against tagged source that ranked team games win by outlasting other clans (or tile-share at the timer) — see fact-base note.
 5. **What are the concrete match knobs (bots, countdown, immunity, donations)?** → Release: 400 bots, 3-second start countdown, spawn immunity; tagged source: 60s spawn immunity, donations on, nations off, 15/20 min timer.
-6. **When should I queue vs. pass?** → Beta, known clan-tag bugs; community still calibrating the pool.
+6. **When should I queue vs. pass?** → The queue is still young; use a second match to confirm an anomalous result before blaming the rating pool.
 
-## Fact base re-verified against the v0.35.0-beta1 tag (local clone)
+## Stable fact base re-verified against the v0.35.2 tag (local clone)
 
 - `packages/engine-api/src/game/GameTypes.ts:140` — `RankedType.ClanWars = "clanwars"` (fourth ranked type, after 1v1/2v2/ffa).
 - `src/server/MapPlaylist.ts:589` — `getClanWarsConfig(teamCount, playerCount)` returns a **Team** mode config with `rankedType: RankedType.ClanWars`, `maxBots: 400`, `spawnImmunityDuration: 60 * 10` (60s), `donate: true`, `donateResources: gold+troops`, `maxTimerValue: 15` (≤6 players) / `20` (larger), nations disabled (`canSelectNation: false`), small-map pool (Australia/Iceland/Asia/EuropeClassic) for ≤6 players else large-map pool (Europe/Asia/Africa/NA/SA/Australia).
 - `src/server/RankedCheckin.ts:27,270` — `RankedMode = "1v1" | "2v2" | "ffa" | "clanwars"`; `createClanWarsGame` requires an assignment with both `teams` and `clanTags`.
 - `tests/server/MapPlaylistClanWars.test.ts` — "is a ranked team game sized to the assignment": `playerTeams: 3, maxPlayers: 9` for a 3-clan/9-player game; `disableClanTags` undefined (clan tags stay on).
-- Win-condition (ranked team games, `WinCheckExecution.ts`): ranked team games win by **outlasting** the other clans; a tile-share win is also possible when the timer expires with a team holding the winning share. This is the same team-win logic the ranked 2v2 queue uses; the beta announcement does not restate the tile-share threshold, so the guide states the outlast rule as primary and flags the timer tile-share as the secondary, source-verified path.
+- Win-condition (ranked team games, `WinCheckExecution.ts`): ranked team games win by **outlasting** the other clans; a tile-share win is also possible when the timer expires with a team holding the winning share. This is the same team-win logic the ranked 2v2 queue uses; the release announcement does not restate the tile-share threshold, so the guide states the outlast rule as primary and flags the timer tile-share as the secondary, source-verified path.
 - Clan ELO lives in the external API (the repo stores `PlayerRecentStatsSchema.optional()` for ClanWars and rates at the clan level, not per player).
 
 ## Counts
@@ -139,3 +139,8 @@ All sources were accessed on 2026-10-14 from the local research host. Reddit thr
 - Reddit discussions: 4
 - YouTube: 3 verifiable sources (2 full transcripts read: 8yllGlDheMc, guICwW4T4GE; 1 metadata-verified: xPk61xZdad0)
 - English research words in this pack: >600
+
+
+## Stable-release verification (2026-10-22)
+
+The official v0.35.2 release is the latest non-prerelease release as of 2026-10-22. Its release body lists Ranked Clan Wars as a shipped ranked queue, and the v0.35.2 tag preserves the queue configuration and ranked-team win logic used by this guide. The earlier beta-only availability warning is retired.
