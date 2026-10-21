@@ -1,0 +1,380 @@
+---
+title: "Madagascar Water-Nuke Map: The 50% Roll, the Channel, and When to Cross"
+description: A decision framework for Madagascar, the v0.35 map that forces water-nuke play. What the 50% forced-modifier roll actually does, what a water nuke does to the map, how the two-landmass Channel geography shapes spawns, and when to cross by boat before a crater severs the crossing.
+pubDate: 2026-10-21
+updatedDate: 2026-10-21
+tags: [maps, v0.35, water-nukes, nuke-wars, madagascar, spawn]
+category: Guide
+difficulty: Advanced
+version: v0.35.2
+freshnessSummary: "v0.35.2 ships Madagascar with forcedModifiers isWaterNukes:50 (a 50% chance the water-nuke modifier is on), 63 nations on two landmasses across the Mozambique Channel, and a water-nuke crater that permanently converts land to water for the match. The temporary-revert behaviour is not present in this build."
+---
+
+**Direct answer.** On Madagascar the server rolls a coin at match start: fifty
+percent of the time the water-nuke modifier is on, and then every nuke converts
+its crater's land to water permanently for the whole match. Default to the
+on-branch. Keep a second crossing lane alive, cross by boat before the enemy's
+nuke reaches your lane, and the instant a rival craters the Channel, turn on
+them while their economy is exposed.
+
+Madagascar is the v0.35 map that turns the water-nuke modifier into the central
+question of the lobby. It carries a forced-modifier entry of
+`isWaterNukes:50`, which means the server rolls a coin at match start and, fifty
+percent of the time, turns the water-nuke rule on for every player in that game.
+When it is on, a nuke does not just kill the territory it hits: it converts the
+crater's land into water, and on this build that conversion is permanent for the
+length of the match. Because the map is split into two large landmasses that
+meet only across the Mozambique Channel, a single well-placed water nuke can
+delete a crossing lane that everyone is relying on. This guide gives you a
+repeatable framework for the four decisions a Madagascar lobby actually forces:
+will the modifier roll, what the crater will do to a lane you need, which spawn
+survives the geography, and the exact moment to cross by boat.
+
+## What the 50% water-nuke roll means before the match
+
+The number `50` in `isWaterNukes:50` is not a damage value, a radius, or a
+cooldown; it is a percentage. The server-side match setup reads the map's forced
+modifier entries, splits each on the colon, and applies the modifier when a
+random draw lands under that percentage. Concretely, on Madagascar the water
+nukes are active in roughly half of all games and inactive in the other half, so
+you cannot assume the rule will be on or off. That single fact reframes the whole
+lobby: you must treat every Madagascar game as a coin flip that resolves at match
+start, and your strategy has to contain a "water nukes on" branch and a "water
+nukes off" branch before the first tile is contested, because the branch you
+cannot afford to be wrong about is the on branch. When the roll is on, every nuke
+you launch becomes a territory-erasing tool and every nuke your rivals launch
+becomes a lane-cutter, so the value of a nuke in your own hand rises and the
+threat value of a nuke in someone else's hand rises even faster.
+
+There are two mechanics around the roll that change what you should expect in
+the modifier list. First, the forced modifier is handled separately from the
+normal random modifier pool: it is excluded from that pool so it does not get
+rolled twice, and it counts against the same three-modifier cap that limits
+other modifiers. That means a water-nuke roll can displace a modifier you might
+otherwise expect to see, such as a starting-gold boost or a hard-nations
+modifier, so the rest of your modifier set may be thinner than a normal lobby.
+Second, there is a hard exclusion relationship: `isWaterNukes` and
+`isNukesDisabled` are mutually exclusive, so if the water-nuke roll lands the
+random pool can no longer produce a nuke-disabled lobby. In practice this means
+you will never see a Madagascar game where water nukes are forced and nuclear
+weapons are simultaneously banned; the two states cancel each other out at the
+point of the roll.
+
+Before you even choose a spawn, glance at the lobby's active-modifier list the
+instant it appears and read it as the coin's result. If `isWaterNukes` is
+present, the map enters its dangerous mode and every decision in the rest of this
+guide runs on the on-branch. If it is absent, the map plays like an ordinary Nuke
+Wars lobby and the water mechanic never triggers, so the Channel is fixed terrain
+and the crossing is a normal boat problem. The entire rest of this guide is
+organized around that binary, because it is the binary that the server itself
+decides for you at match start, and the fastest way to lose on Madagascar is to
+play the off-branch in a lobby that rolled on and discover it only after the
+first crater has already landed.
+
+## What a water nuke actually does to the map
+
+When a water nuke detonates, the engine builds the crater from a set of radius
+samples spread around the impact point, one sample for each of sixteen angular
+positions, each drawn between the nuke's inner and outer squared radii and then
+smoothed against its neighbours so the boundary undulates gently instead of
+spiking. The design note in the source is explicit about why: the smoothing
+exists so the crater edge does not scatter isolated land pixels that players
+would have to boat to one by one just to reclaim a single tile. Every land tile
+inside the resulting boundary is then converted to water, while impassable
+terrain is left alone. On a normal nuke the crater destroys structures and kills
+the tile contents; on a water nuke the crater additionally rewrites the map's
+passability so that what was land is now sea, and that is the part that changes
+the meta rather than the damage.
+
+There are exactly three nuke types that can produce a water crater, and their
+magnitudes define the crater's outer radius. The MIRV warhead makes the
+tightest crater at an outer radius of 18 tiles, the atom bomb widens it to an
+outer radius of 30 tiles with the same 12-tile core, and the hydrogen bomb makes
+a crater so large that its inner radius is already 80 tiles and its outer reaches
+100 tiles. The cost curve is steeper than the damage curve: the atom bomb costs
+750,000 gold, the hydrogen bomb 5,000,000, while a warship caps at one million
+and a SAM launcher at three million. That means the atom bomb is a cheaper
+crater than the defenses it can erase, which is why players spend it to cut a
+lane even when it is not strong enough to finish the target it is aimed at, and
+the hydrogen bomb is an order of magnitude more expensive, so it is bought to
+rewrite the map rather than to trade a lane. The strategic weight is therefore
+not in the damage numbers but in the permanence and the size range: an atom bomb
+buys a local roadblock while a hydrogen bomb buys a new lake, and the gap
+between them is large enough that the same lane can be either blocked or fully
+severed depending on the nuke spent. The MIRV warhead, despite being the
+smallest crater, is the most expensive to deliver because it rides a MIRV silo
+that costs 25,000,000 gold plus 15,000,000 for every MIRV already launched, so a
+player reaching for a MIRV is spending the most gold for the least water.
+
+Because this build converts land to water with no scheduled revert, a crater that
+an atom bomb carves into a narrow coastal lane is gone for the entire match.
+The lane does not heal, does not flood back, and cannot be reclaimed without
+re-capturing the surrounding land by normal military means and rebuilding the
+crossing from scratch. That permanence is what converts a normal Nuke Wars
+lobby, where nukes trade territory back and forth and the map is mostly stable,
+into a map where a single nuke can reshape the viable routes for every player.
+The practical read is that a water nuke is less a weapon and more a map editor:
+the player who detonates it is redrawing the Channel, and everyone else has to
+re-plan around whatever shape it drew.
+
+## The two-landmass geography and the Channel
+
+Madagascar's land is not one contiguous blob. It is two large landmasses that
+face each other across a stretch of open water, with the Mozambique Channel
+sitting between them, and the map's named geography is built around that split.
+The manifest lists thirty-four named nations plus twenty-nine additional
+nations, for sixty-three nations in total, and those nations are distributed
+across the two sides and the islands in between. The theme is set to Africa and
+the layout is deliberately wide so that a lobby of many nations has room on both
+banks. This geography drives the entire meta and it is the reason the water
+nuke is so powerful on this map rather than on a normal one: on a single-bank
+map a water nuke erodes a flank, but on a two-bank map it can delete the only
+way between the two halves of your plan.
+
+The core mechanic that follows is that any nation on one side that wants to
+project onto the other side must cross the Channel by boat, because the water in
+between is impassable on foot. Boats are the only bridge between the landmasses,
+which means every offensive plan across the map depends on a reachable coast, a
+functioning fleet, and a safe crossing window, and any one of those three failing
+stops the offense. A water nuke that lands on the near bank can erode the very
+coastline you were using as a launch point; a water nuke that lands on the far
+bank can destroy the beachhead you were building on the other side; and a water
+nuke that lands in the middle of a narrow channel can widen the gap so much that
+your fleet has to take a longer, more exposed route. The map rewards players who
+think in terms of the Channel as a movable obstacle, not as fixed terrain, and it
+punishes players who memorize one crossing route and commit to it.
+
+If the water nukes roll on, treat the Channel width as a variable that your
+enemies can increase on command, and build your plan so it still works when the
+Channel is wider than you saw it at match start. If the roll is off, treat it as
+fixed terrain and plan the crossing like any other [coastal boat
+defense](/guides/coastal-boat-defense/) problem. Either way, the two-landmass
+shape means there is no central high ground to rally on; the high ground is
+whichever bank still has a usable crossing at any given moment, and that can
+change the instant a crater lands. The single most important habit on this map is
+to continuously re-evaluate which crossing lane is still open, because the
+answer to "where do I cross" can be invalidated by one nuke at any point in the
+match.
+
+## Choosing your spawn across 63 nations
+
+With sixty-three nations on a wide two-bank map, spawn quality is decided by
+three properties working together: which bank you are on, how close you are to a
+usable crossing point, and how many strong neighbours you have on your own side.
+A bank-side spawn with open coast and a short hop to the other landmass is the
+most flexible position, because you can either defend your home side or launch a
+crossing without having to reposition first. A spawn buried against three or
+four strong nations on the same bank is the weakest, because a water-nuke crater
+anywhere in your cluster can isolate you while you have no crossing to fall back
+on, and the isolation is permanent for the match. The middle-island spawns sit
+closest to the action and to the danger at the same time: a water nuke that cuts
+the channel near you can strand the island itself, turning your home territory
+into a peninsula or an island with no easy resupply line.
+
+Because the server assigns spawns and you often cannot control the exact tile,
+your real choice is whether to accept the assigned spawn or to push early toward
+a better one, and the value of that early push depends entirely on the coin. On
+a forced water-nuke lobby, the value of an early push toward open coast rises
+sharply, because a spawn that is comfortable now can become a trap the first
+time an enemy detonates across the channel. Use the lobby modifier list as your
+tie breaker. If `isWaterNukes` is on, weight "distance to a second crossing
+option" above raw starting population, because you want an exit from any bank
+and a second option is what keeps you from being stranded. If it is off, weight
+starting position and neighbour strength the same way any [spawn
+choice](/guides/choose-your-spawn/) would, because the Channel is stable and the
+usual spawn heuristics apply.
+
+The general rule that covers most cases is that on Madagascar you should never
+be happy with a spawn that has only one way out of the water, because that
+single lane is exactly what a rival's water nuke can erase. A spawn with two
+viable crossing options, even if it starts with slightly less population, is
+worth more on a water-nuke lobby than a richer spawn with a single lane, because
+the second option is insurance against the one event this map is built to
+produce. That insurance is not free, which is why the next section makes the
+crossing decision concrete.
+
+## Decision framework: boat timing and the nuke window
+
+The core decision on Madagascar is when to cross by boat relative to the water
+nukes, and the way to make that decision is to recognize that two independent
+clocks are running against each other. One is your economic clock: the time it
+takes you to raise enough gold to field a fleet that can hold the crossing, which
+on a normal start means pushing enough population to afford warships and enough
+troops to land behind them. The other is the enemy nuke clock: the moment a
+rival has enough gold and a nuke to target your lane, measured from the last
+time you saw them buying. Because water nukes are permanent on this build, the
+correct posture is to cross before the enemy's nuke clock reaches your lane, not
+after, because after that moment the lane may no longer exist and the crossing
+you were planning may have become a two-hundred-tile detour with an undefended
+beachhead window at the other end.
+
+A concrete decision rule follows. If the water-nuke modifier is on, commit your
+crossing as soon as your fleet can defend the near bank and the far bank at the
+same time, because every extra tick you spend building on one bank is a tick an
+enemy can use to crater the only lane connecting them. If the modifier is off,
+you can afford to build up on one bank and cross later, because the Channel is
+fixed terrain and cannot be widened from under you, so the economic clock
+dominates and you want the larger force across. The framework also needs an
+explicit abort condition, which is the part most players skip. If an enemy nuke
+detonates on your near bank and the crater severs your launch coastline, you
+should not keep pushing the fleet across the now-longer route with the same
+force; you should cancel the crossing, pull the fleet back to the still-intact
+side, and either rebuild the coast by recapturing land or find a second crossing
+point.
+
+The discipline that community players describe as "target them in priority"
+applies here in reverse: the player cratering your lane is your number-one
+target, because while they are redrawing the Channel they are the player least
+able to contest your next crossing. Treating the nuke window as a hard timeline,
+the way experienced players treat the impossible-difficulty nuke window, is what
+separates a successful Madagascar lobby from one where you spend the whole game
+boat-hopping a lane that keeps getting erased. The framework's final output is a
+number, not a feeling: how many waves you are willing to commit before you accept
+that the lane may be cut, and that number should be the largest fleet that still
+leaves you able to contest the rebuilding of your own coastline.
+
+## Scenario A: crossing before the crater
+
+Assume a mid-lobby FFA on Madagascar with the water-nuke modifier rolled on, a
+standard economy start, and you holding a bank-side spawn with open coast about
+four tiles from the narrowest part of the Channel. You are at roughly 30,000
+troops and have fielded a small warship screen plus two boat waves, while the
+strongest nation on the far bank sits near 70,000 and has one nuke in the
+pipeline that costs 750,000 gold and is currently two minutes from ready. The
+crossing window is those two minutes before the nuke is ready, and the whole
+scenario is a race between your boat waves and their single prepared nuke. The
+plan is to land the first boat wave on the far bank now, before the nuke is
+ready, to establish a beachhead and a SAM so the far bank is defended at the
+moment your fleet arrives.
+
+If you wait, the nuke lands first and the crater can erase the near-bank
+coastline that your remaining waves depend on, forcing you to take a longer
+route with an undefended beachhead window at the far end, which is the worst
+combination of the two. The numbers that make the on-time version work are
+specific. The first wave must be large enough that a single wave does not get
+wiped by the beachhead defense, because a wiped first wave buys the far-bank
+nation a free SAM upgrade and pushes your real crossing later into a smaller
+window. And the warship must be positioned to intercept a retaliating fleet from
+the far-bank nation, because the moment your beachhead is visible they will send
+boats to contest it. The assumption to test is whether the far-bank nation will
+spend its nuke on your lane or on the map center. If it is a rational Nuke Wars
+player with its own offense, it may crater a different lane and leave yours open,
+in which case you can keep crossing on schedule and the window is generous. If
+it targets your lane, the crater lands on the near bank, you lose the launch
+coastline, and the scenario flips into Scenario B. The decision you are making is
+not "should I cross" but "how many waves do I commit before I accept that the
+lane may be cut," and the answer is the maximum number of waves that still leaves
+enough force on the near bank to contest the rebuilding of the coastline.
+
+## Scenario B: holding the near bank after a crater
+
+Now assume the nuke landed on your near bank and the crater converted a strip of
+coast to water, severing the launch point your fleet was using. You still hold
+the majority of the near bank, the far-bank beachhead from Scenario A is thin and
+under pressure, and the enemy that cratered you has its nuke spent. The posture
+here is defensive on the near bank and opportunistic on the far bank, and the two
+halves have to be managed separately because they are now connected only by the
+longer route. Because the crater is permanent on this build, you cannot wait for
+the coast to come back; you must either recapture the surrounding land by normal
+military means and rebuild the crossing from the newly claimed tiles, or abandon
+that coastline and move your crossing to a second point further along the bank.
+
+The decision hinges on the ratio of your remaining near-bank troops to the
+enemy's defended coastal line. If you can field a force at least as large as the
+enemy's coastal defense, commit to recapturing the cratered strip, because
+holding the crater line lets you deny the enemy the same lane and keeps your
+second crossing option alive, which is the real prize. If you cannot field that
+force, pull back behind the second crossing, keep the far-bank beachhead
+supplied by the longer route, and use the fact that the cratering enemy has just
+spent 750,000 gold to your advantage. In the minutes after a nuke the cratering
+player is the most vulnerable to a counterattack, because their economy is
+behind and their nuke is gone, which is the exact inverse of the state they had
+before the detonation. The counterplay is to attack the cratering player's coast
+while they are rebuilding, forcing them to defend instead of launching their next
+crossing, and that counterattack is the move that decides whether Scenario B
+becomes a recovery or a collapse.
+
+The general principle that covers both branches is that the player who lands the
+crater is momentarily the weakest player on the map, not the strongest, because
+a water nuke spends the most expensive single asset in the game to buy a
+one-time map change. Exploiting that moment is the core skill on this map, and
+the [nuclear target-cutting](/guides/nuke-cut-territory-annexation/) meta is what
+makes the crater a lane-cutter in the first place, so the two guides read as one
+strategy: cut the lane, then exploit the moment the cutter is exposed.
+
+## Failure modes and counterplay
+
+The most common failure on Madagascar is treating the water-nuke roll as a
+detail instead of the central branch point. A player who builds the whole
+economy on one bank and then discovers `isWaterNukes` is on, with a nuke in the
+enemy pipeline, has a one-lane economy and no second crossing option, which is
+exactly the position that a crater exploits, because there is nowhere for the
+player to go when the single lane is erased. The counter is to always keep a
+second crossing option alive on a forced water-nuke lobby, even at an economic
+cost, because the second option is what lets you reroute after a crater and is
+the difference between a setback and a loss.
+
+A second failure is over-committing the crossing: sending the entire fleet across
+and leaving the near bank undefended, so that when the crater lands the enemy has
+an undefended coast they can take and your fleet is stranded on the far bank with
+no supply line. The counter is the abort condition described earlier: keep enough
+force on the near bank to contest any recapture of the cratered coast, because a
+stranded fleet is a fleet that has to cross back through the same water it came
+from, and on a water-nuke map that return journey is as dangerous as the original
+one. A third failure is misreading the crater size. A MIRV warhead's crater is a
+local roadblock, but an atom bomb's crater is a new lake that can split a bank in
+two; a player who assumes every nuke produces a tight crater will plan around a
+lane that an atom bomb has actually deleted, and that misread is invisible until
+the detonation. The counter is to size your crossing route against the largest
+nuke the enemy can afford, not the smallest, and to treat any lane that an atom
+bomb or hydrogen bomb can reach as a lane that will be cut.
+
+Finally, the failure of ignoring the permanent nature of the crater. On a build
+where the land reverts after a few minutes, a crater is a temporary obstacle you
+can wait out; on this build it is a permanent one, so any plan that says "wait for
+the coast to come back" is a plan that will not execute, and the player who
+waits spends the whole match on a detour while the enemy who planned for
+permanence holds the open lane. Every failure here traces back to one of the three
+verified facts: the 50% roll, the permanent conversion, and the two-landmass
+Channel, and the discipline that prevents all of them is the same habit: re-plan
+around the crater, never wait for it.
+
+## Mode and map adjustments
+
+The framework changes with the mode and the lobby composition, so it is worth
+making the adjustments explicit rather than assuming the Nuke Wars version is the
+only version. In Nuke Wars the crater is the central asset trade, and the whole
+guide applies as written, because the mode is built around the exact event the
+map is built to produce. In FFA the same principles hold, but the cratering
+player is less likely to be a coordinated rival and more likely to be any of
+several players, so you should treat "who will crater my lane" as a probability
+spread across the lobby rather than a single target, and keep the second crossing
+option even more alive because any player can spend a nuke on your lane. In team
+modes, your team should agree which bank you hold and which bank you cross to
+before the match, and the water-nuke roll should be called out in team chat the
+instant it appears so the whole team switches from a fixed-Channel plan to a
+movable-Channel plan together, because a team that does not know the roll landed
+plays the off-branch in an on-lobby.
+
+In ranked or laddered play on this map, the 50% roll means your match can swing on
+luck at the coin, so the skill signal is not whether the roll lands but whether
+your team has the abort and reroute discipline to handle both outcomes, and a
+player who only wins when the roll is off is not playing the map. The map's width
+also means lobby size matters: a fuller lobby fills both banks and the islands,
+increasing the chance that a cratered lane has an alternate, so in a sparse lobby
+the Channel is narrower and more dangerous because there are fewer crossings to
+fall back on. Treat the [lobby size and map interaction](/guides/lobby-size-map-driven/)
+as a second dial you control: a larger lobby on Madagascar is generally safer for
+the player defending a bank because there are more crossing points, while a
+smaller lobby concentrates the crossing onto fewer lanes and raises the value of
+the water nuke. The net adjustment is that on Madagascar the map is doing half the
+work of the Nuke Wars meta for you; your job is to make sure you are on the right
+side of the coin flip, on the right bank of the Channel, and crossing on the right
+clock, and to keep a second option alive so the crater cannot turn your plan into
+a detour.
+
+| Nuke type | Outer radius (tiles) | Cost (gold) | Water-nuke crater role |
+| --- | --- | --- | --- |
+| MIRV warhead | 18 | 25M + 15M per prior MIRV (silo) | tightest crater; local roadblock, cuts a single lane |
+| Atom bomb | 30 | 750,000 | widens the Channel; can strand an island |
+| Hydrogen bomb | 100 (inner 80) | 5,000,000 | new lake; can split a bank in two |
