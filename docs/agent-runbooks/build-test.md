@@ -1,5 +1,9 @@
 # 构建、Astro 与 Playwright runbook
 
+- **2026-10-23 外置 Playwright 配置**：配置放在 automation cache 时，webServer 默认工作目录跟随配置目录，导致 `pnpm exec astro build` 找不到项目并退出 1。外置配置必须显式设置项目绝对 `testDir` 和 `webServer.cwd`，并配置一致的预览端口；修正后从头重跑。正文维护仍可用 `pnpm exec astro build` 跳过无关 extract，且核对生成 JSON 精确 hash。
+
+- **2026-10-23 完整回归既有版本滞后**：首轮完整结果 453/460。五语 mobile-app-download 仍链 v0.34.22，而既有用例要求当前 v0.35.2；实际读取新 tag README、iOS 文案和 Release 空 assets 后才更新正文边界与日期。另外两项是地图池硬编码遗漏已提交的 132，及 provenance 硬编码旧 v34；保留地图数量/关键 ID 校验并增加唯一 ID 检查，来源面板断言按记录的元数据版本与 checkout SHA 校验。不得改写生成数据来迁就旧测试。
+
 - **2026-10-21 正式改键维护 SEO 复发**：普通生产基线与最终均为 935 HTML / 930 可索引页，97 个标题截断加 1 个 NL 双 H1，SEO 审计仍退出 1；完整 98 项诊断集合完全相同。十个直接维护答案没有命中，受相关推荐排序影响的 NL ranked-mode-rating-system 保留其既有截断问题。正文维护使用 `pnpm exec astro build`，完整 e2e 的私有配置同样跳过 extract；生成 JSON hash 前后相同，不需要恢复文件。
 
 - **2026-10-20 核弹切地维护 SEO 基线**：普通生产基线为 920 HTML / 915 可索引页，97 个标题截断加 1 个 NL 双 H1，审计退出 1。最终须比较完整诊断集合，不能沿用旧运行的 88 项或称全站通过。纯 MDX 维护可直接执行 `pnpm exec astro build`，保留已验证生成数据；无需为了正文检查先刷新无关上游数据。

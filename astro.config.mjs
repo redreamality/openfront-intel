@@ -10,6 +10,12 @@ export default defineConfig({
   base: '/',
   trailingSlash: 'always',
   output: 'static',
+  redirects: Object.fromEntries(
+    ['', '/zh', '/fr', '/de', '/nl'].map((prefix) => [
+      `${prefix}/guides/stop-trading-with-enemies-v35/`,
+      `${prefix}/guides/embargo-timing-and-trade-control/`,
+    ]),
+  ),
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr', 'nl', 'de', 'zh'],

@@ -6,6 +6,10 @@ const maps = JSON.parse(
   readFileSync(new URL('../src/data/maps.json', import.meta.url), 'utf8'),
 ) as { meta: { total: number }; list: Array<{ id: string }> };
 
+const snapshotMeta = JSON.parse(
+  readFileSync(new URL('../src/data/_meta.json', import.meta.url), 'utf8'),
+) as { upstreamVersion: string; upstreamCommit: string };
+
 const formulas = JSON.parse(
   readFileSync(new URL('../src/data/formulas.json', import.meta.url), 'utf8'),
 ) as {
@@ -23,11 +27,12 @@ const v33MapIds = [
   'lasvegasstrip', 'levant', 'tierradelfuego', 'branchingpaths', 'morethanluck',
 ];
 
-test('v34 map extraction keeps a supported pool and all v33 additions', () => {
-  // Earlier v34 checkout/fallback pools have 117/119 maps; checkout 4e83752 has 123.
-  expect([117, 119, 123]).toContain(maps.meta.total);
+test('map extraction keeps a supported pool and all v33 additions', () => {
+  // v34 pools have 117/119/123 maps; the recorded v35 checkout has 132.
+  expect([117, 119, 123, 132]).toContain(maps.meta.total);
   expect(maps.list).toHaveLength(maps.meta.total);
   const extractedIds = new Set(maps.list.map((map) => map.id));
+  expect(extractedIds.size).toBe(maps.meta.total);
   for (const id of v33MapIds) expect(extractedIds.has(id), `missing map id: ${id}`).toBe(true);
 });
 
@@ -70,7 +75,10 @@ test('provenance distinguishes the extraction checkout from the editorial snapsh
 
   const provenance = page.locator('[data-provenance-panel]');
   await expect(provenance).toContainText('generated from the recorded upstream checkout');
-  await expect(provenance).toContainText('editorial validation scope and embedded fallback remain v34');
+  await expect(provenance).toContainText(
+    `editorial validation scope and embedded fallback remain ${snapshotMeta.upstreamVersion}`,
+  );
+  await expect(provenance).toContainText(snapshotMeta.upstreamCommit.slice(0, 12));
 });
 
 const aboutCases = [

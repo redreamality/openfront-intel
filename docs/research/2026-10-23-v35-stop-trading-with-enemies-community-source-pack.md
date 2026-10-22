@@ -1,5 +1,11 @@
 # Community Source Pack — v0.35 Stop Trading with Enemies (global embargo keeps ally trade)
 
+> Consolidated on 2026-10-23 into `guides/embargo-timing-and-trade-control/`, the established
+> main answer in all five languages. The `stop-trading-with-enemies-v35` URLs redirect there.
+> This inventory remains historical research; [the maintenance evidence](2026-10-23-embargo-answer-maintenance.md)
+> supersedes claims that the action closes third-party trade or that teammates were
+> newly exempted in v35. Teammates were already exempt in v0.34.25; personal allies are new.
+
 Topic: the v0.35.0 change where the global embargo button, previously "Stop Trading with All", becomes "Stop Trading with Enemies" and now preserves trade with allies and teammates while cutting hostile partners. Slug: `stop-trading-with-enemies-v35`. Access date: 2026-10-23.
 
 ## Source inventory

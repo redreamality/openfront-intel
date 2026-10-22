@@ -1,5 +1,11 @@
 # Community source pack — Embargo timing and trade control
 
+> Superseded rule interpretation, 2026-10-23: this is historical community research,
+> not the current mechanical authority. The retained five-language answer has been
+> corrected and consolidated; see [the official-tag maintenance evidence](2026-10-23-embargo-answer-maintenance.md).
+> In particular, manual embargoes are not five-minute probes, and influence/capital/port
+> gates, automatic minus-twenty relations and universal rail immunity are unsupported.
+
 - Slug: `embargo-timing-and-trade-control`
 - Group: economy
 - Prepared: 2026-09-23 (UTC), OpenFront v0.34 line; source tree `openfrontio/OpenFrontIO` @ `v0.34.0-beta1` (local commit `5f6c8fad`)
