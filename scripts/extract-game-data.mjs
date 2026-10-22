@@ -26,7 +26,7 @@ const SOURCE_DIR = resolve(ROOT, '..', 'OpenFrontIO');
 mkdirSync(OUT_DIR, { recursive: true });
 
 const HAS_SOURCE = existsSync(SOURCE_DIR);
-const SNAPSHOT_VERSION = 'v34';
+const SNAPSHOT_VERSION = 'v35';
 
 function readUpstreamCommit() {
   if (!HAS_SOURCE) return null;
@@ -42,7 +42,7 @@ function readUpstreamCommit() {
 
 const meta = {
   generatedAt: new Date().toISOString(),
-  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v34',
+  source: HAS_SOURCE ? SOURCE_DIR : 'embedded-snapshot-v35',
   // The structured fallback model and editorial notes were validated against
   // v33. A newer checkout does not automatically make every snapshot field a
   // newer-version claim, so keep the version explicit and record the commit

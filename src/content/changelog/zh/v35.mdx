@@ -1,0 +1,82 @@
+---
+title: 'OpenFront v35.2：更聪明的 Nation、新地图与玩家端修复'
+description: 'OpenFront 正式 v35.2 Release 对 Nation、地图、大厅、回放、氏族、操作和下一局决策的影响。'
+pubDate: 2026-10-17
+updatedDate: 2026-10-22
+version: v35
+releaseStatus: released
+tags: [changelog, balance, features]
+category: 版本笔记
+---
+
+## 直接答案：OpenFront v35.0 到 v35.2 改了什么？
+
+当前正式边界是 OpenFront v0.35.2，发布于 2026 年 10 月 17 日。请以官方 [v0.35.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2) 判断功能是否已发布，再用本页把变化转成下一局决策。v35 不只是一个平衡数字，而是一组 Nation 行为更新：Nation 会反击、使用海上压力、建立滩头、阻止登陆，并在 FFA 中围攻失控的领头玩家。Hard 与 Impossible Nation 可以派出 1% 兵力的滩头运输船，登陆后再接同一方向的地面攻击；两种难度的船路上限分别为 300 和 500 格。它们还会派战舰编队清理封锁，所以看到运输路线不等于海岸安全。
+
+v0.34.13 修复 Channel Islands 地图问题，并包含基础设施改进。带 tag 的地图是当前公开边界；不要把旧地图文件里记住的海岸或路线直接带进新局。基础设施说明没有公布新的战斗、经济或核武系数。
+
+正式 v0.34.14 修复了外观收藏较多时主菜单冻结的问题，商店和库存改为滚动加载；同时说明 Steam 买家免费月份包含什么、完整游戏在免费期后仍然免费，并在连接游戏服务器失败时显示实际原因。这些是访问和展示修复，不改变 Team 胜利线或战斗系数。v0.34.15 又修复了一次误部署：部分 v35 功能曾意外出现在生产环境。v0.34.16 与 v0.34.17 是纯可观测性和遥测补丁，只增加游戏信息统计与上报，不发布任何战斗、经济或核系数。v0.34.18 是当前公开边界：房主可以把公开大厅上架到公开 Special 队列时选择开局时间并设置人数上限、上架后锁定大厅配置、可付费把已上架大厅排进公开 Special 队列，并改进了延迟上报、阻止 Steam 硬件返回键退出桌面端。托管自动开局窗口现在由房主在 1 到 5 分钟之间自选，人数上限从 10 到 100，且上架是单向的（服务器拒绝下架）。把这些当作现行大厅规则，不要把旧的固定五分钟窗口或下架切换当作当前行为。
+
+v0.34.19 增加第三方战绩站点所用的短时身份 token、默认开关大厅开局提醒的设置、Detailed View 中真实的托管大厅倒计时、更准确的公开房主订阅说明，以及把加入者分散到多个 sibling lobby 的大厅池。v0.34.20 曾成为大厅池的正式公开边界，因为它修复了这些池在生产环境从未真正形成的问题；上架大厅现在确实可以把新加入者分流到 sibling lobby。该补丁还修复地图加载或显卡重置恢复期间鼠标停在水面时的报错，并继续增加可观测性。池化只改变加入者最终进入哪个 sibling，不改变房主选择的模式、1 到 5 分钟窗口、10 到 100 人上限、单向上架或配置锁定。
+
+2026 年 9 月 29 日发布的 [`v0.34.21`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.21) 曾把正式非 TEST 边界推进到 v34.21，tag commit 是 `d7075bface21e6835fadb7a0d0025455f8bc358a`。它移除会在广告位上放置透明 iframe、从而阻挡局内点击的 AdShield 脚本；登录服务器短暂故障时不再把仍有效的玩家会话登出；过期或撤销的会话不再陷入无限重连，而会显示 invalid session；对局开始前移动攻击比例滑块也不再报错。它还为巴控克什米尔采用中性标签，并修复依赖安全告警。这些属于访问、输入、地图标签与安全修复；Release 没有发布新的战斗、经济、核武、Team 胜利、大厅池或地图轮换系数。
+
+2026 年 10 月 1 日发布的 [`v0.34.22`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.22) 是当前正式非 TEST 边界，tag commit 为 `4e837520e886b255b1b020e9c89639dbb9d54038`。它为订阅续费失败的玩家提供 Manage billing 入口，而不是继续显示通用结账错误；修复私人大厅主持人有时无法配置或开始自己大厅的问题；阻止 Firefox Android 的单人游戏误开 YouTube 教程；消除页面载入或刷新时的白色闪屏，并补充可观测性工作。这些是计费、大厅控制、移动端启动、显示与遥测修复。Release 没有发布新的战斗、经济、核武、Team 胜利或地图轮换系数；继续采用既有 v34 玩法规则，同时把恢复后的私人大厅主持控制视为现行行为。
+
+OpenFront 稳定功能版本 [`v0.34.0`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0) 发布于 2026 年 9 月 14 日。继 v0.34.1 至 [`v0.34.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.9) 后，官方又发布 [`v0.34.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.10)、[`v0.34.11`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.11) 与 [`v0.34.12`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.12)。v0.34.12 提高中前期 Trade Ship 与 Train 的生成频率，并改善 magic-link 登录流程；系列随后经过 v0.34.20 的大厅池修复、v0.34.21 的会话修复，推进到 v0.34.22，成为当前非 TEST 玩家边界。整个系列延续 v34 功能，并修正攻击节奏、贸易与铁路生成、大厅与地图分类、Steam 访问、外观设置和点击失响应。真正影响下一局的不只是 Steam：陆战损耗、MIRV 发射、高难度 Nation、Team 胜利线、Water Nuke 航路、铁路、大厅筛选和地图选择都要按当前版本判断。
+
+v0.34.1 之后新增的直接玩法变化，是 v0.34.2 正式说明中的“攻击速度提高约 10%”。它缩短了玩家取消、增援、反推或发现预备队正在崩溃的现实时间窗口，但没有替换 v34 的 ratio 与 density 损耗模型，也不能证明某个固定攻击比例必胜。v0.34.2 还修复公共 Team 出现 0 队、增加更清楚的 trusted-lobby 提示、提供经典 Bot 颜色选项、调整音量默认值，并让桌面端复制的网站链接不再指向 `app://`。v0.34.3 随后修复 Ranked 匹配与支付错误，并恢复已拥有图案的 Default 色板。后三项影响访问与显示，不构成新的战斗公式。
+
+后续补丁的边界不同。v0.34.4 移除桌面端局内全屏按钮，加入 Steam 账号绑定时的合并选项，并更稳妥地处理 Steam 故障。v0.34.5 增加分类别隐藏外观选项，提高中后期 Train 生成频率，修复广告与翻译后的库存标签重叠，为排队大厅编号，并整理 New maps 分类。对应 tag 的 Train 饱和曲线把衰减中点从全局 300 个 Train 单位移至 500；这不保证单栋 Factory 固定多赚多少 Gold。v0.34.6 修正 New maps 分类并改善 Steam 服务基础设施；v0.34.7 修复创作者代码未正确设置和界面偶发完全无法点击。v0.34.8 显示 Steam 离线和会话 Retry 状态，修复旧客户端登录时反复进入大厅的循环，并立即显示 WinModal 按钮。v0.34.9 增加更宽的桌面布局和 UI 缩放选项，让大厅链接在 Steam 应用中打开，在大厅列表失效时自动恢复或提供 Retry，并拒绝对局开始后才加入公共大厅的玩家。这些补丁不是“新增地图”或统一收入倍率的证据。
+
+v0.34.12 提高中前期 Trade Ship 与 Train 的生成频率，并改善 magic-link 登录流程。Release 没有公布统一倍率、固定增收或保证等待时间，因此应观察当前大厅里实际完成的航程和停站。更快生成只会改善本来就有效的路线；不可达站点、被禁运伙伴、暴露 Port 或没有收益的停站仍然不会因此回本。登录改进影响访问流程，不改变模拟规则。
+
+陆地攻击现在使用重建后的损耗模型，两个核心输入是进攻方的 troop ratio 与防守方的 troop density。投入更大的有效进攻，在薄弱边境上可能不再支付旧模型那样高的每格代价；紧凑领土上的高密度防守仍然昂贵。大领土修正改成平滑且有上限的函数，Release 明确说明 100,000 tiles 以下不会因为这项大领土修正而变化。这不是鼓励 full-send：路线宽度、地形、Defense Post、反向攻击和留在本土的预备队仍会决定推进能否站住。它只意味着旧版固定损耗估算已经不能当成精确计算器。
+
+MIRV 保留全局价格阶梯：下一枚花费 25M，加上本局此前每次 MIRV 发射的 15M。v0.34.0-beta1 曾试验固定 25M 与全局 60 秒锁定，但正式版本发布前已回滚；v0.34.11 没有全局 MIRV 发射锁定，每根 Silo 管独立装填。同一版本还统一了 MIRV warhead 速度、移除地图边缘优势、修复过近弹头的 SAM 目标选择与拦截提示；接受联盟时会取消在途核弹，并在接受后的半秒内禁止新发射。
+
+Hard 与 Impossible Nations 会寻找相邻、价值高且它能够安全击败的对手，不再只是均匀向外扩张；它们攻击 TerraNullius 或 fallout 时也不能忽略 troop cap。普通 Team 胜利阈值从 95% 降为与 FFA 相同的 80%。Water Nuke 产生的新水域现在能被运输船正确寻路；铁路分叉不再让 Train 无故消失，但 Railroad 不能跨越 impassable terrain。对局出现获胜者后，Doomsday Clock 会停止。
+
+模拟之外，v34 上线了 20 步局内教程、定时出现且仍穿插开放房间的 trusted-only lobby、玩家举报、Detailed View 大厅浏览器、地图预加载、Clan treasury 捐赠、以 Clan tag 组成 Team 名、外观库存与 loadout、Steam 登录/绑定/桌面支持，以及官方基准中完整 World 对局 tick cost 降低 39% 的性能优化。新地图是 Yangtze River；China 改为现代边界，旧布局保留为 Qing China。这些在当前 tag 中已经发布，不再是预览。
+
+v34 的 profile 对所有人公开，其他玩家可以查看账号关联的对局；history card 提供可复制的 game link，回放中也能打开普通 PlayerInfoPanel。它既是学习工具，也是账号选择：求助时分享准确对局，按时间顺序复核决策，不要只凭结果倒推原因；同时记住，Release 明确把删除账号列为隐藏全部对局的方式。公开历史不会暴露私有审核工具，也不能证明某个玩家为何做出某一步。
+
+v0.34.10 修复遮挡 Twitch 面板的广告，并把大厅链接交给正式 Steam 应用。v0.34.11 修正 UI 缩放下拉菜单拒绝自己提供的自定义数值、切换语言后地图名不立即更新，以及 Lobby Retry 在冷却期间不能马上刷新列表的问题。桌面端还得到 Steam 专用 WebGL 错误指引和电源形状的退出图标，新闻按平台过滤。夺回自己的 Trade Ship 不再误报捕获；核击杀统计不再计入自己的、队友或盟友单位。这些是显示、访问和统计的修复，不是改变战斗伤害或贸易船收入的证据。
+
+## 下一局应该怎样改变决策？
+
+先改变陆战纪律。把界面中的攻击百分比理解为“这次愿意投入多少”，而不是“必然拿下多少 tiles”。新 ratio × density 模型允许大额推进在稀薄边境更有效率，但大数字进入高密度、小接触面、Defense Post 范围或对手反推时仍会失败。追加兵力前至少检查四项：实际扣除并投入的数量、目标领土的防守密度、路线宽度与地形、留守预备队。第一次推进没有买到能守住的形状时，不要重复同一个百分比。只有路线、密度或协同压力已经变化才增援，否则应停手、换路或等待。
+
+面对 Hard 或 Impossible Nation 时，要把边境价值纳入判断。高难度 Nation 不再适合被当作无方向的背景扩张者。如果你与它接壤、目标价值高，而它判断能够安全击败你，你就可能成为下一目标。一个只有单一受保护接触面的紧凑经济核心，通常比三个暴露的高价值边境安全。先用有上限的小额行动测试，保留能承受反击的兵力；地图有别的低风险方向时，不要为了多拿一条 Nation 边界继续扩张。看到 Nation 碰到 cap 或正在别处作战，只能把它当成短暂窗口，不能当成永久和平。
+
+使用 MIRV 时，保留全局价格账本。从零连续发射前三枚依次花费 25M、40M、55M，总计 120M。任何玩家成功发射都会抬高所有人的下一档，队友虽无全局等待，也要支付新价格并拥有就绪 Silo。每次行动前核对菜单价格，同时为爆后占地保留 Gold。接受联盟现在会取消在途 warhead，半秒发射保护也会阻止“刚接受就立刻偷袭”；这让联盟成为真实的核外交节点，但接受关系本身仍有战略代价，不能只为了清掉一波弹头就盲点同意。
+
+Team 玩家必须抛弃旧的 95% 普通胜利基线。v34 中正常 Team 与 FFA 一样以 80% 为起点；若房间启用 Overtime，配置时间和下降节奏仍要看实时规则，但“还有 15 个百分点空间”的旧计划已经过期。对手接近 80% 时，先保护其最容易继续吃地的路线，再考虑旁支建筑或远征。获胜后 Doomsday Clock 会关闭，不需要设计一个结果已经成立后的赛后抢钟方案。
+
+Water Nukes 的警告也换了重点。新水域仍是永久地形变化，但 v33 中“运输船可能绕开已转换水域”的旧限制不再是当前边界。你仍要检查路线，因为距离、敌方 Warship、落点可达性和本土预备队会让一条技术上有效的航线成为坏投资。需要分清：通过新水域的 pathfinding 已修复，糟糕的登陆决策没有被修复。铁路边界相反：impassable terrain 现在像地图边缘，铁路不能跨过；看起来很近的两点也可能没有合法路段。分叉不再导致 Train 消失，但合法连接仍是前提。
+
+中后期铁路经济在 v0.34.5 之后可能随着全局单位增多而更稳定地产生 Train，但孤立 Factory 不会因此自动赚钱。追加等级之前核对 City/Port 的已完成停站、合法路线、所有权和实际到账 Gold；铁路拓扑与止损条件见 [Train network 攻略](/zh/guides/train-network/)。路线断掉时，更高的生成机会只会增加无效移动，不会修复结算。
+
+出生前就使用大厅改进。Detailed View 会把 advertised lobbies 按模式分栏并提供 deep link；锁形图标表示 trusted-only，未登录玩家可能需要先登录，而 Release 说明开放的定时房间仍会穿插存在。加入前比较模式、Team 结构、地图和人数。地图预加载会降低出生阶段仍在等待的风险，但设备与网络仍会影响结果，必须等真实 spawn UI 出现。20 步教程适合学习按钮与流程，却不会替你决定安全边境和预备队。
+
+Clan 与账号操作应当和局内 Gold 分开看。Clan treasury 捐赠会把玩家货币转入 clan balance；Release 确认能力上线，但没有把捐赠变成可随意撤回的练习动作。确认货币种类、数量与 Clan 后再提交。十个编号外观 loadout、Unequip All、商店预览、bundle 与登录后恢复选择只改变展示，不增加对局战力。Steam 登录、绑定、rich presence、邀请、购买与桌面更新门禁也改变访问和社交流程，不改变陆战系数。
+
+最后，不能继续按昨天的轮换印象读地图。Yangtze River 是管道式河流拓扑，现代 China 与 Qing China 是两个不同布局；熟悉的名称或缩略图不足以制定路线。Labyrinth 在公开轮换中频率降低，Luna 被移出公开轮换，不同模式还可以有各自的地图权重与 modifier。按眼前地图的水陆形状、出口和模式选择，而不是按旧地图池背答案。
+
+## 来源状态、适用边界与下一步阅读
+
+当前正式版本是官方 [OpenFront v0.35.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2)，发布于 2026 年 10 月 17 日，对应 tag commit 08b63c054897c030e6516e0731ab7cc62b2998b7。v0.35.0 引入 Nation、地图、大厅、回放、操作和成长系统变化；v0.35.2 是本文采用的稳定、非 TEST 版本边界。tag 源码用于核对 Nation 船路、300/500 格上限、战舰编队、地图 manifest 和 Ranked Clan Wars 配置。
+
+下面的 v0.34.22 只作为 v34 历史修复的背景；当前稳定边界已经是上面写明的 v0.35.2。
+
+本文当前的公开权威来源是官方 [OpenFront v0.35.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2)，不可变 tag commit 为 `08b63c054897c030e6516e0731ab7cc62b2998b7`；下面的 v0.34.22 链接只用于 v34 历史补丁细节。稳定 v34 功能基线是 commit `1e973bb534b8b37d8d30c80ab27ad1391a7b82da` 的 [`v0.34.0` Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.34.0)；beta1 只证明已回滚实验，不是现行 MIRV 价格规则。v0.34.18 负责公开大厅开局时间、人数上限、锁定与付费排队，v0.34.19 和 v0.34.20 负责 sibling pool 的引入与生产修复，v0.34.21 负责点击、会话、滑块、地图标签与依赖修复，v0.34.22 负责当前计费、私人大厅、Firefox Android 与刷新显示修复；后续 `main` 提交不能反向证明当前 Release。
+
+陆战事实可由 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/configuration/Config.ts)、[`AttackExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/src/core/execution/AttackExecution.ts) 与 [`AttackLogicGolden.test.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.0-beta1/tests/AttackLogicGolden.test.ts) 复核。它们确定了实际损耗函数和受保护场景，却不能给出一个脱离 ratio 与 density 的通用“每格损失”。正确编辑结论是用有边界的 probe 观察结果，而不是从不完整输入伪造确定表格。
+
+Nation 的 tag 源码与配置负责确认 difficulty modifier、troop cap 和选目标逻辑。阅读 [Nations 机制](/zh/mechanics/nations/)了解 AI 如何产生动作，再用 [Nations 压力攻略](/zh/guides/nations-pressure/)决定玩家何时停扩、筑防与引流；已经形成玩家边境战时转到[陆战攻略](/zh/guides/land-combat/)。三页职责不同：机制页解释对手，压力页管理战略暴露，陆战页解决已经发生的接触。
+
+核武事实由 v0.34.11 tag 中的 [`Config.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/configuration/Config.ts)、[`StatsImpl.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/game/StatsImpl.ts) 与 [`SAMLauncherExecution.ts`](https://github.com/openfrontio/OpenFrontIO/blob/v0.34.11/src/core/execution/SAMLauncherExecution.ts) 支撑，覆盖 25M + 此前每次发射 15M 的价格、全局计数与拦截边界。具体进攻/防守节奏见 [MIRV 攻略](/zh/guides/mirv/)。beta1 冷却测试只记录已回滚实验。
+
+地形与移动以 Release 对 Water Nuke pathfinding、铁路分叉和 impassable terrain 的正式描述为公开边界。改变海岸前读 [Water Nukes](/zh/guides/water-nukes/)，铺线前读[铁路网络](/zh/guides/train-network/)，新布局改变扩张时读[地图策略](/zh/guides/map-strategy/)。本站生成数据库已经从准确 tag 重新提取，当前列出 132 张地图，包括 v35 新增地图以及 Yangtze River 与 Qing China。
+
+本文不会复述私有审核工具、支付内部实现或服务器架构，也不会把 World 基准的 39% tick cost 下降换算成每台设备必然得到的帧率提升。正式 Release 只确认能力可用及官方声明的玩家影响；设备性能、账号资格、公开轮换与对手行为仍会变化。下一个非 TEST Release 改变版本边界后，应重新核对本文及相邻攻略。

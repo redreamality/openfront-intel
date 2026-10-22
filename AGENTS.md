@@ -17,8 +17,10 @@ OpenFront.io 多语种（en/zh/fr/de/nl）情报与攻略站，Astro + Tailwind 
 - 面向玩家的长文中，每个正文小标题（`##` / `###`）下的内容必须超过 400 words（即至少 401 words）；五语版本均适用，未达到不得交付或发布。
 - 公开一级内容栏目一旦建立独立索引路由（例如 `/maps/`），必须同步提供五语首页栏目入口并用 e2e 保护；不能只出现在导航、数据库或相邻页面中。
 - Footer 的版本来自 `src/data/_meta.json.upstreamVersion`；`src/i18n/ui.ts` 五语 `footer.copyright` 必须保留 `{version}`，禁止写死版本号，也不保留 “made with Astro”。
+- 检查到 OpenFront 正式版本更新时，必须同步更新五语首页的版本展示、最新版本入口和对应链接，不能只更新数据快照或攻略正文。
 - `src/content/changelog/{lang}/vXX.mdx` 是 OpenFront 游戏版本笔记。只以 `openfrontio/OpenFrontIO` 正式 GitHub Release 的真实正文为依据；`TEST` 占位不能生成补丁说明。
 - changelog frontmatter 沿用 `version: vXX`、`category: Release Notes`（zh 为 `版本笔记`）、`tags: [changelog, balance, features]`。
+- 每次运行 `pnpm extract`、提交 vXX 攻略/版本内容或准备发布前，必须用 `gh api -X GET 'repos/openfrontio/OpenFrontIO/releases?per_page=10'` 查询上游正式 Releases，只取 `draft=false` 且 `prerelease=false` 的最新条目，并将其 tag 与 `src/config/openfront-release.ts`、`src/data/_meta.json.upstreamVersion`、五语 `src/content/changelog/*/vXX.mdx` 及五语首页版本展示/最新入口逐项对照。若正式 Release 系列高于本地版本，必须先完成首页和五语 changelog，再继续其他内容；本地 checkout 或 `main` commit 不能替代正式 Release 判断。
 
 ## 按需加载 runbook
 
@@ -50,3 +52,4 @@ OpenFront.io 多语种（en/zh/fr/de/nl）情报与攻略站，Astro + Tailwind 
 - PowerShell 路径参数不支持 Bash 花括号扩展；不要把 `src/content/guides/{en,zh,fr,de,nl}/...` 直接传给 `rg`、`Get-Content` 或其他命令。改用语言数组循环、逐个明确路径或真实目录加 `--glob`，并保留含方括号路径的 `-LiteralPath`。
 - 面向玩家的正文不要写入“社区来源包、教学假设、正式 Release/tag 核验、本文如何审计”等研究元话语；这些内容留在 `docs/research`、runbook 或 frontmatter，正文只保留会改变玩家决策的事实、边界和操作。
 - 删除多语长文的版本/来源说明后，必须用 `pnpm guide:audit -- --slug <slug> --source-pack <path>` 复跑单篇交付审计；总字数通过不代表交付通过，每个 `##` / `###` 小节仍须达到至少 401 words（中文按汉字门槛计数）。
+- 使用 `gh api` 检查 OpenFront Release 时必须显式传入 `-X GET` 并固定查询 `openfrontio/OpenFrontIO`；PowerShell 下不要用会改变请求方法的 `-f` 组合。查询本站 PR、Pages 等仓库级状态时，才从 `git remote get-url origin` 核对真实 owner/repo，避免把错误仓库或默认 POST 结果当成版本信号。
