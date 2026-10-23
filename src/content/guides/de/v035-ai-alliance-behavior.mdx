@@ -1,0 +1,392 @@
+---
+title: "Wie die KI deine Allianzen in v0.35.3 behandelt: Stämme greifen Verräter an, Hard/Impossible erneuern"
+description: "v0.35.3 hat zwei KI-Entscheidungspfade geändert: Stämme brechen nun den Bund mit einem Nachbar, der zum Verräter geworden ist, und greifen ihn an; Hard- und Impossible-Nationen verweigern nicht mehr jede Bündniserneuerung in kleinen Partien. Was jede Änderung für deine nächste diplomatische Entscheidung bedeutet."
+
+
+category: combat
+tags:
+  - v0.35.3
+  - ki-verhalten
+  - nationen
+  - staemme
+  - buendnis
+  - diplomatie
+author: OpenFront Intel
+pubDate: 2026-10-24
+updatedDate: 2026-10-24
+version: v0.35.3
+freshnessSummary: "Gegen den v0.35.3-Release-Text (Tag-Commit a2d20f8e5f32573c7a6a7e0b8900dcfeac4357e7) und den v35-Bündlungsentscheidungsbaum der Nationen geprüft; bei einem späteren Patch, der die Diplomatie von Stämmen oder Nationen ändert, aktualisieren."
+related:
+  - guides/nation-alliance-decisions/
+  - guides/tribes/
+  - guides/nations-pressure/
+  - mechanics/nations/
+  - changelog/v35/
+---
+
+## Kurze Antwort
+
+v0.35.3 hat zwei Dinge in der Art geändert, wie die KI mit Allianzen umgeht. Erstens **brechen
+Stämme nun den Bund mit einem Nachbar, der zum Verräter geworden ist, und greifen ihn an**.
+Wenn du einen KI-Stamm gegen einen anderen KI-Stamm aufwendest, kannst du damit rechnen, beiden
+gegenüberzutreten statt nur die Unterstützung dessen zu verlieren, den du verraten hast.
+Zweitens **verweigern Hard- und Impossible-Nationen nicht mehr jede Bündniserneuerung in kleinen
+Partien**. In einer kurzen Partie auf hoher Schwierigkeit erneuert dich eine Nation, die vorher
+dauerhaft aus deiner Allianz ausgeschlossen hatte, nun, sodass du einen KI-Verbündeten bis zum
+Ende der Partie halten kannst. Beide Änderungen sind nur relevant, wenn du auf einer Version
+spielst, die v0.35.3 enthält; auf jeder älteren Build gelten weiterhin die vor-v35-Regeln, die
+unten beschrieben sind.
+
+Die beiden Änderungen ziehen in entgegengesetzte Richtungen, und das ist die eigentliche Form
+des Patches. Die Stamm-Änderung macht einen diplomatischen Move teurer, weil das Aufwenden eines
+KI-Stamms zwei Nachbarn nun in zwei Feinde verwandeln kann. Die Nations-Erneuerungs-Änderung
+macht einen diplomatischen Move billiger, weil das Neuabschlussen einer KI-Nation auf hoher
+Schwierigkeit in einer kurzen Partie kein Münzwurf mehr ist. In v0.35.3 solltest du also damit
+rechnen, bei Nationen, die du halten willst, weniger Diplomatie auszugeben und bei Stämmen, die
+du aufwenden willst, mehr Sorgfalt zu walten. Der Rest des Guides entfaltet diesen Satz,
+Abschnitt für Abschnitt: zuerst der Basismechanismus, um zu wissen, was sich nicht geändert hat,
+dann jede der beiden Änderungen, dann das Rahmenwerk, das sie kombiniert, dann zwei konkrete
+Szenarien mit Truppenzahlen, dann die Fehlmuster und die Anpassungen nach Modus und Karte. Wenn
+du nur einen Abschnitt liest, lies das Rahmenwerk, denn es verändert deine Entscheidung in der
+Partie, nicht nur dein Verständnis. Der [Stämme-Guide](/de/guides/tribes/) und der
+[Nations-Druck-Guide](/de/guides/nations-pressure/) sind die Begleiter auf der
+Spielerseite dieses Guides, und sie behandeln dieselben diplomatischen Hebeldrucker auf der
+Seite, die du steuerst. Diese beiden Änderungen gelten nur für KI-Faktionen: deine eigene
+Spieler-Diplomatie, also die Art, wie du Bündnisse mit anderen Spielern abschließt, brichst oder
+erneuerst, wird von v0.35.3 nicht verändert, und der einzige Grund, dein eigenes diplomatisches
+Verhalten zu ändern, ist die Art, wie die KI-Faktionen jetzt darauf reagieren.
+
+Ein letzter Punkt, der sich von der Oberfläche abhebt: Die beiden Änderungen sind
+unabhängig voneinander, und es ist wichtig, sie nicht zu verwechseln. Die Stamm-Änderung
+ändert nichts an der Art, wie Nationen über Bündnisse entscheiden, und die
+Nations-Erneuerungs-Änderung ändert nichts an der Art, wie Stämme mit einem Verräter
+umgehen. Du kannst also eine Partie spielen, in der du die Stamm-Änderung stark fühlst und
+die Nations-Erneuerungs-Änderung kaum fühlst, oder umgekehrt, und es hängt davon ab, gegen
+welche KI-Faktionen du spielst und auf welcher Schwierigkeit. Die Kontrolle, die jeder
+Abschnitt dieses Guides dir gibt, gilt nur für die jeweilige Änderung, und die
+Kurzantwort-Sektion oben fasst beides zusammen, weil die Kombination die
+diplomatische Balance der ganzen Version verschiebt.
+
+## Die vor-v35-Basis: wie KI-Nationen über Bündnisse entscheiden
+
+Bevor wir sehen, was sich in v0.35.3 geändert hat, brauchen wir die Basis, denn die neuen
+Änderungen sind feine Schichten auf einem Entscheidungsbaum, der sich nicht geändert hat. Wenn
+eine KI-Nation eine Bündnisanfrage erhält, durchläuft sie eine feste Reihenfolge von
+Prüfungen. Die erste ist ein zufälliger Verwirrungs-Schritt, der mit der Schwierigkeit sinkt:
+Easy-Nationen akzeptieren oder lehnen manchmal zufällig ab, während Impossible-Nationen gar
+keinen solchen Zufall haben. Die zweite Prüfung ist, ob der Anfragende ein Verräter ist;
+Nationen lehnen einen Anfragenden, der sie verraten hat, etwa 90 % der Zeit ab, weshalb eine
+Nation, der du durch einen Wechsel verloren gegangen bist, dich selten zurücknimmt. Die dritte
+Prüfung begrenzt die Anzahl der Bündnisse, die eine Nation halten wird: Auf Hard lehnt sie einen
+Anfragenden ab, der bereits mit mindestens der Hälfte der qualifizierten Spieler verbündet ist,
+auf Impossible mit einem Viertel, denn der Mechanismus will genug Feinde übrig lassen, um
+gegen den führenden Spieler zu stellen. Die vierte Prüfung ist die Bedrohungs-Erkennung, und sie
+arbeitet in die entgegengesetzte Richtung zu dem, was die meisten Spieler erwarten: Die Nation
+akzeptiert ein Bündnis mit einem Anfragenden, der zu stark ist, um bekämpft zu werden, weil es
+sicherer ist, sich der Bedrohung anzuschließen, als von ihr angegriffen zu werden. Die fünfte
+Prüfung ist der Spielmodus, und hier steigt die Ablehnungschance mit der Schwierigkeit, von
+etwa einem Viertel auf Easy bis zu einer garantierten Ablehnung auf Impossible in einer
+Team-Partie. Die sechste ist das diplomatische Verhältnis: Ein Verhältnis unter neutral lehnt
+ab, ein freundliches Verhältnis kann eine sofortige Akzeptanz auslösen. Die siebte ist eine
+Bündnis-Obergrenze pro Schwierigkeitsgrad, wobei Impossible-Nationen in der Regel nur zwei oder
+drei Bündnisse halten. Die achte ist ein Bonus für den Spielbeginn, bei dem eine Anfrage in der
+ersten Minute oder den ersten zwei Minuten eine zusätzliche Chance auf Akzeptanz hat, am höchsten
+auf Easy und am niedrigsten auf Impossible. Alles, was die v0.35.3-Änderung dazu beiträgt,
+liegt über dieser Reihenfolge, und nichts ändert die Verräter-Ablehnungsrate, die
+Bündnis-Obergrenzen oder die Bedrohungs-Regel. Die Basis ist im
+[Nationen-Bündnisentscheidungs-Guide](/de/guides/nation-alliance-decisions/) und in der
+[Nations-Mechanik-Seite](/de/mechanics/nations/) dokumentiert.
+
+| Prüfung | Was sie tut | Verlauf mit der Schwierigkeit |
+|---|---|---|
+| Zufällige Verwirrung | Akzeptiert oder lehnt zufällig ab | Mehr auf Easy, keine auf Impossible |
+| Verräter | Lehnt einen Anfragenden ab, der die Nation verraten hat | Etwa 90 % der Zeit auf allen Schwierigkeiten |
+| Bündnisanzahl | Lehnt einen ab, der bereits zu vielen Spielern beitreten hat | Engere Obergrenzen, je höher die Schwierigkeit |
+| Bedrohung | Akzeptiert einen Anfragenden, der zu stark ist, um bekämpft zu werden | Bessere Erkennung auf höherer Schwierigkeit |
+| Team-Partie | Zusätzliche Ablehnungschance im Teammodus | Steigt von niedrig auf Easy bis immer auf Impossible |
+| Verhältnis | Lehnt unter neutral ab, akzeptiert bei freundlich | Gleiche Regel auf jeder Schwierigkeit |
+| Bündnis-Obergrenze | Hört auf, sobald sie genug hält | Niedriger auf Impossible |
+| Spielbeginn | Zusätzliche Akzeptanz in den ersten Minuten | Höher auf Easy, niedriger auf Impossible |
+
+## Was sich bei den Stämmen geändert hat: den Verräter-Nachbar brechen und angreifen
+
+Die Stamm-Änderung ist die dramatischere der beiden, und sie ist eine Bestrafungsregel, keine
+Verfügbarkeitsregel. Vor v0.35.3, wenn du mit einem KI-Stamm verbündet warst und dann mit einem
+benachbarten Stamm ein Bündnis schlossen, hörte der erste Stamm im Allgemeinen auf, dir zu
+helfen; das Bündnis kühlte einfach aus. Du verlierst eine Unterstützungsquelle, aber der Stamm,
+den du verraten hast, eröffnete keine Feindseligkeiten gegen dich, also war die Kosten eine
+stillere Kosten. v0.35.3 verwandelt diese Kosten in sichtbare Kosten. Wenn ein Nachbar zum
+Verräter geworden ist, bricht der Stamm den Bund mit diesem Nachbar und greift ihn an. Lies das
+gut: Es ist der Stamm, dessen Nachbar zum Verräter geworden ist, der angreift. Wenn du zwischen
+zwei KI-Stämmen sitzt und einen gegen den anderen aufwendest, trifft es den Stamm auf der
+anderen Seite des Verrats dich, und du kannst enden, gegen den Stamm zu kämpfen, den du gerade
+verbündet hast, genauso wie gegen den, den du gerade verlassen hast. Der praktische Effekt ist,
+dass das Aufwenden eines KI-Stamms gegen einen benachbarten KI-Stamm kein sauberer Weg mehr ist,
+einen Feind in einen Verbündeten zu verwandeln: Es kann der Move sein, der zwei Nachbarn
+sofort in zwei Feinde verwandelt. Das zählt am meisten, wenn deine eigene Expansion davon
+abhängt, dass einer dieser KI-Stämme die Linie hält, während du aufbaust, denn der Stamm, auf
+den du setzt, ist jetzt der, der am wahrscheinlichsten eine zweite Front öffnet. Der
+[Stämme-Guide](/de/guides/tribes/) behandelt, wie man mit einem Stamm umgeht, der bereits
+feindlich ist; dieser Abschnitt behandelt den neuen Fall, in dem ein Stamm feindlich wird,
+weil du eine Entscheidung getroffen hast. Wenn du den
+[Nations-Druck-Guide](/de/guides/nations-pressure/) liest, siehst du dieselbe Logik auf der
+Nationen-Seite: Der Mechanismus will Druck auf den Führenden halten, und ein Stamm, der gerade
+seinen Nachbar gesehen hat, wie er die Seite wechselt, ist der Mechanismus, der diesen Druck auf
+dich hält.
+
+Das neue Verhalten hat auch einen Zeit-Effekt, der es wert ist, eingeplant zu werden. Der Bruch
+und der Angriff werden ausgelöst, in dem Moment, in dem der Nachbar zum Verräter wird, nicht am
+nächsten Bündnis-Erneuerungszeitpunkt, also ist die Bestrafung sofort, und du hast keine
+Frist, den Rückgang zu revidieren, bevor die zweite Front öffnet. Das bedeutet, dass die
+Frist, um die zweite Front zu vermeiden, vor dem Abschluss des benachbarten Stammes liegt, nicht
+danach, und der einzige Weg, es umzukehren, sobald der Angriff gestartet ist, ist, den Stamm zu
+besiegen, der sich gegen dich gewandt hat, oder eine dritte Fraktion in den Kampf zu bringen, um
+seine Aufmerksamkeit zu teilen. Die Bestrafung greift auch in beiden Richtungen: Wenn es der
+KI-Stamm ist, der aufgewendet wurde, nicht du, und er den Bund mit einem benachbarten
+KI-Stamm gebrochen hat, um diesen Nachbar anzugreifen, siehst du denselben Bruch und Angriff
+zwischen zwei KI-Fraktionen auf der Karte ausgeführt, was ein nützlicher Hinweis ist, um zu
+wissen, was der Mechanismus den Fraktionen um dich herum tut, wenn du den Move nicht persönlich
+gemacht hast. Zwei KI-Stämme zu sehen, die sich gegenseitig brechen und angreifen, bestätigt,
+dass die neue Bestrafungsregel auf der Version aktiv ist, auf der du spielst, und es ist
+dieselbe Regel, die auf dich angewendet wird, sobald du einer von ihnen gegen den anderen
+abschließt.
+
+## Was sich bei den Hard- und Impossible-Nationen geändert hat: Erneuerung in kleinen Partien
+
+Die zweite Änderung ist subtiler, aber sie behebt eine echte Blockade, die Spieler in kleinen
+Partien auf hoher Schwierigkeit trafen. In einer kleinen Partie ist das Zeitfenster für
+Diplomatie kurz: Du schließt eine Allianz früh ab, kämpfst in der Mitte, und wenn der
+Endspiel-Druck steigt, sind die Allianzen, mit denen du begonnen hast, entweder gebrochen oder
+stehen kurz vor dem Auslaufen. Vor v0.35.3 konnte eine Nation auf Hard und Impossible jede
+Bündniserneuerung verweigern, was bedeutete, dass, sobald eine Nation entschieden hatte, dich
+nicht neu einzuschließen, du diese Nation nie zurückgewinnen konntest, wie nützlich sie war,
+als Verbündete zu behalten. In einer kurzen Partie war diese Verweigerung fast tödlich, weil du
+nur ein oder zwei Chancen hattest, deine diplomatische Karte zu legen und eine einzige
+Verweigerung dich für den Rest der Partie aus einem Verbündeten warf. v0.35.3 entfernt diese
+allgemeine Verweigerung. Nun verweigern Hard- oder Impossible-Nationen in einer kleinen Partie
+nicht jede Erneuerung; sie erneuern gemäß denselben Bedingungen, die der Rest des
+Entscheidungsbaums ihnen gibt, was bedeutet, dass eine Nation, die kein Verräter-Verhältnis ist,
+die nicht über ihrer Bündnis-Obergrenze liegt und die ein spielbares Verhältnis hat, neu
+abschließen kann. Die Änderung macht Hard- und Impossible-Nationen nicht freundlich; sie macht
+sie bereit, eine Beziehung fortzusetzen, die sie bereits begonnen haben, solange die
+Basisprüfungen noch bestehen. Wenn du die Nation verraten hast, gilt die Verräter-Regel mit
+etwa 90 % Ablehnung weiterhin, also lässt dich die Erneuerungs-Änderung nicht, eine Nation neu
+einzuschließen, die du umgewendet hast. Die Änderung betrifft spezifisch das
+Erneuerungszeitfenster: den Moment nach dem Auslaufen einer Allianz, in dem die einzige Frage
+ist, ob man die bestehende wiederherstellt.
+
+Es gibt eine subtile, aber wichtige Grenze bei dieser Änderung, die Spieler übersehen, und das
+ist die Grenze zwischen Erneuerung und frischer Anfrage. Die Änderung gilt für das
+Erneuerungszeitfenster, also den Moment nach dem Auslaufen einer bestehenden Allianz, in dem
+die einzige Frage ist, ob man die bestehende wiederherstellt. Sie gilt nicht für eine frische
+Bündnisanfrage an eine Nation, mit der du nie verbündet warst, und diese frische Anfrage
+durchläuft weiterhin den kompletten Entscheidungsbaum von oben, einschließlich der
+Bündnisanzahl-Obergrenze und der Bedrohungs-Regel. Das bedeutet, dass die
+Erneuerungs-Änderung ein Werkzeug ist, um einen bestehenden Verbündeten zu halten, nicht um
+einen neuen zu gewinnen, und wenn du versuchst, sie zu nutzen, um in einer kleinen
+Impossible-Partie eine Nation einzuschließen, mit der du nie verbündet warst, wirst du weiterhin
+denselben Ablehnungen unterworfen sein wie vor dem Patch. Die praktische Konsequenz ist, dass
+die beste Version eines kleinen Partien-Plans in v0.35.3 darin besteht, die einzige
+Nations-Allianz zu schließen, die du willst, in den ersten zwei Minuten, wenn der
+Akzeptanz-Bonus des Spielbeginns am höchsten ist, und sie dann bei jeder Fälligkeit zu
+erneuern, anstatt zu versuchen, später eine zweite Nation einzuschließen, denn die zweite
+Nation ist eine frische Anfrage und die erste Nation ist eine Erneuerung. Diese Reihenfolge,
+früh abschließen und oft erneuern, ist die wichtigste diplomatische Gewohnheit, die der
+Patch ermöglicht.
+
+## Das Entscheidungsrahmenwerk: wann man einen KI-Stamm aufwendet, wann man eine Nation behält
+
+Die beiden Änderungen ziehen in entgegengesetzte Richtungen, also ist das Rahmenwerk ein
+Paar von Regeln. Die erste Regel betrifft die Stämme: Wendet keinen KI-Stamm gegen einen
+benachbarten KI-Stamm auf, es sei denn, ihr könnt euch erlauben, den aufgewendeten Stamm zu
+bekämpfen. Die Kosten eines vor-v35-Wechsels war der Verlust einer Unterstützungsquelle; die
+Kosten in v0.35.3 können zwei Feinde auf einmal sein. Die Prüfung vor dem Aufwenden ist also,
+ob eure eigene Armee stark genug ist, um einen gleichzeitigen Angriff des gerade
+verbündeten Stammes und des gerade verlassenen Stammes aufzunehmen. Wenn ihr aufbaut und euer
+Hauptquartier noch verletzlich ist, ist der Wechsel der falsche Move, selbst wenn der
+feindliche Stamm auf der anderen Seite aktuell schwach ist, denn der verbündete Stamm kann sich
+nun gegen dich wenden, während du exponiert bist. Die zweite Regel betrifft die Nationen auf
+Hard und Impossible: Haltet eine Nations-Allianz, die ihr wollt, und erneuert sie in einer
+kleinen Partie, weil das Erneuerungszeitfenster, das sich über euch schloss, nun offen ist.
+Die Prüfung vor dem Auslaufen einer Nations-Allianz ist, ob diese Nation der Verbündete ist,
+der euer Flankenflügel während eures Vorstoßes abdeckt. Wenn ja, solltet ihr aktiv
+erneuern, statt auslaufen zu lassen, weil das vor-v35-Risiko darin bestand, dass die Erneuerung
+verweigert wurde und ihr ohne Verbündeten im Endspiel zurückbliebt. Das Rahmenwerk reduziert
+sich auf einen Satz: In v0.35.3 seid ihr vorsichtiger beim Aufwenden von KI-Stämmen und
+aktiver beim Erneuern von KI-Nationen auf hoher Schwierigkeit in kurzen Partien.
+
+Ein drittes Element rundet das Rahmenwerk ab, und es ist das, das euch sagt, welche der beiden
+Regeln ihr zuerst anwendet, wenn sich eine Partie abspielt. Das Element ist die Identität der
+Fraktion, die ihr am meisten fürchtet. Wenn die Fraktion, die ihr am meisten fürchtet, ein
+KI-Stamm ist, ist die Wechsel-Regel die, die bindet, denn das Risiko für euch ist, dass ein
+Wechsel diesen Stamm in einen Feind verwandelt oder den Stamm, auf den ihr setzt, in einen
+Feind, und das Rahmenwerk sagt euch, vorsichtig zu sein. Wenn die Fraktion, die ihr am
+meisten fürchtet, eine KI-Nation ist, ist die Erneuerungs-Regel die, die bindet, denn das
+Risiko für euch ist, dass eine auslaufende Allianz euch im Endspiel allein lässt, und das
+Rahmenwerk sagt euch, aktiv zu sein. Wenn die Fraktion, die ihr am meisten fürchtet, ein
+anderer Spieler ist, binden beide Regeln weniger, denn die KI-Fraktionen sind nicht die
+Hauptbedrohung, und ihr könnt euch erlauben, aggressiver mit den Wechseln und Erneuerungen zu
+sein, weil die Kosten eines Fehlers niedriger sind. Das Rahmenwerk reduziert sich also
+weiterhin auf eine dreistufige Prüfung: Identifiziert die Fraktion, die ihr am meisten
+fürchtet, entscheidet, welche Regel bindet, ob diese Fraktion ein Stamm oder eine Nation ist,
+und wendet diese Regel mit dem angemessenen Maß an Vorsicht an.
+
+## Szenario eins: einen Stamm zwischen zwei Nachbarn auf einer großen Karte aufwenden
+
+Stellt euch eine große FFA-Karte vor, auf der ihr der Führende seid und zwei KI-Stämme auf
+beiden Seiten von euch angesiedelt sind. Stamm A ist im Osten und ist aktuell mit euch
+verbündet; Stamm B ist im Westen und ist aktuell ein Feind. Stamm A und Stamm B teilen eine
+Grenze, und Stamm B ist der Stamm, den ihr am meisten fürchtet, weil er die meisten Truppen auf
+der Karte hat. Euer Instinkt ist, Stamm B abzuschließen und gegen Stamm A aufzuwenden, denn
+das würde euch einen starken Verbündeten im Westen geben und euren Osten zu einer offenen
+Flanke machen. Unter den vor-v35-Regeln hätte das funktioniert, wie ihr erwartet habt: Stamm A
+würde aufhören, euch zu helfen, aber euch nicht angreifen, und ihr würdet mit Stamm B als
+neuem Verbündeten und einer freien östlichen Expansion dastehen. Unter v0.35.3 ist der Move
+anders. Wenn Stamm A sieht, dass sein Nachbar, Stamm B, zum Verräter geworden ist, indem er
+sich gegen ihn mit euch verbündet hat, bricht Stamm A den Bund mit euch und greift euch an.
+Also statt einer stillen Unterstützungsverlusts tretet ihr nun Stamm A gegenüber, der Truppen
+hat, und ihr habt gerade Stamm B einen Grund gegeben, euch weniger nützlich zu sein, weil er
+beschäftigt ist, gegen Stamm A zu kämpfen.
+
+Die Zahlen, die zählen, sind die Truppen: Wenn Stamm A, sagen wir, hunderttausend Truppen hat
+und ihr bei sechzigtausend seid, mit eurem Hauptquartier noch exponiert, ist der Wechsel ein
+Verlust, denn ihr habt einen stillen Unterstützungsverlust gegen einen Zweifrontenkrieg
+getauscht, den ihr nicht gewinnen könnt. Die korrekte Version des Moves ist, Stamm B nur
+aufzuwenden, wenn eure eigene Truppenzahl hoch genug ist, um einen Angriff von Stamm A
+aufzunehmen, während Stamm B noch abgelenkt ist; wenn ihr nicht stark genug seid, ist der
+beste Move, Stamm A verbündet zu halten und auf Stamm B durch Handel oder eine Bombe
+Druck auszuüben, statt durch einen vollständigen Bündniswechsel. Derselbe Move funktioniert zu
+euren Vorteil, wenn die Zahlen in die entgegengesetzte Richtung neigen. Wenn Stamm B, der
+feindliche Stamm, den ihr abschließen wollt, derjenige mit der größten Armee ist und Stamm A,
+euer aktueller verbündeter Stamm, kleiner ist, dann ist das Aufwenden von Stamm B gegen Stamm A
+der Move, der euch rettet, denn ihr tauscht einen schwachen Verbündeten gegen einen starken
+Verbündeten, und der Angriff von Stamm A, den ihr jetzt aufnehmen müsst, kommt von der
+kleineren Fraktion. Entscheidend ist dabei immer der Vergleich eurer eigenen Truppenzahl mit
+der Truppenzahl des Stamms, der euch nun angreifen wird, nicht mit dem Stamm, den ihr
+unterzeichnet. Ein häufiger Fehler ist, eure Truppen mit Stamm B zu vergleichen und den Wechsel
+sicher zu halten, weil Stamm B groß ist, obwohl der relevante Vergleich eigentlich eure
+Truppen gegen Stamm A ist, die Seite, die sich gegen euch wendet.
+
+## Szenario zwei: einen Nations-Verbündeten in einer kleinen Hard-Partie halten
+
+Stellt euch nun eine kleine Karte in Hard vor, auf der ihr nicht der Führende seid und ihr eine
+KI-Nation als Verbündete braucht, um das Endspiel zu überleben. Ihr habt die Nation früh
+abgeschlossen und sie hat die Linie gehalten, während ihr aufbaut. In der Mitte der Partie ist
+eure Allianz ausgelaufen, und die Frage ist, ob ihr sie erneuert. Unter den vor-v35-Regeln
+konnte die Nation in Hard die Erneuerung frontal verweigern, und in einer kleinen Partie hattet
+ihr nicht die Zeit, einen Ersatz zu finden, also war die sicherste Annahme, dass ihr nun allein
+seid. Unter v0.35.3 ändert sich die Annahme. Weil ihr die Nation nicht verraten habt, wird die
+Verräter-Regel nicht ausgelöst; weil ihr nicht der Führende seid, ist die
+Bündnisanzahl-Obergrenze, die den Führenden schützt, nicht die bindende Einschränkung; und weil
+das Verhältnis spielbar ist, besteht die Erneuerung. Die Entscheidung ist nun, ob die Nation
+zu behalten lohnenswert ist, nicht, ob ihr sie behalten könnt. Wenn die Nation euer
+verwundbarsten Flügel abdeckt, ist die Antwort ja, und ihr solltet sofort erneuern, statt auf
+die nächste Fälligkeit zu warten, denn eine zweite Fälligkeit auf einer kleinen Karte ist oft
+das Ende der Partie. Wenn die Nation auf eurem stärksten Flügel ist und ihr genug Truppen habt,
+um diese Seite allein zu verteidigen, ist die Antwort nein, und Auslaufen zu lassen ist gut,
+weil ihr den Verbündeten nicht braucht.
+
+Die Entscheidung über die Erneuerung hängt auch vom Zustand der eigenen Armee der Nation ab,
+den der vor-v35-Spieler nicht beeinflussen konnte, der aber jetzt berücksichtigt werden kann.
+Wenn die Nation, die ihr erneuert, selbst Truppen an eine dritte Fraktion verliert, ist das
+Erneuern eine Wette, dass die Nation lange genug überlebt, um nützlich zu sein, und die Wette
+ist umso schwächer, je mehr die Armee der Nation bereits weg ist. Der gute Move in diesem Fall
+ist, nur zu erneuern, wenn die Nation der Verbündete ist, der euer exponiertesten Flügel abdeckt
+und die dritte Fraktion, die die Nation angreift, euch nicht auch angreift, denn eine Nation,
+die kurz vor der Zerstörung durch eine Fraktion steht, die euch auch angreift, ist ein
+Verbündeter, der euch im Endspiel nicht retten wird, egal wie oft ihr erneuert. Der
+entgegengesetzte Fall ist die Nation, die ihre eigenen Kämpfe gewinnt: Das Erneuern dieser
+Nation ist eine starke Wette, denn die Nation wird wahrscheinlich überleben und ihren
+gewinnenden Schwung in das Endspiel bringen, und der Akzeptanz-Bonus des Spielbeginns, der euch
+die Allianz ursprünglich gegeben hat, funktioniert nun auch bei der Erneuerung in eurem
+Vorteil. Der wichtigste Unterschied zu den vor-v35-Partien ist, dass ihr jetzt die erneuerte
+Nation bis zum Ende behalten könnt, solange ihr sie bei jeder Fälligkeit aktiv erneuert,
+und die einzige verbleibende Frage nicht mehr lautet, ob die Nation euch verlässt, sondern
+ob die Nation noch am Leben und nützlich ist, wenn die Erneuerung ansteht. Genau deshalb
+solltet ihr in dieser kleinen Hard-Partie die Erneuerung nicht auf die nächste Fälligkeit
+verschieben, sondern sofort ausführen, damit die Nation den Endspiel-Druck mit euch
+durchsteht.
+
+## Fehlmuster und Gegenmaßnahmen
+
+Der häufigste Fehler nach der Stamm-Änderung ist der Doppelwechsel: Ein Spieler, der Stamm B
+gegen Stamm A aufwendet, von Stamm A umgewendet wird und dann, in Panik, einen anderen
+Nachbarn gegen Stamm A aufwendet, was diesen Nachbar auch gegen ihn wendet. Die Gegenmaßnahme
+ist die Rahmenwerk-Prüfung: Bestätigt vor dem Aufwenden, dass eure eigene Truppenzahl hoch
+genug ist, um einen KI-Angriff ohne Verlust eures Hauptquartiers aufzunehmen, und verknüpft nie
+zwei Wechsel in derselben Partie. Der zweite Fehler ist der Erneuerungsfehler: Ein Spieler, der
+eine nützliche Nations-Allianz in einer kleinen Hard-Partie auslaufen lässt, die vor-v35-
+Verweigerung annimmt und nie erneuert, und sich im Endspiel allein wiederfindet. Die
+Gegenmaßnahme ist, die Basis zu prüfen, bevor ihr ein Auslaufen bestehen lasst: Wenn ihr die
+Nation nicht verraten habt und das Verhältnis spielbar ist, erneuert, denn die allgemeine
+Verweigerung, die das Erneuern zu einer Wette machte, ist weg. Der dritte Fehler ist das
+falsche Vertrauen: Ein Spieler, der die Erneuerungs-Änderung liest und annimmt, dass Hard- und
+Impossible-Nationen nun freundlich sind, schließt zu viele ab und ist am Ende überdehnt. Die
+Gegenmaßnahme ist, euch zu erinnern, dass die Erneuerungs-Änderung nur das Zeitfenster öffnet;
+die Verräter-Ablehnung, die Bündnis-Obergrenze und die Bedrohungs-Regel sind alle weiterhin
+in Kraft, also wird euch eine Nation, die ihr verraten habt, weiterhin etwa 90 % der Zeit
+ablehnen und eine Nation, die bereits mit der Hälfte der Karte verbündet ist, auf Hard
+weiterhin ablehnen. Der vierte Fehler ist der Modusfehler: In einer Impossible-Team-Partie ist
+die Team-Partie-Ablehnung eine garantierte Ablehnung, also bringt keine Menge an Erneuerungen
+eine Nations-Allianz zurück, die ihr verloren habt, und das einzige verbleibende Hebel ist das
+diplomatische Verhältnis und die Bedrohungs-Regel. Der fünfte Fehler ist die
+Schwierigkeits-Annahme: Auf Easy ist die zufällige Verwirrung hoch, also kann ein Stamm, der
+eure Allianz bricht, es aus Gründen tun, die nichts mit eurem Verrat zu tun haben, und ihr
+solltet den verwirrungsgetriebenen Bruch nicht als Bestrafung lesen, aus der ihr euch
+verhandeln könnt.
+
+Der sechste Fehler, und der leichteste zu machen, weil er ein Lesefehler und kein
+Spielfehler ist, ist der, in dem ein Spieler die Stamm-Änderung als allgemeine Erhöhung der
+KI-Feindseligkeit liest und entscheidet, dass die gesamte Version feindseliger ist, und also
+eine defensive Partie spielt, die nicht gerechtfertigt ist. Die Stamm-Änderung ist eine
+spezifische Bestrafung für einen spezifischen Move, das Aufwenden eines KI-Stamms gegen einen
+benachbarten KI-Stamm, und sie macht die KI nicht in jeder anderen Situation aggressiver.
+Ein Spieler, der keine KI-Stämme aufwendet, ist nicht dem neuen zweiten Fronten ausgesetzt, und
+eine defensive Partie aus Angst vor einer Bestrafung zu spielen, die sich nicht auf euer Spiel
+bezieht, ist eine Kosten, die der Patch nicht tatsächlich auferlegt. Dieselbe Lesefehler zeigt
+sich auf der Nations-Seite, wo ein Spieler die Erneuerungs-Änderung als Zeichen liest, dass die
+KI nun kooperativer ist, und mehr Nationen abschließt, als die Karte unterstützen kann, was
+wiederum der Falsche-Vertrauen-Fehler ist, und die Gegenmaßnahme ist dieselbe: Der Patch hat
+zwei spezifische Entscheidungspfade geändert, nicht die allgemeine Haltung des Mechanismus, also
+sind die einzigen Situationen, in denen das neue Verhalten zählt, die beiden, die er nennt.
+
+## Anpassungen nach Modus und Karte
+
+Die beiden Änderungen interagieren mit der Kartengröße und dem Spielmodus auf Arten, die es wert
+sind, getrennt zu betrachten. Auf einer großen Karte zählt die Stamm-Änderung am meisten,
+weil eine große Karte genug Platz gibt, zwischen zwei KI-Stämmen eingeklemmt zu werden, und
+auch genug Zeit, um von einem schlechten Wechsel zu erholen, wenn eure Truppenzahl hoch ist.
+Auf einer kleinen Karte zählt die Nations-Erneuerungs-Änderung am meisten, weil das
+Diplomatie-Zeitfenster kurz ist und eine Fälligkeit fast das Ende der Partie ist, also ist das
+offene Erneuerungszeitfenster der Unterschied zwischen einem Verbündeten zu halten und allein
+zu sein. In einer Team-Partie ist die Nations-Änderung auf Impossible fast nutzlos, weil die
+Team-Partie-Ablehnung eine garantierte Ablehnung ist, also schließt der Modus das
+Erneuerungszeitfenster, bevor die Schwierigkeits-Regel es öffnen kann; auf Easy und Medium ist
+die Team-Partie-Ablehnung nur eine Chance, also greift die Erneuerungs-Änderung weiterhin. In
+FFA greifen beide Änderungen vollständig, weil es keine Team-Partie-Ablehnung gibt, die
+eingreift, also ist FFA der Ort, an dem die v0.35.3-Diplomatie am sichtbarsten und am wertesten
+einzuplanen ist. Die [Nations-Mechanik-Seite](/de/mechanics/nations/) hat die modusspezifischen
+Regeln für Nationen, die dieser Abschnitt vertieft, und das
+[v35-Changelog](/changelog/v35/) listet die vollständige Menge der v35-Änderungen auf, damit
+ihr die v0.35.3-Einträge im Kontext sehen könnt.
+
+Eine weitere Anpassung verdient ausdrücklich genannt zu werden: Die Kartengröße ändert auch,
+welchen der beiden Fehler ihr am meisten fürchten solltet, und also welchen ihr einplanen solltet.
+Auf einer großen Karte ist der Fehler zu beobachten der Doppelwechsel, weil eine große Karte
+den Platz gibt, zwischen zwei KI-Stämmen eingeklemmt zu werden, und die Zeit, den Fehler zweimal
+zu machen, also sollte euer Plan eine strenge Regel enthalten, nie zwei Wechsel in derselben
+Partie zu verknüpfen. Auf einer kleinen Karte ist der Fehler zu beobachten das ausgelaufene
+Erneuern, weil eine kleine Karte weder die Zeit gibt, um von einer verpassten Erneuerung zu
+erholen, noch den Platz, um einen Ersatz-Verbündeten zu finden, also sollte euer Plan eine
+strenge Regel enthalten, eine nützliche Nation zu erneuern, sobald ihre Allianz ausläuft. Der
+Modus ändert, welche der beiden Pläne die bindende ist: In FFA gelten beide Pläne gleichzeitig,
+in einer Impossible-Team-Partie ist der Erneuerungs-Plan fast nutzlos, also solltet ihr euch
+auf den Doppelwechsel-Plan stützen, und in einer Easy- oder Medium-Team-Partie ist der
+Erneuerungs-Plan weiterhin wert, behalten zu werden, weil die Team-Partie-Ablehnung dort nur
+eine Chance und keine Gewissheit ist. Die Schwierigkeit ändert, wie stark jeder Plan angewendet
+werden muss: Auf Easy macht die zufällige Verwirrung beide Pläne weniger verlässlich, also solltet
+ihr damit rechnen, dass ein Stamm eure Allianz aus Gründen bricht, die nichts mit eurem Verrat
+zu tun haben, und eine Nation sie aus Gründen erneuert, die nichts mit eurem Verdienst zu tun
+haben; auf Impossible sind die Pläne verlässlicher, weil der Mechanismus weniger zufällig ist,
+also könnt ihr auf das offene Erneuerungszeitfenster zählen, wenn die Basisprüfungen bestehen,
+und auf die Verräter-Bestrafung, wenn ein Nachbar die Seite wechselt.

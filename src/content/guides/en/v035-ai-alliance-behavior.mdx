@@ -1,0 +1,371 @@
+---
+title: "How the AI Treats Your Alliances in v0.35.3: Tribes Attack Traitors, Hard/Impossible Renew"
+description: "v0.35.3 changed two AI decision paths: tribes now break and attack a traitor neighbour, and Hard and Impossible nations stop refusing every alliance renewal in small games. Learn what each change means for your next diplomatic move."
+
+
+category: combat
+tags:
+  - v0.35.3
+  - ai-behavior
+  - nations
+  - tribes
+  - alliance
+  - diplomacy
+author: OpenFront Intel
+pubDate: 2026-10-24
+updatedDate: 2026-10-24
+version: v0.35.3
+freshnessSummary: "Verified against the v0.35.3 release body (tag commit a2d20f8e5f32573c7a6a7e0b8900dcfeac4357e7) and the pre-v35 nation alliance decision tree; refresh if a future patch changes tribe or nation diplomacy."
+related:
+  - guides/nation-alliance-decisions/
+  - guides/tribes/
+  - guides/nations-pressure/
+  - mechanics/nations/
+  - changelog/v35/
+---
+
+## Quick answer
+
+v0.35.3 changed two things about how the AI handles alliances. First, **tribes now break their
+alliance with a neighbour who turned traitor and attack that neighbour**. If you flip an AI tribe
+against another AI tribe, you can now face both of them instead of losing only the support of the
+one you betrayed. Second, **Hard and Impossible nations stop refusing every alliance renewal in
+small games**. In a short game on a higher difficulty, a nation that would previously lock you out
+of re-signing your alliance will now renew it, so you can keep an AI partner alive into the late
+game. Both changes matter only when you are playing on a version that includes v0.35.3; on any
+older build the pre-v35 rules below still apply.
+
+The two changes pull in opposite directions, and that is the whole shape of the patch. The
+tribe change makes a diplomatic move more expensive, because flipping one AI tribe can now
+turn two neighbours into two enemies. The nation renewal change makes a diplomatic move
+cheaper, because re-signing an AI nation on a higher difficulty in a short game is no longer
+a coin flip. So on v0.35.3 you should expect to spend less diplomacy on the nations you want
+to keep and to spend more care on the tribes you are tempted to flip. The rest of this guide
+is the expansion of that one sentence, section by section: the baseline decision tree first,
+so you know what did not change, then each of the two changes, then the framework that
+combines them, then two concrete scenarios with troop numbers, then the failure modes and
+the mode and map adjustments. If you only read one section, read the framework, because it
+is the part that changes your in-game decision rather than just your understanding. The
+[tribes guide](/guides/tribes/) and the [nations pressure guide](/guides/nations-pressure/)
+are the player-side companions to this guide, and they cover the same diplomatic levers from
+the side you control.
+
+The most important thing to understand before you go any further is that these two changes
+do not touch the part of the AI decision you feel most often, which is the traitor
+rejection. A nation or tribe you have betrayed will still refuse you most of the time on
+v0.35.3, exactly as it did before the patch, so the patch does not make it easier to win
+back an AI partner after you have switched sides. What the patch does is change what
+happens to the AI factions around you when you switch, and it changes whether you can
+re-establish a partnership you have not broken. That distinction is the whole difference
+between the two changes, and it is why the guide treats them as separate decisions even
+though they both appear in the same release note. If you have been playing on an older
+build and the new client shows v0.35.3 in the version field, you can expect the two
+behaviours described here from the first match you play on the new version, because both
+changes are engine-side and take effect as soon as the new engine is running. If you are
+on a server or a client that has not picked up v0.35.3, the older behaviour is still in
+force and the guidance in this guide only applies to the parts that did not change.
+
+## The pre-v35 baseline: how AI nations decide on alliances
+
+Before you can see what v0.35.3 changed, you need the baseline, because the new changes are thin
+layers on top of a decision tree that has not changed. When an AI nation receives an alliance
+request it walks a fixed order of checks. The first is a random confusion step that scales down
+with difficulty: Easy nations sometimes ignore the strategy and accept or reject at random, while
+Impossible nations have no such randomness. The second check is whether the requestor is a traitor;
+nations reject a requestor who betrayed them about ninety percent of the time, which is why a
+nation that already lost you to a switch rarely takes you back. The third check caps the number of
+alliances a nation will hold: on Hard it avoids a requestor who is already allied with at least
+half of the eligible players, and on Impossible it avoids one allied with a quarter, because the
+engine wants enough enemies left to oppose the leading player. The fourth check is threat
+detection, and it works in the opposite direction from what most players expect: the nation
+accepts an alliance from a requestor that is too strong to fight, reasoning that it is safer to be
+allied with the threat than to be attacked by it. The fifth check is the game mode, and here the
+rejection chance climbs steeply with difficulty, from about a quarter on Easy up to a guaranteed
+refusal on Impossible in a team game. The sixth is the diplomatic relation: a relation worse than
+neutral rejects, while a friendly relation can trigger an immediate accept. The seventh is a
+per-difficulty alliance ceiling, with Impossible nations usually holding only two or three
+alliances. The eighth is an early-game bonus, where a request in the first minute or two has an
+extra chance of being accepted, highest on Easy and lowest on Impossible. Everything the v0.35.3
+change adds sits on top of this order, and nothing about it changes the traitor rejection rate,
+the alliance caps, or the threat rule. The baseline is documented in the
+[nation alliance decisions guide](/guides/nation-alliance-decisions/) and in the
+[nations mechanics page](/mechanics/nations/).
+
+| Check | What it does | Difficulty trend |
+|---|---|---|
+| Random confusion | Accepts or rejects at random | More on Easy, none on Impossible |
+| Traitor | Rejects a requestor who betrayed the nation | About ninety percent of the time, all difficulties |
+| Alliance count | Rejects a requestor already allied with too many | Caps tighten as difficulty rises |
+| Threat | Accepts a requestor that is too strong to fight | Detection improves with difficulty |
+| Team game | Extra rejection chance in team mode | Climbs from low on Easy to always on Impossible |
+| Relation | Rejects below neutral, accepts when friendly | Same rule at every difficulty |
+| Alliance ceiling | Stops once it holds enough alliances | Lower ceiling on Impossible |
+| Early game | Extra acceptance in the first minutes | Higher on Easy, lower on Impossible |
+
+## What changed for tribes: breaking and attacking a traitor neighbour
+
+The tribe change is the more dramatic of the two, and it is a punishment rule rather than an
+availability rule. Before v0.35.3, if you were allied with an AI tribe and then signed a
+alliance with a neighbouring tribe, the first tribe would typically stop helping you; the
+alliance simply went cold. You lost a source of support, but the tribe you betrayed did not open
+hostilities against you, so the cost was a quieter one. v0.35.3 changes that cost into a visible
+one. Now, when a neighbour has turned traitor, the tribe breaks the alliance with that neighbour
+and attacks it. Read carefully: the tribe that attacks is the one whose neighbour turned traitor.
+If you sit between two AI tribes and you flip one of them against the other, the tribe on the
+other side of the betrayal is the one that turns on you, and you can end up fighting the side you
+just allied with as well as the side you just abandoned. The practical effect is that flipping an
+AI tribe against a neighbouring AI tribe is no longer a clean way to turn one enemy into an ally:
+it can become the move that turns two neighbours into two enemies at once. This matters most when
+your own expansion depends on one of those AI tribes holding the line while you build up, because
+the tribe you are leaning on is now the one most likely to open a second front. The
+[tribes guide](/guides/tribes/) covers how to deal with a tribe that is already hostile; this
+section covers the new case where a tribe becomes hostile because of a decision you made. If you
+read the [nations pressure guide](/guides/nations-pressure/) you will see the same logic from the
+nation side: the engine wants to keep pressure on the leader, and a tribe that just watched its
+neighbour switch sides is the engine keeping that pressure on you.
+
+The new behaviour also has a timing effect that is worth planning around. The break-and-attack
+fires the moment the neighbour turns traitor, not at the next alliance renewal, so the
+punishment is immediate and you do not get a grace period to withdraw the flip before the
+second front opens. That means the window to avoid the second front is before you sign the
+neighbouring tribe, not after, and the only way to reverse it once the attack has started is
+to defeat the tribe that turned on you or to bring a third faction into the fight to split
+its attention. The punishment also applies in both directions: if the AI tribe is the one
+that flipped, not you, and it broke its alliance with a neighbouring AI tribe to attack
+that neighbour, you will see the same break-and-attack play out between two AI factions on
+the map, which is a useful tell for what the engine is doing to the factions around you
+when you have not personally made the move. Watching two AI tribes break and attack each
+other is confirmation that the new punishment rule is active on the version you are
+playing, and it is the same rule that will apply to you the moment you sign one of them
+against the other. The practical takeaway is that on v0.35.3 the cost of a tribe flip is
+no longer a quiet loss of support but an immediate, visible second front, and the only
+way to avoid that second front is to not make the flip unless your own army can absorb it.
+
+## What changed for Hard and Impossible nations: small-game renewals
+
+The second change is quieter but it fixes a real lockout that small-game players on higher
+difficulties ran into. In a small game, the window for diplomacy is short: you sign an alliance
+early, you fight in the middle, and by the time the endgame pressure builds the alliances you
+started with have either been broken or are about to expire. Before v0.35.3, on Hard and
+Impossible, a nation could refuse every alliance renewal, which meant that once a nation decided
+not to re-sign you could never get that nation back, no matter how useful it was to hold as a
+partner. In a short game that refusal was almost fatal, because you had only one or two chances to
+establish your diplomatic map and a single refusal locked you out of a partner for the rest of
+the match. v0.35.3 removes that blanket refusal. Now, in a small game, a Hard or Impossible
+nation will not refuse every renewal; it will renew under the same conditions the rest of the
+decision tree gives it, which means a nation that is not a traitor relationship, is not over its
+alliance ceiling, and has a workable relation can re-sign. The change does not make Hard and
+Impossible nations friendly; it makes them willing to continue a relationship they had already
+started, as long as the baseline checks still pass. If you betrayed the nation, the about-ninety
+percent rejection from the traitor rule still applies, so the renewal change does not let you
+re-sign a nation you switched. The change is specifically about the renewal window: the moment
+after an alliance has lapsed where the only question is whether to re-establish the one you had.
+That window now exists on the higher difficulties in small games, and it is the single most
+important new tool for holding an AI partner into the late game on a short map.
+
+There is a subtle but important boundary to this change that players miss, and it is the
+boundary between a renewal and a fresh request. The change applies to the renewal window,
+which is the moment after an existing alliance has lapsed and the only question is whether
+to re-establish the one you had. It does not apply to a fresh alliance request to a nation
+you have never been allied with, and that fresh request still walks the full decision tree
+from the top, including the alliance-count cap and the threat rule. So the renewal change
+is a tool for keeping a partner you already have, not a tool for acquiring a new one, and
+if you try to use it to sign a nation you have never allied with on a small Impossible
+game, you will still be subject to the same refusals that existed before the patch. The
+practical consequence is that the best version of a small-game plan on v0.35.3 is to
+establish the one nation alliance you want in the first minute or two, when the early-game
+acceptance bonus is highest, and then renew it at every lapse rather than trying to sign a
+second nation later, because the second nation is a fresh request and the first nation is a
+renewal. That ordering, sign early and renew often, is the single most important
+diplomatic habit the patch enables, and it is the habit that separates a small-game plan
+that works on v0.35.3 from one that still fails the way it failed before the patch.
+
+## The decision framework: when to flip an AI tribe, when to hold a nation
+
+The two changes point in opposite directions, so the framework is a pair of rules. The first rule
+is about tribes: do not flip an AI tribe against a neighbouring AI tribe unless you can afford to
+fight the tribe you flipped. The pre-v35 cost of a flip was the loss of one support source; the
+v0.35.3 cost can be two enemies at once. So the test before you flip is whether your own
+military is strong enough to absorb a simultaneous attack from the tribe you just allied with and
+the tribe you just abandoned. If you are building up and your capital is still vulnerable, the
+flip is the wrong move even if the tribal enemy on the other side is currently weak, because the
+allied tribe can now turn on you while you are exposed. The second rule is about nations on Hard
+and Impossible: hold a nation alliance you want and renew it in a small game, because the renewal
+window that used to close on you is now open. The test before you let a nation alliance lapse is
+whether that nation is the partner that is covering your flank while you push. If it is, you
+should actively renew rather than let it expire, because the pre-v35 risk was that the renewal
+would be refused and you would be left with no partner in the endgame. The framework collapses to
+one sentence: on v0.35.3, be more conservative about flipping AI tribes and more proactive about
+renewing AI nations on higher difficulties in short games. Both halves of that sentence follow
+directly from the two release changes, and neither of them changes the baseline traitor rejection
+or the alliance caps, so you do not need to re-learn the whole decision tree to use them.
+
+A third element rounds out the framework, and it is the element that tells you which of
+the two rules to apply first when a match is unfolding. The element is the identity of
+the faction you are most afraid of. If the faction you are most afraid of is an AI tribe,
+the flip rule is the binding one, because the risk to you is that a flip turns that tribe
+into an enemy or turns the tribe you are leaning on into an enemy, and the framework tells
+you to be conservative. If the faction you are most afraid of is an AI nation, the
+renewal rule is the binding one, because the risk to you is that a lapsed alliance leaves
+you alone in the endgame, and the framework tells you to be proactive. If the faction you
+are most afraid of is another player, both rules are less binding, because the AI
+factions are not the main threat, and you can afford to be more aggressive with both
+flips and renewals since the cost of a mistake is lower. The framework therefore collapses
+further to a three-step test: identify the faction you are most afraid of, decide which
+rule is binding based on whether that faction is a tribe or a nation, and apply that rule
+with the appropriate level of caution. The whole framework is a way of deciding, in the
+middle of a match, which of the two v0.35.3 changes is the one that matters for your next
+diplomatic move, and that decision is the one that changes your in-game play more than
+anything else in this guide.
+
+## Scenario one: flipping a tribe between two neighbours on a large map
+
+Imagine a large-map FFA where you are the leader and two AI tribes sit on either side of you.
+Tribe A is to the east and is currently allied with you; tribe B is to the west and is currently
+enemy. Tribe A and tribe B share a border, and tribe B is the tribe you are most afraid of because
+it has the most troops on the map. Your instinct is to sign tribe B and turn it against tribe A,
+because that would give you a strong ally on the west and turn your east into an open flank. Under
+the pre-v35 rules that would have worked the way you expected: tribe A would stop helping you,
+but it would not attack you, and you would be left with tribe B as a new partner and a free
+easterly expansion. Under v0.35.3 the move is different. When tribe A sees that its neighbour,
+tribe B, has turned traitor by allying with you against it, tribe A breaks the alliance with you
+and attacks you. So instead of losing one support source you now face tribe A, which has troops,
+and you have just given tribe B a reason to be less useful to you because it is busy fighting
+alliance flip.
+
+The numbers that matter are the troop counts: if tribe A has, say, a hundred thousand
+troops and you are at sixty thousand with your capital still exposed, the flip is a loss,
+because you traded a quiet loss of support for a two-front war you cannot win. The correct
+version of the move is to only flip tribe B if your own troop count is high enough that you
+can absorb a tribe-A attack while tribe B is still distracted; if you are not strong enough,
+the better move is to keep tribe A allied and apply pressure to tribe B through trade or a
+nuke instead of a full alliance flip.
+
+The same move works in your favour when the numbers tilt the other way. If tribe B, the
+enemy tribe you want to sign, is the one with the larger army and tribe A, your current
+allied tribe, is smaller, then flipping tribe B against tribe A is the move that saves you,
+because you are trading a weak ally for a strong one and the tribe-A attack you now have to
+absorb is coming from the smaller faction. The test is always the comparison of your own
+troop count against the troop count of the tribe that will now attack you, not against the
+tribe you are signing. A common mistake is to compare your troops to tribe B and decide the
+flip is safe because tribe B is large, when in fact the relevant comparison is your troops
+against tribe A, the side that will turn on you. The second comparison that matters is your
+capital exposure: a flip is safe when your capital is defensible even with a single front,
+and unsafe when your capital only survives if one of the AI tribes is holding the line.
+On a large map you usually have time to build that defensive capital, which is why the
+large-map scenario is the one where a careful flip can still pay off, even though the
+small-map version of the same move is almost always a mistake.
+
+## Scenario two: holding a nation partner in a small Hard game
+
+Now imagine a small-map game on Hard where you are not the leader and you need one AI nation as a
+partner to survive the endgame. You signed the nation early, and it has been holding the line
+while you build. By the middle of the game your alliance has lapsed, and the question is whether
+to renew. Under the pre-v35 rules, on Hard, the nation could refuse the renewal outright, and in
+a small game you have no time to find a replacement, so the safest assumption was that you were
+now on your own. Under v0.35.3 the assumption changes. Because you did not betray the nation, the
+traitor rule does not fire; because you are not the leader, the alliance-count cap that protects
+the leader is not the binding constraint; and because the relation is workable, the renewal goes
+through. The decision is now about whether the nation is worth holding, not about whether you can
+even hold it. If the nation is covering your weakest flank, the answer is yes, and you should
+renew immediately rather than wait for the next lapse, because a second lapse on a small map is
+often the end of the game. If the nation is on your strongest flank and you have enough troops to
+defend that side on your own, the answer is no, and letting it lapse is fine because you do not
+need the partner. The change matters because it converts a coin flip into a choice: before
+v0.35.3 the renewal was sometimes refused no matter what you did, and now it is refused only when
+one of the baseline checks fails, so you can plan around it.
+
+The renewal decision also depends on the state of the nation's own military, which the
+pre-v35 player could not influence but can now factor in. If the nation you are renewing
+is itself losing troops to a third faction, renewing it is a bet that the nation will
+survive long enough to be useful, and the bet is weaker the more of the nation's army is
+already gone. The right move in that case is to renew only if the nation is the partner
+covering your most exposed flank and the third faction attacking the nation is not also
+attacking you, because a nation that is about to be destroyed by a faction that is also
+attacking you is a partner that will not save you in the endgame no matter how fresh the
+renewal is. The opposite case is the nation that is winning its own fights: renewing that
+nation is a strong bet, because the nation is likely to survive and to bring its winning
+momentum into the endgame, and the early-game acceptance bonus that got you the alliance in
+the first place is now working in your favour at the renewal too, because the engine is
+willing to keep a strong partner around rather than let it walk. The practical summary is
+that the renewal window on v0.35.3 is open, but the decision of whether to use it still
+depends on the state of the nation you are renewing, and the patch removed the worst case
+without removing the need to judge.
+
+## Failure modes and countermeasures
+
+The most common failure after the tribe change is the double-flip: a player who signs tribe B
+against tribe A, gets turned on by tribe A, and then, in panic, signs another neighbour against
+tribe A, which turns that neighbour on them too. The countermeasure is the test from the framework:
+before you flip, confirm your own troop count is high enough that you can take one AI attack
+without losing your capital, and never chain two flips in the same game. The second failure is the
+renewal mistake: a player who lets a useful nation alliance lapse on a small Hard game, assumes
+the pre-v35 refusal, and never renews, only to be alone in the endgame. The countermeasure is to
+check the baseline before you let a lapse stand: if you did not betray the nation and the relation
+is workable, renew it, because the blanket refusal that made renewal a gamble is gone. The third
+failure is the false confidence: a player who reads the renewal change and assumes Hard and
+Impossible nations are now friendly, signs too many of them, and ends up over-extended. The
+countermeasure is to remember that the renewal change only opens the window; the traitor
+rejection, the alliance cap, and the threat rule are all still in force, so a nation you betrayed
+will still refuse you about ninety percent of the time and a nation that is already allied with
+half the map will still refuse you on Hard. The fourth failure is the mode mistake: in a team game
+on Impossible the team-game rejection is a guaranteed refusal, so no amount of renewing will
+re-establish a nation alliance you lost, and the only lever left is the diplomatic relation and
+the threat rule. The fifth failure is the difficulty assumption: on Easy the random confusion is
+high, so a tribe that breaks your alliance may do it for reasons unrelated to your betrayal, and
+you should not read the confusion-driven break as a punishment you can negotiate your way out of.
+
+A sixth failure, and the one that is easiest to make because it is a reading error rather
+than a play error, is the one where a player reads the tribe change as a general increase
+in AI aggression and decides the whole version is more hostile, so they play a defensive
+match that is not warranted. The tribe change is a specific punishment for a specific
+move, the flip of one AI tribe against a neighbouring AI tribe, and it does not make the
+AI more aggressive in every other situation. A player who is not flipping AI tribes is
+not exposed to the new second front, and playing a defensive match out of fear of a
+punishment that does not apply to their play is a cost the patch does not actually impose.
+The same reading error shows up on the nation side, where a player reads the renewal
+change as a sign that the AI is now more cooperative and signs more nations than the map
+can support, which is the false-confidence failure again, and the countermeasure is the
+same: the patch changed two specific decision paths, not the overall temperament of the
+engine, so the only situations where the new behaviour matters are the two it names.
+
+## Mode and map adjustments
+
+The two changes interact with the map size and the game mode in ways worth separating out. On a
+large map the tribe change is the one that matters most, because a large map gives you enough
+room to be caught between two AI tribes, and it also gives you enough time to recover from a bad
+flip if your troop count is high. On a small map the nation renewal change is the one that
+matters most, because the diplomacy window is short and a lapse is almost the end of the game, so
+the open renewal window is the difference between holding a partner and being alone. In a team
+game the nation change is almost useless on Impossible, because the team-game rejection is a
+guaranteed refusal, so the renewal window is closed by the mode before the difficulty rule can
+open it; on Easy and Medium the team-game rejection is only a chance, so the renewal change still
+applies. In FFA both changes apply fully, because there is no team-mode rejection to interfere, so
+FFA is where the v0.35.3 diplomacy is most visible and most worth planning around. The
+[nations mechanics page](/mechanics/nations/) has the mode-specific rules for nations that this
+section builds on, and the [changelog for v35](/changelog/v35/) lists the full set of changes in
+the v35 series so you can see the v0.35.3 entries in context. The practical summary is that on a
+large FFA map you should be more careful about flipping AI tribes, and on a small Hard or
+Impossible game you should be more proactive about renewing AI nations, and in a team game on
+Impossible the nation change gives you very little, so you should plan the match without relying
+on a re-signed nation.
+
+One more adjustment is worth naming explicitly: the map size also changes which of the
+two failures you should fear most, and therefore which one you should plan for. On a large
+map the failure to watch for is the double-flip, because a large map gives you the room
+to be caught between two AI tribes and the time to make the mistake twice, so your plan
+should include a hard rule about never chaining two flips in the same match. On a small
+map the failure to watch for is the lapsed renewal, because a small map gives you no time
+to recover from a missed renewal and no room to find a replacement partner, so your plan
+should include a hard rule about renewing a useful nation the moment its alliance lapses.
+The mode changes which of those two plans is the binding one: in FFA both plans are in
+force at the same time, in a team game on Impossible the renewal plan is mostly useless
+so you should lean on the double-flip plan, and in a team game on Easy or Medium the
+renewal plan is still worth keeping because the team-game rejection there is only a
+chance rather than a certainty. The difficulty changes how aggressively each plan has
+to be applied: on Easy the random confusion makes both plans less reliable, so you should
+plan for a tribe that may break your alliance for reasons unrelated to your betrayal and
+for a nation that may renew it for reasons unrelated to your merit; on Impossible the
+plans are more reliable because the engine is less random, so you can count on the renewal
+window opening when the baseline checks pass and you can count on the traitor punishment
+firing when a neighbour switches sides.

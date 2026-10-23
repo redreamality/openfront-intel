@@ -1,0 +1,354 @@
+---
+title: "Hoe de AI met je allianties omgaat in v0.35.3: stammen vallen verraders aan, Hard/Impossible vernieuwen"
+description: "v0.35.3 wijzigde twee AI-beslispaden: stammen breken hun alliantie met een buur die een verrader is geworden en vallen hem aan; Hard- en Impossible-naties weigeren geen enkele allantiernieuwsluiting meer in kleine spellen. Wat elke wijziging voor je volgende diplomatieke beslissing betekent."
+
+
+category: combat
+tags:
+  - v0.35.3
+  - ai-gedrag
+  - naties
+  - stammen
+  - alliantie
+  - diplomatie
+author: OpenFront Intel
+pubDate: 2026-10-24
+updatedDate: 2026-10-24
+version: v0.35.3
+freshnessSummary: "Geverifieerd tegen de v0.35.3-release-tekst (tag-commit a2d20f8e5f32573c7a6a7e0b8900dcfeac4357e7) en de v35-natie-allantiebeslisboom; actualiseer bij een latere patch die de stam- of natiediplomatie wijzigt."
+related:
+  - guides/nation-alliance-decisions/
+  - guides/tribes/
+  - guides/nations-pressure/
+  - mechanics/nations/
+  - changelog/v35/
+---
+
+## Kort antwoord
+
+v0.35.3 wijzigde twee manieren waarop de AI met allianties omgaat. Ten eerste **breken stammen
+nu hun alliantie met een buur die een verrader is geworden en vallen hem aan**. Als je een
+AI-stam inzet tegen een andere AI-stam, kun je erop rekenen dat je tegen beide aan het
+voetveld bent in plaats van alleen de steun van de stam te verliezen die je verraden hebt.
+Ten tweede **weigeren Hard- en Impossible-naties geen enkele allantiernieuwsluiting meer in
+kleine spellen**. In een kort spel op een hoog niveau hernieuwt een natie die je voorheen
+duurzaam uit de alliantie hield nu wel, zodat je een AI-geallieerde partner tot het einde van
+het spel kunt houden. Beide wijzigingen gelden alleen als je op een versie speelt die v0.35.3
+bevat; op elke oudere build gelden de pre-v35-regels die hieronder worden beschreven nog steeds.
+
+De twee wijzigingen trekken in tegengestelde richtingen, en dat is de eigenlijke vorm van de
+patch. De stamwijziging maakt een diplomatieke zet duurder, omdat het inzetten van een AI-stam
+twee buren in twee vijanden kan veranderen. De natie-hernieuwwijziging maakt een diplomatieke
+zet goedkoper, omdat het hernieuwen van een AI-natie op een hoog niveau in een kort spel geen
+muntworp meer is. In v0.35.3 zou je dus minder diplomatie moeten besteden aan naties die je wilt
+houden en meer zorg moeten laten gelden bij stammen die je wilt inzetten. De rest van deze
+gids uit die zin uit, sectie voor sectie: eerst de basismechanica om te weten wat er niet
+wijzigt, daarna elke wijziging, daarna het raamwerk dat ze combineert, daarna twee concrete
+scenaria met troepencijfers, daarna de mispatronen en de aanpassingen per modus en kaart. Als je
+maar één sectie leest, lees dan het raamwerk, want het verandert je beslissing in het spel,
+niet alleen je begrip. De [stammingids](/nl/guides/tribes/) en de
+[natiedruk-gids](/nl/guides/nations-pressure/) zijn de spelerzijde-begeleiders van deze gids en
+dekken dezelfde diplomatieke hendels af op de kant die je bestuurt. Deze twee wijzigingen
+gelden alleen voor AI-facties: je eigen speler-diplomatie, dus de manier waarop je allianties met
+andere spelers aangaat, breekt of vernieuwt, wordt niet door v0.35.3 gewijzigd, en de enige
+reden je eigen diplomatiek gedrag te veranderen, is de manier waarop AI-facties er nu op
+reageren.
+
+Een laatste punt dat de oppervlakte overtreft: de twee wijzigingen zijn van elkaar
+onafhankelijk, en het is belangrijk ze niet te verwarren. De stamwijziging verandert niets
+aan de manier waarop naties over allianties beslissen, en de natie-hernieuwingswijziging
+verandert niets aan de manier waarop stammen met een verrader omgaan. Je kunt dus een spel
+spelen waarin je de stamwijziging sterk voelt en de natie-hernieuwingswijziging nauwelijks,
+of omgekeerd, en het hangt af van tegen welke AI-fracties je speelt en op welk niveau. De
+controle die elke sectie van deze gids je geeft, geldt alleen voor de betreffende
+wijziging, en de kortantwoord-sectie hierboven vat beide samen, omdat de combinatie de
+diplomatieke balans van de hele versie verschuift.
+
+## De pre-v35-basis: hoe AI-naties over allianties beslissen
+
+Voordat we zien wat er in v0.35.3 wijzigt, hebben we de basis nodig, want de nieuwe wijzigingen
+zijn fijne lagen op een beslissingsboom die niet wijzigt. Wanneer een AI-natie een
+allantierecht ontvangt, doorloopt ze een vaste reeks controles. De eerste is een willekeurige
+verwarrende stap, die met het niveau daalt: Easy-naties accepteren of weigeren soms willekeurig,
+terwijl Impossible-naties geen dergelijke toevalligheid hebben. De tweede controle is of de
+aanvrager een verrader is; naties wijzen een aanvrager af die ze verraden heeft ongeveer 90 %
+van de tijd, waardoor een natie die je hebt verraden je zelden terugneemt. De derde controle
+beperkt het aantal allianties dat een natie zal onderhouden: op Hard wijst ze een aanvrager af
+die al met minstens de helft van de kwalificerende spelers geallieerd is, op Impossible met een
+kwart, want het mechanisme wil genoeg vijanden achterlaten om op de leidende speler te
+richtt. De vierde controle is de dreigingherkenning, en die werkt tegen de verwachting van de
+meeste spelers in: de natie accepteert een alliantie met een aanvrager die te sterk is om
+te worden aangevallen, want het is veiliger om de dreiging toe te voegen dan er door
+aangevallen te worden. De vijfde controle is de spelmodus, en hier stijgt de
+afweizingskans met het niveau, van ongeveer een kwart op Easy tot een gegarandeerde
+afwijzing op Impossible in een teamspeel. De zesde is de diplomatieke relatie: een relatie
+onder neutraal wijst af, een vriendschappelijke relatie kan een directe acceptatie
+activeren. De zevende is een allantielimiet per niveaugrens, waarbij
+Impossible-naties doorgaans slechts twee of drie allianties onderhouden. De achtste is een
+voorspelbonus, waarbij een aanvraag in de eerste minuut of eerste twee minuten een extra
+kans op acceptatie heeft, het hoogst op Easy en het laagst op Impossible. Alles wat de
+v0.35.3-wijziging daaraan toevoegt, ligt bovenop deze reeks, en niets wijzigt de
+verrader-afweizingsrate, de allantielimieten of de dreigingsregel. De basis staat in de
+[natie-allantiebeslissingen-gids](/nl/guides/nation-alliance-decisions/) en de
+[natiemechanica-pagina](/nl/mechanics/nations/).
+
+| Controle | Wat het doet | Verloop met niveau |
+|---|---|---|
+| Willekeurige verwarring | Accepteert of wijst willekeurig af | Meer op Easy, geen op Impossible |
+| Verrader | Wijst een aanvrager af die de natie verraden heeft | Ongeveer 90 % van de tijd op alle niveaus |
+| Aantal allianties | Wijst af die al met te veel spelers verbonden is | Strakkere limieten, hoe hoger het niveau |
+| Dreiging | Accepteert een aanvrager die te sterk is om aan te vallen | Bessere herkenning op hoger niveau |
+| Teamspeel | Extra afweizingskans in teammodus | Stijgt van laag op Easy tot altijd op Impossible |
+| Relatie | Wijst af onder neutraal, accepteert bij vriendelijk | Zelfde regel op elk niveau |
+| Allantielimiet | Stopt zodra ze genoeg onderhoudt | Lagere limiet op Impossible |
+| Voorspel | Extra acceptatie in de eerste minuten | Hoger op Easy, lager op Impossible |
+
+## Wat er bij stammen wijzigt: de verraderlijke buur breken en aanvallen
+
+De stamwijziging is de dramatischste van de twee, en het is een strafregel, geen
+beschikbaarheidsregel. Voor v0.35.3, als je geallieerd was met een AI-stam en daarna een
+alliantie aanging met een naburige stam, hield de eerste stam doorgaans op je te helpen; de
+alliantie koelde simpelweg af. Je verliest een steunbron, maar de stam die je verraden had
+opende geen vijandschappen tegen jou, dus de kosten waren een stillere kosten. v0.35.3
+verandert die kosten in zichtbare kosten. Wanneer een buur een verrader is geworden, breekt de
+stam de alliantie met die buur en valt hem aan. Lees dat goed: het is de stam wiens buur een
+verrader is geworden die aanvalt. Als je tussen twee AI-stammen zit en er een tegen de andere
+inzet, raakt de stam aan de andere kant van de verradering jou, en je kunt eindigen terwijl je
+tegen de stam vecht die je zojuist hebt geallieerd, evenals tegen de stam die je zojuist hebt
+verlaten. Het praktische effect is dat het inzetten van een AI-stam tegen een naburige
+AI-stam geen schone weg meer is om een vijand in een bondgenoot om te zetten: het kan de zet
+zijn die twee buren meteen in twee vijanden verandert. Dat geldt het meest als je eigen
+uitbreiding ervan afhangt dat een van deze AI-stammen de lijn houdt terwijl je opbouwt, want de
+stam waarop je rekent, is nu de stam die het meest waarschijnlijk een tweede front opent. De
+[stammingids](/nl/guides/tribes/) behandelt hoe je omgaat met een stam die al vijandig is; deze
+sectie behandelt het nieuwe geval waarin een stam vijandig wordt omdat je een beslissing hebt
+genomen. Als je de [natiedrukgids](/nl/guides/nations-pressure/) leest, zie je dezelfde logica
+op de natie-zijde: het mechanisme wil druk op de leider behouden, en een stam die zojuist heeft
+gezien dat zijn buur van kant is gegaan, is het mechanisme die die druk op jou houdt.
+
+Het nieuwe gedrag heeft ook een tijds-effect dat het waard is in te plannen. De breuk en de
+aanval worden getriggerd op het moment dat de buur een verrader wordt, niet op het volgende
+allantiernieuwsluitingstijdstip, dus de straf is onmiddellijk en je hebt geen termijn om de
+omkeer te ongedaan te maken voordat het tweede front opent. Dat betekent dat de termijn om het
+tweede front te vermijden vóór het aangaan van de naburige stam ligt, niet erna, en de enige
+manier om het om te keren zodra de aanval is gestart, is de stam te verslaan die zich tegen jou
+keert, of een derde fractie in het gevecht te trekken om zijn aandacht te verdelen. De straf
+geldt ook in beide richtingen: als het de AI-stam is die wordt ingezet, niet jij, en hij de
+alliantie met een naburige AI-stam breekt om die buur aan te vallen, zie je dezelfde breuk en
+aanval tussen twee AI-fracties op de kaart uitgevoeren, wat een nuttige aanwijzing is om te
+weten wat het mechanisme met de fracties rondom jou doet als je de zet niet persoonlijk hebt
+gemaakt. Twee AI-stammen zien die elkaar breken en aanvallen, bevestigt dat de nieuwe
+strafregel actief is op de versie die je speelt, en het is dezelfde regel die op jou wordt
+gepast zodra je een van hen tegen de andere inzet.
+
+## Wat er wijzigt bij Hard- en Impossible-naties: hernieuwen in kleine spellen
+
+De tweede wijziging is subtieler, maar het lost een echt blokkeerprobleem op dat spelers in
+kleine spellen op een hoog niveau tegenkwamen. In een klein spel is het tijdsvenster voor
+diplomatie kort: je sluit vroege een alliantie af, vecht in het midden en als de
+eindspeldruk oploopt, zijn de allianties waarmee je begon of gebroken of op het punt van
+verlopen. Voor v0.35.3 kon een natie op Hard en Impossible elke allantiernieuwsluiting
+afwijzen, wat betekende dat zodra een natie had besloten je niet opnieuw op te nemen, je die
+natie nooit kon terugwinnen, hoe nuttig ze ook was om als bondgenoot te houden. In een kort
+spel was die weigering bijna dodelijk, omdat je slechts een of twee kansen had om je
+diplomatieke kaart neer te leggen en een enkele weigering je voor de rest van het spel uit een
+bondgenoot wierp. v0.35.3 verwijdert die algemene weigering. Nu weigeren Hard- of
+Impossible-naties in een klein spel geen enkele hernieuwing meer; ze vernieuwen volgens
+dezelfde voorwaarden die de rest van de beslissingsboom hen geeft, wat betekent dat een natie
+die geen verradersrelatie heeft, die niet boven haar allantielimiet ligt en die een speelbare
+relatie heeft, opnieuw kan aangaan. De wijziging maakt Hard- en Impossible-naties niet
+vriendelijk; het maakt ze bereid een relatie voort te zetten die ze al zijn begonnen, zolang de
+basiscontroles nog bestaan. Als je de natie hebt verraden, geldt de verraderregel met
+ongeveer 90 % afwijzing nog steeds, dus de hernieuwingswijziging laat je niet toe een natie
+opnieuw op te nemen die je hebt overgehaald. De wijziging betreft specifiek het
+hernieuwingsvenster: het moment na het verlopen van een alliantie, waarin de enige vraag is of
+men de bestaande relatie herstelt.
+
+Er is een subtiel maar belangrijk grens bij deze wijziging die spelers missen, en dat is de
+grens tussen hernieuwen en een nieuwe aanvraag. De wijziging geldt voor het hernieuwingsvenster,
+dus het moment na het verlopen van een bestaande alliantie, waarin de enige vraag is of men de
+bestaande relatie herstelt. Het geldt niet voor een nieuwe allantierecht aan een natie met wie
+je nooit geallieerd bent, en die nieuwe aanvraag doorloopt nog steeds de volledige
+beslissingsboom van bovenaf, inclusief de aantal-allianties-limiet en de dreigingsregel. Dat
+betekent dat de hernieuwingswijziging een hulpmiddel is om een bestaande bondgenoot te houden,
+niet om een nieuwe te winnen, en als je probeert het te gebruiken om in een klein
+Impossible-spel een natie op te nemen met wie je nooit geallieerd bent, zul je nog steeds op
+dezelfde afwijzingen worden gesteld als vóór de patch. De praktische consequentie is dat de
+beste versie van een klein-spelplan in v0.35.3 bestaat in het sluiten van de enige natiealliantie
+die je wilt in de eerste twee minuten, wanneer de acceptatiebonus van het voorspel het hoogst
+is, en die daarna bij elke vervaldatum te vernieuwen in plaats van te proberen later een
+tweede natie op te nemen, want de tweede natie is een nieuwe aanvraag en de eerste natie is een
+hernieuwing. Die volgorde, vroeg sluiten en vaak vernieuwen, is de belangrijkste
+diplomatieke gewoonte die de patch mogelijk maakt.
+
+## Het beslissingsraamwerk: wanneer je een AI-stam inzet en wanneer je een natie houdt
+
+Omdat de twee wijzigingen in tegengestelde richtingen trekken, is het raamwerk een paar
+regels. De eerste regel betreft de stammen: zet geen AI-stam in tegen een naburige AI-stam,
+tenzij je het je kunt veroorloven de ingezette stam te bevechten. De kosten van een pre-v35-
+wissel was het verlies van een steunbron; de kosten in v0.35.3 kunnen twee vijanden tegelijk
+zijn. De controle vóór het inzetten is dus of je eigen leger sterk genoeg is om een gelijktijdige
+aanval van de zojuist geallieerde stam en de zojuist verlaten stam op te vangen. Als je opbouwt
+en je hoofdkwartier nog kwetsbaar is, is de wissel de verkeerde zet, zelfs als de vijandige stam
+aan de andere kant momenteel zwak is, want de geallieerde stam kan zich nu tegen jou keren
+terwijl je blootligt. De tweede regel betreft naties op Hard en Impossible: houd een
+natiealliantie die je wilt en vernieuw hem in een klein spel, want het
+hernieuwingsvenster dat zich over je sloot, is nu open. De controle vóór het verlopen van een
+natiealliantie is of die natie de bondgenoot is die je flankdekmantel tijdens je aanval
+dekt. Zo ja, dan zou je actief moeten vernieuwen in plaats van laten verlopen, want het pre-v35-
+risico was dat de hernieuwing werd afgewezen en je zonder bondgenoot in het eindspel
+achterblijft. Het raamwerk reduceert tot één zin: in v0.35.3 moet je voorzichtiger zijn met
+het inzetten van AI-stammen en actiever met het hernieuwen van AI-naties op een hoog niveau in
+korte spellen.
+
+Een derde element rondt het raamwerk af, en dat is het element dat je vertelt welke van de twee
+regels je eerst toepast wanneer een spel zich afspeelt. Het element is de identiteit van de
+fractie die je het meest vreest. Als de fractie die je het meest vreest een AI-stam is, dan is
+de wisselregel de bindende, want het risico voor jou is dat een wissel die stam in een vijand
+verandert of de stam waarop je rekent in een vijand verandert, en het raamwerk zegt je
+voorzichtig te zijn. Als de fractie die je het meest vreest een AI-natie is, dan is de
+hernieuwingsregel de bindende, want het risico voor jou is dat een verlopen alliantie je in het
+eindspel alleen laat, en het raamwerk zegt je actief te zijn. Als de fractie die je het meest
+vreest een andere speler is, binden beide regels minder, want de AI-fracties zijn niet de
+hoofdthreat, en je kunt je veroorloven agressiever te zijn met de wissels en
+hernieuwingen, want de kosten van een fout zijn lager. Het raamwerk reduceert dus verder tot een
+driedelige controle: identificeer de fractie die je het meest vreest, beslis welke regel bindt,
+of die fractie een stam of een natie is, en pas die regel toe met het gepaste niveau van
+voorzichtigheid.
+
+## Scenario één: een stam inzetten tussen twee buren op een grote kaart
+
+Stel je een grote FFA-kaart voor waarbij jij de leider bent en twee AI-stammen aan beide kanten
+van je zijn gevestigd. Stam A is in het oosten en is momenteel geallieerd met jou; stam B is in
+het westen en is momenteel een vijand. Stam A en stam B delen een grens, en stam B is de stam
+die je het meest vreest, omdat die de meeste troepen op de kaart heeft. Je instint is om stam B
+op te nemen en tegen stam A in te zetten, want dat zou je een sterke bondgenoot in het westen
+geven en je oostkant een opene flank maken. Onder de pre-v35-regels had dat gewerkt zoals je
+verwacht hebt: stam A zou gestopt hebben je te helpen, maar je niet aanvallen, en je zou met
+stam B als nieuwe bondgenoot en een vrije oostelijke uitbreiding hebben gestaan. Onder v0.35.3
+is de zet anders. Als stam A ziet dat zijn buur, stam B, een verrader is geworden door zich
+tegen hem met jou te allieren, breekt stam A de alliantie met jou en valt je aan. Dus in plaats
+van een stil verlies van steun sta je nu tegenover stam A die troepen heeft, en heb je zojuist
+stam B een reden gegeven je minder nuttig te zijn omdat hij bezet is met het vechten tegen
+stam A.
+
+De cijfers die tellen, zijn de troepen: als stam A, zeg maar, honderdduizend troepen heeft en
+jij op zeventigduizend staat, met je hoofdkwartier nog bloot, is de wissel een verlies, want je
+ruilt een stil verlies van steun in voor een tweefrontenoorlog die je niet kunt winnen. De
+juiste versie van de zet is om stam B alleen in te zetten als je eigen troepental hoog genoeg
+is om een aanval van stam A op te vangen terwijl stam B nog afgeleid is; als je niet sterk
+genoeg bent, is de beste zet om stam A geallieerd te houden en op stam B druk uit te oefenen
+met handel of een bom, in plaats van met een volledige alliantiewissel. Dezelfde zet werkt
+tegen je in als de cijfers in de tegenovergestelde richting leunen. Als stam B, de vijandige
+stam die je wilt opnemen, de stam is met het grootste leger en stam A, je huidige geallieerde
+stam, kleiner is, dan is het inzetten van stam B tegen stam A de zet die je redt, want je
+ruilt een zwakke bondgenoot in voor een sterke bondgenoot, en de aanval van stam A die je nu
+moet opvangen, komt van de kleinere fractie.
+
+## Scenario twee: een natieb bondgenoot in een klein Hard-spel houden
+
+Stel je nu een kleine kaart in Hard voor waarbij jij niet de leider bent en je een AI-natie
+nodigt als bondgenoot om het eindspel te overleven. Je hebt de natie vroeg geallieerd en die
+hield de lijn terwijl je opbouwde. In het midden van het spel is je alliantie verlopen en is de
+vraag of je hem hernieuwt. Onder de pre-v35-regels kon de natie in Hard de hernieuwing direct
+afwijzen, en in een klein spel had je niet de tijd om een vervanger te vinden, dus was de
+veiligste aanname dat je nu alleen bent. Onder v0.35.3 verandert de aanname. Omdat je de natie
+niet hebt verraden, wordt de verraderregel niet getriggerd; omdat je niet de leider bent, is de
+aantal-allianties-limiet die de leider beschermt niet de bindende beperking; en omdat de relatie
+speelbaar is, slaagt de hernieuwing. De beslissing is nu of het de moeite waard is de natie te
+houden, niet of je hem kunt houden. Als de natie je meest kwetsbare flank dekt, is het antwoord
+ja, en zou je onmiddellijk moeten hernieuwen in plaats van wachten op de volgende vervaldatum,
+want een tweede vervaldatum in een klein spel is vaak het einde van het spel. Als de natie op
+je sterkste flank is en je genoeg troepen hebt om die kant alleen te verdedigen, is het antwoord
+nee, en is laten verlopen goed, want je hebt de bondgenoot niet nodig.
+
+De hernieuwingsbeslissing hangt ook af van de staat van het eigen leger van de natie, wat de
+pre-v35-speler niet kon beïnvloeden maar wat nu in overweging kan worden genomen. Als de natie
+die je hernieuwt zelf troepen verliest aan een derde fractie, is het hernieuwen een weddenschap
+dat de natie lang genoeg overleefd om nuttig te zijn, en de weddenschap is zo zwakker naarmate
+het leger van de natie al weg is. De goede zet in dat geval is alleen te hernieuwen als de natie
+de bondgenoot is die je meest openbare flank dekt en de derde fractie die de natie aanvalt je
+niet ook aanvalt, want een natie die op het punt staat te worden vernietigd door een fractie die
+je ook aanvalt, is een bondgenoot die je in het eindspel niet zal redden, ongeacht hoe vaak je
+hernieuwt. De omgekeerde case is de natie die haar eigen gevechten wint: het hernieuwen van die
+natie is een sterke weddenschap, want de natie zal waarschijnlijk overleven en haar winnende
+impuls in het eindspel brengen, en de acceptatiebonus van het voorspel die je de alliantie oorspronkelijk gaf, werkt nu ook bij de hernieuwing in je voordeel.
+
+## Mispatronen en tegemoetkomingen
+
+De meest voorkomende fout na de stamwijziging is de dubbele wissel: een speler die stam B inzet
+tegen stam A, door stam A wordt overgehaald en daarna, in paniek, een andere buur inzet tegen
+stam A, waardoor die buur zich ook tegen hem keert. De tegemoetkoming is de
+raamwerkcontrole: bevestig vóór het inzetten dat je eigen troepental hoog genoeg is om een
+AI-aanval te ontvangen zonder je hoofdkwartier te verliezen, en koppel nooit twee wissels in
+hetzelfde spel. De tweede fout is de hernieuwingsfout: een speler die een nuttige
+natiealliantie laat verlopen in een klein Hard-spel, de pre-v35-weigering aannemt en nooit
+hernieuwt, en zich in het eindspel alleen weerfindt. De tegemoetkoming is de basis te controleren
+vóór je een verlopen laat gebeuren: als je de natie niet hebt verraden en de relatie speelbaar
+is, hernieuw, want de algemene weigering die het hernieuwen tot een weddenschap maakte, is weg.
+De derde fout is het valse vertrouwen: een speler die de hernieuwingswijziging leest en aannemt
+dat Hard- en Impossible-naties nu vriendelijk zijn, sluit te veel af en is uiteindelijk
+tever uitgestrekt. De tegemoetkoming is je herinneren dat de hernieuwingswijziging alleen het
+venster opent; de verrader-afwijzing, de allantielimiet en de dreigingsregel zijn allemaal nog
+steeds van kracht, dus een natie die je hebt verraden zal je nog steeds ongeveer 90 % van de
+tijd afwijzen en een natie die al met de helft van de kaart geallieerd is, zal op Hard nog
+steeds afwijzen. De vierde fout is de modusfout: in een Impossible-teamspeel is de
+teamspeelafwijzing een gegarandeerde afwijzing, dus geen hoeveelheid aan hernieuwingen brengt een
+natiealliantie terug die je hebt verloren, en de enige overgebleven hendel is de
+diplomatieke relatie en de dreigingsregel. De vijfde fout is de niveausveronderstelling: op Easy
+is de willekeurige verwarring hoog, dus een stam die je alliantie breekt kan dat om redenen doen
+die niets met je verradering te maken hebben, en je zou de verwarring gedrevene breuk niet als
+straf moeten lezen waar je je uit kunt onderhandelen.
+
+De zesde fout, en de makkelijkste om te maken omdat het een leesfout en geen speelfout is, is de
+case waarin een speler de stamwijziging leest als een algemene verhoging van de
+AI-vijandigheid en beslist dat de hele versie vijandiger is, en dus een defensief spel speelt
+dat niet gerechtvaardigd is. De stamwijziging is een specifieke straf voor een specifieke zet,
+het inzetten van een AI-stam tegen een naburige AI-stam, en het maakt de AI niet in elke andere
+situatie agressiever. Een speler die geen AI-stammen inzet, is niet bloot aan het nieuwe tweede
+front, en een defensief spel spelen uit angst voor een straf die niet op je spel van toepassing
+is, is een kosten die de patch niet daadwerkelijk oplegt. Dezelfde leesfout verschijnt op de
+natie-zijde, waar een speler de hernieuwingswijziging leest als een teken dat de AI nu
+coöperativer is en meer naties aangaat dan de kaart kan ondersteunen, wat opnieuw de
+foute-vertrouwen-fout is, en de tegemoetkoming is dezelfde: de patch heeft twee specifieke
+beslispaden gewijzigd, niet de algemene houding van het mechanisme, dus de enige situaties
+waarin het nieuwe gedrag telt, zijn de twee die het noemt.
+
+## Aanpassingen per modus en kaart
+
+De twee wijzigingen interageren met de kaartgrootte en de spelmodus op manieren die het waard zijn
+afzonderlijk te bekijken. Op een grote kaart telt de stamwijziging het meest, want een grote
+kaart genoeg ruimte geeft om tussen twee AI-stammen ingeklemd te raken en ook genoeg tijd, om van
+een slechte wissel te herstellen als je troepental hoog is. Op een kleine kaart telt de
+natiehernieuwingswijziging het meest, want het diplomatieke tijdsvenster kort is en een
+vervaledatum bijna het einde van het spel is, dus is het open hernieuwingsvenster het verschil
+tussen een bondgenoot houden en alleen zijn. In een teamspeel is de natiewijziging op
+Impossible bijna nutteloos, want de teamspeelafwijzing een gegarandeerde afwijzing is, dus sluit
+de modus het hernieuwingsvenster voordat de niveauregel het kan openen; op Easy en Medium is de
+teamspeelafwijzing slechts een kans, dus geldt de hernieuwingswijziging nog steeds. In FFA
+geldden beide wijzigingen volledig, want er is geen teamspeelafwijzing die ingrijpt, dus is FFA
+de plek waar de v0.35.3-diplomatie het meest zichtbaar is en het meest waard is om in te plannen.
+De [natiemechanica-pagina](/nl/mechanics/nations/) heeft de modusspecifieke regels voor naties
+die deze sectie diept, en de [v35-changelog](/changelog/v35/) lijst de volledige reeks van
+v35-wijzigingen op zodat je de v0.35.3-items in context kunt zien.
+
+Een verdere aanpassing verdient uitdrukkelijk genoemd te worden: de kaartgrootte wijzigt ook
+welke van de twee fouten je het meest zou moeten vrezen, en dus welke je zou moeten inplannen.
+Op een grote kaart is de fout om op te merken de dubbele wissel, want een grote kaart de ruimte
+geeft om tussen twee AI-stammen ingeklemd te raken en de tijd, de fout twee keer te maken, dus
+zou je plan een strenge regel moeten bevatten, nooit twee wissels in hetzelfde spel te
+koppelen. Op een kleine kaart is de fout om op te merken het verlopen hernieuwen, want een
+kleine kaart noch de tijd geeft om te herstellen van een gemiste hernieuwing, noch de ruimte
+om een vervangende bondgenoot te vinden, dus zou je plan een strenge regel moeten bevatten,
+een nuttige natie te hernieuwen zodra haar alliantie verlopen is. De modus wijzigt welke van
+de twee plannen de bindende is: in FFA gelden beide plannen tegelijk, in een
+Impossible-teamspeel is de hernieuwingsplan bijna nutteloos, dus zou je je moeten steunen op
+het dubbelwisselplan, en in een Easy- of Medium-teamspeel is de hernieuwingsplan nog steeds
+waard om te houden, want de teamspeelafwijzing er slechts een kans en geen zekerheid is. Het
+niveau wijzigt hoe sterk elke plan toegepast moet worden: op Easy maakt de willekeurige
+verwarring beide plannen minder betrouwbaar, dus zou je moeten verwachten dat een stam je
+alliantie om redenen breekt die niets met je verradering te maken hebben, en een natie hem
+om redenen hernieuwt die niets met je verdiende te maken hebben; op Impossible zijn de plannen
+betrouwbaarder, want het mechanisme is minder willekeurig, dus kun je rekenen op het open
+hernieuwingsvenster wanneer de basiscontroles bestaan en op de verraderstraf wanneer een buur
+van kant wisselt.

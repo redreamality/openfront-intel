@@ -1,0 +1,365 @@
+---
+title: "Comment l'IA gère vos alliances en v0.35.3 : les tribus attaquent les traîtres, Hard/Impossible renouvellent"
+description: "v0.35.3 modifie deux chemins de décision de l'IA : les tribus rompent désormais leur alliance avec un voisin devenu traître et l'attaquent, et les nations Hard et Impossible cessent de refuser tous les renouveaux d'alliance dans les petites parties. Ce que chaque changement implique pour votre prochaine décision diplomatique."
+
+
+category: combat
+tags:
+  - v0.35.3
+  - ai-behavior
+  - nations
+  - tribes
+  - alliance
+  - diplomatie
+author: OpenFront Intel
+pubDate: 2026-10-24
+updatedDate: 2026-10-24
+version: v0.35.3
+freshnessSummary: "Vérifié contre le corps de la release v0.35.3 (commit de tag a2d20f8e5f32573c7a6a7e0b8900dcfeac4357e7) et l'arbre de décision des alliances des nations pré-v35 ; à rafraîchir si un futur correctif modifie la diplomatie des tribus ou des nations."
+related:
+  - guides/nation-alliance-decisions/
+  - guides/tribes/
+  - guides/nations-pressure/
+  - mechanics/nations/
+  - changelog/v35/
+---
+
+## Réponse rapide
+
+v0.35.3 a changé deux choses dans la façon dont l'IA gère les alliances. Premièrement, **les
+tribus rompent désormais leur alliance avec un voisin qui est devenu traître et l'attaquent**.
+Si vous retournez une tribu IA contre une autre tribu IA, vous pouvez maintenant affronter les
+deux au lieu de simplement perdre l'appui de celle que vous avez trahie. Deuxièmement, **les
+nations Hard et Impossible cessent de refuser tous les renouveaux d'alliance dans les petites
+parties**. Dans une partie courte sur une difficulté élevée, une nation qui auparavant vous
+couchait définitivement hors de la signature de son alliance la renouvelera désormais, ce qui
+vous permet de conserver un partenaire IA jusqu'en fin de partie. Les deux changements
+n'ont de sens que si vous jouez sur une version qui inclut v0.35.3 ; sur toute build plus
+ancienne, les règles pré-v35 décrites ci-dessous s'appliquent toujours.
+
+Les deux changements tirent en sens opposés, et c'est toute la forme du correctif. Le
+changement de tribu rend une manœuvre diplomatique plus coûteuse, car retourner une tribu IA
+peut maintenant transformer deux voisins en deux ennemis. Le changement de renouveau de nation
+rend une manœuvre diplomatique moins coûteuse, car resigner une nation IA sur une difficulté
+élevée dans une partie courte n'est plus un lancer de pièce. Sur v0.35.3, il faut donc s'attendre
+à dépenser moins de diplomatie pour les nations que l'on veut garder et à accorder davantage de
+soin aux tribus que l'on est tenté de retourner. Le reste du guide développe cette phrase,
+section par section : d'abord l'arbre de décision de base, pour savoir ce qui n'a pas changé,
+puis chacun des deux changements, puis le cadre qui les combine, puis deux scénarios concrets
+avec des effectifs, puis les modes d'échec et les ajustements par mode et par carte. Si vous ne
+lisez qu'une section, lisez le cadre, car c'est elle qui change votre décision en partie plutôt
+que simplement votre compréhension. Le [guide des tribus](/fr/guides/tribes/) et le
+[guide de la pression des nations](/fr/guides/nations-pressure/) sont les compagnons du côté
+joueur de ce guide, et ils couvrent les mêmes leviers diplomatiques du côté que vous contrôlez.
+Ces deux changements ne s'appliquent qu'aux factions IA : votre propre diplomatie de joueur,
+c'est-à-dire la façon dont vous signez, rompez ou renouvelez des alliances avec d'autres joueurs,
+n'est pas modifiée par v0.35.3, et la seule raison de changer votre comportement sur votre
+propre diplomatie est la façon dont les factions IA réagissent désormais aux vôtres.
+
+## La base pré-v35 : comment les nations IA décident des alliances
+
+Avant de voir ce que v0.35.3 a changé, il faut la base, car les nouveaux changements sont de
+fines couches sur un arbre de décision qui n'a pas changé. Quand une nation IA reçoit une
+demande d'alliance, elle parcourt un ordre fixe de vérifications. La première est une étape
+aléatoire de confusion qui diminue avec la difficulté : les nations Easy acceptent ou refusent
+parfois au hasard, tandis que les nations Impossible n'ont aucune aléatoire. La deuxième
+vérification est de savoir si le demandeur est un traître ; les nations refusent un demandeur
+qui les a trahies environ 90 % du temps, c'est pourquoi une nation qui vous a déjà perdus au
+profit d'un basculement ne vous reprend rarement. La troisième vérification plafonne le nombre
+d'alliances qu'une nation tiendra : sur Hard, elle évite un demandeur déjà allié à au moins la
+moitié des joueurs éligibles, et sur Impossible à un quart, parce que le moteur veut laisser
+assez d'ennemis pour opposer au joueur qui mène. La quatrième vérification est la détection de
+menace, et elle fonctionne dans la direction opposée à ce que la plupart des joueurs
+s'attendent : la nation accepte une alliance d'un demandeur trop fort pour être combattu, en
+raisonnant qu'il est plus sûr d'être allié à la menace que d'être attaqué par elle. La cinquième
+vérification est le mode de partie, et c'est ici que la chance de refus monte en flèche avec la
+difficulté, d'environ un quart sur Easy jusqu'à un refus garanti sur Impossible dans une partie
+d'équipe. La sixième est la relation diplomatique : une relation pire que neutre refuse, tandis
+qu'une relation amicale peut déclencher une acceptation immédiate. La septième est un plafond
+d'alliances par difficulté, avec les nations Impossible tenant en général seulement deux ou
+trois alliances. La huitième est un bonus de début de partie, où une demande dans la première
+minute ou les deux premières a une chance supplémentaire d'être acceptée, la plus haute sur
+Easy et la plus basse sur Impossible. Tout ce que le changement de v0.35.3 ajoute se pose par
+dessus cet ordre, et rien n'y change le taux de refus du traître, les plafonds d'alliance ou la
+règle de menace. La base est documentée dans le
+[guide des décisions d'alliance des nations](/fr/guides/nation-alliance-decisions/) et dans la
+[page des mécaniques des nations](/fr/mechanics/nations/).
+
+| Vérification | Ce qu'elle fait | Tendance avec la difficulté |
+|---|---|---|
+| Confusion aléatoire | Accepte ou refuse au hasard | Plus sur Easy, aucune sur Impossible |
+| Traître | Refuse un demandeur qui a trahi la nation | Environ 90 % du temps, toutes difficultés |
+| Nombre d'alliances | Refuse un demandeur déjà allié à trop de joueurs | Plafonds plus serrés à mesure que la difficulté monte |
+| Menace | Accepte un demandeur trop fort pour être combattu | Détection meilleure avec la difficulté |
+| Partie d'équipe | Chance de refus supplémentaire en mode équipe | Monte de faible sur Easy à toujours sur Impossible |
+| Relation | Refuse sous le neutre, accepte quand amicale | Même règle à chaque difficulté |
+| Plafond d'alliances | S'arrête une fois qu'elle en tient assez | Plafond plus bas sur Impossible |
+| Début de partie | Acceptation supplémentaire dans les premières minutes | Plus haute sur Easy, plus basse sur Impossible |
+
+## Ce qui a changé pour les tribus : rompre et attaquer un voisin traître
+
+Le changement de tribu est le plus spectaculaire des deux, et c'est une règle de punition plutôt
+qu'une règle de disponibilité. Avant v0.35.3, si vous étiez allié à une tribu IA et que vous
+signiez ensuite une alliance avec une tribu voisine, la première tribu cessait généralement de
+vous aider ; l'alliance simplement se refroidissait. Vous perdiez une source d'appui, mais la tribu
+que vous trahissiez n'ouvrait pas les hostilités contre vous, donc le coût était un coût plus
+silencieux. v0.35.3 change ce coût en coût visible. Désormais, quand un voisin est devenu
+traître, la tribu rompt son alliance avec ce voisin et l'attaque. Lisez bien : c'est la tribu
+dont le voisin est devenu traître qui attaque. Si vous êtes assis entre deux tribus IA et que
+vous en retournez une contre l'autre, c'est la tribu de l'autre côté de la trahison qui
+s'en prend à vous, et vous pouvez finir par combattre celle avec qui vous venez d'allier autant
+que celle que vous venez d'abandonner. L'effet pratique est que retourner une tribu IA contre
+une tribu IA voisine n'est plus un moyen propre de transformer un ennemi en allié : cela peut
+devenir la manœuvre qui transforme deux voisins en deux ennemis d'un coup. Cela compte le plus
+quand votre propre expansion dépend d'une de ces tribus IA tenant la ligne pendant que vous
+vous constituez, parce que la tribu dont vous comptez est maintenant la plus susceptible
+d'ouvrir un second front. Le [guide des tribus](/fr/guides/tribes/) couvre comment gérer une
+tribu déjà hostile ; cette section couvre le nouveau cas où une tribu devient hostile à cause
+d'une décision que vous avez prise. Si vous lisez le
+[guide de la pression des nations](/fr/guides/nations-pressure/), vous verrez la même logique
+du côté nation : le moteur veut maintenir la pression sur le meneur, et une tribu qui vient de
+voir son voisin changer de camp est le moteur qui maintient cette pression sur vous.
+
+Le nouveau comportement a aussi un effet de timing qu'il vaut la peine de prévoir. La rupture et
+l'attaque se déclenchent au moment où le voisin devient traître, pas au prochain renouvellement
+d'alliance, donc la punition est immédiate et vous n'avez pas de délai pour retirer le
+revers avant que le second front s'ouvre. Cela veut dire que la fenêtre pour éviter le second
+front est avant de signer la tribu voisine, pas après, et le seul moyen de l'inverser une fois
+l'attaque lancée est de vaincre la tribu qui s'est retournée contre vous ou d'amener une
+troisième faction dans le combat pour diviser son attention. La punition s'applique aussi dans
+les deux directions : si c'est la tribu IA qui a retourné, pas vous, et qu'elle a rompu son
+alliance avec une tribu IA voisine pour attaquer ce voisin, vous verrez la même rupture et
+attaque se jouer entre deux factions IA sur la carte, ce qui est un indice utile pour savoir ce
+que le moteur fait aux factions autour de vous quand vous n'avez pas personnellement fait la
+manœuvre. Voir deux tribus IA se rompre et s'attaquer mutuellement confirme que la nouvelle
+règle de punition est active sur la version que vous jouez, et c'est la même règle qui
+s'appliquera à vous dès que vous signerez l'une d'elles contre l'autre.
+
+## Ce qui a changé pour les nations Hard et Impossible : renouveaux en petite partie
+
+Le deuxième changement est plus discret, mais il corrige un verrouillage réel que les joueurs
+de petites parties sur difficultés élevées rencontraient. Dans une petite partie, la fenêtre
+pour la diplomatie est courte : vous signez une alliance tôt, vous combattez au milieu, et au
+moment où la pression de fin de partie monte, les alliances avec lesquelles vous avez commencé
+ont soit été rompues, soit sont sur le point d'expirer. Avant v0.35.3, sur Hard et Impossible,
+une nation pouvait refuser tous les renouveaux d'alliance, ce qui voulait dire qu'une fois qu'une
+nation avait décidé de ne pas vous resigner, vous ne pouviez jamais récupérer cette nation,
+quel que soit l'utilité qu'elle avait à conserver comme partenaire. Dans une partie courte, ce
+refus était presque fatal, parce que vous n'aviez qu'une ou deux chances d'établir votre carte
+diplomatique et qu'un seul refus vous couchait hors d'un partenaire pour le reste de la partie.
+v0.35.3 supprime ce refus généralisé. Désormais, dans une petite partie, une nation Hard ou
+Impossible ne refusera pas tous les renouveaux ; elle renouvelera selon les mêmes conditions
+que le reste de l'arbre de décision lui donne, ce qui veut dire qu'une nation qui n'est pas une
+relation de traître, qui n'est pas au-dessus de son plafond d'alliance et qui a une relation
+jouable peut resigner. Le changement ne rend pas les nations Hard et Impossible amicales ; il
+les rend disposées à poursuivre une relation qu'elles avaient déjà commencée, tant que les
+vérifications de base passent encore. Si vous avez trahi la nation, le refus d'environ 90 % de
+la règle du traître s'applique toujours, donc le changement de renouvellement ne vous laisse pas
+resigner une nation que vous avez retournée. Le changement porte spécifiquement sur la fenêtre
+de renouvellement : le moment après qu'une alliance a expiré où la seule question est de savoir
+s'il faut rétablir celle que vous aviez.
+
+Il y a une frontière subtile mais importante à ce changement que les joueurs manquent, et c'est
+la frontière entre un renouvellement et une demande fraîche. Le changement s'applique à la fenêtre de
+renouvellement, c'est-à-dire le moment après qu'une alliance existante a expiré et que la seule
+question est de savoir s'il faut rétablir celle que vous aviez. Il ne s'applique pas à une
+demande d'alliance fraîche à une nation avec laquelle vous n'avez jamais été allié, et cette
+demande fraîche parcourt toujours l'arbre de décision complet depuis le haut, y compris le
+plafond de nombre d'alliances et la règle de menace. Donc le changement de renouvellement est un
+outil pour conserver un partenaire que vous avez déjà, pas un outil pour en acquérir un
+nouveau, et si vous essayez de vous en servir pour signer une nation avec laquelle vous n'avez
+jamais été allié dans une petite partie Impossible, vous serez toujours soumis aux mêmes
+refus qu'avant le correctif. La conséquence pratique est que la meilleure version d'un plan de
+petite partie sur v0.35.3 est d'établir la seule alliance de nation que vous voulez dans les
+deux premières minutes, quand le bonus d'acceptation de début de partie est le plus haut, puis
+de la renouveler à chaque expiration plutôt que d'essayer de signer une deuxième nation plus
+tard, parce que la deuxième nation est une demande fraîche et la première nation est un
+renouvellement. Cet ordre, signer tôt et renouveler souvent, est l'habitude diplomatique la plus
+importante que le correctif permet.
+
+## Le cadre de décision : quand retourner une tribu IA, quand conserver une nation
+
+Les deux changements tirent en sens opposés, donc le cadre est une paire de règles. La première
+règle porte sur les tribus : ne retournez pas une tribu IA contre une tribu IA voisine à moins
+de pouvoir vous permettre de combattre la tribu que vous retournez. Le coût pré-v35 d'un
+revers était la perte d'une source d'appui ; le coût v0.35.3 peut être deux ennemis d'un coup.
+La vérification avant de retourner est donc de savoir si votre propre armée est assez forte pour
+absorber une attaque simultanée de la tribu que vous venez d'allier et de la tribu que vous
+venez d'abandonner. Si vous vous constituez et que votre capitale est encore vulnérable, le
+revers est la mauvaise manœuvre même si l'ennemi tribal de l'autre côté est actuellement
+faible, parce que la tribu alliée peut maintenant se retourner contre vous pendant que vous êtes
+exposé. La deuxième règle porte sur les nations sur Hard et Impossible : conservez une alliance
+de nation que vous voulez et renouvelez-la dans une petite partie, parce que la fenêtre de
+renouvellement qui se refermait sur vous est maintenant ouverte. La vérification avant de laisser une
+alliance de nation expirer est de savoir si cette nation est le partenaire qui couvre votre
+flanc pendant que vous poussez. Si c'est le cas, vous devriez activement renouveler plutôt que
+de laisser expirer, parce que le risque pré-v35 était que le renouvellement soit refusé et que vous
+restiez sans partenaire en fin de partie. Le cadre se réduit à une phrase : sur v0.35.3, soyez
+plus conservateur sur le retour de tribus IA et plus proactif sur le renouvellement de nations IA sur
+les difficultés élevées dans les parties courtes.
+
+Un troisième élément complète le cadre, et c'est celui qui vous dit laquelle des deux règles
+appliquer en premier quand une partie se déroule. L'élément est l'identité de la faction dont
+vous avez le plus peur. Si la faction dont vous avez le plus peur est une tribu IA, la règle du
+revers est celle qui lie, parce que le risque pour vous est qu'un revers transforme cette
+tribu en ennemi ou transforme la tribu dont vous comptiez en ennemi, et le cadre vous dit
+d'être conservateur. Si la faction dont vous avez le plus peur est une nation IA, la règle du
+renouvellement est celle qui lie, parce que le risque pour vous est qu'une alliance expirée vous
+laisse seul en fin de partie, et le cadre vous dit d'être proactif. Si la faction dont vous
+avez le plus peur est un autre joueur, les deux règles lient moins, parce que les factions IA ne
+sont pas la menace principale, et vous pouvez vous permettre d'être plus agressif avec les
+revers et les renouveaux puisque le coût d'une erreur est plus bas. Le cadre se réduit donc
+davantage à une vérification en trois étapes : identifiez la faction dont vous avez le plus
+peur, décidez laquelle des règles lie selon que cette faction est une tribu ou une nation, et
+appliquez cette règle avec le niveau de prudence approprié.
+
+## Scénario un : retourner une tribu entre deux voisins sur une grande carte
+
+Imaginez une grande carte FFA où vous êtes le meneur et où deux tribus IA sont installées de
+chaque côté de vous. La tribu A est à l'est et est actuellement alliée à vous ; la tribu B est
+à l'ouest et est actuellement ennemie. La tribu A et la tribu B partagent une frontière, et la
+tribu B est la tribu dont vous avez le plus peur parce qu'elle a le plus d'effectifs sur la
+carte. Votre instinct est de signer la tribu B et de la retourner contre la tribu A, parce que
+cela vous donnerait un fort allié à l'ouest et transformerait votre est en un flanc ouvert.
+Sous les règles pré-v35, cela aurait fonctionné comme vous l'attendiez : la tribu A cesserait de
+vous aider, mais ne vous attaquerait pas, et vous resteriez avec la tribu B comme nouveau
+partenaire et une expansion orientale libre. Sous v0.35.3, la manœuvre est différente. Quand la
+tribu A voit que son voisin, la tribu B, est devenu traître en s'alliant à vous contre elle, la
+tribu A rompt l'alliance avec vous et vous attaque. Donc au lieu de perdre une source d'appui,
+vous affrontez maintenant la tribu A, qui a des effectifs, et vous venez de donner à la tribu B
+une raison d'être moins utile à vous parce qu'elle est occupée à combattre la tribu A.
+
+Les chiffres qui comptent sont les effectifs : si la tribu A a, disons, cent mille effectifs et
+que vous êtes à soixante mille avec votre capitale encore exposée, le revers est une perte,
+parce que vous avez échangé une perte silencieuse d'appui contre une guerre sur deux fronts que
+vous ne pouvez pas gagner. La version correcte de la manœuvre est de ne retourner la tribu B que
+si votre propre nombre d'effectifs est assez élevé pour absorber une attaque de la tribu A
+pendant que la tribu B est encore distrait ; si vous n'êtes pas assez fort, la meilleure
+manœuvre est de conserver la tribu A alliée et d'appliquer de la pression à la tribu B par le
+commerce ou une bombe plutôt que par un retour complet d'alliance. La même manœuvre fonctionne
+en votre faveur quand les chiffres penchent dans l'autre sens. Si la tribu B, la tribu ennemie
+que vous voulez signer, est celle avec l'armée la plus grande et la tribu A, votre tribu alliée
+actuelle, est plus petite, alors retourner la tribu B contre la tribu A est la manœuvre qui vous
+sauve, parce que vous échangez un allié faible contre un allié fort et l'attaque de la tribu A
+que vous devez maintenant absorber vient de la faction plus petite.
+
+## Scénario deux : conserver un partenaire nation dans une petite partie Hard
+
+Imaginez maintenant une petite carte en Hard où vous n'êtes pas le meneur et où vous avez besoin
+d'une nation IA comme partenaire pour survivre à la fin de partie. Vous avez signé la nation tôt,
+et elle a tenu la ligne pendant que vous vous constituez. Au milieu de la partie, votre alliance
+a expiré, et la question est de savoir s'il faut renouveler. Sous les règles pré-v35, en Hard,
+la nation pouvait refuser le renouvellement de front, et dans une petite partie vous n'aviez pas le
+temps de trouver un remplaçant, donc la supposition la plus sûre était que vous étiez désormais
+seul. Sous v0.35.3, la supposition change. Parce que vous n'avez pas trahi la nation, la règle du
+traître ne se déclenche pas ; parce que vous n'êtes pas le meneur, le plafond de nombre
+d'alliances qui protège le meneur n'est pas la contrainte liante ; et parce que la relation est
+jouable, le renouvellement passe. La décision est maintenant de savoir si la nation vaut la peine d'être
+conserve, pas de savoir si vous pouvez la conserver. Si la nation couvre votre flanc le plus
+vulnérable, la réponse est oui, et vous devriez renouveler immédiatement plutôt que d'attendre
+la prochaine expiration, parce qu'une deuxième expiration sur une petite carte est souvent la
+fin de partie. Si la nation est sur votre flanc le plus fort et que vous avez assez
+d'effectifs pour défendre ce côté tout seul, la réponse est non, et laisser expirer est bien
+parce que vous n'avez pas besoin du partenaire.
+
+La décision de renouvellement dépend aussi de l'état de l'armée propre de la nation, que le joueur
+pré-v35 ne pouvait pas influencer mais qu'il peut maintenant prendre en compte. Si la nation que
+vous renouvelez perd elle-même des effectifs au profit d'une troisième faction, la renouveler
+est un pari que la nation survivra assez longtemps pour être utile, et le pari est plus faible
+d'avantage que l'armée de la nation est déjà partie. La bonne manœuvre dans ce cas est de
+renouveler seulement si la nation est le partenaire qui couvre votre flanc le plus exposé et
+que la troisième faction qui attaque la nation ne vous attaque pas aussi, parce qu'une nation qui
+est sur le point d'être détruite par une faction qui vous attaque aussi est un partenaire qui ne
+vous sauvera pas en fin de partie quel que soit le renouvellement. Le cas opposé est la nation qui
+gagne ses propres combats : renouveler cette nation est un pari fort, parce que la nation a
+probabilité de survivre et d'apporter son élan gagnant en fin de partie, et le bonus
+d'acceptation de début de partie qui vous a donné l'alliance en premier lieu fonctionne
+maintenant en votre faveur au renouvellement aussi.
+
+## Modes d'échec et contre-mesures
+
+L'échec le plus courant après le changement de tribu est le double-revers : un joueur qui signe
+la tribu B contre la tribu A, se fait retourner par la tribu A, puis, paniqué, signe un autre
+voisin contre la tribu A, ce qui retourne ce voisin contre lui aussi. La contre-mesure est la
+vérification du cadre : avant de retourner, confirmez que votre propre nombre d'effectifs est
+assez élevé pour encaisser une attaque IA sans perdre votre capitale, et ne chaînez jamais deux
+revers dans la même partie. Le deuxième échec est l'erreur de renouvellement : un joueur qui laisse
+expirer une alliance de nation utile dans une petite partie Hard, suppose le refus pré-v35, et ne
+renouvelle jamais, pour se retrouver seul en fin de partie. La contre-mesure est de vérifier la
+base avant de laisser une expiration se maintenir : si vous n'avez pas trahi la nation et que la
+relation est jouable, renouvelez, parce que le refus généralisé qui rendait le renouvellement un pari
+est parti. Le troisième échec est la fausse confiance : un joueur qui lit le changement de
+renouvellement et suppose que les nations Hard et Impossible sont maintenant amicales, en signe trop,
+et finit sur-étendu. La contre-mesure est de vous souvenir que le changement de renouvellement n'ouvre
+que la fenêtre ; le refus du traître, le plafond d'alliance et la règle de menace sont tous
+toujours en vigueur, donc une nation que vous avez trahie vous refusera toujours environ 90 % du
+temps et une nation déjà alliée à la moitié de la carte vous refusera toujours en Hard. Le
+quatrième échec est l'erreur de mode : dans une partie d'équipe en Impossible, le refus de la
+partie d'équipe est un refus garanti, donc aucune quantité de renouveaux ne rétablira une
+alliance de nation que vous avez perdue, et le seul levier restant est la relation diplomatique
+et la règle de menace. Le cinquième échec est la supposition de difficulté : en Easy, la
+confusion aléatoire est haute, donc une tribu qui rompt votre alliance peut le faire pour des
+raisons sans rapport avec votre trahison, et vous ne devriez pas lire la rupture pilotée par la
+confusion comme une punition dont vous pouvez vous sortir par la négociation.
+
+Le sixième échec, et le plus facile à faire parce que c'est une erreur de lecture plutôt
+qu'une erreur de jeu, est celui où un joueur lit le changement de tribu comme une augmentation
+générale de l'agressivité de l'IA et décide que toute la version est plus hostile, pour jouer
+une partie défensive qui n'est pas justifiée. Le changement de tribu est une punition
+spécifique à une manœuvre spécifique, le retour d'une tribu IA contre une tribu IA voisine, et
+il ne rend pas l'IA plus agressive dans toutes les autres situations. Un joueur qui ne retourne
+pas de tribus IA n'est pas exposé au nouveau second front, et jouer une partie défensive par
+peur d'une punition qui ne s'applique pas à son jeu est un coût que le correctif n'impose pas
+réellement. La même erreur de lecture apparaît sur le côté nation, où un joueur lit le
+changement de renouvellement comme un signe que l'IA est maintenant plus coopérative et signe
+plus de nations que la carte ne peut en supporter, ce qui est à nouveau l'échec de fausse
+confiance, et la contre-mesure est la même : le correctif a changé deux chemins de décision
+spécifiques, pas le tempérament général du moteur, donc les seules situations où le nouveau
+comportement compte sont les deux qu'il nomme.
+
+## Ajustements par mode et par carte
+
+Les deux changements interagissent avec la taille de la carte et le mode de partie de façons qui
+vaut la peine de séparer. Sur une grande carte, c'est le changement de tribu qui compte le plus,
+parce qu'une grande carte vous donne assez de place pour être coincé entre deux tribus IA, et
+aussi assez de temps pour vous récupérer d'un mauvais revers si votre nombre d'effectifs est
+élevé. Sur une petite carte, c'est le changement de renouvellement de nation qui compte le plus, parce
+que la fenêtre de diplomatie est courte et qu'une expiration est presque la fin de partie, donc
+la fenêtre de renouvellement ouverte est la différence entre conserver un partenaire et être seul. Dans
+une partie d'équipe, le changement de nation est presque inutile en Impossible, parce que le
+refus de la partie d'équipe est un refus garanti, donc la fenêtre de renouvellement est fermée par le
+mode avant que la règle de difficulté puisse l'ouvrir ; en Easy et Medium, le refus de la
+partie d'équipe n'est qu'une chance, donc le changement de renouvellement s'applique toujours. En FFA,
+les deux changements s'appliquent complètement, parce qu'il n'y a pas de refus de partie d'équipe
+pour interférer, donc le FFA est là où la diplomatie de v0.35.3 est la plus visible et la plus
+vaut la peine d'être prévue. La [page des mécaniques des nations](/fr/mechanics/nations/) a les
+règles spécifiques au mode pour les nations que cette section approfondit, et le
+[changelog de la v35](/changelog/v35/) liste l'ensemble complet des changements de la série v35
+pour que vous puissiez voir les entrées de v0.35.3 en contexte.
+
+Un ajustement de plus mérite d'être nommé explicitement : la taille de la carte change aussi
+quelle des deux échecs vous devriez craindre le plus, et donc lequel vous devriez prévoir. Sur
+une grande carte, l'échec à surveiller est le double-revers, parce qu'une grande carte vous donne
+la place pour être coincé entre deux tribus IA et le temps pour faire l'erreur deux fois, donc
+votre plan devrait inclure une règle stricte de ne jamais chaîner deux revers dans la même
+partie. Sur une petite carte, l'échec à surveiller est le renouvellement expiré, parce qu'une petite
+carte ne vous donne ni le temps de récupérer d'un renouvellement manqué ni la place de trouver un
+partenaire de remplacement, donc votre plan devrait inclure une règle stricte de renouveler une
+nation utile dès que son alliance expiré. Le mode change laquelle des deux plans est celle qui
+lie : en FFA, les deux plans sont en vigueur en même temps, dans une partie d'équipe en
+Impossible le plan de renouvellement est presque inutile donc vous devriez vous appuyer sur le plan de
+double-revers, et dans une partie d'équipe en Easy ou Medium le plan de renouvellement vaut toujours la
+peine d'être gardé parce que le refus de la partie d'équipe là-bas n'est qu'une chance plutôt
+qu'une certitude. La difficulté change à quel point chaque plan doit être appliqué : en Easy, la
+confusion aléatoire rend les deux plans moins fiables, donc vous devriez prévoir une tribu qui
+peut rompre votre alliance pour des raisons sans rapport avec votre trahison et une nation qui
+peut la renouveler pour des raisons sans rapport avec votre mérite ; en Impossible, les plans
+sont plus fiables parce que le moteur est moins aléatoire, donc vous pouvez compter sur la
+fenêtre de renouvellement qui s'ouvre quand les vérifications de base passent et sur la punition du
+traître qui se déclenche quand un voisin change de camp. Un dernier ajustement concerne le
+rythme : sur une petite carte, la diplomatie de v0.35.3 est un événement récurrent plutôt
+qu'un coup unique, parce que chaque expiration d'alliance est une nouvelle occasion de
+renouveler et chaque changement de camp d'un voisin est une nouvelle occasion de vous retrouver
+dans le second front, donc le joueur qui gagne sur v0.35.3 dans une petite partie est celui
+qui s'habitue à vérifier l'expiration de chaque alliance et l'état de chaque voisin avant
+chaque grande décision de construction ou de mouvement.
