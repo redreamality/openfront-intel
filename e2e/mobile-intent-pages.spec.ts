@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { latestOpenFrontRelease } from '../src/config/openfront-release';
+import { readFileSync } from 'node:fs';
 
 const localeCases = [
   { lang: 'en', prefix: '', seoTitle: 'OpenFront Mobile App, Download & APK: Official Browser Guide' },
@@ -17,6 +17,13 @@ const mobileSlugs = [
 ] as const;
 
 for (const localeCase of localeCases) {
+  const source = readFileSync(new URL(
+    `../src/content/guides/${localeCase.lang}/mobile-app-download.mdx`,
+    import.meta.url,
+  ), 'utf8');
+  const verifiedTag = /^freshnessSummary:.*?(v0\.\d+\.\d+)/m.exec(source)?.[1];
+  if (!verifiedTag) throw new Error(`Missing mobile evidence version: ${localeCase.lang}`);
+  const verifiedReleaseUrl = `https://github.com/openfrontio/OpenFrontIO/releases/tag/${verifiedTag}`;
   test(`mobile answers[${localeCase.lang}] have one routed entry per intent`, async ({ page }) => {
     const guidesPath = `${localeCase.prefix}/guides/`;
     await page.goto(guidesPath, { waitUntil: 'domcontentloaded' });
@@ -39,11 +46,11 @@ for (const localeCase of localeCases) {
     );
     await expect(page).toHaveTitle(localeCase.seoTitle);
     const appMain = page.locator('main');
-    await expect(appMain).toContainText(latestOpenFrontRelease.tag);
+    await expect(appMain).toContainText(verifiedTag);
     await expect(appMain).toContainText('APK');
     await expect(appMain.locator('a[href="https://openfront.io/"]')).toHaveCount(2);
     await expect(
-      appMain.locator(`a[href="${latestOpenFrontRelease.releaseUrl}"]`),
+      appMain.locator(`a[href="${verifiedReleaseUrl}"]`),
     ).toHaveCount(2);
 
     await page.goto(`${localeCase.prefix}/guides/mobile-alternatives/`, {

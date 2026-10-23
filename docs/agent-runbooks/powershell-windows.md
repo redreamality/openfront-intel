@@ -1,5 +1,9 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-24 开放 PR 核验复发**：`gh pr list --author @me --state open --json number,title,headRefName` 的未引用参数被 PowerShell 改写，报告 `unknown argument "open"`；按既有规则引用 `'@me'` 和完整 JSON 字段列表后返回真实 `[]`。失败不代表没有开放 PR，必须以恢复后的成功响应为依据。
+
+- **2026-10-24 测试路径读取恢复**：按主题猜测 `e2e/search-improvements.spec.ts` 导致 `rg` 报 os error 2；从真实 `e2e` 目录检索后读取 `search-answer-routing.spec.ts` 与 `mobile-intent-pages.spec.ts`。路径缺失不代表功能缺少测试。
+
 - **2026-10-11 版本维护复发记录**：把 Bash 花括号或通配路径直接交给 Windows `rg`，命令以 `os error 123` 失败；改用真实目录配合 `--glob` 或逐个明确路径恢复。沿用现有路径规则，不修改 AGENTS.md。
 
 仅在任务涉及本主题时读取。规则从 2026-08-20 的项目级 `AGENTS.md` 逐条迁移；原始快照见 [归档](../archive/AGENTS-through-2026-08-20.md)。

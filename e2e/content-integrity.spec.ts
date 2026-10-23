@@ -378,11 +378,11 @@ for (const v32Case of v32Cases) {
 }
 
 const latestReleaseSsrCases = [
-  { lang: 'en', path: '/', signal: 'next carrier costs 25 million Gold plus 15 million' },
-  { lang: 'zh', path: '/zh/', signal: '下一枚花费 25M，加上本局此前每次 MIRV 发射的 15M' },
-  { lang: 'fr', path: '/fr/', signal: 'prochain coûte 25 millions de Gold plus 15 millions' },
-  { lang: 'de', path: '/de/', signal: 'nächste Träger kostet 25 Millionen Gold plus 15 Millionen' },
-  { lang: 'nl', path: '/nl/', signal: 'volgende drager kost 25 miljoen Gold plus 15 miljoen' },
+  { lang: 'en', path: '/', signal: 'Ranked requires a trusted account', rollout: 'initially disabled by default' },
+  { lang: 'zh', path: '/zh/', signal: '排位需要可信账户', rollout: '最初默认关闭并逐步开放' },
+  { lang: 'fr', path: '/fr/', signal: 'Un compte trusted est nécessaire', rollout: 'initialement désactivé par défaut' },
+  { lang: 'de', path: '/de/', signal: 'Ranked verlangt ein vertrauenswürdiges Konto', rollout: 'anfangs standardmäßig deaktiviert' },
+  { lang: 'nl', path: '/nl/', signal: 'Ranked vereist een trusted account', rollout: 'aanvankelijk standaard uitgeschakeld' },
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {
@@ -394,6 +394,11 @@ for (const releaseCase of latestReleaseSsrCases) {
     const main = page.locator('main');
     await expect(main).toBeVisible();
     await expect(main).toContainText(releaseCase.signal);
+    await expect(main).toContainText(releaseCase.rollout);
+    await expect(main.locator('h2').first()).toContainText('v35.3');
+    await expect(main.locator(`a[href="${latestOpenFrontRelease.releaseUrl}"]`).first()).toBeVisible();
+    await expect(main.locator('a[href*="/releases/tag/v0.34."]')).toHaveCount(0);
+    await expect(main.locator(`a[href="${releaseCase.path}guides/what-do-factories-do/"]`)).toBeVisible();
   });
 }
 
