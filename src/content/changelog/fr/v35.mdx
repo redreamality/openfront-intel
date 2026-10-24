@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v35.3 : changements et décisions'
-description: 'Notes OpenFront v35.3 : Nations, commerce initial, parties classées, progression, disponibilité des replays, commandes, cartes et correctifs.'
+title: 'OpenFront v35.4 : changements et décisions'
+description: 'OpenFront v35.4 corrige la sauvegarde des XP, statistiques et récompenses publiques ; retour sur Nations, commerce, classement, progression et replays.'
 pubDate: 2026-10-17
-updatedDate: 2026-10-24
+updatedDate: 2026-10-25
 version: v35
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Réponse directe : que change OpenFront v35.0 à v35.3 ?
+## Réponse directe : que change OpenFront v35.0 à v35.4 ?
 
-**v35 apporte des Nations plus intelligentes, un commerce initial accéléré, le FFA classé, les guerres de clans, la progression, de nouvelles commandes et de nouvelles cartes. La v0.35.3, publiée le 23 octobre 2026, ajoute des corrections concernant les alliances, la visibilité, les replays et les commandes.** La [Release officielle v0.35.3](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3) reprend aussi les notes précédentes. Ses nouveautés ne doivent donc pas être confondues avec celles introduites en v0.35.0.
+**La v35.4 corrige l'absence d'XP, de statistiques ou de récompenses dans la plupart des parties publiques depuis v0.35.3.** La [Release officielle v0.35.4](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), publiée le 24 octobre 2026, explique que le serveur abandonnait trop tôt la sauvegarde des grandes parties, ce qui pouvait produire des niveaux différents selon les appareils. Elle ne promet pas de récompenses rétroactives. Les nouveautés antérieures de v35 restent les Nations plus intelligentes, le commerce initial accéléré, le FFA classé, les guerres de clans, la progression, les commandes et les cartes.
 
 Les Nations commencent à économiser plus tard, continuent à construire, fortifient leurs frontières avant une attaque et défendent mieux les débarquements. Les Nations Hard et Impossible envoient des bateaux chargés de 1 % de leurs troupes pour établir une tête de pont, puis une attaque terrestre. Elles évitent les navires ennemis, envoient des escadrons contre les blocus et limitent leurs routes maritimes à 300 et 500 cases respectivement. En FFA, elles peuvent exercer une pression sur un leader trop puissant. Easy conserve son ancien comportement. En v0.35.3, les Tribes rompent leur alliance avec un voisin devenu traître et l'attaquent ; les Nations Hard et Impossible cessent de refuser systématiquement les renouvellements dans les petites parties. Une acceptation reste incertaine.
 
@@ -24,6 +24,8 @@ R ouvre le chat rapide, F les émojis et X sélectionne tous les navires de guer
 Le déplacement dans la chronologie des replays apparaît en v0.35.0, initialement désactivé par défaut pour un déploiement progressif. La v0.35.3 autorise le visionnage pendant le traitement, sans garantir la même disponibilité pour tous les comptes. Elle améliore aussi l'XP provisoire, ajoute Map Layers et corrige le placement du curseur de ratio d'attaque sur mobile.
 
 ## Que faut-il changer dans la prochaine partie ?
+
+Si une partie publique en v0.35.3 n'a pas accordé d'XP, de statistiques ou de récompenses, distinguez la sauvegarde défaillante corrigée en v0.35.4 d'un affichage ordinaire d'XP provisoire. Un niveau différent selon les appareils peut être un symptôme de cette panne. Le correctif ne change pas le multiplicateur d'XP et ne confirme pas le rétablissement des récompenses perdues.
 
 Avant de vous étendre près d'une Nation, examinez la frontière terrestre et la côte. Un petit bateau peut établir une tête de pont pour une attaque terrestre ultérieure ; un blocus peut attirer un escadron. Gardez une réserve capable de répondre simultanément à un débarquement et à une pression frontalière. Contre Hard ou Impossible, une route autrefois sûre mérite une nouvelle inspection. Le [guide des têtes de pont](/fr/guides/nation-beachhead-doctrine/) traite cette décision. Pouvoir naviguer jusqu'à une côte ne signifie pas pouvoir conserver les terres après le débarquement.
 
@@ -39,13 +41,15 @@ Après une explosion qui coupe un territoire, vérifiez son nouveau propriétair
 
 ## Sources, limites des correctifs et lectures utiles
 
+La [Release v0.35.4](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), publiée le 24 octobre 2026, est la dernière limite officielle de cette page. Son nouvel élément corrige l'abandon prématuré de la sauvegarde des grandes parties, responsable de l'absence d'XP, de statistiques ou de récompenses dans la plupart des parties publiques depuis v0.35.3. Il explique les niveaux différents selon les appareils, sans annoncer de rattrapage historique ni de nouveau taux d'XP.
+
 La base fonctionnelle est la [Release officielle v0.35.0](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0), publiée le 16 octobre 2026. Elle présente les Nations, la progression, les files classées, les replays, les commandes, le commerce, les salons dimensionnés par carte et les nouvelles cartes. Les pages suivantes répètent cette base sous leur propre titre de correctif. Vérifiez donc le titre qui précède un élément avant de lui attribuer une date d'introduction. Une fonction répétée dans le texte de v0.35.3 n'a pas nécessairement commencé avec ce patch. L'histoire antérieure appartient aux [notes v34](/fr/changelog/v34/).
 
 La [Release v0.35.1](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.1), publiée le 17 octobre UTC, utilise le clan de la dernière partie sur les profils, ajoute des thèmes de Tribes antarctiques sur Antarctica et Deglaciated Antarctica, et masque boutique, promotions Steam et liens de partage des profils sur les portails de jeux. Ces changements concernent la présentation et les plateformes. Ils ne remplacent ni les stratégies des Nations, ni les formats classés, ni la génération économique de v35. Un portail peut afficher moins d'options commerciales sans appliquer un autre système de combat.
 
 La [Release v0.35.2](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2), également publiée le 17 octobre UTC, rétablit un aperçu de construction suivant le curseur. L'alignement sur la case réelle devient le réglage Snap Build Preview dans Gameplay, désactivé par défaut. Le correctif répare aussi l'expulsion des joueurs revenus depuis un autre onglet ou appareil. Si l'aperçu diffère d'une vidéo du début de v35, inspectez le réglage avant de conclure à une nouvelle règle de placement. Le corps de la note indique le 16 octobre ; les dates de publication données ici suivent les horodatages UTC de l'API.
 
-La [Release v0.35.3](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3) constitue la dernière limite officielle de cette page. Outre les alliances et les couches de carte, elle corrige une publicité couvrant les commandes, permet une approbation d'achat Steam dans le navigateur lorsque l'overlay ne s'affiche pas et ajoute dix phrases de chat rapide. Les survivants voient immédiatement leur XP provisoire à la fin. Les replays deviennent regardables pendant leur traitement. Les profils affichent le suffixe numérique des noms non vérifiés. Le placement du curseur de ratio sur mobile et la limite serveur de vingt caractères pour les noms sont également traités.
+La [Release v0.35.3](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3), publiée le 23 octobre, précède la correction de sauvegarde. Outre les alliances et les couches de carte, elle corrige une publicité couvrant les commandes, permet une approbation d'achat Steam dans le navigateur lorsque l'overlay ne s'affiche pas et ajoute dix phrases de chat rapide. Les survivants voient immédiatement leur XP provisoire à la fin. Les replays deviennent regardables pendant leur traitement. Les profils affichent le suffixe numérique des noms non vérifiés. Le placement du curseur de ratio sur mobile et la limite serveur de vingt caractères pour les noms sont également traités.
 
 Ce patch répare aussi un crash après qu'une Water Nuke a laissé un Port ou un Warship sans eau adjacente, ainsi qu'une duplication de troupes. Pour jouer normalement, retenez l'amélioration de fiabilité ; aucune procédure de reproduction n'est nécessaire. Brain Rot reçoit davantage de passages et un sommet central abaissé, les zones infranchissables sont plus claires et l'eau d'Ommatrypta est améliorée. Les deux cartes Halloween privilégient davantage d'équipes. Examinez le terrain et le salon réels plutôt que la route mémorisée sur une ancienne capture.
 

@@ -188,7 +188,10 @@ for (const contract of contracts) {
     ['official tag', body.includes(`${release.tag}`)],
     ['official Release source', body.includes(`](${release.releaseUrl})`)],
     ['no inherited v34 patch claims', !body.includes('v0.34.')],
-    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3'].every(
+    ['v35.4 saving fix', /v0\.35\.4/.test(body) && /XP/.test(body) &&
+      /stats|statistics|统计|statistiques|Statistiken|statistieken/i.test(body) &&
+      /rewards|奖励|récompenses|Belohnungen|beloningen/i.test(body)],
+    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4'].every(
       (tag) => body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`),
     )],
     ['canonical category', frontmatterValue(frontmatter, 'category') ===

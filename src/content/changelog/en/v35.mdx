@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v35.3: changes and next-match decisions'
-description: 'OpenFront v35.3 release notes: smarter Nations, faster early trade, ranked queues, progression, replay availability, controls, maps, and patch fixes.'
+title: 'OpenFront v35.4: changes and next-match decisions'
+description: 'OpenFront v35.4 release notes: public-game XP, stats and rewards saving fix, plus v35 Nations, trade, ranked queues, progression, replays and controls.'
 pubDate: 2026-10-17
-updatedDate: 2026-10-24
+updatedDate: 2026-10-25
 version: v35
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v35.0 through v35.3?
+## Direct answer: what changed in OpenFront v35.0 through v35.4?
 
-**OpenFront v35 adds smarter Nations, faster early trade, ranked FFA and Clan Wars, player progression, new controls, and new maps. v0.35.3, published on October 23, 2026, adds alliance, visibility, replay, and input fixes.** The [official v0.35.3 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3) includes the earlier v35 notes, so distinguish its newest patch from the features introduced in v0.35.0.
+**OpenFront v35.4 fixes most public games since v0.35.3 not awarding XP, stats or rewards.** The [official v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), published on October 24, 2026, explains that the server stopped trying to save large games too early, which could leave different levels showing on different devices. It does not promise retroactive rewards for affected games. The earlier v35 features remain smarter Nations, faster early trade, ranked FFA and Clan Wars, progression, new controls, and new maps.
 
 Nations now save later, keep building, fortify borders before attacking, defend against landings, and respond more effectively to attacks. Hard and Impossible Nations send 1% beachhead boats followed by land attacks. They route boats around Warships, send squads at blockades, and have boat-route limits of 300 and 500 tiles respectively. In FFA, Nations can pressure a runaway leader. Easy Nations retain their old behaviour. In v0.35.3, Tribes break their alliance with a neighbouring traitor and attack that neighbour; Hard and Impossible Nations stop refusing every renewal in small games. Renewal remains a decision, not a guaranteed acceptance.
 
@@ -21,9 +21,11 @@ Ranked FFA matches four to ten players by ELO, uses a twenty-minute timer, and e
 
 Controls change together: R opens quick chat, F opens the emoji menu, and select-all-warships moves to X. Nukes can again hand a severed territory piece to a surrounding enemy. Public-lobby size comes from map land instead of a universal 125-player cap. New maps include Madagascar, Horn of Africa, Vancouver Island, Cape of Good Hope, Canary Islands, Bab el-Mandeb Strait, Rio de Janeiro, Pulicat Lake, Benelux, Brain Rot, and Ommatrypta.
 
-Replay seeking is introduced in v0.35.0 but initially disabled by default for gradual rollout. v0.35.3 allows viewing while a game is still being processed; that does not guarantee identical availability on every account. The latest patch also improves provisional XP, adds Map Layers visibility controls, and repairs mobile attack-slider placement. These are separate changes with different consequences for the next match.
+Replay seeking is introduced in v0.35.0 but initially disabled by default for gradual rollout. v0.35.3 allows viewing while a game is still being processed; that does not guarantee identical availability on every account. That patch also improves provisional XP, adds Map Layers visibility controls, and repairs mobile attack-slider placement. These are separate changes with different consequences for the next match.
 
 ## What should you change in the next match?
+
+If XP, statistics or rewards were missing after a public game on v0.35.3, distinguish the saving failure addressed in v0.35.4 from an ordinary provisional XP display. A level that differs between devices can be a symptom of that failure. The fix is not an XP multiplier, a new reward rate, or confirmation that past missing rewards will be restored.
 
 Before expanding beside a Nation, inspect both the land contact and the coast. A small boat can establish a beachhead for a later land attack, while a naval blockade can attract a squad response. Keep enough reserve to defend a landing and a border at the same time. Against Hard or Impossible Nations, a route that looked safe under earlier behaviour deserves another look. Use the [Nation beachhead guide](/guides/nation-beachhead-doctrine/) for that specific decision. A legal transport route answers whether a boat can travel; it does not answer whether the landing survives.
 
@@ -39,13 +41,15 @@ After a nuclear strike cuts territory, inspect the new ownership before sending 
 
 ## Source status, patch boundaries, and next reading
 
+The [v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4) is this page's latest formal boundary, published on October 24, 2026. Its new item fixes public-game saving that failed too early for large games, leaving most public games since v0.35.3 without XP, stats or rewards. The note explains cross-device level differences but does not announce historical backfill or a change to XP rates.
+
 The feature baseline is the [official v0.35.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0), published on October 16, 2026. Its overview groups Nations, progression, ranked queues, replay seeking, controls, economic generation, map-driven lobbies, and new maps. The later Release pages repeat that baseline underneath their own patch headings. Read the heading above an item before assigning its introduction date. A feature repeated in the v0.35.3 body did not necessarily first ship with v0.35.3. Earlier v34 history belongs in the [v34 notes](/changelog/v34/).
 
 The [v0.35.1 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.1), published on October 17 UTC, changes profile cards to use the clan tag from the latest game, adds Antarctic Tribe themes on Antarctica and Deglaciated Antarctica, and hides store, Steam promotions, and profile-share links on game portals. These are presentation and platform boundaries. They do not replace the v35 Nation strategy, ranked format, or economic generation rules. A player on a portal may therefore see a different store or sharing surface without playing a different combat system.
 
 The [v0.35.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.2), also published on October 17 UTC, restores a build preview that follows the cursor. The tile-snapping behaviour becomes the optional Snap Build Preview setting in Gameplay, off by default. It also fixes kicks failing to remove players who rejoined from another tab or device. If a placement preview looks different from an early v35 recording, inspect that setting before assuming the building rule changed. The Release body labels the patch October 16; the publication dates here use the API's UTC timestamps.
 
-The [v0.35.3 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3) is the latest formal boundary on this page. Besides the alliance and map-visibility changes, it fixes an advertisement covering in-game controls, allows Steam purchase approval in a browser when the desktop overlay cannot appear, and adds ten quick-chat phrases. Survivors see provisional XP immediately when the game ends. Replays can be watched while processing continues. Profile cards show unverified names with their numeric suffix. A mobile attack-ratio slider placement issue and the server-side twenty-character username limit are also addressed.
+The [v0.35.3 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.3), published on October 23, precedes the saving fix. Besides the alliance and map-visibility changes, it fixes an advertisement covering in-game controls, allows Steam purchase approval in a browser when the desktop overlay cannot appear, and adds ten quick-chat phrases. Survivors see provisional XP immediately when the game ends. Replays can be watched while processing continues. Profile cards show unverified names with their numeric suffix. A mobile attack-ratio slider placement issue and the server-side twenty-character username limit are also addressed.
 
 The same patch repairs a water-nuke crash when a Port or Warship has no adjacent water and fixes a troop-duplication exploit. For ordinary play, the useful consequence is improved reliability; no reproduction steps are needed. Brain Rot receives more crossings and a lower central peak, impassable regions become clearer, Ommatrypta's water improves, and both Halloween maps prefer higher team counts. Read the actual map and lobby configuration rather than carrying an old screenshot's route into a new match.
 

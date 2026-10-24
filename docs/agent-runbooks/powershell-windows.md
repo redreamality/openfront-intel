@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-25 版本响应路径复发**：`rg` 路径中使用 `src/content/changelog/*/v35.mdx`、`e2e/home*` 再次触发 os error 123；恢复为真实目录与 `--glob`，已重新取得五语事实与测试位置。沿用既有规则，未改 AGENTS.md。
+
 - **2026-10-24 开放 PR 核验复发**：`gh pr list --author @me --state open --json number,title,headRefName` 的未引用参数被 PowerShell 改写，报告 `unknown argument "open"`；按既有规则引用 `'@me'` 和完整 JSON 字段列表后返回真实 `[]`。失败不代表没有开放 PR，必须以恢复后的成功响应为依据。
 
 - **2026-10-24 测试路径读取恢复**：按主题猜测 `e2e/search-improvements.spec.ts` 导致 `rg` 报 os error 2；从真实 `e2e` 目录检索后读取 `search-answer-routing.spec.ts` 与 `mobile-intent-pages.spec.ts`。路径缺失不代表功能缺少测试。

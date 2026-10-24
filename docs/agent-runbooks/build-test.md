@@ -1,5 +1,7 @@
 # 构建、Astro 与 Playwright runbook
 
+- **2026-10-25 v35.4 正式响应 SEO 复核**：普通生产基线与最终均为 990 HTML / 980 可索引页，SEO 退出 1，诊断为 104 个标题截断、2 个双 H1（`de/guides/ommatrypta/`、`nl/guides/public-special-lobbies/`）。完整诊断集合相同、新增零。不能沿用上轮仅一个双 H1 的计数，也不能称全站 PASS。版本配置更新同时改变共享 FreshnessSummary 的站点当前基线，必须据普通产物哈希列出全部影响 URL，不能只统计五语主答案。
+
 - **2026-10-24 v35 版本维护回归**：首轮完整 e2e 为 455/460，五项失败均因 mobile-app-download 测试把 `latestOpenFrontRelease.tag` 当成页面核验范围；正文明确保留 v0.35.2 来源，而全站配置已到 v0.35.3。测试改为从每语 `freshnessSummary` 读取实际证据 tag，继续断言正文与两条官方 Release 链接，避免为了追随全站版本伪造独立答案核验日期。版本审计的旧 v34 战速、MIRV 与地图合同另按真实 v35 Release 功能替换，保留三节、逐节门槛、五语与来源检查。修正后全套 460/460；普通生产基线与最终 SEO 均为 104 个标题截断加 1 个 NL 双 H1，完整 105 项诊断集合相同，审计仍退出 1，不宣称全站 PASS。
 
 - **2026-10-23 外置 Playwright 配置**：配置放在 automation cache 时，webServer 默认工作目录跟随配置目录，导致 `pnpm exec astro build` 找不到项目并退出 1。外置配置必须显式设置项目绝对 `testDir` 和 `webServer.cwd`，并配置一致的预览端口；修正后从头重跑。正文维护仍可用 `pnpm exec astro build` 跳过无关 extract，且核对生成 JSON 精确 hash。

@@ -378,11 +378,11 @@ for (const v32Case of v32Cases) {
 }
 
 const latestReleaseSsrCases = [
-  { lang: 'en', path: '/', signal: 'Ranked requires a trusted account', rollout: 'initially disabled by default' },
-  { lang: 'zh', path: '/zh/', signal: '排位需要可信账户', rollout: '最初默认关闭并逐步开放' },
-  { lang: 'fr', path: '/fr/', signal: 'Un compte trusted est nécessaire', rollout: 'initialement désactivé par défaut' },
-  { lang: 'de', path: '/de/', signal: 'Ranked verlangt ein vertrauenswürdiges Konto', rollout: 'anfangs standardmäßig deaktiviert' },
-  { lang: 'nl', path: '/nl/', signal: 'Ranked vereist een trusted account', rollout: 'aanvankelijk standaard uitgeschakeld' },
+  { lang: 'en', path: '/', signal: 'Ranked requires a trusted account', rollout: 'initially disabled by default', saving: 'save large games too early', backfill: 'not promise retroactive rewards' },
+  { lang: 'zh', path: '/zh/', signal: '排位需要可信账户', rollout: '最初默认关闭并逐步开放', saving: '过早放弃保存大型对局', backfill: '公告没有承诺补发' },
+  { lang: 'fr', path: '/fr/', signal: 'Un compte trusted est nécessaire', rollout: 'initialement désactivé par défaut', saving: 'sauvegarde des grandes parties', backfill: 'ne promet pas de récompenses rétroactives' },
+  { lang: 'de', path: '/de/', signal: 'Ranked verlangt ein vertrauenswürdiges Konto', rollout: 'anfangs standardmäßig deaktiviert', saving: 'Speichern großer Spiele zu früh aufgab', backfill: 'werden nicht zugesagt' },
+  { lang: 'nl', path: '/nl/', signal: 'Ranked vereist een trusted account', rollout: 'aanvankelijk standaard uitgeschakeld', saving: 'opslaan van grote games te vroeg opgaf', backfill: 'belooft geen beloningen met terugwerkende kracht' },
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {
@@ -395,7 +395,14 @@ for (const releaseCase of latestReleaseSsrCases) {
     await expect(main).toBeVisible();
     await expect(main).toContainText(releaseCase.signal);
     await expect(main).toContainText(releaseCase.rollout);
-    await expect(main.locator('h2').first()).toContainText('v35.3');
+    await expect(main.locator('h2').first()).toContainText(latestOpenFrontRelease.displayVersion);
+    const answer = main.locator('.prose p').first();
+    await expect(answer).toContainText('v35.4');
+    await expect(answer).toContainText('v0.35.3');
+    await expect(answer).toContainText('XP');
+    await expect(answer).toContainText(/rewards|奖励|récompenses|Belohnungen|beloningen/i);
+    await expect(answer).toContainText(releaseCase.saving);
+    await expect(answer).toContainText(releaseCase.backfill);
     await expect(main.locator(`a[href="${latestOpenFrontRelease.releaseUrl}"]`).first()).toBeVisible();
     await expect(main.locator('a[href*="/releases/tag/v0.34."]')).toHaveCount(0);
     await expect(main.locator(`a[href="${releaseCase.path}guides/what-do-factories-do/"]`)).toBeVisible();
