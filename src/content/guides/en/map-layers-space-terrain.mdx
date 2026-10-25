@@ -1,0 +1,167 @@
+---
+title: "Map Layers and the Space Terrain Reveal"
+description: "Find the new Map Layers controls in v0.35.3, learn what each toggle and opacity slider does, and use the Space terrain reveal to read the real map under the decorative art."
+pubDate: 2026-10-25
+updatedDate: 2026-10-25
+version: v0.35.3
+releaseStatus: released
+category: Game Guides
+difficulty: Beginner
+tags: [map-layers, alt-view, graphics, terrain, v0.35.3]
+freshnessSummary: "Verified against the v0.35.3 release notes, the v0.35.3 and v0.35.4 tag source, and the v0.35.4 map info.json assets on 2026-10-25."
+---
+
+OpenFront v0.35.3 added a whole **Map Layers** block to the advanced graphics settings and wired the **Space** bar to a terrain-reveal "alternate view". Most players still fly the map with the decorative art fully on top, which hides the exact shoreline, coast, and choke geometry that decisions are actually made on. This guide tells you where the new controls live, what each one changes, and when to use the permanent toggles versus the Space hold so you can see the real map.
+
+## Quick answer
+
+### Where is the Map Layers switch and what does Space do?
+
+In **Settings → Graphics → Advanced** you get four new **Map Layers** controls: a toggle for land layers, a toggle for water layers, and an opacity slider for each. Holding **Space** (the default `toggleView` keybind, also available as a button in the settings modal) drops both land and water decorative layers to 2% opacity for as long as you hold it, revealing the raw base terrain underneath. The settings toggles hide a layer class permanently, while the sliders set how opaque the decorative art is at rest. Use Space for a moment-to-moment read of terrain and the toggles when a map's art genuinely gets in the way.
+
+It is worth separating this feature from three things that look similar but are different. The coordinate grid (default M) is a separate overlay that pins coordinates; it does not change layer opacity. The map themes described in each map's `info.json` are a label for the art style, not a control. And the Map Layers block is independent of zoom: it changes what the decorative art looks like at any zoom level, not how much of the map you can see. If you are looking for the switch and find the grid or the theme picker instead, you are one step down the panel — Map Layers sits under the Advanced graphics heading, below the core resolution and quality settings. The feature is new in v0.35.3 and still present in v0.35.4, so the controls described here are the ones you will find in the current build.
+
+### Why players ask
+
+The v0.35.3 release notes describe Map Layers as a way to "adjust the opacity of the map's decorative layers", and the alternate view was shipped alongside it. Players who read the patch notes want to know the exact menu location, whether the feature is per-map or global, and which approach — hold-to-reveal or permanent hide — is better for competitive reading. This guide covers the settings path, the per-control effect, the Space mechanic, a per-map layer inventory, and a decision framework with two numeric scenarios so you can pick the right setting for your map and playstyle. The short version is that the feature is global in the sense that the controls are in one place, but per-map in the sense that each map decides how many layers it ships and which class each belongs to, so the same slider value can look quite different on two different maps.
+
+## What Map Layers actually are
+
+A map's visual is built from a base terrain image plus any number of **decorative layers** on top. The engine defines each layer with a small contract: a unique `id` that matches a PNG file, a `placement` that says whether the layer sits on land tiles or water tiles, an optional `nukeable` flag, and an optional default `alpha` value between 0 and 1 that the player's opacity slider starts from. When `nukeable` is true, that layer is permanently destroyed inside a nuke's impact radius, so the decorative art is physically torn away where a nuke lands; when it is false the art survives the blast. The `alpha` field is only an initial value — once a game loads the layer at its default opacity, the player's slider takes over and any change you make is what you fly with for the rest of the session.
+
+This matters for two reasons. First, not every map has the same number of layers, and the split between land and water differs per map, so a control you tune on one map does not carry a fixed visual result to another. Second, the land and water classes are independent: you can hide the land decoration while keeping the water decoration, or dim one to 30% and leave the other fully opaque. The four controls in the graphics panel exist precisely because these two classes behave differently and players want to treat them differently. If you are used to OpenFront's older single-map look, think of v0.35.3 as giving you a per-class layer stack instead of one flat image.
+
+### How the stack renders
+
+The renderer draws the base terrain first and then composites each enabled layer on top at its current alpha. When the alternate view is active, the land layer alpha is forced to 0.02 and the water layer alpha is forced to 0.02 regardless of the slider values; when a visibility toggle is off, that layer's alpha collapses to 0 entirely. So there are three states for each class: fully hidden (toggle off), dimmed to 2% (Space held), or at your slider value (normal flight). Knowing those three states is the whole basis of the decision framework later in this guide.
+
+A useful way to internalize the contract is to read it as three fields with three jobs. The `id` is the file the renderer loads, so a map with two `id` values ships two PNGs and a map with one ships one. The `placement` is the routing rule that decides which of the two sliders and toggles the layer answers to: a `land` placement layer is controlled by the land class and a `water` placement layer by the water class, and a layer with no matching class simply does not appear under the Map Layers controls. The `nukeable` flag is the durability rule: a true layer is torn away inside a nuke impact radius, a false layer is not. The `alpha` value is only the starting opacity the slider begins from. None of these fields change what Space does — Space always forces both classes to 2% — but they determine which class a map's art belongs to and whether a nuke can clear it, which is exactly the information the per-class controls are built around.
+
+## Where the controls live and what each one does
+
+All four controls are in **Settings → Graphics → Advanced**, grouped under the **Map Layers** heading. There are two toggles — land layers visible and water layers visible — and two opacity sliders, one per class, both ranging from 0.05 to 1.0. The default for both toggles is on and the default for both sliders is 1.0, which means the game starts with the decorative art fully opaque unless a map's own `alpha` value says otherwise. A map that ships a layer with `alpha: 0.7` therefore starts at 70% even before you touch the slider, and that 70% is the resting state the Space key temporarily overrides.
+
+The `toggle_view` button in the same panel does exactly what holding Space does, but it is a momentary action you can trigger while the settings modal is open. That is useful when you want to preview the revealed terrain without leaving the menu, or when you have remapped Space away. The default keybinds are `toggleView: "Space"` and `coordinateGrid: "KeyM"`, so M already toggles the coordinate grid and Space is reserved for the alternate view unless you change it. If you have rebound Space to something else, the Map Layers reveal follows that new binding, and the settings button always works as a fallback.
+
+A few practical notes about the panel worth knowing before you touch it. The two sliders share the same 0.05 to 1.0 range, so 1.0 is full opacity and 0.05 is the most transparent the resting view can get — which is still far more visible than the 2% that Space forces, so Space is always a cleaner read than the slider minimum. The toggles are independent of the sliders: you can hide the land class with its toggle while the land slider is still at 1.0, and the toggle simply wins and renders the class at 0. There is no per-layer granularity in the panel; if a map ships two land layers (rare, but possible), both answer to the single land control together. And because the controls are under Advanced, they are not shown in the default graphics summary until you expand the advanced section, which is the most common reason players say they cannot find the switch at all.
+
+### Defaults you will actually see
+
+| Control | Default | Range / State | Effect |
+| --- | --- | --- | --- |
+| Land layers visible | On | On / Off | Hides the land decoration class entirely when off |
+| Water layers visible | On | On / Off | Hides the water decoration class entirely when off |
+| Land layer opacity | 1.0 | 0.05–1.0 | Sets how opaque the land decoration is at rest |
+| Water layer opacity | 1.0 | 0.05–1.0 | Sets how opaque the water decoration is at rest |
+| Alternate view (Space) | Space | Momentary | Forces both layers to 2% opacity while held |
+
+The table keeps the five knobs side by side so you can see at a glance that visibility is a binary per-class switch while opacity is a continuous per-class dial, and that Space is the one control that overrides both at the same time.
+
+## The Space terrain reveal mechanic
+
+Holding **Space** activates the alternate view for as long as the key is held and deactivates it the instant you release it. While active, the renderer forces the land layer to 2% opacity and the water layer to 2% opacity, so the decorative art becomes effectively invisible and the raw base terrain — the actual coastline, island shapes, and choke geometry — is what you are looking at. Your sliders are not changed by the hold: release Space and the layers return to whatever opacity you set in the settings panel. This is a preview, not a permanent mode, which is exactly the point of the design.
+
+The reason the reveal exists is that the decorative layers can obscure the very geometry you need to read. A fully opaque land layer can hide the true edge of a coastline, a narrow strait, or a small island that is only visible in the base image. By dropping both classes to 2%, Space gives you a clean read of the map underneath without you having to dig into the sliders. If you want a permanent reveal, you do that with the toggles or the sliders; if you want a quick check while flying, Space is the fastest path. Because it is momentary, you can hold it over a region you are about to commit to and release it the moment you have confirmed the shape, which keeps your normal decorative view for the rest of the match.
+
+### When the reveal is the right tool
+
+Space is the right tool when you need a one-off read: before declaring an advance across a strait, before committing troops to a coast you have not inspected, or when a map's art is genuinely hiding a choke you suspect. It is the wrong tool when you want a permanent change, because the moment you release the key the art comes back. Pair it with the coordinate grid (default M) when you need to call out a specific spot: Space reveals the shape and M pins the location, and together they let you describe exactly where a choke or a spawn is without relying on the decorative art to tell you.
+
+There are two interactions with the reveal that players miss on the first try. First, the reveal does not depend on zoom: holding Space at a close zoom reveals the detailed coastline shape, while holding it at a wide zoom reveals the large island silhouettes, and the same key works at either scale. Second, the reveal does not override a nuke-cleared region, because a nukeable layer is already removed in the impact radius — so in a freshly nuked stretch the land art is gone whether or not you hold Space, and the reveal only matters in the stretches a nuke has not touched. The combination that is worth practicing is Space plus M: press Space to confirm the shape, press M to pin the coordinate, and you have a read you can trust and can share. That two-key habit is the entire competitive value of the feature, because it turns the decorative art from a thing that hides the map into a thing you can switch off at will for exactly the moment that matters.
+
+## Decision framework: toggle vs opacity vs Space
+
+There are three tools for the same problem — too much decoration hiding the terrain — and they are not interchangeable. The visibility toggle removes a layer class permanently for the session, the opacity slider sets how much of it you see at rest, and Space gives you a momentary 2% preview of both classes at once. Pick based on how permanent you want the change and whether the problem is land-specific, water-specific, or both. If only the land art is getting in the way — which is the common case, because land layers carry the most busy detail — dim just the land slider and leave the water art intact. If the whole map is too busy, either hold Space for the read or drop both sliders together.
+
+A clean way to choose is to ask two questions. First, is the problem in one class or both? If one class, use that class's slider or toggle and leave the other alone. Second, is the problem temporary or permanent? If you only need the reveal for a few reads, use Space and change nothing in the settings; if you will want the reduced art for the whole match, change the slider or toggle so the change sticks. The safest default for most players is to leave both toggles on, keep both sliders near 1.0 for normal flight, and lean on Space for every terrain read. That keeps the decorative art available for casual play while giving you an instant clean view whenever a decision depends on the true geometry.
+
+### A rule of thumb for each situation
+
+| Situation | Best tool | Why |
+| --- | --- | --- |
+| One quick terrain read before a move | Space (hold) | Momentary, changes nothing permanent |
+| Land art always hides the coast | Land slider down or land toggle off | Permanent, land-specific |
+| Water art clutters the straits | Water slider down | Permanent, water-specific |
+| Whole map too busy for the match | Both sliders down, or both toggles off | Permanent, both classes |
+| Confirming a choke while flying | Space + M (grid) | Shape + pinned coordinate |
+
+The framework collapses to one habit: default to Space for reads, and only touch the sliders or toggles when a specific map makes the decoration a recurring problem rather than a one-off. The reason the framework is split at all, rather than offering a single "reduce decoration" slider, is that the land and water classes fail in different ways on different maps. On a land-heavy map the land art is the problem and the water art is harmless, so a single global control would force you to dim the harmless class too. On a two-layer water-heavy map the water art is the problem and the land art carries the island detail you want to keep, so again a global control is the wrong shape. The per-class controls exist to let you fix the class that is actually failing on the map you are flying, and the decision framework is just a way to pick that class quickly. Once you have the habit of checking which class carries the clutter before you change anything, the three tools stop competing with each other and each one has an obvious job: Space reads, sliders tune, toggles hide.
+
+## Scenario A: reading a narrow strait on a land-heavy map
+
+Assume a map where the land layers carry dense decorative detail and the only route between two landmasses is a strait that the land art almost fully covers. You have your land slider at 1.0 (default) and the water slider at 1.0, and you are deciding whether to commit a column of troops across the strait. With the art fully on, the strait reads as a wide open gap because the land decoration spills over the true coastline and makes the passage look broader than it is. If you commit on that read, your column spreads out across the apparent width and only a fraction of it actually crosses, while the rest pools on the near shore and is exposed to a defending fire line.
+
+The fix is to hold Space over the strait before you commit. The land and water layers drop to 2%, the true coastline appears, and you see the strait is narrower than the art implied — say it fits two columns, not four. You then commit only two columns, keep the rest in reserve on the near side, and cross in a tighter formation that the defender cannot easily split. The numeric change is the difference between sending four columns into a two-column-wide passage and sending exactly two: with four, you lose the two that never make it and the near shore is overrun; with two, the whole force crosses and you hold the far bank. Space cost nothing and changed a losing commitment into a clean crossing. If the map's land art hides the strait every single game, you can additionally set the land slider to about 0.5 so the resting view already shows more of the real coast, but for a one-map one-read, Space alone is enough.
+
+### What went wrong without the reveal
+
+Without the reveal the land art made the strait look four columns wide, so the player committed four and lost two. The terrain was never actually four columns wide — the decoration just implied it. The lesson is that a land-heavy map's art biases you toward thinking the water is more open than it is, and Space is the cheapest way to check that bias before a commitment. The assumptions in this scenario are that the strait is the only route between the two landmasses, that the defender holds the far bank, and that the land layer is a nukeable art overlay rather than the true coastline — all of which is what a single-land-layer map like Brainrot actually ships. If the strait were instead two separate gaps, the same Space read would show both and the fix would be to commit through the wider one only. The point is that the reveal does not decide the move for you; it corrects the width estimate that the move is built on, and a corrected width estimate is what separates a committed force from a split one.
+
+## Scenario B: two-layer map where only water art is the problem
+
+Ommatrypta at v0.35.4 ships two layers: `eyeland` (land, alpha 0.7, nukeable) and `eyewater` (water, alpha 0.7, nukeable false). The water layer is the one that sits over the open water between the "eye" islands, and it is the one that most hides the true water geometry. In a match where you are probing which island chain is the safest advance, the water art makes the channels between islands look deep and open, so you route through a channel that is actually shallow and exposed. Because the water layer is `nukeable: false`, nukes do not clear it — a nuke on the water does not reveal the channel any better, so the only reliable way to read the true water shape is the alternate view or the water slider.
+
+Hold Space over the channel and the water art drops to 2%; you see the channel is a tight, easily covered gap and the adjacent route is the safer one. You switch your advance to the wider channel and avoid the defender's overwatch on the shallow one. If this map's water art hides the channels every game, set the water slider to 0.5 permanently and leave the land slider alone, because the land layer is the one that carries the useful island detail you do not want to lose. The numeric difference here is route quality: the shallow channel loses you the troops that have to cross it in the open, while the wide channel lets the same force cross under cover. The decision is identical in shape to Scenario A — check the real geometry before committing — but the class you need to dim is the water class, which is why the per-class sliders exist instead of a single global opacity.
+
+### Why the per-class split matters here
+
+On a two-layer map the land and water art do different jobs: land carries the island detail you want to keep, water carries the clutter you want to remove. A single global opacity would force you to dim the useful island detail along with the useless water clutter. The two sliders let you keep the land art at 0.7 (its shipped default) and drop the water art to 0.5, which is exactly the asymmetric read the map needs. The deeper reason this map is the clearest example of the feature is that its water layer is the only non-nukeable layer in the pair. On most maps a nuke eventually clears the clutter for you, which hides the problem; on Ommatrypta the water art survives every nuke, so the clutter is permanent and the only two ways to read the true channel are Space and the water slider. That is why the per-class split is not a convenience on this map but a necessity: the class you need to hide is the class a nuke will never hide for you, and the only tool that touches it is the water control.
+
+## Failure modes and how to counter them
+
+The first failure is assuming Space is a permanent reveal. It is momentary; the instant you release the key the art returns to your slider values. If you read the terrain with Space, then release and keep flying, you are flying back on the decoration. Counter: if you decided the revealed view is the one you want for the whole match, move that decision into the sliders or toggles so it sticks, and reserve Space for future one-off reads.
+
+The second failure is dimming the wrong class. On a land-heavy map, dimming the water slider does almost nothing because the land art is what hides the coast; on a water-heavy two-layer map, dimming the land slider removes the useful island detail instead of the water clutter. Counter: identify which class carries the clutter first — usually the one that sits over the geometry you are trying to read — and dim only that class. The quick test is to hold Space (which reveals both), look at what is actually obscuring the read, and then pick the matching slider.
+
+The third failure is ignoring the per-map `alpha` defaults. A map that ships its layers at 0.7 already starts dimmer than the 1.0 slider default, so "reset to default" is not the same as 1.0 on every map. If you are comparing two maps and one looks flatter, check whether its layer ships with a lower `alpha`. The fourth failure is forgetting that `nukeable` layers are destroyed by nukes: on a nukeable land layer, a nuke physically removes the art in its radius, so a nuked region already reads cleaner than an unnuked one, and you do not need Space to see a recently nuked coast. Counter: use Space for regions a nuke has not already cleared.
+
+### Quick counter table
+
+| Failure | Counter |
+| --- | --- |
+| Treat Space as permanent | Move the decision into the slider or toggle |
+| Dim the wrong class | Hold Space, see which class hides the read, dim that one |
+| Ignore per-map alpha defaults | Check the map's shipped alpha before resetting |
+| Forgetting nuked art is already cleared | Use Space only for unnuked regions |
+
+The common thread across all four failures is the same underlying mistake: treating the three tools as interchangeable when they answer different questions. The toggle answers "is this class visible at all", the slider answers "how opaque is this class at rest", and Space answers "show me the raw terrain right now". A player who does not hold that distinction in mind reaches for whichever control is nearest and then wonders why the result is wrong — the toggle that hid the class the slider was meant to tune, the slider that dimmed the harmless class instead of the cluttered one, or the Space hold that the player expected to stick. The fastest way to build the distinction is to say which question you are asking out loud before you touch a control: "I want this class gone for the whole match" means a toggle, "I want this class dimmed at rest" means a slider, and "I want to see the terrain for the next few seconds" means Space. Once the question is named, the control that answers it is obvious, and the four failures mostly stop happening.
+
+## Mode adjustments: ranked versus casual
+
+In ranked or otherwise competitive play the reveal is worth using more often, because the margin between a clean crossing and an exposed one is the whole match. Hold Space before every major advance and keep both toggles on so you do not accidentally fly the whole match on a dimmed view; the goal is a clean read at the decision point, not a permanently altered map. In casual play you can leave everything at default and only reach for Space when a map feels confusing. If you play a specific map a lot, tune its persistent sliders once: set the land slider down on land-heavy maps, set the water slider down on two-layer water-heavy maps, and leave the other class at default so you keep the useful detail.
+
+The reason the ranked habit is stricter is that a competitive match punishes a single bad terrain read more than a casual one. In a ranked game, committing four columns into a two-column strait because the art implied more width is not an embarrassment you reset in the next match; it is the map you lost. The alternate view is free, so the cost of checking is near zero while the cost of skipping the check is the whole advance. In casual play the same mistake is recoverable, so you can get away with fewer reads and lean on the decorative view most of the time. The practical split is: ranked players hold Space at every decision point and only commit after the true coastline is confirmed; casual players hold Space when a map feels confusing and otherwise fly the default art.
+
+There is one more ranked-specific habit worth adding: pair Space with the coordinate grid (default M) when you are calling out a choke or a spawn for a teammate. Space reveals the shape and M pins the exact coordinate, so the read you share is "two columns wide at this spot" rather than "it looks tight over there". In a solo session the coordinate call-out is less important, but in a team the combination is what turns a private terrain read into a shared one. Keep the toggles on and the sliders near default in ranked so the map does not drift from what your teammates see, and let Space be the only thing that changes between your normal view and your decision view. If you find yourself wanting a permanently dimmed view in ranked, that is usually a sign you are on a map whose art is a recurring problem, and the right fix is a one-time slider tune for that specific map, not a habit change across all maps.
+
+### What to set for each map type
+
+| Map type | Recommended persistent setting | Space usage |
+| --- | --- | --- |
+| Land-heavy single layer | Land slider ~0.5–0.7 | Hold for strait reads |
+| Two-layer, water clutter | Water slider ~0.5, land at default | Hold for channel reads |
+| No layers | Nothing to set | No-op, skip |
+
+## Per-map layer inventory
+
+The Map Layers controls only matter on maps that actually ship a `layers` array in their `info.json`, and the number of layers and the land/water split differ per map. The two concrete examples verified at v0.35.4 are the best reference points because they cover the two most common shapes: a single land layer and a two-layer land-plus-water map. Brainrot at v0.35.4 carries exactly one layer, `brland`, with `placement: land`, `alpha: 0.7`, and `nukeable: true`. Because it has only a land layer, the water slider and water toggle are inert on Brainrot and the only controls that change the visual are the land slider, the land toggle, and Space. Space reveals the base Brainrot terrain under that single land layer, and a nuke physically removes the land art inside its impact radius because the layer is nukeable.
+
+Ommatrypta at v0.35.4 carries two layers, `eyeland` and `eyewater`. Both ship with `alpha: 0.7`, but they differ in the two fields that drive your decision: `eyeland` is `placement: land` and `nukeable: true`, while `eyewater` is `placement: water` and `nukeable: false`. That asymmetry is the whole reason for the per-class controls. The land layer carries the island detail you want to keep and is destroyed by nukes, so a nuked island already reads cleaner without any Space hold; the water layer carries the channel clutter you usually want to dim and is not destroyed by nukes, so the only reliable way to read a water channel is the alternate view or the water slider. On Ommatrypta the correct persistent tune is to leave the land slider at its 0.7 default and drop the water slider to about 0.5, which keeps the useful island art and removes the water clutter in one asymmetric move.
+
+The general rule is to check a map's `info.json` layer block before you tune anything, because the presence and shape of that array is what makes the controls relevant. A map with a single land layer only needs the land controls; a map with a two-layer land-plus-water split usually needs an asymmetric tune; and a map with no `layers` array at all makes the entire Map Layers block inert, so Space is a no-op there and the sliders have nothing to affect. The themes field in the same `info.json` (for example `space` and `war` on Brainrot, `scary` and `fantasy` on Ommatrypta) does not change the layer behavior, it only describes the art style, so do not use the theme as a proxy for how busy the layers are. The reliable signal is always the `layers` array itself, and the two examples above are the templates for the three cases you will meet most often.
+
+### The three cases at a glance
+
+| Map shape | Layers at v0.35.4 | Controls that matter |
+| --- | --- | --- |
+| Single land layer (Brainrot) | `brland` land, alpha 0.7, nukeable | Land slider, land toggle, Space |
+| Two-layer land + water (Ommatrypta) | `eyeland` land 0.7 nukeable; `eyewater` water 0.7 non-nukeable | Water slider first, then land; Space for channels |
+| No layers | none | Map Layers block is inert; Space is a no-op |
+
+## Quick reference and next steps
+
+The five controls, in one place: land toggle, water toggle, land opacity, water opacity, and the Space alternate view, all under Settings → Graphics → Advanced. The defaults are both toggles on and both sliders at 1.0, with a map's own `alpha` overriding the slider start value, and Space forcing both classes to 2% for as long as it is held. The decision rule is simple — use Space for momentary reads, use the sliders or toggles for permanent per-class changes, and pick the class that actually carries the clutter. Brainrot is a one-layer land map, Ommatrypta is a two-layer map where the water layer is the usual culprit, and maps with no layers make the block inert.
+
+To put the reveal in context with the rest of how you read a map, the coordinate grid (default M) is the tool that names a location once Space has shown you its shape, and the two together are the complete "confirm then pin" loop for any terrain decision. If you want to understand why the land and water classes behave the way they do across different map types, the [terrain systems guide](/guides/terrain-systems/) covers the broader layer and placement model that this feature sits on. If your actual goal is to make better route choices once the terrain is visible, the [map strategy guide](/guides/map-strategy/) is the natural next step, because it assumes you can already read the true coastline and teaches you what to do with it. And for the two concrete maps used as examples here, the [Brainrot guide](/guides/brainrot/) and the [Ommatrypta guide](/guides/ommatrypta/) cover each map's full layer block and the specific routes where the reveal changes the decision. Keep the default habit — Space for reads, sliders for permanent per-class changes — and the decorative art stops hiding the map from you.
+
+One last habit worth locking in before you leave this guide: the reveal is a read, not a setting. If you catch yourself pressing Space and then leaving it held because the map looks better that way, stop — that is the slider's job. The whole reason the feature is split into a momentary key and permanent sliders is so that your normal flight stays on the decorative art (which is what you are used to and what your teammates expect) while your decision moments get the clean view. Train the Space-plus-M combination until it is automatic, because the players who use this feature well are not the ones who dim the map forever but the ones who can flip to the raw terrain in the two seconds it takes to confirm a strait width.

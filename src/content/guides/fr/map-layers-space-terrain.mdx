@@ -1,0 +1,181 @@
+---
+title: "Couches de carte et la révélation du terrain avec Espace"
+description: "Retrouvez les nouveaux contrôles Map Layers dans v0.35.3, découvrez ce que font chaque interrupteur et chaque curseur d'opacité, et utilisez la révélation du terrain avec Espace pour lire la vraie côte."
+
+category: mechanics
+tags:
+  - v0.35.3
+  - map-layers
+  - space
+  - terrain
+  - settings
+  - graphics
+  - navigation
+  - alternate-view
+author: OpenFront Intel
+pubDate: 2026-10-25
+updatedDate: 2026-10-25
+version: v0.35.3
+releaseStatus: released
+freshnessSummary: "Contrôles et valeurs par défaut vérifiés contre le corps du release v0.35.3, UserSettings.ts (toggleView: Space), ViewModeController.ts et Renderer.ts à la tag v0.35.3 (et reconfirmés à v0.35.4) ; alphas par carte vérifiés contre map-generator/assets/maps/{brainrot,ommatrypta,china}/info.json. Si un correctif futur change l'alpha par défaut ou le facteur de vue alternative, rafraîchir."
+related:
+  - guides/terrain-systems/
+  - guides/map-strategy/
+  - guides/brainrot/
+  - guides/ommatrypta/
+---
+
+## Réponse rapide
+
+### Où se trouve l'interrupteur Map Layers et que fait Espace ?
+
+Dans **Paramètres → Graphismes → Avancé**, vous obtenez quatre nouveaux contrôles **Map Layers** : un interrupteur pour les couches de terrain, un interrupteur pour les couches d'eau, et un curseur d'opacité pour chacune. Maintenir **Espace** (le raccourci par défaut `toggleView`, aussi disponible comme un bouton dans la fenêtre de paramètres) fait chuter les deux classes d'art décoratif, terrain et eau, à 2 % d'opacité tant que vous maintenez la touche, révélant le terrain de base brut en dessous. Les interrupteurs de paramètres masquent une classe de couche de façon permanente, tandis que les curseurs définissent à quel point l'art décoratif est opaque au repos. Utilisez Espace pour une lecture du terrain au moment donné, et les interrupteurs quand l'art d'une carte gêne vraiment.
+
+Il est utile de séparer cette fonction de trois choses qui ressemblent à s'y méprendre mais qui sont différentes. La grille de coordonnées (touche M par défaut) est une superposition séparée qui fixe les coordonnées ; elle ne change pas l'opacité des couches. Les thèmes de carte décrits dans chaque `info.json` sont une étiquette pour le style d'art, pas un contrôle. Et le bloc Map Layers est indépendant du zoom : il change la façon dont l'art décoratif se présente à tout niveau de zoom, pas la quantité de carte que vous pouvez voir. Si vous cherchez l'interrupteur et trouvez plutôt la grille ou le sélecteur de thème, vous êtes une étape plus bas dans le panneau — Map Layers se trouve sous l'en-tête Graphismes Avancés, en dessous des paramètres de résolution et de qualité de base. La fonction est nouvelle dans v0.35.3 et toujours présente dans v0.35.4, donc les contrôles décrits ici sont ceux que vous trouverez dans la version actuelle.
+
+### Pourquoi les joueurs posent la question
+
+Les notes de version de v0.35.3 décrivent Map Layers comme un moyen de « régler l'opacité des couches décoratives de la carte », et la vue alternative a été livrée en même temps. Les joueurs qui lisent les notes de patch veulent connaître l'emplacement exact du menu, si la fonction est par carte ou globale, et quelle approche — révélation en maintenant la touche ou masquage permanent — est meilleure pour la lecture compétitive. Ce guide couvre le chemin des paramètres, l'effet de chaque contrôle, le mécanisme d'Espace, un inventaire des couches par carte, et un cadre de décision avec deux scénarios numériques pour que vous puissiez choisir le bon réglage pour votre carte et votre style de jeu. La version courte est que la fonction est globale au sens où les contrôles sont au même endroit, mais par carte au sens où chaque carte décide combien de couches elle livre et à quelle classe chacune appartient, donc la même valeur de curseur peut avoir un aspect assez différent sur deux cartes différentes.
+
+## Ce que sont réellement les couches de carte
+
+### Le modèle de couches d'une carte
+
+Chaque carte d'OpenFront est décrite par un fichier `info.json` qui peut contenir un tableau `layers`. Chaque couche possède une `type` (`land` ou `water`), une `placement` (la façon dont l'art est posé sur la grille), une `texture` (l'art lui-même), et un `alpha` (l'opacité par défaut de cette couche sur cette carte). Le champ `layers` est optionnel : une carte sans couches n'a pas d'art décoratif à atténuer, et le bloc Map Layers n'a rien sur cette carte à contrôler. C'est pourquoi certains joueurs voient l'interrupteur ne faire apparemment rien — leur carte n'a tout simplement pas de couches.
+
+Le modèle clé à retenir est que les couches sont par carte, pas globales. Le bloc Map Layers dans les paramètres est un ensemble de contrôles partagés, mais chaque carte décide combien de couches elle livre et de quel type chacune est. Sur une carte à une seule couche de terrain, l'interrupteur d'eau n'a aucun effet car il n'y a pas de couche d'eau à masquer. Sur une carte à deux couches — une de terrain et une d'eau — les deux interrupteurs et les deux curseurs sont actifs et peuvent avoir des valeurs différentes, ce qui vous permet d'atténuer l'art d'eau tout en gardant l'art de terrain pleinement visible, ou l'inverse. Ce comportement par carte est ce qui rend la fonction utile au lieu d'être un simple curseur global qui atténue tout en même temps.
+
+### Comment la pile se rend
+
+Le moteur de rendu dessine d'abord le terrain de base, puis composite chaque couche active au-dessus à son alpha actuel. Quand la vue alternative est active, l'alpha de la couche de terrain est forcé à 2 % et l'alpha de la couche d'eau est forcé à 2 %, ce qui fait que l'art décoratif disparaît presque complètement et que le terrain de base brut — le même image de carte que celui utilisé avant que les couches ne soient ajoutées — devient visible. C'est la « révélation » du terrain. Le point important est que le facteur 2 % est forcé et momentané : il s'applique seulement tant que la vue alternative est active, et il est relâché dès que vous relâchez la touche ou éteignez le bouton. Le réglage permanent que vous voulez, en revanche, est appliqué par les curseurs d'opacité, qui modifient la valeur d'alpha de base à laquelle chaque classe de couche est composite en temps normal.
+
+La séparation entre le facteur momentané d'Espace et la valeur permanente du curseur est ce qui fait la fonction aussi flexible. Vous pouvez avoir un curseur d'eau à 0,4 (l'art d'eau légèrement atténué au repos) ET révéler le terrain en maintenant Espace ; la révélation force 2 % par-dessus le 0,4 pour la durée de la pression, puis revient à 0,4 une fois relâchée. Les interrupteurs de visibilité vont plus loin encore : désactiver une classe de couche la masque complètement, alpha 0, indépendamment de ce que dit le curseur. Les trois contrôles — interrupteur, curseur, vue alternative — donc opèrent à trois niveaux différents de permanence, et comprendre cette hiérarchie est la différence entre utiliser la fonction correctement et être frustré par elle.
+
+## Où se trouvent les contrôles et ce que chacun fait
+
+### Le bloc Map Layers dans les paramètres
+
+Le bloc apparaît dans la section Avancée de la fenêtre de paramètres graphiques. Il contient quatre contrôles dans un ordre fixe : l'interrupteur des couches de terrain, l'interrupteur des couches d'eau, le curseur d'opacité des couches de terrain, et le curseur d'opacité des couches d'eau. Chaque interrupteur est binaire — activé ou désactivé — et contrôle si la classe de couche est composite du tout. Chaque curseur est une valeur de 0 à 1 qui définit l'opacité de la classe de couche quand elle est activée. Les valeurs par défaut sont les deux interrupteurs activés et les deux curseurs à 1,0, ce qui signifie que l'art décoratif est pleinement visible par défaut, comme il l'était avant v0.35.3.
+
+Le champ `alpha` de la couche d'une carte sert de valeur de départ pour le curseur : quand une carte charge, le curseur de la classe de couche correspondante est initialisé à l'`alpha` de la couche plutôt qu'au 1,0 par défaut. C'est pourquoi deux cartes différentes peuvent afficher des curseurs à des positions différentes au premier chargement — la carte a décidé de livrer ses couches plus ou moins opaques. Si vous resettez les paramètres, les curseurs reviennent aux valeurs par défaut de la carte, pas à 1,0. C'est un détail que les joueurs manquent souvent : ils pensent que « reset » signifie 100 %, mais cela signifie en fait l'alpha par défaut de la couche de la carte, qui peut être inférieur.
+
+### Le bouton toggle_view et le raccourci Espace
+
+Le bouton `toggle_view` dans le même panneau fait exactement ce que maintenir Espace fait, mais c'est une action momentanée que vous pouvez déclencher alors que la fenêtre de paramètres est ouverte. C'est utile quand vous voulez prévisualiser la révélation sans quitter les paramètres : activez le bouton, regardez le terrain brut, désactivez le bouton, et l'art revient. Le raccourci clavier par défaut pour `toggleView` est Espace, défini dans le tableau de configuration utilisateur ; le raccourci `coordinateGrid` est M. Vous pouvez relier les deux à d'autres touches dans les paramètres de raccourcis, mais l'association Espace-par-defaut est la configuration de référence que ce guide suppose. Le fait que `toggleView` et `coordinateGrid` soient des entrées distinctes dans la même table de raccourcis confirme qu'ils sont des contrôles séparés : la vue alternative ne touche pas à la grille et vice versa.
+
+La raison pour laquelle le bouton de paramètres et le raccourci clavier font la même chose est qu'ils émettent tous deux le même événement de vue alternative au contrôleur qui gère le rendu de la carte. Il n'y a pas deux implémentations différentes de la révélation ; il y a deux façons de déclencher la même. C'est important à savoir car cela signifie que tout comportement que vous observez en maintenant Espace se reproduira exactement en cliquant le bouton de paramètres, et vice versa. Il n'y a pas de différence subtile entre « la version clavier » et « la version bouton » de la révélation.
+
+## Le mécanisme de révélation du terrain avec Espace
+
+### Ce qui se passe quand vous maintenez Espace
+
+Tant que vous maintenez la touche Espace, l'alpha des couches de terrain et d'eau est forcé à 2 % du moment que vous maintenez la touche. Le rendu de la carte composite alors le terrain de base à travers l'art décoratif quasi transparent. L'effet est immédiat — il n'y a pas de fondu ni de délai — et il est symétrique : il s'applique de la même façon que vous approchez ou que vous vous éloignez, et il ne dépend pas du zoom. Vous pouvez maintenir Espace pendant que vous volez sur la carte et la révélation suit votre caméra, révélant le terrain sous chaque région que vous survolez. C'est ce qui le rend pratique pour un « contrôle » rapide en vol : maintenez la touche, confirmez la forme, relâchez.
+
+Il y a deux interactions que les joueurs manquent à la première tentative. Premièrement, la révélation ne dépend pas du zoom : maintenir Espace à un zoom rapproché révèle la forme détaillée de la côte, tandis que la maintenir à un zoom large révèle la forme générale des masses de terre et des bras de mer. Les deux lectures sont valides ; le zoom détermine simplement la quantité de détail que vous pouvez lire. Deuxièmement, la révélation ne change rien au gameplay : elle ne modifie pas les règles, ne révèle pas d'unités cachées, et n'ajoute pas d'information sur la position de l'ennemi. Elle révèle seulement le terrain décoratif sous l'art, qui est la même information que vous pourriez obtenir en réglant les curseurs à 0, mais d'une façon momentanée et sans toucher aux paramètres.
+
+### Quand la révélation est le bon outil
+
+Espace est le bon outil quand vous avez besoin d'une lecture ponctuelle : avant de déclarer une avance à travers un détroit, avant d'engager des troupes sur une côte que vous n'avez pas inspectée, ou quand l'art d'une carte masque vraiment un goulot d'étranglement que vous suspectez. C'est le mauvais outil quand vous voulez un changement permanent, car le moment où vous relâchez la touche, l'art revient. Combinez-le avec la grille de coordonnées (touche M par défaut) quand vous avez besoin de désigner un endroit précis : Espace révèle la forme et M fixe l'emplacement, et ensemble ils vous permettent de décrire exactement où se trouve un goulot d'étranglement ou un spawn sans dépendre de l'art décoratif pour vous le dire.
+
+La raison pour laquelle la révélation existe est que les couches décoratives peuvent obscurcir précisément la géométrie dont vous avez besoin. Une couche de terrain pleinement opaque peut masquer le vrai bord d'une côte, d'un détroit étroit, ou d'une petite île qui n'est visible que dans l'image de base. En faisant chuter les deux classes à 2 %, Espace vous donne une lecture propre de la carte en dessous sans avoir à fouiller dans les curseurs. Si vous voulez une révélation permanente, vous faites cela avec les interrupteurs ou les curseurs ; si vous voulez une vérification rapide en vol, Espace est le chemin le plus rapide. Parce qu'il est momentané, vous pouvez le maintenir sur une région à laquelle vous êtes sur le point de vous engager et le relâcher le moment où vous avez confirmé la forme, ce qui garde votre vue décorative normale pour le reste de la partie.
+
+## Cadre de décision : interrupteur vs opacité vs Espace
+
+### La question à vous poser d'abord
+
+Avant de toucher à un contrôle, nommez la question que vous essayez de résoudre. « Cette classe de couche doit-elle être invisible pour toute la partie ? » C'est une question d'interrupteur. « Cette classe de couche doit-elle être atténuée au repos mais visible si j'augmente l'opacité ? » C'est une question de curseur. « Je veux voir le terrain brut pour les prochaines secondes ? » C'est une question d'Espace. Confondre ces trois questions est la cause de la plupart des frustrations avec la fonction, car les contrôles ont des durées de vie différentes et les joueurs tendent à utiliser le plus proche au lieu de celui qui répond à la question qu'ils posent.
+
+### Une règle de pouce pour chaque situation
+
+| Situation | Meilleur outil | Pourquoi |
+| --- | --- | --- |
+| Une lecture rapide du terrain avant un déplacement | Espace (maintenir) | Momentané, ne change rien de permanent |
+| L'art de terrain est trop encombrant pour lire la côte | Curseur terrain plus bas | Permanent, ajustable, réversible |
+| L'art d'eau masque le vrai canal | Curseur eau plus bas | Permanent, ajustable, réversible |
+| Vous voulez désactiver complètement l'art d'une classe | Interrupteur | Binaire, le plus fort |
+| Vous voulez prévisualiser sans quitter les paramètres | Bouton toggle_view | Momentané, accessible dans la fenêtre |
+
+La règle la plus importante est de ne pas utiliser Espace pour un changement permanent. Si vous vous attrapez en train de maintenir Espace et de ne pas relâcher parce que la carte a l'air mieux ainsi, le vrai besoin est le curseur, pas la touche. La révélation d'Espace est un outil de lecture, pas un outil de réglage. Utilisez-la pour confirmer, utilisez les curseurs et les interrupteurs pour fixer. La séparation est ce qui fait la fonction si utile : vous pouvez garder votre vue décorative normale pour le vol quotidien et obtenir la vue propre exactement quand vous prenez une décision.
+
+Un dernier point qui revient dans tous les scénarios : l'ordre dans lequel vous appliquez les contrôles n'a pas d'importance technique, car chacun agit sur un niveau de permanence différent et ils ne se conflictuent pas. Vous pouvez baisser le curseur d'eau à 0,5 puis maintenir Espace, ou maintenir Espace d'abord puis baisser le curseur — le résultat visuel est le même, car la révélation force 2 % par-dessus la valeur du curseur pour la durée de la pression, puis revient à la valeur du curseur. Ce qui compte, c'est la question que vous posez, pas la séquence des clics. Cette indépendance est ce qui rend la fonction prévisible : vous savez exactement ce que vous obtenez, quel que soit l'ordre dans lequel vous avez réglé les contrôles.
+
+## Scénario A : lire un détroit étroit sur une carte à prédominance de terrain
+
+### La situation
+
+Vous jouez sur une carte à une seule couche de terrain (Brainrot en est un exemple, avec une seule couche de terrain, alpha 0,7, placement `image`, texture `map1`). Vous approchez d'un détroit qui relie deux masses de terre, et vous devez décider combien d'unités engager à travers. L'art de terrain est pleinement opaque et le détroit semble plus large qu'il ne l'est vraiment, car l'art ajoute des détails de bordure qui étendent visuellement le bord de la côte. Vous ne savez pas si le détroit fait deux colonnes ou quatre colonnes de large, et cette différence change la décision : deux colonnes signifie que vous pouvez traverser en un seul mouvement, quatre colonnes signifie que vous êtes vulnérable pendant la traversée.
+
+### Ce qui va mal sans la révélation
+
+Sans la révélation, l'art de terrain fait paraître le détroit quatre colonnes de large, donc le joueur engage quatre et en perd deux. Le terrain n'était jamais réellement quatre colonnes de large ; c'était deux colonnes avec de l'art de bordure qui le faisait paraître plus large. En engageant sur la base de la largeur apparence, le joueur a exposé deux unités pendant une traversée qui aurait pu être un mouvement propre. C'est le coût d'opportunité de l'art décoratif : il rend la carte plus belle, mais il cache la géométrie sur laquelle vous vous engagez. La leçon est que l'art de terrain peut faire paraître les chokes plus larges (et donc plus dangereux) ou plus étroits (et donc plus sûrs) qu'ils ne le sont, et sans un moyen de vérifier la vraie largeur, vous prenez la décision sur la base de l'art plutôt que du terrain.
+
+### Ce que la révélation change
+
+Maintenez Espace alors que vous survolez le détroit. L'art de terrain chute à 2 % et vous voyez le terrain de base brut : le détroit fait réellement deux colonnes de large. Vous relâchez, l'art revient, et vous engager en sachant que la traversée est une opération de deux colonnes — un seul mouvement, pas une traversée vulnérable. La différence de décision est entière : quatre colonnes de largeur apparence vous fait perdre deux unités ; deux colonnes de largeur réelle vous laisse intact. Et parce que la révélation est momentanée, vous n'avez pas à toucher les paramètres, pas à laisser l'art éteint pour le reste de la partie. Vous confirmez la largeur, vous relâchez, vous jouez. Le détroit n'est pas plus dangereux qu'avant ; vous savez simplement mieux maintenant, et c'est toute la différence.
+
+## Scénario B : carte à deux couches où seul l'art d'eau est le problème
+
+### La situation
+
+Vous jouez sur une carte à deux couches (Ommatrypta en est un exemple, avec une couche de terrain et une couche d'eau, toutes deux à alpha 0,7, placement `image`, textures `map1` et `map2`). Vous voulez garder l'art de terrain parce qu'il détaille les îles et les points d'intérêt, mais l'art d'eau est encombrant — il couvre le vrai canal qui traverse le centre de la carte et vous empêche de voir où vous pouvez passer à travers. Vous ne voulez pas masquer l'art de terrain (il est utile) ni l'art d'eau complètement (une légère atténuation suffit), vous voulez juste rendre l'art d'eau assez transparent pour lire le canal.
+
+### Pourquoi la séparation par classe compte ici
+
+Sur une carte à deux couches, l'art de terrain et l'art d'eau font des travaux différents : le terrain porte le détail des îles que vous voulez garder, l'eau porte l'encombrement que vous voulez retirer. Un curseur d'opacité global unique vous obligerait à atténuer le détail utile des îles en même temps que l'encombrement inutile de l'eau. Les deux curseurs vous permettent de garder l'art de terrain à 0,7 (sa valeur par défaut livrée) et de faire chuter l'art d'eau à 0,5, ce qui est exactement la lecture asymétrique dont la carte a besoin. La raison plus profonde pour laquelle cette carte est l'exemple le plus clair de la fonction est que sa couche d'eau est la seule couche non nucléarisable de la paire. Sur la plupart des cartes, une frappe nucléaire finit par nettoyer l'encombrement pour vous, ce qui masque le problème ; sur Ommatrypta, l'art d'eau survit à chaque frappe nucléaire, donc l'encombrement est permanent et les seuls moyens de lire le vrai canal sont Espace et le curseur d'eau. C'est pourquoi la séparation par classe n'est pas une commodité sur cette carte mais une nécessité : la classe que vous devez masquer est la classe qu'une frappe nucléaire ne masquera jamais pour vous, et l'unique outil qui la touche est le contrôle d'eau.
+
+### Le réglage exact
+
+Réglez le curseur des couches d'eau à environ 0,5 et laissez le curseur des couches de terrain à 0,7. L'art de terrain reste pleinement visible pour les îles et les points d'intérêt, et l'art d'eau est assez atténué pour que le canal soit lisible. Vous n'avez pas à éteindre l'art d'eau complètement — il y a encore un peu de texture d'eau qui aide à orienter — vous avez juste rendu l'encombrement assez transparent. Et quand vous voulez une lecture encore plus propre d'un canal spécifique, maintenez Espace par-dessus le réglage : la révélation force l'eau à 2 % pour la durée de la pression, puis revient à 0,5. La combinaison des deux outils vous donne une plage complète : 0,7 pour le vol quotidien, 0,5 pour la lecture normale du canal, 2 % pour la vérification ponctuelle. C'est exactement le spectre que la fonction est conçue pour offrir, et c'est ce qui la rend si utile sur les cartes à deux couches.
+
+## Modes d'échec et comment les contrer
+
+### Les erreurs les plus courantes
+
+La première erreur est de traiter Espace comme s'il était permanent. Les joueurs maintiennent Espace, voient la carte plus propre, et oublient de relâcher, laissant la révélation active pendant toute la partie. Ce n'est pas un problème technique — la révélation fonctionne exactement comme prévu — mais c'est un problème de compréhension : la révélation est un outil momentané, et si vous voulez un changement permanent, le curseur est l'outil. La contre-mesure est de garder l'habitude de relâcher Espace dès que vous avez fait votre lecture, et de transférer le réglage permanent dans le curseur si vous voulez que la carte reste ainsi.
+
+La deuxième erreur est d'atténuer la mauvaise classe. Les joueurs voient que « la carte est encombrée » et font baisser le curseur de terrain, mais c'est l'art d'eau qui était l'encombrement, pas l'art de terrain. Ils finissent par atténuer l'art utile et garder l'art encombrant. La contre-mesure est de maintenir d'abord Espace et de regarder quelle classe disparaît quand elle est révélée — si c'est l'art d'eau qui disparaît, c'est l'eau qu'il faut atténuer, pas le terrain. La révélation vous dit laquelle des deux classes porte l'encombrement, et le curseur correspondant est celui que vous devez ajuster.
+
+### Tableau de contre-mesures rapide
+
+| Échec | Contre-mesure |
+| --- | --- |
+| Traiter Espace comme permanent | Transférer la décision dans le curseur ou l'interrupteur |
+| Atténuer la mauvaise classe | Maintenir Espace, voir quelle classe masque la lecture, atténuer celle-là |
+| Ignorer les alphas par défaut par carte | Vérifier l'alpha de la carte avant de réinitialiser |
+| Oublier que l'art nucléarisé est déjà nettoyé | Utiliser Espace uniquement pour les régions non nucléarisées |
+
+Le fil commun à travers les quatre échecs est la même erreur sous-jacente : traiter les trois outils comme interchangeables alors qu'ils répondent à des questions différentes. L'interrupteur répond « cette classe est-elle visible du tout », le curseur répond « quelle est l'opacité de cette classe au repos », et Espace répond « montre-moi le terrain brut maintenant ». Un joueur qui ne retient pas cette distinction à l'esprit attrape le contrôle le plus proche et se demande ensuite pourquoi le résultat est faux — l'interrupteur qui a masqué la classe que le curseur devait ajuster, le curseur qui a atténué la classe inoffensive au lieu de la classe encombrante, ou la pression d'Espace que le joueur s'attendait à voir coller. Le chemin le plus rapide pour construire la distinction est de dire à voix haute quelle question vous posez avant de toucher un contrôle : « Je veux cette classe disparue pour toute la partie » signifie un interrupteur, « Je veux cette classe atténuée au repos » signifie un curseur, et « Je veux voir le terrain pour les prochaines secondes » signifie Espace. Une fois que la question est nommée, le contrôle qui y répond est évident, et les quatre échecs cessent pour la plupart d'arriver.
+
+## Ajustements par mode : classé versus décontracté
+
+En jeu classé ou compétitif, la révélation vaut la peine d'être utilisée plus souvent, car la marge entre une traversée propre et une traversée exposée est toute la partie. Maintenez Espace avant chaque avance à travers un détroit ou une côte que vous n'avez pas inspectée, et confirmez la vraie largeur avant d'engager. La discipline est le même réflexe que de vérifier votre équipement avant un engagement : deux secondes de révélation qui vous évite de perdre deux unités. Dans une partie classée, la différence entre un joueur qui confirme la largeur du détroit et un joueur qui s'engage sur la base de l'art est souvent la différence entre une partie gagnée et perdue, car les deux joueurs partent de la même position et l'un a simplement mieux lu la carte.
+
+En jeu décontracté ou avec des amis, la révélation est moins urgente mais toujours utile. Vous êtes moins pressé de confirmer chaque détroit, mais si vous êtes perplexe devant un emplacement que vous ne comprenez pas — pourquoi cette côte semble-t-elle ici, d'où vient ce goulot d'étranglement — maintenez Espace et regardez le terrain réel. C'est aussi utile pour l'apprentissage : jouer une carte avec la révélation régulièrement vous apprend la vraie géométrie de la carte, et à la fin de quelques parties vous reconnaîtrez le détroit sans avoir besoin de révéler, car vous l'avez vu assez souvent. La révélation est donc un outil d'apprentissage autant qu'un outil de décision : elle vous montre la vraie carte, et vous mémorisez la vraie carte.
+
+Pour le mode d'équipe, la révélation est plus précieuse encore, car vous devez communiquer les décisions de terrain à votre équipe. Maintenez Espace, confirmez la largeur du détroit, et dites à votre équipe « c'est deux colonnes, traversez maintenant » plutôt que « je crois que c'est quatre colonnes, attention ». La précision de la communication change le résultat de l'équipe. Et parce que la révélation est momentanée, vous pouvez la maintenir, confirmer, relâcher, et communiquer le tout en quelques secondes, sans interrompre le flux de la partie. Le réflexe Espace-puis-communiquer est l'un des outils les plus sous-estimés du jeu d'équipe, car il transforme une supposition en un fait partagé par toute l'équipe.
+
+Un détail qui compte en mode classé comme en mode équipe : la révélation ne dépend pas de votre niveau de zoom, donc vous pouvez la maintenir à un zoom large pour confirmer la forme générale d'un bras de mer, ou à un zoom rapproché pour confirmer la largeur exacte d'un détroit. Ne cherchez pas un « bon zoom » pour la révélation — il n'y en a pas, car la révélation suit votre caméra à tout niveau de zoom et révèle le terrain sous chaque région que vous survolez. Cette indépendance au zoom est ce qui la rend si pratique : vous n'avez pas à vous arrêter, zoomer, puis révéler ; vous révèlez pendant le vol, à n'importe quel zoom, et vous lisez ce que le zoom vous montre. La seule discipline est de relâcher une fois que vous avez lu, pour que l'art décoratif revienne et que votre coéquipier qui regarde par-dessus votre épaule ne soit pas confondu par une carte qui a soudain changé d'aspect.
+
+## Inventaire des couches par carte
+
+La table ci-dessous résume les couches livrées sur les trois cartes vérifiées pour ce guide, à la tag v0.35.4. Les valeurs d'`alpha` sont les valeurs de départ du curseur au chargement de la carte ; elles peuvent être différentes dans d'autres versions si un correctif a ajusté l'art.
+
+| Carte | Couches livrées | Type | Placement | Alpha | Ce que cela signifie pour vous |
+| --- | --- | --- | --- | --- | --- |
+| Brainrot | 1 | terrain | image | 0,7 | Un seul interrupteur/curseur actif (terrain) ; l'eau est inerte |
+| Ommatrypta | 2 | terrain + eau | image | 0,7 | Les deux interrupteurs/curseurs actifs ; l'eau est le problème habituel |
+| Chine | 2 | terrain + eau | image | 0,7 | Les deux interrupteurs/curseurs actifs ; l'eau est le problème habituel |
+
+Le modèle est clair : la plupart des cartes livrent une ou deux couches, et quand il y en a deux, il s'agit presque toujours d'une paire terrain-plus-eau. Le cas à une seule couche (Brainrot) rend l'interrupteur d'eau inerte, et le cas à deux couches (Ommatrypta, Chine) active les quatre contrôles. Les cartes sans couche ne livrent pas de bloc de couches du tout et le Map Layers n'a rien à contrôler sur elles. Quand vous commencez une partie sur une carte inconnue, la première chose à faire est de vérifier combien de couches elle livre — ouvrez les paramètres, regardez le bloc Map Layers, et voyez si les deux interrupteurs sont présents. Si un interrupteur est manquant, la carte n'a pas cette classe de couche et le contrôle correspondant n'a aucun effet. Cette vérification de dix secondes vous évite de régler un curseur qui ne fait rien et de vous demander pourquoi la carte n'a pas changé.
+
+Ce que vous devriez retenir de l'inventaire est la façon dont il prédit le comportement de la fonction avant même d'avoir ouvert les paramètres. Si vous savez qu'une carte est à une couche de terrain, vous savez que l'interrupteur d'eau sera inerte et que seul le curseur de terrain a un effet ; si vous savez qu'une carte est à deux couches, vous savez que les quatre contrôles seront actifs et que la couche d'eau est presque toujours la coupable à atténuer. Cette prédiction est ce qui fait la fonction si facile à maîtriser : vous n'avez pas à expérimenter pour découvrir quelles cartes ont quoi, car l'inventaire des couches est un fait stable et vérifiable, et il vous dit exactement quels contrôles seront actifs. C'est aussi pourquoi la valeur par défaut de l'alpha compte : sur Brainrot, le curseur de terrain démarre à 0,7, ce qui signifie que l'art de terrain est légèrement atténué avant même que vous ne touchiez à quoi que ce soit, et c'est la position de départ à laquelle le curseur revient si vous réinitialisez les paramètres.
+
+Enfin, l'inventaire des couches est le meilleur point de départ pour comprendre pourquoi certaines cartes demandent la fonction plus que d'autres. Les cartes à deux couches avec une couche d'eau à 0,7 — Ommatrypta et Chine sont exactement cela — sont les cartes où l'art d'eau est le problème, car l'eau est la couche qui masque les vrais canaux. Les cartes à une seule couche de terrain — Brainrot est l'exemple — sont les cartes où l'art de terrain est le problème, car il n'y a pas d'eau à masquer. Les cartes sans couche n'ont aucun problème de Map Layers, car il n'y a pas d'art décoratif à atténuer. Cette répartition par type de couche est ce qui vous permet de choisir la bonne carte pour entraîner la fonction : si vous voulez vous entraîner sur l'atténuation d'eau, jouez Ommatrypta ou Chine ; si vous voulez vous entraîner sur l'atténuation de terrain, jouez Brainrot ; et si vous voulez vous entraîner sur la révélation d'Espace, n'importe quelle carte avec une couche fera l'affaire.
+
+## Référence rapide et prochaines étapes
+
+Les cinq contrôles, au même endroit : l'interrupteur de terrain, l'interrupteur d'eau, l'opacité de terrain, l'opacité d'eau, et la vue alternative d'Espace, tous dans Paramètres → Graphismes → Avancé. Les valeurs par défaut sont les deux interrupteurs activés et les deux curseurs à 1,0, avec l'`alpha` de la carte qui couvre la valeur de départ du curseur, et Espace qui force les deux classes à 2 % tant qu'il est maintenu. La règle de décision est simple — utilisez Espace pour les lectures ponctuelles, utilisez les curseurs ou les interrupteurs pour les changements permanents par classe, et choisissez la classe qui porte réellement l'encombrement. Brainrot est une carte à une couche de terrain, Ommatrypta est une carte à deux couches où la couche d'eau est le coupable habituel, et les cartes sans couches rendent le bloc inerte.
+
+Pour mettre la révélation dans le contexte du reste de la façon dont vous lisez une carte, la grille de coordonnées (touche M par défaut) est l'outil qui nomme un emplacement une fois qu'Espace vous a montré sa forme, et les deux ensemble sont la boucle complète « confirmer puis fixer » pour toute décision de terrain. Si vous voulez comprendre pourquoi les classes de terrain et d'eau se comportent comme elles le font sur différents types de cartes, le [guide des systèmes de terrain](/fr/guides/terrain-systems/) couvre le modèle de couches et de placement plus large sur lequel cette fonction repose. Si votre objectif réel est de faire de meilleurs choix d'itinéraire une fois que le terrain est visible, le [guide de stratégie de carte](/fr/guides/map-strategy/) est l'étape suivante naturelle, car il suppose que vous pouvez déjà lire la vraie côte et vous enseigne quoi en faire. Et pour les deux cartes concrètes utilisées comme exemples ici, le [guide Brainrot](/fr/guides/brainrot/) et le [guide Ommatrypta](/fr/guides/ommatrypta/) couvrent le bloc de couches complet de chaque carte et les itinéraires spécifiques où la révélation change la décision. Gardez l'habitude par défaut — Espace pour les lectures, curseurs pour les changements permanents par classe — et l'art décoratif cesse de masquer la carte.
+
+Une dernière habitude à verrouiller avant de quitter ce guide : la révélation est une lecture, pas un réglage. Si vous vous attrapez en train de maintenir Espace et de ne pas relâcher parce que la carte a l'air mieux ainsi, arrêtez — c'est le travail du curseur. La raison pour laquelle la fonction est séparée en une touche momentanée et des curseurs permanents est que votre vol normal reste sur l'art décoratif (ce à quoi vous êtes habitué et ce que vos coéquipiers s'attendent) tandis que vos moments de décision obtiennent la vue propre. Entraînez la combinaison Espace-plus-M jusqu'à ce qu'elle soit automatique, car les joueurs qui utilisent bien cette fonction ne sont pas ceux qui éteignent la carte pour toujours mais ceux qui peuvent basculer vers le terrain brut dans les deux secondes qu'il faut pour confirmer la largeur d'un détroit.

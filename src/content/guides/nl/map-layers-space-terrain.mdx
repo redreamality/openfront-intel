@@ -1,0 +1,210 @@
+---
+title: "Kaartlagen en de terreinonthulling met Spatie"
+description: "Vind de nieuwe Kaartlagen-bediening in v0.35.3, leer wat elke schakelaar en elke opaciteitschuif doet en gebruik de Spatie-terreinonthulling om brede vaarten te meten, baaien te lezen en de echte kustlijn te bevestigen op OpenFront-karten."
+category: Guides
+tags: [guides, v0.35.3, map-layers, space, terrain]
+author: OpenFront Intel
+pubDate: 2026-10-25
+updatedDate: 2026-10-25
+version: v0.35.3
+freshnessSummary: "De Kaartlagen-bediening en de Spatie-alternatieve weergave zijn geïntroduceerd in v0.35.3 en beschikbaar in v0.35.4; deze gids beschrijft de instelling, de mechanismen en het per-kaart-laag-inventarium van die release-lijn."
+releaseStatus: released
+locale: nl
+canonicalSlug: map-layers-space-terrain
+source: https://github.com/openfrontio/OpenFrontIO/releases
+---
+
+## Snel antwoord
+
+Kaartlagen is een grafische instelling die in v0.35.3 is geïntroduceerd, in het menu **Instellingen → Grafisch → Geavanceerd** te vinden. Ze geeft je twee per-klaasse schakelaars (aardlagen aan/uit, waterlagen aan/uit) en twee per-klaasse opaciteitschuiven (aardlagen-opaciteit, waterlagen-opaciteit), zodat je decoratieve kaartlagen onzichtbaar kunt maken of dimmen zonder de onderliggende spelgeometrie te raken. De **Spatie**-toets schakelt kortstondig naar de alternatieve weergave, die zowel de aard- als de waterlaag op 2 % zet zodat je het kale grondterrein ziet; los je de toets op en keert de kaart terug naar de opaciteitswaarden die je hebt ingesteld.
+
+Deze gids richt zich op spelers die de patchnotities hebben gelezen en nu willen weten hoe de functie in de praktijk werkt. We dekken het exacte instellingepad, wat elke bediening doet, hoe het Spatie-mechanisme werkt, een per-kaart-laag-inventarium en een besliskader met twee numerieke scenario's, zodat je de juiste aanpak kunt kiezen voor de kaart en de speelstijl die jij speelt. Het is een complete gids voor de eerste keer dat je de functie ziet, maar ook een referentie voor als je de instellingen in het spel wilt wijzigen.
+
+### Waarom spelers dit vragen
+
+De release-notities van v0.35.3 beschrijven Kaartlagen als een manier om "de opaciteit van de decoratieve lagen van de kaart aan te passen", en de alternatieve weergave werd tegelijk geleverd. Spelers die patchnotities lezen willen het exacte menupad, of de functie per kaart of globaal is, en welke aanpak — kortstondige onthulling of blijvende onderdrukking — beter is voor competitief lezen. Deze gids dekt het instellingepad, de werking van elke bediening, het Spatie-mechanisme, een per-kaart-laag-inventarium en een besliskader met twee numerieke scenario's, zodat je de juiste instelling voor je kaart en je speelstijl kunt kiezen. Het korte antwoord is dat de functie globaal is in de zin dat de bedieningen op dezelfde plek zitten, maar per kaart in de zin dat elke kaart bepaalt hoeveel lagen ze levert en tot welke klasse elke laag hoort, dus dezelfde schuifwaarde kan op twee verschillende kaarten er behoorlijk anders uitzien.
+
+Als je van de ene kaart naar de andere wisselt en de schuif zich "anders" aanvoelt, is dat geen fout — het is de kaart die haar lagen anders levert, en dezelfde instelling kan op de andere kaart een ander visueel effect hebben. Een voorbeeld maakt dit concreet: op een kaart met een enkele terreinlaag heeft de waterschakelaar weinig tot niets om te schakelen, terwijl op een tweelaags kaart beide schakelaars volledig actief zijn en je onafhankelijke controle over land- en waterkunst hebt. Het is daarom nuttig om bij elke kaart eerst te kijken hoeveel lagen ze levert voordat je de bedieningen instelt, want dan weet je precies welke van de vijf elementen voor jouw kaart relevant is en welke traag blijft.
+
+## Wat Kaartlagen eigenlijk zijn
+
+Een kaart in OpenFront is een stapel van twee soorten dingen: de spelgeometrie, de terrein- en watercel-structuur die de gameplay bepaalt, en de decoratieve kunstlagen die erbovenop worden getekend. Kaartlagen zijn de tweede, een set gescheiden afbeeldingslagen die elk hun eigen type kaartkunst draagt. De gegenereerde kaartdata toont dat elke kaart een `layers`-lijst heeft met per laag een `type`, `placement` en `alpha`; v0.35.3 voegde een manier toe om zichtbaarheid van die lagen per type in te stellen. Het onderscheid tussen geometrie en kunst is cruciaal, want je kunt de kunst altijd uitschakelen zonder het spel te veranderen, maar de geometrie is onwijzigbaar tijdens een spel.
+
+### De twee lagetypen
+
+De kaartdata maakt overal twee type-waarden aan: `terrein` en `water`. De terreinlaag draagt de landkunst — de details van eilanden, kusttexturen, de geïllustreerde versie van het land. De waterlaag draagt de zee- en oceaankunst — de decoratieve weergave van het water rond en tussen eilanden. Beide lagen worden boven de spelgeometrie getekend, dus wat je ziet als je de kaart inzoomt is de geometrie plus al deze kunstlagen samengesteld op hun huidige opaciteit. De functie werkt per type, niet per afbeelding: je dimt alle terreinlagen tegelijk of alle waterlagen tegelijk.
+
+Dit betekent dat er geen bediening is waarmee je één specifieke eilandtextuur dimt terwijl een andere eilandtextuur volledig zichtbaar blijft. De per-klaasse granulariteit is de hoogste resolutie die je krijgt. Als de kunst van twee eilanden op dezelfde kaart beide luidruchtig zijn, kun je de hele terreinklasse dimmen, maar je kunt niet alleen het luidste eiland verbergen. Dit is een ontwerpbeslissing die de instellingen eenvoudig houdt in ruil voor enkele precisie.
+
+### Wat "opaciteit" hier betekent
+
+De opaciteitsbediening voor een laagtype is een waarde tussen 0 en 1. Op 1,0 is de laag volledig zichtbaar, zoals standaard. Op 0,5 is de laag halfdoorzichtig, je ziet de kunst maar ook de geometrie eronder doorheen. Op 0 is de laag effectief uitgesloten. De schakelaars doen hetzelfde binaire ding — uit 0,0 in, of de kaart `alpha`-waarde die als startpunt voor de schuif fungeert. Dit onderscheid tussen schakelaars en schuiven is belangrijk: de schakelaars zijn het grove instrument, de schuiven het fijne. De schakelaar zet de laag op 0 of op de kaart-alpha, terwijl de schuif je de volle 0-1-reeks geeft.
+
+De schuif is waar je de meeste controle hebt, want hij laat je de opaciteit stapsgewijs afstemmen in plaats van alles of niets. Dit is handig op kaarten waar de kunst niet volledig weg hoeft, maar net iets minder luidruchtig mag zijn.
+
+## Waar de bedieningen zitten en wat ze doen
+
+De bedieningen leven in het geavanceerde gedeelte van het grafische instellingenvenster, onder de basisresolutie- en kwaliteitsinstellingen. Er zijn vijf elementen die je nodig hebt: twee schakelaars, twee opaciteitschuiven en het kortstondige weergavetoetsenbord. Ze zitten allemaal op één plek, dus als je de functie een keer hebt gevonden, hoef je niet tussen menu's te springen om verschillende aspecten van de kaartweergave aan te passen. De layout is ontworpen zodat je de hele kaartweergave-uitdaging in één scherm kunt afhandelen.
+
+| Bediening | Soort | Werkingsduur | Wat het doet |
+| --- | --- | --- | --- |
+| Aardlagen | Schakelaar | Blijvend | Schakelt de compositie van alle terreinlagen aan of uit |
+| Waterlagen | Schakelaar | Blijvend | Schakelt de compositie van alle waterlagen aan of uit |
+| Aardlagen-opaciteit | Schuif | Blijvend | Zet de zichtbaarheid van de terreinlagen op 0–1 |
+| Waterlagen-opaciteit | Schuif | Blijvend | Zet de zichtbaarheid van de waterlagen op 0–1 |
+| Spatie | Toets | Kortstondig | Drukt beide laagtypen op 2 % zolang je vasthoudt |
+
+De tabel bovenaan is de complete set. Merk op dat de vier blijvende bedieningen per klasse werken, terwijl Spatie beide klassen tegelijk en slechts kortstondig bedient. Die asymmetrie is het kernontwerp van de functie: blijvende controle is per klasse, de snelle leesactie is per hele kaart.
+
+### De toggle_view-knop en de Spatie-sneltoets
+
+De grafische bedieningen hebben een `toggle_view`-knop die de alternatieve weergave vooraf toont zonder het instellingenvenster te verlaten — handig om te zien wat je zou krijgen voordat je de schuiven instelt. De Spatie-toets in het spel doet hetzelfde kortstondige ding: je houdt het vast en de kaart dimt beide laagtypen, je laat het los en het keert terug. De standaardtoets is Spatie, zoals gedefinieerd in de invoerinstellingen. De voorvertoningsknop is vooral handig als je nieuwe instellingen overweegt: je kunt de alternatieve weergave bekijken terwijl het instellingenvenster nog open is, zodat je weet wat je krijgt voordat je het instellingenvenster sluit en terugkeert naar het spel.
+
+### Wat de bedieningen niet veranderen
+
+Deze bedieningen veranderen niets aan de kaart zelf, niet de geometrie, de eilandindeling, de waterdiepte of de spelregels. Ze veranderen alleen hoe de decoratieve kunst er bij elke zoomniveaus uitziet. De kaart die je speelt is identiek; de kaart die je ziet is gerenderd met een verschillende laag-opaciteit. Dit betekent dat je de instellingen vrij kunt schakelen zonder je vordering te verstoren. Je kunt de kaartweergave elke keer veranderen en het spel zelf blijft exact hetzelfde, want de onderliggende geometrie en regels ongewijzigd blijven.
+
+Je kunt de weergave dus tijdens een spel veranderen en je teamgenoten kunnen hun eigen instellingen gebruiken zonder elkaar te verstoren, want iedereen speelt op exact dezelfde kaart.
+
+## Het Spatie-terreinonthullingsmechanisme
+
+Spatie is de snelste manier om de echte kaartgeometrie te zien. Je houdt de toets vast en de renderer zet de opaciteit van zowel de terrein- als de waterlaag op 0,02 — twee procent — waardoor beide kunstniveaus effectelijk verdwijnen en je het kale grondterrein ziet. Los je de toets op en keert de opaciteit terug naar de schuifwaarden die je hebt ingesteld. Het is de kortstondige lezing van de kaart, zonder iets blijvends te veranderen.
+
+### Waarom het onthullen bestaat
+
+De reden dat het onthullen bestaat, is dat decoratieve lagen precies de geometrie kunnen verbergen die je nodig hebt. Een volledig ondoorzichtige terreinlaag kan de echte kustlijn, een smalle vaart of een klein eiland maskeren dat alleen in het basismodel zichtbaar is. Door beide klassen op 2 % te zetten, krijg je een schone lezing van de kaart eronder, zonder in de schuiven te scharrelen. Als je een blijvend onthullen wilt, doe je dat met de schakelaars of schuiven; als je een snelle overweging tijdens het vliegen wilt, is Spatie de snelste weg. Omdat het kortstondig is, kun je het boven een regio vasthouden die je net wilt benaderen en het loslaten zodra je de vorm hebt bevestigd, wat je normale gedecoreerde weergave behoudt voor de rest van het spel.
+
+### De 2 % waarde
+
+De specifieke waarde van 0,02 is de onthulling die wordt afgedwongen: twee procent opaciteit voor beide klassen tegelijk. Dit is opzettelijk bijna onzichtbaar — de kunst is er technisch nog, maar het is te dun om je af te leiden. Het punt is niet om de laag op "laag" te zetten maar om de kaart te onthullen. De 2 % waarde werkt voor zowel de terrein- als de waterlaag tegelijk, dus je krijgt in één druk zowel het land- als het waterterrein onthuld. De waarde is bewust gekozen om de kunst goed genoeg te dempen zodat het grondterrein doorheen komt, maar niet zo ver om de volledig zwart te zetten, wat de contrasten tussen eilanden en water zou verliezen.
+
+De waarde is ook de reden dat je de onthulling niet kunt missen: als de kunst op 2 % staat, is het onmogelijk dat er nog een decoratieve vlek je afleidt van de echte geometrie eronder.
+
+Er is nog één gedrag dat handig om te onthouden is: de onthulling werkt onafhankelijk van of de schakelaars uit staan. Als je de terreinschakelaar al op uit hebt, onthult Spatie alleen nog de waterlaag, en omgekeerd. Dat betekent dat de onthulling nooit iets verbergt dat je al had ingeschakeld; hij leest altijd alleen het wat er nog zichtbaar was en zet dat even heel dun, zodat je de geometrie eronder zonder twijfel kunt lezen.
+
+## Besliskader: schakelaar vs. opaciteit vs. Spatie
+
+Deze drie tools lossen drie verschillende problemen op. Schakel een laagklasse volledig uit als die kunst je constant afleidt en je ze nooit nodig hebt. Stel de opaciteit op een middenwaarde in als de kunst je stoort maar je af en toe de informatie nodig hebt die ze draagt. Houd Spatie vast als je een enkele, snelle leesactie uitvoert — de breedte van een vaart, de vorm van een baai, de exacte uitbreiding van een kustlijn. Het kiezen van het juiste instrument is de grootste leverancier van de waarde die deze functie biedt, want de verkeerde keuze voor de verkeerde situatie geeft je een onduidelijke lezing.
+
+### Een vuistregel voor elke situatie
+
+| Situatie | Beste tool | Waarom |
+| --- | --- | --- |
+| Eén snelle terreinlezing vóór een beweging | Spatie (vasthouden) | Kortstondig, verandert niets blijvends |
+| Terreinkunst domineert het beeld blijvend | Aardlagerschakelaar op uit | Verwijdert de kunst helemaal, geen twijfel |
+| Terreinkunst is luidruchtig maar bruikbaar | Aardlagen-opaciteit op ~40 % | Behoudt de vorm, verwijdert het geluid |
+| Waterkunst is het enige probleem | Alleen de waterschuif verlagen | Laat het terreindetail onaangetast |
+| Je moet een baaienbreedte aan je team geven | Spatie vasthouden, dan loslaten | Toont de vorm vóór het verdwijnt |
+| Je wisselt tussen kaarten | Controleer het laag-inventarium van de kaart | Sommige kaarten leveren één, andere twee lagen |
+
+De discipline zit in het wisselen: kortstondige onthulling voor snelle leesacties, blijvende instellingen voor kaarten waarop je blijvend speelt. De meest veelvoorkomende foutbron is Spatie gebruiken voor iets wat je blijvend nodig hebt, of blijvende instellingen voor iets dat alleen voor één enkele leesactie is. Een laatste punt dat in alle scenario's terugkomt: de volgorde waarin je de bedieningen toepast, is technisch niet van belang, omdat elk op een andere blijvingsniveau werkt en ze elkaar niet tegenspreken. Je kunt de waterschuif op 0,5 zetten en dan Spatie vasthouden, of eerst Spatie vasthouden en dan de schuif verlagen — het visuele resultaat is hetzelfde, omdat de onthulling 2 % boven de schuifwaarde afdwingt voor de duur van de druk en daarna terugkeert naar de schuifwaarde. Wat telt is de vraag die je stelt, niet de klikvolgorde.
+
+Een laatste voorwaarde om te onthouden is dat de onthulling je camera volgt, dus je ziet alleen het onthulde terrein onder je huidige weergave en niet de hele kaart in één keer. Voor een brede leesactie beweeg je dus eerst naar de juiste plek en houd je dan Spatie vast. De drie tools zijn dus complementair in plaats van concurrent: de schakelaars verwijderen een klasse blijvend, de schuiven dempen een klasse op een instelbare mate, en Spatie leest de hele kaart kortstondig. Als je de juiste tool voor elke situatie herkent, wordt de functie van een instelling tot een gewoone die je terreinlezingen sneller en betrouwbaarder maakt, en dat is precies de waarde die v0.35.3 aan de kaartweergave toevoegt.
+
+## Scenario A: een smalle vaart op een terrein-dominante kaart lezen
+
+### De situatie
+
+Je speelt op een kaart met één enkele terreinlaag (Brainrot is een voorbeeld, met één terreinlaag, alpha 0,7, placement `image`, textuur `map1`). Je nadert een vaart die twee landmassa's verbindt en je moet beslissen hoeveel eenheden je daar inzet. De terreinkunst is volledig ondoorzichtig en de vaart lijkt breder dan hij in werkelijkheid is, omdat de kunst grensdetails toevoegt die de kustvisueel uitbreiden. Je weet niet of de vaart twee of vier kolommen breed is, en dat verschil verandert de beslissing: twee kolommen betekent dat je in één enkele beweging kunt oversteeken, vier kolommen betekent dat je kwetsbaar bent tijdens de oversteek.
+
+### Wat er misgaat zonder de onthulling
+
+Zonder de onthulling laat de terreinkunst de vaart vier kolommen breed lijken, dus zet de speler vier eenheden in en verliest twee. Het terrein was nooit echt vier kolommen breed; het waren twee kolommen met grenskunst die het breder lieten lijken. Door op basis van de schijnbare breedte in te zetten, werden twee eenheden blootgesteld aan een oversteek die een schone beweging had kunnen zijn. Dat is de kanskosten van de decoratieve kunst: hij maakt de kaart mooier maar hij verbergt de geometrie waarnaar je inzet. De les is dat terreinkunst knelpunten breder (en dus gevaarlijker) of smaller (en dus veiliger) kan laten lijken dan ze zijn, en dat je zonder een manier om de echte breedte te verifiëren de beslissing op basis van de kunst in plaats van het terrein neemt.
+
+### Wat de onthulling verandert
+
+Houd Spatie vast terwijl je over de vaart vliegt. De terreinkunst zakt naar 2 % en je ziet het kale grondterrein: de vaart is in werkelijkheid twee kolommen breed. Je laat los, de kunst keert terug en je zet in met het weten dat de oversteek een twee-kolommen-operatie is — een enkele beweging, geen kwetsbare oversteek. Het verschil in beslissing is volledig: vier kolommen schijnbare breedte kosten je twee eenheden; twee kolommen echte breedte laten je ongeschonden. En omdat de onthulling kortstondig is, hoef je niet in de instellingen, de kunst niet voor de rest van het spel uit te schakelen. Je bevestigt de breedte, laat los, speelt. De vaart is niet gevaarlijker dan voorheen; je weet nu gewoon beter, en dat is het hele verschil.
+
+Een nuttig gedachte voor dit scenario is de tijd: de onthulling kost je slechts de seconden die je over de vaart vliegt, terwijl de prijs van een verkeerde inzeteenheid veel hoger is. Spatie is in feite een gratis verzekering die je uitbetaalt vóór je een beslissing neemt waarbij eenheden op het spel staan.
+
+Als je de vaart vaker oversteekt, kun je de breedte ook in het coördinatenraster bevestigen zodra de onthulling je de vorm heeft getoond, zodat je een exacte kolomgetal hebt in plaats van een visuele schatting.
+
+De situatie heeft nog een tweede, stillere misverstand: een speler kan de vaart op de gedecoreerde weergave zien, aannemen dat het een brede oversteek is, en er bewust een defensie tegen instellen, terwijl de echte twee-kolommen breedte een vroege oversteek had toegelaten. In dat geval kost de kunst je niet alleen twee eenheden, maar een hele strategische richting, omdat je een defensie bouwt tegen een dreiging die nooit bestond. De onthulling voorkomt beide fouten: de directe eenheidsprijzen en de indirecte misallocatie, en dat is precies waarom het een lezing is die je doet vóór je inzet, niet nadat. Nog een detail dat dit scenario concreet maakt is dat de terreinkunst op Brainrot een alpha van 0,7 heeft, dus niet volledig ondoorzichtig maar dicht genoeg om de kustdetails te verbergen die de breedte bepalen. Je kunt de onthulling dus niet overslaan "want de kunst is niet volledig"; zelfs een halve laag verandert de schijnbare breedte van een knelpunt, en de 2 % lezing is de enige manier om die schijn van de realiteit te scheiden. Er is nog een reden waarom je deze lezing vóór je inzet moet doen in plaats van erna: de eenheden die je inzet op basis van een verkeerde breedte, zijn op het moment dat je de onthulling doot al onderweg, en je kunt ze niet terugtrekken zonder kosten. De onthulling is dus niet alleen een betere lezing, maar een betere lezing op het juiste moment, want het is de enige lezing die je kunt doen voordat je eenheid zich verplaatst. Als je de vaart eenmaal hebt overgesteekt, is de breedte niet meer relevant voor die specifieke beslissing, en is de onthulling te laat. De hele waarde zit in die enkele seconden vóór de beweging, en het is de reden waarom je de toets leert gebruiken in de oversteekfase in plaats van in de planningsfase. Dit is ook de reden waarom het coördinatenraster hier zo goed past: je bevestigt de breedte met de onthulling, en je benoemt de exacte kolompositie met het raster, en samen geven ze je de twee getallen die de oversteek volledig specificeren, de breedte en de positie, zodat je team geen van beide hoeft te schatten.
+
+## Scenario B: tweelaags kaart waarbij alleen de waterkunst het probleem is
+
+### De situatie
+
+Je speelt op een kaart met twee lagen (Ommatrypta is een voorbeeld: één waterlaag, alpha 0,8, textuur `water1`, en één terreinlaag, alpha 0,9, textuur `map1`). Het terreindetail is waardevol — je wilt de eilandvormen en kustdetails behouden — maar de waterkunst is luidruchtig, met decoratieve golven en schuim die de echte waterloop verbergen. Een schakelaar die beide uitschakelt zou het terreindetail wegnemen dat je nodig hebt; een schuif die beide dimt zou de kaart te donker maken. De uitdaging is de waterkunst te verbergen terwijl je het terreindetail behoudt.
+
+### Waarom de per-klasse-split hier telt
+
+Op een tweelaags kaart doen de land- en waterkunst verschillende dingen: land draagt het eilandedetail dat je wilt behouden, water draagt de rommel die je wilt verwijderen. Een globale "alles uitschakelen"-aanpak zou het eilandedetail opofferen. De per-klasse bedieningen maken het juist mogelijk om alleen de waterlaag te dempen — de waterschuif op ~30 % of de waterschakelaar op uit — terwijl je de terreinlaag volledig laat staan. Het resultaat is een kaart met alle landdetails die je nodig hebt voor routeplanning, maar met een rustig, onthuld wateroppervlak dat de echte vaarten en baaien laat zien.
+
+### De instelling die hier werkt
+
+Voor dit scenario stel je de waterlagen-opaciteit op ~0,3 in en laat je de aardlagen-opaciteit op 1,0. De eilanden behouden hun volledige detail en de waterkunst zakt genoeg om de waterloop te onthullen. Als je af en toe de watergedetailleerdheid terug wilt, verhoog je de schuif tijdelijk; als je de waterkunst blijvend wilt verwijderen, zet je de waterschakelaar op uit. De per-klasse-split is wat deze situatie oplost: je hebt een onafhankelijke knop voor de klasse die je wilt verbergen en je laat de klasse die je wilt behouden aangetast.
+
+### De instelling in cijfers
+
+Voor dit scenario is de precieze aanpak de waterlagen-opaciteit op 0,30 zetten en de aardlagen-opaciteit op 1,00 laten staan. Op een kaart met water-alpha 0,8 en terrein-alpha 0,9 (de Ommatrypta-configuratie) betekent dat de waterkunst van 80 % naar 30 % zakt terwijl het terreindetail volledig op 90 % blijft. Het contrast is het punt: je hebt een kaart waar de eilanden hun volledige textuur en kustdetail behouden, maar waar het wateroppervlak rustig genoeg is om de echte vaarten en baaien te zien. Als de 0,30-waarde nog te luid is, verlaag je naar 0,15; als je de watergedetailleerdheid helemaal wilt verwijderen, zet je de waterschakelaar op uit. Het verschil tussen de schuif op een lage waarde en de schakelaar op uit is subtiel maar aanwezig: de schakelaar op uit gebruikt de kaart-alpha als basis, de schuif geeft je de volledige 0-1-reeks. Voor dit scenario is de schuif het juiste instrument omdat je de waterkunst wilt dempen maar niet volledig wil verwijderen, want een volledig zwart wateroppervlak verliest de context die je nodig hebt om de kustlijnen te lezen.
+
+### Waarom je hier Spatie niet als primair instrument gebruikt
+
+De onthulling is in dit scenario nog steeds handig, maar het is niet het primaire instrument. Omdat je alleen de waterklasse wilt verbergen en de terreinklasse wilt behouden, is de per-klasse schuif de blijvende oplossing. Spatie zou beide klassen tegelijk op 2 % zetten en dus ook het terreindetail dat je wilt behouden verwijderen. Je gebruikt Spatie hier alleen voor een kortstondige controle: houd je het vast, bevestig je dat de waterloop er op 2 % inderdaad uit ziet zoals je verwacht, en laat je los om terug te keren naar de gedempte weergave. De discipline is dezelfde als in het besliskader: blijvende aanpassing met de schuif, kortstondige controle met de toets. Het voordeel van deze combinatie is dat je de blijvende instelling een keer zet en dan de toets gebruikt om af en toe te controleren of de instelling nog klopt, zonder de schuif opnieuw aan te passen. Voor een tweelaags kaart is dit de meest efficiënte weergave, omdat je de twee klassen onafhankelijk behandelt en precies de klasse aanpakt die het probleem is, terwijl je de andere onaangetast laat.
+
+## Foutpatronen en hoe je ze tegengaat
+
+De belangrijkste fout is Spatie als blijvende instelling te behandelen. Als je de toets vasthoudt en hem niet loslaat omdat de kaart zo beter oogt, is het echte behoefte de schuif, niet de toets. De onthulling is een leesinstrument, geen instellingsinstrument. Gebruik het om te bevestigen, gebruik schuiven en schakelaars om vast te stellen. Tweede veelvoorkomende fout is de verkeerde klasse dimmen: je wilt de waterkunst verbergen maar je dimt per ongeluk de terreinklasse, en dan zie je ineens de eilanden verdwijnen in plaats van het water.
+
+### Een snel tegengaedtabel
+
+| Fout | Tegengaan |
+| --- | --- |
+| Spatie als blijvend behandelen | Verplaats de beslissing naar de schuif of schakelaar |
+| De verkeerde klasse dempen | Houd Spatie vast, zie welke klasse de rommel draagt |
+| Verwachten dat "reset" 100 % betekent | Controleer de `alpha` van de kaartlaag |
+| De kaart vergeten per kaart te controleren | Controleer het laag-inventarium vóór je instelt |
+
+Een tweede veelvoorkomend misverstand is verwachten dat de bedieningen de kaart zelf veranderen. Ze doen dat niet — de geometrie, eilanden en waterdiepte blijven identiek. Als je de instelling verandert en de kaart er "anders" uitziet, verandert alleen de rendering, niet de spel. Dit is belangrijk om te begrijpen omdat het betekent dat je de instellingen vrij kunt gebruiken zonder je vordering te verstoren. Een derde misverstand is verwachten dat de opaciteitswaarde "0" altijd identiek is aan de schakelaar op "uit"; in werkelijkheid is de schakelaar op "uit" de kaart-alpha, niet noodzakelijk 0, dus de schuif kan subtiel verschillen van de schakelaar.
+
+Een vierde misverstand is verwachten dat de onthulling de opaciteitschuiven verandert; ze verandert ze niet, ze dwingt alleen tijdelijk 2 % af en keert daarna terug naar jouw ingestelde waarde, dus na het loslaten staat alles weer zoals je het had gelaten. De gemeenschappelijke draad in al deze fouten is dat ze allemaal voortkomen uit het behandelen van de functie als iets dat de kaart verandert, terwijl het alleen de weergave verandert. Zodra je beseft dat de geometrie identiek blijft en alleen de rendering verschuift, verdwijnt de angst die de meeste van deze fouten drijft. Je kunt de instellingen vrij schakelen, de onthulling vrij vasthouden, en de kaart blijft de kaart die je speelt, met identieke eilanden, identieke waterdieptes en identieke spelregels. De functie is een lezer, niet een wijzger, en dat is het belangrijkste ding dat je uit deze gids meeneemt. Het betekent ook dat je de instellingen kunt gebruiken als een diagnosticereed: als de kaart er op een bepaalde manier uitziet en je twijfelt of het de geometrie of de kunst is, houd je Spatie vast en kijk je of de vorm verandert. Als de vorm hetzelfde blijft, was het de geometrie; als de vorm anders is dan de gedecoreerde weergave suggereerde, was het de kunst die je misleidde. Deze diagnostische cyclus is de snelste manier om uit te vinden of wat je ziet de echte kaart is of de versie die de kunst eroverheen tekende, en het kost je slechts de tijd van één onthulling om te bevestigen.
+
+## Modus-aanpassingen: gerangschikt vs. casual
+
+In gerangschikt spel is de onthulling waardevoller omdat je beslissingen moet nemen onder druk en je de kaart zo snel mogelijk moet lezen. De discipline is kortstondig: Spatie voor één snelle leesactie, dan loslaten en terug naar de normale weergave. Het is een enkele seconden-actie die je de grond geeft voor een terreinbeslissing zonder de rest van je weergave te verstoren.
+
+### In gerangschikt spel
+
+Voor het teamspel is de onthulling nog waardevoller, omdat je terreinbeslissingen met je team moet communiceren. Houd Spatie vast, bevestig de breedte van de vaart, en vertel je teamgenoten de exacte breedte. De onthulling geeft je de grond om je communicatie op te baseren, zodat je team geen schattingen maakt op basis van gedecoreerde kunst. Dit is waar de functie het meest waardevol is: het transformeert een "het lijkt ongeveer drie kolommen breed" in "het is exact twee kolommen breed", en dat verschil is de reden waarom je team de oversteek wel of niet durft.
+
+### In casual spel
+
+Voor casual spel is de functie net zo nuttig voor het begrijpen van de kaart, maar de druk is lager. Je kunt meer tijd besteden aan het instellen van de schuiven en het vinden van een weergave die je comfortabel vindt. De per-klasse bedieningen zijn hier het handigst, omdat je tijd hebt om de opaciteit af te stemmen op je persoonlijke voorkeur. In casual spel is het ook een goed moment om de per-kaart-laag-inventarium te leren, zodat je weet welke kaart welke bedieningen activeert.
+
+Een detail die in zowel het gerangschikte als het teamspel telt: de onthulling hangt niet af van je zoomniveau, dus je kunt hem bij een ver zoom vasthouden om de algemene vorm van een zeearm te bevestigen, of bij een dicht zoom om de exacte breedte van een vaart te bevestigen. Zoek niet naar een "goede zoom" voor de onthulling — die bestaat niet, omdat de onthulling je camera volgt op elk zoomniveau en het terrein onder elke regio onthult waarover je vliegt.
+
+In gerangschikt spel is de onthulling ook een communicatiemiddel: je kunt de onthulde breedte delen met je teamgenoten terwijl je de camera erboven houdt, zodat iedereen dezelfde grond leest en niet elk een eigen schatting maakt.
+
+In casual spel is de functie ook een goede leerkracht: je kunt de per-klasse bedieningen gebruiken om te leren welke kaart welke laag draagt, en dat inzicht draagt over naar gerangschikt spel waar je minder tijd hebt om te ontdekken. Het instellen van de weergave in casual is de oefensessie voor het snel lezen in gerangschikt.
+
+## Laag-inventarium per kaart
+
+De kaartdata toont hoe elke kaart haar lagen levert. Hier is het inventarium:
+
+| Kaart | Lagen | Typen | Opmerkingen |
+| --- | --- | --- | --- |
+| Brainrot | 1 | terrein | Eén terreinlaag, alpha 0,7, textuur `map1` |
+| Ommatrypta | 2 | water + terrein | Water alpha 0,8 (`water1`), terrein alpha 0,9 (`map1`) |
+| China | 2 | water + terrein | Twee onafhankelijke klassen |
+| Kaarten zonder lagen | 0 | — | Geen laagblok, de bedieningen zijn traag |
+
+Het patroon is duidelijk: de meeste kaarten leveren één of twee lagen, en als het twee zijn, is het bijna altijd een terrein-plus-water-paar. De één-laag-geval (Brainrot) maakt de waterschakelaar traag, en het twee-lagen-geval (Ommatrypta, China) activeert de vier bedieningen. Kaarten zonder lagen leveren geen laagblok en het Kaartlagen-systeem heeft daar niets mee te sturen. Als je een spel op een onbekende kaart begint, is de eerste ding die je moet doen om te controleren hoeveel lagen ze levert — open de instellingen, bekijk het Kaartlagen-blok en zie of beide schakelaars aanwezig zijn.
+
+Dit inventarium is bedoeld als referentie, niet als definitieve lijst. Niet elke kaart die je speelt zal hier staan, en de exacte alpha-waarden kunnen variëren tussen releases. Het nut van de tabel is het patroon: de meeste kaarten leveren één of twee lagen, en als het twee zijn, is het bijna altijd een terrein-plus-water-paar. Als je een nieuwe kaart ziet die hier niet staat, kun je het laag-blok in de instellingen bekijken om te zien welke bedieningen voor die kaart actief zijn.
+
+Deze referentie helpt je om vóór je instelt te weten of je een of twee actieve klassen hebt, en dat bespaart je de onnodige poging een schakelaar te bedienen die op die kaart traag is.
+
+Twee patronen vallen op in dit inventarium die je helpt bij nieuwe kaarten. Eerst, de alpha-waarden: een kaart met een hoge terrein-alpha (zoals Ommatrypta met 0,9) levert luidruchtig terreindetail en heeft de meeste baat bij het verlagen van de schuif, terwijl een kaart met een lagere alpha (zoals Brainrot met 0,7) minder te verliezen heeft maar ook minder winst bij het dempen. Tweede, de textuurnamen: kaarten die `map1` en `water1` gebruiken delen de standaardtextuurset, en die kaarten gedragen zich voorspelbaar met de standaardbedieningen. Als je een kaart tegenkomt met een onbekende tekstuur of een afwijkende alpha, is het veilige gedrag om eerst de onthulling te gebruiken om de basiskwaliteit van de geometrie te bevestigen, en dan de schuif stapsgewijs te verlagen totdat de weergave naar wens is. Het inventarium is dus een startpunt voor je verwachtingen, en de onthulling is de controle die bevestigt of die verwachting op de kaart van die dag geldt. Als je een nieuwe kaart opent die niet in deze tabel staat, controleer dan de laagblok en de alpha-waarde, en gebruik deze twee waarden om te voorspellen hoeveel baat je bij de schuif zult hebben vóór je ertegenaan stoomt.
+
+## Snelreferentie en volgende stappen
+
+De vijf bedieningen, op één plek: aardschakelaar, waterschakelaar, aardopaciteit, wateropaciteit en de Spatie-alternatieve weergave, allemaal onder Instellingen → Grafisch → Geavanceerd. De standaardwaarden zijn beide schakelaars aan en beide schuiven op 1,0, waarbij de kaart-`alpha` de startwaarde van de schuif overschrijft, en Spatie beide klassen op 2 % afdwingt zolang je vasthoudt.
+
+Om de onthulling in de context van de rest te plaatsen, hoe je een kaart leest, is het coördinatenraster (standaard M) het instrument dat een locatie benoemt zodra Spatie je de vorm heeft getoond, en de twee samen zijn de volledige "bevestig dan vaststellen"-cyclus voor elke terreinbeslissing. Als je wilt begrijpen waarom terrein- en waterklassen zich zo gedragen op verschillende kaarttypen, dekt de [Terrain-systemen-gids](/nl/guides/terrain-systems/) het grotere laag- en plaatsingsmodel af. En als je echte doelen zijn om betere routebeslissingen te nemen zodra het terrein zichtbaar is, is de [Kaartstrategie-gids](/nl/guides/map-strategy/) de natuurlijke volgende stap.
+
+Een laatste gewoonte voordat je deze gids verlaat: de onthulling is een lezing, geen instelling. Als je jezelf Spatie vasthouden ziet en hem niet loslaat omdat de kaart zo beter oogt, stop — dat is het werk van de schuif. Oefen de Spatie-plus-M-combinatie tot het automatisch is, want de spelers die deze functie goed gebruiken zijn niet diegene die de kaart voor altijd uitschakelen, maar diegene die in de twee seconden die nodig zijn om de breedte van een vaart te bevestigen, naar het kale terrein kunnen schakelen.
+
+Kort samengevat: leer de vijf bedieningen kennen, controleer het laag-inventarium van de kaart die je speelt, gebruik Spatie voor snelle leesacties en gebruik schuiven en schakelaars voor blijvende weergaves, en je zult de terreinlezingen van elke oversteek en elke kustlijn kunnen bevestigen vóór je erop inzet.
+
+De volledige referentie op één blik: de vijf bedieningen zitten onder Instellingen → Grafisch → Geavanceerd, de schuiven lopen van 0 tot 1 met 1,0 als standaard, de schakelaars schakelen per klasse, en Spatie dwingt beide klassen op 2 % zolang je vasthoudt. Het per-kaart gedrag bepaalt welke bedieningen actief zijn, en het laag-inventarium vertelt je wat een kaart levert vóór je instelt. De twee scenario's in deze gids zijn de twee archetypen die je in het spel zult tegenkomen: de terrein-dominante kaart waar de kunst de breedte misleidt, op te lossen met een kortstondige onthulling, en de tweelaags kaart waar alleen de waterkunst het probleem is, op te lossen met een per-klasse schuif. Het besliskader en de foutpatronen leggen uit hoe je die twee archetypen herkent en welke bediening je inzet. Als je deze gids hebt gelezen, kun je voor elke kaart die je speelt bepalen welke laag ze levert, welke bediening je nodig hebt, en wanneer je Spatie vasthoudt om de echte breedte van een vaart te bevestigen vóór je inzet.
