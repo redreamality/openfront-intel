@@ -1,5 +1,7 @@
 # 构建、Astro 与 Playwright runbook
 
+- **2026-10-26 重复 H1 维护 SEO 复核**：1005 HTML / 995 可索引页的普通生产基线为 109 个标题截断、2 个双 H1。删除德语 Ommatrypta 和荷兰语 public-special-lobbies 正文中与 DocLayout 重复的 H1 后，十个对应五语页面全部单 H1；全量 HTML/XML 哈希仅两页改变，完整诊断集合仅减少这两项。SEO 仍因同一批 109 个既有标题截断退出 1，不能报告全站 PASS；正文和模板都输出标题是本次双 H1 的根因，不需要修改模板或刷新事实核验日期。
+
 - **2026-10-25 v35.4 正式响应 SEO 复核**：普通生产基线与最终均为 990 HTML / 980 可索引页，SEO 退出 1，诊断为 104 个标题截断、2 个双 H1（`de/guides/ommatrypta/`、`nl/guides/public-special-lobbies/`）。完整诊断集合相同、新增零。不能沿用上轮仅一个双 H1 的计数，也不能称全站 PASS。版本配置更新同时改变共享 FreshnessSummary 的站点当前基线，必须据普通产物哈希列出全部影响 URL，不能只统计五语主答案。
 
 - **2026-10-24 v35 版本维护回归**：首轮完整 e2e 为 455/460，五项失败均因 mobile-app-download 测试把 `latestOpenFrontRelease.tag` 当成页面核验范围；正文明确保留 v0.35.2 来源，而全站配置已到 v0.35.3。测试改为从每语 `freshnessSummary` 读取实际证据 tag，继续断言正文与两条官方 Release 链接，避免为了追随全站版本伪造独立答案核验日期。版本审计的旧 v34 战速、MIRV 与地图合同另按真实 v35 Release 功能替换，保留三节、逐节门槛、五语与来源检查。修正后全套 460/460；普通生产基线与最终 SEO 均为 104 个标题截断加 1 个 NL 双 H1，完整 105 项诊断集合相同，审计仍退出 1，不宣称全站 PASS。
