@@ -191,7 +191,15 @@ for (const contract of contracts) {
     ['v35.4 saving fix', /v0\.35\.4/.test(body) && /XP/.test(body) &&
       /stats|statistics|统计|statistiques|Statistiken|statistieken/i.test(body) &&
       /rewards|奖励|récompenses|Belohnungen|beloningen/i.test(body)],
-    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4'].every(
+    ['v35.5 team maps', ['Madagascar', 'Rio de Janeiro', 'Bab el-Mandeb', 'New Zealand', 'Branching Paths'].every(
+      (name) => body.includes(name),
+    )],
+    ['v35.5 portal and screen boundaries', ['Poki', 'CrazyGames', 'Account', '1280px', 'Solo', 'United States'].every(
+      (name) => body.includes(name),
+    )],
+    ['v35.5 live rotation boundary', /rotation|轮换|Kartenrotation|rotatie/i.test(body) &&
+      /between releases|两个版本之间|entre deux versions|zwischen Releases|tussen releases/i.test(body)],
+    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5'].every(
       (tag) => body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`),
     )],
     ['canonical category', frontmatterValue(frontmatter, 'category') ===

@@ -6,31 +6,31 @@ const homepageCases = [
     lang: 'en',
     path: '/',
     prefix: '/',
-    latestSignal: 'Versioned replay shells',
+    latestSignal: 'New team spawns',
   },
   {
     lang: 'zh',
     path: '/zh/',
     prefix: '/zh/',
-    latestSignal: '版本化 replay shell',
+    latestSignal: '新增团队出生点',
   },
   {
     lang: 'fr',
     path: '/fr/',
     prefix: '/fr/',
-    latestSignal: 'shells de replay versionnés',
+    latestSignal: 'Nouveaux départs en équipe',
   },
   {
     lang: 'de',
     path: '/de/',
     prefix: '/de/',
-    latestSignal: 'Versions-Replay-Shells',
+    latestSignal: 'Neue Teamstarts',
   },
   {
     lang: 'nl',
     path: '/nl/',
     prefix: '/nl/',
-    latestSignal: 'Versie-replay-shells',
+    latestSignal: 'Nieuwe teamstarts',
   },
 ] as const;
 

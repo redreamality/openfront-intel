@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-27 首页版本响应路径复发**：`rg` 的路径参数误写 `src/components/HomeLatest*`，触发 os error 123；恢复为真实目录 `src/components` 配合 `--glob 'Home*.astro'` 后取得首页组件，未影响内容。沿用现有通配路径规则，不修改 AGENTS.md。
+
 - **2026-10-25 版本响应路径复发**：`rg` 路径中使用 `src/content/changelog/*/v35.mdx`、`e2e/home*` 再次触发 os error 123；恢复为真实目录与 `--glob`，已重新取得五语事实与测试位置。沿用既有规则，未改 AGENTS.md。
 
 - **2026-10-24 开放 PR 核验复发**：`gh pr list --author @me --state open --json number,title,headRefName` 的未引用参数被 PowerShell 改写，报告 `unknown argument "open"`；按既有规则引用 `'@me'` 和完整 JSON 字段列表后返回真实 `[]`。失败不代表没有开放 PR，必须以恢复后的成功响应为依据。

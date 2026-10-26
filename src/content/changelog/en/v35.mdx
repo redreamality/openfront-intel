@@ -1,15 +1,17 @@
 ---
-title: 'OpenFront v35.4: changes and next-match decisions'
-description: 'OpenFront v35.4 release notes: public-game XP, stats and rewards saving fix, plus v35 Nations, trade, ranked queues, progression, replays and controls.'
+title: 'OpenFront v35.5: changes and next-match decisions'
+description: 'OpenFront v35.5 release notes: team spawns, river fixes, small-window layout and leaderboard changes, plus portal settings and live map rotation.'
 pubDate: 2026-10-17
-updatedDate: 2026-10-25
+updatedDate: 2026-10-27
 version: v35
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v35.0 through v35.4?
+## Direct answer: what changed in OpenFront v35.0 through v35.5?
+
+**OpenFront v35.5 adds team spawns, fixes river connections, and improves small-window layouts and the leaderboard.** The [official v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5), published on October 26, 2026, also hides Account settings on Poki and CrazyGames and lets public map rotation be tuned without a release. Madagascar, Rio de Janeiro, Bab el-Mandeb and New Zealand gain two-team spawns; Branching Paths gains three-team spawns. United States and Rio de Janeiro have fixes for rivers cut off from the ocean. These spawn configurations do not promise that every public lobby uses that team count.
 
 **OpenFront v35.4 fixes most public games since v0.35.3 not awarding XP, stats or rewards.** The [official v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), published on October 24, 2026, explains that the server stopped trying to save large games too early, which could leave different levels showing on different devices. It does not promise retroactive rewards for affected games. The earlier v35 features remain smarter Nations, faster early trade, ranked FFA and Clan Wars, progression, new controls, and new maps.
 
@@ -24,6 +26,10 @@ Controls change together: R opens quick chat, F opens the emoji menu, and select
 Replay seeking is introduced in v0.35.0 but initially disabled by default for gradual rollout. v0.35.3 allows viewing while a game is still being processed; that does not guarantee identical availability on every account. That patch also improves provisional XP, adds Map Layers visibility controls, and repairs mobile attack-slider placement. These are separate changes with different consequences for the next match.
 
 ## What should you change in the next match?
+
+On the affected team maps, read the actual lobby configuration and inspect your spawn before choosing a route. Recheck river access on United States and Rio de Janeiro instead of relying on an older screenshot. Public rotation can now change between releases, so a map appearing more or less often does not by itself establish a new client patch or a permanent frequency.
+
+In a small or short window, Solo and similar pages now fill the available screen and hide the header and footer while open, including Poki's non-fullscreen frame. On roughly 1280px screens, the leaderboard hides the clan column by default to avoid running beneath the player card; you can turn that column back on. A missing clan column does not mean your clan membership disappeared. On Poki and CrazyGames, Account settings are hidden; this announcement does not say they were removed from the official website or Steam.
 
 If XP, statistics or rewards were missing after a public game on v0.35.3, distinguish the saving failure addressed in v0.35.4 from an ordinary provisional XP display. A level that differs between devices can be a symptom of that failure. The fix is not an XP multiplier, a new reward rate, or confirmation that past missing rewards will be restored.
 
@@ -41,7 +47,9 @@ After a nuclear strike cuts territory, inspect the new ownership before sending 
 
 ## Source status, patch boundaries, and next reading
 
-The [v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4) is this page's latest formal boundary, published on October 24, 2026. Its new item fixes public-game saving that failed too early for large games, leaving most public games since v0.35.3 without XP, stats or rewards. The note explains cross-device level differences but does not announce historical backfill or a change to XP rates.
+The latest formal boundary is the [v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5), published on October 26, 2026. Alongside team spawns, river connections, window layout, leaderboard defaults and portal settings, it announces server security improvements and a privacy-policy disclosure of the hashed network identifiers used. The note does not specify retention periods or establish anonymity. It also says public lobby map rotation can be tuned without a release; a version tag alone therefore cannot establish current live rotation weights.
+
+The [v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), published on October 24, 2026, fixes public-game saving that failed too early for large games, leaving most public games since v0.35.3 without XP, stats or rewards. The note explains cross-device level differences but does not announce historical backfill or a change to XP rates.
 
 The feature baseline is the [official v0.35.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0), published on October 16, 2026. Its overview groups Nations, progression, ranked queues, replay seeking, controls, economic generation, map-driven lobbies, and new maps. The later Release pages repeat that baseline underneath their own patch headings. Read the heading above an item before assigning its introduction date. A feature repeated in the v0.35.3 body did not necessarily first ship with v0.35.3. Earlier v34 history belongs in the [v34 notes](/changelog/v34/).
 
