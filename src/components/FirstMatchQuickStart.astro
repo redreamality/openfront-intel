@@ -1,0 +1,116 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n';
+
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const prefix = `${import.meta.env.BASE_URL}${lang === 'en' ? '' : `${lang}/`}`;
+type Copy = { title: string; lead: string; start: string; read: string; desktop: string; touch: string; diagram: string; labels: string[]; steps: [string, string][]; mouse: string; finger: string; caution: string; controls: string };
+const copy: Record<Lang, Copy> = {
+  en: {
+    title: 'Your first five actions', lead: 'Start a practice game, make one safe expansion, then check the result before repeating.',
+    start: 'Open the official game', read: 'Follow the first-match tutorial', desktop: 'Mouse', touch: 'Phone or tablet', diagram: 'Learning diagram — not a game screenshot',
+    labels: ['Choose a spawn', 'Set the amount', 'Expand once', 'Check the reserve'],
+    steps: [
+      ['Start with practice', 'Open Single Player, choose Easy and a familiar map, then start. Keep special modifiers off while learning the controls.'],
+      ['Choose land during spawn', 'With manual spawn, click or tap valid unowned land before the countdown ends. Look for nearby empty land and few immediate neighbors. Random spawn chooses for you.'],
+      ['Read the attack slider', 'Set a small commitment before attacking. The fallback is 20%, but a saved setting can restore another value: read the visible number.'],
+      ['Expand once, then watch', 'Target adjacent neutral land. After one attack, check the remaining troops and new border; wait for recovery if another push would leave you exposed.'],
+      ['Open the building menu', 'Once your core is safe, open the radial menu on your land and choose its build action. Check the price and valid placement before confirming a City; save Gold if capacity is not your problem.'],
+    ],
+    mouse: 'Default mouse controls: left-click adjacent land to attack; right-click opens the radial menu. An armed build changes the next click. If Left click opens menu is enabled, your clicks behave differently.',
+    finger: 'During normal play, tap a land tile to open its radial actions, then choose the attack or build action. Drag to pan and pinch to zoom. Finish moving the map before tapping a command.',
+    caution: 'Stop expanding when the next border needs more defense than you can keep at home. In public FFA, Overtime is enabled by default; read the lobby rules before copying this practice opening into another mode.',
+    controls: 'Touch controls and common mistakes',
+  },
+  zh: {
+    title: '第一局先做这五步', lead: '先开一局练习，完成一次安全扩张，观察结果后再重复。',
+    start: '打开官方游戏', read: '按步骤完成第一局', desktop: '鼠标操作', touch: '手机或平板', diagram: '操作顺序示意，并非游戏截图',
+    labels: ['选择出生点', '确认投入比例', '扩张一次', '检查剩余兵力'],
+    steps: [
+      ['先开练习局', '打开单人游戏，选择简单难度和熟悉的地图，再开始。学习操作时先关闭特殊规则。'],
+      ['在出生阶段选陆地', '手动出生时，在倒计时结束前点击有效的无主陆地。优先找附近有空地、紧邻玩家较少的位置；随机出生则由游戏分配。'],
+      ['先读攻击比例滑杆', '进攻前先选择较小的投入。未保存设置时默认是 20%，但游戏可能恢复你保存的其他比例，请以屏幕数值为准。'],
+      ['只扩张一次，再观察', '选择与自己相邻的中立陆地。一次攻击后检查留守兵力和新边界；继续推就会露出弱点时，先等兵力恢复。'],
+      ['打开建筑菜单', '核心安全后，在自己的领土打开径向菜单并选择建造。确认价格与有效位置后再放城市；如果人口上限不是瓶颈，就先留住金币。'],
+    ],
+    mouse: '默认鼠标操作：左键点击相邻陆地进攻，右键打开径向菜单。选好待放置建筑后，下一次点击会变成放置；启用“左键打开菜单”后，点击行为也会改变。',
+    finger: '正常对局中，点按陆地先打开径向操作，再选择攻击或建造。拖动平移，双指缩放；先结束地图移动，再点操作按钮。',
+    caution: '下一条边界所需的防守兵力超过你能留在家的兵力时，就停止扩张。公开 FFA 默认开启 Overtime；把练习开局用于其他模式前，先看大厅规则。',
+    controls: '触控操作与常见误触',
+  },
+  fr: {
+    title: 'Vos cinq premières actions', lead: 'Lancez une partie d’entraînement, agrandissez une fois votre territoire, puis vérifiez le résultat.',
+    start: 'Ouvrir le jeu officiel', read: 'Suivre le tuto de la première partie', desktop: 'À la souris', touch: 'Téléphone ou tablette', diagram: 'Schéma pédagogique, pas une capture du jeu',
+    labels: ['Choisir le départ', 'Régler la part envoyée', 'Avancer une fois', 'Vérifier la réserve'],
+    steps: [
+      ['Commencez par un entraînement', 'Ouvrez le mode solo, choisissez la difficulté Facile et une carte familière, puis lancez la partie. Désactivez les règles spéciales pour apprendre les commandes.'],
+      ['Choisissez une case de départ', 'En placement manuel, cliquez ou touchez une terre libre valide avant la fin du compte à rebours. Cherchez de la place et peu de voisins immédiats. Le placement aléatoire choisit pour vous.'],
+      ['Lisez le curseur d’attaque', 'Choisissez une petite part avant d’attaquer. La valeur de départ est 20 %, mais un réglage enregistré peut être rétabli : vérifiez le nombre affiché.'],
+      ['Avancez une fois et observez', 'Visez une terre neutre voisine. Vérifiez les troupes restantes et la nouvelle frontière après l’attaque. Attendez si une seconde avancée vous expose.'],
+      ['Ouvrez le menu de construction', 'Une fois le cœur protégé, ouvrez le menu radial sur votre territoire et choisissez la construction. Vérifiez le prix et l’emplacement avant de poser une ville ; gardez l’or si la capacité n’est pas le problème.'],
+    ],
+    mouse: 'Par défaut, le clic gauche attaque une terre voisine ; le clic droit ouvre le menu radial. Une construction sélectionnée change le clic suivant. L’option d’ouverture du menu au clic gauche modifie aussi ce comportement.',
+    finger: 'Pendant la partie, touchez une case terrestre pour ouvrir ses actions, puis choisissez l’attaque ou la construction. Faites glisser pour déplacer la carte et pincez pour zoomer. Terminez le déplacement avant de commander.',
+    caution: 'Arrêtez-vous si la prochaine frontière exige plus de défense que votre réserve. L’Overtime est activé par défaut en FFA public ; lisez les règles du salon avant de transposer cet entraînement.',
+    controls: 'Gestes tactiles et erreurs fréquentes',
+  },
+  de: {
+    title: 'Deine ersten fünf Aktionen', lead: 'Starte eine Übungspartie, erweitere dein Gebiet einmal und prüfe das Ergebnis vor dem nächsten Schritt.',
+    start: 'Offizielles Spiel öffnen', read: 'Anleitung für die erste Partie', desktop: 'Mit der Maus', touch: 'Handy oder Tablet', diagram: 'Lernskizze, kein Screenshot aus dem Spiel',
+    labels: ['Spawn wählen', 'Anteil einstellen', 'Einmal expandieren', 'Reserve prüfen'],
+    steps: [
+      ['Mit einer Übung beginnen', 'Öffne den Einzelspielermodus, wähle Einfach und eine vertraute Karte und starte. Lass besondere Modifikatoren zum Lernen ausgeschaltet.'],
+      ['Land für den Spawn wählen', 'Klicke oder tippe bei manueller Platzierung vor Ablauf des Countdowns auf gültiges freies Land. Suche freie Fläche und wenige direkte Nachbarn. Bei zufälligem Spawn entscheidet das Spiel.'],
+      ['Angriffsregler prüfen', 'Stelle vor dem Angriff einen kleinen Anteil ein. Ohne gespeicherte Einstellung sind es 20 %, doch ein gespeicherter Wert kann abweichen. Lies die angezeigte Zahl.'],
+      ['Einmal erweitern und beobachten', 'Wähle angrenzendes neutrales Land. Prüfe danach verbleibende Truppen und die neue Grenze. Warte auf Erholung, wenn ein weiterer Vorstoß dich verwundbar macht.'],
+      ['Baumenü öffnen', 'Öffne im sicheren eigenen Gebiet das Radialmenü und wähle die Bauaktion. Prüfe Preis und gültigen Standort vor einer Stadt. Spare Gold, wenn Kapazität noch kein Engpass ist.'],
+    ],
+    mouse: 'Standardmäßig greift ein Linksklick angrenzendes Land an; ein Rechtsklick öffnet das Radialmenü. Eine ausgewählte Bauaktion verändert den nächsten Klick. Auch die Option für das Menü per Linksklick verändert diese Bedienung.',
+    finger: 'Tippe im laufenden Spiel auf ein Landfeld und wähle im Radialmenü Angriff oder Bau. Ziehen verschiebt die Karte, zwei Finger zoomen. Beende die Kartenbewegung vor einem Befehl.',
+    caution: 'Stoppe, wenn die nächste Grenze mehr Verteidigung verlangt, als du zu Hause halten kannst. Öffentliches FFA aktiviert Overtime standardmäßig; prüfe die Lobbyregeln vor einem Moduswechsel.',
+    controls: 'Touch-Bedienung und häufige Fehler',
+  },
+  nl: {
+    title: 'Je eerste vijf handelingen', lead: 'Start een oefenpotje, breid één keer veilig uit en controleer het resultaat voordat je verdergaat.',
+    start: 'Officiële spel openen', read: 'Volg de uitleg voor je eerste partij', desktop: 'Met de muis', touch: 'Telefoon of tablet', diagram: 'Leerschema, geen screenshot van het spel',
+    labels: ['Kies je spawn', 'Stel het aandeel in', 'Breid één keer uit', 'Controleer je reserve'],
+    steps: [
+      ['Begin met oefenen', 'Open Single Player, kies Easy en een vertrouwde kaart en start. Laat speciale spelregels uit terwijl je de bediening leert.'],
+      ['Kies land tijdens de spawnfase', 'Klik of tik bij handmatige plaatsing vóór het einde van de aftelling op geldig onbezet land. Zoek ruimte en weinig directe buren. Bij willekeurige plaatsing kiest het spel voor je.'],
+      ['Lees de aanvalsschuif', 'Kies vóór een aanval een kleine inzet. Zonder opgeslagen voorkeur is dat 20%, maar een bewaarde instelling kan anders zijn. Controleer het getoonde getal.'],
+      ['Breid één keer uit en kijk', 'Kies aangrenzend neutraal land. Controleer daarna je resterende troepen en nieuwe grens. Wacht op herstel als een tweede aanval je kwetsbaar maakt.'],
+      ['Open het bouwmenu', 'Open het radiale menu op veilig eigen land en kies bouwen. Controleer de prijs en geldige plaats vóór je een City neerzet. Bewaar Gold als capaciteit nog geen knelpunt is.'],
+    ],
+    mouse: 'Standaard valt een linksklik aangrenzend land aan; een rechtsklik opent het radiale menu. Een geselecteerde bouwactie verandert de volgende klik. De instelling om met links het menu te openen verandert dit gedrag ook.',
+    finger: 'Tik tijdens het spel op een landvak om acties te openen en kies dan aanvallen of bouwen. Sleep om de kaart te verschuiven en knijp om te zoomen. Stop met bewegen voordat je een opdracht geeft.',
+    caution: 'Stop als de volgende grens meer verdediging vraagt dan je thuis kunt houden. Openbare FFA gebruikt standaard Overtime; lees de lobbyregels vóór je dit oefenplan in een andere modus gebruikt.',
+    controls: 'Touchbediening en veelgemaakte fouten',
+  },
+};
+const t = copy[lang];
+---
+
+<aside class:list={['not-prose rounded-xl border border-cannon-700 bg-iron-900/70 p-5 sm:p-6', compact && 'container-wide mt-6']} data-first-match-quick-start aria-label={t.title}>
+  <p class="text-xl font-semibold text-iron-50">{t.title}</p>
+  <p class="mt-2 text-sm leading-relaxed text-iron-300">{t.lead}</p>
+  {compact ? (
+    <a data-first-match-primary class="mt-4 inline-flex rounded bg-cannon-700 px-4 py-3 font-semibold text-white hover:bg-cannon-600" href={`${prefix}guides/first-match/#first-actions`}>{t.read} →</a>
+  ) : (
+    <div id="first-actions" class="scroll-mt-24">
+      <a data-practice-launch class="mt-4 inline-flex rounded bg-cannon-700 px-4 py-3 font-semibold text-white hover:bg-cannon-600" href="https://openfront.io/">{t.start} ↗</a>
+      <ol class="mt-5 grid gap-4" data-first-actions>
+        {t.steps.map(([title, body], index) => <li class="flex gap-3"><span aria-hidden="true" class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cannon-700 text-sm font-bold text-white">{index + 1}</span><div><strong class="text-iron-100">{title}</strong><p class="mt-1 text-sm leading-relaxed text-iron-300">{body}</p></div></li>)}
+      </ol>
+      <div class="mt-5 grid gap-4 sm:grid-cols-2" data-first-inputs>
+        <div class="rounded border border-iron-700 p-4" data-first-desktop><strong class="text-cannon-300">{t.desktop}</strong><p class="mt-2 text-sm leading-relaxed text-iron-300">{t.mouse}</p></div>
+        <div class="rounded border border-iron-700 p-4" data-first-touch><strong class="text-cannon-300">{t.touch}</strong><p class="mt-2 text-sm leading-relaxed text-iron-300">{t.finger}</p><a class="mt-2 inline-block text-sm text-cannon-300 underline" href={`${prefix}guides/mobile-controls/`}>{t.controls}</a></div>
+      </div>
+      <figure class="mt-5 rounded border border-iron-700 p-4" data-first-loop>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">{t.labels.map((label, index) => <div class="rounded bg-iron-800 p-3 text-center text-sm text-iron-100"><span aria-hidden="true" class="mb-2 block text-xl text-cannon-300">{index + 1} →</span>{label}</div>)}</div>
+        <figcaption class="mt-3 text-xs text-iron-400">{t.diagram}</figcaption>
+      </figure>
+      <p class="mt-4 text-sm leading-relaxed text-iron-300">{t.caution}</p>
+    </div>
+  )}
+</aside>

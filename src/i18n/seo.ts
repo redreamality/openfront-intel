@@ -1,4 +1,5 @@
 import type { Lang } from './ui';
+import { recoveryTitles } from './search-recovery';
 
 type SeoCopy = {
   home: string;
@@ -368,6 +369,7 @@ export function getSeoTitle(lang: Lang, pathname: string, title: string) {
 
   if (section === 'home') return copy.home;
   if (section === '404') return title;
+  if (recoveryTitles[lang][pathKey]) return recoveryTitles[lang][pathKey];
   if (copy.specialPaths[pathKey]) return copy.specialPaths[pathKey];
   if (copy.special[section]) return copy.special[section];
 

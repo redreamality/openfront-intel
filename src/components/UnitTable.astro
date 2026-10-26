@@ -21,6 +21,13 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL;
 const prefix = lang === 'en' ? '' : `${lang}/`;
+const factoryAnswerLink = {
+  en: 'What do factories do?',
+  zh: '工厂到底有什么用？',
+  fr: 'À quoi servent les usines ?',
+  de: 'Was machen Fabriken?',
+  nl: 'Wat doen fabrieken?',
+};
 const mirvCostLink = {
   en: 'Why does the MIRV price rise?',
   zh: 'MIRV 为什么会涨价？',
@@ -84,6 +91,7 @@ const fmtNum = (n: number | null) => (n == null ? '—' : n.toLocaleString('en-U
             </td>
             <td>
               <div class="text-iron-200">{tx.role}</div>
+              {u.id === 'Factory' && <a data-factory-answer-link class="mt-2 inline-block text-sm text-cannon-400 underline hover:text-cannon-300" href={`${base}${prefix}guides/what-do-factories-do/`}>{factoryAnswerLink[lang]}</a>}
               {tx.notes && tx.notes.length > 0 && (
                 <ul class="mt-1 list-disc pl-4 text-xs text-iron-400 space-y-0.5">
                   {tx.notes.map((n) => <li>{n}</li>)}

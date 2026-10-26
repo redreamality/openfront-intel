@@ -1,5 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
+import { sourcePackPasses, sectionsPass } from "./guide-source-policy.mjs";
 
 const LANGUAGES = [
   { code: "en", minimum: 1_000, unit: "words" },
@@ -58,6 +60,13 @@ function levelTwoSections(markdown) {
   );
 }
 
+function levelThreeSections(markdown) {
+  const headings = [...markdown.matchAll(/^#{2,3}\s+.+$/gm)];
+  return headings.flatMap((heading, index) => heading[0].startsWith('### ')
+    ? [markdown.slice(heading.index + heading[0].length, headings[index + 1]?.index ?? markdown.length)]
+    : []);
+}
+
 function hostname(value) {
   try {
     return new URL(value).hostname.toLowerCase().replace(/^www\./, "");
@@ -68,6 +77,8 @@ function hostname(value) {
 
 const slug = argument("--slug");
 const sourcePack = argument("--source-pack");
+const maintenance = process.argv.includes('--maintenance');
+let existingTranslations = false;
 
 if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !sourcePack) {
   console.error(
@@ -77,6 +88,16 @@ if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !sourcePack) {
 }
 
 const results = [];
+if (maintenance) {
+  try {
+    existingTranslations = LANGUAGES.every(({ code }) => {
+      execFileSync('git', ['cat-file', '-e', `HEAD:src/content/guides/${code}/${slug}.mdx`], { stdio: 'pipe' });
+      return true;
+    });
+  } catch {
+    console.error('Maintenance requires all five translations to exist in HEAD; use the new-guide source gate.');
+  }
+}
 for (const language of LANGUAGES) {
   const relative = `src/content/guides/${language.code}/${slug}.mdx`;
   try {
@@ -92,6 +113,8 @@ for (const language of LANGUAGES) {
         : latinWordCount(sectionText);
     });
     const headings = body.match(/^#{2,4}\s+.+$/gm)?.length ?? 0;
+    const h3Counts = levelThreeSections(body).map(section => language.code === 'zh'
+      ? hanCharacterCount(plainText(section)) : latinWordCount(plainText(section)));
     const tables =
       body.match(/^\s*\|?(?:\s*:?-{3,}:?\s*\|){2,}\s*$/gm)?.length ?? 0;
     const internalLinks =
@@ -108,12 +131,11 @@ for (const language of LANGUAGES) {
       tables,
       internalLinks,
       sectionCounts,
+      h3Counts,
       hasDeliveryMetadata,
       passes:
         count >= language.minimum &&
-        headings >= 8 &&
-        sectionCounts.length >= 8 &&
-        sectionCounts.every((sectionCount) => sectionCount >= 401) &&
+        sectionsPass({ maintenance, h2Counts: sectionCounts, h3Counts }) &&
         tables >= 1 &&
         internalLinks >= 2 &&
         hasDeliveryMetadata,
@@ -162,11 +184,8 @@ try {
     youtube: youtube.length,
     official: official.length,
     notesWords,
-    passes:
-      reddit.length >= 3 &&
-      youtube.length >= 3 &&
-      official.length >= 1 &&
-      notesWords >= 600,
+    passes: sourcePackPasses({ reddit: reddit.length, youtube: youtube.length,
+      official: official.length, notesWords, maintenance, existingTranslations }),
   };
 } catch (error) {
   research = {
@@ -179,7 +198,7 @@ try {
   };
 }
 
-console.log(`Guide delivery audit: ${slug}`);
+console.log(`Guide delivery audit: ${slug} (${maintenance ? 'existing-guide maintenance' : 'new-guide delivery'})`);
 console.log(
   "lang  count/min              h2-h4  tables  links  metadata  status",
 );
@@ -196,12 +215,14 @@ for (const result of results) {
     ].join(" "),
   );
   console.log(`      h2 sections: ${result.sectionCounts?.join("/") || "none"}`);
+  if (result.h3Counts?.length) console.log(`      h3 sections: ${result.h3Counts.join('/')}`);
   if (result.error) console.log(`      ${result.error}`);
 }
 
 console.log("\nResearch source pack");
+if (maintenance) console.log('Maintenance: existing five-language guide; new-topic community and eight-section quotas do not apply. Every H2/H3 still needs 401 words; official evidence and 600-word notes remain required.');
 console.log(
-  `Reddit ${research.reddit}/3 | YouTube ${research.youtube}/3 | official ${research.official}/1 | notes ${research.notesWords}/600 words | ${research.passes ? "PASS" : "FAIL"}`,
+  `Reddit ${research.reddit}/${maintenance ? 'n/a' : '3'} | YouTube ${research.youtube}/${maintenance ? 'n/a' : '3'} | official ${research.official}/1 | notes ${research.notesWords}/600 words | ${research.passes ? "PASS" : "FAIL"}`,
 );
 if (research.error) console.log(research.error);
 
