@@ -1,0 +1,30 @@
+---
+import { getLangFromUrl, stripLangPrefix, type Lang } from '../i18n';
+const lang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
+const prefix = `${base}${lang === 'en' ? '' : `${lang}/`}`;
+const active = stripLangPrefix(Astro.url.pathname.slice(base.length)).replace(/\/$/, '') === 'guides/mobile-app-download';
+type Copy = { title: string; lead: string; android: string; ios: string; desktop: string; play: string; steam: string; controls: string; first: string };
+const copy: Record<Lang, Copy> = {
+  en: { title: 'Choose your device and start playing', lead: 'OpenFront runs in your browser. You do not need an APK to use the official web game.', android: 'Android: open the game in your browser. If its menu offers Install or Add to Home Screen, you can add a shortcut; playing in the tab also works.', ios: 'iPhone / iPad: open the game in Safari, tap Share, choose Add to Home Screen, then launch the new icon for a view without the address bar.', desktop: 'Computer: play in the browser or open the official Steam listing. Steam is the desktop route, not a phone installer.', play: 'Play in the official browser game', steam: 'OpenFront on Steam · desktop', controls: 'Learn touch controls', first: 'Play your first match' },
+  zh: { title: '选择设备，直接开始游戏', lead: 'OpenFront 可以在浏览器中运行，使用官方网页游戏无需下载 APK。', android: 'Android：在浏览器打开游戏。如果菜单提供“安装”或“添加到主屏幕”，可创建入口；直接留在标签页里玩也可以。', ios: 'iPhone / iPad：用 Safari 打开游戏，点“分享”→“添加到主屏幕”，再从新图标启动，即可隐藏地址栏。', desktop: '电脑：直接用浏览器玩，或打开官方 Steam 商店页面。Steam 是桌面入口，不是手机安装包。', play: '打开官方网页游戏', steam: 'OpenFront Steam 桌面版', controls: '查看手机触控操作', first: '开始第一场游戏' },
+  fr: { title: 'Choisissez votre appareil et jouez', lead: 'OpenFront fonctionne dans le navigateur. Aucun APK n’est nécessaire pour jouer sur le site officiel.', android: 'Android : ouvrez le jeu dans votre navigateur. Si le menu propose Installer ou Ajouter à l’écran d’accueil, vous pouvez créer un raccourci. Jouer dans l’onglet fonctionne aussi.', ios: 'iPhone / iPad : ouvrez le jeu dans Safari, touchez Partager, puis Ajouter à l’écran d’accueil. Lancez la nouvelle icône pour jouer sans barre d’adresse.', desktop: 'Ordinateur : jouez dans le navigateur ou consultez la fiche Steam officielle. Steam concerne le jeu sur ordinateur, pas une installation sur téléphone.', play: 'Jouer sur le site officiel', steam: 'OpenFront sur Steam · ordinateur', controls: 'Apprendre les gestes tactiles', first: 'Jouer sa première partie' },
+  de: { title: 'Gerät wählen und losspielen', lead: 'OpenFront läuft im Browser. Für das offizielle Browserspiel brauchst du keine APK.', android: 'Android: Öffne das Spiel im Browser. Falls das Menü Installieren oder Zum Startbildschirm hinzufügen anbietet, kannst du eine Verknüpfung anlegen. Du kannst auch direkt im Tab spielen.', ios: 'iPhone / iPad: Öffne das Spiel in Safari, tippe auf Teilen und Zum Home-Bildschirm. Starte dann das neue Symbol, um ohne Adressleiste zu spielen.', desktop: 'Computer: Spiele im Browser oder öffne die offizielle Steam-Seite. Steam ist der Zugang für Computer, kein Handy-Installer.', play: 'Offizielles Browserspiel öffnen', steam: 'OpenFront auf Steam · Computer', controls: 'Touch-Steuerung lernen', first: 'Die erste Partie spielen' },
+  nl: { title: 'Kies je apparaat en begin met spelen', lead: 'OpenFront werkt in je browser. Je hebt geen APK nodig voor de officiële browsergame.', android: 'Android: open het spel in je browser. Als het menu Installeren of Toevoegen aan startscherm aanbiedt, kun je een snelkoppeling maken. In het tabblad spelen kan ook.', ios: 'iPhone / iPad: open het spel in Safari, tik op Delen en Zet op beginscherm. Start daarna het nieuwe pictogram om zonder adresbalk te spelen.', desktop: 'Computer: speel in de browser of open de officiële Steam-pagina. Steam is de computerroute, geen installatie voor je telefoon.', play: 'Officiële browsergame openen', steam: 'OpenFront op Steam · computer', controls: 'Touchbediening leren', first: 'Je eerste wedstrijd spelen' },
+};
+const t = copy[lang];
+---
+{active && <section class="my-6 rounded-xl border border-cannon-700 bg-iron-900/70 p-5" aria-labelledby="mobile-platform-title" data-mobile-platform-routes>
+  <h2 id="mobile-platform-title" class="text-xl font-bold text-iron-100">{t.title}</h2>
+  <p class="mt-2 text-sm text-iron-300">{t.lead}</p>
+  <a href="https://openfront.io/" class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-cannon-600 px-4 py-2 font-semibold text-white hover:bg-cannon-500" data-official-mobile-play>{t.play}</a>
+  <ul class="mt-5 grid gap-3 text-sm leading-relaxed text-iron-200 sm:grid-cols-3">
+    <li class="rounded-lg border border-iron-700 p-3" data-platform="android">{t.android}</li>
+    <li class="rounded-lg border border-iron-700 p-3" data-platform="ios">{t.ios}</li>
+    <li class="rounded-lg border border-iron-700 p-3" data-platform="desktop">{t.desktop}<a href="https://store.steampowered.com/app/3560670/OpenFront/" class="mt-3 block underline text-cannon-400">{t.steam}</a></li>
+  </ul>
+  <nav class="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-sm" aria-label={t.title}>
+    <a href={`${prefix}guides/mobile-controls/`} class="underline text-cannon-400">{t.controls}</a>
+    <a href={`${prefix}guides/first-match/`} class="underline text-cannon-400">{t.first}</a>
+  </nav>
+</section>}

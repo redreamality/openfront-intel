@@ -48,10 +48,11 @@ for (const localeCase of localeCases) {
     const appMain = page.locator('main');
     await expect(appMain).toContainText(verifiedTag);
     await expect(appMain).toContainText('APK');
-    await expect(appMain.locator('a[href="https://openfront.io/"]')).toHaveCount(2);
+    await expect(appMain.locator('[data-mobile-platform-routes] a[href="https://openfront.io/"]')).toBeVisible();
+    await expect(appMain.locator('.prose a[href="https://openfront.io/"]').first()).toBeVisible();
     await expect(
-      appMain.locator(`a[href="${verifiedReleaseUrl}"]`),
-    ).toHaveCount(2);
+      appMain.locator(`.prose a[href="${verifiedReleaseUrl}"]`),
+    ).toBeVisible();
 
     await page.goto(`${localeCase.prefix}/guides/mobile-alternatives/`, {
       waitUntil: 'domcontentloaded',

@@ -4,6 +4,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import CollectionIntro from '../../../components/CollectionIntro.astro';
 import SearchAnswerPaths from '../../../components/SearchAnswerPaths.astro';
+import FirstMatchQuickStart from '../../../components/FirstMatchQuickStart.astro';
 import GuideCatalog from '../../../components/GuideCatalog.astro';
 import { byLang } from '../../../i18n';
 
@@ -16,6 +17,7 @@ const all = (await getCollection('guides', ({ data }) => !data.draft))
 
 <BaseLayout title="Tutoriels" description="Tutoriels OpenFront.io du débutant à l'avancé, panneau de commande, raccourcis clavier et analyse de la première partie.">
   <PageHeader eyebrow="GUIDES" title="Tutoriels" lead="De l'ouverture du jeu à votre première expansion réussie, étape par étape." />
+  <FirstMatchQuickStart compact />
   <SearchAnswerPaths kind="guide" />
   <CollectionIntro kind="guide" />
   <section class="container-wide pt-10" aria-labelledby="quick-answers-title" data-quick-answers>

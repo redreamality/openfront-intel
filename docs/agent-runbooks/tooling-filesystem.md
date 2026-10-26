@@ -1,5 +1,8 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-10-26 搜索恢复维护复发**：临时 ESM 脚本直接 import Windows `C:/` 路径、直接 import pnpm 未暴露的 `github-slugger` 分别触发 URL scheme 与模块解析错误；改用已确认包位置的 `file:///` URL 后恢复。一次上游 `git show` 在站点目录执行导致 invalid object，改到上游 checkout 后成功。最终 `dist` 未生成前的检索不算产物验证；等待构建成功后再检查。runbook 补丁曾因标题上下文猜错被原子拒绝，读取实际标题后恢复；未修改 AGENTS.md。
+- **同批路径发现与计数恢复**：猜测 `e2e/article-answer-routes.spec.ts`、`scripts/guide-delivery-audit.mjs`、`src/components/CookieConsent.astro`、`e2e/cookie-consent.spec.ts` 导致缺文件诊断，按 `rg --files` 找到实际文件后恢复；隐私组件实际为 ConsentBanner。法语临时 `node -e` 计数含复杂引号被 PowerShell 解析失败，改为已保存 `.mjs` 脚本运行成功。缺文件输出不能因同批末条命令返回 0 而忽略。
+
 - **2026-10-20 核弹切地维护恢复记录**：RSS 搜索已返回 `src/pages/rss.xml.js` 后误读猜测的 `.ts` 路径，报文件不存在；另检索猜测的 `RelatedArticles.astro` 报缺失，实际为 `RelatedContent.astro`。均回到 `rg --files` 确认的真实路径完成核验。DE/NL 局部计数曾把脚本通配路径交给 Windows `rg` 而失败，改为明确 Node 脚本完成；大段补丁换行上下文不匹配时均原子拒绝，按当前物理行拆小后恢复。
 
 - **2026-10-15 改键维护补丁复发记录**：第一次补丁带入未经核对的英文尾行，第二次跨五语补丁猜测中文来源链接标签，两次均因上下文不匹配整体回滚。读取目标完整物理行、删除无关尾部 hunk 并按文件组拆补丁后恢复；没有部分覆盖或修改 AGENTS.md。
@@ -30,7 +33,7 @@
 - **Node 20/23 不能直接动态导入项目 `.ts` 配置**：纯 Node 审计若要复用 TypeScript 单一来源，应通过项目内 `typescript.transpileModule` 转为 ESM 后加载，或使用项目已有的 TypeScript loader；不要直接 `import('./src/config/*.ts')`。
 - **项目不存在 `src/layouts/GuideLayout.astro`**：当前布局只有 `BaseLayout.astro` 与 `DocLayout.astro`；追踪攻略渲染前先用 `rg --files src/layouts src/pages` 枚举真实入口，不要按组件职责猜文件名。
 - **读取 Markdown 直接链接的来源包时必须相对当前文档目录解析路径**：例如 `docs/whats-new-content-plan.md` 中的 `research/...` 实际位于 `docs/research/...`，不是仓库根 `research/...`。先用 `rg --files docs` 核对真实文件，再读取，避免把正确的相对链接误判为缺失。
-- **一次 `apply_patch` 不能同时对同一路径执行 `Delete File` 和 `Add File`**：验证器会以 `multiple operations target` 拒绝整份补丁，且不会写入任何内容。整文件替换应优先使用单个 `Update File`；确需删除重建时拆成两次调用，并在两步之间立即恢复目标文件。
+- **一次 `apply_patch` 不能同时对同一路径执行 `Delete File` 和 `Add File`**：验证器会以 `multiple operations target` 拒绝整份补丁，且不会写入任何内容。整文件替换应优先使用单个 `Update File`；确需删除重建时拆成两次调用，并在两步之间立即恢复目标文件。2026-10-26 工厂数量页翻译再次遇到此限制，改用 Update 后恢复，未丢失文件。
 - **2026-08-23 复发：Astro 内容集合配置位于 `src/content/config.ts`，不是仓库级 `src/content.config.ts`**：检查 schema 或 collection 前先用 `rg --files src | rg 'content.*config|config.*content'` 定位，避免把其他 Astro 版本的约定路径套到本项目。
 - **Codex `automation_update` 不支持 `mode=run`，也不要用 `FREQ=MINUTELY` 模拟单次试跑**：分钟 recurrence 可能在恢复原频率前排入多个独立任务，导致它们竞争同一项目目录。单次试跑应使用应用提供的正式运行入口；触发后立即核对只出现一个新任务，再开始跟踪。
 - **2026-09-07、2026-09-08、2026-09-25、2026-09-27、2026-09-29、2026-10-02 再次复发：读取源码、内容页、配置或审计器前不得猜路径或文件名**：核验官方 tag 曾猜错 `TransformHandler` / `UserSettings`，又猜测不存在的本地 `src/content/mechanics`；2026-09-29 把 playlist 实现猜成 `src/core/game/MapPlaylist.ts`，枚举 tag tree 后定位到真实 `src/server/MapPlaylist.ts`；2026-10-02 核武核验先猜成 `Unit.ts`，随后从源码树定位到 `UnitImpl.ts`。先从最近的真实目录运行 `rg --files`，远端 tag 先读取官方 tree，再把返回路径传给 `Get-Content`、`rg` 或 blob API；不要把猜测路径与有效路径放在同一命令中。若搜索表达式以 `-` 开头，在选项后加 `--` 终止参数解析。

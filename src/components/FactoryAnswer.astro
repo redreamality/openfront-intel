@@ -1,0 +1,26 @@
+---
+import { getLangFromUrl } from '../i18n';
+const lang = getLangFromUrl(Astro.url);
+const prefix = `${import.meta.env.BASE_URL}${lang === 'en' ? '' : `${lang}/`}`;
+const copy = {
+  en: { title: 'What does a factory do?', answer: 'A factory launches trains. Gold arrives when those trains stop at connected cities or ports. An isolated factory has no paying destination.', steps: ['Factory launches a train', 'Connected rail carries it', 'City or port pays on arrival'], note: 'Connection diagram, not a game screenshot. Check the placement preview and a completed journey before buying more levels.', links: ['How many factories?', 'What does upgrading change?', 'Fix the rail network', 'Compare a port and a factory'] },
+  zh: { title: '工厂到底有什么用？', answer: '工厂派出火车；火车抵达铁路相连的城市或港口时才结算金币。孤立的工厂没有可以付款的目的地。', steps: ['工厂派出火车', '铁路连接站点', '抵达城市或港口后结算'], note: '这是连接示意图，不是游戏截图。先看放置预览并确认一次完整到站，再决定增加等级。', links: ['该造多少工厂？', '升级会改变什么？', '排查铁路网络', '比较港口和工厂'] },
+  fr: { title: 'À quoi sert une usine ?', answer: 'Une usine fait partir des trains. L’or est versé lorsqu’ils arrivent dans une ville ou un port relié par le rail. Une usine isolée n’a aucune destination qui rapporte.', steps: ['L’usine fait partir un train', 'Le rail relie les gares', 'La ville ou le port paie à l’arrivée'], note: 'Schéma de connexion, pas une capture du jeu. Vérifiez l’aperçu de placement et un trajet terminé avant d’ajouter des niveaux.', links: ['Combien d’usines construire ?', 'Que change une amélioration ?', 'Vérifier le réseau ferré', 'Comparer port et usine'] },
+  de: { title: 'Was macht eine Fabrik?', answer: 'Eine Fabrik schickt Züge los. Gold gibt es, wenn diese eine angeschlossene Stadt oder einen Hafen erreichen. Eine isolierte Fabrik hat kein zahlendes Ziel.', steps: ['Die Fabrik startet einen Zug', 'Schienen verbinden Stationen', 'Stadt oder Hafen zahlt bei Ankunft'], note: 'Verbindungsschema, kein Spielbild. Prüfe Bauvorschau und eine abgeschlossene Fahrt, bevor du weitere Stufen kaufst.', links: ['Wie viele Fabriken?', 'Was bewirkt ein Ausbau?', 'Das Schienennetz prüfen', 'Hafen und Fabrik vergleichen'] },
+  nl: { title: 'Wat doet een fabriek?', answer: 'Een fabriek laat treinen vertrekken. Goud ontvang je wanneer die een aangesloten stad of haven bereiken. Een losse fabriek heeft geen betalende bestemming.', steps: ['De fabriek laat een trein vertrekken', 'Het spoor verbindt stations', 'Stad of haven betaalt bij aankomst'], note: 'Verbindingsschema, geen schermafbeelding. Controleer de bouwpreview en een voltooide rit voordat je meer niveaus koopt.', links: ['Hoeveel fabrieken?', 'Wat verandert een upgrade?', 'Het spoorwegnet controleren', 'Haven en fabriek vergelijken'] },
+}[lang];
+const paths = ['how-many-factories', 'factory-upgrades', 'train-network', 'port-vs-factory'];
+---
+<aside class="not-prose my-6 rounded-xl border border-cannon-700 bg-iron-900/70 p-5" aria-labelledby="factory-answer-title" data-factory-answer>
+  <p id="factory-answer-title" class="text-xl font-semibold text-iron-50">{copy.title}</p>
+  <p class="mt-3 leading-relaxed text-iron-200">{copy.answer}</p>
+  <figure class="mt-5">
+    <ol class="grid gap-3 sm:grid-cols-3" data-factory-flow>
+      {copy.steps.map((step, index) => <li class="rounded border border-iron-700 p-3 text-iron-100"><span class="mr-2 font-mono text-cannon-400">{index + 1}.</span>{step}</li>)}
+    </ol>
+    <figcaption class="mt-3 text-sm text-iron-400">{copy.note}</figcaption>
+  </figure>
+  <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+    {paths.map((path, index) => <li><a class="text-cannon-400 underline hover:text-cannon-300" href={`${prefix}guides/${path}/`}>{copy.links[index]}</a></li>)}
+  </ul>
+</aside>

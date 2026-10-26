@@ -2,13 +2,16 @@
 import { getLangFromUrl, stripLangPrefix, type Lang } from '../i18n';
 
 interface Props { position: 'intro' | 'next'; }
-type Topic = 'mobile' | 'threat' | 'wide' | 'enclosure' | 'islands' | 'coast';
+type Topic = 'mobile' | 'threat' | 'wide' | 'enclosure' | 'islands' | 'coast' | 'factory';
 const { position } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const base = import.meta.env.BASE_URL;
 const prefix = `${base}${lang === 'en' ? '' : `${lang}/`}`;
 const path = stripLangPrefix(Astro.url.pathname.slice(base.length)).replace(/\/$/, '');
 const targets: Record<string, { topic: Topic; path: string; position: Props['position'] }> = {
+  'guides/factory-upgrades': { topic: 'factory', path: 'guides/what-do-factories-do/', position: 'intro' },
+  'guides/port-vs-factory': { topic: 'factory', path: 'guides/what-do-factories-do/', position: 'intro' },
+  'guides/building-timing': { topic: 'factory', path: 'guides/what-do-factories-do/', position: 'intro' },
   'guides/mobile-alternatives': { topic: 'mobile', path: 'guides/mobile-app-download/', position: 'intro' },
   'guides/mobile-reddit-community': { topic: 'mobile', path: 'guides/mobile-app-download/', position: 'intro' },
   'guides/first-match': { topic: 'threat', path: 'guides/threat-assessment/', position: 'next' },
@@ -19,6 +22,7 @@ const targets: Record<string, { topic: Topic; path: string; position: Props['pos
 };
 const copy: Record<Lang, Record<Topic, [string, string]>> = {
   en: {
+    factory: ['What does a factory actually do?', 'Start with trains, connected destinations and when gold is paid. Then return here to compare your next investment.'],
     mobile: ['Want to play OpenFront on your phone?', 'Start with the official mobile browser, app and download answer. This page covers a different game or community help; for touch actions, continue to the mobile controls guide.'],
     threat: ['How do I choose which neighbor to attack?', 'After learning your first expansion, compare reserves, borders and outside threats before choosing a target.'],
     wide: ['When should a safe economy take more land?', 'Use the tall versus wide guide to decide whether a second foothold improves your routes and victory options.'],
@@ -27,6 +31,7 @@ const copy: Record<Lang, Record<Topic, [string, string]>> = {
     coast: ['How do I defend an island against a landing?', 'Read the defender’s warning signs, coastal coverage and recovery options before transports reach your shore.'],
   },
   zh: {
+    factory: ['工厂到底有什么用？', '先看火车、相连目的地与金币结算条件，再回到本页比较下一笔投资。'],
     mobile: ['想在手机上玩 OpenFront？', '先看官方浏览器、App 与下载入口。本页处理替代游戏或社区求助；具体点按与缩放操作请看触控教程。'],
     threat: ['该选择哪个邻居作为进攻目标？', '学会第一次扩张后，先比较预备队、边界与外部威胁，再决定打谁。'],
     wide: ['安全经济什么时候该转为扩张？', '用集中发展与扩张转换指南，判断第二支点是否改善路线与获胜选择。'],
@@ -35,6 +40,7 @@ const copy: Record<Lang, Record<Topic, [string, string]>> = {
     coast: ['怎样守住岛屿、阻止运输船登陆？', '在敌船靠岸前，检查预警、海岸覆盖与失守后的恢复选择。'],
   },
   fr: {
+    factory: ['À quoi sert une usine ?', 'Comprenez les trains, les destinations reliées et le versement de l’or, puis revenez comparer votre prochain investissement.'],
     mobile: ['Vous voulez jouer à OpenFront sur votre téléphone ?', 'Commencez par la réponse sur le navigateur officiel, l’application et le téléchargement. Cette page concerne un autre jeu ou la communauté ; pour les gestes, consultez les commandes mobiles.'],
     threat: ['Quel voisin faut-il attaquer ?', 'Après la première expansion, comparez les réserves, les frontières et les menaces extérieures avant de choisir une cible.'],
     wide: ['Quand transformer une économie sûre en expansion ?', 'Évaluez si un second point d’appui améliore vos routes et vos possibilités de victoire.'],
@@ -43,6 +49,7 @@ const copy: Record<Lang, Record<Topic, [string, string]>> = {
     coast: ['Comment défendre une île contre un débarquement ?', 'Lisez les signes d’alerte, la couverture côtière et les options de reprise avant l’arrivée des transports.'],
   },
   de: {
+    factory: ['Was macht eine Fabrik?', 'Lerne zuerst, wie Züge, angeschlossene Ziele und Goldzahlungen zusammenhängen. Vergleiche danach deine nächste Investition.'],
     mobile: ['Willst du OpenFront auf dem Handy spielen?', 'Beginne mit dem offiziellen Browserzugang sowie der App- und Download-Antwort. Hier geht es um andere Spiele oder Community-Hilfe; Touch-Aktionen erklärt die mobile Steuerung.'],
     threat: ['Welchen Nachbarn solltest du angreifen?', 'Vergleiche nach der ersten Expansion Reserven, Grenzen und fremde Bedrohungen, bevor du ein Ziel wählst.'],
     wide: ['Wann sollte eine sichere Wirtschaft expandieren?', 'Prüfe, ob ein zweiter Stützpunkt deine Routen und Siegoptionen verbessert.'],
@@ -51,6 +58,7 @@ const copy: Record<Lang, Record<Topic, [string, string]>> = {
     coast: ['Wie verteidigst du eine Insel gegen Landungen?', 'Prüfe Warnsignale, Küstenabdeckung und Rückgewinnung, bevor Transporter die Küste erreichen.'],
   },
   nl: {
+    factory: ['Wat doet een fabriek?', 'Lees eerst hoe treinen, verbonden bestemmingen en goudbetalingen werken. Vergelijk daarna je volgende investering.'],
     mobile: ['Wil je OpenFront op je telefoon spelen?', 'Begin met de officiële browserroute en het antwoord over app en download. Deze pagina behandelt andere spellen of communityhulp; voor gebaren ga je naar mobiele bediening.'],
     threat: ['Welke buur moet je aanvallen?', 'Vergelijk na de eerste uitbreiding reserves, grenzen en bedreigingen van buiten voordat je een doelwit kiest.'],
     wide: ['Wanneer moet een veilige economie uitbreiden?', 'Bepaal of een tweede steunpunt je routes en kansen om te winnen verbetert.'],

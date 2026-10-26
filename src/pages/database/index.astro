@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import DatabaseGuide from '../../components/DatabaseGuide.astro';
+import PlayerStatsRoute from '../../components/PlayerStatsRoute.astro';
 import meta from '../../data/_meta.json';
 import maps from '../../data/maps.json';
 import units from '../../data/units.json';
@@ -18,6 +19,7 @@ const sections = [
 
 <BaseLayout title="Database" description="OpenFront.io units, structures, maps, and formula reference.">
   <PageHeader eyebrow="DATABASE" title="Database" lead="All values synced from game source code—use as quick reference during matches." />
+  <PlayerStatsRoute />
   <section class="container-wide py-10">
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {sections.map((s) => (

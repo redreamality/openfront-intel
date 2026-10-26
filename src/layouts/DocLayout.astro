@@ -5,7 +5,11 @@ import RelatedContent from '../components/RelatedContent.astro';
 import ProvenancePanel from '../components/ProvenancePanel.astro';
 import FreshnessSummary from '../components/FreshnessSummary.astro';
 import ArticleAnswerRoutes from '../components/ArticleAnswerRoutes.astro';
-import { getLangFromUrl, useTranslations, getIntlLocale } from '../i18n';
+import MobilePlatformRoutes from '../components/MobilePlatformRoutes.astro';
+import LongTailAnswers from '../components/LongTailAnswers.astro';
+import FirstMatchQuickStart from '../components/FirstMatchQuickStart.astro';
+import FactoryAnswer from '../components/FactoryAnswer.astro';
+import { getLangFromUrl, useTranslations, getIntlLocale, stripLangPrefix } from '../i18n';
 
 export interface Props {
   title: string;
@@ -51,6 +55,7 @@ const authorCopy = {
   zh: '由 OpenFront Intel 编辑组核验',
 } as const;
 const base = import.meta.env.BASE_URL;
+const articlePath = stripLangPrefix(Astro.url.pathname.slice(base.length)).replace(/\/$/, '');
 const langPrefix = lang === 'en' ? '' : `${lang}/`;
 const articleJsonLd = {
   '@context': 'https://schema.org',
@@ -95,6 +100,11 @@ const articleJsonLd = {
         {tags.length > 0 && tags.map((tag) => <span class="text-iron-500">#{tag}</span>)}
       </div>
     </header>
+
+    <MobilePlatformRoutes />
+    <LongTailAnswers />
+    {articlePath === 'guides/first-match' && <div class="mb-6"><FirstMatchQuickStart /></div>}
+    {articlePath === 'guides/what-do-factories-do' && <FactoryAnswer />}
 
     {freshnessSummary && version && updatedDate && (
       <FreshnessSummary

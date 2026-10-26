@@ -1,6 +1,6 @@
 # OpenFront Intel 内容战略
 
-更新日期：2026-10-09。规划窗口：未来 8–12 周。
+更新日期：2026-10-26。规划窗口：未来 8–12 周。
 
 本文只回答“为什么做、当前做什么、何时晋级或停止”。实时状态与指标见 [`content-loop.md`](content-loop.md)；Search Console 获取规则见 [`search-console-content-workflow.md`](search-console-content-workflow.md)；`What's New` 的字段与披露合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-08-20 前的完整叙事见 [归档](archive/content-strategy-through-2026-08-20.md)，不属于定时任务热上下文。
 
@@ -26,6 +26,8 @@
 7. **交付单位是玩家结果。** 同一主题的来源、主答案、相邻页、多语、入口、测试和状态收口进入同一个内容 PR；不同风险或可独立合并的主题才拆 PR。
 
 ## 当前三通道
+
+2026-10-26 用户批准将[搜索恢复计划](seo-recovery-plan-2026-10-26.md)全部一次实施。至 2026-11-09，投入优先用于已有主答案、发现/索引诊断和需求验证（参考比例 70% / 20% / 10%），暂停没有需求证据的批量新主题；正式 Release 与事实错误仍优先处理。已交付的恢复包进入 Monitoring，不能换回以篇数为目标的生产配额。
 
 | 通道 | 当前项 | 结论与下一门槛 |
 |---|---|---|
