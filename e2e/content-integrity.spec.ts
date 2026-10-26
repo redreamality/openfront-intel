@@ -327,7 +327,7 @@ const freshnessLanguages = [
 ] as const;
 
 const freshnessPages = [
-  { route: '/guides/first-match/', version: 'v33', fact: 'v33.11' },
+  { route: '/guides/first-match/', version: 'v35', fact: 'v0.35.4' },
   { route: '/guides/doomsday-clock/', version: 'v33', fact: 'v33.7' },
   { route: '/guides/hotkeys/', version: 'v35', fact: 'hotkey' },
   { route: '/guides/water-nukes/', version: 'v34', fact: 'water-nukes' },

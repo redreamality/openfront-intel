@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-10-25。
+更新日期：2026-10-26。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -19,6 +19,8 @@
 ## 当前活动队列
 
 原 A–E 的 13 个主题保持完成。滚动 Production 优先改善已有搜索答案；新独立主题必须说明需求与现有页无法承接的原因。
+
+2026-10-26 用户批准[搜索恢复计划](seo-recovery-plan-2026-10-26.md) A–F 全部一次实施，使用独立 worktree 与子代理。此批交付后即进入 Monitoring：保存实际部署日 T，完整效果窗口为 T+1 至 T+28；未部署不得提前开始效果计时。至 2026-11-09 暂停无搜索需求证据的批量新主题，优先已知事实错误、主答案可发现性与现有词簇承接。10/9 原窗口仍保留，但本批重叠修改须标记，不能作单次改动因果归因。
 
 | 通道 | ID | 当前状态 | 下一动作 / 触发点 |
 |---|---|---|---|
