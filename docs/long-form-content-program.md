@@ -52,6 +52,7 @@
 | `LF-COMMUNITY-2026-09-20` | `/guides/impossible-singleplayer/` | 默认设置的单人 Impossible 如何保住地图难度奖章资格、选有出口的安全核心、利用 Nation 均势，并把经济转成超过普通 FFA 领土门槛的胜利 | `nations-pressure` 只处理单条 AI 边境的目标风险；`mechanics/nations` 只解释行为机制；`world-map-ffa-spawns` 处理公开 FFA 真人争路；本页独占整局单人战役与成就设置边界 |
 | `LF-COMMUNITY-2026-09-21` | `/guides/no-alliances-mode/` | 禁用临时联盟后，玩家如何按预备队、敌对接触数、第三方受益者、独立收入与胜利线选择扩张、停手和转向 | `diplomacy-betrayal` 只处理可用联盟的请求、续约、禁运和退出；`threat-assessment` 只负责全图目标筛选；`trade-vs-piracy` 只负责贸易与捕获收益切换；本页独占没有临时外交保护时的 BORDER 决策，同时明确固定 Team 队友和非禁运贸易仍可用 |
 | `LF-COMMUNITY-2026-09-23` | `/guides/team-victory-threshold/` | Team 对局如何围绕严格超过 80% 的团队领土线，按非 fallout 分母分配终结者、支援、储备与海军掩护，并在十 tick 检查、Overtime、Ranked 2v2、计时器和地图形状改变时安全收官 | `team-roles` 负责整局动态职责；`team-economy-space` 负责共享建筑空间与付款人；`winning-overtime` 负责启用 Overtime 后的下降阈值；本页独占团队汇总胜利、严格比较、分母重算和 80% 终局合同，不再换标题复制 |
+| `LF-COMMUNITY-2026-10-26` | `/guides/nuke-to-ground-transition/` | 何时停止核打击并转入地面推进：用 Overtime 下降门槛、三个信号与两个带数字场景判断"该切换"还是"继续轰炸"，并把核武从决定性动作重新定位到服务地面推进 | `which-nuke-commit`/`nuclear-salvo-sizing`/`post-nuclear-port-sustain` 负责核武实体与轰炸决策；`winning-overtime`/`doomsday-vs-overtime` 负责 Overtime 与终局门槛；`team-victory-threshold` 负责 80% 胜利线；本页独占"何时停止轰炸、启动地面推进"的切换时机与执行顺序，不复制任何单篇核武或 Overtime 决策 |
 
 ## 生产批次
 
