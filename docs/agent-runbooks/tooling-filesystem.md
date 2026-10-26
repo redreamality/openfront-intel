@@ -74,3 +74,7 @@
 - **Hermes 无人值守 cron 中 `node -e`/内联脚本被审批系统拦截**：`node -e 'require("child_process")…'` 返回 `BLOCKED: script execution via -e/-c flag`（cron 无用户批准）。恢复方式：需要跨命令复用逻辑时写入 `.mjs`/`.js` 文件再执行 `node <file>`；或拆成不含内联脚本的纯 shell 命令。与 Codex 端既有 `node -e` 拦截规则一致，跨平台通用。
 - **同一环境下复杂 shell 一行式也可能被拦**：嵌套 `$(...)` + 多段管道的指纹组合命令被标记为 “command parser limit or malformed executable payload”。恢复方式：先逐文件 `sha256sum` 取短哈希，再用简单 `echo … | sha256sum` 组合；不要把整个指纹派生塞进单条复杂管道。
 - 脏工作区指纹比对应以前四轮记录的**四个逐文件字节哈希 + mtime** 为权威依据；组合哈希的拼接顺序在历次运行中不一致，组合值不可跨轮直接比较。
+
+## 2026-10-26 竞争页研究读取恢复
+
+- 读取 Guides 索引时将路径猜成 `src/pages/guides.astro`，`rg` 报路径缺失；依据文件枚举改读真实的 `src/pages/guides/index.astro` 后完成对照。根因是未等待枚举结果就执行依赖读取；沿用先枚举后读取规则，不修改 AGENTS.md。
