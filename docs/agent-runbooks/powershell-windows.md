@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-28 版本维护读取恢复**：直接猜测 `src/components/HomeLatest.astro` 和 `e2e/latest-release.spec.ts` 均报路径不存在；实际首页摘要在 `HomePriorityPaths.astro`，正式版本断言在 `content-integrity.spec.ts`。用 `rg --files` 及从真实目录检索配置引用定位后恢复，未修改 AGENTS.md。
+
 - **2026-10-27 首页版本响应路径复发**：`rg` 的路径参数误写 `src/components/HomeLatest*`，触发 os error 123；恢复为真实目录 `src/components` 配合 `--glob 'Home*.astro'` 后取得首页组件，未影响内容。沿用现有通配路径规则，不修改 AGENTS.md。
 
 - **2026-10-25 版本响应路径复发**：`rg` 路径中使用 `src/content/changelog/*/v35.mdx`、`e2e/home*` 再次触发 os error 123；恢复为真实目录与 `--glob`，已重新取得五语事实与测试位置。沿用既有规则，未改 AGENTS.md。

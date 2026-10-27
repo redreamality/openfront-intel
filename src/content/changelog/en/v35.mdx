@@ -1,15 +1,17 @@
 ---
-title: 'OpenFront v35.5: changes and next-match decisions'
-description: 'OpenFront v35.5 release notes: team spawns, river fixes, small-window layout and leaderboard changes, plus portal settings and live map rotation.'
+title: 'OpenFront v35.6: lobby and small-screen fixes'
+description: 'OpenFront v35.6 release notes: lobby join-screen fix, a tighter homepage on small screens, Poki preparation and the extension notice.'
 pubDate: 2026-10-17
-updatedDate: 2026-10-27
+updatedDate: 2026-10-28
 version: v35
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changed in OpenFront v35.0 through v35.5?
+## Direct answer: what changed in OpenFront v35.0 through v35.6?
+
+**OpenFront v35.6 fixes an early lobby click sometimes skipping the join screen and entering the game directly.** The [official v0.35.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6), published on October 27, 2026, also prepares for Poki integration with a tighter homepage layout on small screens. It describes preparation, not a completed rollout to every Poki player. The Release also reports a clarification in the Terms that unapproved extensions are not allowed.
 
 **OpenFront v35.5 adds team spawns, fixes river connections, and improves small-window layouts and the leaderboard.** The [official v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5), published on October 26, 2026, also hides Account settings on Poki and CrazyGames and lets public map rotation be tuned without a release. Madagascar, Rio de Janeiro, Bab el-Mandeb and New Zealand gain two-team spawns; Branching Paths gains three-team spawns. United States and Rio de Janeiro have fixes for rivers cut off from the ocean. These spawn configurations do not promise that every public lobby uses that team count.
 
@@ -26,6 +28,8 @@ Controls change together: R opens quick chat, F opens the emoji menu, and select
 Replay seeking is introduced in v0.35.0 but initially disabled by default for gradual rollout. v0.35.3 allows viewing while a game is still being processed; that does not guarantee identical availability on every account. That patch also improves provisional XP, adds Map Layers visibility controls, and repairs mobile attack-slider placement. These are separate changes with different consequences for the next match.
 
 ## What should you change in the next match?
+
+If you click a lobby immediately after the homepage loads, v35.6 addresses the case where the join screen was skipped. Check the lobby information before committing to a match. On a small screen, expect a more compact homepage; this is separate from the v35.5 change to open Solo pages. The Poki preparation note does not confirm that every portal session already uses the integration.
 
 On the affected team maps, read the actual lobby configuration and inspect your spawn before choosing a route. Recheck river access on United States and Rio de Janeiro instead of relying on an older screenshot. Public rotation can now change between releases, so a map appearing more or less often does not by itself establish a new client patch or a permanent frequency.
 
@@ -47,7 +51,9 @@ After a nuclear strike cuts territory, inspect the new ownership before sending 
 
 ## Source status, patch boundaries, and next reading
 
-The latest formal boundary is the [v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5), published on October 26, 2026. Alongside team spawns, river connections, window layout, leaderboard defaults and portal settings, it announces server security improvements and a privacy-policy disclosure of the hashed network identifiers used. The note does not specify retention periods or establish anonymity. It also says public lobby map rotation can be tuned without a release; a version tag alone therefore cannot establish current live rotation weights.
+The latest formal boundary is the [v0.35.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6), published on October 27, 2026. Its new section covers Poki preparation, the small-screen homepage, the join-screen fix and the Terms clarification about unapproved extensions. It does not list a combat or economy balance change, an extension approval list, or a completed Poki rollout. The earlier patch sections below it retain their own version boundaries.
+
+The [v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5), published on October 26, 2026, announces team spawns, river connections, window layout, leaderboard defaults and portal settings, plus server security improvements and a privacy-policy disclosure of the hashed network identifiers used. The note does not specify retention periods or establish anonymity. It also says public lobby map rotation can be tuned without a release; a version tag alone therefore cannot establish current live rotation weights.
 
 The [v0.35.4 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4), published on October 24, 2026, fixes public-game saving that failed too early for large games, leaving most public games since v0.35.3 without XP, stats or rewards. The note explains cross-device level differences but does not announce historical backfill or a change to XP rates.
 

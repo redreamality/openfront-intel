@@ -199,7 +199,11 @@ for (const contract of contracts) {
     )],
     ['v35.5 live rotation boundary', /rotation|轮换|Kartenrotation|rotatie/i.test(body) &&
       /between releases|两个版本之间|entre deux versions|zwischen Releases|tussen releases/i.test(body)],
-    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5'].every(
+    ['v35.6 join screen fix', /join screen|加入画面|écran de participation|Beitrittsbildschirm|deelnamescherm/i.test(body)],
+    ['v35.6 Poki preparation boundary', /Poki/.test(body) &&
+      /preparation|准备工作|préparation|Vorbereitung|Voorbereiding/i.test(body)],
+    ['v35.6 extension notice', /unapproved extensions|未经批准的扩展|extensions non approuvées|nicht genehmigte Erweiterungen|niet-goedgekeurde extensies/i.test(body)],
+    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5', 'v0.35.6'].every(
       (tag) => body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`),
     )],
     ['canonical category', frontmatterValue(frontmatter, 'category') ===

@@ -6,31 +6,31 @@ const homepageCases = [
     lang: 'en',
     path: '/',
     prefix: '/',
-    latestSignal: 'New team spawns',
+    latestSignal: 'join screen',
   },
   {
     lang: 'zh',
     path: '/zh/',
     prefix: '/zh/',
-    latestSignal: '新增团队出生点',
+    latestSignal: '跳过加入画面',
   },
   {
     lang: 'fr',
     path: '/fr/',
     prefix: '/fr/',
-    latestSignal: 'Nouveaux départs en équipe',
+    latestSignal: 'participation',
   },
   {
     lang: 'de',
     path: '/de/',
     prefix: '/de/',
-    latestSignal: 'Neue Teamstarts',
+    latestSignal: 'Beitrittsbildschirm',
   },
   {
     lang: 'nl',
     path: '/nl/',
     prefix: '/nl/',
-    latestSignal: 'Nieuwe teamstarts',
+    latestSignal: 'deelnamescherm',
   },
 ] as const;
 
