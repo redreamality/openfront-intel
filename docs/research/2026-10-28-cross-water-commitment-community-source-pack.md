@@ -6,7 +6,7 @@ Purpose: gather the player-facing questions, observations, and failure cases tha
 
 ## Official primary source (GitHub)
 
-All numeric rules below were verified directly against the official OpenFront repository at the pinned commit, not from community memory. The repository is the primary source of truth for the game's behavior.
+The formal version boundary is the non-draft v0.35.6 release tag at commit `9f4a28f16fae951df0daf727e5e64b34ce8b77d1`. The numeric source checkout used for line-level verification is upstream `main` at `f33d0049076b2931b73d06ac79d076799e54e8ac`, a separate later commit; it must not be described as the release tag. The repository is the primary source of truth for the game's behavior, not community memory.
 
 - Repository (primary): https://github.com/openfrontio/OpenFrontIO
 - Transport execution (launch deduction, retreat malus): https://raw.githubusercontent.com/openfrontio/OpenFrontIO/f33d0049076b2931b73d06ac79d076799e54e8ac/packages/engine/src/execution/TransportShipExecution.ts
