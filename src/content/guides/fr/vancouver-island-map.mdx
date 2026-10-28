@@ -1,0 +1,393 @@
+---
+title: "Carte de Vancouver Island : 32 nations, le lobby de 100 joueurs et où s'ancrer"
+description: Un cadre de décision pour Vancouver Island, la carte riche en terres de v0.35. Ce que donne réellement un plateau de 32 nations dont trois sans drapeau, ce que la formule de taille de lobby par volume de terres fait à sa taille, comment fonctionnent la couche de nations et les noms de débordement, et de quel côté de l'île s'engager avant la fin du compte à rebours.
+pubDate: 2026-10-28
+updatedDate: 2026-10-28
+tags: [maps, v0.35, vancouver-island, spawn, lobby-size, nations]
+category: Guide
+difficulty: Avancé
+version: v0.35.0
+freshnessSummary: "Vérifié le 2026-10-28 sur la release formelle v0.35.0 (2026-10-16), le manifest de carte amont officiel (32 nations, 30 noms de débordement, 2 012 664 tuiles de terre, grille 2 600 × 1 980), les notes de version v0.35.0 et le curseur de release actuel v0.35.6 ; signaux communautaires tirés des discussions Reddit et YouTube sur les nouvelles cartes de v0.35.0."
+---
+
+**Réponse directe.** Vancouver Island est la carte de v0.35 avec le plus de terre et le
+moins de nations nommées par mille carré : 32 nations sur 2 012 664 tuiles de terre, et
+sous la nouvelle mise à l'échelle par volume de terre elle produit un grand lobby de
+100 joueurs (75 moyen, 50 petit) et 150 en mode équipe. Engagez-vous sur les profonde
+baies de la côte ouest pour la défense ou sur la rive nord ouverte pour l'agression,
+maintenez une nation nommée plus ses deux voisines, et traitez les trois Premières
+Nations sans drapeau comme un terrain neutre à conquérir, pas à revendiquer. Lisez
+d'abord la taille du lobby, car une île de 100 joueurs est une autre partie qu'un plateau
+compact à huit nations.
+
+Vancouver Island est la carte qui fait se rencontrer les deux plus grandes modifications
+mécaniques de v0.35 dans un même lobby. La première est la couche de nations, un
+plateau de trente-deux nations nommées sur l'île principale, dont vingt-six arborant le
+drapeau de la Colombie-Britannique, deux le drapeau de Washington du côté américain du
+détroit, une le drapeau de Vancouver, et trois entités des Premières Nations qui ne
+portent aucun drapeau du tout. La deuxième est la mise à l'échelle du lobby par volume
+de terre qui a remplacé le plafond fixe de cent vingt-cinq, ce qui en fait l'un des plus
+gros lobbies publics que le jeu puisse maintenant produire. La carte est large, l'eau est
+pleine de baies et de péninsules, et la géographie du plateau décide de votre partie
+avant la première unité construite. Ce guide vous donne un cadre répétable pour les
+quatre décisions que la carte force réellement : la taille dans laquelle vous êtes
+déposé, de quel côté de l'île s'engager, quelle nation nommée ancrer, et comment jouer
+les trois nations sans drapeau qui se trouvent entre les deux.
+
+![Carte de Vancouver Island (v0.35), image de carte officielle issue du manifest amont, AGPLv3.](/images/maps/vancouver-island-v35.webp)
+
+## Frontière de version : ce qu'est vraiment la Vancouver Island de v0.35
+
+La chose la plus importante à fixer avant de planifier un spawn est que Vancouver Island
+est une carte v0.35 et qu'elle porte les deux comportements v0.35 qui redessinent chaque
+plateau sur lequel elle apparaît. Elle est sortie dans la release formelle v0.35.0 le 16
+octobre 2026, et les notes de version officielles la décrivent en une ligne comme « 30+
+nations du Pacifique Nord-Ouest », qui est l'abréviation amont pour un plateau côtier
+large et riche en nations. Elle n'est pas dans le plateau de stable v0.34, si vous êtes
+sur un build stable la carte n'existe pas pour vous, et si vous êtes sur un lobby hébergé
+un joueur peut encore choisir l'ancien ensemble de cartes où elle n'apparaît jamais. La
+frontière de version compte pour deux raisons. D'abord, la couche de nations de ce
+plateau est le système de nations v0.35, celui où les nations se comportent comme les
+humains qui gagnent, épargnent plus tard, fortifient les frontières et envoient de petits
+bateaux de têtes de pont avant de pousser par terre, donc les nations de Vancouver Island
+ne sont pas le remplissage passif des anciens builds. Deuxièmement, la taille du lobby
+que vous obtenez sur cette carte est la taille par volume de terre v0.35, pas l'ancien
+plafond de cent vingt-cinq, qui est la raison pour laquelle un lobby complet de Vancouver
+Island peut atteindre cent joueurs là où le même plateau aurait été plaqué à un plafond
+fixe sur stable.
+
+La deuxième frontière à comprendre est les données. Les chiffres de ce guide viennent du
+manifest amont à la balise v0.35.0, qui est la source autoritaire pour la forme du
+plateau : une grille de 2 600 par 1 980 tuiles, deux millions douze mille six cent soixante-quatre
+tuiles de terre sur la carte en résolution complète, et les entrées `map4x` et
+`map16x` qui sont des rendus en zoom du même plateau, pas des cartes séparées. Le compte en résolution complète est celui que la formule du
+lobby consomme. La
+release v0.35.0 est le plancher, et le curseur de release actuel à la date de ce guide
+est v0.35.6, donc la carte est en ligne depuis plusieurs releases de correctif. Rien
+dans les correctifs v0.35.x n'a changé le compte de nations ou le chiffre de terre du
+manifest, c'est pourquoi les chiffres tiennent sur toute la plage de correctifs, mais si
+une future release v0.35 refait la géométrie de la carte ou la liste des nations,
+révérifiez le manifest avant de réutiliser la logique de spawn de ce guide. La
+frontière est simple à énoncer : sur v0.35, ce plateau est large, riche en nations et
+grand ; sur n'importe quelle version plus ancienne, il n'est tout simplement pas là.
+
+## La taille de lobby que la formule de terre vous donne
+
+Sous la mise à l'échelle v0.35 par volume de terre, le lobby dans lequel vous atterrissez
+n'est ni un pari ni un chiffre fixe ; c'est le résultat d'une petite formule appliquée au
+compte de tuiles de terre de la carte, et les deux millions de tuiles de Vancouver Island
+le placent carrément dans la plus grande taille que la formule produit. La formule prend
+le compte de tuiles de terre, le multiplie par cinquante par million de tuiles, arrondit
+au multiple de cinq le plus proche, et ne laisse jamais le plancher tomber sous cinq. Ce
+plancher est la plus grande taille de la carte, et les tailles moyenne et petite en sont
+dérivées en le multipliant par zéro virgule soixante-quinze et zéro virgule cinquante et
+en arrondissant chacun au multiple de cinq le plus proche. Appliqué à deux millions douze
+mille six cent soixante-quatre tuiles de terre, la taille grande donne cent joueurs, la
+moyenne soixante-quinze, la petite cinquante. En mode équipe le jeu multiplie la taille
+FFA par un virgule cinq, donc la même carte donne cent cinquante en grand, cent treize en
+moyen, soixante-quinze en petit.
+
+![Tableau des tailles de lobby pour Vancouver Island sous la mise à l'échelle v0.35 par volume de terre.]
+
+| Mode de lobby | Grand | Moyen | Petit | Source du chiffre |
+|---|---|---|---|---|
+| Free-for-all | 100 | 75 | 50 | 50 par M de tuiles de terre, arrondi à 5 |
+| Équipe | 150 | 113 | 75 | taille FFA × 1,5 |
+| Mode carte compacte | — | — | — | utilise 25 % des nations (8), pas la terre |
+| Lobby hébergé | défini par l'hôte | défini par l'hôte | défini par l'hôte | régi par les règles d'hébergement, pas par cette formule |
+
+La raison pour laquelle la taille compte plus que le nombre de joueurs est que la taille
+est la forme du plateau dans lequel vous êtes réellement déposé. Un Vancouver Island à
+cent joueurs est un plateau où chaque nation nommée doit absorber un amas de joueurs
+humains, où la côte est épaisse de revendications superposées, et où les baies qui
+défendent un spawn sont contestées dès la première minute. Une version à cinquante
+joueurs est le même plateau avec la moitié de la pression, où une nation nommée peut
+être tenue par un ou deux joueurs et l'intérieur reste assez calme pour construire une
+vraie économie. Un lobby d'équipe à cent cinquante est une espèce à part entière, parce
+que deux équipes de soixante-quinze au plus doivent partager l'île entre elles et le
+combat est pour le milieu, pas pour un coin. La règle pratique est de lire la taille du
+lobby depuis la liste de lobbies avant de vous engager sur un spawn, parce que le même
+plateau physique se joue comme trois parties différentes selon la taille dans laquelle
+vous êtes, et le spawn correct dans une île à cinquante joueurs est souvent le mauvais
+dans une à cent. Le mode carte compacte est l'exception à la règle de terre : il ignore
+la terre et utilise vingt-cinq pour cent des nations du manifest à la place, ce qui sur
+ce plateau est huit nations, et c'est un plateau si petit et si dense que la logique de
+large île du reste de ce guide cesse de s'appliquer.
+
+## La couche de nations : 32 nations, 30 noms de débordement, 3 sans drapeau
+
+La couche de nations de Vancouver Island est la partie du plateau la plus facile à
+mal lire, donc il vaut la peine de dire exactement ce qui s'y trouve et ce qui n'y est
+pas. Le manifest porte trente-deux nations nommées sur l'île principale. Vingt-six
+d'entre elles arborent le drapeau de la Colombie-Britannique, qui est la signature
+visuelle et mécanique du plateau : la majorité des nations nommées sont des noms de
+lieux de la Colombie-Britannique, ce qui est la raison pour laquelle les notes de version
+l'appellent un plateau du Pacifique Nord-Ouest. Deux arborent le drapeau de Washington,
+Clallam County et San Juan, et elles se trouvent du côté américain du détroit de Juan de
+Fuca, ce qui veut dire que le plateau ne s'arrête pas à la frontière canadienne et que
+deux de vos voisins nommés sont de l'autre côté de la frontière. Une arbore le drapeau
+de Vancouver, et c'est la seule nation de nom de métropole qui ancre l'extrémité sud de
+l'île. Puis il y a trois nations qui ne portent aucun drapeau du tout : la Nation
+Kwakwaka'wakw, la Nation Coast Salish et la Nation Nuu-chah-nulth. Ces trois sont
+visuellement distinctes sur la carte et dans la liste des joueurs parce qu'elles sont
+rendues sans drapeau, et elles sont la caractéristique unique du plateau, les trois
+entités qui n'appartiennent à aucun des trois groupes de drapeaux et qui se trouvent
+dans l'intérieur et le long de la côte comme des puissances sans drapeau, de
+l'apparence neutre.
+
+La deuxième chose à dire est ce que les trente noms de débordement sont et ne sont pas.
+Le manifest liste aussi trente `additionalNations`, toutes drapeau Colombie-Britannique,
+avec des noms tels que Whistler, Tsawwassen et Ladysmith. Ce ne sont pas des nations
+actives dans un lobby public par défaut. C'est le pool de débordement que le moteur
+puise seulement quand le compte de nations demandé par un lobby dépasse les trente-deux
+que le manifest définit, et dans un lobby public standard le compte de nations est
+ajusté aux joueurs ou plafonné à la taille du manifest, donc les noms de débordement
+n'apparaissent généralement pas. La ligne « 30+ nations » des notes de version est le
+résumé amont des nations de l'île principale plus ce pool de débordement, et le chiffre
+trente-deux est le nombre de nations réellement sur le plateau dans une partie normale.
+La conséquence pratique est de planifier votre spawn autour des trente-deux nations
+nommées, de traiter les trois sans drapeau comme celles à surveiller, et de ne pas
+supposer qu'un nom de débordement de la Colombie-Britannique comme Whistler est une
+nation que vous verrez à moins que le lobby ne soit forcé à un compte de nations au-delà
+de trente-deux. Si vous en voyez un, c'est un signal que le lobby est à compte de nations
+personnalisé, et le plateau est plus dense que le défaut, ce qui change l'étalement de
+votre revendication et le nombre de voisins nommés à prendre en compte.
+
+## Cadre de décision : choisissez votre côté avant la fin du compte à rebours
+
+Le cadre de décision de Vancouver Island est une lecture en quatre étapes que vous
+exécutez dans le lobby avant la fin du compte à rebours, et ce sont les mêmes quatre
+étapes que vous soyez dans un lobby à cinquante ou à cent joueurs. La première étape est
+de lire la taille. Regardez la liste des lobbies et notez si l'île produit à
+cinquante, soixante-quinze, cent ou les variantes d'équipe, parce que la taille fixe la
+densité et la densité fixe tout ce qui suit. La deuxième étape est de lire les côtés.
+L'île a une côte ouest profonde et riche en baies, une rive nord et est plus ouverte et
+exposée qui fait face au détroit et au continent, et un intérieur de nations nommées de
+la Colombie-Britannique qui se trouve entre les deux. Nommez les trois ou quatre nations
+nommées les plus proches de votre côté et notez laquelle d'entre elles est sans
+drapeau, parce qu'une nation sans drapeau près de votre spawn est un terrain neutre qui
+peut être pris par n'importe qui et qui est généralement la première cible du joueur qui
+lit le plateau. La troisième étape est de lire les baies. Les baies de la côte ouest sont
+la géographie défensive du plateau, les longues branches d'eau étroites qui couvrent un
+spawn et rendent un débarquement coûteux, donc si vous voulez une partie défense en
+premier vous ancrez la baie qui protège votre nation nommée et vous utilisez l'eau comme
+votre premier mur. La quatrième étape est de lire l'ancrage nommé. Choisissez une nation
+nommée comme ancrage, celle que vous maintiendrez réellement, et nommez les deux voisins
+de chaque côté d'elle, parce que sur un plateau large le joueur qui connaît ses deux
+voisins est le joueur qui n'est jamais surpris par un flanc, et le joueur qui ne les
+connaît pas est celui qui perd l'intérieur.
+
+Le cadre a un défaut et le défaut est les baies de la côte ouest dans un lobby
+petit-à-moyen et la rive nord ouverte dans un lobby grand. Dans une île à cinquante ou
+soixante-quinze joueurs le plateau est assez calme pour que les baies défensives
+tiennent, donc vous ancrez une nation nommée de la Colombie-Britannique sur la côte
+ouest, prenez la baie devant elle, et vous étendez le long de la côte vers vos deux
+voisins nommés pendant que l'intérieur reste non revendiqué assez longtemps pour
+construire. Dans une île à cent joueurs la côte ouest est trop encombrée pour une
+défense pure, parce que les baies sont contestées dès la première minute et le bonus
+défensif de l'eau est dépensé à maintenir votre propre spawn au lieu de le tenir, donc
+le défaut correct passe à la rive nord ouverte, où vous ancrez une nation nommée sur la
+côte exposée et jouez une partie agression en premier, en vous étendant vers
+l'intérieur et en utilisant la rive ouverte pour écranner les traversées du détroit. Les
+nations sans drapeau changent la lecture dans les deux cas, parce que quel que soit le
+côté que vous choisissez, la nation sans drapeau la plus proche est la cible neutre, et
+le joueur qui la prend en premier obtient une deuxième économie et un deuxième spawn que
+le reste du plateau doit ensuite contester. Les quatre étapes sont la totalité de la
+décision pré-partie sur ce plateau, et le joueur qui les exécute dans le lobby est le
+joueur qui sait, avant la fin du compte à rebours, quel côté, quelle baie, quel ancrage
+et quelle cible sans drapeau il s'engage à prendre.
+
+## Scénario un : un FFA complet à 100 joueurs sur la côte ouest
+
+Le premier scénario est celui qui définit la carte : un free-for-all à cent joueurs où
+vous êtes tombé sur la côte ouest, le défaut dans un lobby plus petit mais le mauvais
+choix ici. L'hypothèse est que vous êtes en pleine densité, cent joueurs sur deux
+millions de tuiles de terre, et que vous avez ancré une nation nommée de la
+Colombie-Britannique sur la côte ouest riche en baies parce qu'elle paraissait
+défendable. Le problème de ce choix à cette densité est que la baie qui défend votre
+spawn est maintenant contestée par six à huit autres joueurs qui ont fait la même
+lecture défensive, et l'eau qui était votre premier mur est maintenant une voie que
+tout le monde se dispute. Le jeu concret est d'abandonner la lecture défense pure dans
+les trois premières minutes. Vous maintenez votre ancrage nommé, vous prenez la baie qui
+le protège, et vous n'essayez pas de tenir toute la côte, parce que tenir toute la côte à
+cent joueurs veut dire une unité sur chaque baie et une unité sur chaque baie est une
+unité qui ne finance pas votre économie. Les chiffres qui comptent ici sont les deux :
+votre nation d'ancrage et les deux voisins nommés de chaque côté d'elle. Vous étendez
+vers ces deux, vous prenez le port ou l'usine de votre côté avant d'engager une unité
+dans la voie de baie, et vous gardez un écran sur le croisement le plus proche où les
+nations de Washington du côté américain poussent. La nation sans drapeau la plus proche
+est la cible que vous prenez au milieu de partie, parce qu'à cent joueurs la nation sans
+drapeau est celle que tout le monde a dans le viseur et le joueur qui la prend en premier
+obtient une deuxième économie que le reste du plateau dépense ensuite la partie à
+contester. L'échec ici est l'étalement : le joueur qui gagne la baie puis étend le long
+de toute la côte donne aux autres joueurs une traversée gratuite à travers la voie
+mince, et la contrepartie est la concentration, qui est de garder vos unités sur vos
+deux voisins nommés et la cible sans drapeau et de ne pas envoyer une unité vers la côte
+lointaine à moins que le joueur de la côte lointaine ne soit celui qui finance la
+traversée. Le scénario est la totalité du jeu de côte ouest à grand lobby : tenir
+l'ancrage, prendre la cible sans drapeau la plus proche, s'étendre vers les deux voisins
+nommés, et se concentrer au lieu de s'étaler.
+
+## Scénario deux : le plateau compact à huit nations
+
+Le deuxième scénario est celui que la plupart des joueurs n'attendent pas, parce que le
+même plateau physique peut apparaître en mode carte compacte et se jouer comme une
+partie complètement différente. L'hypothèse est que vous êtes en mode carte compacte,
+qui ignore la formule de terre et utilise vingt-cinq pour cent des nations du manifest à
+la place, et sur ce plateau c'est huit nations. Le plateau est maintenant huit nations
+nommées sur la même île, ce qui veut dire que la logique de large île cesse de
+s'appliquer et que la partie devient un concours dense à huit joueurs où chaque nation
+nommée est un voisin de chacune des autres et où l'intérieur est revendiqué dès la
+première minute. Le jeu concret est l'inverse du défaut du plateau large. Vous n'ancez
+pas une baie de la côte ouest pour la défense, parce qu'à huit nations les baies ne sont
+pas défensives, elles sont juste de l'eau entre deux voisins qui vont tous les deux vous
+pousser. Vous ancrez la nation nommée ayant le plus de voisins nommés, celle au milieu
+du plateau, parce qu'à huit nations le centre est l'économie, le centre est là où les
+ports et usines se groupent, et le centre est là où se trouve la nation sans drapeau.
+Les chiffres qui comptent ici sont petits et précis : huit nations, une cible sans
+drapeau, et les deux ou trois nations nommées qui partagent une frontière avec votre
+ancrage. Vous prenez la nation sans drapeau en premier, parce qu'à huit nations c'est le
+prix neutre vers lequel tout le monde converge et le joueur qui la prend obtient un
+deuxième spawn que les sept autres doivent ensuite se disputer. Vous étendez vers vos
+deux ou trois voisins nommés et vous ne vous étalez pas, parce qu'à huit nations
+l'étalement est tout le plateau et il n'y a pas de côte lointaine à ignorer. L'échec ici
+est le sur-étalement. Le joueur qui prend le centre puis pousse vers ses trois voisins d'un coup est
+le joueur qui est flanqué sur deux fronts, et la contrepartie est de prendre la cible
+sans drapeau, de tenir le centre et de ne s'étendre que vers les deux voisins qui
+financent leur propre économie. Le scénario est la totalité du jeu compact : huit
+nations, prendre le centre, prendre la cible sans drapeau en premier, et s'étendre vers
+deux voisins, pas trois.
+
+## Modes d'échec et contre-jeu de l'adversaire
+
+Le mode d'échec qui termine la plupart des parties sur Vancouver Island est
+l'étalement, et c'est le même étalement sur le plateau large et le plateau compact, à
+une échelle différente. Sur le plateau large c'est le joueur qui gagne la baie ou la
+côte puis étend des unités le long de toute la rive au lieu de se concentrer sur les
+deux ou trois voisins nommés et la cible sans drapeau, et la contrepartie de cet
+étalement est la concentration, qui est la raison pour laquelle le cadre de décision
+vous demande de nommer votre ancrage et ses deux voisins au lieu de lire toute la côte.
+Sur le plateau compact c'est le joueur qui prend le centre puis pousse vers ses trois
+voisins d'un coup et est flanqué sur deux fronts, et la contrepartie est de ne
+s'étendre que vers deux voisins, pas trois. L'étalement échoue aussi l'économie sur les
+deux plateaux, parce qu'une unité sur la côte lointaine ou un troisième front est une
+unité qui ne finance pas votre ancrage, et l'ancrage est là où la partie est décidée. La
+correction pratique est la même à l'échelle des deux : garder l'écran principal sur le
+voisin nommé ou la baie qui compte, utiliser la cible sans drapeau comme deuxième
+économie, et n'envoyer pas d'unité vers un deuxième ou troisième front à moins que ce
+front ne soit celui qui finance la traversée ou la poussée.
+
+Le deuxième mode d'échec est la négligence sans drapeau, qui est le joueur qui voit les
+trois nations sans drapeau et les traite comme sans importance parce qu'elles n'ont pas
+de drapeau, alors qu'en fait ce sont le prix neutre du plateau et la première cible du
+joueur qui le lit. La contrepartie de la négligence sans drapeau est la règle
+sans-drapeau-d'abord, qui est de nommer la nation sans drapeau la plus proche de votre
+ancrage dans le lobby et de planifier de la prendre au milieu de partie, parce que la
+nation sans drapeau est la deuxième économie et le deuxième spawn, et le joueur qui la
+prend en premier a le prix le plus contesté du plateau. Le troisième mode d'échec est la
+négligence du détroit, qui est le joueur qui joue l'intérieur et oublie les deux
+nations drapeau Washington du côté américain du détroit, et la contrepartie est de
+garder un écran sur la traversée du détroit, parce que les nations de Washington sont
+les seuls voisins qui ne sont pas de la Colombie-Britannique et la seule direction que
+vous n'avez pas lue dans le cadre. Le contre-jeu de l'adversaire sur ce plateau est
+l'attrap
+e. Un adversaire qui a lu votre ancrage va attaquer le flanc de votre ancrage, la baie
+qui ne compte pas, et la direction que vous n'avez pas lue, donc le contre-jeu est de
+garder l'unité d'écran qui regarde le flanc nommé et de ne pas concentrer toutes vos
+unités sur la baie principale, parce que la baie principale est là où l'adversaire
+attend que vous soyez. Sur le plateau large c'est l'unité d'écran sur le croisement de
+détroit, sur le plateau compact c'est l'unité d'écran sur le deuxième voisin nommé, et
+dans les deux cas c'est l'unité qui ne finance pas l'économie mais qui vous dit que le
+flanc est en train d'être tourné avant que la poussée ne soit déjà dans votre intérieur.
+La leçon du contre-jeu est que la victoire sur Vancouver Island va au joueur qui a lu
+le plateau le plus complètement, parce que la carte est assez large pour que le joueur
+qui a négligé une direction puisse être battu avant même que cette direction ne soit
+jamais poussée, et assez dense en lobbies pour que la direction négligée soit la
+direction que l'adversaire pousse en premier.
+
+## Ajustements selon le mode et la carte
+
+Le mode et la carte changent la lecture de trois façons. En free-for-all la lecture est
+la plus complète, parce que chaque joueur est un voisin potentiel et le cadre en quatre
+étapes est le jeu entier, et les trois nations sans drapeau sont les trois prix neutres
+vers lesquels tout le monde converge. En mode équipe la lecture se resserre, parce que
+vous partagez l'île avec une équipe et le jeu devient un jeu de deux équipes pour le
+milieu. Dans un lobby d'équipe à cent cinquante joueurs chaque équipe a jusqu'à
+soixante-quinze joueurs, ce qui dépasse les trente-deux nations nommées, donc
+l'équipe doit attribuer les nations nommées aux joueurs et le combat porte sur le
+milieu de l'île, le détroit et la cible sans drapeau. Le cadre d'équipe est la même
+logique de concentration que le free-for-all, appliquée à la moitié du plateau de
+l'équipe : l'équipe ancre un ensemble de nations nommées, prend la cible sans
+drapeau de son côté et se concentre sur le milieu au lieu de s'étendre sur toute la
+côte, et les nations sans drapeau sont les prix que l'équipe qui les contrôle en
+premier obtient comme avantage économique, ce qui veut dire que la prise sans
+drapeau est coordonnée à l'équipe au lieu d'être une course individuelle. L'ajustement
+nukléaire sur ce plateau est le même que sur toute carte d'eau, sauf que la baie est
+un bras d'eau long et étroit, donc une arme nucléaire sur la baie est plus efficace
+qu'une arme sur la côte ouverte, parce qu'elle détruit le seul écran que le défenseur
+a dans ce bras, et le contre est la seconde économie, c'est-à-dire la cible sans
+drapeau et le voisin nommé, parce que l'arme détruit l'écran d'une baie et la
+traversée doit quand même traverser la prochaine nation nommée. L'ajustement de
+l'horloge du jugement final est que le côté sous les quarante pour cent est d'abord
+le côté sans la cible sans drapeau, parce que c'est le côté sans la seconde
+économie, et le joueur qui lit le mode d'abord lit bien les trois modes, alors que
+le joueur qui joue les trois modes pareils joue mal le plateau compact et mal le
+mode équipe. En mode carte compacte
+la lecture change de forme, parce que le plateau n'est plus l'île mais huit nations, et
+le jeu est dense, au centre et sans drapeau d'abord, sans la logique de côte ouest
+parce que la côte ouest n'est plus un bon coin à huit nations. Le terrain d'entraînement
+change le jeu, parce que l'entraînement est un plateau vide où vous construisez et
+apprenez les baies sans adversaire, et c'est le bon endroit pour apprendre la géographie
+des baies de la côte ouest avant de les jouer contre de vrais joueurs. Les lobbies
+hébergés changent la taille, parce que la taille du lobby est définie par l'hôte et pas
+par la formule de terre, donc un lobby hébergé de Vancouver Island peut être
+cinquante, soixante-quinze ou cent, et la formule de terre est la taille par défaut,
+pas la taille du lobby hébergé. La leçon des ajustements selon le mode est que le même
+plateau physique est joué différemment selon le mode et la taille, et le joueur qui
+apporte le cadre en four et joue les trois modes pareils est le joueur qui joue
+mal le plateau compact et mal le mode équipe, alors que le joueur qui lit le mode
+d'abord joue bien les trois.
+
+## Où approfondir sur Vancouver Island
+
+Le [guide sur les cartes du v0.35](/fr/guides/v035-new-maps-overview/) couvre l'ensemble
+des nouvelles cartes de la release et leur place dans le pool de cartes, et c'est le bon
+endroit pour comprendre où Vancouver Island se trouve par rapport aux autres nouvelles
+cartes et pourquoi la release l'a appelée un plateau du Pacifique Nord-Ouest, plutôt
+qu'un plateau du Pacifique ouvert, et ce que ça change pour la longueur de côte que vous
+devez couvrir. Le [guide sur la taille de lobby par volume de terre](/fr/guides/lobby-size-map-driven/)
+est la lecture détaillée de la formule que ce guide applique au chiffre de terre de
+Vancouver Island, et c'est le bon endroit pour comprendre les autres tailles que la
+formule produit, comment les paliers de la formule se répartissent autour du chiffre de
+deux millions de tuiles de terre et pourquoi les lobbies hébergés échappent à la formule
+pour prendre la taille choisie par l'hôte. Le [guide sur les stratégies de map](/fr/guides/map-strategy/)
+est la lecture générale de la façon dont la géographie du plateau décide de la partie,
+et c'est le bon endroit pour comprendre les baies et les détroits comme géométrie de
+décision au-delà de cette carte spécifique, avec la règle de la masse de terre connectée
+que vous pouvez appliquer à la mer du détroit de Vancouver. Le [guide sur les défenses
+d'îles](/fr/guides/island-defense/) est la lecture des baies de la côte ouest de
+Vancouver Island comme défense de spawn, et c'est le bon endroit pour comprendre les
+baies comme premier mur quand la carte est une île, et le moment où vous devriez retirer
+votre écran de baie et retourner sur la terre. Le [guide sur les micro-bateaux](/fr/guides/micro-boat-spam/)
+est la lecture de la façon dont la traversée du détroit et les baies sont défendues par
+de petits bateaux, et c'est le bon endroit pour comprendre la géographie de l'eau de
+Vancouver Island comme terrain naval, y compris le coût par écran que la traversée du
+détroit impose à l'assaillant. Le [guide sur les landings de transport](/fr/guides/transport-landings/)
+est la lecture de la façon dont les débarquements fonctionnent sur les côtes de la
+carte, et c'est le bon endroit pour comprendre les landings comme deuxième moyen
+d'atteindre un flanc au-delà de la poussée terrestre, ce qui change la valeur d'un écran
+de côtes quand l'ennemi a le temps de préparer un point de débarquement. Le [guide sur
+la croissance de la population](/fr/guides/population-growth/) est la lecture de
+l'économie qui finance votre ancrage nommé et vos deux voisins nommés, et c'est le bon
+endroit pour comprendre quand votre ancrage peut se permettre une deuxième nation avant
+de s'étendre vers la cible sans drapeau.
+
+Ces liens partagent la même règle que ce guide : les chiffres viennent du manifest amont
+à la balise v0.35.0 et des notes de version v0.35.0, pas de la mémoire du joueur, et si
+une future release change le compte de nations, le chiffre de terre ou la liste des
+baies du plateau, révérifiez le manifest avant de réutiliser la logique de spawn de ce
+guide. Vancouver Island est la carte large et riche en nations de v0.35, et la décision
+qu'elle force est la lecture de quatre étapes du lobby, et la lecture correcte est de
+lire la taille, de lire les côtés, de lire les baies et de lire l'ancrage nommé, puis de
+s'étendre vers les deux voisins nommés et de prendre la cible sans drapeau la plus
+proche, parce que c'est l'ordre dans lequel la carte devient défendable.

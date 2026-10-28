@@ -1,0 +1,375 @@
+---
+title: "Vancouver-Island-Karte: 32 Nationen, das 100er-Lobby und der Spawn"
+description: Entscheidungsraster für Vancouver Island, die Landreiche-Karte von v0.35. Was ein Board mit 32 Nationen und drei ohne Flagge bringt, was die Landflächen-Lobbyformel mit seiner Größe macht, wie Nationsschicht und Überläufe funktionieren und auf welcher Seite man sich festsetzt.
+pubDate: 2026-10-28
+updatedDate: 2026-10-28
+tags: [maps, v0.35, vancouver-island, spawn, lobby-size, nations]
+category: Guide
+difficulty: Fortgeschritten
+version: v0.35.0
+freshnessSummary: "Am 2026-10-28 gegen das offizielle v0.35.0-Release (2026-10-16), den offiziellen Upstream-Kartenmanifest (32 Nationen, 30 Überläufe, 2.012.664 Landfliesen, Raster 2600 x 1980), die v0.35.0-Release-Notizen und den aktuellen Release-Cursor v0.35.6 geprüft; Community-Signale aus Reddit- und YouTube-Diskussionen über die neuen v0.35.0-Karten."
+---
+
+**Kurzantwort.** Vancouver Island ist die Landreiche-Karte mit den wenigsten benannten
+Nationen pro Quadratkilometer von v0.35: 32 Nationen auf 2.012.664 Landfliesen, und
+unter der neuen Landflächen-Massstablichkeit erzeugt sie ein grosses 100er-Lobby
+(75 mittel, 50 klein) und 150 im Teammodus. Setze dich auf die tiefen Buchten der
+Westkuste fest, um zu verteidigen, oder auf die offene Nordkuste, um anzugreifen, halte
+eine benannte Nation plus ihre zwei Nachbarn, und behandle die drei First-Nations ohne
+Flagge als neutralen Boden, der eingenommen wird. Lies zuerst die Lobbygröße, denn
+eine 100er-Insel ist ein anderes Spiel als ein kompaktes Board mit acht Nationen.
+Vancouver Island ist die Karte, auf der die beiden größten Mechanikanderungen von
+v0.35 im selben Lobby aufeinandertreffen. Die erste ist die Nationsschicht: ein Board
+aus zweiunddreissig benannten Nationen auf der Hauptinsel, von denen sechsundzwanzig die
+Flagge British Columbias tragen, zwei die Flagge von Washington auf der amerikanischen
+Seite der Meerenge, eine die Flagge von Vancouver und drei First-Nation-Entitäten, die
+gar keine Flagge tragen. Die zweite ist die Landflächen-Lobby-Massstablichkeit, die
+die feste Obergrenze von 125 ersetzt hat und sie zu einem der größten öffentlichen
+Lobbys macht, die das Spiel jetzt erzeugen kann. Die Karte ist breit, das Wasser voller
+Buchten und Halbinseln, und die Geometrie des Boards entscheidet über dein Spiel, bevor
+die erste Einheit gebaut ist. Dieses Spielbuch gibt dir ein wiederholbares Raster für
+die vier Entscheidungen, die die Karte wirklich erzwingt: die Größe, in der du
+abgesetzt wirst, auf welcher Seite der Insel du dich festsetzt, welche benannte Nation
+du verankerst und wie du die drei flaggenlosen Nationen spielst.
+![Vancouver-Island-Karte (v0.35), offizielles Kartenbild aus dem Upstream-Manifest, AGPLv3.](/images/maps/vancouver-island-v35.webp)
+
+## Versionsgrenze: was die Vancouver-Island-Karte von v0.35 wirklich ist
+
+Das Wichtigste, das du vor der Spawnplanung festnagelst, ist, dass Vancouver Island eine
+v0.35-Karte ist und die beiden v0.35-Verhaltensweisen mitbringt, die jedes Board, auf dem
+es erscheint, umzeichnen. Sie kam mit dem offiziellen v0.35.0-Release am 16. Oktober 2026
+heraus, und die offiziellen Release-Notizen beschreiben sie in einer Zeile als "30+ Nationen
+des Nordwest-Pazifiks", die Upstream-Kurzform für ein breites, nationenreiches Küstenboard.
+Sie ist nicht auf dem Stable-v0.34-Board; wenn du auf einem Stable-Build bist, existiert die
+Karte für dich nicht, und in einem gehosteten Lobby kann ein Spieler noch das alte
+Kartenensemble wählen, in dem sie nie erscheint. Die Versionsgrenze zählt aus zwei Gründen.
+Erstens ist die Nationsschicht dieses Boards das v0.35-Nationensystem, in dem sich Nationen
+wie menschliche Spieler verhalten, später sparen, Grenzen befestigen und kleine Küstenboote vor dem Landangriff schicken. Das bedeutet für die praktische Spawnplanung, dass du das Board in drei Lagen liest: die Lobbygröße, die dir sagt, wie dicht die Dichte ist, die Küstenlage, die dir sagt, welche Seite du vor dem Countdown nimmst, und die Nationsschicht, die dir sagt, welche der zweiunddreissig benannten Nationen deine erste Verteidigung sind. Die drei flaggenlosen Nationen sind dabei die neutrale dritte Währung, auf die alle Seiten gleichzeitig zusteuern, und genau diese drei Ziele sind es, die auf diesem Board das Midgame entscheiden, weil sie die einzige Wirtschaft sind, die niemandem gehört und die du am Anfang noch erreichen kannst. Genau deshalb sind die Nationen von Vancouver Island nicht die passive Füllung älterer Builds. Zweitens ist die Lobbygröße, die du auf dieser
+Karte bekommst, die v0.35-Landflächen-Lobbygröße und nicht die alte 125er-Obergrenze. Die alte Obergrenze hat den gleichen Board auf stable an eine flache Decke genagelt, auf Vancouver Island kann ein volles Lobby aber einhundert Spieler erreichen, und genau diese Dichte ist das Szenario, das unten zuerst gespielt wird.
+Die zweite Grenze zu verstehen sind die Daten. Die Zahlen dieses Spielbuchs kommen aus dem
+Upstream-Manifest an der v0.35.0-Tag, der die autoritative Quelle für die Boardform ist: ein
+Raster von 2600 mal 1980 Fliesen, zwei Millionen zwolftausend sechshundertvierundsechzig
+Landfliesen auf der Karte in voller Auflösung, und die Einträge `map4x` und `map16x` sind
+Zoom-Renderings desselben Boards, keine separaten Karten. Der Vollauflösungswert ist der, den
+die Lobbyformel verbraucht. Das v0.35.0-Release ist die Untergrenze, und der aktuelle
+Release-Cursor zum Zeitpunkt dieses Spielbuchs ist v0.35.6, also ist die Karte seit mehreren
+Patches online. Nichts in den v0.35.x-Patches hat die Nationenzahl oder den Fliesenzahlwert
+im Manifest geändert, darum halten die Zahlen über die ganze Patch-Reihe, und wenn eine zukünftige v0.35-Release die Kartengeometrie oder die Nationenliste neu aufbaut, prüfe das Manifest neu, bevor du die Spawnlogik dieses Spielbuchs wieder verwendest. Die Grenze ist
+einfach zu formulieren: auf v0.35 ist dieses Board breit, nationenreich und gross; auf jeder
+älteren Version ist es einfach nicht da.
+
+## Die Lobbygröße, die die Landflächenformel dir gibt
+
+Unter der v0.35-Massstablichkeit nach Landfläche ist das Lobby, in dem du landst, weder ein
+Wurf noch eine feste Zahl, sondern das Ergebnis einer kleinen Formel, die auf die
+Landfliesen-Zahl der Karte angewendet wird, und die zwei Millionen Fliesen von Vancouver
+Island platzieren es in die größte Größe, die die Formel erzeugt. Die Formel nimmt die
+Landfliesen-Zahl, multipliziert sie mit fünfzig pro Million Fliesen, rundet auf das nächste Multiple von fünf, und lasst den Boden niemals unter fünf fallen.
+Dieser Boden ist die größte Karten-Größe, und die mittleren und kleinen Größen
+leiten sich ab, indem man ihn mit null Komma fünfundsechzig und null Komma fünfzig
+multipliziert und jeweils auf das nächste Multiple von fünf rundet. Angewendet auf zwei
+Millionen zwolftausend sechshundertvierundsechzig Fliesen liefert die größte Größe
+hundert Spieler, die mittlere fünfundsechzig und die kleine fünfzig. Im Teammodus
+multipliziert das Spiel die FFA-Größe mit eins Komma funf, also liefert dieselbe
+Karte im Team hundertzweiundfünfzig in gross, hundertdreizehn in mittel und fünfundsechzig in klein.
+
+| Lobbymodus | Gross | Mittel | Klein | Quelle |
+|---|---|---|---|---|
+| Free-for-All | 100 | 75 | 50 | 50 pro Mio. Fliesen, auf 5 gerundet |
+| Team | 150 | 113 | 75 | FFA-Größe x 1,5 |
+| Kompakt-Kartenmodus | — | — | — | 25 % der Nationen (8), nicht Fliesen |
+| Gehostetes Lobby | vom Host | vom Host | vom Host | von den Hosting-Regeln, nicht von dieser Formel |
+
+Die Zahl, die dir die Formel gibt, ist deine wirkliche Entscheidung. Die hundert Spieler
+der grossten Größe sind nicht eine Obergrenze, gegen die du dich wehrst, sondern die
+Tatsache, dass dein öffentliches Lobby voll ist und du eine volle 100er-Insel spielst.
+Die drei anderen Größen sind nicht leer; sie sind das Ergebnis des Kompakt-Kartenmodus
+oder des hosteigenen Hostings, und jede davon verschiebt die Karte in eine andere Spielart.
+Die Entscheidung, die diese Zahl für dich macht, ist nicht "wie viele Spieler könnten
+du verwalten", sondern "welche Form von Board spielst du gerade", denn die Stufe
+bestimmt die Dichte, und die Dichte bestimmt alles Weitere: wie viele menschliche Spieler
+jede benannte Nation aufnehmen muss, wie dicht überlappende Gebietsanspruiche an der
+Kuste liegen und wie früh die Buchten, die deinen Spawn verteidigen, umkämpft werden.
+Ein 100er-Vancouver-Island ist ein Board, auf dem jede benannte Nation einen Haufen
+menschlicher Spieler aufnehmen muss, auf dem die Kuste voll überlappender
+Gebietsansprüche ist und auf dem die Buchten, die einen Spawn verteidigen, ab der
+ersten Minute
+umkämpft werden. Eine 50er-Version ist dasselbe Board mit hälftigem Druck: eine
+einzelne benannte Nation kann von einem oder zwei Spielern gehalten werden, und das
+Innere bleibt lange genug ruhig, um eine echte Wirtschaft aufzubauen. Ein 150er-Teamlobby
+ist eine andere Spezies, weil zwei Teams von bis zu fünfundsechzig Spielern die Insel
+unter sich aufteilen müssen und der Kampf um die Mitte geht, nicht um eine Ecke. Die
+praktische Regel ist, die Lobbystufe aus der Lobbyliste zu lesen, bevor du einen Spawn
+festlegst, weil dasselbe physische Board je nach Stufe drei verschiedene Spiele spielt
+und der Spawn, der in einer 50er-Insel richtig ist, in einer 100er-Insel oft der
+falsche ist. Der Kompakt-Kartenmodus ist die Ausnahme von der Landflächenregel: Er
+ignoriert die Fliesen und verwendet stattdessen fünfundzwanzig Prozent der Nationen aus
+dem Manifest, was auf diesem Board acht Nationen ergibt, und das ist ein Board so klein
+und so dicht, dass die breite-Insel-Logik aus dem Rest dieses Spielbuchs nicht mehr
+greift.
+
+## Die Nationsschicht: 32 Nationen, 30 Überlaufnamen, drei ohne Flagge
+
+Die Nationsschicht auf Vancouver Island ist der Teil des Boards, den man am leichtesten
+falsch liest, darum gilt es genau zu sagen, was daraufsteht und was nicht. Das Manifest
+führt zweiunddreissig benannte Nationen auf der Hauptinsel. Sechsundzwanzig davon
+tragen die Flagge British Columbias, was das visuelle und mechanische Kennzeichen des
+Boards ist: Die Mehrheit der benannten Nationen sind BC-Ortsnamen, und genau darum
+nennen die Release-Notizen es ein Pazifik-Nordwest-Board. Zwei tragen die Flagge von
+Washington, nämlich Clallam County und San Juan, und sie liegen auf der amerikanischen
+Seite der Juan-de-Fuca-Meerenge, was bedeutet, dass das Board nicht an der kanadischen
+Grenze haltmacht und zwei deiner benannten Nachbarn auf amerikanischem Boden sitzen.
+Eine trägt die Flagge von Vancouver, und das ist die einzige Grossstadt-Nation, die
+den südlichen Zipfel der Insel anker. Dann gibt es drei Nationen, die gar keine Flagge
+tragen: die Kwakwaka'wakw-Nation, die Coast-Salish-Nation und die Nuu-chah-nulth-Nation.
+Diese drei sind auf der Karte und in der Spielerliste optisch unterscheidbar, weil sie
+ohne Flagge gerendert werden, und sie sind das einzigartige Merkmal des Boards, die drei
+Entitäten, die zu keiner der drei Flaggen-Gruppen gehören und als flaggenlose,
+neutral aussehende Machte im Innern und entlang der Kuste sitzen.
+
+Das Zweite, das du dir merken solltest, ist, was die dreissig Überlaufnamen sind und
+was nicht. Das Manifest führt neben den zweiunddreissig Nationen auch dreissig
+`additionalNations`, alle mit der Flagge British Columbias, mit Namen wie Whistler,
+Tsawwassen und Ladysmith. Diese sind keine aktiven Nationen in einem öffentlichen
+Standard-Lobby. Sie sind der Überlauf-Pool, aus dem die Engine nur zieht, wenn die
+angeforderte Nationenzahl eines Lobbys die zweiunddreissig überschreitet, die das Manifest
+definiert, und in einem normalen öffentlichen Lobby wird die Nationenzahl an die
+Spielerzahl angepasst oder an der Manifest-Größe gedeckelt, sodass die Überlaufnamen
+in der Regel nicht erscheinen. Die Zeile "30+ Nationen" in den Release-Notizen ist die
+Zusammenfassung des Upstreams für die Hauptinsel-Nationen plus diesen Überlauf-Pool,
+und die Zahl zweiunddreissig ist die Anzahl der Nationen, die in einem normalen Spiel
+tatsächlich auf dem Board liegen. Die praktische Konsequenz: Du planst deinen Spawn um
+die zweiunddreissig benannten Nationen herum, behandelst die drei flaggenlosen als die,
+auf die du achten solltest, und darfst nicht davon ausgehen, dass ein BC-Überlauf-Name
+wie Whistler eine Nation ist, die du zu sehen bekommst, solange das Lobby nicht auf eine
+Nationenzahl über zweiunddreissig gezwungen wird. Wenn du einen doch siehst, ist das ein
+Signal, dass das Lobby eine individuell eingestellte Nationenzahl hat und das Board
+dichter ist als die Standardvariante, was die Verteilung deiner Gebietsansprüche und
+die Anzahl benannter Nachbarn ändert, die du mitberücksichtigen musst.
+
+## Entscheidungsrahmen: Wähle deine Seite, bevor der Countdown endet
+
+Der Entscheidungsrahmen auf Vancouver Island ist eine vierstufige Lesart, die du im
+Lobby durchläuft, bevor der Countdown endet, und es sind dieselben vier Schritte, egal ob
+du in einem 50er- oder 100er-Lobby sitzt. Der erste Schritt ist, die Stufe zu lesen:
+Sieh dir die Lobbyliste an und notiere, ob die Insel mit fünfzig, fünfundsechzig,
+hundert oder den Teamvarianten rollt, denn die Stufe setzt die Dichte, und die Dichte
+setzt alles, was folgt. Der zweite Schritt ist, die Seiten zu lesen: Die Insel hat eine
+tief eingrindende, buchtenreiche Westküste, eine offenere und exponiertere Nord- und
+Ostküste, die zur Meerenge und zum Festland blickt, und ein Innere aus benannten
+BC-Nationen, das zwischen den beiden liegt. Benenne die drei oder vier benannten
+Nationen, die deiner Seite am nächsten sind, und notiere, welche von ihnen flaggenlos
+ist, denn eine flaggenlose Nation nahe deinem Spawn ist neutraler Boden, den jeder
+gewinnen kann und der normalerweise das erste Ziel des Spielers ist, der das Board
+liest. Der dritte Schritt ist, die Buchten zu lesen: Die Buchten an der Westküste sind
+die verteidigende Geografie des Boards, die langen schmalen Wasserarme, die einen Spawn
+bedecken und eine Landung teuer machen, also ankerst du dich an der Bucht, die deine
+benannte Nation schützt, und nutzt das Wasser als deine erste Mauer, wenn du ein
+Verteidigungsspiel willst. Der vierte Schritt ist, den benannten Anker zu lesen: Wähle
+eine benannte Nation als deinen Anker, die du tatsächlich hältst, und benenne die zwei
+Nachbarn an beiden Seiten davon, denn auf einem breiten Board ist der Spieler, der seine
+zwei Nachbarn kennt, der Spieler, der nie von einer Flanke überrascht wird, und der
+Spieler, der es nicht tut, ist der, der das Innere verliert.
+
+Der Rahmen hat einen Standard, und der Standard ist die Westküsten-Buchten in einem
+kleinen bis mittleren Lobby und die offene Nordküste in einem grossen Lobby. In einer
+50er- oder 75er-Insel ist das Board ruhig genug, dass die verteidigenden Buchten halten,
+also ankerst du eine benannte BC-Nation an der Westküste, nimmst die Bucht davor und
+expandierst die Küste entlang zu deinen zwei benannten Nachbarn, während das Innere
+lange genug unbelegt bleibt, um aufzubauen. In einer 100er-Insel ist die Westküste zu
+voll für eine reine Verteidigung, weil die Buchten ab der ersten Minute umkämpft sind
+und der verteidigende Bonus des Wassers darauf geht, deinen eigenen Spawn zu halten,
+anstatt ihn zu besetzen, also verschiebt sich der korrekte Standard zur offenen
+Nordküste, wo du eine benannte Nation an der exponierten Küste ankerst und ein
+angriffsorientiertes Spiel spielst, ins Innere expandierst und die offene Küste nutzt,
+um die Meerengen-Querungen zu schermen. Die flaggenlosen Nationen ändern die Lesart in
+beiden Fällen, denn welche Seite du auch wählst, die nächste flaggenlose Nation ist das
+neutrale Ziel, und der Spieler, der sie zuerst nimmt, bekommt eine zweite Wirtschaft und
+einen zweiten Spawn, den der Rest des Boards danach umkämpfen muss. Die vier Schritte
+sind das gesamte vor-Spiel-Entscheidungspaket auf diesem Board, und der Spieler, der sie
+im Lobby abläuft, ist der Spieler, der vor dem Ende des Countdowns weiss, welche
+Seite, welche Bucht, welcher Anker und welches flaggenlose Ziel er wählt.
+
+## Szenario eins: Ein volles 100er-FFA an der Westküste
+
+Das erste Szenario ist das, das die Karte definiert: ein 100er-Free-for-all, in dem du
+an der Westküste gelandet bist, der Standard in einem kleineren Lobby, aber hier die
+falsche Wahl. Die Annahme ist, dass du bei voller Dichte bist, hundert Spieler auf zwei
+Millionen Landfliesen, und du hast eine benannte BC-Nation an der buchtenreichen
+Westküste ankerst, weil es verteidigbar aussah. Das Problem mit dieser Wahl bei dieser
+Dichte ist, dass die Bucht, die deinen Spawn verteidigt, jetzt von sechs bis acht
+anderen Spielern umkämpft wird, die dieselbe verteidigende Lesart gemacht haben, und
+das Wasser, das deine erste Mauer war, ist jetzt eine Bahn, um die alle kämpfen. Das
+konkrete Spiel besteht darin, die reine Verteidigungslage in den ersten drei Minuten
+aufzugeben. Du hältst deinen benannten Anker, nimmst die eine Bucht, die ihn schützt,
+und versuchst nicht, die ganze Küste zu halten, denn die ganze Küste bei hundert
+Spielern zu halten, bedeutet eine Einheit an jeder Bucht, und eine Einheit an jeder
+Bucht ist eine Einheit, die deine Wirtschaft nicht finanziert. Die Zahlen, die hier
+zählen, sind die zwei: deine Anker-Nation und die zwei benannten Nachbarn an beiden
+Seiten davon. Du expandierst in diese zwei, claimst den Hafen oder die Fabrik auf deiner
+Seite, bevor du eine Einheit in die Bucht-Bahn investierst, und hältst einen Schirm auf
+die nächste Querung, wo die Washington-Nationen auf der amerikanischen Seite drücken.
+Die flaggenlose Nation, die dir am nächsten ist, ist das Ziel, das du im Midgame
+nimmst, weil bei hundert Spielern die flaggenlose Nation die ist, auf die alle gucken,
+und der Spieler, der sie zuerst nimmt, bekommt eine zweite Wirtschaft, die der Rest des
+Boards dann das ganze Spiel umkämpft. Das Timing, das dieses Szenario entscheidet, ist die erste drei Minuten, denn die Bucht, die du nicht nimmst, bevor die Wirtschaft der anderen Spieler sie zu finanzieren beginnt, ist die Bucht, die du gar nicht mehr nehmen kannst, sobald die Querung, die sie schützt, zu einer umkämpften Bahn wird. Wenn du früh über die Meerenge gehen musst, um das flaggenlose Ziel zu erreichen, kostet die Querung eine Einheit und die Zeit, die es dauert, sie überzusetzen, und der Spieler auf der anderen Seite, der die Querungsbahn vorfinanziert, ist der, der dich das doppelte kostet, also ist die frühe Entscheidung, ob du die Bucht vor den anderen nimmst oder die Querung vorfinanziert, diejenige, die den Rest des FFA auf dieser Küste bestimmt. Das Versagen hier ist die Streuung: Der Spieler,
+der die Bucht gewinnt und sich dann über die ganze Küste verteilt, gibt den anderen
+Spielern eine freie Querung durch die dünne Bahn, und das Gegengift ist die
+Konzentration, also hältst du deine Einheiten auf deine zwei benannten Nachbarn und das
+flaggenlose Ziel und schickst keine Einheit an die ferne Küste, es sei denn, der
+Spieler an der fernen Küste ist der, der die Querung finanziert. Das Szenario ist das
+gesamte Gross-Lobby-Westküste-Spiel: Halte den Anker, nimm das nächste flaggenlose
+Ziel, expandiere in die zwei benannten Nachbarn und konzentriere dich statt zu streuen.
+
+## Szenario zwei: Das kompakte Acht-Nation-Board
+
+Das zweite Szenario ist das, das die meisten Spieler nicht erwarten, weil dasselbe
+physische Board im Kompakt-Kartenmodus auftauchen kann und sich als ein vollkommen
+anderes Spiel anfühlt. Die Annahme ist, dass du im Kompakt-Kartenmodus bist, der die
+Landflächenformel ignoriert und stattdessen fünfundzwanzig Prozent der
+Manifest-Nationen verwendet, was auf diesem Board acht Nationen ergibt. Das Board hat
+jetzt acht benannte Nationen auf derselben Insel, was bedeutet, dass die
+breite-Insel-Logik nicht mehr greift und das Spiel ein dichtes Acht-Spieler-Duell wird,
+in dem jede benannte Nation eine Nachbarin jeder anderen ist und das Innere ab der
+ersten Minute belegt wird. Das konkrete Spiel ist das Gegenteil des breiten-Board-
+Standards. Du ankerst keine Westküsten-Bucht zur Verteidigung, weil die Buchten bei
+acht Nationen nicht verteidigend sind, sondern einfach Wasser zwischen zwei Nachbarn,
+die beide dich drücken werden. Du ankerst die benannte Nation mit den meisten benannten
+Nachbarn, die in der Mitte des Boards sitzt, denn bei acht Nationen ist die Mitte die
+Wirtschaft, die Mitte ist, wo die Hafen und Fabriken clusterieren, und die Mitte ist,
+wo die flaggenlose Nation sitzt. Die Zahlen, die hier zählen, sind klein und spezifisch:
+acht Nationen, ein flaggenloses Ziel und die zwei oder drei benannten Nationen, die eine
+Grenze mit deinem Anker teilen. Du nimmst die flaggenlose Nation zuerst, denn bei acht
+Nationen ist sie der neutrale Preis, auf den alle zulaufen, und der Spieler, der sie
+nimmt, bekommt einen zweiten Spawn, den die sieben anderen dann umkämpfen müssen. Du
+expandierst in deine zwei oder drei benannten Nachbarn und streust nicht, denn bei acht
+Nationen ist die Streuung das ganze Board und es gibt keine ferne Küste, die du
+ignorieren kannst. Das Versagen hier ist die Überexpansion: Der Spieler, der die Mitte
+nimmt und dann in alle drei Nachbarn gleichzeitig drängt, wird an zwei Fronten
+flankiert, und das Gegengift besteht darin, das flaggenlose Ziel zu nehmen, die Mitte
+zu halten und nur in die zwei Nachbarn zu expandieren, die ihre eigene Wirtschaft
+finanzieren. Das Szenario ist das gesamte Kompakt-Spiel: acht Nationen, nimm die Mitte,
+nimm das flaggenlose Ziel zuerst und expandiere in zwei Nachbarn, nicht in drei. Das kompakte Board ist auch das, auf dem ein falscher erster Zug am schwersten rückgängig zu machen ist, denn im Moment, in dem du eingekesselt bist, gibt es kein freies Wasser, über das du zurückgehen kannst: Das breite Board lässt mindestens eine zweite Küste, das Acht-Nation-Board lässt dir aber nur die eine Nation, in die du nicht expandiert bist, und genau diese Nation entscheidet dann dein Midgame für dich, weil sie die einzige offene Seite ist, die du erreichen kannst.
+
+## Fehlermuster und Gegner-Gegenspiel
+
+Das Fehlermuster, das die meisten Matches auf Vancouver Island beendet, ist die
+Streuung, und es ist dieselbe Streuung auf dem breiten Board wie auf dem kompakten, nur
+in unterschiedlichen Skalierungen. Auf dem breiten Board ist es der Spieler, der die
+Bucht oder die Küste gewinnt und sich dann über die ganze Küste verteilt, statt auf
+die zwei oder drei benannten Nachbarn und das flaggenlose Ziel zu konzentrieren, und
+das Gegengift zu dieser Streuung ist die Konzentration, genau der Grund, warum der
+Entscheidungsrahmen dich auffordert, deinen Anker und seine zwei Nachbarn zu benennen,
+statt die ganze Küste zu lesen. Auf dem kompakten Board ist es der Spieler, der die
+Mitte nimmt und dann in alle drei Nachbarn gleichzeitig drängt und an zwei Fronten
+flankiert wird, und das Gegengift ist, in zwei Nachbarn zu expandieren, nicht in drei.
+Die Streuung versagt auch die Wirtschaft auf beiden Boards, denn eine Einheit an der
+fernen Küste oder eine dritte Front ist eine Einheit, die deinen Anker nicht
+finanziert, und der Anker ist, wo das Match entschieden wird. Die praktische Korrektur
+ist auf beiden Skalen dieselbe: Halte den Hauptschirm auf den benannten Nachbarn oder
+die Bucht, die zählt, nutze das flaggenlose Ziel als zweite Wirtschaft, und schicke
+keine Einheit an eine zweite oder dritte Front, es sei denn, diese Front finanziert die
+Querung oder den Angriff selbst.
+
+Das zweite Fehlermuster ist das flaggenlose übersehen, also der Spieler, der die drei
+flaggenlosen Nationen sieht und sie für unbedeutend hält, weil sie keine Flagge
+haben, während sie in Wirklichkeit der neutrale Preis auf dem Board sind und das erste
+Ziel des Spielers, der das Board liest. Das Gegengift zum flaggenlosen übersehen ist
+die flaggenlos-zuerst-Regel, die darin besteht, die flaggenlose Nation zu benennen, die
+deinem Anker am nächsten liegt, und im Midgame einzuplanen, sie zu nehmen, denn die
+flaggenlose Nation ist die zweite Wirtschaft und der zweite Spawn, und der Spieler, der
+sie zuerst nimmt, hält den am meisten umkämpften Preis des Boards. Das dritte
+Fehlermuster ist das Meerengen-übersehen, also der Spieler, der das Innere spielt und
+die zwei Washington-Flaggen-Nationen auf der amerikanischen Seite der Meerenge vergisst,
+und das Gegengift ist, einen Schirm auf die Meerengen-Querung zu halten, denn die
+Washington-Nationen sind die einzigen Nachbarn, die keine BC sind, und sie sind die
+einzige Richtung, die du im Rahmen nicht gelesen hast. Das Gegner-Gegenspiel auf diesem
+Board ist der flaggenlose Griff, also der Spieler oder das Team, das die flaggenlose
+Nation nimmt, bevor du es kannst, und das Gegengift dazu ist dieselbe
+flaggenlos-zuerst-Regel, nur eine Minute früher ausgeführt. Die drei Fehlermuster und
+das eine Gegenspiel sind der gesamte taktische Inhalt der Karte, und der Spieler, der
+sie umsetzen kann, ist der Spieler, der die Insel gewinnt.
+
+## Modus- und Kartenanpassungen
+
+Der Modus, den du spielst, ändert die Vancouver-Island-Lesart auf eine kleine Anzahl
+von Arten, und die Karte selbst ändert die Modus-Lesart um ein paar weitere. Die erste
+Modusanpassung ist die Team-Aufteilung. In einem Team-Lobby wird die Insel zwischen zwei
+Teams aufgeteilt, und der Entscheidungsrahmen ändert sich von der Frage, welche Seite
+du wählst, zu der Frage, wie das Team die Seite aufteilt. In einem 150er-Team-Lobby
+hat jedes Team bis zu fünfundsechzig Spieler, was mehr ist als die zweiunddreissig
+benannten Nationen, also muss das Team benannte Nationen Spielern zuweisen, und der
+Kampf geht um die Mitte der Insel, die Meerenge und das flaggenlose Ziel. Das
+Team-Rahmen ist dieselbe Konzentration-Logik wie im FFA, angewendet auf die halbe Seite
+des Teams: Das Team ankert einen Satz benannter Nationen, nimmt das flaggenlose Ziel
+auf seiner Seite und konzentriert sich auf die Mitte, statt über die ganze Küste zu
+streuen. In einem kleineren Team-Lobby hat das Team weniger Spieler pro benannter
+Nation, also kann das Team mehr seiner Seite abdecken und das Streu-Fehler ist weniger
+wahrscheinlich.
+
+Die zweite Modusanpassung sind die Kernwaffen. Die Hafen und Fabriken an der Küste und
+die benannten Nationen im Innern machen die Meerenge und die Buchten zu Kernzielen, und
+die Kern-Lesart auf diesem Board ist dieselbe wie auf jeder Wasserkarte: die Querung
+ist das Ziel und die Bucht ist der Schirm. Die Vancouver-Island-Version besteht darin,
+dass die Bucht ein langer schmaler Wasserarm ist, was eine Nuke auf die Bucht wirksamer
+macht als eine Nuke auf die offene Küste, denn die Nuke zerstört den einen Schirm,
+den der Verteidiger in diesem Arm hat. Das Gegengift zur nuklearen Querung ist die
+zweite Wirtschaft, also das flaggenlose Ziel und der benannte Nachbar, denn die Nuke
+zerstört den Schirm auf einer Bucht und die Querung muss trotzdem die nächste
+benannte Nation überqueren, sodass die benannten Nationen die Verteidigung über den
+Radius der Nuke hinaus ausdehnen. Die praktische Nukleare-Regel ist, das flaggenlose
+Ziel und die benannten Nachbarn am Leben zu halten, denn die Nuke zerstört einen
+Schirm und die benannten Nationen stoppen die Querung.
+
+Die dritte Modusanpassung ist die Doomsday Clock. Die Doomsday Clock auf diesem Board
+ist dieselbe wie auf jeder Karte: Die Seite unter vierzig Prozent kämpft darum, die
+Welle zu überleben, aber die Vancouver-Island-Lesart besteht darin, dass die untere
+Seite meist die Seite ohne das flaggenlose Ziel ist, denn die Seite ohne das flaggenlose
+Ziel ist die Seite ohne die zweite Wirtschaft. Die Doomsday-Lesart ist dieselbe wie die
+Konzentration-Lesart: Die Seite mit dem flaggenlosen Ziel ist die, die bis zur letzten
+Wirtschaft expandieren kann, also muss die untere Seite die flaggenlose Seite zwingen,
+Einheiten auf den Schirm zu verwenden. Die Kartenanpassung ist dieselbe wie die
+Modusanpassung, denn das breite Board ist der Modus auf dieser Insel, und der Modus
+ändert die Lesart der drei Dinge oben: die Team-Aufteilung, die Kernwaffen und die
+Doomsday Clock. Der Spieler, der sowohl den Modus als auch die Karte lesen kann, spielt
+die Insel richtig, und die Insel ist die, die das Match entscheidet.
+
+## Was du in dein nächstes Match nimmst
+
+Die Kernaussage aus Vancouver Island ist, dass das Board breit ist und die Entscheidung
+die Seite ist, und die Seite wird von der Stufe entschieden. Die Karte hat zwei
+Millionen Landfliesen mit zweiunddreissig benannten Nationen und drei flaggenlosen, und
+das Match wird entschieden durch die Seite der Insel, auf der du dich festsetzt, bevor
+der Countdown endet. Der Entscheidungsrahmen ist das Werkzeug: Lies die Stufe, lies die
+Seiten, lies die Buchten, lies den benannten Anker, und die Szenarien sind die zwei
+Wege, wie das Match verläuft: das 100er-FFA an der Westküste und das kompakte
+Acht-Nation-Board. Die Fehlermuster sind die drei Wege, wie das Match verloren wird:
+die Streuung, das Übersehen des flaggenlosen Ziels und das Übersehen der Meerenge, und das
+Gegenspiel ist der eine Weg, wie der Gegner gewinnt: der flaggenlose Griff. Die
+Modus- und Kartenanpassungen sind das letzte Stück: Der Modus ändert, wie das Team die
+Seite aufteilt und wie die Kernwaffen und die Doomsday Clock gelesen werden, und die
+Karte ändert, wo die Seiten, die Buchten und der benannte Anker liegen.
+
+Für die größeren Systeme, auf die diese Eröffnung aufbaut: Das
+Lobbygröße-Spielbuch [Lobbygröße durch Karten](/de/guides/lobby-size-map-driven/)
+deckt die Landformel und die Stufentabelle ab, die dieses Spielbuch auf Vancouver
+Island anwendet, das [Map-Strategy-Spielbuch](/de/guides/map-strategy/) deckt
+verbundene Land- und Wassernetzwerke auf jedem Board ab, das
+[Insel-Verteidigungsspielbuch](/de/guides/island-defense/) deckt ab, wie man einen
+Spawn schermen und wann eine unterbrochene Seeroute bedeutet, dass du zurück zum Land
+ziehen solltest, das [Population-Growth-Spielbuch](/de/guides/population-growth/) deckt
+die Wirtschaft ab, die den Anker und die zwei benannten Nachbarn finanziert, und das
+[Navy-Stalemate-und-Blockade-Spielbuch](/de/guides/naval-stalemate-blockade-anti-blockade/)
+deckt ab, wie man eine Querung hält, wenn der Gegner sie verweigern will. Wenn du all
+das in dieselbe Entscheidung einbeziehst, wird die Vancouver-Island-Eröffnung keine
+Vermutung mehr darüber, welche Seite der Insel zentral aussieht, sondern ein Plan
+darüber, welche Seite, welche Bucht, welcher Anker und welches flaggenlose Ziel du
+wählst, bevor der Countdown endet, was die einzige Zeit ist, in der alles noch in
+deiner Hand ist. Das Board ist breit genug, dass eine falsche Seite kurz zu korrigieren
+ist, aber die Buchten machen die Korrektur zu einer Querung, und Querungen kosten Zeit
+und eine Einheit, die du dir vielleicht nicht leisten kannst, wenn du dein frühes Spiel
+schon mit einem schlechten Start verbrannt hast, genau darum gewinnen auf dieser Karte
+in der Regel die Spieler, die Stufe und Seite sorgfältig gelesen und sich auf einen
+benannten Anker mit einer benannten Bucht und einem benannten flaggenlosen Ziel
+festgelegt haben, nicht die, die instinktiv die vertraute Seite wählten und dann die
+Querung improvisieren mussten.

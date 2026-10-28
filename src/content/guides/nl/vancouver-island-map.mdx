@@ -1,0 +1,381 @@
+---
+title: "Vancouver Island-kaart: het 32-natiebord, de 100-spelaarslobby en waar je spawnt"
+description: Een besliskader voor Vancouver Island, de landrijke kaart van v0.35. Wat een bord met tweeendertig naties en drie vlagloze First Nations daadwerkelijk is, wat de landgedreven lobbyformule met de grootte doet, hoe de natieslaag en de overloopnamen werken, en aan welke kant van het eiland je je vastzet voor de aftelling eindigt.
+pubDate: 2026-10-28
+updatedDate: 2026-10-28
+tags: [maps, v0.35, vancouver-island, spawn, lobby-size, nations]
+category: Guide
+difficulty: Geavanceerd
+version: v0.35.0
+freshnessSummary: "Geverifieerd op 2026-10-28 tegen de formele v0.35.0-release (2026-10-16), het upstream-kaartmanifest (32 naties, 30 overloopnamen, 2.012.664 landtegels, raster van 2.600 bij 1.980), de v0.35.0-release-notes en de actuele v0.35.6-release-cursor; community-signaal uit de Reddit- en YouTube-dekking van de nieuwe v0.35.0-kaarten."
+lang: nl
+canonical: /nl/guides/vancouver-island-map/
+hreflang: [en, zh, fr, de, nl]
+---
+**Direct antwoord.** Vancouver Island is het v0.35-bord met het meeste land en de
+minste genaamde spelers per vierkante mijl: tweeendertig naties op 2.012.664
+landtegels, en onder de nieuwe landgedreven lobbygrootte rollt het een grote lobby van
+honderd spelers (zeventigvijf in middel, vijftig in klein) met honderdvijftig in
+teammodus. Commit je op de diepe inhammen aan de westkust voor verdediging, of op de
+open noordoever voor agressie; houd een genaamde natie en haar twee buren vast, en
+behandel de drie vlagloze First Nations als neutraal grondgebied dat je moet winnen,
+niet claimen. Lees eerst de lobbylaag, want een eiland van honderd spelers is een
+ander spel dan het compacte acht-natiebord.
+
+Vancouver Island is de kaart waarop de twee grootste mechanische veranderingen van
+v0.35 in een lobby op elkaar botsen. De eerste is de natieslaag: een bord met
+tweeendertig genaamde naties op het hoofdeiland, waarvan er zesentwintig de vlag van
+British Columbia dragen, er twee de vlag van Washington aan de Amerikaanse kant van het
+zeestraat, er een de vlag van Vancouver, en er drie First-Nations-entiteiten die
+helemaal geen vlag dragen. De tweede is de landgedreven lobbygrootte die de vlakke
+honderdvijfen-twintig-cap heeft vervangen, en dat betekent dat dit een van de grootste
+openbare lobby's is die het spel nu kan produceren. De kaart is breed, het water staat
+vol inhammen en schiereilanden, en de geografie van het bord beslist je wedstrijd
+dat de eerste eenheid is gebouwd. Deze gids geeft je een herhaalbaar kader voor de vier
+beslissingen die de kaart daadwerkelijk oplegt: welke laag je in belandt, aan welke
+kant van het eiland je je vastzet, op welke genaamde natie je je anker legt, en hoe je
+de drie vlagloze naties speelt die ertussenin zitten.
+
+![Vancouver Island-kaart (v0.35), officieel kaartbeeld uit het upstream-manifest, AGPLv3.](/images/maps/vancouver-island-v35.webp)
+
+## De versiegrens: wat de Vancouver Island van v0.35 daadwerkelijk is
+
+Het allerbelangrijkste dat je voor een spawn vast moet leggen is dat Vancouver Island
+een v0.35-kaart is en dat het de twee v0.35-gedragingen meeneemt die elk bord waar het
+op verschijnt hershappen. Het verscheen in de formele v0.35.0-release op 16 oktober
+2026, en de release-notes omschrijven het in een regel als "30+ naties uit
+de Pacific Northwest", wat de eigen shorthand is van upstream voor een breed,
+natierijk kustbord. Het staat niet in de v0.34-stabele speellijst, dus als je op een
+stabiele build zit bestaat de kaart niet voor jou, en in een gehost lobby kan een
+speler toch de oudere kaartenset kiezen waarin het nooit voorkomt. De versiegrens
+telt om twee redenen. Ten eerste is de natieslaag op dit bord het v0.35-natietysteem,
+het systeem waarin naties zich gedragen als de mensen die winnen, later opslaan,
+grenzen versterken en kleine strandhoofdboottjes sturen voordat ze per land duwen,
+dus de naties op Vancouver Island zijn niet de passieve vulling van de oudere builds.
+Ten tweede is de lobbygrootte die je op deze kaart krijgt de v0.35-landgedreven
+grootte, niet de oude honderdvijfen-twintig-klem, en dat is de reden dat een
+volledige Vancouver-Island-lobby naar honderd spelers kan lopen waar hetzelfde bord
+op stabiel aan een vlak plafond zou zijn geklemd.
+
+De tweede grens om te begrijpen is de data. De cijfers in deze gids komen uit het
+upstream-manifest op de v0.35.0-tag, de autoritaire bron voor de vorm van het bord:
+een raster van 2.600 bij 1.980, twee miljoen, twaalfduizend, zeshonderdvijftig
+landtegels op de kaart in volle resolutie, en de `map4x`- en `map16x`-inzoomweergaven
+(117.919 respectievelijk 491.184 landtegels) die zoomweergaven zijn van hetzelfde
+bord, geen aparte kaarten. Het getal drie-miljoen-twaaalf dat je soms geciteerd ziet
+voor andere kaarten geldt hier niet; het volle-resolutie-aantal is het getal dat de
+lobbyformule verbruikt. De v0.35.0-release is de ondergrens, en de actuele
+release-cursor op het moment van deze gids is v0.35.6, dus de kaart staat al een paar
+patch-releases live. Niets in de v0.35.x-patches heeft het natietal of het landgetal
+uit het manifest veranderd, wat de reden is dat de cijfers over het hele patchbereik
+vasthouden, maar als een toekomstige v0.35-release de kaartgeometrie of de natielijst
+herbewerkt, controleer dan het manifest opnieuw voordat je de spawnlogica uit deze
+gids hergebruikt. De grens is eenvoudig te stellen: op v0.35 is dit bord breed,
+natierijk en groot; op alles ouder bestaat het helemaal niet. Kortom: versie en
+data zijn de twee grenzen die je spawnlogica moeten voorafgaan, en zodra die twee
+kloppen kun je de rest van deze gids toepassen op het bord dat je daadwerkelijk in
+de lobby krijgt.
+
+## De lobbygrootte die de landformule je geeft
+
+Onder de v0.35-landgedreven afmeting is de lobby waarin je belandt geen gok en geen
+vlak getal; het is de uitvoer van een kleine formule die je toepast op het
+landtegels-aantal van de kaart, en de twee miljoen landtegels van Vancouver Island
+brengen het precies in de grootste laag die de formule produceert. De formule neemt
+het landtegels-aantal, vermenigvoudigt het met vijftig per miljoen tegels, rondt het
+af naar het naaste veelvoud van vijf en laat de basis nooit onder de vijf dalen. Die
+basis is de grootste maatlaag van de kaart, en de middelste en kleinste laag worden
+ervan afgeleid door te vermenigvouden met nulkomma-zeventientwintig en nulkomma-
+vijftig en elk terug te ronden naar het naaste veelvoud van vijf. Pas je het toe op
+twee miljoen, twaalfduizend, zeshonderdvijftig landtegels, dan komt de grote laag uit
+op honderd spelers, de middelste laag op zeventigvijf en de kleinste laag op vijftig.
+In teammodus vermenigvoudigt het spel de FFA-laag met eenkomma-vijf, dus hetzelfde
+bord rollt honderdvijftig groot, honderddrieentien middel en zeventigvijf klein.
+
+![Lobbylaagtabel voor Vancouver Island onder v0.35-landgedreven afmeting.]
+
+| Lobbymodus | Groot | Middel | Klein | Herkomst van het getal |
+|---|---|---|---|---|
+| Free-for-all | 100 | 75 | 50 | 50 per 1M landtegels, afgerond op 5 |
+| Team | 150 | 113 | 75 | FFA-laag x 1,5 |
+| Compacte kaartmodus | -- | -- | -- | gebruikt 25% van de naties (8), niet land |
+| Gehost lobby | door host | door host | door host | geregeld door hosting-regels, niet door deze formule |
+
+De reden dat de laag belangrijker is dan het spelersaantal is dat de laag de vorm is
+van het bord waarin je daadwerkelijk belandt. Een Vancouver-Island-lobby van honderd
+spelers is een bord waarop elke genaamde natie een kluit mensen-spelers moet
+absorberen, waarop de kust dik is met overlappende claims, en waarop de inhammen die
+een spawn verdedigen vanaf de eerste minuut betwist worden. Een versie van vijftig
+spelers is hetzelfde bord met de helft van de druk, waarop een genaamde natie door een
+of twee spelers kan worden gehouden en het binnenland rustig blijft lang genoeg om een
+echte economie op te bouwen. Een teamlobby van honderdvijftig is een geheel ander
+wezen, want twee teams van tot en met zeventigvijf moeten het eiland onderling
+splitsen en de strijd gaat om het midden, niet om een hoek. De praktische regel is de
+lobbylaag te lezen in de lobbylijst voordat je op een spawn commit, want hetzelfde
+fysieke bord speelt als drie verschillende spellen afhankelijk van welke laag je erin
+zit, en de spawn die correct is in een vijftig-spelers-eiland is vaak de verkeerde in
+een honderd-spelers-eiland. De compacte kaartmodus is de uitzondering op de landregel:
+hij negeert het land en gebruikt in plaats daarvan een kwart van de naties uit het
+manifest, wat op dit bord acht naties is, en dat is een bord zo klein en zo dicht dat
+de breed-eilandlogica uit de rest van deze gids ophoudt met gelden.
+
+## De natieslaag: 32 naties, 30 overloopnamen, drie vlagloos
+
+De natieslaag op Vancouver Island is het deel van het bord dat het makkelijkst
+verkeerd gelezen wordt, dus het loont om exact te stellen wat erop staat en wat niet.
+Het manifest draagt tweeendertig genaamde naties op het hoofdeiland. Zesentwintig van
+hen dragen de vlag van British Columbia, wat de visuele en mechanische handtekening is
+van het bord: de meerderheid van de genaamde naties zijn BC-plaatsnamen, waarom de
+release-notes het een Pacific-Northwest-bord noemen. Twee dragen de vlag van
+Washington, Clallam County en San Juan, en ze zitten aan de Amerikaanse kant van het
+Strait of Juan de Fuca, wat betekent dat het bord niet stopt bij de Canadese grens en
+dat twee van je genaamde buren Amerikaans zijn. Een draagt de vlag van Vancouver, en
+dat is de enige metronaam-natie die de zuidpunt van het eiland ankert. Dan zijn er
+drie naties die helemaal geen vlag dragen: de Kwakwaka'wakw-Natie, de Coast-Salish-Natie
+en de Nuu-chah-nulth-Natie. Deze drie zijn visueel te onderscheiden op de kaart en in
+de spelerlijst omdat ze zonder vlag worden weergegeven, en ze zijn het unieke kenmerk
+van het bord: de drie entiteiten die niet tot een van de drie vlaggroepen behoren en
+die in het binnenland en langs de kust zitten als vlagloze, neutraal ogende machten.
+
+Het tweede ding om te stellen is wat de dertig overloopnamen wel en niet zijn. Het
+manifest lijstt ook dertig `additionalNations` op, allemaal met de vlag van British
+Columbia, met namen zoals Whistler, Tsawwassen en Ladysmith. Dit zijn geen actieve
+naties in een standaard openbare lobby. Ze zijn de overloop-pool waar de engine
+alleen uit put wanneer het gevraagde natietal van een lobby de tweeendertig
+overschrijdt die het manifest definieert, en in een standaard openbare lobby is het
+natietal afgestemd op de spelers of gekapt op de manifestgrootte, dus de overloopnamen
+verschijnen meestal niet. De regel "30+ naties" in de release-notes is de eigen
+samenvatting van upstream van de hoofdeilandnaties plus deze overloop-pool, en het
+getal tweeendertig is het aantal naties dat in een normale wedstrijd daadwerkelijk op
+het bord staat. Het praktische gevolg is dat je je spawn moet plannen rond de
+tweeendertig genaamde naties, de drie vlagloze moet behandelen als degenen om te
+waarnemen, en niet mag aannemen dat een BC-overloopnaam zoals Whistler een natie is
+die je zult zien, tenzij de lobby gedwongen is naar een natietal boven tweeendertig.
+Als je er toch een ziet, is dat een signaal dat de lobby een aangepast natietal heeft,
+en het bord is dan dichter dan de standaard, wat de spreiding van je claim verandert
+en het aantal genaamde buren waar je rekening mee moet houden.
+
+## Besliskader: kies je kant voordat de aftelling eindigt
+
+Het besliskader op Vancouver Island is een vierstaps-lezing die je in de lobby
+uitvoert voordat de aftelling eindigt, en het zijn dezelfde vier stappen of je nu in
+een vijftig- of een honderdspelers-lobby zit. De eerste stap is de laag lezen. Kijk
+naar de lobbylijst en noteer of het eiland rollt op vijftig, zeventigvijf, honderd of
+de teamvarianten, want de laag bepaalt de dichtheid en de dichtheid bepaalt alles wat
+volgt. De tweede stap is de kanten lezen. Het eiland heeft een diepe, inhamrijke
+westkust, een openere en blootgestelde noord- en oostoever die uitkijkt op het
+zeestraat en het vasteland, en een binnenland van genaamde BC-naties dat ertussenin zit.
+Noem de drie of vier genaamde naties die dichtst bij je kant liggen en noteer welke
+van hen vlagloos is, want een vlagloze natie dicht bij je spawn is neutraal
+grondgebied dat door iedereen gewonnen kan worden en meestal het eerste doelwit is van
+de speler die het bord leest. De derde stap is de inhammen lezen. De inhammen aan de
+westkust zijn de verdedigende geografie van het bord, de lange smalle waterarmen die
+een spawn bedekken en een landing duur maken, dus als je een verdedigen-eerst-spel
+wilt, anker je dan op de inham die je genaamde natie beschermt en gebruik je het water
+als je eerste muur. De vierde stap is de genaamde anker lezen. Kies een genaamde natie
+als je anker, de een die je daadwerkelijk zult vasthouden, en noem de twee buren aan
+beide zijden ervan, want op een breed bord is de speler die haar twee buren kent de
+speler die nooit door een flank verrast wordt, en de speler die dat niet doet,
+verliest het binnenland.
+
+Het kader heeft een standaard, en de standaard is de westkust-inhammen in een kleine
+tot middelgrote lobby en de open noordoever in een grote lobby. In een vijftig- of
+zeventigspelerseiland is het bord rustig genoeg dat de verdedigende inhammen
+standhouden, dus je ankert een genaamde BC-natie aan de westkust, neemt de inham ervoor
+en expandeert je langs de kust naar je twee genaamde buren terwijl het binnenland lang
+genoeg onbehept blijft om op te bouwen. In een honderdspelerseiland is de westkust te
+gedrongen voor een zuivere verdediging, want de inhammen worden vanaf de eerste minuut
+betwist en het verdedigingsvoordeel van het water is opgebruikt aan het beschermen van
+je eigen spawn in plaats van het vasthouden, dus de correcte standaard verschuift naar
+de open noordoever, waar je een genaamde natie ankert op de blootgestelde kust en een
+agressie-eerst-spel speelt, landwaarts expandeert en de open oever gebruikt om de
+zeestraat-oversteekingen te schermen. De vlagloze naties veranderen de lezing in beide
+gevallen, want welke kant je ook kiest, de vlagloze natie dichtst bij jou is het
+neutrale doelwit, en de speler die hem eerst pakt krijgt een tweede economie en een
+tweede spawn die de rest van het bord dan moet betwisten. De vier stappen zijn de hele
+voorspel-beslissing op dit bord, en de speler die ze in de lobby uitvoert is de speler
+die voor de aftelling weet aan welke kant, in welke inham, op welke anker en welk
+vlagloos doelwit hij zich vastzet.
+
+## Scenario een: een vol 100-spelaars-FFA aan de westkust
+
+Het eerste scenario is het scenario dat de kaart definieert: een honderdspelaars
+free-for-all waarin je op de westkust bent geland, de standaard in een kleinere lobby
+maar hier de verkeerde inschatting. De aanname is dat je op volle dichtheid zit,
+honderd spelers op twee miljoen landtegels, en dat je een genaamde BC-natie hebt
+geankerd op de inhamrijke westkust omdat het verdedigbaar leek. Het probleem met die
+inschatting op deze dichtheid is dat de inham die je spawn verdedigt nu wordt
+betwist door zes tot acht andere spelers die dezelfde verdedigende lezing maakten, en
+het water dat je eerste muur was, nu een baan is waar iedereen om vecht. De concrete
+aanpak is de zuivere verdedigingslezing te verlaten in de eerste drie minuten. Je
+houdt je genaamde anker vast, je neemt de ene inham die hem beschermt, en je probeert
+de hele kust niet vast te houden, want de hele kust vasthouden op honderd spelers
+betekent een eenheid op elke inham, en een eenheid op elke inham is een eenheid die je
+economie niet financiert. De cijfers die hier tellen zijn de twee: je anker-natie en de
+twee genaamde buren aan beide zijden ervan. Je expandeert naar die twee, je claimt de
+haven of fabriek aan je kant voordat je een eenheid aan de inham-baan toewijst, en je
+houdt een scherm op de dichtstbijzijnde oversteeking waar de Washington-naties aan de
+Amerikaanse kant duwen. De vlagloze natie dichtst bij jou is het doelwit dat je in het
+middenspel pakt, want op honderd spelers is de vlagloze natie de een die iedereen in
+het oog houdt, en de speler die hem eerst pakt krijgt een tweede economie die de rest
+van het bord de hele wedstrijd dan besteedt aan betwisten. De mislukking hier is de
+spreiding: de speler die de inham wint en dan langs de hele kust verspreidt, geeft de
+andere spelers een gratis oversteeking door de dunne baan, en de tegenbeweging is de
+concentratie, namelijk je eenheden houden op je twee genaamde buren en het vlagloze
+doelwit en geen eenheid naar de verre kust sturen, tenzij de speler aan de verre kust
+de een is die de oversteeking financiert. De ritme hier is cruciaal: op volle dichtheid
+wint de speler die eerst zijn twee genaamde buren en het vlagloze doelwit beveiligt,
+want daarna stopt de hele kust vanzelf met het opslorpen van je tijd en kun je je
+economie laten draaien op de drie doelen die je al vasthebt. Het scenario is de hele
+grote-lobby-westkust-wedstrijd:
+houd de anker, pak het dichtstbijzijnde vlagloze doelwit, expandeer naar de twee
+genaamde buren en concentreer in plaats van te spreiden.
+
+## Scenario twee: het compacte acht-natiebord
+
+Het tweede scenario is het scenario dat de meeste spelers niet verwachten, want
+hetzelfde fysieke bord kan in de compacte kaartmodus verschijnen en zich als een
+helemaal andere wedstrijd laten spelen. De aanname is dat je in de compacte
+kaartmodus zit, die de landformule negeert en in plaats daarvan een kwart van de
+naties uit het manifest gebruikt, wat op dit bord acht naties is. Het bord is nu acht
+genaamde naties op hetzelfde eiland, wat betekent dat de breed-eilandlogica ophoudt
+met gelden en het spel wordt een dichte, acht-speler-wedstrijd waarin elke genaamde
+natie een buur is van elke andere en het binnenland vanaf de eerste minuut wordt
+geclaimd. De concrete aanpak is het tegenovergestelde van de breed-bordstandaard. Je
+ankert geen westkust-inham voor verdediging, want met acht naties zijn de inhammen
+niet verdedigend, ze zijn gewoon water tussen twee buren die allebei naar jou zullen
+duwen. Je ankert de genaamde natie met de meeste genaamde buren, de een in het midden
+van het bord, want met acht naties is het midden de economie, het midden is waar de
+havens en fabrieken clusteren, en het midden is waar de vlagloze natie zit. De cijfers
+die hier tellen zijn klein en specifiek: acht naties, een vlagloos doelwit, en de twee
+of drie genaamde naties die een grens delen met je anker. Je pakt de vlagloze natie als
+eerste, want met acht naties is het het neutrale prijs waar iedereen naar toe
+convergeert, en de speler die hem pakt krijgt een tweede spawn die de andere zeven
+dan moeten strijden om. Je expandeert naar je twee of drie genaamde buren en je
+spreidt je niet, want met acht naties is de spreiding het hele bord en er is geen
+verre kust om te negeren. De mislukking hier is de over-expansie: de speler die het
+midden pakt en dan in alle drie buren tegelijk duwt, is de speler die op twee fronten
+wordt geflankeerd, en de tegenbeweging is het vlagloze doelwit te pakken, het midden
+vast te houden, en alleen te expanderen naar de twee buren die hun eigen economie
+financieren. Dat het midden de economie is, komt doordat de havens en fabrieken op een
+acht-natiebord per definitie in het cluster zitten tussen de meeste buren, en wie dat
+cluster heeft, betaalt de laagste oversteekingskosten naar alle kanten en kan het
+vlagloze doelwit beschermen zonder extra fronten open te houden. Het scenario is de hele
+compacte wedstrijd: acht naties, pak het midden,
+pak het vlagloze doelwit als eerste, en expandeer naar twee buren, niet drie.
+
+## Foutenpatronen en tegenstanders-antiespel
+
+Het foutenpatroon dat de meeste wedstrijden op Vancouver Island beindigt is de
+spreiding, en het is dezelfde spreiding op het breed bord en het compacte bord, alleen
+op verschillende schaal. Op het breed bord is het de speler die de inham of de kust
+wint en dan eenheden verspreidt langs de hele oever in plaats van te concentreren op
+de twee of drie genaamde buren en het vlagloze doelwit, en de tegenbeweging op die
+spreiding is de concentratie, wat de reden is dat het besliskader je vraagt je anker
+en haar twee buren te noemen in plaats van de hele kust te lezen. Op het compacte bord
+is het de speler die het midden pakt en dan in alle drie buren tegelijk duwt en op
+twee fronten wordt geflankeerd, en de tegenbeweging is naar twee buren expanderen,
+niet drie. De spreiding faalt de economie ook op beide borden, want een eenheid op de
+verre kust of een derde front is een eenheid die je anker niet financiert, en de anker
+is waar de wedstrijd wordt beslist. De praktische fix is op beide schalen hetzelfde:
+houd het hoofdscherm op de genaamde buur of de inham die ertoe doet, gebruik het
+vlagloze doelwit als de tweede economie, en stuur geen eenheid naar een tweede of
+derde front, tenzij dat front de een is die de oversteeking of de push financiert.
+
+Het tweede foutenpatroon is het vlagloos-negeren, namelijk de speler die de drie
+vlagloze naties ziet en hen als onbelangrijk behandelt omdat ze geen vlag hebben,
+terwijl ze in werkelijkheid de neutrale prijs op het bord zijn en het eerste doelwit
+van de speler die het leest. De tegenbeweging op het vlagloos-negeren is de
+eerst-vlagloos-regel, namelijk de vlagloze natie dichtst bij je anker in de lobby te
+noemen en te plannen om hem in het middenspel te pakken, want de vlagloze natie is de
+tweede economie en de tweede spawn, en de speler die hem eerst pakt, heeft het meest
+betwiste prijs van het bord. Het derde foutenpatroon is het zeestraat-negeren, namelijk
+de speler die het binnenland speelt en de twee Washington-vlag-naties aan de
+Amerikaanse kant van het zeestraat vergeet, en de tegenbeweging is een scherm te houden
+op de zeestraat-oversteeking, want de Washington-naties zijn de enige buren die geen
+BC zijn en ze zijn de enige richting die je niet hebt gelezen in het kader. Het
+tegenstanders-antiespel op dit bord is de vlagloze greep, namelijk de speler of team
+dat de vlagloze natie pakt voordat jij dat kunt, en de tegenbeweging daarop is dezelfde
+eerst-vlagloos-regel, een minuut eerder uitgevoerd. De drie foutenpatronen en het een
+antiespel zijn de hele tactische inhoud van de kaart, en de speler die ze kan uitvoeren
+is de speler die het eiland wint.
+
+## Modus- en kaartaanpassingen
+
+De modus die je speelt verandert de Vancouver-Island-lezing op een klein aantal
+manieren, en de kaart zelf verandert de moduslezing op een paar erbij. De eerste
+modus aanpassing is de teamsplitsing. In een teamlobby wordt het eiland tussen twee
+teams gedeeld, en het besliskader verandert van welke kant je kiest naar hoe het team
+de kant deelt. In een honderdvijftig-teamlobby heeft elk team tot en met zeventigvijf
+spelers, wat meer is dan de tweeendertig genaamde naties, dus het team moet genaamde
+naties aan spelers toewijzen en de strijd gaat om het midden van het eiland, het
+zeestraat en het vlagloze doelwit. Het teamkader is dezelfde concentratie-logica als de
+FFA, toegepast op de helft van het bord van het team: het team ankert een stel genaamde
+naties, pakt het vlagloze doelwit aan zijn kant, en concentreert zich op het midden in
+plaats van langs de hele oever te spreiden. In een kleinere teamlobby heeft het team
+minder spelers per genaamde natie, dus het team kan meer van zijn kant dekken en het
+spreiding-falen is waarschijnlijker minder.
+
+De tweede modus aanpassing is de nucleaire gereedschappen. De havens en fabrieken aan
+de kust en de genaamde naties in het binnenland maken het zeestraat en de inhammen
+nucleaire doelen, en de nucleaire lezing op dit bord is dezelfde als op elke
+waterkaart, namelijk dat de oversteeking het doelwit is en de inham het scherm. De
+Vancouver-Island-versie is dat de inham een lange smalle waterarm is, wat een nuke op
+de inham effectiever maakt dan een nuke op open kust, want de nuke vernietigt het een
+scherm dat de verdediger in die arm heeft. De tegenbeweging op de nucleaire
+oversteeking is de tweede economie, namelijk het vlagloze doelwit en de genaamde buur,
+want de nuke vernietigt het scherm op een inham en de oversteeking moet nog steeds de
+volgende genaamde natie oversteken, dus de genaamde naties strekken de verdediging
+verder dan de straal van de nuke. De praktische nucleaire regel is het vlagloze doelwit
+en de genaamde buren levend houden, want de nuke vernietigt een scherm en de genaamde
+naties stoppen de oversteeking.
+
+De derde modus aanpassing is de Doomsday Clock. De Doomsday Clock op dit bord is
+dezelfde als op elke kaart, namelijk dat de onder-de-vijfentwintig-procent-kant
+strijdt om de golf te overleven, maar de Vancouver-Island-lezing is dat de onderkant
+meestal de kant zonder het vlagloze doelwit is, want de kant zonder het vlagloze
+doelwit is de kant zonder de tweede economie. De Doomsday-lezing is dezelfde als de
+concentratie-lezing, namelijk dat de kant met het vlagloze doelwit de kant is die tot
+de laatste economie door kan expanderen, dus de onderkant moet de vlagloze kant
+dwingen eenheden te besteden aan het scherm. De kaartaanpassing is dezelfde als de
+modusaanpassing, want het breed bord is de modus op dit eiland, en de modus verandert
+de lezing van de drie dingen boven, de teamsplitsing, de nucleaire gereedschappen en
+de Doomsday Clock. De speler die zowel de modus als de kaart kan lezen, is de speler
+die het eiland correct speelt, en het eiland is de een die de wedstrijd beslist.
+
+## Wat je meeneemt naar je volgende wedstrijd
+
+De enige kernboodschap van Vancouver Island is dat het bord breed is en de beslissing
+de kant is, en de kant wordt bepaald door de laag. De kaart is twee miljoen landtegels
+met tweeendertig genaamde naties en drie vlagloze, en de wedstrijd wordt beslist door
+aan welke kant van het eiland je je vastzet voordat de aftelling eindigt. Het
+besliskader is het gereedschap, namelijk de laag lezen, de kanten lezen, de inhammen
+lezen en de genaamde anker lezen, en de scenarios zijn de twee manieren waarop de
+wedstrijd zich afspeelt, de honderdspelaars-FFA aan de westkust en het compacte
+acht-natiebord. De foutenpatronen zijn de drie manieren waarop de wedstrijd verloren
+gaat, de spreiding, het vlagloos-negeren en het zeestraat-negeren, en het antiespel is
+de een manier waarop de tegenstander wint, de vlagloze greep. De modus- en
+kaartaanpassingen zijn het laatste stuk, namelijk dat de modus verandert hoe het team
+de kant deelt en hoe de nucleaire gereedschappen en de Doomsday Clock gelezen worden,
+en de kaart verandert waar de kanten, de inhammen en de genaamde anker zitten.
+
+Voor de bredere systemen waar deze opening op inspeelt: de [lobbygrootte-kaartgedreven
+gids](/guides/lobby-size-map-driven/) dekt de landformule en de laagtabel af die deze
+gids op Vancouver Island toepast, de [kaartstrategie-gids](/guides/map-strategy/) dekt
+verbonden land- en waternetwerken af op elk bord, de [eilandverdedigingsgids](/guides/island-defense/)
+dekt af hoe je een spawn scherm en wanneer een onverbonden zee-route betekent dat je
+terug moet vallen op land, de [bevolkingsgroeigids](/guides/population-growth/) dekt de
+economie af die de anker en de twee genaamde buren financiert, en de
+[marine-stalemate- en blokkadegids](/guides/naval-stalemate-blockade-anti-blockade/)
+dekt af hoe je een oversteeking vasthoudt wanneer de vijand probeert hem te ontzeggen.
+Breng die in dezelfde beslissing, en de Vancouver-Island-opening is geen gok meer over
+welke kant van het eiland centraal lijkt, maar een plan over welke kant, in welke
+inham, op welke anker en welk vlagloos doelwit je je vastzet voordat de aftelling
+eindigt, wat de enige tijd is waarop alles nog in jouw hand is. Het bord is breed
+genoeg dat een verkeerde kant even te herstellen is, maar de inhammen maken de
+correctie een oversteeking, en oversteekingen kosten tijd en een eenheid die je je
+misschien niet kunt veroorloven als je je vroege spel al hebt verbrand op een slechte
+start, waarom de spelers die op deze kaart winnen, meestal de spelers zijn die de laag
+en de kant zorgvuldig hebben gelezen en zich hebben vastgezet op een genaamde anker met
+een genaamde inham en een vlagloos doelwit, niet de spelers die instinctief de
+vertrouwde kant pikten en dan de oversteeking moesten improviseren.
