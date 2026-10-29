@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-10-28。
+更新日期：2026-10-30。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -33,10 +33,10 @@
 
 ## 最新来源锚点
 
-- 正式 Release 游标：[`v0.35.6`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6)，tag commit `9f4a28f16fae951df0daf727e5e64b34ce8b77d1`；API 发布时间为 2026-10-27T21:30:07Z，非 TEST、非预发布。五语 [v35.6 主答案维护](research/2026-10-28-v356-release-maintenance.md) 成功部署即完成并转 Monitoring：同步大厅加入画面修复、小屏首页、Poki 集成准备和 Terms 的扩展说明；不把准备写成全面开放，不推导扩展批准清单。五语首页最新摘要与入口同步，保留 v35.5 与 v35.4 历史边界。仅新正式变化、确认错误或自身完整 final 窗口触发重开。
+- 正式 Release 游标：[`v0.35.7`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.7)，tag commit `c144d134d1503191b4c3fd9a866fc583b9ecea4a`；API 发布时间为 2026-10-29T18:41:06Z，非 TEST、非预发布。五语 [v35.7 主答案维护](research/2026-10-30-v357-release-maintenance.md) 成功部署即完成并转 Monitoring：同步独立地图 Tutorial、Poki/CrazyGames 新玩家教程入口、氏族 Map 页 alpha、加载失败反馈及外观 AI 标签。保留 alpha 与 unknown 边界，不推导领土奖励、强制所有玩家重学或所有加载故障已解决。五语首页最新摘要与入口同步，历史补丁保留各自边界。仅新正式变化、确认错误或自身完整 final 窗口触发重开。
 - 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级。
 - 改键维护：[五语正式版操作边界](research/2026-10-21-stable-controls-maintenance.md) 发布即完成并转 Monitoring；速查页和训练页同步 X 全舰队、F 表情、R 快捷聊天及自定义绑定优先。只核验本轮所改操作，核武数值保留原引用边界；下次由正式操作变化、已确认错误或完整 GSC final 窗口触发。
-- 上游 `main` 独立游标：`619941eaa45ef068056c45488a9fd8eff7c49a8a`；2026-10-28 已用 GitHub REST 核验，未发布提交只作未来版本线索。
+- 上游 `main` 独立游标：`d968c421dc25159f884182e6a22c129b9cdd0a53`；2026-10-30 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 禁运答案维护：[五语事实修正与重复路由合并](research/2026-10-23-embargo-answer-maintenance.md) 发布即完成并转 Monitoring；唯一主答案保留 `guides/embargo-timing-and-trade-control/`，新 v35 重复路由跳转到对应语言。下次仅由相关正式规则变化、事实错误或其自身完整 GSC final 窗口触发。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。

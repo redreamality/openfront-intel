@@ -6,31 +6,31 @@ const homepageCases = [
     lang: 'en',
     path: '/',
     prefix: '/',
-    latestSignal: 'join screen',
+    latestSignal: 'Tutorial',
   },
   {
     lang: 'zh',
     path: '/zh/',
     prefix: '/zh/',
-    latestSignal: '跳过加入画面',
+    latestSignal: 'Tutorial',
   },
   {
     lang: 'fr',
     path: '/fr/',
     prefix: '/fr/',
-    latestSignal: 'participation',
+    latestSignal: 'Tutorial',
   },
   {
     lang: 'de',
     path: '/de/',
     prefix: '/de/',
-    latestSignal: 'Beitrittsbildschirm',
+    latestSignal: 'Tutorial',
   },
   {
     lang: 'nl',
     path: '/nl/',
     prefix: '/nl/',
-    latestSignal: 'deelnamescherm',
+    latestSignal: 'Tutorial',
   },
 ] as const;
 
@@ -73,6 +73,7 @@ for (const homepageCase of homepageCases) {
     }
     await expect(links.first()).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(links.first()).toContainText(homepageCase.latestSignal);
+    await expect(links.first()).toContainText('alpha');
 
     const contentOrder = await main.evaluate((element) =>
       [...element.querySelectorAll('[data-home-priority], [data-home-browse], [data-home-reference]')].map((section) => {

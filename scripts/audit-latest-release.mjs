@@ -203,7 +203,15 @@ for (const contract of contracts) {
     ['v35.6 Poki preparation boundary', /Poki/.test(body) &&
       /preparation|准备工作|préparation|Vorbereitung|Voorbereiding/i.test(body)],
     ['v35.6 extension notice', /unapproved extensions|未经批准的扩展|extensions non approuvées|nicht genehmigte Erweiterungen|niet-goedgekeurde extensies/i.test(body)],
-    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5', 'v0.35.6'].every(
+    ['v35.7 tutorial and portal onboarding', ['Tutorial', 'Poki', 'CrazyGames'].every(
+      (name) => sections[0]?.content.includes(name),
+    )],
+    ['v35.7 clan map alpha', /\bMap\b.*alpha|alpha.*\bMap\b/is.test(sections[0]?.content ?? '')],
+    ['v35.7 cosmetic disclosure labels', ['No AI used', 'AI use unknown', 'Made with AI assistance'].every(
+      (label) => body.includes(label),
+    )],
+    ['v35.7 loading failure feedback', /error message|错误消息|message d'erreur|Fehlermeldung|foutmelding/i.test(sections[0]?.content ?? '')],
+    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5', 'v0.35.6', 'v0.35.7'].every(
       (tag) => body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`),
     )],
     ['canonical category', frontmatterValue(frontmatter, 'category') ===

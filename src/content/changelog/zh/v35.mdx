@@ -1,15 +1,17 @@
 ---
-title: 'OpenFront v35.6：大厅加入与小屏布局修复'
-description: 'OpenFront v35.6 版本笔记：修复过早点击大厅跳过加入画面，小屏首页更紧凑，说明 Poki 集成准备及未经批准扩展的公告边界。'
+title: 'OpenFront v35.7：引导教程与氏族地图 alpha'
+description: 'OpenFront v35.7 版本笔记：独立地图 Tutorial、氏族领土地图 alpha、加载失败错误提示与更明确的外观 AI 使用标签。'
 pubDate: 2026-10-17
-updatedDate: 2026-10-28
+updatedDate: 2026-10-30
 version: v35
 releaseStatus: released
 tags: [changelog, balance, features]
 category: 版本笔记
 ---
 
-## 直接答案：OpenFront v35.0 到 v35.6 改了什么？
+## 直接答案：OpenFront v35.0 到 v35.7 改了什么？
+
+**v35.7 增加独立地图的引导式 Tutorial，并在氏族菜单的 Map 标签页开放氏族领土地图（alpha）。** 2026 年 10 月 29 日发布的官方 [v0.35.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.7) 说明，Poki 与 CrazyGames 的新玩家会先进入教程，练习出生、扩张、兵力与第一次攻击。加入大厅或启动单人游戏加载失败时，现在会显示错误消息，取代反复退回菜单。商店外观也会显示“No AI used”或“AI use unknown”，不再仅有“Made with AI assistance”。
 
 **v35.6 修复了页面刚加载就点击大厅，有时会跳过加入画面直接进入对局的问题。** 2026 年 10 月 27 日发布的官方 [v0.35.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6) 还为 Poki 集成做准备，包括让小屏幕首页更紧凑。这是准备工作，不代表已向所有 Poki 玩家全面开放。公告同时说明，Terms 澄清了不允许使用未经批准的扩展。
 
@@ -28,6 +30,10 @@ v0.35.0 的前期经济加速针对只有少量港口或工厂的玩家，提高
 v0.35.0 引入可跳转的回放，但最初默认关闭并逐步开放；v0.35.3 允许在对局处理尚未完成时观看，不代表所有账户会在同一天看到相同入口。该补丁还改善临时 XP 展示、增加地图装饰层开关并修复移动端攻击比例滑杆。它们解决的玩家问题各不相同，不能用一句“全面增强”代替具体边界。
 
 ## 下一局应该怎样改变决策？
+
+刚接触操作时，先选择 Tutorial，在独立地图练习出生、扩张、兵力与首次攻击，再进入对局。Poki 与 CrazyGames 的新玩家从这里开始，不代表所有平台的老玩家都必须重复教程。接下来用[第一局步骤](/zh/guides/first-match/) 继续练习预备队与后续决策。
+
+查看氏族领土时，打开氏族菜单的 Map 标签页，并记住它仍是 alpha。公告没有定义领土计分、奖励或刷新间隔。加入大厅或开始单人游戏加载失败时，先读错误消息；此反馈不保证所有加载原因已消除，也不能把回到菜单理解成完成了一局。商店的“AI use unknown”表示使用情况未知，不能当成“No AI used”。
 
 如果习惯首页刚加载就点击大厅，v35.6 针对的是偶尔跳过加入画面的问题；进入对局前仍先看清大厅信息。小屏幕首页会更紧凑，它与 v35.5 的 Solo 页面铺满窗口是两项变化。Poki 集成准备的描述，不足以证明每个门户会话都已经切换。
 
@@ -51,7 +57,9 @@ v0.35.0 引入可跳转的回放，但最初默认关闭并逐步开放；v0.35.
 
 ## 来源状态、补丁边界与后续阅读
 
-本页最新正式边界为 2026 年 10 月 27 日发布的 [v0.35.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6)。其新增部分包括 Poki 集成准备、小屏首页、加入画面修复，以及 Terms 对未经批准扩展的澄清。该部分没有列出战斗或经济平衡调整、扩展批准清单，也没有宣布 Poki 已全面开放；下方较早补丁继续保留各自版本边界。
+本页最新正式边界为 2026 年 10 月 29 日发布的 [v0.35.7 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.7)。四项新增内容是氏族 Map 页 alpha、引导式 Tutorial 与门户新玩家入口、加载失败反馈、外观 AI 标签；没有宣布战斗或经济平衡调整。氏族地图公告没有定义领土规则，外观标签也不是独立审计保证。
+
+2026 年 10 月 27 日发布的 [v0.35.6 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.6) 包括 Poki 集成准备、小屏首页、加入画面修复，以及 Terms 对未经批准扩展的澄清。它当时没有宣布 Poki 全面开放。v35.7 的 Poki、CrazyGames 新玩家教程入口是后续的特定变化，不能推导其他门户功能全部可用；较早补丁继续保留各自版本边界。
 
 2026 年 10 月 26 日发布的 [v0.35.5 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.5)，除团队出生、河流、小窗口、排行榜默认值和门户设置外，还说明服务端安全改善，以及隐私政策新增其使用的哈希网络标识披露。正文没有给出保留时长，也不能据此推断匿名性。公共大厅地图轮换可不随版本发布调整，因此仅凭 tag 不能确认当前线上地图权重。
 

@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-10-30 版本维护测试定位复发**：搜索时猜测 `e2e/layout.spec.ts`，`rg` 报 os error 2；从真实 `e2e` 目录枚举后定位 `mobile-navigation.spec.ts`、`first-match-recovery.spec.ts` 等现有测试。其他有效匹配不能抵消路径失败，须保留该失败并按真实文件恢复。未修改 AGENTS.md。
+
 - **2026-10-28 版本维护读取恢复**：直接猜测 `src/components/HomeLatest.astro` 和 `e2e/latest-release.spec.ts` 均报路径不存在；实际首页摘要在 `HomePriorityPaths.astro`，正式版本断言在 `content-integrity.spec.ts`。用 `rg --files` 及从真实目录检索配置引用定位后恢复，未修改 AGENTS.md。
 
 - **2026-10-27 首页版本响应路径复发**：`rg` 的路径参数误写 `src/components/HomeLatest*`，触发 os error 123；恢复为真实目录 `src/components` 配合 `--glob 'Home*.astro'` 后取得首页组件，未影响内容。沿用现有通配路径规则，不修改 AGENTS.md。
