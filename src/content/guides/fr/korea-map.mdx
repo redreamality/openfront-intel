@@ -1,0 +1,369 @@
+---
+title: "La carte de la Corée : la péninsule à deux côtes, les îles japonaises détachées et la ligne qui décide de votre camp"
+description: "Un cadre de décision pour la carte de la Corée : la péninsule verticale à deux côtes, les trois îles japonaises détachées au sud-est, la ligne de spawn d'équipe à y=1210 qui divise le plateau, et l'axe à privilégier avant la fin du compte à rebours."
+pubDate: 2026-10-29
+updatedDate: 2026-10-29
+tags: [maps, korea, asia, spawn, team-mode, nations, islands]
+category: Guide
+difficulty: Avancé
+version: v0.35.0
+freshnessSummary: "Vérifié le 2026-10-29 sur le curseur de release formelle v0.35.6, le manifest de carte amont officiel au commit f33d00490 (grille 1 088 × 2 188, 782 048 tuiles de terre, 32 nations : 17 sud-coréennes, 12 nord-coréennes, 3 japonaises ; team_frequency 10 / multiplayer_frequency 5 ; rectangles de spawn d'équipe à y=0-1210 et y=1210-2188), les notes de version v0.35.6 et les PR amont v0.35 citées ; questions communautaires tirées de r/Openfront et des tutoriels YouTube OpenFront."
+---
+
+## La Corée en soi
+
+**Réponse directe.** La Corée est une péninsule verticale à deux côtes, avec un archipel
+japonais détaché dans le coin sud-est et une unique ligne de spawn d'équipe au repère
+y=1210. Engagez-vous sur la côte où vous apparaissez avant la fin du compte à rebours,
+tenez une nation nommée plus ses deux voisines les plus proches, et traitez les trois
+îles japonaises comme un trophée séparé à remporter, non comme un troisième front où
+se disperser. Lisez d'abord la division en deux équipes, car la ligne de spawn place la
+côte sud et les îles dans une équipe et l'ensemble de la Corée du Nord dans l'autre.
+
+La Corée est la carte régionale qui fait basculer le plateau sur le flanc. C'est une
+longue péninsule étroite, large de 1 088 pixels et haute de 2 188 pixels, avec
+782 048 tuiles de terre sous le manifest actuel. La plupart des cartes du jeu sont
+larges ; celle-ci est profonde, et c'est la profondeur qui compte. La vraie décision
+sur la Corée n'est pas quelle nation choisir ni quel bâtiment acheter, c'est laquelle
+des deux côtes opposées vous engagez avant la fin du compte à rebours, et comment vous
+jouez les trois axes du plateau : la côte sud et son amas de villes, l'archipel japonais
+détaché au sud-est, et les terres intérieures de la Corée du Nord en face, de façon à
+ce qu'un mauvais choix reste récupérable au lieu d'être fatal. La carte est assez
+étroite pour qu'une erreur sur un front soit une erreur sur tous les fronts, et c'est
+précisément pour cela que le cadre ci-dessous, qui nomme l'ancre et les deux voisines,
+fait la différence entre une partie perdue et une partie sauvée. Ce guide suppose que
+vous connaissez déjà le rythme de spawn, l'économie du Port et de l'Usine, et la boîte
+à outils du Poste de défense et du Navire de guerre ; il ne couvre que ce que la forme
+de la Corée impose et que les guides génériques ne traitent pas.
+
+La frontière de version est la série v0.35, et le curseur de release formelle actuel
+est v0.35.6. La Corée est une carte régionale héritée qui précède le nouveau lot de
+cartes v0.35, de sorte que sa géométrie de manifest n'a pas changé au cours de la
+série ; la largeur, la hauteur, les tuiles de terre, la liste des nations, les drapeaux
+et les rectangles de spawn d'équipe sont stables de la première release v0.35 jusqu'à
+v0.35.6. Ce que v0.35 a changé et qui affecte le jeu sur la Corée, c'est l'IA
+nationale, qui réplique désormais plus fort, relance sur les têtes de pont et cible
+les frappes nucléaires de façon plus intelligente, et la règle d'annexion territoriale
+nucléaire, qui permet de saisir un morceau de territoire qu'une ogive a séparé du corps
+principal de son propriétaire. Ce sont des changements au niveau du mode, pas des
+changements de forme de carte, et la section mode ci-dessous les couvre à leur place.
+Chaque chiffre de ce guide, la grille 1 088 × 2 188, les 782 048 tuiles de terre, la
+division en 32 nations soit 17 sud-coréennes, 12 nord-coréennes et 3 japonaises, et la
+division d'équipe à y=1210, est lu directement du manifest au commit f33d00490, et la
+release v0.35.6 est celle par rapport à laquelle ces chiffres sont vérifiés.
+
+![Carte de la Corée (série v0.35), image de carte officielle du manifest amont, AGPLv3.](/images/maps/korea-v0.35.webp)
+
+## L'étroitesse est la décision
+
+Le fait le plus important sur la Corée, c'est qu'elle est étroite, et c'est
+l'étroitesse qui transforme l'engagement d'axe en une vraie décision plutôt qu'en un
+tirage au sort. Avec 2 188 pixels de hauteur pour seulement 1 088 de largeur, la
+Corée est l'opposé des grandes cartes insulaires ; on ne peut pas se cacher derrière
+un grand plateau, et chaque front reste à portée de tous les autres fronts à travers
+la péninsule. Les 782 048 tuiles de terre la placent dans la partie basse de la gamme
+de dimensionnement par volume de terre qui a remplacé l'ancien plafond fixe. Cela
+signifie que la Corée tire un lobby plus petit ou moyen que les cartes massives riches
+en terre et plus grand que les cartes riches en eau, et la densité de nations nommées
+par tuile de terre est élevée : trente-deux nations sur une bande profonde mais étroite,
+de sorte qu'une large part des nations nommées de chaque partie est tassée dans le
+tiers central de la péninsule où les deux côtes sont les plus proches.
+
+L'étroitesse a trois conséquences autour desquelles le cadre ci-dessous est construit.
+La première est qu'une côte mal choisie n'est pas une petite erreur ; si vous vous
+engagez sur la côte sud et que l'équipe nord lit la péninsule, la correction n'est
+pas un déplacement latéral, c'est une poussée sur toute la longueur de la bande, et
+sur un plateau aussi profond cette poussée coûte la majorité de la partie. La deuxième
+est que les deux côtes ne sont pas des économies indépendantes ; le tiers central de la
+péninsule les relie, donc un joueur qui possède le milieu possède simultanément les
+frontières des deux côtes, ce qui explique pourquoi le milieu est le premier trophée
+contesté. La troisième est que les îles détachées sont assez loin au sud-est pour
+constituer un axe séparé avec leur propre route maritime, et l'étroitesse signifie que
+les îles sont la seule partie du plateau où l'on peut ouvrir un second front sans qu'il
+se déverse sur le front principal. Les trois axes, la côte sud, les terres intérieures
+du nord et les îles, constituent la totalité de la géographie de la Corée, et le cadre
+ci-dessous est un moyen de s'engager sur l'un d'eux avant la fin du compte à rebours.
+
+La lecture pratique consiste à traiter l'étroitesse comme un chronomètre. Sur une
+carte large, on a la place d'improviser quel côté jouer ; sur la Corée la place est la
+largeur d'une péninsule, donc le côté sur lequel on s'engage au compte à rebours est le
+côté qu'on joue pour toute la partie, et la seule correction sûre est celle qui ne
+requiert pas un franchissement du tiers central. C'est pour cela que le cadre nomme
+l'ancre et les deux voisines avant de nommer la côte, parce que l'ancre est le point de
+la péninsule qui reste à vous si la côte se retourne contre vous, et les deux voisines
+sont les flancs qui gardent l'ancre défendable des deux côtés. Lisez l'étroitesse une
+fois, nommez l'ancre, et la côte se décide d'elle-même.
+
+## La couche de nations : trois axes, trente-deux nations
+
+Les 32 nations de la Corée se divisent en trois axes, et cette division est la carte.
+Le tableau ci-dessous est la couche de nations complète, lue du manifest au commit
+f33d00490.
+
+| Axe | Nations | Géographie | Économie | Première décision |
+|---|---|---|---|---|
+| Corée du Sud (kr) | 17 | deux tiers inférieurs, côtes est et ouest | côtière, accès au Port | ancrer une ville côtière |
+| Corée du Nord (kp) | 12 | tiers supérieur, intérieur et montagneux | intérieur, espacement d'Usine | tenir le cœur montagneux |
+| Japon (jp) | 3 | détachées, coin sud-est | exclusivement insulaire, route maritime | remporter ou abandonner le franchissement |
+
+Les 17 nations sud-coréennes occupent les deux tiers inférieurs de la péninsule et
+portent l'amas de villes le plus dense : Seoul, Incheon, Busan, Daegu, Daejeon, Gwangju
+et les provinces environnantes jusqu'à Ulsan sur la côte est et Jeju au large de
+l'extrémité sud. C'est l'axe avec le plus d'accès au Port et le plafond de revenus le
+plus haut, parce que les villes sont sur les deux côtes et que le tiers central est
+assez large pour les alimenter. Les 12 nations nord-coréennes occupent le tiers
+supérieur et sont montagneuses et intérieures, centrées sur Pyongyang avec les
+provinces de Hamgyong, Pyongan, Hwanghae, Chagang et Kangwon autour ; c'est l'axe avec
+le moins d'eau et l'espacement d'Usine le plus grand, et c'est l'axe qui défend le cœur
+montagneux plutôt que la côte. Les 3 nations japonaises, Fukuoka, Saga et Nagasaki,
+sont les îles détachées dans le coin sud-est ; elles sont la seule partie du plateau
+non reliée à la péninsule par la terre, et elles sont assez éloignées du continent pour
+constituer un axe séparé avec leur propre route maritime et leur propre économie.
+
+La division compte parce qu'elle n'est pas égale. Le sud a 17 nations nommées contre
+12 pour le nord, et les nations nommées du sud sont les villes côtières qui portent
+les revenus, donc le sud est l'axe plus riche par construction et le nord est l'axe
+plus défendable par construction. Les nations nommées du sud ne sont pas non plus
+réparties uniformément ; l'amas de villes est le plus dense sur la côte ouest et dans
+le tiers central, donc deux joueurs qui apparaissent près de Seoul ou d'Incheon se
+battent pour les mêmes villes à hauts revenus tandis que les provinces de la côte est
+près d'Ulsan sont l'expansion moins chère et plus défendable pour le joueur qui veut
+grandir sans guerre de frontière. Les 12 nations nommées du nord sont plus uniformes
+mais plus isolées ; les provinces montagneuses signent qu'un joueur nord qui prend
+Pyongyang peut la tenir contre une petite poussée mais ne peut pas alimenter une longue
+guerre, donc l'économie du nord est une économie de défense, pas une économie
+d'expansion. C'est la totalité de la forme politique de la carte : le camp avec les
+villes a l'argent, le camp avec les montagnes a la défense, et les îles sont le trophée
+séparé que n'importe quel camp peut prendre s'il est prêt à payer le franchissement.
+Le tableau est la carte, et le reste du guide est la décision qu'elle impose.
+
+## Cadre de décision : nommez l'ancre avant de nommer la côte
+
+Le cadre est une séquence de trois lectures que vous exécutez avant la fin du compte
+à rebours, et le point de la séquence est que la côte est la dernière chose que vous
+décidez, pas la première. La première lecture est l'axe : lequel des trois axes, la
+côte sud, les terres intérieures du nord ou les îles, est celui sur lequel votre spawn
+vous pose. La deuxième lecture est l'ancre : la seule nation nommée sur cet axe qui est
+la plus forte économie et la position la plus défendable, la ville côtière avec accès
+au Port si vous êtes au sud, ou le cœur montagneux avec espacement d'Usine si vous
+êtes au nord. La troisième lecture est les deux voisines : les deux nations nommées
+les plus proches de l'ancre, qui sont les flancs que vous devez garder défendables et
+les directions dans lesquelles vous ne devez pas envoyer d'unités tant que l'ancre
+n'est pas sûre des deux côtés.
+
+La règle dans laquelle les trois lectures se condensent est la règle en une phrase de
+la Corée : engagez-vous sur la côte où se trouve votre ancre, tenez l'ancre plus les
+deux voisines, et n'envoyez pas une unité sur un troisième front tant que l'ancre
+n'est pas défendable sur les deux flancs. La règle fonctionne parce que l'ancre est le
+point qui reste à vous si la côte se retourne contre vous, et les deux voisines sont
+les flancs qui empêchent l'ancre d'être enveloppée. Si vous nommez l'ancre en premier
+et que la côte suit, une côte mal choisie est récupérable, parce que vous tenez encore
+l'ancre et la correction est un mouvement de flanc, pas un franchissement du tiers
+central. Si vous nommez la côte en premier et que l'ancre suit, une côte mal choisie
+est fatale, parce que vous vous êtes dispersé le long de la côte et l'ancre est ce qui
+reste, qui est généralement la nation nommée la plus faible du plateau.
+
+Le cadre vous dit aussi quand briser la règle. La règle dit de tenir l'ancre plus les
+deux voisines et de n'ouvrir pas un troisième front, et les deux cas où vous la brisez
+sont les deux cas où le troisième front est l'axe et non un flanc. Le premier est quand
+vous êtes au sud et que les îles sont inoccupées, parce que les îles sont l'axe séparé
+et les prendre est une deuxième économie, pas un troisième front qui se déverse sur
+le front principal. Le deuxième est quand vous êtes au nord et que le tiers central est
+le trophée contesté, parce qu'au nord le tiers central est la seule route vers les
+villes du sud, et le tenir est la version nord du fait de tenir l'ancre. Dans les deux
+cas la règle est la même, engagez-vous sur l'ancre et les deux voisines, et seulement
+quand c'est sûr vous atteignez l'axe. Le cadre est l'outil, et les scénarios ci-dessous
+sont les deux façons dont la partie se joue quand vous l'exécutez.
+
+## Scénario un : une FFA de taille moyenne sur la côte sud
+
+Le scénario un est la FFA de taille moyenne où vous apparaissez sur la côte sud, et
+l'objectif est de montrer le cadre sur l'axe plus riche. Vous êtes l'un des petits
+lobbys que la Corée tire, appelons-le une FFA de cinquante joueurs, et vous
+apparaissez sur la côte est près d'Incheon ou de Busan, ce qui vous place sur l'axe
+sud et sur la côte avec le plus d'accès au Port. Le cadre nomme l'ancre comme la ville
+côtière la plus proche de votre spawn, Incheon ou Busan, et les deux voisines comme
+les provinces de part et d'autre, le Nord Gyeongsang à l'est et les provinces de la
+côte ouest à l'ouest. La première décision est l'ancre : vous prenez la ville nommée,
+puis vous prenez les deux provinces nommées, et seulement alors vous atteignez le
+tiers central de la péninsule, qui est le premier trophée contesté parce qu'il relie
+les deux côtes.
+
+Les chiffres dans ce scénario sont ceux qui le décident. L'axe sud a 17 nations
+nommées, donc une FFA de cinquante joueurs au sud est une lutte pour une large part
+des villes nommées, et le plafond de revenus est fixé par combien d'entre elles vous
+tenez en mi-partie. Le tiers central est le trophée contesté parce qu'il est la seule
+route entre les deux côtes, et le joueur qui le possède possède les deux frontières en
+même temps. Les îles sont le second axe, et dans ce scénario la décision est de les
+remporter, parce que vous êtes au sud et que les îles sont l'économie séparée qui ne
+se déverse pas sur votre front principal. Le franchissement vers les îles est une route
+maritime, et le coût est l'écran de Navire de guerre et l'atterrissage de transport,
+donc le scénario est : ancrer la ville, prendre les deux provinces, tenir le tiers
+central, puis envoyer la deuxième économie vers les îles. L'hypothèse est que vous
+n'êtes pas le joueur le plus fort au sud, parce que si vous l'êtes, le scénario est le
+même sauf que les îles sont un bonus au lieu d'une lutte, et l'ancre et les deux
+voisines sont les mêmes dans les deux cas. L'échec que ce scénario existe pour empêcher
+est le joueur qui s'engage sur la côte et se disperse sur toute la rive, parce que sur
+un plateau aussi étroit cette dispersion est la perte, et l'ancre plus les deux
+voisines est la seule façon que le sud reste à vous.
+
+## Scénario deux : la division en deux équipes à y=1210
+
+Le scénario deux est le lobby en deux équipes, qui est le mode où la division de la
+Corée devient la partie. Les rectangles de spawn d'équipe du manifest sont le
+rectangle supérieur de y=0 à y=1210 et le rectangle inférieur de y=1210 à y=2188, et
+les coordonnées des nations placent la côte sud et les trois îles japonaises dans le
+rectangle inférieur et l'ensemble de la Corée du Nord dans le rectangle supérieur.
+Cela signifie que la division en deux équipes n'est pas un tirage au sort entre deux
+moitiés aléatoires ; c'est une division d'axe propre où une équipe obtient la côte
+sud et les îles, 20 nations nommées, et l'autre équipe obtient les terres intérieures
+du nord, 12 nations nommées. Vous ne choisissez pas votre camp contre 50 joueurs
+aléatoires ; vous le choisissez contre une équipe cohérente qui possède tout le nord ou
+tout le sud.
+
+Les chiffres dans ce scénario sont la division elle-même. L'équipe un a l'axe sud
+plus les îles, soit 20 nations nommées et les revenus les plus riches, et l'équipe deux
+a les terres intérieures du nord, soit 12 nations nommées et la défense montagneuse.
+La ligne de spawn à y=1210 est la frontière de la partie, et l'ensemble du tiers
+central de la péninsule est le front contesté entre les deux équipes. Les îles sont du
+côté de l'équipe un, donc dans la division en deux équipes l'équipe sud a la deuxième
+économie et l'équipe nord a la défense, et la partie est un front continu unique sur
+la péninsule avec les îles comme axe secondaire. Le cadre de décision en mode équipe
+est la même logique de concentration appliquée à la moitié de l'équipe : l'équipe ancre
+un ensemble de nations nommées, tient les deux voisines, et se concentre sur le tiers
+central au lieu de se disperser sur toute la côte. L'hypothèse est que votre équipe est
+l'équipe sud, parce que si vous êtes l'équipe nord le scénario a la même forme
+inversée, la défense devient le front et le tiers central devient la seule route vers
+les villes du sud. La division 20 à 12 est la totalité de la partie de la Corée en deux
+équipes, et c'est un déséquilibre structurel, pas une question d'équité : l'équipe un
+a plus de nations nommées et la deuxième économie, et l'équipe deux a la défense et la
+frontière plus courte à tenir. La version équipe du cadre est l'ancre, les deux
+voisines et l'axe, appliqués à toute l'équipe plutôt qu'au joueur unique, ce qui
+signifie que l'équipe doit nommer sa nation ancre et ses deux nations voisines de la
+même façon que le joueur FFA les nomme, et l'équipe qui les nomme en premier gagne le
+tiers central. L'échec que ce scénario existe pour empêcher est l'équipe qui se
+disperse sur toute sa moitié, parce que le tiers central est le trophée et la
+dispersion est la perte. La division en deux équipes à y=1210 est le seul mode où la
+décision de la Corée est la moins personnelle et la plus structurelle, et le joueur qui
+peut lire la division 20 à 12 sait de quel côté de la péninsule la partie est décidée.
+
+## Modes d'échec et contrefou de l'adversaire
+
+Les modes d'échec sur la Corée sont trois, et ce sont tous le même échec avec un nom
+différent, l'échec de s'engager sur une côte avant de s'engager sur une ancre. Le
+premier est l'engagement de côte, qui est le joueur qui choisit le sud parce qu'il
+paraît riche et se disperse sur toute la rive, et le contrefou est l'ancre plus les
+deux voisines, qui est la seule forme qui garde le sud défendable sur les deux flancs.
+La raison pour laquelle l'engagement de côte est si courant est que la côte sud paraît
+la côte la plus riche du plateau et le joueur veut les revenus, mais les revenus
+n'existent que si vous tenez encore l'ancre, et se disperser le long de la rive donne
+les revenus au voisin pendant que vous possédez les nations nommées plus faibles. Le
+deuxième est la négligence des îles, qui est le joueur au sud qui traite les trois
+îles japonaises comme sans importance parce qu'elles sont détachées, alors qu'elles sont
+en fait la deuxième économie séparée et le premier trophée du joueur qui lit le
+plateau, et le contrefou est la règle de l'axe, qui est de nommer les îles comme
+deuxième économie et de planifier le franchissement avant la fin du compte à rebours.
+Les îles sont faciles à négliger parce qu'elles sont la petite partie du plateau, trois
+nations nommées contre dix-sept du sud, et le franchissement paraît coûteux, mais la
+deuxième économie est le trophée qui gagne la partie quand les deux joueurs tiennent
+le continent. Le troisième est l'excès d'extension, qui est le joueur qui tient le
+tiers central et atteint vers les îles en même temps, et le contrefou est la règle des
+deux voisines, qui est de garder les deux flancs sûrs avant que le second front soit
+ouvert. L'excès d'extension est l'échec qui ressemble le plus à une victoire dans le
+lobby, parce que le joueur qui tient le tiers central et les îles contrôle tout le
+plateau, mais c'est la forme la plus fragile sur une péninsule étroite, parce que les
+deux flancs sont les deux côtés que l'ennemi peut frapper pendant que vous êtes occupé
+sur les îles.
+
+Le contrefou de l'adversaire que les trois échecs alimentent est la saisie d'axe, qui
+est le joueur ou l'équipe qui prend l'axe contesté avant vous. Au sud la saisie d'axe
+est le joueur qui prend le tiers central en premier, parce que le tiers central est la
+seule route entre les côtes et le joueur qui le possède possède les deux frontières.
+Au nord la saisie d'axe est le joueur qui prend le cœur montagneux en premier, parce
+que le cœur est la défense et le joueur qui le possède possède le tiers supérieur. Sur
+les îles la saisie d'axe est le joueur qui franchit en premier, parce que les îles sont
+l'économie séparée et le joueur qui remporte le franchissement possède le second axe.
+Le contrefou à la saisie d'axe est le même cadre exécuté une minute plus tôt, qui est
+de nommer l'ancre et les deux voisines dans le lobby pour que l'axe soit déjà sur votre
+plan quand le compte à rebours finit. Les trois échecs et les trois saisies d'axe sont
+la totalité du contenu tactique de la Corée, et le joueur qui peut exécuter le cadre
+est le joueur qui gagne la péninsule.
+
+## Ajustements de mode et de carte
+
+Le mode que vous jouez change la lecture de la Corée de plusieurs façons, et la carte
+elle-même change la lecture du mode de quelques autres. Le premier ajustement de mode
+est la division d'équipe, qui est la division en deux équipes à y=1210 qui place le
+sud et les îles dans une équipe et le nord dans l'autre, et le cadre de décision change
+de quel côté vous choisissez à comment l'équipe divise son côté. Dans un lobby
+d'équipe plus grand, l'équipe a plus de joueurs par nation nommée, donc l'équipe peut
+couvrir plus de sa moitié et l'échec de dispersion est moins probable ; dans un lobby
+d'équipe plus petit, l'équipe a moins de joueurs par nation nommée, donc l'équipe se
+concentre sur le tiers central et l'axe des îles. Le cadre équipe est la même logique
+de concentration que la FFA, appliquée à la moitié du plateau de l'équipe.
+
+Le deuxième ajustement de mode est l'IA nationale v0.35, qui réplique désormais plus
+fort contre le joueur qui prend de l'avance, relance sur les têtes de pont et cible
+les frappes nucléaires de façon plus intelligente. Sur la Corée le changement d'IA
+nationale signifie que les îles détachées sont un trophée plus contesté, parce que
+l'IA du côté des îles relance sur un débarquement et l'IA du côté du continent
+réplique plus fort si vous prenez de l'avance, donc l'axe des îles est l'axe où l'IA
+v0.35 est la plus active. Le troisième ajustement de mode est la règle d'annexion
+territoriale nucléaire, qui permet de saisir un morceau de territoire qu'une ogive a
+séparé du corps principal de son propriétaire. Sur la Corée la règle d'annexion
+signifie qu'une ogive qui sépare une nation nord-coréenne du reste de la péninsule en
+fait un morceau séparé que vous pouvez annexer, ce qui change comment vous jouez la
+frontière et fait du tiers central une cible nucléaire en plus d'un trophée terrestre.
+
+Le quatrième ajustement de mode est le Doomsday Clock, s'il est actif. La lecture
+Doomsday sur la Corée est la même que sur n'importe quelle carte, qui est que le camp
+sous le quarante pour cent lutte pour survivre à la vague, mais la lecture Corée est
+que le camp sous est généralement l'équipe sans les îles, parce que l'équipe sans les
+îles est l'équipe sans la deuxième économie. La lecture Doomsday est la même que la
+lecture de concentration, qui est que le camp avec les îles est le camp qui peut
+continuer à s'étendre jusqu'à la dernière économie, donc le camp sous doit forcer le
+camp des îles à dépenser des unités sur l'écran. L'ajustement de carte est le même que
+l'ajustement de mode, parce que le plateau étroit est le mode sur cette péninsule, et
+le mode change la lecture de la division d'équipe, de l'IA nationale, de la règle
+d'annexion et du Doomsday Clock. Le joueur qui peut lire à la fois le mode et la carte
+est le joueur qui joue correctement la Corée, et la péninsule est celle qui décide la
+partie.
+
+## Ce qu'il faut retenir pour votre prochaine partie
+
+Le point central de la Corée, c'est que le plateau est étroit et la décision est
+l'axe, et l'axe est décidé par l'ancre. La carte est large de 1 088 pixels et haute de
+2 188 pixels avec 782 048 tuiles de terre et trente-deux nations nommées, et la partie
+est décidée par laquelle des deux côtes vous engagez avant la fin du compte à rebours.
+Le cadre de décision est l'outil, qui est de lire l'axe, nommer l'ancre, nommer les
+deux voisines, et s'engager sur la côte où l'ancre se trouve, et les scénarios sont
+les deux façons dont la partie se joue, la FFA de taille moyenne sur la côte sud et la
+division en deux équipes à y=1210. Les modes d'échec sont les trois façons dont la
+partie est perdue, l'engagement de côte, la négligence des îles et l'excès
+d'extension, et le contrefou est la seule façon dont l'adversaire gagne, la saisie
+d'axe. Les ajustements de mode et de carte sont la dernière pièce, qui est que le mode
+change comment l'équipe divise son côté et comment l'IA nationale, la règle
+d'annexion et le Doomsday Clock se lisent, et la carte change où les deux côtes et les
+îles sont.
+
+Pour les systèmes plus larges dans lesquels cette ouverture s'insère, le [guide de
+stratégie de carte](/guides/map-strategy/) couvre les réseaux de terre et d'eau
+connectés sur n'importe quel plateau, le [guide de défense d'île](/guides/island-defense/)
+couvre comment couvrir le franchissement des îles et quand une route maritime
+déconnectée signifie qu'il faut replier sur la terre, le [guide de l'impasse navale et
+du blocus](/guides/naval-stalemate-blockade-anti-blockade/) couvre comment tenir un
+franchissement quand l'ennemi essaie de le nier, le [guide du haut contre le
+large](/guides/tall-vs-wide/) couvre quand une économie sûre doit prendre plus de
+terre, et le [guide de l'espace économique d'équipe](/guides/team-economy-space/)
+couvre comment les coéquipiers réservent les couloirs partagés sur la division en deux
+équipes. Apportez-les dans la même décision et l'ouverture de la Corée cesse d'être un
+pari sur quelle côte paraît centrale et devient un plan sur quelle côte, quelle ancre,
+quelles deux voisines et quel axe vous vous engagez avant la fin du compte à rebours,
+qui est le seul moment où toute la chose est encore entre vos mains. Le plateau est
+assez étroit pour qu'une côte mal choisie soit récupérable un court moment, mais le
+tiers central fait de la correction un franchissement, et les franchissements coûtent
+du temps et une unité que vous ne pouvez peut-être pas vous permettre si vous avez
+déjà brûlé votre début de partie sur un mauvais départ, ce qui est pourquoi les joueurs
+qui gagnent sur cette carte sont généralement ceux qui ont nommé l'ancre et les deux
+voisines et se sont engagés sur la côte où l'ancre se trouvait, plutôt que ceux qui ont
+choisi la côte familière par instinct et ont dû improviser le franchissement.

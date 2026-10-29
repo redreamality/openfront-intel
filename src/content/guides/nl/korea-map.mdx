@@ -1,0 +1,322 @@
+---
+title: "Korea-kaart: het tweeledige schiereiland, de losse Japanse eilanden en de ene lijn die je kant beslist"
+description: "Besliskader voor de Korea-kaart in OpenFront: het verticale schiereiland met twee kusten, de drie losse Japanse eilanden in het zuidoosten, de team-spawnlijn op y=1210 die het bord in tweeën deelt, en aan welke as je je vastzet vóór de aftelling eindigt."
+pubDate: 2026-10-29
+updatedDate: 2026-10-29
+tags: [maps, korea, asia, spawn, team-mode, nations, islands]
+category: Guide
+difficulty: Geavanceerd
+version: v0.35.0
+freshnessSummary: "Geverifieerd op 2026-10-29 tegen de formele v0.35.6-release-cursor, het upstream-kaartmanifest op commit f33d00490 (raster van 1.088 bij 2.188, 782.048 landtegels, 32 naties: 17 Zuid-Koreaanse, 12 Noord-Koreaanse, 3 Japanse; team_frequency 10 / multiplayer_frequency 5; team-spawnrechthoeken op y=0-1210 en y=1210-2188), de v0.35.6-release-notes en de aangehaalde v0.35-upstream-PR's; communityvragen uit r/Openfront en OpenFront YouTube-tutorials."
+lang: nl
+canonical: /nl/guides/korea-map/
+hreflang: [en, zh, fr, de, nl]
+---
+
+## Wat Korea eigenlijk is
+
+**Direct antwoord.** Korea is een verticaal schiereiland met twee kusten, een losse Japanse eilandengroep in de
+zuidoostelijke hoek en één enkele team-spawnlijn op de y=1210-markering. Commit je op de kust waar je op
+spawnt vóór de aftelling eindigt, houd één genaamde natie plus haar twee dichtstbijzijnde buren vast, en
+behandel de drie Japanse eilanden als een aparte prijs die je wint, niet als een derde front waar je je
+naartoe verspreidt. Lees eerst de 2-team-verdeling, want de spawnlijn zet de zuidkust en de eilanden op één
+team en alle Noord-Korea op het andere.
+
+Korea is de enige regionale kaart die het bord op zijn kant draait. Het is een lang smal schiereiland,
+1.088 pixels breed en 2.188 pixels hoog, met onder het huidige manifest 782.048 landtegels. De meeste
+kaarten in het spel zijn breed; deze is diep, en die diepte is het hele punt. De echte beslissing op Korea
+is niet welke natie je kiest of welk gebouw je koopt, maar welke van de twee tegenover elkaar staande
+kusten je vóór het einde van de aftelling op commit, en hoe je de drie assen van het bord speelt: de
+zuidkust met haar stedelijke cluster, de losse Japanse eilandengroep in het zuidoosten, en de inlandse
+Noord-Koreaanse as er tegenover, zodat een verkeerde keuze herstelbaar blijft in plaats van fataal. De kaart
+is smal genoeg dat een fout op één front een fout is op elk front, en dat is precies waarom het kader hieronder
+dat de anker en de twee buren noemt het verschil maakt tussen een verloren en een geredde wedstrijd. Deze
+guide gaat ervan uit dat je de spawn-ritme, de haven- en fabriekseconomie, en de verdedigingspost- en
+oorlogsschip-toolset al kent; het dekt alleen wat de vorm van Korea afdwingt wat de algemene guides niet
+dekken.
+
+De versiegrens is de v0.35-serie, en de huidige formele release-cursor is v0.35.6. Korea is een verouderde
+regionale kaart die vóór de nieuwe v0.35-kaartbatch dateert, dus zijn manifest-geometrie is niet veranderd
+binnen de serie; breedte, hoogte, landtegels, natielijst, vlaggen en de team-spawnrechthoeken zijn stabiel
+vanaf de eerste v0.35-release tot en met v0.35.6. Wat v0.35 wél veranderd heeft dat Korea-spel beïnvloedt is
+de nationale AI, die nu harder terugslaat, op uitkijpostjes verder voortgaat en kernslagen slimmer
+afvuurt, en de kernterrein-annexatieregel, waarmee je een stuk terrein kunt innemen dat een kernbom van het
+hoofdlichaam van de eigenaar heeft afgesneden. Dat zijn moduswijzigingen, geen kaartvormwijzigingen, en de
+modussectie hieronder behandelt die op hun eigen plek. Elk getal in deze guide: het raster van 1.088 bij
+2.188, de 782.048 landtegels, de 32-naties-verdeling in 17 Zuid-Koreaanse, 12 Noord-Koreaanse en 3 Japanse,
+en de y=1210 team-verdeling, komt rechtstreeks uit het manifest op commit f33d00490, en de v0.35.6-release is
+de release waartegen die getallen zijn geverifieerd.
+
+![Kaart van Korea (v0.35-serie), officiële kaartafbeelding uit het upstream-manifest, AGPLv3.](/images/maps/korea-v0.35.webp)
+
+## De smalheid is de beslissing
+
+Het belangrijkste enkele feit over Korea is dat het smal is, en die smalheid is wat van de
+ascommitment een echte beslissing maakt in plaats van een muntwerper. Met 2.188 pixels hoogte en slechts
+1.088 pixels breedte is Korea het tegenovergestelde van de brede eilankaarten: je kunt je niet verstoppen
+achter een groot bord, en elk front blijft binnen handbereik van elk ander front over het hele schiereiland.
+De 782.048 landtegels plaatsen het in het onderste deel van het landgedreven groottespectrum dat de oude
+vlakte plafondering heeft vervangen. Dat betekent dat Korea een kleinere of middelgrote lobby rolt dan de
+enorme landzware kaarten, maar een grotere dan de waterzware kaarten, en de densiteit van genoemde naties per
+landtegel is hoog: 32 naties over een diep maar smal lint, zodat een groot aandeel van alle genoemde naties
+in een wedstrijd in het middelste derde deel van het schiereiland is geconcentreerd waar de twee kusten het
+dichtst bij elkaar liggen.
+
+De smalheid heeft drie gevolgen waar het kader hieronder omheen is gebouwd. Het eerste is dat een verkeerde
+kust geen kleine fout is: commit je op de zuidkust en leest het noordteam het schiereiland, dan is de
+correctie geen zijwaartse beweging maar een duw over de volledige lengte van het lint, en op een bord zo
+diep kost die duw het grootste deel van de wedstrijd. Het tweede is dat de twee kusten niet onafhankelijke
+economieën zijn: het middelste derde deel van het schiereiland verbindt ze, dus een speler die het midden
+bezit bezit tegelijk de grenzen van beide kusten, en daarom is het midden de eerste omstreden prijs. Het
+derde is dat de losse eilanden ver genoeg naar het zuidoosten liggen om een aparte as te zijn met hun eigen
+zeeweg, en de smalheid betekent dat de eilanden het enige deel van het bord zijn waar je een tweede front
+kunnen openen zonder dat het in je hoofdfront uitbloedt. De drie assen — de zuidkust, de noorder inland, en
+de eilanden — vormen de hele geografie van Korea, en het kader hieronder is een manier om vóór de aftelling
+eindigt op één van de drie te commit.
+
+De praktische lezing is de smalheid als een klok te behandelen. Op een brede kaart heb je ruimte om te
+improviseren welke kant je speelt; op Korea is de ruimte de breedte van één schiereiland, dus de kant
+waaraan je je vastzet tijdens de aftelling is de kant die je de hele wedstrijd speelt, en de enige veilige
+correctie is degene die geen oversteek van het middelste derde deel vereist. Daarom noemt het kader eerst
+de anker en de twee buren vóórdat het de kust noemt, omdat de anker het punt is op het schiereiland dat nog
+van jou is als de kust tegen je draait, en de twee buren de flanken zijn die de anker aan beide zijden
+verdedigbaar houden. Lees de smalheid één keer, noem de anker, en de kust beslist zichzelf.
+
+## De natieslaag: drie assen, 32 naties
+
+De 32 naties op Korea verdelen zich in drie assen, en de verdeling is de kaart. De tabel hieronder is de
+volledige natieslaag, gelezen uit het manifest op commit f33d00490.
+
+| As | Naties | Geografie | Economie | Eerste beslissing |
+|---|---|---|---|---|
+| Zuid-Korea (kr) | 17 | onderste twee derde, oost- en westkust | kustgebonden, haventoegang | anker een kuststad |
+| Noord-Korea (kp) | 12 | bovenste derde, inland en bergachtig | inlandse, fabrieksafstanding | houd de bergkern vast |
+| Japan (jp) | 3 | los, zuidoostelijke hoek | alleen eilanden, zeeweg | win of laat de oversteek over |
+
+De 17 Zuid-Koreaanse naties vullen het onderste twee derde van het schiereiland en dragen de dichte stedelijke
+cluster: Seoul, Incheon, Busan, Daegu, Daejeon, Gwangju, en de omliggende provincies tot aan Ulsan aan de
+oostkust en Jeju voor de zuidpunt. Dit is de as met de meeste haventoegang en het hoogste inkomensplafond,
+omdat de steden aan beide kusten liggen en het middelste derde deel breed genoeg is om ze te voeden. De 12
+Noord-Koreaanse naties vullen het bovenste derde deel en zijn bergachtig en inland, gecentreerd rond
+Pyongyang met de provincies Hamgyong, Pyongan, Hwanghae, Chagang en Kangwon eromheen; dit is de as met het
+minste water en de grootste fabrieksafstanding, en het is de as die de bergkern verdedigt in plaats van de
+kust. De 3 Japanse naties, Fukuoka, Saga en Nagasaki, zijn de losse eilanden in de zuidoostelijke hoek; ze
+zijn het enige deel van het bord dat niet via land aan het schiereiland verbonden is, en ze liggen ver genoeg
+van het vasteland om een aparte as te zijn met hun eigen zeeweg en eigen economie.
+
+De verdeling telt mee omdat ze niet gelijk is. Het zuiden heeft 17 genoemde naties tegen de 12 van het
+noorden, en de genoemde naties van het zuiden zijn de kuststeden die het inkomen dragen, dus het zuiden is
+qua opbouw de rijkere as en het noorden is qua opbouw de verdedigbaardere. De genoemde naties van het zuiden
+zijn ook niet gelijk verdeeld: de stedelijke cluster is het dichtst aan de westkust en in het middelste derde
+deel, dus twee spelers die nabij Seoul of Incheon spawnen vechten om dezelfde hooginkomende steden terwijl
+de oostkustprovincies nabij Ulsan de goedkopere, meer verdedigbare expansie zijn voor de speler die wil
+groeien zonder een grensoorlog. De 12 genoemde naties van het noorden zijn gelijkere maar geïsoleerder; de
+bergachtige provincies betekenen dat een noorderspeler die Pyongyang neemt het kan vasthouden tegen een
+kleine duw maar een lange oorlog niet kan voeren, dus de economie van het noorden is een verdedigingseconomie,
+geen expansie-economie. Dat is de volledige politieke vorm van de kaart: de kant met de steden heeft het
+geld, de kant met de bergen heeft de verdediging, en de eilanden zijn de aparte prijs die beide kanten kunnen
+nemen als ze bereid zijn de oversteek te betalen. De tabel is de kaart, en de rest van deze guide is de
+beslissing die het oplegt.
+
+## Besliskader: noem eerst de anker vóór de kust
+
+Het kader is een reeks van drie lezingen die je uitvoert vóór de aftelling eindigt, en het punt van de reeks
+is dat de kust het laatste is wat je beslist, niet het eerste. De eerste lezing is de as: welke van de drie
+assen — de zuidkust, de noorder inland, of de eilanden — de as is waaraan je spawn je op zet. De tweede
+lezing is de anker: de enige genoemde natie op die as die de sterkste economie en de meest verdedigbare
+positie is, de kuststad met haventoegang als je in het zuiden bent, of de bergkern met fabrieksafstanding als
+je in het noorden bent. De derde lezing is de twee buren: de twee genoemde naties dichtst bij de anker, die
+de flanken zijn die je verdedigbaar moet houden en de richtingen waarnaar je geen eenheden mag sturen totdat
+de anker aan beide zijden veilig is.
+
+De regel waar de drie lezingen in samenkomen is de Korea-regel van één zin: commit tot de kust waaraan je
+anker ligt, houd de anker plus de twee buren vast, en stuur geen enkele eenheid naar een derde front totdat
+de anker aan beide flanken verdedigbaar is. De regel werkt omdat de anker het punt is dat nog van jou is als
+de kust tegen je draait, en de twee buren de flanken zijn die de anker ervan houden ingesloten te worden. Als
+je eerst de anker noemt en de kust volgt, is een verkeerde kust herstelbaar, omdat je de anker nog vasthoudt
+en de correctie een flankbeweging is, geen oversteek van het middelste derde deel. Als je eerst de kust
+noemt en de anker volgt, is een verkeerde kust fataal, omdat je je langs de kust hebt verspreid en de anker
+dan wat dan ook overblijft, dat meestal de zwakste genoemde natie op het bord is.
+
+Het kader vertelt je ook wanneer je de regel mag verbreken. De regel zegt: houd de anker plus de twee buren
+vast en open geen derde front, en de twee gevallen waarin je dat wél doet zijn de twee gevallen waarin het
+derde front de as is en geen flank. Het eerste is wanneer je in het zuiden bent en de eilanden ongeclaimd
+zijn, omdat de eilanden de aparte as zijn en het nemen ervan een tweede economie is, geen derde front dat in
+je hoofdfront uitbloedt. Het tweede is wanneer je in het noorden bent en het middelste derde deel de
+omstreden prijs is, omdat op het noorden het middelste derde deel de enige route is naar de steden van het
+zuiden, en het vasthouden ervan de noorderse versie is van het vasthouden van de anker. In beide gevallen is
+de regel dezelfde: commit tot de anker en de twee buren, en pas als dat veilig is reik je naar de as. Het
+kader is het gereedschap, en de scenario's hieronder zijn de twee manieren waarop de wedstrijd loopt als je
+het uitvoert.
+
+## Scenario één: een middelgrote FFA op de zuidkust
+
+Scenario één is de middelgrote FFA waarin je op de zuidkust spawnt, en het doel is het kader op de rijkere as
+te tonen. Je bent een van de kleinere lobbies die Korea rolt, noem een vijftigspeler FFA, en je spawnt op de
+oostkust nabij Incheon of Busan, wat je op de zuidas zet en op de kust met de meeste haventoegang. Het kader
+noemt de anker als de kuststad dichtst bij je spawn, Incheon of Busan, en de twee buren als de provincies aan
+weerszijden ervan, Noord-Gyeongsang in het oosten en de westkustprovincies in het westen. De eerste beslissing
+is de anker: je neemt de genoemde stad, dan de twee genoemde provincies, en pas dan reik je naar het middelste
+derde deel van het schiereiland, dat de eerste omstreden prijs is omdat het de twee kusten verbindt.
+
+De cijfers in dit scenario zijn die het beslist. De zuidas heeft 17 genoemde naties, dus een vijftigspeler
+FFA op het zuiden is een strijd om een groot aandeel in de genoemde steden, en het inkomensplafond wordt
+gezet door hoeveel daarvan je in het middenspel vasthoudt. Het middelste derde deel is de omstreden prijs
+omdat het de enige route is tussen de twee kusten, en de speler die het bezit bezit beide grenzen tegelijk.
+De eilanden zijn de tweede as, en in dit scenario is het oordeel om ze te winnen, omdat je in het zuiden bent
+en de eilanden de aparte economie zijn die niet in je hoofdfront uitbloedt. De oversteek naar de eilanden is
+een zeeweg, en de kosten is het oorlogsschipscherm en de transportlanding, dus het scenario is: anker de
+stad, neem de twee provincies, houd het middelste derde deel vast, en stuur dan de tweede economie naar de
+eilanden. De aanname is dat je niet de sterkste speler bent op het zuiden, omdat als je dat wél bent, het
+scenario hetzelfde is behalve dat de eilanden een bonus zijn in plaats van een strijd, en de anker en de twee
+buren hetzelfde zijn in beide gevallen. De mislukking die dit scenario er is om te voorkomen is de speler
+die commit tot de kust en zich verspreidt langs de hele oever, omdat op een bord zo smal die verspreiding de
+nederlaag is, en de anker plus de twee buren de enige manier is dat het zuiden van jou blijft.
+
+De oversteek naar de eilanden heeft een sequencing die je niet mag slingeren. De oversteek vereist een
+aparte eenheid oorlogsschepen en transport, en die eenheid kun je niet tegelijk inzetten als je de anker
+nog moet verdedigen. Eerst stel je de anker veilig met een verdedigingspost, dan neem je de twee buren in,
+en pas daarna stuur je de schermen naar de eilanden. Als je probeert de anker, de buren en de oversteek
+tegelijk te doen, verlies je de anker en de eilanden tegelijk, omdat je schermen verspreid staan en elk
+front te zwak is om te verdedigen. De sequencing is dus: anker, buren, eilanden, en elke stap vereist dat
+de vorige stabiel is vóórdat je doorgaat. In een middelgrote FFA heb je niet genoeg schepen om twee
+oversteeken tegelijk te draaien, dus de eilanden zijn de tweede economie die je wint wanneer je de
+eerste economie veilig hebt, niet het extra front dat je opent omdat het er staat.
+
+## Scenario twee: de 2-team-verdeling op y=1210
+
+Scenario twee is de 2-team-lobby, de modus waarin de Korea-verdeling het spel wordt. De team-spawnrechthoeken
+in het manifest zijn het bovenste rechthoek van y=0 tot y=1210 en het onderste rechthoek van y=1210 tot
+y=2188, en de natiecoördinaten zetten de zuidkust en de drie Japanse eilanden in het onderste rechthoek en
+alle Noord-Korea in het bovenste rechthoek. Dat betekent dat de 2-team-verdeling geen muntwerper is tussen
+twee willekeurige halve, maar een schone asverdeling waarin één team de zuidkust en de eilanden krijgt, 20
+genoemde naties, en het andere team de noorder inland, 12 genoemde naties. Je kiest je kant niet tegen 50
+willekeurige spelers in; je kiest hem tegen één samenhangend team dat het hele noorden of het hele zuiden
+bezit.
+
+De cijfers in dit scenario zijn de verdeling zelf. Team één heeft de zuidas plus de eilanden, dat is 20
+genoemde naties en het rijkste inkomen, en team twee heeft de noorder inland, dat is 12 genoemde naties en de
+bergachtige verdediging. De spawnlijn op y=1210 is de grens van de wedstrijd, en het hele middelste derde
+deel van het schiereiland is het omstreden front tussen de twee teams. De eilanden zitten aan de kant van
+team één, dus in de 2-team-verdeling heeft het zuidenteam de tweede economie en het noordenteam de
+verdediging, en de wedstrijd is één aaneengesloten front op het schiereiland met de eilanden als secundaire
+as. Het besliskader in teammodus is dezelfde concentratielogica toegepast op de helft van het team: het team
+ankert een reeks genoemde naties, houdt de twee buren vast, en concentreert zich op het middelste derde deel
+in plaats van zich te verspreiden langs de hele kust. De aanname is dat je team het zuidenteam is, omdat als
+je het noordenteam bent het scenario dezelfde vorm omgedraaid is: de verdediging wordt het front en het
+middelste derde deel wordt de enige route naar de steden van het zuiden. De 20-tot-12-verdeling is de hele
+2-team-Korea-wedstrijd, en het is een structurele onbalans, geen vraagstuk van eerlijkheid: team één heeft
+meer genoemde naties en de tweede economie, en team twee heeft de verdediging en de kortere grens die het moet
+houden. De teamversie van het kader is de anker, de twee buren en de as, toegepast op het hele team in plaats
+van de enkele speler, wat betekent dat het team zijn ankiernatie en zijn twee bunnaties moet noemen zoals de
+FFA-speler ze noemt, en het team dat ze als eerste noemt wint het middelste derde deel. De mislukking die dit
+scenario er is om te voorkomen is het team dat zich verspreidt over zijn hele helft, omdat het middelste derde
+deel de prijs is en de verspreiding de nederlaag. De 2-team-verdeling op y=1210 is de ene modus waarin de
+Korea-beslissing het minst persoonlijk en het meest structureel is, en de speler die de 20-tot-12-verdeling
+kan lezen weet aan welke kant van het schiereiland de wedstrijd beslist wordt.
+
+## Mislukkingen en tegenacties van de tegenstander
+
+De mislukkingen op Korea zijn er drie, en ze zijn allemaal dezelfde mislukking met een andere naam: de
+mislukking om je op een kust vast te zetten vóórdat je je op een anker vastzet. De eerste is de kustcommitment,
+dat is de speler die het zuiden kiest omdat het rijk lijkt en zich verspreidt langs de hele oever, en de
+tegenactie is de anker plus de twee buren, de enige vorm die het zuiden aan beide flanken verdedigbaar houdt.
+De reden dat de kustcommitment zo veel voorkomt is dat de zuidkust lijkt op de rijkste kust op het bord en de
+speler het inkomen wil, maar het inkomen bestaat alleen als je de anker nog vasthoudt, en je verspreiden
+langs de oever geeft het inkomen weg aan de buur terwijl je de zwakkere genoemde naties bezit. De tweede is
+de eilandenverwaarlozing, dat is de speler op het zuiden die de drie Japanse eilanden als onrelevant
+behandelt omdat ze los liggen, terwijl ze in feite de aparte tweede economie zijn en de eerste prijs van de
+speler die het bord kan lezen, en de tegenactie is de asregel: noem de eilanden als de tweede economie en
+plan de oversteek vóór de aftelling eindigt. De eilanden zijn makkelijk te verwaarlozen omdat ze het kleine
+deel van het bord zijn, drie genoemde naties tegen de zeventien van het zuiden, en de oversteek lijkt
+duur, maar de tweede economie is de prijs die de wedstrijd wint wanneer beide spelers het vasteland vasthouden.
+De derde is de overexpansie, dat is de speler die het middelste derde deel vasthoudt en tegelijk naar de
+eilanden reikt, en de tegenactie is de twee-burenregel: houd de twee flanken veilig vóórdat het tweede front
+open is. De overexpansie is de mislukking die het meest op een overwinning lijkt in de lobby, omdat de speler
+die het middelste derde deel en de eilanden vasthoudt het hele bord controleert, maar het is de kwetsbaarste
+vorm op een smal schiereiland, omdat de twee flanken de twee kanten zijn waar de vijand tegelijk kan slaan
+terwijl je bezig bent op de eilanden.
+
+De tegenactie van de tegenstander die de drie mislukkingen voeden is de aspak, dat is de speler of het team
+dat de omstreden as neemt vóórdat jij hem neemt. Op het zuiden is de aspak de speler die het middelste derde
+deel als eerste pakt, omdat het middelste derde deel de enige route is tussen de kusten en de speler die het
+bezit beide grensen bezit. Op het noorden is de aspak de speler die de bergkern als eerste pakt, omdat de
+kern de verdediging is en de speler die hem bezit het bovenste derde deel bezit. Op de eilanden is de aspak
+de speler die als eerste oversteekt, omdat de eilanden de aparte economie zijn en de speler die de oversteek
+wint de tweede as bezit. De tegenactie op de aspak is hetzelfde kader dat je een minuut eerder uitvoert: noem
+de anker en de twee buren al in de lobby, zodat de as al op je plan staat wanneer de aftelling eindigt. De
+drie mislukkingen en de drie aspaken zijn de volledige tactische inhoud van Korea, en de speler die het kader
+kan uitvoeren is de speler die het schiereiland wint.
+
+## Modus- en kaartaanpassingen
+
+De modus waarin je speelt verandert de Korea-lezing op een klein aantal manieren, en de kaart zelf verandert
+de moduslezing op nog een paar. De eerste modusaanpassing is de teamverdeling, dat is de 2-team-verdeling op
+y=1210 die het zuiden en de eilanden op één team zet en het noorden op het andere, en het besliskader verandert
+van welke kant je kiest naar hoe het team zijn kant verdeelt. In een grotere teamlobby heeft het team meer
+spelers per genoemde natie, dus het team kan meer van zijn helft dekken en is de verspreidingsmislukking
+minder waarschijnlijk; in een kleinere teamlobby heeft het team minder spelers per genoemde natie, dus het
+team concentreert zich op het middelste derde deel en de eilandenas. Het teamkader is dezelfde concentratie
+logica als de FFA, toegepast op de helft van het bord van het team. In teamlobby's is team_frequency 10 en in
+de brede multiplayer-pool is multiplayer_frequency 5, dus de 2-team-structuur is de frequentste vorm waarin je
+deze kaart aantreft, en de y=1210-verdeling is de verdeling die je het vaakst zult moeten lezen.
+
+De tweede modusaanpassing is de v0.35-nationale AI, die nu harder terugslaat tegen de speler die zich voorts
+zet, op uitkijpostjes verder voortgaat en kernslagen slimmer afvuurt. Op Korea betekent de nationale-AI-wijziging
+dat de losse eilanden een omstredenere prijs zijn, omdat de AI aan de eilandkant op een landing verder
+voortgaat en de AI aan de vastelandkant harder terugslaat als je je voorts zet, zodat de eilandenas de as is
+waarop de v0.35-AI het meest actief is. De derde modusaanpassing is de kernterrein-annexatieregel, waarmee je
+een stuk terrein kunt innemen dat een kernbom van het hoofdlichaam van de eigenaar heeft afgesneden. Op Korea
+betekent de annexatieregel dat een kernbom die een Noord-Koreaanse natie van de rest van het schiereiland
+afsnijdt die natie een apart stuk maakt dat je kunt annexeren, wat verandert hoe je de grens speelt en het
+middelste derde deel zowel een kernafvuur als een landsprijs maakt.
+
+De vierde modusaanpassing is de Doomsday Clock, indien deze actief is. De Doomsday-lezing op Korea is dezelfde
+als op elke kaart: de zij onder de veertig procent vecht om de golf te overleven, maar de Korea-lezing is dat
+de onderkant meestal het team is zonder de eilanden, omdat het team zonder eilanden het team is zonder de
+tweede economie. De Doomsday-lezing is dezelfde als de concentratielezing: de zij met de eilanden is de zij die
+tot de laatste economie kan blijven uitbreiden, dus de onderkant moet de eilandenzij dwingen eenheden te
+besteden aan het scherm. De kaartaanpassing is dezelfde als de modusaanpassing, omdat het smalle bord de modus
+is op dit schiereiland, en de modus verandert de lezing van de teamverdeling, de nationale AI, de
+annexatieregel en de Doomsday Clock. De speler die zowel de modus als de kaart kan lezen is de speler die Korea
+correct speelt, en het schiereiland is degene die de wedstrijd beslist.
+
+## Wat je naar je volgende wedstrijd meeneemt
+
+De ene kernboodschap van Korea is dat het bord smal is en de beslissing de as is, en de as wordt beslist door
+de anker. De kaart is 1.088 pixels breed en 2.188 pixels hoog met 782.048 landtegels en 32 genoemde naties, en
+de wedstrijd wordt beslist door welke van de twee kusten je vóór het einde van de aftelling op commit. Het
+besliskader is het gereedschap: lees de as, noem de anker, noem de twee buren, en commit tot de kust waaraan
+de anker ligt, en de scenario's zijn de twee manieren waarop de wedstrijd speelt: de middelgrote FFA op de
+zuidkust en de 2-team-verdeling op y=1210. De mislukkingen zijn de drie manieren waarop de wedstrijd verloren
+gaat: de kustcommitment, de eilandenverwaarlozing en de overexpansie, en de tegenactie is de ene manier
+waarmee de tegenstander wint: de aspak. De modus- en kaartaanpassingen zijn het laatste deel: de modus
+verandert hoe het team zijn kant verdeelt en hoe de nationale AI, de annexatieregel en de Doomsday Clock
+lezen, en de kaart verandert waar de twee kusten en de eilanden liggen.
+
+Voor de bredere systemen waar dit openingsdeel in doordringt: de [kaartstrategieguide](/guides/map-strategy/)
+dekt aaneengesloten land- en waternetwerken op elk bord, de [eilandsverdedigingguide](/guides/island-defense/)
+dekt hoe je de eilandsoversteek afscherm en wanneer een aaneengesloten zeeweg betekent dat je naar land
+moet terugvallen, de [maritieme impasse- en blokkadeguide](/guides/naval-stalemate-blockade-anti-blockade/)
+dekt hoe je een oversteek vasthoudt wanneer de vijand probeert hem te ontzeggen, de [hoge-tegen-brede guide](/guides/tall-vs-wide/)
+dekt wanneer een veilige economie meer land moet nemen, en de [team-economie-ruimte guide](/guides/team-economy-space/)
+dekt hoe teamgenoten de gedeelde corridors reserveren op de 2-team-verdeling. Haal die mee in dezelfde
+beslissing, dan stopt de Korea-opening met het een gok te zijn over welke kust centraal lijkt en wordt het een
+plan over welke kust, welke anker, welke twee buren en welke as je vóór de aftelling eindigt op commit, en dat
+is de enige keer dat het geheel nog in je handen is. Het bord is smal genoeg dat een verkeerde kust een tijdje
+herstelbaar is, maar het middelste derde deel maakt de correctie een oversteek, en oversteeken kosten tijd en
+een eenheid die je niet kunt veroorloven als je je vroegspel al hebt verbrand met een slechte start. Daarom
+zijn de spelers die op deze kaart winnen meestal degenen die de anker en de twee buren noemden en committen
+tot de kust waaraan de anker lag, in plaats van degenen die de bekende kust op intuïtie kozen en toen de
+oversteek moesten improviseren.
+
+De laatste discipline die dit openingsdeel oplevert is timing. De y=1210-lijn is niet een willekeurige
+markering maar de grens van de match, en de beslissing die je aan de aftelling vastzet bepaalt of je de
+wedstrijd speelt of verdedigt. Een speler die te laat commit, speelt de wedstrijd reeds in als de tegenstander
+de anker en de twee buren heeft benoemd, en dan is de correctie geen flankbeweging maar een oversteek. Een
+speler die te vroeg commit, riskeert de anker te kiezen vóórdat de volledige lobby is gevuld, en dan kan de
+anker veranderen als een sterker spawn de stad als eerste neemt. De juiste timing is het moment waarin de
+lobby bijna vol is, de spawnlijnen zichtbaar zijn, en je de anker, de twee buren en de as nog kunt verifiëren
+vóórdat de aftelling eindigt. Die timing, gecombineerd met het kader en de scenario's, is wat een Korea-opening
+van een gok maakt tot een plan, en het plan is de enige manier dat je een bord zo smal als Korea niet aan
+de eerste fout verliest maar aan de tweede, die je zelf maakt.

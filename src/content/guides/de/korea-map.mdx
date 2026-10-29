@@ -1,0 +1,377 @@
+---
+title: "Korea-Karte: Die Zweiküsten-Halbinsel, die abgetrennten japanischen Inseln und die eine Linie, die deine Seite entscheidet"
+description: Entscheidungsraster für die Korea-Karte in OpenFront.io. Die vertikale Zweiküsten-Halbinsel, die drei abgetrennten japanischen Inseln in der Südostecke, die Team-Spawn-Linie bei y=1210 und welche Achse man vor Ablauf des Countdowns festlegt, damit eine falsche Wahl korrigierbar bleibt.
+pubDate: 2026-10-29
+updatedDate: 2026-10-29
+tags: [maps, korea, asia, spawn, team-mode, nations, islands]
+category: Guide
+difficulty: Fortgeschritten
+version: v0.35.0
+freshnessSummary: "Am 2026-10-29 gegen den formellen Release-Cursor v0.35.6, das offizielle Upstream-Kartenmanifest am Commit f33d00490 (Raster 1.088 x 2.188, 782.048 Landfliesen, 32 Nationen: 17 südkoreanisch, 12 nordkoreanisch, 3 japanisch; team_frequency 10 / multiplayer_frequency 5; Team-Spawn-Rechtecke bei y=0-1210 und y=1210-2188), die v0.35.6-Release-Notizen und die zitierten v0.35-Upstream-PRs geprüft; Auswahl der Community-Fragen aus r/Openfront und OpenFront-YouTube-Tutorials."
+---
+
+## Was Korea wirklich ist
+
+**Kurzantwort.** Korea ist eine vertikale Zweiküsten-Halbinsel mit einem abgetrennten
+japanischen Archipel in der Südostecke und einer einzelnen Team-Spawn-Linie bei y=1210.
+Setze dich auf die Küste fest, auf der du spawnst, bevor der Countdown abläuft, halte
+eine benannte Nation plus ihre zwei nächsten Nachbarn und behandle die drei japanischen
+Inseln als separaten Preis, den man gewinnt, nicht als dritte Front, in die man sich
+verteilt. Lies zuerst den 2-Team-Split, weil die Spawn-Linie die Südküste und die Inseln
+auf ein Team setzt und ganz Nordkorea auf das andere.
+
+Korea ist die eine regionale Karte, die das Board auf die Seite dreht. Es ist eine
+lange, schmale Halbinsel, 1.088 Pixel breit und 2.188 Pixel hoch, mit 782.048 Landfliesen
+unter dem aktuellen Manifest. Die meisten Karten des Spiels sind breit; diese ist tief,
+und diese Tiefe ist der ganze Punkt. Die eigentliche Entscheidung auf Korea ist nicht,
+welche Nation man wählt oder welches Gebäude man kauft, sondern welche der beiden
+entgegengesetzten Küsten man vor Ablauf des Countdowns festlegt, und wie man die drei
+Achsen des Boards spielt: die Südküste mit ihrem Stadtcluster, das abgetrennte japanische
+Archipel im Südosten und das nordkoreanische Landesinnere auf der gegenüberliegenden
+Seite – so dass eine falsche Wahl korrigierbar bleibt statt fatal. Die Karte ist so
+schmal, dass ein Fehler auf einer Front ein Fehler auf allen Fronten ist, und genau das
+ist der Grund, warum das Framework unten, das den Anker und die zwei Nachbarn benennt,
+der Unterschied zwischen einer verlorenen und einer geretteten Partie ist. Dieser Guide
+geht davon aus, dass du bereits den Spawn-Takt, die Hafen- und Fabrik-Ökonomie und den
+Werkzeugkasten aus Verteidigungsposten und Kriegsschiffen kennst; er deckt nur das ab,
+was die Form Koreas erzwingt und was die generischen Guides nicht behandeln.
+
+Die Versionsgrenze ist die v0.35-Serie, und der aktuelle formelle Release-Cursor ist
+v0.35.6. Korea ist eine Legacy-Regionalkarte, die der neuen v0.35-Kartenserie
+vorhergeht, deshalb hat sich ihre Manifest-Geometrie über die Serie nicht verändert:
+Breite, Höhe, Landfliesen, Nationsliste, Flaggen und die Team-Spawn-Rechtecke sind vom
+ersten v0.35-Release bis v0.35.6 stabil. Was v0.35 geändert hat und das Korea-Spiel
+beeinflusst, ist die nationale KI, die jetzt härter zurückschlägt, Landeplätze
+nachfährt und Atomangriffe intelligenter zielt, und die Atomterritorien-
+Annexationsregel, die es einem erlaubt, ein Stück Territorium zu annektieren, das eine
+Bombe vom Hauptkörper seines Eigentümers abgeschnitten hat. Das sind Modus-Änderungen,
+keine Kartenform-Änderungen, und die Modus-Sektion unten behandelt sie an ihrem eigenen
+Platz. Jede Zahl in diesem Guide – das 1.088 x 2.188-Raster, die 782.048 Landfliesen, die
+32-Nationen-Aufteilung in 17 südkoreanische, 12 nordkoreanische und 3 japanische, und
+der y=1210-Team-Split – wird direkt aus dem Manifest am Commit f33d00490 gelesen, und
+das v0.35.6-Release ist das Release, gegen das diese Zahlen verifiziert wurden.
+
+![Korea-Karte (v0.35-Serie), offizielles Kartenbild aus dem Upstream-Manifest, AGPLv3.](/images/maps/korea-v0.35.webp)
+
+## Die Enge ist die Entscheidung
+
+Die wichtigste Tatsache über Korea ist, dass es schmal ist, und diese Enge ist es, die
+aus der Achsen-Festlegung eine echte Entscheidung statt eines Münzwurfs macht. Bei
+2.188 Pixel Höhe und nur 1.088 Pixel Breite ist Korea das Gegenteil der breiten
+Inselkarten; man kann sich nicht hinter einem großen Board verstecken, und jede Front
+bleibt in Reichweite jeder anderen Front über die ganze Halbinsel hinweg. Die
+782.048 Landfliesen setzen es in den unteren Teil des landgesteuerten
+Größenspektrums, das die alte flache Obergrenze ersetzt hat. Das bedeutet, dass Korea
+eine kleinere oder mittlere Lobby würfelt als die massiven landlastigen Karten und eine
+größere als die wasserlastigen Karten, und die benannte-Nation-Dichte pro Landflise ist
+hoch: 32 Nationen über einen tiefen, aber schmalen Streifen, sodass ein großer Teil der
+benannten Nationen jeder Partie in das mittlere Drittel der Halbinsel gepresst wird,
+wo die beiden Küsten am nächsten beieinander liegen.
+
+Die Enge hat drei Konsequenzen, um die herum das Framework unten aufgebaut ist. Die
+erste ist, dass eine falsche Küste kein kleiner Fehler ist: Wenn man sich auf die
+Südküste festlegt und das nordische Team die Halbinsel liest, ist die Korrektur keine
+Seitwärtsbewegung, sondern ein Vorstoß über die volle Länge des Streifens, und auf einem
+Board, das so tief ist, kostet dieser Vorstoß die meiste Partie. Die zweite ist, dass
+die beiden Küsten keine unabhängigen Ökonomien sind; das mittlere Drittel der Halbinsel
+verbindet sie, sodass ein Spieler, der das Mitteldrittel besitzt, gleichzeitig die
+Grenzen beider Küsten besitzt – genau deshalb ist das Mitteldrittel das erste
+umkämpfte Gut. Die dritte ist, dass die abgetrennten Inseln weit genug nach Südosten
+liegen, um eine separate Achse mit ihrer eigenen Seeroute zu sein, und die Enge
+bedeutet, dass die Inseln der einzige Teil des Boards sind, an dem man eine zweite Front
+eröffnen kann, ohne dass sie in die Hauptfront ausblutet. Die drei Achsen – die
+Südküste, das nordische Landesinnere und die Inseln – sind die gesamte Geographie
+Koreas, und das Framework unten ist ein Weg, sich auf eine von ihnen festzulegen, bevor
+der Countdown abläuft.
+
+Das praktische Lesen ist, die Enge als Zeituhr zu behandeln. Auf einer breiten Karte
+hat man Raum, improvisieren zu können, welche Seite man spielt; auf Korea ist der Raum
+so breit wie eine Halbinsel, sodass die Seite, auf die man sich beim Countdown festlegt,
+die Seite ist, die man für die ganze Partie spielt, und die einzige sichere Korrektur
+die ist, die keine Überquerung des mittleren Drittels erfordert. Genau deshalb benennt
+das Framework den Anker und die zwei Nachbarn, bevor es die Küste benennt, denn der
+Anker ist der Punkt auf der Halbinsel, der noch einem gehört, wenn die Küste kippt, und
+die zwei Nachbarn sind die Flanken, die den Anker beidseitig verteidigbar halten. Lies
+die Enge einmal, benenne den Anker, und die Küste entscheidet sich von selbst.
+
+## Die Nations-Schicht: drei Achsen, 32 Nationen
+
+Die 32 Nationen auf Korea teilen sich in drei Achsen, und diese Aufteilung *ist* die
+Karte. Die Tabelle unten ist die vollständige Nations-Schicht, gelesen aus dem Manifest
+am Commit f33d00490.
+
+| Achse | Nationen | Geographie | Ökonomie | Erste Entscheidung |
+|---|---|---|---|---|
+| Südkorea (kr) | 17 | untere zwei Drittel, Ost- und Westküste | küstennah, Hafen-Zugang | eine Küstenstadt ankeren |
+| Nordkorea (kp) | 12 | oberes Drittel, im Landesinneren und bergig | im Landesinneren, Fabrikausmaß | das bergige Kerngebiet halten |
+| Japan (jp) | 3 | abgetrennt, Südostecke | nur Inseln, Seeroute | die Überfahrt gewinnen oder überspringen |
+
+Die 17 südkoreanischen Nationen füllen die unteren zwei Drittel der Halbinsel und
+tragen das dichte Stadtcluster: Seoul, Incheon, Busan, Daegu, Daejeon, Gwangju und die
+umliegenden Provinzen bis hinab zu Ulsan an der Ostküste und Jeju vor der Südspitze. Das
+ist die Achse mit dem meisten Hafen-Zugang und der höchsten Einkommensgrenze, weil die
+Städte an beiden Küsten liegen und das mittlere Drittel breit genug ist, um sie zu
+versorgen. Die 12 nordkoreanischen Nationen füllen das obere Drittel und sind bergig und
+im Landesinneren, zentriert um Pyongyang mit den Provinzen Hamgyong, Pyongan, Hwanghae,
+Chagang und Kangwon umher; das ist die Achse mit dem wenigsten Wasser und dem größten
+Fabrikausmaß, und sie ist die Achse, die das bergige Kerngebiet verteidigt statt die
+Küste. Die 3 japanischen Nationen – Fukuoka, Saga und Nagasaki – sind die abgetrennten
+Inseln in der Südostecke; sie sind der einzige Teil des Boards, der nicht per Land mit
+der Halbinsel verbunden ist, und sie liegen weit genug vom Festland entfernt, um eine
+separate Achse mit ihrer eigenen Seeroute und ihrer eigenen Ökonomie zu sein.
+
+Die Aufteilung ist wichtig, weil sie nicht ausgeglichen ist. Der Süden hat 17 benannte
+Nationen gegenüber 12 des Nordens, und die benannten Nationen des Südens sind die
+Küstenstädte, die das Einkommen tragen, sodass der Süden strukturell die reichere Achse
+ist und der Norden die defensivere. Die benannten Nationen des Südens sind auch nicht
+gleichmäßig verteilt; das Stadtcluster ist am dichtesten an der Westküste und im
+mittleren Drittel, sodass zwei Spieler, die nahe Seoul oder Incheon spawnen, um dieselben
+hochproduktiven Städte kämpfen, während die Ostküstenprovinzen nahe Ulsan die günstigere,
+defensivere Expansion darstellen für den Spieler, der wachsen möchte, ohne einen
+Grenzkrieg zu führen. Die 12 benannten Nationen des Nordens sind gleichmäßiger, aber auch
+isoliert; die bergigen Provinzen bedeuten, dass ein nördlicher Spieler, der Pyongyang
+nimmt, es gegen einen kleinen Vorstoß halten kann, aber keinen langen Krieg versorgen
+kann – die Wirtschaft des Nordens ist also eine Verteidigungswirtschaft, keine
+Expansionswirtschaft. Das ist die gesamte politische Form der Karte: Die Seite mit den
+Städten hat das Geld, die Seite mit den Bergen hat die Verteidigung, und die Inseln sind
+der abgetrennte Preis, den jede Seite nehmen kann, wenn sie bereit ist, die Überfahrt zu
+bezahlen. Die Tabelle ist die Karte, und der Rest des Guides ist die Entscheidung, die
+sie erzwingt.
+
+## Entscheidungs-Framework: Benenne den Anker, bevor du die Küste benennst
+
+Das Framework ist eine Folge aus drei Leseschritten, die man vor Ablauf des Countdowns
+abspult, und der Punkt dieser Folge ist, dass die Küste das *letzte* ist, was man
+entscheidet, nicht das erste. Die erste Lese ist die Achse: Welche der drei Achsen –
+Südküste, nordisches Landesinnere oder Inseln – ist die, auf die der Spawn setzt. Die
+zweite Lese ist der Anker: die einzelne benannte Nation auf dieser Achse, die die
+stärkste Wirtschaft und die defensivste Position ist – die Küstenstadt mit Hafen-Zugang,
+wenn man im Süden ist, oder das bergige Kerngebiet mit Fabrikausmaß, wenn man im Norden
+ist. Die dritte Lese sind die zwei Nachbarn: die zwei benannten Nationen, die dem Anker
+am nächsten liegen, die Flanken, die man defensiv halten muss, und die Richtungen, in
+die man keine Einheit schicken darf, bevor der Anker beidseitig sicher ist.
+
+Die Regel, in die die drei Lesevorgänge zusammenlaufen, ist die Korea-Regel in einem
+Satz: Setze dich auf die Küste fest, auf der dein Anker liegt, halte den Anker plus die
+zwei Nachbarn, und schicke keine Einheit auf eine dritte Front, bevor der Anker
+beidseitig auf den Flanken verteidigbar ist. Die Regel funktioniert, weil der Anker der
+Punkt ist, der noch einem gehört, wenn die Küste kippt, und die zwei Nachbarn die
+Flanken sind, die den Anker vor einer Umzingelung schützen. Wenn man den Anker zuerst
+benennt und die Küste folgt, ist eine falsche Küste korrigierbar, weil man den Anker noch
+hält und die Korrektur ein Flankenmanöver ist, keine Überquerung des mittleren Drittels.
+Wenn man die Küste zuerst benennt und der Anker folgt, ist eine falsche Küste fatal, weil
+man sich entlang der Küste aufgefächert hat und der Anker das ist, was übrig bleibt –
+und das ist normalerweise die schwächste benannte Nation auf dem Board.
+
+Das Framework sagt auch, wann man die Regel bricht. Die Regel lautet: halte den Anker
+plus die zwei Nachbarn und eröffne keine dritte Front – und die zwei Fälle, in denen man
+sie bricht, sind die zwei Fälle, in denen die dritte Front die Achse ist und keine
+Flanke. Der erste Fall ist, wenn man im Süden steht und die Inseln nicht besetzt sind,
+weil die Inseln die separate Achse sind und ihre Einnahme eine zweite Wirtschaft
+darstellt, keine dritte Front, die in die Hauptfront ausblutet. Der zweite Fall ist,
+wenn man im Norden steht und das mittlere Drittel der umkämpfte Preis ist, weil im
+Norden das mittlere Drittel der einzige Weg zu den Städten des Südens ist und es zu
+halten die nordische Version des Ankerns ist. In beiden Fällen ist die Regel dieselbe –
+setze dich auf den Anker und die zwei Nachbarn fest, und erst wenn das sicher ist, reicht
+man nach der Achse. Das Framework ist das Werkzeug, und die folgenden Szenarien sind die
+zwei Arten, wie die Partie abläuft, wenn man es anwendet.
+
+## Szenario 1: FFA mittlerer Größe auf der Südküste
+
+Szenario 1 ist das FFA mittlerer Größe, in dem man auf der Südküste spawnen und das
+Framework auf der reicheren Achse zeigen soll. Man ist in einem der kleineren Lobby, die
+Korea würfelt – nennen wir es ein FFA mit 50 Spielern – und spawnt auf der Ostküste nahe
+Incheon oder Busan, was einen auf die südliche Achse und die Küste mit dem meisten
+Hafen-Zugang setzt. Das Framework benennt den Anker als die Küstenstadt, die am Spawn
+liegt – Incheon oder Busan – und die zwei Nachbarn als die Provinzen auf beiden Seiten:
+North Gyeongsang im Osten und die Westküstenprovinzen im Westen. Die erste Entscheidung
+ist der Anker: Man nimmt die benannte Stadt, dann die zwei benannten Provinzen, und erst
+dann reicht man nach dem mittleren Drittel der Halbinsel, das das erste umkämpfte Gut ist,
+weil es die beiden Küsten verbindet.
+
+Der Midgame-Übergang entscheidet dieses Szenario mehr als die Eröffnung. Nach dem Anker
+und den zwei Provinzen läuft dein Einkommen über die Häfen der benannten Stadt, und der
+entscheidende Zeitpunkt ist der, an dem du die zweite Wirtschaft zu den Inseln sendest:
+zu früh und dein Anker ist unverteidigt, während die Überfahrt dauert, zu spät und ein
+Nachbar hat die Überfahrt zuerst gewonnen, sodass du später für den Verlust der ganzen
+zweiten Achse zahlst. Die Kriegsschiff-Abdeckung muss die Landung der Transporteinheiten
+überdecken, bevor sie anlanden; eine einzelne durchgeschlagene Landung kostet dich nicht
+nur die Transporteinheiten, sondern den ganzen Insel-Preis. Wenn dein Anker selbst
+umkämpft wird, ziehst du dich auf die zwei Nachbarn zurück und hältst sie, statt den
+Anker mit Einheiten zu verteidigen, die du dir nicht leisten kannst – die zwei Nachbarn
+sind der Grund, warum der Anker noch dir gehört, wenn die Küste kippt, und deshalb
+gehören sie zur Entscheidung, nicht zu einem späteren Luxus.
+
+Die Zahlen, die dieses Szenario entscheiden, sind die, die es entscheiden. Die südliche
+Achse hat 17 benannte Nationen, also ist ein FFA mit 50 Spielern im Süden ein Kampf um
+einen großen Teil der benannten Städte, und die Einkommensgrenze wird dadurch gesetzt,
+wie viele man bis ins Midgame hält. Das mittlere Drittel ist das umkämpfte Gut, weil es
+der einzige Weg zwischen den beiden Küsten ist, und der Spieler, der es besitzt, besitzt
+beide Grenzen gleichzeitig. Die Inseln sind die zweite Achse, und in diesem Szenario ist
+die Entscheidung, sie zu gewinnen, weil man im Süden steht und die Inseln die separate
+Wirtschaft sind, die nicht in die Hauptfront ausblutet. Die Überfahrt zu den Inseln ist
+eine Seeroute, und der Preis ist die Kriegsschiff-Abdeckung und die Landeung des
+Transports. Das Szenario lautet also: Die Stadt ankern, die zwei Provinzen nehmen, das
+mittlere Drittel halten, dann die zweite Wirtschaft zu den Inseln schicken. Die Annahme
+ist, dass man nicht der stärkste Spieler im Süden ist – wenn man es ist, ist das Szenario
+dasselbe, nur dass die Inseln ein Bonus statt eines Kampfes sind, und der Anker plus die
+zwei Nachbarn sind in beiden Fällen dieselben. Der Misserfolg, den dieses Szenario
+verhindern soll, ist der Spieler, der sich auf die Küste festsetzt und sich entlang der
+ganzen Küste aufspaltet – auf einem Board, das so schmal ist, ist diese Aufspaltung die
+Niederlage, und der Anker plus die zwei Nachbarn ist der einzige Weg, dass der Süden
+einem gehört.
+
+## Szenario 2: Der 2-Team-Split bei y=1210
+
+Szenario 2 ist die 2-Team-Lobby, der Modus, in dem Koreas Spaltung das Spiel wird. Die
+Team-Spawn-Rechtecke aus dem Manifest sind das obere Rechteck von y=0 bis y=1210 und das
+untere Rechteck von y=1210 bis y=2188, und die Nationskoordinaten setzen die Südküste und
+die drei japanischen Inseln in das untere Rechteck und den gesamten Norden in das obere
+Rechteck. Das bedeutet, dass der 2-Team-Split kein Münzwurf zwischen zwei zufälligen
+Hälften ist, sondern eine saubere Achsen-Aufteilung, in der ein Team die Südküste und die
+Inseln bekommt – 20 benannte Nationen – und das andere Team das nordische Landesinnere –
+12 benannte Nationen. Man wählt seine Seite nicht gegen 50 zufällige Spieler aus, sondern
+gegen ein kohärentes Team, das den gesamten Norden oder den gesamten Süden besitzt.
+
+Die Zahlen in diesem Szenario sind die Aufteilung selbst. Team 1 hat die südliche Achse
+plus die Inseln, das sind 20 benannte Nationen und das reichste Einkommen, und Team 2 hat
+das nordische Landesinnere, das sind 12 benannte Nationen und die bergige Verteidigung.
+Die Spawn-Linie bei y=1210 ist die Grenze der Partie, und das gesamte mittlere Drittel
+der Halbinsel ist die umkämpfte Front zwischen den zwei Teams. Die Inseln liegen auf der
+Seite von Team 1, also hat im 2-Team-Split das südliche Team die zweite Wirtschaft und
+das nördliche Team die Verteidigung, und die Partie ist eine einzelne durchgehende Front
+auf der Halbinsel mit den Inseln als sekundärer Achse. Das Entscheidungsframework im
+Teammodus ist dieselbe Konzentrationslogik, auf die Hälfte des Teams angewendet: Das Team
+ankert einen Satz benannter Nationen, hält die zwei Nachbarn und konzentriert sich auf
+das mittlere Drittel, statt sich entlang der ganzen Küste aufzufächern. Die Annahme ist,
+dass man das südliche Team ist – wenn man das nördliche Team ist, ist das Szenario
+dieselbe Form invertiert, die Verteidigung wird zur Front und das mittlere Drittel wird
+zum einzigen Weg zu den Städten des Südens. Der 20-zu-12-Split ist das gesamte
+2-Team-Korea-Match, und es ist eine strukturelle Ungleichgewichtigkeit, keine
+Fairness-Frage: Team 1 hat mehr benannte Nationen und die zweite Wirtschaft, und Team 2
+hat die Verteidigung und den kürzeren Rand, den es halten muss. Die Teamversion des
+Frameworks ist der Anker, die zwei Nachbarn und die Achse, auf das gesamte Team angewendet
+statt auf den einzelnen Spieler – das Team muss seine Ankernation und die zwei
+Nachbarationen benennen, so wie der FFA-Spieler sie benennt, und das Team, das zuerst
+benennt, gewinnt das mittlere Drittel. Der Misserfolg, den dieses Szenario verhindern
+soll, ist das Team, das sich über seine gesamte Hälfte aufspaltet, weil das mittlere
+Drittel der Preis ist und die Aufspaltung die Niederlage. Der 2-Team-Split bei y=1210 ist
+der eine Modus, in dem die Korea-Entscheidung am wenigsten persönlich und am
+strukturellsten ist, und der Spieler, der den 20-zu-12-Split lesen kann, weiß, auf
+welcher Seite der Halbinsel die Partie entschieden wird.
+
+## Versagensmuster und gegnerische Gegenstrategie
+
+Die drei Versagensmuster auf Korea sind im Grunde dasselbe Versagen mit drei Namen: die
+Küste festlegen, bevor man den Anker festgelegt hat. Der erste Fall ist die
+Küsten-Festlegung – der Spieler, der den Süden wählt, weil er reich aussieht, und sich
+entlang der ganzen Küste aufspaltet; das Gegenmittel ist der Anker plus die zwei
+Nachbarn, die einzige Form, die den Süden auf beiden Flanken defensiv hält. Der Grund,
+warum die Küsten-Festlegung so häufig ist, liegt darin, dass die Südküste wie die reichste
+Küste auf dem Board aussieht und der Spieler das Einkommen will – aber das Einkommen
+existiert nur, wenn man den Anker noch hält, und die Aufspaltung entlang der Küste gibt
+das Einkommen an den Nachbarn ab, während man die schwächeren benannten Nationen
+besitzt. Der zweite Fall ist die Insel-Verächtlichkeit – der Spieler im Süden, der die
+drei japanischen Inseln als irrelevant behandelt, weil sie abgetrennt sind, obwohl sie in
+Wahrheit die separate zweite Wirtschaft sind und der erste Preis des Spielers, der das
+Board liest; das Gegenmittel ist die Achsenregel, die Inseln als zweite Wirtschaft zu
+benennen und die Überfahrt vor Ablauf des Countdowns zu planen. Die Inseln sind leicht
+zu verachten, weil sie der kleine Teil des Boards sind – drei benannte Nationen
+gegenüber 17 des Südens – und die Überfahrt teuer aussieht, aber die zweite Wirtschaft ist
+der Preis, der die Partie gewinnt, wenn beide Spieler das Festland halten. Der dritte
+Fall ist die Überdehnung – der Spieler, der das mittlere Drittel hält und gleichzeitig
+nach den Inseln reicht; das Gegenmittel ist die Zwei-Nachbarn-Regel, die zwei Flanken
+sicher zu halten, bevor die zweite Front geöffnet ist. Die Überdehnung ist das Versagen,
+das am meisten wie ein Sieg aussieht, weil der Spieler, der das mittlere Drittel und die
+Inseln hält, das ganze Board kontrolliert – aber es ist die zerbrechlichste Form auf einer
+schmalen Halbinsel, weil die zwei Flanken die zwei Seiten sind, die der Gegner treffen
+kann, während man mit den Inseln beschäftigt ist.
+
+Die gegnerische Gegenstrategie, die diese drei Versagen speisen, ist der Achsen-Raub – der
+Spieler oder das Team, das die umkämpfte Achse nimmt, bevor man es tut. Im Süden ist der
+Achsen-Raub der Spieler, der das mittlere Drittel zuerst nimmt, weil es der einzige Weg
+zwischen den Küsten ist und der Spieler, der es besitzt, beide Grenzen besitzt. Im Norden
+ist der Achsen-Raub der Spieler, der das bergige Kerngebiet zuerst nimmt, weil das
+Kerngebiet die Verteidigung ist und der Spieler, der es besitzt, das obere Drittel
+besitzt. Auf den Inseln ist der Achsen-Raub der Spieler, der zuerst überquert, weil die
+Inseln die separate Wirtschaft sind und der Spieler, der die Überfahrt gewinnt, die
+zweite Achse besitzt. Das Gegenmittel gegen den Achsen-Raub ist dasselbe Framework, das
+eine Minute früher gelaufen wird – den Anker und die zwei Nachbarn in der Lobby benennen,
+so dass die Achse schon auf dem Plan steht, wenn der Countdown endet. Die drei Versagen
+und die drei Achsen-Räubereien sind der gesamte taktische Inhalt von Korea, und der
+Spieler, der das Framework ablaufen lassen kann, ist der Spieler, der die Halbinsel
+gewinnt.
+
+## Modus- und Kartenanpassungen
+
+Der Modus, den man spielt, ändert das Korea-Lesen auf wenige Arten, und die Karte selbst
+ändert das Modus-Lesen auf noch mehr Arten. Die erste Modus-Anpassung ist die
+Team-Aufteilung – der 2-Team-Split bei y=1210, der den Süden und die Inseln auf ein Team
+setzt und den Norden auf das andere –, und das Entscheidungsframework ändert sich von
+„welche Seite wähle ich" zu „wie teilt das Team seine Seite auf". In einer größeren
+Team-Lobby hat das Team mehr Spieler pro benannter Nation, also kann es mehr seiner Hälfte
+abdecken und das Versagen der Aufspaltung ist weniger wahrscheinlich; in einer kleineren
+Team-Lobby hat das Team weniger Spieler pro benannter Nation, also konzentriert es sich
+auf das mittlere Drittel und die Insel-Achse. Das Team-Framework ist dieselbe
+Konzentrationslogik wie das FFA, auf die Hälfte des Boards des Teams angewendet.
+
+Die zweite Modus-Anpassung ist die nationale KI von v0.35, die jetzt härter gegen den
+Spieler zurückschlägt, der in Führung geht, auf Landeplätze nachfährt und Atomangriffe
+intelligenter zielt. Auf Korea bedeutet die nationale-KI-Änderung, dass die abgetrennten
+Inseln ein umkämpfterer Preis sind, weil die KI auf der Inselseite auf eine Landung
+nachfährt und die KI auf der Festlandseite härter zurückschlägt, wenn man in Führung geht –
+also ist die Insel-Achse die Achse, auf der die v0.35-KI am aktivsten ist. Die dritte
+Modus-Anpassung ist die Atomterritorien-Annexationsregel, die es einem erlaubt, ein Stück
+Territorium zu annektieren, das eine Bombe vom Hauptkörper seines Eigentümers abgeschnitten
+hat. Auf Korea bedeutet die Annexationsregel, dass eine Bombe, die eine nordkoreanische
+Nation vom Rest der Halbinsel abschneidet, diese Nation zu einem separaten Stück macht, das
+man annektieren kann – was ändert, wie man den Rand spielt, und macht das mittlere Drittel
+zu einem Atomziel neben einem Landpreis.
+
+Die vierte Modus-Anpassung ist die Doomsday-Uhr, falls sie aktiv ist. Das Doomsday-Lesen
+auf Korea ist dasselbe wie auf jeder Karte – die Seite unter 40 Prozent kämpft darum, die
+Welle zu überleben – aber das Korea-Lesen ist, dass die untere Seite normalerweise das
+Team ohne die Inseln ist, weil das Team ohne die Inseln das Team ohne die zweite Wirtschaft
+ist. Das Doomsday-Lesen ist dasselbe wie das Konzentrationslesen – die Seite mit den Inseln
+ist die Seite, die bis zur letzten Wirtschaft expandieren kann – also muss die untere
+Seite die Insel-Seite dazu zwingen, Einheiten auf die Abdeckung auszugeben. Die
+Karten-Anpassung ist dieselbe wie die Modus-Anpassung, weil das schmale Board der Modus auf
+dieser Halbinsel ist, und der Modus ändert das Lesen der Team-Aufteilung, der nationalen
+KI, der Annexationsregel und der Doomsday-Uhr. Der Spieler, der sowohl den Modus als auch
+die Karte lesen kann, ist der Spieler, der Korea richtig spielt, und die Halbinsel ist die,
+die die Partie entscheidet.
+
+## Was du in die nächste Partie mitnimmst
+
+Der einzige Takeaway aus Korea ist, dass das Board schmal ist und die Entscheidung die
+Achse ist, und die Achse wird durch den Anker entschieden. Die Karte ist 1.088 Pixel breit
+und 2.188 Pixel hoch mit 782.048 Landfliesen und 32 benannten Nationen, und die Partie
+wird dadurch entschieden, welche der beiden Küsten man vor Ablauf des Countdowns festlegt.
+Das Entscheidungsframework ist das Werkzeug – die Achse lesen, den Anker benennen, die zwei
+Nachbarn benennen und sich auf die Küste festsetzen, auf der der Anker liegt – und die
+Szenarien sind die zwei Arten, wie die Partie abläuft, das mittlere FFA auf der Südküste
+und der 2-Team-Split bei y=1210. Die Versagensmuster sind die drei Arten, wie man die
+Partie verliert – die Küsten-Festlegung, die Insel-Verächtlichkeit und die Überdehnung –
+und die Gegenstrategie ist die eine Art, wie der Gegner gewinnt, der Achsen-Raub. Die
+Modus- und Karten-Anpassungen sind das letzte Stück – der Modus ändert, wie das Team seine
+Seite teilt und wie die nationale KI, die Annexationsregel und die Doomsday-Uhr gelesen
+werden, und die Karte ändert, wo die zwei Küsten und die Inseln sind.
+
+Für die größeren Systeme, in die dieses Opening einmündet, deckt der [Kartenstrategie-Guide](/guides/map-strategy/)
+verbundene Land- und Wassernetzwerke auf jedem Board ab, der [Inselverteidigungsguide](/guides/island-defense/)
+deckt ab, wie man die Inselüberfahrt absichert und wann eine getrennte Seeroute bedeutet,
+dass man auf Land zurückfällt, der [Maritimer-Stillstand- und Blockadeguide](/guides/naval-stalemate-blockade-anti-blockade/)
+deckt ab, wie man eine Überfahrt hält, wenn der Gegner sie verweigern will, der
+[Hoch-vs.-Breit-Guide](/guides/tall-vs-wide/) deckt ab, wann eine sichere Wirtschaft mehr
+Land nehmen sollte, und der [Teamwirtschaftsraum-Guide](/guides/team-economy-space/) deckt ab,
+wie Teamkollegen die geteilten Korridore im 2-Team-Split reservieren. Wenn man diese in
+dieselbe Entscheidung einbringt, wird das Korea-Opening von einem Rat, welche Küste
+zentral aussieht, zu einem Plan, welche Küste, welcher Anker, welche zwei Nachbarn und
+welche Achse man vor Ablauf des Countdowns festlegt – der einzige Moment, in dem das Ganze
+noch in den eigenen Händen ist. Das Board ist schmal genug, dass eine falsche Küste eine
+Weile korrigierbar ist, aber das mittlere Drittel macht die Korrektur zu einer Überfahrt,
+und Überfahrten kosten Zeit und eine Einheit, die man sich nicht leisten kann, wenn man das
+eigene Early Game auf einem schlechten Start verbrannt hat – deshalb sind die Spieler, die
+auf dieser Karte gewinnen, normalerweise die, die den Anker und die zwei Nachbarn benannt
+und sich auf die Küste festgesetzt haben, auf der der Anker lag, nicht die, die die
+vertraute Küste aus Instinkt gewählt und dann die Überfahrt improvisieren mussten.

@@ -1,0 +1,339 @@
+---
+title: "Korea Map: The Two-Coast Peninsula, the Detached Japanese Islands, and the One Line That Decides Your Side"
+description: A decision framework for the Korea map in OpenFront.io. The vertical two-coast peninsula, the three detached Japanese islands in the southeast corner, the y=1210 team spawn line that splits the board, and which axis to commit to before the countdown ends so a wrong pick stays recoverable.
+pubDate: 2026-10-29
+updatedDate: 2026-10-29
+tags: [maps, korea, asia, spawn, team-mode, nations, islands]
+category: Guide
+difficulty: Advanced
+version: v0.35.0
+freshnessSummary: "Verified on 2026-10-29 against the v0.35.6 formal release cursor, the official upstream map manifest at commit f33d00490 (1,088 by 2,188 grid, 782,048 land tiles, 32 nations: 17 South Korean, 12 North Korean, 3 Japanese; team_frequency 10 / multiplayer_frequency 5; team spawn rectangles at y=0-1210 and y=1210-2188), the v0.35.6 release notes, and the cited v0.35 upstream PRs; community question selection drawn from r/Openfront and OpenFront YouTube tutorials."
+---
+
+## What Korea actually is
+
+**Direct answer.** Korea is a vertical two-coast peninsula with a detached Japanese
+archipelago in the southeast corner and a single team spawn line at the y=1210 mark.
+Commit to the coast you spawn on before the countdown ends, hold one named nation plus
+its two nearest neighbours, and treat the three Japanese islands as a separate prize to
+win, not a third front to spread into. Read the 2-team split first, because the spawn
+line puts the South coast and the islands on one team and all of North Korea on the
+other.
+
+Korea is the one regional map that turns the board on its side. It is a long narrow
+peninsula, one thousand eighty-eight pixels wide and two thousand one hundred and eighty
+eight pixels tall, with seven hundred and eighty-two thousand and forty-eight land tiles
+under the current manifest. Most of the game's maps are wide; this one is deep, and the
+depth is the whole point. The real decision on Korea is not which nation to pick or which
+building to buy, it is which of the two opposing coasts you commit to before the
+countdown ends, and how you play the three axes of the board, the South coast and its
+city cluster, the detached Japanese archipelago in the southeast, and the North Korea
+inland opposite, so that a wrong pick stays recoverable instead of fatal. The map is
+narrow enough that a mistake on one front is a mistake on every front, and that is
+exactly why the framework below, which names the anchor and the two neighbours, is the
+difference between a lost match and a saved one. This guide assumes you already know the
+spawn pacing, the Port and Factory economics, and the Defence Post and Warship toolset;
+it only covers what Korea's shape forces that the generic guides do not.
+
+The version boundary is the v0.35 series, and the current formal release cursor is
+v0.35.6. Korea is a legacy regional map that predates the new v0.35 map batch, so its
+manifest geometry has not changed across the series; the width, height, land tiles,
+nation list, flags, and team spawn rectangles are stable from the first v0.35 release
+through v0.35.6. What v0.35 did change that affects Korea play is the national AI, which
+now retaliates harder, follows up on beachheads, and targets nuclear strikes more
+intelligently, and the nuclear territory annexation rule, which lets you seize a piece
+of territory that a nuke has severed from its owner's main body. Those are mode-level
+changes, not map-shape changes, and the mode section below covers them in their own
+place. Every number in this guide, the 1,088 by 2,188 grid, the 782,048 land tiles, the
+32-nation split into 17 South Korean, 12 North Korean, and 3 Japanese, and the y=1210
+team split, is read directly from the manifest at commit f33d00490, and the v0.35.6
+release is the release against which those numbers are verified.
+
+![Korea map (v0.35 series), official map image from the upstream manifest, AGPLv3.](/images/maps/korea-v0.35.webp)
+
+## The narrowness is the decision
+
+The single most important fact about Korea is that it is narrow, and the narrowness is
+what makes the axis commitment a real decision instead of a coin flip. At two thousand
+one hundred and eighty-eight pixels tall and only one thousand eighty-eight pixels wide,
+Korea is the opposite of the wide island maps; you cannot hide behind a large board, and
+every front stays within reach of every other front across the peninsula. The seven
+hundred and eighty-two thousand and forty-eight land tiles put it in the lower part of
+the land-driven sizing spectrum that replaced the old flat cap. That means Korea rolls a
+smaller or mid-sized lobby than the massive land-heavy maps and a larger one than the
+water-heavy maps, and the named-nation density per land tile is high: thirty-two nations
+across a deep but narrow strip, so a large share of every match's named nations are
+crowded into the middle third of the peninsula where the two coasts are closest.
+
+The narrowness has three consequences that the framework below is built around. The first
+is that a wrong coast is not a small mistake; if you commit to the south coast and the
+north team reads the peninsula, the correction is not a lateral move, it is a push up the
+full length of the strip, and on a board this deep that push costs most of the game. The
+second is that the two coasts are not independent economies; the middle third of the
+peninsula connects them, so a player who owns the middle owns both coasts' borders at the
+same time, which is why the middle is the first contested prize. The third is that the
+detached islands sit far enough to the southeast that they are a separate axis with their
+own sea route, and the narrowness means the islands are the only part of the board where
+you can open a second front without it bleeding into your main front. The three axes, the
+south coast, the north inland, and the islands, are the whole of Korea's geography, and
+the framework below is a way to commit to one of them before the countdown ends.
+
+The practical read is to treat the narrowness as a clock. On a wide map you have room to
+improvise which side you play; on Korea the room is the width of one peninsula, so the
+side you commit to at the countdown is the side you play for the whole match, and the
+only safe correction is the one that does not require a crossing of the middle third.
+That is why the framework names the anchor and the two neighbours before it names the
+coast, because the anchor is the point on the peninsula that is still yours if the coast
+turns against you, and the two neighbours are the flanks that keep the anchor defensible
+on both sides. Read the narrowness once, name the anchor, and the coast decides itself.
+
+## The nation layer: three axes, thirty-two nations
+
+The 32 nations on Korea split into three axes, and the split is the map. The table below
+is the full nation layer, read from the manifest at commit f33d00490.
+
+| Axis | Nations | Geography | Economy | First decision |
+|---|---|---|---|---|
+| South Korea (kr) | 17 | bottom two-thirds, east and west coasts | coastal, Port access | anchor a coastal city |
+| North Korea (kp) | 12 | top third, inland and mountained | inland, Factory spacing | hold the mountained core |
+| Japan (jp) | 3 | detached, southeast corner | island-only, sea route | win or skip the crossing |
+
+The 17 South Korean nations fill the bottom two-thirds of the peninsula and carry the
+dense city cluster: Seoul, Incheon, Busan, Daegu, Daejeon, Gwangju, and the surrounding
+provinces down to Ulsan on the east coast and Jeju off the south tip. This is the axis
+with the most Port access and the highest income ceiling, because the cities sit on both
+coasts and the middle third is wide enough to feed them. The 12 North Korean nations fill
+the top third and are mountained and inland, centred on Pyongyang with the Hamgyong,
+Pyongan, Hwanghae, Chagang, and Kangwon provinces around it; this is the axis with the
+least water and the most Factory spacing, and it is the axis that defends the mountained
+core rather than the coast. The 3 Japanese nations, Fukuoka, Saga, and Nagasaki, are the
+detached islands in the southeast corner; they are the only part of the board that is not
+connected to the peninsula by land, and they sit far enough from the mainland that they
+are a separate axis with their own sea route and their own economy.
+
+The split matters because it is not even. The South has 17 named nations against the
+North's 12, and the South's named nations are the coastal cities that carry the income,
+so the South is the richer axis by construction and the North is the more defensible one
+by construction. The South's named nations are not evenly spread either; the city cluster
+is densest on the west coast and in the middle third, so two players who spawn near Seoul
+or Incheon are fighting for the same high-income cities while the east-coast provinces
+near Ulsan are the cheaper, more defensible expansion for the player who wants to grow
+without a border war. The North's 12 named nations are more even but more isolated; the
+mountained provinces mean a North player who takes Pyongyang can hold it against a small
+push but cannot feed a long war, so the North's economy is a defence economy, not an
+expansion economy. That is the whole of the map's political shape: the side with the
+cities has the money, the side with the mountains has the defence, and the islands are
+the separate prize that either side can take if it is willing to pay the crossing. The
+table is the map, and the rest of the guide is the decision it forces.
+
+## Decision framework: name the anchor before you name the coast
+
+The framework is a sequence of three reads you run before the countdown ends, and the
+point of the sequence is that the coast is the last thing you decide, not the first. The
+first read is the axis: which of the three axes, the South coast, the North inland, or
+the islands, is the one your spawn lands you on. The second read is the anchor: the single
+named nation on that axis that is the strongest economy and the most defensible position,
+the coastal city with Port access if you are on the south, or the mountained core with
+Factory spacing if you are on the north. The third read is the two neighbours: the two
+named nations nearest the anchor, which are the flanks you must keep defensible and the
+directions you must not send units into until the anchor is safe on both sides.
+
+The rule that the three reads collapse into is the one-sentence Korea rule: commit to the
+coast that your anchor sits on, hold the anchor plus the two neighbours, and do not send
+a unit to a third front until the anchor is defensible on both flanks. The rule works
+because the anchor is the point that is still yours if the coast turns against you, and
+the two neighbours are the flanks that keep the anchor from being enveloped. If you name
+the anchor first and the coast follows, a wrong coast is recoverable, because you still
+hold the anchor and the correction is a flank move, not a crossing of the middle third.
+If you name the coast first and the anchor follows, a wrong coast is fatal, because you
+have spread along the coast and the anchor is whatever is left, which is usually the
+weakest named nation on the board.
+
+The framework also tells you when to break the rule. The rule says hold the anchor plus
+the two neighbours and do not open a third front, and the two cases where you break it
+are the two cases where the third front is the axis and not a flank. The first is when
+you are on the south and the islands are unclaimed, because the islands are the separate
+axis and taking them is a second economy, not a third front that bleeds into the main
+front. The second is when you are on the north and the middle third is the contested
+prize, because on the north the middle third is the only route to the south's cities, and
+holding it is the north's version of holding the anchor. In both cases the rule is the
+same, commit to the anchor and the two neighbours, and only when that is safe do you
+reach for the axis. The framework is the tool, and the scenarios below are the two ways
+the match plays out when you run it.
+
+## Scenario one: a mid-sized FFA on the south coast
+
+Scenario one is the mid-sized FFA in which you spawn on the south coast, and the goal is
+to show the framework on the richer axis. You are one of the smaller lobbies Korea rolls,
+call it a fifty-player FFA, and you spawn on the east coast near Incheon or Busan, which
+puts you on the south axis and on the coast with the most Port access. The framework
+names the anchor as the coastal city nearest your spawn, Incheon or Busan, and the two
+neighbours as the provinces on either side of it, North Gyeongsang to the east and the
+west-coast provinces to the west. The first decision is the anchor: you take the named
+city, then you take the two named provinces, and only then do you reach for the middle
+third of the peninsula, which is the first contested prize because it connects the two
+coasts.
+
+The numbers in this scenario are the ones that decide it. The south axis has 17 named
+nations, so a fifty-player FFA on the south is a fight for a large share of the named
+cities, and the income ceiling is set by how many of them you hold by the midgame. The
+middle third is the contested prize because it is the only route between the two coasts,
+and the player who owns it owns both borders at the same time. The islands are the second
+axis, and in this scenario the call is to win them, because you are on the south and the
+islands are the separate economy that does not bleed into your main front. The crossing
+to the islands is a sea route, and the cost is the Warship screen and the transport
+landing, so the scenario is: anchor the city, take the two provinces, hold the middle
+third, then send the second economy to the islands. The assumption is that you are not the
+strongest player on the south, because if you are, the scenario is the same except the
+islands are a bonus instead of a fight, and the anchor and the two neighbours are the same
+either way. The failure this scenario exists to prevent is the player who commits to the
+coast and spreads along the whole shore, because on a board this narrow that spread is
+the loss, and the anchor plus the two neighbours is the only way the south stays yours.
+
+## Scenario two: the 2-team split at y=1210
+
+Scenario two is the 2-team lobby, which is the mode where Korea's split becomes the game.
+The manifest's team spawn rectangles are the top rectangle from y=0 to y=1210 and the
+bottom rectangle from y=1210 to y=2188, and the nation coordinates put the South coast and
+the three Japanese islands in the bottom rectangle and all of North Korea in the top
+rectangle. That means the 2-team split is not a coin flip between two random halves; it is
+a clean axis split in which one team gets the south coast and the islands, 20 named
+nations, and the other team gets the north inland, 12 named nations. You do not pick your
+side against 50 random players; you pick it against one coherent team that owns the whole
+north or the whole south.
+
+The numbers in this scenario are the split itself. Team one has the south axis plus the
+islands, which is 20 named nations and the richest income, and team two has the north
+inland, which is 12 named nations and the mountained defence. The spawn line at y=1210 is
+the border of the match, and the entire middle third of the peninsula is the contested
+front between the two teams. The islands are on team one's side, so in the 2-team split
+the south team has the second economy and the north team has the defence, and the match
+is a single continuous front on the peninsula with the islands as the secondary axis. The
+decision framework in team mode is the same concentration logic applied to the team's half:
+the team anchors a set of named nations, holds the two neighbours, and concentrates on the
+middle third instead of spreading along the whole coast. The assumption is that your team
+is the south team, because if you are the north team the scenario is the same shape
+inverted, the defence becomes the front and the middle third becomes the only route to
+the south's cities. The 20-to-12 split is the whole of the 2-team Korea match,
+and it is a structural imbalance, not a fairness question: team one has more named
+nations and the second economy, and team two has the defence and the shorter border to
+hold. The team version of the framework is the anchor, the two neighbours, and the axis,
+applied to the whole team rather than the single player, which means the team must name
+its anchor nation and its two neighbour nations the way the FFA player names them, and
+the team that names them first wins the middle third. The failure this scenario exists
+to prevent is the team that spreads across its whole half, because the middle third is
+the prize and the spread is the loss. The 2-team split at y=1210 is the one mode where
+the Korea decision is the least personal and the most structural, and the player who can
+read the 20-to-12 split knows which side of the peninsula the match is decided on.
+
+## Failure modes and opponent counterplay
+
+The failure modes on Korea are three, and they are all the same failure with a different
+name, the failure of committing to a coast before you commit to an anchor. The first is
+the coast commitment, which is the player who picks the south because it looks rich and
+spreads along the whole shore, and the counter is the anchor plus the two neighbours,
+which is the only shape that keeps the south defensible on both flanks. The reason the
+coast commitment is so common is that the south coast looks like the richest coast on the
+board and the player wants the income, but the income only exists if you still hold the
+anchor, and spreading along the shore gives the income away to the neighbour while you
+own the weaker named nations. The second is the island neglect, which is the player on
+the south who treats the three Japanese islands as irrelevant because they are detached,
+when in fact they are the separate second economy and the first prize of the player who
+reads the board, and the counter is the axis rule, which is to name the islands as the
+second economy and plan the crossing before the countdown ends. The islands are easy to
+neglect because they are the small part of the board, three named nations against the
+seventeen of the south, and the crossing looks expensive, but the second economy is the
+prize that wins the match when both players hold the mainland. The third is the
+overextension, which is the player who holds the middle third and reaches for the islands
+at the same time, and the counter is the two-neighbour rule, which is to keep the two
+flanks safe before the second front is open. The overextension is the failure that looks
+most like a win in the lobby, because the player who holds the middle third and the
+islands controls the whole board, but it is the most fragile shape on a narrow peninsula,
+because the two flanks are the two sides the enemy can hit while you are busy on the
+islands.
+
+The opponent counterplay that the three failures feed is the axis grab, which is the
+player or team that takes the contested axis before you do. On the south the axis grab is
+the player who takes the middle third first, because the middle third is the only route
+between the coasts and the player who owns it owns both borders. On the north the axis
+grab is the player who takes the mountained core first, because the core is the defence
+and the player who owns it owns the top third. On the islands the axis grab is the
+player who crosses first, because the islands are the separate economy and the player
+who wins the crossing owns the second axis. The counter to the axis grab is the same
+framework run one minute earlier, which is to name the anchor and the two neighbours in
+the lobby so the axis is already on your plan when the countdown ends. The three failures
+and the three axis grabs are the whole of Korea's tactical content, and the player who
+can run the framework is the player who wins the peninsula.
+
+## Mode and map adjustments
+
+The mode you are playing changes the Korea read in a small number of ways, and the map
+itself changes the mode reading in a few more. The first mode adjustment is the team
+split, which is the 2-team split at y=1210 that puts the south and the islands on one
+team and the north on the other, and the decision framework changes from which side you
+pick to how the team divides its side. In a larger team lobby the team has more players
+per named nation, so the team can cover more of its half and the spread failure is less
+likely; in a smaller team lobby the team has fewer players per named nation, so the team
+concentrates on the middle third and the island axis. The team framework is the same
+concentration logic as the FFA, applied to the team's half of the board.
+
+The second mode adjustment is the v0.35 national AI, which now retaliates harder against
+the player who pulls ahead, follows up on beachheads, and targets nuclear strikes more
+intelligently. On Korea the national AI change means the detached islands are a more
+contested prize, because the AI on the island side follows up on a landing and the AI on
+the mainland side retaliates harder if you pull ahead, so the island axis is the axis
+where the v0.35 AI is most active. The third mode adjustment is the nuclear territory
+annexation rule, which lets you seize a piece of territory that a nuke has severed from
+its owner's main body. On Korea the annexation rule means a nuke that severs a north
+Korean nation from the rest of the peninsula makes that nation a separate piece you can
+annex, which changes how you play the border and makes the middle third a nuclear target
+as well as a land prize.
+
+The fourth mode adjustment is the Doomsday Clock, if it is active. The Doomsday reading
+on Korea is the same as on any map, which is that the under-forty-percent side is fighting
+to survive the wave, but the Korea reading is that the under side is usually the team
+without the islands, because the team without the islands is the team without the second
+economy. The Doomsday reading is the same as the concentration reading, which is that the
+side with the islands is the side that can keep expanding to the last economy, so the
+under side has to force the island side to spend units on the screen. The map adjustment
+is the same as the mode adjustment, because the narrow board is the mode on this
+peninsula, and the mode changes the reading of the team split, the national AI, the
+annexation rule, and the Doomsday Clock. The player who can read both the mode and the
+map is the player who plays Korea correctly, and the peninsula is the one that decides
+the match.
+
+## What to take into your next match
+
+The single takeaway from Korea is that the board is narrow and the decision is the axis,
+and the axis is decided by the anchor. The map is one thousand eighty-eight pixels wide
+and two thousand one hundred and eighty-eight pixels tall with seven hundred and eighty
+two thousand and forty-eight land tiles and thirty-two named nations, and the match is
+decided by which of the two coasts you commit to before the countdown ends. The decision
+framework is the tool, which is to read the axis, name the anchor, name the two
+neighbours, and commit to the coast that the anchor sits on, and the scenarios are the
+two ways the match plays out, the mid-sized FFA on the south coast and the 2-team split
+at y=1210. The failure modes are the three ways the match is lost, the coast commitment,
+the island neglect, and the overextension, and the counterplay is the one way the
+opponent wins, the axis grab. The mode and map adjustments are the last piece, which is
+that the mode changes how the team divides its side and how the national AI, the
+annexation rule, and the Doomsday Clock read, and the map changes where the two coasts
+and the islands are.
+
+For the broader systems this opening feeds into, the [map strategy
+guide](/guides/map-strategy/) covers connected land and water networks on any board, the
+[island defense guide](/guides/island-defense/) covers how to screen the island crossing
+and when a disconnected sea route means you should fall back to land, the [naval
+stalemate and blockade guide](/guides/naval-stalemate-blockade-anti-blockade/) covers how
+to hold a crossing when the enemy is trying to deny it, the [tall versus wide
+guide](/guides/tall-vs-wide/) covers when a safe economy should take more land, and the
+[team economy space guide](/guides/team-economy-space/) covers how teammates reserve the
+shared corridors on the 2-team split. Bring those into the same decision and the Korea
+opening stops being a guess about which coast looks central and becomes a plan about
+which coast, which anchor, which two neighbours, and which axis you are committing to
+before the countdown ends, which is the only time the whole thing is still in your hands.
+The board is narrow enough that a wrong coast is recoverable for a short while, but the
+middle third makes the correction a crossing, and crossings cost time and a unit you may
+not be able to afford if you have already burned your early game on a bad start, which is
+why the players who win on this map are usually the ones who named the anchor and the two
+neighbours and committed to the coast the anchor sat on, rather than the ones who picked
+the familiar coast by instinct and then had to improvise the crossing.
