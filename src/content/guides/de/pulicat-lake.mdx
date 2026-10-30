@@ -1,0 +1,415 @@
+---
+title: "Pulicat Lake: die Lagune, die Meerenge und wer die Pirateninsel besitzt"
+description: Ein Entscheidungsguide für die v0.35-Karte Pulicat Lake, eine eingezäunte Lagune mit einem einzigen Meereinzug und einer Pirateninsel im Tor. Wie das 12-Nationen-Board mit hoher Wasseranteile wirklich aussieht, warum ein einziges Schlachtschiff die ganze Meerenge absperren kann, wie man die Pirateninsel in eine Werft und eine Steuer auf Handel verwandelt und welche Küste man vor dem Countdown abschließt.
+pubDate: 2026-10-30
+updatedDate: 2026-10-30
+tags: [maps, v0.35, pulicat-lake, warship, piracy, port, naval, lagoon, spawn]
+category: Guide
+difficulty: Fortgeschritten
+version: v0.35.0
+freshnessSummary: "Am 2026-10-30 geprüft gegen das formale v0.35.0-Release (2026-10-16) und seine Release-Notes, das offizielle Upstream-Kartenmanifest (Raster 1.176×1.796, 851.671 Landkacheln, 12 indische Nationen, special_team_count 2, multiplayer_frequency 3) und die Engine-Quelle (Schlachtschiff 1.000 HP, Geschütz 200–300, Erkennung 130 Kacheln, Abklingzeit 20 Ticks, Rückzug 75 %, passive Heilung 150 Kacheln, Werft-Heilung 10 + 50×(Hafenlevel / Schlachtschiffe in der Werft), Kosten min(1M, (n+1)×250k)). Community-Signal aus vier r/Openfront-Guides und drei v0.35-Videos."
+---
+
+**Direkte Antwort.** Pulicat Lake ist eine Lagune mit hohem Wasseranteil und nur einem
+Meereinzug, also entscheidet sich die Partie an der Meerenge: die Pirateninsel im Tor ist die
+natürliche Werft und das Piraterie-Zentrum des Schlachtschiffs, und wer sie hält, kann jeden
+Handelsschiff besteuern und jede Bootsfahrt blockieren. Engagiere dich früh Richtung Einzug,
+baue deinen Hafen auf der Insel und sichere die Meerenge mit einem einzigen
+250.000-Gold-Schlachtschiff; wenn du im Inneren spawnst, behandle das einzelne Tor als das
+Problem des Gegners, das du ausnutzt, nicht als das deine, das du verteidigst. Lies das Wasser,
+bevor du dich auf eine Küste festlegst, denn eine Lagune mit 59,7 % Wasser und einem Tor ist
+ein komplett anderes Spiel als ein Landboard.
+
+Pulicat Lake ist die v0.35-Karte, auf der eine einzelne Position die ganze Partie entscheiden
+kann. Sie ist eine eingezäunte Lagune — eine echte Wasserfläche mit einem einzigen nördlichen
+Meereinzug — und die offiziellen Release-Notes beschreiben sie in einer Zeile: „eine Lagune
+mit einem einzigen Meereinzug und einer Pirateninsel im Tor“. Diese Insel, direkt in der
+einzigen Ein- und Ausfahrt, ist die Karte. Sie ist gleichzeitig natürliche Werft des
+Schlachtschiffs, passive-Heilungszone und Piraterie-Plattform, und der Spieler, der sie
+kontrolliert, kontrolliert die Meerenge. Der Rest des 12-Nationen-Boards ist der Rand der
+Lagune: indische Nationen entlang der Wasserlinie, die meisten vom Rest der Karte durch dasselbe
+einzelne Tor abgeschnitten. Dieser Guide gibt dir ein wiederverwendbares Framework für die
+vier Entscheidungen, die die Karte erzwingt: welche Küste vor dem Countdown, die Pirateninsel
+angreifen oder meiden, ein Ein-Schlachtschiff-Deck an der Meerenge führen und dieses Deck
+brechen, wenn es nicht deiner ist. Alle Zahlen unten sind das veröffentlichte v0.35.0-Verhalten,
+damit du die 1.000 HP eines Schlachtschiffs, die erste 250.000-Gold-Hülle und die 20-Tick-
+Abklingzeit gegen das Gelände halten und bewußt entscheiden kannst.
+
+## Versionsgrenze: was Pulicat Lake in v0.35 wirklich ist
+
+Das Erste, das festzumachen ist: Pulicat Lake ist eine v0.35-Karte und trägt die zwei
+v0.35-Verhaltensweisen, die jedes Board neu zeichnen, auf dem sie erscheint. Sie kam in dem
+formalen v0.35.0-Release vom 16. Oktober 2026 heraus, und die offiziellen Release-Notes
+nennen sie ausdrücklich und nennen ihren Mitwirkenden, dann folgt „Besseres Terrain für
+Pulicat Lake“, was bedeutet, dass die Wasser- und Küstengeometrie nach dem ersten Durchlauf
+angestellt wurde — die eingezäunte Lagunenform, die du im Client siehst, ist die beabsichtigte
+Form, kein Bug. Weil es eine v0.35-Karte ist, läuft sie unter dem v0.35-Lobby-Umbau: die alte
+125-Spieler-Grenze wurde entfernt und die Lobbygröße wurde kartengesteuert, also füllt eine
+12-Nationen-Lagune ihre Nationsslots, lange bevor eine große Grenze erreicht ist, und hält ein
+strafferes Tempo als die 43-Nationen-Arcade-Boards. Die Karte läuft auch unter der
+v0.35-Spawnwiederherstellung pro Spieler: wenn der am meisten hinterherhinkende Spieler weniger
+offene Handelsschiffe hat als der am besten platzierte, wird sein nächster
+Handelsschiff-Timer für ein festes Fenster verkürzt, was auf einem board mit hohem Wasseranteil
+zählt, denn ein unglücklicher Küstenspawn erholt seine Wirtschaft schneller als in älteren
+Versionen.
+
+Zwei Fakten aus dem Manifest definieren die Grenze. Das Board ist ein Raster von 1.176 mal
+1.796 — eine große, vertikal gestreckte Lagune — und von ihren rund 2,11 Millionen Kacheln sind
+851.671 Land, etwa 40,3 %, was bedeutet, dass die verbleibenden 59,7 % Wasser sind. Das ist ein
+wirklich wasserreiches Board, und genau deshalb sind die Naval-Mechaniken die
+Entscheidungsachse der Karte und keine Nebenerwägung. Die zweite Grenze ist der Modus: das
+Manifest listet `multiplayer_frequency` 3 und `special_team_count` 2, aber kein
+`team_frequency`. Pulicat Lake ist also eine rein FFA-Publikkarte. Sie wird nicht an
+Trupps verteilt wie die teamgewichteten afrikanischen Karten, und die zwei
+Sondermannschaften-Nationen sind eine strukturelle Kuriosität des Layouts, kein
+Team-Routierungs-Tag. Wenn du Pulicat Lake mit einem festen Plan testen willst, baue eine
+Custom- oder Private-Lobby und nenne die Karte direkt; die öffentliche Rotation wird sie wegen
+ihrer Frequenz 3 seltener anzeigen als die Arcade-Karten. Behandle die Lobbyzahlen pro Karte als
+v0.35-beobachtete Werte und prüfe die Live-Client-Werte, bevor du einen Truppenplan drumbaust,
+denn Lobbygröße und Spawnwiederherstellung wurden im v0.35-Zyklus eingeführt und gemessen.
+Die Grenze sagt dir auch, was auf dieser Karte nicht stattfindet: Es gibt keine
+Team-Verteilung, um die herum ein Plan aufgebaut werden kann, also ist jeder
+Truppen-only-Spieltest ein Custom-Lobby-Vorhaben, und die Sondermannschaften-Nationen sind ein
+Layout-Merkmal, das du an der Karte liest, kein Routierungs-Tag, das die Lobby zuweist.
+
+## Die Geographie: eine eingezäunte Lagune mit einem Tor
+
+Lies das Wasser, bevor du dich auf eine Küste festlegst, und auf Pulicat Lake hat das Wasser
+eine Eigenschaft, die alles andere übertrifft: es gibt nur einen Weg hinein und einen Weg
+raus. Die Lagune ist eingezäunt, die 12 benannten Nationen sitzen am Rand eines inneren
+Wasserkörpers, und der einzelne nördliche Meereinzug ist die einzige Verbindung zur offenen
+See. Dieses einzelne Tor ist ein Engpaß im strengen Sinn — ein vorgelagertes Schlachtschiff an
+der Meerenge kann jede Überquerung verweigern, und jedes Handelsschiff, Transportboot oder
+angreifende Kraft, die zum Inneren der Lagune will, muss durch dasselbe schmale Wasser. Die
+eingezäunte Form bedeutet auch, dass das Innenwasser ein zusammenhängendes Komponente ist, das
+du halten, patrouillieren und besteuern kannst, statt ein weites offenes Meer, an dem das Deck
+des Verteidigers umgangen werden kann.
+
+Die 12 Nationen sind entlang dieses Randes verteilt, und ihre Positionen erzählen die Partie.
+Chittamur und Dugarajapatnam liegen im Norden nahe dem Einzug, also erreichen sie die
+Pirateninsel und die Meerenge zuerst; Sriharikota und Venadu halten die mittlere Wasserlinie;
+Sullurpeta und Irakkam sind an der Westküste; und Sunnambukulam, Elavur, Annamalaicheri,
+Pulicat und Gummidipoondi säumen den Süden. Die Karte benennt eine Nation wörtlich „Pulicat“,
+die Lagune selbst, und ihre südliche Position macht die Südküste das von dem einzelnen
+nördlichen Tor am weitesten entfernte Ende der Lagune. Der praktische Lesart ist, dass eine
+Nation nahe dem Einzug die Pirateninsel und die Meerenge erreichen kann, bevor alle anderen,
+während eine südliche Nation am meisten abgeschnitten ist und das längste Innenwasser
+überqueren muss, um das Tor zu erreichen. Zähl zwei Entfernungen und halte sie getrennt: die
+Entfernung von deinem Spawn zur Pirateninsel (die bestimmt, wie schnell du die Werft
+beanspruchen kannst) und die Entfernung von der Pirateninsel zu deiner Küste (die bestimmt,
+wie lange ein feindliches Schlachtschiff in seinem 130-Kachel-Erkennungsradius braucht, um
+dich zu erreichen). Diese zwei Zahlen klappen nicht zu einer zusammen, und der Spieler, der
+sie falsch liest, wählt die falsche Küste. Die praktische Konsequenz der eingezäunten Form
+ist, dass die Überquerungszeit die eigentliche Währung der Karte ist: Eine Überfahrt von der
+Südküste zur Meerenge ist eine lange, exponierte Wasserlinie ohne jeden Schutz, während eine
+nördliche Nation dieselbe Meerenge in wenigen Bootsbewegungen erreicht. Diese Asymmetrie
+erklärt, warum die Seite des Einzugs die frühe Besetzung fast per default gewinnt: Die
+südlichen Nationen verlieren die Pirateninsel nicht, weil ihre Boote langsamer sind, sondern
+weil die Geografie sie am entfernten Ende eines einzigen verbundenen Wasserkörpers platziert,
+den jeder durchqueren muss, um das Tor zu erreichen.
+
+## Das Schlachtschiff-Deck: eine Hülle sperrt die ganze Meerenge
+
+Der einzelne Einzug bedeutet, dass ein einziges Schlachtschiff die Lagune verweigern kann, und
+die Zahlen machen das konkret. Ein Schlachtschiff kostet 250.000 Gold für die erste Hülle (die
+Leiter steigt auf 500.000, 750.000 und deckt bei der vierten und den weiteren auf 1.000.000 ab,
+berechnet als min(1.000.000, (n+1)×250.000), wobei n die Anzahl ist, die du bereits
+besitzt), und diese erste Hülle trägt 1.000 HP, ein gerolltes 200-bis-300-Geschütz, das pro
+Veterancy-Level 20 % gewinnt, einen 130-Kachel-Erkennungsradius und eine 20-Tick-Abklingzeit.
+Stelle diese Hülle in die Meerenge und sie beobachtet das ganze Tor: jedes Boot oder
+Handelsschiff, das in seinen 130-Kachel-Erkennungsradius tritt und innerhalb seiner
+100-Kachel-Patrouille bleibt, ist ein Ziel, und es feuert alle 20 Ticks. Auf einer Karte mit
+einem Tor ist das kein Linien-Deck, es ist das Deck der ganzen Karte. Die eigene
+„Schlachtschiff-Deck“-Klage der Community — dass ein kleiner Boot-Spam beinahe unmöglich zu
+antworten ist — ist genau die Situation, die Pulicat selbst schafft: der Verteidiger muss drei
+Küsten nicht abdecken, er muss eine Meerenge abdecken, und eine 1.000-HP-Hülle mit 20-Tick-
+Abklingzeit deckt sie bequem ab.
+
+Das Deck ist auch nachhaltig, was es zu einer echten Entscheidung statt einem Bluff macht. Ein
+Schlachtschiff innerhalb von 150 Kacheln des Hafens seines Besitzers erholt sich passiv 10 HP
+pro Sekunde, und wenn es in diesem Hafen vertäut ist, erhält es die stärkere Heilung 10 +
+50×(Hafenlevel / Schlachtschiffe in der Werft) HP pro Sekunde. Also heilt ein einzelnes
+Schlachtschiff, das in einem Level-1-Hafen auf der Pirateninsel vertäut ist, vertäut 60 HP pro
+Sekunde und bei der Patrouille der Meerenge innerhalb von 150 Kacheln 10 HP pro Sekunde. Es
+kann einen Boot-Spam einstecken, seine Geschütze abfeuern, an der Werft auf volle HP zurückkommen
+und erneut patrouillieren. Die 75 %-Automatikrückschlagsregel vervollständigt das Bild: sobald
+die Hülle unter 75 % ihrer Max-HP fällt, beginnt sie zum Hafen zurückzuziehen, und ein
+zurückziehendes Schlachtschiff verpflichtet sich zur Reparatur. Das Meerengen-Deck ist also eine
+Schleife — patrouillieren, feuern, zur Werft zurückziehen, heilen, patrouillieren — und die
+einzigen Wege, es zu brechen, sind, die Hülle schneller zu töten, als die Werft heilt, den
+Hafen zu entfernen, in dem es vertäut, oder eine Wasserfläche zu erreichen, die das
+Meerengen-Schlachtschiff nicht abdecken kann.
+
+| Schlachtschiff-Statistik | Veröffentlichter v0.35.0-Wert | Was es auf Pulicat bedeutet |
+|---|---|---|
+| Kosten der ersten Hülle | 250.000 Gold | Der Eintrittspreis für das ganze Lagunen-Deck |
+| Trefferpunkte | 1.000 | Eine einzige Hülle deckt eine einzelne Meerenge bequem ab |
+| Erkennung | 130 Kacheln | Beaufsichtigt den gesamten einzigen Einzug |
+| Granate | 200–300, +20 % pro Veteran-Level | Eine rollende Granate, die beim Überleben steigt |
+| Granaten-Neuladung | 20 Ticks | Ein stabiles, antwortbares Feuer, keine Salve |
+| Patrouillenradius | 100 Kacheln | Wo es wachsam ist und erfassen kann |
+| Passive Hafenheilung | 10 TP/s innerhalb von 150 Kacheln eines Hafens | Kostenloses Fortbestehen beim Halten des Tores |
+| Vertäute Heilung | 10 + 50×(Hafenlevel / Schlachtschiffe in der Werft) TP/s | 60 TP/s an einem Level-1-Hafen, eine Hülle |
+| Automatischer Rückzug | Unter 75 % Max-TP | Die Hülle verpflichtet sich zur Reparatur, nicht zum Kampf |
+
+Die Kosten der ersten Hülle folgen der Treppe min(1.000.000, (n+1)×250.000), also kostet die
+zweite Hülle 500.000, die dritte 750.000, und die vierte und darüber sind auf 1.000.000
+begrenzt. Auf einer Karte, wo eine einzige Hülle den gesamten Einzug schon deckt, ist eine
+zweite Hülle eine Redundanz und ein Gegenzug zur eigenen Hülle des Feinds, keine offensichtliche
+Ausgabe — damit ist die obige Tabelle der Satz an Zahlen, den du im Kopf behältst, wenn du
+entscheidest, ob die Meerenge bei dir zu halten ist oder beim Feind zu brechen.
+
+## Die Pirateninsel: Werft, Heilung und die Steuer auf Handel
+
+Die Pirateninsel ist dort, wo Werft, Heilung und Einkommen zusammenkommen, und sie ist die
+einzelne wertvollste Position auf der Karte. Ein dort gebauter Hafen gibt deinem
+Schlachtschiff einen Reparaturanker genau am Tor, also ist das Meerengen-Deck aus dem
+vorherigen Abschnitt die ganze Partie haltbar. Der Hafen lässt dich auch Piraterie fahren: ein
+Schlachtschiff verfolgt und fängt automatisch gültige feindliche Handelsschiffe, die in seine
+Patrouille treten, und ein gefangenes Schiff wird auf einen deiner Hafen umgeleitet und zahlt
+dir bei Ankunft Gold. Die Zahlung benutzt dieselbe distanzbasierte Formel wie gewöhnlicher
+Handel, und das wichtige Detail ist, dass die Distanz, die das Schiff bereits zurückgelegt hat,
+in die Zahlung zählt — also ist ein Handelsschiff, das vor deiner Fang die meiste der Lagune
+überquert hat, weit wertvoller als eines, das du nahe am Spawn abfängst. Das ist die Steuer auf
+die Meerenge: jedes feindliche Handelsschiff, das das einzelne Tor passiert, ist deiner
+Schlachtschiffs für die ganze Überquerung ausgesetzt, und du behältst die einzelne Zahlung bei
+Ankunft.
+
+Aber die Insel ist kein kostenloses Geld, und die Küstenschutzregel ist die Grenze.
+Handelsschiffe erhalten 20 Ticks (zwei Sekunden) Piraterieschutz, wenn sie spawnen oder auf eine
+Küstenwasser-Kachel ziehen, und dieser Schutz aktualisiert sich jedes Mal, wenn das Schiff auf
+eine andere Küstenkachel zieht. In einem schmalen Kanal, der die Küste entlangläuft,
+aktualisiert das Schiff seinen Schutz ständig, also ist Piraterie entlang der engen Eingänge der
+Lagune praktisch unmöglich — du kannst nur ein Schiff im offenen Wasser nehmen, wo es nicht
+ständig auf eine Küstenkachel zurückzieht. Ein Schlachtschiff kann auch keine Handelsschiffe
+piraterien, die Verbündeten oder Teams gehören, Handelsschiffe, die zu deinem eigenen oder
+einem befreundeten Hafen fahren, und es braucht einen aktiven, abgeschlossenen Hafen, der
+durch denselben zusammenhängenden Wasserbestand erreichbar ist, um überhaupt zu fangen. Das
+Piraterieeinkommen der Insel hängt also davon ab, dass drei Dinge gleichzeitig wahr sind: du
+hälst einen funktionierenden Hafen dort, das Zielschiff ist im offenen Wasser (nicht an der
+Küste entlang) und das Schiff fährt nicht zu einem Hafen, den du kontrollierst oder teilst.
+Wenn alle drei zutreffen, verwandelt die Pirateninsel das einzelne Tor von einem Tor, das du
+verteidigst, in ein Mauttor, das du betreibst. Die taktische Konsequenz ist, dass dein
+Schlachtschiff den größten Teil der Partie im offenen Wasser kurz vor der Pirateninsel
+bringen sollte, nicht verteidigend an der eigenen Küste: so liegt es innerhalb der 130-Kachel-
+Erkennung auf jedem Schiff, das das Tor passiert, innerhalb der 100-Kachel-Patrouille, um
+es abzufangen, und innerhalb des 150-Kachel-Heilfensters des Hafens, der es repariert, während
+es patrouilliert. Die Insel ist damit nicht nur die wertvollste Grundfläche der Karte, sondern
+auch die einzige Grundfläche, die drei Einkommensquellen — Reparatur, Piraterie und die
+Straßenkontrolle selbst — auf derselben Kachel stapelt, und ein Verlust dort gibt alle drei
+gleichzeitig preis. Wer die Insel verliert, verliert nicht nur die Maut, sondern auch die
+Reparaturbasis, die das Straßen-Deck erst trägt.
+
+## Szenario eins: den Einzug halten und die Meerenge besteuern
+
+Nimm eine mittlere FFA-Partie auf Pulicat Lake an. Du hast auf Chittamur gespawnt, im Norden
+nahe der Pirateninsel, und am späten Anfang die erste 125.000 Gold erreicht. Der Gegner, der
+dich interessiert, hält Sriharikota auf der mittleren Wasserlinie und stößt eine
+Handelswirtschaft über die Lagune. Keine Wasserminen, kein Doomsday, beide können bauen, und
+der Gegner hat noch kein Schlachtschiff gebaut. Dein Ziel ist, die Pirateninsel zu beanspruchen,
+einen Hafen darauf zu stellen und den Rest der Partie ein Ein-Schlachtschiff-Deck an der
+Meerenge zu führen.
+
+Engagiere die ersten Minuten auf die Insel. Baue den Hafen auf der Pirateninsel, nicht an
+deiner eigenen Küste, denn der Hafen auf der Insel ist es, was das Meerengen-Deck haltbar
+macht: er ist der Reparaturanker, die Pirateriewerft und die 150-Kachel-passive-Heilungszone
+an einer Position. Kaufe dein erstes Schlachtschiff für 250.000 Gold und setze seinen
+Patrouillenpunkt in die Meerenge. Mit 1.000 HP, einem 130-Kachel-Erkennungsradius und einer
+20-Tick-Abklingzeit beobachtet diese Hülle das ganze einzelne Tor, und vertäut im Level-1-Hafen
+heilt sie 60 HP pro Sekunde, also kann sie einen Boot-Probe einstecken und auf volle HP
+zurückkommen. Jetzt die Wirtschaft: die feindlichen Handelsschiffe müssen die Lagune durch
+dasselbe Tor überqueren, das du hältst, und jedes, das die Meerenge in deiner
+Schlachtschiffs-Reichweite passiert und nicht an einer Küstenkachel entlangläuft, ist fangbar.
+Du leitest jede Fang auf den Hafen der Insel um und behältst die einzelne Zahlung, und weil die
+bereits zurückgelegte Distanz zählt, sind die Schiffe, die du nahe dem Ende der Überquerung
+abfängst — die, die bereits die meiste der Lagune überquert haben — die wertvollsten. Die
+Entscheidung ist bewußt und messbar: du tauschst eine 250.000-Gold-Hülle und einen Hafen auf
+der Insel gegen ein dauerhaftes Deck plus ein wiederkehrendes Piraterieeinkommen auf jede
+Überquerung, und das Deck allein ist es wert, denn eine Hülle an einem Tor verweigert die ganze
+Lagune.
+
+Beobachte die Antwort des Gegners und halte die Stop-Linie. Wenn der Gegner sein eigenes
+Schlachtschiff baut und es auf die Meerenge stellt, wird das Deck ein Duell zwischen zwei
+1.000-HP-Hüllen, und die mit dem besseren Dock (der Hafen der Insel) und der höheren
+Veterancy gewinnt, also halte deine Hülle vertäut und geheilt und zwinge seine im offenen
+Wasser zu kämpfen. Wenn der Gegner die Meerenge ignoriert und von der mittleren Wasserlinie
+stößt, tut dein Deck seine Arbeit noch, weil es seinen Handel besteuert und seine Boote
+blockt, und du solltest von der Insel aus als gehaltene Zielposition erweitern statt sie über
+das Wasser zu jagen. Die Siegbedingung ist nicht „fünf Boote versenken“, sondern „die
+Pirateninsel und die Meerenge besitzen, damit die Wirtschaft und die Überquerungen des
+Gegners dir zahlen“. Wenn die nächste Prüfung sagt, dass der Hafen der Insel gefangen ist oder
+die Meerenge deiner Hülle leer ist, ist der Zustand von „Halten“ zu „Bluten“ übergegangen,
+und du baust den Hafen vor der Hülle neu.
+
+## Szenario zwei: ein gedecktes Tor brechen, ohne deine eigene Hülle
+
+Nimm eine späte FFA-Partie auf Pulicat Lake an. Du hältst Sullurpeta an der Westküste, und der
+Gegner hält die Pirateninsel mit einem Schlachtschiff-Deck an der Meerenge. Du hast einen Pool
+von 900.000 und der Gegner 600.000, also bist du in Landzahlen größer, aber das Tor ist seines.
+Keine Wasserminen, beide können bauen, und du hast noch kein eigenes Schlachtschiff. Dein
+Problem ist klar: das einzelne Tor ist abgedeckt, und jedes Boot, das du zur feindlichen Küste
+schickst, muss den 130-Kachel-Erkennungsradius einer 1.000-HP-Hülle überqueren, die alle 20
+Ticks feuert.
+
+Der erste Fehler ist, das Drei-Boote-Metronom in ein lebendes Deck zu schicken. Ein
+Standardboot trägt 20 % deines Pools, also ist das bei 900.000 eine Ladung von 180.000 pro
+Boot, und mit der Drei-Boote-Grenze hast du höchstens drei im Wasser. Wenn das
+Meerengen-Schlachtschiff beobachtet, tötet oder strandet es deine Spitzenboote, und ein
+versagtes Boot gibt nur 75 % seiner Ladung zurück, also kostet dich ein zurückziehendes Boot 5 %
+des Pools. Wirf drei 180.000-Boote in ein lebendes Deck, und du spendest fünfzehn Prozent eines
+900.000-Pools, um ein Tor zu erzwingen, das eine einzelne Hülle bequem hält. Das Lesen hier ist
+**Füttern**: deine Poolgröße ist keine Macht, denn die Entscheidung fällt an der Meerenge,
+nicht am Pool.
+
+Das Gegenzug ist, eine zweite Wasserlinie zu öffnen, nicht im ersten Deck auszuwerfen.
+Pulicat ist 59,7 % Wasser, also ist die Lagune nicht nur das einzelne Tor; sie ist ein innerer
+Wasserbestand mit mehreren Stränden, und ein Boot braucht nur einen Strand zu erreichen, der
+deinen Wasserbestand teilt. Baue einen zweiten Hafen an einer inneren westlichen oder südlichen
+Komponente und schicke Boote zu einem Strand, den das Meerengen-Schlachtschiff nicht abdecken
+kann, denn das Deck beobachtet nur das Tor, nicht jeden Eingang. Wenn du die Meerenge selbst
+überqueren musst, tue es im Fenster: schicke ein Probe-Boot (ein 5 %-Kosten), um das
+Schlachtschiff zu zwingen, seine Patrouille zu zeigen und seine Abklingzeit zu verpflichten,
+und schicke die volle Drei-Boote-Welle nur in dem Moment, in dem das Schlachtschiff zur
+Reparatur zurückzieht, wenn es unter 75 % HP gefallen und sich auf den Hafen verpflichtet hat.
+Ein zurückziehendes Schlachtschiff verfolgt nicht, während es heilt, also ist das die kurze
+Öffnung. Setze eine schriftliche Stop-Linie vor dem ersten Versand: „Ich stoppe die
+Meerengenlinie, wenn das Schlachtschiff drei aufeinanderfolgende Proben an der Tor bestätigt
+ist, und ich wechsle zur inneren Komponente.“ Wenn die Prüfung sagt, dass das Tor noch gehalten
+ist, gib das Gold für den zweiten Hafen und die innere Linie aus statt dem vierten Boot in der
+Meerenge.
+
+## Fehlerscheine und Gegenzüge
+
+Der erste Fehler ist, die Pirateninsel als neutralen Spawn zu behandeln und nicht die Werft zu
+sichern. Die Insel ist Reparaturanker, Pirateriehafen und 150-Kachel-Heilungszone an einer
+Position, und ein Spieler, der seinen ersten Hafen an seiner eigenen Küste statt auf der Insel
+baut, gibt dem Gegner das haltbare Deck und das Mauttor. Der Fix ist, den Hafen auf der Insel
+in der Eröffnung vorzuschieben, denn sobald der Gegner dort einen funktionierenden Hafen hat,
+ist deine Meerengenlinie die teuerste Option auf der Karte und du bezahlst seine Steuer. Der
+zweite Fehler ist, anzunehmen, das einzelne Tor bedeutet, dass die Lagune sicher ist. Es ist
+das Gegenteil: ein Tor ist ein einzelner Ausfallspunkt, und das einzelne Schlachtschiff des
+Gegners am Tor kann jede Überquerung, die du versuchst, blocken und jeden Handel, den du
+schickst, besteuern. Der Fix ist, das Tor zu besitzen, nicht sich dahinter zu verstecken, und
+eine zweite Wasserfläche offen zu halten, damit du nicht vom einzelnen Tor abhängig bist.
+
+Der dritte Fehler ist, alle Boote auf einer einzigen Tor-Kachel zu stapeln. Der Verteidiger
+muss drei Küsten nicht abdecken, also konzentriert er das Schlachtschiff und die Garnison auf
+das Tor, und dein ganzer Spam verliert. Der Fix ist derselbe wie im Brech-Szenario: wechsle
+zwischen der Meerenge und einer inneren Komponente, damit das Deck eine Linie wählen muss und
+dein anderes Boot dort ankommt, wo es abwesend ist. Der vierte Fehler ist, einen schmalen Kanal
+piraterien zu versuchen. Der 20-Tick-Küstenschutz aktualisiert sich auf jeder Küstenkachel, also
+ist ein Handelsschiff, das die engen Eingänge der Lagune entlangläuft, praktisch immun, und ein
+Schlachtschiff, das es durch die Eingänge verfolgt, verbrennt seine 20-Tick-Abklingzeit umsonst.
+Der Fix ist, nur im offenen Wasser zu piraterien, wo das Ziel nicht ständig auf eine
+Küstenkachel zurückzieht. Der fünfte Fehler ist zu vergessen, dass die Karte nur FFA ist. Es
+gibt kein `team_frequency`, also wirst du nicht an einen Trupp verteilt wie die teamgewichteten
+Karten, und die zwei Sondermannschaften-Nationen sind ein struktureller Kuriosität des Layouts,
+kein Team-Routierungs-Tag. Der Fix ist, für eine Solo- oder Custom-Lobby-Partie zu planen und
+die zwei Sondermannschaften-Positionen als strukturelle Hochwertziele zu behandeln, nicht als
+Signal, dass ein Team anwesend sein wird.
+
+Gegner haben zuverlässige Gegenzüge, und du solltest sie erwarten. Sie werden ein
+Schlachtschiff auf die Meerenge bauen, deinen Hafen auf der Insel fangen oder das eingezäunte
+Wasser nutzen, um deine Boote in das einzelne Tor zu treiben, das du überqueren musst. Antworte
+mit Rollen-Trennung: ein Probe-Boot, um das Tor zu testen, eine volle Welle nur, wenn das Tor
+bestätigt leer ist oder das Schlachtschiff zurückzieht, und ein Hafen auf der Insel, der die
+Hülle heilt und die Maut fährt. Lass niemals dein einziges teures Schlachtschiff deine einzige
+Antwort auf eine 5 %-Kosten-Probe sein; das ist die Überausgabe, die du dem Gegner aufzwingen
+willst, und das einzelne Tor der Karte ist genau dort, wo es erzwungen wird.
+
+## Modus- und Kartenanpassungen
+
+Der Modus, in den du queuest, ändert die Schwellen auf Pulicat Lake, und die größte ist das
+Fehlen der Team-Routierung. Weil das Manifest kein `team_frequency` hat, ist Pulicat Lake eine
+rein FFA-Publikkarte, also spielt sich das einzelne Tor wie ein Wettlauf zum Tor, nicht wie ein
+Team-gegen-Team-Meerengenkampf. In einer Solo-FFA setzt der erste Spieler, der einen Hafen auf
+die Pirateninsel und ein Schlachtschiff auf die Meerenge stellt, den Ton für die ganze Lagune,
+und die verbleibenden 11 Nationen zahlen entweder die Maut oder arbeiten um innere Komponenten
+herum. Wenn du die Karte mit einem festen Plan testen willst, baue eine Custom- oder
+Private-Lobby und nenne sie direkt, denn die öffentliche Rotation mit ihrer Frequenz 3 wird sie
+dir nicht auf Zuruf geben.
+
+Wasserminen verändern den Wassergraph und damit das Tor. Wenn sie an sind, kann das einzelne
+Tor aufgebraucht oder umgeleitet werden, also scanne die Wasserkomponente nach jedem Schlag neu,
+bevor du das nächste Boot oder die nächste Pirateriefahrt engagierst, denn eine Mine kann das
+einzelne Tor in zwei Tore verwandeln oder einen Kanal schließen, den du nutzt. Wenn
+Schlachtschiffe in der Lobby deaktiviert sind, ist das Meerengen-Deck ganz weg, das einzelne Tor
+ist offen und Boote sind billig genug, um die ganze Lagune zu spammen — in diesem Modus
+dreht sich die Karte um und der Spieler mit dem größeren Pool gewinnt die Wasserlinie. Wenn
+Häfen deaktiviert sind, verschwinden das Dock, die passive Heilung und das Piraterieeinkommen
+alle auf einmal, und die Karte kollabiert in einen Landkampf am Rand, denn ohne Hafen gibt es
+kein Schlachtschiff und kein Handelsschiff. Die Kartengröße zählt auch: Pulicat ist ein großes
+1.176-mal-1.796-Board, also sind Linien über die Lagune lang und das
+Meerengen-Schlachtschiff hat ein großes 130-Kachel-Fenster, warum Boote hier am besten als
+Probes funktionieren statt als konstantes Metronom. Die v0.35-Spawnwiederherstellung ist die
+letzte Anpassung: der am meisten hinterherhinkende Spieler bekommt einen verkürzten
+Handelsschiff-Timer, wenn er bei offenen Handelsschiffen zurückliegt, also erholt ein
+unglücklicher innerer Spawn auf diesem wasserreichen Board seine Wirtschaft schneller als in
+älteren Versionen, und du solltest einen hinteren Küstenspawn, den die Wiederherstellung
+bereits verengt, nicht überbestrafen.
+
+Die zwei Sondermannschaften-Nationen sind die letzte Anpassung und die, auf die du achten
+solltest. Ihre Positionen tragen einen strukturellen Vorteil im Layout, also behandle sie als
+Hochwertziele: wenn du eine hältst, verteidige das Dock, das es dir gibt; wenn der Gegner eine
+hält, ziele auf den Hafen dahinter. Weil die Karte nur FFA ist, ist dieser Vorteil ein
+Geländemerkmal, kein Team-Routierungs-Tag, also gilt er im öffentlichen und Solo-Spiel auf
+dieselbe Weise. Setze diese Anpassungen zusammen, und dieselbe Lagune verdient drei verschiedene
+Pläne ohne Widerspruch: eine Ein-Schlachtschiff-Maut an einem normalen FFA-Tor, ein
+offenes-Wasser-Boot-Spam, wenn Schlachtschiffe aus sind, und ein Landrand-Kampf, wenn Häfen aus
+sind. Die Entscheidung ist immer dieselbe Frage, an den aktuellen Modus gerichtet: wer hält
+gerade die Pirateninsel, und was kostet das den Rest der Lagune.
+
+## Weiteres Lesen und eine prüfbare Schließung
+
+Nach jeder Entscheidung schreibe einen Satz, den ein anderer Spieler verifizieren kann: „Ich
+beanspruche die Insel, weil ich auf Chittamur gespawnt habe und mein Hafen sie vor dem
+Hafen aller anderen erreicht“, oder „Ich stoppe die Meerengenlinie, weil das Schlachtschiff drei
+Proben am Tor bestätigt ist und ich zur inneren Komponente wechsle.“ Dann prüfe das Ergebnis
+am nächsten wichtigen Tick: wer den Hafen der Insel hält, wo das
+Meerengen-Schlachtschiff ist, wie viele Handelsschiffe du gefangen hast und ob dein Boot
+tatsächlich überquert oder gestrandet ist. Wenn die Prüfung sagt, dass das Tor vom Gegner
+gehalten ist und deine Meerengenlinie nicht konvertiert, ist der Zustand von Halten zu Füttern
+übergegangen, und du wechselst zur inneren Komponente oder einem Landstoß. Nutze den
+[Küsten-Boot-Verteidigungsguide](/guides/coastal-boat-defense/), um das Spiegelbild des
+Meerengen-Decks von der Verteidigerseite zu lesen: das Schlachtschiff-Deck, die Garnison und
+die Komponentenprüfung. Nutze den [Handels- und Piraterieguide](/guides/trade-vs-piracy/) für
+die Handelsroute- und Piraterie-Regeln, auf die dieser Guide sich stützt, und den
+[Schlachtschiff-Flottenentscheidungs-Guide](/guides/warship-fleet-decisions/), wie du mehr als
+eine Hülle dimensionierst und verwaltest, sobald das Meerengen-Duell eskaliert. Für den
+Rotationskontext listet der [v0.35-neue-Karten-Überblick](/guides/v035-new-maps-overview/)
+Pulicat Lake unter den zwölf neuen Karten und seiner Frequenz 3, und der
+[Kartenstrategieguide](/guides/map-strategy/) behandelt die allgemeine Layout-Lesart. Für die
+Boot-Seite der Lagune ist der [Mikro-Boot-Spam-Guide](/guides/micro-boat-spam/) der
+offen-Wasser-Plan, wenn Schlachtschiffe aus sind, und der [Boot-gegen-Land-Angriffs-Guide](/guides/boat-vs-ground-attack/)
+die Überquerungsentscheidung, wenn eine Küsten-Garnison deine Linie beobachtet. Sobald ein
+Meerengen-Schlachtschiff steht, erklärt der [Schlachtschiff-Veterancy-Guide](/guides/warship-veterancy/),
+wie die Granate dieses Schiffs bei jedem Überleben steigt, und der [v35-Nationen-Marinedoktrin-Guide](/guides/v35-nations-naval-doctrine/)
+erklärt, welche der zwölf Nationen überhaupt ein Schiff in die Meerenge bringen können.
+
+Alle numerischen Grenzen hier sind das veröffentlichte v0.35.0-Verhalten: ein 1.176-mal-1.796-
+Raster mit 851.671 Landkacheln (etwa 40,3 % Land), 12 indische Nationen, ein
+`special_team_count` 2 und kein `team_frequency` (nur FFA), eine `multiplayer_frequency` 3,
+ein einzelner nördlicher Meereinzug und eine Pirateninsel im Tor, ein Schlachtschiff mit 1.000
+HP mit einem 200-bis-300-Geschütz, das pro Veterancy-Level 20 % gewinnt, einen
+130-Kachel-Erkennungsradius, eine 20-Tick-Abklingzeit, einen 75 %-Automatikrückzug, eine
+150-Kachel-passive 10-HP-pro-Sekunde-Heilung, eine Werft-Heilung 10 + 50×(Hafenlevel /
+Schlachtschiffe in der Werft), ein erstes Schlachtschiff bei 250.000 Gold auf einer
+250.000-pro-Hülle-Leiter, die bei 1.000.000 deckt, und ein 20-Tick-Küstenpiraterieschutz, der
+sich auf jeder Küstenkachel aktualisiert. Wenn ein späteres formales Release eines davon
+ändert, aktualisiere die Tabellen, die Szenarien und die Stop-Linie zusammen und verifiziere
+neu gegen den Tag, bevor du die Zahlen teilst. Die praktische Schließung ist ein vierzeiliges
+Log: Zustand, Inselflotten-Halter, Meerengen-Schlachtschiff-Position und nächste Prüfung. Zum
+Beispiel: „halte; Inselflotten mein; Schlachtschiff an der Meerenge; das nächste Handelsschiff
+fangen und an der Werft heilen.“ Wenn die nächste Prüfung sagt, dass das Tor deiner Hülle leer
+ist oder der Inselflotten gefangen ist, ändere den Zustand auf Füttern und gib das Gold für die
+innere Komponente aus. Dieses kleine Log verwandelt einen langen Guide in eine
+wiederverwendbare Gewohnheit, die ein anderer Spieler nach der Partie prüfen kann, und es hält
+die Lagune ehrlich: eine Lagune, die du nicht in vier Zeilen erklären kannst, ist eine Lagune,
+deren Maut du wahrscheinlich gerade bezahlst.
+
+Quellen: [OpenFront v0.35.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0),
+das [offizielle Upstream-Kartenmanifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/resources/maps/pulicatlake/manifest.json),
+[Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/packages/engine-lib/src/configuration/Config.ts),
+der [Schlachtschiff-Guide-Thread](https://www.reddit.com/r/Openfront/comments/1x2nyco/a_guide_to_warships/),
+der [Piraterie-Guide-Thread](https://www.reddit.com/r/Openfront/comments/1x1r675/a_guide_to_piracy/),
+und das [v0.35-neue-Karten-Video](https://www.youtube.com/watch?v=EdcdsayA_ac).

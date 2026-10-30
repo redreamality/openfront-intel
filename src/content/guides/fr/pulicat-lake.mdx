@@ -1,0 +1,391 @@
+---
+title: "Pulicat Lake : la lagune, le détroit et qui possède l'île des pirates"
+description: Guide de décision pour la carte Pulicat Lake de la v0.35, une lagune close à une seule entrée maritime et une île de pirates dans la porte. À quoi ressemble réellement ce plateau 12 nations à forte part d'eau, pourquoi un seul cuirassé peut verrouiller tout le détroit, comment faire de l'île un chantier et un impôt sur le commerce, et quelle côte choisir avant la fin du compte à rebours.
+pubDate: 2026-10-30
+updatedDate: 2026-10-30
+tags: [maps, v0.35, pulicat-lake, warship, piracy, port, naval, lagoon, spawn]
+category: Guide
+difficulty: Avancé
+version: v0.35.0
+freshnessSummary: "Vérifié le 2026-10-30 contre la release officielle v0.35.0 (2026-10-16) et ses notes, le manifeste officiel amont de la carte (grille 1 176×1 796, 851 671 tuiles terrestres, 12 nations indiennes, special_team_count 2, multiplayer_frequency 3) et la source moteur (cuirassé 1 000 PV, obus 200–300, détection 130 tuiles, rechargement 20 ticks, retraite 75 %, soin passif 150 tuiles, soin en rade 10 + 50×(niveau de port / cuirassés à quai), coût min(1M, (n+1)×250k)). Signaux communautaires tirés de quatre guides de r/Openfront et de trois vidéos v0.35."
+---
+
+**Réponse directe.** Pulicat Lake est une lagune à forte part d'eau avec une seule entrée
+maritime, donc le match se joue au détroit : l'île des pirates dans la porte est le chantier
+naturel du cuirassé et le hub de piraterie, et celui qui la contrôle peut taxer chaque navire
+de commerce et bloquer chaque traversée de bateau. Engagez-vous tôt sur l'entrée, construisez
+votre Port sur l'île, et screennez le détroit avec un seul cuirassé de 250 000 pièces d'or ; si
+vous apparaissez à l'intérieur, considérez la porte unique comme le problème de l'adversaire à
+exploiter, pas le vôtre à défendre. Lisez l'eau avant de choisir une côte, car une lagune de
+59,7 % d'eau et d'une seule porte est un jeu totalement différent d'un plateau terrestre.
+
+Pulicat Lake est la carte v0.35 où une seule position peut décider de toute la partie. C'est
+une lagune close — un véritable plan d'eau avec une unique entrée au nord — et les notes de
+release officielles la décrivent en une ligne : « une lagune à une seule entrée maritime, avec
+une île de pirates dans la porte ». Cette île, posée dans la seule voie d'entrée et de sortie,
+est la carte. Elle est à la fois chantier naturel du cuirassé, zone de soin passif et plate-forme
+de piraterie, et le joueur qui la contrôle contrôle le détroit. Le reste du plateau 12 nations
+est le bord de la lagune : les nations indiennes le long de la ligne d'eau, la plupart coupées
+du reste de la carte par la même porte unique. Ce guide vous donne un cadre réutilisable pour
+les quatre décisions que la carte impose : quelle côte choisir avant le compte à rebours,
+attaquer ou éviter l'île des pirates, mener un écran à un seul cuirassé au détroit, et percer
+cet écran quand il n'est pas à vous. Tous les chiffres ci-dessous sont le comportement publié de
+la v0.35.0, afin que vous puissiez confronter les 1 000 PV d'un cuirassé, la première coque à
+250 000 pièces d'or et le rechargement de 20 ticks au terrain et décider en connaissance de
+cause.
+
+## Frontière de version : ce que Pulicat Lake v0.35 est réellement
+
+Le premier point à fixer est que Pulicat Lake est une carte v0.35 et qu'elle porte les deux
+comportements v0.35 qui redessinent chaque plateau où elle apparaît. Elle est sortie dans la
+release officielle v0.35.0 du 16 octobre 2026, et les notes officielles la nomment expressément
+et créditent son contributeur, puis listent un « meilleur terrain pour Pulicat Lake », ce qui
+signifie que la géométrie de l'eau et du rivage a été ajustée après le premier passage — la
+forme de lagune close que vous voyez en client est la forme voulue, pas un bug. Parce que c'est
+une carte v0.35, elle tourne sous la refonte v0.35 du lobby : l'ancien plafond de 125 joueurs a
+été supprimé et la taille du lobby est devenue pilotée par la carte, donc une lagune de 12
+nations remplit ses créneaux de nations bien avant d'atteindre un grand plafond et garde un
+rythme plus serré que les plateaux arcade à 43 nations. La carte tourne aussi sous la
+récupération d'apparition par joueur de la v0.35 : quand le joueur le plus en retard a moins de
+navires de commerce ouverts que le mieux placé, son prochain minuteur de navire de commerce est
+raccourci sur une fenêtre fixe, ce qui compte sur un plateau à forte part d'eau, car une
+apparition de côte mal chanceuse récupère son économie plus vite que sur les versions antérieures.
+
+Deux faits du manifeste définissent la frontière. Le plateau est une grille de 1 176 par 1 796
+— une grande lagune allongée verticalement — et sur ses environ 2,11 millions de tuiles, 851 671
+sont terrestres, soit environ 40,3 %, ce qui signifie que les 59,7 % restants sont de l'eau.
+C'est un plateau vraiment à forte part d'eau, et c'est pourquoi les mécaniques navales sont
+l'axe de décision de la carte plutôt qu'une considération annexe. La seconde frontière est le
+mode : le manifeste liste `multiplayer_frequency` à 3 et un `special_team_count` à 2, mais aucun
+`team_frequency`. Pulicat Lake est donc une carte publique uniquement FFA. Elle ne sera pas
+affectée aux escouades comme les cartes africaines pondérées en équipe, et les deux nations
+équipe-spéciale sont un caprice structurel de la disposition plutôt qu'un tag d'affectation
+d'équipe. Si vous voulez tester Pulicat Lake avec un plan posé, créez un lobby personnalisé ou
+privé et nommez la carte directement ; la rotation publique la sortira moins souvent que les
+cartes arcade à cause de sa fréquence de 3. Traitez les chiffres de lobby par carte comme des
+valeurs observées v0.35 et vérifiez les valeurs live du client avant de bâtir un plan
+d'escouade autour d'elles, car la taille de lobby et la récupération d'apparition ont été
+introduites et mesurées dans le cycle v0.35.
+
+## La géographie : une lagune close à une seule porte
+
+Lisez l'eau avant de choisir une côte, et sur Pulicat Lake l'eau a une propriété qui écrase
+tout le reste : il n'y a qu'une seule voie d'entrée et qu'une seule voie de sortie. La lagune
+est close, les 12 nations nommées se posent sur le bord d'un plan d'eau interne, et l'unique
+entrée maritime au nord est le seul lien avec l'open ocean. Cette porte unique est un col au
+sens strict — un cuirassé pré-positionné au détroit peut refuser toute traversée, et tout
+navire de commerce, bateau de transport ou force offensive qui veut atteindre l'intérieur de la
+lagune doit passer par la même eau étroite. La forme close signifie aussi que l'eau intérieure
+est un seul composant connexe qu'on peut tenir, patrouiller et taxer, plutôt qu'un large open
+ocean où l'écran du défenseur peut être contourné.
+
+Les 12 nations sont réparties le long de ce bord, et leurs positions racontent le match.
+Chittamur et Dugarajapatnam au nord près de l'entrée sont les premiers à toucher l'île des
+pirates et le détroit ; Sriharikota et Venadu tiennent la ligne d'eau centrale ; Sullurpeta et
+Irakkam sont sur la rive ouest ; et Sunnambukulam, Elavur, Annamalaicheri, Pulicat et
+Gummidipoondi longent le sud. La carte nomme littéralement une nation « Pulicat », la lagune
+elle-même, et sa position au sud en fait l'extrémité sud la plus coupée de la porte unique au
+nord. La lecture pratique est qu'une nation près de l'entrée peut atteindre l'île des pirates et
+le détroit avant les autres, tandis qu'une nation du sud est la plus coupée et doit traverser la
+plus longue eau intérieure pour atteindre la porte. Comptez deux distances et gardez-les
+séparées : la distance de votre apparition à l'île des pirates (qui décide la vitesse à laquelle
+vous pouvez prendre le chantier) et la distance de l'île des pirates à votre côte (qui décide le
+temps dont dispose un cuirassé ennemi dans sa détection de 130 tuiles avant de vous
+atteindre). Ces deux chiffres ne se réduisent pas en un seul, et le joueur qui les mal lit
+choisit la mauvaise côte. La conséquence pratique de la forme close est que le temps de
+traversée est la vraie monnaie de la carte : aller de la rive sud au détroit, c'est une ligne
+d'eau longue et exposée sans aucun abri, alors qu'une nation du nord atteint le même détroit
+en quelques déplacements de bateau. Cette asymétrie explique pourquoi le côté de l'entrée
+gagne la prise initiale presque par défaut : les nations du sud ne perdent pas l'île des
+pirates parce que leurs bateaux sont lents, mais parce que la géographie les place à l'extrémité
+lointaine d'un seul corps d'eau connecté que tout le monde doit traverser pour atteindre la
+porte.
+
+## L'écran du cuirassé : une seule coque verrouille tout le détroit
+
+L'entrée unique signifie qu'un seul cuirassé suffit à refuser la lagune, et les chiffres le
+rangent. Un cuirassé coûte 250 000 pièces d'or pour la première coque (l'échelle monte à
+500 000, 750 000 et plafonne à 1 000 000 pour la quatrième et les suivantes, calculée comme
+min(1 000 000, (n+1)×250 000) où n est le nombre que vous possédez déjà), et cette première
+coque porte 1 000 PV, un obus tiré 200 à 300 qui gagne 20 % par niveau de vétéranneté, un rayon
+de détection de 130 tuiles et un rechargement de 20 ticks. Posez cette coque dans le détroit et
+elle surveille toute la porte : tout bateau ou navire de commerce qui entre dans sa détection de
+130 tuiles et reste dans sa patrouille de 100 tuiles est une cible, et il tire tous les 20
+ticks. Sur une carte à une seule porte, ce n'est pas un écran de voie, c'est l'écran de toute la
+carte. La réclamation communautaire de l'« écran du cuirassé » — qu'un spam de petits bateaux
+est presque impossible à répondre — est exactement la situation que Pulicat crée tout seul : le
+défenseur n'a pas à couvrir trois côtes, il a à couvrir un seul détroit, et une coque de 1 000
+PV au rechargement de 20 ticks le couvre confortablement.
+
+L'écran est aussi durable, ce qui en fait une vraie décision et non un bluff. Un cuirassé dans
+les 150 tuiles du Port de son propriétaire récupère 10 PV par seconde passivement, et s'il est
+à quai à ce Port il reçoit un soin plus fort de 10 + 50×(niveau de port / cuirassés à quai) PV
+par seconde. Un seul cuirassé à quai à un Port niveau 1 sur l'île des pirates soigne 60 PV par
+seconde à quai et 10 PV par seconde en patrouille dans les 150 tuiles du détroit. Il peut
+encaisser un spam de bateaux, tirer ses obus, revenir à plein au chantier puis repartir en
+patrouille. La règle de retraite automatique à 75 % complète le tableau : dès que la coque passe
+sous 75 % de ses PV maximums, elle commence à se retirer vers un Port, et un cuirassé en retraite
+s'engage dans la réparation. L'écran du détroit est donc une boucle — patrouiller, tirer, se
+retirer au chantier, soigner, patrouiller — et les seuls moyens de le casser sont de tuer la
+coque plus vite que le chantier ne soigne, de supprimer le Port où il accoste, ou d'atteindre un
+composant d'eau que le cuirassé du détroit ne peut pas couvrir.
+
+| Statistique du cuirassé | Valeur v0.35.0 publiée | Ce que cela change sur Pulicat |
+|---|---|---|
+| Coût de la première coque | 250 000 pièces d'or | Le prix d'entrée de tout l'écran de lagune |
+| Points de vie | 1 000 | Une seule coque couvre un détroit unique confortablement |
+| Détection | 130 cases | Surveille tout l'entrée unique |
+| Obus | 200–300, +20 % par niveau de vétéran | Un obus roulant qui grimpe en survivant |
+| Rechargement des obus | 20 ticks | Un feu stable et ripostable, pas une rafale |
+| Rayon de patrouille | 100 cases | Où il veille et peut capturer |
+| Soin passif au Port | 10 PV/s dans les 150 cases d'un Port | La gratuité de soutien en gardant la porte |
+| Soin accosté | 10 + 50×(niveau du Port / cuirassés accostés) PV/s | 60 PV/s à un Port de niveau 1, une coque |
+| Retraite automatique | Sous 75 % des PV max | La coque s'engage dans la réparation, pas le combat |
+
+Le coût de la première coque suit l'échelle min(1 000 000, (n+1)×250 000), donc la deuxième
+coque coûte 500 000, la troisième 750 000, et la quatrième et au-delà plafonnent à 1 000 000.
+Sur une carte où une seule coque écrane déjà toute l'entrée, une deuxième coque est une
+redundance et une riposte à la propre coque de l'ennemi, pas une dépense évidente — de sorte
+que le tableau ci-dessus est l'ensemble des chiffres à garder en tête quand vous décidez si
+le détroit est à vous de tenir ou à l'ennemi de percer.
+
+## L'île des pirates : chantier, soin et l'impôt sur le commerce
+
+L'île des pirates est là que le chantier, le soin et le revenu convergent, et c'est la position
+la plus précieuse de la carte. Un Port construit là donne à votre cuirassé un ancre de
+réparation pile à la porte, donc l'écran du détroit de la section précédente tient toute la
+partie. Le Port vous permet aussi de faire la piraterie : un cuirassé poursuit et capture
+automatiquement les navires de commerce ennemis éligibles qui entrent dans sa patrouille, et un
+navire capturé est redirigé vers l'un de vos Ports et vous paie des pièces d'or à son arrivée. Le
+paiement utilise la même formule de distance que le commerce ordinaire, et le détail clé est
+que la distance déjà parcourue par le navire compte dans le paiement — donc un navire de
+commerce qui a traversé l'essentiel de la lagune avant votre capture vaut bien plus que celui
+que vous interceptez près de l'apparition. C'est l'impôt sur le détroit : chaque navire de
+commerce ennemi qui passe la porte unique est exposé à votre cuirassé pour toute la traversée,
+et vous gardez le paiement unique à son accostage.
+
+Mais l'île n'est pas de l'argent gratuit, et la règle de protection du rivage est la limite. Les
+navires de commerce reçoivent 20 ticks (deux secondes) de protection anti-piraterie quand ils
+apparaissent ou entrent sur une tuile d'eau de rivage, et cette protection se rafraîchit à
+chaque entrée sur une autre tuile de rivage. Sur un chenal étroit qui longe la côte, le navire
+rafraîchit sa protection en permanence, donc la piraterie le long des étroits est effectivement
+impossible — vous ne pouvez qu'attraper un navire dans l'eau ouverte où il ne rentre pas
+constamment sur une tuile de rivage. Un cuirassé ne peut pas non plus pirater les navires de
+commerce alliés ou d'équipe, les navires en route vers votre propre Port ou un Port allié, et il
+doit avoir un Port actif et achevé atteignable par le même plan d'eau connexe pour capturer du
+tout. Le revenu de piraterie de l'île dépend donc de trois choses vraies à la fois : vous tenez
+un Port fonctionnel là, le navire cible est dans l'eau ouverte (pas le long du rivage), et le
+navire n'est pas en route vers un Port que vous contrôlez ou partagez. Quand les trois tiennent,
+l'île des pirates transforme la porte unique d'un portail à défendre en un péage à exploiter.
+En pratique, votre cuirassé doit passer la plus grande partie de son temps dans l'eau ouverte
+à un court tir de bateau du détroit plutôt que collé à la rive, car c'est là que les prises ont
+vraiment lieu et que la portée de détection de 130 tuiles couvre encore la traversée.
+
+## Scénario un : tenir l'entrée et taxer le détroit
+
+Supposons un FFA mi-partie sur Pulicat Lake. Vous êtes apparu sur Chittamur, au nord, près de
+l'île des pirates, et avez atteint le premier Port à 125 000 pièces d'or en fin d'ouverture.
+L'adversaire qui vous intéresse tient Sriharikota sur la ligne d'eau centrale et pousse une
+économie de commerce à travers la lagune. Pas de torpilles, pas de Doom, les deux peuvent
+construire, et l'ennemi n'a pas encore de cuirassé. Votre objectif est de prendre l'île des
+pirates, poser un Port dessus et mener un écran à un seul cuirassé au détroit pour le reste de
+la partie.
+
+Engagez les premières minutes sur l'île. Construisez le Port sur l'île des pirates, pas sur
+votre propre côte, car le Port sur l'île est ce qui rend l'écran du détroit durable : c'est
+l'ancre de réparation, le chantier de piraterie et la zone de soin passif de 150 tuiles en une
+position. Achetez votre premier cuirassé pour 250 000 pièces d'or et placez son point de
+patrouille dans le détroit. Avec 1 000 PV, une détection de 130 tuiles et un rechargement de 20
+ticks, cette coque surveille toute la porte unique, et à quai au Port niveau 1 elle soigne 60 PV
+par seconde, donc elle peut encaisser une sonde de bateaux et revenir à plein. Maintenant
+l'économie : les navires de commerce ennemis doivent traverser la lagune par la même porte que
+vous tenez, et tout ceux qui passent le détroit dans la portée de votre cuirassé et ne longent
+pas une tuile de rivage sont capturables. Vous redirigez chaque capture vers le Port de l'île et
+gardez le paiement unique, et comme la distance déjà parcourue compte, les navires que vous
+interceptez près de l'extrémité de la traversée — ceux qui ont déjà traversé l'essentiel de la
+lagune — sont les plus précieux. La décision est délibérée et mesurable : vous échangez une coque
+de 250 000 pièces d'or et un Port sur l'île contre un écran permanent plus un revenu de
+piraterie récurrent sur chaque traversée, et l'écran seul vaut le coup car une coque à une
+porte refuse toute la lagune.
+
+Surveillez la réponse de l'ennemi et tenez la ligne d'arrêt. Si l'ennemi construit son propre
+cuirassé et le pose sur le détroit, l'écran devient un duel entre deux coques de 1 000 PV, et
+celle avec le meilleur chantier (le Port de l'île) et la plus haute vétéranneté gagne, donc
+gardez votre coque à quai et soignée et forcez la leur à se battre dans l'eau ouverte. Si
+l'ennemi ignore le détroit et pousse depuis la ligne d'eau centrale, votre écran fait encore son
+travail car il taxe son commerce et bloque ses bateaux, et vous devriez étendre depuis l'île
+comme objectif tenu plutôt que de les poursuivre à travers l'eau. La condition de victoire
+n'est pas « couler cinq bateaux » ; c'est « posséder l'île des pirates et le détroit pour que
+l'économie et les traversées de l'ennemi vous paient ». Si le prochain contrôle dit que le Port
+de l'île est capturé ou le détroit vide de votre coque, l'état est passé de la tenue à la
+saignée, et vous reconstruisez le Port avant la coque.
+
+## Scénario deux : percer un détroit sous écran sans votre propre coque
+
+Supposons un FFA fin de partie sur Pulicat Lake. Vous tenez Sullurpeta sur la rive ouest, et
+l'ennemi tient l'île des pirates avec un cuirassé en écran sur le détroit. Vous avez un pool de
+900 000 et l'ennemi un de 600 000, donc en chiffres terrestres vous êtes plus gros, mais la
+porte est à eux. Pas de torpilles, les deux peuvent construire, et vous n'avez pas encore votre
+propre cuirassé. Votre problème est net : la porte unique est couverte, et chaque bateau que
+vous envoyez vers la côte ennemie doit traverser le rayon de détection de 130 tuiles d'une coque
+de 1 000 PV qui tire tous les 20 ticks.
+
+La première erreur est d'envoyer le métronome à trois bateaux dans un écran vivant. Un bateau
+par défaut porte 20 % de votre pool, donc à 900 000 c'est une charge de 180 000 par bateau, et
+avec le plafond de trois bateaux vous avez au plus trois dans l'eau. Si le cuirassé du détroit
+surveille, il tue ou échoue vos bateaux de tête, et un bateau qui se retire ne rend que 75 % de
+sa charge, donc un bateau en retraite vous coûte 5 % du pool. Jetez trois bateaux de 180 000
+dans un écran vivant et vous offrez quinze pour cent d'un pool de 900 000 pour forcer une porte
+qu'une seule coque tient confortablement. La lecture ici est le **don** : la taille de votre pool
+n'est pas de la puissance, car la décision se prend au détroit, pas au pool.
+
+La riposte est d'ouvrir une seconde voie d'eau, pas de surpasser l'écran sur la première.
+Pulicat est 59,7 % d'eau, donc la lagune n'est pas juste la porte unique ; c'est un plan d'eau
+interne à plusieurs rives, et un bateau n'a besoin que d'atteindre une rive qui partage votre
+composant d'eau. Construisez un second Port sur un composant intérieur ouest ou sud et envoyez
+des bateaux vers une rive que le cuirassé du détroit ne peut pas couvrir, car l'écran ne
+surveille que la porte, pas chaque estuaire. Si vous devez traverser le détroit lui-même,
+faites-le dans la fenêtre : envoyez un bateau sonde (un coût de 5 %) pour forcer le cuirassé à
+révéler sa patrouille et s'engager dans son rechargement, et envoyez la vague complète de trois
+bateaux uniquement pendant l'instant où le cuirassé est en retraite pour réparations, quand il
+est passé sous 75 % de ses PV et s'est engagé vers le Port. Un cuirassé en retraite ne poursuit
+pas pendant qu'il soigne, donc c'est la brève ouverture. Posez une ligne d'arrêt écrite avant
+le premier envoi : « j'arrête la voie du détroit quand le cuirassé est confirmé sur la porte
+pour trois sondes consécutives, et je bascule vers le composant intérieur ». Si le contrôle dit
+que la porte est encore tenue, dépensez l'or dans le second Port et la voie intérieure plutôt
+que le quatrième bateau dans le détroit.
+
+## Modes d'échec et ripostes
+
+Le premier échec est de traiter l'île des pirates comme une apparition neutre et de ne pas
+sécuriser le chantier. L'île est l'ancre de réparation, le Port de piraterie et la zone de soin
+de 150 tuiles en une position, et un joueur qui construit son premier Port sur sa propre côte
+au lieu de l'île donne à l'ennemi l'écran durable et le péage. Le correctif est de
+pré-construire le Port sur l'île dans l'ouverture, car une fois que l'ennemi a un Port
+fonctionnel là, votre voie du détroit est l'option la plus chère de la carte et vous payez son
+péage. Le deuxième échec est de supposer que la porte unique signifie que la lagune est sûre.
+C'est l'inverse : une porte est un point de défaillance unique, et le cuirassé unique de
+l'ennemi à la porte peut bloquer toutes vos traversées et taxer tout votre commerce. Le
+correctif est de posséder la porte plutôt que de se cacher derrière, et de garder un second
+composant d'eau ouvert pour ne pas dépendre du seul détroit.
+
+Le troisième échec est d'empiler tous les bateaux sur la tuile unique du détroit. Le défenseur
+n'a pas à couvrir trois côtes, donc il concentre le cuirassé et la garnison sur la porte, et
+tout votre spam perd. Le correctif est le même que le scénario de percée : alternez entre le
+détroit et un composant intérieur pour forcer l'écran à choisir une voie et que votre autre
+bateau arrive là où il est absent. Le quatrième échec est d'essayer de pirater un chenal étroit.
+La protection du rivage de 20 ticks se rafraîchit sur chaque tuile de rivage, donc un navire de
+commerce qui longe les étroits de la lagune est pratiquement immunisé, et un cuirassé qui le
+poursuit à travers les estuaires brûle son rechargement de 20 ticks pour rien. Le correctif est
+de ne pirater que dans l'eau ouverte, où la cible ne rentre pas constamment sur une tuile de
+rivage. Le cinquième échec est d'oublier que la carte est uniquement FFA. Il n'y a aucun
+`team_frequency`, donc vous ne serez pas affecté à une escouade comme les cartes pondérées en
+équipe, et les deux nations équipe-spéciale sont un caprice structurel de la disposition, pas un
+tag d'affectation d'équipe. Le correctif est de planifier une partie solo ou en lobby
+personnalisé et de traiter les deux positions équipe-spéciale comme des cibles structurelles à
+haute valeur, pas comme un signal qu'une équipe sera présente.
+
+Les adversaires ont une riposte fiable, et vous devez l'attendre. Ils construiront un cuirassé
+sur le détroit, captureront votre Port sur l'île ou utiliseront l'eau close pour canaliser vos
+bateaux dans la seule porte que vous devez traverser. Répondez par la séparation des rôles : un
+bateau sonde pour tester la porte, une vague complète seulement quand la porte est confirmée
+vide ou le cuirassé en retraite, et un Port sur l'île qui soigne la coque et exploite le péage.
+Ne laissez jamais votre seul cuirassé coûteux être votre unique réponse à une sonde à 5 % de
+coût ; c'est la dépense excessive que vous voulez que l'ennemi fasse, et la porte unique de la
+carte est exactement là où elle sera forcée.
+
+## Ajustements par mode et par carte
+
+Le mode dans lequel vous queuez change les seuils sur Pulicat Lake, et le plus grand est
+l'absence d'affectation d'équipe. Comme le manifeste n'a aucun `team_frequency`, Pulicat Lake
+est une carte publique uniquement FFA, donc la porte unique se joue comme une course à la porte
+plutôt qu'un affrontement d'équipe au détroit. Dans un FFA solo, le premier joueur à poser un
+Port sur l'île des pirates et un cuirassé sur le détroit donne le ton à toute la lagune, et les
+11 nations restantes paient le péage ou contournent par les composants intérieurs. Si vous
+voulez tester la carte avec un plan posé, créez un lobby personnalisé ou privé et nommez-la
+directement, car la rotation publique à fréquence 3 ne vous la mettra pas à la demande.
+
+Les torpilles changent le graphe d'eau et donc la porte. Si elles sont activées, la porte unique
+peut être cratérée ou détournée, donc re-scannez le composant d'eau après chaque frappe avant
+d'engager le prochain bateau ou la prochaine course de piraterie, car une torpille peut
+transformer la porte unique en deux portes ou fermer un chenal que vous utilisiez. Si les
+cuirassés sont désactivés dans le lobby, l'écran du détroit disparaît entièrement, la porte
+unique est ouverte et les bateaux sont assez bon marché pour spamer toute la lagune — dans ce
+mode la carte s'inverse et le joueur au pool le plus gros gagne la voie d'eau. Si les Ports sont
+désactivés, le chantier, le soin passif et le revenu de piraterie disparaissent tous d'un coup,
+et la carte s'effondre en un combat terrestre le long du bord, car sans Port il n'y a ni
+cuirassé ni navire de commerce. La taille de la carte compte aussi : Pulicat est une grande
+grille de 1 176 par 1 796, donc les voies à travers la lagune sont longues et le cuirassé du
+détroit a une grande fenêtre de 130 tuiles, ce qui explique pourquoi les bateaux fonctionnent le
+mieux en sondes ici plutôt qu'en métronome constant. La récupération d'apparition v0.35 est le
+dernier ajustement : le joueur le plus en retard obtient un minuteur de navire raccourci quand
+il est en retard sur les navires de commerce ouverts, donc sur ce plateau à forte part d'eau
+une apparition intérieure mal chanceuse récupère son économie plus vite que sur les versions
+antérieures, et vous ne devriez pas sur-punir une apparition de côte en retard que la
+récupération resserre déjà.
+
+Les deux nations équipe-spéciale sont le dernier ajustement, et ce sont celles à surveiller. Leurs
+positions portent un avantage structurel dans la disposition, donc traitez-les comme des
+objectifs à haute valeur : si vous tenez l'une, défendez le chantier qu'elle vous donne ; si
+l'ennemi tient l'une, ciblez le Port derrière. Comme la carte est uniquement FFA, cet avantage
+est une caractéristique de terrain, pas un tag d'affectation d'équipe, donc il s'applique dans
+le jeu public et solo de la même façon. Mettez ces ajustements ensemble et la même lagune
+mérite trois plans différents sans contradiction : un péage à un seul cuirassé sur une porte
+FFA normale, un spam de bateaux dans l'eau ouverte quand les cuirassés sont coupés, et un
+combat du bord terrestre quand les Ports sont coupés. La décision est toujours la même
+question, posée au mode courant : qui tient l'île des pirates en ce moment, et que ça coûte au
+reste de la lagune.
+
+## Lecture suivante et clôture auditable
+
+Après chaque décision, écrivez une phrase qu'un autre joueur pourrait vérifier : « je prends
+l'île parce que j'ai apparu sur Chittamur et mon Port l'atteint avant celui d'un autre », ou
+« j'arrête la voie du détroit parce que le cuirassé est confirmé sur la porte pour trois sondes
+et je bascule vers le composant intérieur ». Puis contrôlez le résultat au prochain tick
+important : qui possède le Port de l'île, où est le cuirassé du détroit, combien de navires de
+commerce vous avez capturés, et si votre bateau a réellement traversé ou a été échoué. Si le
+contrôle dit que la porte est tenue par l'ennemi et que votre voie du détroit ne convertit pas,
+l'état est passé de la tenue au don, et vous basculez vers le composant intérieur ou une
+poussée terrestre. Utilisez le [guide de défense côtière des bateaux](/guides/coastal-boat-defense/)
+pour lire l'image miroir de l'écran du détroit du côté du défenseur : l'écran du cuirassé, la
+garnison et le contrôle du composant. Utilisez le [guide du commerce et de la piraterie](/guides/trade-vs-piracy/)
+pour les règles de route commerciale et de piraterie dont ce guide s'appuie, et le [guide des
+décisions de flotte de cuirassés](/guides/warship-fleet-decisions/) pour dimensionner et gérer
+plus d'une coque une fois le duel du détroit monté en puissance. Pour le contexte de rotation,
+l'[aperçu des nouvelles cartes v0.35](/guides/v035-new-maps-overview/) liste Pulicat Lake parmi
+les douze nouvelles cartes et sa fréquence de 3, et le [guide de stratégie de carte](/guides/map-strategy/)
+couvre la lecture générale de disposition. Pour le côté bateaux de la lagune, le [guide du spam
+de bateaux micro](/guides/micro-boat-spam/) est le plan en eau libre quand les cuirassés sont
+coupés, et le [guide bateau contre attaque terrestre](/guides/boat-vs-ground-attack/) est la
+décision de traversée quand une garnison de rivage surveille votre voie. Une fois un cuirassé
+du détroit posé, le [guide de vétéran des cuirassés](/guides/warship-veterancy/) explique
+comment son obus grimpe à chaque survie, et le [guide des nations navales de la v35](/guides/v35-nations-naval-doctrine/)
+explique lesquelles des douze nations peuvent réellement mettre une coque dans le détroit.
+
+Toutes les bornes numériques ici sont le comportement publié de la v0.35.0 : une grille de
+1 176 par 1 796 avec 851 671 tuiles terrestres (environ 40,3 % de terre), 12 nations indiennes,
+un `special_team_count` de 2 et aucun `team_frequency` (uniquement FFA), un
+`multiplayer_frequency` de 3, une entrée maritime unique au nord et une île de pirates dans la
+porte, un cuirassé à 1 000 PV avec un obus 200 à 300 qui gagne 20 % par niveau de vétéranneté,
+un rayon de détection de 130 tuiles, un rechargement de 20 ticks, une retraite automatique à 75
+%, un soin passif de 10 PV par seconde sur 150 tuiles, un soin à quai de 10 + 50×(niveau de port
+/ cuirassés à quai), un premier cuirassé à 250 000 pièces d'or sur une échelle de 250 000 par
+coque plafonnée à 1 000 000, et une protection anti-piraterie du rivage de 20 ticks qui se
+rafraîchit sur chaque tuile de rivage. Si une release officielle ultérieure modifie l'un de ces
+points, mettez à jour les tableaux, les scénarios et la ligne d'arrêt ensemble, et re-vérifiez
+contre le tag avant de partager les chiffres. La clôture pratique est un journal de quatre
+lignes : état, propriétaire du Port de l'île, position du cuirassé du détroit et prochain
+contrôle. Par exemple : « en tenue ; Port de l'île à moi ; cuirassé sur le détroit ; capturer
+le prochain navire de commerce et soigner au chantier ». Si le prochain contrôle dit que la
+porte est vide de votre coque ou que le Port de l'île est capturé, changez l'état en don et
+dépensez l'or dans le composant intérieur. Ce petit journal transforme un long guide en habitude
+réutilisable qu'un autre joueur peut auditer après la partie, et il garde la lagune honnête :
+une lagune que vous ne pouvez pas expliquer en quatre lignes est une lagune dont vous payez
+probablement le péage.
+
+Sources : [Release OpenFront v0.35.0](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0),
+le [manifeste officiel amont de la carte](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/resources/maps/pulicatlake/manifest.json),
+[Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/packages/engine-lib/src/configuration/Config.ts),
+le [fil du guide des cuirassés](https://www.reddit.com/r/Openfront/comments/1x2nyco/a_guide_to_warships/),
+le [fil du guide de la piraterie](https://www.reddit.com/r/Openfront/comments/1x1r675/a_guide_to_piracy/),
+et la [vidéo des nouvelles cartes v0.35](https://www.youtube.com/watch?v=EdcdsayA_ac).

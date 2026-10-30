@@ -1,0 +1,367 @@
+---
+title: "Pulicat Lake: The Lagoon, the Strait, and Who Owns the Pirate Island"
+description: A v0.35 decision guide for Pulicat Lake, the enclosed lagoon with a single sea entrance and a pirate island in the door. What the 12-nation, water-heavy board actually looks like, why one Warship can gate the whole strait, how to turn the pirate island into a dock and a tax on trade, and which coast to commit to before the countdown ends.
+pubDate: 2026-10-30
+updatedDate: 2026-10-30
+tags: [maps, v0.35, pulicat-lake, warship, piracy, port, naval, lagoon, spawn]
+category: Guide
+difficulty: Advanced
+version: v0.35.0
+freshnessSummary: "Verified on 2026-10-30 against the v0.35.0 formal release (2026-10-16) and its release notes, the official upstream map manifest (1,176×1,796 grid, 851,671 land tiles, 12 Indian nations, special_team_count 2, multiplayer_frequency 3), and the engine source (Warship 1,000 HP, 200–300 rolled shell, 130-tile detection, 20-tick cooldown, 75% auto-retreat, 150-tile passive heal, docked heal 10 + 50×(port level / docked warships), cost min(1M, (n+1)×250k)). Community signal from four r/Openfront guides and three v0.35 videos."
+---
+
+**Direct answer.** Pulicat Lake is a water-heavy lagoon with one sea entrance, so the game is
+decided at the strait: the pirate island in the door is the natural Warship dock and piracy
+hub, and whoever holds it can tax every trade ship and block every boat crossing. Commit to
+the entrance early, build your Port on the island, and screen the strait with one
+250,000-gold Warship; if you spawn inland, treat the single door as the enemy's problem to
+exploit, not yours to defend. Read the water before you commit to a coast, because a lagoon
+with 59.7% water and one gate is a completely different game from a land board.
+
+Pulicat Lake is the v0.35 map where a single position can decide the whole match. It is an
+enclosed lagoon — a real body of water with a single sea entrance to the north — and the
+official release notes describe it in one line: "a lagoon with a single sea entrance, and a
+pirate island in the door." That one island, sitting in the only way in or out, is the map.
+It is a natural Warship dock, a passive-heal zone, and a piracy platform all at once, and the
+player who controls it controls the strait. The rest of the 12-nation board is the lagoon's
+rim: Indian nations spread along the waterline, most of them cut off from the rest of the map
+by the same single gate. This guide gives you a repeatable framework for the four decisions
+the map forces: which coast to commit to before the countdown, whether to fight for or avoid
+the pirate island, how to run a one-Warship screen at the strait, and how to breach that screen
+when it is not yours. Every number below is the released v0.35.0 behavior, so you can hold a
+Warship's 1,000 health, a 250,000-gold first hull, and a 20-tick shell cooldown against the
+terrain and make the call deliberately.
+
+## Version boundary: what v0.35's Pulicat Lake actually is
+
+The first thing to pin down is that Pulicat Lake is a v0.35 map and it carries the two v0.35
+behaviors that reshape every board it appears on. It shipped in the v0.35.0 formal release on
+October 16, 2026, and the official release notes name it directly, crediting the map to its
+contributor and then listing a follow-up "Better terrain for Pulicat Lake," which means the
+water and shoreline geometry were tuned after the first pass — so the enclosed-lagoon shape
+you see in the client is the intended shape, not a bug. Because it is a v0.35 map, it runs
+under the v0.35 lobby rework: the old 125-player cap was removed and lobby size became
+map-driven, so a 12-nation lagoon fills its nation slots well before a large cap is reached
+and keeps a tighter, more deliberate pace than the 43-nation arcade boards. The map also runs
+under the v0.35 per-player spawn recovery: when the most-lagged player has fewer open trade
+ships than the best-placed player, their next trade-ship timer is shortened for a fixed
+window, which on a water-heavy board matters because an unlucky coast spawn recovers its
+economy faster than it would have on older versions.
+
+Two facts from the manifest define the boundary. The board is a 1,176 by 1,796 grid — a large,
+vertically elongated lagoon — and of its roughly 2.11 million tiles, 851,671 are land, about
+40.3%, which means the other 59.7% is water. That is a genuinely water-heavy board, and it is
+the reason naval mechanics are the map's decision axis rather than a side consideration. The
+second boundary is the mode: the manifest lists `multiplayer_frequency` of 3 and a
+`special_team_count` of 2, but no `team_frequency` at all. Pulicat Lake is therefore an
+FFA-only public map. It will not be routed to squads the way the team-weighted African maps
+are, and the two special-team nations are a structural quirk of the layout rather than a team
+routing tag. If you want to test Pulicat Lake with a set plan, you build a custom or private
+lobby and name the map directly; the public rotation will surface it less often than the
+arcade maps because of its frequency of 3. Treat the exact per-map lobby numbers as
+v0.35-observed and verify the live client values before you build a squad plan around them,
+because both the lobby sizing and the spawn recovery were introduced and measured in the
+v0.35 cycle. The boundary also tells you what is not on this map: there is no team routing
+to plan around, so any squad-only playtest is a custom-lobby exercise, and the special-team
+nations are a layout feature you read on the board, not a routing flag the lobby assigns.
+
+## The geography: an enclosed lagoon with one door
+
+Read the water before you commit to a coast, and on Pulicat Lake the water has one property
+that overrides everything else: there is only one way in and one way out. The lagoon is
+enclosed, so the 12 named nations sit on the rim of an internal body of water, and the single
+northern sea entrance is the only connection to open sea. That single gate is a chokepoint in
+the strictest sense — a pre-positioned Warship at the strait can deny every crossing, and any
+trade ship, transport boat, or invading force that wants to reach the lagoon's interior must
+pass through the same narrow water. The enclosed shape also means the interior water is one
+connected component you can hold, patrol, and tax, rather than a wide open ocean where a
+defender's screen can be flanked around.
+
+The 12 nations are spread along that rim, and their positions tell you the match. Chittamur
+and Dugarajapatnam sit in the north near the entrance, so they are the first to touch the
+pirate island and the strait; Sriharikota and Venadu hold the central waterline; Sullurpeta
+and Irakkam are on the western shore; and Sunnambukulam, Elavur, Annamalaicheri, Pulicat, and
+Gummidipoondi line the south. The map literally names one nation "Pulicat," which is the lagoon
+itself, and its southern position makes the southern coast the far end of the lagoon from the
+single northern door. The practical read is that a nation near the entrance can reach the
+pirate island and the strait before anyone else, while a southern nation is the most cut off
+and must cross the longest interior water to reach the gate. Count two distances and keep them
+separate: the distance from your spawn to the pirate island (which decides how fast you can
+claim the dock) and the distance from the pirate island to your coast (which decides how long
+a hostile Warship has inside its 130-tile detection range before it reaches you). These two do
+not collapse into one number, and the player who misreads them commits to the wrong coast.
+The practical consequence of the enclosed shape is that travel time is the map's real
+currency: a crossing from the southern rim to the strait is a long, exposed waterline with
+nowhere to hide, while a northern nation reaches the same strait in a handful of boat moves.
+That asymmetry is why the entrance side wins the early claim almost by default — the southern
+nations do not lose the pirate island because their boats are slower, but because the
+geometry puts them at the far end of a single connected water body that everyone must cross
+to reach the gate.
+
+## The warship screen: one hull gates the whole strait
+
+The single entrance means a single Warship is enough to deny the lagoon, and the numbers make
+that concrete. A Warship costs 250,000 gold for the first hull (the ladder climbs 500,000,
+750,000, and caps at 1,000,000 for the fourth and later hulls, computed as
+min(1,000,000, (n+1)×250,000) where n is the number you already own), and that first hull
+carries 1,000 health, a rolled 200 to 300 shell that gains 20% per veterancy level, a 130-tile
+detection radius, and a 20-tick shell cooldown. Park that hull in the strait and it watches
+the entire gate: any boat or trade ship that enters its 130-tile detection and sits inside its
+100-tile patrol range is a target, and it fires every 20 ticks. On a map with one door, that
+is not a lane screen, it is the whole map screen. The community's own "warship screen"
+complaint — that a small boat spam is nearly impossible to answer — is exactly the situation
+Pulicat creates on its own: the defender does not have to cover three coasts, they have to
+cover one strait, and one 1,000-health hull with a 20-tick cooldown covers it comfortably.
+
+The screen is also sustainable, which is what makes it a real decision and not a bluff. A
+Warship within 150 tiles of its owner's Port recovers 10 HP per second passively, and if it is
+docked at that Port it receives a stronger heal of 10 + 50×(port level / docked warships) HP
+per second. So a single Warship docked at a level-1 Port on the pirate island heals 60 HP per
+second while docked and 10 HP per second while patrolling the strait within 150 tiles. It can
+absorb a boat spam, fire off its shells, and come back to full health at the dock, then
+patrol again. The 75% auto-retreat rule completes the picture: the moment the hull drops below
+75% of its maximum health it starts retreating to a Port, and a retreating Warship commits to
+the repair. So the strait screen is a loop — patrol, fire, retreat to the dock, heal, patrol —
+and the only ways to break it are to kill the hull faster than the dock heals it, to remove the
+Port it docks at, or to reach a water component the strait Warship cannot cover.
+
+| Warship stat | Released v0.35.0 value | What it means on Pulicat |
+|---|---|---|
+| First-hull cost | 250,000 gold | The entry price of the whole lagoon screen |
+| Health | 1,000 | One hull comfortably covers a single strait |
+| Detection | 130 tiles | Watches the entire single entrance |
+| Shell | 200–300, +20% per veterancy | A rolling shell that climbs as it survives |
+| Shell cooldown | 20 ticks | Steady, answerable fire — not burst |
+| Patrol radius | 100 tiles | Where it actively watches and can capture |
+| Passive Port heal | 10 HP/s within 150 tiles of a Port | Free sustain while patrolling the gate |
+| Docked heal | 10 + 50×(port level / docked warships) HP/s | 60 HP/s at a level-1 Port, one hull |
+| Auto-retreat | Below 75% max health | The hull commits to repair, not a fight |
+
+The first-hull cost follows the ladder min(1,000,000, (n+1)×250,000), so the second hull costs
+500,000, the third 750,000, and the fourth and later hulls cap at 1,000,000. On a map where one
+hull already screens the whole entrance, a second hull is a redundancy and a counter to the
+enemy's own hull, not an obvious spend — so the table above is the set of numbers you hold in
+your head when you decide whether the strait is yours to keep or theirs to break.
+
+## The pirate island: dock, heal, and the tax on trade
+
+The pirate island is where the dock, the heal, and the income come together, and it is the
+single most valuable position on the map. A Port built there gives your Warship a repair anchor
+right at the gate, so the strait screen from the previous section is sustainable for the whole
+match. The Port also lets you run piracy: a Warship automatically pursues and captures
+eligible enemy trade ships that enter its patrol range, and a captured ship is redirected to
+one of your Ports and pays you gold when it arrives. The payout uses the same distance-based
+formula as ordinary trade, and the key detail is that the distance the ship already traveled
+counts toward the payout — so a trade ship that has crossed most of the lagoon before you
+capture it is worth far more than one you intercept near spawn. That is the tax on the strait:
+every enemy trade ship that passes the single gate is exposed to your Warship for the whole
+crossing, and you keep the single payout when it docks.
+
+But the island is not free money, and the shoreline protection rule is the limit. Trade ships
+receive 20 ticks (two seconds) of piracy protection when they spawn or move onto a shoreline
+water tile, and that protection refreshes every time the ship moves onto another shoreline
+tile. On a narrow channel that hugs the shore, the ship refreshes its protection constantly,
+so piracy along the tight inlets of the lagoon is effectively impossible — you can only take
+a ship in the open water where it is not constantly re-entering a shoreline tile. A Warship
+also cannot pirate trade ships that belong to allies or teammates, trade ships heading to your
+own or a friendly Port, and it must have an active, completed Port reachable through the same
+connected body of water to capture at all. So the island's piracy income depends on three
+things being true at once: you hold a working Port there, the target ship is in open water
+(not hugging a shoreline), and the ship is not bound for a Port you control or share. When all
+three hold, the pirate island turns the single entrance from a gate you defend into a toll
+booth you run. The positioning consequence is that your Warship should spend most of its time
+in the open water a short hop from the strait rather than hugging the shoreline, because the
+open-water position is where captures actually happen and where the 130-tile detection range
+still covers the crossing, while a shoreline-hugging hull both misses the open-water traffic
+and lets enemy boats slip past under constant shoreline protection.
+
+## Scenario one: holding the entrance and taxing the strait
+
+Assume a mid-game FFA on Pulicat Lake. You spawned on Chittamur, in the north, close to the
+pirate island, and you have reached the first Port at 125,000 gold by the late opening. The
+enemy you care about holds Sriharikota in the central waterline and is pushing a trade economy
+across the lagoon. There are no Water Nukes, no Doomsday, both players can build, and the
+enemy has not yet built a Warship. Your goal is to claim the pirate island, put a Port on it,
+and run one-Warship screen at the strait for the rest of the match.
+
+Commit the first minutes to the island. Build the Port on the pirate island, not on your own
+coast, because the Port on the island is what makes the strait screen sustainable: it is the
+repair anchor, the piracy dock, and the 150-tile passive-heal zone all in one position. Buy
+your first Warship for 250,000 gold and set its patrol point in the strait. With 1,000 health,
+a 130-tile detection radius, and a 20-tick cooldown, that hull watches the entire single
+entrance, and docked at the level-1 Port it heals 60 HP per second, so it can absorb a boat
+probe and come back to full. Now the economy: the enemy's trade ships must cross the lagoon
+through the same gate you hold, and any of them that pass the strait inside your Warship's
+range and are not hugging a shoreline tile are capturable. You redirect each capture to the
+island Port and keep the single payout, and because the distance already traveled counts, the
+ships you intercept near the far end of the crossing — the ones that have already crossed most
+of the lagoon — are the most valuable. The decision is deliberate and measurable: you are
+trading a 250,000-gold hull and a Port on the island for a persistent screen plus a recurring
+piracy income on every crossing, and the screen alone is worth it because one hull at one
+gate denies the whole lagoon.
+
+Watch the enemy's answer and hold the stop line. If the enemy builds their own Warship and
+puts it on the strait, the screen becomes a duel between two 1,000-health hulls, and the one
+with the better dock (the island Port) and the higher veterancy wins, so keep your hull docked
+and healed and force theirs to fight in open water. If the enemy ignores the strait and pushes
+from the central waterline, your screen is still doing its job because it taxes their trade and
+blocks their boats, and you should extend from the island as a held objective rather than
+chasing them across the water. The win condition is not "sink five boats"; it is "own the
+pirate island and the strait so the enemy's economy and their crossings both pay you." If the
+next check says the island Port is captured or the strait is empty of your hull, the state has
+moved from holding to bleeding, and you rebuild the Port before you rebuild the hull.
+
+## Scenario two: breaching a screened strait without your own hull
+
+Assume a late-game FFA on Pulicat Lake. You hold Sullurpeta on the western shore, and the
+enemy holds the pirate island with a Warship screen on the strait. You have a 900,000 pool and
+the enemy has 600,000, so on land numbers you are larger, but the gate is theirs. There are no
+Water Nukes, both players can build, and you do not yet have your own Warship. Your problem is
+clean: the single entrance is covered, and every boat you send to the enemy's coast must cross
+the 130-tile detection radius of a 1,000-health hull firing every 20 ticks.
+
+The first mistake is to send the three-boat metronome into a live screen. A default boat
+carries 20% of your pool, so at 900,000 that is a 180,000 load per boat, and with the three-boat
+cap you can have at most three in the water. If the strait Warship is watching, it kills or
+strands your lead boats, and a failed boat returns only 75% of its load, so a boat that retreats
+costs you 5% of the pool. Throw three 180,000 boats into a live screen and you are donating
+fifteen percent of a 900,000 pool to force a gate that one hull holds comfortably. The read
+here is **feeding**: your pool size is not power, because the decision is made at the strait,
+not at the pool.
+
+The counterplay is to open a second water lane, not to out-throw the screen on the first one.
+Pulicat is 59.7% water, so the lagoon is not just the single strait; it is an internal body of
+water with multiple shores, and a boat only needs to reach a shore that shares your water
+component. Build a second Port on an interior western or southern component and send boats to
+a shore the strait Warship cannot cover, because the screen only watches the gate, not every
+inlet. If you must cross the strait itself, do it in the window: send a single probe boat (a
+5% cost) to make the Warship reveal its patrol and commit its cooldown, and send the full
+three-boat wave only during the moment the Warship is retreating for repairs, when it has
+dropped below 75% health and committed to the Port. A retreating Warship does not pursue as it
+heals, so that is the brief opening. Set a written stop line before the first send: "I stop the
+strait lane when the Warship is confirmed on the gate for three consecutive probes, and I
+switch to the interior component." If the check says the gate is still held, spend the gold on
+the second Port and the interior lane instead of the fourth boat into the strait.
+
+## Failure modes and counterplay
+
+The first failure is treating the pirate island as a neutral spawn and not securing the dock.
+The island is the repair anchor, the piracy Port, and the 150-tile heal zone in one position,
+and a player who builds their first Port on their own coast instead of the island gives the
+enemy the sustainable screen and the toll booth. The fix is to front-load the Port on the
+island in the opening, because once the enemy has a working Port there, your strait lane is the
+most expensive option on the map and you are paying their toll. The second failure is assuming
+the single entrance means the lagoon is safe. It is the opposite: one gate is one point of
+failure, and the enemy's one Warship at the gate can block every crossing you attempt and tax
+every trade you send. The fix is to own the gate, not to hide behind it, and to keep a second
+water component open so you are not dependent on the single strait.
+
+The third failure is stacking every boat on the one strait tile. The defender does not have to
+cover three coasts, so they concentrate the Warship and the garrison on the gate, and your
+whole spam loses. The fix is the same as the breach scenario: rotate between the strait and an
+interior component so the screen has to choose a lane and your other boat arrives where it is
+absent. The fourth failure is trying to pirate a narrow channel. The 20-tick shoreline
+protection refreshes on every shoreline tile, so a trade ship hugging the lagoon's tight inlets
+is effectively immune, and a Warship chasing it through the inlets burns its 20-tick cooldown
+for nothing. The fix is to pirate only in open water, where the target is not constantly
+re-entering a shoreline tile. The fifth failure is forgetting the map is FFA-only. There is no
+`team_frequency`, so you will not be routed to a squad the way the team-weighted maps are, and
+the two special-team nations are a structural quirk of the layout, not a team routing tag. The
+fix is to plan for a solo or custom-lobby match and to treat the two special-team positions as
+high-value structural targets, not as a signal that a team will be present.
+
+Opponents have reliable counterplay, and you should expect it. They will build a Warship on the
+strait, capture your Port on the island, or use the enclosed water to funnel your boats into
+the one gate you must cross. Answer with role separation: a single probe boat to test the gate,
+a full wave only when the gate is confirmed empty or the Warship is retreating, and a Port on
+the island that heals the hull and runs the toll. Never let one expensive Warship be your only
+answer to a 5%-cost probe; that is the overspend you want the enemy to make, and the map's
+single gate is exactly where it will be forced.
+
+## Mode and map adjustments
+
+The mode you queue into changes the thresholds on Pulicat Lake, and the biggest one is the
+absence of team routing. Because the manifest has no `team_frequency`, Pulicat Lake is an
+FFA-only public map, so the single entrance plays as a race to the gate rather than a
+team-vs-team strait fight. In a solo FFA the first player to put a Port on the pirate island
+and a Warship on the strait sets the tone for the whole lagoon, and the remaining 11 nations
+either pay the toll or work around it through interior components. If you want to test the map
+with a set plan, build a custom or private lobby and name it directly, because the public
+rotation with its frequency of 3 will not hand it to you on demand.
+
+Water Nukes change the water graph and therefore the gate. If they are on, the single entrance
+can be cratered or re-routed, so re-scan the water component after every strike before you
+commit the next boat or piracy run, because a nuke can turn the one door into two doors or
+close a channel you were using. If Warships are disabled in the lobby, the strait screen is
+gone entirely, the single gate is open, and boats become cheap enough to spam across the whole
+lagoon — in that mode the map inverts and the player with the bigger pool wins the water lane.
+If Ports are disabled, the dock, the passive heal, and the piracy income all disappear at once,
+and the map collapses to a land fight along the rim, because without a Port there is no Warship
+and no trade ship. The map size matters too: Pulicat is a large 1,176 by 1,796 board, so lanes
+across the lagoon are long and the strait Warship has a big 130-tile window, which is why boats
+work best as probes here rather than as a constant metronome. The v0.35 spawn recovery is the
+last adjustment: the most-lagged player gets a shortened trade-ship timer when they trail on
+open trade ships, so on this water-heavy board an unlucky interior spawn recovers its economy
+faster than it would have on older versions, and you should not over-punish a lagging coast
+spawn that the recovery is already narrowing.
+
+The two special-team nations are the final adjustment, and they are the ones to watch. Their
+positions carry a structural advantage in the layout, so treat them as high-value objectives:
+if you hold one, defend the dock it gives you; if the enemy holds one, target the Port behind
+it. Because the map is FFA-only, that advantage is a terrain feature, not a team routing tag,
+so it applies in public and solo play the same way. Put these adjustments together and the same
+lagoon deserves three different plans without contradiction: a one-Warship toll on a normal FFA
+gate, an open-water boat spam when Warships are off, and a land-rim fight when Ports are off.
+The decision is always the same question, asked of the current mode: who holds the pirate
+island right now, and what does that cost the rest of the lagoon.
+
+## Next reading and an auditable close
+
+After each decision, write one sentence another player could verify: "I claim the island
+because I spawned on Chittamur and my Port reaches it before anyone else's," or "I stop the
+strait lane because the Warship is confirmed on the gate for three probes and I am switching
+to the interior component." Then check the result on the next important tick: who owns the
+island Port, where the strait Warship is, how many trade ships you captured, and whether your
+boat actually crossed or was stranded. If the check says the gate is held by the enemy and
+your strait lane is not converting, the state has moved from holding to feeding and you switch
+to the interior component or a land push. Use the [coastal boat defense guide](/guides/coastal-boat-defense/)
+to read the mirror image of the strait screen from the defender's side: the Warship screen, the
+garrison, and the component check. Use the [trade and piracy guide](/guides/trade-vs-piracy/)
+for the trade-route and piracy rules this guide leans on, and the [warship fleet decisions
+guide](/guides/warship-fleet-decisions/) for how to size and manage more than one hull once the
+strait duel escalates. For the rotation context, the [v0.35 new maps overview](/guides/v035-new-maps-overview/)
+lists Pulicat Lake among the twelve new maps and its frequency of 3, and the [map strategy
+guide](/guides/map-strategy/) covers general layout reading. The [trade and piracy guide](/guides/trade-vs-piracy/)
+also covers the trade-route and shoreline-protection rules that make the strait toll work, so
+read it second if you are planning the island economy from the start. For the boat side of the
+lagoon, the [micro boat spam guide](/guides/micro-boat-spam/) is the open-water plan when
+Warships are off and the [boat versus ground attack guide](/guides/boat-vs-ground-attack/) is
+the crossing decision when a shore garrison watches your lane. Once a strait Warship is up,
+the [warship veterancy guide](/guides/warship-veterancy/) explains how that hull's shell climbs
+each time it survives, and the [v35 nations naval doctrine guide](/guides/v35-nations-naval-doctrine/)
+explains which of the twelve nations can actually put a hull into the strait in the first place.
+
+All numeric boundaries here are the released v0.35.0 behavior: a 1,176 by 1,796 grid with
+851,671 land tiles (about 40.3% land), 12 Indian nations, a `special_team_count` of 2 and no
+`team_frequency` (FFA-only), a `multiplayer_frequency` of 3, a single northern sea entrance and
+a pirate island in the door, a Warship at 1,000 health with a 200 to 300 rolled shell that
+gains 20% per veterancy level, a 130-tile detection radius, a 20-tick shell cooldown, a 75%
+auto-retreat, a 150-tile passive 10 HP per second heal, a docked heal of 10 + 50×(port level /
+docked warships), a first Warship at 250,000 gold on a 250,000-per-hull ladder capped at
+1,000,000, and a 20-tick shoreline piracy protection that refreshes on every shoreline tile.
+If a later formal Release changes any of these, update the tables, the scenarios, and the stop
+line together, and re-verify against the tag before sharing the numbers. The practical close is
+a four-line log: state, island Port owner, strait Warship position, and next check. For
+example: "holding; island Port mine; Warship on the strait; capture the next trade ship and
+heal at the dock." If the next check says the gate is empty of your hull or the island Port is
+captured, change the state to feeding and spend the gold on the interior component instead.
+This small log turns a long guide into a repeatable habit another player can audit after the
+match, and it keeps the lagoon honest: a lagoon you cannot explain in four lines is a lagoon
+you are probably just paying the toll on.
+
+Sources: [OpenFront v0.35.0 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0),
+the [official upstream map manifest](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/resources/maps/pulicatlake/manifest.json),
+[Config.ts](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.0/packages/engine-lib/src/configuration/Config.ts),
+the [Warships guide thread](https://www.reddit.com/r/Openfront/comments/1x2nyco/a_guide_to_warships/),
+the [Piracy guide thread](https://www.reddit.com/r/Openfront/comments/1x1r675/a_guide_to_piracy/),
+and the [v0.35 new maps video](https://www.youtube.com/watch?v=EdcdsayA_ac).

@@ -1,0 +1,386 @@
+---
+title: "Pulicat Lake: de lagune, de straat en wie het pirateneiland bezit"
+description: Een v0.35-keuzegids voor Pulicat Lake, de omheinde lagune met één zee-ingang en een pirateneiland in de poort. Hoe het 12-natie, waterrijke bord er écht uitziet, waarom één slagschip de hele straat kan afsluiten, hoe je van het pirateneiland een werf en een tol op handel maakt, en welke kust je kiest vóór de countdown.
+pubDate: 2026-10-30
+updatedDate: 2026-10-30
+tags: [maps, v0.35, pulicat-lake, warship, piracy, port, naval, lagoon, spawn]
+category: Guide
+difficulty: Geavanceerd
+version: v0.35.0
+freshnessSummary: "Geverifieerd op 2026-10-30 tegen de formele v0.35.0-release (2026-10-16) en de release notes, het officiële upstream-kaartmanifest (rooster 1.176×1.796, 851.671 landtegels, 12 Indiase naties, special_team_count 2, multiplayer_frequency 3) en de engine-bron (slagschip 1.000 HP, rolgranate 200–300, detectie 130 tegels, cooldown 20 ticks, 75 % automatische terugtrek, passieve genezing 150 tegels, werfgenezing 10 + 50×(havenniveau / slagschepen in werf), kosten min(1M, (n+1)×250k)). Community-signaal uit vier r/Openfront-gidsen en drie v0.35-video's."
+---
+
+**Direct antwoord.** Pulicat Lake is een waterrijke lagune met één zee-ingang, dus de partij
+wordt beslist bij de straat: het pirateneiland in de poort is de natuurlijke slagschipwerf en
+het piraterieplatform, en wie het bezit kan elke handelsvracht belasten en elke bootoversteek
+blokkeren. Commit vóór de countdown op de ingang, bouw je haven op het eiland en scherm de
+straat af met één slagschip van 250.000 goud; spawn je landinwaarts, behandel dan die ene poort
+als het probleem van je tegenstander dat je exploiteert, niet als jouw probleem dat je
+verdedigt. Lees het water vóór je op een kust commit, want een lagune van 59,7 % water met één
+poort is een volstrekt ander spel dan een landbord.
+
+Pulicat Lake is de v0.35-kaart waarop één positie de hele partij kan beslissen. Het is een
+omheinde lagune — een echt waterlichaam met een enkele zee-ingang naar het noorden — en de
+officiële release notes beschrijven het in één regel: "een lagune met één zee-ingang, en een
+pirateneiland in de poort." Dat ene eiland, recht in de enige in- of uitgang, is de kaart. Het
+is tegelijk een natuurlijke slagschipwerf, een zone van passieve genezing en een
+piraterieplatform, en de speler die het controleert, controleert de straat. De rest van het
+12-natiebord is de rand van de lagune: Indiase naties langs de waterlijn, waarvan de meeste
+van de rest van de kaart afgesloten zijn door datzelfde enkele poort. Deze gids geeft je een
+herbruikbaar kader voor de vier beslissingen die de kaart dwingt: welke kust je commit vóór de
+countdown, of je het pirateneiland aanvalt of vermijdt, hoe je een één-slagschip-dek bij de
+straat drijft, en hoe je dat dek breekt als het niet het jouwe is. Elk getal hieronder is het
+gepubliceerde v0.35.0-gedrag, zodat je de 1.000 HP van een slagschip, een eerste romp van
+250.000 goud en een 20-tick-granatecoole tegen het terrein houdt en bewust beslist.
+
+## Versie: wat Pulicat Lake in v0.35 écht is
+
+Allereerst vast te leggen: Pulicat Lake is een v0.35-kaart en draagt de twee v0.35-gedragingen
+die elk bord opnieuw tekenen waar het op verschijnt. Het kwam uit in de formele v0.35.0-release
+van 16 oktober 2026, en de officiële release notes noemen het direct, met credit voor de kaart
+aan de bijdrager, gevolgd door een opvolgende "Beter terrein voor Pulicat Lake" — wat betekent
+dat de water- en kustgeometrie na de eerste doorloop werd afgesteld. De omheinde lagunevorm die
+je in de client ziet, is dus de bedoelde vorm, geen bug. Omdat het een v0.35-kaart is, draait
+het onder de v0.35-lobbyverbouwing: de oude spelerlimiet van 125 werd verwijderd en de
+lobbygrootte werd kaartgestuurd, zodat een 12-natie-lagune zijn natieslots lang voor een grote
+limiet bereikt zijn vult en een strakker, doordachter ritme houdt dan de 43-natie arcadekaarten.
+De kaart draait ook onder het v0.35-spawnherstel per speler: wanneer de meest achterblijvende
+speler minder open handelsvrachten heeft dan de best geplaatste speler, wordt de volgende
+handelsvracht-timer van die speler voor een vast venster verkort. Dat telt op een waterrijk
+bord, want een ongelukkige kustspawn herstelt zijn economie sneller dan het dat zou hebben in
+oudere versies.
+
+Twee feiten uit het manifest definiëren de grens. Het bord is een rooster van 1.176 op 1.796 —
+een grote, verticaal uitgestrekte lagune — en van haar ruim 2,11 miljoen tegels zijn 851.671
+land, ongeveer 40,3 %, wat betekent dat de overige 59,7 % water is. Dat is een écht waterrijk
+bord, en dat is precies de reden waarom zeemechanieken de beslissingsas van de kaart zijn en
+geen nevenoverweging. De tweede grens is de modus: het manifest noemt `multiplayer_frequency`
+3 en `special_team_count` 2, maar helemaal geen `team_frequency`. Pulicat Lake is daarom een
+FFA-alleen publieke kaart. Het wordt niet naar teams geroeid zoals de teamgewichtige Afrikaanse
+kaarten, en de twee speciale-team naties zijn een structurele bijzonderheid van de lay-out in
+plaats van een team-roeptag. Wil je Pulicat Lake met een vaste planning testen, dan bouw je een
+aangepaste of privé-lobby en geef je de kaart direct aan; de openbare rotatie toont het met
+frequentie 3 zeldzamer dan de arcadekaarten. Behandel de exacte lobbycijfers per kaart als
+v0.35-geobserveerde waarden en controleer de live-clientwaarden vóór je een teamplanning bouwt
+rondom hen, want zowel de lobbygrootte als het spawnherstel werden in de v0.35-cyclus ingevoerd
+en gemeten. De grens vertelt je ook wat er níét op deze kaart is: er is geen team-rouding om
+heen te plannen, dus elke alleen-team-spiertest is een aangepaste-lobbyoefening, en de
+speciale-team naties zijn een lay-outkenmerk dat je op het bord leest, geen roeivlag die de
+lobby toekent.
+
+## De geografie: een omheinde lagune met één poort
+
+Lees het water vóór je op een kust commit, en op Pulicat Lake heeft dat water één eigenschap
+die alles else overstijgt: er is slechts één weg erin en één weg eruit. De lagune is omheind,
+dus de 12 genoemde naties zitten langs de rand van een binnenwaterlichaam, en de enkele
+noordelijke zee-ingang is de enige verbinding naar de open zee. Dat enkele poort is een
+knelpunt in de strengste zin — een vooruitgeplaatst slagschip op de straat kan elke oversteek
+weigeren, en elke handelsvracht, transportboot of aanvalskracht die het binnenste van de lagune
+wil bereiken, moet door datzelfde smalle water. De omheinde vorm betekent ook dat het
+binnenwater één samenhangend component is dat je kunt vasthouden, patrouilleren en belasten,
+in plaats van een wijd open zeegebied waar het dek van de verdediger van de zijkant kan worden
+omzeild.
+
+De 12 naties zijn langs die rand gespreid, en hun posities vertellen de partij. Chittamur en
+Dugarajapatnam zitten in het noorden dicht bij de ingang, dus zijn zij de eersten die het
+pirateneiland en de straat raken; Sriharikota en Venadu houden de middelste waterlijn;
+Sullurpeta en Irakkam staan aan de westkust; en Sunnambukulam, Elavur, Annamalaicheri, Pulicat
+en Gummidipoondi rijen het zuiden af. De kaart noemt één natie letterlijk "Pulicat", de lagune
+zelf, en haar zuidelijke positie maakt de zuidkust het verste einde van de lagune vanaf de
+enkele noordelijke poort. De praktische lezing is dat een natie dicht bij de ingang het
+pirateneiland en de straat kan bereiken vóór iedereen andere, terwijl een zuidelijke natie het
+meest afgesloten is en het langste binnenwater moet overbruggen om de poort te bereiken. Tel
+twee afstanden en houd ze apart: de afstand van je spawn tot het pirateneiland (die bepaalt hoe
+snel je de werf kunt claimen) en de afstand van het pirateneiland tot je kust (die bepaalt hoe
+lang een vijandelijk slagschip nodig heeft binnen zijn 130-tegel-detectie voordat het je
+bereikt). Deze twee vouwen niet in één getal, en de speler die ze misleest, commit op de
+verkeerde kust. De praktische consequentie van de omheinde vorm is dat reistijd de échte
+valuta van de kaart is: een oversteek van de zuidelijke rand naar de straat is een lange,
+blootgestelde waterlijn zonder onderduikhokje, terwijl een noordelijke natie dezelfde straat
+bereikt in een handvol bootbewegingen. Die asymmetrie is waarom de ingangszijde de vroege
+claim bijna van rechtswege wint — de zuidelijke naties verliezen het pirateneiland niet omdat
+hun boten trager zijn, maar omdat de geometrie hen op het verste einde van één samenhangend
+waterlichaam zet dat iedereen moet oversteken om de poort te bereiken.
+
+## Het slagschip-dek: één romp sluit de hele straat af
+
+De enkele ingang betekent dat één slagschip de lagune afsluit is, en de getallen maken dat
+concreet. Een slagschip kost 250.000 goud voor de eerste romp (de ladder klimt naar 500.000,
+750.000 en plafonneert op 1.000.000 voor de vierde en latere rompen, berekend als
+min(1.000.000, (n+1)×250.000) waarbij n het aantal is dat je al bezit), en die eerste romp
+draagt 1.000 HP, een gerolde 200-tot-300-granate die 20 % wint per veterancy-niveau, een
+130-tegel-detectieradius en een 20-tick-granatecoole. Stel die romp in de straat, en hij
+bewaakt de hele poort: elke boot of handelsvracht die binnen zijn 130-tegel-detectie komt en
+binnen zijn 100-tegel-patrouilleradius zit, is een doel, en hij vuurt elke 20 ticks. Op een
+kaart met één poort is dat geen lanedek, dat is het hele kaartdek. De eigen "slagschipdeken"-
+klacht van de community — dat een kleine boot-spam nauwelijks te beantwoorden is — is exact de
+situatie die Pulicat op zich zelf creëert: de verdediger hoeft drie kusten niet te dekken, maar
+één straat, en één romp van 1.000 HP met een 20-tick-coole dekt dat ruim.
+
+Het dek is ook volhoudbaar, wat het een échte beslissing maakt en geen bluff. Een slagschip
+binnen 150 tegels van de haven van zijn bezitter herstelt 10 HP per seconde passief, en als het
+in die haven gedockt is, krijgt het de sterkere genezing 10 + 50×(havenniveau / slagschepen in
+werf) HP per seconde. Zo herstelt een enkel slagschip dat gedockt is in een niveau-1-haven op
+het pirateneiland 60 HP per seconde terwijl het gedockt is en 10 HP per seconde terwijl het de
+straat patrouilleert binnen 150 tegels. Het kan een boot-spam inkassen, zijn granaten vuren en
+naar de werf terugkomen met volle gezondheid, om dan weer te patrouilleren. De
+75 %-automatische terugtrekregel voltooit het beeld: het moment dat de romp onder 75 % van zijn
+maximale HP daalt, begint hij terug te trekken naar een haven, en een terugtrekkend slagschip
+commit zich aan de reparatie. Het straatdek is dus een lus — patrouilleren, vuren, terugtrekken
+naar de werf, herstellen, patrouilleren — en de enige manieren om het te breken zijn de romp
+sneller te doden dan de werf herstelt, de haven waar het gedockt is te verwijderen, of een
+watercomponent te bereiken dat het straatslagschip niet dekt.
+
+| Slagschip-statistiek | Gepubliceerde v0.35.0-waarde | Wat het op Pulicat betekent |
+|---|---|---|
+| Kosten eerste romp | 250.000 goud | De instapprijs van het hele lagunedek |
+| Gezondheid | 1.000 | Eén romp dekt een enkele straat ruim |
+| Detectie | 130 tegels | Bewaakt de hele enkele ingang |
+| Granate | 200–300, +20 % per veterancy | Een rolgranate die klimt naarmate hij overleeft |
+| Granatecoole | 20 ticks | Stevig, te beantwoorden vuur — geen salve |
+| Patrouilleradius | 100 tegels | Waar hij actief bewaakt en kan vangen |
+| Passieve havengenezing | 10 HP/s binnen 150 tegels van een haven | Gratis sustain tijdens het patrouilleren bij de poort |
+| Gedockte genezing | 10 + 50×(havenniveau / slagschepen in werf) HP/s | 60 HP/s bij een niveau-1-haven, één romp |
+| Automatische terugtrek | Onder 75 % max-HP | De romp commit zich aan reparatie, niet aan gevecht |
+
+De kosten van de eerste romp volgen de ladder min(1.000.000, (n+1)×250.000), dus de tweede
+romp kost 500.000, de derde 750.000, en de vierde en latere rompen plafonneren op 1.000.000.
+Op een kaart waar één romp al de hele ingang kan afdekken, is een tweede romp een
+redundantie en een tegenzet tegen de eigen romp van de vijand, geen evidente uitgave — dus de
+tabel hierboven is de reeks aan getallen die je in je hoofd houdt als je beslist of de straat
+de jouwe is om te houden of de hare om te breken. Een tweede romp koppel je pas aan als je de
+straat al bezit en een vijandelijke romp de werf van het pirateneiland probeert te ontruimen,
+want een tweede romp die dicht bij de eerste blijft, deelt de werfgenezing en verlaagt de
+genezing per romp precies door die 50×(havenniveau / slagschepen) term.
+
+## Het pirateneiland: werf, genezing en de tol op handel
+
+Het pirateneiland is waar de werf, de genezing en het inkomen samenkomen, en het is de enkele
+meest waardevolle positie op de kaart. Een daar gebouwde haven geeft je slagschip een
+reparatieanker precies bij de poort, zodat het straatdek uit de vorige sectie voor de hele
+partij volhoudbaar blijft. De haven laat je ook piraterie rijden: een slagschip volgt en vangt
+automatisch bekwame vijandelijke handelsvrachten die binnen zijn patrouilleradius komen, en
+een gevangen schip wordt omgeleid naar een van jouw havens en betaalt je goud bij aankomst. De
+uitbetaling gebruikt dezelfde afstand-gebaseerde formule als normale handel, en het belangrijke
+detail is dat de afstand die het schip al afgelegd is telt voor de uitbetaling — een
+handelsvracht die de meeste van de lagune heeft overgestoken vóór je hem vangt, is dus veel
+meer waard dan één die je dicht bij de spawn afvangt. Dat is de tol op de straat: elke
+vijandelijke handelsvracht die de enkele poort passeert, staat voor de hele oversteek bloot aan
+je slagschip, en je behoudt de enkele uitbetaling bij het aanmeren.
+
+Maar het eiland is geen gratis geld, en de kustbeschermingsregel is de grens. Handelsvrachten
+krijgen 20 ticks (twee seconden) pirateriebescherming wanneer ze spawnen of op een
+kustwater-tegel bewegen, en die bescherming vernieuwt zich elke keer dat het schip op een andere
+kusttegel beweegt. In een smalle vaarweg die de kust volgt, vernieuwt het schip zijn bescherming
+continu, dus piraterie langs de smalle inhammen van de lagune is effectief onmogelijk — je kunt
+alleen een schip vangen in open water, waar het niet continu terug beweegt naar een
+kustwater-tegel. Een slagschip kan ook geen handelsvrachten pilleren die aan bondgenoten of
+teamgenoten toebehoren, handelsvrachten die naar je eigen of een vriendelijke haven varen, en
+het heeft een actieve, voltooide haven nodig die via hetzelfde samenhangende waterlichaam
+bereikbaar is om überhaupt te vangen. Het piraterie-inkomen van het eiland hangt dus af van dat
+drie dingen tegelijk waar zijn: je houdt een werkende haven daar, het doelschip is in open water
+(niet aan de kust), en het schip is niet onderweg naar een haven die je controleert of deelt.
+Wanneer alle drie gelden, verandert het pirateneiland de enkele ingang van een poort die je
+verdedigt in een tolpoost die je exploiteert. De positioneringsconsequentie is dat je slagschip
+de meeste van zijn tijd moet doorbrengen in open water, een korte vaart van de straat af, in
+plaats van de kust te volgen, want open water is waar vangsten écht gebeuren en waar de
+130-tegel-detectie de oversteek nog dekt, terwijl een kustvolgende romp zowel het openwaterverkeer
+mist als vijandelijke boten laat sluiten onder de constante kustbescherming.
+
+## Scène één: de ingang houden en de straat belasten
+
+Stel je een mid-game FFA op Pulicat Lake voor. Je spawnt op Chittamur, in het noorden, dicht bij
+het pirateneiland, en je hebt tegen het late begin de eerste haven bereikt bij 125.000 goud. De
+vijand die je interesseert houdt Sriharikota op de middelste waterlijn en duwt een
+handel-ekonomie door de lagune. Er zijn geen Water Nukes, geen Doomsday, beide spelers kunnen
+bouwen, en de vijand heeft nog geen slagschip gebouwd. Je doel is het pirateneiland claimen, er
+een haven op zetten en een één-slagschip-dek bij de straat drijven voor de rest van de partij.
+
+Commit de eerste minuten op het eiland. Bouw de haven op het pirateneiland, niet op je eigen
+kust, want de haven op het eiland is wat het straatdek volhoudbaar maakt: het is het
+reparatieanker, de pirateriewerf en de 150-tegel-passieve-genezingszone in één positie. Koop
+je eerste slagschip voor 250.000 goud en stel zijn patrouillepunt in de straat. Met 1.000 HP,
+een 130-tegel-detectieradius en een 20-tick-coole bewaakt die romp de hele enkele ingang, en
+gedockt in de niveau-1-haven herstelt hij 60 HP per seconde, zodat hij een bootsonderzoek kan
+inkassen en met volle HP terugkomt. Nu de economie: de handelsvrachten van de vijand moeten de
+lagune oversteeken door dezelfde poort die je bezit, en elke die de straat passeert binnen de
+reikwijdte van je slagschip en niet aan een kusttegel kleven, is vangbaar. Je leidt elke vangst
+om naar de haven op het eiland en behoudt de enkele uitbetaling, en omdat de al afgelegde
+afstand telt, zijn de schepen die je vangt nabij het verste einde van de oversteek — degenen die
+de meeste van de lagune al zijn overgestoken — de meest waardevolle. De beslissing is bewust en
+meetbaar: je ruilt een romp van 250.000 goud en een haven op het eiland in voor een
+duurzaam dek plus een terugkerend piraterie-inkomen op elke oversteek, en het dek alleen is
+het waard omdat één romp op één poort de hele lagune sluit zolang de haven bestaat.
+
+Het timing is de tweede metende as van deze scène. De countdown vóór de spawn bepaalt hoe
+veel open water er nog is vóór de eerste haven op het eiland kan aansluiten, en een late
+claim betekent dat de tegenstander al een werf en een patrouillerend schip heeft vóórdat jij
+eerst het eiland bereikt. De praktijkregel is dat je de claim in de eerste twee tot drie
+minuten moet hebben, want daarna kost elke minuut die je niet het eiland hebt, één extra
+tolronde die je tegenstander draait. Als je op Chittamur spawnt, is de oversteek naar het
+eiland maar een paar bootbewegingen en haal je die deadline rustig; als je op een centrale
+natie spawnt, is het een haastrace, en dan moet je de haven vóór het schip bouwen zodat de
+genezing al werkt terwijl je de straat nog niet volledig bezit. De tol draait pas op het
+moment dat je het eiland bezit én een patrouillerend schip hebt én de tegenstander
+handelsvrachten over de lagune stuurt, en die drie voorwaarden komen in deze scène één voor
+één binnen: eerst de haven, dan het schip, en dan pas het inkomen. Dat is waarom de scène
+zich in de late opening afspilt en niet in de vroege: je hebt eerst de positie en daarna de
+uitbetaling, en je mag de uitbetaling niet verwachten voordat de positie staat.
+
+## Scène twee: een afgedekte straat breken zonder je eigen romp
+
+Nu het omgekeerde: je spawnt op Sunnambukulam, een zuidelijke natie, en de tegenstander bezit
+het pirateneiland met een slagschip in de straat. Je kunt de poort niet rechtstreeks aanvallen,
+want je bots dan op het schip in de straat met zijn 1.000 HP en 20-tick-coole, en je hebt geen
+eigen schip om hem te beantwoorden. De scène is de vraag: hoe breken we de straat zonder een
+eigen schip, en wat kost dat? De uitgangspunt is dat je op de verkeerde helft van de lagune zit
+ten opzichte van de poort, want de zuidelijke kust is het verste punt van de lagune vanaf de
+enkele noordelijke poort, en je tegenstander heeft de vroege claim al binnen.
+
+De eerste optie is de haven slopen. Als je het pirateneiland kunt bereiken zonder de straat
+kruisen te moeten (via een binnenwatercomponent of de kust), dan kun je de haven slopen vóórdat
+het schip erin kan docken. Dat vernietigt de werf en de gedockte genezing tegelijk, en een
+schip zonder werf kan niet herstellen en verliest snel HP onder vuur. De tweede optie is de
+omweg: je loopt de hele lagune rond via een binnenwatercomponent, wat traag is maar veilig, en
+je bereikt een andere kust zonder de straat te kruisen. De derde optie is de aanval op het
+schip zelf: je verzamelt een vloot van boten die het schip sneller raken dan de werf herstelt,
+maar dat werkt alleen als de haven er nog niet is of als het schip al onder 75 % is en dus
+terugtrekt. Elke optie kost tijd, en die tijd is de échte prijs van deze scène: terwijl jij de
+straat breekt, draait de tegenstander de tol, en dat inkomstenstroom draait al snel meer om dan
+wat je oversteek oplevert. De beslissing is dus niet alleen "kan ik de straat breken", maar "is
+het de moeite waard om het te doen, gezien de tijd en de tol van de tegenstander". Als de
+tegenstander al een tweede romp in de werf heeft, klimt de drempel opnieuw, want je moet nu twee
+rompen sneller doden dan één werf herstelt, en dan is het vaak correct om de oversteek te
+schuiven naar een andere vaarweg en de tol te laten lopen in plaats van het duel te aangaan.
+In de praktijk is de beslissing het vaakst een afwegen van twee getallen: de oversteek die je
+moet maken om de poort te bereiken (de tijd en boten die je verliest onderweg) tegen de
+tolstroom die de tegenstander al draait (het goud dat hij elke ronde verdient). Als de
+oversteek langer is dan de tijd die de tolstroom over de prijs van jouw schip opgaat, dan
+is het correct om de straat niet te breken en in plaats het landgevecht te zoeken, want dan
+verlies je bij elke mislukte poging meer dan je wint. Als de oversteek kort is en de
+tolstroom pas begint te draaien, dan is het juist de goedkopere keuze om de werf te slopen
+en de tolstroom te doorbreken vóórdat de tegenstander een tweede romp heeft bereikt.
+
+## Falingsmodi en tegenzetten
+
+De meeste verliezen op Pulicat Lake zijn één van drie falingsmodi. De eerste is de kustfout: je
+kiest een zuidelijke kust terwijl je de ingang had moeten claimen, of je kiest een
+noordelijke kust terwijl je de zuidelijke had moeten houden. De tegenzet is de twee afstanden
+lezen vóór de countdown: de afstand van je spawn tot het pirateneiland en de afstand van het
+eiland tot je kust. Als die twee afstanden je niet de ingang geven, dan is de kust verkeerd en
+moet je de scène opnieuw lezen. De tweede fout is de schipfout: je betaalt 250.000 goud voor
+een schip dat je niet kunt onderhouden, of je laat een schip in de straat dat onder 75 % daalt
+zonder dat je de werf erbij hebt. De tegenzet is de werf vóór het schip bouwen: als de haven er
+is vóórdat het schip erin kan docken, betaalt de genezing een deel van de prijs terug, en als
+de haven er niet is, is het schip een dode massa die je niet kunt herstellen.
+
+De derde fout is de tolverwaarlozing: je bewaakt de straat met een schip maar vergeet de tol te
+innen, of je sloopt de haven maar vergeet de straat te herbewaken. De tegenzet is de tol als
+een actieve inkomstenstroom te behandelen, niet als een bijproduct: elke handelsvracht die de
+straat kruist en niet vangen wordt, is geld voor jou, en als je de tol verwaarloost, betaalt je
+schip zijn eigen prijs terug maar levert hij geen winst. De vierde fout is de
+positioneringsfout: je laat je slagschip de kust volgen in plaats van in open water te
+patrouilleren, waardoor je zowel het openwaterverkeer mist als vijandelijke boten onder de
+constante kustbescherming laat sluiten. De tegenzet is het patrouillepunt in open water te
+stellen, een korte vaart van de straat af, binnen de 130-tegel-detectie van de oversteek en
+binnen het 150-tegel-genezingsvenster van de werf. Alle vier de tegenzetten zijn één ding:
+lees de getallen (de afstand, de werf, de tol, de positie) vóór je beslist, en laat de
+getallen de scène sturen in plaats van je instinct.
+
+De vijfde fout is de meest subtiel en de duurste: de overwaardering van de tolstroom. Je ziet
+de haven op het eiland en de patrouillerende romp en concludeert dat het inkomstenstroom
+onuitputtelijk is, terwijl in werkelijkheid de tolstroom alleen draait zolang de
+tegenstander handelsvrachten over de lagune stuurt. Als die tegenstander in plaats het
+landgevecht zoekt en geen schepen over de wateren duwt, dan levert de tol niks op en zit je
+met een schip dat je elke minuut in stand houdt terwijl het niets verdient. De tegenzet is de
+tol te zien als een functie van de tegenstander: je meet de tolstroom door te kijken of er
+daadwerkelijk schepen de straat kruisen, en als dat niet zo is, wissel je van plan want dan
+is de positie een kostenpost, niet een inkomstenpost. De zesde fout is het tegenovergestelde:
+de onderschatting van de werf. Je sloopt de haven maar verget dat het schip nog steeds
+patrouilleert en nog steeds binnen de 150-tegel-passieve-genezingszone van een andere haven
+kan terugkeren, en dan is de werfsloop een tijdelijke verstoring, geen blijvende
+ontkoppeling. De tegenzet is na de werfsloop te controleren of het schip nog steeds een
+reparatieanker heeft: als ja, dan heb je alleen de passieve genezing weggenomen en niet de
+werkende werf, en dan moet je de volgende haven ook slopen voordat de schip terug kan
+docken.
+
+## Modus- en kaartaanpassingen
+
+Pulicat Lake verdient drie verschillende plannen zonder tegenstrijdigheid: een
+één-slagschip-tol op een gewone FFA-poort, een openwater boot-spam wanneer slagschepen uit
+staan, en een landrand-gevecht wanneer havens uit staan. De beslissing is altijd dezelfde
+vraag, gesteld aan de huidige modus: wie bezit het pirateneiland nu, en wat kost dat de rest
+van de lagune. Als je de ingang bezit, dan is de tol de hoofdingkomme en de straat de
+hoofdpositie. Als je de ingang moet vermijden, dan is de omweg of de havensloop het hoofdplan,
+en de tijd de hoofdprijs. Als slagschepen in de lobby uit staan, verdwijnt het straatdek
+helemaal en staat de poort open: boten zijn goedkoop genoeg om de hele lagune te spammen, en
+het bord keert dan om — de speler met het grootste bassin wint de waterwegen. Als havens uit
+staan, verdwijnen de werf, de passieve genezing en het piraterie-inkomen tegelijk, en de kaart
+zakt in een landrand-gevecht, want zonder havens zijn er geen slagschepen en geen
+handelsvrachten om te pilleren.
+
+De kaartgrootte moet ook meegerekend worden: Pulicat is een groot bord van 1.176 op 1.796, dus
+de waterweg over de lagune is lang en het straatslagschip heeft een brede 130-tegelvenster, en
+dat is waarom boten op deze kaart het beste als proevers werken, niet als een continue
+metronoom. Het v0.35-spawnherstel is de laatste aanpassing: spelers met achterblijvende open
+handelsvrachten krijgen een verkorte handelsvracht-timer, dus op een waterrijk bord herstelt
+een ongelukkige binnenlandspawn zijn economie sneller dan in oudere versies, en je zult een
+achterblijvende kustspawn niet te zwaar moeten straffen terwijl die herstelt. De twee
+speciale-team naties zijn de voorlaatste aanpassing, en die moet je volgen: ze zitten op
+posities met structurele voorsprong in de lay-out, dus behandel ze als hoge-waarde doelen — als
+jij er één bezit, bewaak je de werf die het geeft, en als de tegenstander er één bezit, aanval
+je de haven erachter. Omdat de kaart zuiver FFA is, is die voorsprong een terreineigenschap,
+geen team-roeping, en dus geldt ze zowel in openbaar als in solospel. Samengeteld vragen deze
+aanpassingen dat dezelfde lagune drie verschillende plannen heeft, elkaar niet tegenstreevend:
+een één-slagschip-tol op een gewone FFA-poort, een openwater boot-spam wanneer slagschepen uit
+staan, en een landrand-gevecht wanneer havens uit staan.
+
+Tot slot bepaalt de frequentie zelf wanneer je deze kaart zult tegenkomen. Met een
+`multiplayer_frequency` van 3 toont de openbare rotatie Pulicat Lake minder vaak dan de
+arcadekaarten met een hogere frequentie, wat betekent dat je de kaart vaker in een aangepaste
+of privé-lobby ziet dan in de openbare stream. Die lagere rotatie heeft een effect op je
+planning: omdat je de kaart minder vaak zult aantreffen, verdient het de moeite om één vaste
+planning voor Pulicat te bouwen die je direct kunt toepassen zodra je hem ziet, in plaats van
+per encounter opnieuw de scène in te lezen. De drie plannen hierboven vormen die vaste set,
+en de beslissing op het moment dat je de kaart ziet is alleen welke van de drie past bij de
+huidige modus en je spawnpositie. Dat maakt Pulicat Lake een kaart waarop je je voorspelbaar
+voorbereidt: de geometrie is vast, de getallen zijn vast, en de enige verandering is de
+modus, en die lees je vóór de spawn.
+
+## Verder lezen en een controleerbare afsluiting
+
+Na elke beslissing schrijf je één zin die een andere speler kan verifiëren: "Ik claim het
+eiland omdat ik op Chittamur spawn en mijn haven het bereikt vóór die van een ander", of "Ik
+stop de straatweg omdat het slagschip drie proeven bevestigd is op de poort en ik wissel naar
+het binnenwatercomponent." Controleer dan het resultaat op de volgende belangrijke tik: wie de
+haven van het eiland bezit, waar het straatslagschip staat, hoeveel handelsvrachten je hebt
+gevangen, en of je boot daadwerkelijk overstak of strandde. Als de controle zegt dat de poort
+door de tegenstander wordt bewaakt en je straatweg niet converteert, dan is de toestand van
+bewaken naar voeden overgegaan en wissel je naar het binnenwatercomponent of een landstoot.
+Gebruik de [kustbootverdedigingsgids](/guides/coastal-boat-defense/) om het spiegelbeeld van
+het straatdek van de verdedigerskant te lezen: het slagschip-dek, het garnizoen en de
+componentencheck. Gebruik de [handel-en-pirateriegids](/guides/trade-vs-piracy/) voor de
+handelsroute- en piraterie-regels waarnaar deze gids zich leunt, en de
+[slagschip-vloetbesluitingsgids](/guides/warship-fleet-decisions/) voor hoe je meer dan één
+schip dimensioneert en beheert zodra het straatduel escaleert. Voor de rotatiecontext listt de
+[v0.35-nieuwe-karten-oversicht](/guides/v035-new-maps-overview/) Pulicat Lake onder de twaalf
+nieuwe kaarten en de frequentie 3, en de [kaartstrategiegids](/guides/map-strategy/) dekt het
+algemene lay-outlezen. Voor de bootkant van de lagune is de
+[microboot-spamgids](/guides/micro-boat-spam/) het openwaterplan wanneer slagschepen uit
+staan, en de [boot-tegen-landaanvalsgids](/guides/boat-vs-ground-attack/) de oversteekbeslissing
+wanneer een kustgarnizoen je weg bewaakt. Zodra een straatslagschip staat, legt de
+[slagschip-veterancygids](/guides/warship-veterancy/) uit hoe de granate van dat schip elke
+keer dat het overleeft stijgt, en de
+[v35-naties-marine-doktrindegids](/guides/v35-nations-naval-doctrine/) legt uit welke van de
+twaalf naties eigenlijk een schip in de straat kunnen zetten.
+
+Alle numerieke grenzen hier zijn het gepubliceerde v0.35.0-gedrag: een rooster van 1.176 op
+1.796 met 851.671 landtegels (ongeveer 40,3 % land), 12 Indiase naties, een `special_team_count`
+van 2 en geen `team_frequency` (alleen FFA), een `multiplayer_frequency` van 3, een enkele
+noordelijke zee-ingang en een pirateneiland in de poort, een slagschip met 1.000 HP en een
+200-tot-300-rolgranate die 20 % wint per veterancy-niveau, een 130-tegel-detectieradius, een
+20-tick-granatecoole, een 75 %-automatische terugtrek, een passieve genezing van 10 HP per
+seconde over 150 tegels, een gedockte genezing van 10 + 50×(havenniveau / slagschepen in werf),
+en een eerste slagschip van 250.000 goud op een reeks van 250.000 per schip tot 1.000.000.
+Controleer de live-clientwaarden vóór je een planning bouwt, want lobbygrootte en spawnherstel
+werden in de v0.35-cyclus ingevoerd en gemeten, en kunnen per kaart verschillen.
