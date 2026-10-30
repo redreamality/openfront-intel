@@ -33,10 +33,10 @@
 
 ## 最新来源锚点
 
-- 正式 Release 游标：[`v0.35.7`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.7)，tag commit `c144d134d1503191b4c3fd9a866fc583b9ecea4a`；API 发布时间为 2026-10-29T18:41:06Z，非 TEST、非预发布。五语 [v35.7 主答案维护](research/2026-10-30-v357-release-maintenance.md) 成功部署即完成并转 Monitoring：同步独立地图 Tutorial、Poki/CrazyGames 新玩家教程入口、氏族 Map 页 alpha、加载失败反馈及外观 AI 标签。保留 alpha 与 unknown 边界，不推导领土奖励、强制所有玩家重学或所有加载故障已解决。五语首页最新摘要与入口同步，历史补丁保留各自边界。仅新正式变化、确认错误或自身完整 final 窗口触发重开。
+- 正式 Release 游标：[`v0.35.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.9)，tag commit `7ee96860c717b1ea36870cdfa6d4bb1e9bccd6de`；API 发布时间为 2026-10-30T22:56:37Z，非 TEST、非预发布。五语 [v35.9 主答案维护](research/2026-10-31-v359-release-maintenance.md) 与 Rio de Janeiro 五语新页同轮交付并转 Monitoring：v35.9 增加氏族 Top donors 排行并修复捐赠后的 Store 余额，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。Rio manifest 与 MapPlaylist 在 v0.35.9 未变，历史河流连接修复归于 v0.35.5。仅新正式变化、确认错误或自身完整 final 窗口触发重开。
 - 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级。
 - 改键维护：[五语正式版操作边界](research/2026-10-21-stable-controls-maintenance.md) 发布即完成并转 Monitoring；速查页和训练页同步 X 全舰队、F 表情、R 快捷聊天及自定义绑定优先。只核验本轮所改操作，核武数值保留原引用边界；下次由正式操作变化、已确认错误或完整 GSC final 窗口触发。
-- 上游 `main` 独立游标：`d968c421dc25159f884182e6a22c129b9cdd0a53`；2026-10-30 已用 GitHub REST 核验，未发布提交只作未来版本线索。
+- 上游 `main` 独立游标：`030274df6e377a57e784a9f6f9865720b0dfbbba`；2026-10-31 已用 GitHub REST 核验，未发布提交只作未来版本线索。
 - 禁运答案维护：[五语事实修正与重复路由合并](research/2026-10-23-embargo-answer-maintenance.md) 发布即完成并转 Monitoring；唯一主答案保留 `guides/embargo-timing-and-trade-control/`，新 v35 重复路由跳转到对应语言。下次仅由相关正式规则变化、事实错误或其自身完整 GSC final 窗口触发。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。
