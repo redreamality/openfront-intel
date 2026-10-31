@@ -1,5 +1,37 @@
 # OpenFront beginner / how-to-play — community & official source pack
 
+## Scoped alliance correction, 2026-11-01
+
+This maintenance pass supersedes the alliance timing and traitor-speed
+interpretations below. No additional community sources were collected or counted.
+The five existing translations incorrectly described five minutes as formation
+time and inconsistently described the traitor modifier as a reduction in the
+breaker's own movement speed. Their failure examples also blurred the breaker
+and the betrayed partner. Read the formal v0.35.9 tag, commit
+`7ee96860c717b1ea36870cdfa6d4bb1e9bccd6de`, for the actual scope:
+
+- [Config](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.9/packages/engine-lib/src/configuration/Config.ts)
+  defines a five-minute default alliance lifetime, adjustable by the host, and a
+  300-tick traitor duration. Five minutes is neither a formation delay nor a
+  minimum unbreakable lifetime.
+- [AllianceRequestImpl](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.9/packages/engine/src/game/AllianceRequestImpl.ts)
+  and [AllianceImpl](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.9/packages/engine/src/game/AllianceImpl.ts)
+  establish the alliance when accepted, calculate expiry and require both
+  partners to agree to an extension.
+- [GameImpl](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.9/packages/engine/src/game/GameImpl.ts)
+  marks the breaker unless the other partner is already a traitor or disconnected.
+  Natural expiry follows a separate path and does not mark a traitor.
+- [EngineConfig](https://github.com/openfrontio/OpenFrontIO/blob/v0.35.9/packages/engine/src/configuration/EngineConfig.ts)
+  applies 0.5 to attacker troop loss and 0.8 to tile-capture time when the
+  **defender** is a traitor. This makes invading the traitor cheaper and faster;
+  it is not a movement slowdown applied to the breaker's own units.
+
+Only these alliance facts were reverified. Economic, terrain, mode and
+regeneration claims elsewhere in this pack and guide retain their previous
+evidence boundary and were not certified by this maintenance pass. The
+maintenance decision, demand scope and acceptance criteria are recorded in
+`2026-11-01-tutorial-alliance-maintenance.md`.
+
 Date: 2026-11-01 · Slug: `openfront-tutorial` · Automation: openfront content loop
 
 This pack records every source actually analyzed while researching the
@@ -27,10 +59,11 @@ The guide's numeric facts (troop-growth curve `toAdd = (10 + t^0.73/4) ×
 Port/City/Factory 125,000 cost; Defense Post 50,000 cost with ×5 magnitude / ×3
 speed within 30 tiles; terrain plains 80 / 16.5, highland 100 / 20, mountain 120 /
 25; Atom Bomb 750,000 / radius 12/30, Hydrogen Bomb 5,000,000 / radius 80/100, MIRV
-25,000,000; alliance 5-minute minimum; betrayal ×0.5 defense / ×0.8 speed for 300
-ticks; train revenue 10,000 / 25,000 / 35,000) are grounded in the project's
+25,000,000; train revenue 10,000 / 25,000 / 35,000) are grounded in the project's
 v34-verified generated data (`src/data/formulas.json`, `structures.json`,
 `units.json`) and re-verified locally with a numeric sweep of the growth curve.
+The alliance default lifetime and defender-traitor modifiers are instead covered
+by the scoped v0.35.9 source correction above.
 
 ## Community — YouTube (search-identified, public chapters/descriptions)
 
