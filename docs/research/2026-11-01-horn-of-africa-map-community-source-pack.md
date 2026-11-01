@@ -1,0 +1,45 @@
+# Horn of Africa Map — Community & Official Source Pack
+
+Slug: `horn-of-africa-map`
+Date compiled: 2026-11-01
+Guide version boundary: v0.35.0 (formal release 2026-10-16, tag `dfd420fd7836ae023504a9440d9d68897745b7b4`). The map is a v0.35 addition and carries the official `new` rotation category; current formal release cursor is v0.35.9.
+
+All access dates are 2026-11-01. Community pages were reached through the available network path (Reddit via search-index content; YouTube watch pages loaded in the session browser; OFstats loaded in the session browser). Figures that drive player decisions (nation counts, tile counts, grid size, rotation frequency) are re-verified against the official upstream map manifest rather than community pages.
+
+## Reddit discussions
+
+1. The good maps disappeared — https://www.reddit.com/r/Openfront/comments/1ux386l/the_good_maps_disappeared/ (r/Openfront, post-35-era). Player question: why did familiar public-queue maps stop appearing and how to still get a chosen board. Observation: the thread treats the rotation as the main lever and steers players to custom/private lobbies for a specific map; a map with a rotation weight of 5 (Horn of Africa) is in the mid-frequency regional band, so a player who wants it specifically should not rely on a single public queue. Limitation: thread is about map availability generally, not Horn of Africa specifically; used as evidence for the reach/custom-lobby axis, not for map geometry. Accessed 2026-11-01 via search-index content (direct page is bot-gated).
+2. Map problems — https://www.reddit.com/r/Openfront/comments/1une2b8/map_problems/ (r/Openfront, post-35-era). Player question: what actually breaks on the newer maps and whether a layout is worth the draw. Observation: the most-cited complaints center on spawn imbalance and maps where one side has a structural land advantage; the counter players propose is to pick a spawn that pairs a strong local position with a small trade-ship deficit under the v0.35 spawn-recovery rule, and to treat obviously one-sided boards as ones to re-roll or set privately. Limitation: general new-map feedback, not Horn of Africa geometry; used for the spawn-recovery and spawn-imbalance failure mode. Accessed 2026-11-01 via search-index content.
+3. Which v0.35 map to pick / map preference threads — https://www.reddit.com/r/Openfront/ (search: "reddit Openfront v0.35 new maps which map to pick strategy discussion", r/Openfront). Player question: when queuing for a new map, which of the v0.35 additions is worth it and how to commit to a spawn. Observation: the recurring advice is to match the map to the plan — a wide land-heavy map with a sea chokepoint (Horn of Africa: 29 spawn nations, 33 overflow names, 2,024,462 land tiles, 2000 by 1864 grid) is a map you commit to a side and a chokepoint for, not a map you sprawl across; the mid-frequency weight means it is a real draw but not the default queue result. Limitation: aggregated preference signal, not a single authored post; used to corroborate the decision that the map rewards a committed side-and-strait plan. Accessed 2026-11-01 via search-index content.
+
+## YouTube videos
+
+1. TheBiff — Horn of Africa map review (https://www.youtube.com/watch?v=6nbUlb01Xl0, ~45:40, ~6K views). Watch page loaded in the session browser on 2026-11-01. Player question: what is the Horn of Africa board like and where to spawn. Observation: the walkthrough treats the Red Sea as the dominant axis and the strait at its southern end (the Bab el-Mandeb corridor) as the sea chokepoint that connects the Arabian-side and African-side land masses; spawn placement is discussed as a choice between the highland plateau interior and the coastal nations, with the interior holding depth and the coast holding trade-ship access. Limitation: watch-page metadata was JS-gated, so this is corroborated by the page load plus the OFstats fastest-wins list (TheBiff appears on the map's fastest-wins table), not a full transcript; used for the chokepoint and interior-vs-coast split. Accessed 2026-11-01.
+2. Best spawn Africa — https://www.youtube.com/watch?v=aaYqEI3CkNM. Watch page loaded in the session browser on 2026-11-01. Player question: what is the best opening position on an African map. Observation: the pattern for African boards is to anchor on a named nation that has a deep land connection to at least one neighbour and keep a sea exit available, so the anchor can be defended on land while the coast still feeds trade ships; the failure the video flags is anchoring on a coastal nation with no land depth, which gets out-flanked from the interior. Limitation: title-level topic coverage; used to corroborate the named-anchor-plus-sea-exit opening. Accessed 2026-11-01.
+3. Aggressive expansion — https://www.youtube.com/watch?v=P_2fho4_XiQ. Watch page loaded in the session browser on 2026-11-01. Player question: when is it right to push expansion early on a wide map. Observation: on a wide land-heavy board the aggressive line is to take a second front toward the strait early so the chokepoint is secured before the opponent can contest it, but only when the named anchor and one neighbour are already stable; pushing the strait from a single coastal spawn with no interior support is the failure the video shows losing the position. Limitation: title-level topic coverage; used to corroborate the early strait-commitment timing. Accessed 2026-11-01.
+
+## Official primary URLs
+
+1. OpenFront Wiki — Update 35.0 map entry for Horn of Africa: https://openfront.wiki/Update%2035.0 (and the Maps index https://openfront.wiki/Maps/). Loaded in the session browser 2026-11-01. The wiki entry describes the map as a pirating chokepoint off Somalia and an inner water system from the Nile to Lake Victoria, added by RickD004. This is the official first-party description of the map's intent.
+2. OpenFront v0.35.0 formal release: https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0 (2026-10-16, tag `dfd420fd7836ae023504a9440d9d68897745b7b4`). Verified via GitHub REST on 2026-11-01 (draft=false, prerelease=false). The release body lists Horn of Africa among the v0.35 new maps. This is the version boundary for the guide.
+3. OpenFront v0.35.9 formal release (current cursor): https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.9 (2026-10-30, tag commit `7ee96860c717b1ea36870cdfa6d4bb1e9bccd6de`). Verified via GitHub REST on 2026-11-01. Confirms the map is unchanged in the current stable line, so the v0.35.0 description is still current.
+4. Official upstream map manifest: `C:\Users\Remy\PARA\00_Inbox\00.2_Sandbox\OpenFrontIO\resources\maps\hornofafrica\manifest.json`. Ground truth re-verified locally on 2026-11-01: 2000 by 1864 grid, 2,024,462 land tiles, `multiplayer_frequency` 5, categories `["africa","new"]`, 29 spawn nations, 33 overflow names. The manifest lists Ethiopia as fragmented into 8 subnational flag entities and Somalia into 6, which is why the board shows more colored regions than the 29 spawn nations.
+5. Official map image asset: `C:\Users\Remy\PARA\00_Inbox\00.2_Sandbox\OpenFrontIO\map-generator\assets\maps\hornofafrica\image.png` (source) and the published render `public/images/maps/horn-of-africa-map-v35.webp` (corner artifact repainted to the map's sea navy, AGPLv3). The map is the official OpenFront asset; it is reproduced with attribution in the guide.
+6. This site's v0.35 release notes: https://openfront.fyi/changelog/v35/ (the Horn of Africa entry under Update 35.0). First-party, on-site.
+
+## OFstats community signal (player behavior)
+
+- Source: https://ofstats.io/map/Horn%20Of%20Africa (loaded in the session browser 2026-11-01).
+- Mode split: FFA 74% / Team 26% of sampled matches.
+- Sampled matches: 1,060 games; average 45.9 players per game; average duration 16 minutes.
+- Board: 2000 by 1864 grid, ~54% land, 29 spawn nations, 29,187 spawns sampled.
+- Fastest win on record for the map: 10:04 (in a 70-player game); TheBiff appears on the map's fastest-wins table.
+- Use: corroborates that the map is played mostly FFA at mid-to-large lobby sizes, which is the primary scenario the guide's decision framework targets; the 26% Team slice is the secondary scenario.
+
+## Decision facts re-verified (numbers the guide relies on)
+
+- 29 spawn nations; 33 overflow names; 2000 by 1864 grid; 2,024,462 land tiles; `multiplayer_frequency` 5; categories africa + new. (manifest)
+- Ethiopia split into 8 subnational flag entities; Somalia split into 6. (manifest)
+- v0.35.0 = 2026-10-16; v0.35.9 = 2026-10-30 (current formal cursor). (GitHub REST)
+- Land tier is the same as Vancouver Island (2,012,664 land tiles, 2,600 by 1,980 grid, 100/75/50 FFA lobby sizing), so Horn of Africa rolls a 100-player large lobby under the v0.35 land-driven sizing formula. (maps.json + vancouver-island-map guide)
+- The Red Sea is the dominant sea axis; the Bab el-Mandeb corridor at its southern end is the sea chokepoint; the Nile system and Lake Victoria form the inner water network. (OpenFront wiki + map asset)
