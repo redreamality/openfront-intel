@@ -89,6 +89,7 @@ const contracts = [
       ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
       ['v35.3 visibility', /Map Layers.*holding Space/is],
       ['renewal is not guaranteed', /Renewal.*not a guaranteed acceptance/i],
+      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*nuclear weapons.*conquering Nations/is],
     ],
   },
   {
@@ -105,6 +106,7 @@ const contracts = [
       ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
       ['v35.3 visibility', /Map Layers.*Space/is],
       ['renewal is not guaranteed', /不保证任何一次请求一定获准/],
+      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*核武器.*征服 Nation/is],
     ],
   },
   {
@@ -121,6 +123,7 @@ const contracts = [
       ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
       ['v35.3 visibility', /Map Layers.*Space/is],
       ['renewal is not guaranteed', /Une acceptation reste incertaine/i],
+      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*armes nucléaires.*conquête des Nations/is],
     ],
   },
   {
@@ -137,6 +140,7 @@ const contracts = [
       ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
       ['v35.3 visibility', /Map Layers.*Space/is],
       ['renewal is not guaranteed', /Eine Zustimmung bleibt trotzdem unsicher/i],
+      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*Atomwaffen.*Erobern von Nations/is],
     ],
   },
   {
@@ -153,6 +157,7 @@ const contracts = [
       ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
       ['v35.3 visibility', /Map Layers.*Space/is],
       ['renewal is not guaranteed', /garandeert geen aanvaarding/i],
+      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*kernwapens.*veroveren van Nations/is],
     ],
   },
 ];
