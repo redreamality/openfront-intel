@@ -33,10 +33,10 @@
 
 ## 最新来源锚点
 
-- 正式 Release 游标：[`v0.35.9`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.9)，tag commit `7ee96860c717b1ea36870cdfa6d4bb1e9bccd6de`；API 发布时间为 2026-10-30T22:56:37Z，非 TEST、非预发布。五语 [v35.9 主答案维护](research/2026-10-31-v359-release-maintenance.md) 与 Rio de Janeiro 五语新页同轮交付并转 Monitoring：v35.9 增加氏族 Top donors 排行并修复捐赠后的 Store 余额，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。Rio manifest 与 MapPlaylist 在 v0.35.9 未变，历史河流连接修复归于 v0.35.5。仅新正式变化、确认错误或自身完整 final 窗口触发重开。
+- 正式 Release 游标：[`v0.35.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.10)，tag commit `79aed26b677c234046ac6c82d1ed95f82b0e0227`；API 发布时间为 2026-11-03T04:05:22Z，非 TEST、非预发布。五语 v35 主答案已补齐 Viverse 集成的正式边界；v35.9 的 Tutorial 扩充、氏族 Top donors 与 Store 余额修复，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。v35.10 没有宣布战斗、经济、地图或成长规则变化。对应维护记录见 [v35.10 Release maintenance](research/2026-11-04-v3510-release-maintenance.md)；发布后转 Monitoring，仅新正式变化、确认错误或自身完整 final 窗口触发重开。
 - 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级。
 - 改键维护：[五语正式版操作边界](research/2026-10-21-stable-controls-maintenance.md) 发布即完成并转 Monitoring；速查页和训练页同步 X 全舰队、F 表情、R 快捷聊天及自定义绑定优先。只核验本轮所改操作，核武数值保留原引用边界；下次由正式操作变化、已确认错误或完整 GSC final 窗口触发。
-- 上游 `main` 独立游标：`103bba550d3a39ceb623179a04687719cf8a051b`；2026-11-02 已用 GitHub REST 核验，相对前游标仅移除 v35 地图的 New 分类，未发布提交只作未来版本线索。[五语教程范围补全](research/2026-11-02-v359-tutorial-scope-maintenance.md) 依据正式 v0.35.9 Release，发布即转 Monitoring，不据 main 改写公开地图事实。
+- 上游 `main` 独立游标：`4ae6e3e4c277166a457cfa5e84fb43d3ffc94fd9`；2026-11-04 已用 GitHub REST 核验，包含未发布的服务端 JWKS 请求修复，不据 main 改写公开事实。v35.10 维护依据正式 Release，发布即转 Monitoring。
 - 禁运答案维护：[五语事实修正与重复路由合并](research/2026-10-23-embargo-answer-maintenance.md) 发布即完成并转 Monitoring；唯一主答案保留 `guides/embargo-timing-and-trade-control/`，新 v35 重复路由跳转到对应语言。下次仅由相关正式规则变化、事实错误或其自身完整 GSC final 窗口触发。
 - 历史边界：`v0.33.11...main` 已分叉（ahead 128 / behind 38），不能把 ahead/behind 当成线性“版本后新增”。
 - GSC 历史 7 天缓存：2026-09-10..09-16，旧页面求和口径，不能当当前 query 排名基线。
