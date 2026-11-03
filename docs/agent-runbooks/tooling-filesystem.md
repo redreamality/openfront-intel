@@ -81,3 +81,7 @@
 ## 2026-10-26 竞争页研究读取恢复
 
 - 读取 Guides 索引时将路径猜成 `src/pages/guides.astro`，`rg` 报路径缺失；依据文件枚举改读真实的 `src/pages/guides/index.astro` 后完成对照。根因是未等待枚举结果就执行依赖读取；沿用先枚举后读取规则，不修改 AGENTS.md。
+
+## 2026-11-04 版本维护探测参数恢复
+
+- 本轮只读探测曾把 `docs/*.md` 作为 PowerShell 下的 `rg` 路径参数，触发 Windows `os error 123`；随后改从 `docs` 真实目录根搜索并完成检索。另一次 `gh pr list --json` 把逗号分隔字段拆成多个原生命令参数，CLI 报 `unknown argument`；将整个字段串单引号包裹后恢复。两次均发生在写入前，没有修改工作区或影响验收。
