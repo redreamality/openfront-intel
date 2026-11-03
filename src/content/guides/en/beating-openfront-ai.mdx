@@ -1,0 +1,277 @@
+---
+title: "How to Beat the OpenFront AI: Bots vs Nations and What Actually Changes the Outcome"
+description: "Understand exactly what the AI opponents in OpenFront singleplayer are — the difference between Bots and Nations, the verified v0.35.9 numbers that make them different, and the decision framework for winning against both."
+pubDate: 2026-11-03
+updatedDate: 2026-11-03
+tags: [singleplayer, ai, bots, nations, difficulty, strategy, growth]
+category: Strategy
+difficulty: Intermediate
+version: v0.35.9
+freshnessSummary: "Verified 2026-11-03 against the v0.35.9 tag source: startManpower Bot 10,000, Nation 12,500/18,750/25,000/31,250 by difficulty, Human 25,000; cap formula 2*(tiles^0.6*1000+50000)+cityLevels*250000 with Bot cap /3 and Nation cap x0.5/x0.75/x1.0/x1.25; growth toAdd=(10+troops^0.73/4)*(1-troops/max) with Bot x0.5 and Nation x0.9/0.95/1.0/1.05; attack commit troops()/20 for Bots vs troops()/5 for Nations and Humans; gold base rate 50 (Bot) vs 100; cityTroopIncrease 250,000. v0.35.0 shipped Smarter nations as the behavior boundary."
+---
+
+**The short answer:** OpenFront's singleplayer AI is not one opponent but two. **Bots** are the smaller,
+slower-growing, cheap-to-absorb opponents that fill a map's population; **Nations** are the larger,
+stronger, land-owning opponents that fight on near-human terms at High difficulty and above you on
+Impossible. Beat Bots by out-earning and out-annexing them early and ignoring their weak attacks; beat
+Nations by treating each one as a rival you manage — pressure it, split its border, and convert the
+land it cannot defend. Pick your map's Bot and Nation counts and difficulty to match the kind of match
+you want, and the rest is ordinary play against a known, measured opponent.
+
+## What the AI actually is: two opponent types, not one
+
+The single most common mistake is treating "the AI" as a single thing with a single strength, because
+the game's interface labels everything you do not control as computer opponents. In the engine the
+opposition is split into two distinct player types, and they do not behave alike. The `PlayerType`
+enum has exactly three members — `Bot`, `Human`, and `Nation` — and the two non-human members are
+what you fight in singleplayer. There is no separate "Tribe" type: the small tribes that populate a
+fresh map are simply Bots, the kind that have no client attached to them and so are fully computer-run.
+That distinction matters because the two types differ in starting strength, in the ceiling they can
+ever reach, in how fast they refill after a fight, and in how much of their army they actually commit
+when they attack you.
+
+A **Bot** is the low-end opponent. It starts with a modest army, its maximum troop ceiling is a fixed
+fraction of what a human can hold, and it grows troops at a reduced rate. Many of them are so weak
+that a single well-timed attack takes them out and absorbs their land with almost no cost to you.
+They are, in aggregate, the population of a map: the background pressure that is constant and cheap to
+manage if you stay ahead of it. A **Nation** is a different animal entirely. A Nation starts with
+substantially more troops than a Bot, its ceiling scales with the difficulty you selected, and it
+grows at roughly the human rate. Since the v0.35.0 "Smarter nations" update, Nations are also more
+aggressive and more coordinated, meaning they will actively press your border and contest the same
+land rather than sitting still. The practical consequence is that you cannot apply one strategy to
+both: the move that wins against a hundred Bots — keep expanding and let your economy outgrow them —
+loses badly against a single Nation that is allowed to match your army size and keep refilling. If you
+want the deeper mechanics behind each type, the companion [Tribe and Bot guide](/guides/tribes/) covers
+the small-end opponents and the [Nation AI behavior in v0.35](/guides/v035-ai-alliance-behavior/)
+covers the coordinated end.
+
+Read that split as a warning about scope, not trivia. "Beating the AI" is not one problem but two
+different problems glued together by a single label, and a large share of early singleplayer losses
+come from applying the wrong one of the two playbooks to a map that actually needs the other. A map
+stacked with Bots punishes hesitation and slow building, while a map carrying real Nations punishes
+the reckless, economy-first expansion you needed to win the first kind. So the single most valuable
+habit to build is to classify every border you look at before you spend a single troop on it, because
+the identity of the neighbor determines which of the two playbooks you are actually playing.
+
+## The verified numbers: the Bots-versus-Nations table
+
+This is the reference data, taken from the tagged v0.35.9 source rather than the rounded community
+figures that have drifted. Use it to check any wiki or video you read against, because several widely
+circulated numbers are no longer what the engine actually loads. The table below is what a v0.35.9
+singleplayer game actually fields for the two AI types at each difficulty.
+
+| Property | Bot (every difficulty) | Nation — Easy | Nation — Medium | Nation — Hard | Nation — Impossible | Human (you) |
+|---|---|---|---|---|---|---|
+| Starting troops | 10,000 | 12,500 | 18,750 | 25,000 | 31,250 | 25,000 |
+| Troop ceiling multiplier | x1/3 of base | x0.5 | x0.75 | x1.0 | x1.25 | x1.0 |
+| Growth multiplier | x0.5 | x0.9 | x0.95 | x1.0 | x1.05 | x1.0 |
+| Army committed per attack | troops / 20 | troops / 5 | troops / 5 | troops / 5 | troops / 5 | troops / 5 |
+| Base gold income | 50 | 100 | 100 | 100 | 100 | 100 |
+
+Read this table in two passes. The first pass is identity: a Bot is a small, low-ceiling, slow-growing,
+low-income opponent that attacks with only a twentieth of its force — which is why a Bot's attack is
+usually a rounding error you can shrug off and why absorbing a Bot costs you almost nothing. The second
+pass is the Nation row, which is where your real decisions live. Notice that on **Hard**, a Nation
+fights on exactly human terms: the same 25,000 start, the same x1.0 ceiling, the same x1.0 growth.
+That is the level at which a Nation is a true rival and you must treat it like the strongest human
+opponent you have ever played. On **Impossible**, the Nation starts 25% above you and holds a 25%
+higher ceiling with slightly faster refill, so the gap compounds the longer the match runs. And on
+**Easy** and **Medium**, the Nation is deliberately softened to sit below you in every one of those
+columns, which is why it is a manageable nuisance rather than a match-deciding rival. The Bot column is
+constant across all four difficulties — the difficulty selector never touches Bots — so you can plan
+around them without re-reading the table for each level. The full per-difficulty breakdown of the
+Nation side is the subject of the [Nation difficulty guide](/guides/nation-difficulty/); this page's
+job is to use those numbers to decide how to actually win.
+
+The cleanest way to internalize the table is to notice which columns move and which stay still as
+you turn the difficulty. The entire Bot column never changes, so a Bot on Impossible is numerically
+identical to a Bot on Easy and you never re-plan around it. Only the Nation columns move, and they
+move together in one direction: from below you on Easy, to equal to you on Hard, to above you on
+Impossible. That single one-directional slide is the whole shape of "what gets harder as you pick a
+harder setting," and it is the exact shape a winning strategy has to respect, because a plan that
+works against softened Nations does not survive the jump to the difficulty where they match you.
+
+## How the engine behaves each tick: the mechanics that make the difference
+
+The numbers above only make sense once you understand the two systems that turn them into behavior:
+troop growth and attack commitment. Both are recomputed every game tick, and both are where the gap
+between a Bot and a Nation becomes real on the board. The base growth formula is identical for every
+player — the troops you add per tick is a function of your current troop count relative to your
+ceiling, rising steeply when you are far below the cap and flattening out as you approach it. That
+shape is why a player who has just lost most of an army refills quickly and a player already at
+capacity refills almost not at all. What the engine then multiplies that base rate by is what
+separates the AI types. A Bot's growth is cut in half, so a Bot that is knocked down comes back
+slowly and a Bot near its ceiling is effectively frozen — which is exactly why the strategy of
+knocking Bots down and re-attacking before they recover works so well. A Nation's growth is scaled by
+difficulty, so a Hard Nation refills at the same rate as you and an Impossible Nation refills a
+little faster, which is why a Hard or Impossible Nation that you trade with can come back to its
+previous size while a weakened Bot cannot.
+
+Attack commitment is the second system, and it is the one players least expect. When a player attacks,
+the engine does not send their whole army; it commits a fixed fraction of their current troops. For a
+Bot that fraction is one twentieth; for a Nation and for you it is one fifth. So a Bot with 10,000
+troops sends 500 into a given attack, while a Nation or a human with the same 10,000 sends 2,000.
+That fourfold difference in committed force is the mechanical reason a Bot attack feels like a
+nuisance and a Nation attack feels like a threat: the Bot is sending a token force, the Nation is
+sending a real strike. The third system is gold income. Every player earns gold at a base rate that
+then feeds structure and unit costs, and a Bot earns at half the base rate of a Nation or a human.
+That means a Bot's economy trails yours and a Nation's in the long run, so even before you ever
+touch a Bot, it is falling behind your structure output — and a Nation, earning at your rate, is the
+one whose structure and unit economy you genuinely have to out-build. All three systems compound
+with the land and Cities you accumulate, which is why the early decisions about which neighbors to
+expand into and which to ignore are the ones that decide the match.
+
+## Choosing your setup: bots, nations, and difficulty
+
+Before the first tile is picked you are already deciding which of the two AI types will dominate the
+match, because the singleplayer setup lets you set how many Bots and how many Nations field the game
+independently of each other, and the difficulty selector then retunes the Nations. The most important
+realization is that these are two separate dials and most players only turn one. A map loaded with a
+large Bot count and zero Nations is a pure expansion-and-annexation match: your only job is to out-run
+the small opponents and convert their land, and the match is decided by your expansion speed and how
+quickly you absorb neighbors. A map loaded with fewer Bots and a real Nation count is a rival-match:
+your job is to manage the Nations, and the match is decided by how you split and pressure their
+borders. The difficulty level is a third, Nation-only dial: it never changes your account or the Bots,
+it only retunes the Nations' starting troops, ceiling, and growth.
+
+So the decision is three questions. First, what kind of match do you want to practice — fast
+expansion against the small fish, or a sustained war against strong rivals? That picks your Bot and
+Nation counts. Second, how strong do you want the Nations — softened below you on Easy and Medium,
+equal to you on Hard, or amplified above you on Impossible? That picks the difficulty, and it is a
+decision the [Nation difficulty guide](/guides/nation-difficulty/) breaks down in full. Third, which
+map — because the map's manifest decides how many Nations it can even place and therefore which
+difficulty options are actually available to you; a map with no Nations disables the difficulty
+control entirely. For a first serious attempt at understanding the AI, a medium map with a real Nation
+count on Hard is the cleanest choice: you face a Nation that is exactly as strong as you, so you learn
+what a true rival feels like without the compounding handicap of Impossible, while the surrounding
+Bots give you the expansion practice on the side. If your specific goal is to win the top-level
+campaign and medal, the [Impossible singleplayer guide](/guides/impossible-singleplayer/) covers the
+extra constraints that mode adds.
+
+Three of the four levers are independent of your skill, which is what makes this pre-game decision so
+powerful: you are not changing how good you are at the game, you are changing which kind of game you
+play. A player who is comfortable with steady expansion but not with multi-front war management
+should load Bot-heavy, low-Nation maps and win the game that suits their strengths, while a player
+who wants to sharpen their war management should load real-Nation, Hard maps and deliberately take on
+the harder game. The difficulty and counts are not a fixed ladder you must climb in order; they are
+practice dials, and choosing them to match your goal is the quiet advantage over a player who just
+hits start and finds out mid-game which kind of match they are actually in.
+
+## Scenario A: an early Bot swarm on a high-Bot map
+
+Picture the concrete situation. You have chosen a map with a large Bot count and zero Nations, so the
+entire opposition is the small end. Assume you spawn on a defensible position with a first border
+that is mostly Bots, and the goal is simply to convert as much of that population's land as possible
+before any neighbor can organize. The numbers set the opening: every Bot starts with 10,000 troops,
+and because they commit only a twentieth of their force, a Bot's first strike on you is a few hundred
+troops — an attack you can absorb without even pausing your build. Meanwhile your own army starts at
+25,000 and grows at the full human rate, while each adjacent Bot grows at only half the rate and is
+capped at a third of your ceiling. That means if you simply hold your border and keep expanding, the
+gap between your army and any individual Bot widens every tick.
+
+The winning move is a focused early push, not a slow build. Pick your weakest adjacent Bot — the one
+with the smallest army and the thinnest border — and send a decisive attack against it while your own
+army is at or near its post-growth peak. Because you commit a fifth of your force and the Bot commits
+a twentieth, even a modest fraction of your army is multiple times the strike it can answer, and a
+clean win annexes its land and raises your own ceiling. Do this on a tight rhythm: strike, annex, let
+your army refill to near its cap, strike the next weakest neighbor. The key discipline is to never
+let two Bots gang up on the same border at once — a single Bot is trivial, but two Bots attacking the
+same exposed edge can stall you while you recover. Hold a reserve, keep one edge behind your strongest
+border, and always strike from the side where your committed force is clearly larger than the sum the
+Bot can answer. Worked example: you hold 25,000 and commit 5,000 to a Bot that holds 10,000 and
+commits 500; you win the exchange, annex its roughly ten tiles, and your ceiling rises by the city
+and land you gained, while the Bots you have not yet touched are still refilling at half speed. That
+is the entire early game on a Bot-heavy map: stay one step ahead, absorb the weak strikes, and convert
+the population's land into your own ceiling.
+
+## Scenario B: a late-game Nation that outgrows your border
+
+Now the rival match. You are several hours into a game on a map with a real Nation count, and one
+Nation has become your dominant border — it has out-expanded the Bots around it, accumulated a string
+of Cities, and now holds a troop count and ceiling that at Hard matches yours and at Impossible exceeds
+it. Assume the specific situation: you hold roughly 600,000 troops at a ceiling near your current
+land, this Nation holds a comparable or larger army, and its growth multiplier is at or above yours.
+This is not an opponent you can simply outrun the way you outran a Bot, because it refills at your
+rate and commits a full fifth of its force to every strike. A straightforward head-on trade will end
+even at best, and on Impossible it will slowly bleed you, because the Nation's 1.05 growth and higher
+ceiling let it recover every exchange a little faster than you can.
+
+The winning approach is to change what the Nation is fighting rather than to out-trade it. The first
+tool is to force the Nation to split: if you keep a credible threat on two of its borders at once, its
+engine has to divide its committed force, and a split Nation commits a smaller strike to each front.
+The second tool is to make it pay for its own expansion: a Nation that has stretched its border thin
+across a long line of Cities has a thin defense behind each one, so a concentrated strike at its most
+exposed, least-supported City can capture it and cut the land behind, which is the same logic the
+[nation-strike protocol](/guides/nation-strike-protocol/) and [beachhead doctrine](/guides/nation-beachhead-doctrine/)
+describe. The third tool is to let other strong neighbors spend on it: if another rival is contesting
+the same Nation, you can pressure the edge that is already weakened while the Nation is committed
+elsewhere. The discipline that decides this is to never trade your full army against its full army at
+a border where it is at rest and fully refilled — you want to hit while it is split, while it is
+attacking elsewhere, or at a City it cannot quickly back. Worked example: you commit 12,000 (a fifth
+of your 60,000) at a Nation's exposed City that, because it is splitting to hold two borders, can only
+commit 6,000 in defense there; you capture the City, annex the land behind it, and its ceiling drops
+while yours rises, inverting the gap that was slowly favoring it.
+
+## Failure modes and the counter that works for each
+
+The way players lose to the AI is not a single failure but a small set of recurring ones, each tied to
+confusing the two opponent types. The first failure is treating a Nation like a Bot: you expand straight
+into it the way you would push a weak neighbor, assume the trade will be as easy as the Bots were, and
+get answered by a strike that commits a full fifth of a comparable army. The counter is the identity
+check before every expansion — is this neighbor a Bot (small, low ceiling, slow growth) or a Nation
+(large, at-or-above-you ceiling, human-rate growth)? If it is a Nation, do not expand into it until
+you have split it, weakened it, or confirmed your committed force beats what it can answer on that
+specific border. The second failure is the opposite: treating a Bot like a Nation and stopping to "fight
+a fair fight" against a neighbor you could simply out-earn and annex. The counter is the rhythm rule —
+a Bot is absorbed, not negotiated with; keep the strike-annex-refill loop moving and let your economy
+outgrow the population rather than trading equal armies with it.
+
+The third failure is the single-front trap in the rival match: you concentrate the entire match on one
+Nation and ignore the others, so the Nation you are focused on spends freely while a second Nation
+expands unopposed into the land you never defended, and you lose the map to the neighbor you did not
+play. The counter is the split-and-watch rule — always leave a credible second threat, or at least a
+defended second border, so no rival can expand into unwatched land for free. The fourth failure is the
+capacity trap: you push too hard against a Border, overcommit, and end the exchange below your own
+ceiling while the opponent, still near its ceiling, refills faster than you because the growth curve
+is steeper at low troop counts. The counter is to strike from near your own cap and to avoid the
+moment where you are at half strength trading into a fresh enemy. The [outgunned defense guide](/guides/outgunned-defense/)
+covers the specific posture to take once you find yourself in that below-cap position. The fifth
+failure is the assumption failure: players assume a flat "250% income cheat" on the harder levels and
+build an unwinnable plan around it, when the real advantage is a modest, compounding edge in start,
+ceiling, and refill. The counter is to use the table from this page instead of the folklore, because
+a modest compounding gap is exactly the kind of gap that a structural edge — more Cities, a walled
+region, a rival busy fighting you on a second front — can overcome. Every failure here is a
+misread of the two types; get the identity right and the correct counter is usually the obvious one.
+
+## Mode and map adjustments: when to change the plan
+
+The plan above is the default, but both the match mode and the map shape change which of the two
+AI-type strategies is on the table. In a free-for-all singleplayer the full logic of this page
+applies: every computer opponent is either a Bot you annex or a Nation you manage, and you are free
+to pick and choose. In team-based singleplayer the picture changes because some of the Nations and
+Bots are on your side of the line, so the "two borders you can split" tool is partly unavailable — you
+cannot freely strike a teammate's neighbor — and the match shifts toward coordinating your
+expansion against the opposing Nations as a unit. In a no-alliances or otherwise restricted mode the
+Nation-management tools are the only tools, so you lean harder on split-and-press and on letting
+rivals spend on each other. The map shape matters just as much. A map where your spawn is ringed by
+Bots is a Bot-swarm match and the expansion-rhythm plan is the default; a map where your spawn is
+flush against a large Nation from the first minute is a rival match from minute one and you should
+plan the split-and-press posture immediately rather than learning it mid-game. A map with a lot of
+open water and Islands changes the conversion math, because capturing a Nation's coastal City across a
+strait is a different commitment than pushing overland, and the [island defense guide](/guides/island-defense/)
+covers the landing side of that.
+
+The final adjustment is the one players make least: matching the map's actual Nation count to your
+goal. If you want to practice beating Bots, load a map with many Bots and few Nations and play the
+rhythm game; if you want to practice beating strong Nations, load a map with a real Nation count and
+set the difficulty to Hard so each Nation is a true human-strength rival; if you want the full test,
+use Impossible and accept that the Nations start above you and refill a little faster, and plan the
+whole match around not letting that gap compound. The decision framework that ties it together is
+three questions asked before you move: what type of opponent is this (Bot or Nation), what is its
+measured strength on this difficulty (from the table), and what is the cheapest way to change the
+ratio in your favor on this specific border (annex if Bot, split or weaken if Nation). Answer those
+three and the correct next move is almost always the obvious one, because the engine is fully
+measured and there is no hidden strength to fear — only the two types, the numbers in the table, and
+the discipline to apply the right counter to each. That is how you beat the AI: not by being stronger
+on average, but by always knowing which of the two opponents is in front of you and playing the move
+that the verified numbers say will win.
