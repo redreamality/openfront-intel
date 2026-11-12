@@ -6,11 +6,11 @@
 
 ## 定时任务
 
-- Codex 自动化：`openfront`，启用，每天本地时间 09:00，在当前项目目录运行。
-- Hermes 定时任务：`openfront`（`4777a6e26b00`），启用，每 360 分钟运行，工作目录为当前项目。两平台同步使用本次内容改善策略；Hermes 保留既有 automation memory 路径，历史运行中的强制新文指令由新提示词覆盖。
-- Scout：始终只读仓库；即使工作区脏也完成 Release、到期 GSC、Issues/Feedlog、现有自有 PR 与输入指纹核验，缓存写入 automation 自有目录。
+- Codex 自动化：`openfront`，唯一内容生产调度器，启用，每天本地时间 09:00，以 `executionEnvironment=worktree` 为每次触发建立独立工作区。主目录只作项目定位，不编辑或切分支。
+- Hermes 定时任务：`openfront`（`4777a6e26b00`），启用，每 360 分钟运行，只执行 `scripts/openfront-release-watch.py` 的已安装副本，`no_agent=true`，不再调度内容生产。正式 Release、upstream main 与远端站点版本分别记录到 automation cache，主目录脏文件不能阻止监测。
+- Scout：始终只读仓库；即使主目录脏也完成 Release、到期 GSC、自有 PR 与输入指纹核验；不读取 Feedlog，缓存写入 automation 自有目录。重复脏文件只抑制重复归属调查，不关闭版本监测。
 - Monitoring：每日固定检查 `What's New` 的 Release/tag 与 upstream `main` 双游标、已跟踪 Issue/PR、`verifiedAt` / `reviewBy` 和状态转换；Issue/PR 只用于内部证据，不直接出现在公共文章；无实质变化时只写 automation memory，不刷新公共日期或制造内容 PR。
-- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`，优先当前 [搜索改善计划](search-improvement-plan.md) 的现有答案。新增长文先记录精确/邻近搜索需求、现有答案缺口与唯一主路由，并保留 3 个 Reddit、3 个 YouTube 与五语各 1500 词的质量门槛；中文按 `Intl.Segmenter` 的 `isWordLike` 计词。无搜索信号的教学探索每周最多一个。标题、入口与事实维护可独立交付，不强制新文。写入前必须确认本地 `main` 最新且除当前任务改动外没有未知重叠；已审阅的单条低风险自动化规则改动可纳入治理提交，其他脏工作区仍停止，不创建 worktree，也不 stash/reset/clean。
+- Production：正式 Release 与事实错误门禁后，执行 `LF-COMMUNITY-ROLLING`，优先当前 [搜索改善计划](search-improvement-plan.md) 的现有答案。新增长文先记录精确/邻近搜索需求、现有答案缺口与唯一主路由，并保留 3 个 Reddit、3 个 YouTube 与五语各 1500 词的质量门槛；中文按 `Intl.Segmenter` 的 `isWordLike` 计词。无搜索信号的教学探索每周最多一个。标题、入口与事实维护可独立交付，不强制新文。只在本轮独立 worktree 和唯一 codex/ 分支编辑；编辑前登记 run manifest 和精确文件基线，优先恢复同意图自有任务，按 [工作区 runbook](agent-runbooks/automation-workspace.md) 完成 WIP checkpoint 或交付收口。主目录或历史任务中的脏文件原样保留，不 stash/reset/clean。
 - 热上下文：项目级 `AGENTS.md`、[`content-strategy.md`](content-strategy.md)、本文件，以及当前 Production 项直接链接的计划。提示词只保留短门禁、研究/维护接口与自动发布门禁，不复制候选、历史或平台避坑。
 - 交付：同一主题的内容、测试与预期完成状态进入同一个 PR。PR 内预先写明“合并即完成/转入 Monitoring/Parked”及下一触发点；合并后不为勾选完成、补 SHA 或记录运行再开收口 PR。
 - 纯运行记录：PR 状态、merge SHA、网络重试、无变化扫描和完整命令日志只写 automation memory，不追加到本文件。
