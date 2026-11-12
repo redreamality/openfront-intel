@@ -33,6 +33,7 @@
 
 ## 最新来源锚点
 
+- 移动建造维护：[五语快捷建造答案](research/2026-11-13-mobile-quick-build-maintenance.md) 将既有 mobile-controls 的首屏和建造小节同步至正式 v36 常驻栏、预览移动及二次点按确认；手势阈值和舰队细节保留旧核验边界。本 PR 合并即完成并转 Monitoring，下一触发仅为正式操作变化、确认错误或自身完整 GSC final 窗口，不新增同意图页面。
 - 正式 v36 响应：最新正式 Release 为 [`v0.36.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2)，tag commit `8b5d071eed95f07c701b32e4c64e95b03f8577c1`，API 发布于 2026-11-11T22:09:39Z。五语 `/changelog/v36/` 与首页当前版本、优先入口同步；旧 v35 作为历史系列保留，生成快照与 Footer 仍明确为 v35。事实矩阵及来源见 [v36 正式响应](research/2026-11-12-v36-release-response.md)。本批发布即完成并转 Monitoring；下一触发为新正式 Release、确认事实错误或自身 T+1 至 T+28 完整 GSC final 窗口，不据发布日期追刷所有旧攻略。
 - 当前 upstream `main` 独立游标为 `906d93ffa56d1810998de249d92d67457ce7c6d4`（2026-11-12 核验）；不能作为正式已发布规则。以下 v35.10 与旧 main 记录保留为历史边界，不再代表最新版本。
 - 正式 Release 游标：[`v0.35.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.10)，tag commit `79aed26b677c234046ac6c82d1ed95f82b0e0227`；API 发布时间为 2026-11-03T04:05:22Z，非 TEST、非预发布。五语 v35 主答案已补齐 Viverse 集成的正式边界；v35.9 的 Tutorial 扩充、氏族 Top donors 与 Store 余额修复，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。v35.10 没有宣布战斗、经济、地图或成长规则变化。对应维护记录见 [v35.10 Release maintenance](research/2026-11-04-v3510-release-maintenance.md)；发布后转 Monitoring，仅新正式变化、确认错误或自身完整 final 窗口触发重开。

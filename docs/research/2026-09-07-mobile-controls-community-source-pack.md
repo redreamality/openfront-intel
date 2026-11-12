@@ -2,6 +2,8 @@
 
 Research date: 2026-09-07 (Asia/Vladivostok)
 
+Maintenance addendum, 2026-11-13: the released v36 mobile quick-build bar supersedes this pack's historical treatment of mobile quick build as an unreleased request. The formal [v0.36.2 Release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2) includes the v36 introduction: select a structure, Warship, or missile from the permanent bar; tap the map to preview, tap elsewhere to move, and tap the preview again to build or launch. The corresponding [BuildPreviewController](https://github.com/openfrontio/OpenFrontIO/blob/v0.36.2/src/client/controllers/BuildPreviewController.ts) was inspected for touch placement and confirmation state. The [maintenance decision](2026-11-13-mobile-quick-build-maintenance.md) records scope and acceptance. Original community observations, access dates, gesture thresholds and fleet evidence below retain their original historical boundary; they were not newly researched this run.
+
 Candidate route: /guides/mobile-controls/
 
 Proposed player intent: **How can a phone or tablet player reliably distinguish tap, drag, pinch, long-press selection, radial-menu actions, and warship movement, while keeping enough of the board visible to avoid costly mis-taps?**
