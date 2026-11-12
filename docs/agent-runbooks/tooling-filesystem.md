@@ -1,5 +1,7 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-11-13 自动化基线恢复**：调度器独立 worktree 初始停在前一日隔离修复合并前的提交，读取 `automation-workspace.md` 因文件尚未存在失败。先核验远端 main，再在本轮干净 worktree 从该基线建立唯一分支，重新完整读取合同与 runbook；没有改其他 worktree。首次 `cache/runs` 目录不存在也是正常首次运行状态，枚举前先确认存在；编辑前创建 manifest，不能把缺目录当成有未完成任务或网络故障。初次 memory 全量输出过大，后续按热状态定量读取，历史归档未访问。
+
 - **2026-11-12 v36 响应路径恢复**：猜测 `src/components/HomeHero.astro` 导致读取不存在；首页 hero 实际内联于五语 `src/pages/**/index.astro`。按实际页面读取恢复。一份多文件补丁又因猜测本 runbook 标题为“工具、路径与临时文件”而原子拒绝；复读真实标题后重发成功，无部分写入。未修改 AGENTS.md。
 
 - **2026-10-26 搜索恢复维护复发**：临时 ESM 脚本直接 import Windows `C:/` 路径、直接 import pnpm 未暴露的 `github-slugger` 分别触发 URL scheme 与模块解析错误；改用已确认包位置的 `file:///` URL 后恢复。一次上游 `git show` 在站点目录执行导致 invalid object，改到上游 checkout 后成功。最终 `dist` 未生成前的检索不算产物验证；等待构建成功后再检查。runbook 补丁曾因标题上下文猜错被原子拒绝，读取实际标题后恢复；未修改 AGENTS.md。

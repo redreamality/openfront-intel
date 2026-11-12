@@ -2,15 +2,17 @@
 title: "OpenFront Mobile Controls: Tap, Attack, Build, and Command Fleets"
 description: "Use OpenFront on a phone without accidental attacks: learn tap, drag, pinch, radial-menu actions, attack-ratio checks, builds, nukes, and Warship selection."
 pubDate: 2026-09-07
-updatedDate: 2026-09-08
+updatedDate: 2026-11-13
 tags: [mobile, controls, touch, radial-menu, warships]
 category: Guide
 difficulty: Beginner
-version: v33
-freshnessSummary: "Verified against the official v0.33.14 Release, tagged touch input, radial-menu help, Warship selection controller, and input tests on 2026-09-08."
+version: v36
+freshnessSummary: "The v36 mobile build-bar workflow was checked against the formal v0.36.2 Release on 2026-11-13. Gesture thresholds and fleet details retain their v0.33.14 verification boundary; this is not a full controls revalidation."
 ---
 
 ## Direct answer: make every mobile command a deliberate three-step action
+
+For buildings, Warships, and missiles, v36 provides a permanent quick-build bar on phones and tablets. Select an item there, tap the map to preview, tap elsewhere to move the preview, then tap the preview again to build or launch. You no longer need the radial menu for these purchases. Check the preview before that final tap, especially for a missile that cannot be recalled.
 
 After spawning, tap land or unselected water to open the radial menu, drag one finger to pan, pinch with two fingers to zoom, and hold for 800 ms before dragging to box-select Warships. During manual spawn, tap valid unowned land cleanly. Before attacking, use **TAP**: confirm the **Target**, set the **Amount**, then **Pause** for the preview.
 
@@ -94,13 +96,13 @@ Mobile makes repeated attacks tempting because the previous target remains under
 
 ## Build structures and launch weapons as separate armed states
 
-Building on mobile is a two-stage command: choose the build action, then place or confirm it. Treat the armed preview as a live state that must be resolved or cancelled before scouting again. A common error is to open Build, choose a City or Defense Post, decide to inspect another front, and drag across the map while the preview is still active. The next clean touch can become placement rather than inspection. Finish TAP at the intended site or explicitly cancel before changing tasks.
+Use the permanent mobile quick-build bar introduced in v36 to choose a structure, Warship, or missile. The first map tap previews placement; tapping another location moves that preview; tapping the preview again confirms the build or launch. Selecting an icon or moving the preview is not a completed purchase. Treat the armed preview as an active state to resolve or cancel before scouting another front. The radial menu remains useful for contextual actions such as attacks and diplomacy, but it is no longer the required route to these builds.
 
 Run Target at two scales. At strategic scale, name the job: troop-cap headroom, a protected trade route, train access, a predictable defense approach, nuclear coverage, or a specific weapon. At placement scale, zoom until the structure is clearly behind the line it is meant to support. A City on the newest edge can transfer its capacity to an attacker. A Port on a weak corridor can become the opponent's naval base. A Defense Post too far from the real approach buys no decision window. Small-screen convenience is never a reason to place a permanent asset on the first visible empty tile.
 
-Run Amount by reading current Gold, cost, and upgrade mode. Structure costs can escalate, and some build systems support x1 or x5 upgrades while a new structure remains a single placement. The mobile radial workflow does not waive any prerequisite or price. If a menu item is disabled or missing, diagnose the lobby modifier, terrain, range, existing infrastructure, or balance before repeating the touch. Tapping faster cannot make an invalid placement valid and increases the chance of selecting a neighboring wedge.
+Run Amount by reading current Gold, cost, and upgrade mode. Structure costs can escalate, and some build systems support x1 or x5 upgrades while a new structure remains a single placement. The quick-build bar does not waive any prerequisite or price. If an item is disabled or missing, diagnose the lobby modifier, terrain, range, existing infrastructure, or balance before repeating the touch. Repeated touches cannot make an invalid placement valid; once a valid preview is under your finger, another tap can commit it.
 
-Pause on the preview. Check that the intended structure, site, and count are visible. If the preview overlaps the edge of the screen, pan only after cancelling it or use a fresh build cycle after repositioning. The safest mobile sequence is camera first, build second: center the protected location, pinch to placement zoom, lift both fingers, tap to open actions, choose Build, choose the structure, confirm the preview, place, then close the state. Do not interleave camera gestures with an armed purchase.
+Pause on the preview. Check that the intended structure, site, and count are visible. If the preview overlaps the edge of the screen, cancel it before repositioning and start a fresh build cycle. The safest mobile sequence is camera first, build second: center the protected location, pinch to placement zoom, lift both fingers, select the bar item, tap the intended site, inspect the preview, then tap that preview to confirm. A tap elsewhere repositions it. Do not interleave camera gestures with an armed purchase.
 
 Nuclear weapons require an even stricter two-cycle TAP. First confirm the weapon and ready Silo. Then confirm the final target and the land action that follows impact. The official help distinguishes reversible conventional attacks from nukes that cannot be retreated once launched. A mobile target that is partly covered by a finger, panel, or map edge is not a valid launch target. Close the sequence, recenter, and start again rather than guessing through obstruction.
 
