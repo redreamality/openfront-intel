@@ -4,251 +4,94 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
-const RELEASE_CONFIG_PATH = resolve(ROOT, 'src/config/openfront-release.ts');
-const UI_CONFIG_PATH = resolve(ROOT, 'src/i18n/ui.ts');
-
-async function loadTypeScriptModule(modulePath) {
-  const source = await readFile(modulePath, 'utf8');
-  const output = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.ES2022,
-      target: ts.ScriptTarget.ES2022,
-    },
-    fileName: modulePath,
-    reportDiagnostics: true,
+async function loadModule(path) {
+  const output = ts.transpileModule(await readFile(resolve(ROOT, path), 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },
   });
-  const errors =
-    output.diagnostics?.filter(
-      (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
-    ) ?? [];
-  if (errors.length > 0) {
-    throw new Error(
-      `${modulePath} could not be loaded: ${errors
-        .map(({ messageText }) => messageText)
-        .join('; ')}`,
-    );
-  }
-
-  const moduleUrl = `data:text/javascript;base64,${Buffer.from(output.outputText).toString('base64')}`;
-  return import(moduleUrl);
+  return import(`data:text/javascript;base64,${Buffer.from(output.outputText).toString('base64')}`);
 }
 
-function splitDocument(source) {
-  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) throw new Error('MDX frontmatter block is missing');
-  return { frontmatter: match[1], body: match[2] };
-}
-
-function frontmatterValue(frontmatter, key) {
-  const match = frontmatter.match(
-    new RegExp(`^${key}:\\s*(?:"([^"]*)"|'([^']*)'|(.+))\\s*$`, 'm'),
-  );
-  return (match?.[1] ?? match?.[2] ?? match?.[3] ?? '').trim();
-}
-
-function parseLevelTwoSections(body) {
-  const headings = [...body.matchAll(/^##\s+(.+)$/gm)];
-  return headings.map((match, index) => ({
-    heading: match[1].trim(),
-    content: body
-      .slice(match.index + match[0].length, headings[index + 1]?.index ?? body.length)
-      .trim(),
-  }));
-}
-
-function countLatinWords(value) {
-  return (
-    value
-      .replace(/https?:\/\/\S+/g, ' ')
-      .replace(/<[^>]+>/g, ' ')
-      .match(/[\p{L}\p{N}]+(?:['’.-][\p{L}\p{N}]+)*/gu)?.length ?? 0
-  );
-}
-
-function countHanCharacters(value) {
-  return value.match(/[\p{Script=Han}]/gu)?.length ?? 0;
-}
-
-function hasMatch(value, pattern) {
-  pattern.lastIndex = 0;
-  return pattern.test(value);
-}
-
+const { latestOpenFrontRelease: release } = await loadModule('src/config/openfront-release.ts');
+const { ui } = await loadModule('src/i18n/ui.ts');
 const contracts = [
-  {
-    lang: 'en',
-    headings: [/^Direct answer:/i, /^What should you change/i, /^Source status/i],
-    facts: [
-      ['Nation beachheads and routes', /Hard and Impossible Nations.*1%.*300 and 500/is],
-      ['early economy', /few Ports or Factories.*faster.*six building levels/is],
-      ['Ranked FFA', /four to ten players.*twenty-minute timer/is],
-      ['trusted account', /Ranked requires a trusted account/i],
-      ['progression', /Prestige at level 100.*P1 to P10.*Legend/is],
-      ['replay rollout', /Replay seeking.*initially disabled by default.*gradual rollout/is],
-      ['controls', /R opens quick chat.*F opens the emoji menu.*moves to X/is],
-      ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
-      ['v35.3 visibility', /Map Layers.*holding Space/is],
-      ['renewal is not guaranteed', /Renewal.*not a guaranteed acceptance/i],
-      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*nuclear weapons.*conquering Nations/is],
-    ],
-  },
-  {
-    lang: 'zh',
-    headings: [/^直接答案：/, /^下一局应该怎样改变决策/, /^来源状态/],
-    facts: [
-      ['Nation beachheads and routes', /Hard 与 Impossible Nation.*1%.*300.*500/is],
-      ['early economy', /少量港口或工厂.*生成速度.*六级/is],
-      ['Ranked FFA', /排位 FFA.*四至十名.*二十分钟/is],
-      ['trusted account', /排位需要可信账户/],
-      ['progression', /一百级的 Prestige.*P1.*P10.*Legend/is],
-      ['replay rollout', /回放.*最初默认关闭并逐步开放/is],
-      ['controls', /R 打开快捷聊天.*F 打开表情菜单.*改为 X/is],
-      ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
-      ['v35.3 visibility', /Map Layers.*Space/is],
-      ['renewal is not guaranteed', /不保证任何一次请求一定获准/],
-      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*核武器.*征服 Nation/is],
-    ],
-  },
-  {
-    lang: 'fr',
-    headings: [/^Réponse directe/i, /^Que faut-il changer/i, /^Sources, limites/i],
-    facts: [
-      ['Nation beachheads and routes', /Nations Hard et Impossible.*1 %.*300 et 500/is],
-      ['early economy', /peu de Ports ou de Factories.*plus vite.*six niveaux/is],
-      ['Ranked FFA', /quatre à dix joueurs.*vingt minutes/is],
-      ['trusted account', /compte trusted est nécessaire/i],
-      ['progression', /Prestige au niveau 100.*P1 à P10.*Legend/is],
-      ['replay rollout', /replays.*désactivé par défaut.*déploiement progressif/is],
-      ['controls', /R ouvre le chat rapide.*F les émojis.*X sélectionne/is],
-      ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
-      ['v35.3 visibility', /Map Layers.*Space/is],
-      ['renewal is not guaranteed', /Une acceptation reste incertaine/i],
-      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*armes nucléaires.*conquête des Nations/is],
-    ],
-  },
-  {
-    lang: 'de',
-    headings: [/^Direkte Antwort/i, /^Was solltest du/i, /^Quellenstatus/i],
-    facts: [
-      ['Nation beachheads and routes', /Hard und Impossible.*1 %.*300.*500 Tiles/is],
-      ['early economy', /wenige Häfen oder Fabriken.*schneller.*sechs Gebäudestufen/is],
-      ['Ranked FFA', /vier bis zehn Spieler.*zwanzig Minuten/is],
-      ['trusted account', /Ranked verlangt ein vertrauenswürdiges Konto/i],
-      ['progression', /Prestige ab Stufe 100.*P1 bis P10.*Legend/is],
-      ['replay rollout', /Replay.*standardmäßig deaktiviert.*schrittweise freigegeben/is],
-      ['controls', /R öffnet den Schnellchat.*F das Emoji-Menü.*X wählt/is],
-      ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
-      ['v35.3 visibility', /Map Layers.*Space/is],
-      ['renewal is not guaranteed', /Eine Zustimmung bleibt trotzdem unsicher/i],
-      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*Atomwaffen.*Erobern von Nations/is],
-    ],
-  },
-  {
-    lang: 'nl',
-    headings: [/^Direct antwoord/i, /^Wat moet je/i, /^Bronstatus/i],
-    facts: [
-      ['Nation beachheads and routes', /Hard en Impossible.*1%.*300 en 500 tiles/is],
-      ['early economy', /weinig havens of fabrieken.*sneller.*zes gebouwlevels/is],
-      ['Ranked FFA', /vier tot tien spelers.*twintig minuten/is],
-      ['trusted account', /Ranked vereist een trusted account/i],
-      ['progression', /Prestige op level 100.*P1 tot P10.*Legend/is],
-      ['replay rollout', /replaytijdlijn.*standaard uitgeschakeld.*geleidelijke uitrol/is],
-      ['controls', /R opent quick chat.*F het emojimenu.*X selecteert/is],
-      ['new maps', /Madagascar.*Brain Rot.*Ommatrypta/is],
-      ['v35.3 visibility', /Map Layers.*Space/is],
-      ['renewal is not guaranteed', /garandeert geen aanvaarding/i],
-      ['v35.9 tutorial expansion', /v35\.9.*Tutorial.*kernwapens.*veroveren van Nations/is],
-    ],
-  },
+  { lang: 'en', headings: [/^Direct answer/, /^What should/, /^Which fixes/],
+    warning: /v36\.2 changes that latter warning back to solid red/,
+    queue: /FFA Rating from OFstats replaces the ranked FFA queue/,
+    guests: /Guests can play shared saves/,
+    thresholds: /10% to 99\.9%.*80%.*default/is },
+  { lang: 'zh', headings: [/^直接答案/, /^下一局/, /^哪些修复/],
+    warning: /v36\.2 把后一种恢复为实心红色/,
+    queue: /FFA Rating 取代旧排位 FFA 队列/,
+    guests: /访客可以游玩别人分享的存档/,
+    thresholds: /10% 至 99\.9%.*默认仍是 80%/is },
+  { lang: 'fr', headings: [/^Réponse directe/, /^Que faut/, /^Quelles corrections/],
+    warning: /v36\.2 rétablit le rouge fixe/,
+    queue: /FFA Rating, fourni par OFstats, remplace la file FFA classée/,
+    guests: /visiteurs peuvent jouer aux sauvegardes partagées/,
+    thresholds: /10 % à 99,9 %.*80 %.*défaut/is },
+  { lang: 'de', headings: [/^Direkte Antwort/, /^Was solltest/, /^Welche Korrekturen/],
+    warning: /v36\.2 verwendet dafür wieder durchgehendes Rot/,
+    queue: /FFA Rating von OFstats ersetzt die bisherige Ranked-FFA-Warteschlange/,
+    guests: /Gäste können geteilte Spielstände spielen/,
+    thresholds: /10 % bis 99,9 %.*80 %.*Standard/is },
+  { lang: 'nl', headings: [/^Direct antwoord/, /^Wat moet/, /^Welke correcties/],
+    warning: /v36\.2 maakt dat laatste weer egaal rood/,
+    queue: /FFA Rating van OFstats vervangt de ranked-FFA-wachtrij/,
+    guests: /Gasten mogen gedeelde saves spelen/,
+    thresholds: /10% tot 99,9%.*80% standaard/is },
 ];
 
-const { latestOpenFrontRelease: release } =
-  await loadTypeScriptModule(RELEASE_CONFIG_PATH);
-const { ui } = await loadTypeScriptModule(UI_CONFIG_PATH);
-const failures = [];
-
+let failed = 0;
 for (const contract of contracts) {
-  const relativePath = `src/content/changelog/${contract.lang}/${release.series}.mdx`;
-  const source = await readFile(resolve(ROOT, relativePath), 'utf8');
-  const { frontmatter, body } = splitDocument(source);
-  const sections = parseLevelTwoSections(body);
-  const title = frontmatterValue(frontmatter, 'title');
-  const description = frontmatterValue(frontmatter, 'description');
-  const version = frontmatterValue(frontmatter, 'version');
-  const releaseStatus = frontmatterValue(frontmatter, 'releaseStatus');
-  const tags = frontmatterValue(frontmatter, 'tags');
-  const sectionCounts = sections.map(({ content }) =>
-    contract.lang === 'zh'
-      ? countHanCharacters(content)
-      : countLatinWords(content),
-  );
-
+  const path = `src/content/changelog/${contract.lang}/${release.series}.mdx`;
+  const source = await readFile(resolve(ROOT, path), 'utf8');
+  const document = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  if (!document) throw new Error(`Missing frontmatter: ${path}`);
+  const [, frontmatter, body] = document;
+  const field = (key) => {
+    const match = frontmatter.match(new RegExp(`^${key}:\\s*(?:"([^"]*)"|'([^']*)'|(.+))$`, 'm'));
+    return (match?.[1] ?? match?.[2] ?? match?.[3] ?? '').trim();
+  };
+  const headings = [...body.matchAll(/^## (.+)$/gm)];
+  const sections = headings.map((heading, index) =>
+    body.slice(heading.index + heading[0].length, headings[index + 1]?.index ?? body.length));
+  const clean = (text) => text.replace(/https?:\/\/\S+/g, ' ').replace(/<[^>]+>/g, ' ');
+  const count = (text) => contract.lang === 'zh'
+    ? [...new Intl.Segmenter('zh', { granularity: 'word' }).segment(clean(text))]
+      .filter(({ isWordLike }) => isWordLike).length
+    : (clean(text).match(/[\p{L}\p{N}]+(?:['’.-][\p{L}\p{N}]+)*/gu)?.length ?? 0);
+  const counts = sections.map(count);
   const checks = [
-    ['home CTA {series} placeholder', ui[contract.lang]['home.cta.latest'].includes('{series}')],
-    ['frontmatter version', version === release.series],
-    ['frontmatter release status', releaseStatus === 'released'],
-    ['frontmatter tags', tags === '[changelog, balance, features]'],
-    ['title display version', title.includes(release.displayVersion)],
-    ['description display version', description.includes(release.displayVersion)],
-    ['official tag', body.includes(`${release.tag}`)],
-    ['official Release source', body.includes(`](${release.releaseUrl})`)],
-    ['no inherited v34 patch claims', !body.includes('v0.34.')],
-    ['v35.4 saving fix', /v0\.35\.4/.test(body) && /XP/.test(body) &&
-      /stats|statistics|统计|statistiques|Statistiken|statistieken/i.test(body) &&
-      /rewards|奖励|récompenses|Belohnungen|beloningen/i.test(body)],
-    ['v35.5 team maps', ['Madagascar', 'Rio de Janeiro', 'Bab el-Mandeb', 'New Zealand', 'Branching Paths'].every(
-      (name) => body.includes(name),
-    )],
-    ['v35.5 portal and screen boundaries', ['Poki', 'CrazyGames', 'Account', '1280px', 'Solo', 'United States'].every(
-      (name) => body.includes(name),
-    )],
-    ['v35.5 live rotation boundary', /rotation|轮换|Kartenrotation|rotatie/i.test(body) &&
-      /between releases|两个版本之间|entre deux versions|zwischen Releases|tussen releases/i.test(body)],
-    ['v35.6 join screen fix', /join screen|加入画面|écran de participation|Beitrittsbildschirm|deelnamescherm/i.test(body)],
-    ['v35.6 Poki preparation boundary', /Poki/.test(body) &&
-      /preparation|准备工作|préparation|Vorbereitung|Voorbereiding/i.test(body)],
-    ['v35.6 extension notice', /unapproved extensions|未经批准的扩展|extensions non approuvées|nicht genehmigte Erweiterungen|niet-goedgekeurde extensies/i.test(body)],
-    ['v35.7 tutorial and portal onboarding', ['Tutorial', 'Poki', 'CrazyGames'].every(
-      (name) => sections[0]?.content.includes(name),
-    )],
-    ['v35.7 clan map alpha', /\bMap\b.*alpha|alpha.*\bMap\b/is.test(sections[0]?.content ?? '')],
-    ['v35.7 cosmetic disclosure labels', ['No AI used', 'AI use unknown', 'Made with AI assistance'].every(
-      (label) => body.includes(label),
-    )],
-    ['v35.7 loading failure feedback', /error message|错误消息|message d'erreur|Fehlermeldung|foutmelding/i.test(sections[0]?.content ?? '')],
-    ['v35 patch sources', ['v0.35.0', 'v0.35.1', 'v0.35.2', 'v0.35.3', 'v0.35.4', 'v0.35.5', 'v0.35.6', 'v0.35.7'].every(
-      (tag) => body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`),
-    )],
-    ['canonical category', frontmatterValue(frontmatter, 'category') ===
-      (contract.lang === 'zh' ? '版本笔记' : 'Release Notes')],
-    ['exactly three level-two sections', sections.length === 3],
-    ...contract.headings.map((pattern) => [
-      `section ${pattern}`,
-      sections.some(({ heading }) => hasMatch(heading, pattern)),
-    ]),
-    ...sectionCounts.map((count, index) => [
-      `section ${index + 1} has 401+ ${contract.lang === 'zh' ? 'Han characters' : 'words'} (found ${count})`,
-      count >= 401,
-    ]),
-    ...contract.facts.map(([label, pattern]) => [label, hasMatch(body, pattern)]),
+    ['latest series', release.series === 'v36'],
+    ['version', field('version') === release.series],
+    ['released', field('releaseStatus') === 'released'],
+    ['tags', field('tags') === '[changelog, balance, features]'],
+    ['category', field('category') === (contract.lang === 'zh' ? '版本笔记' : 'Release Notes')],
+    ['title', field('title').includes(release.displayVersion)],
+    ['description', field('description').includes(release.displayVersion)],
+    ['home CTA placeholder', ui[contract.lang]['home.cta.latest'].includes('{series}')],
+    ['three sections', sections.length === 3],
+    ...contract.headings.map((pattern, index) => [`heading ${index + 1}`, pattern.test(headings[index]?.[1] ?? '')]),
+    ...counts.map((value, index) => [`section ${index + 1} >=401 (${value})`, value >= 401]),
+    ['current warning overrides original flash', contract.warning.test(body)],
+    ['FFA Rating replaces old queue', contract.queue.test(body)],
+    ['guest shared save access', contract.guests.test(body)],
+    ['private threshold and default', contract.thresholds.test(body)],
+    ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
+      'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
+    ['current source', body.includes(`](${release.releaseUrl})`)],
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2'].every((tag) =>
+      body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
+    ['no inherited v35 patch claims', !body.includes('v0.35.')],
+    ['no third-level section bypass', !/^### /m.test(body)],
   ];
-
-  const failedChecks = checks.filter(([, passes]) => !passes).map(([label]) => label);
-  if (failedChecks.length > 0) {
-    failures.push({ relativePath, failedChecks });
-    console.error(`FAIL ${relativePath}: ${failedChecks.join(', ')}`);
+  const errors = checks.filter(([, pass]) => !pass).map(([label]) => label);
+  if (errors.length) {
+    failed++;
+    console.error(`FAIL ${path}: ${errors.join('; ')}`);
   } else {
-    console.log(
-      `PASS ${relativePath} (${sections.length} sections; counts ${sectionCounts.join('/')})`,
-    );
+    console.log(`PASS ${path}: ${counts.join('/')} words; zh uses Intl.Segmenter isWordLike`);
   }
 }
-
-if (failures.length > 0) {
-  console.error(`\n${failures.length}/${contracts.length} latest-release contracts failed.`);
-  process.exitCode = 1;
-} else {
-  console.log(
-    `\n${contracts.length}/${contracts.length} latest-release contracts pass for ${release.tag}.`,
-  );
-}
+console.log(`${contracts.length - failed}/${contracts.length} latest-release contracts pass for ${release.tag}`);
+if (failed) process.exitCode = 1;

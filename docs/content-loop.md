@@ -1,6 +1,6 @@
 # OpenFront Intel 当前执行状态
 
-更新日期：2026-10-30。
+更新日期：2026-11-12。
 
 本文件只保留活动队列、最新来源锚点、统一度量与最近有效运行。选择原则和门槛见 [`content-strategy.md`](content-strategy.md)；当前长文路由与批次见 [`long-form-content-program.md`](long-form-content-program.md)；`What's New` 字段合同见 [`whats-new-content-plan.md`](whats-new-content-plan.md)。2026-07-31 至 2026-08-20 的完整信号、合规自检与逐 PR 记录已移至 [归档](archive/content-loop-through-2026-08-20.md)，定时任务不要读取归档。
 
@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- 正式 v36 响应：最新正式 Release 为 [`v0.36.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2)，tag commit `8b5d071eed95f07c701b32e4c64e95b03f8577c1`，API 发布于 2026-11-11T22:09:39Z。五语 `/changelog/v36/` 与首页当前版本、优先入口同步；旧 v35 作为历史系列保留，生成快照与 Footer 仍明确为 v35。事实矩阵及来源见 [v36 正式响应](research/2026-11-12-v36-release-response.md)。本批发布即完成并转 Monitoring；下一触发为新正式 Release、确认事实错误或自身 T+1 至 T+28 完整 GSC final 窗口，不据发布日期追刷所有旧攻略。
+- 当前 upstream `main` 独立游标为 `906d93ffa56d1810998de249d92d67457ce7c6d4`（2026-11-12 核验）；不能作为正式已发布规则。以下 v35.10 与旧 main 记录保留为历史边界，不再代表最新版本。
 - 正式 Release 游标：[`v0.35.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.10)，tag commit `79aed26b677c234046ac6c82d1ed95f82b0e0227`；API 发布时间为 2026-11-03T04:05:22Z，非 TEST、非预发布。五语 v35 主答案已补齐 Viverse 集成的正式边界；v35.9 的 Tutorial 扩充、氏族 Top donors 与 Store 余额修复，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。v35.10 没有宣布战斗、经济、地图或成长规则变化。对应维护记录见 [v35.10 Release maintenance](research/2026-11-04-v3510-release-maintenance.md)；发布后转 Monitoring，仅新正式变化、确认错误或自身完整 final 窗口触发重开。
 - 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级。
 - 改键维护：[五语正式版操作边界](research/2026-10-21-stable-controls-maintenance.md) 发布即完成并转 Monitoring；速查页和训练页同步 X 全舰队、F 表情、R 快捷聊天及自定义绑定优先。只核验本轮所改操作，核武数值保留原引用边界；下次由正式操作变化、已确认错误或完整 GSC final 窗口触发。

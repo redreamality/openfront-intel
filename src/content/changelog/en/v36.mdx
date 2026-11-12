@@ -1,0 +1,52 @@
+---
+title: 'OpenFront v36.2: saves, FFA Rating and new controls'
+description: 'OpenFront v36.2 release notes: shared solo saves, replay takeover, FFA Rating, Atlas maps, mobile quick build and the corrected red nuke warning.'
+pubDate: 2026-11-09
+updatedDate: 2026-11-12
+version: v36
+releaseStatus: released
+tags: [changelog, balance, features]
+category: Release Notes
+---
+
+## Direct answer: what changes in OpenFront v36.2?
+
+**OpenFront v36.2 makes the traitor nuke warning solid red again, expands the clan map to full screen, and gives publicly listed hosted lobbies map-dependent player caps.** The larger v36 update adds singleplayer saves and sharing, replay takeover, FFA Rating, the Atlas and a mobile build bar. These features serve different tasks: continuing a solo campaign, studying a finished game, following public FFA results, choosing terrain and placing units on a phone.
+
+Signed-in players can save a singleplayer game from the in-game menu. The Solo modal has a Saved games bar for loading, renaming, deleting and sharing saves. A shared save opens through its link or a code pasted into that bar, including on Steam and game portals. Guests can play shared saves. That guest access does not mean anonymous players receive all the signed-in save-management features. Keep a share code when moving between surfaces rather than assuming an ordinary live-lobby link is a saved campaign.
+
+The new replay viewer is now the default. Pause at a useful moment, press Continue, select a surviving player, and choose a difficulty for the other humans. The game then continues as singleplayer from that point. This is a way to test an alternative decision, not to rewrite the recorded multiplayer result. The classic replay remains available through Settings. A player already eliminated at the chosen point is not a surviving takeover candidate.
+
+FFA Rating from OFstats replaces the ranked FFA queue. Public FFA games now count toward a rating displayed with uncertainty, such as 1613 ± 85. There are ten calibration games before placement. The interface shows rating changes on the win screen and in game history, plus season dates and remaining time. The leaderboard has eight rank tabs, Iron through Grandmaster, each with its top 250; it opens on your rank and pins your position. Do not read the old queue's four-to-ten-player format as the current entry procedure.
+
+The map picker gains an Atlas with pins for more than one hundred real-world maps. Hover for a preview, description and designer; click to choose. Map cards also expose size, land share, nations, expected players and designer through a question-mark tooltip. New maps include Paris, London, Mexico, Canada, Türkiye, the Ottoman Empire, Zealandia and Brahmaputra. World 4000 replaces Giant World; World 10000 is intended for custom games and tournaments and is too heavy for phones.
+
+On touch devices, structures, warships and missiles get a permanent quick-build bar. Tap once to preview, tap another position to move the preview, and tap that preview again to build or launch. On keyboards, J donates troops, O opens gold donation, I opens player information, and holding H allows a separate structure beside an upgrade target. These controls are configurable, so your own bindings remain the first thing to check when a default does not work.
+
+## What should you change in your next game?
+
+Start by choosing the task you actually want to perform. For a long solo game, sign in and use Save game before leaving. For a tactical exercise, open a replay, pause before the decision and use Continue. For public competition, look for the FFA Rating display rather than the removed ranked FFA queue. Separating these flows prevents a shared save, a live game and a recorded result from being treated as interchangeable objects.
+
+For example, suppose you lost a coast after sending your reserve inland. Find a replay moment before the commitment, take over a surviving player and try retaining that reserve. Choose the other humans' difficulty deliberately. Your new singleplayer opponents will not necessarily reproduce the original humans' choices, so compare your own route and timing rather than claiming a different outcome proves that the multiplayer win was guaranteed. The [replay review guide](/guides/replay-review/) remains useful for identifying the decision to test.
+
+On a phone, practise preview and confirmation in solo before placing an expensive missile under pressure. Moving the preview is not the same action as confirming it. Keep your intended target and the warning circle visible before the second tap. v36.0 introduced yellow for a strike that only ends an alliance with a traitor or disconnected ally, and flashing red for becoming a traitor yourself. v36.2 changes that latter warning back to solid red because flashing red and white could be mistaken for white.
+
+Read keyboard hints on your own layout. Defaults now follow layouts such as AZERTY, where movement hints can show ZQSD. Repeating a build key on the same position steps the amount through 1, 5, 10 and 15, with a maximum of 50; Alt+scroll adjusts by one. Holding H asks for a separate structure instead of upgrading a nearby one. Check the preview amount before confirming a large order, especially after repeated presses. Custom bindings can change which physical key performs each action.
+
+If hosting privately, inspect the actual win threshold before planning the endgame. Hosts can set it from 10% to 99.9%, while 80% remains the default; Overtime counts down from the configured threshold. A plan based on the ordinary default may therefore be wrong for that particular custom lobby. Saved lobby presets help reuse settings, but you should still read the selected preset before inviting players. The [Overtime guide](/guides/winning-overtime/) explains the broader territory-control task.
+
+If choosing a large map, use the card's expected players and terrain information instead of only its name. Publicly listed hosted lobbies now use map-based caps: The Box permits 210, while smaller maps permit fewer. That is a separate rule from the private game's victory percentage. Do not infer that every map accepts 210 players or that the huge World 10000 is a sensible mobile choice. In v36.1, Türkiye, Ottoman and Zealandia were added to New and the Atlas; v36.2 also widens and centres the map-info tooltip.
+
+## Which fixes and version boundaries matter?
+
+The v36 series changes several existing behaviours that can affect how a familiar situation resolves. Annexation now handles an arm severed by a nuke even when the crater lies between that piece and the sea. A nation split in two is no longer annexed twice in one tick, and inland empires stop losing small border tips. These are more specific changes than saying every nuclear strike captures land. Terrain, ownership and the actual resulting connection still matter when planning a strike.
+
+Boat routing is corrected around river bends that double back, including named problem areas on Didier, Conakry, Russia, China and Europe. Trains again move two tiles per tick from their first tick; previously the first tick moved three. A fix for games crashing when trading with a port with tens of thousands of levels leaves trade odds unchanged. These notes do not announce a new universal trade-income multiplier. If an old route behaves differently, inspect its actual geometry before extrapolating to every port or river.
+
+Nations no longer send their whole army when two attacks start in the same tick. Island nations attack bots across the water with boats before going after players. When atom bombs are disabled, nations save for hydrogen bombs instead of spending everything on warships, and only counter real warship infestations. This means disabling one weapon should not be read as disabling all nuclear threats. Review the lobby's disabled units and maintain a reserve against the actual available threats rather than assuming an older AI mistake will repeat.
+
+The clan Map tab now opens full screen with a Clans back button and a side panel visible to every member. Sale news on the home screen shows a banner and countdown that opens the store's On sale tab. A dice button by the name field chooses a random name, with a Tribe-style or Anon preference. These are navigation and account-facing conveniences; the notes do not establish a new combat bonus for opening the store or changing a name.
+
+Performance work targets heavy games, including faster MIRV targeting, lower peak memory in large SAM fights and removal of an early spawn-phase freeze. v36.1 adds another improvement for giant maps with many nations and bots. The announced speedup is about simulation work, not missile damage, interception probability or guaranteed performance on every device. The distinction matters when comparing an expensive late-game battle on a desktop with the same map on a phone.
+
+The [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) establishes the series features. The [v0.36.1 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.1) records the map-category and heavy-game follow-up. The [v0.36.2 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2), published November 11, 2026, supplies the latest fixes above. Older guides retain their own stated verification scope; a new release does not automatically validate every old numerical table. Use this page for the version transition and the linked task guides for the longer decision process.

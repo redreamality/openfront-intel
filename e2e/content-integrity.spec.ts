@@ -386,23 +386,24 @@ const latestReleaseSsrCases = [
 ] as const;
 
 for (const releaseCase of latestReleaseSsrCases) {
-  test(`changelog ${latestOpenFrontRelease.series}[${releaseCase.lang}] renders the localized latest-release answer`, async ({ page }) => {
+  test(`changelog v35[${releaseCase.lang}] preserves the localized historical release answer`, async ({ page }) => {
     await page.goto(
-      `${releaseCase.path}changelog/${latestOpenFrontRelease.series}/`,
+      `${releaseCase.path}changelog/v35/`,
       { waitUntil: 'domcontentloaded' },
     );
     const main = page.locator('main');
     await expect(main).toBeVisible();
     await expect(main).toContainText(releaseCase.signal);
     await expect(main).toContainText(releaseCase.rollout);
-    await expect(main.locator('h2').first()).toContainText(latestOpenFrontRelease.displayVersion);
+    await expect(main.locator('h2').first()).toContainText('v35.10');
     const answer = main.locator('.prose p').first();
-    await expect(answer).toContainText(latestOpenFrontRelease.displayVersion);
-    await expect(answer).toContainText('Poki');
-    await expect(answer).toContainText('CrazyGames');
-    await expect(answer).toContainText('Tutorial');
-    await expect(answer).toContainText('Map');
-    await expect(answer).toContainText('alpha');
+    await expect(answer).toContainText('v35.10');
+    await expect(answer).toContainText('Viverse');
+    await expect(main).toContainText('Poki');
+    await expect(main).toContainText('CrazyGames');
+    await expect(main).toContainText('Tutorial');
+    await expect(main).toContainText('Map');
+    await expect(main).toContainText('alpha');
     await expect(main).toContainText('No AI used');
     await expect(main).toContainText('AI use unknown');
     await expect(main).toContainText('Made with AI assistance');
@@ -425,7 +426,7 @@ for (const releaseCase of latestReleaseSsrCases) {
     await expect(saving).toContainText(releaseCase.backfill);
     await expect(main).toContainText('1280px');
     await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.4"]').first()).toBeVisible();
-    await expect(main.locator(`a[href="${latestOpenFrontRelease.releaseUrl}"]`).first()).toBeVisible();
+    await expect(main.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.10"]').first()).toBeVisible();
     await expect(main.locator('a[href*="/releases/tag/v0.34."]')).toHaveCount(0);
     await expect(main.locator(`a[href="${releaseCase.path}guides/what-do-factories-do/"]`)).toBeVisible();
   });

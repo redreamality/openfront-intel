@@ -6,31 +6,31 @@ const homepageCases = [
     lang: 'en',
     path: '/',
     prefix: '/',
-    latestSignal: 'Tutorial',
+    latestSignal: 'FFA Rating',
   },
   {
     lang: 'zh',
     path: '/zh/',
     prefix: '/zh/',
-    latestSignal: 'Tutorial',
+    latestSignal: 'FFA Rating',
   },
   {
     lang: 'fr',
     path: '/fr/',
     prefix: '/fr/',
-    latestSignal: 'Tutorial',
+    latestSignal: 'FFA Rating',
   },
   {
     lang: 'de',
     path: '/de/',
     prefix: '/de/',
-    latestSignal: 'Tutorial',
+    latestSignal: 'FFA Rating',
   },
   {
     lang: 'nl',
     path: '/nl/',
     prefix: '/nl/',
-    latestSignal: 'Tutorial',
+    latestSignal: 'FFA Rating',
   },
 ] as const;
 
@@ -47,6 +47,7 @@ for (const homepageCase of homepageCases) {
     const heroLatestLink = hero.locator(`a[href="${latestHref}"]`);
     await expect(heroLatestLink).toHaveCount(1);
     await expect(heroLatestLink).toContainText(latestOpenFrontRelease.series);
+    await expect(hero.locator('.tag-chip')).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(hero.locator(`a[href="${firstMatchHref}"]`)).toHaveCount(1);
 
     const priority = main.locator('[data-home-priority]');
@@ -73,7 +74,7 @@ for (const homepageCase of homepageCases) {
     }
     await expect(links.first()).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(links.first()).toContainText(homepageCase.latestSignal);
-    await expect(links.first()).toContainText('alpha');
+    await expect(links.first()).toContainText('Atlas');
 
     const contentOrder = await main.evaluate((element) =>
       [...element.querySelectorAll('[data-home-priority], [data-home-browse], [data-home-reference]')].map((section) => {

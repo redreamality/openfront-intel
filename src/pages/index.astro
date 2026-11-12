@@ -12,7 +12,7 @@ import maps from '../data/maps.json';
 const lang = 'en';
 const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL;
-const tagline = t('site.tagline').replace('{version}', meta.upstreamVersion);
+const tagline = t('site.tagline').replace('{version}', latestOpenFrontRelease.displayVersion);
 const latestReleaseCta = t('home.cta.latest').replace('{series}', latestOpenFrontRelease.series);
 const databaseDescription = t('home.pillar.database.desc').replace('{count}', String(maps.meta.total));
 

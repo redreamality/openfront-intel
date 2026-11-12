@@ -1,5 +1,7 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-11-12 v36 响应路径恢复**：猜测 `src/components/HomeHero.astro` 导致读取不存在；首页 hero 实际内联于五语 `src/pages/**/index.astro`。按实际页面读取恢复。一份多文件补丁又因猜测本 runbook 标题为“工具、路径与临时文件”而原子拒绝；复读真实标题后重发成功，无部分写入。未修改 AGENTS.md。
+
 - **2026-10-26 搜索恢复维护复发**：临时 ESM 脚本直接 import Windows `C:/` 路径、直接 import pnpm 未暴露的 `github-slugger` 分别触发 URL scheme 与模块解析错误；改用已确认包位置的 `file:///` URL 后恢复。一次上游 `git show` 在站点目录执行导致 invalid object，改到上游 checkout 后成功。最终 `dist` 未生成前的检索不算产物验证；等待构建成功后再检查。runbook 补丁曾因标题上下文猜错被原子拒绝，读取实际标题后恢复；未修改 AGENTS.md。
 - **同批路径发现与计数恢复**：猜测 `e2e/article-answer-routes.spec.ts`、`scripts/guide-delivery-audit.mjs`、`src/components/CookieConsent.astro`、`e2e/cookie-consent.spec.ts` 导致缺文件诊断，按 `rg --files` 找到实际文件后恢复；隐私组件实际为 ConsentBanner。法语临时 `node -e` 计数含复杂引号被 PowerShell 解析失败，改为已保存 `.mjs` 脚本运行成功。缺文件输出不能因同批末条命令返回 0 而忽略。
 

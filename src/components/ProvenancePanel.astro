@@ -104,7 +104,7 @@ const generatedAt = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : lang, {
 const releaseTag = version && /^v\d+$/.test(version)
   ? version === latestOpenFrontRelease.series
     ? latestOpenFrontRelease.tag
-    : version.replace(/^v(\d+)$/, 'v0.$1.0')
+    : version === 'v35' ? 'v0.35.10' : version.replace(/^v(\d+)$/, 'v0.$1.0')
   : version;
 const releaseHref = kind === 'changelog' && version && releaseStatus !== 'not-released'
   ? version === latestOpenFrontRelease.series

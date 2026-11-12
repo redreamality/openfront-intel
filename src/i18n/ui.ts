@@ -13,7 +13,7 @@ export const ui = {
   en: {
     'site.title': 'OpenFront Intel',
     'site.description': 'OpenFront.io mechanics, database, maps, and strategies.',
-    'site.tagline': 'Data snapshot {version} · Intelligence Hub',
+    'site.tagline': 'Current release {version} · Intelligence Hub',
     'nav.mechanics': 'Mechanics',
     'nav.database': 'Database',
     'nav.strategies': 'Strategies',
@@ -138,7 +138,7 @@ export const ui = {
   fr: {
     'site.title': 'OpenFront Intel',
     'site.description': 'Mécaniques, base de données, cartes et stratégies OpenFront.io.',
-    'site.tagline': 'Instantané {version} · Centre de renseignement',
+    'site.tagline': 'Version actuelle {version} · Centre de renseignement',
     'nav.mechanics': 'Mécaniques',
     'nav.database': 'Base de données',
     'nav.strategies': 'Stratégies',
@@ -263,7 +263,7 @@ export const ui = {
   nl: {
     'site.title': 'OpenFront Intel',
     'site.description': 'OpenFront.io mechanica, database, kaarten en strategieën.',
-    'site.tagline': 'Datasnapshot {version} · Inlichtingencentrum',
+    'site.tagline': 'Huidige versie {version} · Inlichtingencentrum',
     'nav.mechanics': 'Mechanica',
     'nav.database': 'Database',
     'nav.strategies': 'Strategieën',
@@ -388,7 +388,7 @@ export const ui = {
   de: {
     'site.title': 'OpenFront Intel',
     'site.description': 'OpenFront.io Mechaniken, Datenbank, Karten und Strategien.',
-    'site.tagline': 'Datenstand {version} · Nachrichtenzentrale',
+    'site.tagline': 'Aktuelle Version {version} · Nachrichtenzentrale',
     'nav.mechanics': 'Mechaniken',
     'nav.database': 'Datenbank',
     'nav.strategies': 'Strategien',
@@ -513,7 +513,7 @@ export const ui = {
   zh: {
     'site.title': 'OpenFront 情报站',
     'site.description': 'OpenFront.io 中文机制、数据库、地图与攻略。',
-    'site.tagline': '数据快照 {version} · 中文资料库',
+    'site.tagline': '当前正式版本 {version} · 中文资料库',
     'nav.mechanics': '机制',
     'nav.database': '数据库',
     'nav.strategies': '攻略',
