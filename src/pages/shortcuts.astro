@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Build & unit number keys',
-    note: 'Tap once for x1. Tap the same key again to toggle x5 for an existing structure upgrade or Atom Bomb; new structures, Hydrogen Bombs, and MIRVs stay x1.',
+    note: 'At the same spot, repeat the build key to cycle 1 → 5 → 10 → 15, then by 5 up to 50 and back to 1. This amount applies to existing upgrades and Atom Bombs; new structures, Hydrogen Bombs, and MIRVs stay x1.',
     rows: [
       { keys: ['1'], action: 'Build City' },
       { keys: ['2'], action: 'Build Factory' },
@@ -21,12 +21,14 @@ const groups: Group[] = [
       { keys: ['5'], action: 'Build Missile Silo' },
       { keys: ['6'], action: 'Build SAM Launcher' },
       { keys: ['7'], action: 'Build Warship' },
-      { keys: ['8'], action: 'Atom Bomb — stays armed; press 8 again to toggle an x5 loaded-tube batch' },
+      { keys: ['8'], action: 'Atom Bomb — stays armed; repeat 8 to increase the batch, limited by Gold and loaded Silo tubes' },
       { keys: ['9'], action: 'Hydrogen Bomb — stays armed for repeat fire' },
       { keys: ['0'], action: 'MIRV' },
       { keys: ['Enter'], action: 'Build the armed unit under the cursor' },
       { keys: ['U'], action: 'Flip the launch arc (up / down) of an armed nuke' },
       { keys: ['Esc'], action: 'Cancel the build preview' },
+      { keys: ['H'], action: 'Hold to place a separate structure instead of upgrading a nearby one' },
+      { keys: ['Alt', 'Wheel'], action: 'Adjust the armed build amount by 1 within 1–50; does not zoom' },
     ],
   },
   {
@@ -81,6 +83,9 @@ const groups: Group[] = [
       { keys: ['R'], action: 'Open quick chat for the player under the cursor' },
       { keys: ['K'], action: 'Request an alliance with the hovered player' },
       { keys: ['L'], action: 'Break an alliance' },
+      { keys: ['J'], action: 'Send troops to the ally under the cursor' },
+      { keys: ['O'], action: 'Open the send-gold window for the ally under the cursor' },
+      { keys: ['I'], action: 'Toggle the player panel for the player under the cursor' },
     ],
   },
   {
@@ -97,18 +102,19 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Shortcuts"
-  description="OpenFront.io v35 keyboard and mouse shortcuts: X selects all Warships, F opens emojis, R opens quick chat. Check saved bindings before practicing."
+  description="OpenFront.io v36 shortcuts: J/O donations, I player panel, H separate builds, build amounts and mouse controls. Check your saved keybindings."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Shortcuts"
-    lead="This is the default-key lookup reference for v35 keyboard shortcuts, mouse controls, and build hotkeys in OpenFront.io. Use the separate Hotkeys guide for battlefield workflows, practice drills, and input recovery. Most action bindings can be remapped in Settings → Keybindings, including the three workflows below. On macOS, read Ctrl as Cmd."
+    lead="This is the default-key lookup reference for OpenFront.io keyboard shortcuts, mouse controls, and build hotkeys, including the v36 additions below. Use the separate Hotkeys guide for battlefield workflows, practice drills, and input recovery. Most action bindings can be remapped in Settings → Keybindings. On macOS, read Ctrl as Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">X/F/R controls and remapping checked in stable v0.35.2 on October 21, 2026; existing build examples retain their earlier scope.</strong>
-      Double-press the same build key to toggle x1 / x5 for an existing upgrade or Atom Bomb. The radial menu offers structure x1/x5/x10/xMax and Atom Bomb x1/x2/x5/xMax batches; Gold and loaded Silo tubes cap xMax.
+      <strong class="text-iron-100">J/O/I/H and build amounts checked in stable <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> on November 14, 2026.</strong>
+      Repeat the same build key at the same spot for 1 → 5 → 10 → 15, continuing by 5 to 50, then back to 1. Alt+scroll adjusts by 1. Existing upgrades and Atom Bombs use this amount; new structures, Hydrogen Bombs and MIRVs stay x1. Gold and loaded Silo tubes still limit Atom Bomb batches.
+      Default labels follow your keyboard layout, including ZQSD on AZERTY. Saved bindings take precedence. The training guide retains its stated v35 scope.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
@@ -155,7 +161,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      These are v35 default bindings. Select-all-warships, graphics reset, and warship box selection can also be rebound in v0.35.2; check your saved settings before practicing.
+      The v36 additions above supplement the v35 controls. Check your saved settings before practicing; the historical remapping details retain their stated verification date.
     </p>
   </section>
 </BaseLayout>
