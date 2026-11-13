@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Bouw- & eenheid-cijfertoetsen',
-    note: 'Eén druk geeft x1. Druk dezelfde toets opnieuw voor x5 bij een bestaande upgrade of Atom Bomb; nieuwbouw, Hydrogen Bomb en MIRV blijven x1.',
+    note: 'Herhaal op dezelfde plek de bouwtoets voor 1 → 5 → 10 → 15, dan stappen van 5 tot 50 en terug naar 1. Dit aantal geldt voor upgrades en Atom Bombs; nieuwbouw, Hydrogen Bomb en MIRV blijven x1.',
     rows: [
       { keys: ['1'], action: 'Stad (City) bouwen' },
       { keys: ['2'], action: 'Fabriek (Factory) bouwen' },
@@ -21,12 +21,14 @@ const groups: Group[] = [
       { keys: ['5'], action: 'Raketsilo (Missile Silo) bouwen' },
       { keys: ['6'], action: 'SAM-lanceerder bouwen' },
       { keys: ['7'], action: 'Oorlogsschip (Warship) bouwen' },
-      { keys: ['8'], action: 'Atoombom — blijft scherp; druk 8 opnieuw voor een x5-bundel uit geladen buizen' },
+      { keys: ['8'], action: 'Atoombom — blijft scherp; herhaal 8 voor meer bommen, begrensd door goud en geladen Silo-buizen' },
       { keys: ['9'], action: 'Waterstofbom — blijft scherp voor salvo\'s' },
       { keys: ['0'], action: 'MIRV' },
       { keys: ['Enter'], action: 'Scherpe eenheid onder de cursor bouwen' },
       { keys: ['U'], action: 'Lanceerboog van een scherpe nuke omdraaien (omhoog / omlaag)' },
       { keys: ['Esc'], action: 'Bouwvoorbeeld annuleren' },
+      { keys: ['H'], action: 'Ingedrukt houden om apart te bouwen in plaats van een nabij gebouw te upgraden' },
+      { keys: ['Alt', 'Muiswiel'], action: 'Bouwaantal met 1 aanpassen tussen 1 en 50, zonder te zoomen' },
     ],
   },
   {
@@ -81,6 +83,9 @@ const groups: Group[] = [
       { keys: ['R'], action: 'Snelle chat openen voor de speler onder de cursor' },
       { keys: ['K'], action: 'Bondgenootschap aanvragen bij de aangewezen speler' },
       { keys: ['L'], action: 'Bondgenootschap verbreken' },
+      { keys: ['J'], action: 'Troepen sturen naar de bondgenoot onder de cursor' },
+      { keys: ['O'], action: 'Venster voor goud sturen naar de bondgenoot onder de cursor openen' },
+      { keys: ['I'], action: 'Spelerspaneel voor de speler onder de cursor aan- of uitzetten' },
     ],
   },
   {
@@ -97,18 +102,19 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront sneltoetsen"
-  description="OpenFront.io v35-sneltoetsen: X selecteert de vloot, F opent emoji, R snelle chat. Controleer je opgeslagen bindings voor je oefent."
+  description="OpenFront.io v36-sneltoetsen: J/O voor donaties, I voor spelers, H voor aparte gebouwen, bouwaantallen en muisbediening. Controleer je bindings."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront sneltoetsen"
-    lead="Dit is de vaste referentie om standaard sneltoetsen snel op te zoeken: de v35-toetsen, muisbediening en bouw-hotkeys van OpenFront.io staan per gebruik gegroepeerd. Gebruik de aparte hotkey-gids voor gevechtsroutines, oefeningen en herstel na invoerfouten. De meeste acties zijn te wijzigen via Instellingen → Toetsindeling, ook de drie routines hieronder. Op macOS geldt Ctrl als Cmd."
+    lead="Dit is de vaste referentie om standaard sneltoetsen snel op te zoeken: toetsen, muisbediening en bouw-hotkeys van OpenFront.io, met de v36-toevoegingen hieronder. Gebruik de aparte hotkey-gids voor gevechtsroutines, oefeningen en herstel na invoerfouten. De meeste acties zijn te wijzigen via Instellingen → Toetsindeling. Op macOS geldt Ctrl als Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">X/F/R en herindeling op 21 oktober 2026 getoetst aan stabiele v0.35.2; bestaande bouwvoorbeelden behouden hun eerdere bereik.</strong>
-      Dezelfde bouwtoets wisselt bij een bestaande upgrade of Atom Bomb tussen x1 / x5. Het radiale menu biedt x1/x5/x10/xMax voor gebouwen en x1/x2/x5/xMax voor Atom Bombs; goud en geladen Silo-buizen begrenzen xMax.
+      <strong class="text-iron-100">J/O/I/H en bouwaantallen op 14 november 2026 getoetst aan stabiele <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a>.</strong>
+      Herhaal op dezelfde plek de bouwtoets voor 1 → 5 → 10 → 15, dan stappen van 5 tot 50 en terug naar 1. Alt+muiswiel past met 1 aan. Upgrades en Atom Bombs gebruiken dit aantal; nieuwbouw, Hydrogen Bomb en MIRV blijven x1. Goud en geladen Silo-buizen begrenzen atoombundels nog steeds.
+      Standaardlabels volgen je toetsenbordindeling, zoals ZQSD op AZERTY. Opgeslagen bindings gaan voor. De trainingsgids behoudt zijn vermelde v35-bereik.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
@@ -155,7 +161,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Dit zijn v35-standaardtoetsen. In v0.35.2 kun je ook alle oorlogsschepen, grafische reset en vakselectie opnieuw binden; controleer je opgeslagen instellingen voor je oefent.
+      De v36-toevoegingen vullen de v35-bediening aan. Controleer je opgeslagen bindings; de historische herindelingsinformatie behoudt de vermelde verificatiedatum.
     </p>
   </section>
 </BaseLayout>

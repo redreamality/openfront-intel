@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: '建造 / 单位数字键',
-    note: '按一次是 x1；同一按键再按一次，会为已有建筑升级或原子弹切到 x5。新建建筑、氢弹与 MIRV 仍是 x1。',
+    note: '在同一位置重复按建造键，数量按 1 → 5 → 10 → 15 循环，随后每次加 5，达到 50 后回到 1。数量用于已有建筑升级和原子弹；新建建筑、氢弹与 MIRV 仍是 x1。',
     rows: [
       { keys: ['1'], action: '建造城市 City' },
       { keys: ['2'], action: '建造工厂 Factory' },
@@ -21,12 +21,14 @@ const groups: Group[] = [
       { keys: ['5'], action: '建造导弹井 Missile Silo' },
       { keys: ['6'], action: '建造 SAM 发射器' },
       { keys: ['7'], action: '建造战舰 Warship' },
-      { keys: ['8'], action: '原子弹 —— 发射后保持武装；再按一次 8 切换已装填发射管的 x5 批量' },
+      { keys: ['8'], action: '原子弹 —— 发射后保持武装；重复按 8 增加批量，受金币与已装填发射管限制' },
       { keys: ['9'], action: '氢弹 —— 发射后仍挂在光标上，可连点连发' },
       { keys: ['0'], action: 'MIRV 多弹头' },
       { keys: ['Enter'], action: '在光标处建造已装填的单位' },
       { keys: ['U'], action: '翻转已装填核弹的发射弧线（向上 / 向下）' },
       { keys: ['Esc'], action: '取消建造预览' },
+      { keys: ['H'], action: '按住后新建独立建筑，避免升级附近已有建筑' },
+      { keys: ['Alt', '滚轮'], action: '将已选建造数量逐个增减，范围 1–50；此时不缩放地图' },
     ],
   },
   {
@@ -81,6 +83,9 @@ const groups: Group[] = [
       { keys: ['R'], action: '为光标下的玩家打开快捷聊天' },
       { keys: ['K'], action: '向悬停的玩家请求结盟' },
       { keys: ['L'], action: '解除同盟' },
+      { keys: ['J'], action: '向光标下的盟友发送兵力' },
+      { keys: ['O'], action: '为光标下的盟友打开发送金币窗口' },
+      { keys: ['I'], action: '切换光标下玩家的信息面板' },
     ],
   },
   {
@@ -97,18 +102,19 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront 快捷键"
-  description="OpenFront.io v35 默认键位速查表：X 全选战舰，F 表情，R 快捷聊天；核对正式 v0.35.2 的设置与保存的绑定。"
+  description="OpenFront.io v36 默认键位速查表：J/O 捐兵与金币，I 玩家面板，H 独立建造，批量数量循环和鼠标操作；实际以保存的绑定为准。"
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront 快捷键"
-    lead="本页是 OpenFront.io 默认键位的速查表，按用途列出 v35 键盘快捷键、鼠标操作与建造热键。需要战场流程、练习步骤和输入恢复时，请转到独立的快捷键教程。大多数动作键可在 设置 → 键位绑定 中重映射，下方三个流程也有独立设置。macOS 上把 Ctrl 看作 Cmd。"
+    lead="本页是 OpenFront.io 默认键位的速查表，按用途列出键盘快捷键、鼠标操作与建造热键，并补充下方 v36 新操作。需要战场流程、练习步骤和输入恢复时，请转到独立的快捷键教程。大多数动作键可在 设置 → 键位绑定 中重映射。macOS 上把 Ctrl 看作 Cmd。"
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">X/F/R 操作与改键已于 2026 年 10 月 21 日按正式 v0.35.2 核验；既有建造场景保留原版本范围。</strong>
-      同一建造键连按两次，会为已有建筑升级或原子弹在 x1 / x5 间切换。径向菜单为建筑提供 x1/x5/x10/xMax，为原子弹提供 x1/x2/x5/xMax；金币与已装填 Silo 发射管限制 xMax。
+      <strong class="text-iron-100">J/O/I/H 与建造数量已于 2026 年 11 月 14 日按正式 <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> 核验。</strong>
+      在同一位置重复按建造键，数量为 1 → 5 → 10 → 15，随后每次加 5，达到 50 后回到 1。Alt+滚轮逐个增减。已有建筑升级和原子弹使用该数量；新建建筑、氢弹与 MIRV 仍为 x1。原子弹批量仍受金币和已装填发射管限制。
+      默认键位提示跟随键盘布局，例如 AZERTY 的 ZQSD；保存的绑定优先。训练教程保留其标注的 v35 范围。
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
@@ -155,7 +161,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      以上为 v35 默认键位。v0.35.2 也支持修改全选战舰、图形重置和框选战舰绑定；练习前先检查你保存的设置。
+      上方 v36 新操作补充原 v35 键位；练习前先检查保存的设置。历史改键说明保留其标注的核验日期。
     </p>
   </section>
 </BaseLayout>

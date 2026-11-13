@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Touches chiffrées (bâtiments & unités)',
-    note: 'Une pression donne x1. Répétez la même touche pour basculer en x5 sur une amélioration existante ou une Atom Bomb ; nouvelle structure, Hydrogen Bomb et MIRV restent x1.',
+    note: 'Au même endroit, répétez la touche pour 1 → 5 → 10 → 15, puis par 5 jusqu’à 50 et retour à 1. Cette quantité concerne les améliorations et les Atom Bombs ; nouvelle structure, Hydrogen Bomb et MIRV restent x1.',
     rows: [
       { keys: ['1'], action: 'Construire une Ville (City)' },
       { keys: ['2'], action: 'Construire une Usine (Factory)' },
@@ -21,12 +21,14 @@ const groups: Group[] = [
       { keys: ['5'], action: 'Construire un Silo à missiles (Missile Silo)' },
       { keys: ['6'], action: 'Construire un Lanceur SAM' },
       { keys: ['7'], action: 'Construire un Navire de guerre (Warship)' },
-      { keys: ['8'], action: 'Bombe atomique — reste armée ; retapez 8 pour un lot x5 limité aux tubes chargés' },
+      { keys: ['8'], action: 'Bombe atomique — reste armée ; répétez 8 pour augmenter le lot, limité par l’or et les tubes chargés' },
       { keys: ['9'], action: 'Bombe à hydrogène — reste armée pour tirer en rafale' },
       { keys: ['0'], action: 'MIRV' },
       { keys: ['Enter'], action: 'Construire l\'unité armée sous le curseur' },
       { keys: ['U'], action: 'Inverser l\'arc de tir d\'une nuke armée (haut / bas)' },
       { keys: ['Esc'], action: 'Annuler l\'aperçu de construction' },
+      { keys: ['H'], action: 'Maintenir pour construire séparément au lieu d’améliorer une structure proche' },
+      { keys: ['Alt', 'Molette'], action: 'Ajuster la quantité de 1 entre 1 et 50, sans zoomer' },
     ],
   },
   {
@@ -81,6 +83,9 @@ const groups: Group[] = [
       { keys: ['R'], action: 'Ouvrir le chat rapide pour le joueur sous le curseur' },
       { keys: ['K'], action: 'Demander une alliance au joueur survolé' },
       { keys: ['L'], action: 'Rompre une alliance' },
+      { keys: ['J'], action: 'Envoyer des troupes à l’allié sous le curseur' },
+      { keys: ['O'], action: 'Ouvrir la fenêtre d’envoi d’or à l’allié sous le curseur' },
+      { keys: ['I'], action: 'Afficher ou masquer le panneau du joueur sous le curseur' },
     ],
   },
   {
@@ -97,18 +102,19 @@ const groups: Group[] = [
 
 <BaseLayout
   title="Raccourcis OpenFront"
-  description="Raccourcis OpenFront.io v35 : X sélectionne la flotte, F ouvre les emojis, R le chat rapide. Vérifiez vos touches enregistrées."
+  description="Raccourcis OpenFront.io v36 : dons J/O, panneau I, construction séparée H, quantités et souris. Vérifiez vos touches enregistrées."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="Raccourcis OpenFront"
-    lead="Cette page est la référence de consultation des touches par défaut v35 : clavier, souris et construction dans OpenFront.io. Pour les enchaînements de combat, l'entraînement et la récupération après erreur, utilisez le guide Hotkeys séparé. La plupart des commandes sont réassignables dans Paramètres → Raccourcis, y compris les trois séquences ci-dessous. Sur macOS, lisez Ctrl comme Cmd."
+    lead="Cette page est la référence de consultation des touches par défaut : clavier, souris et construction dans OpenFront.io, avec les ajouts v36 ci-dessous. Pour les enchaînements de combat, l'entraînement et la récupération après erreur, utilisez le guide Hotkeys séparé. La plupart des commandes sont réassignables dans Paramètres → Raccourcis. Sur macOS, lisez Ctrl comme Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">Commandes X/F/R et réassignation vérifiées en v0.35.2 stable le 21 octobre 2026 ; les exemples de construction gardent leur portée antérieure.</strong>
-      Deux pressions sur la même touche basculent x1 / x5 pour une amélioration existante ou une Atom Bomb. Le menu radial propose x1/x5/x10/xMax pour les structures et x1/x2/x5/xMax pour les Atom Bombs ; l’or et les tubes chargés limitent xMax.
+      <strong class="text-iron-100">J/O/I/H et quantités vérifiés en <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> stable le 14 novembre 2026.</strong>
+      Au même endroit, répétez la touche pour 1 → 5 → 10 → 15, puis par 5 jusqu’à 50 et retour à 1. Alt+molette ajuste de 1. Les améliorations et Atom Bombs utilisent cette quantité ; nouvelle structure, Hydrogen Bomb et MIRV restent x1. L’or et les tubes chargés limitent toujours les lots atomiques.
+      Les touches affichées suivent votre clavier, dont ZQSD sur AZERTY. Vos réglages enregistrés priment. Le guide d’entraînement conserve sa portée v35 annoncée.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
@@ -155,7 +161,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Ce sont les valeurs par défaut v35. La v0.35.2 permet aussi de réassigner la sélection globale des navires, la réinitialisation graphique et la sélection en boîte ; vérifiez vos réglages avant de pratiquer.
+      Les ajouts v36 complètent les commandes v35. Vérifiez vos réglages enregistrés ; les détails historiques de réassignation gardent leur date de vérification indiquée.
     </p>
   </section>
 </BaseLayout>

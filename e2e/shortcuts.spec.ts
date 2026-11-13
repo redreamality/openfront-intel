@@ -22,10 +22,12 @@ const cases = [
     economyHrefEnd: '/mechanics/economy/',
     nukesHrefEnd: '/mechanics/nukes/',
     rightClick: 'Cancel an active Warship',
-    bulk: 'x1/x2/x5/xMax',
+    bulk: '1 → 5 → 10 → 15',
     fixed: 'Your saved bindings take precedence',
     intent: 'default-key lookup reference',
     boxSelectKey: 'Shift',
+    donation: ['Send troops to the ally', 'Open the send-gold window'],
+    separateBuild: 'Hold to place a separate structure',
     bcAria: 'Breadcrumb',
     home: 'Home',
   },
@@ -41,10 +43,12 @@ const cases = [
     economyHrefEnd: '/zh/mechanics/economy/',
     nukesHrefEnd: '/zh/mechanics/nukes/',
     rightClick: '取消当前战舰',
-    bulk: 'x1/x2/x5/xMax',
+    bulk: '1 → 5 → 10 → 15',
     fixed: '实际操作以你保存的绑定为准',
     intent: '默认键位的速查表',
     boxSelectKey: 'Shift',
+    donation: ['向光标下的盟友发送兵力', '为光标下的盟友打开发送金币窗口'],
+    separateBuild: '按住后新建独立建筑',
     bcAria: '面包屑导航',
     home: '首页',
   },
@@ -60,10 +64,12 @@ const cases = [
     economyHrefEnd: '/fr/mechanics/economy/',
     nukesHrefEnd: '/fr/mechanics/nukes/',
     rightClick: 'annuler une sélection active',
-    bulk: 'x1/x2/x5/xMax',
+    bulk: '1 → 5 → 10 → 15',
     fixed: 'Vos réglages priment',
     intent: 'référence de consultation des touches par défaut',
     boxSelectKey: 'Maj',
+    donation: ['Envoyer des troupes', 'fenêtre d’envoi d’or'],
+    separateBuild: 'Maintenir pour construire séparément',
     bcAria: 'Fil d’Ariane',
     home: 'Accueil',
   },
@@ -79,10 +85,12 @@ const cases = [
     economyHrefEnd: '/de/mechanics/economy/',
     nukesHrefEnd: '/de/mechanics/nukes/',
     rightClick: 'aktive Warship',
-    bulk: 'x1/x2/x5/xMax',
+    bulk: '1 → 5 → 10 → 15',
     fixed: 'Deine gespeicherte Belegung hat Vorrang',
     intent: 'feste Referenz zum schnellen Nachschlagen',
     boxSelectKey: 'Shift',
+    donation: ['Truppen an den Verbündeten', 'Goldversand-Fenster'],
+    separateBuild: 'Gedrückt halten, um separat zu bauen',
     bcAria: 'Brotkrümelnavigation',
     home: 'Startseite',
   },
@@ -98,10 +106,12 @@ const cases = [
     economyHrefEnd: '/nl/mechanics/economy/',
     nukesHrefEnd: '/nl/mechanics/nukes/',
     rightClick: 'actieve oorlogsschip',
-    bulk: 'x1/x2/x5/xMax',
+    bulk: '1 → 5 → 10 → 15',
     fixed: 'Je opgeslagen bindings gaan voor',
     intent: 'vaste referentie om standaard sneltoetsen snel op te zoeken',
     boxSelectKey: 'Shift',
+    donation: ['Troepen sturen naar de bondgenoot', 'Venster voor goud sturen'],
+    separateBuild: 'Ingedrukt houden om apart te bouwen',
     bcAria: 'Kruimelpad',
     home: 'Home',
   },
@@ -131,6 +141,15 @@ for (const c of cases) {
     await expect(page.locator('main')).toContainText('v0.35.2');
     await expect(page.locator('main')).toContainText(c.rightClick);
     await expect(page.locator('main')).toContainText(c.bulk);
+    await expect(page.locator('main')).toContainText('v0.36.2');
+    await expect(page.locator('main')).toContainText('ZQSD');
+    await expect(page.locator('#build kbd').filter({ hasText: /^H$/ })).toHaveCount(1);
+    await expect(page.locator('#build')).toContainText(c.separateBuild);
+    for (const text of c.donation) await expect(page.locator('#diplomacy')).toContainText(text);
+    const amountRow = page.locator('#build tr').filter({ has: page.locator('kbd').filter({ hasText: /^Alt$/ }) });
+    await expect(amountRow).toHaveCount(1);
+    await expect(amountRow).toContainText('1');
+    await expect(amountRow).toContainText('50');
     await expect(page.locator('main')).toContainText(c.intent);
 
     // Stable v35 defaults and custom bindings must agree with the action rows.
@@ -143,7 +162,7 @@ for (const c of cases) {
     await expect(boundary).toContainText('X');
     await expect(page.locator('#combat kbd').filter({ hasText: /^X$/ })).toHaveCount(1);
     await expect(page.locator('#combat kbd').filter({ hasText: /^F$/ })).toHaveCount(0);
-    await expect(page.locator('#diplomacy kbd')).toHaveText(['F', 'R', 'K', 'L']);
+    await expect(page.locator('#diplomacy kbd')).toHaveText(['F', 'R', 'K', 'L', 'J', 'O', 'I']);
     await expect(page.locator('#misc kbd')).toContainText(['Esc', 'Enter', 'Alt', 'R']);
     await expect(page.locator('#camera')).toContainText('Q W E A S D');
     await expect(boundary).not.toContainText('beta');

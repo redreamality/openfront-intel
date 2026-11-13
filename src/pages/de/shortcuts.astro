@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Bau- & Einheiten-Zahlentasten',
-    note: 'Einmal drücken ergibt x1. Derselbe Hotkey schaltet beim vorhandenen Upgrade oder bei der Atom Bomb auf x5; Neubau, Hydrogen Bomb und MIRV bleiben x1.',
+    note: 'Am selben Ort schaltet wiederholtes Drücken durch 1 → 5 → 10 → 15, dann in Fünferschritten bis 50 und zurück auf 1. Die Menge gilt für Upgrades und Atom Bombs; Neubau, Hydrogen Bomb und MIRV bleiben x1.',
     rows: [
       { keys: ['1'], action: 'Stadt (City) bauen' },
       { keys: ['2'], action: 'Fabrik (Factory) bauen' },
@@ -21,12 +21,14 @@ const groups: Group[] = [
       { keys: ['5'], action: 'Raketensilo (Missile Silo) bauen' },
       { keys: ['6'], action: 'SAM-Werfer bauen' },
       { keys: ['7'], action: 'Kriegsschiff (Warship) bauen' },
-      { keys: ['8'], action: 'Atombombe — bleibt scharf; 8 erneut drücken wählt ein x5-Paket aus geladenen Rohren' },
+      { keys: ['8'], action: 'Atombombe — bleibt scharf; 8 wiederholt erhöht die Menge, begrenzt durch Gold und geladene Silo-Rohre' },
       { keys: ['9'], action: 'Wasserstoffbombe — bleibt für Salven scharf' },
       { keys: ['0'], action: 'MIRV' },
       { keys: ['Enter'], action: 'Scharfe Einheit unter dem Cursor bauen' },
       { keys: ['U'], action: 'Flugbogen einer scharfen Nuke umdrehen (hoch / runter)' },
       { keys: ['Esc'], action: 'Bau-Vorschau abbrechen' },
+      { keys: ['H'], action: 'Gedrückt halten, um separat zu bauen statt ein nahes Gebäude aufzuwerten' },
+      { keys: ['Alt', 'Mausrad'], action: 'Baumenge um 1 zwischen 1 und 50 ändern, ohne zu zoomen' },
     ],
   },
   {
@@ -81,6 +83,9 @@ const groups: Group[] = [
       { keys: ['R'], action: 'Schnellchat für den Spieler unter dem Zeiger öffnen' },
       { keys: ['K'], action: 'Bündnis mit dem anvisierten Spieler anfragen' },
       { keys: ['L'], action: 'Bündnis brechen' },
+      { keys: ['J'], action: 'Truppen an den Verbündeten unter dem Cursor senden' },
+      { keys: ['O'], action: 'Goldversand-Fenster für den Verbündeten unter dem Cursor öffnen' },
+      { keys: ['I'], action: 'Spielerpanel für den Spieler unter dem Cursor ein- oder ausblenden' },
     ],
   },
   {
@@ -97,18 +102,19 @@ const groups: Group[] = [
 
 <BaseLayout
   title="OpenFront Tastenkürzel"
-  description="OpenFront.io-v35-Tasten: X wählt alle Warships, F öffnet Emojis, R den Schnellchat. Prüfe deine gespeicherte Belegung vor den Übungen."
+  description="OpenFront.io-v36-Tasten: J/O für Spenden, I für Spieler, H für getrennte Gebäude sowie Baumengen und Maussteuerung. Gespeicherte Belegung prüfen."
 >
   <PageHeader
     eyebrow="SHORTCUTS"
     title="OpenFront Tastenkürzel"
-    lead="Diese Seite ist die feste Referenz zum schnellen Nachschlagen der v35-Standardtasten, Maussteuerungen und Bau-Hotkeys von OpenFront.io. Für Gefechtsabläufe, Übungen und Eingabeerholung nutze den separaten Hotkey-Guide. Die meisten Aktionen lassen sich unter Einstellungen → Tastenbelegung ändern, auch die drei Abläufe unten. Unter macOS gilt Strg als Cmd."
+    lead="Diese Seite ist die feste Referenz zum schnellen Nachschlagen der Standardtasten, Maussteuerungen und Bau-Hotkeys von OpenFront.io, ergänzt um die v36-Aktionen unten. Für Gefechtsabläufe, Übungen und Eingabeerholung nutze den separaten Hotkey-Guide. Die meisten Aktionen lassen sich unter Einstellungen → Tastenbelegung ändern. Unter macOS gilt Strg als Cmd."
   />
 
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
-      <strong class="text-iron-100">X/F/R und Neubelegung am 21. Oktober 2026 in v0.35.2 stable geprüft; bestehende Baubeispiele behalten ihren bisherigen Geltungsbereich.</strong>
-      Derselbe Bau-Hotkey schaltet beim vorhandenen Upgrade oder bei der Atom Bomb zwischen x1 / x5. Das Radialmenü bietet x1/x5/x10/xMax für Gebäude und x1/x2/x5/xMax für Atom Bombs; Gold und geladene Silo-Rohre begrenzen xMax.
+      <strong class="text-iron-100">J/O/I/H und Baumengen am 14. November 2026 in <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> stable geprüft.</strong>
+      Am selben Ort durchläuft derselbe Bau-Hotkey 1 → 5 → 10 → 15, dann Fünferschritte bis 50 und zurück auf 1. Alt+Mausrad ändert um 1. Upgrades und Atom Bombs nutzen diese Menge; Neubau, Hydrogen Bomb und MIRV bleiben x1. Gold und geladene Silo-Rohre begrenzen Atom-Bomb-Salven weiterhin.
+      Die Standardbeschriftung folgt deinem Tastaturlayout, etwa ZQSD bei AZERTY. Gespeicherte Belegungen haben Vorrang. Der Trainingsguide behält seinen angegebenen v35-Geltungsbereich.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
@@ -155,7 +161,7 @@ const groups: Group[] = [
     </p>
 
     <p class="text-xs text-iron-500">
-      Dies sind v35-Standardbelegungen. In v0.35.2 lassen sich auch alle Warships, Grafik-Reset und Boxauswahl neu belegen; prüfe vor den Übungen deine gespeicherten Einstellungen.
+      Die v36-Ergänzungen erweitern die v35-Steuerung. Prüfe deine gespeicherte Belegung; die historischen Angaben zur Neubelegung behalten ihr genanntes Prüfdatum.
     </p>
   </section>
 </BaseLayout>
