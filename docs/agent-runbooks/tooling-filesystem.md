@@ -1,5 +1,8 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-11-15 地图尺寸维护读取恢复**：按 slug 猜测旧来源包路径，末条 `Get-Content -ErrorAction SilentlyContinue` 因目标不存在仍返回 1；改用 `rg --files docs/research` 枚举并为有限维护建立独立正式 Release 证据报告。一次多文件补丁又因未读取 runbook 标题而原子拒绝，确认无部分写入后按真实标题拆批恢复。首次全量 memory 与多个 runbook 合并读取产生输出截断，改按热状态和分段读取；没有读取 archive、改 AGENTS.md 或覆盖其他工作区。
+- 同轮日志过滤曾省略 `Select-String` 的 `-LiteralPath` / `-Pattern`，位置绑定把 `FAIL` 当成文件路径。显式指定两项后成功读取真实审计失败；该错误不代表日志文件缺失。
+
 - **2026-11-13 自动化基线恢复**：调度器独立 worktree 初始停在前一日隔离修复合并前的提交，读取 `automation-workspace.md` 因文件尚未存在失败。先核验远端 main，再在本轮干净 worktree 从该基线建立唯一分支，重新完整读取合同与 runbook；没有改其他 worktree。首次 `cache/runs` 目录不存在也是正常首次运行状态，枚举前先确认存在；编辑前创建 manifest，不能把缺目录当成有未完成任务或网络故障。初次 memory 全量输出过大，后续按热状态定量读取，历史归档未访问。
 
 - **2026-11-12 v36 响应路径恢复**：猜测 `src/components/HomeHero.astro` 导致读取不存在；首页 hero 实际内联于五语 `src/pages/**/index.astro`。按实际页面读取恢复。一份多文件补丁又因猜测本 runbook 标题为“工具、路径与临时文件”而原子拒绝；复读真实标题后重发成功，无部分写入。未修改 AGENTS.md。
