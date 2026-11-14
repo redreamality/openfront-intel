@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- 地图尺寸答案维护：[v36 World 地图边界](research/2026-11-15-map-size-maintenance.md) 为既有五语 map-size-compact-mode 补齐 World 10000、World 4000 替换 Giant World 及手机负载边界；v33.7 尺寸排行、Compact 数值和人数例子明确保留历史范围，不冒充当前全图排名。本 PR 合并即完成并转 Monitoring；下一触发为相关正式地图变化、确认错误或本批自身完整 GSC final 窗口。
+
 - 快捷键速查维护：[v36 五语操作增量](research/2026-11-14-shortcuts-maintenance.md) 补齐既有 `/shortcuts/` 的 J/O 捐赠、I 玩家面板、H 独立建造，以及建造数量 1→5→10→15 至 50 的循环和 Alt+滚轮。训练长文保留原 v35 核验范围，不新增重复答案。本 PR 合并即完成并转 Monitoring；下一触发为相关正式操作变化、确认错误或本批自身完整 GSC final 窗口。
 
 - 移动建造维护：[五语快捷建造答案](research/2026-11-13-mobile-quick-build-maintenance.md) 将既有 mobile-controls 的首屏和建造小节同步至正式 v36 常驻栏、预览移动及二次点按确认；手势阈值和舰队细节保留旧核验边界。本 PR 合并即完成并转 Monitoring，下一触发仅为正式操作变化、确认错误或自身完整 GSC final 窗口，不新增同意图页面。
