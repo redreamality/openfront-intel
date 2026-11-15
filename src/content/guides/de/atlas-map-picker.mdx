@@ -1,0 +1,145 @@
+---
+title: "OpenFront Atlas-Kartenauswahl: Die richtige Karte in v0.36 wählen"
+description: So liest man den Atlas-Tab und das ?-Panel von v0.36 — Größe, Landanteil, Nationen und erwartete Spieler — und wählt damit die Karte passend zum gewünschten Spiel.
+pubDate: 2026-11-15
+updatedDate: 2026-11-15
+version: v36
+category: Anleitung
+tags: [maps, atlas, map-picker, player-count]
+canonicalLang: en
+freshnessSummary: "v0.36 eingeführter Atlas-Tab und das ?-Panel pro Karte; Panel-Felder, die Formel 50 Spieler pro 1 Mio Landfliesen, der Crowded-Schwellenwert 125/60 und das 146-Karten/16-Tags-System wurden an der Tag v0.36.2 verifiziert."
+---
+
+**Kurze Antwort:** In **v0.36** bekam der Kartenauswahl einen **Atlas-Tab** — eine Weltkarte mit einem Pin für jede der 100+ realen Karten — und jedes Kartenfeld zeigt über `?` seine **Größe, seinen Landanteil, seine Nationenzahl, die erwarteten Spieler und den Kartenschöpfer**. Die eine Regel mit der größten Wirkung: **Wähle nach Landanteil, nicht nach Breite.** Die erwarteten Spieler werden als **50 Spieler pro 1.000.000 Landfliesen** berechnet (die größte Stufe); eine 2500×2500-Karte, die nur **8 % Land** hat (Japan), ergibt ein **25 / 20 / 15**-Lobby, während The Box (2048×2048) mit **100 % Land** **210 / 160 / 105** ergibt. Lies diese vier Zahlen, passe sie an das gewollte Spiel an (großes gewertetes FFA, kleines Training, Marinekontrolle, Turnier), filtere nach **Kategorietags** (neu / empfohlen / turnier / kontinental / regional) und denk daran: **Nationen sind keine Spieler** — sie sind unabhängig. Das ist die ganze Entscheidung: Ziel → Tags → die vier Statistiken → die Modifikatoren-Rechnung (Crowded / Team / Kompakt). Das tiefere Gelände-Understanding nach der Kartewahl gehört in [Kartenstrategie lesen](/de/guides/map-strategy/), und die Lobby-Größen-Mathematik isoliert in [Kartengröße und Kompakt-Modus](/de/guides/map-size-compact-mode/).
+
+## Der Atlas-Tab: 146 Karten durchstöbern
+
+v0.36 hat dem Kartenauswahl eine **Atlas-Ansicht** hinzugefügt: eine stilisierte Weltkarte, auf der jede Spielkarte an ihrer geografischen Position gepinnt ist, sodass man die Auswahl nach Region durchblättert statt durch eine flache Liste zu scrollen. Der Untertitel des Bildschirms ist buchstäblich „Map Selection — The Atlas", und der Tab zeigt die **146 Karten** des Spiels.
+
+**Zoom und Verschieben.** Die Karte wird als SVG gerendert und kann zwischen **0,3× und 6×** gezoomt sowie per Ziehen verschoben werden, mit Klick-Zurücksetzen: ein Ziehen, das den Zeiger bewegt, wird rückgängig gemacht, anstatt die Karte unter dem Zeiger zu wählen. Dieses Zurücksetzen ist praktisch wichtig: Man kann eine ganze Region überfahren, um die Pins zu inspizieren, ohne das Risiko einzugehen, die erste Karte unter dem Zeiger zu wählen.
+
+**Pins als Buttons.** Jeder Pin ist ein interaktiver Button, kein statischer Marker. Beim Überfahren lädt der Client das Karten-Manifest auf Abruf und zeigt Vorschau, Autor und, über den gleichen „?"-Weg, die Statistiken. Man kann zwei benachbarte Karten vergleichen, bevor man sich festlegt. Ein Klick wählt die Karte für die Partie, und der gewählte Pin bleibt hervorgehoben, bis man wechselt. Karten, die nicht „realistisch" sind — fiktive Inseln, kosmische Arenen, angepasste Turnier-Layouts — sind ebenfalls vorhanden und erreichbar; sie passen nur nicht sauber auf einen Kontinent und sammeln sich stattdessen an den Rändern oder in kleinen Haufen.
+
+Das zählt für die Entscheidung, weil der Atlas ein **Filter nach Geografie und Vertrautheit** ist, bevor man eine einzige Zahl liest. Wer mit europäischen Kriegsschauplätzen gut zurechtkommt, kann direkt nach Europa verschieben und von den Karten ausgehen, die er schon kennt; wer gezielt Neues sucht, sieht im Atlas deutlich die Regionen, die er nie ausprobiert hat. Die weiter unten behandelten Kategorietags erledigen dasselbe Vorauswahl-Problem in der Gitteransicht, aber der Atlas tut es räumlich, und beide wurden in v0.36 zusammen geliefert mit Bedacht: Der Atlas führt zu einer Kandidatin, und das „?"-Panel bestätigt sie mit seinen vier Zahlen.
+
+Es gibt auch einen Geschwindigkeitsvorteil, den das Gitter nicht gleichmacht. Ähnliche Karten liegen beieinander, sodass man eine ganze Region in einem Blick vergleichen kann — jede Mittelmeerkarte liegt im selben Gewässer, jede Inselkette im selben Ozeanstreifen — viel einfacher als das Scrollen einer flachen Liste, in der eine Pazifikkarte und eine Mittelmeerkarte durch vierzig unzusammenhängende Einträge getrennt sind. Das Verschieben per Ziehen mit Klick-Zurücksetzen macht das nutzbar: Man fährt eine Region ab, ohne dass ein Umpositionieren die Karte unter dem Zeiger wählt, und das Erkunden bleibt ohne Reibung. Genau das ist das Ziel des Tabs — „Welche der 146 Karten will ich?" in „Welche der Karten in dieser Region will ich?" umzuwandeln.
+
+In der Praxis ist dieser regionale Vergleich der eigentliche Zeitgewinner. Wenn man für eine marine Partie eine Karte mit einer schmalen, verteidigungsfähigen Meerenge sucht, zeigt der Atlas die Kandidaten als einen sichtbaren Bogen — die Sund- und Kanal-Karten sind geografisch aneinander gereiht, sodass man drei oder vier eng zusammenliegende Pins im Vergleich sieht, statt sie aus einer Liste herauszusuchen. Ein zweiter Vorteil ist die sofortige Wiedererkennbarkeit: Eine Karte mit einem vertrauten Küstenverlauf oder einem bekannten Meer wird auf dem Pin erkannt, bevor man den Namen liest, und das verkürzt die Auswahl auf eine Bestätigung statt auf ein Lesen. Für neue Spieler, die noch keinen Kartenpark im Kopf haben, ist der Atlas auch das einzige Tool, das das ganze Angebot auf einen Blick darstellt — man sieht, wie viel Land und wie viel Ozean im Angebot liegt, und kann bewusst in die Richtung wählen, in die man wachsen will.
+
+## Die vier „?"-Statistiken
+
+Unter der Auswahl zeigt ein „?"-Panel die Statistiken der aktuellen Karte, und sie verwandeln „ich will eine große Partie" in eine konkrete Wahl. Es sind vier:
+
+- **Größe** — die Breite × Höhe der Karte in Fliesen, angezeigt als zwei Zahlen (z. B. `2500 × 2500`).
+- **Landanteil** — der Anteil der Karte, der Land ist, ein Prozentsatz, berechnet als `Land / (Breite × Höhe)`.
+- **Nationen** — die Anzahl der KI-Gebiete der Karte.
+- **Erwartete Spieler** — die Spielerzahl, die die Karte unterstützt.
+
+Diese vier Werte entsprechen dem Karten-Manifest: die Größe kommt aus `width`/`height`, der Landanteil aus `num_land_tiles`, die Nationen aus der Nationsliste, und die erwarteten Spieler aus der Funktion `mapPlayerCounts`. Beim Überfahren eines Atlas-Pins füllt sich dasselbe Panel für diese Karte, sodass man mehrere Kandidaten vergleichen kann, bevor man klickt.
+
+**Größe** ist das rohe Fliesenraster. Für sich allein reicht sie nicht: Eine 2500 × 2500 Karte kann fast vollständig Ozean sein. Deshalb wird der Landanteil daneben angezeigt — das ist der echte Kapazitätsindikator.
+
+**Landanteil** ist der Anteil der Karte, der Land ist, berechnet als `round(Land / (Breite × Höhe) × 100)`. Diese Zahl steuert die Partigröße tatsächlich, weil die Spielerformel **pro Landfliese** und nicht pro Pixel ist. Ein niedriger Anteil — viel Insel oder Ozean — ergibt eine kleinere Partie selbst auf einem großen Raster.
+
+**Erwartete Spieler** ist die **größte** Stufe der Spielerkurve der Karte — das erste der drei Werte, die die Partie würfelt. Das Panel zeigt diese Zahl; die drei Stufen (groß / mittel / klein) sind, was die Partie tatsächlich würfelt, also ist die Spitzenzahl ein Deckel, keine Zusage.
+
+Zusammengenommen lässt sich das Panel in vier Sekunden lesen: Größe zeigt das Raster, Landanteil zeigt die echte Kapazität, Nationen zeigen den KI-Druck, erwartete Spieler zeigen den menschlichen Deckel. Wenn zwei Kandidaten in die gleiche Stufe fallen, ist der Landanteil der Schiedsrichter — die Karte mit dem höheren Landanteil hält ihre Partie beim 30/60/10-Wurf voll, während die Karte mit niedrigem Anteil schneller leer wird. Das ist die operative Reihenfolge: nach Ziel und Tag vorauswählen, die Stufe bestätigen, und über den Landanteil entscheiden, nicht über die Karte mit dem größten Vorschau.
+
+Ein praktisches Detail, das man leicht übersieht: Die vier Felder sind keine unabhängigen Messwerte, sondern ein zusammenhängendes Bild derselben Karte. Der Landanteil erklärt, warum die Größe nicht die Partie bestimmt; die Nationen erklären, wie viel KI die Karte in der Partie erzeugt; und die erwarteten Spieler erklären, wie viel Mensch die Karte trägt. Weil sie zusammen aus demselben Manifest kommen, kann man ein Feld gegen die anderen prüfen: Eine Karte mit hoher Nationenzahl und niedrigem Landanteil ist eine große Ozeanwelt mit viel KI und wenig menschlichem Platz, und genau das Profil macht sie für große gewertete FFA ungeeignet. Dieses Kreuzprüfen ist der eigentliche Wert des Panels — nicht vier isolierte Zahlen, sondern ein einziges konsistentes Porträt, das man in vier Sekunden ablesen kann, bevor man klickt.
+
+## Kartengröße zu Lobby-Größe
+
+Die Zahl der erwarteten Spieler ist nicht willkürlich; sie kommt aus einer Formel, die man auf jeder Karte ausführen kann, sodass man die Partie schätzen kann, bevor man klickt. Die gemeinsame Funktion `mapPlayerCounts` nimmt die **Zahl der Landfliesen** der Karte und erzeugt **50 Spieler pro 1.000.000 Landfliesen**, dann nimmt sie **75 %** und **50 %** dieser Zahl, und alle drei Werte werden **auf Vielfache von 5 gerundet**, mit einem festen Untergrenzen-Wert von 5. Daraus ergeben sich die drei Stufen als `groß / mittel / klein`, etwa `1,0× / 0,75× / 0,5×` der 50-pro-Million-Basis, und das ist die ganze Skala, auf der die Partie kalibriert wird.
+
+Beispiel mit echten v0.36.2-Zahlen: **Japan** hat etwa 478.894 Landfliesen, also `478.894 / 1.000.000 × 50 ≈ 23,9`, gerundet auf **25**, dann **20**, dann **15**. **Four Islands** hat 517.506 Landfliesen und landet auf demselben **25 / 20 / 15** — zwei sehr unterschiedliche Karten mit derselben Partie, weil ihr *Land* gleich groß ist, selbst wenn ihre Raster nicht gleich sind. **The Box** hat 4.194.304 Landfliesen und erzeugt **210 / 160 / 105**. **World 10000** hat 14.395.954 Landfliesen und erzeugt **720 / 540 / 360**. Man kann jedes verifizieren, indem man einfach den Landanteil liest: Landfliesen ≈ `Breite × Höhe × (Anteil % / 100)`, und man ist innerhalb weniger Prozentpunkte von den erwarteten Stufen, ohne einen Taschenrechner zu öffnen.
+
+Ein zweites Beispielpaar zeigt, warum der Landanteil und nicht das Raster der zu beachtende Wert ist. Eine 1800 × 1200 Karte mit niedrigem Landanteil von etwa 35 % hat etwa 756.000 Landfliesen und landet auf etwa **38 / 30 / 20** — eine mittlere Karte, selbst wenn ihr Raster groß ist. Eine kleinere 1200 × 1200 Karte mit hohem Landanteil von etwa 90 % hat etwa 1.296.000 Landfliesen und landet auf etwa **65 / 50 / 35**, eine größere Partie trotz kleinerem Raster. Die große Karte *sieht* in der Vorschau größer aus, aber ihr Ozean frisst das Land, das die Partie versorgt hätte. Das ist der häufigste Intuitionsfehler, und genau dafür existiert das Panel: den Landanteil lesen, bevor man dem Maßstabsgefühl der Vorschau vertraut.
+
+Die Partie wählt nicht immer die größte Zahl. Im **FFA** würfelt sie **30 % groß / 60 % mittel / 10 % klein**, also landet eine „25"-gekündigte Karte in der Praxis meist bei etwa 20. In **Team-Modi** multipliziert sie die gewürfelte Basis mit **1,5**, gedeckelt auf die große Zahl, also läuft dieselbe Karte deutlich voller im Team. **Kompakt** reduziert die Partie auf **25 %** (Untergrenze 3) dessen, was gewürfelt wurde. Wenn man diese drei Fakten weiß, bedeutet „erwartete Spieler" im „?"-Panel der *Deckel des häufigsten FFA-Wurfs*, keine Garantie — deshalb verwenden die Szenarien unten die echten Stufen, nicht nur die Spitzenzahl, und die vollständige Lobby-Größen-Behandlung, einschließlich Kompakt, steht in [Kartengröße und Kompakt-Modus](/de/guides/map-size-compact-mode/).
+
+Zwei praktische Konsequenzen folgen daraus. Erstens sind die Spitzenzahl und die Zahl, bei der man tatsächlich sitzt, meist unterschiedlich, also aufhören, „erwartete Spieler" im Panel als Raumzahl zu betrachten — es ist das oberste Glied einer dreigliedrigen Leiter, und das wahrscheinlichste Glied ist das mittlere. Zweitens ist die Leiter linear in Landfliesen, also ist eine Karte mit doppelter Landfläche etwa doppelt so groß in der Partie, wodurch man einen Panelwert gegen eine bereits bekannte Karte prüfen kann: Hat eine Stufe-125-Karte etwa die gleiche Landfläche wie eine kleinere Karte, die man bei 65 spielte, stimmen die Zahlen überein, und wenn sie weit auseinanderliegen, den Landanteil neu lesen, bevor man dem Panel vertraut.
+
+## Mit Kategorietags vorauswählen
+
+Jede Karte trägt eine Liste **Kategorietags**, die ihre Designabsicht kodieren — das ist das schnellste Signal, die Auswahl einzuschränken, bevor man eine Zahl liest. Das Spiel unterscheidet viele Kategorien: das Spiel selbst (Arcade, Turnier), das Gelände (Inseln, Ozean, Kontinent, Länder), Thema und Herkunft (Nationen, Welt, Community, Neu, Saison, angepasst). Die nützlichsten für die Entscheidung sind:
+
+- **Arcade** — kompakte, direkte Karten, oft wenige Nationen, gemacht für schnelle, spaßige Partien.
+- **Turnier** — Karten, die für kompetitives Spiel als fair und ausbalanciert gelten; das ist der Tag, den man für gewertetes Spiel prüfen sollte.
+- **Inseln** — mehrere getrennte Landmassen; die Gesamllandfläche kann auf einem großen Raster niedrig sein.
+- **Ozean** — von Wasser dominiertes Raster; der Landanteil ist oft niedrig, was kleinere Partien ergibt.
+- **Kontinent** — ausgedehnte zusammenhängende Landmassen; oft hoher Landanteil und viele Nationen.
+- **Nationen** — ein Set landbasierter Kriegsschauplätze, meist wenige Nationen.
+- **Neu** — frisch; die in v0.36 hinzugefügten Karten (Paris, Londe, Mexiko, Kanada, Türkei, Osmanisches Reich 1683, Zealandia, Brahmaputra) tragen diesen Tag.
+- **Saison** — an ein vorübergehendes Event gekoppelte Karten; Partien darauf können zeitlich begrenzt sein.
+- **Angepasst / Community** — von der Community oder Spielern erstellte Karten; ihre Qualität und ihr Ausbalancierung variieren, also die vier Zahlen vor der Festlegung bestätigen.
+
+Der Grund, warum die Tags zuerst kommen, ist, dass sie die *Absicht* und nicht die *Größe* kodieren. Ein „empfohlen"-Tag sagt, die Karte ist gut gemacht; ein „Turnier"-Tag sagt, sie ist gesichert; ein „Länder"-Tag sagt, der Schauplatz ist kompakt. Keiner sagt die Partigröße, deshalb folgt dem Tag immer die vier Zahlen. Wer nur nach Tag filtert und auf das erste Ergebnis klickt, landet manchmal auf einer Karte, deren Stufen das Gegenteil dessen sind, was man wollte — genau dieser Fehler, dem der Rest dieses Leitfadens vorbeugen soll.
+
+Eine nützliche Gewohnheit ist, zwei Tags zugleich zu kombinieren, weil die meisten realen Ziele zweidimensional sind. „Gewertetes FFA" ist in Wirklichkeit *Turnier* plus *hoher Landanteil*; „schnelles Solo-Training" ist *Arcade* plus *niedrige Spitze*; „vertraute Marinepartie" ist *Kontinent* plus *eine Meerenge, die man in der Atlas-Vorschau benennen kann*. Die Tags bringen einen in die richtige Nachbarschaft im Kartenpark, und die vier Statistiken bestätigen die spezifische Karte in dieser Nachbarschaft. Dieses zwei-Schritte-Lesen — erst Tag, dann Zahlen — ist der ganze Workflow und schnell genug, um bei jeder Partie gemacht zu werden.
+
+Ein Tag verdient eine Sonderbehandlung: **Turnier**. Ein Turnier-Tag ist eine Qualitätsschranke auf die *Fairness* — ausgewogene Spawn-Verteilung, kein dominierender Engpass, eine unter echten Partien getestete Form — also ist es der Tag, dem man vertraut, wenn die stakes der Partie höher sind als die der Karte. Eine „empfohlene" Karte kann hübsch, aber für ernstes Spiel unausbalanciert sein, und eine „Community"-Karte kann lustig, aber unter Druck nie getestet sein. Wenn die Tagliste einen Turnier-Marker enthält und die vier Zahlen in der Zielbande liegen, hat man die seltene Kombination einer gesicherten Form in der gewünschten Größe, und das ist die risikolosere Wahl im gesamten Auswahl-Tool.
+
+## Für ein konkretes Ziel wählen
+
+Tags und die vier Statistiken sind nur nützlich gegenüber einem konkreten Ziel, also durchläuft dieser Abschnitt die Ziele, die Spieler tatsächlich benennen, und die Karten, die darauf passen. Das Schema ist in jedem Fall gleich: nach Tag vorauswählen, dann über Landanteil und Stufen bestätigen.
+
+**Großes gewertetes FFA.** Vorauswählen Sie **empfohlene** oder **turnier** Karten mit hohem *Landanteil*, weil die große Stufe mit Land skaliert. **World 4000** (2.486.582 Landfliesen, **29 % Land**, 111 Nationen) und **Russland** (2.540.087 Landfliesen, **47 % Land**, 82 Nationen) liegen beide bei **125 / 95 / 65** — eine volle, lange, kompetitive Partie. Vermeiden Sie hier Insel- und Ozeankarten: Ihr niedriger Landanteil hält die Partie klein, egal wie breit das Raster ist, also ist eine „große" Ozeankarte eine getarnte kleine Partie.
+
+**Klein und schnell.** Man will die *niedrigste* Spitze, damit die Partie schnell endet. **Four Islands** und **Japan** landen bei **25** mit nur 4–12 Nationen — ein paar Minuten KI, schnelles Neustarten und Platz, ein bestimmtes Opening zu trainieren. Der Tag **Arcade** ist genau dafür gebaut, und die niedrige Nationszahl bedeutet, dass man sich nicht bei jeder Runde durch vierzig KI-Gebiete bewegen muss.
+
+**Marinekontrolle und Engpässe.** Landanteil und Nationszahl zählen beide: Man will genug Land zur Verteidigung und genug Wasser für echte Marine. **Mare Nostrum** (2.644.620 Landfliesen, **64 % Land**, 38 Nationen, **130 / 100 / 65**) und der **Gibraltar-Sund** (1.957.694 Landfliesen, **46 % Land**, 16 Nationen) sind mittlere Karten, deren Geografie der Punkt des Spiels ist. In der Atlas-Pin-Vorschau lesen, ob die gesuchte Meerenge oder See wirklich auf der gewählten Karte liegt, denn eine mittlere Karte mit den falschen Kanälen ist eine verlorene Partie.
+
+**Turnier und kompetitiv.** Verwenden Sie den Tag **Turnier**, kreuzen Sie **empfohlen** ab und bestätigen Sie, dass der Deckel die gewünschte Spielerzahl trägt — ein 40-Spieler-Bracket braucht eine Karte mit großer Stufe mindestens 40, und die hier genannten 125/160/210-Karten überschreiten diese Grenze alle mit großem Abstand. Die v0.36-Zusätze hier sind **World 10000** für die größte gesicherte Partie und die neuen regionalen Karten für frische Turnier-Varietät.
+
+Das verbindende Muster über alle vier Ziele ist das gleiche zwei-Schritte-Lesen: Der Tag verkleinert den Park auf den richtigen *Typ* Karte, und die vier Zahlen bestätigen die *Größe* in diesem Typ. Ein Ziel, das nur Größe betrifft (schnelles Training, großes gewertet), setzt stark auf Landanteil und Spitze; ein Ziel, das nur Geografie betrifft (Marine-Engpässe, vertrauter Schauplatz), setzt stark auf die Atlas-Vorschau und die Nationszahl. In jedem Fall ist das Panel das, was ein vages „ich will eine größere Partie" in einen konkreten Kartennamen verwandelt, den man der Partie gegenüber verteidigen kann, und das ist die ganze Arbeit des Auswahl-Tools.
+
+## Fehlschläge und Gegenmittel
+
+Die meisten schlechten Kartenwahlen sind einer von vier spezifischen Fehlern, und jeder hat ein direktes Gegenmittel, das im Auswahl-Tool anwendbar ist, bevor man sich festlegt.
+
+**Nach Breite statt nach Landanteil wählen.** Ein 2500 × 2500 Japan *sieht* im Panel „groß" aus, ist aber nur **8 % Land** und eine **25 / 20 / 15**-Partie. *Gegenmittel:* den **Landanteil** vor der Größe lesen; die beiden korrelieren nur, wenn der Landanteil hoch ist. Ist eine Karte groß, aber mit niedrigem Anteil, sie als klein behandeln und die Landfliesen-Schätzung (`Breite × Höhe × Anteil % / 100`) verwenden, um die Stufen vor dem Klick zu prüfen.
+
+**Annehmen, eine kleine Karte ergibt eine kleine Partie.** Der Modifikator **Crowded** (überfüllt) ersetzt die natürliche Kartengröße auf jeder Karte, deren größte Zahl **60 oder weniger** ist: Er erzwingt die Partie auf **125** (oder **60**, wenn auch Kompakt aktiv ist). Also ist eine kleine Karte in einer Crowded-Partie in Wirklichkeit eine *große* Partie. *Gegenmittel:* Wenn Crowded gewählt ist, die Spitzenzahl der Karte ignorieren und 125/60 erzwungen annehmen; will man eine echte kleine Partie, Crowded zuerst deaktivieren.
+
+**Nationen als Spieler behandeln.** World 10000 hat **377 Nationen**, und es ist verlockend, das als „377 Spieler" zu lesen. Ist es nicht — es sind **377 KI-Gebiete**, und der menschliche Deckel ist 720/540/360. *Gegenmittel:* Die beiden Zahlen strikt getrennt halten; Nationen formen den KI-Druck und die Anzahl der Startgebiete, während die erwarteten Spieler die menschliche Partie formen. Nie die Nationszahl zulassen, die eine Karte größer oder kleiner aussehen lässt, als ihre Stufen sagen.
+
+**Sich auf eine Karte festlegen, die zu groß zum Bewirtschaften ist.** Der wiederkehrende Fehler „diese Karte ist viel zu groß" besteht darin, eine Karte mit hohem Landanteil und hoher Stufe zu wählen, deren Territorium man nicht abdecken kann, bevor die Wirtschaft stockt. *Gegenmittel:* Im FFA auf eine große Stufe beschränken, die man tatsächlich durchgespielt hat; verliert man systematisch die frühe Partie auf einer Stufe-125-Karte, auf Stufe 65–95 herunterspielen, bevor man höher zielt. Es gibt keine Möglichkeit, die Karte während des Spiels zu verkleinern, also ist die Wahl am Auswahl-Tool fixiert, und genau deshalb sollte man sie von Anfang an richtig treffen.
+
+**Dem Maßstabsgefühl der Vorschau vertrauen.** Die Pin-Vorschau zeigt eine Miniatur der ganzen Karte, und eine Miniatur lügt über die Skala: Eine große Ozeankarte schrumpft zu einem kleinen blauen Rechteck, das bescheiden wirkt, während eine dichte Landkarte das Rechteck füllt und riesig wirkt. Die vier Panelzahlen existieren, um diese Miniatur-Intuition zu überstimmen. *Gegenmittel:* Vor dem Klick einen Blick auf **Landanteil** und **erwartete Spieler** zusammen werfen; wenn die Vorschau „klein" sagt, aber der Landanteil hoch und die Stufe mittel oder groß ist, den Zahlen statt den Augen vertrauen. Die Vorschau ist für die *Form* (will ich diese Geografie?), und das Panel ist für die *Größe* (wird sie die Partie liefern, die ich will?) — eines für die Arbeit des anderen zu verwenden ist die Ursache der meisten falschen Maßstabsurteile.
+
+## Modus- und Karteneffekte
+
+Die gleiche Karte verhält sich unter verschiedenen Modi und Schaltern unterschiedlich, also muss das „?"-Panel *gleichzeitig mit* dem Modus gelesen werden, den man wählen wird, nicht allein.
+
+**FFA gegen Teams.** FFA würfelt 30/60/10 über die drei Stufen; Teams multiplizieren die gewürfelte Basis mit **1,5**, gedeckelt auf die große Zahl. Auf einer 25/20/15-Karte liegt FFA meist bei etwa 20, aber Teams können bis zur 25-Spitze drücken; auf einer 125/95/65-Karte zählt der Team-Multiplikator weniger, weil der Deckel bindet. Vergleicht man zwei Karten, die nur im Landanteil unterscheiden, vergrößert sich der Team-Unterschied zwischen ihnen, also ist die „gleiche Karte, anderer Modus"-Annahme nur sicher, wenn der Deckel nicht bindet.
+
+**Kompakt.** Kompakt lädt die Karte in reduziertem Maßstab und reduziert die Partie auf **25 %** (Minimum 3). Das ist der sauberste Weg, eine große *Karte* mit einer kleinen *Partie* zu spielen: World 10000 in voller Größe ist 720/540/360, aber Kompakt reduziert dieselbe Geografie auf wenige Plätze. Kompakt verwenden, wenn man die Kartengeografie ohne ihre natürliche Spielerzahl will.
+
+**Crowded.** Wie oben gilt er nur für Karten mit großer Stufe **60 oder weniger**, und erzwingt die Partie auf **125** im Normalfall oder **60** mit aktivem Kompakt. Mit einer *kleinen* Karte kombinieren, um eine dichte, schnelle, druckvolle Partie zu erhalten — das absichtliche Gegenteil von Kompakt. Die beiden Modifikatoren sind fast Spiegelbilder: Kompakt ist eine kleine Partie auf einer großen Karte, Crowded eine große Partie auf einer kleinen Karte, und zu wissen, welcher aktiv ist, bestimmt, ob eine gegebene Karte klein oder groß läuft.
+
+**Nuke- und Modifikator-Schalter** (Friedenszeit, Wasser-Nukes, Doomsday-Uhr) ändern die Partigröße nicht, aber sie ändern, wie die gewählte Karte gespielt wird: Eine Sundkarte verhält sich mit aktiven Wasser-Nukes sehr anders. Diese Schalter *nach* der Kartenwahl lesen, weil sie die Kartengeografie formen, statt sie zu ersetzen. Die vollständige Lobby-Größen-Formel-Behandlung steht in [Lobby-Größe ist kartengesteuert](/de/guides/lobby-size-map-driven/), und das Spielgelände einmal in der Partie steht in [Kartenstrategie](/de/guides/map-strategy/).
+
+Die Lesereihenfolge ist die Entscheidung. Erst die **Karte** im Atlas und ihre vier Zahlen wählen, weil die Karte den Deckel fixiert; dann den **Modus** (FFA gegen Teams), weil er die gewürfelte Stufe skaliert; dann die **Modifikatoren** (Kompakt, Crowded), weil sie die Partie ersetzen oder komprimieren; und schließlich die **Schalter** (Nuke, Frieden, Doomsday), weil sie nur die gewählte Kartengeografie umformen. Liest man in der umgekehrten Reihenfolge — einen beliebten Modus wählen und dann eine passende Karte suchen — zwingt man eine kleine Karte in einen großen Modus oder eine große in einen kleinen, und die Zahlen stimmen nicht mehr. Karte zuerst, Modus zweites, Modifikatoren drittes lesen ist, was Panel, Modus und Partie dazu bringt, dieselbe Geschichte zu erzählen.
+
+## v0.36-Kartenänderungen und eine Schnellempfehlung
+
+v0.36.0 hat den Kartenpark neu geformt, also kann eine Karte aus v0.35, die man sich erinnert, neu, ersetzt oder umgearbeitet sein — das ist die letzte Sache, die man prüfen sollte, bevor man einem Gedächtnis statt dem Panel vertraut. Die konkreten Änderungen sind: **8 neue Karten** (Paris, Londe, Mexiko, Kanada, Türkei, Osmanisches Reich 1683, Zealandia, Brahmaputra), alle mit dem Tag **Neu**; ein wiederaufgebautes Set von **World**-Karten mit neuem Terrain und Wasserwegen, wobei **World 4000 die entfernte Giant World ersetzt** (111 Nationen, 29 % Land, 125/95/65); **World 10000** als 10000 × 5000 Karte hinzugefügt, **29 % Land**, **377 Nationen**, für angepasste Partien und Turniere (Stufen 720/540/360, zu schwer für Telefone in voller Größe); ein neues grüneres **Afrika**-Terrain; ein wiederaufgebautes Straßennetz von **Los Angeles**; und ein Satz kleinerer Karten-Fixes.
+
+Die Versionsnotizen und die Karten selbst werden in [v0.36 neue Karten](/de/guides/v036-new-maps-overview/) behandelt, und die v0.36-Änderungen in den [v0.36 Versionsnotizen](/de/changelog/v36/). Die folgende Schnellempfehlungs-Tabelle fasst die Karten zusammen, die man für die häufigsten Ziele kennen sollte:
+
+| Karte | Größe (B × H) | Landanteil | Nationen | Spielerstufen |
+|---|---|---|---|---|
+| Japan | 2500 × 2500 | 8 % | 4 | 25 / 20 / 15 |
+| Four Islands | 1400 × 900 | 41 % | 12 | 25 / 20 / 15 |
+| Mare Nostrum | 2400 × 1500 | 64 % | 38 | 130 / 100 / 65 |
+| Gibraltar-Sund | 2000 × 1500 | 46 % | 16 | 105 / 80 / 50 |
+| World 4000 | 4000 × 2000 | 29 % | 111 | 125 / 95 / 65 |
+| World 10000 | 10000 × 5000 | 29 % | 377 | 720 / 540 / 360 |
+| The Box | 2048 × 2048 | 100 % | 36 | 210 / 160 / 105 |
+| Russland | 5000 × 1100 | 47 % | 82 | 125 / 95 / 65 |
+
+Die Merkfähigkeit aus dieser Tabelle ist die **Landanteil**-Spalte, nicht die Größe: Japan (2500 × 2500) und The Box (2048 × 2048) sind vergleichbare Raster, aber Japan liegt bei 8 % Land und The Box bei 100 %, und ihre Partien (25 gegen 210) spiegeln das wider. Wenn man zwischen zwei Karten gleicher Größe unsicher ist, entscheidet der Landanteil.
+
+**Wohin setzen.** Öffne den Atlas und drücke **?**, um die vier Zahlen zu sehen, oder fahre einen Pin über, um die Karte auf Abruf zu laden. Für eine große gewertete Partie auf hohem Landanteil und großer Stufe 95–210 zielen; für eine schnelle Partie auf großer Stufe 15–35; für Marine-Spiel den Sund in der Pin-Vorschau bestätigen. Wenn die Zahlen etwas anderes als die Absicht sagen, den Zahlen vertrauen: Das v0.36-Auswahl-Tool ist darauf ausgelegt, dass die Entscheidung in vier Sekunden lesbar ist, und dafür existieren die vier Statistiken.
+
+Die Reihenfolge dieses Abschlusses ist wichtig, weil sie die gesamte Methode in eine einzige Handbewegung verdichtet: zuerst die Karte an der Region festmachen, dann die vier Zahlen ablesen, dann an das Ziel anpassen, und erst dann Modus und Schalter. Alles, was vorher in diesem Leitfaden steht — die Formel, die Tags, die Modifikatoren, die Fehlschläge — ist die Begründung für diese eine Bewegung. Wenn man die vier Zahlen an der Pin liest und sie an das Ziel prüfen kann, hat man die Entscheidung bereits getroffen; der Rest des Bildschirms bestätigt nur, was die Zahlen schon gesagt haben. Das ist der Maßstab, an dem man seine eigene Kartenwahl messen kann: Hätte die Karte die Entscheidung in vier Sekunden hergegeben, oder musste man raten? Wenn raten, waren die vier Zahlen nicht da, und genau dafür wurden sie in v0.36 gebaut.

@@ -1,0 +1,145 @@
+---
+title: "OpenFront Atlas kaartkiezer: de juiste kaart kiezen in v0.36"
+description: Zo lees je de v0.36 Atlas-tab en het ?-paneel per kaart — formaat, landpercentage, naties en verwachte spelers — en kies je de kaart die bij je gewenste spel past.
+pubDate: 2026-11-15
+updatedDate: 2026-11-15
+version: v36
+category: Tutorial
+tags: [maps, atlas, map-picker, player-count]
+canonicalLang: en
+freshnessSummary: "De in v0.36 ingevoerde Atlas-tab en het ?-paneel per kaart; paneelvelden, de formule 50 spelers per 1M landtegels, de Crowded-drempel 125/60 en het 146-kaarten/16-tags-systeem zijn geverifieerd tegen tag v0.36.2."
+---
+
+**Korte antwoord:** In **v0.36** kreeg de kaartkiezer een **Atlas-tab** — een wereldkaart met een pin voor elke kaart van de 100+ echte kaarten — en toont elk kaartveld via `?` zijn **grootte, landpercentage, aantal naties, verwachte spelers en kaartauteur**. De ene regel met de grootste impact: **Kies op landpercentage, niet op breedte.** De verwachte spelers worden berekend als **50 spelers per 1.000.000 landtegels** (de hoogste stap); een kaart van 2500×2500 die slechts **8% land** heeft (Japan) levert een lobby van **25 / 20 / 15**, terwijl The Box (2048×2048) met **100% land** **210 / 160 / 105** oplevert. Lees die vier getallen, pas ze aan op je beoogde spel (groot gerankt FFA, klein trainingsspel, marinecontrole, toernooi), filter op **categorie-tags** (nieuw / aanbevolen / toernooi / continentaal / regionaal) en onthoud: **naties zijn geen spelers** — die zijn onafhankelijk. Dat is de hele beslissing: doel → tags → de vier statistieken → de modificatorrekening (Crowded / team / compact). Dieper terreinverstaan na het kiezen hoort thuis in [Kaartstrategie](/nl/guides/map-strategy/), en de lobby-groottemathematica staat los in [Kaartgrootte en compactmodus](/nl/guides/map-size-compact-mode/).
+
+## De Atlas-tab: 146 kaarten bladeren
+
+v0.36 voegde een **Atlas-weergave** toe aan de kaartkiezer: een gestileerde wereldkaart waarop elke speelbare kaart op zijn geografische positie is gepind, zodat je per regio bladert in plaats van een platte lijst te scrollen. De ondertitel van het scherm is letterlijk „Map Selection — The Atlas", en de tab toont de **146 kaarten** van het spel.
+
+**Zoomen en verschuiven.** De kaart wordt als SVG gerenderd en kan tussen **0,3× en 6×** gezoomd en met slepen verplaatst worden, met click-to-cancel: een slepen dat de pointer verplaatst wordt ongedaan gemaakt, in plaats van de kaart onder de pointer te kiezen. Die annuleermogelijkheid is praktisch belangrijk: je kunt een hele regio langsvegen om de pins te bekijken zonder het risico te lopen de eerste kaart onder de pointer te kiezen.
+
+**Pins als knoppen.** Elke pin is een interactieve knop, geen statische marker. Bij hover laadt de client de kaartmanifest op request en toont preview, auteur en, via dezelfde „?"-weg, de statistieken. Je kunt twee naburige kaarten vergelijken voordat je je vastlegt. Een klik kiest de kaart voor de partij, en de gekozen pin blijft gemarkeerd tot je wisselt. Kaarten die niet „realistisch" zijn — fictieve eilanden, kosmische arena's, aangepaste toernooilayouts — zijn ook aanwezig en bereikbaar; die passen alleen niet netjes op een continent en groeperen zich daardoor aan de randen of in kleine klonten.
+
+Dat telt voor de beslissing omdat de Atlas een **filter op geografie en vertrouwdheid** is, vóórdat je een enkel getal leest. Wie het beste met Europese oorlogsterreinen overweg kan, kan direct naar Europa slepen en uitgaan van de kaarten die hij al kent; wie op zoek is naar iets nieuws ziet in de Atlas duidelijk de regio's die hij nog nooit geprobeerd heeft. De hierna besproken categorie-tags doen hetzelfde voorselectie-probleem in de rasterweergave, maar de Atlas doet het ruimtelijk, en beide zijn in v0.36 bewust samen geleverd: de Atlas leidt naar een kandidaat en het „?"-paneel bevestigt hem met zijn vier getallen.
+
+Er is ook een snelheidsvoordeel dat het raster niet kan evenaren. Vergelijkbare kaarten liggen naast elkaar, zodat je een hele regio in één blik kunt vergelijken — elke Middellandse Zee-kaart ligt in dezelfde wateren, elke eilandketen in dezelfde oceaanstrook — veel makkelijker dan het scrollen van een platte lijst waarin een Pacifische kaart en een Middellandse Zee-kaart door veertig ongerelateerde items gescheiden zijn. Slepen met click-to-cancel maakt dat bruikbaar: je veeegt een regio langs zonder dat verplaatsen de kaart onder de pointer kiest, en verkennen blijft wrijvingsloos. Precies dat is het doel van de tab — „welke van de 146 kaarten wil ik?" omzetten naar „welke van de kaarten in deze regio wil ik?".
+
+In de praktijk is die regionale vergelijking de echte tijdwinnaar. Als je voor een marinestrijd een kaart zoekt met een smalle, verdedigbare zeestraat, toont de Atlas de kandidaten als een zichtbare boog — de zeestraat- en kanaal-kaarten liggen geografisch aan elkaar gerangschikt, zodat je drie of vier dicht bij elkaar liggende pins in vergelijking ziet in plaats van ze uit een lijst te moeten zoeken. Een tweede voordeel is de directe herkenbaarheid: een kaart met een vertrouwd kustverloop of een bekende zee wordt op de pin herkend vóórdat je de naam leest, en dat verkort de keuze tot een bevestiging in plaats van een lezing. Voor nieuwe spelers die nog geen kaartpark in hun hoofd hebben, is de Atlas ook het enige hulpmiddel dat het hele aanbod in één blik toont — je ziet hoeveel land en hoeveel oceaan in het aanbod zit, en kun bewust kiezen in de richting waarin je wilt groeien.
+
+## De vier „?"-statistieken
+
+Onder de selectie toont een „?"-paneel de statistieken van de huidige kaart, en die veranderen „ik wil een grote partij" in een concrete keuze. Het zijn er vier:
+
+- **Grootte** — de breedte × hoogte van de kaart in tegels, getoond als twee getallen (bijv. `2500 × 2500`).
+- **Landpercentage** — het aandeel van de kaart dat land is, een percentage, berekend als `land / (breedte × hoogte)`.
+- **Naties** — het aantal KI-gebieden op de kaart.
+- **Verwachte spelers** — het aantal spelers dat de kaart ondersteunt.
+
+Die vier waarden komen overeen met de kaartmanifest: de grootte komt uit `width`/`height`, het landpercentage uit `num_land_tiles`, de naties uit de natielijst, en de verwachte spelers uit de functie `mapPlayerCounts`. Bij het hoveren van een Atlas-pin vult hetzelfde paneel zich voor die kaart, zodat je meerdere kandidaten kunt vergelijken vóórdat je klikt.
+
+**Grootte** is het ruwe tegelraster. Op zichzelf is het niet genoeg: een kaart van 2500 × 2500 kan bijna volledig oceaan zijn. Daarom wordt het landpercentage ernaast getoond — dat is de echte capaciteitsindicator.
+
+**Landpercentage** is het aandeel van de kaart dat land is, berekend als `round(land / (breedte × hoogte) × 100)`. Dat getal stuurt de partijgrootte echt, omdat de spelerformule **per landtegel** en niet per pixel is. Een laag percentage — veel eilanden of oceaan — levert een kleinere partij op, zelfs op een groot raster.
+
+**Verwachte spelers** is de **hoogste** stap van de spelerscurve van de kaart — het eerste van de drie getallen die de partij gooit. Het paneel toont dat getal; de drie stappen (groot / middel / klein) zijn wat de partij daadwerkelijk gooit, dus is het topgetal een plafond, geen belofte.
+
+In totaal is het paneel in vier seconden te lezen: grootte toont het raster, landpercentage toont de echte capaciteit, naties tonen de KI-druk, verwachte spelers tonen het menselijke plafond. Als twee kandidaten in dezelfde stap vallen, is het landpercentage de scheidsrechter — de kaart met het hogere percentage houdt haar partij vol bij de 30/60/10-worp, terwijl de kaart met een laag percentage sneller leegloopt. Dat is de werkkelijke volgorde: eerst filteren op doel en tag, dan de stap bevestigen, en dan beslissen op het landpercentage, niet op de kaart met de grootste preview.
+
+Een praktisch detail dat je over het hoofd ziet: de vier velden zijn geen onafhankelijke metingen, maar een samenhangend beeld van dezelfde kaart. Het landpercentage legt uit waarom de grootte de partij niet bepaalt; de naties leggen uit hoeveel KI de kaart in de partij produceert; en de verwachte spelers leggen uit hoeveel mens de kaart draagt. Omdat ze samen uit dezelfde manifest komen, kun je een veld controleren tegen de andere: een kaart met een hoog aantal naties en een laag landpercentage is een grote oceaanwereld met veel KI en weinig menselijke ruimte, en precies die profiel maakt hem ongeschikt voor grote gerankte FFA. Dat kruiskijken is de echte waarde van het paneel — niet vier geïsoleerde getallen, maar één consistent portret dat je in vier seconden kunt lezen vóórdat je klikt.
+
+## Van kaartgrootte naar lobbygrootte
+
+Het getal voor verwachte spelers is willekeur niet; het komt uit een formule die je op elke kaart kunt uitvoeren, zodat je de partij kunt schatten vóórdat je klikt. De gedeelde functie `mapPlayerCounts` neemt de **aantal landtegels** van de kaart en produceert **50 spelers per 1.000.000 landtegels**, neemt dan **75%** en **50%** van dat getal, en rondt alle drie **af naar veelvouden van 5**, met een vaste ondergrens van 5. Dat levert de drie stappen op als `groot / middel / klein`, ongeveer `1,0× / 0,75× / 0,5×` van de 50-per-miljoen-basis, en dat is de hele schaal waarop de partij wordt gekalibreerd.
+
+Een voorbeeld met echte v0.36.2-getallen: **Japan** heeft ongeveer 478.894 landtegels, dus `478.894 / 1.000.000 × 50 ≈ 23,9`, afgerond op **25**, dan **20**, dan **15**. **Four Islands** heeft 517.506 landtegels en landt op dezelfde **25 / 20 / 15** — twee heel verschillende kaarten met dezelfde partij, omdat hun *land* even groot is, ook al zijn hun raster niet gelijk. **The Box** heeft 4.194.304 landtegels en levert **210 / 160 / 105**. **World 10000** heeft 14.395.954 landtegels en levert **720 / 540 / 360**. Je kunt het elk verifiëren door simpelweg het landpercentage te lezen: landtegels ≈ `breedte × hoogte × (percentage % / 100)`, en je zit binnen een paar procent van de verwachte stappen, zonder een rekenmachine open te maken.
+
+Een tweede paar voorbeelden toont waarom het landpercentage en niet het raster de te-noteren waarde is. Een kaart van 1800 × 1200 met een laag landpercentage van ongeveer 35% heeft ongeveer 756.000 landtegels en landt op ongeveer **38 / 30 / 20** — een middelgrote kaart, ook al is het raster groot. Een kleinere kaart van 1200 × 1200 met een hoog landpercentage van ongeveer 90% heeft ongeveer 1.296.000 landtegels en landt op ongeveer **65 / 50 / 35**, een grotere partij ondanks een kleiner raster. De grote kaart *lijkt* in de preview groter, maar haar oceaan eet het land op dat de partij zou hebben gevoed. Dat is de meest voorkomende intuïtieve fout, en precies waarom het paneel bestaat: het landpercentage lezen vóórdat je op de schaalvoeling van de preview vertrouwt.
+
+De partij kiest niet altijd het grootste getal. In **FFA** gooit hij **30% groot / 60% middel / 10% klein**, dus landt een kaart die „25" kondigt in de praktijk meestal op ongeveer 20. In **teammodi** vermenigvuldigt hij de geworpen basis met **1,5**, afgetopt op de grote waarde, dus draait dezelfde kaart merkbare voller in teams. **Compact** verlaagt de partij naar **25%** (minimum 3) van wat werd gegooid. Als je die drie feiten kent, betekent „verwachte spelers" in het „?"-paneel het *plafond van de meest voorkomende FFA-worp*, geen garantie — daarom gebruiken de scenario's hieronder de echte stappen, niet alleen het topgetal, en de volledige lobby-groottebehandeling, inclusief compact, staat in [Kaartgrootte en compactmodus](/nl/guides/map-size-compact-mode/).
+
+Twee praktische consequenties volgen daaruit. Ten eerste zijn het topgetal en het getal waaraan je daadwerkelijk zit meestal anders, dus stop met „verwachte spelers" in het paneel te zien als het zaalaantal — het is de bovenste trede van een dertredige ladder, en de meest waarschijnlijke trede is de middelste. Ten tweede is de ladder lineair in landtegels, dus is een kaart met dubbel het landoppervlak ongeveer dubbel zo groot in de partij, waardoor je een paneelwaarde kunt controleren tegen een kaart die je al kent: als een kaart met stap 125 ongeveer hetzelfde landoppervlak heeft als een kleinere kaart die je op 65 speelde, kloppen de getallen; en als ze ver uit elkaar liggen, het landpercentage opnieuw lezen vóórdat je op het paneel vertrouwt.
+
+## Voorselecteren met categorie-tags
+
+Elke kaart draagt een lijst **categorie-tags** die zijn ontwerpintentie coderen — dat is het snelste signaal om de selectie in te perken vóórdat je een getal leest. Het spel onderscheidt vele categorieën: het spel zelf (arcade, toernooi), het terrein (eilanden, oceaan, continent, landen), thema en oorsprong (naties, wereld, community, nieuw, seizoen, aangepast). De nuttigste voor de beslissing zijn:
+
+- **Arcade** — compacte, directe kaarten, vaak met weinig naties, gemaakt voor snelle, leuke partijen.
+- **Toernooi** — kaarten die voor competitief spel als eerlijk en evenwichtig gelden; dat is de tag die je voor gerankt spel zou moeten controleren.
+- **Eilanden** — meerdere gescheiden landmassa's; het totale land kan op een groot raster laag zijn.
+- **Oceaan** — door water gedomineerd raster; het landpercentage is vaak laag, wat kleinere partijen oplevert.
+- **Continenteel** — uitgebreide aaneengesloten landmassa's; vaak hoog landpercentage en veel naties.
+- **Naties** — een set landgebaseerde oorlogsterreinen, meestal met weinig naties.
+- **Nieuw** — vers; de in v0.36 toegevoegde kaarten (Parijs, Londe, Mexico, Canada, Turkije, Ottomaanse Rijk 1683, Zeelandia, Brahmaputra) dragen deze tag.
+- **Seizoen** — kaarten gekoppeld aan een tijdelijk evenement; partijen erop kunnen tijdsgebonden zijn.
+- **Aangepast / Community** — door de community of spelers gemaakte kaarten; hun kwaliteit en evenwicht variëren, dus bevestig de vier getallen vóórdat je je vastlegt.
+
+De reden waarom de tags eerst komen, is dat ze de *intentie* coderen en niet de *grootte*. Een „aanbevolen"-tag zegt dat de kaart goed gemaakt is; een „toernooi"-tag zegt dat hij gesecureerd is; een „landen"-tag zegt dat het terrein compact is. Geen enkele noemt de partijgrootte, daarom volgt de tag altijd de vier getallen. Wie alleen op tag filtert en op het eerste resultaat klikt, belandt soms op een kaart waarvan de stappen het tegendeel zeggen van wat je wilde — precies de fout waar de rest van deze gids tegen wil beschermen.
+
+Een nuttige gewoonte is twee tegelijk te combineren, omdat de meeste echte doelen tweedimensionaal zijn. „Gerankt FFA" is in werkelijkheid *toernooi* plus *hoog landpercentage*; „snel solo-trainen" is *arcade* plus *laag plafond*; „vertroude marinestrijd" is *continentaal* plus *één zeestraat die je in de Atlas-preview kunt benoemen*. De tags brengen je in de juiste buurt in het kaartpark, en de vier statistieken bevestigen de specifieke kaart in die buurt. Dit tweetaps-lezen — eerst tag, dan getallen — is de hele workflow en snel genoeg om bij elke partij te doen.
+
+Een tag verdient speciale behandeling: **toernooi**. Een toernooitag is een kwaliteitsschekel op de *eerlijkheid* — evenwichtige spawndistributie, geen overheersende knelpunt, een vorm die onder echte partijen is getest — dus is het de tag waarop je vertrouwt als de stakes van de partij hoger liggen dan de van de kaart. Een „aanbevolen" kaart kan fraai zijn maar voor serieus spel onevenwichtig, en een „community"-kaart kan leuk zijn maar onder druk nooit getest. Als de taglijst een toernooimarker bevat en de vier getallen in de doelband liggen, heb je de zeldzame combinatie van een gesecureerde vorm in de gewenste grootte, en dat is de riskvrijere keuze in het hele keuzemenu.
+
+## Kiezen voor een specifiek doel
+
+Tags en de vier statistieken zijn alleen nuttig tegenover een specifiek doel, dus loopt dit deel de doelen langs die spelers daadwerkelijk noemen, en de kaarten die daarop passen. Het schema is in elk geval hetzelfde: voorselecteren op tag, dan bevestigen op landpercentage en stappen.
+
+**Groot gerankt FFA.** Selecteer voor **aanbevolen** of **toernooi** kaarten met een hoog *landpercentage*, omdat de grote stap schaalt met land. **World 4000** (2.486.582 landtegels, **29% land**, 111 naties) en **Rusland** (2.540.087 landtegels, **47% land**, 82 naties) liggen beide op **125 / 95 / 65** — een volle, lange, competitieve partij. Vermijd hier eiland- en oceaan-kaarten: hun lage landpercentage houdt de partij klein, hoe breed het raster ook is, dus is een „grote" oceaan-kaart een vermomde kleine partij.
+
+**Klein en snel.** Je wilt de *laagste* top, zodat de partij snel eindigt. **Four Islands** en **Japan** landen op **25** met slechts 4–12 naties — een paar minuten KI, snel herstarten en ruimte om een specifieke opening te trainen. De tag **arcade** is daar precies voor ontworpen, en het lage aantal naties betekent dat je je bij elke ronde niet door veertig KI-gebieden hoeft te verplaatsen.
+
+**Marinectrol en knelpunten.** Landpercentage en aantal naties tellen allebei: je wilt genoeg land om te verdedigen en genoeg water voor een echte marine. **Mare Nostrum** (2.644.620 landtegels, **64% land**, 38 naties, **130 / 100 / 65**) en **Gibraltar Straat** (1.957.694 landtegels, **46% land**, 16 naties) zijn middelgrote kaarten waarvan de geografie het punt van het spel is. Lees in de Atlas-pin-preview of de gewenste zeestraat of zee daadwerkelijk op de gekozen kaart ligt, want een middelgrote kaart met de verkeerde kanalen is een verloren partij.
+
+**Toernooi en competitief.** Gebruik de tag **toernooi**, streep **aanbevolen** door en bevestig dat het plafond de gewenste spelercount draagt — een bracket van 40 spelers heeft een kaart nodig met een grote stap van minstens 40, en de hier genoemde 125/160/210-kaarten overschrijden die grens allemaal met ruime marge. De v0.36-toevoegingen hier zijn **World 10000** voor de grootste gesecureerde partij en de nieuwe regionale kaarten voor verse toernooivariëteit.
+
+Het verbindende patroon over alle vier de doelen is hetzelfde tweetaps-lezen: de tag perkt het park in op het juiste *type* kaart, en de vier getallen bevestigen de *grootte* in dat type. Een doel dat alleen grootte betreft (snel trainen, groot gerankt) zet sterk in op landpercentage en top; een doel dat alleen geografie betreft (marinecontrole, vertrouwd terrein) zet sterk in op de Atlas-preview en het aantal naties. In elk geval is het paneel wat een vaag „ik wil een grotere partij" verandert in een concrete kaartnaam die je aan de partij kunt voorleggen, en dat is het hele werk van het keuzemenu.
+
+## Mislukkingen en tegengif
+
+De meeste slechte kaartkeuzes zijn één van vier specifieke fouten, en elk heeft een directe tegengif die in het keuzemenu toepasbaar is vóórdat je je vastlegt.
+
+**Kiezen op breedte in plaats van landpercentage.** Een Japan van 2500 × 2500 *lijkt* in het paneel „groot", maar is slechts **8% land** en een **25 / 20 / 15**-partij. *Tegengif:* het **landpercentage** vóór de grootte lezen; de twee correleren alleen als het landpercentage hoog is. Is een kaart groot maar met een laag percentage, behandel hem dan als klein en gebruik de landtegel-schatting (`breedte × hoogte × percentage % / 100`) om de stappen vóór de klik te controleren.
+
+**Aannemen dat een kleine kaart een kleine partij oplevert.** De modificator **Crowded** (overvolld) vervangt de natuurlijke kaartgrootte op elke kaart waarvan de hoogste waarde **60 of minder** is: hij dwingt de partij af op **125** (of **60**, als ook compact actief is). Dus is een kleine kaart in een Crowded-partij in werkelijkheid een *grote* partij. *Tegengif:* als Crowded gekozen is, negeer het topgetal van de kaart en neem 125/60 gedwongen aan; wil je een echte kleine partij, schakel Crowded dan eerst uit.
+
+**Naties als spelers behandelen.** World 10000 heeft **377 naties**, en het is verleidelijk dat als „377 spelers" te lezen. Dat is het niet — het zijn **377 KI-gebieden**, en het menselijke plafond is 720/540/360. *Tegengif:* de twee getallen strikt gescheiden houden; naties vormen de KI-druk en het aantal startgebieden, terwijl de verwachte spelers de menselijke partij vormen. Laat het aantal naties nooit een kaart groter of kleiner lijken dan zijn stappen zeggen.
+
+**Vastpinnen op een kaart die te groot is om te beheersen.** De terugkerende fout „deze kaart is veel te groot" is het kiezen van een kaart met een hoog landpercentage en hoge stap waarvan je het territory niet kunt dekken vóórdat de economie stilstaat. *Tegengif:* in FFA beperken tot een grote stap die je daadwerkelijk hebt uitgespeeld; verlies je systematisch de vroege partij op een kaart met stap 125, dan naar stap 65–95 afspelen vóórdat je hoger mik. Er is geen manier om de kaart tijdens het spel te verkleinen, dus is de keuze in het keuzemenu vastgezet, en daarom moet je hem vanaf het begin goed maken.
+
+**Vertrouwen op de schaalvoeling van de preview.** De pin-preview toont een miniature van de hele kaart, en een miniature liegt over de schaal: een grote oceaan-kaart krimpt tot een klein blauw rechthoekje dat bescheiden lijkt, terwijl een dichte landkaart het rechthoekje vult en gigantisch lijkt. De vier paneelgetallen bestaan om die miniature-intuïtie te overstemmen. *Tegengif:* vóór de klik een blik werpen op **landpercentage** en **verwachte spelers** samen; als de preview „klein" zegt maar het landpercentage hoog is en de stap middel of groot, vertrouw dan op de getallen en niet op de ogen. De preview is voor de *vorm* (wil ik deze geografie?), en het paneel is voor de *grootte* (levert hij de partij op die ik wil?) — de ene voor het werk van de andere gebruiken is de oorzaak van de meeste verkeerde schaalschattingen.
+
+## Modus- en kaart-effecten
+
+Dezelfde kaart gedraagt zich onder verschillende modi en schakelaars anders, dus moet het „?"-paneel *tegelijk met* de modus worden gelezen die je zult kiezen, niet alleen.
+
+**FFA tegen teams.** FFA gooit 30/60/10 over de drie stappen; teams vermenigvuldigen de geworpen basis met **1,5**, afgetopt op de grote waarde. Op een kaart van 25/20/15 ligt FFA meestal op ongeveer 20, maar teams kunnen tot de 25-top duwen; op een kaart van 125/95/65 telt de team-vermenigvuldiger minder, omdat het plafond bindt. Vergelijk je twee kaarten die alleen in landpercentage verschillen, dan vergroot het team-verschil tussen hen zich, dus is de „zelfde kaart, andere modus"-aanneemsel alleen zeker als het plafond niet bindt.
+
+**Compact.** Compact laadt de kaart in verminderde schaal en verlaagt de partij naar **25%** (minimum 3). Dat is de schoonste manier om een grote *kaart* met een kleine *partij* te spelen: World 10000 op volle grootte is 720/540/360, maar compact verlaagt dezelfde geografie naar enkele plekken. Gebruik compact als je de kaartgeografie wil zonder zijn natuurlijke spelercount.
+
+**Crowded.** Zoals hierboven geldt het alleen voor kaarten met een grote stap van **60 of minder**, en dwingt de partij af op **125** in het normale geval of **60** met actief compact. Combineer het met een *kleine* kaart voor een dichte, snelle, drukke partij — het bewuste tegendeel van compact. De twee modificatoren zijn bijna spiegels: compact is een kleine partij op een grote kaart, Crowded een grote partij op een kleine kaart, en weten welke actief is bepaalt of een gegeven kaart klein of groot draait.
+
+**Nuke- en modificator-schakelaars** (vredestijd, water-nukes, doomsdayklok) veranderen de partijgrootte niet, maar veranderen wel hoe de gekozen kaart gespeeld wordt: een zeestraat-kaart gedraagt zich met actieve water-nukes heel anders. Lees die schakelaars *na* de kaartkeuze, omdat ze de kaartgeografie vormen in plaats van te vervangen. De volledige lobby-grootteformulebehandeling staat in [Lobbygrootte is kaartgedreven](/nl/guides/lobby-size-map-driven/), en het spelgehalte zodra je in de partij bent staat in [Kaartstrategie](/nl/guides/map-strategy/).
+
+De leesvolgorde is de beslissing. Eerst de **kaart** in de Atlas en zijn vier getallen kiezen, omdat de kaart het plafond vastzet; dan de **modus** (FFA tegen teams), omdat hij de geworpen stap schaalt; dan de **modificatoren** (compact, Crowded), omdat ze de partij vervangen of comprimeren; en ten slotte de **schakelaars** (nuke, vrede, doomsday), omdat ze alleen de gekozen kaartgeografie veranderen. Lees je in de omgekeerde volgorde — een populaire modus kiezen en dan een passende kaart zoeken — dwing je een kleine kaart in een grote modus of een grote in een kleine, en kloppen de getallen niet meer. Eerst kaart, dan modus, dan modificatoren lezen is wat paneel, modus en partij ertoe brengt hetzelfde verhaal te vertellen.
+
+## v0.36-kaartwijzigingen en een snelle aanbeveling
+
+v0.36.0 heeft het kaartpark herschaald, dus kan een kaart uit v0.35 die je je herinnert nieuw, vervangen of herschaald zijn — dat is de laatste ding die je zou moeten controleren vóórdat je op geheugen in plaats van op het paneel vertrouwt. De concrete wijzigingen zijn: **8 nieuwe kaarten** (Parijs, Londe, Mexico, Canada, Turkije, Ottomaanse Rijk 1683, Zeelandia, Brahmaputra), allemaal met de tag **nieuw**; een herbouwde set van **World**-kaarten met nieuw terrein en waterwegen, waarbij **World 4000 de verwijderde Giant World vervangt** (111 naties, 29% land, 125/95/65); **World 10000** toegevoegd als kaart van 10000 × 5000, **29% land**, **377 naties**, voor aangepaste partijen en toernooien (stappen 720/540/360, te zwaar voor telefoons op volle grootte); een nieuwe groenere **Afrika**-terrein; een herbouwd wegennet van **Los Angeles**; en een reeks kleinere kaart-fixes.
+
+De versienotities en de kaarten zelf worden behandeld in [v0.36 nieuwe kaarten](/nl/guides/v036-new-maps-overview/), en de v0.36-wijzigingen in de [v0.36 versienotities](/nl/changelog/v36/). De volgende snelle-aanbevelingstabel vat de kaarten samen die je zou moeten kennen voor de meest voorkomende doelen:
+
+| Kaart | Grootte (B × H) | Land% | Naties | Spelerstappen |
+|---|---|---|---|---|
+| Japan | 2500 × 2500 | 8% | 4 | 25 / 20 / 15 |
+| Four Islands | 1400 × 900 | 41% | 12 | 25 / 20 / 15 |
+| Mare Nostrum | 2400 × 1500 | 64% | 38 | 130 / 100 / 65 |
+| Gibraltar Straat | 2000 × 1500 | 46% | 16 | 105 / 80 / 50 |
+| World 4000 | 4000 × 2000 | 29% | 111 | 125 / 95 / 65 |
+| World 10000 | 10000 × 5000 | 29% | 377 | 720 / 540 / 360 |
+| The Box | 2048 × 2048 | 100% | 36 | 210 / 160 / 105 |
+| Rusland | 5000 × 1100 | 47% | 82 | 125 / 95 / 65 |
+
+De memorabelheid uit deze tabel is de **Land%**-kolom, niet de grootte: Japan (2500 × 2500) en The Box (2048 × 2048) zijn vergelijkbare raster, maar Japan ligt op 8% land en The Box op 100%, en hun partijen (25 tegen 210) weerspiegelen dat. Als je twijfelt tussen twee kaarten van dezelfde grootte, beslist het landpercentage.
+
+**Waar naartoe.** Open de Atlas en druk op **?** om de vier getallen te zien, of hover een pin om de kaart op request te laden. Voor een grote gerankte partij mikken op een hoog landpercentage en een grote stap van 95–210; voor een snelle partij op een grote stap van 15–35; voor marinespel de zeestraat in de pin-preview bevestigen. Als de getallen iets anders zeggen dan de intentie, vertrouw dan op de getallen: het v0.36-keuzemenu is ontworpen zodat de beslissing in vier seconden leesbaar is, en daarom bestaan de vier statistieken.
+
+De volgorde van deze afsluiting is belangrijk, omdat ze de hele methode in een enkele handeling verdicht: eerst de kaart aan de regio vastmaken, dan de vier getallen lezen, dan aanpassen op het doel, en pas dan modus en schakelaars. Alles wat daarvoor in deze gids staat — de formule, de tags, de modificatoren, de mislukkingen — is de onderbouwing voor die ene handeling. Als je de vier getallen aan de pin kunt lezen en ze kunt controleren tegen het doel, heb je de beslissing al genomen; de rest van het scherm bevestigt alleen wat de getallen al gezegd hebben. Dat is de maatstaf waarmee je je eigen kaartkeuze kunt meten: had de kaart de beslissing in vier seconden gegeven, of moest je gokken? Als gokken, waren de vier getallen er niet, en precies daarom zijn ze in v0.36 gebouwd.

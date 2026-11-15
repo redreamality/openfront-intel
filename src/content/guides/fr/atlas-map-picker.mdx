@@ -1,0 +1,144 @@
+---
+title: "Sélecteur de cartes Atlas dans OpenFront : bien choisir en v0.36"
+description: Comment lire l'onglet Atlas de la v0.36 et le panneau ? de chaque carte — taille, part de terre, nations et joueurs attendus — pour choisir la carte adéquate à votre objectif de jeu.
+pubDate: 2026-11-15
+updatedDate: 2026-11-15
+version: v36
+category: Tutoriel
+tags:
+  - maps
+  - atlas
+  - map-picker
+  - lobby-size
+  - v0.36
+canonicalLang: en
+freshnessSummary: "La v0.36 a introduit l'onglet Atlas et le panneau ? par carte ; les champs du panneau, la formule 50 joueurs par 1M de tuiles, le seuil Crowded 125/60 et la taxonomie 146 cartes / 16 tags sont vérifiés à la tag v0.36.2."
+---
+
+**Réponse directe.** Dans la v0.36, ouvrez l'onglet **Atlas** du sélecteur de cartes et appuyez sur **?** pour afficher quatre chiffres par carte : la **taille** (largeur × hauteur en tuiles), la **part de terre**, le **nombre de nations** et les **joueurs attendus** (le plus haut niveau de joueurs). Ce sont ces quatre nombres, combinés aux tags de catégorie, qui définissent la bonne carte pour votre objectif : une grande partie classée cherche une carte à forte part de terre et au haut niveau élevé ; une partie rapide cherche une carte à faible niveau élevé.
+
+## L'onglet Atlas : parcourir 146 cartes
+
+La v0.36 a ajouté une **vue Atlas** au sélecteur de cartes : une carte du monde stylisée sur laquelle chaque carte de jeu est épinglée à sa position géographique, de sorte que vous parcourez la sélection par région au lieu de scroller une liste plate. Le sous-titre de l'écran est littéralement « Map Selection — The Atlas », et l'onglet affiche les **146 cartes** du jeu.
+
+**Zoom et déplacement.** Le plan est rendu en SVG et peut être zoomé de **0,3 à 6** fois et déplacé par glisser, avec une annulation du clic : un glissement qui déplace votre curseur est annulé au lieu de sélectionner une carte sous le curseur. Cette annulation est importante en pratique : vous pouvez balayer une région entière pour inspecter les épingles sans risque de vous engager sur la première carte sous votre curseur.
+
+**Les épingles comme boutons.** Chaque épingle est un bouton actif, pas un marqueur statique. En survol, le client charge le manifeste de la carte à la demande et affiche son aperçu, son créateur et, par le même chemin « ? », ses statistiques. Vous pouvez comparer deux cartes adjacentes avant de vous engager. Un clic sélectionne la carte pour la partie, et l'épingle sélectionnée reste mise en évidence tant que vous ne changez pas. Les cartes qui ne sont pas « monde réel » — les ensembles d'îles fictifs, les arènes cosmiques, les mises en page de tournoi personnalisées — sont aussi présentes et accessibles ; elles ne se posent simplement pas proprement sur un continent et se regroupent plutôt vers les bords ou en petits amas.
+
+Cela compte pour la décision parce que l'Atlas est un **filtre par géographie et familiarité** avant de lire le moindre nombre. Si vous êtes à l'aise avec les cartes du théâtre européen, vous pouvez paner directement vers l'Europe et partir des cartes que vous connaissez déjà ; si vous cherchez délibérément du nouveau, l'Atlas montre clairement les régions que vous n'avez jamais essayées. Les tags de catégorie traités plus loin font le même travail de présélection dans la grille, mais l'Atlas le fait spatialement, et les deux ont été livrés ensemble en v0.36 à dessein : l'Atlas mène vers une candidate, et le panneau « ? » confirme cette candidate avec ses quatre nombres.
+
+Il y a aussi un avantage de vitesse que la grille ne peut pas égaler. Les cartes apparentes sont voisines, ce qui permet de comparer une région entière en un coup d'œil — chaque carte méditerranéenne est dans le même plan d'eau, chaque chaîne d'îles dans la même bande d'océan — bien plus facile que de scroller une liste plate où une carte du Pacifique et une carte méditerranéenne sont séparées par quarante entrées sans rapport. Le déplacement par glisser avec annulation du clic rend cela utilisable : vous balayez une région sans craindre qu'un repositionnement engage la carte sous le curseur, et l'exploration reste sans friction. C'est tout l'objectif de l'onglet — transformer « laquelle des 146 cartes veux-je ? » en « laquelle des cartes de cette région veux-je ? ».
+
+## Les quatre statistiques « ? »
+
+Sous le sélecteur, un panneau « ? » affiche les statistiques de la carte en cours, et ce sont elles qui convertissent « je veux une grande partie » en un choix concret. Les quatre sont :
+
+- **Taille** — la largeur × hauteur de la carte en tuiles, affichée comme deux nombres (par exemple `2500 × 2500`).
+- **Part de terre** — la part du plan qui est en terre, un pourcentage calculé comme `terre / (largeur × hauteur)`.
+- **Nations** — le nombre de territoires d'IA de la carte.
+- **Joueurs attendus** — le nombre de joueurs que la carte supporte.
+
+Ces quatre valeurs correspondent au manifeste de la carte : la taille vient de `width`/`height`, la part de terre de `num_land_tiles`, les nations de la liste de nations, et les joueurs attendus de la fonction `mapPlayerCounts`. En survolant une épingle de l'Atlas, le même panneau se remplit pour cette carte, ce qui permet de comparer plusieurs candidates avant de cliquer.
+
+**La taille** est le plan brut en tuiles. À elle seule, elle ne suffit pas : une carte de 2500 × 2500 peut être presque entièrement océan. C'est pour cela que la part de terre est affichée à côté — c'est le vrai indicateur de capacité.
+
+**La part de terre** est la part de la carte qui est en terre, calculée comme `round(terre / (largeur × hauteur) × 100)`. C'est ce nombre qui pilote réellement la taille de la partie, car la formule de joueurs est **par tuile de terre**, pas par pixel. Une part basse — riche en îles ou en océan — donne une partie plus petite même sur un plan large.
+
+**Les joueurs attendus** est le **plus haut** niveau de la courbe de joueurs de la carte — le premier des trois nombres que la partie tire. Le panneau affiche ce nombre ; les trois niveaux (grand / moyen / petit) sont ce que la partie tire réellement, donc le chiffre en tête est un plafond, pas une promesse.
+
+Ensemble, le panneau se lit en quatre secondes : la taille indique le plan, la part de terre indique la vraie capacité, les nations indiquent la pression d'IA, et les joueurs attendus indiquent le plafond humain. Quand deux candidates tombent dans le même niveau, l'arbitre est la part de terre — la carte à la part de terre la plus élevée garde sa partie pleine sur le tirage 30/60/10, tandis que la carte à faible part s'éclaircit plus vite. C'est l'ordre opérationnel : présélectionner par objectif et tag, confirmer le niveau, et trancher sur la part de terre plutôt que sur la carte à l'aperçu le plus large.
+
+## La relation taille de carte → taille de partie
+
+Le nombre de joueurs attendus n'est pas arbitraire ; il vient d'une formule que vous pouvez exécuter sur n'importe quelle carte, ce qui permet d'estimer la partie avant même de cliquer. La fonction partagée `mapPlayerCounts` prend le **nombre de tuiles de terre** de la carte et produit **50 joueurs par 1 000 000 de tuiles de terre**, puis prend **75 %** et **50 %** de ce chiffre, avec les trois valeurs **arrondies au multiple de 5** et le socle plancher à 5. Les trois niveaux en découlent comme `grand / moyen / petit`, environ `1,0× / 0,75× / 0,5×` de la base de 50 par million, et c'est toute l'échelle sur laquelle la partie se calibre.
+
+Exemple avec des nombres réels de la v0.36.2 : le **Japon** a environ 478 894 tuiles de terre, donc `478 894 / 1 000 000 × 50 ≈ 23,9`, arrondi à **25**, puis **20**, puis **15**. **Four Islands** a 517 506 tuiles de terre et tombe sur le même **25 / 20 / 15** — deux cartes très différentes avec la même partie, parce que leur *terre* est de la même taille même si leurs plans ne le sont pas. **The Box** a 4 194 304 tuiles de terre et produit **210 / 160 / 105**. **World 10000** a 14 395 954 tuiles de terre et produit **720 / 540 / 360**. Vous pouvez vérifier n'importe lequel en lisant juste la part de terre : tuiles de terre ≈ `largeur × hauteur × (part% / 100)`, et vous êtes à quelques pourcents des niveaux attendus sans ouvrir de calculatrice.
+
+Une seconde paire d'exemples montre pourquoi la part de terre, et non le plan, est ce qu'il faut surveiller. Une carte de 1800 × 1200 avec une part de terre basse d'environ 35 % a environ 756 000 tuiles de terre, donc tombe sur environ **38 / 30 / 20** — une carte moyenne même si son plan est large. Une carte plus petite de 1200 × 1200 avec une part de terre haute d'environ 90 % a environ 1 296 000 tuiles de terre et tombe sur environ **65 / 50 / 35**, une partie plus grande malgré le plan plus petit. La carte large *semble* plus grande dans l'aperçu, mais son océan mange la terre qui aurait alimenté la partie. C'est l'échec d'intuition le plus courant, et c'est exactement ce que le panneau existe à corriger : lire la part de terre avant de faire confiance au sentiment d'échelle de l'aperçu.
+
+La partie ne choisit pas toujours le nombre supérieur. En **FFA**, elle tire **30 % grand / 60 % moyen / 10 % petit**, donc une carte annoncée à « 25 » tombe majoritairement autour de 20 en pratique. En **modes par équipes**, elle multiplie la base tirée par **1,5**, plafonnée au nombre grand, donc la même carte tourne nettement plus pleine en équipes. **Compact** réduit la partie à **25 %** (plancher 3) de ce qui est tiré. Savoir ces trois faits signifie que « joueurs attendus » dans « ? » est le *plafond du tirage FFA le plus courant*, pas une garantie — ce qui explique pourquoi les scénarios ci-dessous utilisent les niveaux réels plutôt que seulement le chiffre en tête, et pourquoi le traitement complet de la taille de partie, y compris Compact, est dans [taille de carte et mode Compact](/fr/guides/map-size-compact-mode/).
+
+Deux conséquences pratiques suivent de cela. D'abord, le nombre en tête et le nombre où vous vous asseyez réellement sont généralement différents, donc cessez d'ancrer sur « joueurs attendus » du panneau comme si c'était le nombre de salle — c'est le dernier échelon d'une échelle à trois échelons, et l'échelon le plus probable est le milieu. Deuxièmement, l'échelle est linéaire en tuiles de terre, donc une carte deux fois la terre d'une autre est environ deux fois la partie, ce qui permet de vérifier une lecture de panneau contre une carte déjà connue : si une carte de niveau 125 a environ la même taille de terre qu'une carte plus petite que vous avez jouée à 65, les nombres sont cohérents, et s'ils sont très éloignés, relire la part de terre avant de faire confiance au panneau.
+
+## Utiliser les tags de catégorie pour présélectionner
+
+Chaque carte porte une liste de **tags de catégorie** qui encodent son intention de conception — c'est le signal le plus rapide pour réduire la sélection avant de lire un nombre. Le jeu distingue de nombreuses catégories : le jeu lui-même (arcade, tournoi), le terrain (îles, océan, continent, pays), la thématique et la provenance (nations, monde, communautaire, nouvelle, saisonnière, personnalisée). Les plus utiles à la décision sont :
+
+- **Arcade** — des cartes compactes et directes, souvent peu de nations, conçues pour des parties rapides et réjouissantes.
+- **Tournoi** — des cartes jugées équitables et équilibrées pour le jeu compétitif ; c'est le tag à vérifier pour le jeu classé.
+- **Îles** — plusieurs masses de terre séparées ; la part de terre totale peut être faible même sur un plan large.
+- **Océan** — un plan dominé par l'eau ; la part de terre est souvent basse, ce qui donne des parties plus petites.
+- **Continent** — de vastes masses de terre contiguës ; souvent une forte part de terre et un grand nombre de nations.
+- **Nations** — un ensemble de théâtres de guerre centrés sur les pays, généralement des nations peu nombreuses.
+- **Nouvelle** — le neuf ; les cartes ajoutées en v0.36 (Paris, Londe, le Mexique, le Canada, la Turquie, l'Empire ottoman 1683, Zealandia, Brahmaputra) portent ce tag.
+- **Saisonnière** — des cartes liées à un événement temporaire ; les parties sur ces cartes peuvent être limitées dans le temps.
+- **Personnalisée / Communautaire** — des cartes créées par la communauté ou par les joueurs ; leur qualité et leur équilibre varient, donc confirmer les quatre nombres avant de vous engager.
+
+La raison pour laquelle les tags viennent d'abord est qu'ils encodent l'*intention* plutôt que la *taille*. Un tag « mis en avant » dit que la carte est bien faite ; un tag « tournoi » dit qu'elle est sanctionnée ; un tag « pays » dit que le théâtre est compact. Aucun ne dit la taille de la partie, c'est pourquoi le tag est toujours suivi des quatre nombres. Si vous filtrez par tag uniquement et cliquez sur le premier résultat, vous atterriz parfois sur une carte dont les niveaux sont l'inverse de ce que vous vouliez — c'est exactement l'échec que le reste de ce guide est conçu pour prévenir.
+
+Une habitude utile est de combiner deux tags à la fois, parce que la plupart des objectifs réels sont à deux dimensions. « FFA classé » est en réalité *tournoi* plus *forte part de terre* ; « entraînement solo rapide » est *arcade* plus *faible niveau élevé* ; « partie navale familière » est *continent* plus *un détroit que vous pouvez nommer dans l'aperçu de l'Atlas*. Les tags vous amènent dans le bon voisinage du parc de cartes, et les quatre statistiques confirment la carte spécifique dans ce voisinage. Cette lecture en deux étapes — d'abord le tag, ensuite les nombres — est tout le workflow, et assez rapide pour être faite à chaque partie.
+
+Un tag mérite un traitement spécial : **tournoi**. Un tag tournoi est une porte de qualité sur l'*équité* — répartition des spawns équilibrée, aucun goulot d'étranglement dominant, une forme testée dans de vraies parties — donc c'est le tag à faire confiance quand les enjeux de la partie sont plus élevés que ceux de la carte. Une carte « mise en avant » peut être belle mais déséquilibrée pour un jeu sérieux, et une carte « communautaire » peut être drôle mais jamais testée sous pression. Si la liste de tags inclut un marqueur tournoi et que les quatre nombres sont dans votre bande cible, vous avez la combinaison rare d'une forme sanctionnée à la taille voulue, et c'est le choix le moins risqué disponible dans tout le sélecteur.
+
+## Choisir pour un objectif précis
+
+Les tags et les quatre statistiques ne sont utiles que face à un objectif concret, donc cette section parcourt les objectifs que les joueurs déclarent réellement et les cartes qui y répondent. Le schéma est le même dans tous les cas : présélectionner par tag, puis confirmer par la part de terre et les niveaux.
+
+**Grande FFA classée.** Présélectionnez les cartes **mises en avant** ou **tournoi** avec une part de terre *haute*, car le niveau élevé scale avec la terre. **World 4000** (2 486 582 tuiles de terre, **29 % de terre**, 111 nations) et la **Russie** (2 540 087 tuiles de terre, **47 % de terre**, 82 nations) sont toutes deux à un plafond **125 / 95 / 65**, c'est une partie pleine, longue et compétitive. Évitez ici les cartes d'îles et d'océan : leur part de terre basse garde la partie petite quel que soit la largeur du plan, donc une « grande » carte océanique est une petite partie déguisée.
+
+**Petite et rapide.** Vous voulez le niveau élevé le *plus bas* pour que la partie se termine vite. **Four Islands** et le **Japon** plafonnent à **25** avec seulement 4 à 12 nations, c'est quelques minutes d'IA, un réinitialisation rapide, et de la place pour travailler une ouverture spécifique. Le tag **arcade** est conçu exactement pour cela, et le faible nombre de nations signifie que vous ne naviguez pas dans quarante territoires d'IA à chaque manche.
+
+**Contrôle naval et goulots d'étranglement.** La part de terre et le nombre de nations comptent tous deux : vous voulez assez de terre pour défendre et assez d'eau pour une vraie marine. **Mare Nostrum** (2 644 620 tuiles de terre, **64 % de terre**, 38 nations, **130 / 100 / 65**) et le **Détroit de Gibraltar** (1 957 694 tuiles de terre, **46 % de terre**, 16 nations) sont des cartes de taille moyenne dont la géographie est le point du jeu. Lisez l'aperçu sur l'épingle de l'Atlas pour confirmer que le détroit ou la mer que vous cherchez est réellement sur la carte choisie, car une carte de niveau moyen avec les mauvais chenaux est une partie perdue.
+
+**Tournoi et compétitif.** Utilisez le tag **tournoi**, croisez **mise en avant**, et confirmez que le plafond supporte le nombre de joueurs voulu — un bracket de 40 joueurs a besoin d'une carte dont le niveau élevé est au moins 40, et les cartes à part de terre 125/160/210 ci-dessus dépassent toutes cette barre avec marge. Les ajouts de la v0.36 ici sont **World 10000** pour la plus grande partie sanctionnée et les nouvelles cartes régionales pour de la variété de tournoi fraîche.
+
+Le mouvement unificateur à travers les quatre objectifs est la même lecture en deux étapes : le tag rétrécit le parc au bon *type* de carte, et les quatre nombres confirment la *taille* dans ce type. Un objectif qui ne concerne que la taille (entraînement rapide, grande classée) mise fortement sur la part de terre et le niveau élevé ; un objectif qui ne concerne que la géographie (goulots navaux, théâtre familier) mise fortement sur l'aperçu de l'Atlas et le nombre de nations. Dans tous les cas, le panneau est ce qui transforme un vague « je veux une partie plus grande » en un nom de carte concret que vous pouvez défendre devant la partie, et c'est tout le travail du sélecteur.
+
+## Modes d'échec et parades
+
+La plupart des mauvais choix de carte sont l'un des quatre erreurs spécifiques, et chacune a une parade directe applicable au sélecteur avant de s'engager.
+
+**Choisir par la largeur, pas par la part de terre.** Un Japon de 2500 × 2500 semble « grand » sur le panneau mais n'est que **8 % de terre** et une partie **25 / 20 / 15**. *Parade :* lire la **part de terre** avant la taille ; les deux ne corréleront que si la part de terre est haute. Si une carte est large mais à faible terre, la traiter comme petite, et utiliser l'estimation en tuiles de terre (`largeur × hauteur × part% / 100`) pour double-vérifier les niveaux avant de cliquer.
+
+**Supposer qu'une petite carte donne une petite partie.** Le modificateur **Crowded** (encombré) remplace la taille naturelle de la carte sur n'importe quelle carte dont le nombre le plus grand est **60 ou moins** : il force la partie à **125** (ou **60** si Compact est aussi actif). Donc une petite carte dans une partie Crowded est en réalité une *grande* partie. *Parade :* si Crowded est sélectionné, ignorer le nombre en tête de la carte et supposer le 125/60 forcé ; si vous voulez une vraie petite partie, désactiver Crowded d'abord.
+
+**Traiter les nations comme des joueurs.** World 10000 a **377 nations** et il est tentant de lire cela comme « 377 joueurs ». Ce n'est pas le cas — ce sont **377 territoires d'IA**, et le plafond humain est 720/540/360. *Parade :* garder les deux nombres strictement séparés ; les nations façonnent la pression d'IA et le nombre de territoires de départ, tandis que les joueurs attendus façonnent la partie humaine. Ne jamais laisser le nombre de nations faire paraître une carte plus grande ou plus petite que ce que ses niveaux disent.
+
+**S'engager sur une carte trop grande à gérer.** L'échec récurrent « cette carte est beaucoup trop grande » consiste à choisir une carte à forte terre et fort niveau dont vous ne pouvez pas couvrir le territoire avant que l'économie ne cale. *Parade :* en FFA, vous limiter à un niveau élevé que vous avez réellement terminé ; si vous perdez systématiquement le début de partie sur une carte de niveau 125, descendre au niveau 65–95 avant de viser plus grand. Il n'y a pas de façon de réduire la carte en jeu, donc le choix est verrouillé au sélecteur, ce qui est toute la raison de le faire correctement d'emblée.
+
+**Faire confiance au sentiment d'échelle de l'aperçu.** L'aperçu de l'épingle rend une miniature de toute la carte, et une miniature est un mensonge sur l'échelle : une carte océanique large se réduit en un petit rectangle bleu qui semble modeste, tandis qu'une carte dense en terre remplit le rectangle et semble énorme. Les quatre nombres du panneau existent pour écraser cet instinct de miniature. *Parade :* avant de cliquer, jeter un œil à la **part de terre** et aux **joueurs attendus** ensemble ; si l'aperçu dit « petit » mais que la part de terre est haute et le niveau moyen ou grand, faire confiance aux nombres plutôt qu'aux yeux. L'aperçu est pour la *forme* (veux-je cette géographie ?), et le panneau est pour la *taille* (tournera-t-elle la partie que je veux ?) — utiliser l'un pour le travail de l'autre est l'origine de la plupart des jugements d'échelle erronés.
+
+## Interactions modes et cartes
+
+La même carte se comporte différemment sous différents modes et bascules, donc le panneau « ? » doit être lu *en même temps que* le mode que vous allez choisir, pas seul.
+
+**FFA contre équipes.** FFA tire 30/60/10 des trois niveaux ; les équipes multiplient la base tirée par **1,5**, plafonnée au nombre grand. Sur une carte 25/20/15, FFA est généralement autour de 20 mais les équipes peuvent pousser vers le plafond de 25 ; sur une carte 125/95/65 le multiplicateur équipes compte moins parce que le plafond lie. Si vous comparez deux cartes qui ne diffèrent que par la part de terre, l'écart équipes entre elles s'élargit, donc l'hypothèse « même carte, mode différent » n'est sûre que quand le plafond ne lie pas.
+
+**Compact.** Compact charge la carte à échelle réduite et réduit la partie à **25 %** (minimum 3). C'est la façon la plus propre de jouer une grande *carte* avec une petite *partie* : World 10000 à l'échelle pleine est 720/540/360, mais Compact réduit la même géographie à une poignée de places. Utilisez Compact quand vous voulez la géographie de la carte sans son nombre de joueurs naturel.
+
+**Crowded.** Comme ci-dessus, il ne s'applique que sur les cartes avec un niveau élevé de **60 ou moins**, forçant la partie à **125** en normal ou **60** avec Compact aussi actif. L'associer à une *petite* carte pour obtenir une partie dense, rapide et à forte pression — l'inverse délibéré de Compact. Les deux modificateurs sont quasi miroirs : Compact est une petite partie sur une grande carte, Crowded est une grande partie sur une petite carte, et savoir lequel est actif est ce qui dit si une carte donnée va tourner petite ou grande.
+
+**Les bascules Nuke et modificateurs** (temps de paix, nukes d'eau, horloge de l'apocalypse) ne changent pas la taille de la partie, mais elles changent comment la carte choisie se joue : une carte de détroit se comporte très différemment avec les nukes d'eau activés. Lire ces bascules *après* que la carte est choisie, car elles conditionnent la géographie de la carte plutôt que de la remplacer. Le traitement complet de la formule de la partie est dans [la taille de partie est pilotée par la carte](/fr/guides/lobby-size-map-driven/), et le jeu de terrain une fois en partie est dans [stratégie de carte](/fr/guides/map-strategy/).
+
+L'ordre de lecture est la décision. Choisissez la **carte** de l'Atlas et ses quatre nombres d'abord, parce que la carte fixe le plafond ; ensuite choisissez le **mode** (FFA contre équipes) parce qu'il scale le niveau tiré ; ensuite appliquez les **modificateurs** (Compact, Crowded) parce qu'ils remplacent ou compriment la partie ; et enfin réglez les **bascules** (nuke, paix, apocalypse) parce qu'elles ne font que remodeler la géographie de la carte choisie. Si vous lisez dans l'autre ordre — choisir un mode qu'on « aime » et chercher ensuite une carte qui passe — vous finissez par forcer une petite carte dans un grand mode ou une grande carte dans un petit, et les nombres cessent de s'aligner. Lire carte-d'abord, mode-second, modificateurs-troisième, c'est ce qui garde le panneau, le mode et la partie à raconter la même histoire.
+
+## Les changements de cartes de la v0.36 et un repère rapide
+
+La v0.36.0 a remodelé le parc de cartes, donc une carte que vous vous souvenez de la v0.35 peut être neuve, remplacée ou retravaillée — c'est la dernière chose à vérifier avant de faire confiance à un souvenir plutôt qu'au panneau. Les changements concrets sont : **8 nouvelles cartes** (Paris, Londe, le Mexique, le Canada, la Turquie, l'Empire ottoman 1683, Zealandia, Brahmaputra), toutes portant le tag **nouvelle** ; un ensemble reconstruit de **cartes World** avec de nouveaux terrains et chenaux d'eau, où **World 4000 remplace le Giant World retiré** (111 nations, 29 % de terre, 125/95/65) ; **World 10000** ajoutée comme une carte de 10000 × 5000, **29 % de terre**, **377 nations** visant les parties personnalisées et les tournois (niveaux 720/540/360, trop lourd pour les téléphones à l'échelle pleine) ; un nouveau terrain **Afrique** plus vert ; un réseau routier reconstruit de **Los Angeles** ; et un lot de correctifs de cartes plus petits.
+
+Les notes de version et les cartes elles-mêmes sont traitées dans [les nouvelles cartes de la v0.36](/fr/guides/v036-new-maps-overview/), et les changements de la v0.36 dans les [notes de version v0.36](/fr/changelog/v36/). Le tableau de repère rapide ci-dessous rassemble les cartes à connaître pour les objectifs les plus courants :
+
+| Carte | Tailles (L × H) | Part de terre | Nations | Niveaux de joueurs |
+|---|---|---|---|---|
+| Japon | 2500 × 2500 | 8 % | 4 | 25 / 20 / 15 |
+| Four Islands | 1400 × 900 | 41 % | 12 | 25 / 20 / 15 |
+| Mare Nostrum | 2400 × 1500 | 64 % | 38 | 130 / 100 / 65 |
+| Détroit de Gibraltar | 2000 × 1500 | 46 % | 16 | 105 / 80 / 50 |
+| World 4000 | 4000 × 2000 | 29 % | 111 | 125 / 95 / 65 |
+| World 10000 | 10000 × 5000 | 29 % | 377 | 720 / 540 / 360 |
+| The Box | 2048 × 2048 | 100 % | 36 | 210 / 160 / 105 |
+| Russie | 5000 × 1100 | 47 % | 82 | 125 / 95 / 65 |
+
+Le repère à retenir de ce tableau est la colonne **part de terre**, pas la taille : le Japon (2500 × 2500) et The Box (2048 × 2048) sont des plans comparables, mais le Japon est à 8 % de terre et The Box à 100 %, et leurs parties (25 contre 210) le reflètent. Quand vous hésitez entre deux cartes de la même taille, la part de terre tranche.
+
+**Là où se poser.** Ouvrez l'Atlas et pressez **?** pour afficher les quatre nombres, ou survolez une épingle pour charger la carte à la demande. Pour une grande partie classée, visez une part de terre haute et un niveau élevé de 95 à 210 ; pour une partie rapide, un niveau élevé de 15 à 35 ; pour le jeu naval, confirmez le détroit dans l'aperçu de l'épingle. Si les nombres disent autre chose que l'intention, faites confiance aux nombres : le sélecteur de la v0.36 est conçu pour que la décision soit lisible en quatre secondes, et c'est ce que les quatre statistiques existent pour permettre.

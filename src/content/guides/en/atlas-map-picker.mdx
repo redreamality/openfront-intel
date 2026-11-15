@@ -1,0 +1,133 @@
+---
+title: "OpenFront Atlas Map Picker: Choosing the Right Map in v0.36"
+description: How to read the v0.36 Atlas tab and the per-map ? panel — size, land share, nations and expected players — and pick the map that fits the game you want, using the map-size-to-lobby math, Crowded and the category tags.
+pubDate: 2026-11-15
+updatedDate: 2026-11-15
+tags: [maps, atlas, map-picker, player-count]
+category: Tutorial
+difficulty: Intermediate
+version: v36
+freshnessSummary: "v0.36 introduced the Atlas tab and the per-map ? stats panel; panel fields, the 50-per-1M player formula, the Crowded 125/60 threshold and the 146-map / 16-tag taxonomy are verified at the v0.36.2 tag."
+---
+
+**Direct answer:** In **v0.36** the map picker gained an **Atlas tab** — a world map with a pin for each of the 100+ real-world maps — and a `?` panel on every map card showing its **size, land share, nation count, expected players and designer**. The one rule that matters most: **pick the map by land share, not by its width.** Expected players is computed as **50 players per 1,000,000 land tiles** (the biggest tier), so a 2500×2500 map that is only **8% land (Japan)** produces a **25 / 20 / 15** lobby, while a 2048×2048 The Box that is **100% land** produces **210 / 160 / 105**. Read those four numbers, match them to the game you want (big ranked FFA, small practice, naval control, a tournament), filter by the **category tags** (new / featured / tournament / continental / regional), and remember that **nations are not players** — they are independent. That is the whole decision: goal → tags → the four stats → the modifier math (Crowded / Team / Compact). The deeper terrain reading once a map is chosen belongs to [how to read a map's strategy](/guides/map-strategy/), and the lobby-size math in isolation is in [map size and Compact mode](/guides/map-size-compact-mode/).
+
+## The Atlas tab: how you browse 146 maps
+
+The Atlas tab is the new way to browse the **146 maps** that ship at v0.36.2, and it changes the first step of every map choice from scrolling a grid of cards to exploring a map. Instead of a flat list where every map looks the same size until you click it, you get a **zoomable world map** with a pin at each map's actual geographic location. Europe maps cluster over Europe, Africa maps over Africa, and the Pacific island chains sit where you would expect them, so the layout itself is a first filter: you can see at a glance which regions you know well and which you have never touched. You drag to pan, and pinch or scroll to zoom, and a drag past a small threshold cancels the click, so repositioning the view never accidentally selects a pin under your cursor.
+
+Each pin is a live button, not a static marker. **Hover** a pin and the client loads that map's manifest on demand and shows its preview, its designer, and — through the same `?` path described below — its stats, so you can compare two adjacent maps before you commit to either. **Click** a pin to select that map for the lobby, and the selected pin stays highlighted until you choose another one or switch back to random. Maps that are not "real world" — the fictional island sets, the cosmic arenas, the custom tournament layouts — are still present and reachable; they simply do not sit cleanly on a continent, so they cluster near the edges or in their own little groups rather than inside a country.
+
+This matters for the decision because the Atlas is a **filter by geography and familiarity** before you read a single number. If you are comfortable with European theatre maps, you can pan straight to Europe and work outward from the maps you already know; if you deliberately want something unfamiliar, the Atlas makes it obvious which regions you have not tried at all, so you are choosing novelty on purpose rather than by accident. The category tags covered later do the same shortlisting job in the card grid, but the Atlas does it spatially, and the two were shipped together in v0.36 on purpose: the Atlas gets you to a candidate, and the `?` panel confirms that candidate with its four numbers. If you skip the Atlas and just pick the first pin that looks good, you are leaving the strongest free signal in the picker unused.
+
+There is also a speed advantage to the spatial layout that the card grid cannot match. Because related maps sit next to each other, you can compare a whole region in one glance — every Mediterranean map is in the same patch of water, every island chain is in the same band of ocean — which makes it far easier to notice patterns than it is to scroll a flat list where a Mediterranean map and a Pacific map are separated by forty unrelated entries. The drag-to-pan with click-cancellation is what makes this usable at all: you can sweep across a region to scan pins without fear that a repositioning drag will commit you to whatever map is under your cursor, so exploration stays frictionless. That is the whole point of the tab — it turns "which of 146 maps do I want?" into "which of this region's maps do I want?", and the four-stat panel below answers the second question for you.
+
+## The four ? stats, decoded
+
+Every map card now carries a `?` that opens a stats panel with exactly five fields, in this order: **size (`width×height`)**, **nation count**, **land share (percent)**, **expected players**, plus the map's **description** and **designer**. Those four numbers are the entire content of your map decision, so it is worth reading each one with its exact meaning rather than glancing at the panel and picking the biggest-looking one.
+
+**Size** is the pixel dimensions, written `width×height`. It is the *area* of the map, but it is **not** the capacity. A 3200×1808 Caribbean with only **10% land** is far smaller in lobby terms than a 2048×2048 The Box with **100% land**, even though the Caribbean is the bigger canvas. Width is a weak proxy for "how big this game will be"; land share is the strong one, and the whole rest of this guide is really about why that is true.
+
+**Nation count** is the number of AI nations that populate the map at the start (`manifest.nations.length`). This is **independent of the human player count**: World 10000 has **377 nations** but its lobby tiers are 720/540/360, while Four Islands has only **4 nations** and a 25/20/15 lobby. High nation counts mean more AI pressure and more small territories to fight over early; they do **not** change how many humans can join, so a 377-nation map is not a 377-player map.
+
+**Land share** is the playable land as a fraction of the whole map, computed as `round(num_land_tiles / (width×height) × 100)`. This is the number that actually drives lobby size, because the player formula is per **land tile**, not per map pixel. A low land share — island-heavy or ocean-heavy — means a smaller lobby even on a large canvas.
+
+**Expected players** is the **biggest** tier of the map's player-count curve — the first of the three numbers the lobby draws from. The panel shows that top number; the full three tiers (big / mid / small) are what the lobby actually rolls between, so the headline figure is a ceiling, not a promise.
+
+Put together, the panel is a four-second read: size tells you the canvas, land share tells you the real capacity, nations tells you the AI pressure, and expected players tells you the human ceiling. When two candidate maps land on the same tier, the tie-breaker is land share — the map with the higher land share holds its lobby full across the 30/60/10 roll, while the lower-land map thins out faster as the match fills. That is the practical order of operations: shortlist by goal and tag, confirm the tier, and break ties on land share rather than on whichever map has the wider preview.
+
+## The map-size to lobby math
+
+The expected-players number is not arbitrary; it comes from one formula you can run on any map you are looking at, which means you can estimate a lobby before you even click the map. The shared `mapPlayerCounts` function takes the map's **land tile count** and produces **50 players per 1,000,000 land tiles**, then takes **75%** and **50%** of that figure, with each of the three values **rounded to the nearest 5** and the base floored at 5. So the three tiers come out as `big / mid / small`, roughly `1.0× / 0.75× / 0.5×` of the 50-per-1M base, and that is the entire ladder the lobby sizes against.
+
+Worked on real v0.36.2 numbers: **Japan** has about 478,894 land tiles, so `478,894 / 1,000,000 × 50 ≈ 23.9`, which rounds to **25**, then **20**, then **15**. **Four Islands** has 517,506 land tiles and lands on the same **25 / 20 / 15** — two very different maps with the same lobby because their *land* is the same size even though their canvases are not. **The Box** has 4,194,304 land tiles and produces **210 / 160 / 105**. **World 10000** has 14,395,954 land tiles and produces **720 / 540 / 360**. You can verify any of these by reading just the land share: land tiles ≈ `width × height × (land% / 100)`, and you are within a few percent of the expected tiers without opening a calculator at all.
+
+A second worked pair shows why land share, not canvas, is the thing to watch. A map that is 1800 by 1200 with a low land share of roughly 35% has about 756,000 land tiles, so it lands on roughly **38 / 30 / 20** — a mid map even though its canvas is large. A smaller 1200 by 1200 map with a high land share of roughly 90% has about 1,296,000 land tiles and lands on roughly **65 / 50 / 35**, a bigger lobby despite the smaller canvas. The wide map *looks* like the bigger game in the preview, but its ocean eats the land that would have fed the lobby. This is the single most common intuition failure in map picking, and it is the one the panel exists to correct: read the land share before you trust the preview's sense of scale.
+
+The lobby does not always pick the top number. For **FFA** it rolls **30% big / 60% mid / 10% small**, so a map advertised as "25" mostly lands around 20 in practice. For **Team modes** it multiplies the drawn base by **1.5**, capped at the big number, so the same map runs noticeably fuller in Team. **Compact** collapses the lobby to **25%** (floored at 3) of whatever was drawn. Knowing these three facts means the `?` "expected players" is the *ceiling for the most common FFA roll*, not a guarantee — which is exactly why the scenarios below use the actual tiers rather than just the headline number, and why the full lobby-size treatment, including Compact, is covered in [map size and Compact mode](/guides/map-size-compact-mode/).
+
+Two practical consequences follow from this. First, the headline number and the number you actually sit in are usually different, so stop anchoring on the panel's "expected players" as if it were the room count — it is the top rung of a three-rung ladder, and the most likely rung is the middle one. Second, the tier ladder is linear in land tiles, so a map twice the land of another is roughly twice the lobby, which means you can sanity-check a panel reading against another map you already know: if a 125-tier map is roughly the land size of a smaller map you have played at 65, the numbers are consistent, and if they are wildly off, re-read the land share before you trust the panel.
+
+## Using the category tags to shortlist
+
+Beyond the four stats, both the Atlas and the card grid let you **filter by category tag**, and the tags are the fastest way to narrow the pool before you read a single number. At v0.36.2 the 146 maps carry **16 category tags**, and the ones that actually matter for a map decision are grouped in the table below. The tags are a *coarse* filter — they never replace the land-share read, because two maps in the same tag can differ by an order of magnitude in lobby size — but they turn 146 candidates into a handful in seconds.
+
+| Tag | What it tells you | Typical use |
+|---|---|---|
+| **new** | Added in v0.36 (Paris, London, Mexico, Canada, Türkiye, Ottoman Empire 1683, Zealandia, Brahmaputra) | Trying current content |
+| **featured** | Curated, high-quality maps with a featured rank | Default safe picks |
+| **tournament** | Maps sanctioned for competitive play | Ranked / prize games |
+| **continental** + regional (`europe`, `asia`, `africa`, `north_america`, `south_america`, `oceania`) | A real-world theatre you already know | Familiarity-first choice |
+| **arcade** | Small, fast, low-friction maps (e.g. The Box) | Practice, short sessions |
+| **fictional** / **cosmic** | Non-geographic island or arena layouts | Novelty, naval sandbox |
+| **countries** | A single-country footprint (Japan, United States, Korea) | Compact theatre |
+
+A good workflow is to **pick the tag that matches your goal, then read the four `?` stats on the two or three maps that survive**. Want a ranked game? Start at **tournament** plus **featured** and confirm the lobby ceiling supports the player count you need. Want a quick solo practice round? **arcade** or a small **countries** map with a low big tier gets you a fast, repeatable opening. Want a naval map you have seen before? The regional tags plus **fictional** (the island chains) get you there fast, and the Atlas preview confirms the strait or sea you are looking for is actually on the map.
+
+The reason the tags come first is that they encode *intent* rather than *size*. A "featured" tag tells you the map is well-made; a "tournament" tag tells you it is sanctioned; a "countries" tag tells you the theatre is compact. None of them tells you the lobby, which is why the tag is always followed by the four numbers. If you filter by tag only and click the first result, you will sometimes land on a map whose tiers are the opposite of what you wanted — which is the exact failure the rest of this guide is designed to prevent.
+
+One useful habit is to combine two tags at once, because most real goals are two-dimensional. "Ranked FFA" is really *tournament* plus *high land share*; "quick solo practice" is *arcade* plus *low big tier*; "familiar naval game" is *continental* plus *a strait you can name on the Atlas preview*. The tags get you the right neighbourhood of the map pool, and the four stats confirm the specific map inside that neighbourhood. That two-step read — tag first, numbers second — is the whole workflow, and it is fast enough to do for every single lobby you join rather than only when you are unsure.
+
+One tag deserves special treatment: **tourney / tournament**. A tournament tag is a quality gate on *fairness* — balanced spawn distribution, no single dominant choke, a shape the community has tested in actual matches — so it is the tag to trust when the stakes of the lobby are higher than the stakes of the map. A "featured" map may be beautiful but unbalanced for serious play, and a "community" map may be fun but never tested under pressure. If the tag list includes a tournament marker and the four numbers are in your target band, you have the rare combination of a sanctioned shape at the size you want, and it is the lowest-risk pick available in the whole picker.
+
+## Choosing for a specific goal
+
+The tags and the four stats are only useful against a concrete goal, so this section walks through the goals players actually state and which maps answer them. The pattern in every case is the same: shortlist by tag, then confirm by land share and tiers.
+
+**Big ranked FFA.** Shortlist **featured** or **tournament** maps with a *high* land share, because the big tier scales with land. **World 4000** (2,486,582 land tiles, **29% land**, 111 nations) and **Russia** (2,540,087 land tiles, **47% land**, 82 nations) both sit at a **125 / 95 / 65** ceiling, which is a full, long, competitive game. Avoid the island and ocean maps here: their low land share keeps the lobby small no matter how wide the canvas looks, so a "big" ocean map is a small game in disguise.
+
+**Small, fast practice.** You want the *lowest* big tier so a game ends quickly and you can replay the same opening. **Four Islands** and **Japan** both top out at **25** with only 4–12 nations, which is a few minutes of AI, a fast reset, and room to drill a specific opening. The **arcade** tag is built for exactly this use case, and the low nation count means you are not wading through forty AI territories every round.
+
+**Naval control and chokepoints.** Land share and nation count both matter: you want enough land to defend and enough water for a real navy. **Mare Nostrum** (2,644,620 land tiles, **64% land**, 38 nations, **130 / 100 / 65**) and **Strait of Gibraltar** (1,957,694 land tiles, **46% land**, 16 nations) are mid-sized maps whose geography is the point of the game. Read the preview on the Atlas pin to confirm the strait or sea you are looking for is actually on the map you picked, because a mid-tier map with the wrong waterways is a waste of a lobby.
+
+**Tournament and competitive.** Use the **tournament** tag, cross-check **featured**, and confirm the ceiling supports the player count you need — a 40-person bracket needs a map whose big tier is at least 40, and the 125/160/210-land-share maps above all clear that bar comfortably. The v0.36 additions here are **World 10000** for the biggest sanctioned game and the new regional maps for fresh tournament variety.
+
+The unifying move across all four goals is the same two-step read: the tag narrows the pool to the right *kind* of map, and the four numbers confirm the *size* inside that kind. A goal that is only about size (fast practice, big ranked) leans hard on the land share and the big tier; a goal that is only about geography (naval chokepoints, a familiar theatre) leans hard on the Atlas preview and the nation count. Either way, the panel is the thing that converts a vague "I want a bigger game" into a concrete map name you can defend to the lobby, and that is the whole job of the picker.
+
+## Failure modes and countermeasures
+
+Most bad map choices are one of four specific errors, and each has a direct countermeasure you can apply right at the picker before you commit.
+
+**Picking by width, not land share.** A 2500×2500 Japan looks "big" on the panel but is only **8% land** and a **25 / 20 / 15** lobby. *Countermeasure:* read the **land %** before the size; the two only correlate when the land share is high. If a map is wide but low-land, treat it as small, and use the land-tiles estimate (`width × height × land% / 100`) to double-check the tiers before you click.
+
+**Assuming a small map is a small lobby.** The **Crowded** modifier overrides the map's natural size on any map whose biggest number is **60 or lower**: it forces the lobby to **125** (or **60** if Compact is also on). So a small map in a Crowded lobby is actually a *big* lobby. *Countermeasure:* if Crowded is selected, ignore the map's headline number and assume the forced 125/60; if you want a genuinely small game, turn Crowded off first.
+
+**Treating nations as players.** World 10000 has **377 nations** and it is tempting to read that as "377 players." It is not — it is **377 AI territories**, and the human ceiling is 720/540/360. *Countermeasure:* keep the two numbers strictly separate; nations shape AI pressure and the count of early territories, while expected players shapes the human lobby. Never let the nation count make a map look bigger or smaller than its tiers say it is.
+
+**Committing to a map that is too big to manage.** The recurring "this map is way too big" failure is picking a high-land, high-tier map whose territory you cannot cover before the economy stalls. *Countermeasure:* for FFA, cap yourself at a big tier you have actually finished games on; if you routinely lose the early game on a 125-tier map, step down to the 65–95 tier before you ever reach for a bigger map. There is no in-game way to shrink the map mid-match, so the choice is locked at the picker, which is the whole reason to get this one right up front.
+
+**Trusting the preview's sense of scale.** The pin preview renders a thumbnail of the whole map, and a thumbnail is a lie about scale: a wide ocean map shrinks into a small blue rectangle that looks modest, while a dense land map fills the rectangle and looks huge. The panel's four numbers exist to override that thumbnail instinct. *Countermeasure:* before you click, glance at the **land %** and the **expected players** together; if the preview says "small" but the land % is high and the tier is mid or big, trust the numbers over your eyes. The preview is for *shape* (do I want this geography?), and the panel is for *size* (will this run the lobby I want?) — using one for the other's job is where most scale misjudgements come from.
+
+## Mode and map interactions
+
+The same map behaves differently under different modes and toggles, so the `?` panel has to be read *together with* the mode you are about to pick, not on its own.
+
+**FFA vs Team.** FFA draws 30/60/10 from the three tiers; Team multiplies the drawn base by **1.5**, capped at the big number. On a 25/20/15 map, FFA is usually around 20 but Team can push toward the capped 25; on a 125/95/65 map the Team multiplier matters less because the cap binds. If you are comparing two maps that differ only in land share, the Team gap between them widens, so the "same map, different mode" assumption is only safe when the cap does not bind.
+
+**Compact.** Compact loads the map at reduced scale and cuts the lobby to **25%** (minimum 3). This is the cleanest way to run a big *map* with a small *lobby*: World 10000 at full scale is 720/540/360, but Compact collapses the same terrain to a handful of slots. Use Compact when you want the map's geography without its natural player count.
+
+**Crowded.** As above, it only applies on maps with a big tier of **60 or lower**, forcing the lobby to **125** normal or **60** with Compact also on. Pair it with a *small* map to get a dense, fast, high-pressure lobby — the deliberate opposite of Compact. The two modifiers are near-mirrors: Compact is a small lobby on a big map, Crowded is a big lobby on a small map, and knowing which one is active is what tells you whether a given map is going to run small or big.
+
+**Nuke and modifier toggles** (peace time, water nukes, doomsday clock) do not change the lobby size, but they change how the chosen map plays: a strait map behaves very differently with water nukes on. Read those toggles *after* the map is chosen, because they condition on the map's geography rather than replacing it. The full treatment of the lobby math is in [how lobby size is map-driven](/guides/lobby-size-map-driven/), and the terrain play once you are actually in the match is in [map strategy](/guides/map-strategy/).
+
+The order of reading is the decision. Pick the **map** from the Atlas and its four numbers first, because the map sets the ceiling; then pick the **mode** (FFA vs Team) because it scales the drawn tier; then apply the **modifiers** (Compact, Crowded) because they override or compress the lobby; and finally set the **toggles** (nuke, peace, doomsday) because they only reshape the chosen map's geography. If you read it the other way around — picking a mode you "like" and then searching for a map that fits — you end up forcing a small map into a big mode or a big map into a small one, and the numbers stop lining up. Reading map-first, mode-second, modifiers-third is what keeps the panel, the mode, and the lobby all telling the same story.
+
+## The v0.36 map changes and a quick reference
+
+v0.36.0 reshaped the map set, so a map you remember from v0.35 may be new, replaced, or re-terrained — which is the last thing to check before you trust a memory instead of the panel. The concrete changes are: **8 new maps** (Paris, London, Mexico, Canada, Türkiye, Ottoman Empire 1683, Zealandia, Brahmaputra), all carrying the **new** tag; a rebuilt set of **World maps** with new terrain and waterways, where **World 4000 replaces the retired Giant World** (111 nations, 29% land, 125/95/65); **World 10000** added as a 10000×5000, **29% land**, **377-nation** map aimed at custom games and tournaments (720/540/360 tiers, too heavy for phones at full scale); new, greener **Africa** terrain; a rebuilt **Los Angeles** road network; and a batch of smaller map fixes.
+
+When choosing, this means: if your default used to be Giant World, switch to **World 4000** (the direct replacement); if you want the biggest sanctioned map, **World 10000** is it, but only at full scale for a tournament, and use Compact for a smaller-lobby version of that same terrain. The new regional maps are worth a look purely because they are fresh and carry the **new** tag, and their `?` stats will tell you at a glance whether they are big-theatre (Canada, Mexico) or compact (Zealandia, Brahmaputra). The full list is in the [v36 release notes](/changelog/v36/).
+
+| Map | Size (W×H) | Land % | Nations | Tiers (big/mid/small) | Best for |
+|---|---|---|---|---|---|
+| World 10000 | 10000×5000 | 29% | 377 | 720 / 540 / 360 | Tournament, biggest sanctioned |
+| The Box | 2048×2048 | 100% | 13 | 210 / 160 / 105 | Dense arcade, all-land |
+| World 4000 | 4120×2060 | 29% | 111 | 125 / 95 / 65 | Big ranked FFA (replaces Giant) |
+| Russia | 3200×1688 | 47% | 82 | 125 / 95 / 65 | Big ranked FFA, European theatre |
+| Mare Nostrum | 2848×1448 | 64% | 38 | 130 / 100 / 65 | Naval control, Mediterranean |
+| Japan | 2500×2500 | 8% | 12 | 25 / 20 / 15 | Small fast practice, island play |
+| Four Islands | 1500×1500 | 23% | 4 | 25 / 20 / 15 | Small fast practice, low AI |
+| Caribbean | 3200×1808 | 10% | 34 | 30 / 25 / 15 | Small naval, ocean-heavy |
+| Ottoman Empire (1683) | 2816×2132 | 30% | 46 | 90 / 70 / 45 | New map, mid theatre, 3-region |
+
+Two rules read straight off this table: **land % is what moves the tiers**, not the pixel size (Japan's 8% and Caribbean's 10% keep them at 25–30 despite large canvases), and **nations never equals players** (377 nations is not 377 humans). Start from your goal, filter by tag, read the four `?` numbers, apply the modifier math, and the right map is the one whose tiers match the game you actually want to play.
