@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- Ranked FFA 历史答案维护：[五语旧队列与现行评分入口](research/2026-11-16-ranked-ffa-history-maintenance.md) 将旧页标题、摘要与首屏明确为历史，按正式 v36 的替代说明直达已有 FFA Rating 主答案；旧机制保留 2026-10-12 范围，不认证为当前公开 FFA 规则。本 PR 合并即完成并转 Monitoring；下一触发为正式评分变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。
+
 - 地图尺寸答案维护：[v36 World 地图边界](research/2026-11-15-map-size-maintenance.md) 为既有五语 map-size-compact-mode 补齐 World 10000、World 4000 替换 Giant World 及手机负载边界；v33.7 尺寸排行、Compact 数值和人数例子明确保留历史范围，不冒充当前全图排名。本 PR 合并即完成并转 Monitoring；下一触发为相关正式地图变化、确认错误或本批自身完整 GSC final 窗口。
 
 - 快捷键速查维护：[v36 五语操作增量](research/2026-11-14-shortcuts-maintenance.md) 补齐既有 `/shortcuts/` 的 J/O 捐赠、I 玩家面板、H 独立建造，以及建造数量 1→5→10→15 至 50 的循环和 Alt+滚轮。训练长文保留原 v35 核验范围，不新增重复答案。本 PR 合并即完成并转 Monitoring；下一触发为相关正式操作变化、确认错误或本批自身完整 GSC final 窗口。

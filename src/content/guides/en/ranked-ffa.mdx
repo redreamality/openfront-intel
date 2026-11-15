@@ -1,10 +1,10 @@
 ---
-title: "Ranked FFA: The Third Ranked Queue"
-description: "How to win OpenFront Ranked FFA: the 4–10 player lobby, the 6-map pool, the 30-second immunity, the 20-minute timer, and how to hit 80% or eliminate on a big Normal map. New queue — verified on upstream main, not yet in a stable build."
+title: "Ranked FFA: Historical Queue"
+description: "The old Ranked FFA queue is historical. Since v36, public FFA uses OFstats FFA Rating; follow the current rating guide."
 pubDate: 2026-10-12
-updatedDate: 2026-10-12
+updatedDate: 2026-11-16
 version: v34
-releaseStatus: not-released
+releaseStatus: released
 category: "Guides"
 tags:
   - ranked
@@ -13,12 +13,14 @@ tags:
   - ladder
   - strategy
 sitemap: true
-freshnessSummary: "Verified against upstream main (commit a15138358930c10241e9ceb4be1ce3389477e970; Ranked FFA PR #5888 merged 2026-10-09). Ranked FFA is a new ranked queue not yet in a numbered stable build; getFfaConfig() sets 4-10 players (RANKED_FFA_MIN_PLAYERS=4, RANKED_FFA_MAX_PLAYERS=10), six Normal maps (Europe/Asia/Africa/NorthAmerica/SouthAmerica/Australia), maxTimerValue 20, spawnImmunityDuration 30*10, no donate/nations/clan tags/random spawn, PERCENT_TILES_OWNED_TO_WIN=80, bots cannot win."
+freshnessSummary: "Historical queue, replaced by OFstats FFA Rating in v0.36.0. Status checked on 2026-11-16 against the v0.36.2 release notes; the old mechanics below retain their 2026-10-12 source scope."
 ---
 
-**Direct answer.** Ranked FFA is OpenFront's third ranked queue: four to ten humans on one large Normal map with no team, partner, Nations, donations, or random spawn. You win by holding strictly more than 80% of non-fallout land, by becoming the last connected human, or by being the largest human at the 20-minute timer — a bot can never claim the win. It runs on six continent maps, opens within a 15-second lobby deadline, and grants a 30-second spawn immunity.
+**Current answer.** The old Ranked FFA queue has been replaced. Since v0.36.0, public FFA games count toward OFstats FFA Rating. Use the [current FFA Rating guide](/guides/ffa-rating-system/) for calibration, rank badges and the leaderboard.
 
-Ranked FFA is the queue the community has been asking for longest, and it is finally real: OpenFront's competitive ladder now has a free-for-all mode in addition to the 1v1 and 2v2 ladders you may already climb. It lands as a new feature on upstream `main` — the Ranked FFA pull request (#5888) merged on 2026-10-09, which is after the `v0.34.24` release of 2026-10-06 — so it is not yet part of any numbered stable client. That matters for how you read this guide: every rule, number, and version boundary below is verified against the upstream `main` source at the verification cursor, not against a shipped tag. Once the queue ships in a stable build, these mechanics are expected to hold unless the source changes, but if a value in your client looks different from this guide, the shipping tag is the thing to re-check. The rest of this guide covers what the mode actually is, how it differs from the two ranked modes you already know, the exact map pool and lobby contract, the three ways a ranked FFA match can end, two concrete decision frameworks with numbers, the failure modes that sink new FFA players and the counterplay for each, and how to adapt your play to each map and track your climb. For the ladder-level rules all ranked modes share — the ELO system, the daily free-match budget, and the rating protection — see [Ranked Mode & Rating System](/guides/ranked-mode-rating-system/).
+The [v0.36 release notes](/changelog/v36/) explain the replacement. The former four-to-ten-player queue, six-map pool and twenty-minute timer below describe the old system; they are not entry requirements or match rules for today's public FFA rating.
+
+**Historical scope.** Everything from the next heading onward preserves the queue description from 2026-10-12. Present-tense instructions there refer to that old system. Do not wait for it to launch or use its limits to decide whether a current game counts toward your rating.
 
 ## What Ranked FFA actually is, and when you can queue for it
 

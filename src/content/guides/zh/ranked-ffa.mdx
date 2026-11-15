@@ -1,10 +1,10 @@
 ---
-title: "Ranked FFA：第三条排位队列"
-description: "如何在 OpenFront 的 Ranked FFA 中取胜：4–10 人大厅、六张图卡池、30 秒无敌、20 分钟计时，以及如何在一张大号 Normal 图上打穿 80% 或靠歼灭取胜。新队列——已按上游 main 核验，尚未进入任何稳定版本。"
+title: "Ranked FFA：历史排位队列"
+description: "旧 Ranked FFA 队列已成为历史。v36 起，公开 FFA 使用 OFstats FFA Rating；当前评分、校准与榜单请阅读现行指南。"
 pubDate: 2026-10-12
-updatedDate: 2026-10-12
+updatedDate: 2026-11-16
 version: v34
-releaseStatus: not-released
+releaseStatus: released
 category: 排位
 tags:
   - 排位
@@ -13,12 +13,14 @@ tags:
   - 天梯
   - 策略
 sitemap: true
-freshnessSummary: "已按上游 main 核验（commit a15138358930c10241e9ceb4be1ce3389477e970；Ranked FFA PR #5888 于 2026-10-09 合并）。Ranked FFA 是一条尚未进入带编号稳定版本的新排位队列；getFfaConfig() 设定 4–10 人（RANKED_FFA_MIN_PLAYERS=4、RANKED_FFA_MAX_PLAYERS=10）、六张 Normal 图（欧洲/亚洲/非洲/北美/南美/澳大利亚）、maxTimerValue 20、spawnImmunityDuration 30*10、无捐赠/国家/公会标签/随机出生、PERCENT_TILES_OWNED_TO_WIN=80、机器人无法获胜。"
+freshnessSummary: "历史队列已于 v0.36.0 被 OFstats FFA Rating 替代。2026-11-16 按 v0.36.2 正式版本笔记核对替代状态；下方旧机制保留 2026-10-12 的原核验范围。"
 ---
 
-**直接回答。** Ranked FFA 是 OpenFront 的第三条排位队列：4 到 10 名人类玩家在同一张大号 Normal 地图上无队混战，没有队伍、没有搭档、没有国家、没有捐赠、也没有随机出生。获胜方式是控制严格超过 80% 的非辐射陆地、成为最后连接的真人，或在 20 分钟计时耗尽时成为最大的真人——机器人永远无法获胜。它跑在六张大陆地图上，由 15 秒大厅截止与 30 秒出生无敌构成开局节奏。
+**当前答案。** 旧 Ranked FFA 队列已经被替代。v0.36.0 起，公开 FFA 对局计入 OFstats FFA Rating。校准、段位徽章与排行榜请阅读[现行 FFA Rating 指南](/zh/guides/ffa-rating-system/)。
 
-Ranked FFA 是社区要求最久的一条队列，如今终于成真：OpenFront 的竞技天梯在你可能已经在爬的 1v1 与 2v2 之外，新增了一个大乱斗模式。它以新功能身份落在上游 `main` 上——Ranked FFA 的拉取请求（#5888）于 2026-10-09 合并，晚于 2026-10-06 的 `v0.34.24` 发布——所以它还不属于任何带编号的稳定客户端。这决定了你读这份指南的方式：下面每条规则、每个数字、每个版本边界，都是对照核验光标处的上游 `main` 源码核验的，而不是对照某个已发布的标签。等这条队列在稳定版本里发布后，这些机制预计仍然成立，除非源码再变；但如果你的客户端里某个数值和本指南不一致，要重新核对的是发布的那个标签。本指南其余部分覆盖：这个模式到底是什么、它与你已经熟悉的两种排位模式有何不同、确切的地图卡池与大厅合同、一场 Ranked FFA 对局的三种结束方式、两个带数字的具体决策框架、拖垮新 FFA 玩家的失败模式以及每种对应的对策，以及怎样针对每张图调整玩法、追踪你的攀升。所有排位模式共享的天梯规则——ELO 系统、每日免费局数预算与评分保护——见[排名模式与评级系统](/guides/ranked-mode-rating-system/)。
+[v36 版本笔记](/zh/changelog/v36/)说明了这次替代。下方的四至十人队列、六张地图与二十分钟计时属于旧系统，不是当前公开 FFA 评分的准入条件或对局规则。
+
+**历史范围。** 从下一个标题开始，保留的是 2026-10-12 的旧队列说明。其中的现在时操作建议均指旧系统。不要继续等待该队列上线，也不要用旧限制判断当前对局是否计入评分。
 
 ## Ranked FFA 到底是什么，什么时候可以打
 

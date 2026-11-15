@@ -1,10 +1,10 @@
 ---
-title: "Gerangschikte FFA: de derde gerangschikte queue"
-description: "Hoe je wint in OpenFront Gerangschikte FFA: de lobby van 4–10 spelers, de kaartpool van 6 kaarten, de immuniteit van 30 seconden, de timer van 20 minuten en hoe je strikt meer dan 80% behoudt of elimineert op een grote Normal-kaart. Nieuwe queue — geverifieerd tegen upstream main, nog niet in een stabiele build."
+title: "Gerangschikte FFA: vroegere wachtrij"
+description: "De oude Ranked FFA-wachtrij is geschiedenis. Sinds v36 gebruikt openbare FFA het OFstats FFA Rating; lees de actuele ratinggids."
 pubDate: 2026-10-12
-updatedDate: 2026-10-12
+updatedDate: 2026-11-16
 version: v34
-releaseStatus: not-released
+releaseStatus: released
 category: "Ranked & Modes"
 tags:
   - gerangschikt
@@ -13,12 +13,14 @@ tags:
   - ladder
   - strategie
 sitemap: true
-freshnessSummary: "Geverifieerd tegen upstream main (commit a15138358930c10241e9ceb4be1ce3389477e970; PR #5888 voor Gerangschikte FFA samengevoegd op 2026-10-09). Gerangschikte FFA is een nieuwe gerangschikte queue die nog niet in een genummerde stabiele build staat; getFfaConfig() definieert 4–10 spelers (RANKED_FFA_MIN_PLAYERS=4, RANKED_FFA_MAX_PLAYERS=10), zes Normal-kaarten (Europe/Asia/Africa/NorthAmerica/SouthAmerica/Australia), maxTimerValue 20, spawnImmunityDuration 30*10, geen donate/nations/clan tags/random spawn, PERCENT_TILES_OWNED_TO_WIN=80, bots kunnen niet winnen."
+freshnessSummary: "Vroegere wachtrij, sinds v0.36.0 vervangen door OFstats FFA Rating. Status op 2026-11-16 gecontroleerd aan de hand van de v0.36.2-versienotities; oude regels behouden hun bereik van 2026-10-12."
 ---
 
-**Direct antwoord.** Gerangschikte FFA is de derde gerangschikte queue van OpenFront: vier tot tien mensen op één grote Normal-kaart, zonder team, partner, Nations, donaties of random spawn. Je wint door strikt meer dan 80% van het niet-afgevallute land te houden, de laatste verbonden mens te worden, of de grootste mens te zijn op de 20-minutentimer — een bot kan de winst nooit opeisen. De modus draait op zes continentkaarten, opent binnen 15 seconden en kent 30 seconden spawnumimmuniteit.
+**Actueel antwoord.** De oude Ranked FFA-wachtrij is vervangen. Sinds v0.36.0 tellen openbare FFA-wedstrijden mee voor OFstats FFA Rating. Lees de [actuele FFA Rating-gids](/nl/guides/ffa-rating-system/) voor kalibratie, rangbadges en het klassement.
 
-Gerangschikte FFA is de queue die het community het langst heeft nagevraagd, en eindelijk is hij er: het competitieve ladder van OpenFront heeft nu ook een free-for-all-modus, naast de 1v1- en 2v2-ladders die je misschien al klimt. Hij komt als nieuwe functie op upstream `main` — de Gerangschikte-FFA-pull request (#5888) werd samengevoegd op 2026-10-09, wat ná de `v0.34.24`-release van 2026-10-06 is — en staat dus nog niet in één genummerde stabiele client. Dat maakt iets uit voor hoe je deze guide leest: elke regel, elk getal en elke versiegrens hieronder is geverifieerd tegen de upstream-`main`-bron op de verificatiecursor, niet tegen een uitgegeven tag. Zodra de queue in een stabiele build verschijnt, zullen deze mechanics waarschijnlijk blijven staan, tenzij de bron verandert; maar als een waarde in jouw client afwijkt van deze guide, is het uitgetag het punt om opnieuw te controleren. De rest van deze guide dekt wat de modus eigenlijk is, hoe hij verschilt van de twee gerangschikte modi die je al kent, de exacte kaartpool en het lobbycontract, de drie manieren waarop een Gerangschikte-FFA-wedstrijd kan eindigen, twee concrete beslisramen met getallen, de falingspatronen die nieuwe FFA-spelaars onderbrengen en de tegenslag voor elk, en hoe je je spel aanpast aan elke kaart en je klim volgt. Voor de ladderregels die alle gerangschikte modi delen — het ELO-systeem, het dagelijkse gratis-wedstrijdenbudget en de ratingbescherming — zie [Het beoordeelde rankingssysteem](/guides/ranked-mode-rating-system/).
+De [versienotities van v36](/nl/changelog/v36/) beschrijven de vervanging. De vroegere wachtrij met vier tot tien spelers, zes kaarten en twintig minuten speeltijd bepaalt niet de toelating of spelregels van de huidige openbare FFA-rating.
+
+**Historisch bereik.** Vanaf de volgende kop blijft de beschrijving van 2026-10-12 bewaard. Instructies in de tegenwoordige tijd gaan daar over het oude systeem. Wacht niet op de lancering ervan en gebruik die oude grenzen niet om te bepalen of een huidige wedstrijd meetelt.
 
 ## Wat Gerangschikte FFA eigenlijk is en wanneer je het kunt spelen
 

@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-11-16 Ranked FFA 维护读取恢复**：把猜测的 `src/components/ArticleStatus.astro` 与真实文件混入同一 `rg`，导致 os error 2；恢复为读取已确认的 `DocLayout.astro` 和 `FreshnessSummary.astro`，状态与展示实现均已定位。另一次 Release GET 成功后，登记脚本重复 GET 遇 TLS handshake timeout；只重试一次取得真实正式正文与双游标。没有将失败解释为无版本变化，没有修改 AGENTS.md。
+
 - **2026-11-01 联盟维护读取恢复**：`rg` 路径 `src/components/Home*` 再次因 Windows 不展开通配路径而报 os error 123，改为真实目录加 `--glob '*.astro'` 后恢复。另一次把 `diplomacy-betrayal.mdx` 猜为 guides 集合导致读取不存在路径；`rg --files src/content` 确认实际位于 strategies 后恢复任务。没有修改 AGENTS.md；应先确认集合和路径再进行依赖读取。
 
 - **2026-10-30 版本维护测试定位复发**：搜索时猜测 `e2e/layout.spec.ts`，`rg` 报 os error 2；从真实 `e2e` 目录枚举后定位 `mobile-navigation.spec.ts`、`first-match-recovery.spec.ts` 等现有测试。其他有效匹配不能抵消路径失败，须保留该失败并按真实文件恢复。未修改 AGENTS.md。
