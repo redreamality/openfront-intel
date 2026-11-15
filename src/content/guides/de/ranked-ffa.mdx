@@ -1,10 +1,10 @@
 ---
-title: "Ranked FFA: Die dritte Rangliste"
-description: "So gewinnst du OpenFront Ranked FFA: die 4–10-Spieler-Lobby, das Karten-Pool mit 6 großen Karten, die 30-Sekunden-Immunität, der 20-Minuten-Timer und wie du auf großen Normal-Karten 80 % erreichst oder eliminiert. Neue Rangliste — auf upstream main verifiziert, noch nicht in einem stabilen Build."
+title: "Ranked FFA: Historie"
+description: "Die alte Ranked-FFA-Warteschlange ist Geschichte. Seit v36 nutzt öffentliches FFA das OFstats FFA Rating; lies den aktuellen Guide."
 pubDate: 2026-10-12
-updatedDate: 2026-10-12
+updatedDate: 2026-11-16
 version: v34
-releaseStatus: not-released
+releaseStatus: released
 category: "Ranked & Modes"
 tags:
   - "Ranked FFA"
@@ -15,12 +15,14 @@ tags:
   - "Strategie"
   - "OpenFront"
 sitemap: true
-freshnessSummary: "Gegen upstream main verifiziert (Commit a15138358930c10241e9ceb4be1ce3389477e970; Ranked-FFA-PR #5888 am 2026-10-09 gemerged). Ranked FFA ist eine neue Rangliste, die noch in keinem nummerierten stabilen Build steckt; getFfaConfig() legt 4–10 Spieler fest (RANKED_FFA_MIN_PLAYERS=4, RANKED_FFA_MAX_PLAYERS=10), sechs Normal-Karten (Europa/Asien/Afrika/Nordamerika/Südamerika/Australien), maxTimerValue 20, spawnImmunityDuration 30*10, keine Donate/Nationen/Clan-Tags/Random Spawn, PERCENT_TILES_OWNED_TO_WIN=80, Bots können nicht gewinnen."
+freshnessSummary: "Frühere Warteschlange, seit v0.36.0 durch OFstats FFA Rating ersetzt. Status am 2026-11-16 anhand der Versionshinweise v0.36.2 geprüft; die alten Mechaniken behalten ihren Stand vom 2026-10-12."
 ---
 
-**Direkte Antwort.** Ranked FFA ist die dritte Rangliste von OpenFront: vier bis zehn Menschen auf einer großen Normal-Karte, ohne Team, ohne Partner, ohne Nationen, ohne Spende und ohne zufälligen Spawn. Du gewinnst, indem du strikt mehr als 80 % des Nicht-Fallout-Landes hältst, der letzte noch verbundene Mensch wirst oder der größte Mensch bist, wenn der 20-Minuten-Timer abläuft — ein Bot kann den Sieg niemals beanspruchen. Sie läuft auf sechs Kontinentkarten, startet innerhalb einer 15-Sekunden-Lobby-Frist und gewährt eine 30-Sekunden-Spawn-Immunität.
+**Aktuelle Antwort.** Die alte Ranked-FFA-Warteschlange wurde ersetzt. Seit v0.36.0 zählen öffentliche FFA-Partien zum OFstats FFA Rating. Kalibrierung, Rangabzeichen und Bestenliste erklärt der [aktuelle FFA-Rating-Guide](/de/guides/ffa-rating-system/).
 
-Ranked FFA ist die Queue, die die Community am längsten verlangt hat, und sie ist endlich real: Die kompetitive Ladder von OpenFront hat nun einen Free-for-all-Modus zusätzlich zu den 1v1- und 2v2-Ladders, die du vielleicht schon schonst. Sie kommt als neue Funktion auf dem upstream `main` an — der Ranked-FFA-Pull-Request (#5888) wurde am 2026-10-09 gemerged, was nach dem `v0.34.24`-Release vom 2026-10-06 liegt — und sie ist daher noch nicht Teil eines nummerierten stabilen Clients. Das ist wichtig für die Art, wie du diesen Guide liest: Jede Regel, jede Zahl und jede Versionsgrenze unten ist gegen die upstream-`main`-Quelle am Verifikationscursor geprüft, nicht gegen ein veröffentlichtes Tag. Sobald die Queue in einem stabilen Build erscheint, dürften diese Mechaniken bestehen bleiben, solange sich die Quelle nicht ändert; wenn aber ein Wert in deinem Client von diesem Guide abweicht, ist das veröffentlichte Tag das, was du neu prüfen solltest. Der Rest dieses Guides deckt ab, was der Modus tatsächlich ist, wie er sich von den zwei Ranglistenmodi unterscheidet, die du schon kennst, der exakte Karten-Pool und der Lobby-Vertrag, die drei Wege, auf denen eine Ranked-FFA-Partie enden kann, zwei konkrete Entscheidungsrahmen mit Zahlen, die Fehlermuster, die neue FFA-Spieler versenken, und der Gegenangriff auf jedes davon. Für die Ladder-Regeln, die alle Ranglistenmodi teilen — das ELO-System, das tägliche Budget kostenloser Partien und der Rating-Schutz — sieh dir [Das Bewertungssystem der Rangliste](/guides/ranked-mode-rating-system/) an.
+Die [Versionshinweise v36](/de/changelog/v36/) beschreiben den Wechsel. Die frühere Warteschlange mit vier bis zehn Spielern, sechs Karten und zwanzig Minuten Zeitlimit gilt nicht als Zugangsvoraussetzung oder Regelwerk des heutigen öffentlichen FFA Ratings.
+
+**Historischer Geltungsbereich.** Ab der nächsten Überschrift bleibt die Beschreibung vom 2026-10-12 erhalten. Anweisungen im Präsens beziehen sich dort auf das alte System. Warte nicht auf dessen Start und nutze seine Grenzen nicht, um die Wertung einer heutigen Partie zu beurteilen.
 
 ## Was Ranked FFA tatsächlich ist und wann du sie spielen kannst
 

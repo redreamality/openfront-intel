@@ -1,10 +1,10 @@
 ---
-title: "Ranked FFA : la troisième file classée"
-description: "Comment gagner en Ranked FFA sur OpenFront : le lobby de 4 à 10 joueurs, le pool de 6 cartes, l'invulnérabilité de 30 secondes, le chrono de 20 minutes et comment atteindre 80 % ou éliminer sur une grande carte Normal. Nouvelle file — vérifié sur main amont, pas encore dans une version stable."
+title: "Ranked FFA : ancienne file"
+description: "L'ancienne file Ranked FFA est historique. Depuis la v36, le FFA public utilise FFA Rating par OFstats ; consultez le guide actuel."
 pubDate: 2026-10-12
-updatedDate: 2026-10-12
+updatedDate: 2026-11-16
 version: v34
-releaseStatus: not-released
+releaseStatus: released
 category: "Guides"
 tags:
   - ranked
@@ -13,12 +13,14 @@ tags:
   - ladder
   - strategy
 sitemap: true
-freshnessSummary: "Vérifié contre main amont (commit a15138358930c10241e9ceb4be1ce3389477e970 ; PR Ranked FFA #5888 fusionnée le 2026-10-09). La Ranked FFA est une nouvelle file classée pas encore dans une version stable numérotée ; getFfaConfig() définit 4-10 joueurs (RANKED_FFA_MIN_PLAYERS=4, RANKED_FFA_MAX_PLAYERS=10), six cartes Normal (Europe/Asie/Afrique/AmericaDuNord/AmericaDuSud/Australie), maxTimerValue 20, spawnImmunityDuration 30*10, pas de donation/nations/tags de clan/spawn aléatoire, PERCENT_TILES_OWNED_TO_WIN=80, les bots ne peuvent pas gagner."
+freshnessSummary: "Ancienne file remplacée par FFA Rating d'OFstats en v0.36.0. Statut vérifié le 2026-11-16 dans les notes v0.36.2 ; les anciennes mécaniques conservent leur périmètre du 2026-10-12."
 ---
 
-**Réponse directe.** La Ranked FFA est la troisième file classée d'OpenFront : de quatre à dix humains sur une grande carte Normal, sans équipe, sans partenaire, sans Nations, sans donation et sans spawn aléatoire. On gagne en tenant strictement plus de 80 % du terrain non touché par la fallout, en devenant le dernier humain connecté, ou en étant le plus gros humain au chrono de 20 minutes — un bot ne peut jamais réclamer la victoire. Elle se joue sur six cartes continentales, démarre dans un délai de lobby de 15 secondes et accorde une invulnérabilité de spawn de 30 secondes.
+**Réponse actuelle.** L'ancienne file Ranked FFA a été remplacée. Depuis la v0.36.0, les parties FFA publiques contribuent au FFA Rating d'OFstats. Consultez le [guide actuel du FFA Rating](/fr/guides/ffa-rating-system/) pour la calibration, les grades et le classement.
 
-La Ranked FFA est la file que la communauté réclame depuis le plus longtemps, et elle est enfin réelle : l'échelle compétitive d'OpenFront a désormais un mode free-for-all en plus des échelles 1v1 et 2v2 que vous grimpez peut-être déjà. Elle arrive comme une nouvelle fonctionnalité sur main amont — la pull request Ranked FFA (#5888) a été fusionnée le 2026-10-09, après la sortie v0.34.24 du 2026-10-06 — donc elle ne fait pas encore partie d'un client stable numéroté. Cela change la façon de lire ce guide : chaque règle, chaque chiffre et chaque limite de version ci-dessous est vérifié contre la source main amont au curseur de vérification, et non contre un tag publié. Une fois que la file sort dans un build stable, ces mécaniques devraient tenir sauf si la source change ; mais si une valeur de votre client diffère de ce guide, c'est le tag de sortie qu'il faut re-vérifier. Le reste de ce guide couvre ce que le mode est réellement, comment il diffère des deux modes classés que vous connaissez déjà, le pool de cartes et le contrat de lobby exacts, les trois façons qu'une partie Ranked FFA peut se terminer, deux cadres de décision concrets avec des chiffres, les modes d'échec qui coulent les nouveaux joueurs de FFA et le contre-jeu pour chacun, et comment adapter votre jeu à chaque carte et suivre votre montée. Pour les règles d'échelle communes à tous les modes classés — le système ELO, le budget de parties gratuites quotidiennes et la protection de rating — voir [Ranked Mode & Rating System](/guides/ranked-mode-rating-system/).
+Les [notes de version v36](/fr/changelog/v36/) expliquent ce remplacement. La file de quatre à dix joueurs, les six cartes et le chrono de vingt minutes ci-dessous appartiennent à l'ancien système, pas aux conditions du FFA Rating public actuel.
+
+**Périmètre historique.** À partir du prochain titre, le texte conserve la description de la file au 2026-10-12. Les instructions au présent concernent cet ancien système. N'attendez pas son lancement et n'utilisez pas ses limites pour déterminer si une partie actuelle contribue à votre rating.
 
 ## Ce qu'est réellement la Ranked FFA, et quand on peut entrer en file
 
