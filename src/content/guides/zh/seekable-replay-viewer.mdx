@@ -1,16 +1,24 @@
 ---
-title: "OpenFront 可跳转回放查看器（v0.35.0）：如何开启、跳转到任意时刻、不用重看整场来复盘"
-description: "v0.35.0 的新回放查看器会在你的浏览器里把一场结束的 OpenFront 对战处理一次，之后时间轴上的每次跳转只花约 20 毫秒。这一页讲清开关在哪、完整的键盘与速度控制（0.5 倍到 32 倍）、256 MB 的存储上限、仍会把旧录像送去版本壳的确定性边界，以及两个带数字的复盘场景。"
+title: "回放查看器 v36：跳转与接管"
+description: "OpenFront v36 默认使用可跳转回放查看器。打开已结束的对局即可暂停、跳转，也可通过 Continue 选择存活玩家并作为单人局继续；下文保留明确限定范围的 v35 操作说明。"
 pubDate: 2026-10-21
-updatedDate: 2026-10-21
+updatedDate: 2026-11-17
 version: v0.35
-freshnessSummary: "已对照 v0.35.2 标签核验（src/client/replay/ReplayStore.ts：MAX_STORED_BYTES = 256 * 1024 * 1024；src/client/replay/ReplayPlayback.ts：TICKS_PER_SECOND = 10；src/client/replay/ReplayControls.ts：SPEEDS = [0.5, 1, 2, 4, 8, 16, 32]；src/client/replay/ReplayViewer.ts 键盘处理：空格播放/暂停，方向键 ±1 帧，按住 Shift ±100 帧）。设置：UserSettings.replayViewer() 读取 settings.replayViewer，默认 false；en.json 标签为 “New Replay Viewer”，描述为 “Open replays with rewind controls. Off opens the classic replay”。v0.35.0 发布正文：“Replays can seek. The game is processed once in your browser, then any point on the timeline is a ~20 ms jump. Finished games open in the viewer from the game history. (Disabled by default, we'll roll it out over the next week or so)”。v0.35.2 的 docs/Replays.md：26 分钟 25 人局约 70 秒处理、约 24 MB 存储；每 10 回合（多人）/ 100 回合（单人）做一次哈希校验；IndexedDB 数据库 “openfront-replays”，键为游戏 ID + build + REPLAY_VERSION，256 MB 时按 LRU 淘汰；其它 build 的录像被路由到 replay.<domain>/<gameID>。2026-10-21 核验。"
+freshnessSummary: "2026-11-17 对照正式 v0.36.2 版本正文核验入口变化：v0.36.0 起新查看器默认启用，设置中保留经典回放，并可用 Continue 转为单人局继续。下文细节保留 2026-10-21 核验的 v0.35.2 范围；旧开启步骤、存储数字、按键与性能例子不代表已重新核验的 v36 规则。"
 category: 教程
 difficulty: 入门
 tags: [replay, replay-viewer, 跳转, 复盘, 赛后, v0.35.0, v0.35, 存储, 确定性, 流程]
 ---
 
-## 直接答案：在设置里打开“New Replay Viewer”，然后打开任意一局结束的对战即可跳转
+## 直接答案：v36 默认打开可跳转回放查看器
+
+**当前入口。** 从 v0.36.0 起，新回放查看器是所有回放的默认选项。打开已结束的对局即可复盘，不必先按旧版流程开启试用开关。设置中仍可切换到经典回放。
+
+想测试另一种决策时，暂停回放，按 **Continue**，选择当时仍存活的玩家，再选择其他真人玩家对应的 AI 难度，即可从该时刻作为单人局继续。具体操作见[回放接管指南](/zh/guides/replay-takeover/)。
+
+[v36 版本笔记](/zh/changelog/v36/)说明了这些变化。跳转用于查看原局发生了什么；Continue 用于从暂停位置亲自尝试另一条路线。
+
+**下文为旧版操作说明。** 后续细节保留 2026-10-21 核验的 v0.35.2 范围，包括其中采用现在时的操作句。“先开启开关”和“不支持假设试局”描述的是 v35，而非 v36。旧存储数字、耗时和按键表也只适用于其标明的版本范围。
 
 v0.35.0 的发布把“从头线性看”的回放换成了可跳转的查看器，而且它是**可选功能**：开关关着的时候，“Watch replay” 仍然打开经典回放，绕过去的唯一入口就是设置菜单里的 **New Replay Viewer** 开关（它读取 `settings.replayViewer`，默认关闭）。一旦打开，你从游戏历史里打开的每局结束的对战都会进入查看器。它的原理是：查看器会在**你的浏览器里、在游戏引擎自己的 worker 上**把录像档案处理一次——和直播对战用的是同一个 worker——经过这一次之后，时间轴上的每次跳转只花大约 20 毫秒，因为整局游戏已经被解码完、躺在本地内存里了。键盘控制刻意做得极少：空格切换播放与暂停，右箭头和左箭头各进退一帧，按住 Shift 一次跳 100 帧。速度菜单提供 0.5 倍、1 倍、2 倍、4 倍、8 倍、16 倍和 32 倍。还有一个直接链接形式 `#replay-viewer=<gameID>`，即使开关关着也能打开查看器——这就是你可以把一个直接落到可跳转视图的链接发给别人的方式。这个功能没有任何部分跑在服务器上；服务器只提供存档录像。如果你只从这一页带走一个动作，就定为：把开关打开一次，从历史里打开一局长局，并让处理过程跑完再下判断——第一次打开按设计是慢的，之后在同一台机器上再打开同一局几乎是瞬间完成的，因为处理好的回放会存进 IndexedDB。开始之前先摆正一个预期：查看器是一件复盘工具，不是观看直播对战的新方式。它只对结束的对战生效，它增加了旧路径没有的处理步骤，而且它会向浏览器要真实内存——存储把解码后的档案限制在 256 MB，以保护低配设备，一局大到超出实用预算的对战在机器已经吃紧的会话里就是不会解码。换句话说，你并不是白拿跳转：作为交换，你接受每局每台机器一次的处理过程，这一页其余部分正是把这笔交换讲清楚。
 
