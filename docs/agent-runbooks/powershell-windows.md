@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-11-17 回放维护检索复发**：`rg` 路径误用 `src/content/guides/*/train-network.mdx`，触发 os error 123；恢复为真实目录加 `--glob train-network.mdx` 后成功。该候选未修改，随后按正式 Release 定位并维护已有回放答案。荷兰语 freshness 原文为 `100 (solo)`，补丁误写 `100 (singleplayer)` 导致多文件补丁原子拒绝；确认无部分写入、重读实际行后恢复。首轮 memory 全量读取输出被截断，改读最新热状态；未读取归档或改写 AGENTS.md。
+
 - **2026-11-16 Ranked FFA 维护读取恢复**：把猜测的 `src/components/ArticleStatus.astro` 与真实文件混入同一 `rg`，导致 os error 2；恢复为读取已确认的 `DocLayout.astro` 和 `FreshnessSummary.astro`，状态与展示实现均已定位。另一次 Release GET 成功后，登记脚本重复 GET 遇 TLS handshake timeout；只重试一次取得真实正式正文与双游标。没有将失败解释为无版本变化，没有修改 AGENTS.md。
 
 - **2026-11-01 联盟维护读取恢复**：`rg` 路径 `src/components/Home*` 再次因 Windows 不展开通配路径而报 os error 123，改为真实目录加 `--glob '*.astro'` 后恢复。另一次把 `diplomacy-betrayal.mdx` 猜为 guides 集合导致读取不存在路径；`rg --files src/content` 确认实际位于 strategies 后恢复任务。没有修改 AGENTS.md；应先确认集合和路径再进行依赖读取。

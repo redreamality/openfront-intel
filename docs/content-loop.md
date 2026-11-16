@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- 回放入口维护：[五语 v36 默认查看器与 Continue 入口](research/2026-11-17-replay-default-maintenance.md) 修正既有 seekable-replay-viewer 的首屏、标题与摘要，说明新查看器已默认启用并直达已有本语接管指南；下文保留 2026-10-21 的 v35 细节边界，不把旧开关、存储与性能数字重新认证为当前规则。本 PR 合并即完成并转 Monitoring；下一触发为正式回放变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。
+
 - Ranked FFA 历史答案维护：[五语旧队列与现行评分入口](research/2026-11-16-ranked-ffa-history-maintenance.md) 将旧页标题、摘要与首屏明确为历史，按正式 v36 的替代说明直达已有 FFA Rating 主答案；旧机制保留 2026-10-12 范围，不认证为当前公开 FFA 规则。本 PR 合并即完成并转 Monitoring；下一触发为正式评分变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。
 
 - 地图尺寸答案维护：[v36 World 地图边界](research/2026-11-15-map-size-maintenance.md) 为既有五语 map-size-compact-mode 补齐 World 10000、World 4000 替换 Giant World 及手机负载边界；v33.7 尺寸排行、Compact 数值和人数例子明确保留历史范围，不冒充当前全图排名。本 PR 合并即完成并转 Monitoring；下一触发为相关正式地图变化、确认错误或本批自身完整 GSC final 窗口。
