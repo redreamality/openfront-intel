@@ -1,5 +1,7 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-11-18 v36.3 路径恢复**：猜测 `scripts/audit-release-contract.mjs` 和 `src/i18n/home-priority-paths.ts` 均不存在；从 `package.json` 和真实组件定位 `scripts/audit-latest-release.mjs`、`src/components/HomePriorityPaths.astro` 后恢复。首次 memory 全量读取和批量缓存文件枚举输出截断，后续只读最新热状态与指定文件；未读 archive 或改 AGENTS.md。
+
 - **2026-11-15 地图尺寸维护读取恢复**：按 slug 猜测旧来源包路径，末条 `Get-Content -ErrorAction SilentlyContinue` 因目标不存在仍返回 1；改用 `rg --files docs/research` 枚举并为有限维护建立独立正式 Release 证据报告。一次多文件补丁又因未读取 runbook 标题而原子拒绝，确认无部分写入后按真实标题拆批恢复。首次全量 memory 与多个 runbook 合并读取产生输出截断，改按热状态和分段读取；没有读取 archive、改 AGENTS.md 或覆盖其他工作区。
 - 同轮日志过滤曾省略 `Select-String` 的 `-LiteralPath` / `-Pattern`，位置绑定把 `FAIL` 当成文件路径。显式指定两项后成功读取真实审计失败；该错误不代表日志文件缺失。
 

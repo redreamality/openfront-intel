@@ -48,6 +48,8 @@ for (const contract of contracts) {
   const document = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!document) throw new Error(`Missing frontmatter: ${path}`);
   const [, frontmatter, body] = document;
+  const directAnswer = body.replace(/\r\n/g, '\n').trim().split('\n\n')
+    .find((paragraph) => !paragraph.startsWith('#')) ?? '';
   const field = (key) => {
     const match = frontmatter.match(new RegExp(`^${key}:\\s*(?:"([^"]*)"|'([^']*)'|(.+))$`, 'm'));
     return (match?.[1] ?? match?.[2] ?? match?.[3] ?? '').trim();
@@ -77,10 +79,13 @@ for (const contract of contracts) {
     ['FFA Rating replaces old queue', contract.queue.test(body)],
     ['guest shared save access', contract.guests.test(body)],
     ['private threshold and default', contract.thresholds.test(body)],
+    ['current hosted cap in direct answer', directAnswer.includes(release.displayVersion)
+      && directAnswer.includes('500')],
+    ['v36.3 facts', ['Plutonium', '500', 'Activity', 'boat', 'ship'].every((signal) => body.includes(signal))],
     ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
       'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
     ['current source', body.includes(`](${release.releaseUrl})`)],
-    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2'].every((tag) =>
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3'].every((tag) =>
       body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
     ['no inherited v35 patch claims', !body.includes('v0.35.')],
     ['no third-level section bypass', !/^### /m.test(body)],
