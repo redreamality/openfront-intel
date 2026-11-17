@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- v36.3 正式维护：[五语 500 人公开自建上限与氏族基金](research/2026-11-18-v363-release-maintenance.md) 同步五语版本页、首页版本及既有私人房间主答案首屏；旧 v36.2 设置保留 2026-11-15 范围，生成数据仍为 v35。本 PR 合并即完成并转 Monitoring；下一触发为相关正式变化、确认错误或实际部署日 T 后 T+1 至 T+28 完整 GSC final 窗口。正式游标为 v0.36.3（2026-11-17T13:50:53Z），tag commit `295829ac34a4e7043af1759be238438783720a4e`；upstream main 独立游标为 `8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94`，不据其后续条款变更扩写公开游戏机制。
+
 - 回放入口维护：[五语 v36 默认查看器与 Continue 入口](research/2026-11-17-replay-default-maintenance.md) 修正既有 seekable-replay-viewer 的首屏、标题与摘要，说明新查看器已默认启用并直达已有本语接管指南；下文保留 2026-10-21 的 v35 细节边界，不把旧开关、存储与性能数字重新认证为当前规则。本 PR 合并即完成并转 Monitoring；下一触发为正式回放变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。
 
 - Ranked FFA 历史答案维护：[五语旧队列与现行评分入口](research/2026-11-16-ranked-ffa-history-maintenance.md) 将旧页标题、摘要与首屏明确为历史，按正式 v36 的替代说明直达已有 FFA Rating 主答案；旧机制保留 2026-10-12 范围，不认证为当前公开 FFA 规则。本 PR 合并即完成并转 Monitoring；下一触发为正式评分变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。

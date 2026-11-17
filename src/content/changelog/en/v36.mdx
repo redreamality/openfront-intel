@@ -1,17 +1,17 @@
 ---
-title: 'OpenFront v36.2: saves, FFA Rating and new controls'
-description: 'OpenFront v36.2 release notes: shared solo saves, replay takeover, FFA Rating, Atlas maps, mobile quick build and the corrected red nuke warning.'
+title: 'v36.3 500-player host lobbies'
+description: 'OpenFront v36.3: listed hosted lobbies allow up to 500 players on any map, clan fund sends, smoother giant maps and a singleplayer history fix.'
 pubDate: 2026-11-09
-updatedDate: 2026-11-12
+updatedDate: 2026-11-18
 version: v36
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changes in OpenFront v36.2?
+## Direct answer: what changes in OpenFront v36.3?
 
-**OpenFront v36.2 makes the traitor nuke warning solid red again, expands the clan map to full screen, and gives publicly listed hosted lobbies map-dependent player caps.** The larger v36 update adds singleplayer saves and sharing, replay takeover, FFA Rating, the Atlas and a mobile build bar. These features serve different tasks: continuing a solo campaign, studying a finished game, following public FFA results, choosing terrain and placing units on a phone.
+**OpenFront v36.3 lets publicly listed hosted lobbies take up to 500 players on any map, replacing v36.2's map-dependent cap. Clan leaders can send Plutonium from the clan fund to members, with every member able to see the sends.** The patch also improves giant-map rendering and fixes some singleplayer games missing from history. The larger v36 update adds singleplayer saves and sharing, replay takeover, FFA Rating, the Atlas and a mobile build bar. These features serve different tasks: continuing a solo campaign, studying a finished game, following public FFA results, choosing terrain and placing units on a phone.
 
 Signed-in players can save a singleplayer game from the in-game menu. The Solo modal has a Saved games bar for loading, renaming, deleting and sharing saves. A shared save opens through its link or a code pasted into that bar, including on Steam and game portals. Guests can play shared saves. That guest access does not mean anonymous players receive all the signed-in save-management features. Keep a share code when moving between surfaces rather than assuming an ordinary live-lobby link is a saved campaign.
 
@@ -35,7 +35,7 @@ Read keyboard hints on your own layout. Defaults now follow layouts such as AZER
 
 If hosting privately, inspect the actual win threshold before planning the endgame. Hosts can set it from 10% to 99.9%, while 80% remains the default; Overtime counts down from the configured threshold. A plan based on the ordinary default may therefore be wrong for that particular custom lobby. Saved lobby presets help reuse settings, but you should still read the selected preset before inviting players. The [Overtime guide](/guides/winning-overtime/) explains the broader territory-control task.
 
-If choosing a large map, use the card's expected players and terrain information instead of only its name. Publicly listed hosted lobbies now use map-based caps: The Box permits 210, while smaller maps permit fewer. That is a separate rule from the private game's victory percentage. Do not infer that every map accepts 210 players or that the huge World 10000 is a sensible mobile choice. In v36.1, Türkiye, Ottoman and Zealandia were added to New and the Atlas; v36.2 also widens and centres the map-info tooltip.
+If choosing a large map, use the card's expected players and terrain information instead of only its name. In v36.2, listed hosted caps depended on the map: The Box permitted 210 and smaller maps fewer. v36.3 replaces that rule with up to 500 players on any map for publicly listed hosted lobbies. This does not announce a 500-player target for every scheduled public match or promise that 500 is comfortable on a small map. Choose the actual roster and terrain together; the [custom-game guide](/guides/create-private-custom-game/) separates hosting from matchmaking. In v36.1, Türkiye, Ottoman and Zealandia were added to New and the Atlas; v36.2 also widens and centres the map-info tooltip.
 
 ## Which fixes and version boundaries matter?
 
@@ -49,4 +49,6 @@ The clan Map tab now opens full screen with a Clans back button and a side panel
 
 Performance work targets heavy games, including faster MIRV targeting, lower peak memory in large SAM fights and removal of an early spawn-phase freeze. v36.1 adds another improvement for giant maps with many nations and bots. The announced speedup is about simulation work, not missile damage, interception probability or guaranteed performance on every device. The distinction matters when comparing an expensive late-game battle on a desktop with the same map on a phone.
 
-The [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) establishes the series features. The [v0.36.1 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.1) records the map-category and heavy-game follow-up. The [v0.36.2 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2), published November 11, 2026, supplies the latest fixes above. Older guides retain their own stated verification scope; a new release does not automatically validate every old numerical table. Use this page for the version transition and the linked task guides for the longer decision process.
+v36.3 reduces memory use and improves rendering on World 10000 and other giant maps. It does not promise a fixed frame rate or withdraw the warning about phones. Clan map Activity, leaderboard and troop-bar text can now be translated, with "boat" replacing "ship". A header ad skin no longer squeezes pages such as the join lobby. Some solo games previously missed history because their IDs collided with older games; the fix concerns history recording, not a promise to recover every missing save. Clan fund sends are visible to every member, so treat distribution as a shared clan decision rather than a private message.
+
+The [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) establishes the series features. The [v0.36.1 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.1) records the map-category and heavy-game follow-up. The [v0.36.2 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2) supplies the red-warning and clan-map fixes. The [v0.36.3 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.3), published November 17, 2026, supersedes its listed hosted cap and supplies the latest changes above. Older guides retain their own stated verification scope; a new release does not automatically validate every old numerical table. Use this page for the version transition and the linked task guides for the longer decision process.
