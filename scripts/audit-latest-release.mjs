@@ -40,6 +40,13 @@ const contracts = [
     guests: /Gasten mogen gedeelde saves spelen/,
     thresholds: /10% tot 99,9%.*80% standaard/is },
 ];
+const patchFacts = {
+  en: ['Gameplay', 'renewal prompt', 'water nukes', 'private-lobby', 'leaderboard', 'Privacy Policy'],
+  zh: ['Gameplay', '续期提示', '水上核爆', '私人大厅', '排行榜', '隐私政策'],
+  fr: ['Gameplay', 'renouvellement', "sur l'eau", 'salon privé', 'classement', 'confidentialité'],
+  de: ['Gameplay', 'Erneuerungsaufforderung', 'Wasser-Kernexplosionen', 'privaten Lobbys', 'Rangliste', 'Datenschutzerklärung'],
+  nl: ['Gameplay', 'alliantieprompt', 'op water', 'privélobby', 'ranglijst', 'privacybeleid'],
+};
 
 let failed = 0;
 for (const contract of contracts) {
@@ -79,13 +86,16 @@ for (const contract of contracts) {
     ['FFA Rating replaces old queue', contract.queue.test(body)],
     ['guest shared save access', contract.guests.test(body)],
     ['private threshold and default', contract.thresholds.test(body)],
-    ['current hosted cap in direct answer', directAnswer.includes(release.displayVersion)
+    ['current patch and retained hosted cap in direct answer', directAnswer.includes(release.displayVersion)
       && directAnswer.includes('500')],
+    ['v36.4 six patch facts', patchFacts[contract.lang].every(signal => body.includes(signal))],
+    ['build preference and shortcut answer', body.includes('Cycle Build Multiplier on Hotkey')
+      && body.includes(`](/${contract.lang === 'en' ? '' : contract.lang + '/'}shortcuts/)`)],
     ['v36.3 facts', ['Plutonium', '500', 'Activity', 'boat', 'ship'].every((signal) => body.includes(signal))],
     ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
       'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
     ['current source', body.includes(`](${release.releaseUrl})`)],
-    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3'].every((tag) =>
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4'].every((tag) =>
       body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
     ['no inherited v35 patch claims', !body.includes('v0.35.')],
     ['no third-level section bypass', !/^### /m.test(body)],
