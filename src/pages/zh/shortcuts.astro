@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: '建造 / 单位数字键',
-    note: '在同一位置重复按建造键，数量按 1 → 5 → 10 → 15 循环，随后每次加 5，达到 50 后回到 1。数量用于已有建筑升级和原子弹；新建建筑、氢弹与 MIRV 仍是 x1。',
+    note: '开启 Cycle Build Multiplier on Hotkey 时，同一位置重复按键按 1 → 5 → 10 → 15 循环，随后加 5 至 50 再回 1。Gameplay 设置可关闭循环，Alt+滚轮仍可调量。数量用于升级和原子弹；新建、氢弹与 MIRV 仍为 x1。',
     rows: [
       { keys: ['1'], action: '建造城市 City' },
       { keys: ['2'], action: '建造工厂 Factory' },
@@ -113,8 +113,12 @@ const groups: Group[] = [
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
       <strong class="text-iron-100">J/O/I/H 与建造数量已于 2026 年 11 月 14 日按正式 <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> 核验。</strong>
-      在同一位置重复按建造键，数量为 1 → 5 → 10 → 15，随后每次加 5，达到 50 后回到 1。Alt+滚轮逐个增减。已有建筑升级和原子弹使用该数量；新建建筑、氢弹与 MIRV 仍为 x1。原子弹批量仍受金币和已装填发射管限制。
+      开启按键循环时，在同一位置重复按建造键，数量为 1 → 5 → 10 → 15，随后每次加 5，达到 50 后回到 1。Alt+滚轮逐个增减。已有建筑升级和原子弹使用该数量；新建建筑、氢弹与 MIRV 仍为 x1。原子弹批量仍受金币和已装填发射管限制。
       默认键位提示跟随键盘布局，例如 AZERTY 的 ZQSD；保存的绑定优先。训练教程保留其标注的 v35 范围。
+    </p>
+
+    <p data-build-cycle-setting class="text-sm text-iron-300">
+      <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4" class="underline">v0.36.4</a>，2026 年 11 月 19 日核验：Settings → Gameplay → Cycle Build Multiplier on Hotkey 默认开启。关闭后，重复建造键不再循环数量，Alt+滚轮仍可手动调量。这不等于禁用所有批量操作。<a href="/zh/changelog/v36/" class="underline">当前版本笔记</a>。
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">

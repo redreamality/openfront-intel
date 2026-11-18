@@ -1,17 +1,17 @@
 ---
-title: 'v36.3 500-player host lobbies'
-description: 'OpenFront v36.3: listed hosted lobbies allow up to 500 players on any map, clan fund sends, smoother giant maps and a singleplayer history fix.'
+title: 'v36.4 build hotkey settings'
+description: 'OpenFront v36.4: turn off build hotkey quantity cycling, confirm alliance renewals and see giant-map, private-lobby and leaderboard fixes.'
 pubDate: 2026-11-09
-updatedDate: 2026-11-18
+updatedDate: 2026-11-19
 version: v36
 releaseStatus: released
 tags: [changelog, balance, features]
 category: Release Notes
 ---
 
-## Direct answer: what changes in OpenFront v36.3?
+## Direct answer: what changes in OpenFront v36.4?
 
-**OpenFront v36.3 lets publicly listed hosted lobbies take up to 500 players on any map, replacing v36.2's map-dependent cap. Clan leaders can send Plutonium from the clan fund to members, with every member able to see the sends.** The patch also improves giant-map rendering and fixes some singleplayer games missing from history. The larger v36 update adds singleplayer saves and sharing, replay takeover, FFA Rating, the Atlas and a mobile build bar. These features serve different tasks: continuing a solo campaign, studying a finished game, following public FFA results, choosing terrain and placing units on a phone.
+**OpenFront v36.4 adds a Gameplay setting to stop repeated build hotkeys from cycling the quantity, and alliance extension requests now count only while the renewal prompt is showing.** It also fixes giant-map crashes after many water nukes, false private-lobby exit prompts and leaderboard flickering or duplicate rows. Terms of Service and Privacy Policy now cover clan fund sends. The v36.3 limit of up to 500 players on any map still applies to publicly listed hosted lobbies; clan leaders can send Plutonium to members with every member able to see the sends. The broader series brings solo saves, replay takeover, FFA Rating, Atlas and mobile quick build.
 
 Signed-in players can save a singleplayer game from the in-game menu. The Solo modal has a Saved games bar for loading, renaming, deleting and sharing saves. A shared save opens through its link or a code pasted into that bar, including on Steam and game portals. Guests can play shared saves. That guest access does not mean anonymous players receive all the signed-in save-management features. Keep a share code when moving between surfaces rather than assuming an ordinary live-lobby link is a saved campaign.
 
@@ -33,6 +33,8 @@ On a phone, practise preview and confirmation in solo before placing an expensiv
 
 Read keyboard hints on your own layout. Defaults now follow layouts such as AZERTY, where movement hints can show ZQSD. Repeating a build key on the same position steps the amount through 1, 5, 10 and 15, with a maximum of 50; Alt+scroll adjusts by one. Holding H asks for a separate structure instead of upgrading a nearby one. Check the preview amount before confirming a large order, especially after repeated presses. Custom bindings can change which physical key performs each action.
 
+In v36.4, Settings → Gameplay → Cycle Build Multiplier on Hotkey lets you stop that repeated-key cycling. It is enabled by default. Turn it off if repeated presses are changing quantities unintentionally; Alt+scroll still adjusts the amount manually. Check the preview instead of assuming this preference disables every batch action. The [shortcuts reference](/shortcuts/) keeps the lookup and the older controls' verification scope together.
+
 If hosting privately, inspect the actual win threshold before planning the endgame. Hosts can set it from 10% to 99.9%, while 80% remains the default; Overtime counts down from the configured threshold. A plan based on the ordinary default may therefore be wrong for that particular custom lobby. Saved lobby presets help reuse settings, but you should still read the selected preset before inviting players. The [Overtime guide](/guides/winning-overtime/) explains the broader territory-control task.
 
 If choosing a large map, use the card's expected players and terrain information instead of only its name. In v36.2, listed hosted caps depended on the map: The Box permitted 210 and smaller maps fewer. v36.3 replaces that rule with up to 500 players on any map for publicly listed hosted lobbies. This does not announce a 500-player target for every scheduled public match or promise that 500 is comfortable on a small map. Choose the actual roster and terrain together; the [custom-game guide](/guides/create-private-custom-game/) separates hosting from matchmaking. In v36.1, Türkiye, Ottoman and Zealandia were added to New and the Atlas; v36.2 also widens and centres the map-info tooltip.
@@ -51,4 +53,6 @@ Performance work targets heavy games, including faster MIRV targeting, lower pea
 
 v36.3 reduces memory use and improves rendering on World 10000 and other giant maps. It does not promise a fixed frame rate or withdraw the warning about phones. Clan map Activity, leaderboard and troop-bar text can now be translated, with "boat" replacing "ship". A header ad skin no longer squeezes pages such as the join lobby. Some solo games previously missed history because their IDs collided with older games; the fix concerns history recording, not a promise to recover every missing save. Clan fund sends are visible to every member, so treat distribution as a shared clan decision rather than a private message.
 
-The [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) establishes the series features. The [v0.36.1 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.1) records the map-category and heavy-game follow-up. The [v0.36.2 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2) supplies the red-warning and clan-map fixes. The [v0.36.3 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.3), published November 17, 2026, supersedes its listed hosted cap and supplies the latest changes above. Older guides retain their own stated verification scope; a new release does not automatically validate every old numerical table. Use this page for the version transition and the linked task guides for the longer decision process.
+The [official v0.36.4 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4), published November 18, 2026, fixes crashes in long games on World 10000 and other giant maps after many water nukes. This is a stability fix, not a new weapon rule or a phone performance guarantee. Closing notifications or opening release notes in private lobbies no longer causes the mistaken "leave lobby?" prompt. The leaderboard fix addresses flickering and your row appearing twice near the bottom, not duplicated rating awards. Alliance renewals require responding during the current prompt; an early request is not permission for a later renewal. The policy update covers clan fund sends without announcing new transfer limits or refunds.
+
+The [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) establishes the series features. The [v0.36.1 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.1) records the map-category and heavy-game follow-up. The [v0.36.2 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2) supplies the red-warning and clan-map fixes. The [v0.36.3 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.3), published November 17, 2026, supersedes its listed hosted cap and supplies the .3 changes above. Older guides retain their own stated verification scope; a new release does not automatically validate every old numerical table. Use this page for the version transition and the linked task guides for the longer decision process.

@@ -33,6 +33,8 @@
 
 ## 最新来源锚点
 
+- 正式 v36.4 响应：[五语补丁与建造倍率设置维护](research/2026-11-19-v364-release-maintenance.md) 同步既有版本主答案、首页与 shortcuts；设置默认开启，可关闭重复建造键的倍率循环，Alt+滚轮仍可调量。联盟续期只在提示窗口接受请求；巨图水上核爆崩溃、大厅误退出提示、榜单和氏族基金政策文案按正式正文保留范围。本 PR 合并即完成并转 Monitoring；下一触发为正式变化、确认错误或实际部署日 T 后 T+1 至 T+28 的完整 GSC final 窗口。
+
 - v36.3 正式维护：[五语 500 人公开自建上限与氏族基金](research/2026-11-18-v363-release-maintenance.md) 同步五语版本页、首页版本及既有私人房间主答案首屏；旧 v36.2 设置保留 2026-11-15 范围，生成数据仍为 v35。本 PR 合并即完成并转 Monitoring；下一触发为相关正式变化、确认错误或实际部署日 T 后 T+1 至 T+28 完整 GSC final 窗口。正式游标为 v0.36.3（2026-11-17T13:50:53Z），tag commit `295829ac34a4e7043af1759be238438783720a4e`；upstream main 独立游标为 `8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94`，不据其后续条款变更扩写公开游戏机制。
 
 - 回放入口维护：[五语 v36 默认查看器与 Continue 入口](research/2026-11-17-replay-default-maintenance.md) 修正既有 seekable-replay-viewer 的首屏、标题与摘要，说明新查看器已默认启用并直达已有本语接管指南；下文保留 2026-10-21 的 v35 细节边界，不把旧开关、存储与性能数字重新认证为当前规则。本 PR 合并即完成并转 Monitoring；下一触发为正式回放变化、确认错误或本批 T+1 至 T+28 完整 GSC final 窗口。
@@ -44,8 +46,8 @@
 - 快捷键速查维护：[v36 五语操作增量](research/2026-11-14-shortcuts-maintenance.md) 补齐既有 `/shortcuts/` 的 J/O 捐赠、I 玩家面板、H 独立建造，以及建造数量 1→5→10→15 至 50 的循环和 Alt+滚轮。训练长文保留原 v35 核验范围，不新增重复答案。本 PR 合并即完成并转 Monitoring；下一触发为相关正式操作变化、确认错误或本批自身完整 GSC final 窗口。
 
 - 移动建造维护：[五语快捷建造答案](research/2026-11-13-mobile-quick-build-maintenance.md) 将既有 mobile-controls 的首屏和建造小节同步至正式 v36 常驻栏、预览移动及二次点按确认；手势阈值和舰队细节保留旧核验边界。本 PR 合并即完成并转 Monitoring，下一触发仅为正式操作变化、确认错误或自身完整 GSC final 窗口，不新增同意图页面。
-- 正式 v36 响应：最新正式 Release 为 [`v0.36.2`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2)，tag commit `8b5d071eed95f07c701b32e4c64e95b03f8577c1`，API 发布于 2026-11-11T22:09:39Z。五语 `/changelog/v36/` 与首页当前版本、优先入口同步；旧 v35 作为历史系列保留，生成快照与 Footer 仍明确为 v35。事实矩阵及来源见 [v36 正式响应](research/2026-11-12-v36-release-response.md)。本批发布即完成并转 Monitoring；下一触发为新正式 Release、确认事实错误或自身 T+1 至 T+28 完整 GSC final 窗口，不据发布日期追刷所有旧攻略。
-- 当前 upstream `main` 独立游标为 `906d93ffa56d1810998de249d92d67457ce7c6d4`（2026-11-12 核验）；不能作为正式已发布规则。以下 v35.10 与旧 main 记录保留为历史边界，不再代表最新版本。
+- 正式 v36 响应：最新正式 Release 为 [`v0.36.4`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4)，tag commit `dd85bcfb8b20e599fae15298bf56db1e92947f61`，API 发布于 2026-11-18T21:03:09Z。五语 `/changelog/v36/` 与首页当前版本、优先入口同步；旧 v35 作为历史系列保留，生成快照与 Footer 仍明确为 v35。系列基础见 [v36 正式响应](research/2026-11-12-v36-release-response.md)，本次增量见 [v36.4 维护](research/2026-11-19-v364-release-maintenance.md)。本批发布即完成并转 Monitoring；下一触发为新正式 Release、确认事实错误或自身 T+1 至 T+28 完整 GSC final 窗口，不据发布日期追刷所有旧攻略。
+- 当前 upstream `main` 独立游标为 `5f5d6be85daedd253a7b8647ebf0cb63bbb6311c`（2026-11-19 核验）；不能作为正式已发布规则。本次玩法细节取正式 tag。以下 v35.10 与旧 main 记录保留为历史边界，不再代表最新版本。
 - 正式 Release 游标：[`v0.35.10`](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.10)，tag commit `79aed26b677c234046ac6c82d1ed95f82b0e0227`；API 发布时间为 2026-11-03T04:05:22Z，非 TEST、非预发布。五语 v35 主答案已补齐 Viverse 集成的正式边界；v35.9 的 Tutorial 扩充、氏族 Top donors 与 Store 余额修复，v35.7 的 Tutorial、氏族 Map alpha、加载失败反馈与外观 AI 标签保留各自边界。v35.10 没有宣布战斗、经济、地图或成长规则变化。对应维护记录见 [v35.10 Release maintenance](research/2026-11-04-v3510-release-maintenance.md)；发布后转 Monitoring，仅新正式变化、确认错误或自身完整 final 窗口触发重开。
 - 核弹切地编辑核验边界：正式 v0.35.0（`dfd420fd7836ae023504a9440d9d68897745b7b4`）至 v0.35.2 的 `PlayerExecution.ts` 相同；旧 v0.34.25 没有新增切地路径。其他常青页尚未因此自动升级。
 - 改键维护：[五语正式版操作边界](research/2026-10-21-stable-controls-maintenance.md) 发布即完成并转 Monitoring；速查页和训练页同步 X 全舰队、F 表情、R 快捷聊天及自定义绑定优先。只核验本轮所改操作，核武数值保留原引用边界；下次由正式操作变化、已确认错误或完整 GSC final 窗口触发。

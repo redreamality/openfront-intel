@@ -8,6 +8,13 @@ const officialKeybindingSource =
   'https://github.com/openfrontio/OpenFrontIO/blob/v0.35.2/src/client/UserSettingModal.ts';
 const stableKeybindingRelease =
   'https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.35.0';
+const cycleConditions: Record<string, string[]> = {
+  en: ['enabled by default', 'Turn it off', 'Alt+scroll still adjusts manually'],
+  zh: ['默认开启', '关闭后', 'Alt+滚轮仍可手动调量'],
+  fr: ['activé par défaut', 'Désactivez-le', 'Alt+molette ajuste toujours'],
+  de: ['standardmäßig aktiv', 'Abschalten', 'Alt+Mausrad ändert'],
+  nl: ['standaard aan', 'Zet dit uit', 'Alt+muiswiel blijft'],
+};
 
 const cases = [
   {
@@ -151,6 +158,18 @@ for (const c of cases) {
     await expect(amountRow).toContainText('1');
     await expect(amountRow).toContainText('50');
     await expect(page.locator('main')).toContainText(c.intent);
+    const cycle = page.locator('[data-build-cycle-setting]');
+    await expect(cycle).toContainText('v0.36.4');
+    await expect(cycle).toContainText('Gameplay');
+    await expect(cycle).toContainText('Cycle Build Multiplier on Hotkey');
+    for (const condition of cycleConditions[c.lang]) await expect(cycle).toContainText(condition);
+    await expect(cycle.locator('a[href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4"]')).toBeVisible();
+    const currentNotes = cycle.locator(`a[href="${c.path.replace('shortcuts/', 'changelog/v36/')}"]`);
+    await expect(currentNotes).toBeVisible();
+    await currentNotes.click();
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.locator('h1')).toContainText('v36.4');
+    await page.goto(c.path, { waitUntil: 'domcontentloaded' });
 
     // Stable v35 defaults and custom bindings must agree with the action rows.
     const boundary = page.locator('[data-keybinding-boundary]');

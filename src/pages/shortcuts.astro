@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Build & unit number keys',
-    note: 'At the same spot, repeat the build key to cycle 1 → 5 → 10 → 15, then by 5 up to 50 and back to 1. This amount applies to existing upgrades and Atom Bombs; new structures, Hydrogen Bombs, and MIRVs stay x1.',
+    note: 'With Cycle Build Multiplier on Hotkey enabled, repeat at the same spot for 1 → 5 → 10 → 15, then by 5 to 50 and back to 1. Gameplay settings can disable this cycle; Alt+scroll still adjusts. Upgrades and Atom Bombs use the amount; new structures, Hydrogen Bombs and MIRVs stay x1.',
     rows: [
       { keys: ['1'], action: 'Build City' },
       { keys: ['2'], action: 'Build Factory' },
@@ -113,8 +113,12 @@ const groups: Group[] = [
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
       <strong class="text-iron-100">J/O/I/H and build amounts checked in stable <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> on November 14, 2026.</strong>
-      Repeat the same build key at the same spot for 1 → 5 → 10 → 15, continuing by 5 to 50, then back to 1. Alt+scroll adjusts by 1. Existing upgrades and Atom Bombs use this amount; new structures, Hydrogen Bombs and MIRVs stay x1. Gold and loaded Silo tubes still limit Atom Bomb batches.
+      With hotkey cycling enabled, repeat the same build key at the same spot for 1 → 5 → 10 → 15, continuing by 5 to 50, then back to 1. Alt+scroll adjusts by 1. Existing upgrades and Atom Bombs use this amount; new structures, Hydrogen Bombs and MIRVs stay x1. Gold and loaded Silo tubes still limit Atom Bomb batches.
       Default labels follow your keyboard layout, including ZQSD on AZERTY. Saved bindings take precedence. The training guide retains its stated v35 scope.
+    </p>
+
+    <p data-build-cycle-setting class="text-sm text-iron-300">
+      <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4" class="underline">v0.36.4</a>, checked November 19, 2026: Settings → Gameplay → Cycle Build Multiplier on Hotkey is enabled by default. Turn it off to stop repeated build hotkeys cycling quantities; Alt+scroll still adjusts manually. This setting does not disable every batch action. <a href="/changelog/v36/" class="underline">Current version notes</a>.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">

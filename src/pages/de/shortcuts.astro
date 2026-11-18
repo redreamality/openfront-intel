@@ -12,7 +12,7 @@ const groups: Group[] = [
   {
     id: 'build',
     label: 'Bau- & Einheiten-Zahlentasten',
-    note: 'Am selben Ort schaltet wiederholtes Drücken durch 1 → 5 → 10 → 15, dann in Fünferschritten bis 50 und zurück auf 1. Die Menge gilt für Upgrades und Atom Bombs; Neubau, Hydrogen Bomb und MIRV bleiben x1.',
+    note: 'Mit aktivem Cycle Build Multiplier on Hotkey: 1 → 5 → 10 → 15, dann in Fünferschritten bis 50 und zurück auf 1. Unter Gameplay abschaltbar; Alt+Mausrad bleibt verfügbar. Upgrades und Atom Bombs nutzen die Menge; Neubau, Hydrogen Bomb und MIRV bleiben x1.',
     rows: [
       { keys: ['1'], action: 'Stadt (City) bauen' },
       { keys: ['2'], action: 'Fabrik (Factory) bauen' },
@@ -113,8 +113,12 @@ const groups: Group[] = [
   <section class="container-wide py-10 space-y-10">
     <p class="border-l-2 border-cannon-500 pl-4 text-sm text-iron-300">
       <strong class="text-iron-100">J/O/I/H und Baumengen am 14. November 2026 in <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.2" class="underline">v0.36.2</a> stable geprüft.</strong>
-      Am selben Ort durchläuft derselbe Bau-Hotkey 1 → 5 → 10 → 15, dann Fünferschritte bis 50 und zurück auf 1. Alt+Mausrad ändert um 1. Upgrades und Atom Bombs nutzen diese Menge; Neubau, Hydrogen Bomb und MIRV bleiben x1. Gold und geladene Silo-Rohre begrenzen Atom-Bomb-Salven weiterhin.
+      Bei aktivem Zyklus durchläuft derselbe Bau-Hotkey am selben Ort 1 → 5 → 10 → 15, dann Fünferschritte bis 50 und zurück auf 1. Alt+Mausrad ändert um 1. Upgrades und Atom Bombs nutzen diese Menge; Neubau, Hydrogen Bomb und MIRV bleiben x1. Gold und geladene Silo-Rohre begrenzen Atom-Bomb-Salven weiterhin.
       Die Standardbeschriftung folgt deinem Tastaturlayout, etwa ZQSD bei AZERTY. Gespeicherte Belegungen haben Vorrang. Der Trainingsguide behält seinen angegebenen v35-Geltungsbereich.
+    </p>
+
+    <p data-build-cycle-setting class="text-sm text-iron-300">
+      <a href="https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.4" class="underline">v0.36.4</a>, geprüft am 19. November 2026: Settings → Gameplay → Cycle Build Multiplier on Hotkey ist standardmäßig aktiv. Abschalten stoppt den Mengenwechsel durch wiederholte Bautasten; Alt+Mausrad ändert die Menge weiterhin manuell. Es sperrt nicht sämtliche Sammelaufträge. <a href="/de/changelog/v36/" class="underline">Aktuelle Versionshinweise</a>.
     </p>
 
     <aside data-keybinding-boundary class="rounded border border-cannon-700/60 bg-cannon-950/20 p-4 text-sm leading-relaxed text-iron-300">
