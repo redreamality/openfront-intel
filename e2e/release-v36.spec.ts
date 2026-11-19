@@ -8,6 +8,13 @@ const cases = [
   { prefix: '/de/', warning: 'durchgehendes Rot', guest: 'Gäste können geteilte Spielstände spielen', renewal: 'Erneuerungsaufforderung' },
   { prefix: '/nl/', warning: 'egaal rood', guest: 'Gasten mogen gedeelde saves spelen', renewal: 'alliantieprompt' },
 ];
+const patchFacts: Record<string, string[]> = {
+  '/': ['footer', 'staff-lock', 'annexed'],
+  '/zh/': ['页脚', '管理员锁定', '兼并'],
+  '/fr/': ['pied de page', 'verrouillage', 'annexion'],
+  '/de/': ['Footer', 'Sperren', 'Annexion'],
+  '/nl/': ['footer', 'vergrendelingen', 'geannexeerd'],
+};
 
 for (const item of cases) {
   test(`v36 release flow ${item.prefix} preserves current and historical scope`, async ({ page }) => {
@@ -16,14 +23,18 @@ for (const item of cases) {
     await expect(link).toContainText('FFA Rating');
     await expect(link).toContainText('Atlas');
     await expect(link).toContainText(latestOpenFrontRelease.displayVersion);
+    await expect(link).toContainText(patchFacts[item.prefix][0]);
     await link.click();
     await page.waitForLoadState('domcontentloaded');
     await expect(page).toHaveURL(`${test.info().project.use.baseURL}${item.prefix}changelog/v36/`);
     const main = page.locator('main');
-    await expect(page).toHaveTitle(/v36\.4/);
+    await expect(page).toHaveTitle(new RegExp(latestOpenFrontRelease.displayVersion.replaceAll('.', '\\.')));
     await expect(main.locator('h1')).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(main.locator('.prose p').first()).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(main.locator('.prose p').first()).toContainText('500');
+    for (const fact of patchFacts[item.prefix]) {
+      await expect(main.locator('.prose p').first()).toContainText(fact);
+    }
     await expect(main).toContainText(item.warning);
     await expect(main).toContainText(item.guest);
     await expect(main).toContainText(item.renewal);
