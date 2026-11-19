@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { latestOpenFrontRelease } from '../src/config/openfront-release';
 
 // /shortcuts 独立着陆页（流量词 "openfront shortcuts"）回归测试。
 // 约定同 breadcrumb.spec.ts：只等 domcontentloaded（BaseLayout 内联 gtag 异步脚本，'load' 本机可能 30s 不触发）。
@@ -168,7 +169,7 @@ for (const c of cases) {
     await expect(currentNotes).toBeVisible();
     await currentNotes.click();
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.locator('h1')).toContainText('v36.4');
+    await expect(page.locator('h1')).toContainText(latestOpenFrontRelease.displayVersion);
     await page.goto(c.path, { waitUntil: 'domcontentloaded' });
 
     // Stable v35 defaults and custom bindings must agree with the action rows.

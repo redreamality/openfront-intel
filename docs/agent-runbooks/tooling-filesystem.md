@@ -1,5 +1,10 @@
 # 工具、路径与文件系统 runbook
 
+- **2026-11-20 联盟续期维护读取复发**：首次全量 memory 和合并多份 runbook 的输出再次被截断；改为只读 memory 最新热状态、按文件和所需行段读取上下文。没有把截断当成文件缺失或网络故障，没有读取 archive 或修改 AGENTS.md。
+- 同轮猜测 `e2e/replay-discovery.spec.ts` 不存在，读取退出 1；按实际枚举结果读取 `e2e/release-v36.spec.ts`，为新增本语版本入口单独添加五语回归。失败发生在只读路径探测，不是内容或构建失败。
+- 读取 Playwright 错误上下文时再次猜测带 `*` 的路径，`Get-Content` 未命中并退出 1；使用失败日志里的精确目录或独立浏览器测量脚本继续诊断。溢出复现脚本退出 1 是已确认的 392px/390px 红灯，不是脚本异常。
+- 同轮 v36.5 扩围时，多文件补丁先因 shortcuts 的 import 顺序与假定不同、再因未读取 runbook 标题而原子拒绝；读取实际首行并拆分补丁后恢复。无部分写入，未改 AGENTS.md。
+
 - **2026-11-18 v36.3 路径恢复**：猜测 `scripts/audit-release-contract.mjs` 和 `src/i18n/home-priority-paths.ts` 均不存在；从 `package.json` 和真实组件定位 `scripts/audit-latest-release.mjs`、`src/components/HomePriorityPaths.astro` 后恢复。首次 memory 全量读取和批量缓存文件枚举输出截断，后续只读最新热状态与指定文件；未读 archive 或改 AGENTS.md。
 
 - **2026-11-15 地图尺寸维护读取恢复**：按 slug 猜测旧来源包路径，末条 `Get-Content -ErrorAction SilentlyContinue` 因目标不存在仍返回 1；改用 `rg --files docs/research` 枚举并为有限维护建立独立正式 Release 证据报告。一次多文件补丁又因未读取 runbook 标题而原子拒绝，确认无部分写入后按真实标题拆批恢复。首次全量 memory 与多个 runbook 合并读取产生输出截断，改按热状态和分段读取；没有读取 archive、改 AGENTS.md 或覆盖其他工作区。

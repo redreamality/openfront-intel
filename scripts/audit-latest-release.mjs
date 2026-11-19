@@ -48,6 +48,13 @@ const patchFacts = {
   nl: ['Gameplay', 'alliantieprompt', 'op water', 'privélobby', 'ranglijst', 'privacybeleid'],
 };
 
+const currentPatchFacts = {
+  en: ['footer', 'ads', 'staff-lock', 'translated', 'annexed', 'unclaimed'],
+  zh: ['页脚', '广告', '管理员锁定', '翻译', '兼并', '放弃领地'],
+  fr: ['pied de page', 'publicités', 'verrouillage', 'traduits', 'annexion', 'abandonnée'],
+  de: ['Footer', 'Werbung', 'Sperren', 'übersetzbar', 'Annexion', 'aufgegeben'],
+  nl: ['footer', 'advertenties', 'vergrendelingen', 'vertaald', 'geannexeerd', 'opgegeven'],
+};
 let failed = 0;
 for (const contract of contracts) {
   const path = `src/content/changelog/${contract.lang}/${release.series}.mdx`;
@@ -89,13 +96,14 @@ for (const contract of contracts) {
     ['current patch and retained hosted cap in direct answer', directAnswer.includes(release.displayVersion)
       && directAnswer.includes('500')],
     ['v36.4 six patch facts', patchFacts[contract.lang].every(signal => body.includes(signal))],
+    ['v36.5 facts in direct answer', currentPatchFacts[contract.lang].every(signal => directAnswer.includes(signal))],
     ['build preference and shortcut answer', body.includes('Cycle Build Multiplier on Hotkey')
       && body.includes(`](/${contract.lang === 'en' ? '' : contract.lang + '/'}shortcuts/)`)],
     ['v36.3 facts', ['Plutonium', '500', 'Activity', 'boat', 'ship'].every((signal) => body.includes(signal))],
     ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
       'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
     ['current source', body.includes(`](${release.releaseUrl})`)],
-    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4'].every((tag) =>
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4', 'v0.36.5'].every((tag) =>
       body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
     ['no inherited v35 patch claims', !body.includes('v0.35.')],
     ['no third-level section bypass', !/^### /m.test(body)],
