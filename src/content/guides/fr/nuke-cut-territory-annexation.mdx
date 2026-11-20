@@ -1,12 +1,12 @@
 ---
-title: Annexion nucléaire (v35)
+title: Annexion nucléaire v36
 group: endgame
-summary: Quand une frappe nucléaire détache un territoire ennemi de son corps principal, un ennemi qui l'entoure peut désormais annexer le morceau coupé. Déclencheur, trois conditions et limite de version.
-updatedDate: 2026-10-20
-description: "Quand une frappe nucléaire détache un territoire ennemi de son corps principal, un ennemi qui l'entoure peut désormais annexer la pièce coupée. Découvrez le déclencheur, les trois conditions, la règle du joueur capturant et la limite de version v0.35."
+summary: "La v36 corrige le cratère entre une poche et la mer, les annexions répétées d'une Nation et les petites pointes intérieures. La liste v35 reste historique."
+updatedDate: 2026-11-21
+description: "Annexion nucléaire en v36 : cratère face à la mer, double annexion des Nations et petites pointes intérieures, avec les anciens exemples v35 clairement séparés."
 pubDate: 2026-10-15
-version: v0.35.2
-freshnessSummary: Disponible depuis la version stable v0.35.0 et vérifié jusqu’à v0.35.2 ; absent de v0.34.25.
+version: v36
+freshnessSummary: "Les changements v36.0 figurent toujours dans les notes v36.5 ; les exemples v35 restent limités à v0.35.0–v0.35.2, vérifiés le 2026-10-20."
 related:
   - /fr/guides/annexation-enclosure/
   - /fr/guides/nuke-calculator/
@@ -18,14 +18,25 @@ tags:
   - v35
 ---
 
-**Réponse directe.** Déposer une frappe nucléaire qui tranche le territoire ennemi en un morceau non
-plus relié à leur corps principal peut confier ce morceau détaché à un ennemi qui l'entoure, au lieu
-de le laisser au propriétaire. Il faut une poche intérieure éligible, entourée d'autres joueurs
-et de fallout, avec un candidat ennemi capable de la recevoir.
-Ce comportement existe dans les **versions stables v0.35.0 à v0.35.2** :
-un build bêta n'est plus nécessaire. L'ancienne v0.34.25 ne contient pas ce mécanisme.
+**Réponse directe.** En **v36**, un bras détaché par une frappe peut être annexé même lorsque le cratère se trouve entre lui et la mer. La même mise à jour empêche une Nation coupée en deux d'être annexée deux fois dans un tick et protège les petites pointes frontalières des empires intérieurs. Couper ne garantit toujours pas de recevoir le terrain.
 
-## La règle en une image
+Commencez par la section actuelle. Toutes les sections **Historique v35** suivantes décrivent v0.35.0–v0.35.2, vérifiées le 2026-10-20 ; leurs conditions détaillées servent aux anciennes parties, pas d'algorithme complet pour la v36.
+
+## v36 : lire la connexion restante et le transfert réel
+
+Le changement important concerne le cratère devant la mer. Imaginez un bras intérieur ennemi relié à un territoire côtier plus grand par une bande étroite. Une frappe détruit cette bande et le cratère sépare désormais le bras isolé de l'eau. En v36, cette disposition permet encore une annexion. Ne rejetez donc pas la cible uniquement parce que la brèche débouche vers la côte. N'inversez pas non plus la conclusion en disant que toutes les terres côtières sont offertes : le changement concerne cet obstacle particulier créé par le cratère, sans promettre le transfert automatique de chaque plage ou de chaque île touchée par une explosion.
+
+Observez la terre qui survit plutôt que la largeur apparente de l'explosion. Avant de tirer, nommez la connexion à supprimer et la position qui resterait ensuite. Séparez la destruction utile du bénéfice territorial incertain. Détruire un passage ou une position économique peut justifier le tir même sans transfert. Si toute la dépense dépend de la réception d'un quartier, examinez aussi le cas où ce quartier reste au défenseur ou passe à un troisième joueur. Gardez une réserve capable de défendre la nouvelle frontière dans ces différentes situations. Le paiement du missile ne vous donne pas, à lui seul, la propriété de ce qui survit.
+
+Deuxième situation : une Nation apparaît divisée en deux régions. La correction v36 empêche cette même Nation d'être annexée deux fois pendant un tick. Deux formes séparées ne représentent donc ni deux gains garantis, ni deux éliminations, ni deux occasions de toucher la même conquête. Après la frappe, vérifiez le propriétaire réel et cherchez les autres territoires encore détenus par la Nation. Décidez ensuite si l'attaque suivante doit sécuriser la frontière ou viser un autre adversaire. Cette correction porte sur le traitement répété de la même Nation ; elle ne signifie pas que deux adversaires différents ne peuvent jamais perdre des terres au même moment.
+
+La correction des petites pointes intérieures limite une autre tentation. Ne valorisez pas une minuscule avancée frontalière comme un transfert automatique certain simplement parce qu'elle ressemble à un ancien exemple d'encerclement. La v36 corrige précisément ces pertes de petites pointes pour les empires intérieurs. Elle ne les rend pas invulnérables aux attaques ordinaires et ne définit pas un seuil universel de superficie ou de nombre de cases. Attendez le changement de propriétaire avant de compter le gain. Répéter des frappes sur une forme mal comprise peut consommer la réserve nécessaire à la fin de partie pendant qu'un rival prend la route réellement utile.
+
+Sur les îles comme sur les détroits, conservez le même ordre de décision : connexion restante, valeur sans transfert, bénéficiaire réel, survie du défenseur, puis prochain engagement. Plusieurs explosions peuvent modifier à nouveau la forme et la frontière ; recommencez la lecture après chacune. N'utilisez pas une simple couleur radioactive comme preuve de capture. La différence entre destruction et acquisition vous aide aussi à refuser un tir qui libérerait surtout le front d'un rival. Un bon impact n'est pas forcément un bon investissement si la nouvelle position vous impose une défense que votre réserve ne peut pas tenir.
+
+Ces changements commencent avec la [version officielle v0.36.0](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0). Les [notes v36 en français](/fr/changelog/v36/) les replacent parmi les autres changements publiés. Les sections historiques ci-dessous conservent les priorités de réception, exclusions géographiques et exemples numériques des parties v35. Ne combinez pas quelques lignes de cette ancienne liste avec la correction du cratère en v36 pour en faire une règle actuelle prétendument garantie.
+
+## Historique v35 : la règle en une image
 
 Pensez au territoire d'un ennemi comme une seule masse de terre. La plus grande partie est le corps
 principal : le plus grand amas par superficie. Vous déposez alors une frappe
@@ -67,7 +78,7 @@ termes, la fonction n'ajoute pas une nouvelle arme ; elle change la façon dont 
 arme que vous aviez déjà, en ajoutant une deuxième couche de retour conditionnelle à tout ce qui
 tombe près d'une connexion fine.
 
-## Les trois conditions qui doivent toutes se vérifier
+## Historique v35 : les trois conditions
 
 Le moteur n'annexe pas un morceau coupé juste parce qu'il semble déconnecté sur la carte. Trois
 vérifications indépendantes doivent toutes passer en même temps, et si l'une échoue, le morceau est
@@ -101,7 +112,7 @@ détaille chacune avec des contre-joues concrets et les situations où il faut �
 entièrement, mais l'idée de base est que la règle est précise et déterministe, et qu'un seul échec
 signifie que la frappe n'est que des dégâts de cratère et rien d'autre.
 
-## Quel ennemi capture réellement le morceau
+## Historique v35 : quel ennemi capture le morceau
 
 Quand la poche est éligible, les candidats sont les joueurs dont le véritable territoire la borde
 et qui ne sont pas amis avec son propriétaire. Les alliés du lanceur ne sont pas exclus pour cette
@@ -138,7 +149,7 @@ incitations, où celui qui paie la frappe n'est pas celui qui collecte la terre,
 les deux sections de scénarios quantifient avec des chiffres concrets, et c'est l'erreur la plus
 coûteuse que la règle puisse produire si vous sautez la vérification du décompte de bordure.
 
-## Limite de version : v35 stable et anciennes parties v34
+## Historique v35 : limite de version et parties v34
 
 L'annexion après une coupure nucléaire appartient désormais à une version stable. La v0.35.0
 a été publiée le 2026-10-16 et le comportement reste présent dans la v0.35.2, publiée le
@@ -179,7 +190,7 @@ En jeu, gardez cet ordre : version compatible, coupure complète, poche éligibl
 souhaité, puis coût. La sortie stable retire seulement la nécessité de chercher un test public ;
 elle laisse toutes les vérifications tactiques en place.
 
-## Lire la carte avant de convertir
+## Historique v35 : lire la carte avant de convertir
 
 Transformer les trois conditions en une checklist avant frappe fait la différence entre un bonus par
 hasard et un bonus fiable, et chaque vérification est un simple oui/non lisible avant de dépenser
@@ -212,7 +223,7 @@ lisez le détroit, lisez la côte, lisez l'entourage, comptez la bordure, et seu
 si les dégâts de cratère valent le transfert territorial, avec la limite de version comme
 véri-vérification qui encadre tout le reste de ce guide.
 
-## Scénario A : couper un bras côtier d'un empire de mi-partie
+## Historique v35 : scénario A, couper un bras côtier
 
 Posez la carte pour un cas concret de mi-partie. Trois factions sur une carte d'île standard. Vous
 êtes à environ soixante pour cent de population. L'ennemi cible possède une longue bande côtière sur
@@ -243,7 +254,7 @@ compétence compressée en un exemple : lisez le détroit, lisez la côte, lisez
 les tuiles, et seulement alors décidez si les dégâts de cratère valent le transfert. Ce sont les
 chiffres, et non le drame du cratère, qui font la décision.
 
-## Scénario B : une poche détachée devient la dernière terre
+## Historique v35 : scénario B, la dernière poche
 
 Prenons une fin de partie hypothétique avec vous, un rival et une cible affaiblie. Au début du
 traitement d'annexion, la cible possède encore un corps principal et une poche intérieure
@@ -284,7 +295,7 @@ attaque ou recours aux contacts, puis seulement évaluer l'élimination. Un crat
 spectaculaire ne remplace aucune vérification. Si une hypothèse change dans votre partie,
 recalculez au lieu de copier cette conquête hypothétique.
 
-## Échecs et contre-joues
+## Historique v35 : échecs et contre-joues
 
 La plupart des annexions ratées se rattachent à l'un des quatre modes d'échec, et chacun est visible
 sur la carte avant de dépenser une unité d'or, donc l'objectif est de rattraper l'échec en phase de
@@ -326,7 +337,7 @@ recours à la bordure. L'annexion est donc une compétition de territoire et d'a
 privilège automatique du lanceur. Revérifiez les deux lorsque la carte change, au lieu de
 traiter une ancienne observation comme une promesse permanente.
 
-## Ajustements de mode et de carte
+## Historique v35 : ajustements de mode et de carte
 
 L'annexion se comporte différemment selon les états de carte que les joueurs rencontrent réellement,
 donc la même lecture des trois conditions doit être ajustée à chacun avant de la croire. Sur les
@@ -361,7 +372,7 @@ varient avec la carte, donc les chiffres des deux sections de scénarios ci-dess
 être recalculés pour la carte spécifique sur laquelle vous êtes, et non copiés d'une autre forme de
 carte.
 
-## Tableau de référence rapide
+## Historique v35 : tableau de référence rapide
 
 Exécutez ce tableau de haut en bas avant chaque frappe, et traitez-le comme votre dernier
 contrôle avant de dépenser de l'or, et non comme une nouvelle explication des règles. Si la

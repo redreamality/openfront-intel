@@ -1,12 +1,12 @@
 ---
-title: Nuke-Cut Territory Annexation (v35)
+title: Nuke-Cut Annexation v36
 group: endgame
-summary: When a nuke severs enemy territory from its main body, a surrounding enemy can now annex the cut-off piece. The trigger, the three conditions, and the version boundary.
-updatedDate: 2026-10-20
-description: "When a nuke severs enemy territory from its main body, a surrounding enemy can now annex the cut-off piece. Learn the trigger, the three conditions, the capturing-player rule, and the v0.35 version boundary."
+summary: "v36 fixes annexation across a crater facing the sea, duplicate Nation annexation, and small inland border tips. Keep the older v35 checklist separate."
+updatedDate: 2026-11-21
+description: "Nuke-cut annexation in v36: crater-to-sea cases, duplicate Nation captures and inland border tips, with a clearly separated historical v35 walkthrough."
 pubDate: 2026-10-15
-version: v0.35.2
-freshnessSummary: Available in the stable v0.35.0 release and verified through v0.35.2; absent from v0.34.25.
+version: v36
+freshnessSummary: "v36.0 changes below remain in the v36.5 release notes; detailed v35 examples retain their 2026-10-20, v0.35.0–v0.35.2 scope."
 related:
   - /guides/annexation-enclosure/
   - /guides/nuke-calculator/
@@ -18,13 +18,23 @@ tags:
   - v35
 ---
 
-**Short answer.** Dropping a nuke that slices enemy territory into a piece no longer connected to
-their main body can hand that cut-off piece to a surrounding enemy, instead of the owner keeping it.
-It requires an eligible severed inland pocket surrounded by other players and fallout,
-with an eligible enemy recipient. This behavior is in **stable v0.35.0 through v0.35.2**;
-you no longer need a beta build. The older v0.34.25 does not contain this capture path.
+**Short answer.** In **v36**, a nuked-off arm can be annexed even when the crater lies between it and the sea. The same update prevents a Nation cut in two from being annexed twice in one tick and stops inland empires losing small border tips. A cut still does not promise that you receive the land.
 
-## The rule in one picture
+Start with the current-version section. Every subsequent **Historical v35** section describes v0.35.0–v0.35.2, last checked on 2026-10-20; its detailed conditions and checklist explain older games, rather than a complete v36 capture algorithm.
+
+## v36: judge the surviving connection and the actual transfer
+
+The important change is the crater beside the sea. Suppose an enemy's inland arm is connected to a larger coastal territory by a narrow strip. A nuclear strike destroys that strip, and the crater now lies between the separated arm and open water. In v36, that crater-to-sea arrangement can still allow annexation. Do not reject the target solely because the gap leads toward the coast. Equally, do not reverse the rule into “all coastal land is free.” The released change names a particular obstruction involving the crater; it does not promise automatic transfer of every district that has a beach, or every island touched by a blast.
+
+Read the surviving land rather than the apparent width of the explosion. Before firing, identify the connection you need to remove and the position that would remain afterward. Separate the useful destruction from the uncertain territorial return. If destroying a bridge or economic position is worthwhile even without annexation, the shot has an independent reason. If the entire purchase depends on receiving a district, first consider what happens when that district stays with the defender or goes to another player. Keep enough reserve to defend the front that either outcome creates. Paying for a missile does not, by itself, establish your ownership of the remaining land.
+
+A second situation is a Nation split into two visible regions. The v36 correction prevents that Nation from being annexed twice within one tick. Do not count two disconnected shapes as two guaranteed payouts, two eliminations, or two opportunities to collect the same conquest. After the strike, observe the actual ownership and whether the Nation still has land elsewhere. Only then decide whether the next attack should secure the new border or pursue another target. This correction concerns duplicate annexation of that Nation; it does not mean that two different opponents can never lose territory during the same moment of a large battle.
+
+The inland-tip correction changes the opposite temptation. A tiny projecting piece of an inland empire should not be valued as a guaranteed automatic transfer just because an older enclosure example looks similar. v36 specifically stops inland empires losing small border tips through the corrected behavior. That does not make the tip immune to ordinary attacks, and it does not supply a universal tile count or area threshold. Treat a possible capture as unconfirmed until the owner changes. Repeated missiles aimed at a shape you have not understood can spend your finishing reserve while another rival takes the useful front. Reassess the whole connection after each change instead of copying the same strike.
+
+These changes first appear in the [official v0.36.0 release](https://github.com/openfrontio/OpenFrontIO/releases/tag/v0.36.0) and remain in the cumulative v36 notes. The [v36 version answer](/changelog/v36/) places them beside the other released changes. For current play, use the sequence: surviving connection, value without transfer, actual recipient, surviving defender, then next commitment. The historical sections below retain the older recipient priorities, map exclusions and numerical examples for v35 games. Do not combine selected rows from that old checklist with the v36 crater correction and call the mixture a guaranteed current rule.
+
+## Historical v35: the rule in one picture
 
 Think of an enemy's territory as a single blob of land. The main body is the largest
 connected cluster by land area, not by border length. Now you drop a nuke. The crater erases a ring of
@@ -56,7 +66,7 @@ board geometry. The rest of this guide walks through the exact conditions, the c
 version boundary, and how to read the map so you can set up the cut deliberately instead of
 discovering it by accident, and it ends with a quick reference table you can run before every strike.
 
-## The three conditions that must all hold
+## Historical v35: the three conditions that must all hold
 
 The engine does not annex a cut-off piece just because it looks disconnected on the map. Three
 independent checks must all pass at the same time, and if any one of them fails the piece is left
@@ -88,7 +98,7 @@ concrete counterplay and the situations where you should avoid the strike entire
 is that the rule is precise and deterministic, and a single failed condition means the strike is
 crater damage and nothing more.
 
-## Which enemy actually captures the piece
+## Historical v35: which enemy actually captures the piece
 
 When the pocket qualifies, start with the players whose actual territory borders it. Candidates
 friendly to its owner are excluded. The relationship to the player firing the nuke does not add
@@ -126,7 +136,7 @@ from itself, or that conquering one player wins the entire match. First establis
 severed pocket, then its recipient, then whether any of the owner's land remains. Keep these
 questions separate before counting a possible elimination as your own finishing move.
 
-## Version boundary: stable v35 and older v34 games
+## Historical v35: version boundary and older v34 games
 
 Nuke-cut annexation is now part of a stable release. v0.35.0 was published on
 2026-10-16, and the behavior remains in v0.35.2, published on 2026-10-17. You do not need to
@@ -164,7 +174,7 @@ cut away by a nuke. For actual play, keep the decision simple: supported build, 
 eligible pocket, intended recipient, then cost. Stable availability removes the need to seek a
 playtest; it leaves every geographical and strategic check in place.
 
-## Reading the map before you commit
+## Historical v35: reading the map before you commit
 
 Turning the three conditions into a pre-strike checklist makes the difference between an accidental
 bonus and a reliable one, and each check is a simple yes or no read you can do before spending gold.
@@ -196,7 +206,7 @@ isthmus, read the coast, read the surround, count the border, and only then deci
 damage is worth the territorial transfer, with the version boundary as the zeroth check that gates
 everything else in this entire guide.
 
-## Scenario A: cutting a coastal arm off a mid-game empire
+## Historical v35: scenario A, cutting a coastal arm
 
 Set the board for a concrete mid-game case. Three factions on a standard island map. You are at
 about sixty percent population. The target enemy owns a long coastal strip on the east side that
@@ -226,7 +236,7 @@ geometry. This is the whole skill compressed into one example: read the isthmus,
 the surround, count the tiles, and only then decide whether the crater damage is worth the transfer.
 The numbers, not the drama of the crater, are what make the decision.
 
-## Scenario B: a severed pocket becomes the last land
+## Historical v35: scenario B, the last-land pocket
 
 Consider a hypothetical endgame with you, a rival, and a weakened target. Before the annexation
 pass, the target still has a main body and a separate eligible inland pocket of twenty-five
@@ -266,7 +276,7 @@ border fallback, and only then assess elimination. A more dramatic crater cannot
 of those checks. If even one premise differs in your match, recompute the outcome rather than
 copying the hypothetical conquest.
 
-## Failures and counterplay
+## Historical v35: failures and counterplay
 
 Most failed annexes trace back to one of four failure modes, and each one is visible on the map
 before you spend a single unit of gold, so the goal is to catch the failure in the planning phase
@@ -305,7 +315,7 @@ A qualifying ongoing attack also takes priority over the border fallback. The an
 therefore a contest involving actual land and attacks, not an automatic reward for the person
 who fires. Recheck both when the board changes instead of relying on an earlier outline.
 
-## Mode and map adjustments
+## Historical v35: mode and map adjustments
 
 The annex behaves differently across the board states players actually meet, so the same
 three-condition read has to be adjusted to each one before you trust it. On standard island maps,
@@ -336,7 +346,7 @@ front, and whether keeping the target alive still ties down a rival's troops. Th
 remain relevant even when the annexation itself is certain. The numbers in the two scenario sections above should
 always be recomputed for the specific board you are actually on, not copied from a different map shape.
 
-## Quick reference table
+## Historical v35: quick reference table
 
 Run this table top to bottom before every strike, and do not skip rows. If the version row is wrong
 you stop immediately, because this path is absent in older v0.34.25 builds and the rest of the

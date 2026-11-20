@@ -1,5 +1,7 @@
 # PowerShell 与 Windows runbook
 
+- **2026-11-21 核弹兼并维护读取恢复**：第一次读取把 slug 猜成 `nuke-cut.mdx`，文件不存在；通过 `rg --files src/content/guides/en` 找到真实 `nuke-cut-territory-annexation.mdx` 后继续。根因是未先确认文件名，不是内容缺失或网络故障。未修改 AGENTS.md。
+
 - **2026-11-19 版本响应检索复发**：`rg` 路径误写 `src/i18n/shortcuts*`，触发 Windows os error 123；从真实 `src/pages` 目录使用 `--glob shortcuts.astro` 重新定位五语速查页后恢复。初次 memory 全量输出过大被截断，随后按最新热状态读取。未改 AGENTS.md。
 
 - **2026-11-17 回放维护检索复发**：`rg` 路径误用 `src/content/guides/*/train-network.mdx`，触发 os error 123；恢复为真实目录加 `--glob train-network.mdx` 后成功。该候选未修改，随后按正式 Release 定位并维护已有回放答案。荷兰语 freshness 原文为 `100 (solo)`，补丁误写 `100 (singleplayer)` 导致多文件补丁原子拒绝；确认无部分写入、重读实际行后恢复。首轮 memory 全量读取输出被截断，改读最新热状态；未读取归档或改写 AGENTS.md。
