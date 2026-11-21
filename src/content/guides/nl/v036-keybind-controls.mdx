@@ -1,0 +1,402 @@
+---
+title: "OpenFront v0.36 toetsenbinding en bouw-aantalsbesturing: J/O/I-donaties, ingedrukte H en de vermenigerdercyclus"
+description: Wat OpenFront v0.36 aan besturing heeft toegevoegd — de drie speler-interactietoetsen J/O/I, de stapelpreventie via ingedrukte H, de nieuwe bouw-aantalstepper, het Alt+scroll-fijnafstemmen, de buildMultiplierCycle-instelling uit v0.36.4 en het herbepalen of omzeilen van de toetsenbordlayout-ondersteuning voor niet-QWERTY-layouts zoals AZERTY.
+pubDate: 2026-11-21
+updatedDate: 2026-11-21
+tags: [v0.36, controls, keybinds, ui, build, donations, settings]
+category: Gids
+difficulty: Intermediair
+version: v0.36.5
+freshnessSummary: "Geverifieerd tegen tag-broncode v0.36.0 en v0.36.4 en de release-annotaties v0.36.0 tot v0.36.5: v0.36.0 voegde de drie J/O/I-speler-interactietoetsen, de stapelpreventie via ingedrukte H, de bouw-aantalstepper en het Alt+scroll-fijnafstemmen toe; v0.36.4 voegde de buildMultiplierCycle-instelling toe; v0.36.5 voert beide voort. Het bouw-aantalschakelen is beperkt tot 50 (MAX_UPGRADE_AMOUNT), en ingedrukte Alt+scroll verwijdert daarbij de kaartzoom."
+---
+
+## Direct antwoord: wat veranderde v0.36 aan de OpenFront-besturing?
+
+OpenFront v0.36 voegde drie standaardtoetsen toe — J, O en I — die rechtstreeks op de
+speler onder de cursor werken en de langzamer weg vervangen van het paneel openen
+en daarna klikken. J doneert een troepenformatie aan de natie onder de cursor, O
+doneert goud en I opent het spelerpaneel van die natie. v0.36 voegde ook de
+stapelpreventie via ingedrukte H toe, een bouw-aantalstepper die een bouw-
+vermenigvuldiger stapsgewijs verhoogt en verlaagt tijdens het plaatsen van
+bouwwerken, en een Alt+scroll-fijnafstemmen dat dezelfde hoeveelheid in stappen van
+één verfijnt en de kaartzoom verwijdert terwijl de modificatietoets ingedrukt is.
+v0.36.4 voegde de instelling `buildMultiplierCycle` toe, waarmee je de volgorde kunt
+kiezen die de bouw-aantalstepper aflegt, en v0.36.5 voert alles hierin voort. Elke
+standaardwaarde kan in Instellingen → Sneltoetsen opnieuw worden toegewezen, en de
+layout-ondersteuning betekent dat dezelfde fysieke toets op AZERTY-, QWERTZ- en
+andere niet-QWERTY-layouts werkt.
+
+De besturing op deze pagina is een v0.36-verhaal, en de hotfix-grenzen tellen omdat
+de instelling van de stepper en deze toetsen niet tegelijk verschenen. De
+v0.35.0-reeks — verankerd door de [Hotkey Practice and Control
+Workflows](/guides/hotkeys/)-gids — had geen stapelpreventie-item in zijn
+`UserSettings.ts`, geen J/O/I-speler-interactietoetsen en geen bouw-aantalstepper.
+Zijn aantalgedrag was de dubbelklik-x5 over de cijferrij en de x1/x5/x10/xMax-optie
+van het radiale menu, en noch de ene noch de andere veranderde in v0.36. De
+tag-broncode v0.35.0 en v0.36.0 definieert beide `retaliateAttack` als
+`Shift+KeyR`, wat betekent dat ook die toewijzing zich tussen de versies niet heeft
+verschuiving.
+
+v0.36.0 is waar het nieuwe besturingsoppervlak verscheen. Zijn release-annotaties
+plus de v0.36.0-tag-broncode tonen dat de J/O/I-toetsen, het `KeyH`-item voor
+ingedrukte H, de stepper-code en het Alt+scroll-fijnafstemmen allemaal in dezelfde
+tag aanwezig zijn. v0.36.1 en v0.36.2 veranderden geen van deze toetsgedragingen —
+hun release-teksten werden gecontroleerd, noch de ene noch de andere voegde,
+verwiderde of herbeelde één van de hier behandelde acties. v0.36.4 is waar de
+gebruikersinstelling `buildMultiplierCycle` voor het eerst verscheen: ze ontbreekt
+in `UserSettings.ts` van v0.36.0 en treedt vanaf v0.36.4 op. v0.36.5, de huidige
+stabile reeks, voert de v0.36.4-instelling voort zonder de besturing op deze pagina
+te veranderen.
+
+De eerlijke lezing van de versiegrenzen luidt dus: als je elke v0.36.x-versie speelt,
+heb je deze toetsen, de ingedrukte H, de stepper en het fijnafstemmen; je hebt de
+cyclusinstelling alleen als je v0.36.4 of hoger speelt. De
+aantalbovendgrens zelf was over de hele reeks constant — `MAX_UPGRADE_AMOUNT`
+staat in v0.36.0 gedefinieerd op 50 in
+`packages/engine-api/src/game/GameTypes.ts`, en dezelfde constante wordt door
+`InputHandler.ts` geïmporteerd om elk stapperrap naar boven te beperken. Als je nog
+op de v35-reeks zit, bestaan de v0.36-besturingen daar niet, en de [Hotkey
+Practice and Control Workflows](/guides/hotkeys/)-gids blijft de goede referentie
+voor je versie. De [sneltoetsen-referentie](/shortcuts/) is de statische
+toetsenaansplitsing voor de huidige reeks en moet samen met deze pagina worden
+gelezen, niet ter vervanging ervan.
+
+## De drie nieuwe speler-interactietoetsen: J, O, I
+
+De v0.36.0-release-annotaties beschrijven de drie nieuwe toetsen als werkend op de
+speler onder de cursor, en de v0.36.0-`InputHandler.ts`-broncode bevestigt het
+mechanisme dat die zin concreet maakt. De toets-handlers `donateTroops`,
+`donateGold` en `playerPanel` lezen allemaal hetzelfde paar oorspovelden,
+`lastMouseX` en `lastMouseY`, het vak waar de aanwijzer laatst op stilstond, niet
+het vak onder de realtime-aanwijzer. Elke handler bewaakt: als de cursor nog nooit
+op een vak stilstond (beide waarden nul), doet de toets niets, en negeert de
+`playerPanel`-handler de toets wanneer Alt, Ctrl of Meta is ingedrukt, om een
+botsing met de modificatietoets van het Alt+scroll-fijnafstemmen te vermijden.
+
+Die bewaking is het echte probleem waar spelers het eerst tegenaan zullen lopen.
+Open een lobby, breng de cursor tot rust op de kaart zodat hij een
+stilstaande vak opslaat, druk dan op J om troepen te doneren, op O om goud te
+doneren en op I om het spelerpaneel te openen. Reacteert het niets, dan is de
+meest voorkomende oorzaak dat de cursor nooit op een vak stilstond (beweeg eerst de
+muis over het spelveld) of dat een modificatietoets ingedrukt is, waardoor de
+spelerpaneltoets wordt gemaskeerd. De toetsen worden geregistreerd via
+`addKeybindAndEvent`, wat betekent dat elke in Instellingen → Sneltoetsen verschijnt
+en opnieuw kan worden toegewezen of ontbonden als elke andere actie. Spelers met
+bestaande aangepaste werkwijzen die andere toetsen gebruiken, kunnen J, O of I
+herbepalen zonder de onderliggende actie te verliezen — de actie volgt de
+toewijzing, niet het teken.
+
+De reactie van de community op deze toetsen past bij de broncode: de Reddit-threads
+om v0.36 (de thread „troop deployment going to 100" en de thread „how do you
+restore left shift + LMB to build") gaan over de nieuwe bouw-aantalsbesturing, maar
+dezelfde golf van spelers stelde ook vragen over de donatietoetsen omdat ze de
+snelheid van het diplomatieke spel veranderen. De YouTube-coverings van de v0.36-
+update raamden de verandering als „werkt op de speler onder de cursor", precies het
+cursor-localisatiemodel dat de broncode toont. Deze bronnen veranderen niet wat de
+toetsen doen — de broncode is de autoriteit — maar ze zijn voor een speler
+handig die beslist of hij deze toetsen leert: een snellere donatieweg is precies
+waar de community al voor is aangenomen.
+
+De invloedrijkste v0.36-besturing is de bouw-aantalstepper, en haar exacte
+uitloper is een detail dat de release-annotaties vaag uitdrukken. De broncode
+verheldert: het aantal-schakelen verhoogt de vermenigvuldiger alleen wanneer er
+reeds een bouwwerk op dezelfde positie actief is; een klik op een nieuw vak
+start op 1. De praktische consequentie is dat de trap alleen omhoog gaat als je
+hetzelfde bouwwerk op hetzelfde vak tot rust houdt. Een speler die snel op de
+bouwtoets klikt en daarbij de cursor verplaatst, zal de vermenigvuldiger niet
+omhoog zien gaan, omdat elke nieuwe cursorpositie als een nieuwe
+plaatsoprichting wordt behandeld.
+
+De stepper-wiskunde staat in de v0.36.0-`InputHandler.ts` gedefinieerd. Een
+„omhoog"-stap doet `upgradeMultiplier = currentMultiplier + 1` en beperkt dan naar
+boven op `MAX_UPGRADE_AMOUNT`, dat is 50; een „omlaag"-stap dekmenteert alleen
+wanneer de vermenigvuldiger groter dan 1 is en daalt nooit onder 1. De trap is dus
+een stap-om-stap van 1 tot 50, met een harde bovenlimiet van 50 bouwwerken bovenaan.
+Dat is dezelfde constante die de x5-stapels in v0.35 beperkte, wat betekent dat een
+stapel van 50 bouwwerken het grootste is dat over elk stapperrap bereikbaar is.
+Goud bepaalt nog steeds hoeveel je inderdaad kunt plaatsen — de stepper verhoogt
+de vermenigvuldiger, maar omzeilt niet de kosten — een stapel van 50 bouwwerken is
+dus niet groter dan wat je goud kan betalen.
+
+Het Alt+scroll-fijnafstemmen is de cursorpositie-onafhankelijke weg, en precies
+daarom is het de betrouwbare optie voor een exacte hoeveelheid. Ingedrukte
+`Alt` (de `buildScrollModifier`-standaard, `AltLeft`) en scrollen roept
+`setGhostStructure` aan met een omhoog- of omlaag-argument en geeft vroeg terug om
+de kaartzoom te verwijderen terwijl de modificatietoets ingedrukt is. De drempel
+`Math.abs(scrollValue) > 2` betekent dat een klein scrolltje geen stap registreert,
+zodat je schone stappen van één krijgt in plaats van een volgeprikte golf van
+stappen bij snel scrollen. Dezelfde bovenlimiet van 50 geldt voor het scrollrap,
+zodat fijnafstemmen en toetsenstepper dezelfde trapkruin delen.
+
+## De v0.36.4 vermenigvuldiger-cyclusinstelling en de stapelpreventie via ingedrukte H
+
+De `buildMultiplierCycle`-instelling verscheen in v0.36.4 en is de verfijning waarmede
+je de volgorde kunt kiezen die de stepper aflegt. De v0.36.4-`InputHandler.ts`
+bouwt de lus op uit deze instelling, en de v0.36.4-`UserSettings.ts` documenteert de
+optie, zodat spelers die v0.36.4 of hoger spelen de waarden kunnen kiezen die de
+stepper aflegt in plaats van de standaard stap-om-stap te accepteren. De exacte
+standaardvolgorde wordt door de instelling bepaald, en deze pagina bewert geen
+speciale standaardvolgorde zonder de standaardwaarde te hebben gelezen; wat stabiel
+is, is dat de instelling bestaat, door de gebruiker kan worden ingesteld en de
+volgorde stuurt die de stepper gebruikt. Als je v0.36.0 tot v0.36.3 speelt, heb je
+de stepper maar niet de cyclusinstelling, zodat de stepper zijn
+standaardvolgorde volgt; overschakelen op v0.36.4 of hoger schakelt die keuze
+vrij.
+
+De stapelpreventie via ingedrukte H werkt kleiner dan het is. Het verandert noch de
+bouwkosten, noch de voetafdruk, noch staat het een tweede bouwwerk op een vak toe;
+het schakelt simpelweg de `canUpgrade`-vlag van de plaatspreview op false en
+verwijdert de upgradekosten, zodat de plaatspreview niet probeert een upgrade over
+een bestaand bouwwerk te stapelen. Een bouwwerk plaatsen terwijl je H ingedrukt
+houdt, betekent het spel de plaatsing te behandelen als een nieuw onafhankelijk
+bouwwerk in plaats van als een upgrade van een bestaand — precies het gedrag dat
+een speler wil wanneer hij een rij identieke bouwwerken langs een grens bouwt. De
+v0.36.0-`UserSettings.ts` voegde het
+stapelpreventie-item toe met `KeyH`, terwijl de v0.35.0-`UserSettings.ts` geen dergelijk
+item had, wat bevestigt dat de ingedrukte H een nieuwe v0.36-besturing is en geen
+bestaande besturing die later gedocumenteerd werd.
+
+De cyclusinstelling en de ingedrukte H vullen samen het v0.36-
+besturingsoppervlak aan. De cyclusinstelling is degene die de vorm van de
+aantaltrap verandert voor de spelers die groot bouwen; de ingedrukte H is degene
+die de plaatsingsemantiek verandert voor het bouwen van rijen identieke bouwwerken.
+Noch de ene noch de andere vervangt het toetsen-uitrusten of het radiale menu; ze
+liggen allebei eroverheen en beide kunnen in de instellingen opnieuw worden
+toegewezen of aangepast.
+
+De v0.36.0-release-annotaties raamen de nieuwe toetsen naar fysieke positie in
+plaats van naar teken, en de broncode steunt die raam. De toetsen worden geregistreerd
+op fysiek toetsenidentificatie, zodat dezelfde fysieke toets op een QWERTY-layout
+J, O en I leest en op een AZERTY-layout de bijbehorende tekens leest. Op AZERTY
+(Belgisch Frans) lezen de fysieke toetsen die op QWERTY J, O en I zijn andere
+tekens, zodat AZERTY-spelers niet naar de tekens „J", „O", „I" op hun toetsenbord
+hoeven zoeken — ze moeten de fysieke toetsen op dezelfde posities lokaliseren. Op
+andere niet-QWERTY-layouts (QWERTZ, Dvorak, Colemak) varieert de fysieke
+toetsenidentiteit opnieuw, zodat het stabiele feit de fysieke positie is en het teken
+van het layout afhangt.
+
+Dit is hetzelfde model dat het hele v0.36-besturingsoppervlak gebruikt, en het is de
+reden waarom de release-annotaties en het instellingen-scherm deze toetsen naar
+fysieke positie presenteren. Als een AZERTY-speler deze nieuwe toetsen in
+Instellingen → Sneltoetsen herbepaalt, ziet hij de fysieke
+toetsenidentificaties in plaats van de tekens, wat verwacht gedrag is en geen
+weergefout. De praktische impact voor een speler die beslist of hij de nieuwe
+toetsen op een niet-QWERTY-layout aanneemt, is dat de leerkosten bestaan uit het
+vinden van de fysieke toets, niet het onthouden van een nieuw teken. De rest van het
+v0.36-besturingsoppervlak — de stepper, het Alt+scroll-fijnafstemmen, de ingedrukte
+H — is layout-onafhankelijk omdat het door het scrollwiel en de H-toets in plaats
+van door lettertoetsen wordt bestuurd, zodat het layoutprobleem alleen op de drie
+nieuwe lettertoetsen van toepassing is.
+
+## Beslisraamwerk: welke ingang in welke situatie gebruiken
+
+Het v0.36-besturingsoppervlak geeft spelers meerdere wegen naar hetzelfde resultaat,
+en de goede weg hangt af van de situatie. Om troepen of goud aan een specifieke
+natie te doneren, zijn J en O de snelle weg omdat ze rechtstreeks op de natie onder
+de cursor werken; wanneer je een speler wilt inspecteren of een speler wilt
+benaderen, is I de snelle weg naar het spelerpaneel van die natie. De langzamere weg
+van paneel plus klik mag alleen worden gebruikt wanneer je iets moet doen wat de
+toetsen niet dekken (zoals een specifieke donatiehoeveelheid instellen via het
+paneel).
+
+Om een stapel bouwwerken te bouwen, is de keuze tussen de toetsenstepper en het
+Alt+scroll-fijnafstemmen. Wanneer je al een bouw-geest op het doelvak houdt, is de
+toetsenstepper de natuurlijke keuze omdat hij de vermenigvuldiger stap-om-stap op
+plaats verhoogt zonder de plaatsingscontext te verlaten. Wanneer je een exacte
+hoeveelheid nodig hebt en de cursorpositie-afhankelijkheid van de toetsenstepper
+wilt vermijden, is het Alt+scroll-fijnafstemmen de keuze, omdat het
+cursorpositie-onafhankelijk is en de kaartzoom verwijdert terwijl je afstemt. De
+x5-stapels over de cijferrij en het radiale menu blijven de keuze voor de vaste
+kleine stapels (x1, x5, x10, xMax) die v0.35-werkwijzen al gebruiken, en ze
+veranderden niet in v0.36.
+
+De stapelpreventie via ingedrukte H verandert de besluitvorming bij het bouwen van
+rijen: wanneer je een rij identieke bouwwerken langs een grens plaatst en niet wilt
+dat de plaatspreview probeert een upgrade over een bestaand bouwwerk te stapelen,
+houd je H ingedrukt terwijl je plaatst. Wanneer je een enkel bouwwerk nabij een
+bestaand bouwwerk plaatst en de upgrade-preview wilt, houd je H niet ingedrukt. De
+`buildMultiplierCycle`-instelling verandert de besluitvorming bij het plannen van
+grote schaal: wanneer je groot bouwt, moet je de cyclusvolgorde bewust kiezen in
+plaats van de standaard stap-om-stap te accepteren; wanneer je voornamelijk kleine
+stapels bouwt, is de cyclusinstelling grotendeels onbelangrijk. De tabel hieronder
+vat de ingangskeuze per situatie samen.
+
+| Situatie | Gebruiken | Reden | Versie |
+|---|---|---|---|
+| Troepen doneren aan de natie onder de cursor | J | Cursor-gelocaliseerd, zonder paneel | v0.36.0+ |
+| Goud doneren aan de natie onder de cursor | O | Cursor-gelocaliseerd, zonder paneel | v0.36.0+ |
+| Spelerpaneel van de natie onder de cursor openen | I | Cursor-gelocaliseerd, zonder paneel | v0.36.0+ |
+| Een stapel bouwen terwijl je een geest op plaats houdt | Toetsenstepper | Stap-om-stap van de vermenigvuldiger op plaats | v0.36.0+ |
+| Een exacte, cursoronafhankelijke hoeveelheid bouwen | Alt+scroll-fijnafstemmen | Cursoronafhankelijk, verwijdert zoom | v0.36.0+ |
+| Vaste kleine stapels bouwen (x1/x5/x10/xMax) | Cijferrij of radiaal menu | v0.35-werkwijze, ongewijzigd | v0.35+ |
+| Een rij identieke bouwwerken zonder upgrade-stapel plaatsen | H ingedrukt houden | `canUpgrade` op false, verwijdert upgradekosten | v0.36.0+ |
+| De stappervolgorde kiezen voor een grote stapel | `buildMultiplierCycle` | Aangepaste lus, anders standaard-stap | v0.36.4+ |
+
+## Scenaro: een 50-bouwwerken-defensiemuur langs een omstreden grens bouwen
+
+Stel je een omstreden grens voor waar je een doorlopende verdediging langs een
+50-vakfront wilt leggen en genoeg goud hebt om de 50 te betalen. De v0.36-werkwijze
+bestaat erin het bouwwerk via de cijferrij uit te rusten, het eerste vak aan te
+klikken om de bouw-geest op plaats te activeren, en dan de vermenigvuldiger
+stap-om-stap met de toetsenstepper te verogen terwijl je de geest op dezelfde
+positie houdt. De stepper beperkt op 50, exact de lengte van de muur, zodat je van
+1 tot 50 klimt en de stapel klaar is. Houd H ingedrukt terwijl je plaatst, zodat de
+plaatspreview elk bouwwerk als nieuw onafhankelijk bouwwerk behandelt in plaats van
+een upgrade over een bestaand bouwwerk te stapelen — precies waar de ingedrukte H
+nuttig is. De stapel van 50 bouwwerken is niet groter dan wat je goud kan betalen,
+zodat het opschuiven van de stepper naar 50 de kosten niet omzeilt; wanneer je de
+50 niet kunt betalen, wordt de stapel door het goud beperkt, niet door de stepper.
+Wanneer het grensfront niet exact 50 vakken is, is het Alt+scroll-fijnafstemmen het
+bessere gereedschap omdat het een exacte, cursorpositie-onafhankelijke hoeveelheid
+kan verhogen, en dezelfde bovenlimiet van 50 geldt altijd, zodat je die niet
+overschrijdt.
+
+Het faalpatroon hier is de cursorpositie-afhankelijkheid van de toetsenstepper:
+wanneer je de cursor tijdens het verhogen van de vermenigvuldiger op een nieuw vak
+verplaatst, wordt het nieuwe vak als een nieuwe plaatsoprichting (1) behandeld en
+zet de trap terug. De tegenmaatregel is de cursor tot rust te houden op het eerste
+vak terwijl je de vermenigvuldiger verhoogt, of over te schakelen naar het
+Alt+scroll-fijnafstemmen dat cursorpositie-onafhankelijk is. De
+`buildMultiplierCycle`-instelling uit v0.36.4 heeft alleen betekenis wanneer je
+wilt dat de stepper een niet-standaard volgorde aflegt om de muur te bouwen; op
+v0.36.0 tot v0.36.3 volgt de stepper zijn standaardvolgorde en is de
+cyclusinstelling niet beschikbaar.
+
+Stel je een gerangschikt 1c1 voor waarin je snel een som goud aan een neutrale natie
+wilt doneren om die natie te moedigen de korridor open te houden die je nodig hebt,
+en slechts twee seconden hebt om te beslissen. De v0.36-werkwijze bestaat erin de
+cursor op het gebied van de neutrale natie tot rust te brengen zodat hij een
+stilstaande vak opslaat, en dan op O te drukken om goud rechtstreeks aan die natie
+te doneren. Het cursor-localisatiemodel betekent dat je het paneel niet hoeft te
+openen, de natie te zoeken en de donatieknop aan te klikken — de toets werkt
+rechtstreeks op de natie onder de cursor. Het faalpatroon is dezelfde
+stilstaande-vak-bewaking: wanneer de cursor nooit op het gebied van de natie
+stond, doet de toets niets, zodat de tegenmaatregel bestaat uit het
+verzekeren dat de cursor inderdaad op een vak van de natie is voordat je drukt.
+Wanneer je na deze gift de staat van de natie wilt inspecteren of een bericht
+wilt sturen, is I de volgende zet. Wanneer je troepen in plaats van goud doneert,
+is J de analoge troependonatiweg. Op een niet-QWERTY-layout werken dezelfde
+fysieke toetsen, zodat de AZERTY-spelerwerkwijze identiek is — het enige verschil
+is het vinden van de fysieke toets in plaats van het teken.
+
+Dit scenario is de meest directe plek waar de v0.36-donatietoetsen het besluit
+van een speler veranderen, omdat de oude werkwijze (paneel openen, natie zoeken,
+donatie aanklikken) te langzaam is voor een tweesecondenbeslissing in een
+gerangschikte partij. De v0.36-toetsen comprimeren dit tot één enkele toets op de
+doelnatie, precies het „werkt op de speler onder de cursor"-raam dat de v0.36-
+update-coverings gebruiken. Het gerangschikte 1c1 is de natuurlijke plek om deze
+toetsen het vroegst te leren, omdat de beslissingsnelheid daar het kritischst is.
+
+## Wat herbepalen, wat standaard houden, wat ontbinden
+
+Niet alle nieuwe v0.36-toetsen verdienen het om standaard te blijven, en het
+instellingen-scherm onder Sneltoetsen is de plek waar een speler die keuze maakt.
+De J/O/I-speler-interactietoetsen zijn diegene die spelers het meest waarschijnlijk
+zullen herbepalen, omdat spelers met bestaande aangepaste donatiowerkwijzen die
+andere toetsen gebruiken J, O of I kunnen herbepalen zonder de onderliggende actie
+te verliezen. De stapelpreventie via ingedrukte H is diegene die spelers het minst
+waarschijnlijk zullen herbepalen, omdat H een weinig conflictlastige toets is en het
+ingedrukt-houngedrag de natuurlijke uitloper van een plaatsingsmodificatie is. De
+stepper en het Alt+scroll-fijnafstemmen zijn geen enkele toetsen maar
+modificatietoetsen en scrollwielacties, zodat ze in de instellingen worden afgestemd
+in plaats van als toetsen opnieuw worden toegewezen.
+
+De `buildMultiplierCycle`-instelling op v0.36.4+ is degene die grote bouwers
+bewust moeten bekijken, omdat de standaardvolgorde van de lus niet kan corresponderen
+met wat de grote bouwer wil. Spelers die voornamelijk kleine stapels bouwen, hoeven
+de instelling niet aan te raken. De praktische regel is de standaardwaarden voor de
+eerste partijen te behouden, de fysieke toetsen te leren en alleen die te
+herbepalen die botsen met een bestaande aangepaste werkwijze. De [Hotkey Practice
+and Control Workflows](/guides/hotkeys/)-gids blijft de goede plek om de
+v0.35-basisbesturingen te oefenen voordat je de v0.36-veranderingen daaroverheen
+legt, en de [sneltoetsen-referentie](/shortcuts/) is de statische
+toetsenaansplitsing voor de huidige reeks zodra de v0.36-toetsen in gebruik zijn.
+
+De praktische herbeperingsbeslissing komt neer op drie vragen, en het antwoord op elke vraag hangt af van je toetsenbord en je stijl. Eerst, welke van de drie nieuwe acties op de standaardtoets houden: op QWERTY staan J, O en I al op fysiek logische posities, en de meeste spelers houden de drie onveranderd, omdat ze verplaatsen meer wrijving maakt dan het oplost. Dan, welke herbepalen: als een van de drie botst met een bestaande gewoonte, verplaats die dan naar een lege naburige toets in plaats van het conflict te dwingen. Ten slotte, welke volledig ontbinden: als je in een partij nooit doneert, kun je de binds voor J en O verwijderen zonder een basisbesturing te verliezen, omdat deze acties optioneel zijn en niet overleidskritiek. Het instellingsmenu is de naslagwerk, omdat het dezelfde toetsencodes toont waarnaar het spel luistert, en omdat het de enige betrouwbare methode is om de echte bind op een niet-QWERTY-bord te bevestigen. Deze drie-vragen-discipline is dezelfde als het besliskader eerder in deze gids, toegepast op de toetsen zelf in plaats van op de spelacties, en het is de manier om tijd te besparen die je met willekeurig herbeperken verliest.
+
+## Mislukkingen, herstel en tegenmaatregelen
+
+De mislukkingen waar spelers bij het gebruik van de v0.36-besturing daadwerkelijk
+tegenaan zullen lopen, zijn de stilstaande-vak-bewaking, het modificatieconflict,
+de cursorpositie-afhankelijkheid van de toetsenstepper en het layoutprobleem op
+niet-QWERTY-toetsenborden. De stilstaande-vak-bewaking betekent dat de toets niets
+doet voordat de cursor op een vak stilstond, en het herstel bestaat simpelweg uit
+het eerst de muis over het spelveld te bewegen. Het modificatieconflict betekent
+dat de spelerpaneltoets gemaskeerd is wanneer Alt/Ctrl/Meta is ingedrukt, en het
+herstel bestaat uit het modificatietoets los te laten voordat je op I drukt. De
+cursorpositie-afhankelijkheid betekent dat de toetsenstepper terugzet naar 1 wanneer
+de cursor naar een nieuw vak verplaatst, en het herstel bestaat uit de cursor tot
+rust te houden terwijl je de vermenigvuldiger verhoogt, of over te schakelen naar
+het Alt+scroll-fijnafstemmen. Het layoutprobleem betekent dat niet-QWERTY-spelers de
+fysieke toets in plaats van het teken moeten lokaliseren, en het herstel bestaat uit
+het instellingen-scherm onder Sneltoetsen te gebruiken, dat de fysieke
+toetsenidentificaties toont.
+
+De tegenmaatregelen zijn de wegen die elke mislukking omzeilen. Voor de
+stilstaande-vak-bewaking is het Alt+scroll-fijnafstemmen de tegenmaatregel omdat
+het cursorpositie-onafhankelijk is. Voor het modificatieconflict is de
+paneel-plus-klikweg de tegenmaatregel omdat het niet van de toets afhangt. Voor de
+cursorpositie-afhankelijkheid is het Alt+scroll-fijnafstemmen opnieuw de
+tegenmaatregel. Voor het layoutprobleem is het herbepalen van de toetsen in de
+instellingen de tegenmaatregel omdat de actie de toewijzing volgt, niet het teken.
+Elke mislukking heeft een concrete tegenmaatregel, en precies daarom is het
+v0.36-besturingsoppervlak leerbaar: de mislukkingen zijn voorspelbaar en de
+tegenmaatregelen zitten in het instellingen-scherm.
+
+De v0.36-besturingen tellen het meest in de modi en kaarten waar
+beslissingsnelheid en bouwen op grote schaal de bindende knelpunt is. De
+donatietoetsen tellen het meest in het gerangschikte 1c1, waar diplomatieke
+beslissingen snel zijn en de paneel-plus-klikweg te langzaam is; de [Ranked
+1v1](/guides/ranked-1v1/)-gids is de natuurlijke metgezel om de toetsen in deze
+context te leren. Het gerangschikte 2c2 telt voor de coördineerdeteam-
+donatiweg, en de [Ranked 2v2](/guides/ranked-2v2/)- en [Quick Chat Team
+Coordination](/guides/quick-chat-team-coordination/)-gidsen zijn de metgezellen. De
+FFA-modi tellen het meest voor de grote-schaal bouwbesturingen, omdat spelers daar
+grotere bouwwerken bouwen en de stepper en het fijnafstemmen de gereedschappen zijn
+voor exacte stapels; de [FFA Endgame Commit](/guides/ffa-endgame-commit/)- en
+[FFA Runaway Leader](/guides/ffa-runaway-leader/)-gidsen zijn de metgezellen. De
+kaartgrootte telt ook: bouwen op grote schaal telt meer op grote kaarten waar fronten
+langer zijn; de donatietoetsen tellen meer op kleine stadkaarten waar
+diplomatieke beslissingen dichter zijn. De [Map
+Strategy](/guides/map-strategy/)-gids is de algemene metgezel om te beslissen welke
+kaart welke besturing speelt.
+
+De modus- en kaart-aanpassingen zijn het laatste stuk van het v0.36-
+besturingsverhaal: de besturingen zijn niet overal even nuttig, en spelers die ze in
+de modi leren waar ze het meest tellen, ontvangen de grootste opbrengst. Het
+gerangschikte 1c1 is de hoogstwaardige context voor de donatietoetsen, de FFA-modus
+is de hoogstwaardige context voor de grote-schaal bouwbesturingen, en de
+kaartgrootte beslist in welke context een bepaalde lobby zich bevindt.
+
+## De volledige v0.36-besturingstabel: wat nieuw is en wat niet
+
+De tabel hieronder is de volledige v0.36-besturingstabel die deze pagina behandelt,
+met de versie waarin elke besturing voor het eerst optrad en de weg om ze opnieuw
+te wijzen of af te stemmen. Het toetsen-uitrusten en het radiale menu zijn de
+v0.35-basisbesturingen die zich in v0.36 niet veranderden, hier voor context
+genomen omdat de v0.36-besturingen daaroverheen liggen.
+
+| Besturing | Standaard | Effect | Optrad in | Herbepalen / afstemmen |
+|---|---|---|---|---|
+| Troependonatie | J | Doneert een troepenformatie aan de natie onder de cursor | v0.36.0 | Instellingen → Sneltoetsen |
+| Goud donatie | O | Doneert goud aan de natie onder de cursor | v0.36.0 | Instellingen → Sneltoetsen |
+| Spelerpaneel | I | Opent het spelerpaneel van de natie onder de cursor | v0.36.0 | Instellingen → Sneltoetsen |
+| Stapelpreventie | Ingedrukte H | Schakelt `canUpgrade` op false en verwijdert upgradekosten tijdens plaatsing | v0.36.0 | Instellingen → Sneltoetsen |
+| Bouw-aantalstepper (toets) | Cijferrij met gehouden bouw-geest | Schakelt de bouwvermenigvuldiger stapsgewijs, beperkt op 50 | v0.36.0 | Instellingen → Sneltoetsen |
+| Aantal-fijnafstemmen | Alt+scroll | Schakelt de bouwvermenigvuldiger in stappen van één, verwijdert kaartzoom, beperkt op 50 | v0.36.0 | Instellingen → Sneltoetsen |
+| Vermenigvuldigercyclus | `buildMultiplierCycle`-instelling | Kiest de volgorde die de bouw-aantalstepper aflegt | v0.36.4 | Instellingen (lusopties) |
+| Toetsen-uitrusten | Cijferrij | Rustt een gebouw of eenheid uit voor plaatsing | v0.35 (basis) | Instellingen → Sneltoetsen |
+| Radiaal menu | Rechtermuisklik | x1/x5/x10/xMax-stapeloptyes en upgrade-opties | v0.35 (basis) | — |
+| Wraak | Shift+R | Wraakt op een aanval | v0.35 (basis, ongewijzigd) | Instellingen → Sneltoetsen |
+
+Elke regel van deze tabel is verankerd in de tag-broncode v0.36.0 en v0.36.4 en de
+release-annotaties v0.36.0 tot v0.36.5, en de versiekolom is de eerlijke grens
+wanneer een speler die een gegeven versie speelt de besturing heeft. De
+[sneltoetsen-referentie](/shortcuts/) is de statische toetsenaansplitsing voor de
+huidige reeks, en de [Hotkey Practice and Control
+Workflows](/guides/hotkeys/)-gids is de v0.35-basoefening waarop deze pagina zich
+steunt.
+
+De kolom met versies is de rij om in het oog te houden, omdat die de enige versie-afhankelijke feitelijke in deze gids codeert.
+
+De tabel is de volledige referentie voor de nieuwe v0. 36-besturingseis, en elke rij is een feit dat je kunt verifiëren tegen de v0. 36. 0- en v0. 36. 4-tagbroncode en de release-opmerkingen voor het bereik, wat de reden is waarom deze gids ermee begint in plaats van het in de lopende tekst te vergraven. De laatste rij is de enige versie-afhankelijke rij, en het is de enige reden waarom je je exacte patchniveau moet bevestigen vóór een gerangschikte partij, omdat de vermenigvuldiger-cyclusinstelling ontbreekt in 0. 36. 0 tot 0. 36. 2 en aanwezig is in 0.

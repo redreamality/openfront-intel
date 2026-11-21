@@ -1,0 +1,408 @@
+---
+title: "OpenFront v0.36 : touches clavier et contrôles de quantité — dons J/O/I, maj H, cycle de multiplicateur"
+description: Ce que OpenFront v0.36 a ajouté à ses contrôles — les touches J/O/I d'interaction avec un joueur, la prévention de superposition par maj H, la nouvelle progression de quantité de construction, le réglage fin Alt+molette, le réglage buildMultiplierCycle de v0.36.4, et la remise en correspondance ou le contournement de la prise en charge des dispositions non-QWERTY comme l'AZERTY.
+pubDate: 2026-11-21
+updatedDate: 2026-11-21
+tags: [v0.36, controls, keybinds, ui, build, donations, settings]
+category: Guide
+difficulty: Intermédiaire
+version: v0.36.5
+freshnessSummary: "Vérifié contre le code source des tags v0.36.0 et v0.36.4 et les notes de sortie de v0.36.0 à v0.36.5 : v0.36.0 a ajouté les touches J/O/I d'interaction avec un joueur, la prévention de superposition par maj H, la progression de quantité de construction et le réglage fin Alt+molette ; v0.36.4 a ajouté le réglage utilisateur buildMultiplierCycle ; v0.36.5 perpétue les deux. La progression de quantité est plafonnée à 50 (MAX_UPGRADE_AMOUNT), et maintenir Alt+molette supprime le zoom de la carte."
+---
+
+## Réponse directe : que a changé v0.36 dans les contrôles d'OpenFront ?
+
+OpenFront v0.36 a ajouté trois touches par défaut — J, O et I — qui agissent
+directement sur le joueur sous le curseur, remplaçant le chemin plus lent de
+l'ouverture du panneau puis du clic. Appuyer sur J offre un groupe de troupes à la
+nation sous le curseur, O offre de l'or et I ouvre le panneau joueur de cette nation.
+v0.36 a également ajouté la touche de prévention de superposition par maj H, une
+progression de quantité de construction qui monte et descend un multiplicateur de
+quantité de construction à la fois pendant que tu poses des structures de bâtiment,
+et un réglage fin Alt+molette qui affine la même quantité par paliers de un et
+supprime le zoom de la carte quand le modificateur est maintenu. v0.36.4 a ajouté
+le réglage `buildMultiplierCycle`, qui te laisse choisir la séquence parcourue par
+la progression de quantité, et v0.36.5 perpétue tout cela. Chaque valeur par défaut
+peut être remise en correspondance dans Paramètres → Raccourcis clavier, et la
+prise en charge des dispositions signifie que la même touche physique fonctionne
+sur les clavier AZERTY, QWERTZ et autres dispositions non-QWERTY.
+
+Les contrôles de cette page sont une histoire de v0.36, et les limites de correctif
+importent parce que le réglage de la progression de quantité et ces touches ne sont
+pas sortis simultanément. La série v0.35.0 — ancrée par le guide [Hotkey Practice
+and Control Workflows](/guides/hotkeys/) — n'avait pas d'entrée de prévention de
+superposition dans son `UserSettings.ts`, pas de touches J/O/I d'interaction avec
+un joueur, et pas de progression de quantité de construction. Son comportement de
+quantité était le double-clic x5 par touche numérique et l'option x1/x5/x10/xMax du
+menu radial, et ni l'un ni l'autre n'a changé en v0.36. Le code source des tags
+v0.35.0 et v0.36.0 définit tous deux `retaliateAttack` comme `Shift+KeyR`, si cette
+correspondance n'a pas bougé entre les versions non plus.
+
+v0.36.0 est là où la nouvelle surface de contrôles est apparue. Ses notes de sortie
+plus le code source du tag v0.36.0 montrent que les touches J/O/I, l'entrée `KeyH`
+de maj H, le code de la progression de quantité et le réglage fin Alt+molette sont
+tous présents dans un même tag. v0.36.1 et v0.36.2 n'ont modifié aucun de ces
+comportements de touches — leurs corps de sortie ont été vérifiés et aucun des deux
+n'a ajouté, retiré ou remappé l'une des actions couvertes ici. v0.36.4 est là où
+le réglage utilisateur `buildMultiplierCycle` est apparu pour la première fois : il
+n'existe pas dans le `UserSettings.ts` de v0.36.0 et apparaît à partir de v0.36.4.
+v0.36.5, la ligne stable actuelle, perpétue le réglage de v0.36.4 sans changer les
+contrôles de cette page.
+
+La lecture honnête des limites de version est donc : si tu joues toute version
+v0.36.x, tu as ces touches, la maj H, la progression et le réglage fin ; tu n'as le
+réglage du cycle qu'en jouant v0.36.4 ou supérieur. Le plafond de quantité lui-même
+a été constant à travers toute la série — `MAX_UPGRADE_AMOUNT` est défini à 50 dans
+le `packages/engine-api/src/game/GameTypes.ts` de v0.36.0 et la même constante est
+importée par `InputHandler.ts` pour plafonner tous les chemins de progression. Si
+tu es encore sur la ligne v35, les contrôles v0.36 n'existent pas là, et le guide
+[Hotkey Practice and Control Workflows](/guides/hotkeys/) reste la bonne référence
+pour ta version. La page de [référence des raccourcis](/shortcuts/) est le
+rappel des touches fixes pour la série actuelle et doit se lire en compagnie de
+cette page, pas à la place de celle-ci.
+
+## Les trois nouvelles touches d'interaction avec un joueur : J, O, I
+
+Les notes de sortie de v0.36.0 décrivent les trois nouvelles touches comme agissant
+sur le joueur sous le curseur, et le code source d'`InputHandler.ts` de v0.36.0
+confirme le mécanisme qui rend cette phrase concrète. Les gestionnaires de touches
+`donateTroops`, `donateGold` et `playerPanel` lisent tous la même paire de champs
+d'origine, `lastMouseX` et `lastMouseY`, la tuile où le pointeur s'est arrêté
+derrière, pas la tuile sous le pointeur en temps réel. Chaque gestionnaire garde :
+si le curseur ne s'est jamais arrêté sur une tuile (les deux valeurs nulles), la
+touche ne fait rien, et le gestionnaire `playerPanel` ignore la touche quand Alt,
+Ctrl ou Meta est maintenu pour éviter de coller avec le modificateur du réglage fin
+Alt+molette.
+
+Ce détail de garde est le vrai problème que les joueurs rencontreront en premier.
+Ouvre un lobby, arrête le curseur sur la carte pour qu'il enregistre une tuile
+d'arrêt, puis appuie sur J pour offrir des troupes, sur O pour offrir de l'or et sur
+I pour ouvrir le panneau joueur. S'il n'y a aucune réaction, la cause la plus
+courante est que le curseur ne s'est jamais arrêté sur une tuile (passe d'abord la
+souris sur l'échiquier) ou qu'un modificateur est maintenu, ce qui masque la touche
+du panneau joueur. Les touches sont enregistrées avec `addKeybindAndEvent`, ce qui
+signifie que chacune apparaît dans Paramètres → Raccourcis clavier et peut être
+remappée ou désassociée comme n'importe quelle autre action. Les joueurs qui ont
+déjà des flux de travail personnalisés utilisant d'autres touches peuvent remapper
+J, O ou I sans perdre l'action sous-jacente — l'action suit la correspondance, pas
+le caractère.
+
+La réaction de la communauté à ces touches correspond au code source : les fils
+Reddit autour de v0.36 (le fil « troop deployment going to 100 » et le fil « how do
+you restore left shift + LMB to build ») concernent le nouveau contrôle de quantité
+de construction, mais la même vague de joueurs a posé des questions sur les touches
+de don parce qu'elles changent la vitesse du jeu diplomatique. Les couvertures
+YouTube de la mise à jour v0.36 ont cadré le changement comme « agissant sur le
+joueur sous le curseur », exactement le modèle de localisation du curseur que le
+code source montre. Ces sources ne changent pas ce que les touches font — le code
+source est l'autorité — mais elles sont utiles pour un joueur qui décide s'il
+apprend ces touches : un chemin de don plus rapide est précisément ce que la
+communauté a déjà commencé à habituer.
+
+Le contrôle le plus influent de v0.36 est la progression de quantité de
+construction, et son déclenchement exact est un détail que les notes de sortie
+expriment de façon vague. Le code source le clarifie : la progression de quantité
+ne fait avancer le multiplicateur que lorsqu'une structure de bâtiment est déjà
+activée sur la même position ; un clic sur une position neuve repart de 1. La
+conséquence pratique est que l'escalier ne grimpe que si tu gardes la même structure
+armée immobile sur la même tuile. Un joueur qui clique rapidement sur la touche de
+construction en déplaçant le curseur ne verra pas le multiplicateur grimper, parce
+que chaque nouvelle position du curseur est traitée comme un début de pose neuf.
+
+L'arithmétique de la progression est définie dans `InputHandler.ts` de v0.36.0. Une
+étape « monter » fait `upgradeMultiplier = currentMultiplier + 1`, puis plafonne à
+`MAX_UPGRADE_AMOUNT`, c'est-à-dire 50 ; une étape « descendre » ne décrémente que si
+le multiplicateur est supérieur à 1 et ne descend jamais sous 1. L'escalier est donc
+une marche un par un de 1 à 50, avec un plafond dur de 50 structures au sommet.
+C'est la même constante qui délimitait les lots x5 en v0.35, ce qui signifie qu'un
+lot de 50 structures est le plus grand lot atteignable par n'importe quel chemin de
+progression. L'or plafonne toujours combien tu peux réellement poser — la
+progression fait avancer le multiplicateur et ne contourne pas le coût — si un lot
+de 50 structures n'est donc pas plus grand que ce que ton or peut payer.
+
+Le réglage fin Alt+molette est le chemin indépendant de la position du curseur, et
+c'est précisément ce qui en fait l'option fiable pour une quantité précise.
+Maintenir `Alt` (le `buildScrollModifier` par défaut, `AltLeft`) et faire défiler
+appelle `setGhostStructure` avec un argument « monter » ou « descendre » et renvoie
+tôt pour supprimer le zoom de la carte pendant que le modificateur est maintenu. Le
+seuil `Math.abs(scrollValue) > 2` signifie qu'un petit saccadé de molette
+n'enregistre pas une étape, si tu obtiens des changements discrets un par un plutôt
+qu'une salve d'étapes lors d'un défilement vif. Le même plafond de 50 s'applique au
+chemin de défilement, si le réglage fin et la progression par touches partagent le
+même sommet d'escalier.
+
+## Le réglage du cycle de multiplicateur de v0.36.4 et la touche de prévention de superposition par maj H
+
+Le réglage `buildMultiplierCycle` est apparu en v0.36.4 et est le raffinement qui te
+laisse choisir la séquence parcourue par la progression de quantité. Le
+`InputHandler.ts` de v0.36.4 construit la boucle à partir de ce réglage et le
+`UserSettings.ts` de v0.36.4 documente l'option, si les joueurs qui jouent v0.36.4
+ou supérieur peuvent choisir les valeurs que la progression traverse au lieu
+d'accepter la marche un par un par défaut. La séquence par défaut exacte est
+décidée par le réglage, et cette page ne revendique pas un ordre par défaut
+particulier sans avoir lu la valeur par défaut ; ce qui est stable, c'est que le
+réglage existe, est réglable par l'utilisateur et dirige la séquence utilisée par
+la progression. Si tu joues de v0.36.0 à v0.36.3, tu as la progression mais pas le
+réglage du cycle, si la progression suit sa séquence par défaut ; passer à v0.36.4
+ou supérieur débloque ce choix.
+
+La touche de prévention de superposition par maj H semble plus petite qu'elle ne
+l'est. Elle ne change pas le coût de construction, l'empreinte, ni n'autorise une
+seconde structure sur une tuile ; elle bascule simplement le drapeau `canUpgrade`
+de l'aperçu de pose à faux et supprime le coût de mise à niveau, pour que l'aperçu de
+pose n'essaie pas de superposer une mise à niveau sur une structure existante. Poser
+une structure en maintenant H équivaut à dire au jeu de traiter la pose comme une
+nouvelle structure indépendante plutôt que comme une mise à niveau d'une chose
+existante — c'est précisément le comportement qu'un joueur veut quand il construit
+une rangée de structures identiques le long d'une frontière. Le `UserSettings.ts`
+de v0.36.0 a ajouté l'entrée de prévention de superposition associée à `KeyH`,
+alors que le `UserSettings.ts` de v0.35.0 n'avait pas de telle entrée, ce qui
+confirme que la maj H est un contrôle nouveau en v0.36 et pas un contrôle
+préexistant documenté plus tard.
+
+Le réglage du cycle et la maj H complètent ensemble la surface de contrôles de
+v0.36. Le réglage du cycle est celui qui change la forme de l'escalier de quantité
+pour les joueurs qui construisent en gros ; la maj H est celle qui change la
+sémantique de pose pour la construction de rangées de structures identiques. Ni
+l'un ni l'autre ne remplace l'armement par touche numérique ou le menu radial ; ils
+se superposent aux deux et tous deux peuvent être remappés ou ajustés dans les
+paramètres.
+
+Les notes de sortie de v0.36.0 cadrent les nouvelles touches par position physique
+plutôt que par caractère, et le code source soutient ce cadrage. Les touches sont
+enregistrées par identifiant de touche physique, si la même touche physique lit J, O
+et I sur une disposition QWERTY et lit des caractères correspondants sur une
+disposition AZERTY. Sur AZERTY (français belge), les touches physiques qui sont J, O
+et I sur QWERTY lisent des caractères différents, si les joueurs AZERTY ne doivent
+pas chercher les caractères « J », « O », « I » sur leur clavier — ils doivent
+localiser les touches physiques aux mêmes positions. Sur d'autres dispositions
+non-QWERTY (QWERTZ, Dvorak, Colemak), l'identité de la touche physique varie de
+nouveau, si le fait stable est la position physique et le caractère dépend de la
+disposition.
+
+C'est le même modèle que l'ensemble de la surface de contrôles de v0.36 utilise, et
+c'est la raison pour laquelle les notes de sortie et l'écran de paramètres présentent
+ces touches par position physique. Si un joueur AZERTY remappe ces nouvelles touches
+dans Paramètres → Raccourcis clavier, il verra les identifiants de touche physique
+plutôt que les caractères, ce qui est un comportement prévu, pas une erreur
+d'affichage. L'impact pratique pour un joueur qui décide s'il adopte les nouvelles
+touches sur une disposition non-QWERTY est que le coût d'apprentissage consiste à
+trouver la touche physique, pas à mémoriser un nouveau caractère. Le reste de la
+surface de contrôles de v0.36 — la progression de quantité, le réglage fin
+Alt+molette, la maj H — est indépendant de la disposition parce qu'il est piloté par
+la molette et la touche H plutôt que par des touches lettres, si le problème de
+disposition ne s'applique qu'aux trois nouvelles touches lettres.
+
+## Cadre de décision : quelle entrée utiliser dans chaque situation
+
+La surface de contrôles de v0.36 donne aux joueurs plusieurs chemins vers le même
+résultat, et le bon chemin dépend de la situation. Pour offrir des troupes ou de
+l'or à une nation spécifique, les touches J et O sont le chemin rapide parce qu'elles
+agissent directement sur la nation sous le curseur ; quand tu veux inspecter un
+joueur ou parler à un joueur, la touche I est le chemin rapide vers le panneau
+joueur de cette nation. Le chemin plus lent du panneau plus clic est à utiliser
+uniquement quand tu dois faire quelque chose que les touches ne couvrent pas (comme
+configurer une quantité de don spécifique via l'interface du panneau).
+
+Pour construire un lot de structures, le choix est entre la progression de quantité
+par touches et le réglage fin Alt+molette. Quand tu as déjà un fantôme de
+construction maintenu sur la tuile cible, la progression par touches est le choix
+naturel parce qu'elle fait avancer le multiplicateur un par un sans quitter le
+contexte de pose. Quand tu as besoin d'une quantité précise et veux éviter la
+dépendance à la position du curseur de la progression par touches, le réglage fin
+Alt+molette est le choix, parce qu'il est indépendant de la position du curseur et
+supprime le zoom de la carte pendant que tu règles. Les lots x5 par touche numérique
+et le menu radial restent le choix des petits lots fixes (x1, x5, x10, xMax) que les
+flux de travail v0.35 utilisent déjà, et ils n'ont pas changé en v0.36.
+
+La touche de prévention de superposition par maj H change la décision de la
+construction de rangées : si tu poses une rangée de structures identiques le long
+d'une frontière et ne veux pas que l'aperçu de pose essaie de superposer une mise à
+niveau sur une structure existante, maintiens H pendant que tu poses. Si tu poses
+une structure unique près d'une structure existante et veux l'aperçu de mise à
+niveau, ne maintiens pas H. Le réglage `buildMultiplierCycle` change la décision de
+planification de l'échelle en gros : si tu construis en gros, tu dois choisir la
+séquence du cycle consciemment plutôt que d'accepter la marche par défaut ; si tu
+construis surtout en petits lots, le réglage du cycle est largement sans importance.
+Le tableau ci-dessous résume le choix d'entrée par situation.
+
+| Situation | Utiliser | Raison | Version |
+|---|---|---|---|
+| Offrir des troupes à la nation sous le curseur | J | Action par localisation du curseur, sans panneau | v0.36.0+ |
+| Offrir de l'or à la nation sous le curseur | O | Action par localisation du curseur, sans panneau | v0.36.0+ |
+| Ouvrir le panneau joueur de la nation sous le curseur | I | Action par localisation du curseur, sans panneau | v0.36.0+ |
+| Construire un lot en maintenant un fantôme sur place | Progression de quantité par touches | Marche un par un du multiplicateur sur place | v0.36.0+ |
+| Construire une quantité précise indépendante du curseur | Réglage fin Alt+molette | Indépendant du curseur, supprime le zoom | v0.36.0+ |
+| Construire des petits lots fixes (x1/x5/x10/xMax) | Touches numériques ou menu radial | Flux de travail v0.35 inchangé | v0.35+ |
+| Poser une rangée de structures identiques sans superposition de mise à niveau | Maintenir H pendant la pose | Bascule `canUpgrade` à faux, supprime le coût de mise à niveau | v0.36.0+ |
+| Choisir la séquence de la progression pour un lot en gros | Réglage `buildMultiplierCycle` | Boucle réglable par l'utilisateur, sinon marche par défaut | v0.36.4+ |
+
+## Scénario : construire un mur défensif de 50 structures le long d'une frontière contestée
+
+Imagine une frontière contestée où tu veux poser une défense continue le long d'un
+front de 50 tuiles et as assez d'or pour payer les 50. Le flux de travail v0.36 est
+d'armer la structure par touche numérique, de cliquer la première tuile pour activer
+le fantôme de construction sur place, puis de monter le multiplicateur un par un
+avec la progression de quantité par touches en gardant le fantôme sur la même
+position. La progression plafonne à 50, exactement la longueur du mur, si tu marches
+de 1 à 50 et le lot est prêt. Maintiens H pendant que tu poses pour que l'aperçu de
+pose traite chaque structure comme une nouvelle structure indépendante plutôt que de
+superposer une mise à niveau sur une structure existante — c'est précisément là que
+la maj H est utile. Le lot de 50 structures n'est pas plus grand que ce que ton or
+peut payer, si marcher la progression à 50 ne contourne pas le coût ; si tu ne peux
+pas payer les 50, le lot est plafonné par l'or, pas par la progression. Si le front
+de la frontière n'est pas exactement 50 tuiles, le réglage fin Alt+molette est
+meilleur outil parce qu'il peut faire avancer une quantité précise indépendante de
+la position du curseur, et le même plafond de 50 s'applique toujours, si tu ne
+dépasse pas.
+
+Le mode d'échec ici est la dépendance à la position du curseur de la progression par
+touches : si tu déplaces le curseur vers une nouvelle tuile pendant que tu fais
+avancer le multiplicateur, la nouvelle tuile est traitée comme un début de pose neuf
+(1) et l'escalier réinitialise. La contre-mesure est de garder le curseur immobile
+sur la première tuile pendant que tu fais avancer le multiplicateur, ou de passer au
+réglage fin Alt+molette, qui est indépendant de la position du curseur. Le réglage
+`buildMultiplierCycle` de v0.36.4 n'a de sens que si tu veux que la progression
+parcoure une séquence non par défaut pour construire le mur ; sur v0.36.0 à v0.36.3
+la progression suit sa séquence par défaut et le réglage du cycle n'est pas
+disponible.
+
+Imagine une partie 1c1 classée où tu veux offrir rapidement une somme d'or à une
+nation neutre pour l'encourager à garder le couloir dont tu as besoin, et n'as que
+deux secondes pour décider. Le flux de travail v0.36 est d'arrêter le curseur sur
+le territoire de la nation neutre pour qu'il enregistre une tuile d'arrêt, puis
+d'appuyer sur O pour offrir de l'or directement à cette nation. Le modèle de
+localisation du curseur signifie que tu n'as pas à ouvrir le panneau, trouver la
+nation, cliquer le bouton de don — la touche agit directement sur la nation sous le
+curseur. Le mode d'échec est la même garde de tuile d'arrêt : si le curseur ne s'est
+jamais arrêté sur le territoire de la nation, la touche ne fait rien, si la
+contre-mesure est de s'assurer que le curseur est réellement sur une tuile de la
+nation avant d'appuyer. Si tu veux inspecter l'état de la nation ou envoyer un
+message après ce don, la touche I est le geste suivant. Si tu offres des troupes
+plutôt que de l'or, la touche J est le chemin de don de troupes analogue. Sur une
+disposition non-QWERTY, les mêmes touches physiques fonctionnent, si le flux de
+travail d'un joueur AZERTY est identique — la seule différence est de trouver la
+touche physique plutôt que le caractère.
+
+Ce scénario est l'endroit le plus direct où les touches de don de v0.36 changent la
+décision d'un joueur, parce que l'ancien flux de travail (ouvrir le panneau, trouver
+la nation, cliquer le don) est trop lent pour une décision de deux secondes dans une
+partie classée. Les touches v0.36 compressent cela en une seule touche sur la
+nation cible, c'est précisément le cadrage « agissant sur le joueur sous le
+curseur » utilisé par les couvertures de la mise à jour v0.36. Le scénario 1c1
+classé est l'endroit naturel pour apprendre ces touches le plus tôt, parce que la
+vitesse de décision y est la plus critique.
+
+## Que remapper, que garder par défaut, que désassocier
+
+Toutes les nouvelles touches de v0.36 ne méritent pas d'être gardées par défaut, et
+l'écran Paramètres → Raccourcis clavier est l'endroit où un joueur fait ce choix.
+Les touches J/O/I d'interaction avec un joueur sont celles que les joueurs
+remapperont le plus probablement, parce que les joueurs qui ont déjà des flux de
+travail de don personnalisés utilisant d'autres touches peuvent remapper J, O ou I
+sans perdre l'action sous-jacente. La touche de prévention de superposition par maj
+H est celle que les joueurs remapperont le moins probablement, parce que H est une
+touche à faible conflit et que le comportement de maintien est le déclencheur
+naturel d'un modificateur de pose. La progression de quantité et le réglage fin
+Alt+molette ne sont pas des touches uniques mais des modificateurs et des actions de
+molette, si on les règle dans les paramètres plutôt que de les remapper comme des
+touches.
+
+Le réglage `buildMultiplierCycle` sur v0.36.4+ est celui que les joueurs qui
+construisent en gros doivent examiner consciemment, parce que la séquence par
+défaut de la boucle peut ne pas correspondre à ce que le constructeur en gros veut.
+Les joueurs qui construisent surtout en petits lots n'ont pas besoin de toucher au
+réglage. La règle pratique est de garder les valeurs par défaut pour les premières
+parties, d'apprendre les touches physiques, puis de remapper seulement les touches
+qui entrent en conflit avec un flux de travail personnalisé existant. Le guide
+[Hotkey Practice and Control Workflows](/guides/hotkeys/) reste le bon endroit pour
+répéter les contrôles de base v0.35 avant de superposer les changements v0.36, et
+la page de [référence des raccourcis](/shortcuts/) est le rappel des touches fixes
+pour la série actuelle une fois les touches v0.36 en usage.
+
+La décision de remappage pratique se résume à trois questions, et la réponse à chacune dépend de la disposition de ton clavier et de ton style. D'abord, quelles des trois nouvelles actions garder sur leur touche par défaut : sur QWERTY, J, O et I sont déjà placés sur des positions physiquement cohérentes, et la plupart des joueurs conservent les trois sans changement, car les déplacer crée plus de friction qu'il n'en résout. Ensuite, laquelle repositionner : si l'une des trois te heurte une habitude existante, par exemple un J que tu utilises déjà pour autre chose dans un autre jeu, repositionne-la sur une touche adjacente vide plutôt que de forcer le conflit.
+
+## Échecs, récupération et contre-mesures
+
+Les échecs que les joueurs rencontreront réellement en utilisant les contrôles
+v0.36 sont la garde de tuile d'arrêt, le conflit de modificateur, la dépendance à la
+position du curseur de la progression par touches et le problème de disposition sur
+les clavier non-QWERTY. La garde de tuile d'arrêt signifie que la touche ne fait
+rien avant que le curseur se soit arrêté sur une tuile, et la récupération consiste
+simplement à passer d'abord la souris sur l'échiquier. Le conflit de modificateur
+signifie que la touche du panneau joueur est masquée quand Alt/Ctrl/Meta est
+maintenu, et la récupération consiste à relâcher le modificateur avant d'appuyer sur
+I. La dépendance à la position du curseur signifie que la progression par touches
+réinitialise à 1 quand le curseur se déplace vers une nouvelle tuile, et la
+récupération consiste à garder le curseur immobile pendant que tu fais avancer le
+multiplicateur, ou à passer au réglage fin Alt+molette. Le problème de disposition
+signifie que les joueurs non-QWERTY doivent localiser la touche physique plutôt que
+le caractère, et la récupération consiste à utiliser l'écran Paramètres →
+Raccourcis clavier, qui affiche les identifiants de touche physique.
+
+Les contre-mesures sont les chemins qui contournent chaque échec. Pour la garde de
+tuile d'arrêt, le réglage fin Alt+molette est la contre-mesure parce qu'il est
+indépendant de la position du curseur. Pour le conflit de modificateur, le chemin du
+panneau plus clic est la contre-mesure parce qu'il ne dépend pas de la touche du
+tout. Pour la dépendance à la position du curseur, le réglage fin Alt+molette est
+encore la contre-mesure. Pour le problème de disposition, remapper les touches dans
+les paramètres est la contre-mesure parce que l'action suit la correspondance, pas
+le caractère. Chaque échec a une contre-mesure concrète, et c'est précisément pour
+quoi la surface de contrôles de v0.36 est apprenable : les échecs sont prévisibles
+et les contre-mesures sont dans l'écran de paramètres.
+
+Les contrôles v0.36 comptent le plus dans les modes et cartes où la vitesse de
+décision et la construction en gros sont la contrainte qui lie. Les touches de don
+comptent le plus dans le 1c1 classé, où les décisions diplomatiques sont rapides et
+le chemin du panneau plus clic est trop lent ; le guide [Ranked 1v1](/guides/ranked-1v1/)
+est le compagnon naturel pour apprendre les touches dans ce contexte. Le 2c2
+classé compte pour le chemin de don coordonné par équipe, et le guide [Ranked
+2v2](/guides/ranked-2v2/) et [Quick Chat Team Coordination](/guides/quick-chat-team-coordination/)
+sont les compagnons. Les modes FFA comptent le plus pour les contrôles de
+construction en gros, parce que les joueurs y construisent de plus grandes
+structures et la progression de quantité et le réglage fin sont les outils du lot
+précis ; le guide [FFA Endgame Commit](/guides/ffa-endgame-commit/) et [FFA
+Runaway Leader](/guides/ffa-runaway-leader/) sont les compagnons. La taille de la
+carte importe aussi : la construction en gros compte plus sur les grandes cartes où
+les fronts sont plus longs ; les touches de don comptent plus sur les petites
+cartes de ville où les décisions diplomatiques sont plus denses. Le guide
+[Map Strategy](/guides/map-strategy/) est le compagnon général pour décider quelle
+carte joue quel contrôle.
+
+Les ajustements de mode et de carte sont la dernière pièce de l'histoire des
+contrôles v0.36 : les contrôles ne sont pas utiles partout de la même façon, et les
+joueurs qui les apprennent dans les modes où ils comptent le plus récoltent le plus.
+Le 1c1 classé est le contexte à la plus grande valeur des touches de don, le mode
+FFA est le contexte à la plus grande valeur des contrôles de construction en gros,
+et la taille de la carte décide quel contexte un lobby particulier est dans.
+
+## Tableau complet des contrôles v0.36 : ce qui est nouveau et ce qui ne l'est pas
+
+Le tableau ci-dessous est le tableau complet des contrôles v0.36 couvert par cette
+page, avec la version où chaque contrôle est apparu pour la première fois et le
+chemin pour le remapper ou le régler. L'armement par touche numérique et le menu
+radial sont les contrôles de base v0.35 inchangés en v0.36, inclus pour le contexte
+parce que les contrôles v0.36 se superposent à eux.
+
+| Contrôle | Par défaut | Effet | Apparue en | Remapper / régler |
+|---|---|---|---|---|
+| Don de troupes | J | Offre un groupe de troupes à la nation sous le curseur | v0.36.0 | Paramètres → Raccourcis clavier |
+| Don d'or | O | Offre de l'or à la nation sous le curseur | v0.36.0 | Paramètres → Raccourcis clavier |
+| Panneau joueur | I | Ouvre le panneau joueur de la nation sous le curseur | v0.36.0 | Paramètres → Raccourcis clavier |
+| Prévention de superposition | Maj H | Bascule `canUpgrade` à faux et supprime le coût de mise à niveau pendant la pose | v0.36.0 | Paramètres → Raccourcis clavier |
+| Progression de quantité (touche) | Touches numériques avec un fantôme de construction maintenu | Marche le multiplicateur de construction un par un, plafonné à 50 | v0.36.0 | Paramètres → Raccourcis clavier |
+| Réglage fin de quantité | Alt+molette | Fait avancer le multiplicateur de construction par paliers de un, supprime le zoom de la carte, plafonné à 50 | v0.36.0 | Paramètres → Raccourcis clavier |
+| Cycle de multiplicateur | Réglage `buildMultiplierCycle` | Choisit la séquence parcourue par la progression de quantité | v0.36.4 | Paramètres (options de la boucle) |
+| Armement par touche numérique | Touches numériques | Arme un bâtiment ou une unité pour la pose | v0.35 (base) | Paramètres → Raccourcis clavier |
+| Menu radial | Clic droit | Options de lot x1/x5/x10/xMax et options de mise à niveau | v0.35 (base) | — |
+| Riposte | Shift+R | Riposte à une attaque | v0.35 (base, inchangé) | Paramètres → Raccourcis clavier |
+
+Chaque ligne de ce tableau est ancrée dans le code source des tags v0.36.0 et
+v0.36.4 et les notes de sortie de v0.36.0 à v0.36.5, et la colonne de version est la
+limite honnête de quand un joueur qui joue une version donnée a le contrôle. La
+page de [référence des raccourcis](/shortcuts/) est le rappel des touches fixes pour
+la série actuelle, et le guide [Hotkey Practice and Control
+Workflows](/guides/hotkeys/) est la répétition de la base v0.35 sur laquelle cette
+page s'appuie.
+
+La colonne des versions est la ligne à surveiller, car elle encode l'unique fait versionnel de ce guide.

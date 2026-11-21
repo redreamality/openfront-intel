@@ -1,0 +1,417 @@
+---
+title: "OpenFront v0.36 Tastaturbelegung und Baumengen-Steuerung: J/O/I-Spenden, gedrücktes H und der Multiplikator-Zyklus"
+description: Was OpenFront v0.36 an Bedienung hinzugefügt hat — die drei Spieler-Wechseltasten J/O/I, die Stapelverhinderung über gedrücktes H, der neue Baumengen-Stepper, das Alt+Scroll-Feinjustieren, die buildMultiplierCycle-Einstellung aus v0.36.4 und das Neuordnen oder Umgehen der Tastaturlayout-Unterstützung für nicht-QWERTY-Layouts wie AZERTY.
+pubDate: 2026-11-21
+updatedDate: 2026-11-21
+tags: [v0.36, controls, keybinds, ui, build, donations, settings]
+category: Guide
+difficulty: Mittel
+version: v0.36.5
+freshnessSummary: "Gegen Tag-Quellcode v0.36.0 und v0.36.4 und gegen Release-Notizen v0.36.0 bis v0.36.5 geprüft: v0.36.0 fügte die drei J/O/I-Spieler-Wechseltasten, die Stapelverhinderung über gedrücktes H, den Baumengen-Stepper und das Alt+Scroll-Feinjustieren hinzu; v0.36.4 fügte die buildMultiplierCycle-Einstellung hinzu; v0.36.5 führt beides fort. Die Baumengen-Eskalation ist auf 50 begrenzt (MAX_UPGRADE_AMOUNT), und gedrücktes Alt+Scroll entfernt dabei den Karten-Zoom."
+---
+
+## Direkte Antwort: Was hat v0.36 an der OpenFront-Steuerung geändert?
+
+OpenFront v0.36 hat drei Standardtasten hinzugefügt — J, O und I — die direkt auf
+den Spieler unter dem Cursor wirken und den langsameren Weg über das Öffnen des
+Panels und anschließendes Klicken ersetzen. J spendet einen Trupp an die Nation
+unter dem Cursor, O spendet Gold und I öffnet das Spielerpanel dieser Nation. v0.36
+hat außerdem die Stapelverhinderung über gedrücktes H, einen Baumengen-Stepper, der
+einen Baumengen-Multiplikator beim Legen von Baustrukturen schrittweise erhöht und
+erniedrigt, und ein Alt+Scroll-Feinjustieren hinzugefügt, das dieselbe Menge in
+Schritten von einem anfeinert und während des gedrückten Modifikators den
+Karten-Zoom entfernt. v0.36.4 hat die Einstellung `buildMultiplierCycle`
+hinzugefügt, mit der du die Reihenfolge wählen kannst, die der Baumengen-Stepper
+durchläuft, und v0.36.5 führt alles davon fort. Jeder Standardwert kann unter
+Einstellungen → Tastenkürzel neu zugeordnet werden, und die Layout-Unterstützung
+bedeutet, dass dieselbe physische Taste auf AZERTY-, QWERTZ- und anderen
+nicht-QWERTY-Layouts funktioniert.
+
+Die Steuerung auf dieser Seite ist eine v0.36-Geschichte, und die
+Hotfix-Grenzen sind wichtig, weil die Einstellung des Steppers und diese Tasten
+nicht gleichzeitig erschienen sind. Die v0.35.0-Reihe — verankert durch den
+[Hotkey Practice and Control Workflows](/guides/hotkeys/)-Guide — hatte keinen
+Eintrag für Stapelverhinderung in ihrem `UserSettings.ts`, keine J/O/I-Spieler-
+Wechseltasten und keinen Baumengen-Stepper. Ihr Mengenverhalten war das
+doppelklick-basierte x5 über den Zifferntasten und die x1/x5/x10/xMax-Option des
+radialen Menüs, und weder das eine noch das andere hat sich in v0.36 geändert. Der
+Tag-Quellcode v0.35.0 und v0.36.0 definiert beide `retaliateAttack` als
+`Shift+KeyR`, was bedeutet, dass auch diese Zuordnung sich zwischen den Versionen
+nicht verschoben hat.
+
+v0.36.0 ist der Ort, an dem die neue Steueroberfläche erschienen ist. Ihre
+Release-Notizen plus der v0.36.0-Tag-Quellcode zeigen, dass die J/O/I-Tasten, der
+`KeyH`-Eintrag für gedrücktes H, der Stepper-Code und das Alt+Scroll-Feinjustieren
+alle im selben Tag vorhanden sind. v0.36.1 und v0.36.2 haben keins dieser
+Tasten-Verhalten geändert — ihre Release-Texte wurden geprüft, und keiner der
+zwei hat eine der hier behandelten Aktionen hinzugefügt, entfernt oder neu
+zugeordnet. v0.36.4 ist der Ort, an dem die
+Benutzer-einstellung `buildMultiplierCycle` zum ersten Mal erschienen ist: Sie
+existiert nicht im `UserSettings.ts` von v0.36.0 und tritt ab v0.36.4 auf. v0.36.5,
+die aktuelle stabile Reihe, führt die v0.36.4-Einstellung fort, ohne die Steuerung
+auf dieser Seite zu ändern.
+
+Die ehrliche Lesart der Versionsgrenzen lautet also: Wenn du jede Version v0.36.x
+spielst, hast du diese Tasten, das gedrückte H, den Stepper und das Feinjustieren;
+die Zykluseinstellung hast du nur, wenn du v0.36.4 oder höher spielst. Die
+Mengenobergrenze selbst war über die ganze Reihe hinweg konstant — `MAX_UPGRADE_AMOUNT`
+ist in v0.36.0 im `packages/engine-api/src/game/GameTypes.ts` auf 50 definiert,
+und dieselbe Konstante wird von `InputHandler.ts` importiert, um jeden
+Stepper-Pfad nach oben zu begrenzen. Wenn du noch auf der v35-Reihe bist, existiert
+die v0.36-Steuerung dort nicht, und der [Hotkey Practice and Control
+Workflows](/guides/hotkeys/)-Guide bleibt die richtige Referenz für deine Version.
+Die [Tastaturkürzel-Referenz](/shortcuts/) ist die statische
+Tastenaufschlüsselung für die aktuelle Reihe und sollte zusammen mit dieser Seite
+gelesen werden, nicht an deren Stelle.
+
+## Die drei neuen Spieler-Wechseltasten: J, O, I
+
+Die v0.36.0-Release-Notizen beschreiben die drei neuen Tasten als wirkend auf den
+Spieler unter dem Cursor, und der v0.36.0-`InputHandler.ts`-Quellcode bestätigt den
+Mechanismus, der diesen Satz konkret macht. Die Tasten-Handler `donateTroops`,
+`donateGold` und `playerPanel` lesen alle dasselbe Paar von Ursprungsfeldern,
+`lastMouseX` und `lastMouseY`, die Kachel, auf der der Zeiger zuletzt stand, nicht
+die Kachel unter dem Echtzeit-Zeiger. Jeder Handler bewacht: Wenn der Cursor noch
+niemals auf einer Kachel stand (beide Werte null), tut die Taste nichts, und der
+`playerPanel`-Handler ignoriert die Taste, wenn Alt, Strg oder Meta gedrückt ist,
+um eine Kollision mit dem Modifikator des Alt+Scroll-Feinjustierens zu vermeiden.
+
+Diese Bewachung ist das eigentliche Problem, auf das Spieler zuerst stoßen werden.
+Öffne einen Lobby, bringe den Cursor zur Ruhe auf der Karte, damit er eine
+stehengebliebene Kachel speichert, dann drücke J, um Truppen zu spenden, O, um Gold
+zu spenden, und I, um das Spielerpanel zu öffnen. Gibt es keine Reaktion, ist die
+häufigste Ursache, dass der Cursor noch nie auf einer Kachel stand (bewege zuerst
+die Maus über das Spielfeld) oder dass ein Modifikator gedrückt ist, was die
+Spielerpanel-Taste maskiert. Die Tasten werden über `addKeybindAndEvent`
+registriert, was bedeutet, dass jede unter Einstellungen → Tastenkürzel erscheint
+und wie jede andere Aktion neu zugeordnet oder entkoppelt werden kann. Spieler mit
+bereits bestehenden, benutzerdefinierten Workflows, die andere Tasten verwenden,
+können J, O oder I neu zuordnen, ohne die zugrunde liegende Aktion zu verlieren —
+die Aktion folgt der Zuordnung, nicht dem Zeichen.
+
+Die Community-Reaktion auf diese Tasten passt zum Quellcode: Die Reddit-Threads um
+v0.36 (der Thread „troop deployment going to 100" und der Thread „how do you
+restore left shift + LMB to build") drehen sich um die neue Baumengensteuerung,
+aber derselbe Wellengang von Spielern hat Fragen zu den Spendetasten gestellt,
+weil sie die Geschwindigkeit des diplomatischen Spiels verändern. Die YouTube-
+Coverings des v0.36-Updates haben die Änderung als „wirkt auf den Spieler unter dem
+Cursor" gerahmt, genau das Cursor-Lokalisierungsmodell, das der Quellcode zeigt.
+Diese Quellen ändern nicht, was die Tasten tun — der Quellcode ist die Autorität —
+aber sie sind für einen Spieler hilfreich, der entscheidet, ob er diese Tasten
+lernt: Ein schnellerer Spendenweg ist genau das, wofür die Community bereits
+angenommen hat.
+
+Die einflussreichste v0.36-Steuerung ist der Baumengen-Stepper, und ihr exakter
+Auslöser ist ein Detail, das die Release-Notizen vage ausdrücken. Der Quellcode
+klärt: Die Mengen-Eskalation erhöht den Multiplikator nur, wenn bereits eine
+Baustruktur auf derselben Position aktiv ist; ein Klick auf eine neue Position
+startet bei 1. Die praktische Konsequenz ist, dass die Treppe nur hochgeht, wenn
+du dieselbe Baustruktur an derselben Kachel ruhig hältst. Ein Spieler, der schnell
+auf die Bautaste klickt und den Cursor dabei bewegt, wird den Multiplikator nicht
+hochgehen sehen, weil jede neue Cursor-Position als neuer Legen-Auftritt behandelt
+wird.
+
+Die Stepper-Mathematik ist im v0.36.0-`InputHandler.ts` definiert. Ein „hoch"-Schritt
+macht `upgradeMultiplier = currentMultiplier + 1` und begrenzt dann nach oben auf
+`MAX_UPGRADE_AMOUNT`, also 50; ein „runter"-Schritt dekrementiert nur, wenn der
+Multiplikator größer als 1 ist, und geht niemals unter 1. Die Treppe ist also ein
+Schritt-um-Schritt von 1 bis 50, mit einer harten Obergrenze von 50 Strukturen
+oben. Dieselbe Konstante, die die x5-Stapel in v0.35 begrenzte, was bedeutet, dass
+ein Stapel von 50 Strukturen das größte ist, das über jeden Stepper-Pfad erreichbar
+ist. Gold begrenzt immer noch, was du tatsächlich legen kannst — der Stepper
+erhöht den Multiplikator, umgeht aber nicht die Kosten — ein Stapel von 50
+Strukturen ist also nicht größer als das, was dein Gold bezahlen kann.
+
+Das Alt+Scroll-Feinjustieren ist der Cursor-position-unabhängige Pfad, und genau
+deshalb ist es die zuverlässige Option für eine genaue Menge. Gedrücktes
+`Alt` (der `buildScrollModifier`-Standard, `AltLeft`) und Scrollen ruft
+`setGhostStructure` mit einem hoch- oder runter-Argument auf und gibt früh zurück,
+um den Karten-Zoom während des gedrückten Modifikators zu entfernen. Die Schwelle
+`Math.abs(scrollValue) > 2` bedeutet, dass ein kleines Scrollen keinen Schritt
+registriert, sodass du saubere Schritte à einer bekommst statt einer Flut von
+Schritten bei schnellem Scrollen. Dieselbe Obergrenze von 50 gilt für den
+Scroll-Pfad, sodass Feinjustieren und Tasten-Stepper denselben
+Treppenscheitel teilen.
+
+## Die v0.36.4 Multiplikator-Zykluseinstellung und die Stapelverhinderung über gedrücktes H
+
+Die `buildMultiplierCycle`-Einstellung ist in v0.36.4 erschienen und ist die
+Verfeinerung, mit der du die Reihenfolge wählen kannst, die der Stepper durchläuft.
+Der v0.36.4-`InputHandler.ts` baut die Schleife aus dieser Einstellung auf, und der
+v0.36.4-`UserSettings.ts` dokumentiert die Option, sodass Spieler, die v0.36.4 oder
+höher spielen, die Werte wählen können, die der Stepper durchläuft, statt die
+Standard-Schritt-um-Schritt zu akzeptieren. Die genaue Standardreihenfolge wird von
+der Einstellung entschieden, und diese Seite behauptet keine besondere
+Standardreihenfolge, ohne den Standardwert gelesen zu haben; was stabil ist, ist,
+dass die Einstellung existiert, benutzerdefiniert ist und die Reihenfolge steuert,
+die der Stepper verwendet. Wenn du v0.36.0 bis v0.36.3 spielst, hast du den Stepper
+aber nicht die Zykluseinstellung, sodass der Stepper seine Standardreihenfolge
+folgt; das Wechseln auf v0.36.4 oder höher schaltet diese Wahl frei.
+
+Die Stapelverhinderung über gedrücktes H wirkt kleiner, als sie ist. Sie ändert
+weder Baulkosten, Flächenbedarf, noch erlaubt sie eine zweite Struktur auf einer
+Kachel; sie schaltet einfach die `canUpgrade`-Flag des Legen-Vorschau auf false und
+entfernt die Upgrade-Kosten, sodass die Legen-Vorschau nicht versucht, ein Upgrade
+über einer vorhandenen Struktur zu stapeln. Eine Struktur mit gedrücktem H legen
+bedeutet dem Spiel, den Legen als neue unabhängige Struktur zu behandeln statt als
+Upgrade eines Bestehenden — genau das Verhalten, das ein Spieler möchte, wenn er
+eine Reihe identischer Strukturen entlang einer Grenze baut. Der v0.36.0-
+`UserSettings.ts` fügte den Stapelverhinderung-Eintrag mit `KeyH` hinzu, während der
+v0.35.0-`UserSettings.ts` keinen solchen Eintrag hatte, was bestätigt, dass das
+gedrückte H eine neue v0.36-Steuerung ist und keine bestehende Steuerung, die später
+dokumentiert wurde.
+
+Die Zykluseinstellung und das gedrückte H ergänzen zusammen die v0.36-
+Steueroberfläche. Die Zykluseinstellung ist die, die die Form der Mengentreppe für
+die Spieler ändert, die groß bauen; das gedrückte H ist die, die die
+Legen-Semantik für das Bauen identischer Reihen ändert. Weder das eine noch das
+andere ersetzt das Tasten-Ausrüsten oder das radiale Menü; sie überlagern beide,
+und beide können unter den Einstellungen neu zugeordnet oder angepasst werden.
+
+Die v0.36.0-Release-Notizen rahmen die neuen Tasten nach physischer Position statt
+nach Zeichen ein, und der Quellcode stützt diese Rahmung. Die Tasten werden nach
+physischem Tastenbezeichner registriert, sodass dieselbe physische Taste auf einem
+QWERTY-Layout J, O und I liest und auf einem AZERTY-Layout die entsprechenden
+Zeichen liest. Auf AZERTY (belgisches Französisch) lesen die physischen Tasten, die
+auf QWERTY J, O und I sind, andere Zeichen, sodass AZERTY-Spieler nicht nach den
+Zeichen „J", „O", „I" auf ihrer Tastatur suchen sollten — sie sollten die
+physischen Tasten an denselben Positionen lokalisieren. Auf anderen
+nicht-QWERTY-Layouts (QWERTZ, Dvorak, Colemak) variiert die physische
+Tastenidentität erneut, sodass das stabile Faktum die physische Position ist und das
+Zeichen vom Layout abhängt.
+
+Dies ist dasselbe Modell, das die gesamte v0.36-Steueroberfläche verwendet, und es
+ist der Grund, warum die Release-Notizen und der Einstellungen-Bildschirm diese
+Tasten nach physischer Position vorstellen. Wenn ein AZERTY-Spieler diese neuen
+Tasten unter Einstellungen → Tastenkürzel neu zuordnet, sieht er die physischen
+Tastenbezeichner statt der Zeichen, was erwartetes Verhalten ist und kein
+Anzeigefehler. Die praktische Auswirkung für einen Spieler, der entscheidet, ob er
+die neuen Tasten auf einem nicht-QWERTY-Layout annimmt, ist, dass die
+Lernkosten darin bestehen, die physische Taste zu finden, nicht ein neues Zeichen zu
+memorisieren. Der Rest der v0.36-Steueroberfläche — der Stepper, das Alt+Scroll-
+Feinjustieren, das gedrückte H — ist layout-unabhängig, weil sie vom Scrollrad und
+der H-Taste statt von Buchstabentasten gesteuert wird, sodass das Layoutproblem nur
+auf die drei neuen Buchstabentasten zutrifft.
+
+## Entscheidungsrahmen: Welchen Eingang in welcher Situation verwenden
+
+Die v0.36-Steueroberfläche gibt Spielern mehrere Pfade zu demselben Ergebnis, und
+der richtige Pfad hängt von der Situation ab. Um Truppen oder Gold an eine
+bestimmte Nation zu spenden, sind J und O der schnelle Pfad, weil sie direkt auf die
+Nation unter dem Cursor wirken; wenn du einen Spieler inspizieren oder einen
+Spieler ansprechen möchtest, ist I der schnelle Pfad zum Spielerpanel dieser Nation.
+Der langsamere Pfad über Panel plus Klick sollte nur verwendet werden, wenn du
+etwas tun musst, was die Tasten nicht abdecken (wie eine spezifische Spendenmenge
+über die Panel-Oberfläche einstellen).
+
+Um einen Stapel Strukturen zu bauen, ist die Wahl zwischen dem Tasten-Stepper und
+dem Alt+Scroll-Feinjustieren. Wenn du bereits ein Bau-Ghost an der Zielkachel
+hältst, ist der Tasten-Stepper die natürliche Wahl, weil er den Multiplikator
+Schritt-um-Schritt an Ort und Stelle erhöht, ohne den Legen-Kontext zu verlassen.
+Wenn du eine genaue Menge brauchst und die Cursor-Positionsabhängigkeit des
+Tasten-Steppers vermeiden möchtest, ist das Alt+Scroll-Feinjustieren die Wahl,
+weil es cursor-position-unabhängig ist und den Karten-Zoom entfernt, während du
+justierst. Die x5-Stapel über den Zifferntasten und das radiale Menü bleiben die
+Wahl für die festen kleinen Stapel (x1, x5, x10, xMax), die v0.35-Workflows bereits
+verwenden, und sie haben sich in v0.36 nicht geändert.
+
+Die Stapelverhinderung über gedrücktes H ändert die Entscheidung beim Bau von
+Reihen: Wenn du eine Reihe identischer Strukturen entlang einer Grenze legst und
+nicht möchtest, dass die Legen-Vorschau versucht, ein Upgrade über einer
+vorhandenen Struktur zu stapeln, halte H gedrückt, während du legst. Wenn du eine
+einzelne Struktur nahe einer vorhandenen Struktur legst und die Upgrade-Vorschau
+möchtest, halte H nicht gedrückt. Die `buildMultiplierCycle`-Einstellung ändert die
+Entscheidung beim Planen großer Skalen: Wenn du groß baust, solltest du die
+Zyklusreihenfolge bewusst wählen statt die Standard-Schritt-um-Schritt zu
+akzeptieren; wenn du vor allem kleine Stapel baust, ist die Zykluseinstellung
+weitgehend bedeutungslos. Die Tabelle unten fasst die Eingangs-Wahl pro Situation
+zusammen.
+
+| Situation | Verwenden | Grund | Version |
+|---|---|---|---|
+| Truppen an die Nation unter dem Cursor spenden | J | Cursor-lokalisiert, ohne Panel | v0.36.0+ |
+| Gold an die Nation unter dem Cursor spenden | O | Cursor-lokalisiert, ohne Panel | v0.36.0+ |
+| Spielerpanel der Nation unter dem Cursor öffnen | I | Cursor-lokalisiert, ohne Panel | v0.36.0+ |
+| Einen Stapel bauen, während du ein Ghost an Ort hältst | Tasten-Stepper | Schritt-um-Schritt des Multiplikators an Ort | v0.36.0+ |
+| Eine genaue, cursor-unabhängige Menge bauen | Alt+Scroll-Feinjustieren | Cursor-unabhängig, entfernt Zoom | v0.36.0+ |
+| Feste kleine Stapel bauen (x1/x5/x10/xMax) | Zifferntasten oder radiales Menü | v0.35-Workflow, unverändert | v0.35+ |
+| Eine Reihe identischer Strukturen ohne Upgrade-Stapel legen | H gedrückt halten | `canUpgrade` auf false, entfernt Upgrade-Kosten | v0.36.0+ |
+| Die Stepper-Reihenfolge für einen großen Stapel wählen | `buildMultiplierCycle` | Benutzerdefinierte Schleife, andernfalls Standard-Schritt | v0.36.4+ |
+
+## Szenario: Eine 50-Strukturen-Verteidigungsmauer entlang einer umkämpften Grenze bauen
+
+Stell dir eine umkämpfte Grenze vor, an der du eine durchgehende Verteidigung entlang
+eines 50-Kachel-Fronts legen möchtest und genug Gold hast, um die 50 zu bezahlen.
+Der v0.36-Workflow besteht darin, die Struktur über den Zifferntasten auszurüsten,
+die erste Kachel anzuklicken, um das Bau-Ghost an Ort zu aktivieren, und dann den
+Multiplikator Schritt-um-Schritt mit dem Tasten-Stepper zu erhöhen, während du das
+Ghost an derselben Position hältst. Der Stepper begrenzt auf 50, genau die Länge der
+Mauer, sodass du von 1 bis 50 steigst und der Stapel bereit ist. Halte H gedrückt,
+während du legst, damit die Legen-Vorschau jede Struktur als neue unabhängige
+Struktur behandelt statt ein Upgrade über einer vorhandenen Struktur zu stapeln —
+genau hier ist das gedrückte H nützlich. Der Stapel von 50 Strukturen ist nicht
+größer als das, was dein Gold bezahlen kann, sodass das Steigern des Steppers auf
+50 die Kosten nicht umgeht; wenn du die 50 nicht bezahlen kannst, ist der Stapel
+durch das Gold begrenzt, nicht durch den Stepper. Wenn das Grenze-Front nicht genau
+50 Kacheln ist, ist das Alt+Scroll-Feinjustieren das bessere Werkzeug, weil es eine
+genaue, cursor-position-unabhängige Menge erhöhen kann, und dieselbe Obergrenze von
+50 gilt immer, sodass du sie nicht überschreitest.
+
+Die Fehlsituation hier ist die Cursor-Positionsabhängigkeit des Tasten-Steppers:
+Wenn du den Cursor während des Erhörens des Multiplikators auf eine neue Kachel
+bewegst, wird die neue Kachel als neuer Legen-Auftritt (1) behandelt und die Treppe
+setzt zurück. Die Gegenmaßnahme ist, den Cursor ruhig auf der ersten Kachel zu
+halten, während du den Multiplikator erhöhst, oder auf das Alt+Scroll-Feinjustieren
+umzusteigen, das cursor-position-unabhängig ist. Die
+`buildMultiplierCycle`-Einstellung aus v0.36.4 hat nur dann Bedeutung, wenn du
+möchtest, dass der Stepper eine nicht-Standard-Reihenfolge durchläuft, um die Mauer
+zu bauen; auf v0.36.0 bis v0.36.3 folgt der Stepper seiner Standardreihenfolge und
+die Zykluseinstellung ist nicht verfügbar.
+
+Stell dir ein ranglistenbasiertes 1c1 vor, in dem du schnell eine Goldsumme an eine
+neutrale Nation spenden möchtest, um sie zu ermutigen, den Korridor offen zu halten,
+den du brauchst, und nur zwei Sekunden hast, um zu entscheiden. Der v0.36-Workflow
+besteht darin, den Cursor auf das Territorium der neutralen Nation zur Ruhe zu
+bringen, damit er eine stehengebliebene Kachel speichert, und dann O zu drücken, um
+Gold direkt an diese Nation zu spenden. Das Cursor-Lokalisierungsmodell bedeutet,
+dass du nicht das Panel öffnen, die Nation suchen und den Spendeknopf anklicken
+musst — die Taste wirkt direkt auf die Nation unter dem Cursor. Die Fehlsituation
+ist dieselbe stehengebliebene-Kachel-Bewachung: Wenn der Cursor nie auf dem
+Territorium der Nation stand, tut die Taste nichts, sodass die Gegenmaßnahme darin
+besteht, sicherzustellen, dass der Cursor tatsächlich auf einer Kachel der Nation
+ist, bevor du drückst. Wenn du nach diesem Geschenk den Zustand der Nation
+inspizieren oder eine Nachricht senden möchtest, ist I der nächste Zug. Wenn du
+Truppen statt Gold spendest, ist J der analoge Truppenspenden-Weg. Auf einem
+nicht-QWERTY-Layout funktionieren dieselben physischen Tasten, sodass der
+AZERTY-Spieler-Workflow identisch ist — der einzige Unterschied besteht darin, die
+physische Taste statt des Zeichens zu finden.
+
+Dieses Szenario ist der direkteste Ort, an dem die v0.36-Spendetasten die
+Entscheidung eines Spielers verändern, weil der alte Workflow (Panel öffnen, Nation
+suchen, spenden klicken) für eine Zwei-Sekunden-Entscheidung in einer
+ranglistenbasierten Partie zu langsam ist. Die v0.36-Tasten komprimieren dies auf
+eine einzelne Taste auf die Zielnation, genau die „wirkt auf den Spieler unter dem
+Cursor"-Rahmung, die die v0.36-Update-Coverings verwenden. Das ranglistenbasierte
+1c1 ist der natürliche Ort, diese Tasten am frühesten zu lernen, weil die
+Entscheidungsgeschwindigkeit dort am kritischsten ist.
+
+## Was neu zuordnen, was Standard halten, was entkoppeln
+
+Nicht alle neuen v0.36-Tasten verdienen es, im Standard zu bleiben, und der
+Einstellungen-Bildschirm unter Tastenkürzel ist der Ort, an dem ein Spieler diese
+Wahl trifft. Die J/O/I-Spieler-Wechseltasten sind die, die Spieler wahrscheinlich
+neu zuordnen werden, weil Spieler mit bereits bestehenden, benutzerdefinierten
+Spenden-Workflows, die andere Tasten verwenden, J, O oder I neu zuordnen können,
+ohne die zugrunde liegende Aktion zu verlieren. Die Stapelverhinderung über
+gedrücktes H ist die, die Spieler am unwahrscheinlichsten neu zuordnen werden,
+weil H eine wenig konfliktbelastete Taste ist und das gedrückt-halten-Verhalten der
+natürliche Auslöser eines Legen-Modifikators ist. Der Stepper und das Alt+Scroll-
+Feinjustieren sind keine einzelnen Tasten, sondern Modifikatoren und
+Scrollrad-Aktionen, sodass sie unter den Einstellungen justiert statt wie Tasten
+neu zugeordnet werden.
+
+Die `buildMultiplierCycle`-Einstellung auf v0.36.4+ ist die, die große Baur
+bewusst prüfen sollten, weil die Standardreihenfolge der Schleife dem, was der
+große Baur möchte, nicht entsprechen kann. Spieler, die vor allem kleine Stapel
+bauen, müssen die Einstellung nicht anfassen. Die praktische Regel besteht darin,
+die Standardwerte für die ersten Partien zu behalten, die physischen Tasten zu
+lernen und nur die neu zuzuordnen, die mit einem bestehenden, benutzerdefinierten
+Workflow kollidieren. Der [Hotkey Practice and Control
+Workflows](/guides/hotkeys/)-Guide bleibt der richtige Ort, die v0.35-Grundsteu-
+erungen zu üben, bevor man die v0.36-Änderungen darüber legt, und die
+[Tastaturkürzel-Referenz](/shortcuts/) ist die statische
+Tastenaufschlüsselung für die aktuelle Reihe, sobald die v0.36-Tasten in Gebrauch
+sind.
+
+Die praktische Remap-Entscheidung reduziert sich auf drei Fragen, und die Antwort auf jede hängt von deiner Tastatur und deinem Stil ab. Zuerst, welche der drei neuen Aktionen auf der Standard-Taste belassen: auf QWERTY sind J, O und I bereits auf physikalisch sinnvolle Positionen gelegt, und die meisten Spieler lassen alle drei unverändert, weil das Verschieben mehr Reibung erzeugt als es auflöst. Dann, welche neu zuordnen: wenn eine der drei mit einer bestehenden Gewohnheit kollidiert, verschiebe sie auf eine benachbarte leere Taste statt den Konflikt zu erzwingen. Schließlich, welche vollständig entkoppeln: wenn du in Partien nie spendest, kannst du die Binds für J und O entfernen, ohne eine Basisteuerung zu verlieren, weil diese Aktionen optional und nicht überlebenskritisch sind. Das Einstellungsmenü ist das Nachschlagewerk, weil es dieselben Tastencodes zeigt, auf die das Spiel hört, und weil es die einzige zuverlässige Methode ist, das echte Bind auf einem nicht-QWERTY-Board zu bestätigen. Diese Dreifragen-Disziplin ist dieselbe wie das Entscheidungsframework früher in diesem Leitfaden, angewandt auf die Tasten selbst statt auf die Spielaktionen, und sie ist der Weg, Zeit zu sparen, die man mit zufälligem Remappen verliert.
+
+## Fehlschläge, Erholung und Gegenmaßnahmen
+
+Die Fehlschläge, auf die Spieler bei der Nutzung der v0.36-Steuerung tatsächlich
+stoßen werden, sind die stehengebliebene-Kachel-Bewachung, der Modifikator-Konflikt,
+die Cursor-Positionsabhängigkeit des Tasten-Steppers und das Layoutproblem auf
+nicht-QWERTY-Tastaturen. Die stehengebliebene-Kachel-Bewachung bedeutet, dass die
+Taste nichts tut, bevor der Cursor auf einer Kachel stand, und die Erholung besteht
+einfach darin, zuerst die Maus über das Spielfeld zu bewegen. Der Modifikator-
+Konflikt bedeutet, dass die Spielerpanel-Taste maskiert ist, wenn
+Alt/Strg/Meta gedrückt ist, und die Erholung besteht darin, den Modifikator
+loszulassen, bevor du auf I drückst. Die Cursor-Positionsabhängigkeit bedeutet,
+dass der Tasten-Stepper auf 1 zurücksetzt, wenn sich der Cursor auf eine neue
+Kachel bewegt, und die Erholung besteht darin, den Cursor ruhig zu halten, während
+du den Multiplikator erhöhst, oder auf das Alt+Scroll-Feinjustieren umzusteigen. Das
+Layoutproblem bedeutet, dass nicht-QWERTY-Spieler die physische Taste statt des
+Zeichens lokalisieren müssen, und die Erholung besteht darin, den Einstellungen-
+Bildschirm unter Tastenkürzel zu verwenden, der die physischen
+Tastenbezeichner anzeigt.
+
+Die Gegenmaßnahmen sind die Pfade, die jeden Fehlschlag umgehen. Für die
+stehengebliebene-Kachel-Bewachung ist das Alt+Scroll-Feinjustieren die
+Gegenmaßnahme, weil es cursor-position-unabhängig ist. Für den Modifikator-Konflikt
+ist der Panel-plus-Klick-Pfad die Gegenmaßnahme, weil er gar nicht von der Taste
+abhängt. Für die Cursor-Positionsabhängigkeit ist das Alt+Scroll-Feinjustieren
+erneut die Gegenmaßnahme. Für das Layoutproblem ist das Neuordnen der Tasten unter
+den Einstellungen die Gegenmaßnahme, weil die Aktion der Zuordnung folgt, nicht dem
+Zeichen. Jeder Fehlschlag hat eine konkrete Gegenmaßnahme, und genau deshalb ist
+die v0.36-Steueroberfläche lernbar: Die Fehlschläge sind vorhersehbar und die
+Gegenmaßnahmen sind im Einstellungen-Bildschirm.
+
+Die v0.36-Steuerungen zählen am meisten in den Modi und Karten, wo
+Entscheidungsgeschwindigkeit und Bauen auf großen Maßstaben die bindende
+Engstelle sind. Die Spendetasten zählen am meisten im ranglistenbasierten 1c1, wo
+diplomatische Entscheidungen schnell sind und der Panel-plus-Klick-Pfad zu langsam
+ist; der [Ranked 1v1](/guides/ranked-1v1/)-Guide ist der natürliche Begleiter, um
+die Tasten in diesem Kontext zu lernen. Das ranglistenbasierte 2c2 zählt für den
+koordinierten Spendeweg eines Teams, und der [Ranked 2v2](/guides/ranked-2v2/)-
+und [Quick Chat Team Coordination](/guides/quick-chat-team-coordination/)-Guide sind
+die Begleiter. Die FFA-Modi zählen am meisten für die großmaßstäbigen
+Bau-Steuerungen, weil Spieler dort größere Strukturen bauen und der Stepper und das
+Feinjustieren die Werkzeuge für genaue Stapel sind; der [FFA Endgame
+Commit](/guides/ffa-endgame-commit/)- und [FFA Runaway
+Leader](/guides/ffa-runaway-leader/)-Guide sind die Begleiter. Die
+Kartengröße zählt auch: Bauen auf großen Maßstaben zählt auf großen Karten mehr, wo
+Fronts länger sind; die Spendetasten zählen auf kleinen Stadtkarten mehr, wo
+diplomatische Entscheidungen dichter sind. Der [Map
+Strategy](/guides/map-strategy/)-Guide ist der allgemeine Begleiter, um zu
+entscheiden, welche Karte welche Steuerung spielt.
+
+Die Modus- und Karten-Anpassungen sind das letzte Stück der v0.36-
+Steuerungsgeschichte: Die Steuerungen sind nicht überall gleich nützlich, und
+Spieler, die sie in den Modi lernen, wo sie am meisten zählen, erhalten den
+größten Nutzen. Das ranglistenbasierte 1c1 ist der höchstwertige Kontext für die
+Spendetasten, der FFA-Modus ist der höchstwertige Kontext für die großmaßstäbigen
+Bau-Steuerungen, und die Kartengröße entscheidet, in welchem Kontext ein
+bestimmter Lobby sich befindet.
+
+## Die vollständige v0.36-Steuerungstabelle: Was neu ist und was nicht
+
+Die Tabelle unten ist die vollständige v0.36-Steuerungstabelle, die diese Seite
+behandelt, mit der Version, in der jede Steuerung zum ersten Mal aufgetreten ist,
+und dem Pfad, um sie neu zuordnen oder justieren. Das Tasten-Ausrüsten und das
+radiale Menü sind die v0.35-Grundsteuerungen, die sich in v0.36 nicht geändert
+haben, hier für den Kontext aufgenommen, weil sich die v0.36-Steuerungen über sie
+legen.
+
+| Steuerung | Standard | Wirkung | Aufgetreten in | Neuordnen / justieren |
+|---|---|---|---|---|
+| Truppenspende | J | Spendet einen Trupp an die Nation unter dem Cursor | v0.36.0 | Einstellungen → Tastenkürzel |
+| Goldspende | O | Spendet Gold an die Nation unter dem Cursor | v0.36.0 | Einstellungen → Tastenkürzel |
+| Spielerpanel | I | Öffnet das Spielerpanel der Nation unter dem Cursor | v0.36.0 | Einstellungen → Tastenkürzel |
+| Stapelverhinderung | Gedrücktes H | Schaltet `canUpgrade` auf false und entfernt Upgrade-Kosten beim Legen | v0.36.0 | Einstellungen → Tastenkürzel |
+| Baumengen-Stepper (Taste) | Zifferntasten mit gehaltenem Bau-Ghost | Steigert den Bau-Multiplikator schrittweise, begrenzt auf 50 | v0.36.0 | Einstellungen → Tastenkürzel |
+| Mengen-Feinjustieren | Alt+Scroll | Steigert den Bau-Multiplikator in Schritten von einem, entfernt Karten-Zoom, begrenzt auf 50 | v0.36.0 | Einstellungen → Tastenkürzel |
+| Multiplikator-Zyklus | `buildMultiplierCycle`-Einstellung | Wählt die Reihenfolge, die der Baumengen-Stepper durchläuft | v0.36.4 | Einstellungen (Schleifenoptionen) |
+| Tasten-Ausrüsten | Zifferntasten | Rüstet ein Gebäude oder eine Einheit zum Legen aus | v0.35 (Basis) | Einstellungen → Tastenkürzel |
+| Radiales Menü | Rechtsklick | x1/x5/x10/xMax-Stapeloptionen und Upgrade-Optionen | v0.35 (Basis) | — |
+| Vergeltung | Shift+R | Vergilt einen Angriff | v0.35 (Basis, unverändert) | Einstellungen → Tastenkürzel |
+
+Jede Zeile dieser Tabelle ist im Tag-Quellcode v0.36.0 und v0.36.4 und den
+Release-Notizen v0.36.0 bis v0.36.5 verankert, und die Versionsspalte ist die
+ehrliche Grenze, wann ein Spieler, der eine gegebene Version spielt, die Steuerung
+hat. Die [Tastaturkürzel-Referenz](/shortcuts/) ist die statische
+Tastenaufschlüsselung für die aktuelle Reihe, und der [Hotkey Practice and Control
+Workflows](/guides/hotkeys/)-Guide ist die v0.35-Grundübung, auf die sich diese
+Seite stützt.
+
+Die Spalte der Versionen ist die Zeile, die man im Auge behalten muss, weil sie die einzige versionsabhängige Tatsache dieses Leitfadens kodiert.
+
+Die Tabelle ist die vollständige Referenz für die neue v0. 36-Steuerungsebene, und jede Zeile ist eine Tatsache, die du gegen den v0. 36. 0- und v0. 36. 4-Tag-Quellcode und die Release-Notizen für den Bereich verifizieren kannst, was der Grund ist, warum dieser Leitfaden damit beginnt, anstatt sie in den Fließtext zu graben. Die letzte Zeile ist die einzige versionsabhängige Zeile, und sie ist der einzige Grund, warum du deine genaue Patchstufe vor einer Ranglistenpartie bestätigen solltest, weil der Multiplikator-Zyklus-Einstellung auf 0. 36. 0 bis 0. 36. 2 fehlt und auf 0. 36. 4 und später vorhanden ist.
