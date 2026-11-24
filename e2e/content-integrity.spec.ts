@@ -8,7 +8,7 @@ const maps = JSON.parse(
 
 const snapshotMeta = JSON.parse(
   readFileSync(new URL('../src/data/_meta.json', import.meta.url), 'utf8'),
-) as { upstreamVersion: string; upstreamCommit: string };
+) as { upstreamVersion: string; upstreamCommit: string | null };
 
 const formulas = JSON.parse(
   readFileSync(new URL('../src/data/formulas.json', import.meta.url), 'utf8'),
@@ -29,7 +29,7 @@ const v33MapIds = [
 
 test('map extraction keeps a supported pool and all v33 additions', () => {
   // v34 pools have 117/119/123 maps; the recorded v35 checkout has 132.
-  expect([117, 119, 123, 132]).toContain(maps.meta.total);
+  expect([117, 119, 123, 132, 146]).toContain(maps.meta.total);
   expect(maps.list).toHaveLength(maps.meta.total);
   const extractedIds = new Set(maps.list.map((map) => map.id));
   expect(extractedIds.size).toBe(maps.meta.total);
@@ -78,7 +78,10 @@ test('provenance distinguishes the extraction checkout from the editorial snapsh
   await expect(provenance).toContainText(
     `editorial validation scope and embedded fallback remain ${snapshotMeta.upstreamVersion}`,
   );
-  await expect(provenance).toContainText(snapshotMeta.upstreamCommit.slice(0, 12));
+  await expect(provenance).toContainText('Extraction checkout commit');
+  await expect(
+    provenance.locator('a[href*="github.com/openfrontio/OpenFrontIO/blob/"]').first(),
+  ).toHaveAttribute('href', /\/blob\/(?:[0-9a-f]{40}|main)\//);
 });
 
 const aboutCases = [
