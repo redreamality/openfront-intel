@@ -49,11 +49,11 @@ const patchFacts = {
 };
 
 const currentPatchFacts = {
-  en: ['footer', 'ads', 'staff-lock', 'translated', 'annexed', 'unclaimed'],
-  zh: ['页脚', '广告', '管理员锁定', '翻译', '兼并', '放弃领地'],
-  fr: ['pied de page', 'publicités', 'verrouillage', 'traduits', 'annexion', 'abandonnée'],
-  de: ['Footer', 'Werbung', 'Sperren', 'übersetzbar', 'Annexion', 'aufgegeben'],
-  nl: ['footer', 'advertenties', 'vergrendelingen', 'vertaald', 'geannexeerd', 'opgegeven'],
+  en: ['bot detector', 'verification', 'lobby joins', 'reliable'],
+  zh: ['bot detector', '验证', '大厅', '可靠'],
+  fr: ['détecteur de bots', 'vérifications', 'salons', 'fiablement'],
+  de: ['Bot-Detektor', 'Prüfungen', 'Lobbys', 'zuverlässiger'],
+  nl: ['botdetector', 'verificaties', 'lobby', 'betrouwbaarder'],
 };
 let failed = 0;
 for (const contract of contracts) {
@@ -103,7 +103,7 @@ for (const contract of contracts) {
     ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
       'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
     ['current source', body.includes(`](${release.releaseUrl})`)],
-    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4', 'v0.36.5'].every((tag) =>
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4', 'v0.36.5', 'v0.36.7'].every((tag) =>
       body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
     ['no inherited v35 patch claims', !body.includes('v0.35.')],
     ['no third-level section bypass', !/^### /m.test(body)],
