@@ -9,11 +9,11 @@ const cases = [
   { prefix: '/nl/', warning: 'egaal rood', guest: 'Gasten mogen gedeelde saves spelen', renewal: 'alliantieprompt' },
 ];
 const patchFacts: Record<string, string[]> = {
-  '/': ['bot detector', 'verification', 'lobby joins'],
-  '/zh/': ['bot detector', '验证', '大厅'],
-  '/fr/': ['détecteur de bots', 'vérifications', 'salons'],
-  '/de/': ['Bot-Detektor', 'Prüfungen', 'Lobbys'],
-  '/nl/': ['botdetector', 'verificaties', 'lobby'],
+  '/': ['verification checks', 'lobby joins'],
+  '/zh/': ['验证', '大厅'],
+  '/fr/': ['vérifications', 'salons'],
+  '/de/': ['zuverlässiger'],
+  '/nl/': ['betrouwbaarder'],
 };
 
 for (const item of cases) {
