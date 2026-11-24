@@ -116,6 +116,7 @@
 - **`pnpm guide:audit` 不是全站攻略审计**：`scripts/audit-guide-delivery.mjs` 必须同时提供 `--slug` 与 `--source-pack`，缺参退出 1 属调用方式错误。全站内容和 SEO 收口分别使用 `pnpm content:audit`、`pnpm seo:audit`；只有核验单篇交付包时才运行 `pnpm guide:audit -- --slug <slug> --source-pack <path>`。
 - **来源包研究与五语正文并行时，只在写作方确认所有目标文件完整后运行整套 `guide:audit`**：审计会同时读取五语页面；在某语言仍分批写入时启动会以标题/链接不足退出 1，即使 Research 子门禁已经 PASS。中途只记录研究子结果，最终必须在文件稳定后从头重跑完整命令。
 - **2026-09-01、2026-09-03 复发：`pnpm seo:audit` 可能因脚本依赖 `parse5` 未在 pnpm 依赖树中而以 `ERR_MODULE_NOT_FOUND` 失败**：先运行 `pnpm install --frozen-lockfile` 恢复根级链接，再保留构建成功的 `dist/` 并运行审计；若依赖仍缺失，才用不依赖该包的静态 HTML 检查核验 canonical/hreflang，不要把它误判为页面 SEO 内容回归。
+- **2026-11-25 worktree 依赖缺失复发**：新 worktree 初始没有 `node_modules` 时，`pnpm check` 会报找不到 `astro`，`pnpm seo:audit` 会报找不到 `parse5`。先运行 `pnpm install --frozen-lockfile`，再按顺序重跑检查与构建；本轮安装后两项恢复，SEO 剩余退出 1 仍是既有标题截断与重定向诊断。
 - **搜索意图标题不能只以“没有省略号”为通过标准**：`getSeoTitle()` 会按冒号等分隔符压缩长标题，可能在法语等页面静默删掉 App、download、APK 之类的核心检索词。对明确承接查询的页面应检查最终构建 HTML 的 `<title>`；通用模板无法保留关键词时，在 `src/i18n/seo.ts` 的五语 `specialPaths` 中配置短而完整的专用标题，并用 e2e 锁定。
 - **`@astrojs/sitemap` 的 `serialize()` 返回值必须使用插件导出的枚举**：在当前依赖版本中，裸字符串 `'daily'` 不能赋给 `SitemapItem.changefreq`，会让 `astro check` 报 `EnumChangefreq` 类型错误；导入 `ChangeFreqEnum` 并返回 `ChangeFreqEnum.DAILY`，不要用类型断言掩盖。
 - **2026-09-14 复发：Playwright 的生产预览会再次运行 `prebuild` 并刷新生成元数据**：本轮 e2e 通过后，`src/data/_meta.json` 的 `generatedAt`、上游 checkout 和 `defenseMidpoint` 又被刷新，`maps.json` 也短暂移除两张地图。结束前必须读取实际生成值，再按任务开始时记录的基线精确恢复，并用普通 diff 确认没有残留数据变化。
