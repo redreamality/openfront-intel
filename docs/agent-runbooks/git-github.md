@@ -1,5 +1,7 @@
 # Git 与 GitHub runbook
 
+- **2026-11-27 v36.9 基线拉取恢复**：首次 `git fetch origin main` 遇 `SSL_ERROR_SYSCALL`；Release、`ls-remote` 和 REST ref 查询仍可用。先用 REST 核对完整远端 main SHA，本地对象查询确认该提交尚未取得，再按原低速保护参数重试一次 fetch 成功。缺失本地对象不代表远端提交不存在，不用旧 origin/main 冒充当前基线。
+
 - **2026-10-26 搜索恢复发布 rebase**：远端同期修改五语 First Match，rebase 产生正文冲突。后续只读命令覆盖了失败退出码，导致一次 `push -u origin HEAD` 在 detached HEAD 状态被 Git 拒绝，远端未写入。恢复时逐处合并双方事实/表格与锚点，重跑验收并完成 rebase 后再推送。依赖步骤必须依据前一条真实退出码继续，不能用同批末条命令的 0 当成功。
 - 同批冲突修复的首个相对路径补丁指向原任务 cwd，因不存在冲突上下文被原子拒绝，未写入原工作区；改为明确的 worktree 绝对路径后成功。
 

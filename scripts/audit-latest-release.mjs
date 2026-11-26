@@ -49,6 +49,13 @@ const patchFacts = {
 };
 
 const currentPatchFacts = {
+  en: ['Featured', 'default', 'countdown', 'See all', 'cannot buy', 'already own', 'empty On sale'],
+  zh: ['Featured', '默认', '倒计时', 'See all', '没有任何可购买', '已经拥有', '空的 On sale'],
+  fr: ['Featured', 'désormais', 'compte à rebours', 'See all', 'ne pouvez rien acheter', 'possédez déjà', 'On sale vide'],
+  de: ['Featured', 'standardmäßig', 'Countdown', 'See all', 'nichts', 'bereits gehört', 'leer'],
+  nl: ['Featured', 'standaard', 'afteller', 'See all', 'niets', 'al bezitten', 'leeg On sale'],
+};
+const retainedBotFacts = {
   en: ['bot detector', 'verification', 'lobby joins', 'reliable'],
   zh: ['bot detector', '验证', '大厅', '可靠'],
   fr: ['détecteur de bots', 'vérifications', 'salons', 'fiablement'],
@@ -96,14 +103,15 @@ for (const contract of contracts) {
     ['current patch and retained hosted cap in direct answer', directAnswer.includes(release.displayVersion)
       && directAnswer.includes('500')],
     ['v36.4 six patch facts', patchFacts[contract.lang].every(signal => body.includes(signal))],
-    ['v36.5 facts in direct answer', currentPatchFacts[contract.lang].every(signal => directAnswer.includes(signal))],
+    ['v36.9 store and offer facts in direct answer', currentPatchFacts[contract.lang].every(signal => directAnswer.includes(signal))],
+    ['v36.7 bot and lobby facts retained', retainedBotFacts[contract.lang].every(signal => body.includes(signal))],
     ['build preference and shortcut answer', body.includes('Cycle Build Multiplier on Hotkey')
       && body.includes(`](/${contract.lang === 'en' ? '' : contract.lang + '/'}shortcuts/)`)],
     ['v36.3 facts', ['Plutonium', '500', 'Activity', 'boat', 'ship'].every((signal) => body.includes(signal))],
     ['shared release facts', ['Saved games', 'Continue', 'OFstats', 'Atlas', 'World 4000',
       'Giant World', 'World 10000', 'The Box', '210', '50', 'ZQSD', 'SAM'].every((signal) => body.includes(signal))],
     ['current source', body.includes(`](${release.releaseUrl})`)],
-    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4', 'v0.36.5', 'v0.36.7'].every((tag) =>
+    ['series sources', ['v0.36.0', 'v0.36.1', 'v0.36.2', 'v0.36.3', 'v0.36.4', 'v0.36.5', 'v0.36.7', 'v0.36.8'].every((tag) =>
       body.includes(`](https://github.com/openfrontio/OpenFrontIO/releases/tag/${tag})`))],
     ['no inherited v35 patch claims', !body.includes('v0.35.')],
     ['no third-level section bypass', !/^### /m.test(body)],
