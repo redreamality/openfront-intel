@@ -9,11 +9,11 @@ const cases = [
   { prefix: '/nl/', warning: 'egaal rood', guest: 'Gasten mogen gedeelde saves spelen', renewal: 'alliantieprompt' },
 ];
 const patchFacts: Record<string, string[]> = {
-  '/': ['verification checks', 'lobby joins'],
-  '/zh/': ['验证', '大厅'],
-  '/fr/': ['vérifications', 'salons'],
-  '/de/': ['zuverlässiger'],
-  '/nl/': ['betrouwbaarder'],
+  '/': ['Featured', 'See all', 'cannot buy', 'already own', 'empty On sale'],
+  '/zh/': ['Featured', 'See all', '没有任何可购买', '已经拥有', '空的 On sale'],
+  '/fr/': ['Featured', 'See all', 'ne pouvez rien acheter', 'possédez déjà', 'On sale vide'],
+  '/de/': ['Featured', 'See all', 'nichts', 'bereits gehört', 'leer'],
+  '/nl/': ['Featured', 'See all', 'niets', 'al bezitten', 'leeg On sale'],
 };
 
 for (const item of cases) {
@@ -29,6 +29,7 @@ for (const item of cases) {
     await expect(page).toHaveURL(`${test.info().project.use.baseURL}${item.prefix}changelog/v36/`);
     const main = page.locator('main');
     await expect(page).toHaveTitle(new RegExp(latestOpenFrontRelease.displayVersion.replaceAll('.', '\\.')));
+    await expect(page).not.toHaveTitle(/…/);
     await expect(main.locator('h1')).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(main.locator('.prose p').first()).toContainText(latestOpenFrontRelease.displayVersion);
     await expect(main.locator('.prose p').first()).toContainText('500');
