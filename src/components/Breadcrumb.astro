@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations, type Lang } from '../i18n';
+import { serializeJsonLd } from '../config/structured-data';
 
 export interface Props {
   /** 当前页标题，作为面包屑末段（不带链接）的默认文案。 */
@@ -85,6 +86,6 @@ const show = segments.length > 0;
         ))}
       </ol>
     </nav>
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />
   </Fragment>
 )}

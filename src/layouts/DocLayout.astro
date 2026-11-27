@@ -57,29 +57,10 @@ const authorCopy = {
 const base = import.meta.env.BASE_URL;
 const articlePath = stripLangPrefix(Astro.url.pathname.slice(base.length)).replace(/\/$/, '');
 const langPrefix = lang === 'en' ? '' : `${lang}/`;
-const articleJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: title,
-  description,
-  datePublished: pubDate?.toISOString(),
-  dateModified: (updatedDate ?? pubDate)?.toISOString(),
-  inLanguage: getIntlLocale(lang),
-  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(),
-  author: {
-    '@type': 'Organization',
-    name: 'OpenFront Intel',
-    url: new URL(`${base}${langPrefix}editorial-policy/`, Astro.site ?? Astro.url).toString(),
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'OpenFront Intel',
-  },
-};
+const article = { title, description, pubDate, updatedDate, tags, category };
 ---
 
-<BaseLayout title={title} description={description}>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+<BaseLayout title={title} description={description} article={article}>
   <TableOfContents headings={headings} />
   <article class="container-wide pt-12 pb-20 lg:pr-64">
     <header class:list={['border-b border-iron-800 pb-6', freshnessSummary ? 'mb-6' : 'mb-8']}>
