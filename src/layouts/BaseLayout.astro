@@ -10,6 +10,7 @@ import ReadingProgress from '../components/ReadingProgress.astro';
 import { getAdSenseScriptUrl } from '../config/adsense';
 import { getLangFromUrl, useTranslations, getHtmlLang, getAlternateLanguages, languages } from '../i18n';
 import { getSeoDescription, getSeoTitle } from '../i18n/seo';
+import { buildStructuredData, serializeJsonLd, type ArticleMetadata } from '../config/structured-data';
 
 export interface Props {
   title: string;
@@ -20,6 +21,7 @@ export interface Props {
   breadcrumb?: boolean;
   /** 覆盖面包屑末段文案（标题过长时用）。 */
   breadcrumbLabel?: string;
+  article?: ArticleMetadata;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -35,6 +37,7 @@ const {
   noindex = false,
   breadcrumb = true,
   breadcrumbLabel,
+  article,
 } = Astro.props;
 
 const siteName = t('site.title');
@@ -45,6 +48,16 @@ const contentSection = pathSegments[0];
 const fullTitle = getSeoTitle(lang, Astro.url.pathname, title);
 const seoDescription = getSeoDescription(lang, description);
 const socialImage = new URL(ogImage ?? '/openfront-intel-social.png', Astro.site ?? Astro.url).toString();
+const structuredData = buildStructuredData({
+  site: Astro.site ?? Astro.url,
+  base,
+  canonical,
+  lang,
+  title: fullTitle,
+  description: seoDescription,
+  image: socialImage,
+  article,
+});
 const readingSections = new Set(['mechanics', 'database', 'guides', 'strategies', 'changelog']);
 const isReadingPage = contentSection !== undefined && readingSections.has(contentSection) && pathSegments.length > 1;
 const googleCmpEnabled = import.meta.env.PUBLIC_GOOGLE_CMP_ENABLED === 'true';
@@ -74,8 +87,9 @@ const provenanceSources = contentSection === 'database'
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    {!noindex && <script is:inline type="application/ld+json" set:html={serializeJsonLd(structuredData)} />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={seoDescription} />
     <meta property="og:url" content={canonical} />
