@@ -103,3 +103,5 @@
 - **`git log -L` 不能与会解析出多个起点的 `--all` 一起使用**：该组合会报 `More than one commit to dig from`；追踪函数或行历史时指定一个已核验的 branch、tag 或 commit（例如 `git log v0.34.22 -L ...`），需要跨分支比较时分别运行后再对照结果。
 
 - 2026-10-09：顺序 `gh` GET 仍发生 TLS timeout；仅重试一次后，使用 curl REST 查询成功，核对远端 SHA 与 Deploy 成功。不能把本地 origin/main 当作 fresh remote evidence。
+- **2026-11-28：`git push` 不接受 `-c` 参数**：`git push -u origin <branch> -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=600` 会以 `unknown switch 'c'` 失败；git 全局/传输配置的传参方式是写在命令名前 `git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=600 push -u origin <branch>`，不能附在 push 子命令之后。
+- **2026-11-28：squash 已合并内容后 worktree 本地分支会与 main 分叉**：内容经 PR REST squash merge 后，delivery worktree 的本地分支指向 merge 前的 commit，无法 `--ff-only` fast-forward 到 origin/main；且 cron 下 `git reset --hard` 被安全策略阻止。该本地分叉只是外观残留、非阻塞（远端 main 已是权威、远端主题分支已删、线上 200）；后续治理改动应另建基于 origin/main 的临时 worktree，不复用已分叉的 delivery worktree。
